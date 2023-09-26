@@ -17,16 +17,15 @@
           Donation Amount:
         </h1>
         <div class="flex-1 text-left ml-10 text-2xl">
-            <input
+          <input
             id="donationAmount"
-            class="border border-4 border-[#83b240cc] text-black-500 px-2"
-            type="text"
+            class="bg-[#83b240a3] text-black-500 px-2"
+            type="number"
             placeholder="Enter amount here"
-            oninput="formatNumberInput(this)"
           />
         </div>
       </div>
-      <div class="flex grid lg:grid-cols-2 gap-5">
+      <div class="flex grid xl:grid-cols-2 gap-5">
         <div class="bg-[#106dfd70] rounded-lg p-5 grid gap-5">
           <h2 class="text-center font-bold text-xl pb-6">With Savings</h2>
           <div class="flex grid grid-cols-2">
@@ -75,7 +74,7 @@
           <div class="text-center flex grid grid-cols-2">
             <strong class="text-right">Net Cost to Tax Payer</strong>
             <div class="flex-1 text-left ml-10">
-              <span
+                <span
                 id="netCostToTaxPayerWithout"
                 class="bg-[#83b240a3] p-2 rounded-xl px-5 font-bold"
                 >$30,000</span
@@ -90,20 +89,5 @@
       </div>
     </main>
   </body>
-  <script>
-    const numberInput = document.getElementById('donationAmount');
-
-    function formatNumberInput(input) {
-        console.log(input.value)
-    // Remove existing commas and non-numeric characters
-    const inputValue = input.value.replace(/[^0-9]/g, '');
-    
-    // Format the value with commas
-    const formattedValue = Number(inputValue).toLocaleString();
-    
-    // Set the formatted value back into the input field
-    input.value = formattedValue;
-  }
-
-  </script>
+  <script></script>
 </html>

@@ -17,12 +17,11 @@
           Donation Amount:
         </h1>
         <div class="flex-1 text-left ml-10 text-2xl">
-            <input
+          <input
             id="donationAmount"
             class="border border-4 border-[#83b240cc] text-black-500 px-2"
-            type="text"
+            type="number"
             placeholder="Enter amount here"
-            oninput="formatNumberInput(this)"
           />
         </div>
       </div>
@@ -93,17 +92,20 @@
   <script>
     const numberInput = document.getElementById('donationAmount');
 
-    function formatNumberInput(input) {
-        console.log(input.value)
-    // Remove existing commas and non-numeric characters
-    const inputValue = input.value.replace(/[^0-9]/g, '');
-    
-    // Format the value with commas
-    const formattedValue = Number(inputValue).toLocaleString();
-    
-    // Set the formatted value back into the input field
-    input.value = formattedValue;
-  }
+    numberInput.addEventListener('input', (e) => {
+      let num = e.target.value.replace(/,/g, ''); // Remove existing commas
 
+      // Check if the input is a valid number
+      if (!isNaN(num)) {
+        // Format the number with commas using a custom function
+        const formattedNum = formatNumberWithCommas(num);
+        numberInput.value = formattedNum;
+      }
+    });
+
+    // Custom function to format a number with commas
+    function formatNumberWithCommas(number) {
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
   </script>
 </html>
