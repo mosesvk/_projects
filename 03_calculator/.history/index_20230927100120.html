@@ -23,7 +23,7 @@
   </style>
   <body>
     <main class="container mx-auto my-5 xl:my-10 grid gap-5">
-      <div id="donationSection" class="flex mb-5 text-center">
+      <div class="flex mb-5 text-center">
         <h1
           class="flex-1 text-right text-2xl font-bold underline underline-offset-4"
         >
@@ -107,6 +107,7 @@
     const numberInput = document.getElementById('donationAmount');
 
     function formatNumberInput(input) {
+      console.log(input.value);
       // Remove existing commas and non-numeric characters
       const inputValue = input.value.replace(/[^0-9]/g, '');
 
@@ -117,27 +118,18 @@
       input.value = `$ ${formattedValue}`;
     }
 
-    let input = document.querySelector('#donationAmount');
-
-    input.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        console.log(e);
-
-        const donationSection = document.getElementById('donationSection');
-        const restOfContent = document.querySelector('#donationSection + *');
-
-        // Check if input value is a valid number
-        let val = input.value.split('').slice(2, input.value.split('').length).join('').replace(/[^0-9]/g, '');
 
 
+    function checkDonationAmount(input) {
+  const donationSection = document.getElementById('donationSection');
+  const restOfContent = document.querySelector('#donationSection + *');
 
-        if (!isNaN(val) && parseFloat(val) > 0) {
-            console.log(restOfContent)
-          // Display the rest of the content with a smooth fade-in
-          restOfContent.style.display = 'block';
-          restOfContent.style.animation = 'fadeIn 0.5s';
-        }
-      }
-    });
+  // Check if input value is a valid number
+  if (!isNaN(input.value) && parseFloat(input.value) > 0) {
+    // Display the rest of the content with a smooth fade-in
+    restOfContent.style.display = 'block';
+    restOfContent.style.animation = 'fadeIn 0.5s';
+  }
+}
   </script>
 </html>

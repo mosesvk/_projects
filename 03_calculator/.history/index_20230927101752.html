@@ -107,11 +107,13 @@
     const numberInput = document.getElementById('donationAmount');
 
     function formatNumberInput(input) {
-      // Remove existing commas and non-numeric characters
-      const inputValue = input.value.replace(/[^0-9]/g, '');
 
-      // Format the value with commas
-      const formattedValue = Number(inputValue).toLocaleString();
+        
+        // Remove existing commas and non-numeric characters
+        const inputValue = input.value.replace(/[^0-9]/g, '');
+
+        // Format the value with commas
+        const formattedValue = Number(inputValue).toLocaleString();
 
       // Set the formatted value back into the input field
       input.value = `$ ${formattedValue}`;
@@ -127,12 +129,9 @@
         const restOfContent = document.querySelector('#donationSection + *');
 
         // Check if input value is a valid number
-        let val = input.value.split('').slice(2, input.value.split('').length).join('').replace(/[^0-9]/g, '');
+        input.value.split('').slice(2, input.value.split('').length).join('');
 
-
-
-        if (!isNaN(val) && parseFloat(val) > 0) {
-            console.log(restOfContent)
+        if (!isNaN(input.value) && parseFloat(input.value) > 0) {
           // Display the rest of the content with a smooth fade-in
           restOfContent.style.display = 'block';
           restOfContent.style.animation = 'fadeIn 0.5s';

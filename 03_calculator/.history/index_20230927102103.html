@@ -127,9 +127,9 @@
         const restOfContent = document.querySelector('#donationSection + *');
 
         // Check if input value is a valid number
-        let val = input.value.split('').slice(2, input.value.split('').length).join('').replace(/[^0-9]/g, '');
+        let val = input.value.split('').slice(2, input.value.split('').length).join('');
 
-
+        console.log(typeof val)
 
         if (!isNaN(val) && parseFloat(val) > 0) {
             console.log(restOfContent)
