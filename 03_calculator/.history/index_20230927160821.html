@@ -9,7 +9,7 @@
   </head>
   <style>
     .hidden-by-default {
-      display: none;
+      display: none!important
     }
 
     @keyframes fadeIn {
@@ -97,9 +97,7 @@
           </div>
         </div>
       </div>
-      <div
-        class="hidden-by-default bg-[#106dfd70] hidden rounded-lg p-5 grid gap-5 text-center"
-      >
+      <div class="hidden-by-default bg-[#106dfd70] rounded-lg p-5 grid gap-5 text-center">
         <p>Disclaimers Go Here</p>
         <p>Chris Purnell to Provide</p>
       </div>
@@ -119,29 +117,36 @@
       input.value = `$ ${formattedValue}`;
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const input = document.querySelector('#donationAmount');
-      const hiddenElements = document.querySelectorAll('.hidden-by-default');
+    let input = document.querySelector('#donationAmount');
 
-      input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          console.log(e);
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        console.log(e);
 
-          // Check if input value is a valid number
-          let val = input.value
-            .split('')
-            .slice(2, input.value.split('').length)
-            .join('')
-            .replace(/[^0-9]/g, '');
+        const hiddenElements = document.querySelectorAll('.hidden-by-default');
 
-          if (!isNaN(val) && parseFloat(val) > 0) {
-            // Display the hidden elements by setting their display property to 'block'
-            hiddenElements.forEach((element) => {
-              element.style.display = 'block';
-            });
-          }
+        // Check if input value is a valid number
+        let val = input.value
+          .split('')
+          .slice(2, input.value.split('').length)
+          .join('')
+          .replace(/[^0-9]/g, '');
+
+        //   console.log(val)
+
+        if (!isNaN(val) && parseFloat(val) > 0) {
+
+          // Display the hidden elements with a smooth fade-in
+          hiddenElements.forEach((element) => {
+            element.style.display = 'block!important';
+            element.style.animation = 'fadeIn 0.5s';
+
+            console.log(element.style.display)
+          });
+
         }
-      });
+      }
     });
+  
   </script>
 </html>
