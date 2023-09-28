@@ -90,7 +90,7 @@
                       name="property"
                       oninput="formatNumberInput(this)"
                     />
-                    <div class="text-2xl absolute inset-y-0 left-2 flex items-center">
+                    <div class="text-2xl absolute inset-y-0 right-5 flex items-center">
                       $
                     </div>
                   </div>
@@ -266,7 +266,7 @@
       const formattedValue = Number(inputValue).toLocaleString();
 
       // Set the formatted value back into the input field
-      input.value = formattedValue > 0 ? formattedValue : '';
+      input.value = formattedValue;
     }
 
     const input = document.querySelector('#donationAmount');
