@@ -11,7 +11,7 @@
         theme: {
           extend: {
             animation: {
-              blob: 'blob 7s infinite'
+              blob: "blob 7s infinite",
             }
           }
         }
@@ -30,13 +30,14 @@
   </style>
   <body>
     <div class="isolate bg-white mb-28">
+
       <div class="px-6 pt-6 lg:px-8">
         <nav class="flex items-center justify-between" aria-label="Global">
           <div class="flex lg:flex-1">
             <a href="#" class="-m-1.5 p-1.5">
               <span class="sr-only">Code of Relevancy</span>
               <img
-                class="w-1/4 md:w-1/2"
+                class="xs:w-1/2 md:w-3/4 lg:w-full"
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2BOEgggiM024TCxtOpv0rxeM10Sk27EOOIfDmNi2Ukw&s"
                 alt="Code of Relevancy"
               />
@@ -48,17 +49,16 @@
         </nav>
       </div>
 
+      <!-- <div
+        class="absolute top-0 -right-4 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"
+      ></div>
+      <div
+        class="absolute -bottom-8 left-20 w-72 h-72 bg-orange-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"
+      ></div> -->
       <main>
         <div
-          class="absolute top-0 left-80 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"
-        ></div>
-        <div
-          class="absolute top-50 left-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"
-        ></div>
-        <div
-          class="absolute top-0 left-20 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"
-        ></div>
-
+        class="absolute top-0 left-4 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"
+      ></div>
         <div class="relative px-6 lg:px-8">
           <div class="mx-auto max-w-2xl pt-4 sm:pt-4 lg:pt-12">
             <h1
@@ -76,7 +76,7 @@
               <div class="mx-auto max-w-xl">
                 <div class="sm:col-span-2">
                   <label
-                    class="block text-2xl font-semibold leading-6 text-gray-900 mb-2.5"
+                    class="block text-xl font-semibold leading-6 text-gray-900 mb-2.5"
                     for="donation"
                   >
                     Donation Amount
@@ -84,13 +84,13 @@
                   <div class="relative">
                     <input
                       id="donationAmount"
-                      class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl md:text-2xl lg:text-3xl sm:leading-6"
+                      class="block w-full min-w-[12rem] rounded-md border-2 py-2 px-3 pr-10 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       type="text"
-                      placeholder="0.00"
+                      placeholder="Enter amount here"
                       name="property"
                       oninput="formatNumberInput(this)"
                     />
-                    <div class="text-2xl absolute inset-y-0 right-5 flex items-center">
+                    <div class="absolute inset-y-0 right-5 flex items-center">
                       $
                     </div>
                   </div>
@@ -266,7 +266,7 @@
       const formattedValue = Number(inputValue).toLocaleString();
 
       // Set the formatted value back into the input field
-      input.value = formattedValue;
+      input.value = `$ ${formattedValue}`;
     }
 
     const input = document.querySelector('#donationAmount');

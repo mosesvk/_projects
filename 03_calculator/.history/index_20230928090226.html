@@ -6,17 +6,6 @@
     <title>CC calculator</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            animation: {
-              blob: 'blob 7s infinite'
-            }
-          }
-        }
-      };
-    </script>
   </head>
   <style>
     /* Style for the smooth transition */
@@ -30,37 +19,57 @@
   </style>
   <body>
     <div class="isolate bg-white mb-28">
+      <!-- <div
+        class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden sm:top-[-20rem]"
+        aria-label="Top Gradient"
+      >
+        <svg
+          class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]"
+          viewBox="0 0 1155 678"
+        >
+          <path
+            fill="url(#45de2b6b-92d5-4d68-a6a0-9b9b2abad533)"
+            fillOpacity="1"
+            d="M317.219 518.975L203.852 678 0 438.341l317.219 80.634 204.172-286.402c1.307 132.337 45.083 346.658 209.733 145.248C936.936 126.058 882.053-94.234 1031.02 41.331c119.18 108.451 130.68 295.337 121.53 375.223L855 299l21.173 362.054-558.954-142.079z"
+          />
+          <defs>
+            <linearGradient
+              id="45de2b6b-92d5-4d68-a6a0-9b9b2abad533"
+              x1="1155.49"
+              x2="-78.208"
+              y1=".177"
+              y2="474.645"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#00FFA3" />
+              <stop offset="1" stopColor="#0084FF" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div> -->
+      
       <div class="px-6 pt-6 lg:px-8">
         <nav class="flex items-center justify-between" aria-label="Global">
           <div class="flex lg:flex-1">
             <a href="#" class="-m-1.5 p-1.5">
               <span class="sr-only">Code of Relevancy</span>
               <img
-                class="w-1/4 md:w-1/2"
+                class="xs:w-1/2 md:w-3/4 lg:w-full"
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2BOEgggiM024TCxtOpv0rxeM10Sk27EOOIfDmNi2Ukw&s"
                 alt="Code of Relevancy"
               />
             </a>
           </div>
           <div class="flex flex-1 justify-end">
-            Capin Crouse <span aria-hidden="true">&rarr;</span>
+              Capin Crouse <span aria-hidden="true">&rarr;</span>
+            </a>
           </div>
         </nav>
       </div>
 
       <main>
-        <div
-          class="absolute top-0 left-80 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"
-        ></div>
-        <div
-          class="absolute top-50 left-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"
-        ></div>
-        <div
-          class="absolute top-0 left-20 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"
-        ></div>
-
         <div class="relative px-6 lg:px-8">
-          <div class="mx-auto max-w-2xl pt-4 sm:pt-4 lg:pt-12">
+          <div class="mx-auto max-w-2xl py-4 sm:py-4 lg:py-12">
             <h1
               class="text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl"
             >
@@ -75,75 +84,26 @@
             <div class="py-6 px-6 sm:py-12 lg:px-8">
               <div class="mx-auto max-w-xl">
                 <div class="sm:col-span-2">
-                  <label
-                    class="block text-2xl font-semibold leading-6 text-gray-900 mb-2.5"
-                    for="donation"
-                  >
+                  <label class="block text-sm font-semibold leading-6 text-gray-900 mb-2.5" for="donation">
                     Donation Amount
                   </label>
                   <div class="relative">
                     <input
                       id="donationAmount"
-                      class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl md:text-2xl lg:text-3xl sm:leading-6"
+                      class="block w-full min-w-[12rem] rounded-md border-0 py-2 px-3 pr-10 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       type="text"
-                      placeholder="0.00"
+                      placeholder="Enter amount here"
                       name="property"
                       oninput="formatNumberInput(this)"
                     />
-                    <div class="text-2xl absolute inset-y-0 right-5 flex items-center">
+                    <div class="absolute inset-y-0 right-5 flex items-center">
                       $
                     </div>
+                    
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="mx-auto max-w-7xl px-6 lg:px-8 py-1 sm:py-3">
-            <dl
-              class="grid grid-cols-2 gap-y-16 gap-x-6 text-center lg:grid-cols-2"
-            >
-              <div class="mx-auto flex items-center max-w-xs flex-col gap-y-1">
-                <div>
-                  <h1
-                    class="text-5xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
-                  >
-                    With Savings
-                  </h1>
-                  <hr
-                    class="w-full h-1 mx-auto my-4 bg-green-100 border-0 rounded md:mb-10 dark:bg-green-600"
-                  />
-                </div>
-                <dt class="text-base leading-7 text-gray-600">
-                  State Tax Deduction
-                </dt>
-                <dd
-                  class="order-second text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
-                >
-                  $20,000
-                </dd>
-              </div>
-              <div class="mx-auto flex items-center max-w-xs flex-col gap-y-4">
-                <div>
-                  <h1
-                    class="text-5xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
-                  >
-                    Without Savings
-                  </h1>
-                  <hr
-                    class="w-full h-1 mx-auto my-4 bg-green-100 border-0 rounded md:mb-10 dark:bg-orange-600"
-                  />
-                </div>
-                <dt class="text-base leading-7 text-gray-600">
-                  Net Cost to Tax Payer
-                </dt>
-                <dd
-                  class="order-second text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
-                >
-                  $35,000
-                </dd>
-              </div>
-            </dl>
           </div>
         </div>
       </main>
@@ -266,7 +226,7 @@
       const formattedValue = Number(inputValue).toLocaleString();
 
       // Set the formatted value back into the input field
-      input.value = formattedValue;
+      input.value = `$ ${formattedValue}`;
     }
 
     const input = document.querySelector('#donationAmount');
@@ -292,5 +252,6 @@
     //     }
     //   }
     // });
+  
   </script>
 </html>
