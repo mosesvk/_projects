@@ -16,6 +16,8 @@
     .hidden-by-default.transition-max-h {
       max-height: 100%;
     }
+
+
   </style>
   <body>
     <!-- <div
@@ -68,9 +70,8 @@
             y2="474.645"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#00FFA3" />
-            <!-- Mint green color -->
-            <stop offset="1" stopColor="#0084FF" />
+            <stop stopColor="#00FFA3" stopOpacity="1" />
+            <stop offset="1" stopColor="#0084FF" stopOpacity="1" />
           </linearGradient>
         </defs>
       </svg>
@@ -97,7 +98,7 @@
         </div>
       </div>
       <div
-        class="hidden-by-default opacity-0 max-h-0 overflow-hidden duration-500 ease-in-out flex grid lg:grid-cols-2 gap-5"
+        class="hidden-by-default opacity-0 max-h-0 overflow-hidden duration-500 ease-in-out transition-fill-opacity flex grid lg:grid-cols-2 gap-5"
       >
         <div class="bg-[#106dfd70] rounded-lg p-5 grid gap-5">
           <h2 class="text-center font-bold text-xl pb-6">With Savings</h2>
@@ -157,7 +158,7 @@
         </div>
       </div>
       <div
-        class="hidden-by-default opacity-0 max-h-0 overflow-hidden duration-500 ease-in-out bg-[#106dfd70] rounded-lg p-5 grid gap-5 text-center"
+        class="hidden-by-default opacity-0 max-h-0 overflow-hidden duration-500 ease-in-out transition-fill-opacity bg-[#106dfd70] rounded-lg p-5 grid gap-5 text-center"
       >
         <p>Disclaimers Go Here</p>
         <p>Chris Purnell to Provide</p>
