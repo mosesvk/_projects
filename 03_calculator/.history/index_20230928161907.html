@@ -85,7 +85,7 @@
                   <div class="relative">
                     <input
                       id="donationAmount"
-                      class="animate-pulse block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl md:text-2xl lg:text-3xl sm:leading-6"
+                      class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl md:text-2xl lg:text-3xl sm:leading-6"
                       type="text"
                       placeholder="0.00"
                       name="property"
@@ -144,9 +144,7 @@
                 >
                   -
                 </dd>
-                <div
-                  class="w-full border border-solid rounded p-4 shadow-2xl shadow-green-300"
-                >
+                <div>
                   <dt class="text-xl font-bold leading-7 text-gray-600">
                     Net Cost to Tax Payer
                   </dt>
@@ -159,38 +157,27 @@
                 </div>
               </div>
 
-              <div
-                class="mx-auto flex content-between justify-items-center max-w-xs flex-col grid gap-y-4"
-              >
-                <div class="">
+              <div class="mx-auto flex items-center max-w-xs flex-col gap-y-4">
+                <div>
                   <h1
                     class="text-5xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
                   >
                     Without Savings
                   </h1>
                   <hr
-                    class="w-full h-1 mx-auto my-4 bg-green-100 border-0 rounded md:mb-10 dark:bg-orange-400"
+                    class="w-full h-1 mx-auto my-4 bg-green-100 border-0 rounded md:mb-10 dark:bg-orange-600"
                   />
                 </div>
-                <img
-                  class="transform w-[5rem] rotate-90 text-center text-10xl"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYhH1NEfOcnDCJZTnocpX5OpS1GXXGH5NQKw&usqp=CAU"
-                  alt="arrow"
-                />
-                <div class="h-full">
-                  <div
-                    class="w-full border border-solid rounded p-4 shadow-2xl shadow-orange-300"
+                <div class="grow">
+                  <dt class="text-xl font-extrabold leading-7 text-gray-600">
+                    Net Cost to Tax Payer
+                  </dt>
+                  <dd
+                    id="netCostToTaxPayerInclude"
+                    class="order-second text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
                   >
-                    <dt class="text-xl font-extrabold leading-7 text-gray-600">
-                      Net Cost to Tax Payer
-                    </dt>
-                    <dd
-                      id="netCostToTaxPayerInclude"
-                      class="order-second text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
-                    >
-                      -
-                    </dd>
-                  </div>
+                    -
+                  </dd>
                 </div>
               </div>
             </dl>
@@ -199,6 +186,111 @@
       </main>
     </div>
 
+    <!-- <main
+      class="container mx-auto my-5 xl:my-10 grid gap-5 isolate bg-white mb-28"
+    >
+      <div id="donationSection" class="sm:col-span-2">
+        <label
+          class="text-xl block text-sm font-semibold leading-6 text-gray-900 mb-2.5"
+        >
+          Donation Amount:
+        </label>
+        <div class="relative">
+          <input
+            id="donationAmount"
+            class="block w-full min-w-[12rem] rounded-md border-0 py-2 px-3 pr-10 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            type="text"
+            placeholder="Enter amount here"
+            oninput="formatNumberInput(this)"
+          />
+          <div class="absolute inset-y-0 right-5 flex items-center">$</div>
+        </div>
+      </div>
+    >
+      <div id="donationSection" class="sm:col-span-2">
+        <label
+          class="text-xl block text-sm font-semibold leading-6 text-gray-900 mb-2.5"
+        >
+          Donation Amount:
+        </label>
+        <div class="relative">
+          <input
+            id="donationAmount"
+            class="block w-full min-w-[12rem] rounded-md border-0 py-2 px-3 pr-10 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            type="text"
+            placeholder="Enter amount here"
+            oninput="formatNumberInput(this)"
+          />
+          <div class="absolute inset-y-0 right-5 flex items-center">$</div>
+        </div>
+      </div>
+      <div
+        class="hidden-by-default opacity-0 max-h-0 overflow-hidden duration-500 ease-in-out flex grid lg:grid-cols-2 gap-5"
+      >
+        <div class="bg-[#106dfd70] rounded-lg p-5 grid gap-5">
+          <h2 class="text-center font-bold text-xl pb-6">With Savings</h2>
+          <div class="flex grid grid-cols-2">
+            <p class="text-right">State Tax Deduction Savings :</p>
+            <div class="flex-1 text-left ml-10">
+              <span
+                id="stateTaxDeductionSavings"
+                class="bg-[#83b240a3] p-2 rounded-xl px-5"
+                >$1,000</span
+              >
+            </div>
+          </div>
+          <div class="flex grid grid-cols-2">
+            <p class="text-right">State Tax Savings from Credit :</p>
+            <div class="flex-1 text-left ml-10">
+              <span
+                id="stateTaxSavingsFromCredit"
+                class="bg-[#83b240a3] p-2 rounded-xl px-5"
+                >$15,000</span
+              >
+            </div>
+          </div>
+          <div class="flex grid grid-cols-2">
+            <p class="text-right">Federal Tax Deduction Savings :</p>
+            <div class="flex-1 text-left ml-10">
+              <span
+                id="federalTaxDeduction"
+                class="bg-[#83b240a3] p-2 rounded-xl px-5"
+                >$5,000</span
+              >
+            </div>
+          </div>
+          <div class="text-center flex grid grid-cols-2">
+            <strong class="text-right">Net Cost to Tax Payer :</strong>
+            <div class="flex-1 text-left ml-10">
+              <span
+                id="netCostToTaxPayerInclude"
+                class="bg-[#83b240a3] p-2 rounded-xl px-5 font-bold"
+                >$21,000</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="bg-[#106dfd70] rounded-lg p-5 grid gap-5">
+          <h2 class="text-center font-bold text-xl pb-6">Without Savings</h2>
+          <div class="text-center flex grid grid-cols-2">
+            <strong class="text-right">Net Cost to Tax Payer</strong>
+            <div class="flex-1 text-left ml-10">
+              <span
+                id="netCostToTaxPayerWithout"
+                class="bg-[#83b240a3] p-2 rounded-xl px-5 font-bold"
+                >$30,000</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="hidden-by-default opacity-0 max-h-0 overflow-hidden duration-500 ease-in-out bg-[#106dfd70] rounded-lg p-5 grid gap-5 text-center"
+      >
+        <p>Disclaimers Go Here</p>
+        <p>Chris Purnell to Provide</p>
+      </div>
+    </main> -->
   </body>
   <script>
     const numberInput = document.getElementById('donationAmount');
