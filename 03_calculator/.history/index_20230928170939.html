@@ -50,8 +50,6 @@
       </div>
 
       <main>
-
-        <!--Blur Backdrop-->
         <div
           class="absolute top-0 left-80 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"
         ></div>
@@ -62,10 +60,7 @@
           class="absolute top-0 left-20 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"
         ></div>
 
-        <!--Main-->
         <div class="relative px-6 lg:px-8">
-
-          <!--Input-->
           <div class="mx-auto max-w-2xl pt-4 sm:pt-4 lg:pt-12">
             <h1
               class="text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl"
@@ -90,7 +85,7 @@
                   <div class="relative">
                     <input
                       id="donationAmount"
-                      class="animate-pulse block w-full rounded-md border-2 border-slate-600 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl md:text-2xl lg:text-3xl sm:leading-6"
+                      class="animate-pulse block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl md:text-2xl lg:text-3xl sm:leading-6"
                       type="text"
                       placeholder="0.00"
                       name="property"
@@ -107,7 +102,6 @@
             </div>
           </div>
 
-          <!--Split View Modules-->
           <div class="mx-auto max-w-7xl px-6 lg:px-8 py-1 sm:py-3">
             <dl
               class="grid grid-cols-2 gap-y-16 gap-x-6 text-center lg:grid-cols-2"
@@ -145,7 +139,7 @@
                   Federal Tax Deduction Savings
                 </dt>
                 <dd
-                  id="federalTaxDeductionSavings"
+                  id="stateTaxDeductionFromCredit"
                   class="order-second text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
                 >
                   -
@@ -157,7 +151,7 @@
                     Net Cost to Tax Payer
                   </dt>
                   <dd
-                    id="netCostToTaxPayerInclude"
+                    id="stateTaxDeductionFromCredit"
                     class="order-second text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
                   >
                     -
@@ -179,7 +173,7 @@
                   />
                 </div>
                 <img
-                  class="transform w-[5rem] rotate-90 text-center text-10xl"
+                  class="transform w-[5rem] rotate-90 text-center text-10xl animate-bounce "
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYhH1NEfOcnDCJZTnocpX5OpS1GXXGH5NQKw&usqp=CAU"
                   alt="arrow"
                 />
@@ -191,7 +185,7 @@
                       Net Cost to Tax Payer
                     </dt>
                     <dd
-                      id="netCostToTaxPayerWithout"
+                      id="netCostToTaxPayerInclude"
                       class="order-second text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
                     >
                       -
@@ -204,15 +198,10 @@
         </div>
       </main>
     </div>
+
   </body>
   <script>
     const numberInput = document.getElementById('donationAmount');
-    const stateTaxDeduction = document.getElementById('stateTaxDeduction')
-    const stateTaxDeductionFromCredit = document.getElementById('stateTaxDeductionFromCredit')
-    const federalTaxDeductionSavings = document.getElementById('federalTaxDeductionSavings')
-    const netCostToTaxPayerInclude = document.getElementById('netCostToTaxPayerInclude')
-    const netCostToTaxPayerWithout = document.getElementById('netCostToTaxPayerWithout')
-
 
     function formatNumberInput(input) {
       // Remove existing commas and non-numeric characters
@@ -228,25 +217,25 @@
     const input = document.querySelector('#donationAmount');
     const hiddenElements = document.querySelectorAll('.hidden-by-default');
 
-    input.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        console.log(e);
+    // input.addEventListener('keypress', (e) => {
+    //   if (e.key === 'Enter') {
+    //     console.log(e);
 
-        // Check if input value is a valid number
-        let val = input.value
-          .split('')
-          .slice(2, input.value.split('').length)
-          .join('')
-          .replace(/[^0-9]/g, '');
+    //     // Check if input value is a valid number
+    //     let val = input.value
+    //       .split('')
+    //       .slice(2, input.value.split('').length)
+    //       .join('')
+    //       .replace(/[^0-9]/g, '');
 
-        if (!isNaN(val) && parseFloat(val) > 0 && hiddenElements[0].classList) {
-          // Display the hidden elements by setting their display property to 'block'
-          hiddenElements.forEach((element) => {
-            // element.classList.remove('hidden');
-            element.classList.remove('opacity-0', 'max-h-0');
-          });
-        }
-      }
-    });
+    //     if (!isNaN(val) && parseFloat(val) > 0) {
+    //       // Display the hidden elements by setting their display property to 'block'
+    //       hiddenElements.forEach((element) => {
+    //         // element.classList.remove('hidden');
+    //         element.classList.remove('opacity-0', 'max-h-0');
+    //       });
+    //     }
+    //   }
+    // });
   </script>
 </html>
