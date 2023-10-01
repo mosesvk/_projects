@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To-Do App</title>
-
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
       rel="stylesheet"
@@ -79,10 +78,9 @@
           const list = lists[listId];
           const listItem = document.createElement('li');
           listItem.innerHTML = `
-                <p class="w-full text-grey-darkest">${list.name}</p>
-                <button class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-green border-green hover:bg-green">Done</button>
-                <button class="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red">Remove</button>
-          `;
+                  <p class="w-full text-grey-darkest">${list.name}</p>
+                  <button class="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red">Remove</button>
+            `;
           listItem.classList.add(
             'cursor-pointer',
             'bg-gray-300',
@@ -93,13 +91,13 @@
             'border-solid',
             'flex'
           );
+            
+          console.log(listItem.children[1].classList.value)
 
           listId == selectedListId &&
             listItem.classList.add('bg-gray-600', 'text-white');
 
           // Check if this list is the current one, and if so, apply the selected background color
-          console.log(listId);
-
           listItem.addEventListener('click', () => setCurrentList(listId));
           listsElement.appendChild(listItem);
         }
@@ -111,7 +109,20 @@
           currentListTodosElement.innerHTML = '';
           currentList.todos.forEach((todo, index) => {
             const todoElement = document.createElement('li');
-            todoElement.textContent = todo.text;
+            todoElement.innerHTML = `
+                <p class="w-full text-grey-darkest">${todo.text}</p>
+                <button class="transition duration-300 text-green-300 border-green-300 hover:bg-green-300 flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white" onClick="">Done</button>
+                <button class="transition duration-300 flex-no-shrink p-2 ml-2 border-2 rounded text-red-300 border-red-300 hover:text-white hover:bg-red-300">Remove</button>
+            `;
+            console.log(todoElement.children);
+            todoElement.classList.add(
+              'cursor-pointer',
+              'rounded',
+              'p-2',
+              'border',
+              'border-solid',
+              'flex'
+            );
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.checked = todo.completed;
