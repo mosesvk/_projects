@@ -23,13 +23,14 @@
           id="new-list-input"
           placeholder="New List"
           class="border p-2 rounded mb-2"
+          onkeydown="if (event.key === 'Enter') addList();"
         />
-        <button
+        <!-- <button
           onclick="addList()"
           class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
           Create List
-        </button>
+        </button> -->
         <ul id="lists" class="list-none p-0">
           <!-- Lists will be displayed here -->
         </ul>
@@ -43,6 +44,7 @@
           id="new-todo-input"
           placeholder="New Task"
           class="border p-2 rounded mb-2"
+          onkeydown="if (event.key === 'Enter') addTodo();"
         />
         <button
           onclick="addTodo()"
