@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- CSS and JavaScript dependencies via CDN -->
+
+    <!-- Popper.js (used by Bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+
+    <!-- ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.29.0/dist/apexcharts.min.js"></script>
+
+    <!-- Flowbite (if available via CDN, otherwise use a package manager) -->
+    <script src="
+    https://cdn.jsdelivr.net/npm/flowbite@1.8.1/dist/flowbite.min.js
+    "></script>
+    <link
+      href="
+    https://cdn.jsdelivr.net/npm/flowbite@1.8.1/dist/flowbite.min.css
+    "
+      rel="stylesheet"
+    />
+
+    <!-- Core-js -->
+    <script src="https://cdn.jsdelivr.net/npm/core-js@3.18.3/minified.js"></script>
+
+    <!-- JS-YAML -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+
+    <!-- JSDOM -->
+    <script src="https://cdn.jsdelivr.net/npm/jsdom@17.0.0/dist/jsdom.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@3.2.4/dist/tailwind.min.css"
+    />
+
+
+    <script src="./components/nav-component.js" type="module"></script>
+
+    <style>
+      iframe {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .apexcharts-legend {
+        display: flex;
+        overflow: auto;
+        padding: 0 10px;
+      }
+      .apexcharts-legend.apx-legend-position-bottom,
+      .apexcharts-legend.apx-legend-position-top {
+        flex-wrap: wrap;
+      }
+      .apexcharts-legend.apx-legend-position-right,
+      .apexcharts-legend.apx-legend-position-left {
+        flex-direction: column;
+        bottom: 0;
+      }
+      .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-left,
+      .apexcharts-legend.apx-legend-position-top.apexcharts-align-left,
+      .apexcharts-legend.apx-legend-position-right,
+      .apexcharts-legend.apx-legend-position-left {
+        justify-content: flex-start;
+      }
+      .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-center,
+      .apexcharts-legend.apx-legend-position-top.apexcharts-align-center {
+        justify-content: center;
+      }
+      .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-right,
+      .apexcharts-legend.apx-legend-position-top.apexcharts-align-right {
+        justify-content: flex-end;
+      }
+      .apexcharts-legend-series {
+        cursor: pointer;
+        line-height: normal;
+      }
+      .apexcharts-legend.apx-legend-position-bottom .apexcharts-legend-series,
+      .apexcharts-legend.apx-legend-position-top .apexcharts-legend-series {
+        display: flex;
+        align-items: center;
+      }
+      .apexcharts-legend-text {
+        position: relative;
+        font-size: 14px;
+      }
+      .apexcharts-legend-text *,
+      .apexcharts-legend-marker * {
+        pointer-events: none;
+      }
+      .apexcharts-legend-marker {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        margin-right: 3px;
+        border-style: solid;
+      }
+
+      .apexcharts-legend.apexcharts-align-right .apexcharts-legend-series,
+      .apexcharts-legend.apexcharts-align-left .apexcharts-legend-series {
+        display: inline-block;
+      }
+      .apexcharts-legend-series.apexcharts-no-click {
+        cursor: auto;
+      }
+      .apexcharts-legend .apexcharts-hidden-zero-series,
+      .apexcharts-legend .apexcharts-hidden-null-series {
+        display: none !important;
+      }
+      .apexcharts-inactive-legend {
+        opacity: 0.45;
+      }
+    </style>
+  </head>
+  <body>
+    <nav-component></nav-component>
+    <main>
+      <iframe
+        id="contentFrame"
+        src="./components/main.html"
+        frameborder="0"
+        width="100%"
+        height="100"
+      ></iframe>
+    </main>
+
+    <script>
+      function resizeIframe() {
+        const iframe = document.getElementById('contentFrame');
+        if (iframe) {
+          iframe.style.height =
+            iframe.contentWindow.document.body.scrollHeight + 'px';
+        }
+      }
+
+      // Call the resizeIframe function initially and whenever the content changes.
+      resizeIframe();
+      window.addEventListener('load', resizeIframe);
+      window.addEventListener('resize', resizeIframe);
+    </script>
+  </body>
+</html>
