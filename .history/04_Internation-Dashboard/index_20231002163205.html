@@ -15,9 +15,6 @@
       href="https://cdn.jsdelivr.net/npm/flowbite@x.y.z/dist/flowbite.min.css"
     />
 
-
-
-
     <style>
       body {
         margin: 0;
@@ -27,14 +24,33 @@
   </head>
   <body>
     <nav
-      id="nav"
       class="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     >
+      <iframe
+        id="contentFrame"
+        src="./components/nav-component.html"
+        frameborder="0"
+        scrolling="no"
+        width="100%"
+        height="auto"
+      ></iframe>
     </nav>
 
     <p>Hello there</p>
 
-    <script src="./components/nav-component.js"></script>
+    <script>
+      function resizeIframe() {
+        const iframe = document.getElementById('contentFrame');
+        if (iframe) {
+          iframe.style.height =
+            iframe.contentWindow.document.body.scrollHeight + 'px';
+        }
+      }
 
+      // Call the resizeIframe function initially and whenever the content changes.
+      resizeIframe();
+      window.addEventListener('load', resizeIframe);
+      window.addEventListener('resize', resizeIframe);
+    </script>
   </body>
 </html>
