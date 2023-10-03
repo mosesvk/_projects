@@ -1,4 +1,4 @@
-document.getElementById('sidebar').innerHTML = `
+document.getElementById('nav').innerHTML = `
 <div class="px-3 py-3 lg:px-5 lg:pl-3">
 <div class="flex items-center justify-between">
   <div class="flex items-center justify-start">
@@ -144,7 +144,7 @@ document.getElementById('sidebar').innerHTML = `
           <div class="flex-shrink-0">
             <img
               class="rounded-full w-11 h-11"
-              src="https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0"
+              src=""
               alt="Jese image"
             />
             <div
@@ -188,7 +188,7 @@ document.getElementById('sidebar').innerHTML = `
           <div class="flex-shrink-0">
             <img
               class="rounded-full w-11 h-11"
-              src="https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0"
+              src="http://localhost:1313/images/users/jese-leos.png"
               alt="Jese image"
             />
             <div
@@ -233,7 +233,7 @@ document.getElementById('sidebar').innerHTML = `
           <div class="flex-shrink-0">
             <img
               class="rounded-full w-11 h-11"
-              src="https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0"
+              src="http://localhost:1313/images/users/joseph-mcfall.png"
               alt="Joseph image"
             />
             <div
@@ -280,7 +280,7 @@ document.getElementById('sidebar').innerHTML = `
           <div class="flex-shrink-0">
             <img
               class="rounded-full w-11 h-11"
-              src="https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0"
+              src="http://localhost:1313/images/users/leslie-livingston.png"
               alt="Leslie image"
             />
             <div
@@ -328,7 +328,7 @@ document.getElementById('sidebar').innerHTML = `
           <div class="flex-shrink-0">
             <img
               class="rounded-full w-11 h-11"
-              src="https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0"
+              src="http://localhost:1313/images/users/robert-brown.png"
               alt="Robert image"
             />
             <div
@@ -678,7 +678,7 @@ document.getElementById('sidebar').innerHTML = `
           <span class="sr-only">Open user menu</span>
           <img
             class="w-8 h-8 rounded-full"
-            src="https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0"
+            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
             alt="user photo"
           />
         </button>
