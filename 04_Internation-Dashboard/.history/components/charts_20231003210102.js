@@ -20,15 +20,20 @@ const getMainChartOptions = () => {
   return {
     series: [
       {
-        name: 'Cashflow',
+        name: 'Income',
         type: 'column',
-        data: [1.1, 3, 2.1, 3.4, 2.1]
+        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
       },
       {
-        name: 'Revenue',
-        type: 'line',
-        data: [2, 2.9, 1.7, 1.6, 2.4]
-      }
+        name: 'Cashflow',
+        type: 'column',
+        data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5]
+      },
+    //   {
+    //     name: 'Revenue',
+    //     type: 'line',
+    //     data: [20, 29, 37, 36, 44, 45, 50, 58]
+    //   }
     ],
     chart: {
       height: 350,
@@ -47,7 +52,7 @@ const getMainChartOptions = () => {
       offsetX: 110
     },
     xaxis: {
-      categories: [2015, 2016, 2017, 2018, 2019, 2020]
+      categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016]
     },
     yaxis: [
       {
@@ -73,6 +78,50 @@ const getMainChartOptions = () => {
           enabled: true
         }
       },
+      {
+        seriesName: 'Income',
+        opposite: true,
+        axisTicks: {
+          show: true
+        },
+        axisBorder: {
+          show: true,
+          color: '#00E396'
+        },
+        labels: {
+          style: {
+            colors: '#00E396'
+          }
+        },
+        title: {
+          text: 'Operating Cashflow (thousand crores)',
+          style: {
+            color: '#00E396'
+          }
+        }
+      },
+      {
+        seriesName: 'Revenue',
+        opposite: true,
+        axisTicks: {
+          show: true
+        },
+        axisBorder: {
+          show: true,
+          color: '#FEB019'
+        },
+        labels: {
+          style: {
+            colors: '#FEB019'
+          }
+        },
+        title: {
+          text: 'Revenue (thousand crores)',
+          style: {
+            color: '#FEB019'
+          }
+        }
+      }
     ],
     tooltip: {
       fixed: {
@@ -87,6 +136,7 @@ const getMainChartOptions = () => {
       offsetX: 40
     }
   };
+
 };
 
 if (document.getElementById('main-chart')) {

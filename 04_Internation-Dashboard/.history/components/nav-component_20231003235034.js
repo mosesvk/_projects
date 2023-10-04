@@ -70,11 +70,11 @@ document.getElementById('nav').innerHTML =
             </div>
             <div
                 id="options-list"
-                class="absolute left-0 z-10 mt-2 w-full bg-white border border-gray-300 shadow-lg rounded-lg invisible border-gray-200 dark:bg-gray-800 dark:border-gray-800 dark:shadow-lg"
+                class="absolute left-0 z-10 mt-2 w-full bg-white border border-gray-300 shadow-lg rounded-lg invisible border-gray-200 dark:bg-gray-800 dark:border-gray-70"
             >
                 <label
                     for="option-2015"
-                    class="flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                    class="flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100"
                 >
                     <input
                         type="checkbox"
@@ -86,7 +86,7 @@ document.getElementById('nav').innerHTML =
                 </label>
                 <label
                     for="option-2016"
-                    class="flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                    class="flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100"
                 >
                     <input
                         type="checkbox"
@@ -263,7 +263,7 @@ document.getElementById('nav').innerHTML =
       </div>
     </div>
   </div>
-`
+`;
 
 
 const customSelect = document.getElementById('custom-select');

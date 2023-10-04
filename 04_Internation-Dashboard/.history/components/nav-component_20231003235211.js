@@ -70,7 +70,7 @@ document.getElementById('nav').innerHTML =
             </div>
             <div
                 id="options-list"
-                class="absolute left-0 z-10 mt-2 w-full bg-white border border-gray-300 shadow-lg rounded-lg invisible border-gray-200 dark:bg-gray-800 dark:border-gray-800 dark:shadow-lg"
+                class="absolute left-0 z-10 mt-2 w-full bg-white border border-gray-300 shadow-lg rounded-lg invisible border-gray-200 dark:bg-gray-800 dark:border-gray-70"
             >
                 <label
                     for="option-2015"
@@ -263,7 +263,7 @@ document.getElementById('nav').innerHTML =
       </div>
     </div>
   </div>
-`
+`;
 
 
 const customSelect = document.getElementById('custom-select');
