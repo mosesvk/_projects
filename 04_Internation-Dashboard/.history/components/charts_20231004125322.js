@@ -1,13 +1,3 @@
-window.chartColors = {
-  red: 'rgb(255, 99, 132)',
-  orange: 'rgb(255, 159, 64)',
-  yellow: 'rgb(255, 205, 86)',
-  green: 'rgb(51, 204, 51)',
-  blue: 'rgb(54, 162, 235)',
-  purple: 'rgb(153, 102, 255)',
-  grey: 'rgb(201, 203, 207)'
-};
-
 const getMainChartOptions = () => {
   let mainChartColors = {};
 
@@ -28,11 +18,6 @@ const getMainChartOptions = () => {
   }
 
   return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.blue,
-      window.chartColors.orange
-    ],
     series: [
       {
         name: 'Cashflow',
@@ -42,12 +27,14 @@ const getMainChartOptions = () => {
       {
         name: 'Avg',
         type: 'line',
-        data: [2, 2.9, 1.7, 1.6, 2.4]
+        data: [2, 2.9, 1.7, 1.6, 2.4],
+        strokeWidth: 4, // Set the desired line width here
       },
       {
         name: 'Mid',
         type: 'line',
-        data: [2.5, 3.1, 1.9, 1.9, 3.4]
+        data: [2.5, 3.1, 1.9, 1.9, 3.4],
+        strokeWidth: 4, // Set the desired line width here
       }
     ],
     chart: {
@@ -59,7 +46,7 @@ const getMainChartOptions = () => {
       enabled: false
     },
     stroke: {
-      width: [4, 6, 4]
+      width: [1, 1, 4]
     },
     title: {
       text: '',
@@ -67,7 +54,7 @@ const getMainChartOptions = () => {
       offsetX: 110
     },
     xaxis: {
-      categories: [2015, 2016, 2017, 2018, 2019, 2020]
+      categories: [2015, 2016, 2017, 2018, 2019, 2020],
     },
     yaxis: [
       {
@@ -81,13 +68,13 @@ const getMainChartOptions = () => {
         labels: {
           style: {
             colors: '#008FFB',
-            fontSize: '1.25rem' // Set the desired font size here
+            fontSize: '1.25rem', // Set the desired font size here
           }
         },
         tooltip: {
           enabled: true
         }
-      }
+      },
     ],
     tooltip: {
       fixed: {
@@ -100,13 +87,6 @@ const getMainChartOptions = () => {
     legend: {
       horizontalAlign: 'left',
       offsetX: 40
-    },
-    grid: {
-      row: {
-        colors: ['transparent'], // Remove horizontal gridlines by setting them to transparent
-        opacity: 0.5, // Adjust the opacity of the horizontal gridlines
-        thickness: 4
-      },
     }
   };
 };
@@ -117,7 +97,7 @@ if (document.getElementById('main-chart')) {
     getMainChartOptions()
   );
 
-  console.log(chart.ctx);
+  console.log(chart.ctx)
   chart.render();
 
   // init again when toggling dark mode

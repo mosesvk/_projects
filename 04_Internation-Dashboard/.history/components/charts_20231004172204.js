@@ -107,6 +107,9 @@ const getMainChartOptions = () => {
         opacity: 0.5, // Adjust the opacity of the horizontal gridlines
         thickness: 4
       },
+      column: {
+
+      }
     }
   };
 };

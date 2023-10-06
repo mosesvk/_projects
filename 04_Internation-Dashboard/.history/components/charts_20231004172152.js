@@ -105,8 +105,11 @@ const getMainChartOptions = () => {
       row: {
         colors: ['transparent'], // Remove horizontal gridlines by setting them to transparent
         opacity: 0.5, // Adjust the opacity of the horizontal gridlines
-        thickness: 4
+        thickness: 2
       },
+      column: {
+
+      }
     }
   };
 };
