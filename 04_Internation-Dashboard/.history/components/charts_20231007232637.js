@@ -10,7 +10,7 @@ window.chartColors = {
 
 const getMainChartOptions = () => {
   let mainChartColors = {};
-  let chartColor = '#3a464f';
+  let chartColor;
 
   if (document.documentElement.classList.contains('dark')) {
     mainChartColors = {
@@ -20,7 +20,7 @@ const getMainChartOptions = () => {
       opacityTo: 0.15
     };
 
-    chartColor = '#e3f0fa'
+    chartColor = '#3a464f'
   } else {
     mainChartColors = {
       borderColor: '#F3F4F6',
@@ -28,6 +28,8 @@ const getMainChartOptions = () => {
       opacityFrom: 0.45,
       opacityTo: 0
     };
+
+    chartColor = '#008FFB'
   }
 
   return {

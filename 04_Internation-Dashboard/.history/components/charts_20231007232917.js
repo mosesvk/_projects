@@ -8,9 +8,17 @@ window.chartColors = {
   grey: 'rgb(201, 203, 207)'
 };
 
+let chartColor = '#008FFB';
+
+if (document.documentElement.classList.contains('dark')) {
+    chartColor = '#3a464f'
+} else {
+    chartColor = '#008FFB';
+}
+
 const getMainChartOptions = () => {
   let mainChartColors = {};
-  let chartColor = '#3a464f';
+  let chartColor = '#008FFB';
 
   if (document.documentElement.classList.contains('dark')) {
     mainChartColors = {
@@ -20,7 +28,7 @@ const getMainChartOptions = () => {
       opacityTo: 0.15
     };
 
-    chartColor = '#e3f0fa'
+    chartColor = '#3a464f'
   } else {
     mainChartColors = {
       borderColor: '#F3F4F6',

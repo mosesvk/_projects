@@ -10,7 +10,6 @@ window.chartColors = {
 
 const getMainChartOptions = () => {
   let mainChartColors = {};
-  let chartColor = '#3a464f';
 
   if (document.documentElement.classList.contains('dark')) {
     mainChartColors = {
@@ -19,8 +18,6 @@ const getMainChartOptions = () => {
       opacityFrom: 0,
       opacityTo: 0.15
     };
-
-    chartColor = '#e3f0fa'
   } else {
     mainChartColors = {
       borderColor: '#F3F4F6',
@@ -79,11 +76,11 @@ const getMainChartOptions = () => {
         },
         axisBorder: {
           show: true,
-          color: chartColor
+          color: '#3a464f'
         },
         labels: {
           style: {
-            colors: chartColor,
+            colors: '#008FFB',
             fontSize: '1.25rem' // Set the desired font size here
           }
         },
