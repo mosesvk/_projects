@@ -290,6 +290,8 @@ customSelect.addEventListener('click', () => {
 });
 
 document.addEventListener('click', (event) => {
+  console.log(customSelect)
+  console.log(optionsList)
   if (
     !customSelect.contains(event.target) &&
     !optionsList.contains(event.target)

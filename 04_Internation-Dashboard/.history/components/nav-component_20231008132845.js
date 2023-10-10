@@ -68,7 +68,7 @@ document.getElementById('nav').innerHTML = `
                     d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z"
                   ></path>
                 </svg>
-                <div class='px-2'>Select Years</div>
+                <div>Select Years</div>
                 <svg
                     class="h-5 w-5 text-gray-400"
                     xmlns="http://www.w3.org/2000/svg"
@@ -283,8 +283,6 @@ document.getElementById('nav').innerHTML = `
 const customSelect = document.getElementById('custom-select');
 const optionsList = document.getElementById('options-list');
 
-
-
 customSelect.addEventListener('click', () => {
   optionsList.classList.toggle('invisible');
 });
@@ -307,3 +305,19 @@ checkboxes.forEach((checkbox) => {
 });
 
 let selectedOptions = [];
+
+// checkboxes.forEach((checkbox) => {
+//     checkbox.addEventListener('change', () => {
+//         const selectedValue = checkbox.value;
+//         if (checkbox.checked) {
+//             selectedOptions.push(selectedValue);
+//         } else {
+//             const index = selectedOptions.indexOf(selectedValue);
+//             if (index !== -1) {
+//                 selectedOptions.splice(index, 1);
+//             }
+//         }
+//         customSelect.querySelector('div').textContent =
+//             selectedOptions.length > 0 ? selectedOptions.join(', ') : 'Select Years';
+//     });
+// });

@@ -283,13 +283,12 @@ document.getElementById('nav').innerHTML = `
 const customSelect = document.getElementById('custom-select');
 const optionsList = document.getElementById('options-list');
 
-
-
 customSelect.addEventListener('click', () => {
   optionsList.classList.toggle('invisible');
 });
 
 document.addEventListener('click', (event) => {
+  console.log(event)
   if (
     !customSelect.contains(event.target) &&
     !optionsList.contains(event.target)

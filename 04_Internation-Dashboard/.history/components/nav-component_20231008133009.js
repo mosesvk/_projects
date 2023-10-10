@@ -283,8 +283,6 @@ document.getElementById('nav').innerHTML = `
 const customSelect = document.getElementById('custom-select');
 const optionsList = document.getElementById('options-list');
 
-
-
 customSelect.addEventListener('click', () => {
   optionsList.classList.toggle('invisible');
 });
@@ -307,3 +305,19 @@ checkboxes.forEach((checkbox) => {
 });
 
 let selectedOptions = [];
+
+// checkboxes.forEach((checkbox) => {
+//     checkbox.addEventListener('change', () => {
+//         const selectedValue = checkbox.value;
+//         if (checkbox.checked) {
+//             selectedOptions.push(selectedValue);
+//         } else {
+//             const index = selectedOptions.indexOf(selectedValue);
+//             if (index !== -1) {
+//                 selectedOptions.splice(index, 1);
+//             }
+//         }
+//         customSelect.querySelector('div').textContent =
+//             selectedOptions.length > 0 ? selectedOptions.join(', ') : 'Select Years';
+//     });
+// });

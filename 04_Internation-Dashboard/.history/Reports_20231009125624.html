@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900">
+      <aside
+        id="sidebar"
+        class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-64 h-full pt-16 font-normal duration-75 lg:flex transition-width"
+      ></aside>
+      <div
+        class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90"
+        id="sidebarBackdrop"
+      ></div>
+
+      <!--Main Content-->
+      <div
+        id="main-content"
+        class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900"
+      >
+        <main>
+          <!-- Table report -->
+
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
