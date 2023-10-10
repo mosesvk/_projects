@@ -79,4 +79,4 @@ const facilityCostPerSquareFootIncludeInterest_AverageAgeLessThanTen_Main = {}
 const informationTechCosts_Main = {}
 
 
-const yearsData_Array = []
+const yearsData_Main = {}
