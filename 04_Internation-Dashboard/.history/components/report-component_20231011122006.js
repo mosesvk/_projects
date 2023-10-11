@@ -92,7 +92,7 @@ const enrollmentTable = `
 </div>
 `;
 
-const cashTable = `
+const cashTable = 
 <div class='p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800'>
     <div class='flex flex-col mt-2'>
       <div class='overflow-x-auto rounded-lg'>
@@ -121,7 +121,7 @@ const cashTable = `
               </thead>
               <tbody>
                 <tr
-                  id='row_expendableReserves_inDays'
+                  id='row_studentsAverageEnrollment'
                   class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
                 >
                   <th
@@ -132,7 +132,7 @@ const cashTable = `
                   </th>
                 </tr>
                 <tr
-                  id='row_expendableReserves_percentTotalCash'
+                  id='row_studentsAverageEnrollment'
                   class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
                 >
                   <th
@@ -143,7 +143,7 @@ const cashTable = `
                   </th>
                 </tr>
                 <tr
-                  id='row_cashAvailableDeferred'
+                  id='row_studentsAverageEnrollment'
                   class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
                 >
                   <th
@@ -154,7 +154,7 @@ const cashTable = `
                   </th>
                 </tr>
                 <tr
-                  id='row_liquidityRatio'
+                  id='row_studentsAverageEnrollment'
                   class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
                 >
                   <th
@@ -165,18 +165,7 @@ const cashTable = `
                   </th>
                 </tr>
                 <tr
-                  id='row_netCashUsedOperating'
-                  class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-                >
-                  <th
-                    scope='row'
-                    class='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
-                  >
-                    5. Net Cash Provided (used) by Operating Activities
-                  </th>
-                </tr>
-                <tr
-                  id='row_netCashUsedOperating_asPerStatementCash'
+                  id='row_studentsAverageEnrollment-percentChange'
                   class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
                 >
                   <th
@@ -186,29 +175,6 @@ const cashTable = `
                     a. As per statement of Cash Flows
                   </th>
                 </tr>
-                <tr
-                  id='row_netCashUsedOperating_depreciationExpensesThreeToSeven'
-                  class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-                >
-                  <th
-                    scope='row'
-                    class='pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
-                  >
-                    b. Depreciation Expenses on 3 - 7 Year Assets
-                  </th>
-                </tr>
-                <tr
-                  id='row_netCashUsedOperating_overUnderBench'
-                  class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-                >
-                  <th
-                    scope='row'
-                    class='pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
-                  >
-                    c. Over (Under) Benchmark
-                  </th>
-                </tr>
-                
               </tbody>
             </table>
           </div>

@@ -21,7 +21,7 @@ const data = [
             }
         },
         // Additional data objects with years 2020, 2021, or 2022 and variations
-    }, {
+    {
         children: {
             'year': {
                 innerHTML: '2020'
