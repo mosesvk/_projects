@@ -267,7 +267,7 @@ const data = [
   {
     children: {
       year: {
-        innerHTML: '2023'
+        innerHTML: '2019'
       },
       students: {
         innerHTML: '24'
@@ -287,6 +287,8 @@ const data = [
     }
   }
 ];
+
+console.log(data);
 
 // Loop through the data -> Unique Years
 data.forEach((item) => {

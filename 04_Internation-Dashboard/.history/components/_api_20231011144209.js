@@ -263,41 +263,28 @@ const data = [
         innerHTML: '1.8'
       }
     }
-  }, 
-  {
-    children: {
-      year: {
-        innerHTML: '2023'
-      },
-      students: {
-        innerHTML: '24'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
   }
 ];
 
-// Loop through the data -> Unique Years
-data.forEach((item) => {
-  const year = item.children.year.innerHTML;
+console.log(data);
 
-  // Check if the year is not already in yearsDataArray to ensure uniqueness
-  if (!yearsData_Array.includes(year)) {
-    yearsData_Array.push(year);
-  }
+// Loop through the data array to find all unique years
+data.forEach(item => {
+    const year = item.children.year.innerHTML;
+    
+    // Check if the year is not already in yearsDataArray to ensure uniqueness
+    if (!yearsData_Array.includes(year)) {
+        yearsData_Array.push(year);
+    }
 
-  yearsData_Array.sort();
-});
+    yearsData_Array.sort()
+})
 
+yearsData_Array.forEach((year) => {
+
+        // Create a new <th> element
+        const newLabel = document.createElement('label');
+        newTh.setAttribute('for', `option-${year}`);
+        newTh.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700');
+})
 

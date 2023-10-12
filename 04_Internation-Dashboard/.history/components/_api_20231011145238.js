@@ -263,30 +263,10 @@ const data = [
         innerHTML: '1.8'
       }
     }
-  }, 
-  {
-    children: {
-      year: {
-        innerHTML: '2023'
-      },
-      students: {
-        innerHTML: '24'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
   }
 ];
+
+console.log(data);
 
 // Loop through the data -> Unique Years
 data.forEach((item) => {

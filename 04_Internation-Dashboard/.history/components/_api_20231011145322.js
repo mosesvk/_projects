@@ -288,6 +288,8 @@ const data = [
   }
 ];
 
+console.log(data);
+
 // Loop through the data -> Unique Years
 data.forEach((item) => {
   const year = item.children.year.innerHTML;

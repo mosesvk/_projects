@@ -263,32 +263,12 @@ const data = [
         innerHTML: '1.8'
       }
     }
-  }, 
-  {
-    children: {
-      year: {
-        innerHTML: '2023'
-      },
-      students: {
-        innerHTML: '24'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
   }
 ];
 
-// Loop through the data -> Unique Years
+console.log(data);
+
+// Loop through the data array to find all unique years
 data.forEach((item) => {
   const year = item.children.year.innerHTML;
 
@@ -300,4 +280,27 @@ data.forEach((item) => {
   yearsData_Array.sort();
 });
 
+yearsData_Array.forEach((year) => {
 
+  // Create a new <label> element
+  const newLabel = document.createElement('label');
+  newLabel.setAttribute('for', `option-${year}`);
+  newLabel.setAttribute(
+    'class',
+    'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700'
+  );
+
+  const newInput = document.createElement('input')
+  newInput.setAttribute('type','checkbox')
+  newInput.setAttribute('id',`option-${year}`)
+  newInput.setAttribute('class',`form-checkbox h-4 w-4 text-gray-600 mr-2`)
+  newInput.setAttribute('value',year)
+
+
+  <input
+  type="checkbox"
+  id="option-2015"
+  class="form-checkbox h-4 w-4 text-gray-600 mr-2"
+  value="2015"
+/>
+});

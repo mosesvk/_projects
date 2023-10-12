@@ -263,41 +263,19 @@ const data = [
         innerHTML: '1.8'
       }
     }
-  }, 
-  {
-    children: {
-      year: {
-        innerHTML: '2023'
-      },
-      students: {
-        innerHTML: '24'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
   }
 ];
 
-// Loop through the data -> Unique Years
-data.forEach((item) => {
-  const year = item.children.year.innerHTML;
+console.log(data);
 
-  // Check if the year is not already in yearsDataArray to ensure uniqueness
-  if (!yearsData_Array.includes(year)) {
-    yearsData_Array.push(year);
-  }
+// Loop through the data array to find all unique years
+for (const item of data) {
+    const year = item.children.year.innerHTML;
+    
+    // Check if the year is not already in yearsDataArray to ensure uniqueness
+    if (!yearsData_Array.includes(year)) {
+        yearsData_Array.push(year);
+    }
 
-  yearsData_Array.sort();
-});
-
-
+    yearsData_Array.sort()
+}
