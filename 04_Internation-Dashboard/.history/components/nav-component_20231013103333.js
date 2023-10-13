@@ -205,6 +205,9 @@ yearsData_Array.forEach((year) => {
         selectedYears_Array.splice(index, 1);
       }
     }
+
+    // Call the selectedYears function to update the selected years
+    // selectedYears(selectedYears_Array);
   });
 
   const newSpan = document.createElement('span');
@@ -216,4 +219,8 @@ yearsData_Array.forEach((year) => {
   optionsList.appendChild(newLabel);
 });
 
-
+// Function to handle selected years
+function selectedYears(selectedYears_Array) {
+  // You can use selectedYears_Array as needed, e.g., to display or process the selected years
+  console.log('Selected years:', selectedYears_Array);
+}

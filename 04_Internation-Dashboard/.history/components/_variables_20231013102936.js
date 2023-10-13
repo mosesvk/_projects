@@ -79,4 +79,3 @@ const informationTechCosts_Main = {}
 
 
 const yearsData_Array = []
-const selectedYears_Array = [];

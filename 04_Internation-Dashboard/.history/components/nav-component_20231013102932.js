@@ -174,10 +174,7 @@ checkboxes.forEach((checkbox) => {
   });
 });
 
-
-
-
-
+let selectedOptions = [];
 
 //
 yearsData_Array.forEach((year) => {
@@ -195,18 +192,6 @@ yearsData_Array.forEach((year) => {
   newInput.setAttribute('class', `form-checkbox h-4 w-4 text-gray-600 mr-2`);
   newInput.setAttribute('value', year);
 
-  // Add an onChange event to the input element
-  newInput.addEventListener('change', function () {
-    if (newInput.checked) {
-      selectedYears_Array.push(year);
-    } else {
-      const index = selectedYears_Array.indexOf(year);
-      if (index > -1) {
-        selectedYears_Array.splice(index, 1);
-      }
-    }
-  });
-
   const newSpan = document.createElement('span');
   newSpan.innerText = year;
 
@@ -215,5 +200,3 @@ yearsData_Array.forEach((year) => {
 
   optionsList.appendChild(newLabel);
 });
-
-

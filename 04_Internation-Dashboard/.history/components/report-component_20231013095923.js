@@ -6,8 +6,8 @@ const enrollmentTable = `
   <div class='overflow-x-auto rounded-lg'>
     <div class='inline-block min-w-full align-middle'>
       <div class='relative overflow-x-auto shadow-md sm:rounded-lg'>
-        <table class='w-full text-lg text-left text-gray-500 dark:text-gray-400'>
-          <thead class='text-xs text-gray-700 uppercase bg-green-200 dark:bg-gray-700 dark:text-green-200 '>
+        <table class='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
+          <thead class='text-xs text-gray-700 uppercase bg-green-200 dark:bg-gray-700 dark:text-green-200 dark:text-xl'>
             <tr id='row_enrollment_tableHeader'>
               <th scope='col' class='px-6 py-3 text-lg'>
                 Enrollment Comparison between Years
@@ -98,7 +98,7 @@ const cashTable = `
       <div class='overflow-x-auto rounded-lg'>
         <div class='inline-block min-w-full align-middle'>
           <div class='relative overflow-x-auto shadow-md sm:rounded-lg'>
-            <table class='w-full text-lg text-left text-gray-500 dark:text-gray-400'>
+            <table class='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
               <thead class='text-xs text-gray-700 uppercase bg-green-200 dark:bg-gray-700 dark:text-gray-400'>
                 <tr id='row_cash_tableHeader'>
                   <th scope='col' class='px-6 py-3 text-lg'>
