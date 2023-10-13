@@ -1,5 +1,6 @@
 const displayEnrollmentComponent = () => {
-  document.querySelector('main').innerHTML = `
+    
+    document.querySelector('main').innerHTML = `
     <div class="mb-4">
     <div
       class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
@@ -61,14 +62,8 @@ const displayEnrollmentComponent = () => {
       </div>
     </div>
     </div>
-    `;
+    `
 
-  // Remove the sidebar/backdoor/"x" svg icon
-  // Add back the "hamburger" svg icon
-  document.querySelector('#sidebar').classList.add('hidden');
-  document.querySelector('#sidebarBackdrop').classList.add('hidden');
-  document
-    .querySelector('#toggleSidebarMobileHamburger')
-    .classList.remove('hidden');
-  document.querySelector('#toggleSidebarMobileClose').classList.add('hidden');
-};
+  
+  
+}

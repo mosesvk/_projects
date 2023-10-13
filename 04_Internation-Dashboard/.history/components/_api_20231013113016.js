@@ -263,7 +263,7 @@ const data = [
         innerHTML: '1.8'
       }
     }
-  },
+  }, 
   {
     children: {
       year: {
@@ -300,6 +300,4 @@ data.forEach((item) => {
   yearsData_Array.sort();
 });
 
-document.addEventListener('DOMContentLoaded', () =>
-  displayEnrollmentComponent()
-);
+displayEnrollmentComponent()

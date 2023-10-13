@@ -1,12 +1,12 @@
 document.getElementById('sidebar').innerHTML = (
-  `<div class='relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700'>
+  <div class='relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700'>
     <div class='flex flex-col flex-1 pt-5 pb-4 overflow-y-auto'>
       <div class='flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700'>
         <ul class='pb-2 space-y-2'>
           <li>
             <a
-              href='#'
-              class='flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 active:bg-gray-100'
+              href='http://localhost:1313/'
+              class='flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700'
             >
               <svg
                 class='w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white'
@@ -25,8 +25,7 @@ document.getElementById('sidebar').innerHTML = (
           <li>
             <button
               type='button'
-              onClick='displayEnrollmentComponent()'
-              class='flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 active:text-green-200'
+              class='flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
             >
               <svg
                 class='flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white'
@@ -41,7 +40,7 @@ document.getElementById('sidebar').innerHTML = (
                 class='flex-1 ml-3 text-left whitespace-nowrap'
                 sidebar-toggle-item=''
               >
-                Enrollment
+                General Metrics
               </span>
             </button>
           </li>
@@ -326,7 +325,7 @@ document.getElementById('sidebar').innerHTML = (
         </ul>
         <div class='pt-2 space-y-2'>
           <a
-            onClick='displayReportComponent()'
+            onClick='() => displayReportComponent()'
             target='_blank'
             class='flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700'
           >
@@ -350,5 +349,5 @@ document.getElementById('sidebar').innerHTML = (
         </div>
       </div>
     </div>
-  </div>`
+  </div>
 );

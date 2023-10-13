@@ -150,28 +150,31 @@ document.getElementById(
     </div>
   </div>`;
 
-const customSelect = document.getElementById('custom-select');
-const optionsList = document.getElementById('options-list');
+  const customSelect = document.getElementById('custom-select');
+  const optionsList = document.getElementById('options-list');
+  
+  customSelect.addEventListener('click', (event) => {
+    // Check if the click target is not a checkbox inside the customSelect
+    console.log(event.target)
+    if (!event.target.closest('.form-checkbox') && !event.target.closest('label')) {
+      optionsList.classList.toggle('invisible');
+    }
+  });
+  
+  document.addEventListener('click', (event) => {
+    if (
+      !customSelect.contains(event.target) &&
+      !optionsList.contains(event.target)
+    ) {
+      optionsList.classList.add('invisible');
+    }
+  });
+  
 
-customSelect.addEventListener('click', (event) => {
-  // Check if the click target is not a checkbox inside the customSelect
-  console.log(event.target);
-  if (
-    !event.target.closest('.form-checkbox') &&
-    !event.target.closest('label')
-  ) {
-    optionsList.classList.toggle('invisible');
-  }
-});
 
-document.addEventListener('click', (event) => {
-  if (
-    !customSelect.contains(event.target) &&
-    !optionsList.contains(event.target)
-  ) {
-    optionsList.classList.add('invisible');
-  }
-});
+
+
+
 
 // All Years (unique) in API into the "options-select"
 yearsData_Array.forEach((year) => {

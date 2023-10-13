@@ -223,6 +223,7 @@ document.querySelector('main').innerHTML = `
     ${cashTable}
   `;
 
+
 // Remove the sidebar/backdoor/"x" svg icon
 // Add back the "hamburger" svg icon
 document.querySelector('#sidebar').classList.add('hidden');

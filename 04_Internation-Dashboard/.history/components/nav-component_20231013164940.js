@@ -1,6 +1,5 @@
-document.getElementById(
-  'nav'
-).innerHTML = `<div class='px-3 py-3 lg:px-5 lg:pl-3'>
+document.getElementById('nav').innerHTML = (
+  `<div class='px-3 py-3 lg:px-5 lg:pl-3'>
     <div class='flex items-center justify-between'>
       <div class='flex items-center justify-start'>
         <button
@@ -148,32 +147,42 @@ document.getElementById(
         </button>
       </div>
     </div>
-  </div>`;
+  </div>`
+);
 
 const customSelect = document.getElementById('custom-select');
 const optionsList = document.getElementById('options-list');
 
-customSelect.addEventListener('click', (event) => {
-  // Check if the click target is not a checkbox inside the customSelect
-  console.log(event.target);
-  if (
-    !event.target.closest('.form-checkbox') &&
-    !event.target.closest('label')
-  ) {
-    optionsList.classList.toggle('invisible');
-  }
+customSelect.addEventListener('click', () => {
+  optionsList.classList.toggle('invisible');
+});
+
+// Prevent the click on a checkbox from hiding the options list
+const checkboxes = document.querySelectorAll('.form-checkbox');
+checkboxes.forEach((checkbox) => {
+  checkbox.addEventListener('click', (event) => {
+    event.stopPropagation(); // Stop propagation to the parent div
+  });
 });
 
 document.addEventListener('click', (event) => {
   if (
     !customSelect.contains(event.target) &&
-    !optionsList.contains(event.target)
+    !optionsList.contains(event.target) && !checkboxes.contains(event.target)
   ) {
     optionsList.classList.add('invisible');
   }
 });
 
-// All Years (unique) in API into the "options-select"
+
+
+
+
+
+
+
+
+//
 yearsData_Array.forEach((year) => {
   // Create a new <label> element
   const newLabel = document.createElement('label');
@@ -209,3 +218,5 @@ yearsData_Array.forEach((year) => {
 
   optionsList.appendChild(newLabel);
 });
+
+

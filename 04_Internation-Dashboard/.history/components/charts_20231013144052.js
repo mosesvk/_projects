@@ -62,7 +62,7 @@ const getMainChartOptions = () => {
       offsetX: 110
     },
     xaxis: {
-      categories: [2020, 2021, 2022]
+      categories: [2015, 2016, 2017, 2018, 2019, 2020]
     },
     yaxis: [
       {
