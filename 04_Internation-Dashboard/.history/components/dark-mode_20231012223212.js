@@ -36,10 +36,3 @@ if (userThemePreference === 'dark') {
     themeToggleDarkIcon.classList.add('hidden');
     themeToggleLightIcon.classList.remove('hidden');
 } else {
-    document.documentElement.classList.remove('dark');
-    themeToggleDarkIcon.classList.remove('hidden');
-    themeToggleLightIcon.classList.add('hidden');
-}
-
-// Add click event listener to toggle button
-themeToggleBtn.addEventListener('click', toggleTheme);

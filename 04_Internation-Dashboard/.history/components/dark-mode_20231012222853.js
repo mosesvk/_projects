@@ -7,38 +7,21 @@ function toggleTheme() {
     if (document.documentElement.classList.contains('dark')) {
         document.documentElement.classList.remove('dark');
         localStorage.setItem('color-theme', 'light');
-        themeToggleDarkIcon.classList.remove('hidden');
-        themeToggleLightIcon.classList.add('hidden');
     } else {
         document.documentElement.classList.add('dark');
         localStorage.setItem('color-theme', 'dark');
-        themeToggleDarkIcon.classList.add('hidden');
-        themeToggleLightIcon.classList.remove('hidden');
     }
 
     document.dispatchEvent(new Event('dark-mode'));
 }
 
 // Check if the user's preference is stored in local storage
-const userThemePreference = localStorage.getItem('color-theme');
-
-if (userThemePreference === 'dark') {
-    document.documentElement.classList.add('dark');
-    themeToggleDarkIcon.classList.add('hidden');
-    themeToggleLightIcon.classList.remove('hidden');
-} else if (userThemePreference === 'light') {
-    document.documentElement.classList.remove('dark');
+if (localStorage.getItem('color-theme') === 'dark') {
     themeToggleDarkIcon.classList.remove('hidden');
     themeToggleLightIcon.classList.add('hidden');
-} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    // Use system preference if no user preference is set
-    document.documentElement.classList.add('dark');
-    themeToggleDarkIcon.classList.add('hidden');
-    themeToggleLightIcon.classList.remove('hidden');
 } else {
-    document.documentElement.classList.remove('dark');
-    themeToggleDarkIcon.classList.remove('hidden');
-    themeToggleLightIcon.classList.add('hidden');
+    themeToggleDarkIcon.classList.add('hidden');
+    themeToggleLightIcon.classList.remove('hidden');
 }
 
 // Add click event listener to toggle button
