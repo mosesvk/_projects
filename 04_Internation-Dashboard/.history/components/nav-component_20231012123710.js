@@ -49,7 +49,7 @@ document.getElementById('nav').innerHTML = (
         <div class='flex cursor-pointer'>
           <div
             id='custom-select'
-            class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400 hover:text-gray-600 appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
+            class='block py-2.5 px-0 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
           >
             <div class='flex items-center justify-between'>
               <svg
@@ -86,8 +86,11 @@ document.getElementById('nav').innerHTML = (
               class='absolute left-0 z-10 mt-2 w-full bg-white border border-gray-300 shadow-lg rounded-lg invisible border-gray-200 dark:bg-gray-800 dark:border-gray-800 dark:shadow-lg'
             ></div>
           </div>
-          <button class="bg-green-500 transition delay-100 hover:bg-green-300 text-white font-bold py-2 px-4 rounded">
-            Run 
+          <button 
+            class='relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800'>
+              <span class='relative px-3 py-2 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0'>
+              <span class='text-xl'>Run</span>
+            </span>
           </button>
         </div>
         <div class='flex items-center'>

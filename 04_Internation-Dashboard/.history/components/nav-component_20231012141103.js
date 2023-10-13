@@ -1,6 +1,6 @@
 document.getElementById('nav').innerHTML = (
 `     <div class='px-3 py-3 lg:px-5 lg:pl-3'>
-      <div class='flex items-center justify-between'>
+      <div class='flex items-center justify-around'>
         <div class='flex items-center justify-start'>
           <button
             id='toggleSidebarMobile'
