@@ -300,12 +300,6 @@ data.forEach((item) => {
   yearsData_Array.sort();
 });
 
-// Check if a component was last rendered and display it
-document.addEventListener('DOMContentLoaded', () => {
-  const lastRenderedComponent = localStorage.getItem('lastRenderedComponent');
-  if (lastRenderedComponent === 'report') {
-    displayReportComponent();
-  } else {
-    displayEnrollmentComponent();
-  }
-});
+document.addEventListener('DOMContentLoaded', () =>
+  displayEnrollmentComponent()
+);

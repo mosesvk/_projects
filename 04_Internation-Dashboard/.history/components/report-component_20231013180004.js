@@ -233,7 +233,7 @@ document
 document.querySelector('#toggleSidebarMobileClose').classList.add('hidden');
 
 
-localStorage.setItem('lastRenderedComponent', 'report');
+localStorage.setItem('lastRenderedComponent', 'enrollment');
 
 
 };
