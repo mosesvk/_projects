@@ -34,7 +34,7 @@ document.getElementById('sidebar').innerHTML = (
               role='tooltip'
               class='absolute z-40 invisible inline-block px-3 py-2 text-md font-medium text-gray-900 bg-gray-100 border border-gray-200 rounded-lg shadow-md opacity-0 text-center tooltip'
             >
-              Enrollment Comparison Between Years
+              Enrollment Comparison between years
               <div class='tooltip-arrow' data-popper-arrow></div>
             </div>
           </li>

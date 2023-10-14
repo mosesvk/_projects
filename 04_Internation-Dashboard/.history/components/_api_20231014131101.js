@@ -328,7 +328,7 @@ const runApi = () => {
       localStorage.getItem('selectedYears')
     );
     if (storedSelectedYears) {
-      storedSelectedYears.forEach((year) => {
+      selectedYears_array.forEach((year) => {
         const matchingData = data.filter(
           (item) => item.children.year.innerHTML === year.toString()
         );
@@ -351,9 +351,6 @@ const runApi = () => {
           console.log(`Student/Faculty Ratio: ${studentFacultyRatio.innerHTML}`);
         });
       });
-
-      localStorage.removeItem('selectedYears');
-
     } else {
       throw new Error('Need to Select a year')
     }

@@ -351,9 +351,6 @@ const runApi = () => {
           console.log(`Student/Faculty Ratio: ${studentFacultyRatio.innerHTML}`);
         });
       });
-
-      localStorage.removeItem('selectedYears');
-
     } else {
       throw new Error('Need to Select a year')
     }

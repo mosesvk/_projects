@@ -7,8 +7,7 @@ document.getElementById('sidebar').innerHTML = (
             <button
               type='button'
               onClick='displayEnrollmentComponent()'
-              data-tooltip-target='tooltip-right'
-              data-tooltip-placement='right'
+              data-tooltip-target="tooltip-right" data-tooltip-placement="right" 
               data-tooltip-style='light'
               class='flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 active:text-green-200'
             >
@@ -32,9 +31,9 @@ document.getElementById('sidebar').innerHTML = (
             <div
               id='tooltip-right'
               role='tooltip'
-              class='absolute z-40 invisible inline-block px-3 py-2 text-md font-medium text-gray-900 bg-gray-100 border border-gray-200 rounded-lg shadow-md opacity-0 text-center tooltip'
+              class='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 tooltip'
             >
-              Enrollment Comparison Between Years
+            Enrollment Comparison between years
               <div class='tooltip-arrow' data-popper-arrow></div>
             </div>
           </li>
@@ -98,7 +97,12 @@ document.getElementById('sidebar').innerHTML = (
                 xmlns='http://www.w3.org/2000/svg'
                 aria-hidden='true'
               >
-                <path d='M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z'></path>
+                <path d='M9 2a1 1 0 000 2h2a1 1 0 100-2H9z' />
+                <path
+                  fill-rule='evenodd'
+                  d='M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z'
+                  clip-rule='evenodd'
+                />
               </svg>
               <span
                 class='flex-1 ml-3 text-left whitespace-nowrap'
@@ -177,7 +181,7 @@ document.getElementById('sidebar').innerHTML = (
               ></path>
             </svg>
             <span class='ml-3' sidebar-toggle-item=''>
-              All Reports
+              Reports
             </span>
           </a>
         </div>

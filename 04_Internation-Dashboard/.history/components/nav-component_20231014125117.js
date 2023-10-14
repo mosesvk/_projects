@@ -198,14 +198,9 @@ yearsData_Array.forEach((year) => {
         selectedYears_Array.splice(index, 1);
       }
     }
-  
-    // Sort the selectedYears_Array chronologically
-    selectedYears_Array.sort((a, b) => a - b);
-    
-    // Store the updated selectedYears_Array in localStorage
-    localStorage.setItem('selectedYears', JSON.stringify(selectedYears_Array));
-
+    selectedYears_Array.sort()
   });
+  console.log(selectedYears_Array)
 
   const newSpan = document.createElement('span');
   newSpan.innerText = year;

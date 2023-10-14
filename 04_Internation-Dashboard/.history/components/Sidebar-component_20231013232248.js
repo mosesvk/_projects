@@ -1,5 +1,5 @@
 document.getElementById('sidebar').innerHTML = (
-  `<div class='relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700'>
+  <div class='relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700'>
     <div class='flex flex-col flex-1 pt-5 pb-4 overflow-y-auto'>
       <div class='flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700'>
         <ul class='pb-2 space-y-2'>
@@ -7,8 +7,7 @@ document.getElementById('sidebar').innerHTML = (
             <button
               type='button'
               onClick='displayEnrollmentComponent()'
-              data-tooltip-target='tooltip-right'
-              data-tooltip-placement='right'
+              data-tooltip-target='tooltip-light'
               data-tooltip-style='light'
               class='flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 active:text-green-200'
             >
@@ -30,11 +29,11 @@ document.getElementById('sidebar').innerHTML = (
             </button>
 
             <div
-              id='tooltip-right'
+              id='tooltip-light'
               role='tooltip'
-              class='absolute z-40 invisible inline-block px-3 py-2 text-md font-medium text-gray-900 bg-gray-100 border border-gray-200 rounded-lg shadow-md opacity-0 text-center tooltip'
+              class='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 tooltip'
             >
-              Enrollment Comparison Between Years
+              Tooltip content
               <div class='tooltip-arrow' data-popper-arrow></div>
             </div>
           </li>
@@ -98,7 +97,12 @@ document.getElementById('sidebar').innerHTML = (
                 xmlns='http://www.w3.org/2000/svg'
                 aria-hidden='true'
               >
-                <path d='M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z'></path>
+                <path d='M9 2a1 1 0 000 2h2a1 1 0 100-2H9z' />
+                <path
+                  fill-rule='evenodd'
+                  d='M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z'
+                  clip-rule='evenodd'
+                />
               </svg>
               <span
                 class='flex-1 ml-3 text-left whitespace-nowrap'
@@ -156,12 +160,167 @@ document.getElementById('sidebar').innerHTML = (
               </span>
             </button>
           </li>
+
+          <li>
+            <button
+              type='button'
+              class='flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
+            >
+              <svg
+                class='flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fill-rule='evenodd'
+                  d='M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm2-3a1 1 0 011 1v5a1 1 0 11-2 0v-5a1 1 0 011-1zm4-1a1 1 0 10-2 0v7a1 1 0 102 0V8z'
+                  clip-rule='evenodd'
+                ></path>
+              </svg>
+              <span
+                class='flex-1 ml-3 text-left whitespace-nowrap'
+                sidebar-toggle-item=''
+              >
+                Test
+              </span>
+              <svg
+                sidebar-toggle-item=''
+                class='w-6 h-6'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fill-rule='evenodd'
+                  d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                  clip-rule='evenodd'
+                ></path>
+              </svg>
+            </button>
+            <ul id='dropdown-pages' class='hidden py-2 space-y-2'>
+              <li>
+                <a
+                  href='http://localhost:1313/pages/pricing/'
+                  class='flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
+                >
+                  Pricing
+                </a>
+              </li>
+              <li>
+                <a
+                  href='http://localhost:1313/pages/maintenance/'
+                  class='flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
+                >
+                  Maintenance
+                </a>
+              </li>
+              <li>
+                <a
+                  href='http://localhost:1313/pages/404/'
+                  class='flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
+                >
+                  404 not found
+                </a>
+              </li>
+              <li>
+                <a
+                  href='http://localhost:1313/pages/500/'
+                  class='flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
+                >
+                  500 server error
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <button
+              type='button'
+              class='flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
+              aria-controls='dropdown-auth'
+              data-collapse-toggle='dropdown-auth'
+            >
+              <svg
+                class='flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fill-rule='evenodd'
+                  d='M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z'
+                  clip-rule='evenodd'
+                ></path>
+              </svg>
+              <span
+                class='flex-1 ml-3 text-left whitespace-nowrap'
+                sidebar-toggle-item=''
+              >
+                Auth
+              </span>
+              <svg
+                sidebar-toggle-item=''
+                class='w-6 h-6'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fill-rule='evenodd'
+                  d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                  clip-rule='evenodd'
+                ></path>
+              </svg>
+            </button>
+            <ul id='dropdown-auth' class='hidden py-2 space-y-2'>
+              <li>
+                <a
+                  href='http://localhost:1313/authentication/sign-in/'
+                  class='flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
+                >
+                  Sign in
+                </a>
+              </li>
+              <li>
+                <a
+                  href='http://localhost:1313/authentication/sign-up/'
+                  class='flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
+                >
+                  Sign up
+                </a>
+              </li>
+              <li>
+                <a
+                  href='http://localhost:1313/authentication/forgot-password/'
+                  class='flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
+                >
+                  Forgot password
+                </a>
+              </li>
+              <li>
+                <a
+                  href='http://localhost:1313/authentication/reset-password/'
+                  class='flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
+                >
+                  Reset password
+                </a>
+              </li>
+              <li>
+                <a
+                  href='http://localhost:1313/authentication/profile-lock/'
+                  class='flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
+                >
+                  Profile lock
+                </a>
+              </li>
+            </ul>
+          </li>
         </ul>
         <div class='pt-2 space-y-2'>
           <a
             onClick='displayReportComponent()'
             target='_blank'
-            class='flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 cursor-pointer'
+            class='flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700'
           >
             <svg
               class='flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white'
@@ -177,11 +336,11 @@ document.getElementById('sidebar').innerHTML = (
               ></path>
             </svg>
             <span class='ml-3' sidebar-toggle-item=''>
-              All Reports
+              Reports
             </span>
           </a>
         </div>
       </div>
     </div>
-  </div>`
+  </div>
 );

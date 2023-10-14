@@ -300,63 +300,16 @@ data.forEach((item) => {
   yearsData_Array.sort();
 });
 
+// Check if a component was last rendered and display it
 document.addEventListener('DOMContentLoaded', () => {
-  checkLastRenderedComponent();
-
-  runApi();
-});
-
-const checkLastRenderedComponent = () => {
-  // Check if a component was last rendered and display it
   const lastRenderedComponent = localStorage.getItem('lastRenderedComponent');
   if (lastRenderedComponent === 'report') {
     displayReportComponent();
   } else {
     displayEnrollmentComponent();
   }
-};
+});
 
-const runApi = () => {
-  const run_btn = document.querySelector('#run');
-  run_btn.addEventListener('click', () => {
-    retrieveApiData();
-  });
 
-  const retrieveApiData = () => {
-    // To retrieve the selectedYears_Array from localStorage in another component:
-    const storedSelectedYears = JSON.parse(
-      localStorage.getItem('selectedYears')
-    );
-    if (storedSelectedYears) {
-      storedSelectedYears.forEach((year) => {
-        const matchingData = data.filter(
-          (item) => item.children.year.innerHTML === year.toString()
-        );
-  
-        matchingData.forEach((item) => {
-          const {
-            students,
-            'students - percent change': percentChange,
-            'students - average enrollment': averageEnrollment,
-            'students - peak enrollment': peakEnrollment,
-            'student/faculty ratio': studentFacultyRatio
-          } = item.children;
-  
-          // Use the retrieved data as needed (e.g., log or process it)
-          console.log(`Year: ${year}`);
-          console.log(`Students: ${students.innerHTML}`);
-          console.log(`Percent Change: ${percentChange.innerHTML}`);
-          console.log(`Average Enrollment: ${averageEnrollment.innerHTML}`);
-          console.log(`Peak Enrollment: ${peakEnrollment.innerHTML}`);
-          console.log(`Student/Faculty Ratio: ${studentFacultyRatio.innerHTML}`);
-        });
-      });
+const run_btn = document.querySelector('#run')
 
-      localStorage.removeItem('selectedYears');
-
-    } else {
-      throw new Error('Need to Select a year')
-    }
-
-  };
-};

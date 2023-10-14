@@ -1,5 +1,5 @@
 document.getElementById('sidebar').innerHTML = (
-  `<div class='relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700'>
+  <div class='relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700'>
     <div class='flex flex-col flex-1 pt-5 pb-4 overflow-y-auto'>
       <div class='flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700'>
         <ul class='pb-2 space-y-2'>
@@ -32,9 +32,9 @@ document.getElementById('sidebar').innerHTML = (
             <div
               id='tooltip-right'
               role='tooltip'
-              class='absolute z-40 invisible inline-block px-3 py-2 text-md font-medium text-gray-900 bg-gray-100 border border-gray-200 rounded-lg shadow-md opacity-0 text-center tooltip'
+              class='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 tooltip'
             >
-              Enrollment Comparison Between Years
+              Enrollment Comparison between years
               <div class='tooltip-arrow' data-popper-arrow></div>
             </div>
           </li>
@@ -183,5 +183,5 @@ document.getElementById('sidebar').innerHTML = (
         </div>
       </div>
     </div>
-  </div>`
+  </div>
 );
