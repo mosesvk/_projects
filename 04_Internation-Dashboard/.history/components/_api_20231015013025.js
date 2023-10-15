@@ -288,31 +288,23 @@ const data = [
   }
 ];
 
+// Loop through the data -> Unique Years
+data.forEach((item) => {
+  const year = item.children.year.innerHTML;
+
+  // Check if the year is not already in yearsDataArray to ensure uniqueness
+  if (!yearsData_Array.includes(year)) {
+    yearsData_Array.push(year);
+  }
+
+  yearsData_Array.sort();
+});
+
 document.addEventListener('DOMContentLoaded', () => {
-
-  findUniqueYears(data)
-
   checkLastRenderedComponent();
 
   runApi();
 });
-
-
-const findUniqueYears = (data) => {
-  data.forEach((item) => {
-    const year = item.children.year.innerHTML;
-
-    // Check if the year is not already in yearsDataArray to ensure uniqueness
-    if (!yearsData_Array.includes(year)) {
-      yearsData_Array.push(year);
-    }
-
-    yearsData_Array.sort();
-  });
-
-  //nav-component
-  addUniqueYearsToOptionsSelectDropdown(yearsData_Array)
-};
 
 const checkLastRenderedComponent = () => {
   // Check if a component was last rendered and display it
@@ -332,59 +324,38 @@ const getSelectedYearsFromLocalStorage = () => {
   return storedSelectedYears;
 };
 
-const addTableColumnsToReport = () => {
-
-}
-
-const processEnrollmentData = (years, data) => {
-
-  const findYearInObject = (year, object, innerData) => {
-    if (year in object) {
-      object[year].push(innerData)
-    } else {
-      object[year] = [innerData]
-    }
-  }
-
+const processData = (years, data, dataObject) => {
+  const studentAverageEnrollment_Main = {};
   years.forEach((year) => {
     const matchingData = data.filter(
       (item) => item.children.year.innerHTML === year.toString()
     );
 
     matchingData.forEach((item) => {
-      const {
-        students,
-        'students - percent change': percentChange,
-        'students - average enrollment': averageEnrollment,
-        'students - peak enrollment': peakEnrollment,
-        'student/faculty ratio': studentFacultyRatio
-      } = item.children;
+      const { students, 'students - percent change': percentChange, 'students - average enrollment': averageEnrollment, 'students - peak enrollment': peakEnrollment, 'student/faculty ratio': studentFacultyRatio } = item.children;
 
       const year = item.children.year.innerHTML;
-
-      findYearInObject(year, studentAverageEnrollment_Main, students.innerHTML)
-      findYearInObject(year, studentAverageEnrollment_PercentChange_Main, percentChange.innerHTML)
-      
+      if (year in studentAverageEnrollment_Main) {
+        studentAverageEnrollment_Main[year].push(students.innerHTML);
+      } else {
+        studentAverageEnrollment_Main[year] = [students.innerHTML];
+      }
     });
   });
-  console.log('studentAverageEnrollment_Main', studentAverageEnrollment_Main)
-  console.log('studentAverageEnrollment_PercentChange_Main', studentAverageEnrollment_PercentChange_Main)
+  return studentAverageEnrollment_Main;
 };
-
 
 const runApi = () => {
   const run_btn = document.querySelector('#run');
   run_btn.addEventListener('click', () => {
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
-      processEnrollmentData(
-        selectedYears,
-        data,
-      );
-
+      const updatedData = processData(selectedYears, data);
+      console.log(updatedData); // or update your UI with the data
       localStorage.removeItem('selectedYears');
     } catch (error) {
       console.error(error.message);
     }
   });
 };
+

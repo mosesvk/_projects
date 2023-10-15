@@ -288,6 +288,8 @@ const data = [
   }
 ];
 
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
   findUniqueYears(data)
@@ -309,9 +311,6 @@ const findUniqueYears = (data) => {
 
     yearsData_Array.sort();
   });
-
-  //nav-component
-  addUniqueYearsToOptionsSelectDropdown(yearsData_Array)
 };
 
 const checkLastRenderedComponent = () => {
@@ -332,20 +331,8 @@ const getSelectedYearsFromLocalStorage = () => {
   return storedSelectedYears;
 };
 
-const addTableColumnsToReport = () => {
-
-}
-
-const processEnrollmentData = (years, data) => {
-
-  const findYearInObject = (year, object, innerData) => {
-    if (year in object) {
-      object[year].push(innerData)
-    } else {
-      object[year] = [innerData]
-    }
-  }
-
+const processData = (years, data, dataObject) => {
+  const object = {};
   years.forEach((year) => {
     const matchingData = data.filter(
       (item) => item.children.year.innerHTML === year.toString()
@@ -361,27 +348,27 @@ const processEnrollmentData = (years, data) => {
       } = item.children;
 
       const year = item.children.year.innerHTML;
-
-      findYearInObject(year, studentAverageEnrollment_Main, students.innerHTML)
-      findYearInObject(year, studentAverageEnrollment_PercentChange_Main, percentChange.innerHTML)
-      
+      if (year in object) {
+        object[year].push(students.innerHTML);
+      } else {
+        object[year] = [students.innerHTML];
+      }
     });
   });
-  console.log('studentAverageEnrollment_Main', studentAverageEnrollment_Main)
-  console.log('studentAverageEnrollment_PercentChange_Main', studentAverageEnrollment_PercentChange_Main)
+  return object;
 };
-
 
 const runApi = () => {
   const run_btn = document.querySelector('#run');
   run_btn.addEventListener('click', () => {
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
-      processEnrollmentData(
+      const studentAverageEnrollment_data = processData(
         selectedYears,
         data,
+        studentAverageEnrollment_Main
       );
-
+      console.log(studentAverageEnrollment_data); // or update your UI with the data
       localStorage.removeItem('selectedYears');
     } catch (error) {
       console.error(error.message);

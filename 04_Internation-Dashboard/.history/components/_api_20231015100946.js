@@ -309,9 +309,6 @@ const findUniqueYears = (data) => {
 
     yearsData_Array.sort();
   });
-
-  //nav-component
-  addUniqueYearsToOptionsSelectDropdown(yearsData_Array)
 };
 
 const checkLastRenderedComponent = () => {
@@ -377,11 +374,11 @@ const runApi = () => {
   run_btn.addEventListener('click', () => {
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
-      processEnrollmentData(
+      const studentAverageEnrollment_data = processEnrollmentData(
         selectedYears,
         data,
       );
-
+      console.log(studentAverageEnrollment_data); // or update your UI with the data
       localStorage.removeItem('selectedYears');
     } catch (error) {
       console.error(error.message);

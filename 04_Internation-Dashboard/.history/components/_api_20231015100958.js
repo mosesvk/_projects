@@ -309,9 +309,6 @@ const findUniqueYears = (data) => {
 
     yearsData_Array.sort();
   });
-
-  //nav-component
-  addUniqueYearsToOptionsSelectDropdown(yearsData_Array)
 };
 
 const checkLastRenderedComponent = () => {

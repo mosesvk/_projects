@@ -309,9 +309,6 @@ const findUniqueYears = (data) => {
 
     yearsData_Array.sort();
   });
-
-  //nav-component
-  addUniqueYearsToOptionsSelectDropdown(yearsData_Array)
 };
 
 const checkLastRenderedComponent = () => {
@@ -337,6 +334,7 @@ const addTableColumnsToReport = () => {
 }
 
 const processEnrollmentData = (years, data) => {
+  const object = {};
 
   const findYearInObject = (year, object, innerData) => {
     if (year in object) {
@@ -363,12 +361,10 @@ const processEnrollmentData = (years, data) => {
       const year = item.children.year.innerHTML;
 
       findYearInObject(year, studentAverageEnrollment_Main, students.innerHTML)
-      findYearInObject(year, studentAverageEnrollment_PercentChange_Main, percentChange.innerHTML)
       
     });
   });
-  console.log('studentAverageEnrollment_Main', studentAverageEnrollment_Main)
-  console.log('studentAverageEnrollment_PercentChange_Main', studentAverageEnrollment_PercentChange_Main)
+  return object;
 };
 
 
@@ -377,11 +373,11 @@ const runApi = () => {
   run_btn.addEventListener('click', () => {
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
-      processEnrollmentData(
+      const studentAverageEnrollment_data = processEnrollmentData(
         selectedYears,
         data,
       );
-
+      console.log(studentAverageEnrollment_data); // or update your UI with the data
       localStorage.removeItem('selectedYears');
     } catch (error) {
       console.error(error.message);
