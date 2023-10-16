@@ -1,4 +1,4 @@
-const displayEnrollmentComponent = (props) => {
+const displayEnrollmentComponent = () => {
   document.querySelector('main').innerHTML = `
     <div class="mb-4">
     <div
@@ -10,7 +10,7 @@ const displayEnrollmentComponent = (props) => {
           <span
             class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
           >
-            Students 
+            Giving Units
           </span>
         </div>
         <div
@@ -32,7 +32,7 @@ const displayEnrollmentComponent = (props) => {
         </div>
       </div>
       
-      <div id="studentsMain_chart"></div>
+      <div id="main-chart"></div>
     
       <div
         class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
@@ -63,14 +63,24 @@ const displayEnrollmentComponent = (props) => {
     </div>
     `;
 
-  if (props) {
-    const {
-      studentAverageEnrollment_Main: studentMain,
-      studentAverageEnrollment_PercentChange_Main: studentPercentChange
-    } = props;
+    if (document.getElementById('main-chart')) {
+      const chart = new ApexCharts(
+        document.getElementById('main-chart'),
+        getMainChartOptions()
+      );
 
-    createChart('studentsMain_chart', studentMain);
-  }
+      console.log(chart.ctx);
+      chart.render();
 
-  closeSidebarAfterSelectingOption();
+      // init again when toggling dark mode
+      document.addEventListener('dark-mode', function () {
+        chart.updateOptions(getMainChartOptions());
+      });
+    } else {
+      throw new Error('no main-chart');
+    }
+
+
+    closeSidebarAfterSelectingOption()
+
 };

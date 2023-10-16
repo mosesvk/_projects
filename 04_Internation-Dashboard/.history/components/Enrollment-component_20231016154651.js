@@ -1,4 +1,4 @@
-const displayEnrollmentComponent = (props) => {
+const displayEnrollmentComponent = () => {
   document.querySelector('main').innerHTML = `
     <div class="mb-4">
     <div
@@ -10,7 +10,7 @@ const displayEnrollmentComponent = (props) => {
           <span
             class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
           >
-            Students 
+            Giving Units
           </span>
         </div>
         <div
@@ -63,14 +63,18 @@ const displayEnrollmentComponent = (props) => {
     </div>
     `;
 
-  if (props) {
-    const {
-      studentAverageEnrollment_Main: studentMain,
-      studentAverageEnrollment_PercentChange_Main: studentPercentChange
-    } = props;
+  const chart = new ApexCharts(
+    document.getElementById('studentsMain_chart'),
+    getMainChartOptions()
+  );
 
-    createChart('studentsMain_chart', studentMain);
-  }
+  console.log(chart.ctx);
+  chart.render();
+
+  // init again when toggling dark mode
+  document.addEventListener('dark-mode', function () {
+    chart.updateOptions(getMainChartOptions());
+  });
 
   closeSidebarAfterSelectingOption();
 };

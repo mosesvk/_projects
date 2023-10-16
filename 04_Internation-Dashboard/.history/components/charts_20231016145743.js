@@ -1,11 +1,8 @@
-const getMainChartOptions = (data) => {
+
+
+const getMainChartOptions = () => {
   let mainChartColors = {};
   let chartColor = '#3a464f';
-  let peerAvg = []
-  let peerMid = []
-  let peerMin = []
-  let peerMax = []
-
 
   if (document.documentElement.classList.contains('dark')) {
     mainChartColors = {
@@ -15,7 +12,7 @@ const getMainChartOptions = (data) => {
       opacityTo: 0.15
     };
 
-    chartColor = '#e3f0fa';
+    chartColor = '#e3f0fa'
   } else {
     mainChartColors = {
       borderColor: '#F3F4F6',
@@ -24,21 +21,6 @@ const getMainChartOptions = (data) => {
       opacityTo: 0
     };
   }
-
-  console.log(data)
-
-  selectedYears_Array.forEach(year => {
-    const array = data[year]
-    const avg = getAverageOfArray(array)
-    const mid = getMidpointOfArray(array)
-    const min = Math.min(...array)
-    const max = Math.max(...array)
-
-    peerAvg.push(avg)
-    peerMid.push(mid)
-    peerMin.push(min)
-    peerMax.push(max)
-  })
 
   return {
     colors: [
@@ -50,17 +32,17 @@ const getMainChartOptions = (data) => {
       {
         name: 'Cashflow',
         type: 'column',
-        data: [18, 23, 21, 20]
+        data: [1.1, 3, 2.1, 3.4, 2.1]
       },
       {
         name: 'Avg',
         type: 'line',
-        data: peerAvg
+        data: [2, 2.9, 1.7, 1.6, 2.4]
       },
       {
         name: 'Mid',
         type: 'line',
-        data: peerMid
+        data: [2.5, 3.1, 1.9, 1.9, 3.4]
       }
     ],
     chart: {
@@ -80,7 +62,7 @@ const getMainChartOptions = (data) => {
       offsetX: 110
     },
     xaxis: {
-      categories: selectedYears_Array
+      categories: [2020, 2021, 2022]
     },
     yaxis: [
       {
@@ -119,12 +101,24 @@ const getMainChartOptions = (data) => {
         colors: ['transparent'], // Remove horizontal gridlines by setting them to transparent
         opacity: 0.5, // Adjust the opacity of the horizontal gridlines
         thickness: 4
-      }
+      },
     }
   };
 };
 
+if (document.getElementById('main-chart')) {
+  const chart = new ApexCharts(
+    document.getElementById('main-chart'),
+    getMainChartOptions()
+  );
 
+  console.log(chart.ctx);
+  chart.render();
 
-
-
+  // init again when toggling dark mode
+  document.addEventListener('dark-mode', function () {
+    chart.updateOptions(getMainChartOptions());
+  });
+} else {
+  throw new Error('no main-chart')
+}

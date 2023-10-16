@@ -1,11 +1,8 @@
 const getMainChartOptions = (data) => {
   let mainChartColors = {};
   let chartColor = '#3a464f';
-  let peerAvg = []
-  let peerMid = []
-  let peerMin = []
-  let peerMax = []
 
+  if (data) console.log(data)
 
   if (document.documentElement.classList.contains('dark')) {
     mainChartColors = {
@@ -25,21 +22,6 @@ const getMainChartOptions = (data) => {
     };
   }
 
-  console.log(data)
-
-  selectedYears_Array.forEach(year => {
-    const array = data[year]
-    const avg = getAverageOfArray(array)
-    const mid = getMidpointOfArray(array)
-    const min = Math.min(...array)
-    const max = Math.max(...array)
-
-    peerAvg.push(avg)
-    peerMid.push(mid)
-    peerMin.push(min)
-    peerMax.push(max)
-  })
-
   return {
     colors: [
       window.chartColors.green,
@@ -55,12 +37,12 @@ const getMainChartOptions = (data) => {
       {
         name: 'Avg',
         type: 'line',
-        data: peerAvg
+        data: [2, 2.9, 1.7, 1.6, 2.4]
       },
       {
         name: 'Mid',
         type: 'line',
-        data: peerMid
+        data: [2.5, 3.1, 1.9, 1.9, 3.4]
       }
     ],
     chart: {
@@ -80,7 +62,7 @@ const getMainChartOptions = (data) => {
       offsetX: 110
     },
     xaxis: {
-      categories: selectedYears_Array
+      categories: [2020, 2021, 2022]
     },
     yaxis: [
       {

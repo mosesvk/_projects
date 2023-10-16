@@ -55,12 +55,12 @@ const getMainChartOptions = (data) => {
       {
         name: 'Avg',
         type: 'line',
-        data: peerAvg
+        data: [2, 2.9, 1.7, 1.6, 2.4]
       },
       {
         name: 'Mid',
         type: 'line',
-        data: peerMid
+        data: [2.5, 3.1, 1.9, 1.9, 3.4]
       }
     ],
     chart: {

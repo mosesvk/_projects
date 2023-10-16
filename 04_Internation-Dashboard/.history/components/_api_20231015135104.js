@@ -285,116 +285,6 @@ const data = [
         innerHTML: '1.8'
       }
     }
-  },
-  {
-    children: {
-      year: {
-        innerHTML: '2019'
-      },
-      students: {
-        innerHTML: '19'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
-  },
-  {
-    children: {
-      year: {
-        innerHTML: '2018'
-      },
-      students: {
-        innerHTML: '20'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
-  },
-  {
-    children: {
-      year: {
-        innerHTML: '2018'
-      },
-      students: {
-        innerHTML: '21'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
-  },
-  {
-    children: {
-      year: {
-        innerHTML: '2019'
-      },
-      students: {
-        innerHTML: '21'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
-  },
-  {
-    children: {
-      year: {
-        innerHTML: '2019'
-      },
-      students: {
-        innerHTML: '20'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
   }
 ];
 
@@ -446,7 +336,7 @@ const addTableColumnsToReport = (tableHeader, data) => {
 
   // Create a reference to the second child of the tableHeaderRow
   const secondChild = tableHeaderRow.children[1];
-
+  
   // Iterate through the selectedYearArray in the original order
   for (let i = 0; i < data.length; i++) {
     const item = data[i];
@@ -498,11 +388,11 @@ const processEnrollmentData = (years, data) => {
       );
     });
   });
-
-  displayEnrollmentComponent({
-    studentAverageEnrollment_Main,
+  console.log('studentAverageEnrollment_Main', studentAverageEnrollment_Main);
+  console.log(
+    'studentAverageEnrollment_PercentChange_Main',
     studentAverageEnrollment_PercentChange_Main
-  });
+  );
 };
 
 const runApiMain = () => {

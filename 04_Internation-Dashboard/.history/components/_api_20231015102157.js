@@ -285,126 +285,18 @@ const data = [
         innerHTML: '1.8'
       }
     }
-  },
-  {
-    children: {
-      year: {
-        innerHTML: '2019'
-      },
-      students: {
-        innerHTML: '19'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
-  },
-  {
-    children: {
-      year: {
-        innerHTML: '2018'
-      },
-      students: {
-        innerHTML: '20'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
-  },
-  {
-    children: {
-      year: {
-        innerHTML: '2018'
-      },
-      students: {
-        innerHTML: '21'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
-  },
-  {
-    children: {
-      year: {
-        innerHTML: '2019'
-      },
-      students: {
-        innerHTML: '21'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
-  },
-  {
-    children: {
-      year: {
-        innerHTML: '2019'
-      },
-      students: {
-        innerHTML: '20'
-      },
-      'students - percent change': {
-        innerHTML: '.06'
-      },
-      'students - average enrollment': {
-        innerHTML: '22'
-      },
-      'students - peak enrollment': {
-        innerHTML: '28'
-      },
-      'student/faculty ratio': {
-        innerHTML: '1.8'
-      }
-    }
   }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  findUniqueYears(data);
+
+  findUniqueYears(data)
 
   checkLastRenderedComponent();
 
-  runApiMain();
+  runApi();
 });
+
 
 const findUniqueYears = (data) => {
   data.forEach((item) => {
@@ -419,7 +311,7 @@ const findUniqueYears = (data) => {
   });
 
   //nav-component
-  addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
+  addUniqueYearsToOptionsSelectDropdown(yearsData_Array)
 };
 
 const checkLastRenderedComponent = () => {
@@ -440,38 +332,19 @@ const getSelectedYearsFromLocalStorage = () => {
   return storedSelectedYears;
 };
 
-const addTableColumnsToReport = (tableHeader, data) => {
-  // Find the table header row by its ID
-  const tableHeaderRow = document.getElementById(tableHeader);
+const addTableColumnsToReport = () => {
 
-  // Create a reference to the second child of the tableHeaderRow
-  const secondChild = tableHeaderRow.children[1];
-
-  // Iterate through the selectedYearArray in the original order
-  for (let i = 0; i < data.length; i++) {
-    const item = data[i];
-
-    // Create a new <th> element
-    const newTh = document.createElement('th');
-    newTh.setAttribute('scope', 'col');
-    newTh.setAttribute('class', 'px-6 py-3');
-
-    // Set the inner text of the new <th> element to the year
-    newTh.innerText = item;
-
-    // Insert the new <th> element before the second child of the tableHeaderRow
-    tableHeaderRow.insertBefore(newTh, secondChild);
-  }
-};
+}
 
 const processEnrollmentData = (years, data) => {
+
   const findYearInObject = (year, object, innerData) => {
     if (year in object) {
-      object[year].push(innerData);
+      object[year].push(innerData)
     } else {
-      object[year] = [innerData];
+      object[year] = [innerData]
     }
-  };
+  }
 
   years.forEach((year) => {
     const matchingData = data.filter(
@@ -489,28 +362,25 @@ const processEnrollmentData = (years, data) => {
 
       const year = item.children.year.innerHTML;
 
-      findYearInObject(year, studentAverageEnrollment_Main, students.innerHTML);
-
-      findYearInObject(
-        year,
-        studentAverageEnrollment_PercentChange_Main,
-        percentChange.innerHTML
-      );
+      findYearInObject(year, studentAverageEnrollment_Main, students.innerHTML)
+      findYearInObject(year, studentAverageEnrollment_PercentChange_Main, percentChange.innerHTML)
+      
     });
   });
-
-  displayEnrollmentComponent({
-    studentAverageEnrollment_Main,
-    studentAverageEnrollment_PercentChange_Main
-  });
+  console.log('studentAverageEnrollment_Main', studentAverageEnrollment_Main)
+  console.log('studentAverageEnrollment_PercentChange_Main', studentAverageEnrollment_PercentChange_Main)
 };
+
 
 const runApiMain = () => {
   const run_btn = document.querySelector('#run');
   run_btn.addEventListener('click', () => {
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
-      processEnrollmentData(selectedYears, data);
+      processEnrollmentData(
+        selectedYears,
+        data,
+      );
 
       localStorage.removeItem('selectedYears');
     } catch (error) {

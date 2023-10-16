@@ -10,7 +10,7 @@ const displayEnrollmentComponent = (props) => {
           <span
             class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
           >
-            Students 
+            Giving Units
           </span>
         </div>
         <div
@@ -64,10 +64,9 @@ const displayEnrollmentComponent = (props) => {
     `;
 
   if (props) {
-    const {
-      studentAverageEnrollment_Main: studentMain,
-      studentAverageEnrollment_PercentChange_Main: studentPercentChange
-    } = props;
+    const { studentAverageEnrollment_Main: studentMain, studentAverageEnrollment_PercentChange_Main: studentPercentChange } = props;
+
+    console.log(props)
 
     createChart('studentsMain_chart', studentMain);
   }

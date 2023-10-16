@@ -25,19 +25,11 @@ const getMainChartOptions = (data) => {
     };
   }
 
-  console.log(data)
-
   selectedYears_Array.forEach(year => {
     const array = data[year]
-    const avg = getAverageOfArray(array)
-    const mid = getMidpointOfArray(array)
-    const min = Math.min(...array)
-    const max = Math.max(...array)
+    const sum = array.reduce((acc, str) => acc + Number(str), 0);
 
-    peerAvg.push(avg)
-    peerMid.push(mid)
-    peerMin.push(min)
-    peerMax.push(max)
+    peerAvg
   })
 
   return {
@@ -55,12 +47,12 @@ const getMainChartOptions = (data) => {
       {
         name: 'Avg',
         type: 'line',
-        data: peerAvg
+        data: [2, 2.9, 1.7, 1.6, 2.4]
       },
       {
         name: 'Mid',
         type: 'line',
-        data: peerMid
+        data: [2.5, 3.1, 1.9, 1.9, 3.4]
       }
     ],
     chart: {
