@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CC calculator</title>
 
-    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
-
     <script>
       tailwind.config = {
         theme: {
@@ -17,8 +14,10 @@
               blob: 'blob 7s infinite'
             },
             colors: {
+              red: 'rgb(255, 99, 132)',
               green: 'rgb(131, 178, 64)',
               blue: 'rgb(54, 162, 235)',
+              purple: 'rgb(153, 102, 255)',
               grey: 'rgb(201, 203, 207)'
             }
           }
@@ -27,7 +26,6 @@
     </script>
   </head>
   <style>
-    
     /* Style for the smooth transition */
     .hidden-by-default.transition-opacity {
       opacity: 1;
@@ -175,7 +173,7 @@
               <div
                 class="mx-auto flex content-between justify-items-center max-w-xs flex-col grid gap-y-6"
               >
-                <div>
+                <div class="">
                   <h1
                     class="text-5xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
                   >
@@ -185,13 +183,16 @@
                     class="w-full h-1 mx-auto my-4 bg-blue border-0 rounded md:mb-10"
                   />
                 </div>
-
-                <svg class="w-40 h-40 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-                  <path d="M64 128L0 64 9.373 54.373 64 108.746 118.627 54.373 128 64 64 128z M56 12v80h16V12z" fill="rgb(54, 162, 235)" />
+                <svg
+                  class="w-24 h-24 text-blue fill-current"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M10 0c-.2 0-.4.1-.5.3l-7 8c-.2.2-.3.4-.3.7s.1.5.3.7c.4.4 1 .4 1.4 0L10 2.4l6.8 7.9c.2.2.5.2.7 0s.2-.5 0-.7l-7-8c-.1-.2-.3-.3-.5-.3z"
+                  />
                 </svg>
-                
-                
-                
 
                 <div class="h-full mt-6">
                   <div
