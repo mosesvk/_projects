@@ -424,10 +424,12 @@ const findUniqueYears = (data) => {
 
 const checkLastRenderedComponent = () => {
   const lastRenderedComponent = localStorage.getItem('lastRenderedComponent');
+  const selectedYears = getSelectedYearsFromLocalStorage();
+  
   if (lastRenderedComponent === 'report') {
     displayReportComponent();
   } else {
-    displayEnrollmentComponent();
+    processEnrollmentData()
   }
 };
 
@@ -512,6 +514,7 @@ const runApiMain = () => {
       const selectedYears = getSelectedYearsFromLocalStorage();
       processEnrollmentData(selectedYears, data);
 
+      localStorage.removeItem('selectedYears');
     } catch (error) {
       console.error(error.message);
     }

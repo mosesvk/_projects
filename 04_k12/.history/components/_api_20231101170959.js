@@ -512,6 +512,7 @@ const runApiMain = () => {
       const selectedYears = getSelectedYearsFromLocalStorage();
       processEnrollmentData(selectedYears, data);
 
+      localStorage.removeItem('selectedYears');
     } catch (error) {
       console.error(error.message);
     }

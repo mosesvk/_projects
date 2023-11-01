@@ -508,10 +508,12 @@ const runApiMain = () => {
   const run_btn = document.querySelector('#run');
 
   run_btn.addEventListener('click', () => {
+    
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
       processEnrollmentData(selectedYears, data);
 
+      localStorage.removeItem('selectedYears');
     } catch (error) {
       console.error(error.message);
     }
