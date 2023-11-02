@@ -498,15 +498,10 @@ const processEnrollmentData = (years, data) => {
     });
   });
 
-  localStorage.setItem(
-    'enrollmentData',
-    JSON.stringify({
-      studentAverageEnrollment_Main,
-      studentAverageEnrollment_PercentChange_Main
-    })
-  );
-
-  displayEnrollmentComponent();
+  displayEnrollmentComponent({
+    studentAverageEnrollment_Main,
+    studentAverageEnrollment_PercentChange_Main
+  });
 };
 
 const runApiMain = () => {
@@ -515,9 +510,6 @@ const runApiMain = () => {
   run_btn.addEventListener('click', () => {
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
-
-      localStorage.clear();
-
       processEnrollmentData(selectedYears, data);
 
     } catch (error) {

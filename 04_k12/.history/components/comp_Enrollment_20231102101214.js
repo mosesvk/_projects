@@ -64,13 +64,23 @@ const displayEnrollmentComponent = () => {
     `;
 
   const savedData = localStorage.getItem('enrollmentData');
-
-
+  console.log(savedData)
   if (savedData) {
     const parsedData = JSON.parse(savedData);
     createChart('studentsMain_chart', parsedData.studentAverageEnrollment_Main);
     // You can use the parsed data as needed
+  } else {
+    createChart('studentsMain_chart', null); // Display a default chart or loading state
   }
+
+  // if (props) {
+  //   const {
+  //     studentAverageEnrollment_Main: studentMain,
+  //     studentAverageEnrollment_PercentChange_Main: studentPercentChange
+  //   } = props;
+
+  //   createChart('studentsMain_chart', studentMain);
+  // }
 
   closeSidebarAfterSelectingOption();
 };

@@ -1,4 +1,4 @@
-const displayEnrollmentComponent = () => {
+const displayEnrollmentComponent = async () => {
   document.querySelector('main').innerHTML = `
     <div class="mb-4">
     <div
@@ -63,11 +63,13 @@ const displayEnrollmentComponent = () => {
     </div>
     `;
 
-  const savedData = localStorage.getItem('enrollmentData');
+  const savedData = await localStorage.getItem('enrollmentData');
 
+  console.log(savedData)
 
   if (savedData) {
     const parsedData = JSON.parse(savedData);
+    console.log(parsedData);
     createChart('studentsMain_chart', parsedData.studentAverageEnrollment_Main);
     // You can use the parsed data as needed
   }

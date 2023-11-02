@@ -64,12 +64,13 @@ const displayEnrollmentComponent = () => {
     `;
 
   const savedData = localStorage.getItem('enrollmentData');
-
-
   if (savedData) {
     const parsedData = JSON.parse(savedData);
     createChart('studentsMain_chart', parsedData.studentAverageEnrollment_Main);
     // You can use the parsed data as needed
+  } else {
+    // Data not found in localStorage, you may fetch it or handle it as necessary
+    createChart('studentsMain_chart', null); // Display a default chart or loading state
   }
 
   closeSidebarAfterSelectingOption();

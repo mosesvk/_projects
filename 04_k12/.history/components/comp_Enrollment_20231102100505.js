@@ -1,4 +1,4 @@
-const displayEnrollmentComponent = () => {
+const displayEnrollmentComponent = (props) => {
   document.querySelector('main').innerHTML = `
     <div class="mb-4">
     <div
@@ -64,13 +64,24 @@ const displayEnrollmentComponent = () => {
     `;
 
   const savedData = localStorage.getItem('enrollmentData');
-
-
   if (savedData) {
+
     const parsedData = JSON.parse(savedData);
     createChart('studentsMain_chart', parsedData.studentAverageEnrollment_Main);
     // You can use the parsed data as needed
+  } else {
+    // Data not found in localStorage, you may fetch it or handle it as necessary
+    createChart('studentsMain_chart', null); // Display a default chart or loading state
   }
+
+  // if (props) {
+  //   const {
+  //     studentAverageEnrollment_Main: studentMain,
+  //     studentAverageEnrollment_PercentChange_Main: studentPercentChange
+  //   } = props;
+
+  //   createChart('studentsMain_chart', studentMain);
+  // }
 
   closeSidebarAfterSelectingOption();
 };

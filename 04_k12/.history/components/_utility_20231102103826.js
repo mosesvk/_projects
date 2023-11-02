@@ -93,7 +93,6 @@ const closeSidebarAfterSelectingOption = () => {
 };
 
 const createChart = (chartId, data) => {
-
   const chart = new ApexCharts(
     document.getElementById(chartId),
     getMainChartOptions(data)

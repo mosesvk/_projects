@@ -401,7 +401,7 @@ const data = [
 document.addEventListener('DOMContentLoaded', () => {
   findUniqueYears(data);
 
-  checkLastRenderedComponent();
+  // checkLastRenderedComponent();
 
   runApiMain();
 });
@@ -422,14 +422,14 @@ const findUniqueYears = (data) => {
   addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
 };
 
-const checkLastRenderedComponent = () => {
-  const lastRenderedComponent = localStorage.getItem('lastRenderedComponent');
-  if (lastRenderedComponent === 'report') {
-    displayReportComponent();
-  } else {
-    displayEnrollmentComponent();
-  }
-};
+// const checkLastRenderedComponent = () => {
+//   const lastRenderedComponent = localStorage.getItem('lastRenderedComponent');
+//   if (lastRenderedComponent === 'report') {
+//     displayReportComponent();
+//   } else {
+//     displayEnrollmentComponent();
+//   }
+// };
 
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem('selectedYears'));
@@ -498,15 +498,10 @@ const processEnrollmentData = (years, data) => {
     });
   });
 
-  localStorage.setItem(
-    'enrollmentData',
-    JSON.stringify({
-      studentAverageEnrollment_Main,
-      studentAverageEnrollment_PercentChange_Main
-    })
-  );
-
-  displayEnrollmentComponent();
+  displayEnrollmentComponent({
+    studentAverageEnrollment_Main,
+    studentAverageEnrollment_PercentChange_Main
+  });
 };
 
 const runApiMain = () => {
@@ -515,9 +510,6 @@ const runApiMain = () => {
   run_btn.addEventListener('click', () => {
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
-
-      localStorage.clear();
-
       processEnrollmentData(selectedYears, data);
 
     } catch (error) {

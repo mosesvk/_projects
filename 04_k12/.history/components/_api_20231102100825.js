@@ -498,30 +498,39 @@ const processEnrollmentData = (years, data) => {
     });
   });
 
-  localStorage.setItem(
-    'enrollmentData',
-    JSON.stringify({
-      studentAverageEnrollment_Main,
-      studentAverageEnrollment_PercentChange_Main
-    })
-  );
+  displayEnrollmentComponent({
+    studentAverageEnrollment_Main,
+    studentAverageEnrollment_PercentChange_Main
+  });
 
-  displayEnrollmentComponent();
+  localStorage.setItem('enrollmentData', JSON.stringify({
+    studentAverageEnrollment_Main,
+    studentAverageEnrollment_PercentChange_Main,
+  }));
 };
 
 const runApiMain = () => {
   const run_btn = document.querySelector('#run');
 
+
+
   run_btn.addEventListener('click', () => {
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
+      const savedData = localStorage.getItem('enrollmentData');
 
-      localStorage.clear();
-
-      processEnrollmentData(selectedYears, data);
-
+      if (savedData) {
+        // Data found in localStorage, parse it and display the chart
+        const parsedData = JSON.parse(savedData);
+        displayEnrollmentComponent(parsedData);
+      } else {
+        // Data not found in localStorage, fetch and process it
+        processEnrollmentData(selectedYears, data);
+      }
     } catch (error) {
       console.error(error.message);
     }
   });
+
+
 };

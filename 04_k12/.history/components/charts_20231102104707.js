@@ -26,9 +26,9 @@ const getMainChartOptions = (data) => {
   }
 
 
-  let selectedYearsArray = getSelectedYearsFromLocalStorage();
+  console.log(selectedYears_Array)
 
-  selectedYearsArray.forEach((year) => {
+  selectedYears_Array.forEach((year) => {
     const array = data[year];
     const avg = getAverageOfArray(array);
     const mid = getMidpointOfArray(array);
@@ -81,7 +81,7 @@ const getMainChartOptions = (data) => {
       offsetX: 110
     },
     xaxis: {
-      categories: selectedYearsArray
+      categories: selectedYears_Array
     },
     yaxis: [
       {
