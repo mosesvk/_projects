@@ -599,27 +599,22 @@ const addTableColumnsToReport = (tableHeader, data) => {
   }
 };
 
-
-const findYearInObject = (year, object, innerData, dataKey) => {
-  if (!object[dataKey]) {
-    object[dataKey] = {};
-  }
-  if (!object[dataKey][year]) {
-    object[dataKey][year] = [];
-  }
-  object[dataKey][year].push(innerData);
-};
-
 const processEnrollmentData = (years, data) => {
+  const findYearInObject = (year, object, innerData) => {
+    if (year in object) {
+      object[year].push(innerData);
+    } else {
+      object[year] = [innerData];
+    }
+  };
 
   years.forEach((year) => {
-
     const matchingData = data.filter(
       (item) => item.children.year.innerHTML === year.toString()
     );
     matchingData.forEach((item) => {
       const {
-        students: studentsPeer,
+        studentsPeer,
         'students - percent change': percentChangePeer,
         'students - average enrollment': averageEnrollmentPeer,
         'students - peak enrollment': peakEnrollmentPeer,
@@ -628,8 +623,13 @@ const processEnrollmentData = (years, data) => {
 
       const year = item.children.year.innerHTML;
 
-      findYearInObject(year, objectData, studentsPeer.innerHTML, 'studentAverageEnrollment_Main');
-      findYearInObject(year, objectData, percentChangePeer.innerHTML, 'studentAverageEnrollment_PercentChange_Main');
+      findYearInObject(year, studentAverageEnrollment_Main, studentsPeer.innerHTML);
+
+      findYearInObject(
+        year,
+        studentAverageEnrollment_PercentChange_Main,
+        percentChangePeer.innerHTML
+      );
     });
 
     
@@ -638,7 +638,7 @@ const processEnrollmentData = (years, data) => {
     );
     matchingClientData.forEach((item) => {
       const {
-        students: studentsClient,
+        studentsClient,
         'students - percent change': percentChangeClient,
         'students - average enrollment': averageEnrollmentClient,
         'students - peak enrollment': peakEnrollmentClient,
@@ -647,15 +647,26 @@ const processEnrollmentData = (years, data) => {
 
       const year = item.children.year.innerHTML;
 
-      findYearInObject(year, objectData, studentsClient.innerHTML, 'studentAverageEnrollment_Client');
-      findYearInObject(year, objectData, percentChangeClient.innerHTML, 'studentAverageEnrollment_PercentChange_Client');
+      findYearInObject(year, studentAverageEnrollment_Client, studentsClient.innerHTML);
 
+      findYearInObject(
+        year,
+        studentAverageEnrollment_PercentChange_Client,
+        percentChangeClient.innerHTML
+      );
     });
   });
 
   localStorage.removeItem('enrollmentData');
-  localStorage.setItem('enrollmentData', JSON.stringify(objectData));
 
+  localStorage.setItem(
+    'enrollmentData',
+    JSON.stringify({
+      studentAverageEnrollment_Main,
+      studentAverageEnrollment_PercentChange_Main, 
+
+    })
+  );
 
   displayEnrollmentComponent();
 };
@@ -668,8 +679,8 @@ const runApiMain = () => {
       const selectedYears = getSelectedYearsFromLocalStorage();
 
       processEnrollmentData(selectedYears, data);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error.message);
     }
   });
 };

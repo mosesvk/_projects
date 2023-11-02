@@ -600,7 +600,7 @@ const addTableColumnsToReport = (tableHeader, data) => {
 };
 
 
-const findYearInObject = (year, object, innerData, dataKey) => {
+const findYearInObject = (year, object, innerData) => {
   if (!object[dataKey]) {
     object[dataKey] = {};
   }
@@ -638,7 +638,7 @@ const processEnrollmentData = (years, data) => {
     );
     matchingClientData.forEach((item) => {
       const {
-        students: studentsClient,
+        studentsClient,
         'students - percent change': percentChangeClient,
         'students - average enrollment': averageEnrollmentClient,
         'students - peak enrollment': peakEnrollmentClient,
@@ -646,6 +646,7 @@ const processEnrollmentData = (years, data) => {
       } = item.children;
 
       const year = item.children.year.innerHTML;
+
 
       findYearInObject(year, objectData, studentsClient.innerHTML, 'studentAverageEnrollment_Client');
       findYearInObject(year, objectData, percentChangeClient.innerHTML, 'studentAverageEnrollment_PercentChange_Client');

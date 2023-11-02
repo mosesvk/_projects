@@ -1,18 +1,10 @@
-
-const objectData = {};
-
 // Enrollment
 const studentAverageEnrollment_Main = {};
-const studentAverageEnrollment_Client = {};
 const studentAverageEnrollment_PercentChange_Main = {};
-const studentAverageEnrollment_PercentChange_Client = {};
 const studentAverageEnrollment_Average_Main = {};
-const studentAverageEnrollment_Average_Client = {};
 const studentAverageEnrollment_Peak_Main = {};
-const studentAverageEnrollment_Peak_Client = {};
 const studentFacilityRatio_Main = {};
-const studentFacilityRatio_Client = {};
-
+const enrollmentClient_Main = {}
 
 // Cash Flow and Reserve Ratios
 const expendableReserves_Main = {};

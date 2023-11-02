@@ -600,7 +600,7 @@ const addTableColumnsToReport = (tableHeader, data) => {
 };
 
 
-const findYearInObject = (year, object, innerData, dataKey) => {
+const findYearInObject = (year, object, innerData) => {
   if (!object[dataKey]) {
     object[dataKey] = {};
   }
@@ -628,8 +628,13 @@ const processEnrollmentData = (years, data) => {
 
       const year = item.children.year.innerHTML;
 
-      findYearInObject(year, objectData, studentsPeer.innerHTML, 'studentAverageEnrollment_Main');
-      findYearInObject(year, objectData, percentChangePeer.innerHTML, 'studentAverageEnrollment_PercentChange_Main');
+      findYearInObject(year, studentAverageEnrollment_Main, studentsPeer.innerHTML);
+
+      findYearInObject(
+        year,
+        studentAverageEnrollment_PercentChange_Main,
+        percentChangePeer.innerHTML
+      );
     });
 
     
@@ -638,7 +643,7 @@ const processEnrollmentData = (years, data) => {
     );
     matchingClientData.forEach((item) => {
       const {
-        students: studentsClient,
+        studentsClient,
         'students - percent change': percentChangeClient,
         'students - average enrollment': averageEnrollmentClient,
         'students - peak enrollment': peakEnrollmentClient,
@@ -647,9 +652,13 @@ const processEnrollmentData = (years, data) => {
 
       const year = item.children.year.innerHTML;
 
-      findYearInObject(year, objectData, studentsClient.innerHTML, 'studentAverageEnrollment_Client');
-      findYearInObject(year, objectData, percentChangeClient.innerHTML, 'studentAverageEnrollment_PercentChange_Client');
+      findYearInObject(year, studentAverageEnrollment_Client, studentsClient.innerHTML);
 
+      findYearInObject(
+        year,
+        studentAverageEnrollment_PercentChange_Client,
+        percentChangeClient.innerHTML
+      );
     });
   });
 

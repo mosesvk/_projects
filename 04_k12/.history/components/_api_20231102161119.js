@@ -638,7 +638,7 @@ const processEnrollmentData = (years, data) => {
     );
     matchingClientData.forEach((item) => {
       const {
-        students: studentsClient,
+        studentsClient,
         'students - percent change': percentChangeClient,
         'students - average enrollment': averageEnrollmentClient,
         'students - peak enrollment': peakEnrollmentClient,

@@ -1,6 +1,3 @@
-
-const objectData = {};
-
 // Enrollment
 const studentAverageEnrollment_Main = {};
 const studentAverageEnrollment_Client = {};
