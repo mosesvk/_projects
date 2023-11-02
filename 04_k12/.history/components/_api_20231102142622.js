@@ -498,8 +498,6 @@ const processEnrollmentData = (years, data) => {
     });
   });
 
-  localStorage.removeItem('enrollmentData');
-
   localStorage.setItem(
     'enrollmentData',
     JSON.stringify({
@@ -517,6 +515,8 @@ const runApiMain = () => {
   run_btn.addEventListener('click', () => {
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
+
+      localStorage.clear();
 
       processEnrollmentData(selectedYears, data);
 
