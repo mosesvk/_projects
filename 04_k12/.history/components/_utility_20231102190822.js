@@ -105,14 +105,14 @@ const createChart = (chartId, dataPeer, dataClient) => {
 
   const chart = new ApexCharts(
     document.getElementById(chartId),
-    getMainChartOptions(dataPeer, dataClient)
+    getMainChartOptions(dataPeer)
   );
 
   chart.render();
 
   // init again when toggling dark mode
   document.addEventListener('dark-mode', function () {
-    chart.updateOptions(getMainChartOptions(dataPeer, dataClient));
+    chart.updateOptions(getMainChartOptions(dataPeer));
   });
 };
 

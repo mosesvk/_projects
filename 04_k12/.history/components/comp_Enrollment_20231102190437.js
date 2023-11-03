@@ -65,13 +65,10 @@ const displayEnrollmentComponent = () => {
 
   const savedData = localStorage.getItem('enrollmentData');
 
+
   if (savedData && localStorage.getItem('selectedYears')) {
     const parsedData = JSON.parse(savedData);
-    createChart(
-      'studentsMain_chart',
-      parsedData.studentAverageEnrollment_Main,
-      parsedData.studentAverageEnrollment_Client
-    );
+    createChart('studentsMain_chart', parsedData.studentAverageEnrollment_Main, parsedData.studentAverageEnrollment_Client);
     // You can use the parsed data as needed
   }
 

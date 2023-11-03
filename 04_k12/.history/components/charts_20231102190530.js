@@ -1,6 +1,6 @@
-const getMainChartOptions = (dataPeer, dataClient) => {
+const getMainChartOptions = (dataPeer) => {
 
-  const clientArray = []
+  let mainChartColors = {};
   let chartColor = '#3a464f';
   let peerAvg = [];
   let peerMid = [];
@@ -30,7 +30,6 @@ const getMainChartOptions = (dataPeer, dataClient) => {
 
   selectedYearsArray.forEach((year) => {
     const array = dataPeer[year];
-
     const avg = getAverageOfArray(array);
     const mid = getMidpointOfArray(array);
     const min = Math.min(...array);
@@ -40,7 +39,6 @@ const getMainChartOptions = (dataPeer, dataClient) => {
     peerMid.push(mid);
     peerMin.push(min);
     peerMax.push(max);
-    clientArray.push(dataClient[year][0])
   });
 
   return {
@@ -53,7 +51,7 @@ const getMainChartOptions = (dataPeer, dataClient) => {
       {
         name: 'Cashflow',
         type: 'column',
-        data: clientArray
+        data: [18, 23, 21, 20]
       },
       {
         name: 'Avg',

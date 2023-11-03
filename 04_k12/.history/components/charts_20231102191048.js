@@ -41,6 +41,7 @@ const getMainChartOptions = (dataPeer, dataClient) => {
     peerMin.push(min);
     peerMax.push(max);
     clientArray.push(dataClient[year][0])
+    console.log(clientArray)
   });
 
   return {
@@ -53,7 +54,7 @@ const getMainChartOptions = (dataPeer, dataClient) => {
       {
         name: 'Cashflow',
         type: 'column',
-        data: clientArray
+        data: [18, 23, 21, 20]
       },
       {
         name: 'Avg',

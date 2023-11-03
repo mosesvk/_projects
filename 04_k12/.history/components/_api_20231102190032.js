@@ -599,6 +599,7 @@ const addTableColumnsToReport = (tableHeader, data) => {
   }
 };
 
+
 const findYearInObject = (year, object, innerData, dataKey) => {
   if (!object[dataKey]) {
     object[dataKey] = {};
@@ -610,7 +611,9 @@ const findYearInObject = (year, object, innerData, dataKey) => {
 };
 
 const processEnrollmentData = (years, data) => {
+
   years.forEach((year) => {
+
     const matchingData = data.filter(
       (item) => item.children.year.innerHTML === year.toString()
     );
@@ -625,23 +628,15 @@ const processEnrollmentData = (years, data) => {
 
       const year = item.children.year.innerHTML;
 
-      findYearInObject(
-        year,
-        objectData,
-        studentsPeer.innerHTML,
-        'studentAverageEnrollment_Main'
-      );
-      findYearInObject(
-        year,
-        objectData,
-        percentChangePeer.innerHTML,
-        'studentAverageEnrollment_PercentChange_Main'
-      );
+      findYearInObject(year, objectData, studentsPeer.innerHTML, 'studentAverageEnrollment_Main');
+      findYearInObject(year, objectData, percentChangePeer.innerHTML, 'studentAverageEnrollment_PercentChange_Main');
     });
 
+    
     const matchingClientData = clientData.filter(
       (item) => item.children.year.innerHTML === year.toString()
     );
+
 
     matchingClientData.forEach((item) => {
       const {
@@ -652,25 +647,19 @@ const processEnrollmentData = (years, data) => {
         'student/faculty ratio': studentFacultyRatioClient
       } = item.children;
 
+
+      
       const year = item.children.year.innerHTML;
 
-      findYearInObject(
-        year,
-        objectData,
-        studentsClient.innerHTML,
-        'studentAverageEnrollment_Client'
-      );
-      findYearInObject(
-        year,
-        objectData,
-        percentChangeClient.innerHTML,
-        'studentAverageEnrollment_PercentChange_Client'
-      );
+      findYearInObject(year, objectData, studentsClient.innerHTML, 'studentAverageEnrollment_Client');
+      findYearInObject(year, objectData, percentChangeClient.innerHTML, 'studentAverageEnrollment_PercentChange_Client');
+
     });
   });
 
   localStorage.removeItem('enrollmentData');
   localStorage.setItem('enrollmentData', JSON.stringify(objectData));
+
 
   displayEnrollmentComponent();
 };
