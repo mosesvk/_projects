@@ -1,4 +1,7 @@
 const displayEnrollmentComponent = () => {
+
+  
+
   const component = `
     <div class="mb-4">
     <div
@@ -9,7 +12,7 @@ const displayEnrollmentComponent = () => {
           <span
             class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
           >
-            Students - Average Enrollment
+            Students 
           </span>
         </div>
         <div

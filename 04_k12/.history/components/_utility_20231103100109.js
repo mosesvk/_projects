@@ -87,7 +87,7 @@ const selectedYears_Array = [];
 // Utility Functions
 
 const createChart = (chartId, dataPeer, dataClient) => {
-
+  console.log(chartId, dataPeer, dataClient)
   const chart = new ApexCharts(
     document.getElementById(chartId),
     getMainChartOptions(dataPeer, dataClient)

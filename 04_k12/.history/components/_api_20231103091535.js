@@ -610,7 +610,9 @@ const findYearInObject = (year, object, innerData, dataKey) => {
 };
 
 const processEnrollmentData = (years, data) => {
-  
+  localStorage.removeItem('enrollmentData');
+
+  console.log(years)
 
   years.forEach((year) => {
     const matchingData = data.filter(
@@ -644,6 +646,7 @@ const processEnrollmentData = (years, data) => {
     const matchingClientData = clientData.filter(
       (item) => item.children.year.innerHTML === year.toString()
     );
+
     matchingClientData.forEach((item) => {
       const {
         students: studentsClient,
@@ -669,10 +672,10 @@ const processEnrollmentData = (years, data) => {
       );
     });
   });
-  localStorage.removeItem('enrollmentData');
+
   localStorage.setItem('enrollmentData', JSON.stringify(objectData));
 
-  checkLastRenderedComponent();
+  displayEnrollmentComponent();
 };
 
 const runApiMain = () => {

@@ -1,15 +1,16 @@
 const displayEnrollmentComponent = () => {
-  const component = `
+  document.querySelector('main').innerHTML = `
     <div class="mb-4">
     <div
       class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
     >
+    
       <div class="flex items-center justify-between mb-4">
         <div class="flex-shrink-0">
           <span
             class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
           >
-            Students - Average Enrollment
+            Students 
           </span>
         </div>
         <div
@@ -62,8 +63,6 @@ const displayEnrollmentComponent = () => {
     </div>
     `;
 
-  document.querySelector('main').innerHTML = component;
-
   const savedData = localStorage.getItem('enrollmentData');
 
   if (savedData && localStorage.getItem('selectedYears')) {
@@ -74,6 +73,7 @@ const displayEnrollmentComponent = () => {
       parsedData.studentAverageEnrollment_Client
     );
   }
+
 
   closeSidebarAfterSelectingOption();
 };

@@ -93,6 +93,7 @@ const createChart = (chartId, dataPeer, dataClient) => {
     getMainChartOptions(dataPeer, dataClient)
   );
 
+  console.log(chart)
   chart.render();
 
   // init again when toggling dark mode

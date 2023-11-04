@@ -219,7 +219,7 @@
                   State Tax Deduction Savings
                 </dt>
                 <dd
-                  id="stateTaxDeductionWithout"
+                  id="stateTaxDeduction"
                   class="order-second text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
                 >
                   -
@@ -228,7 +228,7 @@
                   Federal Tax Deduction Savings
                 </dt>
                 <dd
-                  id="federalTaxDeductionSavingsWithout"
+                  id="federalTaxDeductionSavings"
                   class="order-second text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
                 >
                   -
@@ -312,17 +312,11 @@
     const input = document.querySelector('#donationAmount');
     const hiddenElements = document.querySelectorAll('.hidden-by-default');
     const stateTaxDeduction = document.getElementById('stateTaxDeduction');
-    const stateTaxDeductionWithout = document.getElementById(
-      'stateTaxDeductionWithout'
-    );
     const stateTaxDeductionFromCredit = document.getElementById(
       'stateTaxDeductionFromCredit'
     );
     const federalTaxDeductionSavings = document.getElementById(
       'federalTaxDeductionSavings'
-    );
-    const federalTaxDeductionSavingsWithout = document.getElementById(
-      'federalTaxDeductionSavingsWithout'
     );
     const netCostToTaxPayerInclude = document.getElementById(
       'netCostToTaxPayerInclude'
@@ -357,16 +351,8 @@
       const inputValue = input.value.replace(/[^0-9]/g, '');
 
       // Format the value with commas
-      let formattedValue = parseInt(inputValue, 10);
+      const formattedValue = Number(inputValue);
 
-      if (formattedValue >= 100000) {
-        input.value = '100000';
-        formattedValue = 100000;
-      } else {
-        input.value = formattedValue.toLocaleString();
-      }
-
-      console.log(formattedValue);
       // Dynamic value for the fed tax rate
       const fedTaxRateValue =
         // Set the formatted value back into the input field
@@ -376,34 +362,29 @@
       //UPDATING VALUES
 
       let sum = 0;
-      let sumWithout = 0
       let value = Math.round(formattedValue * 0.044);
       stateTaxDeduction.innerHTML =
         value > 0 ? `(${value.toLocaleString()})` : '-';
-      stateTaxDeductionWithout.innerHTML =
-        value > 0 ? `(${value.toLocaleString()})` : '-';
 
-      sum += value; sumWithout += value
+      sum += value;
       value = Math.round(formattedValue * 0.5);
       stateTaxDeductionFromCredit.innerHTML =
         value > 0 ? `(${value.toLocaleString()})` : '-';
 
       sum += value;
       let value2 = Math.round(formattedValue * fedTaxRateVal);
-
+      console.log(formattedValue);
+      console.log(value);
       federalTaxDeductionSavings.innerHTML =
         value2 > 0 ? `(${value2.toLocaleString()})` : '-';
-      federalTaxDeductionSavingsWithout.innerHTML =
-        value2 > 0 ? `(${value2.toLocaleString()})` : '-';
 
-      sum += value2; sumWithout += value2
+      sum += value2;
       value = Math.round(formattedValue - sum);
       netCostToTaxPayerInclude.innerHTML =
         value > 0 ? `$ ${value.toLocaleString()}` : '-';
 
-      let valueWithout = formattedValue - sumWithout
       netCostToTaxPayerWithout.innerHTML =
-      valueWithout > 0 ? `$ ${valueWithout.toLocaleString()}` : '-';
+        formattedValue > 0 ? `$ ${formattedValue.toLocaleString()}` : '-';
     }
   </script>
 </html>

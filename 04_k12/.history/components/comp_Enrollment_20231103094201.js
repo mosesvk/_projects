@@ -1,4 +1,5 @@
 const displayEnrollmentComponent = () => {
+
   const component = `
     <div class="mb-4">
     <div
@@ -9,7 +10,7 @@ const displayEnrollmentComponent = () => {
           <span
             class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
           >
-            Students - Average Enrollment
+            Students 
           </span>
         </div>
         <div
@@ -64,16 +65,6 @@ const displayEnrollmentComponent = () => {
 
   document.querySelector('main').innerHTML = component;
 
-  const savedData = localStorage.getItem('enrollmentData');
-
-  if (savedData && localStorage.getItem('selectedYears')) {
-    const parsedData = JSON.parse(savedData);
-    createChart(
-      'studentsMain_chart',
-      parsedData.studentAverageEnrollment_Main,
-      parsedData.studentAverageEnrollment_Client
-    );
-  }
 
   closeSidebarAfterSelectingOption();
 };

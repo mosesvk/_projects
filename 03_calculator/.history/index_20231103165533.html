@@ -376,14 +376,13 @@
       //UPDATING VALUES
 
       let sum = 0;
-      let sumWithout = 0
       let value = Math.round(formattedValue * 0.044);
       stateTaxDeduction.innerHTML =
         value > 0 ? `(${value.toLocaleString()})` : '-';
       stateTaxDeductionWithout.innerHTML =
         value > 0 ? `(${value.toLocaleString()})` : '-';
 
-      sum += value; sumWithout += value
+      sum += value;
       value = Math.round(formattedValue * 0.5);
       stateTaxDeductionFromCredit.innerHTML =
         value > 0 ? `(${value.toLocaleString()})` : '-';
@@ -396,14 +395,13 @@
       federalTaxDeductionSavingsWithout.innerHTML =
         value2 > 0 ? `(${value2.toLocaleString()})` : '-';
 
-      sum += value2; sumWithout += value2
+      sum += value2;
       value = Math.round(formattedValue - sum);
       netCostToTaxPayerInclude.innerHTML =
         value > 0 ? `$ ${value.toLocaleString()}` : '-';
 
-      let valueWithout = formattedValue - sumWithout
       netCostToTaxPayerWithout.innerHTML =
-      valueWithout > 0 ? `$ ${valueWithout.toLocaleString()}` : '-';
+        formattedValue > 0 ? `$ ${formattedValue.toLocaleString()}` : '-';
     }
   </script>
 </html>

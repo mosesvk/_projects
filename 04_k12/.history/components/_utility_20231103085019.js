@@ -87,7 +87,6 @@ const selectedYears_Array = [];
 // Utility Functions
 
 const createChart = (chartId, dataPeer, dataClient) => {
-
   const chart = new ApexCharts(
     document.getElementById(chartId),
     getMainChartOptions(dataPeer, dataClient)
@@ -135,35 +134,6 @@ const getMidpointOfArray = (array) => {
     return (midpoint1 + midpoint2) / 2;
   }
 };
-
-function calculateAveragePercentageChange(values) {
-  if (values.length < 2) {
-    return 0.0; // No change if there are fewer than two values
-  }
-
-  let totalChange = 0;
-
-  for (let i = 1; i < values.length; i++) {
-    const initial = values[i - 1];
-    const final = values[i];
-    const change = final - initial;
-
-    if (initial === 0) {
-      if (final === 0) {
-        continue; // No change if both initial and final values are zero
-      } else {
-        totalChange = Infinity; // Handle division by zero
-        break;
-      }
-    }
-
-    totalChange += (change / Math.abs(initial)) * 100;
-  }
-
-  const averagePercentageChange = totalChange / (values.length - 1);
-
-  return averagePercentageChange.toFixed(1); // Ensure one decimal point
-}
 
 window.chartColors = {
   red: 'rgb(255, 99, 132)',

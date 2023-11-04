@@ -46,7 +46,6 @@ document.getElementById('nav').innerHTML = `
           </span>
         </a>
       </div>
-      <div class='flex items-center cursor-pointer'>
       <div
           id='custom-select-region'
           class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400 hover:text-gray-600 appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
@@ -87,8 +86,9 @@ document.getElementById('nav').innerHTML = `
             class='absolute left-0 z-10 mt-2 w-full bg-white border border-gray-300 shadow-lg rounded-lg invisible border-gray-200 dark:bg-gray-800 dark:border-gray-800 dark:shadow-lg'
           ></div>
           </div>
-      </div>
-      <div
+        </div>
+      <div class='flex cursor-pointer'>
+        <div
           id='custom-select'
           class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400 hover:text-gray-600 appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
         >
@@ -126,13 +126,13 @@ document.getElementById('nav').innerHTML = `
             id='options-list'
             class='absolute left-0 z-10 mt-2 w-full bg-white border border-gray-300 shadow-lg rounded-lg invisible border-gray-200 dark:bg-gray-800 dark:border-gray-800 dark:shadow-lg'
           ></div>
-      </div>
-      <button
-        id='run'
-        class='bg-green-500 transition delay-100 hover:bg-green-300 text-white font-bold py-2 px-4 rounded'
-      >
-        Run
-      </button>
+        </div>
+        <button
+          id='run'
+          class='bg-green-500 transition delay-100 hover:bg-green-300 text-white font-bold py-2 px-4 rounded'
+        >
+          Run
+        </button>
       </div>
       <div class='flex items-center'>
         <button

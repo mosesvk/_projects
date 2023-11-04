@@ -645,6 +645,7 @@ const processEnrollmentData = (years, data) => {
       (item) => item.children.year.innerHTML === year.toString()
     );
     matchingClientData.forEach((item) => {
+      console.log(item)
       const {
         students: studentsClient,
         'students - percent change': percentChangeClient,
@@ -671,6 +672,19 @@ const processEnrollmentData = (years, data) => {
   });
   localStorage.removeItem('enrollmentData');
   localStorage.setItem('enrollmentData', JSON.stringify(objectData));
+
+  const savedData = localStorage.getItem('enrollmentData');
+
+  console.log(JSON.parse(savedData))
+
+  if (savedData && localStorage.getItem('selectedYears')) {
+    const parsedData = JSON.parse(savedData);
+    createChart(
+      'studentsMain_chart',
+      parsedData.studentAverageEnrollment_Main,
+      parsedData.studentAverageEnrollment_Client
+    );
+  }
 
   checkLastRenderedComponent();
 };

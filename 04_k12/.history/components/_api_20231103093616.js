@@ -645,6 +645,7 @@ const processEnrollmentData = (years, data) => {
       (item) => item.children.year.innerHTML === year.toString()
     );
     matchingClientData.forEach((item) => {
+      console.log(item)
       const {
         students: studentsClient,
         'students - percent change': percentChangeClient,
@@ -672,7 +673,7 @@ const processEnrollmentData = (years, data) => {
   localStorage.removeItem('enrollmentData');
   localStorage.setItem('enrollmentData', JSON.stringify(objectData));
 
-  checkLastRenderedComponent();
+  displayEnrollmentComponent();
 };
 
 const runApiMain = () => {

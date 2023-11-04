@@ -46,7 +46,7 @@ document.getElementById('nav').innerHTML = `
           </span>
         </a>
       </div>
-      <div class='flex items-center cursor-pointer'>
+      <div class='flex items-center'>
       <div
           id='custom-select-region'
           class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400 hover:text-gray-600 appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
