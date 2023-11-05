@@ -2,9 +2,9 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        capinGreen: 'rgb(131, 178, 64)',
-        capinBlue: 'rgb(50, 110, 170)',
-        capinGrey: 'rgb(201, 203, 207)'
+        green: 'rgb(131, 178, 64)',
+        blue: 'rgb(50, 110, 170)',
+        grey: 'rgb(201, 203, 207)'
       }
     }
   }

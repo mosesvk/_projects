@@ -225,26 +225,21 @@ const displayReportComponent = () => {
     ${cashTable}
   `;
 
-  const savedData = JSON.parse(localStorage.getItem('enrollmentData'));
-  const selectedYears = getSelectedYearsFromLocalStorage();
+  const savedData = JSON.parse(localStorage.getItem('enrollmentData'))
+  const selectedYears = getSelectedYearsFromLocalStorage()
 
-  displayDataToReport(savedData, selectedYears);
+  displayDataToReport(savedData, selectedYears)
 
   closeSidebarAfterSelectingOption('report');
 };
 
+
+
 const displayDataToReport = (data, selectedYears) => {
-
   if (data && selectedYears) {
-    addYearColumnsToReportTables(selectedYears)
+    addTableColumnsToReport('row_enrollment_tableHeader', selectedYears);
   }
-};
 
-const addYearColumnsToReportTables = (years) => {
-  const trElements = document.querySelectorAll('tr');
-  const trIds = Array.from(trElements)
-    .map((tr) => tr.getAttribute('id'))
-    .filter((id) => id && id.endsWith('_tableHeader'));
+  
 
-  trIds.forEach((idName) => addTableColumnsToReport(idName, years));
-};
+}

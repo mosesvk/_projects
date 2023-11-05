@@ -49,13 +49,13 @@ document.getElementById('nav').innerHTML = `
       <div class='flex items-center cursor-pointer'>
       <div
           id='custom-select'
-          class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400  appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
+          class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400 hover:text-gray-600 appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
         >
           <div class='flex items-center justify-between'>
             <svg class="w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
               <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z"/>
             </svg>
-            <div class='px-2 hover:text-gray-600'>Select Years</div>
+            <div class='px-2'>Select Years</div>
             <svg
               class='h-5 w-5 text-gray-400'
               xmlns='http://www.w3.org/2000/svg'
@@ -72,19 +72,19 @@ document.getElementById('nav').innerHTML = `
           </div>
           <div
             id='options-list'
-            class='absolute left-0 z-10 mt-2 w-full bg-white border shadow-2xl rounded-lg invisible dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-gray-400'
+            class='absolute left-0 z-10 mt-2 w-full bg-white border shadow-lg rounded-lg invisible dark:border-gray-500 border-gray-300 dark:bg-gray-800 dark:ring-4 ring-offset-white'
           ></div>
       </div>
       <div
           id='custom-select-region'
-          class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400  appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
+          class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400 hover:text-gray-600 appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
         >
           <div class='flex items-center justify-between'>
             <div class="flex items-center"> 
             <svg class="w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
               <path d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
             </svg>
-              <div class='px-2 w-max hover:text-gray-600'>Select Region</div>
+              <div class='px-2 w-max'>Select Region</div>
               <svg
                 class='h-5 w-5 text-gray-400'
                 xmlns='http://www.w3.org/2000/svg'
@@ -101,14 +101,14 @@ document.getElementById('nav').innerHTML = `
             </div>
           <div
             id='options-list-region'
-            class='absolute top-9 left-0 z-10 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-max invisible'
+            class='absolute top-9 left-0 z-10 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-800 dark:shadow-lg w-max invisible'
           ></div>
           </div>
       </div>
       <button
         id='run'
-        class="bg-capinGreen text-white font-bold py-2 px-4 rounded transition transform hover:scale-105 hover:shadow-md hover:shadow-capinGreen opacity-75 hover:opacity-100"
-        >
+        class='bg-green-500 transition delay-100 hover:bg-green-300 text-white font-bold py-2 px-4 rounded'
+      >
         Run
       </button>
       </div>

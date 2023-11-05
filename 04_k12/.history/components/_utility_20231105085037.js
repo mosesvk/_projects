@@ -1,14 +1,4 @@
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        capinGreen: 'rgb(131, 178, 64)',
-        capinBlue: 'rgb(50, 110, 170)',
-        capinGrey: 'rgb(201, 203, 207)'
-      }
-    }
-  }
-};
+// const objectData = {};
 
 // Enrollment
 const studentAverageEnrollment_Main = {};

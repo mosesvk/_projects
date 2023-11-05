@@ -236,15 +236,15 @@ const displayReportComponent = () => {
 const displayDataToReport = (data, selectedYears) => {
 
   if (data && selectedYears) {
-    addYearColumnsToReportTables(selectedYears)
+    addYearColumnsToReportTables()
   }
 };
 
-const addYearColumnsToReportTables = (years) => {
+const addYearColumnsToReportTables = () => {
   const trElements = document.querySelectorAll('tr');
   const trIds = Array.from(trElements)
     .map((tr) => tr.getAttribute('id'))
     .filter((id) => id && id.endsWith('_tableHeader'));
 
-  trIds.forEach((idName) => addTableColumnsToReport(idName, years));
+  trIds.forEach((idName) => addTableColumnsToReport(idName, selectedYears));
 };
