@@ -107,7 +107,7 @@ document.getElementById('nav').innerHTML = `
       </div>
       <button
         id='run'
-        class="bg-green-300 font-bold py-2 px-4 rounded transition transform text-black dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100"
+        class="bg-green-300 text-white font-bold py-2 px-4 rounded transition transform text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100"
         >
         Run
       </button>

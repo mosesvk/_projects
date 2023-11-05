@@ -72,7 +72,7 @@ document.getElementById('nav').innerHTML = `
           </div>
           <div
             id='options-list'
-            class='absolute left-0 z-10 mt-2 w-full bg-white border shadow-2xl rounded-lg invisible dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey'
+            class='absolute left-0 z-10 mt-2 w-full bg-white border shadow-2xl rounded-lg invisible dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGreen'
           ></div>
       </div>
       <div
@@ -107,7 +107,7 @@ document.getElementById('nav').innerHTML = `
       </div>
       <button
         id='run'
-        class="bg-green-300 font-bold py-2 px-4 rounded transition transform text-black dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100"
+        class="bg-capinGreen text-white font-bold py-2 px-4 rounded transition transform hover:scale-105 hover:shadow-md hover:shadow-capinGreen opacity-75 hover:opacity-100"
         >
         Run
       </button>

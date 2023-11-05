@@ -15,10 +15,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      // capinGreen: 'rgb(131, 178, 64)',
-      // capinBlue: 'rgb(50, 110, 170)',
-      // capinGrey: 'rgb(201, 203, 207)'
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      if (
+        localStorage.getItem('color-theme') === 'dark' ||
+        (!('color-theme' in localStorage) &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
+
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              capinGreen: 'rgb(131, 178, 64)',
+              capinBlue: 'rgb(50, 110, 170)',
+              capinGrey: 'rgb(201, 203, 207)'
+            }
+          }
+        },
+        darkMode: 'media',
+      };
     </script>
     <!--FUNCTIONS SCRIPTS-->
     <script src="./components/_utility.js"></script>
