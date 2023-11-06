@@ -35,7 +35,7 @@ document.getElementById('nav').innerHTML = `
             ></path>
           </svg>
         </button>
-        <div class='flex ml-2 md:mr-24'>
+        <a href='http://localhost:1313/' class='flex ml-2 md:mr-24'>
           <img
             src='https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0'
             class='h-8 mr-3'
@@ -44,7 +44,7 @@ document.getElementById('nav').innerHTML = `
           <span class='self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white'>
             International
           </span>
-        </div>
+        </a>
       </div>
       <div class='flex items-center cursor-pointer'>
       <div

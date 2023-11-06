@@ -35,7 +35,7 @@ document.getElementById('nav').innerHTML = `
             ></path>
           </svg>
         </button>
-        <div class='flex ml-2 md:mr-24'>
+        <a href='http://localhost:1313/' class='flex ml-2 md:mr-24'>
           <img
             src='https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0'
             class='h-8 mr-3'
@@ -44,7 +44,7 @@ document.getElementById('nav').innerHTML = `
           <span class='self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white'>
             International
           </span>
-        </div>
+        </a>
       </div>
       <div class='flex items-center cursor-pointer'>
       <div
@@ -188,7 +188,7 @@ document.addEventListener('click', (event) => {
 
 });
 
-const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
+const addRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
   const optionsListRegion = document.getElementById('options-list-region');
 
   regionsArray.forEach((regionObject) => {
@@ -205,7 +205,7 @@ const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'checkbox');
     newInput.setAttribute('id', `option-${regionString}`);
-    newInput.setAttribute('class', 'form-checkbox h-4 w-4 text-gray-600 mr-2 rounded');
+    newInput.setAttribute('class', 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 mr-2');
     newInput.setAttribute('value', regionString);
 
     // Add the value to selectedRegions_Array and check the input by default
