@@ -698,12 +698,7 @@ const addTableColumnsToReport = (tableHeader, yearsArray) => {
   });
 };
 
-const insertDataIntoObject = (year, object, dataKey, record, child) => {
-
-  const innerData = record.querySelector(
-    child
-  ).textContent;
-
+const findYearInObject = (year, object, innerData, dataKey) => {
   if (!object[dataKey]) {
     object[dataKey] = {};
   }
@@ -717,61 +712,56 @@ const processEnrollmentData = (years, data, records) => {
   const object = {};
 
   years.forEach((year) => {
-    const filteredPeerRecords = [...records].filter((record) => {
+    const filteredRecords = [...records].filter((record) => {
       const fiscalYear = record.querySelector(
         'fiscal_ye_date_formatted_year'
       ).textContent;
       return fiscalYear.includes(year.toString());
     });
 
-    filteredPeerRecords.forEach((record) => {
-
-      insertDataIntoObject(
-        year,
-        object,
-        'studentAverageEnrollment_Peer',
-        record, 
-        '_01_ratio_students_enrollment'
-      );
-
-      insertDataIntoObject(
-        year,
-        object,
-        'studentAverageEnrollment_Peak_Peer', 
-        record, 
-        '_01_yes_no_students_enrollment'
-      );
-
-
-
-      const studentsPeakEnrollment = record.querySelector(
-        '_01c_ratio_students_enrollment_peak_enrolmment'
+    filteredRecords.forEach((record) => {
+      const clientName = record.querySelector(
+        'client___merged_client_name'
       ).textContent;
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+      const ratioStudentsEnrollment = record.querySelector(
+        '_01_ratio_students_enrollment'
+      ).textContent;
+      const yesNoStudentsEnrollment = record.querySelector(
+        '_01_yes_no_students_enrollment'
+      ).textContent;
+    });
+
+    const matchingData = data.filter(
+      (item) => item.children.year.innerHTML === year.toString()
+    );
+
+    matchingData.forEach((item) => {
+      const {
+        students: studentsPeer,
+        'students - percent change': percentChangePeer,
+        'students - average enrollment': averageEnrollmentPeer,
+        'students - peak enrollment': peakEnrollmentPeer,
+        'student/faculty ratio': studentFacultyRatioPeer
+      } = item.children;
+
+      const year = item.children.year.innerHTML;
 
       findYearInObject(
         year,
         object,
-        studentsPeakEnrollment.innerHTML,
-        'studentAverageEnrollment_PercentChange_Peer'
+        studentsPeer.innerHTML,
+        'studentAverageEnrollment_Main'
+      );
+      findYearInObject(
+        year,
+        object,
+        percentChangePeer.innerHTML,
+        'studentAverageEnrollment_PercentChange_Main'
       );
     });
-
-
-  });
-
-  const matchingData = data.filter(
-    (item) => item.children.year.innerHTML === year.toString()
-  );
-  matchingData.forEach((item) => {
-    const {
-      students: studentsPeer,
-      'students - percent change': percentChangePeer,
-      'students - average enrollment': averageEnrollmentPeer,
-      'students - peak enrollment': peakEnrollmentPeer,
-      'student/faculty ratio': studentFacultyRatioPeer
-    } = item.children;
-
-    const year = item.children.year.innerHTML;
 
     const matchingClientData = clientData.filter(
       (item) => item.children.year.innerHTML === year.toString()

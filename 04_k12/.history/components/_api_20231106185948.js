@@ -698,7 +698,7 @@ const addTableColumnsToReport = (tableHeader, yearsArray) => {
   });
 };
 
-const insertDataIntoObject = (year, object, dataKey, record, child) => {
+const findYearInObject = (year, object, dataKey, record, child) => {
 
   const innerData = record.querySelector(
     child
@@ -725,24 +725,28 @@ const processEnrollmentData = (years, data, records) => {
     });
 
     filteredPeerRecords.forEach((record) => {
+      const ratioStudentsEnrollment = record.querySelector(
+        '_01_ratio_students_enrollment'
+      ).textContent;
 
-      insertDataIntoObject(
+      findYearInObject(
         year,
         object,
-        'studentAverageEnrollment_Peer',
+        'studentAverageEnrollment_Main',
         record, 
         '_01_ratio_students_enrollment'
       );
 
-      insertDataIntoObject(
+      const ratioStudentsEnrollment = record.querySelector(
+        '_01_ratio_students_enrollment'
+      ).textContent;
+
+      findYearInObject(
         year,
         object,
-        'studentAverageEnrollment_Peak_Peer', 
-        record, 
-        '_01_yes_no_students_enrollment'
+        ratioStudentsEnrollment,
+        'studentAverageEnrollment_Main'
       );
-
-
 
       const studentsPeakEnrollment = record.querySelector(
         '_01c_ratio_students_enrollment_peak_enrolmment'
@@ -752,7 +756,18 @@ const processEnrollmentData = (years, data, records) => {
         year,
         object,
         studentsPeakEnrollment.innerHTML,
-        'studentAverageEnrollment_PercentChange_Peer'
+        'studentAverageEnrollment_PercentChange_Main'
+      );
+
+      const studentsPeakEnrollment = record.querySelector(
+        '_01c_ratio_students_enrollment_peak_enrolmment'
+      ).textContent;
+
+      findYearInObject(
+        year,
+        object,
+        studentsPeakEnrollment.innerHTML,
+        'studentAverageEnrollment_PercentChange_Main'
       );
     });
 

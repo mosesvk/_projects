@@ -1,4 +1,4 @@
-const xmlPeerString = `
+const xmlString = `
 <qdbapi>
   <record>
     <client___merged_client_name>CapinIT</client___merged_client_name>
@@ -127,10 +127,11 @@ const xmlPeerString = `
     <update_id>1698859871348</update_id>
   </record>
 </qdbapi>;
-`;
+`
 const parser = new DOMParser();
-const xmlPeerDoc = parser.parseFromString(xmlPeerString, 'text/xml');
-const recordsPeer = xmlPeerDoc.querySelectorAll('record');
+const xmlDoc = parser.parseFromString(xmlString, 'text/xml')
+const records = xmlDoc.querySelectorAll('record');
+console.log(records)
 
 const data = [
   {
@@ -698,12 +699,7 @@ const addTableColumnsToReport = (tableHeader, yearsArray) => {
   });
 };
 
-const insertDataIntoObject = (year, object, dataKey, record, child) => {
-
-  const innerData = record.querySelector(
-    child
-  ).textContent;
-
+const findYearInObject = (year, object, innerData, dataKey) => {
   if (!object[dataKey]) {
     object[dataKey] = {};
   }
@@ -713,65 +709,37 @@ const insertDataIntoObject = (year, object, dataKey, record, child) => {
   object[dataKey][year].push(innerData);
 };
 
-const processEnrollmentData = (years, data, records) => {
+const processEnrollmentData = (years, data) => {
   const object = {};
 
   years.forEach((year) => {
-    const filteredPeerRecords = [...records].filter((record) => {
-      const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
-      ).textContent;
-      return fiscalYear.includes(year.toString());
-    });
+    const matchingData = data.filter(
+      (item) => item.children.year.innerHTML === year.toString()
+    );
+    matchingData.forEach((item) => {
+      const {
+        students: studentsPeer,
+        'students - percent change': percentChangePeer,
+        'students - average enrollment': averageEnrollmentPeer,
+        'students - peak enrollment': peakEnrollmentPeer,
+        'student/faculty ratio': studentFacultyRatioPeer
+      } = item.children;
 
-    filteredPeerRecords.forEach((record) => {
-
-      insertDataIntoObject(
-        year,
-        object,
-        'studentAverageEnrollment_Peer',
-        record, 
-        '_01_ratio_students_enrollment'
-      );
-
-      insertDataIntoObject(
-        year,
-        object,
-        'studentAverageEnrollment_Peak_Peer', 
-        record, 
-        '_01_yes_no_students_enrollment'
-      );
-
-
-
-      const studentsPeakEnrollment = record.querySelector(
-        '_01c_ratio_students_enrollment_peak_enrolmment'
-      ).textContent;
+      const year = item.children.year.innerHTML;
 
       findYearInObject(
         year,
         object,
-        studentsPeakEnrollment.innerHTML,
-        'studentAverageEnrollment_PercentChange_Peer'
+        studentsPeer.innerHTML,
+        'studentAverageEnrollment_Main'
+      );
+      findYearInObject(
+        year,
+        object,
+        percentChangePeer.innerHTML,
+        'studentAverageEnrollment_PercentChange_Main'
       );
     });
-
-
-  });
-
-  const matchingData = data.filter(
-    (item) => item.children.year.innerHTML === year.toString()
-  );
-  matchingData.forEach((item) => {
-    const {
-      students: studentsPeer,
-      'students - percent change': percentChangePeer,
-      'students - average enrollment': averageEnrollmentPeer,
-      'students - peak enrollment': peakEnrollmentPeer,
-      'student/faculty ratio': studentFacultyRatioPeer
-    } = item.children;
-
-    const year = item.children.year.innerHTML;
 
     const matchingClientData = clientData.filter(
       (item) => item.children.year.innerHTML === year.toString()
@@ -821,7 +789,9 @@ const runApiMain = () => {
 
       processReportData();
 
-      processEnrollmentData(selectedYears, data, records);
+      console.log(data);
+
+      processEnrollmentData(selectedYears, data);
 
       // After processing, save selectedYears_Set to localStorage
       const selectedYearsArray = Array.from(selectedYears_Set).sort(

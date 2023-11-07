@@ -1,133 +1,28 @@
-const xmlPeerString = `
-<qdbapi>
-  <record>
-    <client___merged_client_name>CapinIT</client___merged_client_name>
-    <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
-    <_01_ratio_students_enrollment>2000</_01_ratio_students_enrollment>
-    <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-    <_01a_ratio_students_enrollment___change />
-    <_01b_ratio_students_enrollment_average />
-    <_01c_ratio_students_enrollment_peak_enrolmment>
-      7000
-    </_01c_ratio_students_enrollment_peak_enrolmment>
-    <_01c_yes_no_students_enrollment_peak_enrolmment>
-      Yes
-    </_01c_yes_no_students_enrollment_peak_enrolmment>
-    <_02_ratio_student_faculty_ratio>11.5000</_02_ratio_student_faculty_ratio>
-    <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-    <_01_03_ft_teachers>12000</_01_03_ft_teachers>
-    <_01_05_pt_teachers>22000</_01_05_pt_teachers>
-    <_01_01_students_average_enrollment>
-      2000
-    </_01_01_students_average_enrollment>
-    <update_id>1698859871348</update_id>
-  </record>
-  <record>
-    <client___merged_client_name>CapinIT</client___merged_client_name>
-    <fiscal_ye_date_formatted_year>2020</fiscal_ye_date_formatted_year>
-    <_01_ratio_students_enrollment>9000</_01_ratio_students_enrollment>
-    <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-    <_01a_ratio_students_enrollment___change>
-      3.500
-    </_01a_ratio_students_enrollment___change>
-    <_01b_ratio_students_enrollment_average>
-      5500
-    </_01b_ratio_students_enrollment_average>
-    <_01c_ratio_students_enrollment_peak_enrolmment>
-      19000
-    </_01c_ratio_students_enrollment_peak_enrolmment>
-    <_01c_yes_no_students_enrollment_peak_enrolmment>
-      Yes
-    </_01c_yes_no_students_enrollment_peak_enrolmment>
-    <_02_ratio_student_faculty_ratio>5.9444</_02_ratio_student_faculty_ratio>
-    <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-    <_01_03_ft_teachers>29000</_01_03_ft_teachers>
-    <_01_05_pt_teachers>49000</_01_05_pt_teachers>
-    <_01_01_students_average_enrollment>
-      9000
-    </_01_01_students_average_enrollment>
-    <update_id>1698859871348</update_id>
-  </record>
-  <record>
-    <client___merged_client_name>CapinIT</client___merged_client_name>
-    <fiscal_ye_date_formatted_year>2021</fiscal_ye_date_formatted_year>
-    <_01_ratio_students_enrollment>8462</_01_ratio_students_enrollment>
-    <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-    <_01a_ratio_students_enrollment___change>
-      -0.060
-    </_01a_ratio_students_enrollment___change>
-    <_01b_ratio_students_enrollment_average>
-      8731
-    </_01b_ratio_students_enrollment_average>
-    <_01c_ratio_students_enrollment_peak_enrolmment>
-      20000
-    </_01c_ratio_students_enrollment_peak_enrolmment>
-    <_01c_yes_no_students_enrollment_peak_enrolmment>
-      Yes
-    </_01c_yes_no_students_enrollment_peak_enrolmment>
-    <_02_ratio_student_faculty_ratio>6.9545</_02_ratio_student_faculty_ratio>
-    <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-    <_01_03_ft_teachers>31538.461538462</_01_03_ft_teachers>
-    <_01_05_pt_teachers>54615.384615385</_01_05_pt_teachers>
-    <_01_01_students_average_enrollment>
-      8462
-    </_01_01_students_average_enrollment>
-    <update_id>1698859871348</update_id>
-  </record>
-  <record>
-    <client___merged_client_name>CapinIT</client___merged_client_name>
-    <fiscal_ye_date_formatted_year>2022</fiscal_ye_date_formatted_year>
-    <_01_ratio_students_enrollment>6487</_01_ratio_students_enrollment>
-    <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-    <_01a_ratio_students_enrollment___change>
-      -0.233
-    </_01a_ratio_students_enrollment___change>
-    <_01b_ratio_students_enrollment_average>
-      7475
-    </_01b_ratio_students_enrollment_average>
-    <_01c_ratio_students_enrollment_peak_enrolmment>
-      15333
-    </_01c_ratio_students_enrollment_peak_enrolmment>
-    <_01c_yes_no_students_enrollment_peak_enrolmment>
-      Yes
-    </_01c_yes_no_students_enrollment_peak_enrolmment>
-    <_02_ratio_student_faculty_ratio>6.9545</_02_ratio_student_faculty_ratio>
-    <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-    <_01_03_ft_teachers>24179.487179487</_01_03_ft_teachers>
-    <_01_05_pt_teachers>41871.794871795</_01_05_pt_teachers>
-    <_01_01_students_average_enrollment>
-      6487
-    </_01_01_students_average_enrollment>
-    <update_id>1698859871348</update_id>
-  </record>
-  <record>
-    <client___merged_client_name>CapinIT</client___merged_client_name>
-    <fiscal_ye_date_formatted_year>2023</fiscal_ye_date_formatted_year>
-    <_01_ratio_students_enrollment>5709</_01_ratio_students_enrollment>
-    <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-    <_01a_ratio_students_enrollment___change>
-      -0.120
-    </_01a_ratio_students_enrollment___change>
-    <_01b_ratio_students_enrollment_average>
-      6098
-    </_01b_ratio_students_enrollment_average>
-    <_01c_ratio_students_enrollment_peak_enrolmment>
-      13493
-    </_01c_ratio_students_enrollment_peak_enrolmment>
-    <_01c_yes_no_students_enrollment_peak_enrolmment>
-      Yes
-    </_01c_yes_no_students_enrollment_peak_enrolmment>
-    <_02_ratio_student_faculty_ratio>6.9545</_02_ratio_student_faculty_ratio>
-    <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-    <_01_03_ft_teachers>21277.948717949</_01_03_ft_teachers>
-    <_01_05_pt_teachers>36847.179487179</_01_05_pt_teachers>
-    <_01_01_students_average_enrollment>
-      5709
-    </_01_01_students_average_enrollment>
-    <update_id>1698859871348</update_id>
-  </record>
-</qdbapi>;
-`;
+const xmlPeerString = (
+  <qdbapi>
+    <record>
+      <client___merged_client_name>CapinIT</client___merged_client_name>
+      <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
+      <_01_ratio_students_enrollment>2000</_01_ratio_students_enrollment>
+      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
+      <_01c_ratio_students_enrollment_peak_enrolmment>
+        7000
+      </_01c_ratio_students_enrollment_peak_enrolmment>
+      <_01c_yes_no_students_enrollment_peak_enrolmment>
+        Yes
+      </_01c_yes_no_students_enrollment_peak_enrolmment>
+      <_02_ratio_student_faculty_ratio>11.5000</_02_ratio_student_faculty_ratio>
+      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
+      <_01_03_ft_teachers>12000</_01_03_ft_teachers>
+      <_01_05_pt_teachers>22000</_01_05_pt_teachers>
+      <_01_01_students_average_enrollment>
+        2000
+      </_01_01_students_average_enrollment>
+      <update_id>1698859871348</update_id>
+    </record>
+  </qdbapi>
+);
+
 const parser = new DOMParser();
 const xmlPeerDoc = parser.parseFromString(xmlPeerString, 'text/xml');
 const recordsPeer = xmlPeerDoc.querySelectorAll('record');
@@ -699,10 +594,7 @@ const addTableColumnsToReport = (tableHeader, yearsArray) => {
 };
 
 const insertDataIntoObject = (year, object, dataKey, record, child) => {
-
-  const innerData = record.querySelector(
-    child
-  ).textContent;
+  const innerData = record.querySelector(child).textContent;
 
   if (!object[dataKey]) {
     object[dataKey] = {};
@@ -725,24 +617,21 @@ const processEnrollmentData = (years, data, records) => {
     });
 
     filteredPeerRecords.forEach((record) => {
-
       insertDataIntoObject(
         year,
         object,
         'studentAverageEnrollment_Peer',
-        record, 
+        record,
         '_01_ratio_students_enrollment'
       );
 
       insertDataIntoObject(
         year,
         object,
-        'studentAverageEnrollment_Peak_Peer', 
-        record, 
+        'studentAverageEnrollment_Peak_Peer',
+        record,
         '_01_yes_no_students_enrollment'
       );
-
-
 
       const studentsPeakEnrollment = record.querySelector(
         '_01c_ratio_students_enrollment_peak_enrolmment'
@@ -755,8 +644,6 @@ const processEnrollmentData = (years, data, records) => {
         'studentAverageEnrollment_PercentChange_Peer'
       );
     });
-
-
   });
 
   const matchingData = data.filter(
