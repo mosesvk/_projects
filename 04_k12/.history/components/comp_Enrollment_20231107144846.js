@@ -69,9 +69,10 @@ const displayEnrollmentComponent = () => {
 
   if (savedData && selectedYears) {
     const parsedData = JSON.parse(savedData);
+    console.log(parsedData)
     createChart(
       'studentsMain_chart',
-      parsedData.studentAverageEnrollment_Peer,
+      parsedData.studentAverageEnrollment_Main,
       parsedData.studentAverageEnrollment_Client
     );
   }

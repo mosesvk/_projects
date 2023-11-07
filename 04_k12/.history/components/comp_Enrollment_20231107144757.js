@@ -71,7 +71,7 @@ const displayEnrollmentComponent = () => {
     const parsedData = JSON.parse(savedData);
     createChart(
       'studentsMain_chart',
-      parsedData.studentAverageEnrollment_Peer,
+      parsedData.studentAverageEnrollment_Main,
       parsedData.studentAverageEnrollment_Client
     );
   }

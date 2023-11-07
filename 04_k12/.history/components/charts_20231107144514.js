@@ -28,8 +28,11 @@ const getMainChartOptions = (dataPeer, dataClient) => {
 
 
   let selectedYearsArray = getSelectedYearsFromLocalStorage();
+  console.log(selectedYearsArray)
+
 
   selectedYearsArray.forEach((year) => {
+    console.log(year)
     // Check if the dataPeer array for the selected year exists
     if (dataPeer[year]) {
       const array = dataPeer[year];

@@ -108,6 +108,7 @@ const selectedRegions_Array = [];
 const createChart = (chartId, dataPeer, dataClient) => {
   const chart = new ApexCharts(
     document.getElementById(chartId),
+    console.log('createChart', dataPeer)
     getMainChartOptions(dataPeer, dataClient)
   );
 
@@ -194,20 +195,16 @@ window.chartColors = {
 };
 
 const findUniqueYears = (data) => {
+  data.forEach((item) => {
+    const year = item.children.year.innerHTML;
 
-  recordsClient.forEach((item) => {
-    const yearElement = item.querySelector('fiscal_ye_date_formatted_year');
-    if (yearElement) {
-      const year = yearElement.textContent;
-
-      // Check if the year is not already in yearsData_Array to ensure uniqueness
-      if (!yearsData_Array.includes(year)) {
-        yearsData_Array.push(year);
-      }
+    // Check if the year is not already in yearsDataArray to ensure uniqueness
+    if (!yearsData_Array.includes(year)) {
+      yearsData_Array.push(year);
     }
-  });
 
-  yearsData_Array.sort();
+    yearsData_Array.sort();
+  });
 
   //nav-component
   addUniqueYearsToOptionsSelectDropdown(yearsData_Array);

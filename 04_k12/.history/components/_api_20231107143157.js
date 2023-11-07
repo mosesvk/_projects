@@ -102,7 +102,7 @@ const xmlPeerString = `
   </record>
 </qdbapi>;
 `;
-const xmlClientString = (`
+const xmlClientString = (
   <qdbapi>
     <record>
       <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
@@ -181,13 +181,14 @@ const xmlClientString = (`
       <update_id>1698853160919</update_id>
     </record>
   </qdbapi>
-`);
+);
+
 const parser = new DOMParser();
 const parserClient = new DOMParser();
 const xmlPeerDoc = parser.parseFromString(xmlPeerString, 'text/xml');
 const xmlClientDoc = parser.parseFromString(xmlClientString, 'text/xml');
 const recordsPeer = xmlPeerDoc.querySelectorAll('record');
-const recordsClient = xmlClientDoc.querySelectorAll('record');
+const recordsClient = xmlPeerDoc.querySelectorAll('record');
 
 const data = [
   {
@@ -726,7 +727,7 @@ const clientData = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  findUniqueYears(recordsClient);
+  findUniqueYears(data);
 
   addUniqueRegionsToOptionsSelectRegionDropdown(regions_Array);
 
@@ -736,11 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const insertDataIntoObject = (year, object, dataKey, record, child) => {
-
-  const innerData =
-    record.querySelector(child).textContent !== null
-      ? record.querySelector(child).textContent !== null
-      : 0;
+  const innerData = record.querySelector(child).textContent;
 
   if (!object[dataKey]) {
     object[dataKey] = {};
@@ -754,19 +751,13 @@ const insertDataIntoObject = (year, object, dataKey, record, child) => {
 const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
   const object = {};
 
-
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector(
         'fiscal_ye_date_formatted_year'
       ).textContent;
-      const yesNoField = record.querySelector(
-        '_01_yes_no_students_enrollment'
-      ).textContent;
-
-      return fiscalYear.includes(year.toString()) && yesNoField == 'Yes';
+      return fiscalYear.includes(year.toString());
     });
-
     filteredPeerRecords.forEach((record) => {
       insertDataIntoObject(
         year,
@@ -779,7 +770,7 @@ const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
       insertDataIntoObject(
         year,
         object,
-        'studentAverageEnrollment_YesNo_Peer',
+        'studentAverageEnrollment_Peak_Peer',
         record,
         '_01_yes_no_students_enrollment'
       );
@@ -787,57 +778,56 @@ const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
       insertDataIntoObject(
         year,
         object,
-        'studentAverageEnrollment_Peak_Peer',
+        'studentAverageEnrollment_PercentChange_Peer',
         record,
         '_01c_ratio_students_enrollment_peak_enrolmment'
       );
     });
 
-    const filteredClientRecords = [...recordsClient].filter((record) => {
-      const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
-      ).textContent;
-      return fiscalYear.includes(year.toString());
-    });
-    filteredClientRecords.forEach((record) => {
-      insertDataIntoObject(
-        year,
-        object,
-        'studentAverageEnrollment_Client',
-        record,
-        '_01_ratio_students_enrollment'
-      );
+    const filteredClientRecords = [...recordsClient].filter((record) => {});
 
-      insertDataIntoObject(
-        year,
-        object,
-        'studentAverageEnrollment_PercentChange_Client',
-        record,
-        '_01a_ratio_students_enrollment___change'
-      );
+    // const matchingData = data.filter(
+    //   (item) => item.children.year.innerHTML === year.toString()
+    // );
+    // matchingData.forEach((item) => {
+    //   const {
+    //     students: studentsPeer,
+    //     'students - percent change': percentChangePeer,
+    //     'students - average enrollment': averageEnrollmentPeer,
+    //     'students - peak enrollment': peakEnrollmentPeer,
+    //     'student/faculty ratio': studentFacultyRatioPeer
+    //   } = item.children;
 
-      insertDataIntoObject(
-        year,
-        object,
-        'studentAverageEnrollment_Average_Client',
-        record,
-        '_01b_ratio_students_enrollment_average'
-      );
-      insertDataIntoObject(
-        year,
-        object,
-        'studentAverageEnrollment_Peak_Client',
-        record,
-        '_01c_ratio_students_enrollment_peak_enrolmment'
-      );
-      insertDataIntoObject(
-        year,
-        object,
-        'studentFacilityRatio_Client',
-        record,
-        '_02_ratio_student_faculty_ratio'
-      );
-    });
+    //   const year = item.children.year.innerHTML;
+
+    //   const matchingClientData = clientData.filter(
+    //     (item) => item.children.year.innerHTML === year.toString()
+    //   );
+    //   matchingClientData.forEach((item) => {
+    //     const {
+    //       students: studentsClient,
+    //       'students - percent change': percentChangeClient,
+    //       'students - average enrollment': averageEnrollmentClient,
+    //       'students - peak enrollment': peakEnrollmentClient,
+    //       'student/faculty ratio': studentFacultyRatioClient
+    //     } = item.children;
+
+    //     const year = item.children.year.innerHTML;
+
+    //     findYearInObject(
+    //       year,
+    //       object,
+    //       studentsClient.innerHTML,
+    //       'studentAverageEnrollment_Client'
+    //     );
+    //     findYearInObject(
+    //       year,
+    //       object,
+    //       percentChangeClient.innerHTML,
+    //       'studentAverageEnrollment_PercentChange_Client'
+    //     );
+    //   });
+    // });
   });
 
   localStorage.removeItem('enrollmentData');
@@ -889,5 +879,7 @@ const runApiMain = () => {
     } catch (err) {
       console.error(err);
     }
+
+    console.log(JSON.parse(localStorage.getItem('enrollmentData')));
   });
 };

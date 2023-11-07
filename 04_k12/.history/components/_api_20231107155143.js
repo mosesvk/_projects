@@ -102,7 +102,7 @@ const xmlPeerString = `
   </record>
 </qdbapi>;
 `;
-const xmlClientString = (`
+const xmlClientString = (
   <qdbapi>
     <record>
       <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
@@ -181,13 +181,13 @@ const xmlClientString = (`
       <update_id>1698853160919</update_id>
     </record>
   </qdbapi>
-`);
+);
 const parser = new DOMParser();
 const parserClient = new DOMParser();
 const xmlPeerDoc = parser.parseFromString(xmlPeerString, 'text/xml');
 const xmlClientDoc = parser.parseFromString(xmlClientString, 'text/xml');
 const recordsPeer = xmlPeerDoc.querySelectorAll('record');
-const recordsClient = xmlClientDoc.querySelectorAll('record');
+const recordsClient = xmlPeerDoc.querySelectorAll('record');
 
 const data = [
   {
@@ -726,7 +726,7 @@ const clientData = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  findUniqueYears(recordsClient);
+  findUniqueYears(data);
 
   addUniqueRegionsToOptionsSelectRegionDropdown(regions_Array);
 
@@ -736,7 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const insertDataIntoObject = (year, object, dataKey, record, child) => {
-
+  console.log(object, record, child);
   const innerData =
     record.querySelector(child).textContent !== null
       ? record.querySelector(child).textContent !== null
@@ -754,7 +754,6 @@ const insertDataIntoObject = (year, object, dataKey, record, child) => {
 const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
   const object = {};
 
-
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector(
@@ -764,9 +763,8 @@ const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
         '_01_yes_no_students_enrollment'
       ).textContent;
 
-      return fiscalYear.includes(year.toString()) && yesNoField == 'Yes';
+      return fiscalYear.includes(year.toString()) && yesNoField === 'yes';
     });
-
     filteredPeerRecords.forEach((record) => {
       insertDataIntoObject(
         year,

@@ -754,6 +754,7 @@ const insertDataIntoObject = (year, object, dataKey, record, child) => {
 const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
   const object = {};
 
+  console.log(recordsPeer)
 
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
@@ -764,9 +765,8 @@ const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
         '_01_yes_no_students_enrollment'
       ).textContent;
 
-      return fiscalYear.includes(year.toString()) && yesNoField == 'Yes';
+      return fiscalYear.includes(year.toString()) && yesNoField === 'yes';
     });
-
     filteredPeerRecords.forEach((record) => {
       insertDataIntoObject(
         year,

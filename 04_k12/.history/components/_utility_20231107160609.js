@@ -194,6 +194,7 @@ window.chartColors = {
 };
 
 const findUniqueYears = (data) => {
+  const yearsDataArray = [];
 
   recordsClient.forEach((item) => {
     const yearElement = item.querySelector('fiscal_ye_date_formatted_year');

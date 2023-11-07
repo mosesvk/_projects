@@ -102,7 +102,7 @@ const xmlPeerString = `
   </record>
 </qdbapi>;
 `;
-const xmlClientString = (`
+const xmlClientString = (
   <qdbapi>
     <record>
       <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
@@ -148,46 +148,14 @@ const xmlClientString = (`
       <_02_ratio_student_faculty_ratio>6.9545</_02_ratio_student_faculty_ratio>
       <update_id>1698853160919</update_id>
     </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2022</fiscal_ye_date_formatted_year>
-      <related_client>3197</related_client>
-      <_01_ratio_students_enrollment>6487</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        -0.233
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        7475
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        15333
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>6.9545</_02_ratio_student_faculty_ratio>
-      <update_id>1698853160919</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2023</fiscal_ye_date_formatted_year>
-      <related_client>3197</related_client>
-      <_01_ratio_students_enrollment>5709</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        -0.120
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        6098
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        13493
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>6.9545</_02_ratio_student_faculty_ratio>
-      <update_id>1698853160919</update_id>
-    </record>
   </qdbapi>
-`);
+);
 const parser = new DOMParser();
 const parserClient = new DOMParser();
 const xmlPeerDoc = parser.parseFromString(xmlPeerString, 'text/xml');
 const xmlClientDoc = parser.parseFromString(xmlClientString, 'text/xml');
 const recordsPeer = xmlPeerDoc.querySelectorAll('record');
-const recordsClient = xmlClientDoc.querySelectorAll('record');
+const recordsClient = xmlPeerDoc.querySelectorAll('record');
 
 const data = [
   {
@@ -726,7 +694,7 @@ const clientData = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  findUniqueYears(recordsClient);
+  findUniqueYears(data);
 
   addUniqueRegionsToOptionsSelectRegionDropdown(regions_Array);
 
@@ -736,7 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const insertDataIntoObject = (year, object, dataKey, record, child) => {
-
+  console.log(object, record, child);
   const innerData =
     record.querySelector(child).textContent !== null
       ? record.querySelector(child).textContent !== null
@@ -754,7 +722,6 @@ const insertDataIntoObject = (year, object, dataKey, record, child) => {
 const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
   const object = {};
 
-
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector(
@@ -764,9 +731,8 @@ const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
         '_01_yes_no_students_enrollment'
       ).textContent;
 
-      return fiscalYear.includes(year.toString()) && yesNoField == 'Yes';
+      return fiscalYear.includes(year.toString()) && yesNoField === 'yes';
     });
-
     filteredPeerRecords.forEach((record) => {
       insertDataIntoObject(
         year,

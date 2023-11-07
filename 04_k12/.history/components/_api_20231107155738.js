@@ -726,7 +726,7 @@ const clientData = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  findUniqueYears(recordsClient);
+  findUniqueYears(data);
 
   addUniqueRegionsToOptionsSelectRegionDropdown(regions_Array);
 
@@ -754,7 +754,6 @@ const insertDataIntoObject = (year, object, dataKey, record, child) => {
 const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
   const object = {};
 
-
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector(
@@ -764,9 +763,8 @@ const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
         '_01_yes_no_students_enrollment'
       ).textContent;
 
-      return fiscalYear.includes(year.toString()) && yesNoField == 'Yes';
+      return fiscalYear.includes(year.toString()) && yesNoField === 'yes';
     });
-
     filteredPeerRecords.forEach((record) => {
       insertDataIntoObject(
         year,
@@ -839,6 +837,8 @@ const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
       );
     });
   });
+
+  console.log(object)
 
   localStorage.removeItem('enrollmentData');
   localStorage.setItem('enrollmentData', JSON.stringify(object));
