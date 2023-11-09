@@ -204,7 +204,7 @@ const insertDataIntoObject = (year, object, dataKey, record, child) => {
 
   const innerData =
     record.querySelector(child).textContent !== null
-      ? record.querySelector(child).textContent
+      ? record.querySelector(child).textContent !== null
       : 0;
   console.log(innerData)
 

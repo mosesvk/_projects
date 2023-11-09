@@ -204,9 +204,8 @@ const insertDataIntoObject = (year, object, dataKey, record, child) => {
 
   const innerData =
     record.querySelector(child).textContent !== null
-      ? record.querySelector(child).textContent
+      ? record.querySelector(child).textContent !== null
       : 0;
-  console.log(innerData)
 
   if (!object[dataKey]) {
     object[dataKey] = {};
@@ -217,7 +216,7 @@ const insertDataIntoObject = (year, object, dataKey, record, child) => {
   object[dataKey][year].push(innerData);
 };
 
-const processEnrollmentData = (years, recordsPeer, recordsClient) => {
+const processEnrollmentData = (years, data, recordsPeer, recordsClient) => {
   const object = {};
 
 
@@ -345,7 +344,7 @@ const runApiMain = () => {
 
       processReportData();
 
-      processEnrollmentData(selectedYears, recordsPeer, recordsClient);
+      processEnrollmentData(selectedYears, data, recordsPeer, recordsClient);
 
       // After processing, save selectedYears_Set to localStorage
       const selectedYearsArray = Array.from(selectedYears_Set).sort(
