@@ -189,6 +189,7 @@ const xmlClientDoc = parser.parseFromString(xmlClientString, 'text/xml');
 const recordsPeer = xmlPeerDoc.querySelectorAll('record');
 const recordsClient = xmlClientDoc.querySelectorAll('record');
 
+
 document.addEventListener('DOMContentLoaded', () => {
   findUniqueYears(recordsClient);
 
@@ -200,16 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const insertDataIntoObject = (year, object, dataKey, record, child) => {
+
   const innerData =
-  record.querySelector(child).innerHTML.split('').length > 0
-  ? record.querySelector(child).innerHTML.trim()
-  : 0;
-  
-  if (dataKey == 'studentAverageEnrollment_Client') {
-    // console.log(innerData)
-    // console.log(record.querySelector(child).innerHTML.split('') > 0)
-    // console.log(record.querySelector(child).innerHTML.trim());
-  }
+    record.querySelector(child).textContent !== null
+      ? record.querySelector(child).textContent
+      : 0;
+
   if (!object[dataKey]) {
     object[dataKey] = {};
   }
@@ -221,6 +218,7 @@ const insertDataIntoObject = (year, object, dataKey, record, child) => {
 
 const processEnrollmentData = (years, recordsPeer, recordsClient) => {
   const object = {};
+
 
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
@@ -235,7 +233,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
     });
 
     filteredPeerRecords.forEach((record) => {
-      console.log(record);
       insertDataIntoObject(
         year,
         object,

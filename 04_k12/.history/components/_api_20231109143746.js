@@ -235,7 +235,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
     });
 
     filteredPeerRecords.forEach((record) => {
-      console.log(record);
       insertDataIntoObject(
         year,
         object,

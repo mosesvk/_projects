@@ -233,9 +233,8 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 
       return fiscalYear.includes(year.toString()) && yesNoField == 'Yes';
     });
-
+    console.log(filteredPeerRecords);
     filteredPeerRecords.forEach((record) => {
-      console.log(record);
       insertDataIntoObject(
         year,
         object,

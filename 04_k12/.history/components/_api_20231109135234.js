@@ -200,16 +200,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const insertDataIntoObject = (year, object, dataKey, record, child) => {
+  if (dataKey == 'studentAverageEnrollment_Average_Client')
+    console.log(record.querySelector(child).innerHTML);
   const innerData =
-  record.querySelector(child).innerHTML.split('').length > 0
-  ? record.querySelector(child).innerHTML.trim()
-  : 0;
-  
-  if (dataKey == 'studentAverageEnrollment_Client') {
-    // console.log(innerData)
-    // console.log(record.querySelector(child).innerHTML.split('') > 0)
-    // console.log(record.querySelector(child).innerHTML.trim());
-  }
+    record.querySelector(child).innerHTML !== null
+      ? record.querySelector(child).innerHTML
+      : 0;
+
   if (!object[dataKey]) {
     object[dataKey] = {};
   }
@@ -235,7 +232,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
     });
 
     filteredPeerRecords.forEach((record) => {
-      console.log(record);
       insertDataIntoObject(
         year,
         object,

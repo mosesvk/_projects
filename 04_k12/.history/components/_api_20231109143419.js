@@ -201,14 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const insertDataIntoObject = (year, object, dataKey, record, child) => {
   const innerData =
-  record.querySelector(child).innerHTML.split('').length > 0
+  record.querySelector(child).innerHTML.split('') >= 1
   ? record.querySelector(child).innerHTML.trim()
   : 0;
   
   if (dataKey == 'studentAverageEnrollment_Client') {
-    // console.log(innerData)
-    // console.log(record.querySelector(child).innerHTML.split('') > 0)
-    // console.log(record.querySelector(child).innerHTML.trim());
+    console.log(innerData);
   }
   if (!object[dataKey]) {
     object[dataKey] = {};
@@ -235,7 +233,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
     });
 
     filteredPeerRecords.forEach((record) => {
-      console.log(record);
       insertDataIntoObject(
         year,
         object,
