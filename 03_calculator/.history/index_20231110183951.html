@@ -72,7 +72,7 @@
         <!--Main Content-->
         <div class="relative px-6 lg:px-8">
           <!--Input-->
-          <div id="inputDiv" class="mx-auto max-w-2xl pt-4 sm:pt-4 lg:pt-12">
+          <div class="mx-auto max-w-2xl pt-4 sm:pt-4 lg:pt-12">
             <h2
               class="text-center text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-2"
             >
@@ -105,7 +105,7 @@
                       type="text"
                       placeholder="0.00"
                       name="property"
-                      oninput="restrictInputValue(this, 200000);formatNumberInput(this)"
+                      oninput="formatNumberInput(this); restrictInputValue(this, 200000);"
                     />
                     <div
                       class="text-2xl absolute inset-y-0 left-2 flex items-center"
@@ -331,28 +331,6 @@
       'netCostToTaxPayerWithout'
     );
 
-    function displayAlert(message) {
-      const alertContainer = document.createElement('div');
-      alertContainer.innerHTML = `
-        <div id="alert-border-2" class="flex items-center text-center p-4  mb-4 text-red-800 border-t-4 border-red-300 bg-red-50" role="alert w-2/3">
-          <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-          </svg>
-          <div class="ms-3 text-2xl font-large">
-            ${message}
-          </div>
-        </div>
-      `;
-
-      const inputDiv = document.getElementById('inputDiv');
-      inputDiv.insertAdjacentElement('afterend', alertContainer);
-
-      // Automatically hide the alert after a few seconds
-      setTimeout(() => {
-        alertContainer.remove();
-      }, 5500); // Adjust the duration as needed
-    }
-
     function restrictInputValue(input, maxValue) {
       // Remove non-numeric characters from the input value
       const inputValue = input.value.replace(/[^0-9]/g, '');
@@ -363,13 +341,11 @@
       // Check if adding another digit would exceed the maximum or if the total number of digits is already 6
       if (numericValue > maxValue || inputValue.length >= 7) {
         // If so, prevent entering the digit
-        input.value = input.value.slice(0, -1);
-        displayAlert('You cannot enter more digits as it will increase the Colorado Childcare Tax Credit Amount ')
+        input.value = inputValue.slice(0, -1).toLocaleString();
       } else {
         // If not, format the input value
         input.value = numericValue.toLocaleString();
       }
-      console.log('input.value', input.value);
     }
 
     let fedTaxRateVal = 0.35;
@@ -393,30 +369,21 @@
     }
 
     function updateCalculations(fedTaxRateVal, prevVal) {
-      // Assuming `input` is defined somewhere in the code. If not, it needs to be defined.
-      const input = document.getElementById('donationAmount');
-
       // Remove existing commas and non-numeric characters
       const inputValue = input.value.replace(/[^0-9]/g, '');
 
       // Format the value with commas
       let formattedValue = parseInt(inputValue, 10);
 
-      console.log('prevVal', prevVal);
-      console.log('formattedValue', formattedValue);
-      console.log('--');
-
       if (formattedValue >= 200000) {
-        // Restore the previous value if it exceeds 200,000
-        input.value = prevVal.toLocaleString();
+        input.value = prevVal;
         formattedValue = prevVal;
       } else {
-        // Set the formatted value back into the input field
         input.value = formattedValue.toLocaleString();
       }
 
-      // Console log for debugging
-      console.log('formattedValue after update', formattedValue);
+      // console.log('formattedValue', formattedValue);
+      // console.log('----');
 
       // Dynamic value for the fed tax rate
       const fedTaxRateValue =

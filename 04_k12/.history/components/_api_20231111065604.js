@@ -1,4 +1,4 @@
-const xmlPeerString = `
+const xmlPeerString = (
   <qdbapi>
     <record>
       <client___merged_client_name>CapinIT</client___merged_client_name>
@@ -281,7 +281,7 @@ const xmlPeerString = `
       <update_id>1698859871348</update_id>
     </record>
   </qdbapi>
-`;
+);
 const xmlClientString = `
   <qdbapi>
     <record>
@@ -454,6 +454,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         record,
         '_01_ratio_students_enrollment'
       );
+
       insertDataIntoObject(
         year,
         object,
@@ -461,6 +462,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         record,
         '_01a_ratio_students_enrollment___change'
       );
+
       insertDataIntoObject(
         year,
         object,
@@ -523,7 +525,6 @@ const runApiMain = () => {
       const selectedYears = getSelectedYearsFromLocalStorage();
 
       processReportData();
-
 
       processEnrollmentData(selectedYears, recordsPeer, recordsClient);
 

@@ -72,7 +72,7 @@
         <!--Main Content-->
         <div class="relative px-6 lg:px-8">
           <!--Input-->
-          <div id="inputDiv" class="mx-auto max-w-2xl pt-4 sm:pt-4 lg:pt-12">
+          <div class="mx-auto max-w-2xl pt-4 sm:pt-4 lg:pt-12">
             <h2
               class="text-center text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-2"
             >
@@ -331,28 +331,6 @@
       'netCostToTaxPayerWithout'
     );
 
-    function displayAlert(message) {
-      const alertContainer = document.createElement('div');
-      alertContainer.innerHTML = `
-        <div id="alert-border-2" class="flex items-center text-center p-4  mb-4 text-red-800 border-t-4 border-red-300 bg-red-50" role="alert w-2/3">
-          <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-          </svg>
-          <div class="ms-3 text-2xl font-large">
-            ${message}
-          </div>
-        </div>
-      `;
-
-      const inputDiv = document.getElementById('inputDiv');
-      inputDiv.insertAdjacentElement('afterend', alertContainer);
-
-      // Automatically hide the alert after a few seconds
-      setTimeout(() => {
-        alertContainer.remove();
-      }, 5500); // Adjust the duration as needed
-    }
-
     function restrictInputValue(input, maxValue) {
       // Remove non-numeric characters from the input value
       const inputValue = input.value.replace(/[^0-9]/g, '');
@@ -364,7 +342,6 @@
       if (numericValue > maxValue || inputValue.length >= 7) {
         // If so, prevent entering the digit
         input.value = input.value.slice(0, -1);
-        displayAlert('You cannot enter more digits as it will increase the Colorado Childcare Tax Credit Amount ')
       } else {
         // If not, format the input value
         input.value = numericValue.toLocaleString();
@@ -457,6 +434,9 @@
       let valueWithout = formattedValue - sumWithout;
       netCostToTaxPayerWithout.innerHTML =
         valueWithout > 0 ? `$ ${valueWithout.toLocaleString()}` : '-';
+
+
+      
     }
   </script>
 </html>

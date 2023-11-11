@@ -454,6 +454,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         record,
         '_01_ratio_students_enrollment'
       );
+
       insertDataIntoObject(
         year,
         object,
@@ -461,6 +462,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         record,
         '_01a_ratio_students_enrollment___change'
       );
+
       insertDataIntoObject(
         year,
         object,
@@ -523,7 +525,6 @@ const runApiMain = () => {
       const selectedYears = getSelectedYearsFromLocalStorage();
 
       processReportData();
-
 
       processEnrollmentData(selectedYears, recordsPeer, recordsClient);
 
