@@ -124,6 +124,7 @@ const createDivChartandModal = (
   chartComponents,
   modalComponents
 ) => {
+
   const chartComponent = `
     <div class='p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800'>
       <div class='flex items-center justify-between mb-4'>
@@ -203,46 +204,15 @@ const createDivChartandModal = (
     </div>
   `;
 
+  
   chartComponents += chartComponent; // Append chart component HTML
   modalComponents += modalComponent; // Append modal component HTML
+  
 
   return {
     chartComponents,
     modalComponents
   };
-};
-
-const getStoredData = () => {
-  return localStorage.getItem('enrollmentData');
-};
-
-const parseStoredData = (data) => {
-  return data ? JSON.parse(data) : null;
-};
-
-const createAndAppendComponent = (
-  chartId,
-  modalId,
-  title,
-  chartComponents,
-  modalComponents
-) => {
-  const updatedComponents = createDivChartandModal(
-    chartId,
-    modalId,
-    title,
-    chartComponents,
-    modalComponents
-  );
-
-  return updatedComponents;
-};
-
-const createChartFromParsedData = (parsedData, chart, peer, client) => {
-  if (parsedData) {
-    createChart(chart, parsedData[peer], parsedData[client]);
-    // You might need to create other charts here based on the component IDs
-  }
 };
 
 const closeSidebarAfterSelectingOption = (component) => {

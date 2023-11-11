@@ -1,5 +1,6 @@
 const displayEnrollmentComponent = () => {
   const savedData = getStoredData();
+  const selectedYears = getSelectedYearsFromLocalStorage();
 
   let chartComponents = '';
   let modalComponents = '';
@@ -22,6 +23,8 @@ const displayEnrollmentComponent = () => {
   `;
 
   document.querySelector('main').innerHTML = component;
+
+  console.log(document.querySelector('main').innerHTML)
 
   createChartFromParsedData(
     parseStoredData(savedData),

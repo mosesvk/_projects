@@ -1,13 +1,14 @@
 const displayEnrollmentComponent = () => {
   const savedData = getStoredData();
+  const selectedYears = getSelectedYearsFromLocalStorage();
 
   let chartComponents = '';
   let modalComponents = '';
 
   // Call createAndAppendComponent for the first chart/modal
   ({ chartComponents, modalComponents } = createAndAppendComponent(
-    'studentsMain_chart',
-    'studentsMain_modal',
+    'studentMain_chart',
+    'studentMain_modal',
     'Students - Average Enrollment',
     chartComponents,
     modalComponents

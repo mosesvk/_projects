@@ -117,14 +117,10 @@ const createChart = (chartId, dataPeer, dataClient) => {
   });
 };
 
-const createDivChartandModal = (
-  chartId,
-  modalId,
-  title,
-  chartComponents,
-  modalComponents
-) => {
-  const chartComponent = `
+const createDivChart_andModal = (chartId, modalId, title, data) => {
+
+
+  const chartComponent = (`
     <div class='p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800'>
       <div class='flex items-center justify-between mb-4'>
         <div class='flex-shrink-0'>
@@ -153,7 +149,7 @@ const createDivChartandModal = (
 
       <div class='flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700'>
         <div class='flex-shrink-0'>
-          <button id=${modalId} class='inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600'>
+          <button class='inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600'>
             Expand Info
             <svg
               class='w-4 h-4 ml-1'
@@ -173,8 +169,8 @@ const createDivChartandModal = (
         </div>
       </div>
     </div>
-  `;
-  const modalComponent = `
+  `);
+  const modal = `
     <div id=${modalId} class='modal'>
       <div class='modal-box'>
         <div class='modal-header'>
@@ -202,47 +198,6 @@ const createDivChartandModal = (
       </div>
     </div>
   `;
-
-  chartComponents += chartComponent; // Append chart component HTML
-  modalComponents += modalComponent; // Append modal component HTML
-
-  return {
-    chartComponents,
-    modalComponents
-  };
-};
-
-const getStoredData = () => {
-  return localStorage.getItem('enrollmentData');
-};
-
-const parseStoredData = (data) => {
-  return data ? JSON.parse(data) : null;
-};
-
-const createAndAppendComponent = (
-  chartId,
-  modalId,
-  title,
-  chartComponents,
-  modalComponents
-) => {
-  const updatedComponents = createDivChartandModal(
-    chartId,
-    modalId,
-    title,
-    chartComponents,
-    modalComponents
-  );
-
-  return updatedComponents;
-};
-
-const createChartFromParsedData = (parsedData, chart, peer, client) => {
-  if (parsedData) {
-    createChart(chart, parsedData[peer], parsedData[client]);
-    // You might need to create other charts here based on the component IDs
-  }
 };
 
 const closeSidebarAfterSelectingOption = (component) => {

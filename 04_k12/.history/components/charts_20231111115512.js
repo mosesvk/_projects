@@ -1,4 +1,5 @@
 const getMainChartOptions = (dataPeer, dataClient) => {
+
   const clientArray = []
   let chartColor = '#3a464f';
   let peerAvg = [];
