@@ -4,13 +4,13 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
         borderColor: '#374151',
         labelColor: '#ebedf0',
         opacityFrom: 0,
-        opacityTo: 0.15
+        opacityTo: 0.15,
       }
     : {
         borderColor: '#F3F4F6',
         labelColor: '#6B7280',
         opacityFrom: 0.45,
-        opacityTo: 0
+        opacityTo: 0,
       };
 
   const chartColor = document.documentElement.classList.contains('dark')
@@ -21,9 +21,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
 
   const formatNumber = (value) => value.toLocaleString();
 
-  ({ clientArray, peerAvg, peerMid, peerMin, peerMax } =
-    getPeerAndClientChartDataArrays(selectedYearsArray, dataPeer, dataClient, fixedNum));
-
+  getPeerAndClientChartDataArrays(selectedYearsArray, dataPeer, dataClient)
 
   const yaxisLabelFormatter = (value) => {
     if (numType === 'dollar') {
@@ -50,7 +48,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
     colors: [
       window.chartColors.green,
       window.chartColors.blue,
-      window.chartColors.orange
+      window.chartColors.orange,
     ],
     series: [
       {
@@ -58,95 +56,95 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
         type: 'column',
         data: clientArray,
         style: {
-          colors: [chartColors.labelColor]
-        }
+          colors: [chartColors.labelColor],
+        },
       },
       {
         name: 'Avg',
         type: 'line',
         data: peerAvg,
-        yaxis: 0
+        yaxis: 0,
       },
       {
         name: 'Mid',
         type: 'line',
-        data: peerMid
-      }
+        data: peerMid,
+      },
     ],
     chart: {
       height: 350,
       type: 'line',
-      stacked: false
+      stacked: false,
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     stroke: {
-      width: [2, 6, 4]
+      width: [2, 6, 4],
     },
     title: {
       text: '',
       align: 'left',
-      offsetX: 110
+      offsetX: 110,
     },
     xaxis: {
       categories: selectedYearsArray,
       labels: {
         style: {
-          colors: chartColors.labelColor
-        }
-      }
+          colors: chartColors.labelColor,
+        },
+      },
     },
     yaxis: [
       {
         axisTicks: {
-          show: true
+          show: true,
         },
         axisBorder: {
           show: true,
-          color: chartColor
+          color: chartColor,
         },
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
-            fontSize: '1.25rem'
-          }
+            fontSize: '1.25rem',
+          },
         },
         tooltip: {
-          enabled: true
-        }
-      }
+          enabled: true,
+        },
+      },
     ],
     tooltip: {
       fixed: {
         enabled: true,
         position: 'topLeft',
         offsetY: 30,
-        offsetX: 60
+        offsetX: 60,
       },
       y: {
         formatter: tooltipFormatter,
         title: {
-          formatter: (seriesName) => `${seriesName}:`
-        }
-      }
+          formatter: (seriesName) => `${seriesName}:`,
+        },
+      },
     },
     legend: {
       horizontalAlign: 'left',
-      offsetX: 40
+      offsetX: 40,
     },
     grid: {
       row: {
         colors: ['transparent'],
         opacity: 0.5,
-        thickness: 4
-      }
+        thickness: 4,
+      },
     },
     plotOptions: {
       bar: {
-        barHeight: '90%'
-      }
-    }
+        barHeight: '90%',
+      },
+    },
   };
 };

@@ -124,15 +124,15 @@ const createDivChartandModal = (
   chartComponents,
   modalComponents,
   data,
-  client,
+  client, 
   peer
 ) => {
   const percentChangeValue = data
     ? calculateAveragePercentageChange(data[peer])
     : '0';
 
-  console.log('data[peer]', data[peer]);
-  console.log('data[client]', data[client]);
+  console.log('data[peer]', data[peer])
+  console.log('data[client]', data[client])
 
   const chartComponent = `
     <div class='p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800'>
@@ -185,9 +185,9 @@ const createDivChartandModal = (
     </div>
   `;
 
-  const modalComponent = `
+  // id=${modalId}
+  const modalComponent = 
     <div
-    id=${modalId}
       tabindex='-1'
       aria-hidden='true'
       class='hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full'
@@ -222,98 +222,11 @@ const createDivChartandModal = (
             </button>
           </div>
 
-          <div class='flex flex-col mt-2'>
-        <div class='overflow-x-auto rounded-lg'>
-          <div class='inline-block min-w-full align-middle'>
-            <div class='relative overflow-x-auto shadow-md sm:rounded-lg'>
-              <table class='w-full text-lg text-left text-gray-500 dark:text-gray-400'>
-                <thead class='text-xs text-gray-700 uppercase bg-green-200 dark:bg-gray-700 dark:text-green-200 '>
-                  <tr id='row_enrollment_tableHeader'>
-                    <th scope='col' class='px-6 py-3 text-lg'>
-                      Enrollment Comparison between Years
-                    </th>
-
-                    <th scope='col' class='px-6 py-3'>
-                      Avg
-                    </th>
-                    <th scope='col' class='px-6 py-3'>
-                      Mid
-                    </th>
-                    <th scope='col' class='px-6 py-3'>
-                      Min
-                    </th>
-                    <th scope='col' class='px-6 py-3'>
-                      Max
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    id='row_studentsAverageEnrollment'
-                    class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-                  >
-                    <th
-                      scope='row'
-                      class='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
-                    >
-                      Students - Average Enrollment
-                    </th>
-                  </tr>
-                  <tr
-                    id='row_studentsAverageEnrollment-percentChange'
-                    class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-                  >
-                    <th
-                      scope='row'
-                      class='pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
-                    >
-                      a. % Change
-                    </th>
-                  </tr>
-                  <tr
-                    id='row_studentsAverageEnrollment-Average'
-                    class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-                  >
-                    <th
-                      scope='row'
-                      class='pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
-                    >
-                      b. Average Enrollment
-                    </th>
-                  </tr>
-                  <tr
-                    id='row_studentsAverageEnrollment-Peak'
-                    class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-                  >
-                    <th
-                      scope='row'
-                      class='pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
-                    >
-                      b. Peak Enrollment
-                    </th>
-                  </tr>
-                  <tr
-                    id='row_studentsAverageEnrollment-Average'
-                    class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-                  >
-                    <th
-                      scope='row'
-                      class='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
-                    >
-                      Student/Faculty Ratio
-                    </th>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
 
         </div>
       </div>
     </div>
-  `;
+  ;
   chartComponents += chartComponent; // Append chart component HTML
   modalComponents += modalComponent; // Append modal component HTML
 
@@ -338,7 +251,7 @@ const createAndAppendComponent = (
   chartComponents,
   modalComponents,
   data,
-  client,
+  client, 
   peer
 ) => {
   const updatedComponents = createDivChartandModal(
@@ -348,7 +261,7 @@ const createAndAppendComponent = (
     chartComponents,
     modalComponents,
     data,
-    client,
+    client, 
     peer
   );
 
@@ -552,12 +465,7 @@ const appendModalsToBody = (modalComponents) => {
   document.body.appendChild(modalContainer);
 };
 
-const getPeerAndClientChartDataArrays = (
-  years,
-  dataPeer,
-  dataClient,
-  fixedNum
-) => {
+const getPeerAndClientChartDataArrays = (years, dataPeer, dataClient, fixedNum) => {
   const peerAvg = [];
   const peerMid = [];
   const peerMin = [];
@@ -584,5 +492,7 @@ const getPeerAndClientChartDataArrays = (
     }
   });
 
-  return { clientArray, peerAvg, peerMid, peerMin, peerMax };
+  return {clientArray, peerAvg, peerMid, peerMin, peerMax}
 };
+
+

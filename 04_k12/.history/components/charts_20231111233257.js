@@ -22,29 +22,12 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
   const formatNumber = (value) => value.toLocaleString();
 
   ({ clientArray, peerAvg, peerMid, peerMin, peerMax } =
-    getPeerAndClientChartDataArrays(selectedYearsArray, dataPeer, dataClient, fixedNum));
-
-
-  const yaxisLabelFormatter = (value) => {
-    if (numType === 'dollar') {
-      return `$${formatNumber(value)}`;
-    } else if (numType === 'percent') {
-      return `${formatNumber(value)}%`;
-    } else {
-      return formatNumber(value);
-    }
-  };
-
-  const tooltipFormatter = (value) => {
-    const formattedValue = value.toLocaleString();
-    if (numType === 'dollar') {
-      return `$${formattedValue}`;
-    } else if (numType === 'percent') {
-      return `${formattedValue}%`;
-    } else {
-      return formattedValue;
-    }
-  };
+    getPeerAndClientChartDataArrays(
+      selectedYearsArray,
+      dataPeer,
+      dataClient,
+      fixedNum
+    ));
 
   return {
     colors: [

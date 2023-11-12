@@ -24,6 +24,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
   ({ clientArray, peerAvg, peerMid, peerMin, peerMax } =
     getPeerAndClientChartDataArrays(selectedYearsArray, dataPeer, dataClient, fixedNum));
 
+  console.log([clientArray, peerAvg, peerMid, peerMin, peerMax]);
 
   const yaxisLabelFormatter = (value) => {
     if (numType === 'dollar') {

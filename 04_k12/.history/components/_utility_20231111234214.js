@@ -124,15 +124,15 @@ const createDivChartandModal = (
   chartComponents,
   modalComponents,
   data,
-  client,
+  client, 
   peer
 ) => {
   const percentChangeValue = data
     ? calculateAveragePercentageChange(data[peer])
     : '0';
 
-  console.log('data[peer]', data[peer]);
-  console.log('data[client]', data[client]);
+  console.log('data[peer]', data[peer])
+  console.log('data[client]', data[client])
 
   const chartComponent = `
     <div class='p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800'>
@@ -185,7 +185,7 @@ const createDivChartandModal = (
     </div>
   `;
 
-  const modalComponent = `
+  const modalComponent =(`
     <div
     id=${modalId}
       tabindex='-1'
@@ -313,7 +313,7 @@ const createDivChartandModal = (
         </div>
       </div>
     </div>
-  `;
+  `);
   chartComponents += chartComponent; // Append chart component HTML
   modalComponents += modalComponent; // Append modal component HTML
 
@@ -338,7 +338,7 @@ const createAndAppendComponent = (
   chartComponents,
   modalComponents,
   data,
-  client,
+  client, 
   peer
 ) => {
   const updatedComponents = createDivChartandModal(
@@ -348,7 +348,7 @@ const createAndAppendComponent = (
     chartComponents,
     modalComponents,
     data,
-    client,
+    client, 
     peer
   );
 
@@ -552,12 +552,7 @@ const appendModalsToBody = (modalComponents) => {
   document.body.appendChild(modalContainer);
 };
 
-const getPeerAndClientChartDataArrays = (
-  years,
-  dataPeer,
-  dataClient,
-  fixedNum
-) => {
+const getPeerAndClientChartDataArrays = (years, dataPeer, dataClient, fixedNum) => {
   const peerAvg = [];
   const peerMid = [];
   const peerMin = [];
@@ -584,5 +579,7 @@ const getPeerAndClientChartDataArrays = (
     }
   });
 
-  return { clientArray, peerAvg, peerMid, peerMin, peerMax };
+  return {clientArray, peerAvg, peerMid, peerMin, peerMax}
 };
+
+
