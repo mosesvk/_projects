@@ -218,7 +218,6 @@ const createDivChartandModal = (
           </div>
 
 
-          
 
         </div>
       </div>

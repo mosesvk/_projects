@@ -36,7 +36,7 @@ const displayEnrollmentComponent = () => {
 
   closeSidebarAfterSelectingOption('enrollment');
 
-  // console.log(modalComponents)
+  console.log(modalComponents)
 
   // Append modal components to the body
   appendModalsToBody(modalComponents);

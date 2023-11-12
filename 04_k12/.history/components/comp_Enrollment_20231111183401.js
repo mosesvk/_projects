@@ -1,29 +1,30 @@
 const displayEnrollmentComponent = () => {
   const savedData = getStoredData();
-  const parseData = parseStoredData(savedData);
+  const parseData = parseStoredData(savedData)
 
   let chartComponents = '';
   let modalComponents = '';
 
   // Call createAndAppendComponent for the first chart/modal
+
   ({ chartComponents, modalComponents } = createAndAppendComponent(
     'studentsMain_chart',
     'studentsMain_modal',
     'Students - Average Enrollment',
     chartComponents,
     modalComponents,
-    parseData, 
-    'studentAverageEnrollment_Client'
+    parseData['studentAverageEnrollment_Client']
   ));
 
-  // Combine chart components into the final component string
-  const chartComponent = `
-    <div class='mb-4'>
-      ${chartComponents}
-    </div>
+  // Combine chart and modal components into the final component string
+  const component = `
+  <div class='mb-4'>
+  ${chartComponents}
+  ${modalComponents}
+  </div>
   `;
 
-  document.querySelector('main').innerHTML = chartComponent;
+  document.querySelector('main').innerHTML = component;
 
   createChartFromParsedData(
     parseData,
@@ -35,9 +36,4 @@ const displayEnrollmentComponent = () => {
   );
 
   closeSidebarAfterSelectingOption('enrollment');
-
-  // console.log(modalComponents)
-
-  // Append modal components to the body
-  appendModalsToBody(modalComponents);
 };

@@ -12,8 +12,7 @@ const displayEnrollmentComponent = () => {
     'Students - Average Enrollment',
     chartComponents,
     modalComponents,
-    parseData, 
-    'studentAverageEnrollment_Client'
+    parseData['studentAverageEnrollment_Client']
   ));
 
   // Combine chart components into the final component string
@@ -35,8 +34,6 @@ const displayEnrollmentComponent = () => {
   );
 
   closeSidebarAfterSelectingOption('enrollment');
-
-  // console.log(modalComponents)
 
   // Append modal components to the body
   appendModalsToBody(modalComponents);

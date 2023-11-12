@@ -42,6 +42,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       const clientNum = Number(dataClient[year][0]).toFixed(fixedNum);
       clientArray.push(clientNum);
 
+      console.log(clientArray);
     } else {
       console.error(`Data for year ${year} is undefined in dataPeer`);
     }
