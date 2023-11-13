@@ -383,7 +383,18 @@
       // Format the value with commas
       let formattedValue = parseInt(inputValue, 10);
 
-      input.value = formattedValue.toLocaleString();
+      console.log('prevVal', prevVal);
+      console.log('formattedValue', formattedValue);
+      console.log('--');
+
+      if (formattedValue >= 200000) {
+        // Restore the previous value if it exceeds 200,000
+        input.value = prevVal.toLocaleString();
+        formattedValue = prevVal;
+      } else {
+        // Set the formatted value back into the input field
+        input.value = formattedValue.toLocaleString();
+      }
 
       // Console log for debugging
       console.log('formattedValue after update', formattedValue);
@@ -406,8 +417,7 @@
 
       sum += value;
       sumWithout += value;
-      value = Math.round(formattedValue * 0.5) <= 100000 ? Math.round(formattedValue * 0.5) : 100000
-
+      value = Math.round(formattedValue * 0.5);
       stateTaxDeductionFromCredit.innerHTML =
         value > 0 ? `(${value.toLocaleString()})` : '-';
 

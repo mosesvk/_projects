@@ -406,8 +406,8 @@
 
       sum += value;
       sumWithout += value;
-      value = Math.round(formattedValue * 0.5) <= 100000 ? Math.round(formattedValue * 0.5) : 100000
-
+      value = Math.round(formattedValue * 0.5);
+      console.log(value);
       stateTaxDeductionFromCredit.innerHTML =
         value > 0 ? `(${value.toLocaleString()})` : '-';
 

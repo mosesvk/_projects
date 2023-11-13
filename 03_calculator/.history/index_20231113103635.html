@@ -353,6 +353,25 @@
       }, 5500); // Adjust the duration as needed
     }
 
+    function restrictInputValue(input, maxValue) {
+      // Remove non-numeric characters from the input value
+      const inputValue = input.value.replace(/[^0-9]/g, '');
+
+      // Ensure the numeric value is within the desired range
+      const numericValue = parseInt(inputValue, 10);
+
+      // Check if adding another digit would exceed the maximum or if the total number of digits is already 6
+      if (numericValue > maxValue || inputValue.length >= 7) {
+        // If so, prevent entering the digit
+        input.value = input.value.slice(0, -1);
+        displayAlert('You cannot enter more digits as it will increase the Colorado Childcare Tax Credit Amount ')
+      } else {
+        // If not, format the input value
+        input.value = numericValue.toLocaleString();
+      }
+      console.log('input.value', input.value);
+    }
+
     let fedTaxRateVal = 0.35;
     function formatNumberInput(input) {
       let prevVal = parseInt(input.value.replace(/,/g, ''), 10);
@@ -383,7 +402,18 @@
       // Format the value with commas
       let formattedValue = parseInt(inputValue, 10);
 
-      input.value = formattedValue.toLocaleString();
+      console.log('prevVal', prevVal);
+      console.log('formattedValue', formattedValue);
+      console.log('--');
+
+      if (formattedValue >= 200000) {
+        // Restore the previous value if it exceeds 200,000
+        input.value = prevVal.toLocaleString();
+        formattedValue = prevVal;
+      } else {
+        // Set the formatted value back into the input field
+        input.value = formattedValue.toLocaleString();
+      }
 
       // Console log for debugging
       console.log('formattedValue after update', formattedValue);
@@ -406,8 +436,7 @@
 
       sum += value;
       sumWithout += value;
-      value = Math.round(formattedValue * 0.5) <= 100000 ? Math.round(formattedValue * 0.5) : 100000
-
+      value = Math.round(formattedValue * 0.5);
       stateTaxDeductionFromCredit.innerHTML =
         value > 0 ? `(${value.toLocaleString()})` : '-';
 
