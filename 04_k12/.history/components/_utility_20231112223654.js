@@ -147,10 +147,6 @@ const createDivChartandModal = (
     'studentsMain'
   );
 
-  if (document.getElementById(modalId)) {
-    console.log(document.getElementById(modalId))
-  }
-  
   chartComponents += chartComponent; // Append chart component HTML
   modalComponents += modalComponent; // Append modal component HTML
 
@@ -383,7 +379,12 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   });
 };
 
-const appendModalsToBody = (modalComponents) => {
+const appendModalsToBody = (modalComponents, modalId) => {
+  // Remove existing modals
+  const existingModals = document.querySelectorAll(
+    `[data-modal-container="${modalId}"]`
+  );
+  existingModals.forEach((modal) => modal.parentNode.removeChild(modal));
 
   // Append new modal components
   document.body.insertAdjacentHTML('beforeend', modalComponents);
@@ -506,6 +507,9 @@ const createChartComponent = (title, percentChangeValue, chartId, modalId) => {
 };
 
 const createModalComponent = (modalId, title, mainName) => {
+  if (document.getElementById(modalId)) {
+    document.removeChild(modalId);
+  }
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 

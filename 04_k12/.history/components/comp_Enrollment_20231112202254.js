@@ -1,7 +1,8 @@
 const displayEnrollmentComponent = () => {
-
   const savedData = getStoredData();
   const parseData = parseStoredData(savedData);
+
+  console.log('hit')
 
   let chartComponents = '';
   let modalComponents = '';

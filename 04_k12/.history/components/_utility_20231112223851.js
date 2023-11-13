@@ -147,10 +147,6 @@ const createDivChartandModal = (
     'studentsMain'
   );
 
-  if (document.getElementById(modalId)) {
-    console.log(document.getElementById(modalId))
-  }
-  
   chartComponents += chartComponent; // Append chart component HTML
   modalComponents += modalComponent; // Append modal component HTML
 

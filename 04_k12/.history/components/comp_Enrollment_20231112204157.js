@@ -1,5 +1,5 @@
 const displayEnrollmentComponent = () => {
-
+  console.log('hit')
   const savedData = getStoredData();
   const parseData = parseStoredData(savedData);
 

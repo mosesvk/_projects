@@ -519,8 +519,6 @@ const runApiMain = () => {
 
       processEnrollmentData(selectedYears, recordsPeer, recordsClient);
 
-      checkLastRenderedComponent()
-
       // After processing, save selectedYears_Set to localStorage
       const selectedYearsArray = Array.from(selectedYears_Set).sort(
         (a, b) => a - b

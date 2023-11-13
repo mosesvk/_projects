@@ -147,10 +147,6 @@ const createDivChartandModal = (
     'studentsMain'
   );
 
-  if (document.getElementById(modalId)) {
-    console.log(document.getElementById(modalId))
-  }
-  
   chartComponents += chartComponent; // Append chart component HTML
   modalComponents += modalComponent; // Append modal component HTML
 
@@ -506,6 +502,9 @@ const createChartComponent = (title, percentChangeValue, chartId, modalId) => {
 };
 
 const createModalComponent = (modalId, title, mainName) => {
+  if (document.getElementById(modalId)) {
+    console.log(document.getElementById(modalId))
+  }
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 

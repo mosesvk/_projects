@@ -1,5 +1,4 @@
 const displayEnrollmentComponent = () => {
-
   const savedData = getStoredData();
   const parseData = parseStoredData(savedData);
 
@@ -7,7 +6,7 @@ const displayEnrollmentComponent = () => {
   let modalComponents = '';
 
   // Call createAndAppendComponent for the first chart/modal
-  ({ chartComponents, modalComponents, modalId } = createAndAppendComponent(
+  ({ chartComponents, modalComponents } = createAndAppendComponent(
     'studentsMain_chart',
     'studentsMain_modal',
     'Students - Average Enrollment',
@@ -38,7 +37,10 @@ const displayEnrollmentComponent = () => {
 
   closeSidebarAfterSelectingOption('enrollment');
 
+  // console.log(modalComponents)
+  addModalEventListeners('studentsMain_modal');
+
 
   // Append modal components to the body
-  appendModalsToBody(modalComponents, modalId);
+  appendModalsToBody(modalComponents);
 };

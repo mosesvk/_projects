@@ -134,23 +134,60 @@ const createDivChartandModal = (
   // console.log('data[peer]', data[peer]);
   // console.log('data[client]', data[client]);
 
-  const chartComponent = createChartComponent(
-    'Students - Average Enrollment',
-    percentChangeValue,
-    chartId,
-    modalId
-  );
+  const chartComponent = `
+    <div class='p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800'>
+      <div class='flex items-center justify-between mb-4'>
+        <div class='flex-shrink-0'>
+          <span class='text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white'>
+            ${title}
+          </span>
+        </div>
+        <div class='flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400'>
+          ${percentChangeValue}%
+          <svg
+            class='w-5 h-5'
+            fill='currentColor'
+            viewBox='0 0 20 20'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              fill-rule='evenodd'
+              d='M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z'
+              clip-rule='evenodd'
+            ></path>
+          </svg>
+        </div>
+      </div>
 
-  const modalComponent = createModalComponent(
-    modalId,
-    'Students - Average Enrollment',
-    'studentsMain'
-  );
+      <div id=${chartId}></div>
 
-  if (document.getElementById(modalId)) {
-    console.log(document.getElementById(modalId))
-  }
-  
+      <div class='flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700'>
+        <div class='flex-shrink-0'>
+          <button 
+          data-modal-target=${modalId} data-modal-toggle=${modalId}  class='inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600'>
+            Expand Info
+            <svg
+              class='w-4 h-4 ml-1'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M9 5l7 7-7 7'
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const modalComponent = createModal(modalId, 'Students - Average Enrollment', 'studentsMain');
+
   chartComponents += chartComponent; // Append chart component HTML
   modalComponents += modalComponent; // Append modal component HTML
 
@@ -383,7 +420,12 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   });
 };
 
-const appendModalsToBody = (modalComponents) => {
+const appendModalsToBody = (modalComponents, modalId) => {
+  // Remove existing modals
+  const existingModals = document.querySelectorAll(
+    `[data-modal-container="${modalId}"]`
+  );
+  existingModals.forEach((modal) => modal.parentNode.removeChild(modal));
 
   // Append new modal components
   document.body.insertAdjacentHTML('beforeend', modalComponents);
@@ -448,69 +490,22 @@ const addModalEventListeners = (modalId) => {
   }
 };
 
-const createChartComponent = (title, percentChangeValue, chartId, modalId) => {
-  return `
-    <div class='p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800'>
-      <div class='flex items-center justify-between mb-4'>
-        <div class='flex-shrink-0'>
-          <span class='text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white'>
-            ${title}
-          </span>
-        </div>
-        <div class='flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400'>
-          ${percentChangeValue}%
-          <svg
-            class='w-5 h-5'
-            fill='currentColor'
-            viewBox='0 0 20 20'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <path
-              fill-rule='evenodd'
-              d='M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z'
-              clip-rule='evenodd'
-            ></path>
-          </svg>
-        </div>
-      </div>
+const createModal = (modalId, title, mainName) => {
+  if (document.getElementById(modalId)) {
+    document.removeChild(modalId)
+  }
+  
+  const modal = document.createElement('div');
+  modal.id = modalId;
+  modal.className =
+    'hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full';
 
-      <div id=${chartId}></div>
-
-      <div class='flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700'>
-        <div class='flex-shrink-0'>
-          <button 
-            data-modal-target=${modalId} 
-            data-modal-toggle=${modalId}  
-            class='inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600'
-          >
-            Expand Info
-            <svg
-              class='w-4 h-4 ml-1'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-width='2'
-                d='M9 5l7 7-7 7'
-              ></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
-};
-
-const createModalComponent = (modalId, title, mainName) => {
-
-  const selectedYears = getSelectedYearsFromLocalStorage();
-
-  return (`
-    <div id=${modalId} tabIndex='-1' class='hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full' >
+  modal.innerHTML = `
+    <div
+      id=${modalId}
+      tabindex='-1'
+      class='hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full'
+    >
       <div class='relative p-4 w-full max-w-fit md:max-w-3xl max-h-full'>
         <div class='relative bg-white rounded-lg shadow dark:bg-gray-700'>
           <div class='flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600'>
@@ -565,26 +560,6 @@ const createModalComponent = (modalId, title, mainName) => {
                       </tr>
                     </thead>
                     <tbody>
-                    ${
-                      selectedYears &&
-                      selectedYears
-                        .map(
-                          (year) => `
-                    <tr
-                      id='row_${mainName}_${year}'
-                      class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-                    >
-                      <th
-                        scope='row'
-                        class='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
-                      >
-                        ${year}
-                      </th>
-                    </tr>
-                  `
-                        )
-                        .join('')
-                    }
                     </tbody>
                   </table>
                 </div>
@@ -594,6 +569,17 @@ const createModalComponent = (modalId, title, mainName) => {
         </div>
       </div>
     </div>
-  `);
+  `;
 
+  // <tr
+  //   id='row_${mainName}'
+  //   class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
+  // >
+  //   <th
+  //     scope='row'
+  //     class='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
+  //   ></th>
+  // </tr>;
+
+  return modal;
 };
