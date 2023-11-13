@@ -131,6 +131,7 @@ const createDivChartandModal = (
     ? calculateAveragePercentageChange(data[peer])
     : '0';
 
+
   const chartComponent = createChartComponent(
     'Students - Average Enrollment',
     percentChangeValue,
@@ -143,6 +144,7 @@ const createDivChartandModal = (
     'Students - Average Enrollment',
     'studentsMain'
   );
+
 
   chartComponents += chartComponent; // Append chart component HTML
   modalComponents += modalComponent; // Append modal component HTML
@@ -300,7 +302,7 @@ const findUniqueYears = (data) => {
 };
 
 const checkLastRenderedComponent = () => {
-  // console.log('checkLastRenderedComponent()')
+  console.log('checkLastRenderedComponent()')
   const lastRenderedComponent = localStorage.getItem('lastRenderedComponent');
   if (lastRenderedComponent === 'report') {
     displayReportComponent();
@@ -378,11 +380,6 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
 };
 
 const appendModalsToBody = (modalComponents) => {
-  // Remove existing modals with the same modalId
-  const existingModals = document.querySelectorAll(`#${modalId}`);
-  existingModals.forEach((modal) => {
-    modal.parentNode.removeChild(modal);
-  });
 
   // Append new modal components
   document.body.insertAdjacentHTML('beforeend', modalComponents);
@@ -505,9 +502,11 @@ const createChartComponent = (title, percentChangeValue, chartId, modalId) => {
 };
 
 const createModalComponent = (modalId, title, mainName) => {
+
+
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  return `
+  return (`
     <div id=${modalId} tabIndex='-1' class='hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full' >
       <div class='relative p-4 w-full max-w-fit md:max-w-3xl max-h-full'>
         <div class='relative bg-white rounded-lg shadow dark:bg-gray-700'>
@@ -592,5 +591,6 @@ const createModalComponent = (modalId, title, mainName) => {
         </div>
       </div>
     </div>
-  `;
+  `);
+
 };

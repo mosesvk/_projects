@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CapinCrouse</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -10,7 +10,6 @@
       href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css"
       rel="stylesheet"
     />
-    
 
     <script>
       tailwind.config = {
@@ -45,11 +44,10 @@
       <div class="px-4 lg:px-8">
         <nav class="flex items-center justify-between" aria-label="Global">
           <div class="flex lg:flex-1 items-center">
-            <div class="-m-1.5 p-1.5">
+            <a href="#" class="-m-1.5 p-1.5">
+              <span class="sr-only">Code of Relevancy</span>
               <img class="w-1/4 md:w-1/2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2BOEgggiM024TCxtOpv0rxeM10Sk27EOOIfDmNi2Ukw&s" alt="Code of Relevancy" />
-              <p class="text-blue font-semibold leading-6 w-[15rem] ml-4 sm:text-sm md:text-base lg:text-lg xl:text-xl">Developed for Cherry Hills Christian School</p>
-            </div>
-            
+            </a>
           </div>
         </nav>
       </div>
@@ -58,7 +56,7 @@
       <main>
         <!--Blur Backdrop-->
         <div
-          class="hidden md:block absolute top-0 left-80 w-72 h-72 bg-green rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"
+          class="absolute top-0 left-80 w-72 h-72 bg-green rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"
         ></div>
         <div
           class="absolute top-50 left-10 w-52 h-72 bg-blue rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"
@@ -88,20 +86,20 @@
             </p>
             <p class="text-center mb-2 text-lg leading-8 text-gray-600">Please Enter your donation amount and federal tax rate to see a comparison of the net cost to the donor of a 5C donation versus a general donation</p>
 
-            <div class="px-6 pt-6 pb-12 sm:py-6 lg:px-8 md:pb-12">
+            <div class="px-6 sm:py-6 lg:px-8">
               <div class="mx-auto max-w-xl flex flex-col md:flex-row justify-between">
                 
-                <div class="sm:col-span-2 mb-8">
+                <div class="sm:col-span-2 mb-2 sm:mb-0">
                   <label
                     class="block text-2xl font-semibold leading-6 text-gray-900 mb-2.5"
                     for="donation"
                   >
                     Donation Amount
                   </label>
-                  <div class="relative md:w-[11rem] lg:w-[20rem]">
+                  <div class="relative w-[20rem]">
                     <input
                       id="donationAmount"
-                      class="animate-pulse block w-full md:w-12rem rounded-md border-2 border-slate-600 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl md:text-2xl lg:text-3xl sm:leading-6"
+                      class="animate-pulse block w-full rounded-md border-2 border-slate-600 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl md:text-2xl lg:text-3xl sm:leading-6"
                       type="text"
                       placeholder="0.00"
                       name="property"
@@ -145,9 +143,9 @@
           <div class="hidden-by-default mx-auto max-w-7xl px-6 lg:px-8 py-1 sm:py-3"
           >
             <dl
-              class="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-6 text-center lg:grid-cols-2"
+              class="grid grid-cols-1 gap-y-8 gap-x-6 text-center lg:grid-cols-2"
             >
-              <div class="mx-auto flex items-center max-w-xs flex-col gap-y-6 mb-8 md:mb-0 md:col-span-2 lg:col-span-1">
+              <div class="mx-auto flex items-center max-w-xs flex-col gap-y-6 mb-8 md:mb-0 md:col-span-2">
                 <div>
                   <h1
                     class="text-5xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
@@ -200,7 +198,8 @@
                 </div>
               </div>
 
-              <div class="mx-auto flex items-center max-w-xs flex-col gap-y-6 mb-8 md:mb-0 md:col-span-2 lg:col-span-1"
+              <div
+                class="mx-auto flex items-center max-w-xs flex-col gap-y-6 mb-8 md:mb-0 md:col-span-2"
               >
                 <div>
                   <h1
@@ -231,7 +230,7 @@
                 >
                   -
                 </dd>
-                <div class="h-full lg:mt-32 md:mt-4">
+                <div class="h-full mt-6">
                   <div
                     class="w-full border border-solid rounded p-4 shadow-2xl shadow-blue"
                   >

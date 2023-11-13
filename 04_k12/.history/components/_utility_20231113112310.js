@@ -300,7 +300,6 @@ const findUniqueYears = (data) => {
 };
 
 const checkLastRenderedComponent = () => {
-  // console.log('checkLastRenderedComponent()')
   const lastRenderedComponent = localStorage.getItem('lastRenderedComponent');
   if (lastRenderedComponent === 'report') {
     displayReportComponent();
