@@ -256,33 +256,23 @@ const addYearColumnsToReportTables = (years) => {
 
 const clearTableColumns = (idName) => {
   const headerRow = document.getElementById(idName);
-  const columnsToPreserve = ['Avg', 'Mid', 'Min', 'Max'];
-
-  // Remove all existing th elements except the first one and those to be preserved
-  Array.from(headerRow.children).slice(1).forEach((th) => {
-    const columnName = th.textContent.trim();
-    if (!columnsToPreserve.includes(columnName)) {
-      th.remove();
-    }
-  });
+  // Remove all existing th elements except the first one
+  Array.from(headerRow.children).slice(1).forEach((th) => th.remove());
 
   // Clear corresponding columns from other rows in the table body
-  clearColumnsFromOtherRows(idName, columnsToPreserve);
+  clearColumnsFromOtherRows(idName);
 };
 
-const clearColumnsFromOtherRows = (idName, columnsToPreserve) => {
+const clearColumnsFromOtherRows = (idName) => {
   const rows = document.querySelectorAll(`#${idName} + tbody tr`);
 
   rows.forEach((row) => {
-    // Remove all existing td elements except the first one and those to be preserved
-    Array.from(row.children).slice(1).forEach((td) => {
-      const columnName = td.textContent.trim();
-      if (!columnsToPreserve.includes(columnName)) {
-        td.remove();
-      }
-    });
+    // Remove all existing td elements except the first one
+    Array.from(row.children).slice(1).forEach((td) => td.remove());
   });
 };
 
-
+// Example usage:
+const yearsArray = [2019, 2020];
+addYearColumnsToReportTables(yearsArray);
 

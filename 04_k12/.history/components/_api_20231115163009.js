@@ -491,36 +491,29 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 };
 
 const addTableColumnsToReport = (tableHeader, yearsArray) => {
-
   // Find the table header row by its ID
   const tableHeaderRow = document.getElementById(tableHeader);
 
   // Get the reference to the "avg" <th> element
   const avgTh = tableHeaderRow.children[1];
-  // const existingColumns = Array.from(tableHeader.children).slice(1
-  // console.log(existingColumns);
 
   // Iterate through the selectedYearArray and add new columns
   yearsArray.forEach((year) => {
-    // Create a new <th> element for each selected year
-    const newTh = document.createElement('th');
-    newTh.setAttribute('scope', 'col');
-    newTh.setAttribute('class', 'px-6 py-3');
-    newTh.innerText = year;
+    // Check if the column for the year already exists
+    const columnExists = existingColumns.some(
+      (column) => column.textContent.trim() === year.toString()
+    );
 
-    // Insert the new <th> element before the "avg" <th>
-    tableHeaderRow.insertBefore(newTh, avgTh);
-  });
-};
+    if (!columnExists) {
+      // If the column doesn't exist, add it
+      const thElement = document.createElement('th');
+      thElement.textContent = year.toString();
+      thElement.scope = 'col';
+      headerRow.appendChild(thElement);
 
-const addColumnsToOtherRows = (idName, year) => {
-  const rows = document.querySelectorAll(`#${idName} + tbody tr`);
-
-  rows.forEach((row) => {
-    const tdElement = document.createElement('td');
-    // You can customize the content of the new columns as needed
-    tdElement.textContent = 'New Data'; // Change this line accordingly
-    row.appendChild(tdElement);
+      // Add corresponding columns to other rows
+      addColumnsToOtherRows(idName, year);
+    }
   });
 };
 

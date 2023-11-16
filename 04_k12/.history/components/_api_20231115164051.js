@@ -497,8 +497,9 @@ const addTableColumnsToReport = (tableHeader, yearsArray) => {
 
   // Get the reference to the "avg" <th> element
   const avgTh = tableHeaderRow.children[1];
-  // const existingColumns = Array.from(tableHeader.children).slice(1
-  // console.log(existingColumns);
+  const existingColumns = Array.from(tableHeader.children).slice(1)
+  console.log(avgTh)
+  console.log(existingColumns);
 
   // Iterate through the selectedYearArray and add new columns
   yearsArray.forEach((year) => {

@@ -90,7 +90,7 @@ const displayReportComponent = () => {
       </div>
     </div>
   `;
-  const cashTable = `
+  const cashTable = (`
     <div class='p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800'>
       <div class='flex flex-col mt-2'>
         <div class='overflow-x-auto rounded-lg'>
@@ -213,7 +213,7 @@ const displayReportComponent = () => {
         </div>
       </div>
     </div>
-  `;
+  `);
   // <td class='text-center'>21</td>
 
   document.querySelector('main').innerHTML = `
@@ -236,53 +236,11 @@ const displayDataToReport = (data, selectedYears) => {
 };
 
 const addYearColumnsToReportTables = (years) => {
-  const tables = document.querySelectorAll('table');
+  const trElements = document.querySelectorAll('tr');
+  console.log(trElements);
+  const trIds = Array.from(trElements)
+    .map((tr) => tr.getAttribute('id'))
+    .filter((id) => id && id.endsWith('_tableHeader'));
 
-  tables.forEach((table) => {
-    const trElements = table.querySelectorAll('tr');
-    const trIds = Array.from(trElements)
-      .map((tr) => tr.getAttribute('id'))
-      .filter((id) => id && id.endsWith('_tableHeader'));
-
-    trIds.forEach((idName) => {
-      // Clear existing columns before adding new ones
-      clearTableColumns(idName);
-
-      // Add new columns to the table
-      addTableColumnsToReport(idName, years);
-    });
-  });
+  trIds.forEach((idName) => addTableColumnsToReport(idName, years));
 };
-
-const clearTableColumns = (idName) => {
-  const headerRow = document.getElementById(idName);
-  const columnsToPreserve = ['Avg', 'Mid', 'Min', 'Max'];
-
-  // Remove all existing th elements except the first one and those to be preserved
-  Array.from(headerRow.children).slice(1).forEach((th) => {
-    const columnName = th.textContent.trim();
-    if (!columnsToPreserve.includes(columnName)) {
-      th.remove();
-    }
-  });
-
-  // Clear corresponding columns from other rows in the table body
-  clearColumnsFromOtherRows(idName, columnsToPreserve);
-};
-
-const clearColumnsFromOtherRows = (idName, columnsToPreserve) => {
-  const rows = document.querySelectorAll(`#${idName} + tbody tr`);
-
-  rows.forEach((row) => {
-    // Remove all existing td elements except the first one and those to be preserved
-    Array.from(row.children).slice(1).forEach((td) => {
-      const columnName = td.textContent.trim();
-      if (!columnsToPreserve.includes(columnName)) {
-        td.remove();
-      }
-    });
-  });
-};
-
-
-

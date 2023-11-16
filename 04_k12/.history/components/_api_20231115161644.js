@@ -491,14 +491,12 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 };
 
 const addTableColumnsToReport = (tableHeader, yearsArray) => {
-
+  console.log('hit');
   // Find the table header row by its ID
   const tableHeaderRow = document.getElementById(tableHeader);
 
   // Get the reference to the "avg" <th> element
   const avgTh = tableHeaderRow.children[1];
-  // const existingColumns = Array.from(tableHeader.children).slice(1
-  // console.log(existingColumns);
 
   // Iterate through the selectedYearArray and add new columns
   yearsArray.forEach((year) => {
@@ -510,17 +508,6 @@ const addTableColumnsToReport = (tableHeader, yearsArray) => {
 
     // Insert the new <th> element before the "avg" <th>
     tableHeaderRow.insertBefore(newTh, avgTh);
-  });
-};
-
-const addColumnsToOtherRows = (idName, year) => {
-  const rows = document.querySelectorAll(`#${idName} + tbody tr`);
-
-  rows.forEach((row) => {
-    const tdElement = document.createElement('td');
-    // You can customize the content of the new columns as needed
-    tdElement.textContent = 'New Data'; // Change this line accordingly
-    row.appendChild(tdElement);
   });
 };
 
