@@ -284,4 +284,8 @@ const clearColumnsFromOtherRows = (idName, columnsToPreserve) => {
   });
 };
 
+// Example usage:
+const yearsArray = [2019, 2020];
+addYearColumnsToReportTables(yearsArray);
+
 

@@ -1,7 +1,5 @@
 const displayEnrollmentComponent = () => {
 
-  console.log('displayEnrollmentComponent()');
-
   const savedData = getStoredData();
   const parseData = parseStoredData(savedData);
 
@@ -47,17 +45,8 @@ const displayEnrollmentComponent = () => {
   createChartFromParsedData(
     parseData,
     'studentsMain_chart',
-    'studentAverageEnrollment_Peer',
     'studentAverageEnrollment_Client',
-    'number',
-    0
-  );
-
-  createChartFromParsedData(
-    parseData,
-    'studentFacilityRatio_chart',
-    'studentFacilityRatio_Peer',
-    'studentFacilityRatio_Client',
+    'studentAverageEnrollment_Peer',
     'number',
     0
   );
@@ -67,7 +56,6 @@ const displayEnrollmentComponent = () => {
 
   // Append modal components to the body
   appendModalsToBody(modalComponents, modalId);
-
 
 };
 

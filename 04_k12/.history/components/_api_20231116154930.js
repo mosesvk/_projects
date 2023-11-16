@@ -514,7 +514,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 
   localStorage.removeItem('enrollmentData');
   localStorage.setItem('enrollmentData', JSON.stringify(object));
-
 };
 
 const addTableColumnsToReport = (tableHeader, yearsArray) => {

@@ -104,7 +104,6 @@ const selectedRegions_Array = [];
 // Utility Functions
 
 const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
-
   const chart = new ApexCharts(
     document.getElementById(chartId),
     getMainChartOptions(dataPeer, dataClient, type, fixedNum)
@@ -112,12 +111,10 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
 
   chart.render();
 
-  // // init again when toggling dark mode
-  // document.addEventListener('dark-mode', function () {
-  //   chart.updateOptions(
-  //     getMainChartOptions(dataPeer, dataClient, type, fixedNum)
-  //   );
-  // });
+  // init again when toggling dark mode
+  document.addEventListener('dark-mode', function () {
+    chart.updateOptions(getMainChartOptions(dataPeer, dataClient));
+  });
 };
 
 const createDivChartandModal = (
@@ -142,13 +139,19 @@ const createDivChartandModal = (
     percentChangeValue,
     chartId,
     modalId,
-    valueType,
-    data,
-    client,
-    peer
+    valueType
   );
 
   const modalComponent = createModalComponent(modalId, title, 'studentsMain');
+
+  createChartFromParsedData(
+    data,
+    chartId,
+    peer,
+    client,
+    valueType,
+    0
+  );
 
   chartComponents += chartComponent; // Append chart component HTML
   modalComponents += modalComponent; // Append modal component HTML
@@ -202,7 +205,6 @@ const createChartFromParsedData = (
   type,
   fixedNum
 ) => {
-
   if (parsedData) {
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
     // You might need to create other charts here based on the component IDs
@@ -312,7 +314,6 @@ const findUniqueYears = (data) => {
 };
 
 const checkLastRenderedComponent = () => {
-  // console.log('checkLastRenderedComponent()');
   const lastRenderedComponent = localStorage.getItem('lastRenderedComponent');
   if (lastRenderedComponent === 'report') {
     displayReportComponent();

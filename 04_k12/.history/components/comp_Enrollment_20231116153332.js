@@ -1,7 +1,5 @@
 const displayEnrollmentComponent = () => {
 
-  console.log('displayEnrollmentComponent()');
-
   const savedData = getStoredData();
   const parseData = parseStoredData(savedData);
 
@@ -68,6 +66,7 @@ const displayEnrollmentComponent = () => {
   // Append modal components to the body
   appendModalsToBody(modalComponents, modalId);
 
+  console.log(document.getElementById('studentsMain_modal'));
 
 };
 

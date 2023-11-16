@@ -362,7 +362,6 @@ const xmlClientString = `
     </record>
   </qdbapi>
 `;
-
 const parser = new DOMParser();
 const parserClient = new DOMParser();
 const xmlPeerDoc = parser.parseFromString(xmlPeerString, 'text/xml');
@@ -378,44 +377,35 @@ document.addEventListener('DOMContentLoaded', () => {
   checkLastRenderedComponent();
 
   runApiMain();
+
+    // Delayed initialization of Flowbite
+    setTimeout(() => {
+      if (window.Flowbite && typeof window.Flowbite.init === 'function') {
+        window.Flowbite.init();
+      } else {
+        console.error('Flowbite library not properly loaded or initialized.');
+      }
+    }, 1000); 
 });
 
-const insertDataIntoObject = (
-  type,
-  year,
-  object,
-  dataKey,
-  record,
-  child,
-  yesNo
-) => {
+const insertDataIntoObject = (year, object, dataKey, record, child) => {
   const innerData =
     record.querySelector(child).innerHTML.split('').length > 0
       ? record.querySelector(child).innerHTML.trim()
       : 0;
 
-  const yesNoField = yesNo && record.querySelector(yesNo).textContent;
-
-  if (type === 'client') {
-    if (!object[dataKey]) {
-      object[dataKey] = {};
-    }
-    if (!object[dataKey][year]) {
-      object[dataKey][year] = [];
-    }
-    object[dataKey][year].push(innerData);
-  } else {
-    // type === 'peer'
-    if (yesNoField == 'Yes') {
-      if (!object[dataKey]) {
-        object[dataKey] = {};
-      }
-      if (!object[dataKey][year]) {
-        object[dataKey][year] = [];
-      }
-      object[dataKey][year].push(innerData);
-    }
+  if (dataKey == 'studentAverageEnrollment_Client') {
+    // console.log(innerData)
+    // console.log(record.querySelector(child).innerHTML.split('') > 0)
+    // console.log(record.querySelector(child).innerHTML.trim());
   }
+  if (!object[dataKey]) {
+    object[dataKey] = {};
+  }
+  if (!object[dataKey][year]) {
+    object[dataKey][year] = [];
+  }
+  object[dataKey][year].push(innerData);
 };
 
 const processEnrollmentData = (years, recordsPeer, recordsClient) => {
@@ -426,39 +416,36 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
       const fiscalYear = record.querySelector(
         'fiscal_ye_date_formatted_year'
       ).textContent;
+      const yesNoField = record.querySelector(
+        '_01_yes_no_students_enrollment'
+      ).textContent;
 
-      return fiscalYear.includes(year.toString());
+      return fiscalYear.includes(year.toString()) && yesNoField == 'Yes';
     });
 
     filteredPeerRecords.forEach((record) => {
       insertDataIntoObject(
-        'peer',
         year,
         object,
         'studentAverageEnrollment_Peer',
         record,
-        '_01_ratio_students_enrollment',
+        '_01_ratio_students_enrollment'
+      );
+
+      insertDataIntoObject(
+        year,
+        object,
+        'studentAverageEnrollment_YesNo_Peer',
+        record,
         '_01_yes_no_students_enrollment'
       );
 
       insertDataIntoObject(
-        'peer',
         year,
         object,
         'studentAverageEnrollment_Peak_Peer',
         record,
-        '_01c_ratio_students_enrollment_peak_enrolmment',
-        '_01c_yes_no_students_enrollment_peak_enrolmment'
-      );
-
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'studentFacilityRatio_Peer',
-        record,
-        '_02_ratio_student_faculty_ratio',
-        '_02_yes_no_student_faculty_ratio'
+        '_01c_ratio_students_enrollment_peak_enrolmment'
       );
     });
 
@@ -470,7 +457,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
     });
     filteredClientRecords.forEach((record) => {
       insertDataIntoObject(
-        'client',
         year,
         object,
         'studentAverageEnrollment_Client',
@@ -478,7 +464,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         '_01_ratio_students_enrollment'
       );
       insertDataIntoObject(
-        'client',
         year,
         object,
         'studentAverageEnrollment_PercentChange_Client',
@@ -486,7 +471,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         '_01a_ratio_students_enrollment___change'
       );
       insertDataIntoObject(
-        'client',
         year,
         object,
         'studentAverageEnrollment_Average_Client',
@@ -494,7 +478,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         '_01b_ratio_students_enrollment_average'
       );
       insertDataIntoObject(
-        'client',
         year,
         object,
         'studentAverageEnrollment_Peak_Client',
@@ -502,7 +485,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         '_01c_ratio_students_enrollment_peak_enrolmment'
       );
       insertDataIntoObject(
-        'client',
         year,
         object,
         'studentFacilityRatio_Client',
@@ -518,6 +500,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 };
 
 const addTableColumnsToReport = (tableHeader, yearsArray) => {
+
   // Find the table header row by its ID
   const tableHeaderRow = document.getElementById(tableHeader);
 
@@ -557,13 +540,15 @@ const runApiMain = () => {
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
 
+      processEnrollmentData(selectedYears, recordsPeer, recordsClient);
+
+      checkLastRenderedComponent()
+
       // After processing, save selectedYears_Set to localStorage
       const selectedYearsArray = Array.from(selectedYears_Set).sort(
         (a, b) => a - b
       );
       localStorage.setItem('selectedYears', JSON.stringify(selectedYearsArray));
-      processEnrollmentData(selectedYears, recordsPeer, recordsClient);
-      checkLastRenderedComponent();
     } catch (err) {
       console.error(err);
     }

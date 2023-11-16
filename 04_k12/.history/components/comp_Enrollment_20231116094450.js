@@ -1,7 +1,5 @@
 const displayEnrollmentComponent = () => {
 
-  console.log('displayEnrollmentComponent()');
-
   const savedData = getStoredData();
   const parseData = parseStoredData(savedData);
 
@@ -18,8 +16,7 @@ const displayEnrollmentComponent = () => {
     parseData, 
     'studentAverageEnrollment_Client',
     'studentAverageEnrollment_Peer',
-    'studentsMain', 
-    'number'
+    'studentsMain'
   ));
 
   ({ chartComponents, modalComponents, modalId } = createAndAppendComponent(
@@ -31,8 +28,7 @@ const displayEnrollmentComponent = () => {
     parseData, 
     'studentFacilityRatio_Client',
     'studentFacilityRatio_Peer',
-    'studentFacilityRatio', 
-    'number'
+    'studentFacilityRatio'
   ));
 
   // Combine chart components into the final component string
@@ -44,30 +40,20 @@ const displayEnrollmentComponent = () => {
 
   document.querySelector('main').innerHTML = chartComponent;
 
-  createChartFromParsedData(
-    parseData,
-    'studentsMain_chart',
-    'studentAverageEnrollment_Peer',
-    'studentAverageEnrollment_Client',
-    'number',
-    0
-  );
-
-  createChartFromParsedData(
-    parseData,
-    'studentFacilityRatio_chart',
-    'studentFacilityRatio_Peer',
-    'studentFacilityRatio_Client',
-    'number',
-    0
-  );
+  // createChartFromParsedData(
+  //   parseData,
+  //   'studentsMain_chart',
+  //   'studentAverageEnrollment_Peer',
+  //   'studentAverageEnrollment_Client',
+  //   'number',
+  //   0
+  // );
 
   closeSidebarAfterSelectingOption('enrollment');
 
 
   // Append modal components to the body
   appendModalsToBody(modalComponents, modalId);
-
 
 };
 

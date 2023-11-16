@@ -1,7 +1,5 @@
 const displayEnrollmentComponent = () => {
 
-  console.log('displayEnrollmentComponent()');
-
   const savedData = getStoredData();
   const parseData = parseStoredData(savedData);
 
@@ -17,22 +15,7 @@ const displayEnrollmentComponent = () => {
     modalComponents,
     parseData, 
     'studentAverageEnrollment_Client',
-    'studentAverageEnrollment_Peer',
-    'studentsMain', 
-    'number'
-  ));
-
-  ({ chartComponents, modalComponents, modalId } = createAndAppendComponent(
-    'studentFacilityRatio_chart',
-    'studentFacilityRatio_modal',
-    'Student/Facility Ratio',
-    chartComponents,
-    modalComponents,
-    parseData, 
-    'studentFacilityRatio_Client',
-    'studentFacilityRatio_Peer',
-    'studentFacilityRatio', 
-    'number'
+    'studentAverageEnrollment_Peer'
   ));
 
   // Combine chart components into the final component string
@@ -53,23 +36,27 @@ const displayEnrollmentComponent = () => {
     0
   );
 
-  createChartFromParsedData(
-    parseData,
-    'studentFacilityRatio_chart',
-    'studentFacilityRatio_Peer',
-    'studentFacilityRatio_Client',
-    'number',
-    0
-  );
-
   closeSidebarAfterSelectingOption('enrollment');
 
 
   // Append modal components to the body
   appendModalsToBody(modalComponents, modalId);
-
-
 };
 
 
 
+document.body.addEventListener('click', (event) => {
+  const target = event.target;
+
+  // Check if the clicked element has the data-modal-recreate attribute
+  if (target.matches('[data-modal-recreate]')) {
+    const modalId = target.getAttribute('data-modal-recreate');
+    
+    // Remove the existing modal from the DOM
+    const modalElement = document.getElementById(modalId);
+    modalElement.parentNode.removeChild(modalElement);
+
+    // Call the function to create and append the modal again
+    appendModalsToBody(modalComponents, modalId);
+  }
+});

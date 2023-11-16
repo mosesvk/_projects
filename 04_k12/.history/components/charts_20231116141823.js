@@ -1,5 +1,10 @@
 const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
-
+  console.log({
+    dataPeer,
+    dataClient,
+    numType,
+    fixedNum
+  });
   const chartColors = document.documentElement.classList.contains('dark')
     ? {
         borderColor: '#374151',

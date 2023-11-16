@@ -1,3 +1,4 @@
+
 // Enrollment
 const studentAverageEnrollment_Peer = {};
 const studentAverageEnrollment_YesNo_Peer = {};
@@ -104,7 +105,6 @@ const selectedRegions_Array = [];
 // Utility Functions
 
 const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
-
   const chart = new ApexCharts(
     document.getElementById(chartId),
     getMainChartOptions(dataPeer, dataClient, type, fixedNum)
@@ -112,12 +112,10 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
 
   chart.render();
 
-  // // init again when toggling dark mode
-  // document.addEventListener('dark-mode', function () {
-  //   chart.updateOptions(
-  //     getMainChartOptions(dataPeer, dataClient, type, fixedNum)
-  //   );
-  // });
+  // init again when toggling dark mode
+  document.addEventListener('dark-mode', function () {
+    chart.updateOptions(getMainChartOptions(dataPeer, dataClient));
+  });
 };
 
 const createDivChartandModal = (
@@ -128,11 +126,11 @@ const createDivChartandModal = (
   modalComponents,
   data,
   client,
-  peer,
-  valueType
+  peer
 ) => {
-  // console.log(peer)
 
+  console.log(data);
+  console.log('peer', peer);
   const percentChangeValue = data
     ? calculateAveragePercentageChange(data[peer])
     : '0';
@@ -141,14 +139,15 @@ const createDivChartandModal = (
     title,
     percentChangeValue,
     chartId,
-    modalId,
-    valueType,
-    data,
-    client,
-    peer
+    modalId
   );
 
-  const modalComponent = createModalComponent(modalId, title, 'studentsMain');
+  const modalComponent = createModalComponent(
+    modalId,
+    'Students - Average Enrollment',
+    'studentsMain'
+  );
+
 
   chartComponents += chartComponent; // Append chart component HTML
   modalComponents += modalComponent; // Append modal component HTML
@@ -176,8 +175,7 @@ const createAndAppendComponent = (
   modalComponents,
   data,
   client,
-  peer,
-  valueType
+  peer
 ) => {
   const updatedComponents = createDivChartandModal(
     chartId,
@@ -187,8 +185,7 @@ const createAndAppendComponent = (
     modalComponents,
     data,
     client,
-    peer,
-    valueType
+    peer
   );
 
   return updatedComponents;
@@ -202,7 +199,6 @@ const createChartFromParsedData = (
   type,
   fixedNum
 ) => {
-
   if (parsedData) {
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
     // You might need to create other charts here based on the component IDs
@@ -245,9 +241,7 @@ const getMidpointOfArray = (array) => {
 };
 
 const calculateAveragePercentageChange = (values) => {
-  // console.log(values);
-  // console.log('---');
-
+  console.log(values);
   const years = Object.keys(values);
   const numberOfYears = years.length;
 
@@ -312,7 +306,7 @@ const findUniqueYears = (data) => {
 };
 
 const checkLastRenderedComponent = () => {
-  // console.log('checkLastRenderedComponent()');
+
   const lastRenderedComponent = localStorage.getItem('lastRenderedComponent');
   if (lastRenderedComponent === 'report') {
     displayReportComponent();
@@ -461,7 +455,7 @@ const addModalEventListeners = (modalId) => {
 
 const createChartComponent = (title, percentChangeValue, chartId, modalId) => {
   return `
-    <div class='p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4'>
+    <div class='p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800'>
       <div class='flex items-center justify-between mb-4'>
         <div class='flex-shrink-0'>
           <span class='text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white'>
@@ -516,6 +510,7 @@ const createChartComponent = (title, percentChangeValue, chartId, modalId) => {
   `;
 };
 
+
 const createModalComponent = (modalId, title, mainName) => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -556,7 +551,7 @@ const createModalComponent = (modalId, title, mainName) => {
                 <div class='relative overflow-x-auto shadow-md sm:rounded-lg'>
                   <table class='w-full text-lg text-left text-gray-500 dark:text-gray-400'>
                     <thead class='text-xs text-gray-700 uppercase bg-green-200 dark:bg-gray-700 dark:text-green-200 '>
-                      <tr id='${modalId}_row'>
+                      <tr id='getPeerAndClientChartDataArrays'>
                         <th scope='col' class='px-6 py-3 text-lg'>
                           Client
                         </th>
@@ -605,4 +600,7 @@ const createModalComponent = (modalId, title, mainName) => {
       </div>
     </div>
   `;
+
 };
+
+

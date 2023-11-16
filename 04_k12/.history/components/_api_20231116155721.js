@@ -514,7 +514,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 
   localStorage.removeItem('enrollmentData');
   localStorage.setItem('enrollmentData', JSON.stringify(object));
-
 };
 
 const addTableColumnsToReport = (tableHeader, yearsArray) => {
@@ -563,7 +562,10 @@ const runApiMain = () => {
       );
       localStorage.setItem('selectedYears', JSON.stringify(selectedYearsArray));
       processEnrollmentData(selectedYears, recordsPeer, recordsClient);
-      checkLastRenderedComponent();
+
+      setTimeout(() => {
+        checkLastRenderedComponent();
+      }, 1000);
     } catch (err) {
       console.error(err);
     }

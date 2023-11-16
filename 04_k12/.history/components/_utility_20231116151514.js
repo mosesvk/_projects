@@ -202,7 +202,7 @@ const createChartFromParsedData = (
   type,
   fixedNum
 ) => {
-
+  // console.log('createChartFromParsedData');
   if (parsedData) {
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
     // You might need to create other charts here based on the component IDs
@@ -312,7 +312,6 @@ const findUniqueYears = (data) => {
 };
 
 const checkLastRenderedComponent = () => {
-  // console.log('checkLastRenderedComponent()');
   const lastRenderedComponent = localStorage.getItem('lastRenderedComponent');
   if (lastRenderedComponent === 'report') {
     displayReportComponent();

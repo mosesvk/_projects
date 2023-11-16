@@ -563,7 +563,7 @@ const runApiMain = () => {
       );
       localStorage.setItem('selectedYears', JSON.stringify(selectedYearsArray));
       processEnrollmentData(selectedYears, recordsPeer, recordsClient);
-      checkLastRenderedComponent();
+
     } catch (err) {
       console.error(err);
     }

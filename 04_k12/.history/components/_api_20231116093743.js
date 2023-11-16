@@ -362,7 +362,6 @@ const xmlClientString = `
     </record>
   </qdbapi>
 `;
-
 const parser = new DOMParser();
 const parserClient = new DOMParser();
 const xmlPeerDoc = parser.parseFromString(xmlPeerString, 'text/xml');
@@ -380,42 +379,25 @@ document.addEventListener('DOMContentLoaded', () => {
   runApiMain();
 });
 
-const insertDataIntoObject = (
-  type,
-  year,
-  object,
-  dataKey,
-  record,
-  child,
-  yesNo
-) => {
+const insertDataIntoObject = (year, object, dataKey, record, child, yesNoField) => {
   const innerData =
     record.querySelector(child).innerHTML.split('').length > 0
       ? record.querySelector(child).innerHTML.trim()
       : 0;
 
-  const yesNoField = yesNo && record.querySelector(yesNo).textContent;
+  const yesNoField = record.querySelector(
+    yesNoField
+  ).textContent;
 
-  if (type === 'client') {
-    if (!object[dataKey]) {
-      object[dataKey] = {};
-    }
-    if (!object[dataKey][year]) {
-      object[dataKey][year] = [];
-    }
-    object[dataKey][year].push(innerData);
-  } else {
-    // type === 'peer'
-    if (yesNoField == 'Yes') {
-      if (!object[dataKey]) {
-        object[dataKey] = {};
-      }
-      if (!object[dataKey][year]) {
-        object[dataKey][year] = [];
-      }
-      object[dataKey][year].push(innerData);
-    }
+  if (!object[dataKey] && yesNoField == 'Yes') {
+    object[dataKey] = {};
   }
+  if (!object[dataKey][year] && yesNoField == 'Yes') {
+    object[dataKey][year] = [];
+  }
+
+  if (object[dataKey] && yesNoField == 'Yes') 
+  object[dataKey][year].push(innerData);
 };
 
 const processEnrollmentData = (years, recordsPeer, recordsClient) => {
@@ -437,7 +419,15 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         object,
         'studentAverageEnrollment_Peer',
         record,
-        '_01_ratio_students_enrollment',
+        '_01_ratio_students_enrollment'
+      );
+
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentAverageEnrollment_YesNo_Peer',
+        record,
         '_01_yes_no_students_enrollment'
       );
 
@@ -447,8 +437,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         object,
         'studentAverageEnrollment_Peak_Peer',
         record,
-        '_01c_ratio_students_enrollment_peak_enrolmment',
-        '_01c_yes_no_students_enrollment_peak_enrolmment'
+        '_01c_ratio_students_enrollment_peak_enrolmment'
       );
 
       insertDataIntoObject(
@@ -457,8 +446,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         object,
         'studentFacilityRatio_Peer',
         record,
-        '_02_ratio_student_faculty_ratio',
-        '_02_yes_no_student_faculty_ratio'
+        '_02_ratio_student_faculty_ratio'
       );
     });
 
@@ -486,7 +474,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         '_01a_ratio_students_enrollment___change'
       );
       insertDataIntoObject(
-        'client',
         year,
         object,
         'studentAverageEnrollment_Average_Client',
@@ -494,7 +481,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         '_01b_ratio_students_enrollment_average'
       );
       insertDataIntoObject(
-        'client',
         year,
         object,
         'studentAverageEnrollment_Peak_Client',
@@ -502,7 +488,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         '_01c_ratio_students_enrollment_peak_enrolmment'
       );
       insertDataIntoObject(
-        'client',
         year,
         object,
         'studentFacilityRatio_Client',
@@ -514,7 +499,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 
   localStorage.removeItem('enrollmentData');
   localStorage.setItem('enrollmentData', JSON.stringify(object));
-
 };
 
 const addTableColumnsToReport = (tableHeader, yearsArray) => {
@@ -557,13 +541,15 @@ const runApiMain = () => {
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
 
+      processEnrollmentData(selectedYears, recordsPeer, recordsClient);
+
+      checkLastRenderedComponent();
+
       // After processing, save selectedYears_Set to localStorage
       const selectedYearsArray = Array.from(selectedYears_Set).sort(
         (a, b) => a - b
       );
       localStorage.setItem('selectedYears', JSON.stringify(selectedYearsArray));
-      processEnrollmentData(selectedYears, recordsPeer, recordsClient);
-      checkLastRenderedComponent();
     } catch (err) {
       console.error(err);
     }

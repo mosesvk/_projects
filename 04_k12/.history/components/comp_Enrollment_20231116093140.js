@@ -1,7 +1,5 @@
 const displayEnrollmentComponent = () => {
 
-  console.log('displayEnrollmentComponent()');
-
   const savedData = getStoredData();
   const parseData = parseStoredData(savedData);
 
@@ -17,22 +15,18 @@ const displayEnrollmentComponent = () => {
     modalComponents,
     parseData, 
     'studentAverageEnrollment_Client',
-    'studentAverageEnrollment_Peer',
-    'studentsMain', 
-    'number'
+    'studentAverageEnrollment_Peer'
   ));
 
   ({ chartComponents, modalComponents, modalId } = createAndAppendComponent(
-    'studentFacilityRatio_chart',
-    'studentFacilityRatio_modal',
+    'studentFacilityRation_chart',
+    'studentFacilityRation_modal',
     'Student/Facility Ratio',
     chartComponents,
     modalComponents,
     parseData, 
     'studentFacilityRatio_Client',
-    'studentFacilityRatio_Peer',
-    'studentFacilityRatio', 
-    'number'
+    'studentFacilityRatio_Peer'
   ));
 
   // Combine chart components into the final component string
@@ -53,23 +47,18 @@ const displayEnrollmentComponent = () => {
     0
   );
 
-  createChartFromParsedData(
-    parseData,
-    'studentFacilityRatio_chart',
-    'studentFacilityRatio_Peer',
-    'studentFacilityRatio_Client',
-    'number',
-    0
-  );
-
   closeSidebarAfterSelectingOption('enrollment');
 
 
   // Append modal components to the body
   appendModalsToBody(modalComponents, modalId);
 
-
 };
 
 
 
+const modal = Flowbite.Modal({
+  content: 'Hello World'
+})
+
+modal.open()

@@ -185,8 +185,3 @@ document.getElementById('sidebar').innerHTML = (
     </div>
   </div>`
 );
-
-
-// Add event listeners
-document.getElementById('enrollmentButton').addEventListener('click', displayEnrollmentComponent);
-document.getElementById('reportButton').addEventListener('click', displayReportComponent);
