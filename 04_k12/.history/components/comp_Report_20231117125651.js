@@ -5,7 +5,7 @@ const displayReportComponent = () => {
 
   displayDataToReport(savedData, selectedYears);
 
-  closeSidebarAfterSelectingOption('report');
+  // closeSidebarAfterSelectingOption('report');
 };
 
 const displayDataToReport = (data, selectedYears) => {

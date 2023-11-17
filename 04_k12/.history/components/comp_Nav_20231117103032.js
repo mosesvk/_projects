@@ -176,6 +176,7 @@ document.addEventListener('click', (event) => {
     !optionsList.contains(event.target)
   ) {
     optionsList.classList.add('invisible');
+
   }
 
   if (
@@ -184,6 +185,7 @@ document.addEventListener('click', (event) => {
   ) {
     optionsListRegion.classList.add('invisible');
   }
+
 });
 
 const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
@@ -203,10 +205,7 @@ const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'checkbox');
     newInput.setAttribute('id', `option-${regionString}`);
-    newInput.setAttribute(
-      'class',
-      'form-checkbox h-4 w-4 text-gray-600 mr-2 rounded'
-    );
+    newInput.setAttribute('class', 'form-checkbox h-4 w-4 text-gray-600 mr-2 rounded');
     newInput.setAttribute('value', regionString);
 
     // Add the value to selectedRegions_Array and check the input by default
@@ -237,20 +236,21 @@ const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
   });
 };
 
-const sidebarButtons = document.querySelectorAll("button[id$='Link']");
-const tabContents = document.querySelectorAll('.tab-content');
+  // Get all button elements
+  var buttons = document.querySelectorAll("button[id$='Link']");
 
-sidebarButtons.forEach(function (button, index) {
-  button.addEventListener('click', function () {
-    // Hide all tab contents
-    tabContents.forEach(function (content) {
-      content.classList.add('hidden');
+  // Get all tab content elements
+  var tabContents = document.querySelectorAll(".tab-content");
+
+  // Add click event listener to each button
+  buttons.forEach(function (button, index) {
+    button.addEventListener("click", function () {
+      // Hide all tab contents
+      tabContents.forEach(function (content) {
+        content.classList.add("hidden");
+      });
+
+      // Show the corresponding tab content based on the button index
+      tabContents[index].classList.remove("hidden");
     });
-
-    // Show the corresponding tab content based on the button index
-    tabContents[index].classList.remove('hidden');
-
-    // Hide the optionsList when a sideBarButton is clicked
-    optionsList.classList.toggle('invisible');
   });
-});
