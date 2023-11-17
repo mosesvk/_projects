@@ -154,6 +154,20 @@ const createDivChartandModal = (
 
   appendModalsToBody(modalComponent, modalId);
 
+  // Add event listener for "Expand Info" button
+  // document.body.addEventListener('click', (event) => {
+  //   const target = event.target;
+  //   console.log(event.target.dataset.modalTarget)
+  //   if (
+  //     target.classList.contains('expand-info-button') &&
+  //     target.dataset.modalTarget === modalId
+  //     ) {
+  //     const modal = document.getElementById(modalId);
+  //     if (modal) {
+  //       modal.classList.toggle('hidden');
+  //     }
+  //   }
+  // });
 
   return {
     chartComponents,
@@ -181,7 +195,6 @@ const createAndAppendComponent = (
   peer,
   valueType
 ) => {
-  console.log('createAndAppendComponent()');
   const updatedComponents = createDivChartandModal(
     chartId,
     modalId,
@@ -398,19 +411,14 @@ const appendModalsToBody = (modalComponents, modalId) => {
     modal.parentNode.removeChild(modal);
   });
 
+  // Convert modalComponents to a string if it's an HTML element
+  const modalComponentsString =
+    modalComponents instanceof HTMLElement
+      ? modalComponents.outerHTML
+      : modalComponents;
+
   // Append new modal components
-  document.body.insertAdjacentHTML('beforeend', modalComponents);
-
-  // location.reload();
-
-};
-
-const initializeFlowbiteModal = (modalId) => {
-  const modalElement = document.getElementById(modalId);
-  if (modalElement) {
-    // Use the appropriate Flowbite method to initialize the modal
-    Flowbite.modal(modalElement);
-  }
+  document.body.insertAdjacentHTML('beforeend', modalComponentsString);
 };
 
 const getPeerAndClientChartDataArrays = (
@@ -627,3 +635,5 @@ const createModalComponent = (modalId, title, mainName) => {
     </div>
   `;
 };
+
+\

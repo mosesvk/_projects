@@ -154,6 +154,20 @@ const createDivChartandModal = (
 
   appendModalsToBody(modalComponent, modalId);
 
+  // Add event listener for "Expand Info" button
+  // document.body.addEventListener('click', (event) => {
+  //   const target = event.target;
+  //   console.log(event.target.dataset.modalTarget)
+  //   if (
+  //     target.classList.contains('expand-info-button') &&
+  //     target.dataset.modalTarget === modalId
+  //     ) {
+  //     const modal = document.getElementById(modalId);
+  //     if (modal) {
+  //       modal.classList.toggle('hidden');
+  //     }
+  //   }
+  // });
 
   return {
     chartComponents,
@@ -401,8 +415,9 @@ const appendModalsToBody = (modalComponents, modalId) => {
   // Append new modal components
   document.body.insertAdjacentHTML('beforeend', modalComponents);
 
-  // location.reload();
-
+  // Initialize Flowbite modal after appending to the DOM
+  const modalElement = document.getElementById(modalId);
+  Flowbite.initModal(modalElement);
 };
 
 const initializeFlowbiteModal = (modalId) => {

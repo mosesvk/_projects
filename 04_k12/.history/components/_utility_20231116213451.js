@@ -104,6 +104,7 @@ const selectedRegions_Array = [];
 // Utility Functions
 
 const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
+
   const chart = new ApexCharts(
     document.getElementById(chartId),
     getMainChartOptions(dataPeer, dataClient, type, fixedNum)
@@ -152,7 +153,9 @@ const createDivChartandModal = (
   chartComponents += chartComponent; // Append chart component HTML
   modalComponents += modalComponent; // Append modal component HTML
 
-  appendModalsToBody(modalComponent, modalId);
+  appendModalsToBody(modalComponent, modalId)
+
+
 
 
   return {
@@ -181,7 +184,6 @@ const createAndAppendComponent = (
   peer,
   valueType
 ) => {
-  console.log('createAndAppendComponent()');
   const updatedComponents = createDivChartandModal(
     chartId,
     modalId,
@@ -205,6 +207,7 @@ const createChartFromParsedData = (
   type,
   fixedNum
 ) => {
+
   if (parsedData) {
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
     // You might need to create other charts here based on the component IDs
@@ -398,20 +401,16 @@ const appendModalsToBody = (modalComponents, modalId) => {
     modal.parentNode.removeChild(modal);
   });
 
+  // Convert modalComponents to a string if it's an HTML element
+  const modalComponentsString =
+    modalComponents instanceof HTMLElement
+      ? modalComponents.outerHTML
+      : modalComponents;
+
   // Append new modal components
-  document.body.insertAdjacentHTML('beforeend', modalComponents);
-
-  // location.reload();
-
+  document.body.insertAdjacentHTML('beforeend', modalComponentsString);
 };
 
-const initializeFlowbiteModal = (modalId) => {
-  const modalElement = document.getElementById(modalId);
-  if (modalElement) {
-    // Use the appropriate Flowbite method to initialize the modal
-    Flowbite.modal(modalElement);
-  }
-};
 
 const getPeerAndClientChartDataArrays = (
   years,
@@ -472,67 +471,93 @@ const addModalEventListeners = (modalId) => {
   }
 };
 
-const createChartComponent = (title, percentChangeValue, chartId, modalId) => {
-  return `
-    <div class='p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4'>
-      <div class='flex items-center justify-between mb-4'>
-        <div class='flex-shrink-0'>
-          <span class='text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white'>
-            ${title}
-          </span>
-        </div>
-        <div class='flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400'>
-          ${percentChangeValue}%
+const createChartComponent = (title, percentChangeValue, chartId, modalId, valueType, data, client, peer) => {
+  // Create the chart component container
+  const chartComponent = document.createElement('div');
+  chartComponent.classList.add('p-4', 'bg-white', 'border', 'border-gray-200', 'rounded-lg', 'shadow-sm', '2xl:col-span-2', 'dark:border-gray-700', 'sm:p-6', 'dark:bg-gray-800', 'mb-4');
+
+  // Create the inner content of the chart component
+  const content = `
+    <div class='flex items-center justify-between mb-4'>
+      <div class='flex-shrink-0'>
+        <span class='text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white'>
+          ${title}
+        </span>
+      </div>
+      <div class='flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400'>
+        ${percentChangeValue}%
+        <svg
+          class='w-5 h-5'
+          fill='currentColor'
+          viewBox='0 0 20 20'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <path
+            fill-rule='evenodd'
+            d='M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z'
+            clip-rule='evenodd'
+          ></path>
+        </svg>
+      </div>
+    </div>
+
+    <div id=${chartId}></div>
+
+    <div class='flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700'>
+      <div class='flex-shrink-0'>
+        <button 
+          data-modal-target=${modalId} 
+          data-modal-toggle=${modalId}  
+          class='expand-info-button inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600'
+        >
+          Expand Info
           <svg
-            class='w-5 h-5'
-            fill='currentColor'
-            viewBox='0 0 20 20'
+            class='w-4 h-4 ml-1'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'
             xmlns='http://www.w3.org/2000/svg'
           >
             <path
-              fill-rule='evenodd'
-              d='M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z'
-              clip-rule='evenodd'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M9 5l7 7-7 7'
             ></path>
           </svg>
-        </div>
-      </div>
-
-      <div id=${chartId}></div>
-
-      <div class='flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700'>
-        <div class='flex-shrink-0'>
-          <button 
-            data-modal-target=${modalId} 
-            data-modal-toggle=${modalId}  
-            class='inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600'
-          >
-            Expand Info
-            <svg
-              class='w-4 h-4 ml-1'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-width='2'
-                d='M9 5l7 7-7 7'
-              ></path>
-            </svg>
-          </button>
-        </div>
+        </button>
       </div>
     </div>
   `;
+
+  // Set the inner content of the chart component
+  chartComponent.innerHTML = content;
+
+  // Attach event listener to the chart component
+  chartComponent.addEventListener('click', (event) => {
+    const target = event.target;
+
+    // Check if the clicked element has the class 'expand-info-button'
+    if (target.classList.contains('expand-info-button')) {
+      // Handle the click event for the expand info button
+      const modal = document.getElementById(modalId);
+
+      if (modal) {
+        modal.classList.toggle('hidden');
+      }
+    }
+  });
+
+  return chartComponent;
 };
 
+
+
 const createModalComponent = (modalId, title, mainName) => {
+
   const existingModal = document.getElementById(modalId);
   // console.log(existingModal);
-
+  
   if (existingModal) {
     // If the modal already exists, return an empty string or handle it as needed
     return existingModal;

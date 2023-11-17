@@ -66,3 +66,7 @@ const displayEnrollmentComponent = () => {
 
 
 };
+
+
+
+console.log(Flowbite);

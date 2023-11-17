@@ -104,6 +104,7 @@ const selectedRegions_Array = [];
 // Utility Functions
 
 const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
+
   const chart = new ApexCharts(
     document.getElementById(chartId),
     getMainChartOptions(dataPeer, dataClient, type, fixedNum)
@@ -147,13 +148,10 @@ const createDivChartandModal = (
     peer
   );
 
-  const modalComponent = createModalComponent(modalId, title, modalId);
+  const modalComponent = createModalComponent(modalId, title, 'studentsMain');
 
   chartComponents += chartComponent; // Append chart component HTML
   modalComponents += modalComponent; // Append modal component HTML
-
-  appendModalsToBody(modalComponent, modalId);
-
 
   return {
     chartComponents,
@@ -181,7 +179,6 @@ const createAndAppendComponent = (
   peer,
   valueType
 ) => {
-  console.log('createAndAppendComponent()');
   const updatedComponents = createDivChartandModal(
     chartId,
     modalId,
@@ -205,6 +202,7 @@ const createChartFromParsedData = (
   type,
   fixedNum
 ) => {
+
   if (parsedData) {
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
     // You might need to create other charts here based on the component IDs
@@ -391,7 +389,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   });
 };
 
-const appendModalsToBody = (modalComponents, modalId) => {
+const appendModalsToBody = (modalComponents) => {
   // Remove existing modals with the same modalId
   const existingModals = document.querySelectorAll(`#${modalId}`);
   existingModals.forEach((modal) => {
@@ -400,17 +398,6 @@ const appendModalsToBody = (modalComponents, modalId) => {
 
   // Append new modal components
   document.body.insertAdjacentHTML('beforeend', modalComponents);
-
-  // location.reload();
-
-};
-
-const initializeFlowbiteModal = (modalId) => {
-  const modalElement = document.getElementById(modalId);
-  if (modalElement) {
-    // Use the appropriate Flowbite method to initialize the modal
-    Flowbite.modal(modalElement);
-  }
 };
 
 const getPeerAndClientChartDataArrays = (
@@ -530,14 +517,7 @@ const createChartComponent = (title, percentChangeValue, chartId, modalId) => {
 };
 
 const createModalComponent = (modalId, title, mainName) => {
-  const existingModal = document.getElementById(modalId);
-  // console.log(existingModal);
-
-  if (existingModal) {
-    // If the modal already exists, return an empty string or handle it as needed
-    return existingModal;
-  }
-
+  console.log('createModalComponent()')
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   return `
