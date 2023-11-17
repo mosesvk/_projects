@@ -239,6 +239,25 @@ const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
   });
 };
 
+const sidebarButtons = document.querySelectorAll("button[id$='Link']");
+const tabContents = document.querySelectorAll('.tab-content');
 
+console.log(sidebarButtons);
+sidebarButtons.forEach(function (button, index) {
+  button.addEventListener('click', function () {
+    // Hide all tab contents
+    tabContents.forEach(function (content) {
+      content.classList.add('hidden');
+    });
+
+    // Show the corresponding tab content based on the button index
+    tabContents[index].classList.remove('hidden');
+
+    // Hide the sidebar and backdrop
+    sidebar.classList.add('hidden');
+    // Add the following line if you have a backdrop element
+    backdrop.classList.add('hidden');
+  });
+});
 
 

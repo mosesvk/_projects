@@ -10,18 +10,14 @@ if (sidebar) {
     toggleSidebarMobileHamburger.classList.toggle('hidden');
     toggleSidebarMobileClose.classList.toggle('hidden');
   };
-
+  
   const sidebar = document.getElementById('sidebar');
   const sidebarBackdrop = document.getElementById('sidebarBackdrop');
-  const toggleSidebarMobileHamburger = document.getElementById(
-    'toggleSidebarMobileHamburger'
-  );
-  const toggleSidebarMobileClose = document.getElementById(
-    'toggleSidebarMobileClose'
-  );
+  const toggleSidebarMobileHamburger = document.getElementById('toggleSidebarMobileHamburger');
+  const toggleSidebarMobileClose = document.getElementById('toggleSidebarMobileClose');
   const sidebarButtons = document.querySelectorAll("button[id$='Link']");
   const tabContents = document.querySelectorAll('.tab-content');
-
+  
   const handleSidebarButtonClick = () => {
     toggleSidebarMobile(
       sidebar,
@@ -30,32 +26,30 @@ if (sidebar) {
       toggleSidebarMobileClose
     );
   };
-
-  toggleSidebarMobileHamburger.addEventListener(
-    'click',
-    handleSidebarButtonClick
-  );
+  
+  toggleSidebarMobileHamburger.addEventListener('click', handleSidebarButtonClick);
   toggleSidebarMobileClose.addEventListener('click', handleSidebarButtonClick);
-
+  
   sidebarButtons.forEach((button, index) => {
     button.addEventListener('click', () => {
       // Hide all tab contents
       tabContents.forEach((content) => {
         content.classList.add('hidden');
       });
-
+  
       // Show the corresponding tab content based on the button index
       tabContents[index].classList.remove('hidden');
-
+  
       // Hide the sidebar and backdrop
       sidebar.classList.add('hidden');
       sidebarBackdrop.classList.add('hidden');
-
+  
       // Update the toggleSidebarMobile icon
       toggleSidebarMobileHamburger.classList.remove('hidden');
       toggleSidebarMobileClose.classList.add('hidden');
     });
   });
+  
 }
 
 // DARK MODE FUNCTIONALITY

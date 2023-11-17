@@ -239,6 +239,20 @@ const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
   });
 };
 
+const sidebarButtons = document.querySelectorAll("button[id$='Link']");
+const tabContents = document.querySelectorAll('.tab-content');
 
+sidebarButtons.forEach(function (button, index) {
+  button.addEventListener('click', function () {
+    // Hide all tab contents
+    tabContents.forEach(function (content) {
+      content.classList.add('hidden');
+    });
+
+    // Show the corresponding tab content based on the button index
+    tabContents[index].classList.remove('hidden');
+
+  });
+});
 
 

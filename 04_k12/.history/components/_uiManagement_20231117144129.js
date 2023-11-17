@@ -11,7 +11,7 @@ if (sidebar) {
     toggleSidebarMobileClose.classList.toggle('hidden');
   };
 
-  const sidebar = document.getElementById('sidebar');
+  const toggleSidebarMobileEl = document.getElementById('toggleSidebarMobile');
   const sidebarBackdrop = document.getElementById('sidebarBackdrop');
   const toggleSidebarMobileHamburger = document.getElementById(
     'toggleSidebarMobileHamburger'
@@ -19,42 +19,32 @@ if (sidebar) {
   const toggleSidebarMobileClose = document.getElementById(
     'toggleSidebarMobileClose'
   );
-  const sidebarButtons = document.querySelectorAll("button[id$='Link']");
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  const handleSidebarButtonClick = () => {
+  
+  toggleSidebarMobileEl.addEventListener('click', () => {
     toggleSidebarMobile(
       sidebar,
       sidebarBackdrop,
       toggleSidebarMobileHamburger,
       toggleSidebarMobileClose
     );
-  };
 
-  toggleSidebarMobileHamburger.addEventListener(
-    'click',
-    handleSidebarButtonClick
-  );
-  toggleSidebarMobileClose.addEventListener('click', handleSidebarButtonClick);
-
-  sidebarButtons.forEach((button, index) => {
-    button.addEventListener('click', () => {
-      // Hide all tab contents
-      tabContents.forEach((content) => {
-        content.classList.add('hidden');
-      });
-
-      // Show the corresponding tab content based on the button index
-      tabContents[index].classList.remove('hidden');
-
-      // Hide the sidebar and backdrop
-      sidebar.classList.add('hidden');
-      sidebarBackdrop.classList.add('hidden');
-
-      // Update the toggleSidebarMobile icon
+    // Check the class of the sidebar and update the icon accordingly
+    if (sidebar.classList.contains('hidden')) {
       toggleSidebarMobileHamburger.classList.remove('hidden');
       toggleSidebarMobileClose.classList.add('hidden');
-    });
+    } else {
+      toggleSidebarMobileHamburger.classList.add('hidden');
+      toggleSidebarMobileClose.classList.remove('hidden');
+    }
+  });
+
+  sidebarBackdrop.addEventListener('click', () => {
+    toggleSidebarMobile(
+      sidebar,
+      sidebarBackdrop,
+      toggleSidebarMobileHamburger,
+      toggleSidebarMobileClose
+    );
   });
 }
 

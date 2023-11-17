@@ -148,7 +148,6 @@ document.getElementById('nav').innerHTML = `
 const customSelect = document.getElementById('custom-select');
 const optionsList = document.getElementById('options-list');
 const sidebar = document.getElementById('sidebar')
-const backdrop = document.getElementById('sidebarBackdrop')
 
 const customSelectRegion = document.getElementById('custom-select-region');
 const optionsListRegion = document.getElementById('options-list-region');
@@ -239,6 +238,20 @@ const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
   });
 };
 
+const sidebarButtons = document.querySelectorAll("button[id$='Link']");
+const tabContents = document.querySelectorAll('.tab-content');
 
+sidebarButtons.forEach(function (button, index) {
+  button.addEventListener('click', function () {
+    // Hide all tab contents
+    tabContents.forEach(function (content) {
+      content.classList.add('hidden');
+    });
 
+    // Show the corresponding tab content based on the button index
+    tabContents[index].classList.remove('hidden');
 
+    // Hide the optionsList when a sideBarButton is clicked
+    sidebar.classList.toggle('invisible');
+  });
+});
