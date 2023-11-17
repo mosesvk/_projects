@@ -380,25 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
   runApiMain();
 });
 
-const findUniqueYears = (data) => {
-  recordsClient.forEach((item) => {
-    const yearElement = item.querySelector('fiscal_ye_date_formatted_year');
-    if (yearElement) {
-      const year = yearElement.textContent;
-
-      // Check if the year is not already in yearsData_Array to ensure uniqueness
-      if (!yearsData_Array.includes(year)) {
-        yearsData_Array.push(year);
-      }
-    }
-  });
-
-  yearsData_Array.sort();
-
-  //nav-component
-  addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
-};
-
 const insertDataIntoObject = (
   type,
   year,
@@ -582,7 +563,7 @@ const runApiMain = () => {
       localStorage.setItem('selectedYears', JSON.stringify(selectedYearsArray));
       processEnrollmentData(selectedYears, recordsPeer, recordsClient);
       checkLastRenderedComponent();
-      // location.reload()
+
     } catch (err) {
       console.error(err);
     }
