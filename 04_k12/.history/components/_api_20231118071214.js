@@ -374,8 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
   findUniqueYears(recordsClient);
 
   addUniqueRegionsToOptionsSelectRegionDropdown(regions_Array);
-  displayEnrollmentComponent()
-  displayReportComponent()
+  // checkLastRenderedComponent();
 
   runApiMain();
 });
@@ -582,7 +581,7 @@ const runApiMain = () => {
       localStorage.setItem('selectedYears', JSON.stringify(selectedYearsArray));
       processEnrollmentData(selectedYears, recordsPeer, recordsClient);
       // checkLastRenderedComponent();
-
+      
       // location.reload()
     } catch (err) {
       console.error(err);

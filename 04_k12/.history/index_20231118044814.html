@@ -44,7 +44,6 @@
                     data-tooltip-target="tooltipEnrollment-right"
                     data-tooltip-placement="right"
                     data-tooltip-style="light"
-                    onclick="displayEnrollmentComponent()"
                     class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 active:text-green-200"
                   >
                     <svg
@@ -185,7 +184,7 @@
                       class="flex-1 ml-3 text-left whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
-                      Income/Giving Ratio
+                      Income
                     </span>
                   </button>
                 </li>
@@ -217,7 +216,7 @@
                 <li>
                   <button
                     id="reportLink"
-                    onclick="displayReportComponent()"
+                    target="_blank"
                     class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
                     <svg
@@ -385,7 +384,6 @@
           <div id="expenseContent" class="tab-content hidden"></div>
 
           <div id="reportsContent" class="tab-content hidden">
-            <!-- Enrollment Table -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800"
             >
@@ -475,7 +473,6 @@
                 </div>
               </div>
             </div>
-            <!-- Cash Table -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800"
             >
