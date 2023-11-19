@@ -103,25 +103,14 @@ const selectedRegions_Array = [];
 
 // Utility Functions
 
-const createChartFromParsedData = (
-  parsedData,
-  chart,
-  peer,
-  client,
-  type,
-  fixedNum
-) => {
-  if (parsedData) {
-    // console.log('chart',chart);
-    createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
-  }
-};
-
+let chartInstance; // Variable to store the chart instance
 
 const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
-  document.getElementById(chartId).innerHTML = '';
+  // Destroy the existing chart if it exists
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
 
-  // Create a new chart instance
   const chart = new ApexCharts(
     document.getElementById(chartId),
     getMainChartOptions(dataPeer, dataClient, type, fixedNum)
@@ -136,7 +125,11 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
     );
   });
 
-};``
+  // Store the chart instance for future reference
+  chartInstance = chart;
+};
+
+
 
 const getStoredData = () => {
   return localStorage.getItem('enrollmentData') || null;
@@ -146,6 +139,18 @@ const parseStoredData = (data) => {
   return data ? JSON.parse(data) : null;
 };
 
+const createChartFromParsedData = (
+  parsedData,
+  chart,
+  peer,
+  client,
+  type,
+  fixedNum
+) => {
+  if (parsedData) {
+    createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
+  }
+};
 
 const closeSidebarAfterSelectingOption = (component) => {
   // Remove the sidebar/backdoor/"x" svg icon
@@ -230,6 +235,17 @@ window.chartColors = {
   grey: 'rgb(201, 203, 207)'
 };
 
+// const checkLastRenderedComponent = (component) => {
+//   const lastRenderedComponent = component
+//     ? component
+//     : localStorage.getItem('lastRenderedComponent');
+//   if (lastRenderedComponent === 'report') {
+//     displayReportComponent();
+//   } else {
+//     displayEnrollmentComponent();
+//   }
+// };
+
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem('selectedYears'));
   const storedData = localStorage.getItem('enrollment');
@@ -298,6 +314,13 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   });
 };
 
+const initializeFlowbiteModal = (modalId) => {
+  const modalElement = document.getElementById(modalId);
+  if (modalElement) {
+    // Use the appropriate Flowbite method to initialize the modal
+    Flowbite.modal(modalElement);
+  }
+};
 
 const getPeerAndClientChartDataArrays = (
   years,

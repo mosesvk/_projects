@@ -121,11 +121,21 @@ const createChartFromParsedData = (
 const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
   document.getElementById(chartId).innerHTML = '';
 
+
+  // Destroy the existing chart if it exists
+  if (chartInstance) {
+    console.log();
+    chartInstance.destroy();
+  }
+
   // Create a new chart instance
   const chart = new ApexCharts(
     document.getElementById(chartId),
     getMainChartOptions(dataPeer, dataClient, type, fixedNum)
   );
+
+  // console.log(chart);
+  // console.log('----');
 
   chart.render();
 
@@ -136,7 +146,9 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
     );
   });
 
-};``
+};
+
+
 
 const getStoredData = () => {
   return localStorage.getItem('enrollmentData') || null;

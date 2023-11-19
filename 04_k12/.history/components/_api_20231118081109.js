@@ -374,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
   findUniqueYears(recordsClient);
 
   addUniqueRegionsToOptionsSelectRegionDropdown(regions_Array);
-
+  
   displayEnrollmentComponent()
   displayReportComponent()
 
@@ -533,6 +533,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
   localStorage.removeItem('enrollmentData');
   localStorage.setItem('enrollmentData', JSON.stringify(object));
 
+  displayEnrollmentComponent()
 };
 
 const addTableColumnsToReport = (tableHeader, yearsArray) => {
@@ -580,12 +581,10 @@ const runApiMain = () => {
         (a, b) => a - b
       );
       localStorage.setItem('selectedYears', JSON.stringify(selectedYearsArray));
-
       processEnrollmentData(selectedYears, recordsPeer, recordsClient);
-      displayEnrollmentComponent()
-      displayReportComponent()
+      // checkLastRenderedComponent();
 
-
+      // location.reload()
     } catch (err) {
       console.error(err);
     }

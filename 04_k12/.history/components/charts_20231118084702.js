@@ -1,6 +1,6 @@
 const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
 
-  console.log('getMainChartOptions()')
+  console.log('hit')
 
   const chartColors = document.documentElement.classList.contains('dark')
     ? {

@@ -375,8 +375,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   addUniqueRegionsToOptionsSelectRegionDropdown(regions_Array);
 
-  displayEnrollmentComponent()
-  displayReportComponent()
+  displayEnrollmentComponent();
+  displayReportComponent();
+
+  const runApiMain = () => {
+    const run_btn = document.querySelector('#run');
+
+    run_btn.addEventListener('click', () => {
+      try {
+        const selectedYears = getSelectedYearsFromLocalStorage();
+
+        // After processing, save selectedYears_Set to localStorage
+        const selectedYearsArray = Array.from(selectedYears_Set).sort(
+          (a, b) => a - b
+        );
+        localStorage.setItem(
+          'selectedYears',
+          JSON.stringify(selectedYearsArray)
+        );
+
+        processEnrollmentData(selectedYears, recordsPeer, recordsClient);
+
+        displayReportComponent();
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  };
 
   runApiMain();
 });
@@ -533,6 +558,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
   localStorage.removeItem('enrollmentData');
   localStorage.setItem('enrollmentData', JSON.stringify(object));
 
+  displayEnrollmentComponent();
 };
 
 const addTableColumnsToReport = (tableHeader, yearsArray) => {
@@ -565,29 +591,5 @@ const addColumnsToOtherRows = (idName, year) => {
     // You can customize the content of the new columns as needed
     tdElement.textContent = 'New Data'; // Change this line accordingly
     row.appendChild(tdElement);
-  });
-};
-
-const runApiMain = () => {
-  const run_btn = document.querySelector('#run');
-
-  run_btn.addEventListener('click', () => {
-    try {
-      const selectedYears = getSelectedYearsFromLocalStorage();
-
-      // After processing, save selectedYears_Set to localStorage
-      const selectedYearsArray = Array.from(selectedYears_Set).sort(
-        (a, b) => a - b
-      );
-      localStorage.setItem('selectedYears', JSON.stringify(selectedYearsArray));
-
-      processEnrollmentData(selectedYears, recordsPeer, recordsClient);
-      displayEnrollmentComponent()
-      displayReportComponent()
-
-
-    } catch (err) {
-      console.error(err);
-    }
   });
 };

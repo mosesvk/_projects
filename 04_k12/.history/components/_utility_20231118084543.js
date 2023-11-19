@@ -103,40 +103,31 @@ const selectedRegions_Array = [];
 
 // Utility Functions
 
-const createChartFromParsedData = (
-  parsedData,
-  chart,
-  peer,
-  client,
-  type,
-  fixedNum
-) => {
-  if (parsedData) {
-    // console.log('chart',chart);
-    createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
-  }
-};
-
-
 const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
-  document.getElementById(chartId).innerHTML = '';
-
-  // Create a new chart instance
-  const chart = new ApexCharts(
+  let chart = new ApexCharts(
     document.getElementById(chartId),
     getMainChartOptions(dataPeer, dataClient, type, fixedNum)
   );
 
   chart.render();
 
-  // init again when toggling dark mode
-  document.addEventListener('dark-mode', function () {
-    chart.updateOptions(
-      getMainChartOptions(dataPeer, dataClient, type, fixedNum)
-    );
-  });
+  // Save the initial chart options
+  let initialOptions = getMainChartOptions(dataPeer, dataClient, type, fixedNum);
 
-};``
+  // Function to update the chart options
+  const updateChartOptions = () => {
+    chart.updateOptions(initialOptions);
+  };
+
+  // Initialize again when toggling dark mode
+  document.addEventListener('dark-mode', updateChartOptions);
+
+  // Expose the chart update function so that it can be used externally
+  chart.updateChartOptions = updateChartOptions;
+
+  return chart;
+};
+
 
 const getStoredData = () => {
   return localStorage.getItem('enrollmentData') || null;
@@ -146,6 +137,18 @@ const parseStoredData = (data) => {
   return data ? JSON.parse(data) : null;
 };
 
+const createChartFromParsedData = (
+  parsedData,
+  chart,
+  peer,
+  client,
+  type,
+  fixedNum
+) => {
+  if (parsedData) {
+    createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
+  }
+};
 
 const closeSidebarAfterSelectingOption = (component) => {
   // Remove the sidebar/backdoor/"x" svg icon
@@ -230,6 +233,17 @@ window.chartColors = {
   grey: 'rgb(201, 203, 207)'
 };
 
+// const checkLastRenderedComponent = (component) => {
+//   const lastRenderedComponent = component
+//     ? component
+//     : localStorage.getItem('lastRenderedComponent');
+//   if (lastRenderedComponent === 'report') {
+//     displayReportComponent();
+//   } else {
+//     displayEnrollmentComponent();
+//   }
+// };
+
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem('selectedYears'));
   const storedData = localStorage.getItem('enrollment');
@@ -298,6 +312,13 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   });
 };
 
+const initializeFlowbiteModal = (modalId) => {
+  const modalElement = document.getElementById(modalId);
+  if (modalElement) {
+    // Use the appropriate Flowbite method to initialize the modal
+    Flowbite.modal(modalElement);
+  }
+};
 
 const getPeerAndClientChartDataArrays = (
   years,

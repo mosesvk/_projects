@@ -136,7 +136,7 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
     );
   });
 
-};``
+};
 
 const getStoredData = () => {
   return localStorage.getItem('enrollmentData') || null;

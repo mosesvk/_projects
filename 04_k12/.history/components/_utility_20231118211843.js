@@ -127,6 +127,9 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
     getMainChartOptions(dataPeer, dataClient, type, fixedNum)
   );
 
+  // console.log(chart);
+  // console.log('----');
+
   chart.render();
 
   // init again when toggling dark mode
@@ -136,7 +139,9 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
     );
   });
 
-};``
+};
+
+
 
 const getStoredData = () => {
   return localStorage.getItem('enrollmentData') || null;
