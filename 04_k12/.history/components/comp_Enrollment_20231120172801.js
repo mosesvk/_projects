@@ -1,4 +1,5 @@
 const displayEnrollmentComponent = () => {
+
   // console.log('displayEnrollmentComponent()');
 
   const savedData = getStoredData();
@@ -10,8 +11,7 @@ const displayEnrollmentComponent = () => {
     'studentAverageEnrollment_Peer',
     'studentAverageEnrollment_Client',
     'number',
-    0,
-    'studentsMain'
+    0
   );
 
   createChartFromParsedData(
@@ -20,10 +20,13 @@ const displayEnrollmentComponent = () => {
     'studentFacilityRatio_Peer',
     'studentFacilityRatio_Client',
     'number',
-    0,
-    'studentFacilityRatio'
+    0
   );
 
   closeSidebarAfterSelectingOption('enrollment');
 
+
+    const selectedYears =  getSelectedYearsFromLocalStorage()
+
+    console.log(selectedYears);
 };

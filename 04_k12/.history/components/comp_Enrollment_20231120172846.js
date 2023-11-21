@@ -10,8 +10,7 @@ const displayEnrollmentComponent = () => {
     'studentAverageEnrollment_Peer',
     'studentAverageEnrollment_Client',
     'number',
-    0,
-    'studentsMain'
+    0
   );
 
   createChartFromParsedData(
@@ -20,8 +19,7 @@ const displayEnrollmentComponent = () => {
     'studentFacilityRatio_Peer',
     'studentFacilityRatio_Client',
     'number',
-    0,
-    'studentFacilityRatio'
+    0
   );
 
   closeSidebarAfterSelectingOption('enrollment');
