@@ -150,7 +150,7 @@ function updateModal(mainName, avgData, clientData) {
   // Check if the modal element exists
   if (modal) {
     // Find the table header row
-    const headerRow = modal.querySelector(`#${mainName}_modal_row`);
+    const headerRow = modal.querySelector("#studentsMain_modal_row");
 
     // Clear existing header content
     headerRow.innerHTML = "";
@@ -197,7 +197,8 @@ function updateModal(mainName, avgData, clientData) {
       headerRow.insertAdjacentElement("afterend", yearRow);
     });
 
-
+    // Rest of your update logic for the modal goes here
+    // ...
   }
 }
 

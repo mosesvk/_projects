@@ -197,7 +197,8 @@ function updateModal(mainName, avgData, clientData) {
       headerRow.insertAdjacentElement("afterend", yearRow);
     });
 
-
+    // Rest of your update logic for the modal goes here
+    // ...
   }
 }
 
