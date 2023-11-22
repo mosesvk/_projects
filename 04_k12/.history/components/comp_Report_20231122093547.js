@@ -12,7 +12,7 @@ const insertDataToReport = (data, selectedYears) => {
   if (data && selectedYears) {
     addTotalDataToEveryRow(data, selectedYears, [
       ['studentsAverageEnrollment', 'num', 0],
-      ['studentsAverageEnrollment_PercentChange', 'percent', 1],
+      ['studentsAverageEnrollment_PercentChange', 'percent', 0],
       ['studentsAverageEnrollment_Average', 'num', 0],
       ['studentsAverageEnrollment_Peak', 'num', 0],
       ['studentsFacilityRatio', 'num', 1]

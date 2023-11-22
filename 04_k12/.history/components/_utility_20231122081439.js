@@ -398,20 +398,13 @@ const getPeerAndClientChartDataArrays = (
   return { clientArray, peerAvg, peerMid, peerMin, peerMax };
 };
 
+
 const styleNumber = (num, type, fixed) => {
   let text = num;
-
-  if (text == 0) text = '-';
-
-  if (!isNaN(text)) {
-    if (type === 'num' && text != 0) {
-      text = Number(text).toFixed(fixed);
-      text = Number(text).toLocaleString(); // Add commas for thousands
-    }
-
-    if (type === 'percent' && text != 0)
-      text = parseFloat(text).toFixed(fixed) + '%';
-  }
+  console.log(typeof text);
+  if (type == 'num') Number(text.toFixed(fixed)).toLocaleString();
+  if (type == 'percent')
+    Number(text.toFixed(fixed)).toLocaleString() + '%';
 
   return text;
 };

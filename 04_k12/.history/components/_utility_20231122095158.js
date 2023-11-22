@@ -403,7 +403,7 @@ const styleNumber = (num, type, fixed) => {
 
   if (text == 0) text = '-';
 
-  if (!isNaN(text)) {
+  if (!NaN(text)) {
     if (type === 'num' && text != 0) {
       text = Number(text).toFixed(fixed);
       text = Number(text).toLocaleString(); // Add commas for thousands

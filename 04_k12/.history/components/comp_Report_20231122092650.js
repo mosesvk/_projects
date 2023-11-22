@@ -10,7 +10,7 @@ const displayReportComponent = () => {
 
 const insertDataToReport = (data, selectedYears) => {
   if (data && selectedYears) {
-    addTotalDataToEveryRow(data, selectedYears, [
+    addDataToEveryRow(data, selectedYears, [
       ['studentsAverageEnrollment', 'num', 0],
       ['studentsAverageEnrollment_PercentChange', 'percent', 1],
       ['studentsAverageEnrollment_Average', 'num', 0],
@@ -20,7 +20,7 @@ const insertDataToReport = (data, selectedYears) => {
   }
 };
 
-const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
+const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
   // console.log(data);
   for (let name of arrayOfNames) {
     addToSingleRow(

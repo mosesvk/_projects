@@ -10,48 +10,39 @@ const displayReportComponent = () => {
 
 const insertDataToReport = (data, selectedYears) => {
   if (data && selectedYears) {
-    addTotalDataToEveryRow(data, selectedYears, [
-      ['studentsAverageEnrollment', 'num', 0],
-      ['studentsAverageEnrollment_PercentChange', 'percent', 1],
-      ['studentsAverageEnrollment_Average', 'num', 0],
-      ['studentsAverageEnrollment_Peak', 'num', 0],
-      ['studentsFacilityRatio', 'num', 1]
+    addDataToEveryRow(data, selectedYears, [
+      'studentsAverageEnrollment',
+      'studentsAverageEnrollment_Average',
+      'studentsAverageEnrollment_Peak',
+      'studentsAverageEnrollment_PercentChange',
+      'studentsFacilityRatio'
     ]);
   }
 };
 
-const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
+const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
   // console.log(data);
   for (let name of arrayOfNames) {
     addToSingleRow(
       selectedYears,
-      name[0],
-      data[`${name[0]}_Client`],
-      data[`${name[0]}_Peer`],
-      name[1],
-      name[2]
+      name,
+      data[`${name}_Client`],
+      data[`${name}_Peer`]
     );
   }
 };
 
 const addToSingleRow = (selectedYears, name, client, peer, type, fixedNum) => {
-  // console.log({selectedYears, name, client, peer, type, fixedNum});
   const tableRow = document.getElementById(`row_${name}`);
 
   while (tableRow.children.length > 1) {
     tableRow.removeChild(tableRow.children[1]);
   }
 
-  addClientDataToRow(tableRow, selectedYears, client, type, fixedNum);
+  addClientDataToRow(tableRow, selectedYears, name, client, type, fixedNum);
 };
 
-const addClientDataToRow = (
-  tableRow,
-  selectedYears,
-  client,
-  type,
-  fixedNum
-) => {
+const addClientDataToRow = (tableRow, selectedYears, name, client, type, fixedNum) => {
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
   const propScope = 'row';
@@ -66,6 +57,15 @@ const addClientDataToRow = (
 
     tableRow.appendChild(dataPoint);
   });
+};
+
+const styleNumber = (num, type, fixed) => {
+  let text = num;
+  if (type == 'num') Number(text.toFixed(fixed || 0)).toLocaleString();
+  if (type == 'percent')
+    Number(text.toFixed(fixed || 0)).toLocaleString() + '%';
+
+  return text;
 };
 
 const addYearColumnsToReportTable = (years) => {

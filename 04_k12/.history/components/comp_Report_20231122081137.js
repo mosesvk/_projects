@@ -10,17 +10,17 @@ const displayReportComponent = () => {
 
 const insertDataToReport = (data, selectedYears) => {
   if (data && selectedYears) {
-    addTotalDataToEveryRow(data, selectedYears, [
+    addDataToEveryRow(data, selectedYears, [
       ['studentsAverageEnrollment', 'num', 0],
-      ['studentsAverageEnrollment_PercentChange', 'percent', 1],
-      ['studentsAverageEnrollment_Average', 'num', 0],
-      ['studentsAverageEnrollment_Peak', 'num', 0],
-      ['studentsFacilityRatio', 'num', 1]
+      // 'studentsAverageEnrollment_Average',
+      // 'studentsAverageEnrollment_Peak',
+      // 'studentsAverageEnrollment_PercentChange',
+      // 'studentsFacilityRatio'
     ]);
   }
 };
 
-const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
+const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
   // console.log(data);
   for (let name of arrayOfNames) {
     addToSingleRow(
@@ -42,7 +42,7 @@ const addToSingleRow = (selectedYears, name, client, peer, type, fixedNum) => {
     tableRow.removeChild(tableRow.children[1]);
   }
 
-  addClientDataToRow(tableRow, selectedYears, client, type, fixedNum);
+  addClientDataToRow(tableRow, selectedYears, client, type, fixedNum = 0);
 };
 
 const addClientDataToRow = (

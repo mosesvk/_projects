@@ -10,17 +10,17 @@ const displayReportComponent = () => {
 
 const insertDataToReport = (data, selectedYears) => {
   if (data && selectedYears) {
-    addTotalDataToEveryRow(data, selectedYears, [
+    addDataToEveryRow(data, selectedYears, [
       ['studentsAverageEnrollment', 'num', 0],
-      ['studentsAverageEnrollment_PercentChange', 'percent', 1],
-      ['studentsAverageEnrollment_Average', 'num', 0],
-      ['studentsAverageEnrollment_Peak', 'num', 0],
-      ['studentsFacilityRatio', 'num', 1]
+      // 'studentsAverageEnrollment_Average',
+      // 'studentsAverageEnrollment_Peak',
+      // 'studentsAverageEnrollment_PercentChange',
+      // 'studentsFacilityRatio'
     ]);
   }
 };
 
-const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
+const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
   // console.log(data);
   for (let name of arrayOfNames) {
     addToSingleRow(
@@ -35,7 +35,7 @@ const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
 };
 
 const addToSingleRow = (selectedYears, name, client, peer, type, fixedNum) => {
-  // console.log({selectedYears, name, client, peer, type, fixedNum});
+  console.log({selectedYears, name, client, peer, type, fixedNum});
   const tableRow = document.getElementById(`row_${name}`);
 
   while (tableRow.children.length > 1) {
