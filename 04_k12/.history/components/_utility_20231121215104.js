@@ -138,6 +138,7 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
 };
 
 function updateModal(mainName, avgData, clientData) {
+  console.log(mainName);
   // Get the selected years from local storage
   const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -150,15 +151,11 @@ function updateModal(mainName, avgData, clientData) {
     const headerRow = modal.querySelector(`#${mainName}_modal_row`);
     let tableHead = headerRow.parentElement;
 
-    // Clear existing rows after the headerRow
-    let nextRow = headerRow.nextSibling;
-    while (nextRow) {
-      tableHead.removeChild(nextRow);
-      nextRow = headerRow.nextSibling; // Get the next sibling again
-    }
-
     // Clear existing header content
     headerRow.innerHTML = '';
+    // tableHead.innerHTML = ''
+
+    console.log('before', tableHead);
 
     // Add the "Client" column
     const clientColumn = document.createElement('th');
@@ -181,6 +178,7 @@ function updateModal(mainName, avgData, clientData) {
       headerRow.appendChild(col);
     });
 
+
     // Add a row for each selected year
     selectedYears.forEach((year) => {
       const yearRow = document.createElement('tr');
@@ -201,9 +199,11 @@ function updateModal(mainName, avgData, clientData) {
       // Append the row to the header
       tableHead.appendChild(yearRow);
     });
+    console.log('after', tableHead);
   }
-}
 
+  console.log('-------');
+}
 
 
 const getStoredData = () => {

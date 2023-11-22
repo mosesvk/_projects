@@ -150,15 +150,13 @@ function updateModal(mainName, avgData, clientData) {
     const headerRow = modal.querySelector(`#${mainName}_modal_row`);
     let tableHead = headerRow.parentElement;
 
-    // Clear existing rows after the headerRow
-    let nextRow = headerRow.nextSibling;
-    while (nextRow) {
-      tableHead.removeChild(nextRow);
-      nextRow = headerRow.nextSibling; // Get the next sibling again
-    }
-
     // Clear existing header content
     headerRow.innerHTML = '';
+    if (!tableHead) {
+      // If tableHead doesn't exist, create it
+      tableHead = document.createElement('thead');
+      modal.appendChild(tableHead);
+    }
 
     // Add the "Client" column
     const clientColumn = document.createElement('th');
@@ -203,7 +201,6 @@ function updateModal(mainName, avgData, clientData) {
     });
   }
 }
-
 
 
 const getStoredData = () => {

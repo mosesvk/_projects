@@ -113,6 +113,7 @@ const createChartFromParsedData = (
   mainName
 ) => {
   if (parsedData) {
+    // console.log('chart',chart);
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
     updateModal(mainName, parsedData[peer], parsedData[client]);
   }
@@ -148,17 +149,11 @@ function updateModal(mainName, avgData, clientData) {
   if (modal) {
     // Find the table header row
     const headerRow = modal.querySelector(`#${mainName}_modal_row`);
-    let tableHead = headerRow.parentElement;
+    const tableHead = headerRow.parentNode;
 
-    // Clear existing rows after the headerRow
-    let nextRow = headerRow.nextSibling;
-    while (nextRow) {
-      tableHead.removeChild(nextRow);
-      nextRow = headerRow.nextSibling; // Get the next sibling again
-    }
 
     // Clear existing header content
-    headerRow.innerHTML = '';
+    tableHead.innerHTML = '';
 
     // Add the "Client" column
     const clientColumn = document.createElement('th');
@@ -181,6 +176,7 @@ function updateModal(mainName, avgData, clientData) {
       headerRow.appendChild(col);
     });
 
+
     // Add a row for each selected year
     selectedYears.forEach((year) => {
       const yearRow = document.createElement('tr');
@@ -199,12 +195,10 @@ function updateModal(mainName, avgData, clientData) {
       yearRow.appendChild(yearCell);
 
       // Append the row to the header
-      tableHead.appendChild(yearRow);
+      headerRow.insertAdjacentElement('afterend', yearRow);
     });
   }
 }
-
-
 
 const getStoredData = () => {
   return localStorage.getItem('enrollmentData') || null;

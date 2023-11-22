@@ -148,15 +148,7 @@ function updateModal(mainName, avgData, clientData) {
   if (modal) {
     // Find the table header row
     const headerRow = modal.querySelector(`#${mainName}_modal_row`);
-    let tableHead = headerRow.parentElement;
-
-    // Clear existing rows after the headerRow
-    let nextRow = headerRow.nextSibling;
-    while (nextRow) {
-      tableHead.removeChild(nextRow);
-      nextRow = headerRow.nextSibling; // Get the next sibling again
-    }
-
+    
     // Clear existing header content
     headerRow.innerHTML = '';
 
@@ -181,29 +173,37 @@ function updateModal(mainName, avgData, clientData) {
       headerRow.appendChild(col);
     });
 
+    // Keep track of added years
+    const addedYears = new Set();
+
     // Add a row for each selected year
     selectedYears.forEach((year) => {
-      const yearRow = document.createElement('tr');
-      yearRow.className =
-        'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600';
-      yearRow.id = `${mainName}_modal_${year}`;
+      // Check if the year is already added
+      if (!addedYears.has(year)) {
+        const yearRow = document.createElement('tr');
+        yearRow.className =
+          'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600';
+        yearRow.id = `${mainName}_modal_${year}`;
 
-      // Create a table header cell for the year
-      const yearCell = document.createElement('th');
-      yearCell.className =
-        'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
-      yearCell.scope = 'row';
-      yearCell.textContent = year;
+        // Create a table header cell for the year
+        const yearCell = document.createElement('th');
+        yearCell.className =
+          'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
+        yearCell.scope = 'row';
+        yearCell.textContent = year;
 
-      // Append the year cell to the row
-      yearRow.appendChild(yearCell);
+        // Append the year cell to the row
+        yearRow.appendChild(yearCell);
 
-      // Append the row to the header
-      tableHead.appendChild(yearRow);
+        // Append the row to the header
+        headerRow.insertAdjacentElement('afterend', yearRow);
+
+        // Add the year to the set of added years
+        addedYears.add(year);
+      }
     });
   }
 }
-
 
 
 const getStoredData = () => {

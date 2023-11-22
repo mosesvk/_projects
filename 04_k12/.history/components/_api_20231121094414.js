@@ -440,7 +440,6 @@ const insertDataIntoObject = (
 
 const processEnrollmentData = (years, recordsPeer, recordsClient) => {
   const object = {};
-  const arrayOfNames = ['studentAverageEnrollment', 'studentAverageEnrollment_Average', 'studentAverageEnrollment_Peak', 'studentAverageEnrollment_PercentChange', 'studentFacilityRatio']
 
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
@@ -530,7 +529,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
     });
   });
 
-  if (object) addDataToEveryRow(object, years, arrayOfNames)
+  addDataToEveryRow(object, years)
 
   localStorage.removeItem('enrollmentData');
   localStorage.setItem('enrollmentData', JSON.stringify(object));

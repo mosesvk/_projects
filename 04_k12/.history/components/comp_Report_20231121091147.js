@@ -3,33 +3,18 @@ const displayReportComponent = () => {
   const savedData = JSON.parse(localStorage.getItem('enrollmentData'));
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  insertDataToReport(savedData, selectedYears);
+  displayDataToReport(savedData, selectedYears);
 
   closeSidebarAfterSelectingOption('report');
 };
 
-const insertDataToReport = (data, selectedYears) => {
+const displayDataToReport = (data, selectedYears) => {
   if (data && selectedYears) {
-    addYearColumnsToReportTable(selectedYears);
+    addYearColumnsToReportTables(selectedYears);
   }
 };
 
-const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
-  // console.log(data, selectedYears, arrayOfNames);
-
-  for (let name of arrayOfNames) {
-    addToSingleRow(selectedYears, name, data[`${name}_Client`], data[`${name}_Peer`])
-  }
-
-}
-
-const addToSingleRow = (selectedYears, name, client, peer) => {
-  const tableRow = document.getElementById(`row_${name}`)
-
-
-}
-
-const addYearColumnsToReportTable = (years) => {
+const addYearColumnsToReportTables = (years) => {
   const tables = document.querySelectorAll('table');
 
   tables.forEach((table) => {
@@ -43,12 +28,12 @@ const addYearColumnsToReportTable = (years) => {
       clearTableColumns(idName);
 
       // Add new columns to the table
-      addSingleNewColumnToReportTable(idName, years);
+      addSingleNewColumn(idName, years);
     });
   });
 };
 
-const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
+const addSingleNewColumn = (tableHeader, yearsArray) => {
   // Find the table header row by its ID
   const tableHeaderRow = document.getElementById(tableHeader);
 
@@ -83,10 +68,10 @@ const clearTableColumns = (idName) => {
   });
 
   // Clear corresponding columns from other rows in the table body
-  clearColumnsFromOtherRowsInTable(idName, columnsToPreserve);
+  clearColumnsFromOtherRows(idName, columnsToPreserve);
 };
 
-const clearColumnsFromOtherRowsInTable = (idName, columnsToPreserve) => {
+const clearColumnsFromOtherRows = (idName, columnsToPreserve) => {
   const rows = document.querySelectorAll(`#${idName} + tbody tr`);
 
   rows.forEach((row) => {

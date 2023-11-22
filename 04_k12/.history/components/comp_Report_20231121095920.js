@@ -15,17 +15,13 @@ const insertDataToReport = (data, selectedYears) => {
 };
 
 const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
-  // console.log(data, selectedYears, arrayOfNames);
+  console.log(data, selectedYears, arrayOfNames);
 
-  for (let name of arrayOfNames) {
-    addToSingleRow(selectedYears, name, data[`${name}_Client`], data[`${name}_Peer`])
-  }
+  console.log('studentAverageEnrollment_Client', data[`${arrayOfNames[0]}_Client`]);
 
 }
 
-const addToSingleRow = (selectedYears, name, client, peer) => {
-  const tableRow = document.getElementById(`row_${name}`)
-
+const addToSingleRow = (selectedYears, client, peer) => {
 
 }
 

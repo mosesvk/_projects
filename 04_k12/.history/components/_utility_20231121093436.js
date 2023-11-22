@@ -113,10 +113,12 @@ const createChartFromParsedData = (
   mainName
 ) => {
   if (parsedData) {
+    // console.log('chart',chart);
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
-    updateModal(mainName, parsedData[peer], parsedData[client]);
+    updateModal(mainName, parsedData[peer], parsedData[client])
   }
 };
+
 
 const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
   document.getElementById(chartId).innerHTML = '';
@@ -135,6 +137,7 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
       getMainChartOptions(dataPeer, dataClient, type, fixedNum)
     );
   });
+
 };
 
 function updateModal(mainName, avgData, clientData) {
@@ -148,63 +151,55 @@ function updateModal(mainName, avgData, clientData) {
   if (modal) {
     // Find the table header row
     const headerRow = modal.querySelector(`#${mainName}_modal_row`);
-    let tableHead = headerRow.parentElement;
-
-    // Clear existing rows after the headerRow
-    let nextRow = headerRow.nextSibling;
-    while (nextRow) {
-      tableHead.removeChild(nextRow);
-      nextRow = headerRow.nextSibling; // Get the next sibling again
-    }
 
     // Clear existing header content
-    headerRow.innerHTML = '';
+    headerRow.innerHTML = "";
 
     // Add the "Client" column
-    const clientColumn = document.createElement('th');
-    clientColumn.className = 'px-6 py-3 text-lg';
-    clientColumn.textContent = 'Client';
+    const clientColumn = document.createElement("th");
+    clientColumn.className = "px-6 py-3 text-lg";
+    clientColumn.textContent = "Client";
     headerRow.appendChild(clientColumn);
 
     // Add the "Avg" column
-    const avgColumn = document.createElement('th');
-    avgColumn.className = 'px-6 py-3';
-    avgColumn.textContent = 'Avg';
+    const avgColumn = document.createElement("th");
+    avgColumn.className = "px-6 py-3";
+    avgColumn.textContent = "Avg";
     headerRow.appendChild(avgColumn);
 
     // Add the remaining columns
-    const columns = ['Mid', 'Min', 'Max'];
+    const columns = ["Mid", "Min", "Max"];
     columns.forEach((column) => {
-      const col = document.createElement('th');
-      col.className = 'px-6 py-3';
+      const col = document.createElement("th");
+      col.className = "px-6 py-3";
       col.textContent = column;
       headerRow.appendChild(col);
     });
 
     // Add a row for each selected year
     selectedYears.forEach((year) => {
-      const yearRow = document.createElement('tr');
+      const yearRow = document.createElement("tr");
       yearRow.className =
-        'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600';
+        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
       yearRow.id = `${mainName}_modal_${year}`;
 
       // Create a table header cell for the year
-      const yearCell = document.createElement('th');
+      const yearCell = document.createElement("th");
       yearCell.className =
-        'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
-      yearCell.scope = 'row';
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
+      yearCell.scope = "row";
       yearCell.textContent = year;
 
       // Append the year cell to the row
       yearRow.appendChild(yearCell);
 
       // Append the row to the header
-      tableHead.appendChild(yearRow);
+      headerRow.insertAdjacentElement("afterend", yearRow);
     });
+
+
   }
 }
-
-
 
 const getStoredData = () => {
   return localStorage.getItem('enrollmentData') || null;
@@ -213,6 +208,7 @@ const getStoredData = () => {
 const parseStoredData = (data) => {
   return data ? JSON.parse(data) : null;
 };
+
 
 const closeSidebarAfterSelectingOption = (component) => {
   // Remove the sidebar/backdoor/"x" svg icon
@@ -365,6 +361,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   });
 };
 
+
 const getPeerAndClientChartDataArrays = (
   years,
   dataPeer,
@@ -398,4 +395,25 @@ const getPeerAndClientChartDataArrays = (
   });
 
   return { clientArray, peerAvg, peerMid, peerMin, peerMax };
+};
+
+const addYearRowsToModal = () => {
+  selectedYears &&
+    selectedYears
+      .map(
+        (year) => `
+  <tr
+  id='row_${mainName}_${year}'
+  class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
+  >
+  <th
+    scope='row'
+    class='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
+  >
+    ${year}
+  </th>
+  </tr>
+  `
+      )
+      .join('');
 };

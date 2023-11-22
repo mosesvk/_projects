@@ -148,17 +148,11 @@ function updateModal(mainName, avgData, clientData) {
   if (modal) {
     // Find the table header row
     const headerRow = modal.querySelector(`#${mainName}_modal_row`);
-    let tableHead = headerRow.parentElement;
-
-    // Clear existing rows after the headerRow
-    let nextRow = headerRow.nextSibling;
-    while (nextRow) {
-      tableHead.removeChild(nextRow);
-      nextRow = headerRow.nextSibling; // Get the next sibling again
-    }
+    const tableHead = headerRow.parentElement;
 
     // Clear existing header content
     headerRow.innerHTML = '';
+    tableHead.innerHTML = '';
 
     // Add the "Client" column
     const clientColumn = document.createElement('th');
@@ -198,13 +192,11 @@ function updateModal(mainName, avgData, clientData) {
       // Append the year cell to the row
       yearRow.appendChild(yearCell);
 
-      // Append the row to the header
-      tableHead.appendChild(yearRow);
+      headerRow.insertAdjacentElement('afterend', yearRow);
     });
   }
+  tableHead.appendChild(headerRow);
 }
-
-
 
 const getStoredData = () => {
   return localStorage.getItem('enrollmentData') || null;

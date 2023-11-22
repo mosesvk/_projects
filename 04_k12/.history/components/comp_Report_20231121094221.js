@@ -11,21 +11,16 @@ const displayReportComponent = () => {
 const insertDataToReport = (data, selectedYears) => {
   if (data && selectedYears) {
     addYearColumnsToReportTable(selectedYears);
+    addDataToEveryRow(data, selectedYears)
   }
 };
 
-const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
-  // console.log(data, selectedYears, arrayOfNames);
+const addDataToEveryRow = (data, selectedYears) => {
 
-  for (let name of arrayOfNames) {
-    addToSingleRow(selectedYears, name, data[`${name}_Client`], data[`${name}_Peer`])
-  }
 
 }
 
-const addToSingleRow = (selectedYears, name, client, peer) => {
-  const tableRow = document.getElementById(`row_${name}`)
-
+const addToSingleRow = (selectedYears, client, peer) => {
 
 }
 
