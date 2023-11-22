@@ -15,18 +15,17 @@ const insertDataToReport = (data, selectedYears) => {
 };
 
 const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
-  console.log(data);
+  console.log(data, selectedYears, arrayOfNames);
+
   for (let name of arrayOfNames) {
-    console.log(`data[${name}_Client]`, data[`${name}_Client`]);
     addToSingleRow(selectedYears, name, data[`${name}_Client`], data[`${name}_Peer`])
   }
 
-  
 }
 
 const addToSingleRow = (selectedYears, name, client, peer) => {
-  console.log(name, client, peer);
   const tableRow = document.getElementById(`row_${name}`)
+
 
 }
 

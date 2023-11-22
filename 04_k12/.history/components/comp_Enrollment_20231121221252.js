@@ -7,8 +7,8 @@ const displayEnrollmentComponent = () => {
   createChartFromParsedData(
     parseData,
     'studentsMain_chart',
-    'studentsAverageEnrollment_Peer',
-    'studentsAverageEnrollment_Client',
+    'studentAverageEnrollment_Peer',
+    'studentAverageEnrollment_Client',
     'number',
     0,
     'studentsMain'
@@ -16,9 +16,9 @@ const displayEnrollmentComponent = () => {
 
   createChartFromParsedData(
     parseData,
-    'studentsFacilityRatio_chart',
-    'studentsFacilityRatio_Peer',
-    'studentsFacilityRatio_Client',
+    'studentFacilityRatio_chart',
+    'studentFacilityRatio_Peer',
+    'studentFacilityRatio_Client',
     'number',
     0,
     'studentFacilityRatio'

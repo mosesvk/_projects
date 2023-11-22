@@ -455,7 +455,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'studentsAverageEnrollment_Peer',
+        'studentAverageEnrollment_Peer',
         record,
         '_01_ratio_students_enrollment',
         '_01_yes_no_students_enrollment'
@@ -464,7 +464,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'studentsAverageEnrollment_Peak_Peer',
+        'studentAverageEnrollment_Peak_Peer',
         record,
         '_01c_ratio_students_enrollment_peak_enrolmment',
         '_01c_yes_no_students_enrollment_peak_enrolmment'
@@ -473,7 +473,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'studentsFacilityRatio_Peer',
+        'studentFacilityRatio_Peer',
         record,
         '_02_ratio_student_faculty_ratio',
         '_02_yes_no_student_faculty_ratio'
@@ -491,7 +491,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'studentsAverageEnrollment_Client',
+        'studentAverageEnrollment_Client',
         record,
         '_01_ratio_students_enrollment'
       );
@@ -499,7 +499,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'studentsAverageEnrollment_PercentChange_Client',
+        'studentAverageEnrollment_PercentChange_Client',
         record,
         '_01a_ratio_students_enrollment___change'
       );
@@ -507,7 +507,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'studentsAverageEnrollment_Average_Client',
+        'studentAverageEnrollment_Average_Client',
         record,
         '_01b_ratio_students_enrollment_average'
       );
@@ -515,7 +515,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'studentsAverageEnrollment_Peak_Client',
+        'studentAverageEnrollment_Peak_Client',
         record,
         '_01c_ratio_students_enrollment_peak_enrolmment'
       );
@@ -523,7 +523,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'studentsFacilityRatio_Client',
+        'studentFacilityRatio_Client',
         record,
         '_02_ratio_student_faculty_ratio'
       );

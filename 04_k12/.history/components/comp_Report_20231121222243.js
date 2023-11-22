@@ -17,7 +17,6 @@ const insertDataToReport = (data, selectedYears) => {
 const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
   console.log(data);
   for (let name of arrayOfNames) {
-    console.log(`data[${name}_Client]`, data[`${name}_Client`]);
     addToSingleRow(selectedYears, name, data[`${name}_Client`], data[`${name}_Peer`])
   }
 
