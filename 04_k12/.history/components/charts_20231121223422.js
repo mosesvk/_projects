@@ -24,7 +24,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
 
   const formatNumber = (value) => value.toLocaleString();
 
-  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
+  console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
 
   ({ clientArray, peerAvg, peerMid, peerMin, peerMax } =
     getPeerAndClientChartDataArrays(selectedYearsArray, dataPeer, dataClient, fixedNum));

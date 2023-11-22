@@ -529,6 +529,8 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
     });
   });
 
+  if (object) addDataToEveryRow(object, years, arrayOfNames)
+
   localStorage.removeItem('enrollmentData');
   localStorage.setItem('enrollmentData', JSON.stringify(object));
 

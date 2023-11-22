@@ -3,7 +3,6 @@ const displayReportComponent = () => {
   const savedData = JSON.parse(localStorage.getItem('enrollmentData'));
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  addYearColumnsToReportTable(selectedYears)
   insertDataToReport(savedData, selectedYears);
 
   closeSidebarAfterSelectingOption('report');
@@ -25,6 +24,8 @@ const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
 const addToSingleRow = (selectedYears, name, client, peer) => {
 
   const tableRow = document.getElementById(`row_${name}`)
+
+  
 
 }
 

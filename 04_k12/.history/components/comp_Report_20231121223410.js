@@ -3,7 +3,6 @@ const displayReportComponent = () => {
   const savedData = JSON.parse(localStorage.getItem('enrollmentData'));
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  addYearColumnsToReportTable(selectedYears)
   insertDataToReport(savedData, selectedYears);
 
   closeSidebarAfterSelectingOption('report');
@@ -11,7 +10,7 @@ const displayReportComponent = () => {
 
 const insertDataToReport = (data, selectedYears) => {
   if (data && selectedYears) {
-    addDataToEveryRow(data, selectedYears, ['studentsAverageEnrollment', 'studentsAverageEnrollment_Average', 'studentsAverageEnrollment_Peak', 'studentsAverageEnrollment_PercentChange', 'studentsFacilityRatio']);
+    addYearColumnsToReportTable(selectedYears);
   }
 };
 
