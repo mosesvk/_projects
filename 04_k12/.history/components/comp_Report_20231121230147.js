@@ -21,7 +21,7 @@ const insertDataToReport = (data, selectedYears) => {
 };
 
 const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
-  // console.log(data);
+  console.log(data);
   for (let name of arrayOfNames) {
     addToSingleRow(
       selectedYears,

@@ -21,7 +21,7 @@ const insertDataToReport = (data, selectedYears) => {
 };
 
 const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
-  // console.log(data);
+  console.log(data);
   for (let name of arrayOfNames) {
     addToSingleRow(
       selectedYears,
@@ -34,11 +34,8 @@ const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
 
 const addToSingleRow = (selectedYears, name, client, peer) => {
   const tableRow = document.getElementById(`row_${name}`);
-
-  while (tableRow.children.length > 1) {
-    tableRow.removeChild(tableRow.children[1]);
-  }
-
+  // console.log(tableRow);
+  tableRow.innerHTML = ''
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
   const propScope = 'row';

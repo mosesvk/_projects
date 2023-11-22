@@ -1,8 +1,9 @@
 const displayReportComponent = () => {
+
   const savedData = JSON.parse(localStorage.getItem('enrollmentData'));
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  addYearColumnsToReportTable(selectedYears);
+  addYearColumnsToReportTable(selectedYears)
   insertDataToReport(savedData, selectedYears);
 
   closeSidebarAfterSelectingOption('report');
@@ -10,50 +11,34 @@ const displayReportComponent = () => {
 
 const insertDataToReport = (data, selectedYears) => {
   if (data && selectedYears) {
-    addDataToEveryRow(data, selectedYears, [
-      'studentsAverageEnrollment',
-      'studentsAverageEnrollment_Average',
-      'studentsAverageEnrollment_Peak',
-      'studentsAverageEnrollment_PercentChange',
-      'studentsFacilityRatio'
-    ]);
+    addDataToEveryRow(data, selectedYears, ['studentsAverageEnrollment', 'studentsAverageEnrollment_Average', 'studentsAverageEnrollment_Peak', 'studentsAverageEnrollment_PercentChange', 'studentsFacilityRatio']);
   }
 };
 
 const addDataToEveryRow = (data, selectedYears, arrayOfNames) => {
-  // console.log(data);
+  console.log(data);
   for (let name of arrayOfNames) {
-    addToSingleRow(
-      selectedYears,
-      name,
-      data[`${name}_Client`],
-      data[`${name}_Peer`]
-    );
+    addToSingleRow(selectedYears, name, data[`${name}_Client`], data[`${name}_Peer`])
   }
-};
+}
 
 const addToSingleRow = (selectedYears, name, client, peer) => {
-  const tableRow = document.getElementById(`row_${name}`);
 
-  while (tableRow.children.length > 1) {
-    tableRow.removeChild(tableRow.children[1]);
-  }
+  const tableRow = document.getElementById(`row_${name}`)
+  console.log(tableRow);
+  const propClass = 'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
+  const propScope = 'row'
 
-  const propClass =
-    'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
-  const propScope = 'row';
-
-  selectedYears.forEach((year) => {
+  selectedYears.forEach(year => {
     const dataPoint = document.createElement('th');
-    const text = client[year][0];
-
+  
     dataPoint.className = propClass;
     dataPoint.scope = propScope;
-    dataPoint.textContent = text;
 
     tableRow.appendChild(dataPoint);
   });
-};
+
+}
 
 const addYearColumnsToReportTable = (years) => {
   const tables = document.querySelectorAll('table');
@@ -101,14 +86,12 @@ const clearTableColumns = (idName) => {
   const columnsToPreserve = ['Avg', 'Mid', 'Min', 'Max'];
 
   // Remove all existing th elements except the first one and those to be preserved
-  Array.from(headerRow.children)
-    .slice(1)
-    .forEach((th) => {
-      const columnName = th.textContent.trim();
-      if (!columnsToPreserve.includes(columnName)) {
-        th.remove();
-      }
-    });
+  Array.from(headerRow.children).slice(1).forEach((th) => {
+    const columnName = th.textContent.trim();
+    if (!columnsToPreserve.includes(columnName)) {
+      th.remove();
+    }
+  });
 
   // Clear corresponding columns from other rows in the table body
   clearColumnsFromOtherRowsInTable(idName, columnsToPreserve);
@@ -119,13 +102,13 @@ const clearColumnsFromOtherRowsInTable = (idName, columnsToPreserve) => {
 
   rows.forEach((row) => {
     // Remove all existing td elements except the first one and those to be preserved
-    Array.from(row.children)
-      .slice(1)
-      .forEach((td) => {
-        const columnName = td.textContent.trim();
-        if (!columnsToPreserve.includes(columnName)) {
-          td.remove();
-        }
-      });
+    Array.from(row.children).slice(1).forEach((td) => {
+      const columnName = td.textContent.trim();
+      if (!columnsToPreserve.includes(columnName)) {
+        td.remove();
+      }
+    });
   });
 };
+
+
