@@ -162,13 +162,13 @@ function updateModal(mainName, avgData, clientData) {
 
     // Add the "year" column
     const yearColumn = document.createElement('th');
-    yearColumn.className = 'px-6 py-3';
+    yearColumn.className = 'px-6 py-3 text-lg';
     yearColumn.textContent = 'year';
     headerRow.appendChild(yearColumn);
 
     // Add the "Client" column
     const clientColumn = document.createElement('th');
-    clientColumn.className = 'px-6 py-3';
+    clientColumn.className = 'px-6 py-3 text-lg';
     clientColumn.textContent = 'client';
     headerRow.appendChild(clientColumn);
 
