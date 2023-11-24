@@ -291,6 +291,8 @@ const calculateAveragePercentageChange = (values) => {
   return averagePercentageChange ? averagePercentageChange.toFixed(1) : 0; // Ensure one decimal point
 };
 
+
+
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem('selectedYears'));
   const storedData = localStorage.getItem('enrollment');

@@ -16,25 +16,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-    <script>
-      module.exports = {
-        theme: {
-          extend: {
-            colors: {
-              red: 'rgb(255, 99, 132)',
-              orange: 'rgb(255, 159, 64)',
-              yellow: 'rgb(255, 205, 86)',
-              green: 'rgb(131, 178, 64)',
-              blue: 'rgb(54, 162, 235)',
-              purple: 'rgb(153, 102, 255)',
-              grey: 'rgb(201, 203, 207)'
-            }
-          }
-        }
-        // Other configurations...
-      };
-    </script>
-
     <!--FUNCTIONS SCRIPTS-->
   </head>
   <body>
@@ -660,15 +641,13 @@
             data-accordion="collapse"
             data-active-classes="bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white"
           >
-            <div class="rounded-lg">
-              <h1 class="text-green-300 font-bold dark:text-white text-center">
-                Students - Average Enrollment
-              </h1>
+            <div>
+              <h1>Students - Average Enrollment</h1>
             </div>
             <h2 id="accordion-color-heading-1">
               <button
                 type="button"
-                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
                 data-accordion-target="#accordion-color-body-1"
                 aria-expanded="true"
                 aria-controls="accordion-color-body-1"
@@ -692,8 +671,7 @@
                 </svg>
               </button>
             </h2>
-            <div
-              id="accordion-color-body-1"
+            <div id="accordion-color-body-1"
               class="hidden"
               aria-labelledby="accordion-color-heading-1"
             >
@@ -733,14 +711,17 @@
                 <div class="flex flex-col">
                   <div class="overflow-x-auto">
                     <div class="inline-block min-w-full align-middle">
-                      <div class="relative overflow-x-auto shadow-md">
+                      <div
+                        class="relative overflow-x-auto shadow-md"
+                      >
                         <table
                           class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                         >
                           <thead
                             class="text-xs text-gray-700 uppercase bg-green-200 dark:bg-gray-700 dark:text-green-200"
                           >
-                            <tr id="studentsMain_modal_row"></tr>
+                            <tr id="studentsMain_modal_row">
+                            </tr>
                           </thead>
                           <tbody></tbody>
                         </table>
@@ -777,8 +758,7 @@
                 </svg>
               </button>
             </h2>
-            <div
-              id="accordion-color-body-2"
+            <div id="accordion-color-body-2"
               class="hidden"
               aria-labelledby="accordion-color-heading-2"
             >
@@ -832,8 +812,7 @@
                 </svg>
               </button>
             </h2>
-            <div
-              id="accordion-color-body-3"
+            <div id="accordion-color-body-3"
               class="hidden"
               aria-labelledby="accordion-color-heading-3"
             >
@@ -925,7 +904,8 @@
                     <thead
                       class="text-xs text-gray-700 uppercase bg-green-200 dark:bg-gray-700 dark:text-green-200"
                     >
-                      <tr id="studentFacilityRatio_modal_row"></tr>
+                      <tr id="studentFacilityRatio_modal_row">
+                      </tr>
                     </thead>
                     <tbody></tbody>
                   </table>
