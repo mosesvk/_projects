@@ -631,10 +631,11 @@
     <div
       id="studentsMain_modal"
       tabindex="-1"
-      aria-hidden="true"
-      class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      class="overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-end w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex"
+      aria-modal="true"
+      role="dialog"
     >
-      <div class="relative p-4 w-full max-w-fit md:max-w-3xl max-h-full">
+      <div class="relative p-4 w-full max-w-fit md:max-w-3xl">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div
             id="accordion-color"
@@ -668,7 +669,8 @@
                 </svg>
               </button>
             </h2>
-            <div id="accordion-color-body-1"
+            <div
+              id="accordion-color-body-1"
               class="hidden"
               aria-labelledby="accordion-color-heading-1"
             >
@@ -708,17 +710,14 @@
                 <div class="flex flex-col">
                   <div class="overflow-x-auto">
                     <div class="inline-block min-w-full align-middle">
-                      <div
-                        class="relative overflow-x-auto shadow-md"
-                      >
+                      <div class="relative overflow-x-auto shadow-md">
                         <table
                           class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                         >
                           <thead
                             class="text-xs text-gray-700 uppercase bg-green-200 dark:bg-gray-700 dark:text-green-200"
                           >
-                            <tr id="studentsMain_modal_row">
-                            </tr>
+                            <tr id="studentsMain_modal_row"></tr>
                           </thead>
                           <tbody></tbody>
                         </table>
@@ -755,7 +754,8 @@
                 </svg>
               </button>
             </h2>
-            <div id="accordion-color-body-2"
+            <div
+              id="accordion-color-body-2"
               class="hidden"
               aria-labelledby="accordion-color-heading-2"
             >
@@ -809,7 +809,8 @@
                 </svg>
               </button>
             </h2>
-            <div id="accordion-color-body-3"
+            <div
+              id="accordion-color-body-3"
               class="hidden"
               aria-labelledby="accordion-color-heading-3"
             >
@@ -901,8 +902,7 @@
                     <thead
                       class="text-xs text-gray-700 uppercase bg-green-200 dark:bg-gray-700 dark:text-green-200"
                     >
-                      <tr id="studentFacilityRatio_modal_row">
-                      </tr>
+                      <tr id="studentFacilityRatio_modal_row"></tr>
                     </thead>
                     <tbody></tbody>
                   </table>
