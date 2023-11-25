@@ -98,7 +98,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       enabled: false
     },
     stroke: {
-      width: [2, 6, 4, 4, 4]
+      width: [2, 6, 4]
     },
     title: {
       text: '',

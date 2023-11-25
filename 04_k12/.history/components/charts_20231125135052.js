@@ -81,12 +81,12 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       {
         name: 'Min',
         type: 'line',
-        data: peerMin
+        data: peerMid
       },
       {
         name: 'Max',
         type: 'line',
-        data: peerMax
+        data: peerMid
       }
     ],
     chart: {
@@ -98,7 +98,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       enabled: false
     },
     stroke: {
-      width: [2, 6, 4, 4, 4]
+      width: [2, 6, 4]
     },
     title: {
       text: '',

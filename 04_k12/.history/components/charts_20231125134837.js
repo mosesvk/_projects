@@ -55,7 +55,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
     colors: [
       window.chartColors.green,
       window.chartColors.blue,
-      window.chartColors.orange,
+      window.chartColors.orange
       window.chartColors.red
     ],
     series: [
@@ -74,19 +74,9 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
         yaxis: 0
       },
       {
-        name: 'Midpoint',
+        name: 'Mid',
         type: 'line',
         data: peerMid
-      },
-      {
-        name: 'Min',
-        type: 'line',
-        data: peerMin
-      },
-      {
-        name: 'Max',
-        type: 'line',
-        data: peerMax
       }
     ],
     chart: {
@@ -98,7 +88,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       enabled: false
     },
     stroke: {
-      width: [2, 6, 4, 4, 4]
+      width: [2, 6, 4]
     },
     title: {
       text: '',

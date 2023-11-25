@@ -41,6 +41,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
   };
 
   const tooltipFormatter = (value) => {
+    // if (!value) return '-'
     const formattedValue = value.toLocaleString();
     if (numType === 'dollar') {
       return `$${formattedValue}`;
