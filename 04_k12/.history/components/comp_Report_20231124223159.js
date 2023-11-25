@@ -39,23 +39,20 @@ const addToSingleRow = (selectedYears, name, client, peer, type, fixedNum) => {
   const tableReportRow = document.getElementById(`row_${name}`);
 
   while (tableReportRow.children.length > 1) {
-    tableReportRow.removeChild(tableReportRow.children[1]);
+    tableReportRow.removeChild(tableRow.children[1]);
   }
 
   selectedYears.forEach((year) => {
     const tableModalRow = document.getElementById(`${name}_modal_${year}`);
 
-    if (tableModalRow) {
-      // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
+    console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
 
-      addClientDataToModalRow(tableModalRow, year, client, type, fixedNum)
-      addPeerDataToRow(tableModalRow, peer, type, fixedNum, year);
-    } 
-
+    addClientDataToModalRow(tableModalRow, year, client, type, fixedNum)
+    addPeerDataToRow(tableModalRow, peer, type, fixedNum, year);
   })
 
   addClientDataToReportRow(
-    tableReportRow,
+    tableRowReport,
     selectedYears,
     client,
     type,

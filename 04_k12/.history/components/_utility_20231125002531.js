@@ -112,6 +112,15 @@ const createChartFromParsedData = (
   fixedNum,
   mainName
 ) => {
+  // console.log('createChartFromParsedData()', {
+    parsedData,
+    chart,
+    peer,
+    client,
+    type,
+    fixedNum,
+    mainName
+  });
   if (parsedData) {
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
     updateModal(mainName, parsedData[peer], parsedData[client]);

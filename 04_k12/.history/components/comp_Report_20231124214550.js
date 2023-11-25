@@ -11,10 +11,10 @@ const displayReportComponent = () => {
 const insertDataToReport = (data, selectedYears) => {
   if (data && selectedYears) {
     addTotalDataToEveryRow(data, selectedYears, [
-      ['studentAverageEnrollment', 'num', 0],
-      ['studentAverageEnrollment_PercentChange', 'percent', 1],
-      ['studentAverageEnrollment_Average', 'num', 0],
-      ['studentAverageEnrollment_Peak', 'num', 0],
+      ['studentsAverageEnrollment', 'num', 0],
+      ['studentsAverageEnrollment_PercentChange', 'percent', 1],
+      ['studentsAverageEnrollment_Average', 'num', 0],
+      ['studentsAverageEnrollment_Peak', 'num', 0],
       ['studentsFacilityRatio', 'num', 1]
     ]);
   }
@@ -36,35 +36,17 @@ const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
 
 const addToSingleRow = (selectedYears, name, client, peer, type, fixedNum) => {
   // console.log({selectedYears, name, client, peer, type, fixedNum});
-  const tableReportRow = document.getElementById(`row_${name}`);
+  const tableRow = document.getElementById(`row_${name}`);
 
-  while (tableReportRow.children.length > 1) {
-    tableReportRow.removeChild(tableReportRow.children[1]);
+  while (tableRow.children.length > 1) {
+    tableRow.removeChild(tableRow.children[1]);
   }
 
-  selectedYears.forEach((year) => {
-    const tableModalRow = document.getElementById(`${name}_modal_${year}`);
-
-    if (tableModalRow) {
-      // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
-
-      addClientDataToModalRow(tableModalRow, year, client, type, fixedNum)
-      addPeerDataToRow(tableModalRow, peer, type, fixedNum, year);
-    } 
-
-  })
-
-  addClientDataToReportRow(
-    tableReportRow,
-    selectedYears,
-    client,
-    type,
-    fixedNum
-  );
-  addPeerDataToRow(tableReportRow, peer, type, fixedNum, 'total');
+  addClientDataToRow(tableRow, selectedYears, client, type, fixedNum);
+  addPeerDataToRow(tableRow, peer, type, fixedNum);
 };
 
-const addClientDataToReportRow = (
+const addClientDataToRow = (
   tableRow,
   selectedYears,
   client,
@@ -87,40 +69,24 @@ const addClientDataToReportRow = (
   });
 };
 
-const addClientDataToModalRow = (
-  tableModalRow, year, client, type, fixedNum
-) => {
-  const propClass =
-    'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
-  const propScope = 'row';
+const addPeerDataToRow = (tableRow, peer, type, fixedNum) => {
 
-  const dataPoint = document.createElement('th');
-  const text = styleNumber(client[year][0], type, fixedNum);
-
-  dataPoint.className = propClass;
-  dataPoint.scope = propScope;
-  dataPoint.textContent = text;
-
-  tableModalRow.appendChild(dataPoint);
-};
-
-const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray) => {
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
   const propScope = 'row';
 
   const dataPointAvg = document.createElement('th');
 
-  const avg = peer ? getAverageOfArray(peer[dataArray]) : 0;
+  const avg = peer ? getAverageOfArray(peer['total']) : 0;
   const textAvg = styleNumber(avg, type, fixedNum);
   const dataPointMid = document.createElement('th');
-  const mid = peer ? getMidpointOfArray(peer[dataArray]) : 0;
+  const mid = peer ? getMidpointOfArray(peer['total']) : 0;
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement('th');
-  const min = peer ? getMinOfArray(peer[dataArray]) : 0;
+  const min = peer ? getMinOfArray(peer['total']) : 0;
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement('th');
-  const max = peer ? getMaxOfArray(peer[dataArray]) : 0;
+  const max = peer ? getMaxOfArray(peer['total']) : 0;
   const textMax = styleNumber(max, type, fixedNum);
 
   dataPointAvg.className = propClass;

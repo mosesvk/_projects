@@ -16,15 +16,15 @@ const displayEnrollmentComponent = () => {
     'studentAverageEnrollment'
   );
 
-  // createChartFromParsedData(
-  //   parseData,
-  //   'studentsFacilityRatio_chart',
-  //   'studentsFacilityRatio_Peer',
-  //   'studentsFacilityRatio_Client',
-  //   'number',
-  //   0,
-  //   'studentFacilityRatio'
-  // );
+  createChartFromParsedData(
+    parseData,
+    'studentsFacilityRatio_chart',
+    'studentsFacilityRatio_Peer',
+    'studentsFacilityRatio_Client',
+    'number',
+    0,
+    'studentFacilityRatio'
+  );
 
   closeSidebarAfterSelectingOption('enrollment');
 

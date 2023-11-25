@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
   addUniqueRegionsToOptionsSelectRegionDropdown(regions_Array);
 
   displayEnrollmentComponent()
-  displayReportComponent()
+  // displayReportComponent()
 
   runApiMain();
 });

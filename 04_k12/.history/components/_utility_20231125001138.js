@@ -112,6 +112,15 @@ const createChartFromParsedData = (
   fixedNum,
   mainName
 ) => {
+  console.log('createChartFromParsedData()', {
+    parsedData,
+    chart,
+    peer,
+    client,
+    type,
+    fixedNum,
+    mainName
+  });
   if (parsedData) {
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
     updateModal(mainName, parsedData[peer], parsedData[client]);
@@ -119,7 +128,7 @@ const createChartFromParsedData = (
 };
 
 const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
-  // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
+  console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = '';
 
   // Create a new chart instance
@@ -387,7 +396,7 @@ const getPeerAndClientChartDataArrays = (
   dataClient,
   fixedNum
 ) => {
-  // console.log({ years, dataPeer, dataClient, fixedNum })
+  console.log({ years, dataPeer, dataClient, fixedNum })
   const peerAvg = [];
   const peerMid = [];
   const peerMin = [];
