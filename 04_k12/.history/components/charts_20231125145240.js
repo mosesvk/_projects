@@ -1,4 +1,5 @@
 const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
+
   // console.log('getMainChartOptions()')
 
   const chartColors = document.documentElement.classList.contains('dark')
@@ -26,12 +27,8 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
   // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
 
   ({ clientArray, peerAvg, peerMid, peerMin, peerMax } =
-    getPeerAndClientChartDataArrays(
-      selectedYearsArray,
-      dataPeer,
-      dataClient,
-      fixedNum
-    ));
+    getPeerAndClientChartDataArrays(selectedYearsArray, dataPeer, dataClient, fixedNum));
+
 
   const yaxisLabelFormatter = (value) => {
     if (numType === 'dollar') {
@@ -44,7 +41,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
   };
 
   const tooltipFormatter = (value) => {
-    if (!value) return;
+    if (!value) return 
     const formattedValue = value.toLocaleString();
     if (numType === 'dollar') {
       return `$${formattedValue}`;
@@ -158,8 +155,8 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
     },
     legend: {
       horizontalAlign: 'center',
-      offsetX: 40,
-      fontSize: '20px',
+      offsetX: 40, 
+      fontSize: '50px',
     },
     grid: {
       row: {
@@ -175,3 +172,6 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
     }
   };
 };
+
+
+

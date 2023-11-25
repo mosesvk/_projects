@@ -159,7 +159,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
     legend: {
       horizontalAlign: 'center',
       offsetX: 40,
-      fontSize: '20px',
+      fontSize: '25px',
     },
     grid: {
       row: {

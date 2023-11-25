@@ -1,4 +1,5 @@
 const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
+
   // console.log('getMainChartOptions()')
 
   const chartColors = document.documentElement.classList.contains('dark')
@@ -26,12 +27,8 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
   // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
 
   ({ clientArray, peerAvg, peerMid, peerMin, peerMax } =
-    getPeerAndClientChartDataArrays(
-      selectedYearsArray,
-      dataPeer,
-      dataClient,
-      fixedNum
-    ));
+    getPeerAndClientChartDataArrays(selectedYearsArray, dataPeer, dataClient, fixedNum));
+
 
   const yaxisLabelFormatter = (value) => {
     if (numType === 'dollar') {
@@ -44,7 +41,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
   };
 
   const tooltipFormatter = (value) => {
-    if (!value) return;
+    if (!value) return 
     const formattedValue = value.toLocaleString();
     if (numType === 'dollar') {
       return `$${formattedValue}`;
@@ -80,20 +77,17 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       {
         name: 'Midpoint',
         type: 'line',
-        data: peerMid,
-        visible: false
+        data: peerMid
       },
       {
         name: 'Min',
         type: 'line',
-        data: peerMin,
-        visible: false
+        data: peerMin
       },
       {
         name: 'Max',
         type: 'line',
-        data: peerMax,
-        visible: false
+        data: peerMax
       }
     ],
     chart: {
@@ -116,8 +110,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       categories: selectedYearsArray,
       labels: {
         style: {
-          colors: chartColors.labelColor,
-          fontSize: '1rem'
+          colors: chartColors.labelColor
         }
       }
     },
@@ -157,9 +150,8 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       }
     },
     legend: {
-      horizontalAlign: 'center',
-      offsetX: 40,
-      fontSize: '20px',
+      horizontalAlign: 'left',
+      offsetX: 40
     },
     grid: {
       row: {
@@ -175,3 +167,6 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
     }
   };
 };
+
+
+
