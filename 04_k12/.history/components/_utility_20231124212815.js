@@ -245,7 +245,7 @@ const getMidpointOfArray = (array) => {
   if (array.length === 0) {
     return 0;
   }
-
+  
   if (array.length % 2 === 1) {
     // Array has an odd number of elements
     const midpointIndex = Math.floor(array.length / 2);
@@ -261,16 +261,10 @@ const getMidpointOfArray = (array) => {
 };
 
 const getMaxOfArray = (array) => {
-  if (array.length === 0) {
-    return 0;
-  }
   return Math.max(...array);
 }
 
 const getMinOfArray = (array) => {
-  if (array.length === 0) {
-    return 0;
-  }
   return Math.min(...array);
 }
 

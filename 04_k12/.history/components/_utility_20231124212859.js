@@ -261,7 +261,7 @@ const getMidpointOfArray = (array) => {
 };
 
 const getMaxOfArray = (array) => {
-  if (array.length === 0) {
+  if (!array || array.length === 0) {
     return 0;
   }
   return Math.max(...array);

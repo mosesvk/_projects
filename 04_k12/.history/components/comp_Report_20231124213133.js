@@ -70,23 +70,21 @@ const addClientDataToRow = (
 };
 
 const addPeerDataToRow = (tableRow, peer, type, fixedNum) => {
-
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
   const propScope = 'row';
 
   const dataPointAvg = document.createElement('th');
-
-  const avg = peer ? getAverageOfArray(peer['total']) : 0;
+  const avg = getAverageOfArray(peer['total']);
   const textAvg = styleNumber(avg, type, fixedNum);
   const dataPointMid = document.createElement('th');
-  const mid = peer ? getMidpointOfArray(peer['total']) : 0;
+  const mid = getMidpointOfArray(peer['total']);
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement('th');
-  const min = peer ? getMinOfArray(peer['total']) : 0;
+  const min = getMinOfArray(peer['total']);
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement('th');
-  const max = peer ? getMaxOfArray(peer['total']) : 0;
+  const max = getMaxOfArray(peer['total']);
   const textMax = styleNumber(max, type, fixedNum);
 
   dataPointAvg.className = propClass;

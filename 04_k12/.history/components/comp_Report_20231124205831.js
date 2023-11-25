@@ -43,7 +43,7 @@ const addToSingleRow = (selectedYears, name, client, peer, type, fixedNum) => {
   }
 
   addClientDataToRow(tableRow, selectedYears, client, type, fixedNum);
-  addPeerDataToRow(tableRow, peer, type, fixedNum);
+  // addPeerDataToRow(tableRow, selectedYears, peer, type, fixedNum);
 };
 
 const addClientDataToRow = (
@@ -69,44 +69,38 @@ const addClientDataToRow = (
   });
 };
 
-const addPeerDataToRow = (tableRow, peer, type, fixedNum) => {
-
+const addPeerDataToRow = (tableRow, selectedYears, peer, type, fixedNum) => {
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
   const propScope = 'row';
 
   const dataPointAvg = document.createElement('th');
-
-  const avg = peer ? getAverageOfArray(peer['total']) : 0;
-  const textAvg = styleNumber(avg, type, fixedNum);
+  const textAvg = getAverageOfArray(peer[year]);
   const dataPointMid = document.createElement('th');
-  const mid = peer ? getMidpointOfArray(peer['total']) : 0;
-  const textMid = styleNumber(mid, type, fixedNum);
+  const textMid = getMidOfArray(peer[year]);
   const dataPointMin = document.createElement('th');
-  const min = peer ? getMinOfArray(peer['total']) : 0;
-  const textMin = styleNumber(min, type, fixedNum);
+  const textMin = getMinOfArray(peer[year]);
   const dataPointMax = document.createElement('th');
-  const max = peer ? getMaxOfArray(peer['total']) : 0;
-  const textMax = styleNumber(max, type, fixedNum);
+  const textMax = getMaxOfArray(peer[year]);
 
   dataPointAvg.className = propClass;
   dataPointAvg.scope = propScope;
-  dataPointAvg.textContent = textAvg;
+  dataPointAvg.textContent = text;
   tableRow.appendChild(dataPointAvg);
 
   dataPointMid.className = propClass;
   dataPointMid.scope = propScope;
-  dataPointMid.textContent = textMid;
+  dataPointMid.textContent = text;
   tableRow.appendChild(dataPointMid);
 
   dataPointMin.className = propClass;
   dataPointMin.scope = propScope;
-  dataPointMin.textContent = textMin;
+  dataPointMin.textContent = text;
   tableRow.appendChild(dataPointMin);
 
   dataPointMax.className = propClass;
   dataPointMax.scope = propScope;
-  dataPointMax.textContent = textMax;
+  dataPointMax.textContent = text;
   tableRow.appendChild(dataPointMax);
 };
 

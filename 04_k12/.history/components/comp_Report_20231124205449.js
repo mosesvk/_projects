@@ -43,7 +43,7 @@ const addToSingleRow = (selectedYears, name, client, peer, type, fixedNum) => {
   }
 
   addClientDataToRow(tableRow, selectedYears, client, type, fixedNum);
-  addPeerDataToRow(tableRow, peer, type, fixedNum);
+  addPeerDataToRow(tableRow, selectedYears, peer, type, fixedNum);
 };
 
 const addClientDataToRow = (
@@ -69,46 +69,44 @@ const addClientDataToRow = (
   });
 };
 
-const addPeerDataToRow = (tableRow, peer, type, fixedNum) => {
-
+const addPeerDataToRow = (tableRow, selectedYears, peer, type, fixedNum) => {
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
   const propScope = 'row';
 
-  const dataPointAvg = document.createElement('th');
+  selectedYears.forEach((year) => {
+    const dataPointAvg = document.createElement('th');
+    const textAvg = getAverageOfArray(peer[year]);
+    const dataPointMid = document.createElement('th');
+    const textMid = getMidOfArray(peer[year]);
+    const dataPointMin = document.createElement('th');
+    const textMin = getMinOfArray(peer[year]);
+    const dataPointMax = document.createElement('th');
+    const textMax = getMaxOfArray(peer[year]);
 
-  const avg = peer ? getAverageOfArray(peer['total']) : 0;
-  const textAvg = styleNumber(avg, type, fixedNum);
-  const dataPointMid = document.createElement('th');
-  const mid = peer ? getMidpointOfArray(peer['total']) : 0;
-  const textMid = styleNumber(mid, type, fixedNum);
-  const dataPointMin = document.createElement('th');
-  const min = peer ? getMinOfArray(peer['total']) : 0;
-  const textMin = styleNumber(min, type, fixedNum);
-  const dataPointMax = document.createElement('th');
-  const max = peer ? getMaxOfArray(peer['total']) : 0;
-  const textMax = styleNumber(max, type, fixedNum);
+    dataPointAvg.className = propClass;
+    dataPointAvg.scope = propScope;
+    dataPointAvg.textContent = text;
+    tableRow.appendChild(dataPointAvg);
+    
+    dataPointMid.className = propClass;
+    dataPointMid.scope = propScope;
+    dataPointMid.textContent = text;
+    tableRow.appendChild(dataPointMid);
 
-  dataPointAvg.className = propClass;
-  dataPointAvg.scope = propScope;
-  dataPointAvg.textContent = textAvg;
-  tableRow.appendChild(dataPointAvg);
+    dataPointMin.className = propClass;
+    dataPointMin.scope = propScope;
+    dataPointMin.textContent = text;
+    tableRow.appendChild(dataPointMin);
 
-  dataPointMid.className = propClass;
-  dataPointMid.scope = propScope;
-  dataPointMid.textContent = textMid;
-  tableRow.appendChild(dataPointMid);
+    dataPointMax.className = propClass;
+    dataPointMax.scope = propScope;
+    dataPointMax.textContent = text;
+    tableRow.appendChild(dataPointMax);
+  })
 
-  dataPointMin.className = propClass;
-  dataPointMin.scope = propScope;
-  dataPointMin.textContent = textMin;
-  tableRow.appendChild(dataPointMin);
-
-  dataPointMax.className = propClass;
-  dataPointMax.scope = propScope;
-  dataPointMax.textContent = textMax;
-  tableRow.appendChild(dataPointMax);
-};
+  
+}
 
 const addYearColumnsToReportTable = (years) => {
   const tables = document.querySelectorAll('table');
