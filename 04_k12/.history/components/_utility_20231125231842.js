@@ -266,22 +266,22 @@ const getMaxOfArray = (array) => {
     return 0;
   }
   return Math.max(...array);
-};
+}
 
 const getMinOfArray = (array) => {
-  const nonZeroArray = array.filter((num) => {
+  const nonZeroArray = array.filter(num => {
     if (num != 0 || num != 0.0) {
-      return num;
+      return num
     }
-    return;
-  });
+    return
+  })
 
   if (nonZeroArray.length === 0) {
     return 0;
   }
 
   return Math.min(...nonZeroArray);
-};
+}
 
 const calculateAveragePercentageChange = (values) => {
   // console.log(values);
