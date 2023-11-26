@@ -415,8 +415,12 @@ const insertDataIntoObject = (
   ? record.querySelector(child).innerHTML.trim()
   : 0;
   
-  const yesNoField = yesNo && record.querySelector(yesNo).textContent.trim();
+  const yesNoField = yesNo && record.querySelector(yesNo).textContent;
   
+  if (dataKey === 'studentAverageEnrollment_Peak_Peer') {
+    console.log({ type, year, object, dataKey, record, child, yesNo });
+    console.log(yesNoField);
+  }
   if (type === 'client') {
     if (!object[dataKey]) {
       object[dataKey] = {};
@@ -427,7 +431,6 @@ const insertDataIntoObject = (
     object[dataKey][year].push(innerData);
   } else {
     // type === 'peer'
-
     if (yesNoField == 'Yes') {
       if (!object[dataKey]) {
         object[dataKey] = {};
@@ -438,12 +441,10 @@ const insertDataIntoObject = (
       if (!object[dataKey]['total']) {
         object[dataKey]['total'] = [];
       }
-
       object[dataKey][year].push(innerData);
       object[dataKey]['total'].push(innerData);
     }
   }
-  
 
   
 };

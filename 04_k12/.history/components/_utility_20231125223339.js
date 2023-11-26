@@ -269,12 +269,7 @@ const getMaxOfArray = (array) => {
 }
 
 const getMinOfArray = (array) => {
-  const nonZeroArray = array.filter(num => {
-    if (num != 0 || num != 0.0) {
-      return num
-    }
-    return
-  });
+  const nonZeroArray = array.filter(num => num !== 0);
   console.log(nonZeroArray);
 
   if (nonZeroArray.length === 0) {

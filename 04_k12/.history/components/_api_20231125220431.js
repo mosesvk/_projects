@@ -409,14 +409,17 @@ const insertDataIntoObject = (
   child,
   yesNo
 ) => {
-  
+  if (dataKey === 'studentAverageEnrollment_Peak_Peer') {
+    console.log({ type, year, object, dataKey, record, child, yesNo });
+  }
+
   const innerData =
-  record.querySelector(child).innerHTML.split('').length > 0
-  ? record.querySelector(child).innerHTML.trim()
-  : 0;
-  
-  const yesNoField = yesNo && record.querySelector(yesNo).textContent.trim();
-  
+    record.querySelector(child).innerHTML.split('').length > 0
+      ? record.querySelector(child).innerHTML.trim()
+      : 0;
+
+  const yesNoField = yesNo && record.querySelector(yesNo).textContent;
+
   if (type === 'client') {
     if (!object[dataKey]) {
       object[dataKey] = {};
@@ -427,7 +430,6 @@ const insertDataIntoObject = (
     object[dataKey][year].push(innerData);
   } else {
     // type === 'peer'
-
     if (yesNoField == 'Yes') {
       if (!object[dataKey]) {
         object[dataKey] = {};
@@ -438,14 +440,10 @@ const insertDataIntoObject = (
       if (!object[dataKey]['total']) {
         object[dataKey]['total'] = [];
       }
-
       object[dataKey][year].push(innerData);
       object[dataKey]['total'].push(innerData);
     }
   }
-  
-
-  
 };
 
 const processEnrollmentData = (years, recordsPeer, recordsClient) => {

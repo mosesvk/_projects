@@ -77,7 +77,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
         data: peerAvg,
         yaxis: 0,
         style: {
-          colors: ['transparent'], // Set the line color to transparent
+          colors: ['transparent'] // Set the line color to transparent
         },
         fill: {
           type: 'gradient',
@@ -85,9 +85,9 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
             shadeIntensity: 1,
             opacityFrom: 0.7,
             opacityTo: 0.9,
-            stops: [0, 80, 80],
-          },
-        },
+            stops: [0, 80, 80]
+          }
+        }
       },
       {
         name: 'Midpoint',

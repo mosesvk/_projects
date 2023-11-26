@@ -375,8 +375,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   addUniqueRegionsToOptionsSelectRegionDropdown(regions_Array);
 
-  displayEnrollmentComponent();
-  displayReportComponent();
+  displayEnrollmentComponent()
+  displayReportComponent()
 
   runApiMain();
 });
@@ -409,14 +409,13 @@ const insertDataIntoObject = (
   child,
   yesNo
 ) => {
-  
   const innerData =
-  record.querySelector(child).innerHTML.split('').length > 0
-  ? record.querySelector(child).innerHTML.trim()
-  : 0;
-  
-  const yesNoField = yesNo && record.querySelector(yesNo).textContent.trim();
-  
+    record.querySelector(child).innerHTML.split('').length > 0
+      ? record.querySelector(child).innerHTML.trim()
+      : 0;
+
+  const yesNoField = yesNo && record.querySelector(yesNo).textContent;
+
   if (type === 'client') {
     if (!object[dataKey]) {
       object[dataKey] = {};
@@ -427,7 +426,6 @@ const insertDataIntoObject = (
     object[dataKey][year].push(innerData);
   } else {
     // type === 'peer'
-
     if (yesNoField == 'Yes') {
       if (!object[dataKey]) {
         object[dataKey] = {};
@@ -438,14 +436,10 @@ const insertDataIntoObject = (
       if (!object[dataKey]['total']) {
         object[dataKey]['total'] = [];
       }
-
       object[dataKey][year].push(innerData);
       object[dataKey]['total'].push(innerData);
     }
   }
-  
-
-  
 };
 
 const processEnrollmentData = (years, recordsPeer, recordsClient) => {
@@ -541,6 +535,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 
   localStorage.removeItem('enrollmentData');
   localStorage.setItem('enrollmentData', JSON.stringify(object));
+
 };
 
 const addColumnsToOtherRows = (idName, year) => {
@@ -568,8 +563,10 @@ const runApiMain = () => {
       localStorage.setItem('selectedYears', JSON.stringify(selectedYearsArray));
 
       processEnrollmentData(selectedYears, recordsPeer, recordsClient);
-      displayEnrollmentComponent();
-      displayReportComponent();
+      displayEnrollmentComponent()
+      displayReportComponent()
+
+
     } catch (err) {
       console.error(err);
     }

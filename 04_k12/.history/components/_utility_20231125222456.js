@@ -269,19 +269,11 @@ const getMaxOfArray = (array) => {
 }
 
 const getMinOfArray = (array) => {
-  const nonZeroArray = array.filter(num => {
-    if (num != 0 || num != 0.0) {
-      return num
-    }
-    return
-  });
-  console.log(nonZeroArray);
-
-  if (nonZeroArray.length === 0) {
+  console.log(array);
+  if (array.length === 0) {
     return 0;
   }
-
-  return Math.min(...nonZeroArray);
+  return Math.min(...array);
 }
 
 const calculateAveragePercentageChange = (values) => {

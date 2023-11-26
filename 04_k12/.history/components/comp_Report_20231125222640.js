@@ -107,7 +107,7 @@ const addClientDataToModalRow = (
 };
 
 const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray) => {
-  // console.log({tableRow, peer, type, fixedNum, dataArray});
+
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
   const propScope = 'row';
@@ -121,6 +121,7 @@ const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray) => {
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement('th');
   const min = peer ? getMinOfArray(peer[dataArray]) : 0;
+  console.log(peer, min, dataArray);
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement('th');
   const max = peer ? getMaxOfArray(peer[dataArray]) : 0;

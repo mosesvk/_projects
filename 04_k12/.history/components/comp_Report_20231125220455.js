@@ -107,7 +107,7 @@ const addClientDataToModalRow = (
 };
 
 const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray) => {
-  // console.log({tableRow, peer, type, fixedNum, dataArray});
+
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
   const propScope = 'row';

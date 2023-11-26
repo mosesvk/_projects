@@ -270,10 +270,7 @@ const getMaxOfArray = (array) => {
 
 const getMinOfArray = (array) => {
   const nonZeroArray = array.filter(num => {
-    if (num != 0 || num != 0.0) {
-      return num
-    }
-    return
+    if (num != 0 || num != 0.0)
   });
   console.log(nonZeroArray);
 
