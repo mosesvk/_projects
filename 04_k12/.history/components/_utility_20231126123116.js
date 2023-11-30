@@ -1,13 +1,13 @@
 // Enrollment
-// const studentAverageEnrollment_Peer = {};
-// const studentAverageEnrollment_YesNo_Peer = {};
-// const studentAverageEnrollment_Client = {};
-// const studentAverageEnrollment_PercentChange_Client = {};
-// const studentAverageEnrollment_Average_Client = {};
-// const studentAverageEnrollment_Peak_Peer = {};
-// const studentAverageEnrollment_Peak_Client = {};
-// const studentFacilityRatio_Peer = {};
-// const studentFacilityRatio_Client = {};
+const studentAverageEnrollment_Peer = {};
+const studentAverageEnrollment_YesNo_Peer = {};
+const studentAverageEnrollment_Client = {};
+const studentAverageEnrollment_PercentChange_Client = {};
+const studentAverageEnrollment_Average_Client = {};
+const studentAverageEnrollment_Peak_Peer = {};
+const studentAverageEnrollment_Peak_Client = {};
+const studentFacilityRatio_Peer = {};
+const studentFacilityRatio_Client = {};
 
 // Cash Flow and Reserve Ratios
 const expendableReserves_Peer = {};
@@ -283,15 +283,6 @@ const getMinOfArray = (array) => {
   return Math.min(...nonZeroArray);
 };
 
-const getSumOfArray = (array) => {
-  if (array.length === 0) {
-    return 0;
-  }
-
-  return array.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
-};
-
-
 const calculateAveragePercentageChange = (values) => {
   // console.log(values);
   // console.log('---');
@@ -451,21 +442,3 @@ const styleNumber = (num, type, fixed) => {
 
   return text;
 };
-
-const getWeightedAverageOfArray = (name) => {
-  const parseData = parseStoredData(getStoredData());
-  switch(name) {
-    case 'studentsFacilityRatio':
-      return  studentsFacilityRatio_weightedAverage(parseData)
-    default: 
-      return
-  }
-}
-
-const studentsFacilityRatio_weightedAverage = (data) => {
-  let numFullTime = getSumOfArray(data.fullTimeTeachers_Peer['total'])
-  let numPartTime = getSumOfArray(data.partTimeTeachers_Peer['total'])
-  let numStudents = getSumOfArray(data.studentAverageEnrollment_Main['total'])
-
-  return (numFullTime + (0.5 *  numPartTime)) / numStudents
-}

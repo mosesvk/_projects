@@ -1127,7 +1127,7 @@ const insertDataIntoObject = (
   child,
   yesNo
 ) => {
-  // console.log(dataKey, record, child);
+  console.log(dataKey, record, child);
   const innerData =
     record.querySelector(child).innerHTML.split('').length > 0
       ? record.querySelector(child).innerHTML.trim()
@@ -1204,7 +1204,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
     });
   });
 
-  // console.log(object);
   localStorage.removeItem('cashData');
   localStorage.setItem('cashData', JSON.stringify(object));
 };

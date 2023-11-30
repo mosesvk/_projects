@@ -1,13 +1,13 @@
 // Enrollment
-// const studentAverageEnrollment_Peer = {};
-// const studentAverageEnrollment_YesNo_Peer = {};
-// const studentAverageEnrollment_Client = {};
-// const studentAverageEnrollment_PercentChange_Client = {};
-// const studentAverageEnrollment_Average_Client = {};
-// const studentAverageEnrollment_Peak_Peer = {};
-// const studentAverageEnrollment_Peak_Client = {};
-// const studentFacilityRatio_Peer = {};
-// const studentFacilityRatio_Client = {};
+const studentAverageEnrollment_Peer = {};
+const studentAverageEnrollment_YesNo_Peer = {};
+const studentAverageEnrollment_Client = {};
+const studentAverageEnrollment_PercentChange_Client = {};
+const studentAverageEnrollment_Average_Client = {};
+const studentAverageEnrollment_Peak_Peer = {};
+const studentAverageEnrollment_Peak_Client = {};
+const studentFacilityRatio_Peer = {};
+const studentFacilityRatio_Client = {};
 
 // Cash Flow and Reserve Ratios
 const expendableReserves_Peer = {};
@@ -290,6 +290,7 @@ const getSumOfArray = (array) => {
 
   return array.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
 };
+
 
 
 const calculateAveragePercentageChange = (values) => {

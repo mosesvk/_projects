@@ -61,7 +61,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       window.chartColors.blue,
       window.chartColors.red,
       window.chartColors.orange,
-      window.chartColors.grey,
+      window.chartColors.purple,
     ],
     series: [
       {

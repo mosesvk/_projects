@@ -1204,7 +1204,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
     });
   });
 
-  // console.log(object);
   localStorage.removeItem('cashData');
   localStorage.setItem('cashData', JSON.stringify(object));
 };

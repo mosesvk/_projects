@@ -1,29 +1,24 @@
 const displayReportComponent = () => {
-  const enrollmentData = JSON.parse(localStorage.getItem('enrollmentData'));
-  const cashData = JSON.parse(localStorage.getItem('cashData'));
+  const savedData = JSON.parse(localStorage.getItem('enrollmentData'));
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   if (selectedYears) {
     addYearColumnsToReportTable(selectedYears);
-    insertDataToReport(enrollmentData, selectedYears, [
+    insertDataToReport(savedData, selectedYears);
+  }
+
+  closeSidebarAfterSelectingOption('report');
+};
+
+const insertDataToReport = (data, selectedYears) => {
+  if (data && selectedYears) {
+    addTotalDataToEveryRow(data, selectedYears, [
       ['studentAverageEnrollment', 'num', 0],
       ['studentAverageEnrollment_PercentChange', 'percent', 1],
       ['studentAverageEnrollment_Average', 'num', 0],
       ['studentAverageEnrollment_Peak', 'num', 0],
       ['studentsFacilityRatio', 'num', 1, 'wa']
     ]);
-
-    insertDataToReport(cashData, selectedYears, ['expendableReserves', 'num', 0, 'wa'])
-  }
-
-  closeSidebarAfterSelectingOption('report');
-};
-
-const insertDataToReport = (data, selectedYears, arrayOfNames) => {
-  if (data && selectedYears) {
-    addTotalDataToEveryRow(data, selectedYears, arrayOfNames);
-
-
   }
 };
 
@@ -57,7 +52,7 @@ const addToSingleRow = (selectedYears, name, client, peer, type, fixedNum, wa) =
       // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
 
       addClientDataToModalRow(tableModalRow, year, client, type, fixedNum)
-      addPeerDataToRow(tableModalRow, peer, type, fixedNum, year, wa, name);
+      addPeerDataToRow(tableModalRow, peer, type, fixedNum, year, wa);
     } 
 
   })
@@ -69,7 +64,7 @@ const addToSingleRow = (selectedYears, name, client, peer, type, fixedNum, wa) =
     type,
     fixedNum
   );
-  addPeerDataToRow(tableReportRow, peer, type, fixedNum, 'total', wa, name);
+  addPeerDataToRow(tableReportRow, peer, type, fixedNum, 'total', wa);
 };
 
 const addClientDataToReportRow = (
@@ -112,7 +107,7 @@ const addClientDataToModalRow = (
   tableModalRow.appendChild(dataPoint);
 };
 
-const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray, wa, name) => {
+const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray) => {
   // console.log({tableRow, peer, type, fixedNum, dataArray});
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
@@ -120,15 +115,7 @@ const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray, wa, name) =
 
   const dataPointAvg = document.createElement('th');
 
-  let avg
-  if (peer &&  wa) {
-    avg = getWeightedAverageOfArray(name)
-  } else if (peer && !wa) {
-    avg = getAverageOfArray(peer[dataArray])
-  } else {
-    avg = 0
-  }
-
+  const avg = peer ? getAverageOfArray(peer[dataArray]) : 0;
   const textAvg = styleNumber(avg, type, fixedNum);
   const dataPointMid = document.createElement('th');
   const mid = peer ? getMidpointOfArray(peer[dataArray]) : 0;

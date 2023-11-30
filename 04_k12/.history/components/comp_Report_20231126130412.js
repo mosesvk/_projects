@@ -1,29 +1,24 @@
 const displayReportComponent = () => {
-  const enrollmentData = JSON.parse(localStorage.getItem('enrollmentData'));
-  const cashData = JSON.parse(localStorage.getItem('cashData'));
+  const savedData = JSON.parse(localStorage.getItem('enrollmentData'));
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   if (selectedYears) {
     addYearColumnsToReportTable(selectedYears);
-    insertDataToReport(enrollmentData, selectedYears, [
+    insertDataToReport(savedData, selectedYears);
+  }
+
+  closeSidebarAfterSelectingOption('report');
+};
+
+const insertDataToReport = (data, selectedYears) => {
+  if (data && selectedYears) {
+    addTotalDataToEveryRow(data, selectedYears, [
       ['studentAverageEnrollment', 'num', 0],
       ['studentAverageEnrollment_PercentChange', 'percent', 1],
       ['studentAverageEnrollment_Average', 'num', 0],
       ['studentAverageEnrollment_Peak', 'num', 0],
       ['studentsFacilityRatio', 'num', 1, 'wa']
     ]);
-
-    insertDataToReport(cashData, selectedYears, ['expendableReserves', 'num', 0, 'wa'])
-  }
-
-  closeSidebarAfterSelectingOption('report');
-};
-
-const insertDataToReport = (data, selectedYears, arrayOfNames) => {
-  if (data && selectedYears) {
-    addTotalDataToEveryRow(data, selectedYears, arrayOfNames);
-
-
   }
 };
 

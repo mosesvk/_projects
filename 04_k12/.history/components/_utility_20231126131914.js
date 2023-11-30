@@ -1,13 +1,13 @@
 // Enrollment
-// const studentAverageEnrollment_Peer = {};
-// const studentAverageEnrollment_YesNo_Peer = {};
-// const studentAverageEnrollment_Client = {};
-// const studentAverageEnrollment_PercentChange_Client = {};
-// const studentAverageEnrollment_Average_Client = {};
-// const studentAverageEnrollment_Peak_Peer = {};
-// const studentAverageEnrollment_Peak_Client = {};
-// const studentFacilityRatio_Peer = {};
-// const studentFacilityRatio_Client = {};
+const studentAverageEnrollment_Peer = {};
+const studentAverageEnrollment_YesNo_Peer = {};
+const studentAverageEnrollment_Client = {};
+const studentAverageEnrollment_PercentChange_Client = {};
+const studentAverageEnrollment_Average_Client = {};
+const studentAverageEnrollment_Peak_Peer = {};
+const studentAverageEnrollment_Peak_Client = {};
+const studentFacilityRatio_Peer = {};
+const studentFacilityRatio_Client = {};
 
 // Cash Flow and Reserve Ratios
 const expendableReserves_Peer = {};
@@ -292,6 +292,7 @@ const getSumOfArray = (array) => {
 };
 
 
+
 const calculateAveragePercentageChange = (values) => {
   // console.log(values);
   // console.log('---');
@@ -453,19 +454,14 @@ const styleNumber = (num, type, fixed) => {
 };
 
 const getWeightedAverageOfArray = (name) => {
-  const parseData = parseStoredData(getStoredData());
   switch(name) {
     case 'studentsFacilityRatio':
-      return  studentsFacilityRatio_weightedAverage(parseData)
+      return  studentsFacilityRatio_weightedAverage()
     default: 
       return
   }
 }
 
-const studentsFacilityRatio_weightedAverage = (data) => {
-  let numFullTime = getSumOfArray(data.fullTimeTeachers_Peer['total'])
-  let numPartTime = getSumOfArray(data.partTimeTeachers_Peer['total'])
-  let numStudents = getSumOfArray(data.studentAverageEnrollment_Main['total'])
-
-  return (numFullTime + (0.5 *  numPartTime)) / numStudents
+const studentsFacilityRatio_weightedAverage = () => {
+  console.log(JSON.parse(localStorage.getItem('enrollmentData')));
 }
