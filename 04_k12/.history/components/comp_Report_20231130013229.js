@@ -83,6 +83,8 @@ const addClientDataToReportRow = (
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
   const propScope = 'row';
 
+  console.log(client);
+
   selectedYears.forEach((year) => {
     const dataPoint = document.createElement('th');
     const text = styleNumber(client[year][0], type, fixedNum);

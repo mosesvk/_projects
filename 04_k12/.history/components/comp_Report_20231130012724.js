@@ -13,7 +13,7 @@ const displayReportComponent = () => {
       ['studentsFacilityRatio', 'num', 1, 'wa']
     ]);
 
-    insertDataToReport(cashData, selectedYears, [['expendableReserves_inDays', 'num', 0]])
+    insertDataToReport(cashData, selectedYears, ['expendableReserves_inDays', 'num', 0])
   }
 
   closeSidebarAfterSelectingOption('report');
@@ -43,8 +43,8 @@ const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
 const addToSingleRow = (selectedYears, name, client, peer, type, fixedNum, wa) => {
   // console.log({selectedYears, name, client, peer, type, fixedNum});
   const tableReportRow = document.getElementById(`row_${name}`);
-  // console.log(`row_${name}`);
-  // console.log('tableReportRow', tableReportRow);
+
+  console.log('tableReportRow', tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);
