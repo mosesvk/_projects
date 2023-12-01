@@ -133,8 +133,8 @@ function updateModal(mainName, avgData, clientData) {
   }
 }
 
-const getStoredData = (dataTable) => {
-  return localStorage.getItem(dataTable) || null;
+const getStoredData = () => {
+  return localStorage.getItem('enrollmentData') || null;
 };
 
 const parseStoredData = (data) => {

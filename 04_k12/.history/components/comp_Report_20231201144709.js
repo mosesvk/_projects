@@ -20,7 +20,7 @@ const displayReportComponent = () => {
 };
 
 const insertDataToReport = (data, selectedYears, arrayOfNames, dataTable) => {
-  // console.log('insertDataToReport',dataTable);
+  console.log('insertDataToReport',dataTable);
   if (data && selectedYears) {
     addTotalDataToEveryRow(data, selectedYears, arrayOfNames, dataTable);
   }

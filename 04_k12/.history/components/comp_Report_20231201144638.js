@@ -13,14 +13,14 @@ const displayReportComponent = () => {
       ['studentsFacilityRatio', 'num', 1, 'wa']
     ], 'enrollmentData');
 
-    insertDataToReport(cashData, selectedYears, [['expendableReserves_inDays', 'num', 0, 'wa']], 'cashData')
+    insertDataToReport(cashData, selectedYears, [['expendableReserves_inDays', 'num', 0, 'wa'], 'cashData'])
   }
 
   closeSidebarAfterSelectingOption('report');
 };
 
 const insertDataToReport = (data, selectedYears, arrayOfNames, dataTable) => {
-  // console.log('insertDataToReport',dataTable);
+  console.log(dataTable);
   if (data && selectedYears) {
     addTotalDataToEveryRow(data, selectedYears, arrayOfNames, dataTable);
   }

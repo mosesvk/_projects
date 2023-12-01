@@ -1221,15 +1221,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_04_09_total_depreciation_expense',
         '_03_yes_no_expendable_reserves___in_days'
       );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalExpense',
-        record,
-        '_04_08_total_expenses',
-        '_03_yes_no_expendable_reserves___in_days'
-      );
 
     });
 

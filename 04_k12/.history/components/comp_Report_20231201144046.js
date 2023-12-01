@@ -13,14 +13,13 @@ const displayReportComponent = () => {
       ['studentsFacilityRatio', 'num', 1, 'wa']
     ], 'enrollmentData');
 
-    insertDataToReport(cashData, selectedYears, [['expendableReserves_inDays', 'num', 0, 'wa']], 'cashData')
+    insertDataToReport(cashData, selectedYears, [['expendableReserves_inDays', 'num', 0, 'wa'], 'cashData'])
   }
 
   closeSidebarAfterSelectingOption('report');
 };
 
 const insertDataToReport = (data, selectedYears, arrayOfNames, dataTable) => {
-  // console.log('insertDataToReport',dataTable);
   if (data && selectedYears) {
     addTotalDataToEveryRow(data, selectedYears, arrayOfNames, dataTable);
   }
@@ -32,7 +31,6 @@ const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames, dataTable) =>
     addToSingleRow(
       selectedYears,
       name[0],
-      dataTable,
       data[`${name[0]}_Client`],
       data[`${name[0]}_Peer`],
       name[1],
@@ -42,7 +40,7 @@ const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames, dataTable) =>
   }
 };
 
-const addToSingleRow = (selectedYears, name, dataTable, client, peer, type, fixedNum, wa) => {
+const addToSingleRow = (selectedYears, name, client, peer, type, fixedNum, wa) => {
   // console.log({selectedYears, name, client, peer, type, fixedNum});
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
@@ -71,7 +69,7 @@ const addToSingleRow = (selectedYears, name, dataTable, client, peer, type, fixe
     type,
     fixedNum
   );
-  addPeerDataToRow(tableReportRow, peer, type, fixedNum, 'total', wa, name, dataTable);
+  addPeerDataToRow(tableReportRow, peer, type, fixedNum, 'total', wa, name);
 };
 
 const addClientDataToReportRow = (
@@ -114,7 +112,7 @@ const addClientDataToModalRow = (
   tableModalRow.appendChild(dataPoint);
 };
 
-const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray, wa, name, dataTable) => {
+const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray, wa, name) => {
   // console.log({tableRow, peer, type, fixedNum, dataArray});
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
@@ -124,7 +122,7 @@ const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray, wa, name, d
 
   let avg
   if (peer &&  wa) {
-    avg = getWeightedAverageOfArray(name, dataTable)
+    avg = getWeightedAverageOfArray(name, peer)
   } else if (peer && !wa) {
     avg = getAverageOfArray(peer[dataArray])
   } else {

@@ -1175,7 +1175,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
       return fiscalYear.includes(year.toString());
     });
     filteredPeerRecords.forEach((record) => {
-      // expendableReserves_inDays
       insertDataIntoObject(
         'peer',
         year,
@@ -1185,6 +1184,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_03_ratio_expendable_reserves___in_days',
         '_03_yes_no_expendable_reserves___in_days'
       );
+
       insertDataIntoObject(
         'peer',
         year,
@@ -1210,24 +1210,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'totalDebt',
         record,
         '_03_11_total_debt',
-        '_03_yes_no_expendable_reserves___in_days'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalDepreciationExpense',
-        record,
-        '_04_09_total_depreciation_expense',
-        '_03_yes_no_expendable_reserves___in_days'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalExpense',
-        record,
-        '_04_08_total_expenses',
         '_03_yes_no_expendable_reserves___in_days'
       );
 
