@@ -6,10 +6,6 @@ const getWeightedAverageOfArray = (name, data) => {
       return expendableReservesInDays_weightedAverage(data);
     case 'expendableReserves_Percent':
         return expendableReservesPercent_weightedAverage(data);
-    case 'cashAvailableDeferred':
-        return cashAvailableDeferred_weightedAverage(data);
-    case 'liquidityRatio':
-        return liquidityRatio_weightedAverage(data);
     default:
       return;
   }
@@ -59,32 +55,14 @@ const expendableReservesPercent_weightedAverage = (data) => {
       data.totalDepreciationExpense['total']
     );
 
+    // ([31] 03-12 Total Unrestricted Net Assets - (IF [27] 03-08 Land, Buildings and Equipment, net - [30] 03-11 Total Debt <0,0, [27] 03-08 Land, Buildings and Equipment, net - [30] 03-11 Total Debt) )/ 
+    // ([41] 04-08 Total Expenses - [42] 04-09 Total Depreciation Expense)
+
     let numIf =
     numLandBuildingsEquipmentNet - numTotalDebt < 0
       ? 0
       : numLandBuildingsEquipmentNet - numTotalDebt;
 
     return ((numTotalUnrestricted - numIf) / (numTotalExpense - numTotalDepreciationExpense))
-
-}
-
-const cashAvailableDeferred_weightedAverage = (data) => {
-    // ( ([21] 03-02 Total Cash  + [22] 03-03 Non-Endowment Investments - [29] 03-10 Deferred Revenue ) / [29] 03-10 Deferred Revenue
-
-    let numTotalCash = getSumOfArray(data.totalCash['total']);
-    let numNonEndowmentInvestments = getSumOfArray(data.nonEndowmentInvestments['total']);
-    let numDeferredRevenue = getSumOfArray(data.deferredRevenue['total']);
-
-    return (numTotalCash + numNonEndowmentInvestments - numDeferredRevenue) / numDeferredRevenue
-}
-
-const liquidityRatio_weightedAverage = (data) => {
-
-    let numTotalCash = getSumOfArray(data.totalCash['total']);
-    let numNonEndowmentInvestments = getSumOfArray(data.nonEndowmentInvestments['total']);
-    let numCurrentLiabilities = getSumOfArray(data.currentLiabilities['total']);
-    let numDeferredRevenue = getSumOfArray(data.deferredRevenue['total']);
-
-    return (numTotalCash + numNonEndowmentInvestments) / (numCurrentLiabilities - numDeferredRevenue)
 
 }

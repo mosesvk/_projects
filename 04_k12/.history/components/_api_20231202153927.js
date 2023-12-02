@@ -1548,7 +1548,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_06_ratio_liquidity_ratio',
         '_06_bench_rating_liquidity_ratio'
       );
-      
     });
   });
 

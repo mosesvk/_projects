@@ -69,22 +69,9 @@ const expendableReservesPercent_weightedAverage = (data) => {
 }
 
 const cashAvailableDeferred_weightedAverage = (data) => {
-    // ( ([21] 03-02 Total Cash  + [22] 03-03 Non-Endowment Investments - [29] 03-10 Deferred Revenue ) / [29] 03-10 Deferred Revenue
-
-    let numTotalCash = getSumOfArray(data.totalCash['total']);
-    let numNonEndowmentInvestments = getSumOfArray(data.nonEndowmentInvestments['total']);
-    let numDeferredRevenue = getSumOfArray(data.deferredRevenue['total']);
-
-    return (numTotalCash + numNonEndowmentInvestments - numDeferredRevenue) / numDeferredRevenue
+    
 }
 
 const liquidityRatio_weightedAverage = (data) => {
-
-    let numTotalCash = getSumOfArray(data.totalCash['total']);
-    let numNonEndowmentInvestments = getSumOfArray(data.nonEndowmentInvestments['total']);
-    let numCurrentLiabilities = getSumOfArray(data.currentLiabilities['total']);
-    let numDeferredRevenue = getSumOfArray(data.deferredRevenue['total']);
-
-    return (numTotalCash + numNonEndowmentInvestments) / (numCurrentLiabilities - numDeferredRevenue)
 
 }

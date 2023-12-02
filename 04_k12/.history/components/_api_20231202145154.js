@@ -1318,14 +1318,19 @@ const insertDataIntoObject = (
   dataKey,
   record,
   child,
-  dynamicValueClientPeer
+  yesNo,
+  benchmark
 ) => {
-
+  // console.log(dataKey, record, child);
   const innerData =
     record.querySelector(child).innerHTML.split('').length > 0
       ? record.querySelector(child).innerHTML.trim()
       : 0;
 
+  const yesNoField = yesNo && record.querySelector(yesNo).textContent.trim();
+
+  const benchmarkField =
+    benchmark && record.querySelector(benchmark).textContent.trim();
 
   if (type === 'client') {
 
@@ -1336,14 +1341,10 @@ const insertDataIntoObject = (
       object[dataKey][year] = {};
     }
     object[dataKey][year].value = innerData
-    const benchmarkField =
-    dynamicValueClientPeer && record.querySelector(dynamicValueClientPeer).textContent.trim();
-    object[dataKey][year].benchmark = benchmarkField
+    if (benchmarkField) object[dataKey][year].benchmark = benchmarkField
     
   } else {
     // type === 'peer'
-
-    const yesNoField = dynamicValueClientPeer && record.querySelector(dynamicValueClientPeer).textContent.trim();
 
     if (yesNoField == 'Yes') {
       if (!object[dataKey]) {
@@ -1451,55 +1452,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_05_ratio_cash_available_to_deferred_revenues',
         '_05_yes_no_cash_available_to_deferred_revenues'
       );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalCash',
-        record,
-        '_03_02_total_cash',
-        '_05_yes_no_cash_available_to_deferred_revenues'
-      )
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'nonEndowmentInvestments',
-        record,
-        '_03_03_non_endowment_investments',
-        '_05_yes_no_cash_available_to_deferred_revenues'
-      )
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'deferredRevenue',
-        record,
-        '_03_10_deferred_revenue',
-        '_05_yes_no_cash_available_to_deferred_revenues'
-      )
-
-
-      // liquidityRatio
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'liquidityRatio_Peer',
-        record,
-        '_06_ratio_liquidity_ratio',
-        '_06_yes_no_liquidity_ratio'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'currentLiabilities',
-        record,
-        '_03_09_current_liabilities',
-        '_06_yes_no_liquidity_ratio'
-      );
-      
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -1509,46 +1461,32 @@ const processCashData = (years, recordsPeer, recordsClient) => {
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
-      // expendableReserves_inDays
       insertDataIntoObject(
         'client',
         year,
         object,
         'expendableReserves_inDays_Client',
         record,
-        '_03_ratio_expendable_reserves___in_days',
-        '_03_bench_rating_expendable_reserves___in_days'
+        '_03_ratio_expendable_reserves___in_days'
       );
-      // expendableReserves_Percent
+
       insertDataIntoObject(
         'client',
         year,
         object,
         'expendableReserves_Percent_Client',
         record,
-        '_04_ratio_expendable_reserves______of_total_cash_expenses',
-        '_04_benchmark_rating_expendable_reserves______of_total_cash_expenses'
+        '_04_ratio_expendable_reserves______of_total_cash_expenses'
       );
-      // cashAvailableDeferred
+
       insertDataIntoObject(
         'client',
         year,
         object,
         'cashAvailableDeferred_Client',
         record,
-        '_05_ratio_cash_available_to_deferred_revenues',
+        '_04_ratio_expendable_reserves______of_total_cash_expenses'
       );
-      // liquidityRatio
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'liquidityRatio_Client',
-        record,
-        '_06_ratio_liquidity_ratio',
-        '_06_bench_rating_liquidity_ratio'
-      );
-      
     });
   });
 

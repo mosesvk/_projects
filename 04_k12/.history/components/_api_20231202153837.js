@@ -1320,15 +1320,18 @@ const insertDataIntoObject = (
   child,
   dynamicValueClientPeer
 ) => {
-
+  console.log(dataKey, benchmark);
   const innerData =
     record.querySelector(child).innerHTML.split('').length > 0
       ? record.querySelector(child).innerHTML.trim()
       : 0;
 
+  const benchmarkField =
+    benchmark && record.querySelector(dynamicValueClientPeer).textContent.trim();
 
   if (type === 'client') {
 
+    
     if (!object[dataKey]) {
       object[dataKey] = {};
     }
@@ -1548,7 +1551,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_06_ratio_liquidity_ratio',
         '_06_bench_rating_liquidity_ratio'
       );
-      
     });
   });
 

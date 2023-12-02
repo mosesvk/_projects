@@ -1318,14 +1318,21 @@ const insertDataIntoObject = (
   dataKey,
   record,
   child,
-  dynamicValueClientPeer
+  yesNo,
+  benchmark
 ) => {
-
+  console.log(dataKey, benchmark);
   const innerData =
     record.querySelector(child).innerHTML.split('').length > 0
       ? record.querySelector(child).innerHTML.trim()
       : 0;
 
+  const yesNoField = yesNo && record.querySelector(yesNo).textContent.trim();
+
+  const benchmarkField =
+    benchmark && record.querySelector(benchmark).textContent.trim();
+
+  // console.log('benchmarkField', benchmarkField);
 
   if (type === 'client') {
 
@@ -1336,14 +1343,10 @@ const insertDataIntoObject = (
       object[dataKey][year] = {};
     }
     object[dataKey][year].value = innerData
-    const benchmarkField =
-    dynamicValueClientPeer && record.querySelector(dynamicValueClientPeer).textContent.trim();
-    object[dataKey][year].benchmark = benchmarkField
+    if (benchmarkField) object[dataKey][year].benchmark = benchmarkField
     
   } else {
     // type === 'peer'
-
-    const yesNoField = dynamicValueClientPeer && record.querySelector(dynamicValueClientPeer).textContent.trim();
 
     if (yesNoField == 'Yes') {
       if (!object[dataKey]) {
@@ -1548,7 +1551,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_06_ratio_liquidity_ratio',
         '_06_bench_rating_liquidity_ratio'
       );
-      
     });
   });
 
