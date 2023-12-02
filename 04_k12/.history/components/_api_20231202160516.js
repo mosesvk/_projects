@@ -1519,16 +1519,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_07b_ratio_depreciation_expenses_on_3_7_year_assets',
         '_07b_yes_no_depreciation_expenses_on_3_7_year_assets'
       );
-
-      // netCashUsedOperating_overUnderBench
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'netCashUsedOperating_overUnderBench_Peer',
-        record,
-        '_07c_ratio_over_under_benchmark',
-      );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -1594,16 +1584,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'netCashUsedOperating_depreciation_Client',
         record,
         '_07b_ratio_depreciation_expenses_on_3_7_year_assets'
-      );
-      // netCashUsedOperating_overUnderBench
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'netCashUsedOperating_overUnderBench_Client',
-        record,
-        '_07c_ratio_over_under_benchmark',
-        '_07c_bench_rating_over_under_benchmark'
       );
     });
   });

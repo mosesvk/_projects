@@ -1320,29 +1320,30 @@ const insertDataIntoObject = (
   child,
   dynamicValueClientPeer
 ) => {
+
   const innerData =
     record.querySelector(child).innerHTML.split('').length > 0
       ? record.querySelector(child).innerHTML.trim()
       : 0;
 
+
   if (type === 'client') {
+
     if (!object[dataKey]) {
       object[dataKey] = {};
     }
     if (!object[dataKey][year]) {
       object[dataKey][year] = {};
     }
-    object[dataKey][year].value = innerData;
+    object[dataKey][year].value = innerData
     const benchmarkField =
-      dynamicValueClientPeer &&
-      record.querySelector(dynamicValueClientPeer).textContent.trim();
-    object[dataKey][year].benchmark = benchmarkField;
+    dynamicValueClientPeer && record.querySelector(dynamicValueClientPeer).textContent.trim();
+    object[dataKey][year].benchmark = benchmarkField
+    
   } else {
     // type === 'peer'
 
-    const yesNoField =
-      dynamicValueClientPeer &&
-      record.querySelector(dynamicValueClientPeer).textContent.trim();
+    const yesNoField = dynamicValueClientPeer && record.querySelector(dynamicValueClientPeer).textContent.trim();
 
     if (yesNoField == 'Yes') {
       if (!object[dataKey]) {
@@ -1458,7 +1459,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_03_02_total_cash',
         '_05_yes_no_cash_available_to_deferred_revenues'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -1467,7 +1468,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_03_03_non_endowment_investments',
         '_05_yes_no_cash_available_to_deferred_revenues'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -1476,7 +1477,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_03_10_deferred_revenue',
         '_05_yes_no_cash_available_to_deferred_revenues'
-      );
+      )
+
 
       // liquidityRatio
       insertDataIntoObject(
@@ -1508,27 +1510,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_07a_ratio_as_per_statement_of_cash_flows',
         '_07a_yes_no_as_per_statement_of_cash_flows'
       );
-
-      // netCashUsedOperating_depreciation
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'netCashUsedOperating_depreciation_Peer',
-        record,
-        '_07b_ratio_depreciation_expenses_on_3_7_year_assets',
-        '_07b_yes_no_depreciation_expenses_on_3_7_year_assets'
-      );
-
-      // netCashUsedOperating_overUnderBench
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'netCashUsedOperating_overUnderBench_Peer',
-        record,
-        '_07c_ratio_over_under_benchmark',
-      );
+      
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -1565,7 +1547,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         'cashAvailableDeferred_Client',
         record,
-        '_05_ratio_cash_available_to_deferred_revenues'
+        '_05_ratio_cash_available_to_deferred_revenues',
       );
       // liquidityRatio
       insertDataIntoObject(
@@ -1577,33 +1559,14 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_06_ratio_liquidity_ratio',
         '_06_bench_rating_liquidity_ratio'
       );
-      // netCashUsedOperating_asPerStatementCash
+      //netCashUsedOperating_asPerStatementCash
       insertDataIntoObject(
         'client',
         year,
         object,
         'netCashUsedOperating_asPerStatementCash_Client',
         record,
-        '_07a_ratio_as_per_statement_of_cash_flows'
-      );
-      // netCashUsedOperating_depreciation
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'netCashUsedOperating_depreciation_Client',
-        record,
-        '_07b_ratio_depreciation_expenses_on_3_7_year_assets'
-      );
-      // netCashUsedOperating_overUnderBench
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'netCashUsedOperating_overUnderBench_Client',
-        record,
-        '_07c_ratio_over_under_benchmark',
-        '_07c_bench_rating_over_under_benchmark'
+        '_07a_ratio_as_per_statement_of_cash_flows',
       );
     });
   });

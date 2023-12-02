@@ -1528,6 +1528,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'netCashUsedOperating_overUnderBench_Peer',
         record,
         '_07c_ratio_over_under_benchmark',
+        '_07c_yes_no_over_under_benchmark'
       );
     });
 

@@ -371,11 +371,7 @@ const styleNumber = (num, type, fixed) => {
     if (type === 'percent' && text != 0)
       text = parseFloat(text).toFixed(fixed) + '%';
 
-    
-    if (type === 'dollar' && text != 0) {
-      text = parseFloat(text).toFixed(fixed);
-      text = '$ ' + Number(text).toLocaleString(); // Add commas for thousands
-    }
+    if (type === 'dollar' && text != 0) text = '$' + Number(text).toFixed(0);
   }
 
   return text;

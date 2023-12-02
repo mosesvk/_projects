@@ -18,8 +18,7 @@ const displayReportComponent = () => {
       ['expendableReserves_Percent', 'percent',0, 'wa'], 
       ['cashAvailableDeferred', 'num', 2, 'wa'],
       ['liquidityRatio', 'num', 1, 'wa'], 
-      ['netCashUsedOperating_asPerStatementCash', 'dollar', 0], 
-      ['netCashUsedOperating_depreciation', 'dollar', 0],
+      ['netCashUsedOperating_asPerStatementCash', 'dollar', 0]
     ]);
   }
 
