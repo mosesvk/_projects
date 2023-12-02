@@ -107,7 +107,7 @@ const addClientDataToReportRow = (
 
   selectedYears.forEach((year) => {
     const dataPoint = document.createElement('th');
-    const text = styleNumber(client[year].value, type, fixedNum);
+    const text = styleNumber(client[year][0], type, fixedNum);
 
     dataPoint.className = propClass;
     dataPoint.scope = propScope;
@@ -129,7 +129,7 @@ const addClientDataToModalRow = (
   const propScope = 'row';
 
   const dataPoint = document.createElement('th');
-  const text = styleNumber(client[year].value, type, fixedNum);
+  const text = styleNumber(client[year][0], type, fixedNum);
 
   dataPoint.className = propClass;
   dataPoint.scope = propScope;

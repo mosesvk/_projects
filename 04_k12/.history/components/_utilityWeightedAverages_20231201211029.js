@@ -19,7 +19,7 @@ const studentsFacilityRatio_weightedAverage = (data) => {
 };
 
 const expendableReservesInDays_weightedAverage = (data) => {
-//   console.log(data);
+  console.log(data);
   let numTotalUnrestricted = getSumOfArray(data.unrestrictedNetAssets['total']);
   let numLandBuildingsEquipmentNet = getSumOfArray(
     data.landBuildingsEquipmentNet['total']

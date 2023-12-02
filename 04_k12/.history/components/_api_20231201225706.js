@@ -1,4 +1,4 @@
-const xmlPeerString = `
+const xmlPeerString = (`
   <qdbapi>
     <record>
       <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
@@ -1042,7 +1042,7 @@ const xmlPeerString = `
       <update_id>1701357783039</update_id>
     </record>
   </qdbapi>
-`;
+`);
 const xmlClientString = `
   <qdbapi>
     <record>
@@ -1318,7 +1318,7 @@ const insertDataIntoObject = (
   dataKey,
   record,
   child,
-  yesNo,
+  yesNo, 
   benchmark
 ) => {
   // console.log(dataKey, record, child);
@@ -1329,20 +1329,16 @@ const insertDataIntoObject = (
 
   const yesNoField = yesNo && record.querySelector(yesNo).textContent.trim();
 
-  const benchmarkField =
-    benchmark && record.querySelector(benchmark).textContent.trim();
+  const benchmarkField = benchmark && record.querySelector(benchmark).textContent.trim();
 
   if (type === 'client') {
-
     if (!object[dataKey]) {
       object[dataKey] = {};
     }
     if (!object[dataKey][year]) {
-      object[dataKey][year] = {};
+      object[dataKey][year] = [];
     }
-    object[dataKey][year].value = innerData
-    if (benchmarkField) object[dataKey][year].benchmark = benchmarkField
-    
+    object[dataKey][year].push(innerData);
   } else {
     // type === 'peer'
 

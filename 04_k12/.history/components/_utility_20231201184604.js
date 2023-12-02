@@ -32,7 +32,6 @@ const createChartFromParsedData = (
   fixedNum,
   mainName
 ) => {
-  console.log('parsedData', parsedData);
   if (parsedData) {
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
     updateModal(mainName, parsedData[peer], parsedData[client]);
@@ -183,12 +182,15 @@ const getMidpointOfArray = (array) => {
 };
 
 const getMaxOfArray = (array) => {
+  // Filter out zeros from the array
   const nonZeroArray = array.filter((num) => num !== 0);
 
   if (nonZeroArray.length === 0) {
+    // If the filtered array is empty, return 0
     return 0;
   }
 
+  // Return the maximum value of the filtered array
   return Math.max(...nonZeroArray);
 };
 
@@ -347,7 +349,7 @@ const getPeerAndClientChartDataArrays = (
       peerMin.push(parseFloat(min.toFixed(fixedNum)));
       peerMax.push(parseFloat(max.toFixed(fixedNum)));
 
-      const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
+      const clientNum = Number(dataClient[year][0]).toFixed(fixedNum);
       clientArray.push(clientNum);
     } else {
       console.error(`Data for year ${year} is undefined in dataPeer`);

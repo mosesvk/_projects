@@ -1,4 +1,6 @@
-const getWeightedAverageOfArray = (name, data) => {
+const getWeightedAverageOfArray = (name, dataTable) => {
+  const data = parseStoredData(getStoredData(dataTable));
+  console.log(name, dataTable, data);
   switch (name) {
     case 'studentsFacilityRatio':
       return studentsFacilityRatio_weightedAverage(data);
@@ -19,7 +21,7 @@ const studentsFacilityRatio_weightedAverage = (data) => {
 };
 
 const expendableReservesInDays_weightedAverage = (data) => {
-//   console.log(data);
+  console.log(data);
   let numTotalUnrestricted = getSumOfArray(data.unrestrictedNetAssets['total']);
   let numLandBuildingsEquipmentNet = getSumOfArray(
     data.landBuildingsEquipmentNet['total']

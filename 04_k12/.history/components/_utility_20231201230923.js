@@ -347,7 +347,7 @@ const getPeerAndClientChartDataArrays = (
       peerMin.push(parseFloat(min.toFixed(fixedNum)));
       peerMax.push(parseFloat(max.toFixed(fixedNum)));
 
-      const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
+      const clientNum = Number(dataClient[year][0]).toFixed(fixedNum);
       clientArray.push(clientNum);
     } else {
       console.error(`Data for year ${year} is undefined in dataPeer`);

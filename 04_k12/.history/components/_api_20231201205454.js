@@ -1,4 +1,4 @@
-const xmlPeerString = `
+const xmlPeerString = (`
   <qdbapi>
     <record>
       <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
@@ -1042,7 +1042,7 @@ const xmlPeerString = `
       <update_id>1701357783039</update_id>
     </record>
   </qdbapi>
-`;
+`);
 const xmlClientString = `
   <qdbapi>
     <record>
@@ -1318,8 +1318,7 @@ const insertDataIntoObject = (
   dataKey,
   record,
   child,
-  yesNo,
-  benchmark
+  yesNo
 ) => {
   // console.log(dataKey, record, child);
   const innerData =
@@ -1329,20 +1328,14 @@ const insertDataIntoObject = (
 
   const yesNoField = yesNo && record.querySelector(yesNo).textContent.trim();
 
-  const benchmarkField =
-    benchmark && record.querySelector(benchmark).textContent.trim();
-
   if (type === 'client') {
-
     if (!object[dataKey]) {
       object[dataKey] = {};
     }
     if (!object[dataKey][year]) {
-      object[dataKey][year] = {};
+      object[dataKey][year] = [];
     }
-    object[dataKey][year].value = innerData
-    if (benchmarkField) object[dataKey][year].benchmark = benchmarkField
-    
+    object[dataKey][year].push(innerData);
   } else {
     // type === 'peer'
 
@@ -1430,17 +1423,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_04_08_total_expenses',
         '_03_yes_no_expendable_reserves___in_days'
       );
-
-      // expaendableReserves_Percent
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'expendableReserves_Percent_Peer',
-        record,
-        '_04_ratio_expendable_reserves______of_total_cash_expenses',
-        '_04_yes_no_expendable_reserves______of_total_cash_expenses'
-      );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -1457,24 +1439,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'expendableReserves_inDays_Client',
         record,
         '_03_ratio_expendable_reserves___in_days'
-      );
-
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'expendableReserves_Percent_Client',
-        record,
-        '_04_ratio_expendable_reserves______of_total_cash_expenses'
-      );
-
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'cashAvailableDeferred_Client',
-        record,
-        '_04_ratio_expendable_reserves______of_total_cash_expenses'
       );
     });
   });
