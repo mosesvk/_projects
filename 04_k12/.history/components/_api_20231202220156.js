@@ -7119,7 +7119,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_03_12_total_unrestricted_net_assets',
         '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        'expendableReserves'
       );
       insertDataIntoObject(
         'peer',
@@ -7129,7 +7129,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_03_08_land__buildings_and_equipment__net',
         '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        'expendableReserves'
       );
       insertDataIntoObject(
         'peer',
@@ -7139,7 +7139,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_03_11_total_debt',
         '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        'expendableReserves'
       );
       insertDataIntoObject(
         'peer',
@@ -7149,7 +7149,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_04_09_total_depreciation_expense',
         '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        'expendableReserves'
       );
       insertDataIntoObject(
         'peer',
@@ -7159,7 +7159,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_04_08_total_expenses',
         '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        'expendableReserves'
       );
 
       // expaendableReserves_Percent
@@ -7180,7 +7180,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_03_12_total_unrestricted_net_assets',
         '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
+        'expaendableReserves_Percent'
       );
       insertDataIntoObject(
         'peer',
@@ -7190,7 +7190,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_03_08_land__buildings_and_equipment__net',
         '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
+        'expaendableReserves_Percent'
       );
       insertDataIntoObject(
         'peer',
@@ -7200,7 +7200,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_03_11_total_debt',
         '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
+        'expaendableReserves_Percent'
       );
       insertDataIntoObject(
         'peer',
@@ -7210,7 +7210,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_04_09_total_depreciation_expense',
         '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
+        'expaendableReserves_Percent'
       );
       insertDataIntoObject(
         'peer',
@@ -7220,7 +7220,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_04_08_total_expenses',
         '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
+        'expaendableReserves_Percent'
       );
 
       // cashAvailableDeferred
@@ -7301,16 +7301,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'deferredRevenue',
         record,
         '_03_10_deferred_revenue',
-        '_06_yes_no_liquidity_ratio',
-        'liquidityRatio'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'nonEndowmentInvestments',
-        record,
-        '_03_03_non_endowment_investments',
         '_06_yes_no_liquidity_ratio',
         'liquidityRatio'
       );
@@ -7518,8 +7508,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         'studentAverageEnrollment_Main',
         record,
         '_01_01_students_average_enrollment',
-        '_02_yes_no_student_faculty_ratio',
-        'studentsFacilityRatio'
+        '_02_yes_no_student_faculty_ratio'
       );
     });
 

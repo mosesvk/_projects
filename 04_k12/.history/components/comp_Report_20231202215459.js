@@ -91,7 +91,7 @@ const addToSingleRow = (
     peer,
     type,
     fixedNum,
-    'total',
+    name,
     wa,
     name,
     data
@@ -152,7 +152,8 @@ const addPeerDataToRow = (
   name,
   data
 ) => {
-  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa });
+  
+  if (!wa) dataArray = 'total'
   
   const propClass =
   'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
@@ -160,10 +161,10 @@ const addPeerDataToRow = (
   
   const dataPointAvg = document.createElement('th');
   
-
+  console.log({tableRow, peer, type, fixedNum, dataArray, wa});
   let avg;
   if (peer && wa) {
-    avg = getWeightedAverageOfArray(data, name);
+    avg = getWeightedAverageOfArray(name, data);
   } else if (peer && !wa) {
     avg = getAverageOfArray(peer[dataArray]);
   } else {

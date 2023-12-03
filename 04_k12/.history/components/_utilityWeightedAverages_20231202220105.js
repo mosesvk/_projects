@@ -1,5 +1,4 @@
 const getWeightedAverageOfArray = (data, name) => {
-    console.log(data, name);
   switch (name) {
     case 'studentsFacilityRatio':
       return studentsFacilityRatio_weightedAverage(data, name);
@@ -18,7 +17,7 @@ const getWeightedAverageOfArray = (data, name) => {
   }
 };
 
-const netCashUsedOperating_overUnderBenchmark_weightedAverage = (data, name) => {
+const netCashUsedOperating_overUnderBenchmark_weightedAverage = (data) => {
     // [47] 05-01 Cash Flows from Operating Activities - [19] 02-07 Depreciation expense on 3 to 7 year assets only
 
 

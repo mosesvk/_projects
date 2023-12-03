@@ -7304,16 +7304,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_06_yes_no_liquidity_ratio',
         'liquidityRatio'
       );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'nonEndowmentInvestments',
-        record,
-        '_03_03_non_endowment_investments',
-        '_06_yes_no_liquidity_ratio',
-        'liquidityRatio'
-      );
 
       // netCashUsedOperating_asPerStatementCash
       insertDataIntoObject(

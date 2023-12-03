@@ -7039,7 +7039,6 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
   const innerData =
     record.querySelector(child).innerHTML.split('').length > 0
       ? record.querySelector(child).innerHTML.trim()
@@ -7071,20 +7070,12 @@ const insertDataIntoObject = (
       if (!object[dataKey][year]) {
         object[dataKey][year] = [];
       }
-
-      if (!name) {
-        if (!object[dataKey]['total']) {
-          object[dataKey]['total'] = [];
-        }
-        object[dataKey]['total'].push(innerData);
-      } else {
-        if (!object[dataKey][name]) {
-          object[dataKey][name] = [];
-        }
-        object[dataKey][name].push(innerData);
+      if (!object[dataKey][name]) {
+        object[dataKey][name] = [];
       }
-      
+
       object[dataKey][year].push(innerData);
+      object[dataKey][name].push(innerData);
     }
   }
 };
@@ -7119,7 +7110,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_03_12_total_unrestricted_net_assets',
         '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        'expendableReserves'
       );
       insertDataIntoObject(
         'peer',
@@ -7129,7 +7120,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_03_08_land__buildings_and_equipment__net',
         '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        'expendableReserves'
       );
       insertDataIntoObject(
         'peer',
@@ -7139,7 +7130,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_03_11_total_debt',
         '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        'expendableReserves'
       );
       insertDataIntoObject(
         'peer',
@@ -7149,7 +7140,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_04_09_total_depreciation_expense',
         '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        'expendableReserves'
       );
       insertDataIntoObject(
         'peer',
@@ -7159,7 +7150,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_04_08_total_expenses',
         '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        'expendableReserves'
       );
 
       // expaendableReserves_Percent
@@ -7171,56 +7162,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_04_ratio_expendable_reserves______of_total_cash_expenses',
         '_04_yes_no_expendable_reserves______of_total_cash_expenses'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'unrestrictedNetAssets',
-        record,
-        '_03_12_total_unrestricted_net_assets',
-        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'landBuildingsEquipmentNet',
-        record,
-        '_03_08_land__buildings_and_equipment__net',
-        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalDebt',
-        record,
-        '_03_11_total_debt',
-        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalDepreciationExpense',
-        record,
-        '_04_09_total_depreciation_expense',
-        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalExpense',
-        record,
-        '_04_08_total_expenses',
-        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
       );
 
       // cashAvailableDeferred
@@ -7278,39 +7219,9 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'totalCash',
-        record,
-        '_03_02_total_cash',
-        '_06_yes_no_liquidity_ratio',
-        'liquidityRatio'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
         'currentLiabilities',
         record,
         '_03_09_current_liabilities',
-        '_06_yes_no_liquidity_ratio',
-        'liquidityRatio'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'deferredRevenue',
-        record,
-        '_03_10_deferred_revenue',
-        '_06_yes_no_liquidity_ratio',
-        'liquidityRatio'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'nonEndowmentInvestments',
-        record,
-        '_03_03_non_endowment_investments',
         '_06_yes_no_liquidity_ratio',
         'liquidityRatio'
       );
@@ -7354,16 +7265,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'cashFlowsOperatingActivities',
         record,
         '_05_01_cash_flows_from_operating_activities',
-        '_07c_yes_no_over_under_benchmark',
-        'netCashUsedOperating_overUnderBench'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalDepreciationExpense',
-        record,
-        '_04_09_total_depreciation_expense',
         '_07c_yes_no_over_under_benchmark',
         'netCashUsedOperating_overUnderBench'
       );
@@ -7498,8 +7399,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         'fullTimeTeachers_Peer',
         record,
         '_01_03_ft_teachers',
-        '_02_yes_no_student_faculty_ratio',
-        'studentsFacilityRatio'
+        '_02_yes_no_student_faculty_ratio'
       );
       insertDataIntoObject(
         'peer',
@@ -7508,8 +7408,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         'partTimeTeachers_Peer',
         record,
         '_01_05_pt_teachers',
-        '_02_yes_no_student_faculty_ratio',
-        'studentsFacilityRatio'
+        '_02_yes_no_student_faculty_ratio'
       );
       insertDataIntoObject(
         'peer',
@@ -7518,8 +7417,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         'studentAverageEnrollment_Main',
         record,
         '_01_01_students_average_enrollment',
-        '_02_yes_no_student_faculty_ratio',
-        'studentsFacilityRatio'
+        '_02_yes_no_student_faculty_ratio'
       );
     });
 

@@ -163,7 +163,7 @@ const addPeerDataToRow = (
 
   let avg;
   if (peer && wa) {
-    avg = getWeightedAverageOfArray(data, name);
+    avg = getWeightedAverageOfArray(name, data);
   } else if (peer && !wa) {
     avg = getAverageOfArray(peer[dataArray]);
   } else {

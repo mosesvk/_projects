@@ -1,5 +1,4 @@
 const getWeightedAverageOfArray = (data, name) => {
-    console.log(data, name);
   switch (name) {
     case 'studentsFacilityRatio':
       return studentsFacilityRatio_weightedAverage(data, name);

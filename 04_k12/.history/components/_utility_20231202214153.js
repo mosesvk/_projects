@@ -164,9 +164,7 @@ const getAverageOfArray = (array) => {
 };
 
 const getMidpointOfArray = (array) => {
-
-  // console.trace(array);
-
+  
   if (array.length === 0) {
     return 0;
   }
@@ -337,7 +335,6 @@ const getPeerAndClientChartDataArrays = (
   const peerMax = [];
   const clientArray = [];
 
-  
   years.forEach((year) => {
     if (dataPeer[year]) {
       const array = dataPeer[year];

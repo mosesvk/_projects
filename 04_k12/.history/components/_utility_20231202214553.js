@@ -165,7 +165,7 @@ const getAverageOfArray = (array) => {
 
 const getMidpointOfArray = (array) => {
 
-  // console.trace(array);
+  console.log(array);
 
   if (array.length === 0) {
     return 0;
