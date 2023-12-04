@@ -385,3 +385,13 @@ const styleNumber = (num, type, fixed) => {
   return text;
 };
 
+
+module.exports = {
+  theme: {
+    colors: {
+      primary: '#3490dc', // Your primary color
+      secondary: '#ffed4a', // Your secondary color
+      // ... define other colors as needed
+    }
+  }
+}

@@ -8117,7 +8117,6 @@ const runApiMain = () => {
       processEnrollmentData(selectedYears, recordsPeer, recordsClient);
       processCashData(selectedYears, recordsPeer, recordsClient);
       processAssetdData(selectedYears, recordsPeer, recordsClient);
-      processDebtData(selectedYears, recordsPeer, recordsClient);
       displayEnrollmentComponent();
       displayReportComponent();
     } catch (err) {

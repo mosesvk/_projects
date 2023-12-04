@@ -443,7 +443,6 @@
           <div id="expenseContent" class="tab-content hidden"></div>
 
           <div id="reportsContent" class="tab-content hidden">
-            
             <!-- Enrollment Table -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -458,7 +457,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundGreen dark:bg-gray-700 dark:text-lime-300"
+                          class="text-xs backgroundGreen text-white uppercase bg-green-200 dark:bg-gray-700 dark:text-white"
                         >
                           <tr id="row_enrollment_tableHeader">
                             <th scope="col" class="px-6 py-3 text-lg">
@@ -548,7 +547,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundGreen dark:bg-gray-700 dark:text-green-200"
+                          class="text-xs text-gray-700 uppercase bg-green-200 dark:bg-gray-700 dark:text-green-200"
                         >
                           <tr id="row_cash_tableHeader">
                             <th scope="col" class="px-6 py-3 text-lg">
@@ -672,7 +671,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundGreen dark:bg-gray-700 dark:text-green-200"
+                          class="text-xs text-gray-700 uppercase bg-green-200 dark:bg-gray-700 dark:text-green-200"
                         >
                           <tr id="row_asset_tableHeader">
                             <th scope="col" class="px-6 py-3 text-lg">
@@ -687,7 +686,7 @@
                         </thead>
                         <tbody>
                           <tr
-                            id="row_propertyEquipmentPerStudent"
+                            id="row_propertyEquipmentPerStudentExcludingLand"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -699,7 +698,7 @@
                             </th>
                           </tr>
                           <tr
-                            id="row_netTuitionARasPercentCurrentAssets"
+                            id="row_netTuitionAR"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -710,7 +709,7 @@
                             </th>
                           </tr>
                           <tr
-                            id="row_receivableWriteOffsAsPercentNetTuitionAndFees"
+                            id="row_receivableWriteOffsAsPercent_Main"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -722,7 +721,7 @@
                             </th>
                           </tr>
                           <tr
-                            id="row_receivableWriteOffsAsPercentNetTuitionAndFees_Percent"
+                            id="row_receivableWriteOffsAsPercent_Percent"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -757,7 +756,7 @@
                         >
                           <tr id="row_asset_tableHeader">
                             <th scope="col" class="px-6 py-3 text-lg">
-                              Debt Ratios
+                              Asset Ratios
                             </th>
 
                             <th scope="col" class="px-6 py-3">Avg</th>
@@ -768,7 +767,7 @@
                         </thead>
                         <tbody>
                           <tr
-                            id="row_debtToPropertyAndEquipment"
+                            id="row_debtToPropertyEquipment"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -779,7 +778,7 @@
                             </th>
                           </tr>
                           <tr
-                            id="row_currentRatio"
+                            id="row_currentRaio"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -790,7 +789,7 @@
                             </th>
                           </tr>
                           <tr
-                            id="row_currentLiabilitiesToAvailableNetAssets"
+                            id="row_currentLiableToAvailableNetAssets"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -801,7 +800,7 @@
                             </th>
                           </tr>
                           <tr
-                            id="row_debtPerStudents"
+                            id="row_currentLiableToAvailableNetAssets"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -812,7 +811,7 @@
                             </th>
                           </tr>
                           <tr
-                            id="row_debtCoverage"
+                            id="row_currentLiableToAvailableNetAssets"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -836,7 +835,8 @@
 
     <!-- <div class="fixed top-0 right-0 bottom-0 left-0 bg-black opacity-70 z-40"></div> -->
 
-    <div id="studentAverageEnrollment_modal"
+    <div
+      id="studentAverageEnrollment_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -1023,7 +1023,8 @@
       </div>
     </div>
 
-    <div id="studentFacilityRatio_modal"
+    <div
+      id="studentFacilityRatio_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"

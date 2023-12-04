@@ -7115,7 +7115,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'totalDebt',
+        'totalDebt_Peer',
         record,
         '_03_11_total_debt',
         '_11_yes_no_debt_to_property_and_equipment',
@@ -7125,7 +7125,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'landBuildingEquipmentNet',
+        'landBuildingEquipmentNet_Peer',
         record,
         '_03_08_land__buildings_and_equipment__net',
         '_11_yes_no_debt_to_property_and_equipment',
@@ -7142,213 +7142,28 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         '_12_ratio_current_ratio',
         '_12_yes_no_current_ratio'
       );
+      // currentAssets
       insertDataIntoObject(
         'peer',
         year,
         object,
-        'currentAssets',
+        'currentAssets_Peer',
         record,
         '_03_01_current_assets',
         '_12_yes_no_current_ratio',
         'currentRatio'
       );
+      // currentLiabilities
       insertDataIntoObject(
         'peer',
         year,
         object,
-        'currentLiabilities',
+        'currentLiabilities_Peer',
         record,
         '_03_09_current_liabilities',
         '_12_yes_no_current_ratio',
         'currentRatio'
       );
-
-      // currentLiabilitiesToAvailableNetAssets
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'currentLiabilitiesToAvailableNetAssets_Peer',
-        record,
-        '_13_ratio_current_liabilities_to_available_net_assets',
-        '_13_yes_no_current_liabilities_to_available_net_assets'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'currentLiabilities',
-        record,
-        '_03_09_current_liabilities',
-        '_13_yes_no_current_liabilities_to_available_net_assets',
-        'currentLiabilitiesToAvailableNetAssets'
-      )
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalUnrestrictedNetAssets',
-        record,
-        '_03_12_total_unrestricted_net_assets',
-        '_13_yes_no_current_liabilities_to_available_net_assets',
-        'currentLiabilitiesToAvailableNetAssets'
-      )
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'landBuildingEquipmentNet',
-        record,
-        '_03_08_land__buildings_and_equipment__net',
-        '_13_yes_no_current_liabilities_to_available_net_assets',
-        'currentLiabilitiesToAvailableNetAssets'
-      )
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalDebt',
-        record,
-        '_03_11_total_debt',
-        '_13_yes_no_current_liabilities_to_available_net_assets',
-        'currentLiabilitiesToAvailableNetAssets'
-      )
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'bodyDesignatedForOperations',
-        record,
-        '_03_13_bod_designated_for_operations_',
-        '_13_yes_no_current_liabilities_to_available_net_assets',
-        'currentLiabilitiesToAvailableNetAssets'
-      )
-
-      // debtPerStudents
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'debtPerStudents_Peer',
-        record,
-        '_14_ratio_debt_per_students',
-        '_14_yes_no_debt_per_students'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalDebt',
-        record,
-        '_03_11_total_debt',
-        '_14_yes_no_debt_per_students',
-        'debtPerStudents'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'studentAverageEnrollment_Main',
-        record,
-        '_01_01_students_average_enrollment',
-        '_14_yes_no_debt_per_students',
-        'debtPerStudents'
-      );
-
-      // debtCoverage
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'debtCoverage_Peer',
-        record,
-        '_15_ratio_debt_coverage',
-        '_15_yes_no_debt_coverage'
-      );
-      // changeInUnrestrictedNetAssets
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'changeInUnrestrictedNetAssets',
-        record,
-        '_04_12_change_in_unrestricted_net_assets',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'currentYearInterestExpense',
-        record,
-        '_04_11_current_year_interest_expense',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalDepreciationExpense',
-        record,
-        '_04_09_total_depreciation_expense',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'capitalizedInterest',
-        record,
-        '_05_02_capitalized_interest',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'currentMaturingDebt',
-        record,
-        '_02_06_current_maturities_of_lt_debt',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'currentMaturingDebt',
-        record,
-        '_02_06_current_maturities_of_lt_debt',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'currentYearInterestExpense',
-        record,
-        '_04_11_current_year_interest_expense',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'capitalizedInterest',
-        record,
-        '_05_02_capitalized_interest',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
-      );
-
-
-
     })
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -7366,48 +7181,6 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         'debtToPropertyAndEquipment_Client',
         record,
         '_11_ratio_debt_to_property_and_equipment'
-      );
-
-      // currentRatio
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'currentRatio_Client',
-        record,
-        '_12_ratio_current_ratio',
-        '_12_bench_rating_current_ratio'
-      );
-
-      // currentLiabilitiesToAvailableNetAssets
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'currentLiabilitiesToAvailableNetAssets_Client',
-        record,
-        '_13_ratio_current_liabilities_to_available_net_assets',
-        '_13_bench_rating_current_liabilities_to_available_net_assets'
-      );
-
-      // debtPerStudents
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'debtPerStudents_Client',
-        record,
-        '_14_ratio_debt_per_students'
-      );
-
-      // debtCoverage
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'debtCoverage_Client',
-        record,
-        '_15_ratio_debt_coverage',
       );
 
 
@@ -8117,7 +7890,6 @@ const runApiMain = () => {
       processEnrollmentData(selectedYears, recordsPeer, recordsClient);
       processCashData(selectedYears, recordsPeer, recordsClient);
       processAssetdData(selectedYears, recordsPeer, recordsClient);
-      processDebtData(selectedYears, recordsPeer, recordsClient);
       displayEnrollmentComponent();
       displayReportComponent();
     } catch (err) {

@@ -2,7 +2,6 @@ const displayReportComponent = () => {
   const enrollmentData = JSON.parse(localStorage.getItem('enrollmentData'));
   const cashData = JSON.parse(localStorage.getItem('cashData'));
   const assetData = JSON.parse(localStorage.getItem('assetData'));
-  const debtData = JSON.parse(localStorage.getItem('debtData'));
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   if (selectedYears) {
@@ -17,22 +16,22 @@ const displayReportComponent = () => {
 
     insertDataToReport(cashData, selectedYears, [
       ['expendableReserves_inDays', 'num', 0, 'wa'],
-      ['expendableReserves_Percent', 'percent', 0, 'wa'],
+      ['expendableReserves_Percent', 'percent',0, 'wa'], 
       ['cashAvailableDeferred', 'num', 2, 'wa'],
-      ['liquidityRatio', 'num', 1, 'wa'],
-      ['netCashUsedOperating_asPerStatementCash', 'dollar', 0],
+      ['liquidityRatio', 'num', 1, 'wa'], 
+      ['netCashUsedOperating_asPerStatementCash', 'dollar', 0], 
       ['netCashUsedOperating_depreciation', 'dollar', 0],
-      ['netCashUsedOperating_overUnderBench', 'dollar', 0]
+      ['netCashUsedOperating_overUnderBench', 'dollar', 0],
     ]);
 
     insertDataToReport(assetData, selectedYears, [
-      ['propertyEquipmentPerStudent', 'num', 0],
+      ['propertyEquipmentPerStudent', 'num', 0], 
       ['netTuitionARasPercentCurrentAssets', 'num', 2],
       ['receivableWriteOffsAsPercentNetTuitionAndFees', 'percent', 0],
-      ['receivableWriteOffsAsPercentNetTuitionAndFees_Percent', 'percent', 2]
+      ['receivableWriteOffsAsPercentNetTuitionAndFees_Percent', 'percent', 2],
     ]);
 
-    insertDataToReport(debtData, selectedYears, [
+    insertDataToReport(assetData, selectedYears, [
       ['debtToPropertyAndEquipment', 'num', 2],
       ['currentRatio', 'num', 2],
       ['currentLiabilitiesToAvailableNetAssets', 'num', 2],
@@ -52,7 +51,6 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
 
 const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
   // console.log(data);
-  
   for (let name of arrayOfNames) {
     addToSingleRow(
       selectedYears,
@@ -77,7 +75,7 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  // console.log({selectedYears, name, client, peer, type, fixedNum});
+  console.log({selectedYears, name, client, peer, type, fixedNum});
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log('tableReportRow', tableReportRow);
@@ -171,12 +169,13 @@ const addPeerDataToRow = (
   data
 ) => {
   // console.log({ tableRow, peer, type, fixedNum, dataArray, wa });
-
+  
   const propClass =
-    'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
+  'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
   const propScope = 'row';
-
+  
   const dataPointAvg = document.createElement('th');
+  
 
   let avg;
   if (peer && wa) {
@@ -186,7 +185,7 @@ const addPeerDataToRow = (
   } else {
     avg = 0;
   }
-
+  
   // console.log(peer[dataArray]);
 
   const textAvg = styleNumber(avg, type, fixedNum);

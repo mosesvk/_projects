@@ -2,7 +2,6 @@ const displayReportComponent = () => {
   const enrollmentData = JSON.parse(localStorage.getItem('enrollmentData'));
   const cashData = JSON.parse(localStorage.getItem('cashData'));
   const assetData = JSON.parse(localStorage.getItem('assetData'));
-  const debtData = JSON.parse(localStorage.getItem('debtData'));
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   if (selectedYears) {
@@ -32,7 +31,7 @@ const displayReportComponent = () => {
       ['receivableWriteOffsAsPercentNetTuitionAndFees_Percent', 'percent', 2]
     ]);
 
-    insertDataToReport(debtData, selectedYears, [
+    insertDataToReport(assetData, selectedYears, [
       ['debtToPropertyAndEquipment', 'num', 2],
       ['currentRatio', 'num', 2],
       ['currentLiabilitiesToAvailableNetAssets', 'num', 2],
@@ -52,8 +51,19 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
 
 const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
   // console.log(data);
-  
   for (let name of arrayOfNames) {
+    if (name == 'debtToPropertyAndEquipment_Client') {
+      console.log(
+        [selectedYears,
+        name[0],
+        data,
+        data[`${name[0]}_Client`],
+        data[`${name[0]}_Peer`],
+        name[1],
+        name[2],
+        name[3]]
+      );
+    }
     addToSingleRow(
       selectedYears,
       name[0],

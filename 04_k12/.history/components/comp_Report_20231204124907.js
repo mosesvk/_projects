@@ -32,7 +32,7 @@ const displayReportComponent = () => {
       ['receivableWriteOffsAsPercentNetTuitionAndFees_Percent', 'percent', 2]
     ]);
 
-    insertDataToReport(debtData, selectedYears, [
+    insertDataToReport(assetData, selectedYears, [
       ['debtToPropertyAndEquipment', 'num', 2],
       ['currentRatio', 'num', 2],
       ['currentLiabilitiesToAvailableNetAssets', 'num', 2],
