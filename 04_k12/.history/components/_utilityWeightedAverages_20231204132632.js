@@ -29,52 +29,22 @@ const getWeightedAverageOfArray = (data, name) => {
     case 'currentLiabilitiesToAvailableNetAssets':
       return currentLiabilitiesToAvailableNetAssets_weightedAverage(data, name);
     case 'debtPerStudents':
-      return debtPerStudents_weightedAverage(data, name);
-    case 'debtCoverage':
-      return debtCoverage_weightedAverage(data, name);
+        return debtPerStudents_weightedAverage(data, name);
     default:
       return;
   }
 };
 
-const debtCoverage_weightedAverage = (data, name) => {
-  // ( [45] 04-12 Change in Unrestricted Net Assets + [44] 04-11 Current Year Interest Expense + [42] 04-09 Total Depreciation Expense + [48] 05-02 Capitalized Interest ) / ([18] 02-06 Current maturities of LT Debt + [44] 04-11 Current Year Interest Expense + [48] 05-02 Capitalized Interest)
-
-  let numChangeInUnrestrictedNetAssets = getSumOfArray(
-    data.changeInUnrestrictedNetAssets[name]
-  );
-  let numCurrentYearInterestExpense = getSumOfArray(
-    data.currentYearInterestExpense[name]
-  );
-  let numTotalDepreciationExpense = getSumOfArray(
-    data.totalDepreciationExpense[name]
-  );
-  let numCapitalizedInterest = getSumOfArray(data.capitalizedInterest[name]);
-  let numCurrentMaturitiesOfLTDebt = getSumOfArray(
-    data.currentMaturitiesOfLTDebt[name]
-  );
-
-  return (
-    (numChangeInUnrestrictedNetAssets +
-      numCurrentYearInterestExpense +
-      numTotalDepreciationExpense +
-      numCapitalizedInterest) /
-    (numCurrentMaturitiesOfLTDebt +
-      numCurrentYearInterestExpense +
-      numCapitalizedInterest)
-  );
-};
-
 const debtPerStudents_weightedAverage = (data, name) => {
-  // [30] 03-11 Total Debt / [6] 01-01 Students-average enrollment
+    // [30] 03-11 Total Debt / [6] 01-01 Students-average enrollment
 
-  let numTotalDebt = getSumOfArray(data.totalDebt[name]);
-  let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
-  );
+    let numTotalDebt = getSumOfArray(data.totalDebt[name]);
+    let numStudentAverageEnrollment = getSumOfArray(    
+        data.studentAverageEnrollment_Main[name]
+        );
 
-  return numTotalDebt / numStudentAverageEnrollment;
-};
+    return numTotalDebt / numStudentAverageEnrollment;
+}
 
 const currentLiabilitiesToAvailableNetAssets_weightedAverage = (data, name) => {
   // [28] 03-09 Current Liabilities / ([31] 03-12 Total Unrestricted Net Assets - (IF [27] 03-08 Land, Buildings and Equipment, net - [30] 03-11 Total Debt <0,0, [27] 03-08 Land, Buildings and Equipment, net - [30] 03-11 Total Debt) - [32] 03-13 BOD Designated for Operations )
