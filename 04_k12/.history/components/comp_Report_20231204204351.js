@@ -47,7 +47,7 @@ const displayReportComponent = () => {
       ['financialAssistanceAsPercentTuitionAndFees', 'num', 1],
       ['tuitionAndFeesAsPercentTotalIncome', 'num', 1],
       ['contributionsAsAPercentOfTotalIncome', 'percent', 1],
-      ['grossTuition' , 'num', 0],
+      ['grossTuition' , 'percent', 0],
       ['grossTuition_Percent', 'percent', 1],
       ['financialAssistanceDiscountBased', 'num', 0],
       ['financialAssistanceDiscountBased_Percent', 'percent', 1],

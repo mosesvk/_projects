@@ -7039,7 +7039,7 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
+  console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
   const innerData =
     record.querySelector(child).innerHTML.split('').length > 0
       ? record.querySelector(child).innerHTML.trim()
@@ -7158,7 +7158,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         'totalDepreciationExpense',
         record,
-        '_04_09_total_depreciation_expense',
+        '_04_11_total_depreciation_expense',
         '_17_yes_no_net_income_ratio_excluding_depreciation',
         'netIncomeRatioExcludingDepreciation'
       );
@@ -7189,7 +7189,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         'financialAidScholarships',
         record,
-        '_04_04_financial_aid___scholarships',
+        '_04_04_financial_aid_and_scholarships',
         '_19_yes_no_financial_assistance_as_a___of_tuition_and_fees',
         'financialAssistanceAsPercentTuitionAndFees'
       );
@@ -7354,7 +7354,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         'financialAidScholarships',
         record,
-        '_04_04_financial_aid___scholarships',
+        '_04_04_financial_aid_and_scholarships',
         '_22c1_yes_no_scholarship_awarded',
         'scholarshipAwarded'
       )
@@ -7375,7 +7375,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         'financialAidScholarships',
         record,
-        '_04_04_financial_aid___scholarships',
+        '_04_04_financial_aid_and_scholarships',
         '_22d1_yes_no_total_financial_assistance',
         'totalFinancialAssistance'
       )
@@ -7416,7 +7416,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         'financialAidScholarships',
         record,
-        '_04_04_financial_aid___scholarships',
+        '_04_04_financial_aid_and_scholarships',
         '_22e1_yes_no_net_tuition',
         'netTuition'
       )
@@ -7467,7 +7467,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         'financialAidScholarships',
         record,
-        '_04_04_financial_aid___scholarships',
+        '_04_04_financial_aid_and_scholarships',
         '_23_yes_no_fees_as_a_percent_of_net_tuition',
         'feesPercentOfNetTuition'
       )

@@ -7118,7 +7118,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'changeInUnrestrictedNetAssets',
         record,
         '_04_12_change_in_unrestricted_net_assets',
-        '_16_yes_no_net_income_ratio',
+        '_16_bench_rating_net_income_ratio',
         'netIncomeRatio'
       );
       insertDataIntoObject(
@@ -7128,7 +7128,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'unrestrictedSupportRevenuesReclassification',
         record,
         '_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes',
-        '_16_yes_no_net_income_ratio',
+        '_16_bench_rating_net_income_ratio',
         'netIncomeRatio'
       );
 
@@ -7149,7 +7149,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'changeInUnrestrictedNetAssets',
         record,
         '_04_12_change_in_unrestricted_net_assets',
-        '_17_yes_no_net_income_ratio_excluding_depreciation',
+        '_17_bench_rating_net_income_ratio_excluding_depreciation',
         'netIncomeRatioExcludingDepreciation'
       );
       insertDataIntoObject(
@@ -7158,8 +7158,8 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         'totalDepreciationExpense',
         record,
-        '_04_09_total_depreciation_expense',
-        '_17_yes_no_net_income_ratio_excluding_depreciation',
+        '_04_11_total_depreciation_expense',
+        '_17_bench_rating_net_income_ratio_excluding_depreciation',
         'netIncomeRatioExcludingDepreciation'
       );
       insertDataIntoObject(
@@ -7169,7 +7169,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'unrestrictedSupportRevenuesReclassification',
         record,
         '_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes',
-        '_17_yes_no_net_income_ratio_excluding_depreciation',
+        '_17_bench_rating_net_income_ratio_excluding_depreciation',
         'netIncomeRatioExcludingDepreciation'
       );
 
@@ -7189,7 +7189,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         'financialAidScholarships',
         record,
-        '_04_04_financial_aid___scholarships',
+        '_04_04_financial_aid_and_scholarships',
         '_19_yes_no_financial_assistance_as_a___of_tuition_and_fees',
         'financialAssistanceAsPercentTuitionAndFees'
       );
@@ -7354,7 +7354,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         'financialAidScholarships',
         record,
-        '_04_04_financial_aid___scholarships',
+        '_04_04_financial_aid_and_scholarships',
         '_22c1_yes_no_scholarship_awarded',
         'scholarshipAwarded'
       )
@@ -7375,7 +7375,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         'financialAidScholarships',
         record,
-        '_04_04_financial_aid___scholarships',
+        '_04_04_financial_aid_and_scholarships',
         '_22d1_yes_no_total_financial_assistance',
         'totalFinancialAssistance'
       )
@@ -7416,7 +7416,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         'financialAidScholarships',
         record,
-        '_04_04_financial_aid___scholarships',
+        '_04_04_financial_aid_and_scholarships',
         '_22e1_yes_no_net_tuition',
         'netTuition'
       )
@@ -7467,7 +7467,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         'financialAidScholarships',
         record,
-        '_04_04_financial_aid___scholarships',
+        '_04_04_financial_aid_and_scholarships',
         '_23_yes_no_fees_as_a_percent_of_net_tuition',
         'feesPercentOfNetTuition'
       )
