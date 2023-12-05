@@ -443,6 +443,7 @@
           <div id="expenseContent" class="tab-content hidden"></div>
 
           <div id="reportsContent" class="tab-content hidden">
+            
             <!-- Enrollment Table -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -828,224 +829,6 @@
                 </div>
               </div>
             </div>
-            <!-- Income Table -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex flex-col mt-2">
-                <div class="overflow-x-auto rounded-lg">
-                  <div class="inline-block min-w-full align-middle">
-                    <div
-                      class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                    >
-                      <table
-                        class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                      >
-                        <thead
-                          class="text-xs text-white uppercase backgroundGreen dark:bg-gray-700 dark:text-green-200"
-                        >
-                          <tr id="row_income_tableHeader">
-                            <th scope="col" class="px-6 py-3 text-lg">
-                              Debt Ratios
-                            </th>
-
-                            <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">Mid</th>
-                            <th scope="col" class="px-6 py-3">Min</th>
-                            <th scope="col" class="px-6 py-3">Max</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr id="row_netIncomeRatio"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              16. Net Income Ratio
-                            </th>
-                          </tr>
-                          <tr id="row_netIncomeRatioExcludingDepreciation"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              17. Net Income Ratio Excluding Depreciation
-                            </th>
-                          </tr>
-                          <tr id="row_percentAverageTuitionIncreaseBetweenYears"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              18. Percentage of average tuition increase between
-                              years
-                            </th>
-                          </tr>
-                          <tr id="row_financialAssistanceAsPercentTuitionAndFees"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              19. Financial Assistance as a % of Tuition and
-                              Fees
-                            </th>
-                          </tr>
-                          <tr id="row_tuitionAndFeesAsPercentTotalIncome"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              20. Tuition and Fees as a % of Total Income
-                            </th>
-                          </tr>
-                          <tr id="row_contributionsAsAPercentOfTotalIncome"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              21. Contributions as a % of Total Income
-                            </th>
-                          </tr>
-                          <tr id="row_netTuitionFinancialPerStudent"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              22. Net Tuition and Financial Assistance Awarded,
-                              per student :
-                            </th>
-                          </tr>
-                          <tr id="row_grossTuition"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              a1. Gross Tuition
-                            </th>
-                          </tr>
-                          <tr id="row_grossTuition_Percent"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              a2. % Change
-                            </th>
-                          </tr>
-                          <tr id="row_financialAssistanceDiscountBased"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              b1. Financial Assistance Discount Based
-                            </th>
-                          </tr>
-                          <tr id="row_financialAssistanceDiscountBased_Percent"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              b2. % Change
-                            </th>
-                          </tr>
-                          <tr id="row_scholarshipAwarded"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              c1. Scholarship Awarded
-                            </th>
-                          </tr>
-                          <tr id="row_scholarshipAwarded_Percent"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              c2. % Change
-                            </th>
-                          </tr>
-                          <tr id="row_totalFinancialAssistance"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              d1. Total Financial Assistance
-                            </th>
-                          </tr>
-                          <tr id="row_totalFinancialAssistance_Percent"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              d2. % Change
-                            </th>
-                          </tr>
-                          <tr id="row_netTuition"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              e1. Net Tuition
-                            </th>
-                          </tr>
-                          <tr id="row_netTuition_Percent"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              e2. % Change
-                            </th>
-                          </tr>
-                          <tr id="row_feesPercentOfNetTuition"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              23. Fees as a percent of net tuition
-                            </th>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </main>
       </div>
@@ -1053,8 +836,7 @@
 
     <!-- <div class="fixed top-0 right-0 bottom-0 left-0 bg-black opacity-70 z-40"></div> -->
 
-    <div
-      id="studentAverageEnrollment_modal"
+    <div id="studentAverageEnrollment_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -1241,8 +1023,7 @@
       </div>
     </div>
 
-    <div
-      id="studentFacilityRatio_modal"
+    <div id="studentFacilityRatio_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"

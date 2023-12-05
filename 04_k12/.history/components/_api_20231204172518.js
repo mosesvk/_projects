@@ -1,4 +1,4 @@
-const xmlPeerString = `
+const xmlPeerString = (`
   <qdbapi>
     <record>
       <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
@@ -6159,8 +6159,8 @@ const xmlPeerString = `
       <update_id>1701357783039</update_id>
     </record>
   </qdbapi>
-`;
-const xmlClientString = `
+`);
+const xmlClientString = (`
   <qdbapi>
     <record>
       <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
@@ -6991,7 +6991,7 @@ const xmlClientString = `
       <update_id>1698853160919</update_id>
     </record>
   </qdbapi>
-`;
+`);
 const parser = new DOMParser();
 const parserClient = new DOMParser();
 const xmlPeerDoc = parser.parseFromString(xmlPeerString, 'text/xml');
@@ -7083,7 +7083,7 @@ const insertDataIntoObject = (
         }
         object[dataKey][name].push(innerData);
       }
-
+      
       object[dataKey][year].push(innerData);
     }
   }
@@ -7093,261 +7093,9 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
   years.forEach((year) => {
-    const filteredPeerRecords = [...recordsPeer].filter((record) => {
-      const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
-      ).textContent;
 
-      return fiscalYear.includes(year.toString());
-    });
-    filteredPeerRecords.forEach((record) => {
-      // netIncomeRatio
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'netIncomeRatio_Peer',
-        record,
-        '_16_ratio_net_income_ratio',
-        '_16_bench_rating_net_income_ratio'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'changeInUnrestrictedNetAssets',
-        record,
-        '_04_12_change_in_unrestricted_net_assets',
-        '_16_bench_rating_net_income_ratio',
-        'netIncomeRatio'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'unrestrictedSupportRevenuesReclassification',
-        record,
-        '_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes',
-        '_16_bench_rating_net_income_ratio',
-        'netIncomeRatio'
-      );
-
-      // netIncomeRatioExcludingDepreciation
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'netIncomeRatioExcludingDepreciation_Peer',
-        record,
-        '_17_ratio_net_income_ratio_excluding_depreciation',
-        '_17_yes_no_net_income_ratio_excluding_depreciation'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'changeInUnrestrictedNetAssets',
-        record,
-        '_04_12_change_in_unrestricted_net_assets',
-        '_17_bench_rating_net_income_ratio_excluding_depreciation',
-        'netIncomeRatioExcludingDepreciation'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalDepreciationExpense',
-        record,
-        '_04_11_total_depreciation_expense',
-        '_17_bench_rating_net_income_ratio_excluding_depreciation',
-        'netIncomeRatioExcludingDepreciation'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'unrestrictedSupportRevenuesReclassification',
-        record,
-        '_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes',
-        '_17_bench_rating_net_income_ratio_excluding_depreciation',
-        'netIncomeRatioExcludingDepreciation'
-      );
-
-      // financialAssistanceAsPercentTuitionAndFees
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'financialAssistanceAsPercentTuitionAndFees_Peer',
-        record,
-        '_19_ratio_financial_assistance_as_a___of_tuition_and_fees',
-        '_19_yes_no_financial_assistance_as_a___of_tuition_and_fees'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'financialAidScholarships',
-        record,
-        '_04_04_financial_aid_and_scholarships',
-        '_19_yes_no_financial_assistance_as_a___of_tuition_and_fees',
-        'financialAssistanceAsPercentTuitionAndFees'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'grossTuitionRevenuesExcludingFees',
-        record,
-        '_04_01_gross_tuition_revenues_excluding_fees',
-        '_19_yes_no_financial_assistance_as_a___of_tuition_and_fees',
-        'financialAssistanceAsPercentTuitionAndFees'
-      );
-
-      // tuitionAndFeesAsPercentTotalIncome
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'tuitionAndFeesAsPercentTotalIncome_Peer',
-        record,
-        '_20_ratio_tuition_and_fees_as_a___of_total_income',
-        '_20_yes_no_tuition_and_fees_as_a___of_total_income'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'grossTuitionRevenuesExcludingFees',
-        record,
-        '_04_01_gross_tuition_revenues_excluding_fees',
-        '_20_yes_no_tuition_and_fees_as_a___of_total_income',
-        'tuitionAndFeesAsPercentTotalIncome'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalSupportRevenue',
-        record,
-        '_04_05_total_support_and_revenue',
-        '_20_yes_no_tuition_and_fees_as_a___of_total_income',
-        'tuitionAndFeesAsPercentTotalIncome'
-      );
-
-      // contributionsAsAPercentOfTotalIncome
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'contributionsAsAPercentOfTotalIncome_Peer',
-        record,
-        '_21_ratio_contributions_as_a___of_total_income',
-        '_21_yes_no_contributions_as_a___of_total_income'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalContributions',
-        record,
-        '_04_06_total_contributions',
-        '_21_yes_no_contributions_as_a___of_total_income',
-        'contributionsAsAPercentOfTotalIncome'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalSupportRevenue',
-        record,
-        '_04_05_total_support_and_revenue',
-        '_21_yes_no_contributions_as_a___of_total_income',
-        'contributionsAsAPercentOfTotalIncome'
-      );
-
-
-
-    });
-
-    const filteredClientRecords = [...recordsClient].filter((record) => {
-      const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
-      ).textContent;
-      return fiscalYear.includes(year.toString());
-    });
-    filteredClientRecords.forEach((record) => {
-      // netIncomeRatio
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'netIncomeRatio_Client',
-        record,
-        '_16_ratio_net_income_ratio',
-        '_16_bench_rating_net_income_ratio'
-      );
-
-      // netIncomeRatioExcludingDepreciation
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'netIncomeRatioExcludingDepreciation_Client',
-        record,
-        '_17_ratio_net_income_ratio_excluding_depreciation',
-        '_17_bench_rating_net_income_ratio_excluding_depreciation'
-      );
-
-      // percentAverageTuitionIncreaseBetweenYears
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'percentAverageTuitionIncreaseBetweenYears_Client',
-        record,
-        '_18_ratio_percentage_of_average_tuition_increase_between_years',
-        '_18_bench_rating_percentage_of_average_tuition_increase_between_years'
-      );
-
-      // financialAssistanceAsPercentTuitionAndFees
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'financialAssistanceAsPercentTuitionAndFees_Client',
-        record,
-        '_19_ratio_financial_assistance_as_a___of_tuition_and_fees'
-      );
-
-      // tuitionAndFeesAsPercentTotalIncome
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'tuitionAndFeesAsPercentTotalIncome_Client',
-        record,
-        '_20_ratio_tuition_and_fees_as_a___of_total_income'
-      );
-
-      // contributionsAsAPercentOfTotalIncome
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'contributionsAsAPercentOfTotalIncome_Client',
-        record,
-        '_20_ratio_tuition_and_fees_as_a___of_total_income'
-      );
-
-      // grossTuition
-      
-    });
-  });
-
-  localStorage.removeItem('incomeData');
-  localStorage.setItem('incomeData', JSON.stringify(object));
-};
+  })
+}
 
 const processDebtData = (years, recordsPeer, recordsClient) => {
   const object = {};
@@ -7442,7 +7190,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         '_03_09_current_liabilities',
         '_13_yes_no_current_liabilities_to_available_net_assets',
         'currentLiabilitiesToAvailableNetAssets'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7452,7 +7200,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         '_03_12_total_unrestricted_net_assets',
         '_13_yes_no_current_liabilities_to_available_net_assets',
         'currentLiabilitiesToAvailableNetAssets'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7462,7 +7210,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         '_03_08_land__buildings_and_equipment__net',
         '_13_yes_no_current_liabilities_to_available_net_assets',
         'currentLiabilitiesToAvailableNetAssets'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7472,7 +7220,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         '_03_11_total_debt',
         '_13_yes_no_current_liabilities_to_available_net_assets',
         'currentLiabilitiesToAvailableNetAssets'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7482,7 +7230,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         '_03_13_bod_designated_for_operations_',
         '_13_yes_no_current_liabilities_to_available_net_assets',
         'currentLiabilitiesToAvailableNetAssets'
-      );
+      )
 
       // debtPerStudents
       insertDataIntoObject(
@@ -7606,7 +7354,10 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         '_15_yes_no_debt_coverage',
         'debtCoverage'
       );
-    });
+
+
+
+    })
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector(
@@ -7664,16 +7415,20 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         object,
         'debtCoverage_Client',
         record,
-        '_15_ratio_debt_coverage'
+        '_15_ratio_debt_coverage',
       );
-    });
-  });
+
+
+    })
+
+  })
 
   localStorage.removeItem('debtData');
   localStorage.setItem('debtData', JSON.stringify(object));
-};
+}
 
 const processAssetdData = (years, recordsPeer, recordsClient) => {
+
   const object = {};
 
   years.forEach((year) => {
@@ -7797,7 +7552,9 @@ const processAssetdData = (years, recordsPeer, recordsClient) => {
         '_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees',
         'receivableWriteOffsAsPercentNetTuitionAndFees'
       );
-    });
+
+    })
+
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector(
@@ -7845,12 +7602,12 @@ const processAssetdData = (years, recordsPeer, recordsClient) => {
         record,
         '_10a_ratio___change'
       );
-    });
-  });
+    })
+  })
 
   localStorage.removeItem('assetData');
   localStorage.setItem('assetData', JSON.stringify(object));
-};
+}
 
 const processCashData = (years, recordsPeer, recordsClient) => {
   const object = {};
@@ -8130,6 +7887,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_07c_yes_no_over_under_benchmark',
         'netCashUsedOperating_overUnderBench'
       );
+
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -8206,6 +7964,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         '_07c_ratio_over_under_benchmark',
         '_07c_bench_rating_over_under_benchmark'
       );
+
     });
   });
 
