@@ -7197,21 +7197,11 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'totalTeacherSalaries',
-        record,
-        '_02_01_total_teacher_salaries',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
         'totalTeacherBenefits',
         record,
         '_02_02_total_teacher_benefits_',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
+        '_24b_yes_no_benefits_as___of_net_tuition',
+        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
       );
       insertDataIntoObject(
         'peer',
@@ -7220,8 +7210,8 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'grossTuitionRevenuesExcludingFees',
         record,
         '_02_01_total_teacher_salaries',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
+        '_24b_yes_no_benefits_as___of_net_tuition',
+        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
       );
       insertDataIntoObject(
         'peer',
@@ -7230,70 +7220,8 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'financialAidScholarships',
         record,
         '_04_04_financial_aid___scholarships',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
-      );
-
-      // salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries',
-        record,
-        '_25a_ratio_salaries_per_students',
-        '_25a_yes_no_salaries_per_students'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalTeacherSalaries',
-        record,
-        '_02_01_total_teacher_salaries',
-        '_25a_yes_no_salaries_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'studentAverageEnrollment_Main',
-        record,
-        '_01b_ratio_students_enrollment_average',
-        '_25a_yes_no_salaries_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries'
-      );
-
-      // salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries',
-        record,
-        '_25a_ratio_salaries_per_students',
-        '_25a_yes_no_salaries_per_students'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalTeacherSalaries',
-        record,
-        '_02_01_total_teacher_salaries',
-        '_25a_yes_no_salaries_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'studentAverageEnrollment_Main',
-        record,
-        '_01b_ratio_students_enrollment_average',
-        '_25a_yes_no_salaries_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries'
+        '_24b_yes_no_benefits_as___of_net_tuition',
+        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
       );
     });
 
@@ -7332,16 +7260,6 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits',
         record,
         '_24c_ratio_salaries_benefits_as___of_net_tuition'
-      );
-
-      // salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries',
-        record,
-        '_25a_ratio_salaries_per_students'
       );
     });
   });

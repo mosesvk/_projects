@@ -7111,191 +7111,9 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         '_24a_ratio_salaries_as___of_net_tuition',
         '_24a_yes_no_salaries_as___of_net_tuition'
       );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalTeacherSalaries',
-        record,
-        '_02_01_total_teacher_salaries',
-        '_24a_yes_no_salaries_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'grossTuitionRevenuesExcludingFees',
-        record,
-        '_02_01_total_teacher_salaries',
-        '_24a_yes_no_salaries_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'financialAidScholarships',
-        record,
-        '_04_04_financial_aid___scholarships',
-        '_24a_yes_no_salaries_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
-      );
 
-      // salariesBenefitsTeachersAsPercentNetTuition_Benefits
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'salariesBenefitsTeachersAsPercentNetTuition_Benefits',
-        record,
-        '_24b_ratio_benefits_as___of_net_tuition',
-        '_24b_yes_no_benefits_as___of_net_tuition'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalTeacherBenefits',
-        record,
-        '_02_02_total_teacher_benefits_',
-        '_24b_yes_no_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'grossTuitionRevenuesExcludingFees',
-        record,
-        '_02_01_total_teacher_salaries',
-        '_24b_yes_no_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'financialAidScholarships',
-        record,
-        '_04_04_financial_aid___scholarships',
-        '_24b_yes_no_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
-      );
+    })
 
-      // salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits',
-        record,
-        '_24c_ratio_salaries_benefits_as___of_net_tuition',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalTeacherSalaries',
-        record,
-        '_02_01_total_teacher_salaries',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalTeacherBenefits',
-        record,
-        '_02_02_total_teacher_benefits_',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'grossTuitionRevenuesExcludingFees',
-        record,
-        '_02_01_total_teacher_salaries',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'financialAidScholarships',
-        record,
-        '_04_04_financial_aid___scholarships',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
-      );
-
-      // salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries',
-        record,
-        '_25a_ratio_salaries_per_students',
-        '_25a_yes_no_salaries_per_students'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalTeacherSalaries',
-        record,
-        '_02_01_total_teacher_salaries',
-        '_25a_yes_no_salaries_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'studentAverageEnrollment_Main',
-        record,
-        '_01b_ratio_students_enrollment_average',
-        '_25a_yes_no_salaries_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries'
-      );
-
-      // salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries',
-        record,
-        '_25a_ratio_salaries_per_students',
-        '_25a_yes_no_salaries_per_students'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalTeacherSalaries',
-        record,
-        '_02_01_total_teacher_salaries',
-        '_25a_yes_no_salaries_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'studentAverageEnrollment_Main',
-        record,
-        '_01b_ratio_students_enrollment_average',
-        '_25a_yes_no_salaries_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries'
-      );
-    });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector(
@@ -7304,51 +7122,14 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
-      // salariesBenefitsTeachersAsPercentNetTuition_Salaries
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries',
-        record,
-        '_24a_ratio_salaries_as___of_net_tuition'
-      );
 
-      // salariesBenefitsTeachersAsPercentNetTuition_Benefits
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'salariesBenefitsTeachersAsPercentNetTuition_Benefits',
-        record,
-        '_24b_ratio_benefits_as___of_net_tuition'
-      );
+    })
 
-      // salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits',
-        record,
-        '_24c_ratio_salaries_benefits_as___of_net_tuition'
-      );
-
-      // salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries',
-        record,
-        '_25a_ratio_salaries_per_students'
-      );
-    });
-  });
+  })
 
   localStorage.removeItem('expenseData');
   localStorage.setItem('expenseData', JSON.stringify(object));
-};
+}
 
 const processIncomeData = (years, recordsPeer, recordsClient) => {
   const object = {};
@@ -7567,7 +7348,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         record,
         '_22b1_ratio_financial_assistance_discount_based',
         '_22b1_yes_no_financial_assistance_discount_based'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7577,7 +7358,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         '_04_03_discounts',
         '_22b1_yes_no_financial_assistance_discount_based',
         'financialAssistanceDiscountBased'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7598,7 +7379,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         record,
         '_22c1_ratio_scholarship_awarded',
         '_22c1_yes_no_scholarship_awarded'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7608,7 +7389,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         '_04_03_discounts',
         '_22c1_yes_no_scholarship_awarded',
         'scholarshipAwarded'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7618,7 +7399,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         '_04_04_financial_aid___scholarships',
         '_22c1_yes_no_scholarship_awarded',
         'scholarshipAwarded'
-      );
+      )
 
       // totalFinancialAssistance
       insertDataIntoObject(
@@ -7629,7 +7410,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         record,
         '_22d1_ratio_total_financial_assistance',
         '_22d1_yes_no_total_financial_assistance'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7639,7 +7420,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         '_04_04_financial_aid___scholarships',
         '_22d1_yes_no_total_financial_assistance',
         'totalFinancialAssistance'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7649,7 +7430,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         '_01b_ratio_students_enrollment_average',
         '_22d1_yes_no_total_financial_assistance',
         'totalFinancialAssistance'
-      );
+      )
 
       // netTuition
       insertDataIntoObject(
@@ -7660,7 +7441,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         record,
         '_22e1_ratio_net_tuition',
         '_22e1_yes_no_net_tuition'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7670,7 +7451,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         '_04_01_gross_tuition_revenues_excluding_fees',
         '_22e1_yes_no_net_tuition',
         'netTuition'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7680,7 +7461,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         '_04_04_financial_aid___scholarships',
         '_22e1_yes_no_net_tuition',
         'netTuition'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7690,7 +7471,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         '_01b_ratio_students_enrollment_average',
         '_22e1_yes_no_net_tuition',
         'netTuition'
-      );
+      )
 
       // feesPercentOfNetTuition
       insertDataIntoObject(
@@ -7701,7 +7482,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         record,
         '_23_ratio_fees_as_a_percent_of_net_tuition',
         '_23_yes_no_fees_as_a_percent_of_net_tuition'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7711,7 +7492,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         '_04_02_fees',
         '_23_yes_no_fees_as_a_percent_of_net_tuition',
         'feesPercentOfNetTuition'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7721,7 +7502,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         '_04_01_gross_tuition_revenues_excluding_fees',
         '_23_yes_no_fees_as_a_percent_of_net_tuition',
         'feesPercentOfNetTuition'
-      );
+      )
       insertDataIntoObject(
         'peer',
         year,
@@ -7731,7 +7512,8 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         '_04_04_financial_aid___scholarships',
         '_23_yes_no_fees_as_a_percent_of_net_tuition',
         'feesPercentOfNetTuition'
-      );
+      )
+
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -7822,7 +7604,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'grossTuition_Percent_Client',
         record,
         '_22a2_ratio___change'
-      );
+      );  
 
       // financialAssistanceDiscountBased
       insertDataIntoObject(
@@ -7903,6 +7685,10 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         record,
         '_22e2_ratio___change'
       );
+
+
+
+
     });
   });
 

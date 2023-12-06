@@ -242,11 +242,10 @@ const addPeerDataToRow = (
 
 const addYearColumnsToReportTable = (years) => {
   const tables = document.querySelectorAll('table');
-  // console.log(tables);
+  console.log(tables);
 
   tables.forEach((table) => {
-    // console.log(table);
-    const trElements = table.querySelectorAll('tr');
+    const trElements = table.querydSelectorAll('tr');
     const trIds = Array.from(trElements)
       .map((tr) => tr.getAttribute('id'))
       .filter((id) => id && id.endsWith('_tableHeader'));

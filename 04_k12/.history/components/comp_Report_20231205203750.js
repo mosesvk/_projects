@@ -245,7 +245,7 @@ const addYearColumnsToReportTable = (years) => {
   // console.log(tables);
 
   tables.forEach((table) => {
-    // console.log(table);
+    console.log(table);
     const trElements = table.querySelectorAll('tr');
     const trIds = Array.from(trElements)
       .map((tr) => tr.getAttribute('id'))
