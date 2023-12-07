@@ -7999,7 +7999,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
       );
       // personnelMandatoryDebtService_SalariesAndBenefits_Teachers
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'personnelMandatoryDebtService_SalariesAndBenefits_Teachers_Client',
@@ -8008,7 +8008,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
       );
       // personnelMandatoryDebtService_SalariesAndBenefits_Administration
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'personnelMandatoryDebtService_SalariesAndBenefits_Administration_Client',
@@ -8018,17 +8018,17 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
 
       // personnelMandatoryDebtService_SalariesAndBenefits_Employees
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Employees_Client',
+        'personnelMandatoryDebtService_SalariesAndBenefits_Administration_Client',
         record,
         '_27a3_ratio_all_salaries_and_benefits_per_total_expenses'
       );
 
       // personnelMandatoryDebtService_Mandatory
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'personnelMandatoryDebtService_Mandatory_Client',
@@ -8038,7 +8038,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
 
       // personnelMandatoryDebtService_Personnel
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'personnelMandatoryDebtService_Personnel_Client',
@@ -8048,7 +8048,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
 
       // percentFundRaisingExpensesExceeding
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'percentFundRaisingExpensesExceeding_Client',
@@ -8058,7 +8058,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
 
       // fundsExpensesPerStudent_FundsRaised
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'fundsExpensesPerStudent_FundsRaised_Client',
@@ -8068,7 +8068,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
 
       // fundsExpensesPerStudent_CashExpensesExcludingDepreciation
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'fundsExpensesPerStudent_CashExpensesExcludingDepreciation_Client',
@@ -8078,7 +8078,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
 
       // fundsExpensesPerStudent_netTuition
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'fundsExpensesPerStudent_netTuition_Client',
@@ -8088,7 +8088,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
 
       // fundsExpensesPerStudent_FundsRaisedOverUnder
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'fundsExpensesPerStudent_FundsRaisedOverUnder_Client',
@@ -8098,7 +8098,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
 
       // facilityCostExcluding_lessThanTen
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'facilityCostExcluding_lessThanTen_Client',
@@ -8108,7 +8108,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
 
       // facilityCostExcluding_greaterThanTen
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'facilityCostExcluding_greaterThanTen_Client',
@@ -8118,17 +8118,17 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
 
       // facilityCostIncluding_lessThanTen
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'facilityCostIncluding_lessThanTen_Client',
+        'facilityCostExcluding_greaterThanTen_Client',
         record,
         '_31a_ratio_lt10_facility_cost_per_square_foot_with_interest'
       );
 
       // facilityCostIncluding_greaterThanTen
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'facilityCostIncluding_greaterThanTen_Client',
@@ -8138,7 +8138,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
 
       // informationTechnologyCosts
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
         'informationTechnologyCosts_Client',

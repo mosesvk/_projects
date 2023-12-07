@@ -8121,7 +8121,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'facilityCostIncluding_lessThanTen_Client',
+        'facilityCostExcluding_greaterThanTen_Client',
         record,
         '_31a_ratio_lt10_facility_cost_per_square_foot_with_interest'
       );

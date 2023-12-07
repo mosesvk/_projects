@@ -71,7 +71,7 @@ const displayReportComponent = () => {
       ['personnelMandatoryDebtService_SalariesAndBenefits_Teachers', 'num', 1],
       ['personnelMandatoryDebtService_SalariesAndBenefits_Administration', 'num', 1],
       ['personnelMandatoryDebtService_SalariesAndBenefits_Employees', 'num', 1],
-      ['personnelMandatoryDebtService_Mandatory', 'num', 1],
+      ['personnelMandatoryDebtService_Mandatory', num, 1],
       ['personnelMandatoryDebtService_Personnel', 'num', 1],
       ['percentFundRaisingExpensesExceeding', 'percent', 1],
       ['fundsExpensesPerStudent_FundsRaised', 'num', 0],
@@ -96,7 +96,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
 };
 
 const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
-  console.log('data', data);
+  // console.log(data);
   
   for (let name of arrayOfNames) {
     addToSingleRow(
@@ -122,10 +122,10 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  console.log({selectedYears, name, client, peer, type, fixedNum});
+  // console.log({selectedYears, name, client, peer, type, fixedNum});
   const tableReportRow = document.getElementById(`row_${name}`);
-  console.log(`row_${name}`);
-  console.log('tableReportRow', tableReportRow);
+  // console.log(`row_${name}`);
+  // console.log('tableReportRow', tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);

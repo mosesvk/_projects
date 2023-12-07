@@ -8021,7 +8021,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Employees_Client',
+        'personnelMandatoryDebtService_SalariesAndBenefits_Administration_Client',
         record,
         '_27a3_ratio_all_salaries_and_benefits_per_total_expenses'
       );
@@ -8121,7 +8121,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'facilityCostIncluding_lessThanTen_Client',
+        'facilityCostExcluding_greaterThanTen_Client',
         record,
         '_31a_ratio_lt10_facility_cost_per_square_foot_with_interest'
       );

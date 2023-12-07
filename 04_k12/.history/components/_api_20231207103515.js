@@ -6938,7 +6938,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries_Peer',
+        'salariesBenefitsTeachersAsPercentNetTuition_Salaries',
         record,
         '_24a_ratio_salaries_as___of_net_tuition',
         '_24a_yes_no_salaries_as___of_net_tuition'
@@ -6979,7 +6979,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'salariesBenefitsTeachersAsPercentNetTuition_Benefits_Peer',
+        'salariesBenefitsTeachersAsPercentNetTuition_Benefits',
         record,
         '_24b_ratio_benefits_as___of_net_tuition',
         '_24b_yes_no_benefits_as___of_net_tuition'
@@ -7020,7 +7020,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Peer',
+        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits',
         record,
         '_24c_ratio_salaries_benefits_as___of_net_tuition',
         '_24c_yes_no_salaries_benefits_as___of_net_tuition'
@@ -7071,7 +7071,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries_Peer',
+        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries',
         record,
         '_25a_ratio_salaries_per_students',
         '_25a_yes_no_salaries_per_students'
@@ -7102,7 +7102,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits_Peer',
+        'salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits',
         record,
         '_25b_ratio_benefits_per_students',
         '_25b_yes_no_benefits_per_students'
@@ -7133,7 +7133,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits_Peer',
+        'salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits',
         record,
         '_25c_ratio_salaries_and_benefits_per_students',
         '_25c_yes_no_salaries_and_benefits_per_students'
@@ -7174,7 +7174,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'benefitsPercentSalariesTeachers_Peer',
+        'benefitsPercentSalariesTeachers',
         record,
         '_26_ratio_benefits_as_a_percent_of_salaries_for_teachers',
         '_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers'
@@ -7205,7 +7205,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Teachers_Peer',
+        'personnelMandatoryDebtService_SalariesAndBenefits_Teachers',
         record,
         '_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses',
         '_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses'
@@ -7256,7 +7256,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Administration_Peer',
+        'personnelMandatoryDebtService_SalariesAndBenefits_Administration',
         record,
         '_27a2_ratio_admin_salaries_and_benefits_per_total_expenses',
         '_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses'
@@ -7317,7 +7317,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Administration_Peer',
+        'personnelMandatoryDebtService_SalariesAndBenefits_Administration',
         record,
         '_27a3_ratio_all_salaries_and_benefits_per_total_expenses',
         '_27a3_yes_no_all_salaries_and_benefits_per_total_expenses'
@@ -7358,7 +7358,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'personnelMandatoryDebtService_Mandatory_Peer',
+        'personnelMandatoryDebtService_Mandatory',
         record,
         '_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses',
         '_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses'
@@ -7419,7 +7419,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'personnelMandatoryDebtService_Personnel_Peer',
+        'personnelMandatoryDebtService_Personnel',
         record,
         '_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses',
         '_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses'
@@ -7480,7 +7480,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'percentFundRaisingExpensesExceeding_Peer',
+        'percentFundRaisingExpensesExceeding',
         record,
         '_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised',
         '_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised'
@@ -7521,7 +7521,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'fundsExpensesPerStudent_FundsRaised_Peer',
+        'fundsExpensesPerStudent_FundsRaised',
         record,
         '_29a_ratio_funds_raised',
         '_29a_yes_no_funds_raised'
@@ -7552,7 +7552,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'fundsExpensesPerStudent_CashExpensesExcludingDepreciation_Peer',
+        'fundsExpensesPerStudent_CashExpensesExcludingDepreciation',
         record,
         '_29b_ratio_cash_expenses',
         '_29b_yes_no_cash_expenses'
@@ -7593,7 +7593,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'fundsExpensesPerStudent_netTuition_Peer',
+        'fundsExpensesPerStudent_netTuition',
         record,
         '_29c_ratio_net_tuition',
         '_29c_yes_no_net_tuition'
@@ -7634,7 +7634,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'fundsExpensesPerStudent_FundsRaisedOverUnder_Peer',
+        'fundsExpensesPerStudent_FundsRaisedOverUnder',
         record,
         '_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit',
         '_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit'
@@ -7715,7 +7715,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'facilityCostExcluding_lessThanTen_Peer',
+        'facilityCostExcluding_lessThanTen',
         record,
         '_30a_ratio_lt10_facility_cost_per_square_foot_no_interest',
         '_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest'
@@ -7746,7 +7746,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'facilityCostExcluding_greaterThanTen_Peer',
+        'facilityCostExcluding_greaterThanTen',
         record,
         '_30b_ratio_gte10_facility_cost_per_square_foot_no_interest',
         '_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest'
@@ -7777,7 +7777,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'facilityCostIncluding_lessThanTen_Peer',
+        'facilityCostIncluding_lessThanTen',
         record,
         '_31a_ratio_lt10_facility_cost_per_square_foot_with_interest',
         '_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest'
@@ -7838,7 +7838,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'facilityCostIncluding_greaterThanTen_Peer',
+        'facilityCostIncluding_greaterThanTen',
         record,
         '_31b_ratio_gte10_facility_cost_per_square_foot_with_interest',
         '_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest'
@@ -7899,7 +7899,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'informationTechnologyCosts_Peer',
+        'informationTechnologyCosts',
         record,
         '_32_ratio_information_technology_costs',
         '_32_yes_no_information_technology_costs'
@@ -7939,7 +7939,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries_Client',
+        'salariesBenefitsTeachersAsPercentNetTuition_Salaries',
         record,
         '_24a_ratio_salaries_as___of_net_tuition'
       );
@@ -7948,7 +7948,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'salariesBenefitsTeachersAsPercentNetTuition_Benefits_Client',
+        'salariesBenefitsTeachersAsPercentNetTuition_Benefits',
         record,
         '_24b_ratio_benefits_as___of_net_tuition'
       );
@@ -7957,7 +7957,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Client',
+        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits',
         record,
         '_24c_ratio_salaries_benefits_as___of_net_tuition'
       );
@@ -7966,7 +7966,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries_Client',
+        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries',
         record,
         '_25a_ratio_salaries_per_students'
       );
@@ -7975,7 +7975,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits_Client',
+        'salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits',
         record,
         '_25b_ratio_benefits_per_students'
       );
@@ -7984,7 +7984,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits_Client',
+        'salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits',
         record,
         '_25c_ratio_salaries_and_benefits_per_students'
       );
@@ -7993,155 +7993,155 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'client',
         year,
         object,
-        'benefitsPercentSalariesTeachers_Client',
+        'benefitsPercentSalariesTeachers',
         record,
         '_26_ratio_benefits_as_a_percent_of_salaries_for_teachers'
       );
       // personnelMandatoryDebtService_SalariesAndBenefits_Teachers
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Teachers_Client',
+        'personnelMandatoryDebtService_SalariesAndBenefits_Teachers',
         record,
         '_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses'
       );
       // personnelMandatoryDebtService_SalariesAndBenefits_Administration
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Administration_Client',
+        'personnelMandatoryDebtService_SalariesAndBenefits_Administration',
         record,
         '_27a2_ratio_admin_salaries_and_benefits_per_total_expenses'
       );
 
       // personnelMandatoryDebtService_SalariesAndBenefits_Employees
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Employees_Client',
+        'personnelMandatoryDebtService_SalariesAndBenefits_Administration',
         record,
         '_27a3_ratio_all_salaries_and_benefits_per_total_expenses'
       );
 
       // personnelMandatoryDebtService_Mandatory
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'personnelMandatoryDebtService_Mandatory_Client',
+        'personnelMandatoryDebtService_Mandatory',
         record,
         '_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses'
       );
 
       // personnelMandatoryDebtService_Personnel
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'personnelMandatoryDebtService_Personnel_Client',
+        'personnelMandatoryDebtService_Personnel',
         record,
         '_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses'
       );
 
       // percentFundRaisingExpensesExceeding
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'percentFundRaisingExpensesExceeding_Client',
+        'percentFundRaisingExpensesExceeding',
         record,
         '_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised'
       );
 
       // fundsExpensesPerStudent_FundsRaised
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'fundsExpensesPerStudent_FundsRaised_Client',
+        'fundsExpensesPerStudent_FundsRaised',
         record,
         '_29a_ratio_funds_raised'
       );
 
       // fundsExpensesPerStudent_CashExpensesExcludingDepreciation
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'fundsExpensesPerStudent_CashExpensesExcludingDepreciation_Client',
+        'fundsExpensesPerStudent_CashExpensesExcludingDepreciation',
         record,
         '_29b_ratio_cash_expenses'
       );
 
       // fundsExpensesPerStudent_netTuition
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'fundsExpensesPerStudent_netTuition_Client',
+        'fundsExpensesPerStudent_netTuition',
         record,
         '_29c_ratio_net_tuition'
       );
 
       // fundsExpensesPerStudent_FundsRaisedOverUnder
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'fundsExpensesPerStudent_FundsRaisedOverUnder_Client',
+        'fundsExpensesPerStudent_FundsRaisedOverUnder',
         record,
         '_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit'
       );
 
       // facilityCostExcluding_lessThanTen
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'facilityCostExcluding_lessThanTen_Client',
+        'facilityCostExcluding_lessThanTen',
         record,
         '_30a_ratio_lt10_facility_cost_per_square_foot_no_interest'
       );
 
       // facilityCostExcluding_greaterThanTen
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'facilityCostExcluding_greaterThanTen_Client',
+        'facilityCostExcluding_greaterThanTen',
         record,
         '_30b_ratio_gte10_facility_cost_per_square_foot_no_interest'
       );
 
       // facilityCostIncluding_lessThanTen
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'facilityCostIncluding_lessThanTen_Client',
+        'facilityCostExcluding_greaterThanTen',
         record,
         '_31a_ratio_lt10_facility_cost_per_square_foot_with_interest'
       );
 
       // facilityCostIncluding_greaterThanTen
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'facilityCostIncluding_greaterThanTen_Client',
+        'facilityCostIncluding_greaterThanTen',
         record,
         '_31b_ratio_gte10_facility_cost_per_square_foot_with_interest'
       );
 
       // informationTechnologyCosts
       insertDataIntoObject(
-        'client',
+        'peer',
         year,
         object,
-        'informationTechnologyCosts_Client',
+        'informationTechnologyCosts',
         record,
         '_32_ratio_information_technology_costs'
       );
@@ -9733,7 +9733,7 @@ const runApiMain = () => {
       processDebtData(selectedYears, recordsPeer, recordsClient);
       processIncomeData(selectedYears, recordsPeer, recordsClient);
       processExpenseData(selectedYears, recordsPeer, recordsClient);
-
+      
       displayEnrollmentComponent();
       displayReportComponent();
     } catch (err) {
