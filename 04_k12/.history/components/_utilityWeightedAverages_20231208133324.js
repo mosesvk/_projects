@@ -234,13 +234,11 @@ const percentFundRaisingExpensesExceeding_weightedAverage = (data, name) => {
 const personnelMandatoryDebtService_Personnel_weightedAverage = (data, name) => {
     // ( [15]  [16] 02-04 Total maintenance costs + [18] 02-06 Current maturities of LT Debt + [44] 04-11 Current Year Interest Expense +  [48] 05-02 Capitalized Interest )  / ([41] 04-08 Total Expenses - [42] 04-09 Total Depreciation Expense )
 
-    // console.log('dataName', data, name);
-
     let numTotalMaintenanceCosts = getSumOfArray(
         data.totalMaintenanceCosts[name]
     );
     let numCurrentMaturingDebt = getSumOfArray(
-        data.currentMaturingDebt[name]
+        data.numCurrentMaturingDebt[name]
     );
     let numCurrentYearInterestExpense = getSumOfArray(
         data.currentYearInterestExpense[name]
@@ -265,7 +263,7 @@ const personnelMandatoryDebtService_Mandatory_weightedAverage = (data, name) => 
     console.log('dataName', data, name);
 
     let numCurrentMaturingDebt = getSumOfArray(
-        data.currentMaturingDebt[name]
+        data.numCurrentMaturingDebt[name]
     );
     let numCurrentYearInterestExpense = getSumOfArray(
         data.currentYearInterestExpense[name]

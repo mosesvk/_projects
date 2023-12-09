@@ -43,42 +43,41 @@ const displayReportComponent = () => {
     ]);
 
     insertDataToReport(incomeData, selectedYears, [
-      ['netIncomeRatio', 'num', 2, 'wa'], 
-      ['netIncomeRatioExcludingDepreciation', 'num', 1, 'wa'],
-      ['financialAssistanceAsPercentTuitionAndFees', 'num', 1, 'wa'],
-      ['tuitionAndFeesAsPercentTotalIncome', 'num', 1, 'wa'],
-      ['contributionsAsAPercentOfTotalIncome', 'percent', 1, 'wa'],
-      ['grossTuition' , 'num', 0, 'wa'],
+      ['netIncomeRatio', 'num', 2], 
+      ['netIncomeRatioExcludingDepreciation', 'num', 1],
+      ['financialAssistanceAsPercentTuitionAndFees', 'num', 1],
+      ['tuitionAndFeesAsPercentTotalIncome', 'num', 1],
+      ['contributionsAsAPercentOfTotalIncome', 'percent', 1],
+      ['grossTuition' , 'num', 0],
       ['grossTuition_Percent', 'percent', 1],
-      ['financialAssistanceDiscountBased', 'num', 0, 'wa'],
+      ['financialAssistanceDiscountBased', 'num', 0],
       ['financialAssistanceDiscountBased_Percent', 'percent', 1],
-      ['scholarshipAwarded', 'num', 0, 'wa'],
+      ['scholarshipAwarded', 'num', 0],
       ['scholarshipAwarded_Percent', 'percent', 1],
-      ['totalFinancialAssistance', 'num', 0, 'wa'],
+      ['totalFinancialAssistance', 'num', 0],
       ['totalFinancialAssistance_Percent', 'percent', 1],
-      ['netTuition', 'num', 0, 'wa'],
+      ['netTuition', 'num', 0],
       ['netTuition_Percent', 'percent', 1],
-      ['feesPercentOfNetTuition', 'num', 2, 'wa']
     ])
 
     insertDataToReport(expenseData, selectedYears, [
-      ['salariesBenefitsTeachersAsPercentNetTuition_Salaries', 'num', 2, 'wa'],
-      ['salariesBenefitsTeachersAsPercentNetTuition_Benefits', 'num', 2], 
-      ['salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits', 'num', 2, 'wa'],
-      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries', 'num', 0, 'wa'],
-      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits', 'num', 0, 'wa'],
-      ['salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits', 'num', 0, 'wa'],
-      ['benefitsPercentSalariesTeachers', 'num', 2, 'wa'],
-      ['personnelMandatoryDebtService_SalariesAndBenefits_Administration', 'num', 1, 'wa'],
-      ['personnelMandatoryDebtService_SalariesAndBenefits_Employees', 'num', 1, 'wa'],
-      ['personnelMandatoryDebtService_Mandatory', 'num', 1, 'wa'],
-      ['personnelMandatoryDebtService_Personnel', 'num', 1, 'wa'],
-      ['percentFundRaisingExpensesExceeding', 'percent', 1, 'wa'],
-      ['fundsExpensesPerStudent_FundsRaised', 'num', 0, 'wa'],
-      ['fundsExpensesPerStudent_CashExpensesExcludingDepreciation', 'num', 0, 'wa'],
-      ['fundsExpensesPerStudent_netTuition', 'num', 0, 'wa'],
-      ['fundsExpensesPerStudent_cashExpensesExcessNetTuition', 'num', 0, 'wa'],
-      ['fundsExpensesPerStudent_FundsRaisedOverUnder', 'num', 0, 'wa'],
+      ['salariesBenefitsTeachersAsPercentNetTuition_Salaries', 'num', 2],
+      ['salariesBenefitsTeachersAsPercentNetTuition_Benefits', 'num', 2],
+      ['salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits', 'num', 2],
+      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries', 'num', 0],
+      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits', 'num', 0],
+      ['salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits', 'num', 0],
+      ['benefitsPercentSalariesTeachers', 'num', 2],
+      ['personnelMandatoryDebtService_SalariesAndBenefits_Teachers', 'num', 1],
+      ['personnelMandatoryDebtService_SalariesAndBenefits_Administration', 'num', 1],
+      ['personnelMandatoryDebtService_SalariesAndBenefits_Employees', 'num', 1],
+      ['personnelMandatoryDebtService_Mandatory', 'num', 1],
+      ['personnelMandatoryDebtService_Personnel', 'num', 1],
+      ['percentFundRaisingExpensesExceeding', 'percent', 1],
+      ['fundsExpensesPerStudent_FundsRaised', 'num', 0],
+      ['fundsExpensesPerStudent_CashExpensesExcludingDepreciation', 'num', 0],
+      ['fundsExpensesPerStudent_netTuition', 'num', 0],
+      ['fundsExpensesPerStudent_FundsRaisedOverUnder', 'num', 0],
       ['facilityCostExcluding_lessThanTen', 'num', 2],
       ['facilityCostExcluding_greaterThanTen', 'num', 2],
       ['facilityCostIncluding_lessThanTen', 'num', 2],
@@ -100,7 +99,6 @@ const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
   console.log('data', data);
   
   for (let name of arrayOfNames) {
-    console.log('name', name);
     addToSingleRow(
       selectedYears,
       name[0],
@@ -124,10 +122,10 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  console.log({selectedYears, name, client, peer, type, fixedNum});
+  // console.log({selectedYears, name, client, peer, type, fixedNum});
   const tableReportRow = document.getElementById(`row_${name}`);
-  console.log(`row_${name}`);
-  console.log('tableReportRow', tableReportRow);
+  // console.log(`row_${name}`);
+  // console.log('tableReportRow', tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);
@@ -149,7 +147,7 @@ const addToSingleRow = (
     selectedYears,
     client,
     type,
-    fixedNum 
+    fixedNum
   );
   addPeerDataToRow(
     tableReportRow,

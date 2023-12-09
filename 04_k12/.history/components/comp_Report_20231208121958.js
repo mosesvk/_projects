@@ -63,12 +63,13 @@ const displayReportComponent = () => {
 
     insertDataToReport(expenseData, selectedYears, [
       ['salariesBenefitsTeachersAsPercentNetTuition_Salaries', 'num', 2, 'wa'],
-      ['salariesBenefitsTeachersAsPercentNetTuition_Benefits', 'num', 2], 
+      ['salariesBenefitsTeachersAsPercentNetTuition_Benefits', 'num', 2], 'wa',
       ['salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits', 'num', 2, 'wa'],
       ['salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries', 'num', 0, 'wa'],
       ['salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits', 'num', 0, 'wa'],
       ['salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits', 'num', 0, 'wa'],
       ['benefitsPercentSalariesTeachers', 'num', 2, 'wa'],
+      ['personnelMandatoryDebtService_SalariesAndBenefits_Teachers', 'num', 1], 'wa',
       ['personnelMandatoryDebtService_SalariesAndBenefits_Administration', 'num', 1, 'wa'],
       ['personnelMandatoryDebtService_SalariesAndBenefits_Employees', 'num', 1, 'wa'],
       ['personnelMandatoryDebtService_Mandatory', 'num', 1, 'wa'],
@@ -97,10 +98,9 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
 };
 
 const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
-  console.log('data', data);
+  // console.log('data', data);
   
   for (let name of arrayOfNames) {
-    console.log('name', name);
     addToSingleRow(
       selectedYears,
       name[0],
@@ -124,10 +124,10 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  console.log({selectedYears, name, client, peer, type, fixedNum});
+  // console.log({selectedYears, name, client, peer, type, fixedNum});
   const tableReportRow = document.getElementById(`row_${name}`);
-  console.log(`row_${name}`);
-  console.log('tableReportRow', tableReportRow);
+  // console.log(`row_${name}`);
+  // console.log('tableReportRow', tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);
@@ -149,7 +149,7 @@ const addToSingleRow = (
     selectedYears,
     client,
     type,
-    fixedNum 
+    fixedNum
   );
   addPeerDataToRow(
     tableReportRow,

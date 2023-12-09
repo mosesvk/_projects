@@ -7519,7 +7519,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'fundraisingIncome',
+        'totalContributions',
         record,
         '_04_13_fundraising_income',
         '_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised',

@@ -78,7 +78,7 @@
                     data-popover-target="popoverEnrollment-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
-                    onclick="displayEnrollmentComponent()"
+                    onclick="displayEnrollmentComponent(); displayReportComponent()"
                     class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 active:text-green-200"
                   >
                     <svg
@@ -305,7 +305,8 @@
         id="sidebarBackdrop"
         class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90"
       ></div>
-      <div id="main-content"
+      <div
+        id="main-content"
         class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900"
       >
         <main class="px-4 pt-6 grid gap-y-4">

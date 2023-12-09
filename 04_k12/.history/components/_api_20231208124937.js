@@ -7448,16 +7448,6 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'currentYearInterestExpense',
-        record,
-        '_04_11_current_year_interest_expense',
-        '_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses',
-        'personnelMandatoryDebtService_Personnel'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
         'capitalizedInterest',
         record,
         '_05_02_capitalized_interest',
@@ -7519,7 +7509,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'fundraisingIncome',
+        'totalContributions',
         record,
         '_04_13_fundraising_income',
         '_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised',
@@ -8507,7 +8497,6 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         '_22c1_yes_no_scholarship_awarded',
         'scholarshipAwarded'
       );
-
       // totalFinancialAssistance
       insertDataIntoObject(
         'peer',
@@ -8791,18 +8780,6 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         record,
         '_22e2_ratio___change'
       );
-
-      // feesPercentOfNetTuition
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'feesPercentOfNetTuition_Client',
-        record,
-        '_23_ratio_fees_as_a_percent_of_net_tuition'
-      );
-
-
     });
   });
 

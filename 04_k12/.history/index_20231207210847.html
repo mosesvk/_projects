@@ -78,7 +78,7 @@
                     data-popover-target="popoverEnrollment-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
-                    onclick="displayEnrollmentComponent()"
+                    onclick="displayEnrollmentComponent(); displayReportComponent()"
                     class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 active:text-green-200"
                   >
                     <svg
@@ -305,7 +305,8 @@
         id="sidebarBackdrop"
         class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90"
       ></div>
-      <div id="main-content"
+      <div
+        id="main-content"
         class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900"
       >
         <main class="px-4 pt-6 grid gap-y-4">
@@ -431,35 +432,15 @@
             </div>
           </div>
 
-          <div id="cashContent" class="tab-content hidden">
-            <h1 class="text-3xl text-left text-gray-500 dark:text-gray-400">
-              Cash Tab
-            </h1>
-          </div>
+          <div id="cashContent" class="tab-content hidden"><h1 class="text-3xl text-left text-gray-500 dark:text-gray-400">Cash Tab</h1></div>
 
-          <div id="netAssetsContent" class="tab-content hidden">
-            <h1 class="text-3xl text-left text-gray-500 dark:text-gray-400">
-              Net Assets Tab
-            </h1>
-          </div>
+          <div id="netAssetsContent" class="tab-content hidden">Asset Table</div>
 
-          <div id="debtContent" class="tab-content hidden">
-            <h1 class="text-3xl text-left text-gray-500 dark:text-gray-400">
-              Debt Tab
-            </h1>
-          </div>
+          <div id="debtContent" class="tab-content hidden">Debt Table</div>
 
-          <div id="incomeContent" class="tab-content hidden">
-            <h1 class="text-3xl text-left text-gray-500 dark:text-gray-400">
-              Income Tab
-            </h1>
-          </div>
+          <div id="incomeContent" class="tab-content hidden">Income Table</div>
 
-          <div id="expenseContent" class="tab-content hidden">
-            <h1 class="text-3xl text-left text-gray-500 dark:text-gray-400">
-              Expense Tab
-            </h1>
-          </div>
+          <div id="expenseContent" class="tab-content hidden">Expense Table</div>
 
           <div id="reportsContent" class="tab-content hidden">
             <!-- Enrollment Table -->
@@ -479,10 +460,7 @@
                           class="text-xs text-white uppercase backgroundGreen dark:bg-gray-700 dark:text-lime-300"
                         >
                           <tr id="row_enrollment_tableHeader">
-                            <th
-                              scope="col"
-                              class="px-6 py-3 text-lg tracking-wide"
-                            >
+                            <th scope="col" class="px-6 py-3 text-lg tracking-wide">
                               Enrollment Comparison between Years
                             </th>
 
@@ -1206,15 +1184,14 @@
                             </th>
                           </tr>
 
-                          <tr
-                            id="row_benefitsPercentSalariesTeachers"
+                          <tr id="row_benefitsPercentSalariesTeachers"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              26. Benefits as a percent of Salaries for teachers
+                            26. Benefits as a percent of Salaries for teachers
                             </th>
                           </tr>
 
