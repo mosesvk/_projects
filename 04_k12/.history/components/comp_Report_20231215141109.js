@@ -98,7 +98,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
 };
 
 const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
-  // console.log('data', data);
+  console.log('data', data);
   
   for (let name of arrayOfNames) {
     // console.log('name', name);
@@ -218,7 +218,7 @@ const addPeerDataToRow = (
   name,
   data
 ) => {
-  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data });
+  console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data });
 
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';

@@ -98,10 +98,10 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
 };
 
 const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
-  // console.log('data', data);
+  console.log('data', data);
   
   for (let name of arrayOfNames) {
-    // console.log('name', name);
+    console.log('name', name);
     addToSingleRow(
       selectedYears,
       name[0],
@@ -125,10 +125,10 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  // console.log({selectedYears, name, client, peer, type, fixedNum});
+  console.log({selectedYears, name, client, peer, type, fixedNum});
   const tableReportRow = document.getElementById(`row_${name}`);
-  // console.log(`row_${name}`);
-  // console.log('tableReportRow', tableReportRow);
+  console.log(`row_${name}`);
+  console.log('tableReportRow', tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);
@@ -218,7 +218,7 @@ const addPeerDataToRow = (
   name,
   data
 ) => {
-  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data });
+  console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data });
 
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';

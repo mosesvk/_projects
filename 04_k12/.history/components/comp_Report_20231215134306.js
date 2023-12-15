@@ -141,7 +141,7 @@ const addToSingleRow = (
       // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
 
       addClientDataToModalRow(tableModalRow, year, client, type, fixedNum);
-      addPeerDataToRow(tableModalRow, peer, type, fixedNum, year, wa, name, data);
+      addPeerDataToRow(tableModalRow, peer, type, fixedNum, year, wa, name);
     }
   });
 
@@ -218,7 +218,7 @@ const addPeerDataToRow = (
   name,
   data
 ) => {
-  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data });
+  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa });
 
   const propClass =
     'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';

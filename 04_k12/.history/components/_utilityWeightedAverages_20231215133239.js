@@ -1,8 +1,8 @@
 const getWeightedAverageOfArray = (data, name) => {
   // console.log(data, name);
   switch (name) {
-    case 'studentFacilityRatio':
-      return studentFacilityRatio_weightedAverage(data, name);
+    case 'studentsFacilityRatio':
+      return studentsFacilityRatio_weightedAverage(data, name);
     case 'expendableReserves_inDays':
       return expendableReservesInDays_weightedAverage(data, name);
     case 'expendableReserves_Percent':
@@ -778,8 +778,8 @@ const netCashUsedOperating_overUnderBenchmark_weightedAverage = (
   );
 };
 
-const studentFacilityRatio_weightedAverage = (data, name) => {
-    // console.log('wa', data, name);
+const studentsFacilityRatio_weightedAverage = (data, name) => {
+  //   console.log('wa', data, name);
   let numFullTime = getSumOfArray(data.fullTimeTeachers_Peer[name]);
   let numPartTime = getSumOfArray(data.partTimeTeachers_Peer[name]);
   let numStudents = getSumOfArray(data.studentAverageEnrollment_Main[name]);

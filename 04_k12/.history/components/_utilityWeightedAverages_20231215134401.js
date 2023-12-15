@@ -779,7 +779,7 @@ const netCashUsedOperating_overUnderBenchmark_weightedAverage = (
 };
 
 const studentFacilityRatio_weightedAverage = (data, name) => {
-    // console.log('wa', data, name);
+    console.log('wa', data, name);
   let numFullTime = getSumOfArray(data.fullTimeTeachers_Peer[name]);
   let numPartTime = getSumOfArray(data.partTimeTeachers_Peer[name]);
   let numStudents = getSumOfArray(data.studentAverageEnrollment_Main[name]);
