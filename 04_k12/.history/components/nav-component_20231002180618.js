@@ -43,7 +43,7 @@ document.getElementById('nav').innerHTML = `
       />
       <span
         class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
-        >International</span
+        >K-12</span
       >
     </a>
     <form action="#" method="GET" class="hidden lg:block lg:pl-3.5">

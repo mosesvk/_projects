@@ -35,68 +35,27 @@ document.getElementById('nav').innerHTML = `
             ></path>
           </svg>
         </button>
-        <a href='http://localhost:1313/' class='flex ml-2 md:mr-24'>
+        <div class='flex ml-2 md:mr-24'>
           <img
             src='https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0'
             class='h-8 mr-3'
             alt='Logo'
           />
           <span class='self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white'>
-            International
+            K-12
           </span>
-        </a>
+        </div>
       </div>
       <div class='flex items-center cursor-pointer'>
       <div
-          id='custom-select-region'
-          class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400 hover:text-gray-600 appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
-        >
-          <div class='flex items-center justify-between'>
-            <div class="flex items-center"> 
-            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
-              <path d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
-            </svg>
-              <div class='px-2 w-max'>Select Region</div>
-              <svg
-                class='h-5 w-5 text-gray-400'
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                aria-hidden='true'
-              >
-                <path
-                  fill-rule='evenodd'
-                  d='M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z'
-                  clip-rule='evenodd'
-                />
-              </svg>
-            </div>
-          <div
-            id='options-list-region'
-            class='absolute left-0 z-10 mt-2 w-full bg-white border border-gray-300 shadow-lg rounded-lg invisible border-gray-200 dark:bg-gray-800 dark:border-gray-800 dark:shadow-lg'
-          ></div>
-          </div>
-      </div>
-      <div
           id='custom-select'
-          class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400 hover:text-gray-600 appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
+          class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400  appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
         >
           <div class='flex items-center justify-between'>
-            <svg
-              class='w-5 h-5 text-gray-500 dark:text-gray-400'
-              fill='currentColor'
-              viewBox='0 0 20 20'
-              xmlns='http://www.w3.org/2000/svg'
-              aria-hidden='true'
-            >
-              <path d='M5.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75V12zM6 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H6zM7.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H8a.75.75 0 01-.75-.75V12zM8 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H8zM9.25 10a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H10a.75.75 0 01-.75-.75V10zM10 11.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75H10zM9.25 14a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H10a.75.75 0 01-.75-.75V14zM12 9.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V10a.75.75 0 00-.75-.75H12zM11.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H12a.75.75 0 01-.75-.75V12zM12 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H12zM13.25 10a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H14a.75.75 0 01-.75-.75V10zM14 11.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75H14z'></path>
-              <path
-                clip-rule='evenodd'
-                fill-rule='evenodd'
-                d='M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z'
-              ></path>
+            <svg class="w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z"/>
             </svg>
-            <div class='px-2'>Select Years</div>
+            <div class='px-2 hover:text-gray-600'>Select Years</div>
             <svg
               class='h-5 w-5 text-gray-400'
               xmlns='http://www.w3.org/2000/svg'
@@ -113,14 +72,44 @@ document.getElementById('nav').innerHTML = `
           </div>
           <div
             id='options-list'
-            class='absolute left-0 z-10 mt-2 w-full bg-white border border-gray-300 shadow-lg rounded-lg invisible border-gray-200 dark:bg-gray-800 dark:border-gray-800 dark:shadow-lg'
+            class='absolute left-0 z-10 mt-2 w-full bg-white border shadow-2xl rounded-lg invisible dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey'
           ></div>
+      </div>
+      <div
+          id='custom-select-region'
+          class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400  appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
+        >
+          <div class='flex items-center justify-between'>
+            <div class="flex items-center"> 
+            <svg class="w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+              <path d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
+            </svg>
+              <div class='px-2 w-max hover:text-gray-600'>Select Region</div>
+              <svg
+                class='h-5 w-5 text-gray-400'
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+                aria-hidden='true'
+              >
+                <path
+                  fill-rule='evenodd'
+                  d='M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z'
+                  clip-rule='evenodd'
+                />
+              </svg>
+            </div>
+          <div
+            id='options-list-region'
+            class='absolute top-9 left-0 z-10 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-max invisible'
+          ></div>
+          </div>
       </div>
       <button
         id='run'
-        class='bg-green-500 transition delay-100 hover:bg-green-300 text-white font-bold py-2 px-4 rounded'
-      >
-        Run
+        class="backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100 cursor:pointer"
+        >
+        <span>Run</span>
       </button>
       </div>
       <div class='flex items-center'>
@@ -158,6 +147,11 @@ document.getElementById('nav').innerHTML = `
 
 const customSelect = document.getElementById('custom-select');
 const optionsList = document.getElementById('options-list');
+const sidebar = document.getElementById('sidebar');
+const backdrop = document.getElementById('sidebarBackdrop');
+
+const customSelectRegion = document.getElementById('custom-select-region');
+const optionsListRegion = document.getElementById('options-list-region');
 
 customSelect.addEventListener('click', (event) => {
   // Check if the click target is not a checkbox inside the customSelect
@@ -168,6 +162,15 @@ customSelect.addEventListener('click', (event) => {
     optionsList.classList.toggle('invisible');
   }
 });
+customSelectRegion.addEventListener('click', (event) => {
+  // Check if the click target is not a checkbox inside the customSelectRegion
+  if (
+    !event.target.closest('.form-checkbox') &&
+    !event.target.closest('label')
+  ) {
+    optionsListRegion.classList.toggle('invisible'); // Corrected class name
+  }
+});
 
 document.addEventListener('click', (event) => {
   if (
@@ -176,13 +179,24 @@ document.addEventListener('click', (event) => {
   ) {
     optionsList.classList.add('invisible');
   }
+
+  if (
+    !optionsListRegion.contains(event.target) &&
+    !customSelectRegion.contains(event.target)
+  ) {
+    optionsListRegion.classList.add('invisible');
+  }
 });
 
-const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
-  yearsArray.forEach((year) => {
-    // Create a new <label> element
+const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
+  const optionsListRegion = document.getElementById('options-list-region');
+
+  regionsArray.forEach((regionObject) => {
+    const regionName = regionObject.arr[0];
+    const regionString = regionObject.str;
+
     const newLabel = document.createElement('label');
-    newLabel.setAttribute('for', `option-${year}`);
+    newLabel.setAttribute('for', `option-${regionString}`);
     newLabel.setAttribute(
       'class',
       'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -190,37 +204,37 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
 
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'checkbox');
-    newInput.setAttribute('id', `option-${year}`);
-    newInput.setAttribute('class', `form-checkbox h-4 w-4 text-gray-600 mr-2`);
-    newInput.setAttribute('value', year);
+    newInput.setAttribute('id', `option-${regionString}`);
+    newInput.setAttribute(
+      'class',
+      'form-checkbox h-4 w-4 text-gray-600 mr-2 rounded'
+    );
+    newInput.setAttribute('value', regionString);
+
+    // Add the value to selectedRegions_Array and check the input by default
+    selectedRegions_Array.push(regionString);
+    newInput.checked = true;
 
     // Add an onChange event to the input element
     newInput.addEventListener('change', function () {
       if (newInput.checked) {
-        selectedYears_Array.push(year);
+        // Handle when the region is selected
+        selectedRegions_Array.push(regionString);
       } else {
-        const index = selectedYears_Array.indexOf(year);
+        // Handle when the region is deselected
+        const index = selectedRegions_Array.indexOf(regionString);
         if (index > -1) {
-          selectedYears_Array.splice(index, 1);
+          selectedRegions_Array.splice(index, 1);
         }
       }
-
-      // Sort the selectedYears_Array chronologically
-      selectedYears_Array.sort((a, b) => a - b);
-
-      // Store the updated selectedYears_Array in localStorage
-      localStorage.setItem(
-        'selectedYears',
-        JSON.stringify(selectedYears_Array)
-      );
     });
 
     const newSpan = document.createElement('span');
-    newSpan.innerText = year;
+    newSpan.innerText = regionName;
 
     newLabel.appendChild(newInput);
     newLabel.appendChild(newSpan);
 
-    optionsList.appendChild(newLabel);
+    optionsListRegion.appendChild(newLabel);
   });
 };
