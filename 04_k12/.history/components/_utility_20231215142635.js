@@ -72,7 +72,6 @@ function updateModal(mainName, avgData, clientData) {
   if (modal) {
     // Find the table header row
     const headerRow = modal.querySelector(`#${mainName}_modal_row`);
-    console.log({headerRow});
     let tableHead = headerRow.parentElement;
 
     // Clear existing rows after the headerRow

@@ -22,7 +22,7 @@ const displayEnrollmentComponent = () => {
     'studentFacilityRatio_Peer',
     'studentFacilityRatio_Client',
     'number',
-    1,
+    0,
     'studentFacilityRatio'
   );
 
