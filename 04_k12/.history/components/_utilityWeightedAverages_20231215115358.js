@@ -266,7 +266,7 @@ const personnelMandatoryDebtService_Mandatory_weightedAverage = (data, name) => 
 
     let numCurrentMaturingDebt = getSumOfArray(
         data.currentMaturingDebt[name]
-    );f
+    );
     let numCurrentYearInterestExpense = getSumOfArray(
         data.currentYearInterestExpense[name]
     );
