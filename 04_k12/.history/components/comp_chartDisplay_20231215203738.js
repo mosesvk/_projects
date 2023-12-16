@@ -47,17 +47,6 @@ const displayCashComponent = () => {
     'expendableReserves_inDays'
   );
 
-  // expendableReserves_Percent
-  createChartFromParsedData(
-    parseData,
-    'expendableReserves_Percent_chart',
-    'expendableReserves_Percent_Peer',
-    'expendableReserves_Percent_Client',
-    'percent',
-    0,
-    'expendableReserves_Percent'
-  );
-
   
 
 

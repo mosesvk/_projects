@@ -6836,8 +6836,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   addUniqueRegionsToOptionsSelectRegionDropdown(regions_Array);
 
-  displayEnrollmentComponent();
-  displayCashComponent();
+  displayComponentstComponent();
   displayReportComponent();
 
   runApiMain();
@@ -9832,8 +9831,7 @@ const runApiMain = () => {
       processIncomeData(selectedYears, recordsPeer, recordsClient);
       processExpenseData(selectedYears, recordsPeer, recordsClient);
 
-      displayEnrollmentComponent();
-      displayCashComponent();
+      displayComponentstComponent();
       displayReportComponent();
     } catch (err) {
       console.error(err);

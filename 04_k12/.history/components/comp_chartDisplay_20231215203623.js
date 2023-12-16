@@ -30,37 +30,3 @@ const displayEnrollmentComponent = () => {
   closeSidebarAfterSelectingOption('enrollment');
 
 };
-
-const displayCashComponent = () => {
-
-  const savedData = getStoredData('cashData');
-  const parseData = parseStoredData(savedData);
-
-  // expendableReserves_inDays
-  createChartFromParsedData(
-    parseData,
-    'expendableReserves_inDays_chart',
-    'expendableReserves_inDays_Peer',
-    'expendableReserves_inDays_Client',
-    'number',
-    0,
-    'expendableReserves_inDays'
-  );
-
-  // expendableReserves_Percent
-  createChartFromParsedData(
-    parseData,
-    'expendableReserves_Percent_chart',
-    'expendableReserves_Percent_Peer',
-    'expendableReserves_Percent_Client',
-    'percent',
-    0,
-    'expendableReserves_Percent'
-  );
-
-  
-
-
-  closeSidebarAfterSelectingOption('cash');
-
-};
