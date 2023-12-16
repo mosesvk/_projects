@@ -305,7 +305,6 @@
         id="sidebarBackdrop"
         class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90"
       ></div>
-      <!-- MAIN CONTENT -->
       <div
         id="main-content"
         class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900"
@@ -624,70 +623,6 @@
 
           <!-- NET ASSET TAB -->
           <div id="netAssetsContent" class="tab-content hidden">
-            <!-- netTuitionARasPercentCurrentAssets -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-shrink-0">
-                  <span
-                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
-                  >
-                    Net Tuition AR as a % of Current Assets
-                  </span>
-                </div>
-                <div
-                  id="netTuitionARasPercentCurrentAssets_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div id="netTuitionARasPercentCurrentAssets_chart"></div>
-              <div
-                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
-              >
-                <div class="flex-shrink-0">
-                  <button
-                    data-modal-target="netTuitionARasPercentCurrentAssets_modal"
-                    data-modal-toggle="netTuitionARasPercentCurrentAssets_modal"
-                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
-                  >
-                    Expand Info
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- DEBT TAB -->
-          <div id="debtContent" class="tab-content hidden">
             <!-- currentRatio -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -697,7 +632,7 @@
                   <span
                     class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
                   >
-                    Current Ratio
+                    Liquidity Ratio
                   </span>
                 </div>
                 <div
@@ -748,6 +683,15 @@
                 </div>
               </div>
             </div>
+
+
+          </div>
+
+          <!-- DEBT TAB -->
+          <div id="debtContent" class="tab-content hidden">
+            <h1 class="text-3xl text-left text-gray-500 dark:text-gray-400">
+              Debt Tab
+            </h1>
           </div>
 
           <!-- INCOME TAB -->
@@ -2720,198 +2664,7 @@
       </div>
     </div>
 
-    <!--ASSET MODALS-->
-    <div
-      id="netTuitionARasPercentCurrentAssets_modal"
-      tabindex="-1"
-      aria-hidden="true"
-      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
-    >
-      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
-          <div
-            id="netTuitionARasPercentCurrentAssets_modal"
-            data-accordion="collapse"
-            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
-          >
-            <div
-              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
-            >
-              <h1 class="text-white font-bold text-center self-center">
-                Expendable Reserves - % of Total Cash Expenses
-              </h1>
-              <button
-                type="button"
-                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="netTuitionARasPercentCurrentAssets_modal"
-              >
-                <svg
-                  class="w-3 h-3 font-bold"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  ></path>
-                </svg>
-                <span class="sr-only">Close modal</span>
-              </button>
-            </div>
-            <h2 id="netTuitionARasPercentCurrentAssets-heading-1">
-              <button
-                type="button"
-                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
-                data-accordion-target="#netTuitionARasPercentCurrentAssets-body-1"
-                aria-expanded="true"
-                aria-controls="netTuitionARasPercentCurrentAssets-body-1"
-              >
-                <span>Support Data</span>
-                <svg
-                  data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5 5 1 1 5"
-                  />
-                </svg>
-              </button>
-            </h2>
-            <div
-              id="netTuitionARasPercentCurrentAssets-body-1"
-              class="hidden"
-              aria-labelledby="netTuitionARasPercentCurrentAssets-heading-1"
-            >
-              <div
-                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
-              >
-                <div class="flex flex-col">
-                  <div class="overflow-x-auto">
-                    <div class="inline-block min-w-full align-middle">
-                      <div class="relative overflow-x-auto shadow-md">
-                        <table
-                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                        >
-                          <thead
-                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
-                          >
-                            <tr
-                              id="netTuitionARasPercentCurrentAssets_modal_row"
-                            ></tr>
-                          </thead>
-                          <tbody></tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <h2 id="netTuitionARasPercentCurrentAssets-heading-2">
-              <button
-                type="button"
-                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
-                data-accordion-target="#netTuitionARasPercentCurrentAssets-body-2"
-                aria-expanded="false"
-                aria-controls="netTuitionARasPercentCurrentAssets-body-2"
-              >
-                <span>What does this mean?</span>
-                <svg
-                  data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5 5 1 1 5"
-                  />
-                </svg>
-              </button>
-            </h2>
-            <div
-              id="netTuitionARasPercentCurrentAssets-body-2"
-              class="hidden"
-              aria-labelledby="netTuitionARasPercentCurrentAssets-heading-2"
-            >
-              <div
-                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
-              >
-                <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Similique delectus nisi commodi. Quidem quam eum quas
-                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
-                  incidunt, porro pariatur libero doloremque iste.
-                </p>
-              </div>
-            </div>
-            <h2 id="netTuitionARasPercentCurrentAssets-heading-3">
-              <button
-                type="button"
-                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
-                data-accordion-target="#netTuitionARasPercentCurrentAssets-body-3"
-                aria-expanded="false"
-                aria-controls="netTuitionARasPercentCurrentAssets-body-3"
-              >
-                <span>Benchmark</span>
-                <svg
-                  data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5 5 1 1 5"
-                  />
-                </svg>
-              </button>
-            </h2>
-            <div
-              id="netTuitionARasPercentCurrentAssets-body-3"
-              class="hidden"
-              aria-labelledby="netTuitionARasPercentCurrentAssets-heading-3"
-            >
-              <div
-                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
-              >
-                <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Ratione optio id ex odio recusandae maiores repellendus eum
-                  numquam laborum eos illo rem, pariatur cum temporibus
-                  praesentium natus veritatis blanditiis. Magnam.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- DEBT MODALS -->
+    <!-- NET ASSET MODALS -->
     <div
       id="currentRatio_modal"
       tabindex="-1"

@@ -6838,8 +6838,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   displayEnrollmentComponent();
   displayCashComponent();
-  displayAssetComponent();
-  displayDebtComponent();
+  displayNetAssetsComponent();
   displayReportComponent();
 
   runApiMain();
@@ -9836,8 +9835,7 @@ const runApiMain = () => {
 
       displayEnrollmentComponent();
       displayCashComponent();
-      displayAssetComponent();
-      displayDebtComponent()
+      displayNetAssetsComponent();
       displayReportComponent();
     } catch (err) {
       console.error(err);

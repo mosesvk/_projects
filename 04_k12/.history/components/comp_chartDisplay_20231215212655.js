@@ -68,24 +68,6 @@ const displayCashComponent = () => {
   closeSidebarAfterSelectingOption('cash');
 };
 
-const displayAssetComponent = () => {
-  const savedData = getStoredData('assetData');
-  const parseData = parseStoredData(savedData);
-
-  // netTuitionARasPercentCurrentAssets
-  createChartFromParsedData(
-    parseData,
-    'netTuitionARasPercentCurrentAssets_chart',
-    'netTuitionARasPercentCurrentAssets_Peer',
-    'netTuitionARasPercentCurrentAssets_Client',
-    'number',
-    1,
-    'netTuitionARasPercentCurrentAssets'
-  );
-
-  closeSidebarAfterSelectingOption('asset');
-};
-
 const displayDebtComponent = () => {
   const savedData = getStoredData('debtData');
   const parseData = parseStoredData(savedData);
@@ -102,4 +84,5 @@ const displayDebtComponent = () => {
   );
 
   closeSidebarAfterSelectingOption('debt');
-};
+
+}

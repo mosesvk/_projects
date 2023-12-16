@@ -72,34 +72,36 @@ const displayAssetComponent = () => {
   const savedData = getStoredData('assetData');
   const parseData = parseStoredData(savedData);
 
-  // netTuitionARasPercentCurrentAssets
-  createChartFromParsedData(
-    parseData,
-    'netTuitionARasPercentCurrentAssets_chart',
-    'netTuitionARasPercentCurrentAssets_Peer',
-    'netTuitionARasPercentCurrentAssets_Client',
-    'number',
-    1,
-    'netTuitionARasPercentCurrentAssets'
-  );
+    // currentRatio
+    createChartFromParsedData(
+      parseData,
+      'currentRatio_chart',
+      'currentRatio_Peer',
+      'currentRatio_Client',
+      'number',
+      1,
+      'currentRatio'
+    );
 
   closeSidebarAfterSelectingOption('asset');
-};
+
+}
 
 const displayDebtComponent = () => {
   const savedData = getStoredData('debtData');
   const parseData = parseStoredData(savedData);
 
-  // currentRatio
+  // netTuitionARasPeÏrcentCurrentAssets
   createChartFromParsedData(
     parseData,
-    'currentRatio_chart',
-    'currentRatio_Peer',
-    'currentRatio_Client',
+    'netTuitionARasPeÏrcentCurrentAssets_chart',
+    'netTuitionARasPeÏrcentCurrentAssets_Peer',
+    'netTuitionARasPeÏrcentCurrentAssets_Client',
     'number',
     1,
-    'currentRatio'
+    'netTuitionARasPeÏrcentCurrentAssets'
   );
 
   closeSidebarAfterSelectingOption('debt');
-};
+
+}

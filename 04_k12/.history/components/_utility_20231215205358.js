@@ -32,7 +32,7 @@ const createChartFromParsedData = (
   fixedNum,
   mainName
 ) => {
-  console.log('parsedData', parsedData);
+  // console.log('parsedData', parsedData);
   if (parsedData) {
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
     updateModal(mainName, parsedData[peer], parsedData[client]);
@@ -40,7 +40,7 @@ const createChartFromParsedData = (
 };
 
 const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
-  console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
+  // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = '';
 
   // Create a new chart instance

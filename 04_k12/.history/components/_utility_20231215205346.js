@@ -32,7 +32,7 @@ const createChartFromParsedData = (
   fixedNum,
   mainName
 ) => {
-  console.log('parsedData', parsedData);
+  // console.log('parsedData', parsedData);
   if (parsedData) {
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
     updateModal(mainName, parsedData[peer], parsedData[client]);
@@ -66,7 +66,7 @@ function updateModal(mainName, avgData, clientData) {
   // Find the modal element
   const modal = document.getElementById(`${mainName}_modal`);
 
-  // console.log({modal});
+  console.log({modal});
 
   // Check if the modal element exists
   if (modal) {

@@ -4,6 +4,7 @@ const displayEnrollmentComponent = () => {
   const savedData = getStoredData('enrollmentData');
   const parseData = parseStoredData(savedData);
 
+
   // studentAverageEnrollment
   createChartFromParsedData(
     parseData,
@@ -25,10 +26,13 @@ const displayEnrollmentComponent = () => {
     'studentFacilityRatio'
   );
 
+
   closeSidebarAfterSelectingOption('enrollment');
+
 };
 
 const displayCashComponent = () => {
+
   const savedData = getStoredData('cashData');
   const parseData = parseStoredData(savedData);
 
@@ -65,41 +69,9 @@ const displayCashComponent = () => {
     'liquidityRatio'
   );
 
+  
+
+
   closeSidebarAfterSelectingOption('cash');
-};
 
-const displayAssetComponent = () => {
-  const savedData = getStoredData('assetData');
-  const parseData = parseStoredData(savedData);
-
-  // netTuitionARasPercentCurrentAssets
-  createChartFromParsedData(
-    parseData,
-    'netTuitionARasPercentCurrentAssets_chart',
-    'netTuitionARasPercentCurrentAssets_Peer',
-    'netTuitionARasPercentCurrentAssets_Client',
-    'number',
-    1,
-    'netTuitionARasPercentCurrentAssets'
-  );
-
-  closeSidebarAfterSelectingOption('asset');
-};
-
-const displayDebtComponent = () => {
-  const savedData = getStoredData('debtData');
-  const parseData = parseStoredData(savedData);
-
-  // currentRatio
-  createChartFromParsedData(
-    parseData,
-    'currentRatio_chart',
-    'currentRatio_Peer',
-    'currentRatio_Client',
-    'number',
-    1,
-    'currentRatio'
-  );
-
-  closeSidebarAfterSelectingOption('debt');
 };

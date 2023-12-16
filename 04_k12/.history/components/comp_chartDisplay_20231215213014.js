@@ -72,15 +72,15 @@ const displayAssetComponent = () => {
   const savedData = getStoredData('assetData');
   const parseData = parseStoredData(savedData);
 
-  // netTuitionARasPercentCurrentAssets
+  // netTuitionARasPeÏrcentCurrentAssets
   createChartFromParsedData(
     parseData,
-    'netTuitionARasPercentCurrentAssets_chart',
-    'netTuitionARasPercentCurrentAssets_Peer',
-    'netTuitionARasPercentCurrentAssets_Client',
+    'netTuitionARasPeÏrcentCurrentAssets_chart',
+    'netTuitionARasPeÏrcentCurrentAssets_Peer',
+    'netTuitionARasPeÏrcentCurrentAssets_Client',
     'number',
     1,
-    'netTuitionARasPercentCurrentAssets'
+    'netTuitionARasPeÏrcentCurrentAssets'
   );
 
   closeSidebarAfterSelectingOption('asset');
