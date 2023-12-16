@@ -7704,6 +7704,8 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'fundsExpensesPerStudent_cashExpensesExcessNetTuition'
       );
 
+
+
       // fundsExpensesPerStudent_FundsRaisedOverUnder
       insertDataIntoObject(
         'peer',
@@ -7999,6 +8001,8 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         '_32_yes_no_information_technology_costs',
         'informationTechnologyCosts'
       );
+      
+
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -8170,6 +8174,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         '_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition'
       );
 
+
       // fundsExpensesPerStudent_FundsRaisedOverUnder
       insertDataIntoObject(
         'client',
@@ -8229,6 +8234,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         '_32_ratio_information_technology_costs'
       );
+
     });
   });
 
@@ -8799,6 +8805,8 @@ const processIncomeData = (years, recordsPeer, rdecordsClient) => {
         record,
         '_23_ratio_fees_as_a_percent_of_net_tuition'
       );
+
+
     });
   });
 
@@ -9830,7 +9838,7 @@ const runApiMain = () => {
       displayEnrollmentComponent();
       displayCashComponent();
       displayAssetComponent();
-      displayDebtComponent();
+      displayDebtComponent()
       displayIncomeComponent();
       displayReportComponent();
     } catch (err) {

@@ -105,7 +105,7 @@ const displayDebtComponent = () => {
 };
 
 const displayIncomeComponent = () => {
-  const savedData = getStoredData('incomeData');
+  const savedData = getStoredData('debtData');
   const parseData = parseStoredData(savedData);
 
   // netIncomeRatio
@@ -130,5 +130,5 @@ const displayIncomeComponent = () => {
     'grossTuition'
   );
 
-  closeSidebarAfterSelectingOption('income');
+  closeSidebarAfterSelectingOption('debt');
 };
