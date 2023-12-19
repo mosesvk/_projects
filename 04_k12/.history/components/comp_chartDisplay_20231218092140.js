@@ -134,8 +134,10 @@ const displayIncomeComponent = () => {
 };
 
 const displayExpenseComponent = () => {
-  const savedData = getStoredData('expenseData');
+  const savedData = getStoredData('incomeData');
   const parseData = parseStoredData(savedData);
+
+  console.log(`parseData`, parseData);
 
 
   // salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits
@@ -149,5 +151,5 @@ const displayExpenseComponent = () => {
     'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
   );
 
-  closeSidebarAfterSelectingOption('expense');
+  closeSidebarAfterSelectingOption('income');
 };
