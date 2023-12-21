@@ -1,5 +1,5 @@
-document.getElementById('nav').innerHTML = `
-<div class='px-3 py-3 lg:px-5 lg:pl-3'>
+document.getElementById('nav').innerHTML = (`
+  <div class='px-3 py-3 lg:px-5 lg:pl-3'>
     <div class='flex items-center justify-between'>
       <div class='flex items-center justify-start'>
         <button
@@ -42,18 +42,24 @@ document.getElementById('nav').innerHTML = `
             alt='Logo'
           />
           <span class='self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white'>
-            International
+            CFHI
           </span>
         </div>
       </div>
       <div class='flex items-center cursor-pointer'>
-      <div
+        <div
           id='custom-select'
           class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400  appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
         >
           <div class='flex items-center justify-between'>
-            <svg class="w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z"/>
+            <svg
+              class='w-5 h-5 text-gray-500 dark:text-white'
+              aria-hidden='true'
+              xmlns='http://www.w3.org/2000/svg'
+              fill='currentColor'
+              viewBox='0 0 20 20'
+            >
+              <path d='M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z' />
             </svg>
             <div class='px-2 hover:text-gray-600'>Select Years</div>
             <svg
@@ -74,16 +80,22 @@ document.getElementById('nav').innerHTML = `
             id='options-list'
             class='absolute left-0 z-10 mt-2 w-full bg-white border shadow-2xl rounded-lg invisible dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey'
           ></div>
-      </div>
-      <div
+        </div>
+        <div
           id='custom-select-region'
           class='block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400  appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl'
         >
           <div class='flex items-center justify-between'>
-            <div class="flex items-center"> 
-            <svg class="w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
-              <path d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
-            </svg>
+            <div class='flex items-center'>
+              <svg
+                class='w-5 h-5 text-gray-500 dark:text-white'
+                aria-hidden='true'
+                xmlns='http://www.w3.org/2000/svg'
+                fill='currentColor'
+                viewBox='0 0 16 20'
+              >
+                <path d='M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z' />
+              </svg>
               <div class='px-2 w-max hover:text-gray-600'>Select Region</div>
               <svg
                 class='h-5 w-5 text-gray-400'
@@ -99,18 +111,18 @@ document.getElementById('nav').innerHTML = `
                 />
               </svg>
             </div>
-          <div
-            id='options-list-region'
-            class='absolute top-9 left-0 z-10 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-max invisible'
-          ></div>
+            <div
+              id='options-list-region'
+              class='absolute top-9 left-0 z-10 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-max invisible'
+            ></div>
           </div>
-      </div>
-      <button
-        id='run'
-        class="bg-green-300 font-bold py-2 px-4 rounded transition transform text-black dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100"
+        </div>
+        <button
+          id='run'
+          class='backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100 cursor:pointer'
         >
-        Run
-      </button>
+          <span>Run</span>
+        </button>
       </div>
       <div class='flex items-center'>
         <button
@@ -143,10 +155,13 @@ document.getElementById('nav').innerHTML = `
         </button>
       </div>
     </div>
-  </div>`;
+  </div>
+`);
 
 const customSelect = document.getElementById('custom-select');
 const optionsList = document.getElementById('options-list');
+const sidebar = document.getElementById('sidebar');
+const backdrop = document.getElementById('sidebarBackdrop');
 
 const customSelectRegion = document.getElementById('custom-select-region');
 const optionsListRegion = document.getElementById('options-list-region');
@@ -176,7 +191,6 @@ document.addEventListener('click', (event) => {
     !optionsList.contains(event.target)
   ) {
     optionsList.classList.add('invisible');
-
   }
 
   if (
@@ -185,7 +199,6 @@ document.addEventListener('click', (event) => {
   ) {
     optionsListRegion.classList.add('invisible');
   }
-
 });
 
 const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
@@ -205,7 +218,10 @@ const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'checkbox');
     newInput.setAttribute('id', `option-${regionString}`);
-    newInput.setAttribute('class', 'form-checkbox h-4 w-4 text-gray-600 mr-2 rounded');
+    newInput.setAttribute(
+      'class',
+      'form-checkbox h-4 w-4 text-gray-600 mr-2 rounded'
+    );
     newInput.setAttribute('value', regionString);
 
     // Add the value to selectedRegions_Array and check the input by default
@@ -235,22 +251,3 @@ const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
     optionsListRegion.appendChild(newLabel);
   });
 };
-
-  // Get all button elements
-  var buttons = document.querySelectorAll("button[id$='Link']");
-
-  // Get all tab content elements
-  var tabContents = document.querySelectorAll(".tab-content");
-
-  // Add click event listener to each button
-  buttons.forEach(function (button, index) {
-    button.addEventListener("click", function () {
-      // Hide all tab contents
-      tabContents.forEach(function (content) {
-        content.classList.add("hidden");
-      });
-
-      // Show the corresponding tab content based on the button index
-      tabContents[index].classList.remove("hidden");
-    });
-  });

@@ -1,4 +1,4 @@
-document.getElementById('nav').innerHTML = `
+document.getElementById('nav').innerHTML = 
 <div class='px-3 py-3 lg:px-5 lg:pl-3'>
     <div class='flex items-center justify-between'>
       <div class='flex items-center justify-start'>
@@ -42,7 +42,7 @@ document.getElementById('nav').innerHTML = `
             alt='Logo'
           />
           <span class='self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white'>
-            International
+            CFHI
           </span>
         </div>
       </div>
@@ -107,9 +107,9 @@ document.getElementById('nav').innerHTML = `
       </div>
       <button
         id='run'
-        class="bg-green-300 font-bold py-2 px-4 rounded transition transform text-black dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100"
+        class="backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100 cursor:pointer"
         >
-        Run
+        <span>Run</span>
       </button>
       </div>
       <div class='flex items-center'>
@@ -143,11 +143,14 @@ document.getElementById('nav').innerHTML = `
         </button>
       </div>
     </div>
-  </div>`;
+  </div>;
+
+
 
 const customSelect = document.getElementById('custom-select');
 const optionsList = document.getElementById('options-list');
-const sidebar = document.getElementById('sidebar')
+const sidebar = document.getElementById('sidebar');
+const backdrop = document.getElementById('sidebarBackdrop');
 
 const customSelectRegion = document.getElementById('custom-select-region');
 const optionsListRegion = document.getElementById('options-list-region');
@@ -237,25 +240,3 @@ const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
     optionsListRegion.appendChild(newLabel);
   });
 };
-
-const sidebarButtons = document.querySelectorAll("button[id$='Link']");
-const tabContents = document.querySelectorAll('.tab-content');
-
-sidebarButtons.forEach(function (button, index) {
-  button.addEventListener('click', function () {
-    // Hide all tab contents
-    tabContents.forEach(function (content) {
-      content.classList.add('hidden');
-    });
-
-    // Show the corresponding tab content based on the button index
-    tabContents[index].classList.remove('hidden');
-
-    // Hide the sidebar and backdrop
-    sidebar.classList.add('invisible');
-    // Add the following line if you have a backdrop element
-    // backdrop.classList.add('invisible');
-  });
-});
-
-

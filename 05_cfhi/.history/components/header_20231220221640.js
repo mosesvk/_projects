@@ -1,3 +1,4 @@
+
 document.getElementById('nav').innerHTML = `
 <div class='px-3 py-3 lg:px-5 lg:pl-3'>
     <div class='flex items-center justify-between'>
@@ -42,7 +43,7 @@ document.getElementById('nav').innerHTML = `
             alt='Logo'
           />
           <span class='self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white'>
-            International
+            CFHI
           </span>
         </div>
       </div>
@@ -107,9 +108,9 @@ document.getElementById('nav').innerHTML = `
       </div>
       <button
         id='run'
-        class="bg-green-300 font-bold py-2 px-4 rounded transition transform text-black dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100"
+        class="backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100 cursor:pointer"
         >
-        Run
+        <span>Run</span>
       </button>
       </div>
       <div class='flex items-center'>
@@ -145,15 +146,16 @@ document.getElementById('nav').innerHTML = `
     </div>
   </div>`;
 
-const customSelect = document.getElementById('custom-select');
-const optionsList = document.getElementById('options-list');
-const sidebar = document.getElementById('sidebar')
+const customSelectElement = document.getElementById('custom-select');
+const optionsListElement = document.getElementById('options-list');
+const sidebarElement = document.getElementById('sidebar');
+const backdropElement = document.getElementById('sidebarBackdrop');
 
-const customSelectRegion = document.getElementById('custom-select-region');
-const optionsListRegion = document.getElementById('options-list-region');
+const customSelectRegionElement = document.getElementById('custom-select-region');
+const optionsListRegionElement = document.getElementById('options-list-region');
 
-customSelect.addEventListener('click', (event) => {
-  // Check if the click target is not a checkbox inside the customSelect
+customSelectElement.addEventListener('click', (event) => {
+  // Check if the click target is not a checkbox inside the customSelectElement
   if (
     !event.target.closest('.form-checkbox') &&
     !event.target.closest('label')
@@ -161,33 +163,33 @@ customSelect.addEventListener('click', (event) => {
     optionsList.classList.toggle('invisible');
   }
 });
-customSelectRegion.addEventListener('click', (event) => {
+customSelectRegionElement.addEventListener('click', (event) => {
   // Check if the click target is not a checkbox inside the customSelectRegion
   if (
     !event.target.closest('.form-checkbox') &&
     !event.target.closest('label')
   ) {
-    optionsListRegion.classList.toggle('invisible'); // Corrected class name
+    optionsListRegionElement.classList.toggle('invisible'); // Corrected class name
   }
 });
 
 document.addEventListener('click', (event) => {
   if (
-    !customSelect.contains(event.target) &&
-    !optionsList.contains(event.target)
+    !customSelectElement.contains(event.target) &&
+    !optionsListElement.contains(event.target)
   ) {
-    optionsList.classList.add('invisible');
+    optionsListElement.classList.add('invisible');
   }
 
   if (
-    !optionsListRegion.contains(event.target) &&
-    !customSelectRegion.contains(event.target)
+    !optionsListRegionElement.contains(event.target) &&
+    !customSelectRegionElement.contains(event.target)
   ) {
-    optionsListRegion.classList.add('invisible');
+    optionsListRegionElement.classList.add('invisible');
   }
 });
 
-const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
+const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionsArray) => {
   const optionsListRegion = document.getElementById('options-list-region');
 
   regionsArray.forEach((regionObject) => {
@@ -237,21 +239,3 @@ const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
     optionsListRegion.appendChild(newLabel);
   });
 };
-
-const sidebarButtons = document.querySelectorAll("button[id$='Link']");
-const tabContents = document.querySelectorAll('.tab-content');
-
-sidebarButtons.forEach(function (button, index) {
-  button.addEventListener('click', function () {
-    // Hide all tab contents
-    tabContents.forEach(function (content) {
-      content.classList.add('hidden');
-    });
-
-    // Show the corresponding tab content based on the button index
-    tabContents[index].classList.remove('hidden');
-
-    // Hide the optionsList when a sideBarButton is clicked
-    optionsList.classList.toggle('invisible');
-  });
-});
