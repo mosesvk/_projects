@@ -240,7 +240,7 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionsArray) => {
   });
 };
 
-const addUniqueRegionsToOptionsSelectRegion = (regionsArray) => {
+const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
   const optionsListRegion = document.getElementById('options-list-region');
 
   regionsArray.forEach((regionObject) => {
