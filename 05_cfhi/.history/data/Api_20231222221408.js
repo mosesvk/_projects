@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   addUniqueRegionsToOptionsSelectRegion(regions_Array);
 
+
   runApiMain();
 });
 
