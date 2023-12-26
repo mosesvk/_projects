@@ -42,7 +42,7 @@ document.getElementById('nav').innerHTML = `
             alt='Logo'
           />
           <span class='self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white'>
-            International
+            K-12
           </span>
         </div>
       </div>
@@ -107,7 +107,7 @@ document.getElementById('nav').innerHTML = `
       </div>
       <button
         id='run'
-        class="backgroundGreen font-bold py-2 px-4 rounded transition transform text-black dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100"
+        class="backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100 cursor:pointer"
         >
         <span>Run</span>
       </button>
@@ -238,3 +238,4 @@ const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
     optionsListRegion.appendChild(newLabel);
   });
 };
+

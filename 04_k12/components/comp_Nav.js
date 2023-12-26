@@ -238,3 +238,4 @@ const addUniqueRegionsToOptionsSelectRegionDropdown = (regionsArray) => {
     optionsListRegion.appendChild(newLabel);
   });
 };
+
