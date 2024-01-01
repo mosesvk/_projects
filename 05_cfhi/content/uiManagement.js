@@ -59,7 +59,7 @@ if (sidebar) {
         content.classList.add('hidden');
       });
 
-      console.log(tabContents[index]);
+      // console.log(tabContents[index]);
       // Show the corresponding tab content based on the button index
       tabContents[index].classList.remove('hidden');
 
