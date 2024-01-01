@@ -49,6 +49,7 @@ if (sidebar) {
   sidebarBackdrop.addEventListener('click', handleSidebarButtonClick);
 
   sidebarButtons.forEach((button, index) => {
+
     button.addEventListener('click', () => {
       // Hide all tab contents
       tabContents.forEach((content) => {
