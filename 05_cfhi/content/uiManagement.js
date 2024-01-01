@@ -12,6 +12,9 @@ if (sidebar) {
   };
 
   const sidebar = document.getElementById('sidebar');
+  // console.log("sidebar", sidebar);
+
+
   const sidebarBackdrop = document.getElementById('sidebarBackdrop');
   const toggleSidebarMobileHamburger = document.getElementById(
     'toggleSidebarMobileHamburger'
@@ -56,6 +59,7 @@ if (sidebar) {
         content.classList.add('hidden');
       });
 
+      console.log(tabContents[index]);
       // Show the corresponding tab content based on the button index
       tabContents[index].classList.remove('hidden');
 

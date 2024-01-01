@@ -19,13 +19,13 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
       chartColors = {
-        green: '#83b240',
-        blue: '#326eaa',
-        grey: '#c9cbcf',
-        red: '#ff6384',
-        orange: '#ff9f40',
-        yellow: '#ffcd56',
-        purple: '#9966ff'
+        green: "#83b240",
+        blue: "#326eaa",
+        grey: "#c9cbcf",
+        red: "#ff6384",
+        orange: "#ff9f40",
+        yellow: "#ffcd56",
+        purple: "#9966ff",
       };
     </script>
 
@@ -315,6 +315,9 @@
           <div id="cashContent" class="tab-content hidden">
             <h1>Cash Content</h1>
           </div>
+          <div id="assetContent" class="tab-content hidden">
+            <h1>Net Asset Content</h1>
+          </div>
           <div id="debtContent" class="tab-content hidden">
             <h1>Debt Content</h1>
           </div>
@@ -356,7 +359,8 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr id="row_givingUnits"
+                          <tr
+                            id="row_givingUnits"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -366,7 +370,8 @@
                               Giving Units
                             </th>
                           </tr>
-                          <tr id="row_averageAdultAttendees"
+                          <tr
+                            id="row_averageAdultAttendees"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -414,14 +419,64 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr id="row_daysExpendableNetAssets"
+                          <tr
+                            id="row_daysExpendableNetAssets"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                                Days of Expendable Net Asset Reserves
+                              Days of Expendable Net Asset Reserves
+                            </th>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Asset Table -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex flex-col mt-2">
+                <div class="overflow-x-auto rounded-lg">
+                  <div class="inline-block min-w-full align-middle">
+                    <div
+                      class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                    >
+                      <table
+                        class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                      >
+                        <thead
+                          class="text-xs text-white uppercase backgroundGreen dark:bg-gray-700 dark:text-lime-300"
+                        >
+                          <tr id="row_asset_tableHeader">
+                            <th
+                              scope="col"
+                              class="px-6 py-3 text-lg tracking-wide"
+                            >
+                              Net Asset Ratio
+                            </th>
+
+                            <th scope="col" class="px-6 py-3">Avg</th>
+                            <th scope="col" class="px-6 py-3">Mid</th>
+                            <th scope="col" class="px-6 py-3">Min</th>
+                            <th scope="col" class="px-6 py-3">Max</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            id="row_assetRatio"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              asset to Contributions Without Donor Restrictions
                             </th>
                           </tr>
                         </tbody>
@@ -462,14 +517,15 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr id="row_debtRatiosAndMeasurements"
+                          <tr
+                            id="row_debtRatiosAndMeasurements"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                                Debt to Contributions Without Donor Restrictions
+                              Debt to Contributions Without Donor Restrictions
                             </th>
                           </tr>
                         </tbody>
@@ -510,14 +566,15 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr id="row_netIncomeRatio"
+                          <tr
+                            id="row_netIncomeRatio"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                                Net Income Ratio
+                              Net Income Ratio
                             </th>
                           </tr>
                         </tbody>
@@ -558,14 +615,15 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr id="row_benefitsToSalaries"
+                          <tr
+                            id="row_benefitsToSalaries"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                                Benefits to Salaries (All Employees)
+                              Benefits to Salaries (All Employees)
                             </th>
                           </tr>
                         </tbody>
@@ -606,14 +664,15 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr id="row_measurementsPerAccountingFTE"
+                          <tr
+                            id="row_measurementsPerAccountingFTE"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                                Measurements per Accounting FTE
+                              Measurements per Accounting FTE
                             </th>
                           </tr>
                         </tbody>
@@ -630,7 +689,6 @@
 
     <!--MODALS-->
 
-
     <script src="./functions/Utility.js"></script>
     <script src="./functions/WeightedAverages.js"></script>
     <script src="./data/Api.js"></script>
@@ -639,11 +697,5 @@
     <script src="./content/DisplayCharts.js"></script>
     <script src="./content/uiManagement.js"></script>
     <script src="./content/CreateCharts.js"></script>
-
-
-
-
-
-
   </body>
 </html>
