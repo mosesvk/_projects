@@ -6450,7 +6450,7 @@ const xmlPeerString = (`
   </qdbapi>
 `);
 
-const xmlClientString = `
+const xmlClientString = (`
   <qdbapi>
     <record>
       <merged_client_name>12Stone Church, Inc.</merged_client_name>
@@ -8175,7 +8175,7 @@ const xmlClientString = `
       <update_id>1688658176703</update_id>
     </record>
   </qdbapi>
-`;
+`);
 
 const parser = new DOMParser();
 const parserClient = new DOMParser();
