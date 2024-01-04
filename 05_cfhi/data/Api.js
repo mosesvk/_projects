@@ -8537,6 +8537,7 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         record,
         "cfhi_compre_00b_ratio___contributions_w_o_donor_restrictions_exclude_lage"
       );
+      
       // totalContributionsExclude
       insertDataIntoObject(
         "client",
