@@ -8321,14 +8321,23 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         "s151___church_only_full_time_equivalent_excluding_childcare_worker",
         "cfhi_compre_00d_yes_no___full_time_equivalents"
       );
-      // attendeesToStaff [s39 - s152]
+      // attendeesToStaff [s150/s151]
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "attendeesToStaff_Peer",
+        record,
+        "cfhi_compre_00e_ratio___attendees_to_staff",
+        "cfhi_compre_00e_yes_no___attendees_to_staff",
+      );
       insertDataIntoObject(
         "peer",
         year,
         object,
         "totalAttendees",
         record,
-        "s39___contribution_without_donor_retriction",
+        "s150___total_attendee_including_children",
         "cfhi_compre_00e_yes_no___attendees_to_staff",
         "attendeesToStaff"
       );
@@ -8338,35 +8347,23 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         object,
         "fullTimeEquivalents",
         record,
-        "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+        "s151___church_only_full_time_equivalent_excluding_childcare_worker",
         "cfhi_compre_00e_yes_no___attendees_to_staff",
         "attendeesToStaff"
       );
 
-      // contributionsWithoutDonorExcludingLargeGifts [s39 - s152]
+      // contributionsWithoutDonorExcludingLargeGifts 
       insertDataIntoObject(
         "peer",
         year,
         object,
         "contributionsWithoutDonor",
         record,
-        "s39___contribution_without_donor_retriction",
-        "cfhi_compre_00f_yes_no___contributions_without_donor_restrictions",
-        'contributionsWithoutDonorExcludingLargeGifts'
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "largeOneTimeGiftsWithout",
-        record,
-        "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
-        "cfhi_compre_00f_yes_no___contributions_without_donor_restrictions",
-        "contributionsWithoutDonorExcludingLargeGifts"
+        "cfhi_compre_00f_ratio___contributions_without_donor_restrictions",
+        "cfhi_compre_00f_yes_no___contributions_without_donor_restrictions"
       );
 
-
-      // totalContributionsExclude [s40 - s152 - s153]
+      // totalContributionsExclude 
       insertDataIntoObject(
         "peer",
         year,
@@ -8376,38 +8373,8 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         "s40___total_contribution",
         "cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts"
       );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "totalContributions",
-        record,
-        "s40___total_contribution",
-        "cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts", 
-        'totalContributionsExclude'
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "largeOneTimeGiftsWithout",
-        record,
-        "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
-        "cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts",
-        "contributionsWithoutDonor"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "largeOneTimeGifts",
-        record,
-        "s153___large_one_time_gift_with_donor_restriction__non_recurring_",
-        "cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts",
-        "contributionsWithoutDonor"
-      );
 
-      // totalContributionOnline [s163]
+      // totalContributionOnline
       insertDataIntoObject(
         "peer",
         year,
@@ -8415,8 +8382,7 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         "totalContributionOnline",
         record,
         "s163___total_contribution_given_online",
-        "cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts",
-        "main"
+        "cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts"
       );
 
       // percentContributionsOnline [(s163/s40) * 100]
@@ -8430,16 +8396,7 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         "cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online",
         "percentContributionsOnline"
       );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "totalContributionOnline",
-        record,
-        "s163___total_contribution_given_online",
-        "cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online",
-        "percentContributionsOnline"
-      );
+
 
       // totalOutsourcedEmployees
       insertDataIntoObject(
@@ -8537,9 +8494,9 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         record,
         "cfhi_compre_00b_ratio___contributions_w_o_donor_restrictions_exclude_lage"
       );
-      
+      d
       // totalContributionsExclude
-      insertDataIntoObject(
+      insertDataIntoObjdect(
         "client",
         year,
         object,
