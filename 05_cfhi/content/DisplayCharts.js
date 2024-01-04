@@ -1,31 +1,29 @@
 const displayDemoComponent = () => {
-    // console.log('displayEnrollmentComponent()');
+    const savedData = getStoredData('demoData');
+    const parseData = parseStoredData(savedData);
   
-    // const savedData = getStoredData('enrollmentData');
-    // const parseData = parseStoredData(savedData);
+    // givingUnits
+    createChartFromParsedData(
+      parseData,
+      'givingUnits_chart',
+      'givingUnits_Peer',
+      'givingUnits_Client',
+      'number',
+      0,
+      'givingUnits'
+    );
+    // attendeesToStaff
+    createChartFromParsedData(
+      parseData,
+      'attendeesToStaff_chart',
+      'attendeesToStaff_Peer',
+      'attendeesToStaff_Client',
+      'number',
+      1,
+      'attendeesToStaff'
+    );
   
-    // // studentAverageEnrollment
-    // createChartFromParsedData(
-    //   parseData,
-    //   'studentAverageEnrollment_chart',
-    //   'studentAverageEnrollment_Peer',
-    //   'studentAverageEnrollment_Client',
-    //   'number',
-    //   0,
-    //   'studentAverageEnrollment'
-    // );
-    // // studentFacilityRatio
-    // createChartFromParsedData(
-    //   parseData,
-    //   'studentFacilityRatio_chart',
-    //   'studentFacilityRatio_Peer',
-    //   'studentFacilityRatio_Client',
-    //   'number',
-    //   1,
-    //   'studentFacilityRatio'
-    // );
-  
-    closeSidebarAfterSelectingOption('enrollment');
+    closeSidebarAfterSelectingOption('demo');
   };
   
   const displayCashComponent = () => {
