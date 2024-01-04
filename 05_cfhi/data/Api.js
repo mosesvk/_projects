@@ -8186,7 +8186,7 @@ const recordsClient = xmlClientDoc.querySelectorAll("record");
 
 document.addEventListener("DOMContentLoaded", () => {
   findUniqueYears(recordsClient);
-
+ 
   addUniqueRegionsToOptionsSelectRegion(regions_Array);
 
   runApiMain();
