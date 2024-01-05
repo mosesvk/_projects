@@ -9,7 +9,6 @@ const getWeightedAverageOfArray = (data, name) => {
         return;
     }
   };
-
   
   const attendeesToStaff_weightedAverage = (data, name) => {
 
@@ -24,7 +23,7 @@ const getWeightedAverageOfArray = (data, name) => {
     const s163 = getSumOfArray(data.totalContributionOnline[name])
     const s40 = getSumOfArray(data.totalContributions[name])
 
-    return (s163/s40) * 100
+    return (s163/s40)
   }
 
  

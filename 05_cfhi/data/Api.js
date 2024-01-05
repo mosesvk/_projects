@@ -3195,7 +3195,7 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         object,
         "givingUnits_Client",
         record,
-        "s02___giving_units"
+        "s02___giving_units"                                                                                   
       );
       // averageAdultAttendees
       insertDataIntoObject(
@@ -3303,6 +3303,52 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
   localStorage.removeItem("demoData");
   localStorage.setItem("demoData", JSON.stringify(object));
 };
+
+const processCashData = (years, recordsPeer, recordsClient) => {
+  const object = {};
+
+  years.forEach((year) => {
+    const filteredPeerRecords = [...recordsPeer].filter(record => {
+      const fiscalYear = record.querySelector("s52_formatted_year").textContent;
+
+      return fiscalYear.includes(year.toString());
+
+    })
+    filteredPeerRecords.forEach(record => {
+      // givingUnits
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "givingUnits_Peer",
+        record,
+        "s02___giving_units",
+        "cfhi_compre_00a_yes_no___giving_units"
+      );
+    })
+
+    const filteredClientRecords = [...recordsClient].filter(record => {
+      const fiscalYear = record.querySelector("s52_formatted_year").textContent;
+
+      return fiscalYear.includes(year.toString());
+
+    })
+    filteredClientRecords.forEach(record => {
+      // givingUnits
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "givingUnits_Client",
+        record,
+        "s02___giving_units"                                                                                   
+      );
+    })
+  })
+
+  localStorage.removeItem("cashData");
+  localStorage.setItem("cashData", JSON.stringify(object));
+}
 
 const addColumnsToOtherRows = (idName, year) => {
   const rows = document.querySelectorAll(`#${idName} + tbody tr`);

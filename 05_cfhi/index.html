@@ -307,7 +307,7 @@
         class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-44 dark:bg-gray-900"
       >
         <main class="px-4 pt-6 grid gap-y-4">
-          <div id="demoContent" class="tab-content">
+          <div id="demoContent" class="tab-content hidden">
 
             <!-- Giving Units -->
             <div
@@ -447,7 +447,7 @@
           <div id="expenseContent" class="tab-content hidden">
             <h1 class="dark:text-white">Expense Content</h1>
           </div>
-          <div id="reportContent" class="tab-content hidden">
+          <div id="reportContent" class="tab-content">
             <!-- Demo Table -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -627,7 +627,7 @@
                       class="relative overflow-x-auto shadow-md sm:rounded-lg"
                     >
                       <table
-                        class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        class="min-w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
                           class="text-xs text-white uppercase backgroundGreen dark:bg-gray-700 dark:text-lime-300"
@@ -647,15 +647,74 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr
-                            id="row_daysExpendableNetAssets"
+                          <tr id="row_daysExpendableNetAssets"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              Days of Expendable Net Asset Reserves
+                              1. Days of Expendable Net Asset Reserves
+                            </th>
+                          </tr>
+                          <tr id="row_daysOperatingCash"
+                            class="min-w-[200px] bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <td
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                            >
+                              2. Days of Operating Cash and Investments on Hand to Fund Annual Cash Expenditures (Excluding Depreciation but Including Current Debt Principal)
+                            </td>
+                          </tr>
+                          <tr id="row_availableDaysOfCashFlowCoverage"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              3. Available Days of Cash Flow Coverage
+                            </th>
+                          </tr>
+                          <tr id="row_liquidityRatio"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                             4.  Liquidity Ratio
+                            </th>
+                          </tr>
+                          <tr id="row_netCashAvailability"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              5. Net Cash Availability
+                            </th>
+                          </tr>
+                          <tr id="row_netCashAvailability_including"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-14 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                            >
+                              Net Cash Availability - Including Unused Operating Line of Credit
+                            </th>
+                          </tr>
+                          <tr id="row_netCashAvailability_standard"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-14 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Std: At Least One Months Worth of Cash Expenses
                             </th>
                           </tr>
                         </tbody>

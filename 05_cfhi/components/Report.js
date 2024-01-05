@@ -8,14 +8,14 @@ const displayReportComponent = () => {
     addYearColumnsToReportTable(selectedYears);
     insertDataToReport(demoData, selectedYears, [
       ['givingUnits', 'num', 0],
-      ['averageAdultAttendees', 'number', 1],
+      ['averageAdultAttendees', 'num', 0],
       ['totalAttendees', 'num', 0],
       ['fullTimeEquivalents', 'num', 0],
       ['attendeesToStaff', 'num', 1, 'wa'], 
-      ['contributionsWithoutDonorExcludingLargeGifts', 'num', 0], 
-      ['totalContributionsExclude', 'num', 0],
-      ['totalContributionOnline', 'num', 0], 
-      ['percentContributionsOnline', 'num', 2, 'wa'], 
+      ['contributionsWithoutDonorExcludingLargeGifts', 'dollar', 0], 
+      ['totalContributionsExclude', 'dollar', 0],
+      ['totalContributionOnline', 'dollar', 0], 
+      ['percentContributionsOnline', 'percent', 0, 'wa'], 
       ['totalOutsourcedEmployees', 'num', 0],
       ['facilitySquareFootage', 'num', 0], 
       ['numberOfLocations', 'num', 0]

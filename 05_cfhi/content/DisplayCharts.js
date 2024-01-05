@@ -19,7 +19,7 @@ const displayDemoComponent = () => {
       'attendeesToStaff_Peer',
       'attendeesToStaff_Client',
       'number',
-      1,
+      0,
       'attendeesToStaff'
     );
   
