@@ -66,13 +66,13 @@ function updateModal(mainName, avgData, clientData) {
   // Find the modal element
   const modal = document.getElementById(`${mainName}_modal`);
 
-  // console.log({modal});
+  console.log({modal});
 
   // Check if the modal element exists
   if (modal) {
     // Find the table header row
     const headerRow = modal.querySelector(`#${mainName}_modal_row`);
-    // console.log({headerRow});
+    console.log({headerRow});
     let tableHead = headerRow.parentElement;
 
     // Clear existing rows after the headerRow
@@ -261,7 +261,7 @@ const calculateAveragePercentageChange = (values) => {
 
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem('selectedYears'));
-  const storedData = localStorage.getItem('enrollment');
+  const storedData = localStorage.getItem('demo');
   if (!storedSelectedYears && storedData) {
     console.error('Need to Select Year');
   }

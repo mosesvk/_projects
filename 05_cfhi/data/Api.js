@@ -3234,12 +3234,12 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         "cfhi_compre_00a_ratio___attendees_to_staff",
         "cfhi_compre_00a_bench_rating___attendees_to_staff"
       );
-      // contributionsWithoutDonor
+      // contributionsWithoutDonorExcludingLargeGifts
       insertDataIntoObject(
         "client",
         year,
         object,
-        "contributionsWithoutDonor_Client",
+        "contributionsWithoutDonorExcludingLargeGifts_Client",
         record,
         "cfhi_compre_00b_ratio___contributions_w_o_donor_restrictions_exclude_lage"
       );
@@ -3330,13 +3330,8 @@ const runApiMain = () => {
 
       processDemoData(selectedYears, recordsPeer, recordsClient);
 
-      // displayEnrollmentComponent();
-      // displayCashComponent();
-      // displayAssetComponent();
-      // displayDebtComponent();
-      // displayIncomeComponent();
-      // displayExpenseComponent();
-      // displayReportComponent();
+      displayDemoComponent();
+
     } catch (err) {
       console.error(err);
     }
