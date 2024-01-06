@@ -3377,6 +3377,7 @@ const runApiMain = () => {
       processDemoData(selectedYears, recordsPeer, recordsClient);
 
       displayDemoComponent();
+      displayReportComponent()
 
     } catch (err) {
       console.error(err);

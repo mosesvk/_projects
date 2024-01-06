@@ -1,27 +1,24 @@
 const displayReportComponent = () => {
   const demoData = JSON.parse(localStorage.getItem("demoData"));
 
-
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   if (selectedYears) {
     addYearColumnsToReportTable(selectedYears);
     insertDataToReport(demoData, selectedYears, [
-      ['givingUnits', 'num', 0],
-      ['averageAdultAttendees', 'num', 0],
-      ['totalAttendees', 'num', 0],
-      ['fullTimeEquivalents', 'num', 0],
-      ['attendeesToStaff', 'num', 1, 'wa'], 
-      ['contributionsWithoutDonorExcludingLargeGifts', 'dollar', 0], 
-      ['totalContributionsExclude', 'dollar', 0],
-      ['totalContributionOnline', 'dollar', 0], 
-      ['percentContributionsOnline', 'percent', 0, 'wa'], 
-      ['totalOutsourcedEmployees', 'num', 0],
-      ['facilitySquareFootage', 'num', 0], 
-      ['numberOfLocations', 'num', 0]
+      ["givingUnits", "num", 0],
+      ["averageAdultAttendees", "num", 0],
+      ["totalAttendees", "num", 0],
+      ["fullTimeEquivalents", "num", 0],
+      ["attendeesToStaff", "num", 1, "wa"],
+      ["contributionsWithoutDonorExcludingLargeGifts", "dollar", 0],
+      ["totalContributionsExclude", "dollar", 0],
+      ["totalContributionOnline", "dollar", 0],
+      ["percentContributionsOnline", "percent", 0, "wa"],
+      ["totalOutsourcedEmployees", "num", 0],
+      ["facilitySquareFootage", "num", 0],
+      ["numberOfLocations", "num", 0],
     ]);
-
-
   }
 
   closeSidebarAfterSelectingOption("report");
@@ -61,10 +58,10 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  console.log({ selectedYears, name, client, peer, type, fixedNum });
+  //console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
-  console.log(`row_${name}`);
-  console.log("tableReportRow", tableReportRow);
+  // console.log(`row_${name}`);
+  // console.log("tableReportRow", tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);
@@ -139,6 +136,8 @@ const addClientDataToModalRow = (
   type,
   fixedNum
 ) => {
+  // console.log({ tableModalRow, year, client, type, fixedNum });
+
   const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
   const propScope = "row";
