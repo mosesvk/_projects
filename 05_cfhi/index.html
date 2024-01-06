@@ -167,33 +167,6 @@
                 </li>
                 <li>
                   <button
-                    id="netAssetsLink"
-                    type="button"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
-                  >
-                    <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm9 4a1 1 0 10-2 0v6a1 1 0 102 0V7zm-3 2a1 1 0 10-2 0v4a1 1 0 102 0V9zm-3 3a1 1 0 10-2 0v1a1 1 0 102 0v-1z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                    <span
-                      class="flex-1 ml-3 text-left whitespace-nowrap"
-                      sidebar-toggle-item=""
-                    >
-                      Asset
-                    </span>
-                  </button>
-                </li>
-                <li>
-                  <button
                     id="debtLink"
                     type="button"
                     class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
@@ -434,9 +407,6 @@
           </div>
           <div id="cashContent" class="tab-content hidden">
             <h1 class="dark:text-white">Cash Content</h1>
-          </div>
-          <div id="assetContent" class="tab-content hidden">
-            <h1 class="dark:text-white">Net Asset Content</h1>
           </div>
           <div id="debtContent" class="tab-content hidden">
             <h1 class="dark:text-white">Debt Content</h1>
@@ -702,7 +672,7 @@
                           >
                             <th
                               scope="row"
-                              class="pl-14 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
                             >
                               Net Cash Availability - Including Unused Operating Line of Credit
                             </th>
@@ -712,58 +682,9 @@
                           >
                             <th
                               scope="row"
-                              class="pl-14 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               Std: At Least One Months Worth of Cash Expenses
-                            </th>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Asset Table -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex flex-col mt-2">
-                <div class="overflow-x-auto rounded-lg">
-                  <div class="inline-block min-w-full align-middle">
-                    <div
-                      class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                    >
-                      <table
-                        class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                      >
-                        <thead
-                          class="text-xs text-white uppercase backgroundGreen dark:bg-gray-700 dark:text-lime-300"
-                        >
-                          <tr id="row_asset_tableHeader">
-                            <th
-                              scope="col"
-                              class="px-6 py-3 text-lg tracking-wide"
-                            >
-                              Net Asset Ratio
-                            </th>
-
-                            <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">Mid</th>
-                            <th scope="col" class="px-6 py-3">Min</th>
-                            <th scope="col" class="px-6 py-3">Max</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            id="row_assetRatio"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              asset to Contributions Without Donor Restrictions
                             </th>
                           </tr>
                         </tbody>
@@ -804,17 +725,247 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr
-                            id="row_debtRatiosAndMeasurements"
+                          <tr id="row_netIncomeRatio"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              Debt to Contributions Without Donor Restrictions
+                              11. Net Income Ratio
                             </th>
                           </tr>
+                          <tr id="row_netIncomeRatio_twoYrAvg"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Two Year Average Net Income Ratio
+                            </th>
+                          </tr>
+                          <tr id="row_contributionsWithoutDonorPerAAAGU"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              12. Contributions without Donor Restrictions per Average Adult Attendee and Giving Unit
+                            </th>
+                          </tr>
+                          <tr id="row_contributionsWithoutDonorPerAverageAdultAttendee"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                            Contributions without Donor Restrictions per Average Adult Attendee
+                            </th>
+                          </tr>
+                          <tr id="row_contributionsWithoutDonorPerAverageAdultAttendee_percentChange"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              __ Percent Change
+                            </th>
+                          </tr>
+                          <tr id="row_contributionsWithoutDonorPerGivingUnit"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                            Contributions without Donor Restrictions per Giving Units
+                            </th>
+                          </tr>
+                          <tr id="row_contributionsWithoutDonorPerGivingUnit_percentChange"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              __ Percent Change
+                            </th>
+                          </tr>
+                          <tr id="row_totalContributionsPerAAAGU"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              13. Total Contributions per Average Adult Attendee and Giving Unit
+                            </th>
+                          </tr>
+                          <tr id="row_totalContributionsPerAverageAdultAttendee"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                            Contributions without Donor Restrictions per Average Adult Attendee
+                            </th>
+                          </tr>
+                          <tr id="row_totalContributionsPerAverageAdultAttendee_percentChange"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              __ Percent Change
+                            </th>
+                          </tr>
+                          <tr id="row_totalContributionsPerGivingUnit"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                            Contributions without Donor Restrictions per Giving Units
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdIncome"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              14. Median Household Income Given to the Church
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdPerGivingUnit_one"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Per Giving Unit
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdPerGivingUnit_two"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Per Giving Unit
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdPerGivingUnit_three"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Per Giving Unit
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdPerGivingUnit_four"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Per Giving Unit
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdPerGivingUnit_five"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Per Giving Unit
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdPerGivingUnit_six"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Per Giving Unit
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdLocalCounty_one"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Local County Median Household Income
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdLocalCounty_two"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Local County Median Household Income
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdLocalCounty_three"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Local County Median Household Income
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdLocalCounty_four"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Local County Median Household Income
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdLocalCounty_five"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Local County Median Household Income
+                            </th>
+                          </tr>
+                          <tr id="row_medianHouseholdLocalCounty_six"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Local County Median Household Income
+                            </th>
+                          </tr>
+
                         </tbody>
                       </table>
                     </div>
