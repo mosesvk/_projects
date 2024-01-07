@@ -2922,6 +2922,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   addUniqueRegionsToOptionsSelectRegion(regions_Array);
 
+  displayDemoComponent()
+  
+  displayReportComponent()
+
   runApiMain();
 });
 
@@ -3315,15 +3319,15 @@ const processCashData = (years, recordsPeer, recordsClient) => {
 
     })
     filteredPeerRecords.forEach(record => {
-      // givingUnits
+      // daysExpendableNetAssets
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "givingUnits_Peer",
+        "daysExpendableNetAssets_Peer",
         record,
-        "s02___giving_units",
-        "cfhi_compre_00a_yes_no___giving_units"
+        "cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves",
+        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves"
       );
     })
 
@@ -3334,14 +3338,14 @@ const processCashData = (years, recordsPeer, recordsClient) => {
 
     })
     filteredClientRecords.forEach(record => {
-      // givingUnits
+      // daysExpendableNetAssets
       insertDataIntoObject(
         "client",
         year,
         object,
-        "givingUnits_Client",
+        "daysExpendableNetAssets_Client",
         record,
-        "s02___giving_units"                                                                                   
+        "cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves"                                                                                   
       );
     })
   })

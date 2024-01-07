@@ -7271,9 +7271,9 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'totalMaintenanceCosts',
+        'totalPersonnelCostsSalariesBenefits',
         record,
-        '_02_04_total_maintenance_costs',
+        '_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees',
         '_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses',
         'personnelMandatoryDebtService_SalariesAndBenefits_Administration'
       );
@@ -7332,9 +7332,9 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'totalMaintenanceCosts',
+        'totalPersonnelCostsSalariesBenefits',
         record,
-        '_02_04_total_maintenance_costs',
+        '_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees',
         '_27a3_yes_no_all_salaries_and_benefits_per_total_expenses',
         'personnelMandatoryDebtService_SalariesAndBenefits_Employees'
       );
@@ -7434,9 +7434,9 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'totalMaintenanceCosts',
+        'totalPersonnelCostsSalariesBenefits',
         record,
-        '_02_04_total_maintenance_costs',
+        '_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees',
         '_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses',
         'personnelMandatoryDebtService_Personnel'
       );
@@ -7736,16 +7736,16 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         '_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit',
         'fundsExpensesPerStudent_FundsRaisedOverUnder'
       );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'discounts',
-        record,
-        '_04_03_discounts',
-        '_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit',
-        'fundsExpensesPerStudent_FundsRaisedOverUnder'
-      );
+      // insertDataIntoObject(
+      //   'peer',
+      //   year,
+      //   object,
+      //   'discounts',
+      //   record,
+      //   '_04_03_discounts',
+      //   '_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit',
+      //   'fundsExpensesPerStudent_FundsRaisedOverUnder'
+      // );
       insertDataIntoObject(
         'peer',
         year,
