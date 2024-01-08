@@ -3490,8 +3490,29 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
         'daysOperatingCash'
       );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "requiredMinimumDebtPrinciple",
+        record,
+        "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
+        'daysOperatingCash'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
+        'daysOperatingCash'
+      );
 
-      // availableDaysOfCashFlow
+
+      // availableDaysOfCashFlow [s49, s318, s320, s336, s321, s30, s45, s167, s168, s46, s154, s166]
       insertDataIntoObject(
         "peer",
         year,
@@ -3500,6 +3521,126 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         "cfhi_compre_03_ratio___available_days_of_cash_flow_coverage",
         "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "cashFlowFromOperatingActivities",
+        record,
+        "s49___cash_flow_from_operating_activities",
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
+        'availableDaysOfCashFlow'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "cashFlowFromOperatingActivities",
+        record,
+        "s318___total_cash_at_the_beginning_of_the_year",
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
+        'availableDaysOfCashFlow'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "nonEndowmentInvestmentBeginningYear",
+        record,
+        "s320___non_endowment_investment_at_the_beginning_of_the_year",
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
+        'availableDaysOfCashFlow'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "netAssetWithDonorRestriction",
+        record,
+        "s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year",
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
+        'availableDaysOfCashFlow'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "pledgeReceivableBeginningYear",
+        record,
+        "s321___pledge_receivable_at_the_beginning_of_the_year",
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
+        'availableDaysOfCashFlow'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "availableOperatingLineOfCredit",
+        record,
+        "s30___available_operating_line_of_credit",
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
+        'availableDaysOfCashFlow'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpense",
+        record,
+        "s45___total_expense",
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
+        'availableDaysOfCashFlow'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "amortizationFinanceLease",
+        record,
+        "s167___amortization_of_finance_lease_right_of_use_asset",
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
+        'availableDaysOfCashFlow'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "amortizationFinanceLease",
+        record,
+        "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
+        'availableDaysOfCashFlow'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDepreciationExpense",
+        record,
+        "s46___total_depreciation_expense",
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
+        'availableDaysOfCashFlow'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "requiredMinimumDebtPrinciple",
+        record,
+        "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
+        'availableDaysOfCashFlow'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
+        'availableDaysOfCashFlow'
       );
     })
 
@@ -3531,6 +3672,14 @@ const processCashData = (years, recordsPeer, recordsClient) => {
       );
 
       // availableDaysOfCashFlow
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "availableDaysOfCashFlow_Client",
+        record,
+        "cfhi_compre_03_ratio___available_days_of_cash_flow_coverage"                                                                                   
+      );
     })
   })
 
