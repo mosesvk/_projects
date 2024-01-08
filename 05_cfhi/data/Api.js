@@ -3642,6 +3642,137 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
         'availableDaysOfCashFlow'
       );
+
+      // liquidityRatio [s18, s20, s36, s21, s26, s166, s27, s28, s154, s164, s29, s31]
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "liquidityRatio_Peer",
+        record,
+        "cfhi_compre_04_ratio___liquidity_ratio",
+        "cfhi_compre_04_yes_no___liquidity_ratio"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalCash",
+        record,
+        "s18___total_cash",
+        "cfhi_compre_04_yes_no___liquidity_ratio", 
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "nonEndowmentInvestment",
+        record,
+        "s20___non_endowment_investment",
+        "cfhi_compre_04_yes_no___liquidity_ratio", 
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "netAssetWithDonor",
+        record,
+        "s36___net_asset_with_donor_restriction",
+        "cfhi_compre_04_yes_no___liquidity_ratio", 
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "pledgeReceivable",
+        record,
+        "s21___pledge_receivable",
+        "cfhi_compre_04_yes_no___liquidity_ratio", 
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "currentLiabilities",
+        record,
+        "s26___current_liabilities",
+        "cfhi_compre_04_yes_no___liquidity_ratio", 
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_04_yes_no___liquidity_ratio", 
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "accruedInterest",
+        record,
+        "s27___accrued_interest",
+        "cfhi_compre_04_yes_no___liquidity_ratio", 
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "accruedConstructionCost",
+        record,
+        "s28___accrued_construction_cost",
+        "cfhi_compre_04_yes_no___liquidity_ratio", 
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "requiredMinimumDebtPrinciple",
+        record,
+        "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+        "cfhi_compre_04_yes_no___liquidity_ratio", 
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "oneTimePayoffDebtDueNextYear",
+        record,
+        "s164___one_time_payoff_of_debt_due_in_the_next_year",
+        "cfhi_compre_04_yes_no___liquidity_ratio", 
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "deferredRevenue",
+        record,
+        "s29___deferred_revenue",
+        "cfhi_compre_04_yes_no___liquidity_ratio", 
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "shortTermConstructionLineOfCredit",
+        record,
+        "s31___short_term_construction_line_of_credit",
+        "cfhi_compre_04_yes_no___liquidity_ratio", 
+        'liquidityRatio'
+      );
     })
 
     const filteredClientRecords = [...recordsClient].filter(record => {
@@ -3679,6 +3810,16 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "availableDaysOfCashFlow_Client",
         record,
         "cfhi_compre_03_ratio___available_days_of_cash_flow_coverage"                                                                                   
+      );
+
+      // liquidityRatio
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "liquidityRatio_Client",
+        record,
+        "cfhi_compre_04_ratio___liquidity_ratio"                                                                                   
       );
     })
   })
