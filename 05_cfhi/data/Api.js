@@ -4192,17 +4192,88 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
       return fiscalYear.includes(year.toString());
     });
     filteredPeerRecords.forEach((record) => {
-      // netIncomeRatio
+      // debtToContributionsWithout [s155, s165, s39]
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "netIncomeRatio_Peer",
+        "debtToContributionsWithout_Peer",
         record,
-        "cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves",
-        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves"
+        "cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions",
+        "cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions"
       );
-    })
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDebt",
+        record,
+        "s155___total_debt",
+        "cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions",
+        "debtToContributionsWithout"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "financeLeaseRightOfUse",
+        record,
+        "s165___finance_lease_right_of_use_asset_and_liability",
+        "cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions",
+        "debtToContributionsWithout"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "contributionWithoutDonor",
+        record,
+        "s39___contribution_without_donor_retriction",
+        "cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions",
+        "debtToContributionsWithout"
+      );
+
+      // currentRatio [s17, s26, s166]
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "currentRatio_Peer",
+        record,
+        "cfhi_compre_07_ratio___current_ratio",
+        "cfhi_compre_07_yes_no___current_ratio"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDebt",
+        record,
+        "s17___current_assets",
+        "cfhi_compre_07_yes_no___current_ratio",
+        "currentRatio"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "currentLiabilities",
+        record,
+        "s26___current_liabilities",
+        "cfhi_compre_07_yes_no___current_ratio",
+        "currentRatio"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_07_yes_no___current_ratio",
+        "currentRatio"
+      );
+    });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector("s52_formatted_year").textContent;
@@ -4210,9 +4281,28 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
+      // debtToContributionsWithout
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "debtToContributionsWithout_Client",
+        record,
+        "cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions",
+        "cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions"
+      );
 
-    })
-
+      // currentRatio
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "debtToContributionsWithout_Client",
+        record,
+        "cfhi_compre_07_ratio___current_ratio",
+        "cfhi_compre_07_bench_rating___current_ratio"
+      );
+    });
   });
 
   localStorage.removeItem("debtData");
