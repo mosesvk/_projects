@@ -3876,7 +3876,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "liquidityRatio_Peer",
+        "netCashAvailability_Peer",
         record,
         "cfhi_compre_05_ratio___net_cash_availability",
         "cfhi_compre_05_yes_no___net_cash_availability"

@@ -94,7 +94,7 @@ const availableDaysOfCashFlow_weightedAverage = (data, name) => {
   return (
     (s49 + s318 + s320 - s336 + s321 + s30) /
     (s45 - s167 - s168 - s46 + (s154 - s166))
-  );
+  ) * 365;
 };
 
 const daysOperatingCash_weightedAverage = (data, name) => {
