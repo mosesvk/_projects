@@ -4273,6 +4273,246 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "cfhi_compre_07_yes_no___current_ratio",
         "currentRatio"
       );
+
+      // mandatoryDebtServiceToContributionsWithout [s154, s166, s47, s168, s51, s39]
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "mandatoryDebtServiceToContributionsWithout_Peer",
+        record,
+        "cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+        "cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "requiredMinimumDebtPrinciple",
+        record,
+        "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+        "cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+        "mandatoryDebtServiceToContributionsWithout"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+        "mandatoryDebtServiceToContributionsWithout"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "mandatoryDebtServiceToContributionsWithout",
+        record,
+        "s47___cy_interest_expense",
+        "cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+        "mandatoryDebtServiceToContributionsWithout"
+      ); 
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "internetOnFinanceLease",
+        record,
+        "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+        "cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+        "mandatoryDebtServiceToContributionsWithout"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "capitalizedInterest",
+        record,
+        "s51___capitalized_interest",
+        "cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+        "mandatoryDebtServiceToContributionsWithout"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "contributionWithoutDonor",
+        record,
+        "s39___contribution_without_donor_retriction",
+        "cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions",
+        "debtToContributionsWithout"
+      );
+
+      // debtPerAverageAdultAttendee [s155, s165, s01]
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "debtPerAverageAdultAttendee_Peer",
+        record,
+        "cfhi_compre_09a_ratio___debt_per_average_adult_attendee",
+        "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDebt",
+        record,
+        "s155___total_debt",
+        "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
+        "debtPerAverageAdultAttendee"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "financeLeaseRightOfUse",
+        record,
+        "s165___finance_lease_right_of_use_asset_and_liability",
+        "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
+        "debtPerAverageAdultAttendee"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "averageAdultAttendees",
+        record,
+        "s01_average_adult_attendees_excluding_children",
+        "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
+        "debtPerAverageAdultAttendee"
+      );
+
+      // debtPerAverageAdultAttendee_standard [s39, s152, s01]
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "debtPerAverageAdultAttendee_standard_Peer",
+        record,
+        "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee",
+        "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "contributionWithoutDonor",
+        record,
+        "s39___contribution_without_donor_retriction",
+        "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
+        "debtPerAverageAdultAttendee_standard"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "largeOneTimeGiftWithoutDonor",
+        record,
+        "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+        "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
+        "debtPerAverageAdultAttendee_standard"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "averageAdultAttendees",
+        record,
+        "s01_average_adult_attendees_excluding_children",
+        "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
+        "debtPerAverageAdultAttendee_standard"
+      );
+
+      // debtPerGivingUnit [s155, s165, s02]
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "debtPerGivingUnit_Peer",
+        record,
+        "cfhi_compre_09d_ratio___debt_per_giving_unit",
+        "cfhi_compre_09d_yes_no___debt_per_giving_unit"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDebt",
+        record,
+        "s155___total_debt",
+        "cfhi_compre_09d_yes_no___debt_per_giving_unit",
+        "debtPerGivingUnit"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "financeLeaseRightOfUse",
+        record,
+        "s165___finance_lease_right_of_use_asset_and_liability",
+        "cfhi_compre_09d_yes_no___debt_per_giving_unit",
+        "debtPerGivingUnit"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "givingUnits",
+        record,
+        "s02___giving_units",
+        "cfhi_compre_09d_yes_no___debt_per_giving_unit",
+        "debtPerGivingUnit"
+      );
+
+      // debtPerGivingUnit_standard [s39, s152, s02]
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "debtPerGivingUnit_standard_Peer",
+        record,
+        "cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit",
+        "cfhi_compre_09d_yes_no___debt_per_giving_unit"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "contributionWithoutDonor",
+        record,
+        "s39___contribution_without_donor_retriction",
+        "cfhi_compre_09d_yes_no___debt_per_giving_unit",
+        "debtPerGivingUnit_standard"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "largeOneTimeGiftWithoutDonor",
+        record,
+        "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+        "cfhi_compre_09d_yes_no___debt_per_giving_unit",
+        "debtPerGivingUnit_standard"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "givingUnits",
+        record,
+        "s02___giving_units",
+        "cfhi_compre_09d_yes_no___debt_per_giving_unit",
+        "debtPerGivingUnit_standard"
+      );
+
+      // debtCoverage [s48, s167, s168, s47, s46, s154, s166]
+        // still waiting for the field quickbase
+
+
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -4297,11 +4537,86 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "client",
         year,
         object,
-        "debtToContributionsWithout_Client",
+        "currentRatio_Client",
         record,
         "cfhi_compre_07_ratio___current_ratio",
         "cfhi_compre_07_bench_rating___current_ratio"
       );
+
+      // mandatoryDebtServiceToContributionsWithout
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "mandatoryDebtServiceToContributionsWithout_Client",
+        record,
+        "cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+        "cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions"
+      );
+
+      // debtPerAverageAdultAttendee
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "debtPerAverageAdultAttendee_Client",
+        record,
+        "cfhi_compre_09a_ratio___debt_per_average_adult_attendee",
+        "cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee"
+      );
+
+      // debtPerAverageAdultAttendee_percentChange
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "debtPerAverageAdultAttendee_percentChange_Client",
+        record,
+        "cfhi_compre_09a_ratio_change___debt_per_average_adult_attendee"
+      );
+
+      // debtPerAverageAdultAttendee_standard
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "debtPerAverageAdultAttendee_standard_Client",
+        record,
+        "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee"
+      );
+
+      // debtPerGivingUnit
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "debtPerGivingUnit_Client",
+        record,
+        "cfhi_compre_09d_ratio___debt_per_giving_unit",
+        "cfhi_compre_09d_bench_rating___debt_per_giving_unit"
+      );
+
+      // debtPerGivingUnit_percentChange
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "debtPerGivingUnit_percentChange_Client",
+        record,
+        "cfhi_compre_09d_ratio_change___debt_per_giving_unit"
+      );
+
+      // debtCoverage
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "debtCoverage_Client",
+        record,
+        "cfhi_compre_10_ratio___debt_coverage", 
+        "cfhi_compre_10_bench_rating___debt_coverage"
+      );
+
     });
   });
 
