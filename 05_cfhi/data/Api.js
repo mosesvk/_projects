@@ -4192,7 +4192,16 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
       return fiscalYear.includes(year.toString());
     });
     filteredPeerRecords.forEach((record) => {
-      
+      // netIncomeRatio
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "netIncomeRatio_Peer",
+        record,
+        "cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves",
+        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves"
+      );
     })
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
