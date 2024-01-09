@@ -32,6 +32,7 @@ const netCashAvailability_standard_weightedAverage = (data, name) => {
 
   return (s45 - s167 - s168 - s46) / 12;
 };
+
 const netCashAvailability_including_weightedAverage = (data, name) => {
   const s18 = getSumOfArray(data.totalCash[name]);
   const s20 = getSumOfArray(data.nonEndowmentInvestment[name]);

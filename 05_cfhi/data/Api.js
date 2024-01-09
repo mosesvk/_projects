@@ -2629,7 +2629,7 @@ const xmlPeerString = `
   </qdbapi>
 `;
 
-const xmlClientString = (`
+const xmlClientString = `
   <qdbapi>
     <record>
       <merged_client_name>12Stone Church, Inc.</merged_client_name>
@@ -3007,7 +3007,7 @@ const xmlClientString = (`
       <update_id>1688658176703</update_id>
     </record>
   </qdbapi>
-`);
+`;
 
 const parser = new DOMParser();
 const parserClient = new DOMParser();
@@ -4180,6 +4180,34 @@ const processCashData = (years, recordsPeer, recordsClient) => {
 
   localStorage.removeItem("cashData");
   localStorage.setItem("cashData", JSON.stringify(object));
+};
+
+const processDebtData = (years, recordsPeer, recordsClient) => {
+  const object = {};
+
+  years.forEach((year) => {
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+      const fiscalYear = record.querySelector("s52_formatted_year").textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredPeerRecords.forEach((record) => {
+      
+    })
+
+    const filteredClientRecords = [...recordsClient].filter((record) => {
+      const fiscalYear = record.querySelector("s52_formatted_year").textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredClientRecords.forEach((record) => {
+
+    })
+
+  });
+
+  localStorage.removeItem("debtData");
+  localStorage.setItem("debtData", JSON.stringify(object));
 };
 
 const addColumnsToOtherRows = (idName, year) => {
