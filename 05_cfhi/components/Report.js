@@ -1,5 +1,6 @@
 const displayReportComponent = () => {
   const demoData = JSON.parse(localStorage.getItem("demoData"));
+  const cashData = JSON.parse(localStorage.getItem("cashData"));
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -18,6 +19,16 @@ const displayReportComponent = () => {
       ["totalOutsourcedEmployees", "num", 0],
       ["facilitySquareFootage", "num", 0],
       ["numberOfLocations", "num", 0],
+    ]);
+
+    insertDataToReport(cashData, selectedYears, [
+      ["daysExpendableNetAssets", "num", 0, "wa"],
+      ["daysOperatingCash", "num", 0, "wa"],
+      ["availableDaysOfCashFlow", "num", 0, "wa"],
+      ["liquidityRatio", "num", 1, "wa"],
+      ["netCashAvailability", "dollar", 0, "wa"],
+      ["netCashAvailability_including", "dollar", 0, "wa"],
+      ["netCashAvailability_standard", "dollar", 0, "wa"],
     ]);
   }
 
@@ -58,10 +69,10 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  //console.log({ selectedYears, name, client, peer, type, fixedNum });
+  console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
-  // console.log(`row_${name}`);
-  // console.log("tableReportRow", tableReportRow);
+  console.log(`row_${name}`);
+  console.log("tableReportRow", tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);

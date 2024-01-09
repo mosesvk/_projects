@@ -1,4 +1,4 @@
-const xmlPeerString = (`
+const xmlPeerString = `
   <qdbapi>
     <record>
       <s52_formatted_year>2020</s52_formatted_year>
@@ -2627,7 +2627,7 @@ const xmlPeerString = (`
       <update_id>1697571395214</update_id>
     </record>
   </qdbapi>
-`);
+`;
 
 const xmlClientString = (`
   <qdbapi>
@@ -2673,18 +2673,33 @@ const xmlClientString = (`
       <cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
         245
       </cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+      <cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves>
+        Good
+      </cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves>
       <cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
         258
       </cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+      <cfhi_compre_02_bench_rating___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        Good
+      </cfhi_compre_02_bench_rating___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
       <cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
         287
       </cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+      <cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage>
+        Good
+      </cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage>
       <cfhi_compre_04_ratio___liquidity_ratio>
         4.9
       </cfhi_compre_04_ratio___liquidity_ratio>
+      <cfhi_compre_04_bench_rating___liquidity_ratio>
+        Warning
+      </cfhi_compre_04_bench_rating___liquidity_ratio>
       <cfhi_compre_05_ratio___net_cash_availability>
         15274096
       </cfhi_compre_05_ratio___net_cash_availability>
+      <cfhi_compre_05_bench_rating___net_cash_availability>
+        Good
+      </cfhi_compre_05_bench_rating___net_cash_availability>
       <cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
         15274096
       </cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
@@ -2694,15 +2709,27 @@ const xmlClientString = (`
       <cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
         0.8
       </cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+      <cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions>
+        Good
+      </cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions>
       <cfhi_compre_07_ratio___current_ratio>
         4.3
       </cfhi_compre_07_ratio___current_ratio>
+      <cfhi_compre_07_bench_rating___current_ratio>
+        Good
+      </cfhi_compre_07_bench_rating___current_ratio>
       <cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
         0.07
       </cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+      <cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        Good
+      </cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
       <cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
         2757
       </cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+      <cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee>
+        Good
+      </cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee>
       <cfhi_compre_09a_ratio_change___debt_per_average_adult_attendee>
         -0.06
       </cfhi_compre_09a_ratio_change___debt_per_average_adult_attendee>
@@ -2712,6 +2739,9 @@ const xmlClientString = (`
       <cfhi_compre_09d_ratio___debt_per_giving_unit>
         4754
       </cfhi_compre_09d_ratio___debt_per_giving_unit>
+      <cfhi_compre_09d_bench_rating___debt_per_giving_unit>
+        Good
+      </cfhi_compre_09d_bench_rating___debt_per_giving_unit>
       <cfhi_compre_09d_ratio_change___debt_per_giving_unit>
         -0.10
       </cfhi_compre_09d_ratio_change___debt_per_giving_unit>
@@ -2721,6 +2751,9 @@ const xmlClientString = (`
       <cfhi_compre_10_ratio___debt_coverage>
         4.85
       </cfhi_compre_10_ratio___debt_coverage>
+      <cfhi_compre_10_bench_rating___debt_coverage>
+        Good
+      </cfhi_compre_10_bench_rating___debt_coverage>
       <update_id>1688653496665</update_id>
     </record>
     <record>
@@ -2765,18 +2798,33 @@ const xmlClientString = (`
       <cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
         389
       </cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+      <cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves>
+        Good
+      </cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves>
       <cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
         386
       </cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+      <cfhi_compre_02_bench_rating___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        Good
+      </cfhi_compre_02_bench_rating___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
       <cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
         452
       </cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+      <cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage>
+        Good
+      </cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage>
       <cfhi_compre_04_ratio___liquidity_ratio>
         7.9
       </cfhi_compre_04_ratio___liquidity_ratio>
+      <cfhi_compre_04_bench_rating___liquidity_ratio>
+        Good
+      </cfhi_compre_04_bench_rating___liquidity_ratio>
       <cfhi_compre_05_ratio___net_cash_availability>
         22579891
       </cfhi_compre_05_ratio___net_cash_availability>
+      <cfhi_compre_05_bench_rating___net_cash_availability>
+        Good
+      </cfhi_compre_05_bench_rating___net_cash_availability>
       <cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
         22579891
       </cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
@@ -2786,15 +2834,27 @@ const xmlClientString = (`
       <cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
         0.3
       </cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+      <cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions>
+        Good
+      </cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions>
       <cfhi_compre_07_ratio___current_ratio>
         7.2
       </cfhi_compre_07_ratio___current_ratio>
+      <cfhi_compre_07_bench_rating___current_ratio>
+        Good
+      </cfhi_compre_07_bench_rating___current_ratio>
       <cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
         0.04
       </cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+      <cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        Good
+      </cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
       <cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
         950
       </cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+      <cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee>
+        Good
+      </cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee>
       <cfhi_compre_09a_ratio_change___debt_per_average_adult_attendee>
         -0.66
       </cfhi_compre_09a_ratio_change___debt_per_average_adult_attendee>
@@ -2804,6 +2864,9 @@ const xmlClientString = (`
       <cfhi_compre_09d_ratio___debt_per_giving_unit>
         1792
       </cfhi_compre_09d_ratio___debt_per_giving_unit>
+      <cfhi_compre_09d_bench_rating___debt_per_giving_unit>
+        Good
+      </cfhi_compre_09d_bench_rating___debt_per_giving_unit>
       <cfhi_compre_09d_ratio_change___debt_per_giving_unit>
         -0.62
       </cfhi_compre_09d_ratio_change___debt_per_giving_unit>
@@ -2813,6 +2876,9 @@ const xmlClientString = (`
       <cfhi_compre_10_ratio___debt_coverage>
         7.98
       </cfhi_compre_10_ratio___debt_coverage>
+      <cfhi_compre_10_bench_rating___debt_coverage>
+        Good
+      </cfhi_compre_10_bench_rating___debt_coverage>
       <update_id>1688653496665</update_id>
     </record>
     <record>
@@ -2857,18 +2923,33 @@ const xmlClientString = (`
       <cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
         472
       </cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+      <cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves>
+        Good
+      </cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves>
       <cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
         454
       </cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+      <cfhi_compre_02_bench_rating___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        Good
+      </cfhi_compre_02_bench_rating___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
       <cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
         506
       </cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+      <cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage>
+        Good
+      </cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage>
       <cfhi_compre_04_ratio___liquidity_ratio>
         10.0
       </cfhi_compre_04_ratio___liquidity_ratio>
+      <cfhi_compre_04_bench_rating___liquidity_ratio>
+        Good
+      </cfhi_compre_04_bench_rating___liquidity_ratio>
       <cfhi_compre_05_ratio___net_cash_availability>
         28211027
       </cfhi_compre_05_ratio___net_cash_availability>
+      <cfhi_compre_05_bench_rating___net_cash_availability>
+        Good
+      </cfhi_compre_05_bench_rating___net_cash_availability>
       <cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
         28211027
       </cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
@@ -2878,15 +2959,27 @@ const xmlClientString = (`
       <cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
         0.4
       </cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+      <cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions>
+        Good
+      </cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions>
       <cfhi_compre_07_ratio___current_ratio>
         6.8
       </cfhi_compre_07_ratio___current_ratio>
+      <cfhi_compre_07_bench_rating___current_ratio>
+        Good
+      </cfhi_compre_07_bench_rating___current_ratio>
       <cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
         0.03
       </cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+      <cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        Good
+      </cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
       <cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
         2037
       </cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+      <cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee>
+        Good
+      </cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee>
       <cfhi_compre_09a_ratio_change___debt_per_average_adult_attendee>
         1.14
       </cfhi_compre_09a_ratio_change___debt_per_average_adult_attendee>
@@ -2896,6 +2989,9 @@ const xmlClientString = (`
       <cfhi_compre_09d_ratio___debt_per_giving_unit>
         2470
       </cfhi_compre_09d_ratio___debt_per_giving_unit>
+      <cfhi_compre_09d_bench_rating___debt_per_giving_unit>
+        Good
+      </cfhi_compre_09d_bench_rating___debt_per_giving_unit>
       <cfhi_compre_09d_ratio_change___debt_per_giving_unit>
         0.38
       </cfhi_compre_09d_ratio_change___debt_per_giving_unit>
@@ -2905,6 +3001,9 @@ const xmlClientString = (`
       <cfhi_compre_10_ratio___debt_coverage>
         9.91
       </cfhi_compre_10_ratio___debt_coverage>
+      <cfhi_compre_10_bench_rating___debt_coverage>
+        Good
+      </cfhi_compre_10_bench_rating___debt_coverage>
       <update_id>1688658176703</update_id>
     </record>
   </qdbapi>
@@ -2922,9 +3021,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   addUniqueRegionsToOptionsSelectRegion(regions_Array);
 
-  displayDemoComponent()
-  
-  displayReportComponent()
+  displayDemoComponent();
+
+  displayReportComponent();
 
   runApiMain();
 });
@@ -3199,7 +3298,7 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         object,
         "givingUnits_Client",
         record,
-        "s02___giving_units"                                                                                   
+        "s02___giving_units"
       );
       // averageAdultAttendees
       insertDataIntoObject(
@@ -3312,13 +3411,12 @@ const processCashData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
   years.forEach((year) => {
-    const filteredPeerRecords = [...recordsPeer].filter(record => {
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector("s52_formatted_year").textContent;
 
       return fiscalYear.includes(year.toString());
-
-    })
-    filteredPeerRecords.forEach(record => {
+    });
+    filteredPeerRecords.forEach((record) => {
       // daysExpendableNetAssets [s35, s34, s45, s167, s168, s46]
       insertDataIntoObject(
         "peer",
@@ -3336,8 +3434,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "bodDesignatedForOperations",
         record,
         "s35___bod_designated_for_operations",
-        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves", 
-        'daysExpendableNetAssets'
+        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+        "daysExpendableNetAssets"
       );
       insertDataIntoObject(
         "peer",
@@ -3346,8 +3444,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "netAssetWithoutDonorRestriction",
         record,
         "s34___net_asset_without_donor_restriction__undesignated",
-        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves", 
-        'daysExpendableNetAssets'
+        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+        "daysExpendableNetAssets"
       );
       insertDataIntoObject(
         "peer",
@@ -3356,8 +3454,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalExpense",
         record,
         "s45___total_expense",
-        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves", 
-        'daysExpendableNetAssets'
+        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+        "daysExpendableNetAssets"
       );
       insertDataIntoObject(
         "peer",
@@ -3366,18 +3464,18 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "amortizationFinanceLease",
         record,
         "s167___amortization_of_finance_lease_right_of_use_asset",
-        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves", 
-        'daysExpendableNetAssets'
+        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+        "daysExpendableNetAssets"
       );
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "amortizationFinanceLease",
+        "internetOnFinanceLease",
         record,
         "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves", 
-        'daysExpendableNetAssets'
+        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+        "daysExpendableNetAssets"
       );
       insertDataIntoObject(
         "peer",
@@ -3386,8 +3484,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalDepreciationExpense",
         record,
         "s46___total_depreciation_expense",
-        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves", 
-        'daysExpendableNetAssets'
+        "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+        "daysExpendableNetAssets"
       );
 
       // daysOperatingCash [s18, s20, s36, s21, s45, s167, s168, s51, s46, s154, s166]
@@ -3407,8 +3505,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalCash",
         record,
         "s18___total_cash",
-        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
-        'daysOperatingCash'
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+        "daysOperatingCash"
       );
       insertDataIntoObject(
         "peer",
@@ -3417,8 +3515,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "nonEndowmentInvestment",
         record,
         "s20___non_endowment_investment",
-        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
-        'daysOperatingCash'
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+        "daysOperatingCash"
       );
       insertDataIntoObject(
         "peer",
@@ -3427,8 +3525,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "netAssetWithDonor",
         record,
         "s36___net_asset_with_donor_restriction",
-        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
-        'daysOperatingCash'
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+        "daysOperatingCash"
       );
       insertDataIntoObject(
         "peer",
@@ -3437,8 +3535,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "pledgeReceivable",
         record,
         "s21___pledge_receivable",
-        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
-        'daysOperatingCash'
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+        "daysOperatingCash"
       );
       insertDataIntoObject(
         "peer",
@@ -3447,8 +3545,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalExpense",
         record,
         "s45___total_expense",
-        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
-        'daysOperatingCash'
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+        "daysOperatingCash"
       );
       insertDataIntoObject(
         "peer",
@@ -3457,18 +3555,18 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "amortizationFinanceLease",
         record,
         "s167___amortization_of_finance_lease_right_of_use_asset",
-        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
-        'daysOperatingCash'
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+        "daysOperatingCash"
       );
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "amortizationFinanceLease",
+        "internetOnFinanceLease",
         record,
         "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
-        'daysOperatingCash'
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+        "daysOperatingCash"
       );
       insertDataIntoObject(
         "peer",
@@ -3477,8 +3575,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "capitalizedInterest",
         record,
         "s51___capitalized_interest",
-        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
-        'daysOperatingCash'
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+        "daysOperatingCash"
       );
       insertDataIntoObject(
         "peer",
@@ -3487,8 +3585,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalDepreciationExpense",
         record,
         "s46___total_depreciation_expense",
-        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
-        'daysOperatingCash'
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+        "daysOperatingCash"
       );
       insertDataIntoObject(
         "peer",
@@ -3497,8 +3595,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "requiredMinimumDebtPrinciple",
         record,
         "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
-        'daysOperatingCash'
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+        "daysOperatingCash"
       );
       insertDataIntoObject(
         "peer",
@@ -3507,10 +3605,9 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "futureMinimumLeasePayment",
         record,
         "s166___future_minimum_lease_payment",
-        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures", 
-        'daysOperatingCash'
+        "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+        "daysOperatingCash"
       );
-
 
       // availableDaysOfCashFlow [s49, s318, s320, s336, s321, s30, s45, s167, s168, s46, s154, s166]
       insertDataIntoObject(
@@ -3529,18 +3626,18 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "cashFlowFromOperatingActivities",
         record,
         "s49___cash_flow_from_operating_activities",
-        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
-        'availableDaysOfCashFlow'
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+        "availableDaysOfCashFlow"
       );
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "cashFlowFromOperatingActivities",
+        "totalCashAtBeginningYear",
         record,
         "s318___total_cash_at_the_beginning_of_the_year",
-        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
-        'availableDaysOfCashFlow'
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+        "availableDaysOfCashFlow"
       );
       insertDataIntoObject(
         "peer",
@@ -3549,8 +3646,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "nonEndowmentInvestmentBeginningYear",
         record,
         "s320___non_endowment_investment_at_the_beginning_of_the_year",
-        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
-        'availableDaysOfCashFlow'
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+        "availableDaysOfCashFlow"
       );
       insertDataIntoObject(
         "peer",
@@ -3559,8 +3656,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "netAssetWithDonorRestriction",
         record,
         "s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year",
-        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
-        'availableDaysOfCashFlow'
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+        "availableDaysOfCashFlow"
       );
       insertDataIntoObject(
         "peer",
@@ -3569,8 +3666,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "pledgeReceivableBeginningYear",
         record,
         "s321___pledge_receivable_at_the_beginning_of_the_year",
-        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
-        'availableDaysOfCashFlow'
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+        "availableDaysOfCashFlow"
       );
       insertDataIntoObject(
         "peer",
@@ -3579,8 +3676,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "availableOperatingLineOfCredit",
         record,
         "s30___available_operating_line_of_credit",
-        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
-        'availableDaysOfCashFlow'
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+        "availableDaysOfCashFlow"
       );
       insertDataIntoObject(
         "peer",
@@ -3589,8 +3686,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalExpense",
         record,
         "s45___total_expense",
-        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
-        'availableDaysOfCashFlow'
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+        "availableDaysOfCashFlow"
       );
       insertDataIntoObject(
         "peer",
@@ -3599,18 +3696,18 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "amortizationFinanceLease",
         record,
         "s167___amortization_of_finance_lease_right_of_use_asset",
-        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
-        'availableDaysOfCashFlow'
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+        "availableDaysOfCashFlow"
       );
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "amortizationFinanceLease",
+        "internetOnFinanceLease",
         record,
         "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
-        'availableDaysOfCashFlow'
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+        "availableDaysOfCashFlow"
       );
       insertDataIntoObject(
         "peer",
@@ -3619,8 +3716,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalDepreciationExpense",
         record,
         "s46___total_depreciation_expense",
-        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
-        'availableDaysOfCashFlow'
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+        "availableDaysOfCashFlow"
       );
       insertDataIntoObject(
         "peer",
@@ -3629,8 +3726,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "requiredMinimumDebtPrinciple",
         record,
         "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
-        'availableDaysOfCashFlow'
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+        "availableDaysOfCashFlow"
       );
       insertDataIntoObject(
         "peer",
@@ -3639,8 +3736,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "futureMinimumLeasePayment",
         record,
         "s166___future_minimum_lease_payment",
-        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage", 
-        'availableDaysOfCashFlow'
+        "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+        "availableDaysOfCashFlow"
       );
 
       // liquidityRatio [s18, s20, s36, s21, s26, s166, s27, s28, s154, s164, s29, s31]
@@ -3660,8 +3757,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalCash",
         record,
         "s18___total_cash",
-        "cfhi_compre_04_yes_no___liquidity_ratio", 
-        'liquidityRatio'
+        "cfhi_compre_04_yes_no___liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
         "peer",
@@ -3670,8 +3767,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "nonEndowmentInvestment",
         record,
         "s20___non_endowment_investment",
-        "cfhi_compre_04_yes_no___liquidity_ratio", 
-        'liquidityRatio'
+        "cfhi_compre_04_yes_no___liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
         "peer",
@@ -3680,8 +3777,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "netAssetWithDonor",
         record,
         "s36___net_asset_with_donor_restriction",
-        "cfhi_compre_04_yes_no___liquidity_ratio", 
-        'liquidityRatio'
+        "cfhi_compre_04_yes_no___liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
         "peer",
@@ -3690,8 +3787,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "pledgeReceivable",
         record,
         "s21___pledge_receivable",
-        "cfhi_compre_04_yes_no___liquidity_ratio", 
-        'liquidityRatio'
+        "cfhi_compre_04_yes_no___liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
         "peer",
@@ -3700,8 +3797,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "currentLiabilities",
         record,
         "s26___current_liabilities",
-        "cfhi_compre_04_yes_no___liquidity_ratio", 
-        'liquidityRatio'
+        "cfhi_compre_04_yes_no___liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
         "peer",
@@ -3710,8 +3807,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "futureMinimumLeasePayment",
         record,
         "s166___future_minimum_lease_payment",
-        "cfhi_compre_04_yes_no___liquidity_ratio", 
-        'liquidityRatio'
+        "cfhi_compre_04_yes_no___liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
         "peer",
@@ -3720,8 +3817,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "accruedInterest",
         record,
         "s27___accrued_interest",
-        "cfhi_compre_04_yes_no___liquidity_ratio", 
-        'liquidityRatio'
+        "cfhi_compre_04_yes_no___liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
         "peer",
@@ -3730,8 +3827,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "accruedConstructionCost",
         record,
         "s28___accrued_construction_cost",
-        "cfhi_compre_04_yes_no___liquidity_ratio", 
-        'liquidityRatio'
+        "cfhi_compre_04_yes_no___liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
         "peer",
@@ -3740,8 +3837,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "requiredMinimumDebtPrinciple",
         record,
         "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-        "cfhi_compre_04_yes_no___liquidity_ratio", 
-        'liquidityRatio'
+        "cfhi_compre_04_yes_no___liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
         "peer",
@@ -3750,8 +3847,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "oneTimePayoffDebtDueNextYear",
         record,
         "s164___one_time_payoff_of_debt_due_in_the_next_year",
-        "cfhi_compre_04_yes_no___liquidity_ratio", 
-        'liquidityRatio'
+        "cfhi_compre_04_yes_no___liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
         "peer",
@@ -3760,8 +3857,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "deferredRevenue",
         record,
         "s29___deferred_revenue",
-        "cfhi_compre_04_yes_no___liquidity_ratio", 
-        'liquidityRatio'
+        "cfhi_compre_04_yes_no___liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
         "peer",
@@ -3770,8 +3867,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "shortTermConstructionLineOfCredit",
         record,
         "s31___short_term_construction_line_of_credit",
-        "cfhi_compre_04_yes_no___liquidity_ratio", 
-        'liquidityRatio'
+        "cfhi_compre_04_yes_no___liquidity_ratio",
+        "liquidityRatio"
       );
 
       // netCashAvailability [s18, s20, s26, s166, s31, s36, s21]
@@ -3791,8 +3888,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalCash",
         record,
         "s18___total_cash",
-        "cfhi_compre_05_yes_no___net_cash_availability", 
-        'netCashAvailability'
+        "cfhi_compre_05_yes_no___net_cash_availability",
+        "netCashAvailability"
       );
       insertDataIntoObject(
         "peer",
@@ -3801,8 +3898,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "nonEndowmentInvestment",
         record,
         "s20___non_endowment_investment",
-        "cfhi_compre_05_yes_no___net_cash_availability", 
-        'netCashAvailability'
+        "cfhi_compre_05_yes_no___net_cash_availability",
+        "netCashAvailability"
       );
       insertDataIntoObject(
         "peer",
@@ -3811,8 +3908,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "currentLiabilities",
         record,
         "s26___current_liabilities",
-        "cfhi_compre_05_yes_no___net_cash_availability", 
-        'netCashAvailability'
+        "cfhi_compre_05_yes_no___net_cash_availability",
+        "netCashAvailability"
       );
       insertDataIntoObject(
         "peer",
@@ -3821,8 +3918,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "futureMinimumLeasePayment",
         record,
         "s166___future_minimum_lease_payment",
-        "cfhi_compre_05_yes_no___net_cash_availability", 
-        'netCashAvailability'
+        "cfhi_compre_05_yes_no___net_cash_availability",
+        "netCashAvailability"
       );
       insertDataIntoObject(
         "peer",
@@ -3831,8 +3928,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "shortTermConstructionLineOfCredit",
         record,
         "s31___short_term_construction_line_of_credit",
-        "cfhi_compre_05_yes_no___net_cash_availability", 
-        'netCashAvailability'
+        "cfhi_compre_05_yes_no___net_cash_availability",
+        "netCashAvailability"
       );
       insertDataIntoObject(
         "peer",
@@ -3841,8 +3938,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "netAssetWithDonor",
         record,
         "s36___net_asset_with_donor_restriction",
-        "cfhi_compre_05_yes_no___net_cash_availability", 
-        'netCashAvailability'
+        "cfhi_compre_05_yes_no___net_cash_availability",
+        "netCashAvailability"
       );
       insertDataIntoObject(
         "peer",
@@ -3851,8 +3948,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "pledgeReceivable",
         record,
         "s21___pledge_receivable",
-        "cfhi_compre_05_yes_no___net_cash_availability", 
-        'netCashAvailability'
+        "cfhi_compre_05_yes_no___net_cash_availability",
+        "netCashAvailability"
       );
 
       // netCashAvailability_including [s18, s20, s26, s166, s31, s36, s21, s30]
@@ -3872,8 +3969,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalCash",
         record,
         "s18___total_cash",
-        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit", 
-        'netCashAvailability_including'
+        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+        "netCashAvailability_including"
       );
       insertDataIntoObject(
         "peer",
@@ -3882,8 +3979,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "nonEndowmentInvestment",
         record,
         "s20___non_endowment_investment",
-        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit", 
-        'netCashAvailability_including'
+        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+        "netCashAvailability_including"
       );
       insertDataIntoObject(
         "peer",
@@ -3892,8 +3989,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "currentLiabilities",
         record,
         "s26___current_liabilities",
-        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit", 
-        'netCashAvailability_including'
+        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+        "netCashAvailability_including"
       );
       insertDataIntoObject(
         "peer",
@@ -3902,8 +3999,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "futureMinimumLeasePayment",
         record,
         "s166___future_minimum_lease_payment",
-        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit", 
-        'netCashAvailability_including'
+        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+        "netCashAvailability_including"
       );
       insertDataIntoObject(
         "peer",
@@ -3912,8 +4009,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "shortTermConstructionLineOfCredit",
         record,
         "s31___short_term_construction_line_of_credit",
-        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit", 
-        'netCashAvailability_including'
+        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+        "netCashAvailability_including"
       );
       insertDataIntoObject(
         "peer",
@@ -3922,8 +4019,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "netAssetWithDonor",
         record,
         "s36___net_asset_with_donor_restriction",
-        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit", 
-        'netCashAvailability_including'
+        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+        "netCashAvailability_including"
       );
       insertDataIntoObject(
         "peer",
@@ -3932,8 +4029,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "pledgeReceivable",
         record,
         "s21___pledge_receivable",
-        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit", 
-        'netCashAvailability_including'
+        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+        "netCashAvailability_including"
       );
       insertDataIntoObject(
         "peer",
@@ -3942,8 +4039,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "availableOperatingLineOfCredit",
         record,
         "s30___available_operating_line_of_credit",
-        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit", 
-        'netCashAvailability_including'
+        "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+        "netCashAvailability_including"
       );
 
       // netCashAvailability_standard [s45, s167, s168, s46]
@@ -3963,8 +4060,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalExpense",
         record,
         "s45___total_expense",
-        "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses", 
-        'netCashAvailability_standard'
+        "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses",
+        "netCashAvailability_standard"
       );
       insertDataIntoObject(
         "peer",
@@ -3973,18 +4070,18 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "amortizationFinanceLease",
         record,
         "s167___amortization_of_finance_lease_right_of_use_asset",
-        "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses", 
-        'netCashAvailability_standard'
+        "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses",
+        "netCashAvailability_standard"
       );
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "amortizationFinanceLease",
+        "internetOnFinanceLease",
         record,
         "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-        "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses", 
-        'netCashAvailability_standard'
+        "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses",
+        "netCashAvailability_standard"
       );
       insertDataIntoObject(
         "peer",
@@ -3993,19 +4090,17 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalDepreciationExpense",
         record,
         "s46___total_depreciation_expense",
-        "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses", 
-        'netCashAvailability_standard'
+        "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses",
+        "netCashAvailability_standard"
       );
+    });
 
-    })
-
-    const filteredClientRecords = [...recordsClient].filter(record => {
+    const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector("s52_formatted_year").textContent;
 
       return fiscalYear.includes(year.toString());
-
-    })
-    filteredClientRecords.forEach(record => {
+    });
+    filteredClientRecords.forEach((record) => {
       // daysExpendableNetAssets
       insertDataIntoObject(
         "client",
@@ -4014,7 +4109,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "daysExpendableNetAssets_Client",
         record,
         "cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves",
-        'cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves'                                                                                 
+        "cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves"
       );
 
       // daysOperatingCash
@@ -4036,7 +4131,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "availableDaysOfCashFlow_Client",
         record,
         "cfhi_compre_03_ratio___available_days_of_cash_flow_coverage",
-        'cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage'                                                                                   
+        "cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage"
       );
 
       // liquidityRatio
@@ -4046,8 +4141,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "liquidityRatio_Client",
         record,
-        "cfhi_compre_04_ratio___liquidity_ratio", 
-        "cfhi_compre_04_bench_rating___liquidity_ratio"                                                                                   
+        "cfhi_compre_04_ratio___liquidity_ratio",
+        "cfhi_compre_04_bench_rating___liquidity_ratio"
       );
 
       // netCashAvailability
@@ -4058,7 +4153,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "netCashAvailability_Client",
         record,
         "cfhi_compre_05_ratio___net_cash_availability",
-        "cfhi_compre_05_bench_rating___net_cash_availability"                                                                                   
+        "cfhi_compre_05_bench_rating___net_cash_availability"
       );
 
       // netCashAvailability_including
@@ -4068,7 +4163,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "netCashAvailability_including_Client",
         record,
-        "cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit"                                                                                
+        "cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit"
       );
 
       // netCashAvailability_standard
@@ -4076,18 +4171,16 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "client",
         year,
         object,
-        "netCashAvailability_including_Client",
+        "netCashAvailability_standard_Client",
         record,
-        "cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses"                                                                                
+        "cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses"
       );
-
-      
-    })
-  })
+    });
+  });
 
   localStorage.removeItem("cashData");
   localStorage.setItem("cashData", JSON.stringify(object));
-}
+};
 
 const addColumnsToOtherRows = (idName, year) => {
   const rows = document.querySelectorAll(`#${idName} + tbody tr`);
@@ -4114,10 +4207,10 @@ const runApiMain = () => {
       localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
 
       processDemoData(selectedYears, recordsPeer, recordsClient);
+      processCashData(selectedYears, recordsPeer, recordsClient);
 
       displayDemoComponent();
-      displayReportComponent()
-
+      displayReportComponent();
     } catch (err) {
       console.error(err);
     }
