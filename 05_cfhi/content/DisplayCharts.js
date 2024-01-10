@@ -90,38 +90,66 @@ const displayCashComponent = () => {
   closeSidebarAfterSelectingOption("cash");
 };
 
-const displayAssetComponent = () => {
-  // const savedData = getStoredData('assetData');
-  // const parseData = parseStoredData(savedData);
-
-  // // netTuitionARasPercentCurrentAssets
-  // createChartFromParsedData(
-  //   parseData,
-  //   'netTuitionARasPercentCurrentAssets_chart',
-  //   'netTuitionARasPercentCurrentAssets_Peer',
-  //   'netTuitionARasPercentCurrentAssets_Client',
-  //   'number',
-  //   1,
-  //   'netTuitionARasPercentCurrentAssets'
-  // );
-
-  closeSidebarAfterSelectingOption("asset");
-};
-
 const displayDebtComponent = () => {
-  // const savedData = getStoredData('debtData');
-  // const parseData = parseStoredData(savedData);
+  const savedData = getStoredData('debtData');
+  const parseData = parseStoredData(savedData);
 
-  // // currentRatio
-  // createChartFromParsedData(
-  //   parseData,
-  //   'currentRatio_chart',
-  //   'currentRatio_Peer',
-  //   'currentRatio_Client',
-  //   'number',
-  //   1,
-  //   'currentRatio'
-  // );
+  // debtToContributionsWithout
+  createChartFromParsedData(
+    parseData,
+    "debtToContributionsWithout_chart",
+    "debtToContributionsWithout_Peer",
+    "debtToContributionsWithout_Client",
+    "dollar",
+    0,
+    "debtToContributionsWithout"
+  );
+
+  // currentRatio
+  createChartFromParsedData(
+    parseData,
+    "currentRatio_chart",
+    "currentRatio_Peer",
+    "currentRatio_Client",
+    "number",
+    0,
+    "currentRatio"
+  );
+
+  // mandatoryDebtServiceToContributionsWithout
+  createChartFromParsedData(
+    parseData,
+    "mandatoryDebtServiceToContributionsWithout_chart",
+    "mandatoryDebtServiceToContributionsWithout_Peer",
+    "mandatoryDebtServiceToContributionsWithout_Client",
+    "percent",
+    0,
+    "mandatoryDebtServiceToContributionsWithout"
+  );
+
+  // debtPerGivingUnit
+  createChartFromParsedData(
+    parseData,
+    "debtPerGivingUnit_chart",
+    "debtPerGivingUnit_Peer",
+    "debtPerGivingUnit_Client",
+    "dollar",
+    0,
+    "debtPerGivingUnit"
+  );
+
+  // debtCoverage
+  createChartFromParsedData(
+    parseData,
+    "debtCoverage_chart",
+    "debtCoverage_Peer",
+    "debtCoverage_Client",
+    "dollar",
+    0,
+    "debtCoverage"
+  );
+
+
 
   closeSidebarAfterSelectingOption("debt");
 };
