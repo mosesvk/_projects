@@ -30,7 +30,6 @@ const displayReportComponent = () => {
       ["netCashAvailability_including", "dollar", 0, "wa"],
       ["netCashAvailability_standard", "dollar", 0, "wa"],
     ]);
-
     insertDataToReport(debtData, selectedYears, [
       ["debtToContributionsWithout", "num", 0, "wa"],
       ["currentRatio", "num", 0, "wa"],
