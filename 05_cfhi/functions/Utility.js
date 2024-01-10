@@ -214,6 +214,7 @@ const getMinOfArray = (array) => {
 };
 
 const getSumOfArray = (array) => {
+  // console.log(array);
   if (array.length === 0) {
     return 0;
   }
@@ -342,6 +343,7 @@ const getPeerAndClientChartDataArrays = (
 
   
   years.forEach((year) => {
+    // console.log(year, dataPeer)
     if (dataPeer[year]) {
       const array = dataPeer[year];
       const avg = getAverageOfArray(array);

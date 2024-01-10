@@ -19,10 +19,105 @@ const getWeightedAverageOfArray = (data, name) => {
       return netCashAvailability_including_weightedAverage(data, name);
     case "netCashAvailability_standard":
       return netCashAvailability_standard_weightedAverage(data, name);
+    case "debtCoverage":
+      return debtCoverage_weightedAverage(data, name);
+    case "debtToContributionsWithout": 
+      return debtToContributionsWithout_weightedAverage(data, name);
+    case "currentRatio": 
+      return currentRatio_weightedAverage(data, name);
+    case "mandatoryDebtServiceToContributionsWithout": 
+      return mandatoryDebtServiceToContributionsWithout_weightedAverage(data, name);
+    case "debtPerAverageAdultAttendee": 
+      return debtPerAverageAdultAttendee_weightedAverage(data, name);
+    case "debtPerAverageAdultAttendee_standard": 
+      return debtPerAverageAdultAttendee_standard_weightedAverage(data, name);
+    case "debtPerGivingUnit": 
+      return debtPerGivingUnit_weightedAverage(data, name);
+    case "debtPerGivingUnit_standard":
+      return debtPerGivingUnit_standard_weightedAverage(data, name);
     default:
       return;
   }
 };
+
+
+
+const debtPerGivingUnit_standard_weightedAverage = (data, name) => {
+  const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
+  const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]);
+  const s02 = getSumOfArray(data.givingUnits[name]);
+
+  return ((s39 - s152) / s02) * 2
+}
+
+
+const debtPerGivingUnit_weightedAverage = (data, name) => {
+  const s155 = getSumOfArray(data.totalDebt[name]);
+  const s165 = getSumOfArray(data.financeLeaseRightOfUse[name]);
+  const s02 = getSumOfArray(data.givingUnits[name]);
+
+  return ((s155 - s165) / s02)
+
+}
+
+const debtPerAverageAdultAttendee_standard_weightedAverage = (data, name) => {
+  const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
+  const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]);
+  const s01 = getSumOfArray(data.averageAdultAttendees[name]);
+
+  return ((s39 - s152) / s01) * 2
+}
+
+const debtPerAverageAdultAttendee_weightedAverage = (data, name) => {
+  const s155 = getSumOfArray(data.totalDebt[name]);
+  const s165 = getSumOfArray(data.financeLeaseRightOfUse[name]);
+  const s01 = getSumOfArray(data.averageAdultAttendees[name]);
+
+  return ((s155 - s165) / s01)
+}
+
+const mandatoryDebtServiceToContributionsWithout_weightedAverage = (data, name) => {
+  console.log(data, name);
+  
+  const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]);
+  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]);
+  const s47 = getSumOfArray(data.cyInterestExpense[name]);
+  const s168 = getSumOfArray(data.internetOnFinanceLease[name]);
+  const s51 = getSumOfArray(data.capitalizedInterest[name]);
+  const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
+
+  return (((s154 - s166) + (s47 - s168) + s51) / s39)
+}
+
+
+const currentRatio_weightedAverage = (data, name) => {
+  const s17 = getSumOfArray(data.currentAssets[name]);
+  const s26 = getSumOfArray(data.currentLiabilities[name]);
+  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]);
+
+  return (s17 / (s26 - s166))
+}
+
+const debtToContributionsWithout_weightedAverage = (data, name) => {
+  const s155 = getSumOfArray(data.totalDebt[name]);
+  const s165 = getSumOfArray(data.financeLeaseRightOfUse[name]);
+  const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
+
+  return ((s155 - s165) / s39)
+}
+
+const debtCoverage_weightedAverage = (data, name) => {
+  const s48 = getSumOfArray(data.changeInNetAssetWithout[name]);
+  const s167 = getSumOfArray(data.amortizationFinanceLease[name]);
+  const s168 = getSumOfArray(data.internetOnFinanceLease[name]);
+  const s47 = getSumOfArray(data.cyInterestExpense[name]);
+  const s46 = getSumOfArray(data.totalDepreciationExpense[name]);
+  const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]);
+  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]);
+
+  return (((s48 + s167 + s168) + (s47 - s168) + s46) / ((s154 - s166) + (s47 - s168)))
+
+}
 
 const netCashAvailability_standard_weightedAverage = (data, name) => {
   const s45 = getSumOfArray(data.totalExpense[name]);

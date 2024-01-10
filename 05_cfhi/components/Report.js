@@ -1,6 +1,7 @@
 const displayReportComponent = () => {
   const demoData = JSON.parse(localStorage.getItem("demoData"));
   const cashData = JSON.parse(localStorage.getItem("cashData"));
+  const debtData = JSON.parse(localStorage.getItem("debtData"));
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -20,7 +21,6 @@ const displayReportComponent = () => {
       ["facilitySquareFootage", "num", 0],
       ["numberOfLocations", "num", 0],
     ]);
-
     insertDataToReport(cashData, selectedYears, [
       ["daysExpendableNetAssets", "num", 0, "wa"],
       ["daysOperatingCash", "num", 0, "wa"],
@@ -30,6 +30,19 @@ const displayReportComponent = () => {
       ["netCashAvailability_including", "dollar", 0, "wa"],
       ["netCashAvailability_standard", "dollar", 0, "wa"],
     ]);
+
+    insertDataToReport(debtData, selectedYears, [
+      ["debtToContributionsWithout", "num", 0, "wa"],
+      ["currentRatio", "num", 0, "wa"],
+      ["mandatoryDebtServiceToContributionsWithout", "percent", 0, "wa"],
+      ["debtPerAverageAdultAttendee", "dollar", 0, "wa"],
+      ["debtPerAverageAdultAttendee_percentChange", "percent", 0],
+      ["debtPerAverageAdultAttendee_standard", "dollar", 0, "wa"],
+      ["debtPerGivingUnit", "dollar", 0, "wa"],
+      ["debtPerGivingUnit_percentChange", "percent", 0],
+      ["debtPerGivingUnit_standard", "dollar", 0, "wa"],
+      ["debtCoverage", "num", 0, "wa"],
+    ])
   }
 
   closeSidebarAfterSelectingOption("report");
@@ -69,7 +82,7 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  // console.log({ selectedYears, name, client, peer, type, fixedNum });
+  console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);
@@ -173,7 +186,7 @@ const addPeerDataToRow = (
   name,
   data
 ) => {
-  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data });
+  console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data });
 
   const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
@@ -190,7 +203,7 @@ const addPeerDataToRow = (
     avg = 0;
   }
 
-  // console.log(peer[dataArray]);
+  console.log(peer[dataArray]);
 
   const textAvg = styleNumber(avg, type, fixedNum);
   const dataPointMid = document.createElement("th");
