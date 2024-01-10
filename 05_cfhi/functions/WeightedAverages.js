@@ -77,8 +77,8 @@ const debtPerAverageAdultAttendee_weightedAverage = (data, name) => {
 }
 
 const mandatoryDebtServiceToContributionsWithout_weightedAverage = (data, name) => {
-  console.log(data, name);
-  
+  // console.log(data, name);
+
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]);
   const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]);
   const s47 = getSumOfArray(data.cyInterestExpense[name]);
