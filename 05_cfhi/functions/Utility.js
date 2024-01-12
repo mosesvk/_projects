@@ -390,7 +390,14 @@ const styleNumber = (num, type, fixed) => {
   return text;
 };
 
-const getTitleOfRecord = (record) => {
+const getTitleOfRecord = (record, element) => {
+  let title = '';
+
+  if (record) {
+    title = record.textContent;
+  }
+
+  return title;
 
 }
 
