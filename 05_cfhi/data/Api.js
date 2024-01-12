@@ -10683,7 +10683,8 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "medianHouseholdIncome_Client",
         record,
-        "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        "cfhi_compre_14_ratio___median_household_income_given_to_church",
+        "cfhi_compre_14_bench_rating___median_household_income_given_to_church"
       );
 
       // medianHouseholdPerGivingUnit_one
@@ -10693,7 +10694,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "medianHouseholdPerGivingUnit_one_Client",
         record,
-        "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        "cfhi_compre_14a_ratio___median_household_income_given_to_church"
       );
 
       // medianHouseholdPerGivingUnit_two
@@ -10806,6 +10807,8 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
       );
     });
+
+    
   });
 
   localStorage.removeItem("incomeData");

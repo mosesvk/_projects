@@ -390,3 +390,7 @@ const styleNumber = (num, type, fixed) => {
   return text;
 };
 
+const getTitleOfRecord = (record) => {
+
+}
+
