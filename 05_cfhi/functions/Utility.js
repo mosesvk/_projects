@@ -390,14 +390,27 @@ const styleNumber = (num, type, fixed) => {
   return text;
 };
 
-const getTitleOfRecord = (record, element) => {
-  let title = '';
+const updateCountyData = (trId, countyName, percentage, income) => {
+  // Format income with commas
+  const formattedIncome = new Intl.NumberFormat().format(income);
 
-  if (record) {
-    title = record.textContent;
-  }
+  // Create the HTML element
+  const htmlElement = `
+      <tr id="${trId}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <th scope="row" class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <span class="title">${countyName}</span>
+              <p class="pl-4">${percentage} Per Giving Units</p>
+              <p class="pl-4">$${formattedIncome}</p>
+          </th>
+          <th scope="row" class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <span>---</span>
+              <p>${percentage}</p>
+              <p>$${formattedIncome}</p>
+          </th>
+      </tr>
+  `;
 
-  return title;
-
+  return htmlElement;
 }
+
 

@@ -8079,123 +8079,123 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "cfhi_compre_14_ratio___median_household_income_given_to_church"
       );
 
-      // medianHouseholdIncome
+      // localCountyPerGivingUnit
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "medianHouseholdIncome_Client",
+        "localCountyPerGivingUnit_Client",
         record,
         "cfhi_compre_14_ratio___median_household_income_given_to_church",
         "cfhi_compre_14_bench_rating___median_household_income_given_to_church"
       );
 
-      // medianHouseholdPerGivingUnit_two
+      // localCountyPerGivingUnit_two
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "medianHouseholdPerGivingUnit_one_Client",
+        "localCountyPerGivingUnit_one_Client",
         record,
         "cfhi_compre_14a_ratio___median_household_income_given_to_church"
       );
 
-      // medianHouseholdPerGivingUnit_three
+      // localCountyPerGivingUnit_three
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "medianHouseholdPerGivingUnit_two_Client",
+        "localCountyPerGivingUnit_two_Client",
         record,
         "cfhi_compre_14b_ratio___median_household_income_given_to_church"
       );
 
-      // medianHouseholdPerGivingUnit_four
+      // localCountyPerGivingUnit_four
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "medianHouseholdPerGivingUnit_three_Client",
+        "localCountyPerGivingUnit_three_Client",
         record,
         "cfhi_compre_14c_ratio___median_household_income_given_to_church"
       );
 
-      // medianHouseholdPerGivingUnit_five
+      // localCountyPerGivingUnit_five
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "medianHouseholdPerGivingUnit_four_Client",
+        "localCountyPerGivingUnit_four_Client",
         record,
         "cfhi_compre_14d_ratio___median_household_income_given_to_church"
       );
 
-      // medianHouseholdPerGivingUnit_six
+      // localCountyPerGivingUnit_six
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "medianHouseholdPerGivingUnit_five_Client",
+        "localCountyPerGivingUnit_five_Client",
         record,
         "cfhi_compre_14e_ratio___median_household_income_given_to_church"
       );
 
-      // medianHouseholdLocalCounty
+      // localCountyMedianHouseholdIncome
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "medianHouseholdLocalCounty_Client",
+        "localCountyMedianHouseholdIncome_Client",
         record,
         "s54_county_code___data"
       );
 
-      // medianHouseholdLocalCounty_two
+      // localCountyMedianHouseholdIncome_two
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "medianHouseholdLocalCounty_two_Client",
+        "localCountyMedianHouseholdIncome_two_Client",
         record,
         "s54_county_code_1054___data"
       );
 
-      // medianHouseholdLocalCounty_three
+      // localCountyMedianHouseholdIncome_three
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "medianHouseholdLocalCounty_three_Client",
+        "localCountyMedianHouseholdIncome_three_Client",
         record,
         "s54_county_code_2054___data"
       );
 
-      // medianHouseholdLocalCounty_four
+      // localCountyMedianHouseholdIncome_four
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "medianHouseholdLocalCounty_four_Client",
+        "localCountyMedianHouseholdIncome_four_Client",
         record,
         "s54_county_code_3054___data"
       );
 
-      // medianHouseholdLocalCounty_five
+      // localCountyMedianHouseholdIncome_five
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "medianHouseholdLocalCounty_five_Client",
+        "localCountyMedianHouseholdIncome_five_Client",
         record,
         "s54_county_code_4054___data"
       );
 
-      // medianHouseholdLocalCounty_six
+      // localCountyMedianHouseholdIncome_six
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "medianHouseholdLocalCounty_six_Client",
+        "localCountyMedianHouseholdIncome_six_Client",
         record,
         "s54_county_code_5054___data"
       );
