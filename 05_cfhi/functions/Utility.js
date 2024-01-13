@@ -1,22 +1,22 @@
 const yearsData_Array = [];
 const selectedYears_Array = [];
 const regions_Array = [
-  { arr: ['New England (CT, RI, MA, VT, NH)'], str: 'NE' },
+  { arr: ["New England (CT, RI, MA, VT, NH)"], str: "NE" },
   {
-    arr: ['Mid-Atlantic, VA, WV, MD, DE, NJ, NY, PA, DC)'],
-    str: 'MA'
+    arr: ["Mid-Atlantic, VA, WV, MD, DE, NJ, NY, PA, DC)"],
+    str: "MA",
   },
   {
-    arr: ['South, AR, LA, AL, TN, KY, GA, FL, SC, NC, MS)'],
-    str: 'SO'
+    arr: ["South, AR, LA, AL, TN, KY, GA, FL, SC, NC, MS)"],
+    str: "SO",
   },
-  { arr: ['Midwest, WI, IL, IN, MI, OH, IA, MN)'], str: 'MW' },
-  { arr: ['Plains, KS, MO, OK, TX, ND, SD, NE)'], str: 'PL' },
+  { arr: ["Midwest, WI, IL, IN, MI, OH, IA, MN)"], str: "MW" },
+  { arr: ["Plains, KS, MO, OK, TX, ND, SD, NE)"], str: "PL" },
   {
-    arr: ['Mountain/Southwest, ID, MT, WY, CO, UT, NV, AZ, NM)'],
-    str: 'MT'
+    arr: ["Mountain/Southwest, ID, MT, WY, CO, UT, NV, AZ, NM)"],
+    str: "MT",
   },
-  { arr: ['West Coast, CA, OR, WA)'], str: 'WC' }
+  { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
 ];
 
 const selectedRegions_Array = [];
@@ -41,7 +41,7 @@ const createChartFromParsedData = (
 
 const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
   // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
-  document.getElementById(chartId).innerHTML = '';
+  document.getElementById(chartId).innerHTML = "";
 
   // Create a new chart instance
   const chart = new ApexCharts(
@@ -52,7 +52,7 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
   chart.render();
 
   // init again when toggling dark mode
-  document.addEventListener('dark-mode', function () {
+  document.addEventListener("dark-mode", function () {
     chart.updateOptions(
       getMainChartOptions(dataPeer, dataClient, type, fixedNum)
     );
@@ -83,47 +83,47 @@ function updateModal(mainName, avgData, clientData) {
     }
 
     // Clear existing header content
-    headerRow.innerHTML = '';
+    headerRow.innerHTML = "";
 
     // Add the "year" column
-    const yearColumn = document.createElement('th');
-    yearColumn.className = 'px-6 py-3';
-    yearColumn.textContent = 'year';
+    const yearColumn = document.createElement("th");
+    yearColumn.className = "px-6 py-3";
+    yearColumn.textContent = "year";
     headerRow.appendChild(yearColumn);
 
     // Add the "Client" column
-    const clientColumn = document.createElement('th');
-    clientColumn.className = 'px-6 py-3';
-    clientColumn.textContent = 'client';
+    const clientColumn = document.createElement("th");
+    clientColumn.className = "px-6 py-3";
+    clientColumn.textContent = "client";
     headerRow.appendChild(clientColumn);
 
     // Add the "Avg" column
-    const avgColumn = document.createElement('th');
-    avgColumn.className = 'px-6 py-3';
-    avgColumn.textContent = 'Avg';
+    const avgColumn = document.createElement("th");
+    avgColumn.className = "px-6 py-3";
+    avgColumn.textContent = "Avg";
     headerRow.appendChild(avgColumn);
 
     // Add the remaining columns
-    const columns = ['Mid', 'Min', 'Max'];
+    const columns = ["Mid", "Min", "Max"];
     columns.forEach((column) => {
-      const col = document.createElement('th');
-      col.className = 'px-6 py-3';
+      const col = document.createElement("th");
+      col.className = "px-6 py-3";
       col.textContent = column;
       headerRow.appendChild(col);
     });
 
     // Add a row for each selected year
     selectedYears.forEach((year) => {
-      const yearRow = document.createElement('tr');
+      const yearRow = document.createElement("tr");
       yearRow.className =
-        'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600';
+        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
       yearRow.id = `${mainName}_modal_${year}`;
 
       // Create a table header cell for the year
-      const yearCell = document.createElement('th');
+      const yearCell = document.createElement("th");
       yearCell.className =
-        'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
-      yearCell.scope = 'row';
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
+      yearCell.scope = "row";
       yearCell.textContent = year;
 
       // Append the year cell to the row
@@ -146,14 +146,14 @@ const parseStoredData = (data) => {
 const closeSidebarAfterSelectingOption = (component) => {
   // Remove the sidebar/backdoor/"x" svg icon
   // Add back the "hamburger" svg icon
-  document.querySelector('#sidebar').classList.add('hidden');
-  document.querySelector('#sidebarBackdrop').classList.add('hidden');
+  document.querySelector("#sidebar").classList.add("hidden");
+  document.querySelector("#sidebarBackdrop").classList.add("hidden");
   document
-    .querySelector('#toggleSidebarMobileHamburger')
-    .classList.remove('hidden');
-  document.querySelector('#toggleSidebarMobileClose').classList.add('hidden');
+    .querySelector("#toggleSidebarMobileHamburger")
+    .classList.remove("hidden");
+  document.querySelector("#toggleSidebarMobileClose").classList.add("hidden");
 
-  localStorage.setItem('lastRenderedComponent', component);
+  localStorage.setItem("lastRenderedComponent", component);
 };
 
 const getAverageOfArray = (array) => {
@@ -167,7 +167,6 @@ const getAverageOfArray = (array) => {
 };
 
 const getMidpointOfArray = (array) => {
-
   // console.trace(array);
 
   if (array.length === 0) {
@@ -261,17 +260,17 @@ const calculateAveragePercentageChange = (values) => {
 };
 
 const getSelectedYearsFromLocalStorage = () => {
-  const storedSelectedYears = JSON.parse(localStorage.getItem('selectedYears'));
-  const storedData = localStorage.getItem('demo');
+  const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
+  const storedData = localStorage.getItem("demo");
   if (!storedSelectedYears && storedData) {
-    console.error('Need to Select Year');
+    console.error("Need to Select Year");
   }
 
   return storedSelectedYears;
 };
 
 const resetSelectedYearsFromLocalStorage = () => {
-  localStorage.setItem('selectedYears', JSON.stringify([]));
+  localStorage.setItem("selectedYears", JSON.stringify([]));
 };
 
 let selectedYears_Set = new Set();
@@ -286,7 +285,7 @@ const changeListenerForInputYears = (input, year) => {
   const selectedYearsArray = Array.from(selectedYears_Set).sort(
     (a, b) => a - b
   );
-  localStorage.setItem('selectedYears', JSON.stringify(selectedYearsArray));
+  localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
 };
 
 const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
@@ -297,28 +296,28 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     selectedYears_Set = new Set(storedYears);
   }
 
-  optionsListElement.innerHTML = '';
+  optionsListElement.innerHTML = "";
 
   yearsArray.forEach((year) => {
-    const newLabel = document.createElement('label');
-    newLabel.setAttribute('for', `option-${year}`);
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `option-${year}`);
     newLabel.setAttribute(
-      'class',
-      'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded'
+      "class",
+      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
     );
 
-    const newInput = document.createElement('input');
-    newInput.setAttribute('type', 'checkbox');
-    newInput.setAttribute('id', `option-${year}`);
-    newInput.setAttribute('class', `form-checkbox h-4 w-4 text-gray-600 mr-2`);
-    newInput.setAttribute('value', year);
+    const newInput = document.createElement("input");
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("id", `option-${year}`);
+    newInput.setAttribute("class", `form-checkbox h-4 w-4 text-gray-600 mr-2`);
+    newInput.setAttribute("value", year);
     newInput.checked = selectedYears_Set.has(year);
 
-    newInput.addEventListener('change', (e) =>
+    newInput.addEventListener("change", (e) =>
       changeListenerForInputYears(e.target, year)
     );
 
-    const newSpan = document.createElement('span');
+    const newSpan = document.createElement("span");
     newSpan.innerText = year;
 
     newLabel.appendChild(newInput);
@@ -341,7 +340,6 @@ const getPeerAndClientChartDataArrays = (
   const peerMax = [];
   const clientArray = [];
 
-  
   years.forEach((year) => {
     // console.log(year, dataPeer)
     if (dataPeer[year]) {
@@ -369,21 +367,21 @@ const getPeerAndClientChartDataArrays = (
 const styleNumber = (num, type, fixed) => {
   let text = num;
 
-  if (text == 0) text = '-';
+  if (text == 0) text = "-";
 
   if (!isNaN(text)) {
-    if (type === 'num' && text != 0) {
+    if (type === "num" && text != 0) {
       text = Number(text).toFixed(fixed);
       text = Number(text).toLocaleString(); // Add commas for thousands
     }
 
-    if (type === 'percent' && text != 0) {
-      text = parseFloat(text * 100).toFixed(fixed) + '%';
+    if (type === "percent" && text != 0) {
+      text = parseFloat(text * 100).toFixed(fixed) + "%";
     }
-    
-    if (type === 'dollar' && text != 0) {
+
+    if (type === "dollar" && text != 0) {
       text = parseFloat(text).toFixed(fixed);
-      text = '$ ' + Number(text).toLocaleString(); // Add commas for thousands
+      text = "$ " + Number(text).toLocaleString(); // Add commas for thousands
     }
   }
 
@@ -391,19 +389,22 @@ const styleNumber = (num, type, fixed) => {
 };
 
 const updateCountyData = (trId, countyName, percentage, income) => {
-    // Select the existing HTML element
+
+  if (isNaN(countyName) || countyName === "undefined" || countyName.length === 0) {
+    // add the class 'hidden' to the trId row
     const trElement = document.getElementById(`row_${trId}`);
-    const titleElement = document.getElementById(`title_${trId}`);
-    const percentageElement = document.getElementById(`percentage_${trId}`);
-    const incomeElement = document.getElementById(`income_${trId}`);
+    trElement.classList.add("hidden");
+  }
 
-    // Format income with commas
-    const formattedIncome = new Intl.NumberFormat().format(income);
+  const titleElement = document.getElementById(`title_${trId}`);
+  const percentageElement = document.getElementById(`percentage_${trId}`);
+  const incomeElement = document.getElementById(`income_${trId}`);
 
-    // Update the content of the selected elements
-    titleElement.textContent = countyName;
-    percentageElement.textContent = percentage;
-    incomeElement.textContent = `$${formattedIncome}`;
-}
+  // Format income with commas
+  const formattedIncome = new Intl.NumberFormat().format(income);
 
-
+  // Update the content of the selected elements
+  titleElement.textContent = countyName;
+  percentageElement.textContent = percentage;
+  incomeElement.textContent = `$${formattedIncome}`;
+};

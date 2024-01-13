@@ -8095,7 +8095,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "localCountyPerGivingUnit_one_Client",
+        "localCountyPerGivingUnit_two_Client",
         record,
         "cfhi_compre_14a_ratio___median_household_income_given_to_church"
       );
@@ -8105,7 +8105,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "localCountyPerGivingUnit_two_Client",
+        "localCountyPerGivingUnit_three_Client",
         record,
         "cfhi_compre_14b_ratio___median_household_income_given_to_church"
       );
@@ -8115,7 +8115,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "localCountyPerGivingUnit_three_Client",
+        "localCountyPerGivingUnit_four_Client",
         record,
         "cfhi_compre_14c_ratio___median_household_income_given_to_church"
       );
@@ -8125,7 +8125,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "localCountyPerGivingUnit_four_Client",
+        "localCountyPerGivingUnit_five_Client",
         record,
         "cfhi_compre_14d_ratio___median_household_income_given_to_church"
       );
@@ -8135,7 +8135,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "localCountyPerGivingUnit_five_Client",
+        "localCountyPerGivingUnit_six_Client",
         record,
         "cfhi_compre_14e_ratio___median_household_income_given_to_church"
       );
