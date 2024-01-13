@@ -66,8 +66,7 @@ function updateModal(mainName, avgData, clientData) {
   // Find the modal element
   const modal = document.getElementById(`${mainName}_modal`);
 
-  // console.log({modal});
-
+ 
   // Check if the modal element exists
   if (modal) {
     // Find the table header row
