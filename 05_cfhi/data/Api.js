@@ -1,4 +1,4 @@
-const xmlPeerString = `
+const xmlPeerString = (`
   <qdbapi>
     <record>
       <s52_formatted_year>2020</s52_formatted_year>
@@ -25,6 +25,9 @@ const xmlPeerString = `
       <s163___total_contribution_given_online>
         0
       </s163___total_contribution_given_online>
+      <cfhi_compre_00i_ratio___percent_of_total_contrib_given_online>
+        0
+      </cfhi_compre_00i_ratio___percent_of_total_contrib_given_online>
       <s157___total_outsourced_employee__fte_>
         0
       </s157___total_outsourced_employee__fte_>
@@ -32,6 +35,54 @@ const xmlPeerString = `
         0
       </s08___total_facility_square_footage>
       <s161___number_of_location />
+      <cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+        184.06
+      </cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+      <cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        192.81554782579
+      </cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+      <cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+        172.08563608168
+      </cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+      <cfhi_compre_04_ratio___liquidity_ratio>
+        11.708280655325
+      </cfhi_compre_04_ratio___liquidity_ratio>
+      <cfhi_compre_05_ratio___net_cash_availability>
+        1507127
+      </cfhi_compre_05_ratio___net_cash_availability>
+      <cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+        1507127
+      </cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+      <cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+        271324.16666667
+      </cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+      <cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+        0.835010560759
+      </cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+      <cfhi_compre_07_ratio___current_ratio>
+        6.3782937935366
+      </cfhi_compre_07_ratio___current_ratio>
+      <cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        0.0594514179055
+      </cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+      <cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+        4673.8715231788
+      </cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+      <cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>
+        11194.760264901
+      </cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>
+      <cfhi_compre_09d_ratio___debt_per_giving_unit>
+        7114.4616935484
+      </cfhi_compre_09d_ratio___debt_per_giving_unit>
+      <cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+        17040.411290323
+      </cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+      <cfhi_compre_10_ratio___debt_coverage>
+        4.8752005030986
+      </cfhi_compre_10_ratio___debt_coverage>
+      <cfhi_compre_10_yes_no___debt_coverage>
+        Yes
+      </cfhi_compre_10_yes_no___debt_coverage>
       <s34___net_asset_without_donor_restriction__undesignated>
         1641850
       </s34___net_asset_without_donor_restriction__undesignated>
@@ -113,6 +164,9 @@ const xmlPeerString = `
       <cfhi_compre_04_yes_no___liquidity_ratio>
         Yes
       </cfhi_compre_04_yes_no___liquidity_ratio>
+      <cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses>
+        Yes
+      </cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses>
       <cfhi_compre_05_yes_no___net_cash_availability>
         Yes
       </cfhi_compre_05_yes_no___net_cash_availability>
@@ -193,24 +247,12 @@ const xmlPeerString = `
       <cfhi_compre_16_yes_no___average_benefits_per_fte>
         Yes
       </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
       <cfhi_compre_16_yes_no___average_salaries_per_fte>
         Yes
       </cfhi_compre_16_yes_no___average_salaries_per_fte>
       <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
         Yes
       </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
       <cfhi_compre_18_1_yes_no___local_outreach_expenses>
         No
       </cfhi_compre_18_1_yes_no___local_outreach_expenses>
@@ -257,9 +299,15 @@ const xmlPeerString = `
       <cfhi_compre_00e_yes_no___attendees_to_staff>
         Yes
       </cfhi_compre_00e_yes_no___attendees_to_staff>
+      <cfhi_compre_00f_ratio___contributions_without_donor_restrictions>
+        4226022
+      </cfhi_compre_00f_ratio___contributions_without_donor_restrictions>
       <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
         Yes
       </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
+      <cfhi_compre_00g_ratio____total_contrib_excluding_large_gifts>
+        4229079
+      </cfhi_compre_00g_ratio____total_contrib_excluding_large_gifts>
       <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
         Yes
       </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
@@ -278,6 +326,189 @@ const xmlPeerString = `
       <cfhi_compre_00l_yes_no___number_of_locations>
         No
       </cfhi_compre_00l_yes_no___number_of_locations>
+      <cfhi_compre_11_ratio___net_income_ratio>
+        0.1549505470873
+      </cfhi_compre_11_ratio___net_income_ratio>
+      <cfhi_compre_11_yes_no___net_income_ratio>
+        Yes
+      </cfhi_compre_11_yes_no___net_income_ratio>
+      <s48___change_in_net_asset_without_donor_restriction>
+        675131
+      </s48___change_in_net_asset_without_donor_restriction>
+      <s167___amortization_of_finance_lease_right_of_use_asset />
+      <cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+        5597.3801324503
+      </cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
+        4357074
+      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
+      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
+        Yes
+      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
+      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
+        0
+      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
+      <s01_average_adult_attendees_excluding_children>
+        755
+      </s01_average_adult_attendees_excluding_children>
+      <cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+        8520.2056451613
+      </cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
+        Yes
+      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
+      <s02___giving_units>496</s02___giving_units>
+      <cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>
+        5601.4291390728
+      </cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>
+      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
+        Yes
+      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
+      <s40___total_contribution>4229079</s40___total_contribution>
+      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
+      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
+        0
+      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
+      <cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+        8526.3689516129
+      </cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
+        Yes
+      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
+      <cfhi_compre_15_ratio___benefits_to_salaries>
+        0.128287480349
+      </cfhi_compre_15_ratio___benefits_to_salaries>
+      <cfhi_compre_15_yes_no___benefits_to_salaries>
+        Yes
+      </cfhi_compre_15_yes_no___benefits_to_salaries>
+      <cfhi_compre_16_ratio___average_salaries_per_fte>
+        77286.055555556
+      </cfhi_compre_16_ratio___average_salaries_per_fte>
+      <cfhi_compre_16_yes_no___average_salaries_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_salaries_per_fte>
+      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
+        18
+      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
+      <cfhi_compre_16_ratio___average_benefits_per_fte>
+        9914.8333333333
+      </cfhi_compre_16_ratio___average_benefits_per_fte>
+      <cfhi_compre_16_yes_no___average_benefits_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_benefits_per_fte>
+      <cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+        87200.888888889
+      </cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
+      <cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp>
+        87200.888888889
+      </cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp>
+      <s157___total_outsourced_employee__fte_>
+        0
+      </s157___total_outsourced_employee__fte_>
+      <cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures>
+        0.4639089546579
+      </cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures>
+      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
+      <s45___total_expense>3681943</s45___total_expense>
+      <s167___amortization_of_finance_lease_right_of_use_asset />
+      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
+      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
+        127567
+      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
+      <s166___future_minimum_lease_payment />
+      <s46___total_depreciation_expense>
+        426053
+      </s46___total_depreciation_expense>
+      <cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+        0.0742563005825
+      </cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
+      <s47___cy_interest_expense>123676</s47___cy_interest_expense>
+      <cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        0.4639089546579
+      </cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
+      <s162___cost_of_outsourced_employee>0</s162___cost_of_outsourced_employee>
+      <cfhi_compre_18_1_ratio___local_outreach_expenses>
+        0.0114604677996
+      </cfhi_compre_18_1_ratio___local_outreach_expenses>
+      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
+        No
+      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
+      <s17___current_assets>1787351</s17___current_assets>
+      <cfhi_compre_18_2_ratio___global_outreach_expenses>
+        0.042392440631
+      </cfhi_compre_18_2_ratio___global_outreach_expenses>
+      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
+        Yes
+      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
+      <s15___global_outreach_expense>143433</s15___global_outreach_expense>
+      <cfhi_compre_18_3_ratio___global_local_outreach_expenses>
+        0.0538529084306
+      </cfhi_compre_18_3_ratio___global_local_outreach_expenses>
+      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
+        Yes
+      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
+      <s14___local_outreach_expense>38776</s14___local_outreach_expense>
+      <cfhi_compre_19_1_ratio___cash_exp_per_adult>
+        4481.4
+      </cfhi_compre_19_1_ratio___cash_exp_per_adult>
+      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
+        Yes
+      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
+      <cfhi_compre_19_2_ratio___cash_exp_per_gu>
+        6821.4858870968
+      </cfhi_compre_19_2_ratio___cash_exp_per_gu>
+      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
+        Yes
+      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
+      <cfhi_compre_20_ratio___contributions_per_acct_fte />
+      <cfhi_compre_20_yes_no___contributions_per_acct_fte />
+      <s160___accounting_department_volunteer>
+        0
+      </s160___accounting_department_volunteer>
+      <cfhi_compre_21_ratio___expenses_per_acct_fte />
+      <cfhi_compre_21_yes_no___expenses_per_acct_fte />
+      <cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10>
+        0
+      </cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10>
+      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
+        No
+      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
+      <s12___total_maint___occupancy_cost>0</s12___total_maint___occupancy_cost>
+      <cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10>
+        0
+      </cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10>
+      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
+        No
+      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
+      <cfhi_compre_23a_ratio___facility_cost_squarefoot_no_interest_less_than_10 />
+      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10 />
+      <s08___total_facility_square_footage>
+        0
+      </s08___total_facility_square_footage>
+      <cfhi_compre_23b_ratio___facility_cost_squarefoot_no_interest_more_than_10 />
+      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10 />
+      <cfhi_compre_24a_ratio___facility_cost_squarefoot_with_interest_less_than_10 />
+      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10 />
+      <cfhi_compre_24b_ratio___facility_cost_squarefoot_with_interest_more_than_10 />
+      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10 />
+      <cfhi_compre_25_ratio___it_cost_per_fte>
+        0
+      </cfhi_compre_25_ratio___it_cost_per_fte>
+      <cfhi_compre_25_yes_no___it_cost_per_fte>
+        No
+      </cfhi_compre_25_yes_no___it_cost_per_fte>
+      <s13___it_cost>0</s13___it_cost>
       <update_id>1697571395214</update_id>
     </record>
     <record>
@@ -303,9 +534,60 @@ const xmlPeerString = `
       </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
       <s40___total_contribution>1422605</s40___total_contribution>
       <s163___total_contribution_given_online />
+      <cfhi_compre_00i_ratio___percent_of_total_contrib_given_online>
+        0
+      </cfhi_compre_00i_ratio___percent_of_total_contrib_given_online>
       <s157___total_outsourced_employee__fte_ />
       <s08___total_facility_square_footage />
       <s161___number_of_location>1</s161___number_of_location>
+      <cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+        960.98
+      </cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+      <cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        125.35705287454
+      </cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+      <cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+        141.72021953239
+      </cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+      <cfhi_compre_04_ratio___liquidity_ratio>
+        1.1386110275499
+      </cfhi_compre_04_ratio___liquidity_ratio>
+      <cfhi_compre_05_ratio___net_cash_availability>
+        47460
+      </cfhi_compre_05_ratio___net_cash_availability>
+      <cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+        47460
+      </cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+      <cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+        94595
+      </cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+      <cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+        2.1263476924362
+      </cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+      <cfhi_compre_07_ratio___current_ratio>
+        1.3080400821269
+      </cfhi_compre_07_ratio___current_ratio>
+      <cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        0.1242726584718
+      </cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+      <cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+        12013.924
+      </cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+      <cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>
+        10500.056
+      </cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>
+      <cfhi_compre_09d_ratio___debt_per_giving_unit>
+        10011.603333333
+      </cfhi_compre_09d_ratio___debt_per_giving_unit>
+      <cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+        8750.0466666667
+      </cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+      <cfhi_compre_10_ratio___debt_coverage>
+        2.2005457569957
+      </cfhi_compre_10_ratio___debt_coverage>
+      <cfhi_compre_10_yes_no___debt_coverage>
+        Yes
+      </cfhi_compre_10_yes_no___debt_coverage>
       <s34___net_asset_without_donor_restriction__undesignated>
         2988631
       </s34___net_asset_without_donor_restriction__undesignated>
@@ -379,6 +661,9 @@ const xmlPeerString = `
       <cfhi_compre_04_yes_no___liquidity_ratio>
         Yes
       </cfhi_compre_04_yes_no___liquidity_ratio>
+      <cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses>
+        Yes
+      </cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses>
       <cfhi_compre_05_yes_no___net_cash_availability>
         Yes
       </cfhi_compre_05_yes_no___net_cash_availability>
@@ -459,24 +744,12 @@ const xmlPeerString = `
       <cfhi_compre_16_yes_no___average_benefits_per_fte>
         No
       </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
       <cfhi_compre_16_yes_no___average_salaries_per_fte>
         Yes
       </cfhi_compre_16_yes_no___average_salaries_per_fte>
       <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
         Yes
       </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
       <cfhi_compre_18_1_yes_no___local_outreach_expenses>
         Yes
       </cfhi_compre_18_1_yes_no___local_outreach_expenses>
@@ -525,9 +798,15 @@ const xmlPeerString = `
       <cfhi_compre_00e_yes_no___attendees_to_staff>
         Yes
       </cfhi_compre_00e_yes_no___attendees_to_staff>
+      <cfhi_compre_00f_ratio___contributions_without_donor_restrictions>
+        1312507
+      </cfhi_compre_00f_ratio___contributions_without_donor_restrictions>
       <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
         Yes
       </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
+      <cfhi_compre_00g_ratio____total_contrib_excluding_large_gifts>
+        1322605
+      </cfhi_compre_00g_ratio____total_contrib_excluding_large_gifts>
       <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
         Yes
       </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
@@ -546,6 +825,183 @@ const xmlPeerString = `
       <cfhi_compre_00l_yes_no___number_of_locations>
         Yes
       </cfhi_compre_00l_yes_no___number_of_locations>
+      <cfhi_compre_11_ratio___net_income_ratio>
+        0.0547063534856
+      </cfhi_compre_11_ratio___net_income_ratio>
+      <cfhi_compre_11_yes_no___net_income_ratio>
+        Yes
+      </cfhi_compre_11_yes_no___net_income_ratio>
+      <s48___change_in_net_asset_without_donor_restriction>
+        62703
+      </s48___change_in_net_asset_without_donor_restriction>
+      <s167___amortization_of_finance_lease_right_of_use_asset />
+      <cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+        5250.028
+      </cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
+        1146174
+      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
+      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
+        Yes
+      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
+      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
+        100000
+      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
+      <s01_average_adult_attendees_excluding_children>
+        250
+      </s01_average_adult_attendees_excluding_children>
+      <cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+        4375.0233333333
+      </cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
+        Yes
+      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
+      <s02___giving_units>300</s02___giving_units>
+      <cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>
+        5290.42
+      </cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>
+      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
+        Yes
+      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
+      <s40___total_contribution>1422605</s40___total_contribution>
+      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
+      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
+        0
+      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
+      <cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+        4408.6833333333
+      </cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
+        Yes
+      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
+      <cfhi_compre_15_ratio___benefits_to_salaries>
+        0.0452266308003
+      </cfhi_compre_15_ratio___benefits_to_salaries>
+      <cfhi_compre_15_yes_no___benefits_to_salaries>
+        No
+      </cfhi_compre_15_yes_no___benefits_to_salaries>
+      <cfhi_compre_16_ratio___average_salaries_per_fte>
+        61958.333333333
+      </cfhi_compre_16_ratio___average_salaries_per_fte>
+      <cfhi_compre_16_yes_no___average_salaries_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_salaries_per_fte>
+      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
+        6
+      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
+      <cfhi_compre_16_ratio___average_benefits_per_fte>
+        2802.1666666667
+      </cfhi_compre_16_ratio___average_benefits_per_fte>
+      <cfhi_compre_16_yes_no___average_benefits_per_fte>
+        No
+      </cfhi_compre_16_yes_no___average_benefits_per_fte>
+      <cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+        64760.5
+      </cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
+      <cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp>
+        64760.5
+      </cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp>
+      <s157___total_outsourced_employee__fte_ />
+      <cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures>
+        0.3423040329827
+      </cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures>
+      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
+      <s45___total_expense>1283176</s45___total_expense>
+      <s167___amortization_of_finance_lease_right_of_use_asset />
+      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
+      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
+        0
+      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
+      <s166___future_minimum_lease_payment />
+      <s46___total_depreciation_expense>
+        148036
+      </s46___total_depreciation_expense>
+      <cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+        0.1546381944077
+      </cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
+      <s47___cy_interest_expense>175536</s47___cy_interest_expense>
+      <cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        0.3423040329827
+      </cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
+      <s162___cost_of_outsourced_employee />
+      <cfhi_compre_18_1_ratio___local_outreach_expenses>
+        0.0308323202424
+      </cfhi_compre_18_1_ratio___local_outreach_expenses>
+      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
+        Yes
+      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
+      <s17___current_assets>447869</s17___current_assets>
+      <cfhi_compre_18_2_ratio___global_outreach_expenses>
+        0.0256770090033
+      </cfhi_compre_18_2_ratio___global_outreach_expenses>
+      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
+        No
+      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
+      <s15___global_outreach_expense>29147</s15___global_outreach_expense>
+      <cfhi_compre_18_3_ratio___global_local_outreach_expenses>
+        0.0565093292457
+      </cfhi_compre_18_3_ratio___global_local_outreach_expenses>
+      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
+        Yes
+      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
+      <s14___local_outreach_expense>34999</s14___local_outreach_expense>
+      <cfhi_compre_19_1_ratio___cash_exp_per_adult>
+        4540.56
+      </cfhi_compre_19_1_ratio___cash_exp_per_adult>
+      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
+        Yes
+      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
+      <cfhi_compre_19_2_ratio___cash_exp_per_gu>
+        3783.8
+      </cfhi_compre_19_2_ratio___cash_exp_per_gu>
+      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
+        Yes
+      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
+      <cfhi_compre_20_ratio___contributions_per_acct_fte />
+      <cfhi_compre_20_yes_no___contributions_per_acct_fte />
+      <s160___accounting_department_volunteer />
+      <cfhi_compre_21_ratio___expenses_per_acct_fte />
+      <cfhi_compre_21_yes_no___expenses_per_acct_fte />
+      <cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10>
+        0
+      </cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10>
+      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
+        No
+      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
+      <s12___total_maint___occupancy_cost />
+      <cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10>
+        0
+      </cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10>
+      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
+        No
+      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
+      <cfhi_compre_23a_ratio___facility_cost_squarefoot_no_interest_less_than_10 />
+      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10 />
+      <s08___total_facility_square_footage />
+      <cfhi_compre_23b_ratio___facility_cost_squarefoot_no_interest_more_than_10 />
+      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10 />
+      <cfhi_compre_24a_ratio___facility_cost_squarefoot_with_interest_less_than_10 />
+      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10 />
+      <cfhi_compre_24b_ratio___facility_cost_squarefoot_with_interest_more_than_10 />
+      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10 />
+      <cfhi_compre_25_ratio___it_cost_per_fte>
+        0
+      </cfhi_compre_25_ratio___it_cost_per_fte>
+      <cfhi_compre_25_yes_no___it_cost_per_fte>
+        No
+      </cfhi_compre_25_yes_no___it_cost_per_fte>
+      <s13___it_cost />
       <update_id>1697571395214</update_id>
     </record>
     <record>
@@ -573,6 +1029,9 @@ const xmlPeerString = `
       <s163___total_contribution_given_online>
         1921033
       </s163___total_contribution_given_online>
+      <cfhi_compre_00i_ratio___percent_of_total_contrib_given_online>
+        0.4773535536262
+      </cfhi_compre_00i_ratio___percent_of_total_contrib_given_online>
       <s157___total_outsourced_employee__fte_>
         0
       </s157___total_outsourced_employee__fte_>
@@ -580,6 +1039,46 @@ const xmlPeerString = `
         82573
       </s08___total_facility_square_footage>
       <s161___number_of_location>1</s161___number_of_location>
+      <cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+        797.94
+      </cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+      <cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        -98.4561237454
+      </cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+      <cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+        14.35001357674
+      </cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+      <cfhi_compre_04_ratio___liquidity_ratio>
+        -4.8697899374936
+      </cfhi_compre_04_ratio___liquidity_ratio>
+      <cfhi_compre_05_ratio___net_cash_availability>
+        -1432082
+      </cfhi_compre_05_ratio___net_cash_availability>
+      <cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+        -1432082
+      </cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+      <cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+        367049.33333333
+      </cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+      <cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+        0
+      </cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+      <cfhi_compre_07_ratio___current_ratio>
+        17.917175940158
+      </cfhi_compre_07_ratio___current_ratio>
+      <cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        0
+      </cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+      <cfhi_compre_09a_ratio___debt_per_average_adult_attendee />
+      <cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee />
+      <cfhi_compre_09d_ratio___debt_per_giving_unit>
+        0
+      </cfhi_compre_09d_ratio___debt_per_giving_unit>
+      <cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+        9197.2172839506
+      </cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+      <cfhi_compre_10_ratio___debt_coverage />
+      <cfhi_compre_10_yes_no___debt_coverage />
       <s34___net_asset_without_donor_restriction__undesignated>
         5756556
       </s34___net_asset_without_donor_restriction__undesignated>
@@ -659,6 +1158,9 @@ const xmlPeerString = `
       <cfhi_compre_04_yes_no___liquidity_ratio>
         No
       </cfhi_compre_04_yes_no___liquidity_ratio>
+      <cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses>
+        Yes
+      </cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses>
       <cfhi_compre_05_yes_no___net_cash_availability>
         Yes
       </cfhi_compre_05_yes_no___net_cash_availability>
@@ -731,24 +1233,12 @@ const xmlPeerString = `
       <cfhi_compre_16_yes_no___average_benefits_per_fte>
         Yes
       </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
       <cfhi_compre_16_yes_no___average_salaries_per_fte>
         Yes
       </cfhi_compre_16_yes_no___average_salaries_per_fte>
       <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
         Yes
       </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
       <cfhi_compre_18_1_yes_no___local_outreach_expenses>
         No
       </cfhi_compre_18_1_yes_no___local_outreach_expenses>
@@ -807,9 +1297,15 @@ const xmlPeerString = `
       <cfhi_compre_00e_yes_no___attendees_to_staff>
         No
       </cfhi_compre_00e_yes_no___attendees_to_staff>
+      <cfhi_compre_00f_ratio___contributions_without_donor_restrictions>
+        3724873
+      </cfhi_compre_00f_ratio___contributions_without_donor_restrictions>
       <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
         Yes
       </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
+      <cfhi_compre_00g_ratio____total_contrib_excluding_large_gifts>
+        4024340
+      </cfhi_compre_00g_ratio____total_contrib_excluding_large_gifts>
       <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
         Yes
       </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
@@ -828,6 +1324,201 @@ const xmlPeerString = `
       <cfhi_compre_00l_yes_no___number_of_locations>
         Yes
       </cfhi_compre_00l_yes_no___number_of_locations>
+      <cfhi_compre_11_ratio___net_income_ratio>
+        -0.1204103106189
+      </cfhi_compre_11_ratio___net_income_ratio>
+      <cfhi_compre_11_yes_no___net_income_ratio>
+        Yes
+      </cfhi_compre_11_yes_no___net_income_ratio>
+      <s48___change_in_net_asset_without_donor_restriction>
+        -470219
+      </s48___change_in_net_asset_without_donor_restriction>
+      <s167___amortization_of_finance_lease_right_of_use_asset />
+      <cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee />
+      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
+        3905139
+      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
+      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee />
+      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
+        0
+      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
+      <s01_average_adult_attendees_excluding_children>
+        0
+      </s01_average_adult_attendees_excluding_children>
+      <cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+        4598.6086419753
+      </cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
+        Yes
+      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
+      <s02___giving_units>810</s02___giving_units>
+      <cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee />
+      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee />
+      <s40___total_contribution>4024340</s40___total_contribution>
+      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
+      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
+        0
+      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
+      <cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+        4968.3209876543
+      </cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
+        Yes
+      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
+      <cfhi_compre_15_ratio___benefits_to_salaries>
+        0.3021030345479
+      </cfhi_compre_15_ratio___benefits_to_salaries>
+      <cfhi_compre_15_yes_no___benefits_to_salaries>
+        Yes
+      </cfhi_compre_15_yes_no___benefits_to_salaries>
+      <cfhi_compre_16_ratio___average_salaries_per_fte>
+        47643.369565217
+      </cfhi_compre_16_ratio___average_salaries_per_fte>
+      <cfhi_compre_16_yes_no___average_salaries_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_salaries_per_fte>
+      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
+        36.8
+      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
+      <cfhi_compre_16_ratio___average_benefits_per_fte>
+        14393.206521739
+      </cfhi_compre_16_ratio___average_benefits_per_fte>
+      <cfhi_compre_16_yes_no___average_benefits_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_benefits_per_fte>
+      <cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+        62036.576086957
+      </cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
+      <cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp>
+        62036.576086957
+      </cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp>
+      <s157___total_outsourced_employee__fte_>
+        0
+      </s157___total_outsourced_employee__fte_>
+      <cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures>
+        0.5183104360177
+      </cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures>
+      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
+      <s45___total_expense>4917892</s45___total_expense>
+      <s167___amortization_of_finance_lease_right_of_use_asset />
+      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
+      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
+        0
+      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
+      <s166___future_minimum_lease_payment />
+      <s46___total_depreciation_expense>
+        513300
+      </s46___total_depreciation_expense>
+      <cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+        0
+      </cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
+      <s47___cy_interest_expense>0</s47___cy_interest_expense>
+      <cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        0.5183104360177
+      </cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
+      <s162___cost_of_outsourced_employee>0</s162___cost_of_outsourced_employee>
+      <cfhi_compre_18_1_ratio___local_outreach_expenses>
+        0
+      </cfhi_compre_18_1_ratio___local_outreach_expenses>
+      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
+        No
+      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
+      <s17___current_assets>4371343</s17___current_assets>
+      <cfhi_compre_18_2_ratio___global_outreach_expenses>
+        0.1183085743243
+      </cfhi_compre_18_2_ratio___global_outreach_expenses>
+      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
+        Yes
+      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
+      <s15___global_outreach_expense>521101</s15___global_outreach_expense>
+      <cfhi_compre_18_3_ratio___global_local_outreach_expenses>
+        0.1183085743243
+      </cfhi_compre_18_3_ratio___global_local_outreach_expenses>
+      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
+        Yes
+      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
+      <s14___local_outreach_expense>0</s14___local_outreach_expense>
+      <cfhi_compre_19_1_ratio___cash_exp_per_adult />
+      <cfhi_compre_19_1_yes_no___cash_exp_per_adult />
+      <cfhi_compre_19_2_ratio___cash_exp_per_gu>
+        5437.7679012346
+      </cfhi_compre_19_2_ratio___cash_exp_per_gu>
+      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
+        Yes
+      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
+      <cfhi_compre_20_ratio___contributions_per_acct_fte>
+        1437264.2857143
+      </cfhi_compre_20_ratio___contributions_per_acct_fte>
+      <cfhi_compre_20_yes_no___contributions_per_acct_fte>
+        Yes
+      </cfhi_compre_20_yes_no___contributions_per_acct_fte>
+      <s160___accounting_department_volunteer>
+        0.3
+      </s160___accounting_department_volunteer>
+      <cfhi_compre_21_ratio___expenses_per_acct_fte>
+        1756390
+      </cfhi_compre_21_ratio___expenses_per_acct_fte>
+      <cfhi_compre_21_yes_no___expenses_per_acct_fte>
+        Yes
+      </cfhi_compre_21_yes_no___expenses_per_acct_fte>
+      <cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10>
+        0
+      </cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10>
+      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
+        No
+      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
+      <s12___total_maint___occupancy_cost />
+      <cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10>
+        0
+      </cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10>
+      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
+        No
+      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
+      <cfhi_compre_23a_ratio___facility_cost_squarefoot_no_interest_less_than_10>
+        0
+      </cfhi_compre_23a_ratio___facility_cost_squarefoot_no_interest_less_than_10>
+      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
+        No
+      </cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
+      <s08___total_facility_square_footage>
+        82573
+      </s08___total_facility_square_footage>
+      <cfhi_compre_23b_ratio___facility_cost_squarefoot_no_interest_more_than_10>
+        0
+      </cfhi_compre_23b_ratio___facility_cost_squarefoot_no_interest_more_than_10>
+      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
+        No
+      </cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
+      <cfhi_compre_24a_ratio___facility_cost_squarefoot_with_interest_less_than_10>
+        0
+      </cfhi_compre_24a_ratio___facility_cost_squarefoot_with_interest_less_than_10>
+      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
+        No
+      </cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
+      <cfhi_compre_24b_ratio___facility_cost_squarefoot_with_interest_more_than_10>
+        0
+      </cfhi_compre_24b_ratio___facility_cost_squarefoot_with_interest_more_than_10>
+      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
+        No
+      </cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
+      <cfhi_compre_25_ratio___it_cost_per_fte>
+        0
+      </cfhi_compre_25_ratio___it_cost_per_fte>
+      <cfhi_compre_25_yes_no___it_cost_per_fte>
+        No
+      </cfhi_compre_25_yes_no___it_cost_per_fte>
+      <s13___it_cost />
       <update_id>1697571395204</update_id>
     </record>
     <record>
@@ -855,6 +1546,9 @@ const xmlPeerString = `
       <s163___total_contribution_given_online>
         3502579
       </s163___total_contribution_given_online>
+      <cfhi_compre_00i_ratio___percent_of_total_contrib_given_online>
+        0.5937599063703
+      </cfhi_compre_00i_ratio___percent_of_total_contrib_given_online>
       <s157___total_outsourced_employee__fte_>
         0
       </s157___total_outsourced_employee__fte_>
@@ -862,6 +1556,54 @@ const xmlPeerString = `
         108000
       </s08___total_facility_square_footage>
       <s161___number_of_location>2</s161___number_of_location>
+      <cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+        205.26
+      </cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+      <cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        154.374952582
+      </cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+      <cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+        220.85470288005
+      </cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+      <cfhi_compre_04_ratio___liquidity_ratio>
+        45.06592403989
+      </cfhi_compre_04_ratio___liquidity_ratio>
+      <cfhi_compre_05_ratio___net_cash_availability>
+        1236054
+      </cfhi_compre_05_ratio___net_cash_availability>
+      <cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+        1236054
+      </cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+      <cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+        351944.91666667
+      </cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+      <cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+        0.3934601599855
+      </cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+      <cfhi_compre_07_ratio___current_ratio>
+        2.4623669477409
+      </cfhi_compre_07_ratio___current_ratio>
+      <cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        0.1788123241601
+      </cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+      <cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+        526.37255965293
+      </cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+      <cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>
+        2621.3779826464
+      </cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>
+      <cfhi_compre_09d_ratio___debt_per_giving_unit>
+        1177.2359005458
+      </cfhi_compre_09d_ratio___debt_per_giving_unit>
+      <cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+        5862.7301394785
+      </cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+      <cfhi_compre_10_ratio___debt_coverage>
+        2.3030407105646
+      </cfhi_compre_10_ratio___debt_coverage>
+      <cfhi_compre_10_yes_no___debt_coverage>
+        Yes
+      </cfhi_compre_10_yes_no___debt_coverage>
       <s34___net_asset_without_donor_restriction__undesignated>
         2375042
       </s34___net_asset_without_donor_restriction__undesignated>
@@ -945,6 +1687,9 @@ const xmlPeerString = `
       <cfhi_compre_04_yes_no___liquidity_ratio>
         No
       </cfhi_compre_04_yes_no___liquidity_ratio>
+      <cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses>
+        Yes
+      </cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses>
       <cfhi_compre_05_yes_no___net_cash_availability>
         Yes
       </cfhi_compre_05_yes_no___net_cash_availability>
@@ -1025,24 +1770,12 @@ const xmlPeerString = `
       <cfhi_compre_16_yes_no___average_benefits_per_fte>
         Yes
       </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
       <cfhi_compre_16_yes_no___average_salaries_per_fte>
         Yes
       </cfhi_compre_16_yes_no___average_salaries_per_fte>
       <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
         Yes
       </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
       <cfhi_compre_18_1_yes_no___local_outreach_expenses>
         Yes
       </cfhi_compre_18_1_yes_no___local_outreach_expenses>
@@ -1103,9 +1836,15 @@ const xmlPeerString = `
       <cfhi_compre_00e_yes_no___attendees_to_staff>
         Yes
       </cfhi_compre_00e_yes_no___attendees_to_staff>
+      <cfhi_compre_00f_ratio___contributions_without_donor_restrictions>
+        4833821
+      </cfhi_compre_00f_ratio___contributions_without_donor_restrictions>
       <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
         Yes
       </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
+      <cfhi_compre_00g_ratio____total_contrib_excluding_large_gifts>
+        5626182
+      </cfhi_compre_00g_ratio____total_contrib_excluding_large_gifts>
       <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
         Yes
       </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
@@ -1124,6 +1863,215 @@ const xmlPeerString = `
       <cfhi_compre_00l_yes_no___number_of_locations>
         Yes
       </cfhi_compre_00l_yes_no___number_of_locations>
+      <cfhi_compre_11_ratio___net_income_ratio>
+        0.2364757722956
+      </cfhi_compre_11_ratio___net_income_ratio>
+      <cfhi_compre_11_yes_no___net_income_ratio>
+        Yes
+      </cfhi_compre_11_yes_no___net_income_ratio>
+      <s48___change_in_net_asset_without_donor_restriction>
+        1459388
+      </s48___change_in_net_asset_without_donor_restriction>
+      <s167___amortization_of_finance_lease_right_of_use_asset />
+      <cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+        1310.6889913232
+      </cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
+        6171406
+      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
+      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
+        Yes
+      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
+      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
+        100000
+      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
+      <s01_average_adult_attendees_excluding_children>
+        3688
+      </s01_average_adult_attendees_excluding_children>
+      <cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+        2931.3650697392
+      </cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
+        Yes
+      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
+      <s02___giving_units>1649</s02___giving_units>
+      <cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>
+        1525.5374186551
+      </cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>
+      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
+        Yes
+      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
+      <s40___total_contribution>5898982</s40___total_contribution>
+      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
+      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
+        172800
+      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
+      <cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+        3411.8750758035
+      </cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
+        Yes
+      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
+      <cfhi_compre_15_ratio___benefits_to_salaries>
+        0.1156764557359
+      </cfhi_compre_15_ratio___benefits_to_salaries>
+      <cfhi_compre_15_yes_no___benefits_to_salaries>
+        Yes
+      </cfhi_compre_15_yes_no___benefits_to_salaries>
+      <cfhi_compre_16_ratio___average_salaries_per_fte>
+        50243.443526171
+      </cfhi_compre_16_ratio___average_salaries_per_fte>
+      <cfhi_compre_16_yes_no___average_salaries_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_salaries_per_fte>
+      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
+        36.3
+      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
+      <cfhi_compre_16_ratio___average_benefits_per_fte>
+        5811.9834710744
+      </cfhi_compre_16_ratio___average_benefits_per_fte>
+      <cfhi_compre_16_yes_no___average_benefits_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_benefits_per_fte>
+      <cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+        56055.426997245
+      </cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
+      <cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp>
+        56055.426997245
+      </cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp>
+      <s157___total_outsourced_employee__fte_>
+        0
+      </s157___total_outsourced_employee__fte_>
+      <cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures>
+        0.4051935679983
+      </cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures>
+      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
+      <s45___total_expense>4712018</s45___total_expense>
+      <s167___amortization_of_finance_lease_right_of_use_asset />
+      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
+      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
+        798488
+      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
+      <s166___future_minimum_lease_payment />
+      <s46___total_depreciation_expense>
+        488679
+      </s46___total_depreciation_expense>
+      <cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+        0.1756786922369
+      </cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
+      <s47___cy_interest_expense>83740</s47___cy_interest_expense>
+      <cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        0.4051935679983
+      </cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
+      <s162___cost_of_outsourced_employee>0</s162___cost_of_outsourced_employee>
+      <cfhi_compre_18_1_ratio___local_outreach_expenses>
+        0.0531157285984
+      </cfhi_compre_18_1_ratio___local_outreach_expenses>
+      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
+        Yes
+      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
+      <s17___current_assets>2186343</s17___current_assets>
+      <cfhi_compre_18_2_ratio___global_outreach_expenses>
+        0.2149964544776
+      </cfhi_compre_18_2_ratio___global_outreach_expenses>
+      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
+        Yes
+      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
+      <s15___global_outreach_expense>1079675</s15___global_outreach_expense>
+      <cfhi_compre_18_3_ratio___global_local_outreach_expenses>
+        0.268112183076
+      </cfhi_compre_18_3_ratio___global_local_outreach_expenses>
+      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
+        Yes
+      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
+      <s14___local_outreach_expense>266738</s14___local_outreach_expense>
+      <cfhi_compre_19_1_ratio___cash_exp_per_adult>
+        1361.6667570499
+      </cfhi_compre_19_1_ratio___cash_exp_per_adult>
+      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
+        Yes
+      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
+      <cfhi_compre_19_2_ratio___cash_exp_per_gu>
+        3045.377198302
+      </cfhi_compre_19_2_ratio___cash_exp_per_gu>
+      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
+        Yes
+      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
+      <cfhi_compre_20_ratio___contributions_per_acct_fte>
+        1125236.4
+      </cfhi_compre_20_ratio___contributions_per_acct_fte>
+      <cfhi_compre_20_yes_no___contributions_per_acct_fte>
+        Yes
+      </cfhi_compre_20_yes_no___contributions_per_acct_fte>
+      <s160___accounting_department_volunteer>
+        0
+      </s160___accounting_department_volunteer>
+      <cfhi_compre_21_ratio___expenses_per_acct_fte>
+        942403.6
+      </cfhi_compre_21_ratio___expenses_per_acct_fte>
+      <cfhi_compre_21_yes_no___expenses_per_acct_fte>
+        Yes
+      </cfhi_compre_21_yes_no___expenses_per_acct_fte>
+      <cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10>
+        0.0652469708733
+      </cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10>
+      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
+        Yes
+      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
+      <s12___total_maint___occupancy_cost>
+        327659
+      </s12___total_maint___occupancy_cost>
+      <cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10>
+        0.0652469708733
+      </cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10>
+      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
+        Yes
+      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
+      <cfhi_compre_23a_ratio___facility_cost_squarefoot_no_interest_less_than_10>
+        3.0338796296296
+      </cfhi_compre_23a_ratio___facility_cost_squarefoot_no_interest_less_than_10>
+      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
+        No
+      </cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
+      <s08___total_facility_square_footage>
+        108000
+      </s08___total_facility_square_footage>
+      <cfhi_compre_23b_ratio___facility_cost_squarefoot_no_interest_more_than_10>
+        3.0338796296296
+      </cfhi_compre_23b_ratio___facility_cost_squarefoot_no_interest_more_than_10>
+      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
+        No
+      </cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
+      <cfhi_compre_24a_ratio___facility_cost_squarefoot_with_interest_less_than_10>
+        11.202657407407
+      </cfhi_compre_24a_ratio___facility_cost_squarefoot_with_interest_less_than_10>
+      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
+        Yes
+      </cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
+      <cfhi_compre_24b_ratio___facility_cost_squarefoot_with_interest_more_than_10>
+        11.202657407407
+      </cfhi_compre_24b_ratio___facility_cost_squarefoot_with_interest_more_than_10>
+      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
+        Yes
+      </cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
+      <cfhi_compre_25_ratio___it_cost_per_fte>
+        3409.7796143251
+      </cfhi_compre_25_ratio___it_cost_per_fte>
+      <cfhi_compre_25_yes_no___it_cost_per_fte>
+        Yes
+      </cfhi_compre_25_yes_no___it_cost_per_fte>
+      <s13___it_cost>123775</s13___it_cost>
       <update_id>1697571395204</update_id>
     </record>
     <record>
@@ -1149,9 +2097,56 @@ const xmlPeerString = `
       </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
       <s40___total_contribution>3226854</s40___total_contribution>
       <s163___total_contribution_given_online />
+      <cfhi_compre_00i_ratio___percent_of_total_contrib_given_online>
+        0
+      </cfhi_compre_00i_ratio___percent_of_total_contrib_given_online>
       <s157___total_outsourced_employee__fte_ />
       <s08___total_facility_square_footage />
       <s161___number_of_location />
+      <cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+        -369.75
+      </cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+      <cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        199.77648800347
+      </cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+      <cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+        326.9412310998
+      </cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+      <cfhi_compre_04_ratio___liquidity_ratio>
+        4.3601862514394
+      </cfhi_compre_04_ratio___liquidity_ratio>
+      <cfhi_compre_05_ratio___net_cash_availability>
+        1140921
+      </cfhi_compre_05_ratio___net_cash_availability>
+      <cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+        1140921
+      </cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+      <cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+        225405.5
+      </cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+      <cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+        1.4655252760914
+      </cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+      <cfhi_compre_07_ratio___current_ratio>
+        5.2976194332938
+      </cfhi_compre_07_ratio___current_ratio>
+      <cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        0
+      </cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+      <cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+        4041.0216049383
+      </cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+      <cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>
+        5514.7757201646
+      </cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>
+      <cfhi_compre_09d_ratio___debt_per_giving_unit>
+        6156.5407523511
+      </cfhi_compre_09d_ratio___debt_per_giving_unit>
+      <cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+        8401.8213166144
+      </cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+      <cfhi_compre_10_ratio___debt_coverage />
+      <cfhi_compre_10_yes_no___debt_coverage />
       <s34___net_asset_without_donor_restriction__undesignated>
         -2740075
       </s34___net_asset_without_donor_restriction__undesignated>
@@ -1223,6 +2218,9 @@ const xmlPeerString = `
       <cfhi_compre_04_yes_no___liquidity_ratio>
         Yes
       </cfhi_compre_04_yes_no___liquidity_ratio>
+      <cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses>
+        Yes
+      </cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses>
       <cfhi_compre_05_yes_no___net_cash_availability>
         Yes
       </cfhi_compre_05_yes_no___net_cash_availability>
@@ -1301,24 +2299,12 @@ const xmlPeerString = `
       <cfhi_compre_16_yes_no___average_benefits_per_fte>
         Yes
       </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
       <cfhi_compre_16_yes_no___average_salaries_per_fte>
         Yes
       </cfhi_compre_16_yes_no___average_salaries_per_fte>
       <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
         Yes
       </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
       <cfhi_compre_18_1_yes_no___local_outreach_expenses>
         Yes
       </cfhi_compre_18_1_yes_no___local_outreach_expenses>
@@ -1367,9 +2353,15 @@ const xmlPeerString = `
       <cfhi_compre_00e_yes_no___attendees_to_staff>
         Yes
       </cfhi_compre_00e_yes_no___attendees_to_staff>
+      <cfhi_compre_00f_ratio___contributions_without_donor_restrictions>
+        2680181
+      </cfhi_compre_00f_ratio___contributions_without_donor_restrictions>
       <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
         Yes
       </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
+      <cfhi_compre_00g_ratio____total_contrib_excluding_large_gifts>
+        3226854
+      </cfhi_compre_00g_ratio____total_contrib_excluding_large_gifts>
       <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
         Yes
       </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
@@ -1388,6 +2380,181 @@ const xmlPeerString = `
       <cfhi_compre_00l_yes_no___number_of_locations>
         No
       </cfhi_compre_00l_yes_no___number_of_locations>
+      <cfhi_compre_11_ratio___net_income_ratio>
+        0.1989817366173
+      </cfhi_compre_11_ratio___net_income_ratio>
+      <cfhi_compre_11_yes_no___net_income_ratio>
+        Yes
+      </cfhi_compre_11_yes_no___net_income_ratio>
+      <s48___change_in_net_asset_without_donor_restriction>
+        523042
+      </s48___change_in_net_asset_without_donor_restriction>
+      <s167___amortization_of_finance_lease_right_of_use_asset />
+      <cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+        2757.3878600823
+      </cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
+        2628593
+      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
+      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
+        Yes
+      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
+      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
+        0
+      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
+      <s01_average_adult_attendees_excluding_children>
+        972
+      </s01_average_adult_attendees_excluding_children>
+      <cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+        4200.9106583072
+      </cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
+        Yes
+      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
+      <s02___giving_units>638</s02___giving_units>
+      <cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>
+        3319.8086419753
+      </cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>
+      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
+        Yes
+      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
+      <s40___total_contribution>3226854</s40___total_contribution>
+      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
+      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
+        0
+      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
+      <cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+        5057.7648902821
+      </cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
+        Yes
+      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
+      <cfhi_compre_15_ratio___benefits_to_salaries>
+        0.2084098068758
+      </cfhi_compre_15_ratio___benefits_to_salaries>
+      <cfhi_compre_15_yes_no___benefits_to_salaries>
+        Yes
+      </cfhi_compre_15_yes_no___benefits_to_salaries>
+      <cfhi_compre_16_ratio___average_salaries_per_fte>
+        73010
+      </cfhi_compre_16_ratio___average_salaries_per_fte>
+      <cfhi_compre_16_yes_no___average_salaries_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_salaries_per_fte>
+      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
+        15
+      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
+      <cfhi_compre_16_ratio___average_benefits_per_fte>
+        15216
+      </cfhi_compre_16_ratio___average_benefits_per_fte>
+      <cfhi_compre_16_yes_no___average_benefits_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_benefits_per_fte>
+      <cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+        88226
+      </cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
+      <cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp>
+        88226
+      </cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp>
+      <s157___total_outsourced_employee__fte_ />
+      <cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures>
+        0.4892626843622
+      </cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures>
+      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
+      <s45___total_expense>2704866</s45___total_expense>
+      <s167___amortization_of_finance_lease_right_of_use_asset />
+      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
+      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
+        0
+      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
+      <s166___future_minimum_lease_payment />
+      <s46___total_depreciation_expense>0</s46___total_depreciation_expense>
+      <cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+        0
+      </cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
+      <s47___cy_interest_expense>0</s47___cy_interest_expense>
+      <cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        0.4892626843622
+      </cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
+      <s162___cost_of_outsourced_employee />
+      <cfhi_compre_18_1_ratio___local_outreach_expenses>
+        0.0539180129441
+      </cfhi_compre_18_1_ratio___local_outreach_expenses>
+      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
+        Yes
+      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
+      <s17___current_assets>1798759</s17___current_assets>
+      <cfhi_compre_18_2_ratio___global_outreach_expenses>
+        0.0927931365177
+      </cfhi_compre_18_2_ratio___global_outreach_expenses>
+      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
+        Yes
+      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
+      <s15___global_outreach_expense>250993</s15___global_outreach_expense>
+      <cfhi_compre_18_3_ratio___global_local_outreach_expenses>
+        0.1467111494617
+      </cfhi_compre_18_3_ratio___global_local_outreach_expenses>
+      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
+        Yes
+      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
+      <s14___local_outreach_expense>145841</s14___local_outreach_expense>
+      <cfhi_compre_19_1_ratio___cash_exp_per_adult>
+        2782.7839506173
+      </cfhi_compre_19_1_ratio___cash_exp_per_adult>
+      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
+        Yes
+      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
+      <cfhi_compre_19_2_ratio___cash_exp_per_gu>
+        4239.6018808777
+      </cfhi_compre_19_2_ratio___cash_exp_per_gu>
+      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
+        Yes
+      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
+      <cfhi_compre_20_ratio___contributions_per_acct_fte />
+      <cfhi_compre_20_yes_no___contributions_per_acct_fte />
+      <s160___accounting_department_volunteer />
+      <cfhi_compre_21_ratio___expenses_per_acct_fte />
+      <cfhi_compre_21_yes_no___expenses_per_acct_fte />
+      <cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10>
+        0
+      </cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10>
+      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
+        No
+      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
+      <s12___total_maint___occupancy_cost />
+      <cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10>
+        0
+      </cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10>
+      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
+        No
+      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
+      <cfhi_compre_23a_ratio___facility_cost_squarefoot_no_interest_less_than_10 />
+      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10 />
+      <s08___total_facility_square_footage />
+      <cfhi_compre_23b_ratio___facility_cost_squarefoot_no_interest_more_than_10 />
+      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10 />
+      <cfhi_compre_24a_ratio___facility_cost_squarefoot_with_interest_less_than_10 />
+      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10 />
+      <cfhi_compre_24b_ratio___facility_cost_squarefoot_with_interest_more_than_10 />
+      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10 />
+      <cfhi_compre_25_ratio___it_cost_per_fte>
+        0
+      </cfhi_compre_25_ratio___it_cost_per_fte>
+      <cfhi_compre_25_yes_no___it_cost_per_fte>
+        No
+      </cfhi_compre_25_yes_no___it_cost_per_fte>
+      <s13___it_cost />
       <update_id>1697571395204</update_id>
     </record>
     <record>
@@ -1413,9 +2580,60 @@ const xmlPeerString = `
       </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
       <s40___total_contribution>4426205</s40___total_contribution>
       <s163___total_contribution_given_online />
+      <cfhi_compre_00i_ratio___percent_of_total_contrib_given_online>
+        0
+      </cfhi_compre_00i_ratio___percent_of_total_contrib_given_online>
       <s157___total_outsourced_employee__fte_ />
       <s08___total_facility_square_footage />
       <s161___number_of_location />
+      <cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+        70.34
+      </cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+      <cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        75.197209514101
+      </cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+      <cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+        159.33619983081
+      </cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+      <cfhi_compre_04_ratio___liquidity_ratio>
+        6.196881359217
+      </cfhi_compre_04_ratio___liquidity_ratio>
+      <cfhi_compre_05_ratio___net_cash_availability>
+        389944
+      </cfhi_compre_05_ratio___net_cash_availability>
+      <cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+        589944
+      </cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+      <cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+        289271.16666667
+      </cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+      <cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+        0.4260593032332
+      </cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+      <cfhi_compre_07_ratio___current_ratio>
+        2.1310944673906
+      </cfhi_compre_07_ratio___current_ratio>
+      <cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        0.0785852504351
+      </cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+      <cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+        1031.2810958904
+      </cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+      <cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>
+        4720.4734246575
+      </cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>
+      <cfhi_compre_09d_ratio___debt_per_giving_unit>
+        1448.8745188607
+      </cfhi_compre_09d_ratio___debt_per_giving_unit>
+      <cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+        6631.9199384142
+      </cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+      <cfhi_compre_10_ratio___debt_coverage>
+        3.8478704863962
+      </cfhi_compre_10_ratio___debt_coverage>
+      <cfhi_compre_10_yes_no___debt_coverage>
+        Yes
+      </cfhi_compre_10_yes_no___debt_coverage>
       <s34___net_asset_without_donor_restriction__undesignated>
         668960
       </s34___net_asset_without_donor_restriction__undesignated>
@@ -1489,6 +2707,9 @@ const xmlPeerString = `
       <cfhi_compre_04_yes_no___liquidity_ratio>
         Yes
       </cfhi_compre_04_yes_no___liquidity_ratio>
+      <cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses>
+        Yes
+      </cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses>
       <cfhi_compre_05_yes_no___net_cash_availability>
         Yes
       </cfhi_compre_05_yes_no___net_cash_availability>
@@ -1569,24 +2790,12 @@ const xmlPeerString = `
       <cfhi_compre_16_yes_no___average_benefits_per_fte>
         Yes
       </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
       <cfhi_compre_16_yes_no___average_salaries_per_fte>
         Yes
       </cfhi_compre_16_yes_no___average_salaries_per_fte>
       <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
         Yes
       </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
       <cfhi_compre_18_1_yes_no___local_outreach_expenses>
         No
       </cfhi_compre_18_1_yes_no___local_outreach_expenses>
@@ -1635,9 +2844,15 @@ const xmlPeerString = `
       <cfhi_compre_00e_yes_no___attendees_to_staff>
         Yes
       </cfhi_compre_00e_yes_no___attendees_to_staff>
+      <cfhi_compre_00f_ratio___contributions_without_donor_restrictions>
+        4307432
+      </cfhi_compre_00f_ratio___contributions_without_donor_restrictions>
       <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
         Yes
       </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
+      <cfhi_compre_00g_ratio____total_contrib_excluding_large_gifts>
+        4305605
+      </cfhi_compre_00g_ratio____total_contrib_excluding_large_gifts>
       <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
         Yes
       </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
@@ -1656,3257 +2871,189 @@ const xmlPeerString = `
       <cfhi_compre_00l_yes_no___number_of_locations>
         No
       </cfhi_compre_00l_yes_no___number_of_locations>
+      <cfhi_compre_11_ratio___net_income_ratio>
+        0.1978007826464
+      </cfhi_compre_11_ratio___net_income_ratio>
+      <cfhi_compre_11_yes_no___net_income_ratio>
+        Yes
+      </cfhi_compre_11_yes_no___net_income_ratio>
+      <s48___change_in_net_asset_without_donor_restriction>
+        932333
+      </s48___change_in_net_asset_without_donor_restriction>
+      <s167___amortization_of_finance_lease_right_of_use_asset />
+      <cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+        2360.2367123288
+      </cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
+        4713495
+      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
+      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
+        Yes
+      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
+      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
+        110000
+      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
+      <s01_average_adult_attendees_excluding_children>
+        1825
+      </s01_average_adult_attendees_excluding_children>
+      <cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+        3315.9599692071
+      </cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
+        Yes
+      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
+      <s02___giving_units>1299</s02___giving_units>
+      <cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>
+        2359.2356164384
+      </cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>
+      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
+        Yes
+      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
+      <s40___total_contribution>4426205</s40___total_contribution>
+      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
+      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
+        10600
+      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
+      <cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+        3314.5535026944
+      </cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
+        Yes
+      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
+      <cfhi_compre_15_ratio___benefits_to_salaries>
+        0.1973474174136
+      </cfhi_compre_15_ratio___benefits_to_salaries>
+      <cfhi_compre_15_yes_no___benefits_to_salaries>
+        Yes
+      </cfhi_compre_15_yes_no___benefits_to_salaries>
+      <cfhi_compre_16_ratio___average_salaries_per_fte>
+        53228.709677419
+      </cfhi_compre_16_ratio___average_salaries_per_fte>
+      <cfhi_compre_16_yes_no___average_salaries_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_salaries_per_fte>
+      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
+        31
+      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
+      <cfhi_compre_16_ratio___average_benefits_per_fte>
+        10504.548387097
+      </cfhi_compre_16_ratio___average_benefits_per_fte>
+      <cfhi_compre_16_yes_no___average_benefits_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_benefits_per_fte>
+      <cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+        63733.258064516
+      </cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
+        Yes
+      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
+      <cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp>
+        63733.258064516
+      </cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp>
+      <s157___total_outsourced_employee__fte_ />
+      <cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures>
+        0.5304159526598
+      </cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures>
+      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
+      <s45___total_expense>3781162</s45___total_expense>
+      <s167___amortization_of_finance_lease_right_of_use_asset />
+      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
+      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
+        253617
+      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
+      <s166___future_minimum_lease_payment />
+      <s46___total_depreciation_expense>
+        309908
+      </s46___total_depreciation_expense>
+      <cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+        0.0931965160673
+      </cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
+      <s47___cy_interest_expense>93528</s47___cy_interest_expense>
+      <cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        0.5304159526598
+      </cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        Yes
+      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
+      <s162___cost_of_outsourced_employee />
+      <cfhi_compre_18_1_ratio___local_outreach_expenses>
+        0.0133695905174
+      </cfhi_compre_18_1_ratio___local_outreach_expenses>
+      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
+        No
+      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
+      <s17___current_assets>804388</s17___current_assets>
+      <cfhi_compre_18_2_ratio___global_outreach_expenses>
+        0.0252604721076
+      </cfhi_compre_18_2_ratio___global_outreach_expenses>
+      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
+        No
+      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
+      <s15___global_outreach_expense>94092</s15___global_outreach_expense>
+      <cfhi_compre_18_3_ratio___global_local_outreach_expenses>
+        0.038630062625
+      </cfhi_compre_18_3_ratio___global_local_outreach_expenses>
+      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
+        Yes
+      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
+      <s14___local_outreach_expense>49800</s14___local_outreach_expense>
+      <cfhi_compre_19_1_ratio___cash_exp_per_adult>
+        2041.0252054795
+      </cfhi_compre_19_1_ratio___cash_exp_per_adult>
+      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
+        Yes
+      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
+      <cfhi_compre_19_2_ratio___cash_exp_per_gu>
+        2867.4911470362
+      </cfhi_compre_19_2_ratio___cash_exp_per_gu>
+      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
+        Yes
+      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
+      <cfhi_compre_20_ratio___contributions_per_acct_fte />
+      <cfhi_compre_20_yes_no___contributions_per_acct_fte />
+      <s160___accounting_department_volunteer />
+      <cfhi_compre_21_ratio___expenses_per_acct_fte />
+      <cfhi_compre_21_yes_no___expenses_per_acct_fte />
+      <cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10>
+        0
+      </cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10>
+      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
+        No
+      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
+      <s12___total_maint___occupancy_cost />
+      <cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10>
+        0
+      </cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10>
+      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
+        No
+      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
+      <cfhi_compre_23a_ratio___facility_cost_squarefoot_no_interest_less_than_10 />
+      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10 />
+      <s08___total_facility_square_footage />
+      <cfhi_compre_23b_ratio___facility_cost_squarefoot_no_interest_more_than_10 />
+      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10 />
+      <cfhi_compre_24a_ratio___facility_cost_squarefoot_with_interest_less_than_10 />
+      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10 />
+      <cfhi_compre_24b_ratio___facility_cost_squarefoot_with_interest_more_than_10 />
+      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10 />
+      <cfhi_compre_25_ratio___it_cost_per_fte>
+        0
+      </cfhi_compre_25_ratio___it_cost_per_fte>
+      <cfhi_compre_25_yes_no___it_cost_per_fte>
+        No
+      </cfhi_compre_25_yes_no___it_cost_per_fte>
+      <s13___it_cost />
       <update_id>1697571395204</update_id>
-    </record>
-
-    <record>
-      <s52_formatted_year>2021</s52_formatted_year>
-      <s02___giving_units>304</s02___giving_units>
-      <s01_average_adult_attendees_excluding_children>
-        537
-      </s01_average_adult_attendees_excluding_children>
-      <s150___total_attendee_including_children>
-        574
-      </s150___total_attendee_including_children>
-      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
-        14
-      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
-      <cfhi_compre_00e_ratio___attendees_to_staff>
-        41
-      </cfhi_compre_00e_ratio___attendees_to_staff>
-      <s39___contribution_without_donor_retriction>
-        1960699
-      </s39___contribution_without_donor_retriction>
-      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-        185000
-      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-      <s40___total_contribution>2254606</s40___total_contribution>
-      <s163___total_contribution_given_online>
-        1067713
-      </s163___total_contribution_given_online>
-      <s157___total_outsourced_employee__fte_>
-        0
-      </s157___total_outsourced_employee__fte_>
-      <s08___total_facility_square_footage>
-        64795
-      </s08___total_facility_square_footage>
-      <s161___number_of_location>1</s161___number_of_location>
-      <s34___net_asset_without_donor_restriction__undesignated>
-        318967
-      </s34___net_asset_without_donor_restriction__undesignated>
-      <s36___net_asset_with_donor_restriction>
-        335156
-      </s36___net_asset_with_donor_restriction>
-      <s26___current_liabilities>71389</s26___current_liabilities>
-      <s17___current_assets>1255149</s17___current_assets>
-      <s18___total_cash>1157962</s18___total_cash>
-      <s30___available_operating_line_of_credit>
-        0
-      </s30___available_operating_line_of_credit>
-      <s155___total_debt>0</s155___total_debt>
-      <s45___total_expense>2520229</s45___total_expense>
-      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-        2551119
-      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-      <s11___total_benefit>142589</s11___total_benefit>
-      <s10___total_salaries>859705</s10___total_salaries>
-      <s14___local_outreach_expense>132174</s14___local_outreach_expense>
-      <s15___global_outreach_expense>168863</s15___global_outreach_expense>
-      <s158___average_annual_accounting_department_full_time_employee>
-        0
-      </s158___average_annual_accounting_department_full_time_employee>
-      <s159___accounting_department_part_time_employee>
-        0.7
-      </s159___accounting_department_part_time_employee>
-      <s160___accounting_department_volunteer>
-        0.1
-      </s160___accounting_department_volunteer>
-      <s35___bod_designated_for_operations>
-        546525
-      </s35___bod_designated_for_operations>
-      <s167___amortization_of_finance_lease_right_of_use_asset />
-      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
-      <s46___total_depreciation_expense>
-        255243
-      </s46___total_depreciation_expense>
-      <s165___finance_lease_right_of_use_asset_and_liability />
-      <s20___non_endowment_investment>71112</s20___non_endowment_investment>
-      <s21___pledge_receivable>0</s21___pledge_receivable>
-      <s51___capitalized_interest>0</s51___capitalized_interest>
-      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-        103865
-      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-      <s49___cash_flow_from_operating_activities>
-        416639
-      </s49___cash_flow_from_operating_activities>
-      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
-        0
-      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
-      <s166___future_minimum_lease_payment />
-      <s164___one_time_payoff_of_debt_due_in_the_next_year>
-        0
-      </s164___one_time_payoff_of_debt_due_in_the_next_year>
-      <s29___deferred_revenue>34920</s29___deferred_revenue>
-      <s27___accrued_interest>0</s27___accrued_interest>
-      <s28___accrued_construction_cost>0</s28___accrued_construction_cost>
-      <s31___short_term_construction_line_of_credit>
-        0
-      </s31___short_term_construction_line_of_credit>
-      <s47___cy_interest_expense>726</s47___cy_interest_expense>
-      <s48___change_in_net_asset_without_donor_restriction>
-        30890
-      </s48___change_in_net_asset_without_donor_restriction>
-      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
-      <s162___cost_of_outsourced_employee>0</s162___cost_of_outsourced_employee>
-      <s13___it_cost>59195</s13___it_cost>
-      <s12___total_maint___occupancy_cost>
-        140965
-      </s12___total_maint___occupancy_cost>
-      <cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-        Yes
-      </cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-      <cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-        Yes
-      </cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-      <cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-        Yes
-      </cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-      <cfhi_compre_04_yes_no___liquidity_ratio>
-        No
-      </cfhi_compre_04_yes_no___liquidity_ratio>
-      <cfhi_compre_05_yes_no___net_cash_availability>
-        Yes
-      </cfhi_compre_05_yes_no___net_cash_availability>
-      <cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-        Yes
-      </cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-      <cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-        No
-      </cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-      <cfhi_compre_07_yes_no___current_ratio>
-        No
-      </cfhi_compre_07_yes_no___current_ratio>
-      <s318___total_cash_at_the_beginning_of_the_year>
-        798616
-      </s318___total_cash_at_the_beginning_of_the_year>
-      <s320___non_endowment_investment_at_the_beginning_of_the_year>
-        199112
-      </s320___non_endowment_investment_at_the_beginning_of_the_year>
-      <s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-        211615
-      </s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-      <s321___pledge_receivable_at_the_beginning_of_the_year>
-        0
-      </s321___pledge_receivable_at_the_beginning_of_the_year>
-      <cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-        Yes
-      </cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-      <cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-      <cfhi_compre_09d_yes_no___debt_per_giving_unit>
-        No
-      </cfhi_compre_09d_yes_no___debt_per_giving_unit>
-      <cfhi_compre_10_yes_no___debt_coverage>
-        No
-      </cfhi_compre_10_yes_no___debt_coverage>
-      <cfhi_compre_11_yes_no___net_income_ratio>
-        Yes
-      </cfhi_compre_11_yes_no___net_income_ratio>
-      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-        Yes
-      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-        Yes
-      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-      <cfhi_compre_15_yes_no___benefits_to_salaries>
-        Yes
-      </cfhi_compre_15_yes_no___benefits_to_salaries>
-      <cfhi_compre_15a__yes_no___salaries___benefits>
-        No
-      </cfhi_compre_15a__yes_no___salaries___benefits>
-      <cfhi_compre_15b__yes_no___salaries>
-        No
-      </cfhi_compre_15b__yes_no___salaries>
-      <cfhi_compre_15c__yes_no___benefits>
-        No
-      </cfhi_compre_15c__yes_no___benefits>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <main_queryregions>MW</main_queryregions>
-      <main_querymultisite>SINGLE</main_querymultisite>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_16_yes_no___average_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_per_fte>
-      <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-        Yes
-      </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
-      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
-        Yes
-      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
-      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-        Yes
-      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-        Yes
-      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-      <cfhi_compre_20_yes_no___contributions_per_acct_fte>
-        Yes
-      </cfhi_compre_20_yes_no___contributions_per_acct_fte>
-      <cfhi_compre_21_yes_no___expenses_per_acct_fte>
-        Yes
-      </cfhi_compre_21_yes_no___expenses_per_acct_fte>
-      <s53___how_old_is_your_facility_factoring_in_improvement />
-      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-        Yes
-      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-        Yes
-      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
-        No
-      </cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
-      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
-        No
-      </cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
-      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
-        No
-      </cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
-      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
-        No
-      </cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
-      <cfhi_compre_25_yes_no___it_cost_per_fte>
-        Yes
-      </cfhi_compre_25_yes_no___it_cost_per_fte>
-      <cfhi_compre_00a_yes_no___giving_units>
-        Yes
-      </cfhi_compre_00a_yes_no___giving_units>
-      <cfhi_compre_00b_yes_no___average_adult_attendees>
-        Yes
-      </cfhi_compre_00b_yes_no___average_adult_attendees>
-      <cfhi_compre_00c_yes_no___total_attendees_including_children>
-        Yes
-      </cfhi_compre_00c_yes_no___total_attendees_including_children>
-      <cfhi_compre_00d_yes_no___full_time_equivalents>
-        Yes
-      </cfhi_compre_00d_yes_no___full_time_equivalents>
-      <cfhi_compre_00e_yes_no___attendees_to_staff>
-        Yes
-      </cfhi_compre_00e_yes_no___attendees_to_staff>
-      <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-        Yes
-      </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-      <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-        Yes
-      </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-      <cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-        Yes
-      </cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-      <cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-        Yes
-      </cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-      <cfhi_compre_00j_yes_no___total_outsourced_fte>
-        Yes
-      </cfhi_compre_00j_yes_no___total_outsourced_fte>
-      <cfhi_compre_00k_yes_no___facility_square_footage>
-        Yes
-      </cfhi_compre_00k_yes_no___facility_square_footage>
-      <cfhi_compre_00l_yes_no___number_of_locations>
-        Yes
-      </cfhi_compre_00l_yes_no___number_of_locations>
-      <update_id>1697571395214</update_id>
-    </record>
-    <record>
-      <s52_formatted_year>2021</s52_formatted_year>
-      <s02___giving_units>434</s02___giving_units>
-      <s01_average_adult_attendees_excluding_children>
-        755
-      </s01_average_adult_attendees_excluding_children>
-      <s150___total_attendee_including_children>
-        1068
-      </s150___total_attendee_including_children>
-      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
-        18
-      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
-      <cfhi_compre_00e_ratio___attendees_to_staff>
-        59
-      </cfhi_compre_00e_ratio___attendees_to_staff>
-      <s39___contribution_without_donor_retriction>
-        4824545
-      </s39___contribution_without_donor_retriction>
-      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-        284578
-      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-      <s40___total_contribution>5218015</s40___total_contribution>
-      <s163___total_contribution_given_online>
-        0
-      </s163___total_contribution_given_online>
-      <s157___total_outsourced_employee__fte_>
-        0
-      </s157___total_outsourced_employee__fte_>
-      <s08___total_facility_square_footage>
-        0
-      </s08___total_facility_square_footage>
-      <s161___number_of_location />
-      <s34___net_asset_without_donor_restriction__undesignated>
-        3096000
-      </s34___net_asset_without_donor_restriction__undesignated>
-      <s36___net_asset_with_donor_restriction>
-        34056
-      </s36___net_asset_with_donor_restriction>
-      <s26___current_liabilities>210738</s26___current_liabilities>
-      <s17___current_assets>3201143</s17___current_assets>
-      <s18___total_cash>2916565</s18___total_cash>
-      <s30___available_operating_line_of_credit>
-        0
-      </s30___available_operating_line_of_credit>
-      <s155___total_debt>3087874</s155___total_debt>
-      <s45___total_expense>3482733</s45___total_expense>
-      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-        5054146
-      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-      <s11___total_benefit>172949</s11___total_benefit>
-      <s10___total_salaries>1363930</s10___total_salaries>
-      <s14___local_outreach_expense>24247</s14___local_outreach_expense>
-      <s15___global_outreach_expense>141284</s15___global_outreach_expense>
-      <s158___average_annual_accounting_department_full_time_employee>
-        0
-      </s158___average_annual_accounting_department_full_time_employee>
-      <s159___accounting_department_part_time_employee>
-        0
-      </s159___accounting_department_part_time_employee>
-      <s160___accounting_department_volunteer>
-        0
-      </s160___accounting_department_volunteer>
-      <s35___bod_designated_for_operations>
-        0
-      </s35___bod_designated_for_operations>
-      <s167___amortization_of_finance_lease_right_of_use_asset />
-      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
-      <s46___total_depreciation_expense>
-        436857
-      </s46___total_depreciation_expense>
-      <s165___finance_lease_right_of_use_asset_and_liability />
-      <s20___non_endowment_investment>0</s20___non_endowment_investment>
-      <s21___pledge_receivable>0</s21___pledge_receivable>
-      <s51___capitalized_interest>0</s51___capitalized_interest>
-      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-        308038
-      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-      <s49___cash_flow_from_operating_activities>
-        1525927
-      </s49___cash_flow_from_operating_activities>
-      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
-        132861
-      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
-      <s166___future_minimum_lease_payment />
-      <s164___one_time_payoff_of_debt_due_in_the_next_year>
-        0
-      </s164___one_time_payoff_of_debt_due_in_the_next_year>
-      <s29___deferred_revenue>0</s29___deferred_revenue>
-      <s27___accrued_interest>0</s27___accrued_interest>
-      <s28___accrued_construction_cost>0</s28___accrued_construction_cost>
-      <s31___short_term_construction_line_of_credit>
-        0
-      </s31___short_term_construction_line_of_credit>
-      <s47___cy_interest_expense>120504</s47___cy_interest_expense>
-      <s48___change_in_net_asset_without_donor_restriction>
-        1571413
-      </s48___change_in_net_asset_without_donor_restriction>
-      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
-      <s162___cost_of_outsourced_employee>0</s162___cost_of_outsourced_employee>
-      <s13___it_cost>0</s13___it_cost>
-      <s12___total_maint___occupancy_cost>0</s12___total_maint___occupancy_cost>
-      <cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-        No
-      </cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-      <cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-        No
-      </cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-      <cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-        Yes
-      </cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-      <cfhi_compre_04_yes_no___liquidity_ratio>
-        No
-      </cfhi_compre_04_yes_no___liquidity_ratio>
-      <cfhi_compre_05_yes_no___net_cash_availability>
-        Yes
-      </cfhi_compre_05_yes_no___net_cash_availability>
-      <cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-        Yes
-      </cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-      <cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-        Yes
-      </cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-      <cfhi_compre_07_yes_no___current_ratio>
-        No
-      </cfhi_compre_07_yes_no___current_ratio>
-      <s318___total_cash_at_the_beginning_of_the_year>
-        1787351
-      </s318___total_cash_at_the_beginning_of_the_year>
-      <s320___non_endowment_investment_at_the_beginning_of_the_year>
-        0
-      </s320___non_endowment_investment_at_the_beginning_of_the_year>
-      <s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-        0
-      </s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-      <s321___pledge_receivable_at_the_beginning_of_the_year>
-        0
-      </s321___pledge_receivable_at_the_beginning_of_the_year>
-      <cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-        Yes
-      </cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-      <cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-      <cfhi_compre_09d_yes_no___debt_per_giving_unit>
-        Yes
-      </cfhi_compre_09d_yes_no___debt_per_giving_unit>
-      <cfhi_compre_10_yes_no___debt_coverage>
-        No
-      </cfhi_compre_10_yes_no___debt_coverage>
-      <cfhi_compre_11_yes_no___net_income_ratio>
-        Yes
-      </cfhi_compre_11_yes_no___net_income_ratio>
-      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-        No
-      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-        No
-      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-      <cfhi_compre_15_yes_no___benefits_to_salaries>
-        Yes
-      </cfhi_compre_15_yes_no___benefits_to_salaries>
-      <cfhi_compre_15a__yes_no___salaries___benefits>
-        No
-      </cfhi_compre_15a__yes_no___salaries___benefits>
-      <cfhi_compre_15b__yes_no___salaries>
-        No
-      </cfhi_compre_15b__yes_no___salaries>
-      <cfhi_compre_15c__yes_no___benefits>
-        No
-      </cfhi_compre_15c__yes_no___benefits>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <main_queryregions>MW</main_queryregions>
-      <main_querymultisite>SINGLE</main_querymultisite>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_16_yes_no___average_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_per_fte>
-      <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-        Yes
-      </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
-        No
-      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
-      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
-        Yes
-      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
-      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-        Yes
-      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-        Yes
-      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-      <cfhi_compre_20_yes_no___contributions_per_acct_fte />
-      <cfhi_compre_21_yes_no___expenses_per_acct_fte />
-      <s53___how_old_is_your_facility_factoring_in_improvement />
-      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-        No
-      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-        No
-      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10 />
-      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10 />
-      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10 />
-      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10 />
-      <cfhi_compre_25_yes_no___it_cost_per_fte>
-        No
-      </cfhi_compre_25_yes_no___it_cost_per_fte>
-      <cfhi_compre_00a_yes_no___giving_units>
-        Yes
-      </cfhi_compre_00a_yes_no___giving_units>
-      <cfhi_compre_00b_yes_no___average_adult_attendees>
-        Yes
-      </cfhi_compre_00b_yes_no___average_adult_attendees>
-      <cfhi_compre_00c_yes_no___total_attendees_including_children>
-        Yes
-      </cfhi_compre_00c_yes_no___total_attendees_including_children>
-      <cfhi_compre_00d_yes_no___full_time_equivalents>
-        Yes
-      </cfhi_compre_00d_yes_no___full_time_equivalents>
-      <cfhi_compre_00e_yes_no___attendees_to_staff>
-        Yes
-      </cfhi_compre_00e_yes_no___attendees_to_staff>
-      <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-        Yes
-      </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-      <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-        Yes
-      </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-      <cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-        No
-      </cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-      <cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-        No
-      </cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-      <cfhi_compre_00j_yes_no___total_outsourced_fte>
-        Yes
-      </cfhi_compre_00j_yes_no___total_outsourced_fte>
-      <cfhi_compre_00k_yes_no___facility_square_footage>
-        No
-      </cfhi_compre_00k_yes_no___facility_square_footage>
-      <cfhi_compre_00l_yes_no___number_of_locations>
-        No
-      </cfhi_compre_00l_yes_no___number_of_locations>
-      <update_id>1697571395214</update_id>
-    </record>
-    <record>
-      <s52_formatted_year>2021</s52_formatted_year>
-      <s02___giving_units>325</s02___giving_units>
-      <s01_average_adult_attendees_excluding_children>
-        300
-      </s01_average_adult_attendees_excluding_children>
-      <s150___total_attendee_including_children>
-        400
-      </s150___total_attendee_including_children>
-      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
-        6
-      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
-      <cfhi_compre_00e_ratio___attendees_to_staff>
-        67
-      </cfhi_compre_00e_ratio___attendees_to_staff>
-      <s39___contribution_without_donor_retriction>
-        1287726
-      </s39___contribution_without_donor_retriction>
-      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-        0
-      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-      <s40___total_contribution>1307558</s40___total_contribution>
-      <s163___total_contribution_given_online />
-      <s157___total_outsourced_employee__fte_ />
-      <s08___total_facility_square_footage />
-      <s161___number_of_location>1</s161___number_of_location>
-      <s34___net_asset_without_donor_restriction__undesignated>
-        3192984
-      </s34___net_asset_without_donor_restriction__undesignated>
-      <s36___net_asset_with_donor_restriction>
-        10045
-      </s36___net_asset_with_donor_restriction>
-      <s26___current_liabilities>265214</s26___current_liabilities>
-      <s17___current_assets>421114</s17___current_assets>
-      <s18___total_cash>421114</s18___total_cash>
-      <s30___available_operating_line_of_credit>
-        0
-      </s30___available_operating_line_of_credit>
-      <s155___total_debt>2672304</s155___total_debt>
-      <s45___total_expense>1204606</s45___total_expense>
-      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-        1341160
-      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-      <s11___total_benefit>22764</s11___total_benefit>
-      <s10___total_salaries>353433</s10___total_salaries>
-      <s14___local_outreach_expense>39418</s14___local_outreach_expense>
-      <s15___global_outreach_expense>30126</s15___global_outreach_expense>
-      <s158___average_annual_accounting_department_full_time_employee />
-      <s159___accounting_department_part_time_employee />
-      <s160___accounting_department_volunteer />
-      <s35___bod_designated_for_operations>
-        0
-      </s35___bod_designated_for_operations>
-      <s167___amortization_of_finance_lease_right_of_use_asset />
-      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
-      <s46___total_depreciation_expense>
-        148036
-      </s46___total_depreciation_expense>
-      <s165___finance_lease_right_of_use_asset_and_liability />
-      <s20___non_endowment_investment>0</s20___non_endowment_investment>
-      <s21___pledge_receivable>0</s21___pledge_receivable>
-      <s51___capitalized_interest>0</s51___capitalized_interest>
-      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-        0
-      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-      <s49___cash_flow_from_operating_activities>
-        310109
-      </s49___cash_flow_from_operating_activities>
-      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
-        0
-      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
-      <s166___future_minimum_lease_payment />
-      <s164___one_time_payoff_of_debt_due_in_the_next_year />
-      <s29___deferred_revenue>0</s29___deferred_revenue>
-      <s27___accrued_interest>0</s27___accrued_interest>
-      <s28___accrued_construction_cost>0</s28___accrued_construction_cost>
-      <s31___short_term_construction_line_of_credit>
-        0
-      </s31___short_term_construction_line_of_credit>
-      <s47___cy_interest_expense>158638</s47___cy_interest_expense>
-      <s48___change_in_net_asset_without_donor_restriction>
-        204353
-      </s48___change_in_net_asset_without_donor_restriction>
-      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
-      <s162___cost_of_outsourced_employee />
-      <s13___it_cost />
-      <s12___total_maint___occupancy_cost />
-      <cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-        No
-      </cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-      <cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-        Yes
-      </cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-      <cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-        Yes
-      </cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-      <cfhi_compre_04_yes_no___liquidity_ratio>
-        Yes
-      </cfhi_compre_04_yes_no___liquidity_ratio>
-      <cfhi_compre_05_yes_no___net_cash_availability>
-        Yes
-      </cfhi_compre_05_yes_no___net_cash_availability>
-      <cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-        Yes
-      </cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-      <cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-        Yes
-      </cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-      <cfhi_compre_07_yes_no___current_ratio>
-        Yes
-      </cfhi_compre_07_yes_no___current_ratio>
-      <s318___total_cash_at_the_beginning_of_the_year>
-        447869
-      </s318___total_cash_at_the_beginning_of_the_year>
-      <s320___non_endowment_investment_at_the_beginning_of_the_year>
-        0
-      </s320___non_endowment_investment_at_the_beginning_of_the_year>
-      <s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-        58012
-      </s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-      <s321___pledge_receivable_at_the_beginning_of_the_year>
-        0
-      </s321___pledge_receivable_at_the_beginning_of_the_year>
-      <cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-        Yes
-      </cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-      <cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-      <cfhi_compre_09d_yes_no___debt_per_giving_unit>
-        Yes
-      </cfhi_compre_09d_yes_no___debt_per_giving_unit>
-      <cfhi_compre_10_yes_no___debt_coverage>
-        Yes
-      </cfhi_compre_10_yes_no___debt_coverage>
-      <cfhi_compre_11_yes_no___net_income_ratio>
-        Yes
-      </cfhi_compre_11_yes_no___net_income_ratio>
-      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-        Yes
-      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-        Yes
-      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-      <cfhi_compre_15_yes_no___benefits_to_salaries>
-        No
-      </cfhi_compre_15_yes_no___benefits_to_salaries>
-      <cfhi_compre_15a__yes_no___salaries___benefits>
-        No
-      </cfhi_compre_15a__yes_no___salaries___benefits>
-      <cfhi_compre_15b__yes_no___salaries>
-        No
-      </cfhi_compre_15b__yes_no___salaries>
-      <cfhi_compre_15c__yes_no___benefits>
-        No
-      </cfhi_compre_15c__yes_no___benefits>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <main_queryregions>SO</main_queryregions>
-      <main_querymultisite>SINGLE</main_querymultisite>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_16_yes_no___average_benefits_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_per_fte>
-      <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-        Yes
-      </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
-      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
-        No
-      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
-      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-        Yes
-      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-        Yes
-      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-      <cfhi_compre_20_yes_no___contributions_per_acct_fte />
-      <cfhi_compre_21_yes_no___expenses_per_acct_fte />
-      <s53___how_old_is_your_facility_factoring_in_improvement>
-        Over 10 Years
-      </s53___how_old_is_your_facility_factoring_in_improvement>
-      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-        No
-      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-        No
-      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10 />
-      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10 />
-      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10 />
-      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10 />
-      <cfhi_compre_25_yes_no___it_cost_per_fte>
-        No
-      </cfhi_compre_25_yes_no___it_cost_per_fte>
-      <cfhi_compre_00a_yes_no___giving_units>
-        Yes
-      </cfhi_compre_00a_yes_no___giving_units>
-      <cfhi_compre_00b_yes_no___average_adult_attendees>
-        Yes
-      </cfhi_compre_00b_yes_no___average_adult_attendees>
-      <cfhi_compre_00c_yes_no___total_attendees_including_children>
-        Yes
-      </cfhi_compre_00c_yes_no___total_attendees_including_children>
-      <cfhi_compre_00d_yes_no___full_time_equivalents>
-        Yes
-      </cfhi_compre_00d_yes_no___full_time_equivalents>
-      <cfhi_compre_00e_yes_no___attendees_to_staff>
-        Yes
-      </cfhi_compre_00e_yes_no___attendees_to_staff>
-      <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-        Yes
-      </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-      <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-        Yes
-      </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-      <cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-        No
-      </cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-      <cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-        No
-      </cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-      <cfhi_compre_00j_yes_no___total_outsourced_fte>
-        Yes
-      </cfhi_compre_00j_yes_no___total_outsourced_fte>
-      <cfhi_compre_00k_yes_no___facility_square_footage>
-        No
-      </cfhi_compre_00k_yes_no___facility_square_footage>
-      <cfhi_compre_00l_yes_no___number_of_locations>
-        Yes
-      </cfhi_compre_00l_yes_no___number_of_locations>
-      <update_id>1697571395214</update_id>
-    </record>
-    <record>
-      <s52_formatted_year>2021</s52_formatted_year>
-      <s02___giving_units>1184</s02___giving_units>
-      <s01_average_adult_attendees_excluding_children>
-        1112
-      </s01_average_adult_attendees_excluding_children>
-      <s150___total_attendee_including_children>
-        1350
-      </s150___total_attendee_including_children>
-      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
-        32
-      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
-      <cfhi_compre_00e_ratio___attendees_to_staff>
-        42
-      </cfhi_compre_00e_ratio___attendees_to_staff>
-      <s39___contribution_without_donor_retriction>
-        5868991
-      </s39___contribution_without_donor_retriction>
-      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-        161100
-      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-      <s40___total_contribution>6631804</s40___total_contribution>
-      <s163___total_contribution_given_online>
-        3527946
-      </s163___total_contribution_given_online>
-      <s157___total_outsourced_employee__fte_>
-        2.5
-      </s157___total_outsourced_employee__fte_>
-      <s08___total_facility_square_footage>
-        137735
-      </s08___total_facility_square_footage>
-      <s161___number_of_location>1</s161___number_of_location>
-      <s34___net_asset_without_donor_restriction__undesignated>
-        1432429
-      </s34___net_asset_without_donor_restriction__undesignated>
-      <s36___net_asset_with_donor_restriction>
-        93777
-      </s36___net_asset_with_donor_restriction>
-      <s26___current_liabilities>347679</s26___current_liabilities>
-      <s17___current_assets>2283555</s17___current_assets>
-      <s18___total_cash>823803</s18___total_cash>
-      <s30___available_operating_line_of_credit>
-        0
-      </s30___available_operating_line_of_credit>
-      <s155___total_debt>15446659</s155___total_debt>
-      <s45___total_expense>7956377</s45___total_expense>
-      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-        7129895
-      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-      <s11___total_benefit>433804</s11___total_benefit>
-      <s10___total_salaries>2095302</s10___total_salaries>
-      <s14___local_outreach_expense>63156</s14___local_outreach_expense>
-      <s15___global_outreach_expense>326610</s15___global_outreach_expense>
-      <s158___average_annual_accounting_department_full_time_employee>
-        4
-      </s158___average_annual_accounting_department_full_time_employee>
-      <s159___accounting_department_part_time_employee>
-        0
-      </s159___accounting_department_part_time_employee>
-      <s160___accounting_department_volunteer>
-        0
-      </s160___accounting_department_volunteer>
-      <s35___bod_designated_for_operations>
-        0
-      </s35___bod_designated_for_operations>
-      <s167___amortization_of_finance_lease_right_of_use_asset />
-      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
-      <s46___total_depreciation_expense>
-        870904
-      </s46___total_depreciation_expense>
-      <s165___finance_lease_right_of_use_asset_and_liability />
-      <s20___non_endowment_investment>1371842</s20___non_endowment_investment>
-      <s21___pledge_receivable>0</s21___pledge_receivable>
-      <s51___capitalized_interest>0</s51___capitalized_interest>
-      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-        0
-      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-      <s49___cash_flow_from_operating_activities>
-        1809533
-      </s49___cash_flow_from_operating_activities>
-      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
-        823335
-      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
-      <s166___future_minimum_lease_payment />
-      <s164___one_time_payoff_of_debt_due_in_the_next_year>
-        0
-      </s164___one_time_payoff_of_debt_due_in_the_next_year>
-      <s29___deferred_revenue>409670</s29___deferred_revenue>
-      <s27___accrued_interest>0</s27___accrued_interest>
-      <s28___accrued_construction_cost>0</s28___accrued_construction_cost>
-      <s31___short_term_construction_line_of_credit>
-        0
-      </s31___short_term_construction_line_of_credit>
-      <s47___cy_interest_expense>641055</s47___cy_interest_expense>
-      <s48___change_in_net_asset_without_donor_restriction>
-        -826482
-      </s48___change_in_net_asset_without_donor_restriction>
-      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
-      <s162___cost_of_outsourced_employee>
-        169773
-      </s162___cost_of_outsourced_employee>
-      <s13___it_cost>141003</s13___it_cost>
-      <s12___total_maint___occupancy_cost>
-        788790
-      </s12___total_maint___occupancy_cost>
-      <cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-        Yes
-      </cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-      <cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-        Yes
-      </cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-      <cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-        Yes
-      </cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-      <cfhi_compre_04_yes_no___liquidity_ratio>
-        No
-      </cfhi_compre_04_yes_no___liquidity_ratio>
-      <cfhi_compre_05_yes_no___net_cash_availability>
-        Yes
-      </cfhi_compre_05_yes_no___net_cash_availability>
-      <cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-        Yes
-      </cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-      <cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-        Yes
-      </cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-      <cfhi_compre_07_yes_no___current_ratio>
-        No
-      </cfhi_compre_07_yes_no___current_ratio>
-      <s318___total_cash_at_the_beginning_of_the_year>
-        1833853
-      </s318___total_cash_at_the_beginning_of_the_year>
-      <s320___non_endowment_investment_at_the_beginning_of_the_year>
-        1415013
-      </s320___non_endowment_investment_at_the_beginning_of_the_year>
-      <s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-        136450
-      </s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-      <s321___pledge_receivable_at_the_beginning_of_the_year>
-        0
-      </s321___pledge_receivable_at_the_beginning_of_the_year>
-      <cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-        Yes
-      </cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-      <cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-        No
-      </cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-      <cfhi_compre_09d_yes_no___debt_per_giving_unit>
-        Yes
-      </cfhi_compre_09d_yes_no___debt_per_giving_unit>
-      <cfhi_compre_10_yes_no___debt_coverage>
-        Yes
-      </cfhi_compre_10_yes_no___debt_coverage>
-      <cfhi_compre_11_yes_no___net_income_ratio>
-        Yes
-      </cfhi_compre_11_yes_no___net_income_ratio>
-      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-        Yes
-      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-        Yes
-      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-      <cfhi_compre_15_yes_no___benefits_to_salaries>
-        Yes
-      </cfhi_compre_15_yes_no___benefits_to_salaries>
-      <cfhi_compre_15a__yes_no___salaries___benefits>
-        No
-      </cfhi_compre_15a__yes_no___salaries___benefits>
-      <cfhi_compre_15b__yes_no___salaries>
-        No
-      </cfhi_compre_15b__yes_no___salaries>
-      <cfhi_compre_15c__yes_no___benefits>
-        No
-      </cfhi_compre_15c__yes_no___benefits>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <main_queryregions>MT</main_queryregions>
-      <main_querymultisite>SINGLE</main_querymultisite>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_16_yes_no___average_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_per_fte>
-      <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-        Yes
-      </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
-        No
-      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
-      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
-        Yes
-      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
-      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-        No
-      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-        Yes
-      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-      <cfhi_compre_20_yes_no___contributions_per_acct_fte>
-        Yes
-      </cfhi_compre_20_yes_no___contributions_per_acct_fte>
-      <cfhi_compre_21_yes_no___expenses_per_acct_fte>
-        Yes
-      </cfhi_compre_21_yes_no___expenses_per_acct_fte>
-      <s53___how_old_is_your_facility_factoring_in_improvement>
-        Over 10 Years
-      </s53___how_old_is_your_facility_factoring_in_improvement>
-      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-        Yes
-      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-        Yes
-      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
-        Yes
-      </cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
-      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
-        Yes
-      </cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
-      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
-        Yes
-      </cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
-      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
-        Yes
-      </cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
-      <cfhi_compre_25_yes_no___it_cost_per_fte>
-        Yes
-      </cfhi_compre_25_yes_no___it_cost_per_fte>
-      <cfhi_compre_00a_yes_no___giving_units>
-        Yes
-      </cfhi_compre_00a_yes_no___giving_units>
-      <cfhi_compre_00b_yes_no___average_adult_attendees>
-        Yes
-      </cfhi_compre_00b_yes_no___average_adult_attendees>
-      <cfhi_compre_00c_yes_no___total_attendees_including_children>
-        Yes
-      </cfhi_compre_00c_yes_no___total_attendees_including_children>
-      <cfhi_compre_00d_yes_no___full_time_equivalents>
-        Yes
-      </cfhi_compre_00d_yes_no___full_time_equivalents>
-      <cfhi_compre_00e_yes_no___attendees_to_staff>
-        Yes
-      </cfhi_compre_00e_yes_no___attendees_to_staff>
-      <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-        Yes
-      </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-      <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-        Yes
-      </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-      <cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-        Yes
-      </cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-      <cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-        Yes
-      </cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-      <cfhi_compre_00j_yes_no___total_outsourced_fte>
-        Yes
-      </cfhi_compre_00j_yes_no___total_outsourced_fte>
-      <cfhi_compre_00k_yes_no___facility_square_footage>
-        Yes
-      </cfhi_compre_00k_yes_no___facility_square_footage>
-      <cfhi_compre_00l_yes_no___number_of_locations>
-        Yes
-      </cfhi_compre_00l_yes_no___number_of_locations>
-      <update_id>1697571395214</update_id>
-    </record>
-    <record>
-      <s52_formatted_year>2021</s52_formatted_year>
-      <s02___giving_units>1137</s02___giving_units>
-      <s01_average_adult_attendees_excluding_children>
-        2520
-      </s01_average_adult_attendees_excluding_children>
-      <s150___total_attendee_including_children>
-        3125
-      </s150___total_attendee_including_children>
-      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
-        48
-      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
-      <cfhi_compre_00e_ratio___attendees_to_staff>
-        65
-      </cfhi_compre_00e_ratio___attendees_to_staff>
-      <s39___contribution_without_donor_retriction>
-        4859834
-      </s39___contribution_without_donor_retriction>
-      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-        97500
-      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-      <s40___total_contribution>5215989</s40___total_contribution>
-      <s163___total_contribution_given_online>
-        5748913
-      </s163___total_contribution_given_online>
-      <s157___total_outsourced_employee__fte_>
-        0
-      </s157___total_outsourced_employee__fte_>
-      <s08___total_facility_square_footage>
-        105000
-      </s08___total_facility_square_footage>
-      <s161___number_of_location>3</s161___number_of_location>
-      <s34___net_asset_without_donor_restriction__undesignated>
-        7152137
-      </s34___net_asset_without_donor_restriction__undesignated>
-      <s36___net_asset_with_donor_restriction>
-        186104
-      </s36___net_asset_with_donor_restriction>
-      <s26___current_liabilities>115268</s26___current_liabilities>
-      <s17___current_assets>1802448</s17___current_assets>
-      <s18___total_cash>1765735</s18___total_cash>
-      <s30___available_operating_line_of_credit>
-        500000
-      </s30___available_operating_line_of_credit>
-      <s155___total_debt>1772881</s155___total_debt>
-      <s45___total_expense>5065050</s45___total_expense>
-      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-        5236275
-      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-      <s11___total_benefit>650462</s11___total_benefit>
-      <s10___total_salaries>1240779</s10___total_salaries>
-      <s14___local_outreach_expense>50000</s14___local_outreach_expense>
-      <s15___global_outreach_expense>400000</s15___global_outreach_expense>
-      <s158___average_annual_accounting_department_full_time_employee>
-        2
-      </s158___average_annual_accounting_department_full_time_employee>
-      <s159___accounting_department_part_time_employee>
-        0
-      </s159___accounting_department_part_time_employee>
-      <s160___accounting_department_volunteer>
-        3
-      </s160___accounting_department_volunteer>
-      <s35___bod_designated_for_operations>
-        486750
-      </s35___bod_designated_for_operations>
-      <s167___amortization_of_finance_lease_right_of_use_asset />
-      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
-      <s46___total_depreciation_expense>
-        395158
-      </s46___total_depreciation_expense>
-      <s165___finance_lease_right_of_use_asset_and_liability />
-      <s20___non_endowment_investment>0</s20___non_endowment_investment>
-      <s21___pledge_receivable>0</s21___pledge_receivable>
-      <s51___capitalized_interest>0</s51___capitalized_interest>
-      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-        235572
-      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-      <s49___cash_flow_from_operating_activities>
-        951020
-      </s49___cash_flow_from_operating_activities>
-      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
-        196848
-      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
-      <s166___future_minimum_lease_payment />
-      <s164___one_time_payoff_of_debt_due_in_the_next_year>
-        0
-      </s164___one_time_payoff_of_debt_due_in_the_next_year>
-      <s29___deferred_revenue>1482</s29___deferred_revenue>
-      <s27___accrued_interest>0</s27___accrued_interest>
-      <s28___accrued_construction_cost>0</s28___accrued_construction_cost>
-      <s31___short_term_construction_line_of_credit>
-        0
-      </s31___short_term_construction_line_of_credit>
-      <s47___cy_interest_expense>99806</s47___cy_interest_expense>
-      <s48___change_in_net_asset_without_donor_restriction>
-        616382
-      </s48___change_in_net_asset_without_donor_restriction>
-      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
-      <s162___cost_of_outsourced_employee>0</s162___cost_of_outsourced_employee>
-      <s13___it_cost>255809</s13___it_cost>
-      <s12___total_maint___occupancy_cost>
-        261169
-      </s12___total_maint___occupancy_cost>
-      <cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-        No
-      </cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-      <cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-        Yes
-      </cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-      <cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-        Yes
-      </cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-      <cfhi_compre_04_yes_no___liquidity_ratio>
-        No
-      </cfhi_compre_04_yes_no___liquidity_ratio>
-      <cfhi_compre_05_yes_no___net_cash_availability>
-        Yes
-      </cfhi_compre_05_yes_no___net_cash_availability>
-      <cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-        Yes
-      </cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-      <cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-        Yes
-      </cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-      <cfhi_compre_07_yes_no___current_ratio>
-        No
-      </cfhi_compre_07_yes_no___current_ratio>
-      <s318___total_cash_at_the_beginning_of_the_year>
-        1047575
-      </s318___total_cash_at_the_beginning_of_the_year>
-      <s320___non_endowment_investment_at_the_beginning_of_the_year>
-        0
-      </s320___non_endowment_investment_at_the_beginning_of_the_year>
-      <s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-        245106
-      </s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-      <s321___pledge_receivable_at_the_beginning_of_the_year>
-        0
-      </s321___pledge_receivable_at_the_beginning_of_the_year>
-      <cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-        Yes
-      </cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-      <cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-      <cfhi_compre_09d_yes_no___debt_per_giving_unit>
-        Yes
-      </cfhi_compre_09d_yes_no___debt_per_giving_unit>
-      <cfhi_compre_10_yes_no___debt_coverage>
-        Yes
-      </cfhi_compre_10_yes_no___debt_coverage>
-      <cfhi_compre_11_yes_no___net_income_ratio>
-        Yes
-      </cfhi_compre_11_yes_no___net_income_ratio>
-      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-        Yes
-      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-        Yes
-      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-      <cfhi_compre_15_yes_no___benefits_to_salaries>
-        No
-      </cfhi_compre_15_yes_no___benefits_to_salaries>
-      <cfhi_compre_15a__yes_no___salaries___benefits>
-        No
-      </cfhi_compre_15a__yes_no___salaries___benefits>
-      <cfhi_compre_15b__yes_no___salaries>
-        No
-      </cfhi_compre_15b__yes_no___salaries>
-      <cfhi_compre_15c__yes_no___benefits>
-        No
-      </cfhi_compre_15c__yes_no___benefits>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <main_queryregions>PL</main_queryregions>
-      <main_querymultisite>TWOSIX</main_querymultisite>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_16_yes_no___average_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_per_fte>
-      <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-        Yes
-      </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
-        No
-      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
-      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
-        Yes
-      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
-      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-        Yes
-      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-        Yes
-      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-      <cfhi_compre_20_yes_no___contributions_per_acct_fte>
-        Yes
-      </cfhi_compre_20_yes_no___contributions_per_acct_fte>
-      <cfhi_compre_21_yes_no___expenses_per_acct_fte>
-        Yes
-      </cfhi_compre_21_yes_no___expenses_per_acct_fte>
-      <s53___how_old_is_your_facility_factoring_in_improvement>
-        Over 10 Years
-      </s53___how_old_is_your_facility_factoring_in_improvement>
-      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-        Yes
-      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-        Yes
-      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
-        No
-      </cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
-      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
-        No
-      </cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
-      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
-        No
-      </cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
-      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
-        No
-      </cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
-      <cfhi_compre_25_yes_no___it_cost_per_fte>
-        Yes
-      </cfhi_compre_25_yes_no___it_cost_per_fte>
-      <cfhi_compre_00a_yes_no___giving_units>
-        Yes
-      </cfhi_compre_00a_yes_no___giving_units>
-      <cfhi_compre_00b_yes_no___average_adult_attendees>
-        Yes
-      </cfhi_compre_00b_yes_no___average_adult_attendees>
-      <cfhi_compre_00c_yes_no___total_attendees_including_children>
-        Yes
-      </cfhi_compre_00c_yes_no___total_attendees_including_children>
-      <cfhi_compre_00d_yes_no___full_time_equivalents>
-        Yes
-      </cfhi_compre_00d_yes_no___full_time_equivalents>
-      <cfhi_compre_00e_yes_no___attendees_to_staff>
-        Yes
-      </cfhi_compre_00e_yes_no___attendees_to_staff>
-      <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-        Yes
-      </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-      <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-        Yes
-      </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-      <cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-        Yes
-      </cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-      <cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-        No
-      </cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-      <cfhi_compre_00j_yes_no___total_outsourced_fte>
-        Yes
-      </cfhi_compre_00j_yes_no___total_outsourced_fte>
-      <cfhi_compre_00k_yes_no___facility_square_footage>
-        Yes
-      </cfhi_compre_00k_yes_no___facility_square_footage>
-      <cfhi_compre_00l_yes_no___number_of_locations>
-        Yes
-      </cfhi_compre_00l_yes_no___number_of_locations>
-      <update_id>1697571395214</update_id>
-    </record>
-    <record>
-      <s52_formatted_year>2021</s52_formatted_year>
-      <s02___giving_units>2788</s02___giving_units>
-      <s01_average_adult_attendees_excluding_children>
-        359
-      </s01_average_adult_attendees_excluding_children>
-      <s150___total_attendee_including_children>
-        359
-      </s150___total_attendee_including_children>
-      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
-        41
-      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
-      <cfhi_compre_00e_ratio___attendees_to_staff>
-        9
-      </cfhi_compre_00e_ratio___attendees_to_staff>
-      <s39___contribution_without_donor_retriction>
-        12422037
-      </s39___contribution_without_donor_retriction>
-      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-        992370
-      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-      <s40___total_contribution>12422037</s40___total_contribution>
-      <s163___total_contribution_given_online>
-        9961494
-      </s163___total_contribution_given_online>
-      <s157___total_outsourced_employee__fte_>
-        7.5
-      </s157___total_outsourced_employee__fte_>
-      <s08___total_facility_square_footage>
-        355292
-      </s08___total_facility_square_footage>
-      <s161___number_of_location>3</s161___number_of_location>
-      <s34___net_asset_without_donor_restriction__undesignated>
-        11339413
-      </s34___net_asset_without_donor_restriction__undesignated>
-      <s36___net_asset_with_donor_restriction>
-        0
-      </s36___net_asset_with_donor_restriction>
-      <s26___current_liabilities>544238</s26___current_liabilities>
-      <s17___current_assets>11100657</s17___current_assets>
-      <s18___total_cash>8308429</s18___total_cash>
-      <s30___available_operating_line_of_credit>
-        0
-      </s30___available_operating_line_of_credit>
-      <s155___total_debt>0</s155___total_debt>
-      <s45___total_expense>11578391</s45___total_expense>
-      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-        12956886
-      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-      <s11___total_benefit>1118340</s11___total_benefit>
-      <s10___total_salaries>3496737</s10___total_salaries>
-      <s14___local_outreach_expense>943484</s14___local_outreach_expense>
-      <s15___global_outreach_expense>25000</s15___global_outreach_expense>
-      <s158___average_annual_accounting_department_full_time_employee>
-        2.5
-      </s158___average_annual_accounting_department_full_time_employee>
-      <s159___accounting_department_part_time_employee>
-        1
-      </s159___accounting_department_part_time_employee>
-      <s160___accounting_department_volunteer>
-        0
-      </s160___accounting_department_volunteer>
-      <s35___bod_designated_for_operations>
-        0
-      </s35___bod_designated_for_operations>
-      <s167___amortization_of_finance_lease_right_of_use_asset />
-      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
-      <s46___total_depreciation_expense>
-        1766125
-      </s46___total_depreciation_expense>
-      <s165___finance_lease_right_of_use_asset_and_liability />
-      <s20___non_endowment_investment>2727374</s20___non_endowment_investment>
-      <s21___pledge_receivable>0</s21___pledge_receivable>
-      <s51___capitalized_interest>0</s51___capitalized_interest>
-      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-        160200
-      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-      <s49___cash_flow_from_operating_activities>
-        2832254
-      </s49___cash_flow_from_operating_activities>
-      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
-        0
-      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
-      <s166___future_minimum_lease_payment />
-      <s164___one_time_payoff_of_debt_due_in_the_next_year>
-        0
-      </s164___one_time_payoff_of_debt_due_in_the_next_year>
-      <s29___deferred_revenue>125</s29___deferred_revenue>
-      <s27___accrued_interest>0</s27___accrued_interest>
-      <s28___accrued_construction_cost>0</s28___accrued_construction_cost>
-      <s31___short_term_construction_line_of_credit>
-        0
-      </s31___short_term_construction_line_of_credit>
-      <s47___cy_interest_expense>0</s47___cy_interest_expense>
-      <s48___change_in_net_asset_without_donor_restriction>
-        2052995
-      </s48___change_in_net_asset_without_donor_restriction>
-      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
-      <s162___cost_of_outsourced_employee>
-        182230
-      </s162___cost_of_outsourced_employee>
-      <s13___it_cost>70719</s13___it_cost>
-      <s12___total_maint___occupancy_cost>
-        598469
-      </s12___total_maint___occupancy_cost>
-      <cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-        No
-      </cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-      <cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-        No
-      </cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-      <cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-        Yes
-      </cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-      <cfhi_compre_04_yes_no___liquidity_ratio>
-        No
-      </cfhi_compre_04_yes_no___liquidity_ratio>
-      <cfhi_compre_05_yes_no___net_cash_availability>
-        Yes
-      </cfhi_compre_05_yes_no___net_cash_availability>
-      <cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-        Yes
-      </cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-      <cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-        No
-      </cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-      <cfhi_compre_07_yes_no___current_ratio>
-        No
-      </cfhi_compre_07_yes_no___current_ratio>
-      <s318___total_cash_at_the_beginning_of_the_year>
-        7311107
-      </s318___total_cash_at_the_beginning_of_the_year>
-      <s320___non_endowment_investment_at_the_beginning_of_the_year>
-        0
-      </s320___non_endowment_investment_at_the_beginning_of_the_year>
-      <s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-        0
-      </s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-      <s321___pledge_receivable_at_the_beginning_of_the_year>
-        0
-      </s321___pledge_receivable_at_the_beginning_of_the_year>
-      <cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-        Yes
-      </cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-      <cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-      <cfhi_compre_09d_yes_no___debt_per_giving_unit>
-        No
-      </cfhi_compre_09d_yes_no___debt_per_giving_unit>
-      <cfhi_compre_10_yes_no___debt_coverage />
-      <cfhi_compre_11_yes_no___net_income_ratio>
-        Yes
-      </cfhi_compre_11_yes_no___net_income_ratio>
-      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-        No
-      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-        Yes
-      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-        No
-      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-        Yes
-      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-      <cfhi_compre_15_yes_no___benefits_to_salaries>
-        Yes
-      </cfhi_compre_15_yes_no___benefits_to_salaries>
-      <cfhi_compre_15a__yes_no___salaries___benefits>
-        No
-      </cfhi_compre_15a__yes_no___salaries___benefits>
-      <cfhi_compre_15b__yes_no___salaries>
-        No
-      </cfhi_compre_15b__yes_no___salaries>
-      <cfhi_compre_15c__yes_no___benefits>
-        No
-      </cfhi_compre_15c__yes_no___benefits>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <main_queryregions>MW</main_queryregions>
-      <main_querymultisite>TWOSIX</main_querymultisite>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_16_yes_no___average_benefits_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_salaries_per_fte>
-      <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-        Yes
-      </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
-      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
-        No
-      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
-      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-        No
-      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-        Yes
-      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-      <cfhi_compre_20_yes_no___contributions_per_acct_fte>
-        Yes
-      </cfhi_compre_20_yes_no___contributions_per_acct_fte>
-      <cfhi_compre_21_yes_no___expenses_per_acct_fte>
-        Yes
-      </cfhi_compre_21_yes_no___expenses_per_acct_fte>
-      <s53___how_old_is_your_facility_factoring_in_improvement>
-        Over 10 Years
-      </s53___how_old_is_your_facility_factoring_in_improvement>
-      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-        Yes
-      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-        Yes
-      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
-        No
-      </cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
-      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
-        No
-      </cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
-      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
-        No
-      </cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
-      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
-        No
-      </cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
-      <cfhi_compre_25_yes_no___it_cost_per_fte>
-        No
-      </cfhi_compre_25_yes_no___it_cost_per_fte>
-      <cfhi_compre_00a_yes_no___giving_units>
-        Yes
-      </cfhi_compre_00a_yes_no___giving_units>
-      <cfhi_compre_00b_yes_no___average_adult_attendees>
-        Yes
-      </cfhi_compre_00b_yes_no___average_adult_attendees>
-      <cfhi_compre_00c_yes_no___total_attendees_including_children>
-        Yes
-      </cfhi_compre_00c_yes_no___total_attendees_including_children>
-      <cfhi_compre_00d_yes_no___full_time_equivalents>
-        Yes
-      </cfhi_compre_00d_yes_no___full_time_equivalents>
-      <cfhi_compre_00e_yes_no___attendees_to_staff>
-        No
-      </cfhi_compre_00e_yes_no___attendees_to_staff>
-      <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-        Yes
-      </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-      <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-        Yes
-      </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-      <cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-        Yes
-      </cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-      <cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-        Yes
-      </cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-      <cfhi_compre_00j_yes_no___total_outsourced_fte>
-        Yes
-      </cfhi_compre_00j_yes_no___total_outsourced_fte>
-      <cfhi_compre_00k_yes_no___facility_square_footage>
-        Yes
-      </cfhi_compre_00k_yes_no___facility_square_footage>
-      <cfhi_compre_00l_yes_no___number_of_locations>
-        Yes
-      </cfhi_compre_00l_yes_no___number_of_locations>
-      <update_id>1697571395204</update_id>
-    </record>
-
-    <record>
-      <s52_formatted_year>2022</s52_formatted_year>
-      <s02___giving_units>1619</s02___giving_units>
-      <s01_average_adult_attendees_excluding_children>
-        1136
-      </s01_average_adult_attendees_excluding_children>
-      <s150___total_attendee_including_children>
-        1327
-      </s150___total_attendee_including_children>
-      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
-        36
-      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
-      <cfhi_compre_00e_ratio___attendees_to_staff>
-        37
-      </cfhi_compre_00e_ratio___attendees_to_staff>
-      <s39___contribution_without_donor_retriction>
-        8710313
-      </s39___contribution_without_donor_retriction>
-      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-        172366
-      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-      <s40___total_contribution>11855348</s40___total_contribution>
-      <s163___total_contribution_given_online />
-      <s157___total_outsourced_employee__fte_ />
-      <s08___total_facility_square_footage />
-      <s161___number_of_location>1</s161___number_of_location>
-      <s34___net_asset_without_donor_restriction__undesignated>
-        6409458
-      </s34___net_asset_without_donor_restriction__undesignated>
-      <s36___net_asset_with_donor_restriction>
-        2672615
-      </s36___net_asset_with_donor_restriction>
-      <s26___current_liabilities>906528</s26___current_liabilities>
-      <s17___current_assets>10558451</s17___current_assets>
-      <s18___total_cash>10034123</s18___total_cash>
-      <s30___available_operating_line_of_credit>
-        0
-      </s30___available_operating_line_of_credit>
-      <s155___total_debt>4741569</s155___total_debt>
-      <s45___total_expense>12414342</s45___total_expense>
-      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-        12836912
-      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-      <s11___total_benefit>1371618</s11___total_benefit>
-      <s10___total_salaries>4123160</s10___total_salaries>
-      <s14___local_outreach_expense>347639</s14___local_outreach_expense>
-      <s15___global_outreach_expense>1051547</s15___global_outreach_expense>
-      <s158___average_annual_accounting_department_full_time_employee />
-      <s159___accounting_department_part_time_employee />
-      <s160___accounting_department_volunteer />
-      <s35___bod_designated_for_operations>
-        1350000
-      </s35___bod_designated_for_operations>
-      <s167___amortization_of_finance_lease_right_of_use_asset />
-      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
-      <s46___total_depreciation_expense>
-        1152041
-      </s46___total_depreciation_expense>
-      <s165___finance_lease_right_of_use_asset_and_liability />
-      <s20___non_endowment_investment>0</s20___non_endowment_investment>
-      <s21___pledge_receivable>0</s21___pledge_receivable>
-      <s51___capitalized_interest>0</s51___capitalized_interest>
-      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-        460690
-      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-      <s49___cash_flow_from_operating_activities>
-        2199534
-      </s49___cash_flow_from_operating_activities>
-      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
-        190581
-      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
-      <s166___future_minimum_lease_payment />
-      <s164___one_time_payoff_of_debt_due_in_the_next_year />
-      <s29___deferred_revenue>0</s29___deferred_revenue>
-      <s27___accrued_interest>0</s27___accrued_interest>
-      <s28___accrued_construction_cost>0</s28___accrued_construction_cost>
-      <s31___short_term_construction_line_of_credit>
-        0
-      </s31___short_term_construction_line_of_credit>
-      <s47___cy_interest_expense>149344</s47___cy_interest_expense>
-      <s48___change_in_net_asset_without_donor_restriction>
-        422570
-      </s48___change_in_net_asset_without_donor_restriction>
-      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
-      <s162___cost_of_outsourced_employee />
-      <s13___it_cost />
-      <s12___total_maint___occupancy_cost />
-      <cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-        No
-      </cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-      <cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-        Yes
-      </cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-      <cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-        Yes
-      </cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-      <cfhi_compre_04_yes_no___liquidity_ratio>
-        Yes
-      </cfhi_compre_04_yes_no___liquidity_ratio>
-      <cfhi_compre_05_yes_no___net_cash_availability>
-        Yes
-      </cfhi_compre_05_yes_no___net_cash_availability>
-      <cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-        Yes
-      </cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-      <cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-        Yes
-      </cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-      <cfhi_compre_07_yes_no___current_ratio>
-        No
-      </cfhi_compre_07_yes_no___current_ratio>
-      <s318___total_cash_at_the_beginning_of_the_year>
-        9247556
-      </s318___total_cash_at_the_beginning_of_the_year>
-      <s320___non_endowment_investment_at_the_beginning_of_the_year>
-        0
-      </s320___non_endowment_investment_at_the_beginning_of_the_year>
-      <s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-        2324555
-      </s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-      <s321___pledge_receivable_at_the_beginning_of_the_year>
-        0
-      </s321___pledge_receivable_at_the_beginning_of_the_year>
-      <cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-        Yes
-      </cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-      <cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-      <cfhi_compre_09d_yes_no___debt_per_giving_unit>
-        Yes
-      </cfhi_compre_09d_yes_no___debt_per_giving_unit>
-      <cfhi_compre_10_yes_no___debt_coverage>
-        Yes
-      </cfhi_compre_10_yes_no___debt_coverage>
-      <cfhi_compre_11_yes_no___net_income_ratio>
-        Yes
-      </cfhi_compre_11_yes_no___net_income_ratio>
-      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-        No
-      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-        Yes
-      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-        No
-      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-        Yes
-      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-      <cfhi_compre_15_yes_no___benefits_to_salaries>
-        Yes
-      </cfhi_compre_15_yes_no___benefits_to_salaries>
-      <cfhi_compre_15a__yes_no___salaries___benefits>
-        No
-      </cfhi_compre_15a__yes_no___salaries___benefits>
-      <cfhi_compre_15b__yes_no___salaries>
-        No
-      </cfhi_compre_15b__yes_no___salaries>
-      <cfhi_compre_15c__yes_no___benefits>
-        No
-      </cfhi_compre_15c__yes_no___benefits>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <main_queryregions>WC</main_queryregions>
-      <main_querymultisite>SINGLE</main_querymultisite>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_16_yes_no___average_benefits_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_salaries_per_fte>
-      <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-        No
-      </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
-      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
-        Yes
-      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
-      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-        No
-      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-        Yes
-      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-      <cfhi_compre_20_yes_no___contributions_per_acct_fte />
-      <cfhi_compre_21_yes_no___expenses_per_acct_fte />
-      <s53___how_old_is_your_facility_factoring_in_improvement>
-        Over 10 Years
-      </s53___how_old_is_your_facility_factoring_in_improvement>
-      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-        No
-      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-        No
-      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10 />
-      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10 />
-      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10 />
-      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10 />
-      <cfhi_compre_25_yes_no___it_cost_per_fte>
-        No
-      </cfhi_compre_25_yes_no___it_cost_per_fte>
-      <cfhi_compre_00a_yes_no___giving_units>
-        Yes
-      </cfhi_compre_00a_yes_no___giving_units>
-      <cfhi_compre_00b_yes_no___average_adult_attendees>
-        Yes
-      </cfhi_compre_00b_yes_no___average_adult_attendees>
-      <cfhi_compre_00c_yes_no___total_attendees_including_children>
-        Yes
-      </cfhi_compre_00c_yes_no___total_attendees_including_children>
-      <cfhi_compre_00d_yes_no___full_time_equivalents>
-        Yes
-      </cfhi_compre_00d_yes_no___full_time_equivalents>
-      <cfhi_compre_00e_yes_no___attendees_to_staff>
-        Yes
-      </cfhi_compre_00e_yes_no___attendees_to_staff>
-      <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-        Yes
-      </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-      <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-        Yes
-      </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-      <cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-        No
-      </cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-      <cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-        No
-      </cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-      <cfhi_compre_00j_yes_no___total_outsourced_fte>
-        Yes
-      </cfhi_compre_00j_yes_no___total_outsourced_fte>
-      <cfhi_compre_00k_yes_no___facility_square_footage>
-        No
-      </cfhi_compre_00k_yes_no___facility_square_footage>
-      <cfhi_compre_00l_yes_no___number_of_locations>
-        Yes
-      </cfhi_compre_00l_yes_no___number_of_locations>
-      <update_id>1697571395214</update_id>
-    </record>
-    <record>
-      <s52_formatted_year>2022</s52_formatted_year>
-      <s02___giving_units>298</s02___giving_units>
-      <s01_average_adult_attendees_excluding_children>
-        542
-      </s01_average_adult_attendees_excluding_children>
-      <s150___total_attendee_including_children>
-        565
-      </s150___total_attendee_including_children>
-      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
-        14
-      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
-      <cfhi_compre_00e_ratio___attendees_to_staff>
-        40
-      </cfhi_compre_00e_ratio___attendees_to_staff>
-      <s39___contribution_without_donor_retriction>
-        2035835
-      </s39___contribution_without_donor_retriction>
-      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-        193550
-      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-      <s40___total_contribution>2259918</s40___total_contribution>
-      <s163___total_contribution_given_online>
-        1124227
-      </s163___total_contribution_given_online>
-      <s157___total_outsourced_employee__fte_>
-        0
-      </s157___total_outsourced_employee__fte_>
-      <s08___total_facility_square_footage>
-        64795
-      </s08___total_facility_square_footage>
-      <s161___number_of_location>1</s161___number_of_location>
-      <s34___net_asset_without_donor_restriction__undesignated>
-        356068
-      </s34___net_asset_without_donor_restriction__undesignated>
-      <s36___net_asset_with_donor_restriction>
-        386869
-      </s36___net_asset_with_donor_restriction>
-      <s26___current_liabilities>54682</s26___current_liabilities>
-      <s17___current_assets>1008300</s17___current_assets>
-      <s18___total_cash>930803</s18___total_cash>
-      <s30___available_operating_line_of_credit>
-        0
-      </s30___available_operating_line_of_credit>
-      <s155___total_debt>0</s155___total_debt>
-      <s45___total_expense>2910145</s45___total_expense>
-      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-        2645927
-      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-      <s11___total_benefit>191461</s11___total_benefit>
-      <s10___total_salaries>947229</s10___total_salaries>
-      <s14___local_outreach_expense>133698</s14___local_outreach_expense>
-      <s15___global_outreach_expense>186139</s15___global_outreach_expense>
-      <s158___average_annual_accounting_department_full_time_employee>
-        0
-      </s158___average_annual_accounting_department_full_time_employee>
-      <s159___accounting_department_part_time_employee>
-        0.7
-      </s159___accounting_department_part_time_employee>
-      <s160___accounting_department_volunteer>
-        0.1
-      </s160___accounting_department_volunteer>
-      <s35___bod_designated_for_operations>
-        210681
-      </s35___bod_designated_for_operations>
-      <s167___amortization_of_finance_lease_right_of_use_asset />
-      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
-      <s46___total_depreciation_expense>
-        260248
-      </s46___total_depreciation_expense>
-      <s165___finance_lease_right_of_use_asset_and_liability />
-      <s20___non_endowment_investment>0</s20___non_endowment_investment>
-      <s21___pledge_receivable>0</s21___pledge_receivable>
-      <s51___capitalized_interest>0</s51___capitalized_interest>
-      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-        70000
-      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-      <s49___cash_flow_from_operating_activities>
-        92095
-      </s49___cash_flow_from_operating_activities>
-      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
-        0
-      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
-      <s166___future_minimum_lease_payment />
-      <s164___one_time_payoff_of_debt_due_in_the_next_year>
-        0
-      </s164___one_time_payoff_of_debt_due_in_the_next_year>
-      <s29___deferred_revenue>27328</s29___deferred_revenue>
-      <s27___accrued_interest>0</s27___accrued_interest>
-      <s28___accrued_construction_cost>0</s28___accrued_construction_cost>
-      <s31___short_term_construction_line_of_credit>
-        0
-      </s31___short_term_construction_line_of_credit>
-      <s47___cy_interest_expense>0</s47___cy_interest_expense>
-      <s48___change_in_net_asset_without_donor_restriction>
-        -264218
-      </s48___change_in_net_asset_without_donor_restriction>
-      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
-      <s162___cost_of_outsourced_employee>0</s162___cost_of_outsourced_employee>
-      <s13___it_cost>46335</s13___it_cost>
-      <s12___total_maint___occupancy_cost>
-        119177
-      </s12___total_maint___occupancy_cost>
-      <cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-        Yes
-      </cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-      <cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-        Yes
-      </cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-      <cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-        Yes
-      </cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-      <cfhi_compre_04_yes_no___liquidity_ratio>
-        No
-      </cfhi_compre_04_yes_no___liquidity_ratio>
-      <cfhi_compre_05_yes_no___net_cash_availability>
-        Yes
-      </cfhi_compre_05_yes_no___net_cash_availability>
-      <cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-        Yes
-      </cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-      <cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-        No
-      </cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-      <cfhi_compre_07_yes_no___current_ratio>
-        No
-      </cfhi_compre_07_yes_no___current_ratio>
-      <s318___total_cash_at_the_beginning_of_the_year>
-        1157962
-      </s318___total_cash_at_the_beginning_of_the_year>
-      <s320___non_endowment_investment_at_the_beginning_of_the_year>
-        71112
-      </s320___non_endowment_investment_at_the_beginning_of_the_year>
-      <s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-        335156
-      </s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-      <s321___pledge_receivable_at_the_beginning_of_the_year>
-        0
-      </s321___pledge_receivable_at_the_beginning_of_the_year>
-      <cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-        Yes
-      </cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-      <cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-      <cfhi_compre_09d_yes_no___debt_per_giving_unit>
-        No
-      </cfhi_compre_09d_yes_no___debt_per_giving_unit>
-      <cfhi_compre_10_yes_no___debt_coverage />
-      <cfhi_compre_11_yes_no___net_income_ratio>
-        Yes
-      </cfhi_compre_11_yes_no___net_income_ratio>
-      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-        Yes
-      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-        Yes
-      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-      <cfhi_compre_15_yes_no___benefits_to_salaries>
-        Yes
-      </cfhi_compre_15_yes_no___benefits_to_salaries>
-      <cfhi_compre_15a__yes_no___salaries___benefits>
-        No
-      </cfhi_compre_15a__yes_no___salaries___benefits>
-      <cfhi_compre_15b__yes_no___salaries>
-        No
-      </cfhi_compre_15b__yes_no___salaries>
-      <cfhi_compre_15c__yes_no___benefits>
-        No
-      </cfhi_compre_15c__yes_no___benefits>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <main_queryregions>MW</main_queryregions>
-      <main_querymultisite>SINGLE</main_querymultisite>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_16_yes_no___average_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_per_fte>
-      <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-        Yes
-      </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
-      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
-        Yes
-      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
-      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-        Yes
-      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-        No
-      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-      <cfhi_compre_20_yes_no___contributions_per_acct_fte>
-        Yes
-      </cfhi_compre_20_yes_no___contributions_per_acct_fte>
-      <cfhi_compre_21_yes_no___expenses_per_acct_fte>
-        Yes
-      </cfhi_compre_21_yes_no___expenses_per_acct_fte>
-      <s53___how_old_is_your_facility_factoring_in_improvement />
-      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-        No
-      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-        No
-      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
-        No
-      </cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10>
-      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
-        No
-      </cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10>
-      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
-        No
-      </cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10>
-      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
-        No
-      </cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10>
-      <cfhi_compre_25_yes_no___it_cost_per_fte>
-        Yes
-      </cfhi_compre_25_yes_no___it_cost_per_fte>
-      <cfhi_compre_00a_yes_no___giving_units>
-        Yes
-      </cfhi_compre_00a_yes_no___giving_units>
-      <cfhi_compre_00b_yes_no___average_adult_attendees>
-        Yes
-      </cfhi_compre_00b_yes_no___average_adult_attendees>
-      <cfhi_compre_00c_yes_no___total_attendees_including_children>
-        Yes
-      </cfhi_compre_00c_yes_no___total_attendees_including_children>
-      <cfhi_compre_00d_yes_no___full_time_equivalents>
-        Yes
-      </cfhi_compre_00d_yes_no___full_time_equivalents>
-      <cfhi_compre_00e_yes_no___attendees_to_staff>
-        Yes
-      </cfhi_compre_00e_yes_no___attendees_to_staff>
-      <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-        Yes
-      </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-      <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-        Yes
-      </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-      <cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-        Yes
-      </cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-      <cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-        Yes
-      </cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-      <cfhi_compre_00j_yes_no___total_outsourced_fte>
-        Yes
-      </cfhi_compre_00j_yes_no___total_outsourced_fte>
-      <cfhi_compre_00k_yes_no___facility_square_footage>
-        Yes
-      </cfhi_compre_00k_yes_no___facility_square_footage>
-      <cfhi_compre_00l_yes_no___number_of_locations>
-        Yes
-      </cfhi_compre_00l_yes_no___number_of_locations>
-      <update_id>1697571395214</update_id>
-    </record>
-    <record>
-      <s52_formatted_year>2022</s52_formatted_year>
-      <s02___giving_units>462</s02___giving_units>
-      <s01_average_adult_attendees_excluding_children>
-        385
-      </s01_average_adult_attendees_excluding_children>
-      <s150___total_attendee_including_children>
-        538
-      </s150___total_attendee_including_children>
-      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
-        13
-      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
-      <cfhi_compre_00e_ratio___attendees_to_staff>
-        41
-      </cfhi_compre_00e_ratio___attendees_to_staff>
-      <s39___contribution_without_donor_retriction>
-        3187314
-      </s39___contribution_without_donor_retriction>
-      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-        250000
-      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-      <s40___total_contribution>3187334</s40___total_contribution>
-      <s163___total_contribution_given_online />
-      <s157___total_outsourced_employee__fte_ />
-      <s08___total_facility_square_footage />
-      <s161___number_of_location />
-      <s34___net_asset_without_donor_restriction__undesignated>
-        3469058
-      </s34___net_asset_without_donor_restriction__undesignated>
-      <s36___net_asset_with_donor_restriction>
-        34896
-      </s36___net_asset_with_donor_restriction>
-      <s26___current_liabilities>268851</s26___current_liabilities>
-      <s17___current_assets>3627812</s17___current_assets>
-      <s18___total_cash>3613093</s18___total_cash>
-      <s30___available_operating_line_of_credit>
-        0
-      </s30___available_operating_line_of_credit>
-      <s155___total_debt>2949855</s155___total_debt>
-      <s45___total_expense>3155697</s45___total_expense>
-      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-        3259320
-      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-      <s11___total_benefit>191684</s11___total_benefit>
-      <s10___total_salaries>1181530</s10___total_salaries>
-      <s14___local_outreach_expense>10072</s14___local_outreach_expense>
-      <s15___global_outreach_expense>132717</s15___global_outreach_expense>
-      <s158___average_annual_accounting_department_full_time_employee />
-      <s159___accounting_department_part_time_employee />
-      <s160___accounting_department_volunteer />
-      <s35___bod_designated_for_operations>
-        0
-      </s35___bod_designated_for_operations>
-      <s167___amortization_of_finance_lease_right_of_use_asset />
-      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
-      <s46___total_depreciation_expense>
-        428346
-      </s46___total_depreciation_expense>
-      <s165___finance_lease_right_of_use_asset_and_liability />
-      <s20___non_endowment_investment>0</s20___non_endowment_investment>
-      <s21___pledge_receivable>0</s21___pledge_receivable>
-      <s51___capitalized_interest>0</s51___capitalized_interest>
-      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-        0
-      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-      <s49___cash_flow_from_operating_activities>
-        849619
-      </s49___cash_flow_from_operating_activities>
-      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
-        144993
-      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
-      <s166___future_minimum_lease_payment />
-      <s164___one_time_payoff_of_debt_due_in_the_next_year />
-      <s29___deferred_revenue>37122</s29___deferred_revenue>
-      <s27___accrued_interest>0</s27___accrued_interest>
-      <s28___accrued_construction_cost>0</s28___accrued_construction_cost>
-      <s31___short_term_construction_line_of_credit>
-        0
-      </s31___short_term_construction_line_of_credit>
-      <s47___cy_interest_expense>115345</s47___cy_interest_expense>
-      <s48___change_in_net_asset_without_donor_restriction>
-        103623
-      </s48___change_in_net_asset_without_donor_restriction>
-      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
-      <s162___cost_of_outsourced_employee />
-      <s13___it_cost />
-      <s12___total_maint___occupancy_cost />
-      <cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-        No
-      </cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-      <cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-        No
-      </cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-      <cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-        Yes
-      </cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-      <cfhi_compre_04_yes_no___liquidity_ratio>
-        No
-      </cfhi_compre_04_yes_no___liquidity_ratio>
-      <cfhi_compre_05_yes_no___net_cash_availability>
-        Yes
-      </cfhi_compre_05_yes_no___net_cash_availability>
-      <cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-        Yes
-      </cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-      <cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-        Yes
-      </cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-      <cfhi_compre_07_yes_no___current_ratio>
-        No
-      </cfhi_compre_07_yes_no___current_ratio>
-      <s318___total_cash_at_the_beginning_of_the_year>
-        2916565
-      </s318___total_cash_at_the_beginning_of_the_year>
-      <s320___non_endowment_investment_at_the_beginning_of_the_year>
-        0
-      </s320___non_endowment_investment_at_the_beginning_of_the_year>
-      <s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-        34056
-      </s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-      <s321___pledge_receivable_at_the_beginning_of_the_year>
-        0
-      </s321___pledge_receivable_at_the_beginning_of_the_year>
-      <cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-        Yes
-      </cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-      <cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-      <cfhi_compre_09d_yes_no___debt_per_giving_unit>
-        Yes
-      </cfhi_compre_09d_yes_no___debt_per_giving_unit>
-      <cfhi_compre_10_yes_no___debt_coverage>
-        Yes
-      </cfhi_compre_10_yes_no___debt_coverage>
-      <cfhi_compre_11_yes_no___net_income_ratio>
-        Yes
-      </cfhi_compre_11_yes_no___net_income_ratio>
-      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-        No
-      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-        Yes
-      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-        Yes
-      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-      <cfhi_compre_15_yes_no___benefits_to_salaries>
-        Yes
-      </cfhi_compre_15_yes_no___benefits_to_salaries>
-      <cfhi_compre_15a__yes_no___salaries___benefits>
-        No
-      </cfhi_compre_15a__yes_no___salaries___benefits>
-      <cfhi_compre_15b__yes_no___salaries>
-        No
-      </cfhi_compre_15b__yes_no___salaries>
-      <cfhi_compre_15c__yes_no___benefits>
-        No
-      </cfhi_compre_15c__yes_no___benefits>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <main_queryregions>MW</main_queryregions>
-      <main_querymultisite>SINGLE</main_querymultisite>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_16_yes_no___average_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_salaries_per_fte>
-      <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-        Yes
-      </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
-        No
-      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
-      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
-        Yes
-      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
-      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-        No
-      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-        Yes
-      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-      <cfhi_compre_20_yes_no___contributions_per_acct_fte />
-      <cfhi_compre_21_yes_no___expenses_per_acct_fte />
-      <s53___how_old_is_your_facility_factoring_in_improvement />
-      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-        No
-      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-        No
-      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10 />
-      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10 />
-      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10 />
-      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10 />
-      <cfhi_compre_25_yes_no___it_cost_per_fte>
-        No
-      </cfhi_compre_25_yes_no___it_cost_per_fte>
-      <cfhi_compre_00a_yes_no___giving_units>
-        Yes
-      </cfhi_compre_00a_yes_no___giving_units>
-      <cfhi_compre_00b_yes_no___average_adult_attendees>
-        Yes
-      </cfhi_compre_00b_yes_no___average_adult_attendees>
-      <cfhi_compre_00c_yes_no___total_attendees_including_children>
-        Yes
-      </cfhi_compre_00c_yes_no___total_attendees_including_children>
-      <cfhi_compre_00d_yes_no___full_time_equivalents>
-        Yes
-      </cfhi_compre_00d_yes_no___full_time_equivalents>
-      <cfhi_compre_00e_yes_no___attendees_to_staff>
-        Yes
-      </cfhi_compre_00e_yes_no___attendees_to_staff>
-      <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-        Yes
-      </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-      <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-        Yes
-      </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-      <cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-        No
-      </cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-      <cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-        No
-      </cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-      <cfhi_compre_00j_yes_no___total_outsourced_fte>
-        Yes
-      </cfhi_compre_00j_yes_no___total_outsourced_fte>
-      <cfhi_compre_00k_yes_no___facility_square_footage>
-        No
-      </cfhi_compre_00k_yes_no___facility_square_footage>
-      <cfhi_compre_00l_yes_no___number_of_locations>
-        No
-      </cfhi_compre_00l_yes_no___number_of_locations>
-      <update_id>1697571395214</update_id>
-    </record>
-    <record>
-      <s52_formatted_year>2022</s52_formatted_year>
-      <s02___giving_units>882</s02___giving_units>
-      <s01_average_adult_attendees_excluding_children>
-        1030
-      </s01_average_adult_attendees_excluding_children>
-      <s150___total_attendee_including_children>
-        1463
-      </s150___total_attendee_including_children>
-      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
-        36
-      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
-      <cfhi_compre_00e_ratio___attendees_to_staff>
-        41
-      </cfhi_compre_00e_ratio___attendees_to_staff>
-      <s39___contribution_without_donor_retriction>
-        4972071
-      </s39___contribution_without_donor_retriction>
-      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-        731706
-      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-      <s40___total_contribution>5582338</s40___total_contribution>
-      <s163___total_contribution_given_online />
-      <s157___total_outsourced_employee__fte_ />
-      <s08___total_facility_square_footage />
-      <s161___number_of_location>3</s161___number_of_location>
-      <s34___net_asset_without_donor_restriction__undesignated>
-        2029447
-      </s34___net_asset_without_donor_restriction__undesignated>
-      <s36___net_asset_with_donor_restriction>
-        290680
-      </s36___net_asset_with_donor_restriction>
-      <s26___current_liabilities>192500</s26___current_liabilities>
-      <s17___current_assets>2372667</s17___current_assets>
-      <s18___total_cash>2397422</s18___total_cash>
-      <s30___available_operating_line_of_credit>
-        0
-      </s30___available_operating_line_of_credit>
-      <s155___total_debt>860614</s155___total_debt>
-      <s45___total_expense>5502360</s45___total_expense>
-      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-        6081539
-      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-      <s11___total_benefit>520476</s11___total_benefit>
-      <s10___total_salaries>2372667</s10___total_salaries>
-      <s14___local_outreach_expense>396074</s14___local_outreach_expense>
-      <s15___global_outreach_expense>102537</s15___global_outreach_expense>
-      <s158___average_annual_accounting_department_full_time_employee />
-      <s159___accounting_department_part_time_employee />
-      <s160___accounting_department_volunteer />
-      <s35___bod_designated_for_operations>
-        0
-      </s35___bod_designated_for_operations>
-      <s167___amortization_of_finance_lease_right_of_use_asset />
-      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
-      <s46___total_depreciation_expense>
-        329153
-      </s46___total_depreciation_expense>
-      <s165___finance_lease_right_of_use_asset_and_liability />
-      <s20___non_endowment_investment>0</s20___non_endowment_investment>
-      <s21___pledge_receivable>0</s21___pledge_receivable>
-      <s51___capitalized_interest>0</s51___capitalized_interest>
-      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-        0
-      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-      <s49___cash_flow_from_operating_activities>
-        486038
-      </s49___cash_flow_from_operating_activities>
-      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
-        41280
-      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
-      <s166___future_minimum_lease_payment />
-      <s164___one_time_payoff_of_debt_due_in_the_next_year />
-      <s29___deferred_revenue>14540</s29___deferred_revenue>
-      <s27___accrued_interest>0</s27___accrued_interest>
-      <s28___accrued_construction_cost>0</s28___accrued_construction_cost>
-      <s31___short_term_construction_line_of_credit>
-        0
-      </s31___short_term_construction_line_of_credit>
-      <s47___cy_interest_expense>26222</s47___cy_interest_expense>
-      <s48___change_in_net_asset_without_donor_restriction>
-        579179
-      </s48___change_in_net_asset_without_donor_restriction>
-      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
-      <s162___cost_of_outsourced_employee />
-      <s13___it_cost />
-      <s12___total_maint___occupancy_cost />
-      <cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-        Yes
-      </cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-      <cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-        Yes
-      </cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-      <cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-        Yes
-      </cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-      <cfhi_compre_04_yes_no___liquidity_ratio>
-        No
-      </cfhi_compre_04_yes_no___liquidity_ratio>
-      <cfhi_compre_05_yes_no___net_cash_availability>
-        Yes
-      </cfhi_compre_05_yes_no___net_cash_availability>
-      <cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-        Yes
-      </cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-      <cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-        Yes
-      </cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-      <cfhi_compre_07_yes_no___current_ratio>
-        No
-      </cfhi_compre_07_yes_no___current_ratio>
-      <s318___total_cash_at_the_beginning_of_the_year>
-        2089105
-      </s318___total_cash_at_the_beginning_of_the_year>
-      <s320___non_endowment_investment_at_the_beginning_of_the_year>
-        0
-      </s320___non_endowment_investment_at_the_beginning_of_the_year>
-      <s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-        602612
-      </s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-      <s321___pledge_receivable_at_the_beginning_of_the_year>
-        0
-      </s321___pledge_receivable_at_the_beginning_of_the_year>
-      <cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-        Yes
-      </cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-      <cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-      <cfhi_compre_09d_yes_no___debt_per_giving_unit>
-        Yes
-      </cfhi_compre_09d_yes_no___debt_per_giving_unit>
-      <cfhi_compre_10_yes_no___debt_coverage>
-        No
-      </cfhi_compre_10_yes_no___debt_coverage>
-      <cfhi_compre_11_yes_no___net_income_ratio>
-        Yes
-      </cfhi_compre_11_yes_no___net_income_ratio>
-      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-        Yes
-      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-        Yes
-      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-      <cfhi_compre_15_yes_no___benefits_to_salaries>
-        Yes
-      </cfhi_compre_15_yes_no___benefits_to_salaries>
-      <cfhi_compre_15a__yes_no___salaries___benefits>
-        No
-      </cfhi_compre_15a__yes_no___salaries___benefits>
-      <cfhi_compre_15b__yes_no___salaries>
-        No
-      </cfhi_compre_15b__yes_no___salaries>
-      <cfhi_compre_15c__yes_no___benefits>
-        No
-      </cfhi_compre_15c__yes_no___benefits>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <main_queryregions>MT</main_queryregions>
-      <main_querymultisite>TWOSIX</main_querymultisite>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_16_yes_no___average_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_per_fte>
-      <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-        Yes
-      </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
-      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
-        No
-      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
-      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-        Yes
-      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-        Yes
-      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-      <cfhi_compre_20_yes_no___contributions_per_acct_fte />
-      <cfhi_compre_21_yes_no___expenses_per_acct_fte />
-      <s53___how_old_is_your_facility_factoring_in_improvement>
-        Over 10 Years
-      </s53___how_old_is_your_facility_factoring_in_improvement>
-      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-        No
-      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-        No
-      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10 />
-      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10 />
-      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10 />
-      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10 />
-      <cfhi_compre_25_yes_no___it_cost_per_fte>
-        No
-      </cfhi_compre_25_yes_no___it_cost_per_fte>
-      <cfhi_compre_00a_yes_no___giving_units>
-        Yes
-      </cfhi_compre_00a_yes_no___giving_units>
-      <cfhi_compre_00b_yes_no___average_adult_attendees>
-        Yes
-      </cfhi_compre_00b_yes_no___average_adult_attendees>
-      <cfhi_compre_00c_yes_no___total_attendees_including_children>
-        Yes
-      </cfhi_compre_00c_yes_no___total_attendees_including_children>
-      <cfhi_compre_00d_yes_no___full_time_equivalents>
-        Yes
-      </cfhi_compre_00d_yes_no___full_time_equivalents>
-      <cfhi_compre_00e_yes_no___attendees_to_staff>
-        Yes
-      </cfhi_compre_00e_yes_no___attendees_to_staff>
-      <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-        Yes
-      </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-      <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-        Yes
-      </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-      <cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-        No
-      </cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-      <cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-        No
-      </cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-      <cfhi_compre_00j_yes_no___total_outsourced_fte>
-        Yes
-      </cfhi_compre_00j_yes_no___total_outsourced_fte>
-      <cfhi_compre_00k_yes_no___facility_square_footage>
-        No
-      </cfhi_compre_00k_yes_no___facility_square_footage>
-      <cfhi_compre_00l_yes_no___number_of_locations>
-        Yes
-      </cfhi_compre_00l_yes_no___number_of_locations>
-      <update_id>1697571395214</update_id>
-    </record>
-    <record>
-      <s52_formatted_year>2022</s52_formatted_year>
-      <s02___giving_units>350</s02___giving_units>
-      <s01_average_adult_attendees_excluding_children>
-        400
-      </s01_average_adult_attendees_excluding_children>
-      <s150___total_attendee_including_children>
-        500
-      </s150___total_attendee_including_children>
-      <s151___church_only_full_time_equivalent_excluding_childcare_worker>
-        5
-      </s151___church_only_full_time_equivalent_excluding_childcare_worker>
-      <cfhi_compre_00e_ratio___attendees_to_staff>
-        100
-      </cfhi_compre_00e_ratio___attendees_to_staff>
-      <s39___contribution_without_donor_retriction>
-        1105271
-      </s39___contribution_without_donor_retriction>
-      <s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-        50000
-      </s152___large_one_time_gift_without_donor_retriction__non_recurring_>
-      <s40___total_contribution>1113589</s40___total_contribution>
-      <s163___total_contribution_given_online />
-      <s157___total_outsourced_employee__fte_ />
-      <s08___total_facility_square_footage />
-      <s161___number_of_location>1</s161___number_of_location>
-      <s34___net_asset_without_donor_restriction__undesignated>
-        3234835
-      </s34___net_asset_without_donor_restriction__undesignated>
-      <s36___net_asset_with_donor_restriction>
-        10295
-      </s36___net_asset_with_donor_restriction>
-      <s26___current_liabilities>208345</s26___current_liabilities>
-      <s17___current_assets>353416</s17___current_assets>
-      <s18___total_cash>353416</s18___total_cash>
-      <s30___available_operating_line_of_credit>
-        0
-      </s30___available_operating_line_of_credit>
-      <s155___total_debt>2418805</s155___total_debt>
-      <s45___total_expense>1113891</s45___total_expense>
-      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-        1147674
-      </s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification>
-      <s11___total_benefit>24760</s11___total_benefit>
-      <s10___total_salaries>391175</s10___total_salaries>
-      <s14___local_outreach_expense>15129</s14___local_outreach_expense>
-      <s15___global_outreach_expense>20658</s15___global_outreach_expense>
-      <s158___average_annual_accounting_department_full_time_employee />
-      <s159___accounting_department_part_time_employee />
-      <s160___accounting_department_volunteer />
-      <s35___bod_designated_for_operations>
-        0
-      </s35___bod_designated_for_operations>
-      <s167___amortization_of_finance_lease_right_of_use_asset />
-      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
-      <s46___total_depreciation_expense>
-        143700
-      </s46___total_depreciation_expense>
-      <s165___finance_lease_right_of_use_asset_and_liability />
-      <s20___non_endowment_investment>0</s20___non_endowment_investment>
-      <s21___pledge_receivable>0</s21___pledge_receivable>
-      <s51___capitalized_interest>0</s51___capitalized_interest>
-      <s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-        0
-      </s153___large_one_time_gift_with_donor_restriction__non_recurring_>
-      <s49___cash_flow_from_operating_activities>
-        186296
-      </s49___cash_flow_from_operating_activities>
-      <s154___required_minimum_debt_principal_payment_for_the_next_year_>
-        0
-      </s154___required_minimum_debt_principal_payment_for_the_next_year_>
-      <s166___future_minimum_lease_payment />
-      <s164___one_time_payoff_of_debt_due_in_the_next_year />
-      <s29___deferred_revenue>0</s29___deferred_revenue>
-      <s27___accrued_interest>0</s27___accrued_interest>
-      <s28___accrued_construction_cost>0</s28___accrued_construction_cost>
-      <s31___short_term_construction_line_of_credit>
-        0
-      </s31___short_term_construction_line_of_credit>
-      <s47___cy_interest_expense>158638</s47___cy_interest_expense>
-      <s48___change_in_net_asset_without_donor_restriction>
-        41851
-      </s48___change_in_net_asset_without_donor_restriction>
-      <s44___revenue_from_pledge>0</s44___revenue_from_pledge>
-      <s162___cost_of_outsourced_employee />
-      <s13___it_cost />
-      <s12___total_maint___occupancy_cost />
-      <cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-        No
-      </cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves>
-      <cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-        Yes
-      </cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
-      <cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-        Yes
-      </cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage>
-      <cfhi_compre_04_yes_no___liquidity_ratio>
-        Yes
-      </cfhi_compre_04_yes_no___liquidity_ratio>
-      <cfhi_compre_05_yes_no___net_cash_availability>
-        Yes
-      </cfhi_compre_05_yes_no___net_cash_availability>
-      <cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-        Yes
-      </cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-      <cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-        Yes
-      </cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions>
-      <cfhi_compre_07_yes_no___current_ratio>
-        Yes
-      </cfhi_compre_07_yes_no___current_ratio>
-      <s318___total_cash_at_the_beginning_of_the_year>
-        421114
-      </s318___total_cash_at_the_beginning_of_the_year>
-      <s320___non_endowment_investment_at_the_beginning_of_the_year>
-        0
-      </s320___non_endowment_investment_at_the_beginning_of_the_year>
-      <s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-        10045
-      </s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year>
-      <s321___pledge_receivable_at_the_beginning_of_the_year>
-        0
-      </s321___pledge_receivable_at_the_beginning_of_the_year>
-      <cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-        Yes
-      </cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
-      <cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_09a_yes_no___debt_per_average_adult_attendee>
-      <cfhi_compre_09d_yes_no___debt_per_giving_unit>
-        Yes
-      </cfhi_compre_09d_yes_no___debt_per_giving_unit>
-      <cfhi_compre_10_yes_no___debt_coverage>
-        Yes
-      </cfhi_compre_10_yes_no___debt_coverage>
-      <cfhi_compre_11_yes_no___net_income_ratio>
-        Yes
-      </cfhi_compre_11_yes_no___net_income_ratio>
-      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee>
-      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-        Yes
-      </cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit>
-      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-        Yes
-      </cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee>
-      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-        Yes
-      </cfhi_compre_13b_yes_no___total_contributions_per_giving_unit>
-      <cfhi_compre_15_yes_no___benefits_to_salaries>
-        No
-      </cfhi_compre_15_yes_no___benefits_to_salaries>
-      <cfhi_compre_15a__yes_no___salaries___benefits>
-        No
-      </cfhi_compre_15a__yes_no___salaries___benefits>
-      <cfhi_compre_15b__yes_no___salaries>
-        No
-      </cfhi_compre_15b__yes_no___salaries>
-      <cfhi_compre_15c__yes_no___benefits>
-        No
-      </cfhi_compre_15c__yes_no___benefits>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <main_queryregions>SO</main_queryregions>
-      <main_querymultisite>SINGLE</main_querymultisite>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_16_yes_no___average_benefits_per_fte>
-        No
-      </cfhi_compre_16_yes_no___average_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte>
-      <cfhi_compre_16_yes_no___average_salaries_per_fte>
-        Yes
-      </cfhi_compre_16_yes_no___average_salaries_per_fte>
-      <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-        Yes
-      </cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp>
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures>
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-        Yes
-      </cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures>
-      <cfhi_compre_18_1_yes_no___local_outreach_expenses>
-        No
-      </cfhi_compre_18_1_yes_no___local_outreach_expenses>
-      <cfhi_compre_18_2_yes_no___global_outreach_expenses>
-        No
-      </cfhi_compre_18_2_yes_no___global_outreach_expenses>
-      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-        Yes
-      </cfhi_compre_18_3_yes_no___global_local_outreach_expenses>
-      <cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-        Yes
-      </cfhi_compre_19_1_yes_no___cash_exp_per_adult>
-      <cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-        Yes
-      </cfhi_compre_19_2_yes_no___cash_exp_per_gu>
-      <cfhi_compre_20_yes_no___contributions_per_acct_fte />
-      <cfhi_compre_21_yes_no___expenses_per_acct_fte />
-      <s53___how_old_is_your_facility_factoring_in_improvement>
-        Over 10 Years
-      </s53___how_old_is_your_facility_factoring_in_improvement>
-      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-        No
-      </cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10>
-      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-        No
-      </cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10>
-      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10 />
-      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10 />
-      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10 />
-      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10 />
-      <cfhi_compre_25_yes_no___it_cost_per_fte>
-        No
-      </cfhi_compre_25_yes_no___it_cost_per_fte>
-      <cfhi_compre_00a_yes_no___giving_units>
-        Yes
-      </cfhi_compre_00a_yes_no___giving_units>
-      <cfhi_compre_00b_yes_no___average_adult_attendees>
-        Yes
-      </cfhi_compre_00b_yes_no___average_adult_attendees>
-      <cfhi_compre_00c_yes_no___total_attendees_including_children>
-        Yes
-      </cfhi_compre_00c_yes_no___total_attendees_including_children>
-      <cfhi_compre_00d_yes_no___full_time_equivalents>
-        Yes
-      </cfhi_compre_00d_yes_no___full_time_equivalents>
-      <cfhi_compre_00e_yes_no___attendees_to_staff>
-        Yes
-      </cfhi_compre_00e_yes_no___attendees_to_staff>
-      <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-        Yes
-      </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-      <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-        Yes
-      </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-      <cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-        No
-      </cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-      <cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-        No
-      </cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online>
-      <cfhi_compre_00j_yes_no___total_outsourced_fte>
-        Yes
-      </cfhi_compre_00j_yes_no___total_outsourced_fte>
-      <cfhi_compre_00k_yes_no___facility_square_footage>
-        No
-      </cfhi_compre_00k_yes_no___facility_square_footage>
-      <cfhi_compre_00l_yes_no___number_of_locations>
-        Yes
-      </cfhi_compre_00l_yes_no___number_of_locations>
-      <update_id>1697571395214</update_id>
-    </record>
-    <record>
-      <s52_formatted_year>2022</s52_formatted_year>
-      <s02___giving_units />
-      <s01_average_adult_attendees_excluding_children />
-      <s150___total_attendee_including_children />
-      <s151___church_only_full_time_equivalent_excluding_childcare_worker />
-      <cfhi_compre_00e_ratio___attendees_to_staff />
-      <s39___contribution_without_donor_retriction />
-      <s152___large_one_time_gift_without_donor_retriction__non_recurring_ />
-      <s40___total_contribution />
-      <s163___total_contribution_given_online />
-      <s157___total_outsourced_employee__fte_ />
-      <s08___total_facility_square_footage />
-      <s161___number_of_location />
-      <s34___net_asset_without_donor_restriction__undesignated />
-      <s36___net_asset_with_donor_restriction />
-      <s26___current_liabilities />
-      <s17___current_assets />
-      <s18___total_cash />
-      <s30___available_operating_line_of_credit />
-      <s155___total_debt />
-      <s45___total_expense />
-      <s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification />
-      <s11___total_benefit />
-      <s10___total_salaries />
-      <s14___local_outreach_expense />
-      <s15___global_outreach_expense />
-      <s158___average_annual_accounting_department_full_time_employee />
-      <s159___accounting_department_part_time_employee />
-      <s160___accounting_department_volunteer />
-      <s35___bod_designated_for_operations />
-      <s167___amortization_of_finance_lease_right_of_use_asset />
-      <s168___internet_on_finance_lease_right_of_use_lease_liabilitie />
-      <s46___total_depreciation_expense />
-      <s165___finance_lease_right_of_use_asset_and_liability />
-      <s20___non_endowment_investment />
-      <s21___pledge_receivable />
-      <s51___capitalized_interest />
-      <s153___large_one_time_gift_with_donor_restriction__non_recurring_ />
-      <s49___cash_flow_from_operating_activities />
-      <s154___required_minimum_debt_principal_payment_for_the_next_year_ />
-      <s166___future_minimum_lease_payment />
-      <s164___one_time_payoff_of_debt_due_in_the_next_year />
-      <s29___deferred_revenue />
-      <s27___accrued_interest />
-      <s28___accrued_construction_cost />
-      <s31___short_term_construction_line_of_credit />
-      <s47___cy_interest_expense />
-      <s48___change_in_net_asset_without_donor_restriction />
-      <s44___revenue_from_pledge />
-      <s162___cost_of_outsourced_employee />
-      <s13___it_cost />
-      <s12___total_maint___occupancy_cost />
-      <cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves />
-      <cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures />
-      <cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage />
-      <cfhi_compre_04_yes_no___liquidity_ratio />
-      <cfhi_compre_05_yes_no___net_cash_availability>
-        Yes
-      </cfhi_compre_05_yes_no___net_cash_availability>
-      <cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-        Yes
-      </cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit>
-      <cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions />
-      <cfhi_compre_07_yes_no___current_ratio />
-      <s318___total_cash_at_the_beginning_of_the_year />
-      <s320___non_endowment_investment_at_the_beginning_of_the_year />
-      <s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year />
-      <s321___pledge_receivable_at_the_beginning_of_the_year />
-      <cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions />
-      <cfhi_compre_09a_yes_no___debt_per_average_adult_attendee />
-      <cfhi_compre_09d_yes_no___debt_per_giving_unit />
-      <cfhi_compre_10_yes_no___debt_coverage />
-      <cfhi_compre_11_yes_no___net_income_ratio />
-      <cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee />
-      <cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit />
-      <cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee />
-      <cfhi_compre_13b_yes_no___total_contributions_per_giving_unit />
-      <cfhi_compre_15_yes_no___benefits_to_salaries />
-      <cfhi_compre_15a__yes_no___salaries___benefits>
-        No
-      </cfhi_compre_15a__yes_no___salaries___benefits>
-      <cfhi_compre_15b__yes_no___salaries>
-        No
-      </cfhi_compre_15b__yes_no___salaries>
-      <cfhi_compre_15c__yes_no___benefits>
-        No
-      </cfhi_compre_15c__yes_no___benefits>
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte />
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures />
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures />
-      <main_queryregions>SO</main_queryregions>
-      <main_querymultisite>TWOSIX</main_querymultisite>
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures />
-      <cfhi_compre_16_yes_no___average_benefits_per_fte />
-      <cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte />
-      <cfhi_compre_16_yes_no___average_salaries_per_fte />
-      <cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp />
-      <cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures />
-      <cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures />
-      <cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures />
-      <cfhi_compre_18_1_yes_no___local_outreach_expenses />
-      <cfhi_compre_18_2_yes_no___global_outreach_expenses />
-      <cfhi_compre_18_3_yes_no___global_local_outreach_expenses />
-      <cfhi_compre_19_1_yes_no___cash_exp_per_adult />
-      <cfhi_compre_19_2_yes_no___cash_exp_per_gu />
-      <cfhi_compre_20_yes_no___contributions_per_acct_fte />
-      <cfhi_compre_21_yes_no___expenses_per_acct_fte />
-      <s53___how_old_is_your_facility_factoring_in_improvement />
-      <cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10 />
-      <cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10 />
-      <cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10 />
-      <cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10 />
-      <cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10 />
-      <cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10 />
-      <cfhi_compre_25_yes_no___it_cost_per_fte />
-      <cfhi_compre_00a_yes_no___giving_units>
-        No
-      </cfhi_compre_00a_yes_no___giving_units>
-      <cfhi_compre_00b_yes_no___average_adult_attendees>
-        No
-      </cfhi_compre_00b_yes_no___average_adult_attendees>
-      <cfhi_compre_00c_yes_no___total_attendees_including_children>
-        No
-      </cfhi_compre_00c_yes_no___total_attendees_including_children>
-      <cfhi_compre_00d_yes_no___full_time_equivalents>
-        No
-      </cfhi_compre_00d_yes_no___full_time_equivalents>
-      <cfhi_compre_00e_yes_no___attendees_to_staff />
-      <cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-        No
-      </cfhi_compre_00f_yes_no___contributions_without_donor_restrictions>
-      <cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-        No
-      </cfhi_compre_00g_yes_no____total_contrib_excluding_large_gifts>
-      <cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-        No
-      </cfhi_compre_00h_yes_no___total_contrib_given_online_including_large_gifts>
-      <cfhi_compre_00i_yes_no___percent_of_total_contrib_given_online />
-      <cfhi_compre_00j_yes_no___total_outsourced_fte>
-        Yes
-      </cfhi_compre_00j_yes_no___total_outsourced_fte>
-      <cfhi_compre_00k_yes_no___facility_square_footage>
-        No
-      </cfhi_compre_00k_yes_no___facility_square_footage>
-      <cfhi_compre_00l_yes_no___number_of_locations>
-        No
-      </cfhi_compre_00l_yes_no___number_of_locations>
-      <update_id>1697571395214</update_id>
     </record>
   </qdbapi>
-`;
-const xmlClientString = (`
+`);
+
+const xmlClientString = `
   <qdbapi>
     <record>
       <merged_client_name>12Stone Church, Inc.</merged_client_name>
@@ -5770,7 +3917,8 @@ const xmlClientString = (`
       <update_id>1688658176703</update_id>
     </record>
   </qdbapi>
-`);
+`;
+
 const parser = new DOMParser();
 const parserClient = new DOMParser();
 const xmlPeerDoc = parser.parseFromString(xmlPeerString, "text/xml");
@@ -5821,16 +3969,16 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  // console.log({
-  //   type,
-  //   year,
-  //   object,
-  //   dataKey,
-  //   record,
-  //   child,
-  //   dynamicValueClientPeer,
-  //   name,
-  // });
+  console.log({
+    type,
+    year,
+    object,
+    dataKey,
+    record,
+    child,
+    dynamicValueClientPeer,
+    name,
+  });
   const innerData =
     record.querySelector(child).innerHTML.split("").length > 0
       ? record.querySelector(child).innerHTML.trim()
