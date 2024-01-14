@@ -1,4 +1,4 @@
-const xmlPeerString = (`
+const xmlPeerString = `
   <qdbapi>
     <record>
       <s52_formatted_year>2020</s52_formatted_year>
@@ -3051,7 +3051,7 @@ const xmlPeerString = (`
       <update_id>1697571395204</update_id>
     </record>
   </qdbapi>
-`);
+`;
 
 const xmlClientString = `
   <qdbapi>
@@ -3969,16 +3969,19 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  console.log({
-    type,
-    year,
-    object,
-    dataKey,
-    record,
-    child,
-    dynamicValueClientPeer,
-    name,
-  });
+  if (dataKey === "localCountyPerGivingUnit_Client") {
+    console.log({
+      type,
+      year,
+      object,
+      dataKey,
+      record,
+      child,
+      dynamicValueClientPeer,
+      name,
+    });
+  }
+
   const innerData =
     record.querySelector(child).innerHTML.split("").length > 0
       ? record.querySelector(child).innerHTML.trim()
@@ -6229,7 +6232,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 
       // localCountyPerGivingUnit
       insertDataIntoObject(
-        "peer",
+        "client",
         year,
         object,
         "localCountyPerGivingUnit_Client",
@@ -6240,7 +6243,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 
       // localCountyPerGivingUnit_two
       insertDataIntoObject(
-        "peer",
+        "client",
         year,
         object,
         "localCountyPerGivingUnit_two_Client",
@@ -6250,7 +6253,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 
       // localCountyPerGivingUnit_three
       insertDataIntoObject(
-        "peer",
+        "client",
         year,
         object,
         "localCountyPerGivingUnit_three_Client",
@@ -6260,7 +6263,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 
       // localCountyPerGivingUnit_four
       insertDataIntoObject(
-        "peer",
+        "client",
         year,
         object,
         "localCountyPerGivingUnit_four_Client",
@@ -6270,7 +6273,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 
       // localCountyPerGivingUnit_five
       insertDataIntoObject(
-        "peer",
+        "client",
         year,
         object,
         "localCountyPerGivingUnit_five_Client",
@@ -6280,7 +6283,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 
       // localCountyPerGivingUnit_six
       insertDataIntoObject(
-        "peer",
+        "client",
         year,
         object,
         "localCountyPerGivingUnit_six_Client",
@@ -6290,7 +6293,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 
       // localCountyMedianHouseholdIncome
       insertDataIntoObject(
-        "peer",
+        "client",
         year,
         object,
         "localCountyMedianHouseholdIncome_Client",
@@ -6300,7 +6303,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 
       // localCountyMedianHouseholdIncome_two
       insertDataIntoObject(
-        "peer",
+        "client",
         year,
         object,
         "localCountyMedianHouseholdIncome_two_Client",
@@ -6310,7 +6313,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 
       // localCountyMedianHouseholdIncome_three
       insertDataIntoObject(
-        "peer",
+        "client",
         year,
         object,
         "localCountyMedianHouseholdIncome_three_Client",
@@ -6320,7 +6323,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 
       // localCountyMedianHouseholdIncome_four
       insertDataIntoObject(
-        "peer",
+        "client",
         year,
         object,
         "localCountyMedianHouseholdIncome_four_Client",
@@ -6330,7 +6333,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 
       // localCountyMedianHouseholdIncome_five
       insertDataIntoObject(
-        "peer",
+        "client",
         year,
         object,
         "localCountyMedianHouseholdIncome_five_Client",
@@ -6340,7 +6343,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 
       // localCountyMedianHouseholdIncome_six
       insertDataIntoObject(
-        "peer",
+        "client",
         year,
         object,
         "localCountyMedianHouseholdIncome_six_Client",
@@ -6381,6 +6384,7 @@ const runApiMain = () => {
       processDemoData(selectedYears, recordsPeer, recordsClient);
       processCashData(selectedYears, recordsPeer, recordsClient);
       processDebtData(selectedYears, recordsPeer, recordsClient);
+      processIncomeData(selectedYears, recordsPeer, recordsClient);
 
       displayDemoComponent();
       displayCashComponent();
