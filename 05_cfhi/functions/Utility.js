@@ -1,5 +1,5 @@
 const yearsData_Array = [];
-const selectedYears_Array = [];
+const selectedYearsselectedYears_Array = [];
 const regions_Array = [
   { arr: ["New England (CT, RI, MA, VT, NH)"], str: "NE" },
   {
@@ -66,7 +66,6 @@ function updateModal(mainName, avgData, clientData) {
   // Find the modal element
   const modal = document.getElementById(`${mainName}_modal`);
 
- 
   // Check if the modal element exists
   if (modal) {
     // Find the table header row
@@ -274,6 +273,7 @@ const resetSelectedYearsFromLocalStorage = () => {
 
 let selectedYears_Set = new Set();
 
+
 const changeListenerForInputYears = (input, year) => {
   if (input.checked) {
     selectedYears_Set.add(year);
@@ -388,22 +388,48 @@ const styleNumber = (num, type, fixed) => {
 };
 
 const updateCountyData = (trId, countyName, percentage, income) => {
-
-  if (isNaN(countyName) || countyName === "undefined" || countyName.length === 0) {
+  if (
+    isNaN(countyName) ||
+    countyName === "undefined" ||
+    countyName.length === 0
+  ) {
     // add the class 'hidden' to the trId row
     const trElement = document.getElementById(`row_${trId}`);
     trElement.classList.add("hidden");
+    return 
   }
 
   const titleElement = document.getElementById(`title_${trId}`);
   const percentageElement = document.getElementById(`percentage_${trId}`);
   const incomeElement = document.getElementById(`income_${trId}`);
 
-  // Format income with commas
+  // Format values
   const formattedIncome = new Intl.NumberFormat().format(income);
+  const formattedPercentage = Math.round(percentage);
 
   // Update the content of the selected elements
   titleElement.textContent = countyName;
-  percentageElement.textContent = percentage;
+  percentageElement.textContent = `${formattedPercentage}%`;
   incomeElement.textContent = `$${formattedIncome}`;
+};
+
+const checkForCountyDataIncomeTablem = (trId, countyName, incomeData, percentData, year) => {
+  const data = JSON.parse(localStorage.getItem("incomeData"));
+  // check the data of the passed dataId to see if it has data, if there is no data, then add the class "hidden" to the trId
+
+  console.log({
+    trId,
+    county: data[countyName],
+    income: data[incomeData],
+    percent: data[percentData],
+  })
+  if (data[countyName]) {
+    const countyNameVal = data[countyName][year].value;
+    const percentageVal = data[percentData][year].value;
+    const incomeVal = data[incomeData][year].value;
+
+    updateCountyData(trId, countyNameVal, percentageVal * 100, incomeVal);
+  } else {
+    updateCountyData(trId, "", "", "");
+  }
 };

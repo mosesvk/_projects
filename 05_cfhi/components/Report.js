@@ -2,6 +2,7 @@ const displayReportComponent = () => {
   const demoData = JSON.parse(localStorage.getItem("demoData"));
   const cashData = JSON.parse(localStorage.getItem("cashData"));
   const debtData = JSON.parse(localStorage.getItem("debtData"));
+  const incomeData = JSON.parse(localStorage.getItem("incomeData"));
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -41,7 +42,63 @@ const displayReportComponent = () => {
       ["debtPerGivingUnit_percentChange", "percent", 0],
       ["debtPerGivingUnit_standard", "dollar", 0, "wa"],
       ["debtCoverage", "num", 0, "wa"],
-    ])
+    ]);
+
+    checkForCountyDataIncomeTablem(
+      "localCounty",
+      "localCountyName_Client",
+      "localCountyMedianHouseholdIncome_Client",
+      "localCountyPerGivingUnit_Client",
+      selectedYears[0]
+    );
+    checkForCountyDataIncomeTablem(
+      "localCounty_two",
+      "localCountyName_two_Client",
+      "localCountyMedianHouseholdIncome_two_Client",
+      "localCountyPerGivingUnit_two_Client",
+      selectedYears[0]
+    );
+    checkForCountyDataIncomeTablem(
+      "localCounty_three",
+      "localCountyName_three_Client",
+      "localCountyMedianHouseholdIncome_three_Client",
+      "localCountyPerGivingUnit_three_Client",
+      selectedYears[0]
+    );
+    checkForCountyDataIncomeTablem(
+      "localCounty_four",
+      "localCountyName_four_Client",
+      "localCountyMedianHouseholdIncome_four_Client",
+      "localCountyPerGivingUnit_four_Client",
+      selectedYears[0]
+    );
+    checkForCountyDataIncomeTablem(
+      "localCounty_five",
+      "localCountyName_five_Client",
+      "localCountyMedianHouseholdIncome_five_Client",
+      "localCountyPerGivingUnit_five_Client",
+      selectedYears[0]
+    );
+    checkForCountyDataIncomeTablem(
+      "localCounty_six",
+      "localCountyName_six_Client",
+      "localCountyMedianHouseholdIncomesix_Client",
+      "localCountyPerGivingUnitsix_Client",
+      selectedYears[0]
+    );
+
+    // insertDataToReport(debtData, selectedYears, [
+    //   ["netIncomeRatio", "percent", 0, "wa"],
+    //   ["netIncomeRatio_twoYrAvg", "percent", 0, "wa"],
+    //   ["contributionsWithoutDonorPerAverageAdultAttendee", "dollar", 0, "wa"],
+    //   ["contributionsWithoutDonorPerAverageAdultAttendee_percentChange", "percent", 0],
+    //   ["contributionsWithoutDonorPerGivingUnit", "dollar", 0, "wa"],
+    //   ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0],
+    //   ["totalContributionsPerAverageAdultAttendee", "dollar", 0, "wa"],
+    //   ["totalContributionsPerAverageAdultAttendee_percentChange", "percent", 0],
+    //   ["totalContributionsPerGivingUnit", "dollar", 0, "wa"],
+    //   ["totalContributionsPerGivingUnit_percentChange", "percent", 0],
+    // ])
   }
 
   closeSidebarAfterSelectingOption("report");

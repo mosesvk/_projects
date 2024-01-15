@@ -5987,7 +5987,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
       );
 
-      // medianHouseholdIncome
+      // Name
       insertDataIntoObject(
         "peer",
         year,
@@ -6349,6 +6349,66 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "localCountyMedianHouseholdIncome_six_Client",
         record,
         "s54_county_code_5054___data"
+      );
+
+      // localCountyName
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "localCountyName_Client",
+        record,
+        "s54_county_code___county"
+      );
+
+      // localCountyName_two
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "localCountyName_two_Client",
+        record,
+        "s54_county_code_1054___county"
+      );
+
+      // localCountyName_three
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "localCountyName_three_Client",
+        record,
+        "s54_county_code_2054___county"
+      );
+
+      // localCountyName_four
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "localCountyName_four_Client",
+        record,
+        "s54_county_code_3054___county"
+      );
+
+      // localCountyName_five
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "localCountyName_five_Client",
+        record,
+        "s54_county_code_4054___county"
+      );
+
+      // localCountyName_six
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "localCountyName_six_Client",
+        record,
+        "s54_county_code_5054___county"
       );
     });
   });
