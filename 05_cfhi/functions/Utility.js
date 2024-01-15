@@ -407,6 +407,8 @@ const updateCountyData = (trId, countyName, percentage, income) => {
   const formattedIncome = new Intl.NumberFormat().format(income);
   const formattedPercentage = Math.round(percentage);
 
+  console.log({titleElement, percentageElement, incomeElement});
+
   // Update the content of the selected elements
   titleElement.textContent = countyName;
   percentageElement.textContent = `${formattedPercentage}%`;
@@ -417,13 +419,13 @@ const checkForCountyDataIncomeTablem = (trId, countyName, incomeData, percentDat
   const data = JSON.parse(localStorage.getItem("incomeData"));
   // check the data of the passed dataId to see if it has data, if there is no data, then add the class "hidden" to the trId
 
-  console.log({
-    trId,
-    county: data[countyName],
-    income: data[incomeData],
-    percent: data[percentData],
-  })
-  if (data[countyName]) {
+  // console.log({
+  //   trId,
+  //   county: data[countyName],
+  //   income: data[incomeData],
+  //   percent: data[percentData],
+  // })
+  if (data[countyName][year].value.length > 0) {
     const countyNameVal = data[countyName][year].value;
     const percentageVal = data[percentData][year].value;
     const incomeVal = data[incomeData][year].value;
