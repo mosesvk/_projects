@@ -44,6 +44,8 @@ const displayReportComponent = () => {
       ["debtCoverage", "num", 0, "wa"],
     ]);
 
+
+
     checkForCountyDataIncomeTablem(
       "localCounty",
       "localCountyName_Client",
@@ -87,18 +89,18 @@ const displayReportComponent = () => {
       selectedYears[0]
     );
 
-    // insertDataToReport(debtData, selectedYears, [
-    //   ["netIncomeRatio", "percent", 0, "wa"],
-    //   ["netIncomeRatio_twoYrAvg", "percent", 0, "wa"],
-    //   ["contributionsWithoutDonorPerAverageAdultAttendee", "dollar", 0, "wa"],
-    //   ["contributionsWithoutDonorPerAverageAdultAttendee_percentChange", "percent", 0],
-    //   ["contributionsWithoutDonorPerGivingUnit", "dollar", 0, "wa"],
-    //   ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0],
-    //   ["totalContributionsPerAverageAdultAttendee", "dollar", 0, "wa"],
-    //   ["totalContributionsPerAverageAdultAttendee_percentChange", "percent", 0],
-    //   ["totalContributionsPerGivingUnit", "dollar", 0, "wa"],
-    //   ["totalContributionsPerGivingUnit_percentChange", "percent", 0],
-    // ])
+    insertDataToReport(incomeData, selectedYears, [
+      ["netIncomeRatio", "percent", 0, "wa"],
+      ["netIncomeRatio_twoYrAvg", "percent", 0, "wa"],
+      ["contributionsWithoutDonorPerAverageAdultAttendee", "dollar", 0, "wa"],
+      ["contributionsWithoutDonorPerAverageAdultAttendee_percentChange", "percent", 0],
+      ["contributionsWithoutDonorPerGivingUnit", "dollar", 0, "wa"],
+      ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0],
+      ["totalContributionsPerAverageAdultAttendee", "dollar", 0, "wa"],
+      ["totalContributionsPerAverageAdultAttendee_percentChange", "percent", 0],
+      ["totalContributionsPerGivingUnit", "dollar", 0, "wa"],
+      ["totalContributionsPerGivingUnit_percentChange", "percent", 0],
+    ])
   }
 
   closeSidebarAfterSelectingOption("report");
@@ -138,7 +140,7 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  // console.log({ selectedYears, name, client, peer, type, fixedNum });
+  console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);

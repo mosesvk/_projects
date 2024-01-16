@@ -21,62 +21,126 @@ const getWeightedAverageOfArray = (data, name) => {
       return netCashAvailability_standard_weightedAverage(data, name);
     case "debtCoverage":
       return debtCoverage_weightedAverage(data, name);
-    case "debtToContributionsWithout": 
+    case "debtToContributionsWithout":
       return debtToContributionsWithout_weightedAverage(data, name);
-    case "currentRatio": 
+    case "currentRatio":
       return currentRatio_weightedAverage(data, name);
-    case "mandatoryDebtServiceToContributionsWithout": 
-      return mandatoryDebtServiceToContributionsWithout_weightedAverage(data, name);
-    case "debtPerAverageAdultAttendee": 
+    case "mandatoryDebtServiceToContributionsWithout":
+      return mandatoryDebtServiceToContributionsWithout_weightedAverage(
+        data,
+        name
+      );
+    case "debtPerAverageAdultAttendee":
       return debtPerAverageAdultAttendee_weightedAverage(data, name);
-    case "debtPerAverageAdultAttendee_standard": 
+    case "debtPerAverageAdultAttendee_standard":
       return debtPerAverageAdultAttendee_standard_weightedAverage(data, name);
-    case "debtPerGivingUnit": 
+    case "debtPerGivingUnit":
       return debtPerGivingUnit_weightedAverage(data, name);
     case "debtPerGivingUnit_standard":
       return debtPerGivingUnit_standard_weightedAverage(data, name);
+    case "netIncomeRatio":
+      return netIncomeRatio_weightedAverage(data, name);
+    case "contributionsWithoutDonorPerAverageAdultAttendee": 
+      return contributionsWithoutDonorPerAverageAdultAttendee_weightedAverage(data, name);
+    case "contributionsWithoutDonorPerGivingUnit":
+      return contributionsWithoutDonorPerGivingUnit_weightedAverage(data, name);
+    case "totalContributionsPerAverageAdultAttendee":
+      return totalContributionsPerAverageAdultAttendee_weightedAverage(data, name);
+    case "totalContributionsPerGivingUnit":
+      return totalContributionsPerGivingUnit_weightedAverage(data, name);
     default:
       return;
   }
 };
 
+const totalContributionsPerGivingUnit_weightedAverage = (data, name) => {
 
+  const s40 = getSumOfArray(data.totalContributions[name]); 
+  const s44 = getSumOfArray(data.revenueFromPledge[name]);
+  const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]);
+  const s153 = getSumOfArray(data.largeOneTimeGiftWithDonor[name]);
+  const s02 = getSumOfArray(data.givingUnits[name]);
+
+  return ((s40 - s44 - (s152 + s153)) / s02);
+}
+
+const totalContributionsPerAverageAdultAttendee_weightedAverage = (data, name) => {
+
+  const s40 = getSumOfArray(data.totalContributions[name]);
+  const s44 = getSumOfArray(data.revenueFromPledge[name]);
+  const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]);
+  const s153 = getSumOfArray(data.largeOneTimeGiftWithDonor[name]);
+  const s01 = getSumOfArray(data.averageAdultAttendees[name]);
+
+  return ((s40 - s44 - (s152 + s153)) / s01);
+
+}
+
+const contributionsWithoutDonorPerGivingUnit_weightedAverage = (data, name) => {
+  console.log(data, name);
+  const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
+  const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]);
+  const s02 = getSumOfArray(data.givingUnits[name]);
+
+  return ((s39 - s152) / s02);
+}
+
+const contributionsWithoutDonorPerAverageAdultAttendee_weightedAverage = (data, name) => {
+
+  const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
+  const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]);
+  const s01 = getSumOfArray(data.averageAdultAttendees[name]);
+
+  return ((s39 - s152) / s01);
+}
+
+const netIncomeRatio_weightedAverage = (data, name) => {
+
+  const s48 = getSumOfArray(data.changeInNetAssetWithout[name]);
+  const s167 = getSumOfArray(data.amortizationFinanceLease[name]);
+  const s168 = getSumOfArray(data.internetOnFinanceLease[name]);
+  const s41 = getSumOfArray(data.totalContributionWithout[name]);
+
+  return (s48 + s167 + s168) / s41;
+
+};
 
 const debtPerGivingUnit_standard_weightedAverage = (data, name) => {
   const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
   const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]);
   const s02 = getSumOfArray(data.givingUnits[name]);
 
-  return ((s39 - s152) / s02) * 2
-}
-
+  return ((s39 - s152) / s02) * 2;
+};
 
 const debtPerGivingUnit_weightedAverage = (data, name) => {
   const s155 = getSumOfArray(data.totalDebt[name]);
   const s165 = getSumOfArray(data.financeLeaseRightOfUse[name]);
   const s02 = getSumOfArray(data.givingUnits[name]);
 
-  return ((s155 - s165) / s02)
-
-}
+  return (s155 - s165) / s02;
+};
 
 const debtPerAverageAdultAttendee_standard_weightedAverage = (data, name) => {
   const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
   const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]);
   const s01 = getSumOfArray(data.averageAdultAttendees[name]);
 
-  return ((s39 - s152) / s01) * 2
-}
+  return ((s39 - s152) / s01) * 2;
+};
 
 const debtPerAverageAdultAttendee_weightedAverage = (data, name) => {
   const s155 = getSumOfArray(data.totalDebt[name]);
   const s165 = getSumOfArray(data.financeLeaseRightOfUse[name]);
   const s01 = getSumOfArray(data.averageAdultAttendees[name]);
 
-  return ((s155 - s165) / s01)
-}
+  return (s155 - s165) / s01;
+};
 
-const mandatoryDebtServiceToContributionsWithout_weightedAverage = (data, name) => {
+const mandatoryDebtServiceToContributionsWithout_weightedAverage = (
+  data,
+  name
+) => {
   // console.log(data, name);
 
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]);
@@ -86,25 +150,24 @@ const mandatoryDebtServiceToContributionsWithout_weightedAverage = (data, name) 
   const s51 = getSumOfArray(data.capitalizedInterest[name]);
   const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
 
-  return (((s154 - s166) + (s47 - s168) + s51) / s39)
-}
-
+  return (s154 - s166 + (s47 - s168) + s51) / s39;
+};
 
 const currentRatio_weightedAverage = (data, name) => {
   const s17 = getSumOfArray(data.currentAssets[name]);
   const s26 = getSumOfArray(data.currentLiabilities[name]);
   const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]);
 
-  return (s17 / (s26 - s166))
-}
+  return s17 / (s26 - s166);
+};
 
 const debtToContributionsWithout_weightedAverage = (data, name) => {
   const s155 = getSumOfArray(data.totalDebt[name]);
   const s165 = getSumOfArray(data.financeLeaseRightOfUse[name]);
   const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
 
-  return ((s155 - s165) / s39)
-}
+  return (s155 - s165) / s39;
+};
 
 const debtCoverage_weightedAverage = (data, name) => {
   const s48 = getSumOfArray(data.changeInNetAssetWithout[name]);
@@ -115,9 +178,10 @@ const debtCoverage_weightedAverage = (data, name) => {
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]);
   const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]);
 
-  return (((s48 + s167 + s168) + (s47 - s168) + s46) / ((s154 - s166) + (s47 - s168)))
-
-}
+  return (
+    (s48 + s167 + s168 + (s47 - s168) + s46) / (s154 - s166 + (s47 - s168))
+  );
+};
 
 const netCashAvailability_standard_weightedAverage = (data, name) => {
   const s45 = getSumOfArray(data.totalExpense[name]);
@@ -188,9 +252,10 @@ const availableDaysOfCashFlow_weightedAverage = (data, name) => {
   const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]);
 
   return (
-    (s49 + s318 + s320 - s336 + s321 + s30) /
-    (s45 - s167 - s168 - s46 + (s154 - s166))
-  ) * 365;
+    ((s49 + s318 + s320 - s336 + s321 + s30) /
+      (s45 - s167 - s168 - s46 + (s154 - s166))) *
+    365
+  );
 };
 
 const daysOperatingCash_weightedAverage = (data, name) => {
@@ -213,8 +278,6 @@ const daysOperatingCash_weightedAverage = (data, name) => {
   );
 };
 
-
-
 const daysExpendableNetAssets_weightedAverage = (data, name) => {
   const s35 = getSumOfArray(data.bodDesignatedForOperations[name]);
   const s34 = getSumOfArray(data.netAssetWithoutDonorRestriction[name]);
@@ -223,7 +286,7 @@ const daysExpendableNetAssets_weightedAverage = (data, name) => {
   const s168 = getSumOfArray(data.amortizationFinanceLease[name]);
   const s46 = getSumOfArray(data.totalDepreciationExpense[name]);
 
-  return ((s35 + s34 )/ (s45 - s167 - s168 - s46)) * 365;
+  return ((s35 + s34) / (s45 - s167 - s168 - s46)) * 365;
 };
 
 const attendeesToStaff_weightedAverage = (data, name) => {

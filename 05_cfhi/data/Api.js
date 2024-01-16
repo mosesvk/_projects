@@ -6129,7 +6129,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "client",
         year,
         object,
-        "netIncomeRatiot_Client",
+        "netIncomeRatio_Client",
         record,
         "cfhi_compre_11_ratio___net_income_ratio",
         "cfhi_compre_11_bench_ratings___net_income_ratio"
@@ -6151,7 +6151,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "client",
         year,
         object,
-        "netIncomeRatio_twoYrAvg_Client",
+        "contributionsWithoutDonorPerAverageAdultAttendee_Client",
         record,
         "cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee",
         "cfhi_compre_12a_bench_ratings___percent_change___contributions_without_donor_restrictions_per_adult"
@@ -6172,7 +6172,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "client",
         year,
         object,
-        "netIncomeRatio_twoYrAvg_Client",
+        "contributionsWithoutDonorPerGivingUnit_Client",
         record,
         "cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit",
         "cfhi_compre_12b_bench_ratings___percent_change___contributions_without_donor_restrictions_per_gu"

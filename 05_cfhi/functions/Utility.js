@@ -273,7 +273,6 @@ const resetSelectedYearsFromLocalStorage = () => {
 
 let selectedYears_Set = new Set();
 
-
 const changeListenerForInputYears = (input, year) => {
   if (input.checked) {
     selectedYears_Set.add(year);
@@ -388,26 +387,29 @@ const styleNumber = (num, type, fixed) => {
 };
 
 const updateCountyData = (trId, countyName, percentage, income) => {
-  if (
-    isNaN(countyName) ||
-    countyName === "undefined" ||
-    countyName.length === 0
-  ) {
+  // console.log({ trId, countyName, percentage, income });
+
+  // if (trId === "localCounty_two") {
+  //   console.log($('#row_localCounty_two')[0].classList)
+  // }
+  if (countyName === "" && percentage === "" && income === "") {
+    // console.log("hit the if statement");
     // add the class 'hidden' to the trId row
     const trElement = document.getElementById(`row_${trId}`);
     trElement.classList.add("hidden");
-    return 
+    return;
   }
 
   const titleElement = document.getElementById(`title_${trId}`);
   const percentageElement = document.getElementById(`percentage_${trId}`);
   const incomeElement = document.getElementById(`income_${trId}`);
 
+
   // Format values
   const formattedIncome = new Intl.NumberFormat().format(income);
   const formattedPercentage = Math.round(percentage);
 
-  console.log({titleElement, percentageElement, incomeElement});
+  // console.log({titleElement, percentageElement, incomeElement});
 
   // Update the content of the selected elements
   titleElement.textContent = countyName;
@@ -415,7 +417,13 @@ const updateCountyData = (trId, countyName, percentage, income) => {
   incomeElement.textContent = `$${formattedIncome}`;
 };
 
-const checkForCountyDataIncomeTablem = (trId, countyName, incomeData, percentData, year) => {
+const checkForCountyDataIncomeTablem = (
+  trId,
+  countyName,
+  incomeData,
+  percentData,
+  year
+) => {
   const data = JSON.parse(localStorage.getItem("incomeData"));
   // check the data of the passed dataId to see if it has data, if there is no data, then add the class "hidden" to the trId
 
