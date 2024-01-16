@@ -6426,16 +6426,68 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
       return fiscalYear.includes(year.toString());
     });
     filteredPeerRecords.forEach((record) => {
-      // netIncomeRatio [s48, s167, s168, s41]
+      // benefitsToSalaries 
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "netIncomeRatio_Peer",
+        "benefitsToSalaries_Peer",
         record,
-        "cfhi_compre_11_ratio___net_income_ratio",
-        "cfhi_compre_11_yes_no___net_income_ratio"
+        "cfhi_compre_15_ratio___benefits_to_salaries",
+        "cfhi_compre_15_yes_no___benefits_to_salaries"
       );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalBenefit",
+        record,
+        "s11___total_benefit",
+        "cfhi_compre_15_yes_no___benefits_to_salaries",
+        "benefitsToSalaries"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalSalaries",
+        record,
+        "s10___total_salaries",
+        "cfhi_compre_15_yes_no___benefits_to_salaries",
+        "benefitsToSalaries"
+      );
+
+      // averageSalariesAndBenefitsPerFTE
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "averageSalariesAndBenefitsPerFTE_Peer",
+        record,
+        "cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte",
+        "cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalSalaries",
+        record,
+        "s10___total_salaries",
+        "cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte",
+        "averageSalariesAndBenefitsPerFTE"
+      );
+      insertDataIntoObject( 
+        "peer",
+        year,
+        object,
+        "fullTimeEquivalent",
+        record,
+        "s151___church_only_full_time_equivalent_excluding_childcare_worker",
+        "cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte",
+        "averageSalariesAndBenefitsPerFTE"
+      );
+
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -6444,15 +6496,24 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
-      // netIncomeRatio
+      // benefitsToSalaries
       insertDataIntoObject(
         "client",
         year,
         object,
-        "netIncomeRatio_Client",
+        "benefitsToSalaries_Client",
         record,
-        "cfhi_compre_11_ratio___net_income_ratio",
-        "cfhi_compre_11_bench_ratings___net_income_ratio"
+        "cfhi_compre_15_ratio___benefits_to_salaries"
+      );
+
+      // averageSalariesAndBenefitsPerFTE
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "averageSalariesAndBenefitsPerFTE_Client",
+        record,
+        "cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte"
       );
     });
   });
