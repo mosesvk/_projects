@@ -7338,6 +7338,16 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "cfhi_compre_16_ratio___average_benefits_per_fte"
       );
+      
+      // salariesBenefits
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "salariesBenefits_Client",
+        record,
+        "cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte"
+      );
 
       // salariesBenefitsIncludingOutsourcedEmployees
       insertDataIntoObject(

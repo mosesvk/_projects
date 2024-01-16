@@ -3,6 +3,7 @@ const displayReportComponent = () => {
   const cashData = JSON.parse(localStorage.getItem("cashData"));
   const debtData = JSON.parse(localStorage.getItem("debtData"));
   const incomeData = JSON.parse(localStorage.getItem("incomeData"));
+  const expenseData = JSON.parse(localStorage.getItem("expenseData"));
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -102,6 +103,14 @@ const displayReportComponent = () => {
       ["totalContributionsPerGivingUnit_percentChange", "percent", 0],
     ])
   }
+
+  insertDataToReport(expenseData, selectedYears, [
+    ["benefitsToSalaries", "percent", 0, "wa"],
+    ["salaries", "dollar", 0, "wa"],
+    ["benefits", "dollar", 0, "wa"],
+    ["salariesBenefitsIncludingOutsourcedEmployees", "dollar", 0, "wa"],
+
+  ])
 
   closeSidebarAfterSelectingOption("report");
 };
