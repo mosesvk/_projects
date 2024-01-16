@@ -6457,12 +6457,74 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "benefitsToSalaries"
       );
 
-      // averageSalariesAndBenefitsPerFTE
+      // salaries
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "averageSalariesAndBenefitsPerFTE_Peer",
+        "salaries_Peer",
+        record,
+        "cfhi_compre_16_ratio___average_salaries_per_fte",
+        "cfhi_compre_16_yes_no___average_salaries_per_fte"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalSalaries",
+        record,
+        "s10___total_salaries",
+        "cfhi_compre_15b__yes_no___salaries",
+        "salaries"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "fullTimeEquivalent",
+        record,
+        "s151___church_only_full_time_equivalent_excluding_childcare_worker",
+        "cfhi_compre_15b__yes_no___salaries",
+        "salaries"
+      );
+
+      // benefits
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "benefits_Peer",
+        record,
+        "cfhi_compre_16_ratio___average_benefits_per_fte",
+        "cfhi_compre_16_yes_no___average_benefits_per_fte"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalBenefit",
+        record,
+        "s11___total_benefit",
+        "cfhi_compre_16_yes_no___average_benefits_per_fte",
+        "benefits"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "fullTimeEquivalent",
+        record,
+        "s151___church_only_full_time_equivalent_excluding_childcare_worker",
+        "cfhi_compre_16_yes_no___average_benefits_per_fte",
+        "benefits"
+      );
+
+      // salariesBenefits
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "salariesBenefits_Peer",
         record,
         "cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte",
         "cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte"
@@ -6475,9 +6537,19 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "s10___total_salaries",
         "cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte",
-        "averageSalariesAndBenefitsPerFTE"
+        "salariesBenefits"
       );
-      insertDataIntoObject( 
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalBenefit",
+        record,
+        "s11___total_benefit",
+        "cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte",
+        "salariesBenefits"
+      );
+      insertDataIntoObject(
         "peer",
         year,
         object,
@@ -6485,9 +6557,750 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "s151___church_only_full_time_equivalent_excluding_childcare_worker",
         "cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte",
-        "averageSalariesAndBenefitsPerFTE"
+        "salariesBenefits"
       );
 
+      // salariesBenefitsIncludingOutsourcedEmployees
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "salariesBenefitsIncludingOutsourcedEmployees_Peer",
+        record,
+        "cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp",
+        "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalSalaries",
+        record,
+        "s10___total_salaries",
+        "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+        "salariesBenefitsIncludingOutsourcedEmployees"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalBenefit",
+        record,
+        "s11___total_benefit",
+        "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+        "salariesBenefitsIncludingOutsourcedEmployees"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "fullTimeEquivalent",
+        record,
+        "s157___total_outsourced_employee__fte_",
+        "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+        "salariesBenefitsIncludingOutsourcedEmployees"
+      );
+
+
+      // personnelToCashExpenditure
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "personnelToCashExpenditure_Peer",
+        record,
+        "cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures",
+        "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalBenefit",
+        record,
+        "s11___total_benefit",
+        "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+        "personnelToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalSalaries",
+        record,
+        "s10___total_salaries",
+        "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+        "personnelToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpense",
+        record,
+        "s45___total_expense",
+        "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+        "personnelToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "amortizationFinanceLease",
+        record,
+        "s167___amortization_of_finance_lease_right_of_use_asset",
+        "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+        "personnelToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "internetOnFinanceLease",
+        record,
+        "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+        "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+        "personnelToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "requiredMinimumDebtPrinciple",
+        record,
+        "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+        "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+        "personnelToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+        "personnelToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDepreciationExpense",
+        record,
+        "s46___total_depreciation_expense",
+        "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+        "personnelToCashExpenditure"
+      );
+
+      // mandatoryDebtServiceToCashExpenditure
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "mandatoryDebtServiceToCashExpenditure_Peer",
+        record,
+        "cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures",
+        "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "requiredMinimumDebtPrinciple",
+        record,
+        "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+        "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+        "mandatoryDebtServiceToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+        "mandatoryDebtServiceToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "interestExpense",
+        record,
+        "s47___cy_interest_expense",
+        "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+        "mandatoryDebtServiceToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "internetOnFinanceLease",
+        record,
+        "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+        "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+        "mandatoryDebtServiceToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpense",
+        record,
+        "s45___total_expense",
+        "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+        "mandatoryDebtServiceToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "amortizationFinanceLease",
+        record,
+        "s167___amortization_of_finance_lease_right_of_use_asset",
+        "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+        "mandatoryDebtServiceToCashExpenditure"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDepreciationExpense",
+        record,
+        "s46___total_depreciation_expense",
+        "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+        "mandatoryDebtServiceToCashExpenditure"
+      );
+
+
+      // row_personnelIncludingToTotalCashExpenditures
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "row_personnelIncludingToTotalCashExpenditures_Peer",
+        record,
+        "cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures",
+        "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalBenefit",
+        record,
+        "s11___total_benefit",
+        "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+        "row_personnelIncludingToTotalCashExpenditures"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalSalaries",
+        record,
+        "s10___total_salaries",
+        "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+        "row_personnelIncludingToTotalCashExpenditures"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "costOfOutsourcedEmployee",
+        record,
+        "s162___cost_of_outsourced_employee",
+        "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+        "row_personnelIncludingToTotalCashExpenditures"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpense",
+        record,
+        "s45___total_expense",
+        "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+        "row_personnelIncludingToTotalCashExpenditures"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "amortizationFinanceLease",
+        record,
+        "s167___amortization_of_finance_lease_right_of_use_asset",
+        "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+        "row_personnelIncludingToTotalCashExpenditures"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "internetOnFinanceLease",
+        record,
+        "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+        "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+        "row_personnelIncludingToTotalCashExpenditures"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "requiredMinimumDebtPrinciple",
+        record,
+        "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+        "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+        "row_personnelIncludingToTotalCashExpenditures"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+        "row_personnelIncludingToTotalCashExpenditures"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDepreciationExpense",
+        record,
+        "s46___total_depreciation_expense",
+        "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+        "row_personnelIncludingToTotalCashExpenditures"
+      );
+
+      // localOutreachExpenses
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "localOutreachExpenses_Peer",
+        record,
+        "cfhi_compre_18_1_ratio___local_outreach_expenses",
+        "cfhi_compre_18_1_yes_no___local_outreach_expenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "localOutreachExpenses",
+        record,
+        "s14___local_outreach_expense",
+        "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+        "localOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpense",
+        record,
+        "s45___total_expense",
+        "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+        "localOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "amortizationFinanceLease",
+        record,
+        "s167___amortization_of_finance_lease_right_of_use_asset",
+        "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+        "localOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "internetOnFinanceLease",
+        record,
+        "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+        "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+        "localOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "requiredMinimumDebtPrinciple",
+        record,
+        "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+        "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+        "localOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+        "localOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDepreciationExpense",
+        record,
+        "s46___total_depreciation_expense",
+        "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+        "localOutreachExpenses"
+      );
+
+      // globalOutreachExpenses
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "globalOutreachExpenses_Peer",
+        record,
+        "cfhi_compre_18_2_ratio___global_outreach_expenses",
+        "cfhi_compre_18_2_yes_no___global_outreach_expenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "globalOutreachExpenses",
+        record,
+        "s15___global_outreach_expense",
+        "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+        "globalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpense",
+        record,
+        "s45___total_expense",
+        "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+        "globalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "amortizationFinanceLease",
+        record,
+        "s167___amortization_of_finance_lease_right_of_use_asset",
+        "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+        "globalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "internetOnFinanceLease",
+        record,
+        "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+        "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+        "globalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "requiredMinimumDebtPrinciple",
+        record,
+        "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+        "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+        "globalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+        "globalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDepreciationExpense",
+        record,
+        "s46___total_depreciation_expense",
+        "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+        "globalOutreachExpenses"
+      );
+
+      // totalGlobalAndLocalOutreachExpenses
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalGlobalAndLocalOutreachExpenses_Peer",
+        record,
+        "cfhi_compre_18_3_ratio___global_local_outreach_expenses",
+        "cfhi_compre_18_3_yes_no___global_local_outreach_expenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "localOutreachExpenses",
+        record,
+        "s14___local_outreach_expense",
+        "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+        "totalGlobalAndLocalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpense",
+        record,
+        "s45___total_expense",
+        "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+        "totalGlobalAndLocalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "amortizationFinanceLease",
+        record,
+        "s167___amortization_of_finance_lease_right_of_use_asset",
+        "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+        "totalGlobalAndLocalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "internetOnFinanceLease",
+        record,
+        "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+        "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+        "totalGlobalAndLocalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "requiredMinimumDebtPrinciple",
+        record,
+        "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+        "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+        "totalGlobalAndLocalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+        "totalGlobalAndLocalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDepreciationExpense",
+        record,
+        "s46___total_depreciation_expense",
+        "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+        "totalGlobalAndLocalOutreachExpenses"
+      );
+
+
+      // cashExpendituresPerAvgAdultAttendee
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "cashExpendituresPerAvgAdultAttendee_Peer",
+        record,
+        "cfhi_compre_19_1_ratio___cash_exp_per_adult",
+        "cfhi_compre_19_1_yes_no___cash_exp_per_adult"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpense",
+        record,
+        "s45___total_expense",
+        "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+        "cashExpendituresPerAvgAdultAttendee"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "amortizationFinanceLease",
+        record,
+        "s167___amortization_of_finance_lease_right_of_use_asset",
+        "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+        "cashExpendituresPerAvgAdultAttendee"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "internetOnFinanceLease",
+        record,
+        "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+        "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+        "cashExpendituresPerAvgAdultAttendee"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "requiredMinimumDebtPrinciple",
+        record,
+        "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+        "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+        "cashExpendituresPerAvgAdultAttendee"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+        "cashExpendituresPerAvgAdultAttendee"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDepreciationExpense",
+        record,
+        "s46___total_depreciation_expense",
+        "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+        "cashExpendituresPerAvgAdultAttendee"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "averageAdultAttendeesExcludingChildren",
+        record,
+        "s01_average_adult_attendees_excluding_children",
+        "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+        "cashExpendituresPerAvgAdultAttendee"
+      );
+
+      // cashExpendituresPerAvgAdultAttendee_percentChange
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "cashExpendituresPerAvgAdultAttendee_percentChange_Peer",
+        record,
+        "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee"
+      );
+
+      // cashExpendituresPerGivingUnit
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "cashExpendituresPerGivingUnit_Peer",
+        record,
+        "cfhi_compre_19_2_ratio___cash_exp_per_gu",
+        "cfhi_compre_19_2_yes_no___cash_exp_per_gu"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpense",
+        record,
+        "s45___total_expense",
+        "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+        "cashExpendituresPerGivingUnit"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "amortizationFinanceLease",
+        record,
+        "s167___amortization_of_finance_lease_right_of_use_asset",
+        "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+        "cashExpendituresPerGivingUnit"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "internetOnFinanceLease",
+        record,
+        "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+        "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+        "cashExpendituresPerGivingUnit"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "requiredMinimumDebtPrinciple",
+        record,
+        "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+        "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+        "cashExpendituresPerGivingUnit"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "futureMinimumLeasePayment",
+        record,
+        "s166___future_minimum_lease_payment",
+        "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+        "cashExpendituresPerGivingUnit"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDepreciationExpense",
+        record,
+        "s46___total_depreciation_expense",
+        "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+        "cashExpendituresPerGivingUnit"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "givingUnits",
+        record,
+        "s02___giving_units",
+        "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+        "cashExpendituresPerGivingUnit"
+      );
+
+      // cashExpendituresPerGivingUnit_percentChange
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "cashExpendituresPerGivingUnit_percentChange_Peer",
+        record,
+        "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee"
+      );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -6506,17 +7319,145 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "cfhi_compre_15_ratio___benefits_to_salaries"
       );
 
-      // averageSalariesAndBenefitsPerFTE
+      // salaries 
       insertDataIntoObject(
         "client",
         year,
         object,
-        "averageSalariesAndBenefitsPerFTE_Client",
+        "salaries_Client",
         record,
-        "cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte"
+        "cfhi_compre_16_ratio___average_salaries_per_fte"
       );
+
+      // benefits
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "benefits_Client",
+        record,
+        "cfhi_compre_16_ratio___average_benefits_per_fte"
+      );
+
+      // salariesBenefitsIncludingOutsourcedEmployees
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "salariesBenefitsIncludingOutsourcedEmployees_Client",
+        record,
+        "cfhi_compre_16a_ratio___average_salaries_and_benefits_per_fte___outsourced"
+      );
+
+      // personnelToCashExpenditure
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "personnelToCashExpenditure_Client",
+        record,
+        "cfhi_compre_17_1_ratio___personnel_to_total_cash_expenditures",
+        "cfhi_compre_17_1_bench_rating___personnel_to_total_cash_expenditures"
+      );
+
+      // mandatoryDebtServiceToCashExpenditure
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "mandatoryDebtServiceToCashExpenditure_Client",
+        record,
+        "cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures",
+        "cfhi_compre_17_2_bench_rating___mandatory_debt_to_total_cash_expenditures"
+      );
+
+      // personnelIncludingToTotalCashExpenditures
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "personnelIncludingToTotalCashExpenditures_Client",
+        record,
+        "cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures",
+        "cfhi_compre_17_3_bench_rating___mandatory_debt_and_personnel_to_total_cash_expenditures"
+      );
+
+      // localOutreachExpenses
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "localOutreachExpenses_Client",
+        record,
+        "cfhi_compre_18a_ratio___local_outreach_to_total_cash_expend"
+      );
+
+      // globalOutreachExpenses
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "globalOutreachExpenses_Client",
+        record,
+        "cfhi_compre_18b_ratio___global_outreach_to_total_cash_expend"
+      );
+
+      // totalGlobalAndLocalOutreachExpenses
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "totalGlobalAndLocalOutreachExpenses_Client",
+        record,
+        "cfhi_compre_18c_ratio___total_outreach_to_total_cash_expend",
+        "cfhi_compre_18c_bench_rating___total_outreach_to_total_cash_expend"
+      );
+
+      // cashExpendituresPerAvgAdultAttendee
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "cashExpendituresPerAvgAdultAttendee_Client",
+        record,
+        "cfhi_compre_19a_ratio___cash_exp_per_average_adult"
+      );
+
+      // cashExpendituresPerAvgAdultAttendee_percentChange
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "cashExpendituresPerAvgAdultAttendee_percentChange_Client",
+        record,
+        "cfhi_compre_19a_ratio_change___cash_exp_per_average_adult"
+      );
+
+      // cashExpendituresPerGivingUnit
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "cashExpendituresPerGivingUnit_Client",
+        record,
+        "cfhi_compre_19b_ratio___cash_exp_per_giving_unit"
+      );
+
+      // cashExpendituresPerGivingUnit_percentChange
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "cashExpendituresPerGivingUnit_percentChange_Client",
+        record,
+        "cfhi_compre_19b_ratio_change___cash_exp_per_giving_unit"
+      );
+
     });
   });
+
+  localStorage.removeItem("expenseData");
+  localStorage.setItem("expenseData", JSON.stringify(object));
 };
 
 const addColumnsToOtherRows = (idName, year) => {
@@ -6547,6 +7488,7 @@ const runApiMain = () => {
       processCashData(selectedYears, recordsPeer, recordsClient);
       processDebtData(selectedYears, recordsPeer, recordsClient);
       processIncomeData(selectedYears, recordsPeer, recordsClient);
+      processExpenseData(selectedYears, recordsPeer, recordsClient);
 
       displayDemoComponent();
       displayCashComponent();
