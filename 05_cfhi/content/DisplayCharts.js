@@ -155,30 +155,41 @@ const displayDebtComponent = () => {
 };
 
 const displayIncomeComponent = () => {
-  // const savedData = getStoredData('incomeData');
-  // const parseData = parseStoredData(savedData);
+  const savedData = getStoredData('incomeData');
+  const parseData = parseStoredData(savedData);
 
-  // // netIncomeRatio
-  // createChartFromParsedData(
-  //   parseData,
-  //   'netIncomeRatio_chart',
-  //   'netIncomeRatio_Peer',
-  //   'netIncomeRatio_Client',
-  //   'number',
-  //   1,
-  //   'netIncomeRatio'
-  // );
+  // netIncomeRatio
+  createChartFromParsedData(
+    parseData,
+    'netIncomeRatio_chart',
+    'netIncomeRatio_Peer',
+    'netIncomeRatio_Client',
+    'percent',
+    1,
+    'netIncomeRatio'
+  );
 
-  // // grossTuition
-  // createChartFromParsedData(
-  //   parseData,
-  //   'grossTuition_chart',
-  //   'grossTuition_Peer',
-  //   'grossTuition_Client',
-  //   'number',
-  //   1,
-  //   'grossTuition'
-  // );
+  // contributionsWithoutDonorPerGivingUnit
+  createChartFromParsedData(
+    parseData,
+    'contributionsWithoutDonorPerGivingUnit_chart',
+    'contributionsWithoutDonorPerGivingUnit_Peer',
+    'contributionsWithoutDonorPerGivingUnit_Client',
+    'dollar',
+    1,
+    'contributionsWithoutDonorPerGivingUnit'
+  );
+
+  // totalContributionsPerGivingUnit
+  createChartFromParsedData(
+    parseData,
+    'totalContributionsPerGivingUnit_chart',
+    'totalContributionsPerGivingUnit_Peer',
+    'totalContributionsPerGivingUnit_Client',
+    'dollar',
+    1,
+    'totalContributionsPerGivingUnit'
+  );
 
   closeSidebarAfterSelectingOption("income");
 };

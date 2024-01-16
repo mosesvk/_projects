@@ -77,7 +77,7 @@ const totalContributionsPerAverageAdultAttendee_weightedAverage = (data, name) =
 }
 
 const contributionsWithoutDonorPerGivingUnit_weightedAverage = (data, name) => {
-  console.log(data, name);
+  // console.log(data, name);
   const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
   const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]);
   const s02 = getSumOfArray(data.givingUnits[name]);

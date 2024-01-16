@@ -3934,6 +3934,7 @@ document.addEventListener("DOMContentLoaded", () => {
   displayDemoComponent();
   displayCashComponent();
   displayDebtComponent();
+  displayIncomeComponent();
 
   displayReportComponent();
 
@@ -3969,18 +3970,16 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  if (dataKey === "localCountyPerGivingUnit_Client") {
-    console.log({
-      type,
-      year,
-      object,
-      dataKey,
-      record,
-      child,
-      dynamicValueClientPeer,
-      name,
-    });
-  }
+  // console.log({
+  //   type,
+  //   year,
+  //   object,
+  //   dataKey,
+  //   record,
+  //   child,
+  //   dynamicValueClientPeer,
+  //   name,
+  // });
 
   const innerData =
     record.querySelector(child).innerHTML.split("").length > 0
@@ -6417,6 +6416,48 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("incomeData", JSON.stringify(object));
 };
 
+const processExpenseData = (years, recordsPeer, recordsClient) => {
+  const object = {};
+
+  years.forEach((year) => {
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+      const fiscalYear = record.querySelector("s52_formatted_year").textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredPeerRecords.forEach((record) => {
+      // netIncomeRatio [s48, s167, s168, s41]
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "netIncomeRatio_Peer",
+        record,
+        "cfhi_compre_11_ratio___net_income_ratio",
+        "cfhi_compre_11_yes_no___net_income_ratio"
+      );
+    });
+
+    const filteredClientRecords = [...recordsClient].filter((record) => {
+      const fiscalYear = record.querySelector("s52_formatted_year").textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredClientRecords.forEach((record) => {
+      // netIncomeRatio
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "netIncomeRatio_Client",
+        record,
+        "cfhi_compre_11_ratio___net_income_ratio",
+        "cfhi_compre_11_bench_ratings___net_income_ratio"
+      );
+    });
+  });
+};
+
 const addColumnsToOtherRows = (idName, year) => {
   const rows = document.querySelectorAll(`#${idName} + tbody tr`);
 
@@ -6449,6 +6490,7 @@ const runApiMain = () => {
       displayDemoComponent();
       displayCashComponent();
       displayDebtComponent();
+      displayIncomeComponent();
 
       displayReportComponent();
     } catch (err) {

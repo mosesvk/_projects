@@ -91,7 +91,7 @@ const displayReportComponent = () => {
 
     insertDataToReport(incomeData, selectedYears, [
       ["netIncomeRatio", "percent", 0, "wa"],
-      ["netIncomeRatio_twoYrAvg", "percent", 0, "wa"],
+      ["netIncomeRatio_twoYrAvg", "percent", 0],
       ["contributionsWithoutDonorPerAverageAdultAttendee", "dollar", 0, "wa"],
       ["contributionsWithoutDonorPerAverageAdultAttendee_percentChange", "percent", 0],
       ["contributionsWithoutDonorPerGivingUnit", "dollar", 0, "wa"],
@@ -140,7 +140,7 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  console.log({ selectedYears, name, client, peer, type, fixedNum });
+  // console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);
