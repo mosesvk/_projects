@@ -195,19 +195,52 @@ const displayIncomeComponent = () => {
 };
 
 const displayExpenseComponent = () => {
-  // const savedData = getStoredData('expenseData');
-  // const parseData = parseStoredData(savedData);
+  const savedData = getStoredData('expenseData');
+  const parseData = parseStoredData(savedData);
 
-  // // salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits
-  // createChartFromParsedData(
-  //   parseData,
-  //   'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_chart',
-  //   'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Peer',
-  //   'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Client',
-  //   'number',
-  //   1,
-  //   'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
-  // );
+  // benefitsToSalaries
+  createChartFromParsedData(
+    parseData,
+    'benefitsToSalaries_chart',
+    'benefitsToSalaries_Peer',
+    'benefitsToSalaries_Client',
+    'number',
+    1,
+    'benefitsToSalaries'
+  );
+
+  // salariesBenefitsIncludingOutsourcedEmployees
+  createChartFromParsedData(
+    parseData,
+    'salariesBenefitsIncludingOutsourcedEmployees_chart',
+    'salariesBenefitsIncludingOutsourcedEmployees_Peer',
+    'salariesBenefitsIncludingOutsourcedEmployees_Client',
+    'number',
+    1,
+    'salariesBenefitsIncludingOutsourcedEmployees'
+  );
+
+  // personnelToCashExpenditure
+  createChartFromParsedData(
+    parseData,
+    'personnelToCashExpenditure_chart',
+    'personnelToCashExpenditure_Peer',
+    'personnelToCashExpenditure_Client',
+    'number',
+    1,
+    'personnelToCashExpenditure'
+  );
+
+  // cashExpendituresPerGivingUnit
+  createChartFromParsedData(
+    parseData,
+    'cashExpendituresPerGivingUnit_chart',
+    'cashExpendituresPerGivingUnit_Peer',
+    'cashExpendituresPerGivingUnit_Client',
+    'number',
+    1,
+    'cashExpendituresPerGivingUnit'
+  );
 
   closeSidebarAfterSelectingOption("expense");
 };

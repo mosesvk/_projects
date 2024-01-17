@@ -187,7 +187,7 @@ const personnelToCashExpenditure_weightedAverage = (data, name) => {
 }
 
 const salariesBenefitsIncludingOutsourcedEmployees_weightedAverage = (data, name) => {
-  console.log(data, name);
+  // console.log(data, name);
 
   const s10 = getSumOfArray(data.totalSalaries[name]);
   const s11 = getSumOfArray(data.totalBenefit[name]);
@@ -218,7 +218,7 @@ const benefits_weightedAverage = (data, name) => {
 }
 
 const salaries_weightedAverage = (data, name) => {
-  console.log(data, name);
+  // console.log(data, name);
   const s10 = getSumOfArray(data.totalSalaries[name]);
   const s151 = getSumOfArray(data.fullTimeEquivalent[name]);
 
@@ -474,7 +474,7 @@ const daysExpendableNetAssets_weightedAverage = (data, name) => {
 };
 
 const attendeesToStaff_weightedAverage = (data, name) => {
-  console.log(data, name);
+  // console.log(data, name);
   const s150 = getSumOfArray(data.totalAttendees[name]);
   const s151 = getSumOfArray(data.fullTimeEquivalent[name]);
 

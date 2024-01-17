@@ -3935,6 +3935,7 @@ document.addEventListener("DOMContentLoaded", () => {
   displayCashComponent();
   displayDebtComponent();
   displayIncomeComponent();
+  displayExpenseComponent() 
 
   displayReportComponent();
 
@@ -7534,6 +7535,7 @@ const runApiMain = () => {
       displayCashComponent();
       displayDebtComponent();
       displayIncomeComponent();
+      displayExpenseComponent()
 
       displayReportComponent();
     } catch (err) {
