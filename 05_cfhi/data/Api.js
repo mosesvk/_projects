@@ -7565,7 +7565,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "client",
         year,
         object,
-        "facilityCostPerSquareFootExcluding_lessThanTen_Client",
+        "facilityCostPerSquareFootExcluding_greaterThanTen_Client",
         record,
         "cfhi_compre_23_value_over10___facility_cost_per_square_foot__excluding_interest_expense_"
       );
@@ -7575,7 +7575,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "client",
         year,
         object,
-        "facilityCostPerSquareFootExcluding_lessThanTen_Client",
+        "facilityCostPerSquareFootIncluding_lessThanTen_Client",
         record,
         "cfhi_compre_24_value_under10___facility_cost_per_square_foot__including_principal_and_interest_expense_"
       );

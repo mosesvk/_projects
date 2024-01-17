@@ -4,6 +4,7 @@ const displayReportComponent = () => {
   const debtData = JSON.parse(localStorage.getItem("debtData"));
   const incomeData = JSON.parse(localStorage.getItem("incomeData"));
   const expenseData = JSON.parse(localStorage.getItem("expenseData"));
+  const additionalData = JSON.parse(localStorage.getItem("additionalData"));
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -44,8 +45,6 @@ const displayReportComponent = () => {
       ["debtPerGivingUnit_standard", "dollar", 0, "wa"],
       ["debtCoverage", "num", 0, "wa"],
     ]);
-
-
 
     checkForCountyDataIncomeTablem(
       "localCounty",
@@ -102,26 +101,40 @@ const displayReportComponent = () => {
       ["totalContributionsPerGivingUnit", "dollar", 0, "wa"],
       ["totalContributionsPerGivingUnit_percentChange", "percent", 0],
     ])
+
+    insertDataToReport(expenseData, selectedYears, [
+      ["benefitsToSalaries", "percent", 0, "wa"],
+      ["salaries", "dollar", 0, "wa"],
+      ["benefits", "dollar", 0, "wa"],
+      ["salariesBenefits", "dollar", 0, "wa"],
+      ["salariesBenefitsIncludingOutsourcedEmployees", "dollar", 0, "wa"],
+      ["personnelToCashExpenditure", "percent", 0, "wa"],
+      ["mandatoryDebtServiceToCashExpenditure", "percent", 0, "wa"],
+      ["personnelIncludingToTotalCashExpenditures", "percent", 0, "wa"],
+      ["localOutreachExpenses", "percent", 0, "wa"],
+      ["globalOutreachExpenses", "percent", 0, "wa"],
+      ["totalGlobalAndLocalOutreachExpenses", "percent", 0, "wa"],
+      ["cashExpendituresPerAvgAdultAttendee", "dollar", 0, "wa"],
+      ["cashExpendituresPerAvgAdultAttendee_percentChange", "percent", 0],
+      ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
+      ["cashExpendituresPerGivingUnit_percentChange", "percent", 0],
+  
+    ])
+
+    insertDataToReport(additionalData, selectedYears, [
+      ["contributionsPerAccountingFTE", "dollar", 0, "wa"],
+      ["expensesPerAccountingFTE", "dollar", 0, "wa"],
+      ["facilitiesExpenseToTotalCashExpenditures_lessThanTen", "percent", 0, "wa"],
+      ["facilitiesExpenseToTotalCashExpenditures_greaterThanTen", "percent", 0, "wa"],
+      ["facilityCostPerSquareFootExcluding_lessThanTen", "dollar", 2, "wa"],
+      ["facilityCostPerSquareFootExcluding_greaterThanTen", "dollar", 2, "wa"],
+      ["facilityCostPerSquareFootIncluding_lessThanTen", "dollar", 2, "wa"],
+      ["facilityCostPerSquareFootIncluding_greaterThanTen", "dollar", 2, "wa"],
+      ["informationTechnologyCostPerFTE", "dollar", 0, "wa"],
+
+    ])
   }
 
-  insertDataToReport(expenseData, selectedYears, [
-    ["benefitsToSalaries", "percent", 0, "wa"],
-    ["salaries", "dollar", 0, "wa"],
-    ["benefits", "dollar", 0, "wa"],
-    ["salariesBenefits", "dollar", 0, "wa"],
-    ["salariesBenefitsIncludingOutsourcedEmployees", "dollar", 0, "wa"],
-    ["personnelToCashExpenditure", "percent", 0, "wa"],
-    ["mandatoryDebtServiceToCashExpenditure", "percent", 0, "wa"],
-    ["personnelIncludingToTotalCashExpenditures", "percent", 0, "wa"],
-    ["localOutreachExpenses", "percent", 0, "wa"],
-    ["globalOutreachExpenses", "percent", 0, "wa"],
-    ["totalGlobalAndLocalOutreachExpenses", "percent", 0, "wa"],
-    ["cashExpendituresPerAvgAdultAttendee", "dollar", 0, "wa"],
-    ["cashExpendituresPerAvgAdultAttendee_percentChange", "percent", 0],
-    ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
-    ["cashExpendituresPerGivingUnit_percentChange", "percent", 0],
-
-  ])
 
   closeSidebarAfterSelectingOption("report");
 };
@@ -160,7 +173,7 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  // console.log({ selectedYears, name, client, peer, type, fixedNum });
+  console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);
