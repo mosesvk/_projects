@@ -13,7 +13,7 @@ const displayReportComponent = () => {
       ["givingUnits", "num", 0],
       ["averageAdultAttendees", "num", 0],
       ["totalAttendees", "num", 0],
-      ["fullTimeEquivalents", "num", 0],
+      ["fullTimeEquivalent", "num", 0],
       ["attendeesToStaff", "num", 1, "wa"],
       ["contributionsWithoutDonorExcludingLargeGifts", "dollar", 0],
       ["totalContributionsExclude", "dollar", 0],
@@ -108,7 +108,18 @@ const displayReportComponent = () => {
     ["benefitsToSalaries", "percent", 0, "wa"],
     ["salaries", "dollar", 0, "wa"],
     ["benefits", "dollar", 0, "wa"],
+    ["salariesBenefits", "dollar", 0, "wa"],
     ["salariesBenefitsIncludingOutsourcedEmployees", "dollar", 0, "wa"],
+    ["personnelToCashExpenditure", "percent", 0, "wa"],
+    ["mandatoryDebtServiceToCashExpenditure", "percent", 0, "wa"],
+    ["personnelIncludingToTotalCashExpenditures", "percent", 0, "wa"],
+    ["localOutreachExpenses", "percent", 0, "wa"],
+    ["globalOutreachExpenses", "percent", 0, "wa"],
+    ["totalGlobalAndLocalOutreachExpenses", "percent", 0, "wa"],
+    ["cashExpendituresPerAvgAdultAttendee", "dollar", 0, "wa"],
+    ["cashExpendituresPerAvgAdultAttendee_percentChange", "percent", 0],
+    ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
+    ["cashExpendituresPerGivingUnit_percentChange", "percent", 0],
 
   ])
 
@@ -149,7 +160,7 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  // console.log({ selectedYears, name, client, peer, type, fixedNum });
+  console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);

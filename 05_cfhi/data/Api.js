@@ -4089,12 +4089,12 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         "s150___total_attendee_including_children",
         "cfhi_compre_00c_yes_no___total_attendees_including_children"
       );
-      // fullTimeEquivalents
+      // fullTimeEquivalent
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "fullTimeEquivalents_Peer",
+        "fullTimeEquivalent_Peer",
         record,
         "s151___church_only_full_time_equivalent_excluding_childcare_worker",
         "cfhi_compre_00d_yes_no___full_time_equivalents"
@@ -4123,7 +4123,7 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "fullTimeEquivalents",
+        "fullTimeEquivalent",
         record,
         "s151___church_only_full_time_equivalent_excluding_childcare_worker",
         "cfhi_compre_00e_yes_no___attendees_to_staff",
@@ -4260,12 +4260,12 @@ const processDemoData = (years, recordsPeer, recordsClient) => {
         record,
         "s150___total_attendee_including_children"
       );
-      // fullTimeEquivalents
+      // fullTimeEquivalent
       insertDataIntoObject(
         "client",
         year,
         object,
-        "fullTimeEquivalents_Client",
+        "fullTimeEquivalent_Client",
         record,
         "s151___church_only_full_time_equivalent_excluding_childcare_worker"
       );
@@ -6474,7 +6474,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "totalSalaries",
         record,
         "s10___total_salaries",
-        "cfhi_compre_15b__yes_no___salaries",
+        "cfhi_compre_16_yes_no___average_salaries_per_fte",
         "salaries"
       );
       insertDataIntoObject(
@@ -6484,7 +6484,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "fullTimeEquivalent",
         record,
         "s151___church_only_full_time_equivalent_excluding_childcare_worker",
-        "cfhi_compre_15b__yes_no___salaries",
+        "cfhi_compre_16_yes_no___average_salaries_per_fte",
         "salaries"
       );
 
@@ -6594,7 +6594,27 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
+        "costOfOutsourcedEmployee",
+        record,
+        "s162___cost_of_outsourced_employee",
+        "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+        "salariesBenefitsIncludingOutsourcedEmployees"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
         "fullTimeEquivalent",
+        record,
+        "s151___church_only_full_time_equivalent_excluding_childcare_worker",
+        "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+        "salariesBenefitsIncludingOutsourcedEmployees"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalOutsourcedEmployee",
         record,
         "s157___total_outsourced_employee__fte_",
         "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
@@ -6727,7 +6747,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "interestExpense",
+        "cyInterestExpense",
         record,
         "s47___cy_interest_expense",
         "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
@@ -6775,12 +6795,12 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
       );
 
 
-      // row_personnelIncludingToTotalCashExpenditures
+      // personnelIncludingToTotalCashExpenditures
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "row_personnelIncludingToTotalCashExpenditures_Peer",
+        "personnelIncludingToTotalCashExpenditures_Peer",
         record,
         "cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures",
         "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures"
@@ -6793,7 +6813,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "s11___total_benefit",
         "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
-        "row_personnelIncludingToTotalCashExpenditures"
+        "personnelIncludingToTotalCashExpenditures"
       );
       insertDataIntoObject(
         "peer",
@@ -6803,7 +6823,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "s10___total_salaries",
         "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
-        "row_personnelIncludingToTotalCashExpenditures"
+        "personnelIncludingToTotalCashExpenditures"
       );
       insertDataIntoObject(
         "peer",
@@ -6813,7 +6833,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "s162___cost_of_outsourced_employee",
         "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
-        "row_personnelIncludingToTotalCashExpenditures"
+        "personnelIncludingToTotalCashExpenditures"
       );
       insertDataIntoObject(
         "peer",
@@ -6823,7 +6843,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "s45___total_expense",
         "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
-        "row_personnelIncludingToTotalCashExpenditures"
+        "personnelIncludingToTotalCashExpenditures"
       );
       insertDataIntoObject(
         "peer",
@@ -6833,7 +6853,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "s167___amortization_of_finance_lease_right_of_use_asset",
         "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
-        "row_personnelIncludingToTotalCashExpenditures"
+        "personnelIncludingToTotalCashExpenditures"
       );
       insertDataIntoObject(
         "peer",
@@ -6843,7 +6863,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
         "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
-        "row_personnelIncludingToTotalCashExpenditures"
+        "personnelIncludingToTotalCashExpenditures"
       );
       insertDataIntoObject(
         "peer",
@@ -6853,7 +6873,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "s154___required_minimum_debt_principal_payment_for_the_next_year_",
         "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
-        "row_personnelIncludingToTotalCashExpenditures"
+        "personnelIncludingToTotalCashExpenditures"
       );
       insertDataIntoObject(
         "peer",
@@ -6863,7 +6883,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "s166___future_minimum_lease_payment",
         "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
-        "row_personnelIncludingToTotalCashExpenditures"
+        "personnelIncludingToTotalCashExpenditures"
       );
       insertDataIntoObject(
         "peer",
@@ -6873,7 +6893,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "s46___total_depreciation_expense",
         "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
-        "row_personnelIncludingToTotalCashExpenditures"
+        "personnelIncludingToTotalCashExpenditures"
       );
 
       // localOutreachExpenses
@@ -6890,7 +6910,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "localOutreachExpenses",
+        "localOutreachExpense",
         record,
         "s14___local_outreach_expense",
         "cfhi_compre_18_1_yes_no___local_outreach_expenses",
@@ -6971,7 +6991,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "globalOutreachExpenses",
+        "globalOutreachExpense",
         record,
         "s15___global_outreach_expense",
         "cfhi_compre_18_2_yes_no___global_outreach_expenses",
@@ -7052,9 +7072,19 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "localOutreachExpenses",
+        "localOutreachExpense",
         record,
         "s14___local_outreach_expense",
+        "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+        "totalGlobalAndLocalOutreachExpenses"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "globalOutreachExpense",
+        record,
+        "s15___global_outreach_expense",
         "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
         "totalGlobalAndLocalOutreachExpenses"
       );
@@ -7194,7 +7224,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "averageAdultAttendeesExcludingChildren",
+        "averageAdultAttendees",
         record,
         "s01_average_adult_attendees_excluding_children",
         "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
