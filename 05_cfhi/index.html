@@ -2529,7 +2529,7 @@
                               scope="col"
                               class="px-6 py-3 text-lg tracking-wide"
                             >
-                              Additional Ratios And Measurements
+                              Additional Ratios & Measurements
                             </th>
 
                             <th scope="col" class="px-6 py-3">Avg</th>
@@ -2539,15 +2539,154 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr
-                            id="row_measurementsPerAccountingFTE"
+                          <tr id="row_measurementsPerAccountingFTE
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white underline"
+                            >
+                              Measurements per Accounting FTE:
+                            </th>
+                          </tr>
+                          <tr id="row_contributionsPerAccountingFTE"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              Measurements per Accounting FTE
+                              20. Contributions per Accounting FTE
+                            </th>
+                          </tr>
+                          <tr id="row_expensesPerAccountingFTE"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              21. Expenses per Accounting FTE
+                            </th>
+                          </tr>
+                          <tr id="row_facilitiesRatios"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white underline"
+                            >
+                              Facilities Ratios:
+                            </th>
+                          </tr>
+                          <tr id="row_facilitiesExpenseToTotalCashExpenditures"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                            >
+                              22. Facilities Expense to Total Cash Expenditures (Excluding Depreciation)
+                            </th>
+                          </tr>
+                          <tr id="row_facilitiesExpenseToTotalCashExpenditures_lessThanTen"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Avg. Age of Facility < 10 Years
+                            </th>
+                          </tr>
+                          <tr id="row_facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Avg. Age of Facility > 10 Years
+                            </th>
+                          </tr>
+                          <tr id="row_facilityCostPerSquareFootExcluding"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                            >
+                              23. Facility Cost per Square Foot (Excluding Interest Expense)
+                            </th>
+                          </tr>
+                          <tr id="row_facilityCostPerSquareFootExcluding_lessThanTen"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Avg. Age of Facility < 10 Years
+                            </th>
+                          </tr>
+                          <tr id="row_facilityCostPerSquareFootExcluding_greaterThanTen"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Avg. Age of Facility > 10 Years
+                            </th>
+                          </tr>
+                          <tr id="row_facilityCostPerSquareFootIncluding"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                            >
+                              24. Facility Cost per Square Foot (Including Principal and Interest Expense)
+                            </th>
+                          </tr>
+                          <tr id="row_facilityCostPerSquareFootIncluding_lessThanTen"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Avg. Age of Facility < 10 Years
+                            </th>
+                          </tr>
+                          <tr id="row_facilityCostPerSquareFootIncluding_greaterThanTen"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Avg. Age of Facility > 10 Years
+                            </th>
+                          </tr>
+                          <tr id="row_informationTechnologyRatio"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white underline"
+                            >
+                              Information Technology Ratio:
+                            </th>
+                          </tr>
+                          <tr id="row_informationTechnologyCostPerFTE"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                            >
+                              25. Information Technology Cost per FTE
                             </th>
                           </tr>
                         </tbody>
