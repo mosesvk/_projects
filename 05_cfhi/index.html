@@ -107,7 +107,7 @@
                       <h3
                         class="font-semibold text-gray-900 text-lg dark:text-white"
                       >
-                        Enrollment Comparison Between Years
+                        Demographic Information
                       </h3>
                     </div>
                     <div
@@ -154,7 +154,7 @@
                       <h3
                         class="font-semibold text-gray-900 dark:text-white text-lg"
                       >
-                        Cash Flow and Reserve Ratios
+                        Cash Flow and Reserve Ratios and Measurements
                       </h3>
                     </div>
                     <div
@@ -166,7 +166,9 @@
                 <li>
                   <button
                     id="debtLink"
-                    type="button"
+                    data-popover-target="popoverDebt-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
                     class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
                     <svg
@@ -187,11 +189,33 @@
                       Debt
                     </span>
                   </button>
+                  <div
+                    data-popover
+                    id="popoverDebt-hover"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                    >
+                      <h3
+                        class="font-semibold text-gray-900 dark:text-white text-lg"
+                      >
+                        DEBT RATIOS AND MEASUREMENTS
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
                 </li>
                 <li>
                   <button
                     id="incomeLink"
-                    type="button"
+                    data-popover-target="popoverIncome-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
                     class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
                     <svg
@@ -211,14 +235,36 @@
                       class="flex-1 ml-3 text-left whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
-                      Income/Giving
+                      Income
                     </span>
                   </button>
+                  <div
+                    data-popover
+                    id="popoverIncome-hover"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                    >
+                      <h3
+                        class="font-semibold text-gray-900 dark:text-white text-lg"
+                      >
+                        INCOME/GIVING RATIOS AND MEASUREMENTS
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
                 </li>
                 <li>
                   <button
                     id="expenseLink"
-                    type="button"
+                    data-popover-target="popoverExpense-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
                     class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
                     <svg
@@ -239,6 +285,26 @@
                       Expense
                     </span>
                   </button>
+                  <div
+                    data-popover
+                    id="popoverExpense-hover"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                    >
+                      <h3
+                        class="font-semibold text-gray-900 dark:text-white text-lg"
+                      >
+                        EXPENSE RATIOS AND MEASUREMENTS
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
                 </li>
                 <li>
                   <button
@@ -268,8 +334,7 @@
           </div>
         </div>
       </aside>
-      <div
-        id="sidebarBackdrop"
+      <div id="sidebarBackdrop"
         class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90"
       ></div>
       <!-- MAIN CONTENT -->
