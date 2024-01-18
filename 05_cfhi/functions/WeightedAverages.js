@@ -234,9 +234,6 @@ const benefitsToSalaries_weightedAverage = (data, name) => {
   return s11 / s10;
 }
 
-
-
-
 const totalContributionsPerGivingUnit_weightedAverage = (data, name) => {
 
   const s40 = getSumOfArray(data.totalContributions[name]); 
