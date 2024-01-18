@@ -173,7 +173,7 @@ const addToSingleRow = (
   fixedNum,
   wa
 ) => {
-  console.log({ selectedYears, name, client, peer, type, fixedNum });
+  // console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);
