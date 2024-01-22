@@ -9132,7 +9132,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem('debtData', JSON.stringify(object));
 };
 
-const processAssetdData = (years, recordsPeer, recordsClient) => {
+const processAssedData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
   years.forEach((year) => {
