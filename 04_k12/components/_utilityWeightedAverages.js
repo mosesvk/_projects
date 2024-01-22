@@ -164,7 +164,7 @@ const fundsExpensesPerStudent_FundsRaisedOverUnder_weightedAverage = (
 
   return (
     numTotalContributions / numStudentAverageEnrollment +
-    ((numGrossTuitionRevenuesExcludingFees -
+    ((numGrossTuitionRevenuesExcludingFees - numDiscounts -
       numFinancialAidScholarships) /
       numStudentAverageEnrollment -
       (numTotalExpenses - numTotalDepreciationExpense) /
@@ -338,11 +338,8 @@ const personnelMandatoryDebtService_SalariesAndBenefits_Employees_weightedAverag
 
 const personnelMandatoryDebtService_SalariesAndBenefits_Administration_weightedAverage =
   (data, name) => {
-    // ( [02-03 Total Personnel Costs Salaries & Benefits of all School Employees]  - [13] 02-01 Total Teacher Salaries - [14] 02-02 Total Teacher Benefits  ) / ([41] 04-08 Total Expenses - [42] 04-09 Total Depreciation Expense )
+    console.log("wa", data, name);
 
-    // let numTotalMaintenanceCosts = getSumOfArray(
-    //     data.totalMaintenanceCosts[name]
-    // );
     let numTotalPersonnelCostsSalariesBenefits = getSumOfArray(
       data.totalPersonnelCostsSalariesBenefits[name]
     );
