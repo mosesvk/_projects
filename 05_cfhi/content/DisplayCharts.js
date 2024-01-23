@@ -244,3 +244,4 @@ const displayExpenseComponent = () => {
 
   closeSidebarAfterSelectingOption("expense");
 };
+
