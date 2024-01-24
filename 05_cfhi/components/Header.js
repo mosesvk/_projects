@@ -1,4 +1,4 @@
-document.getElementById("nav").innerHTML = (
+document.getElementById("nav").innerHTML = (`
   <div class="px-3 py-3 lg:px-5 lg:pl-3">
     <div class="flex items-center justify-between">
       <div class="flex items-center justify-start">
@@ -81,42 +81,17 @@ document.getElementById("nav").innerHTML = (
             class="absolute left-0 z-10 mt-2 w-full bg-white border shadow-2xl rounded-lg invisible dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey"
           ></div>
         </div>
-        <div
-          id="custom-select-region"
-          class="block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400  appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl"
+        <button
+          data-modal-target="options_modal"
+          data-modal-toggle="options_modal"
+          type="button"
+          class="mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          <div class="flex items-center justify-between">
-            <div class="flex items-center">
-              <svg
-                class="w-5 h-5 text-gray-500 dark:text-white"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 16 20"
-              >
-                <path d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
-              </svg>
-              <div class="px-2 w-max hover:text-gray-600">Select Region</div>
-              <svg
-                class="h-5 w-5 text-gray-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </div>
-            <div
-              id="options-list-region"
-              class="absolute top-9 left-0 z-10 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-max invisible"
-            ></div>
-          </div>
-        </div> 
+          Options
+          <svg class="pl-2 w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"/>
+          </svg>
+        </button>
         <button
           id="run"
           class="backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100 cursor:pointer"
@@ -155,8 +130,8 @@ document.getElementById("nav").innerHTML = (
         </button>
       </div>
     </div>
-  </div> 
-);
+  </div>
+`);
 
 const customSelectElement = document.getElementById("custom-select");
 const optionsListElement = document.getElementById("options-list");
