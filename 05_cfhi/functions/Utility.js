@@ -18,6 +18,16 @@ const regions_Array = [
   },
   { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
 ];
+let sliderAmount = null;
+let sliderRange = null;
+let sliderValue = 0;
+let sliderValue2 = 25000;
+let amount = null;
+let sliderAmount2 = null;
+let sliderRange2 = null;
+let sliderValue3 = 0;
+let sliderValue4 = 25000;
+let amount2 = null;
 
 const selectedRegions_Array = [];
 
@@ -404,7 +414,6 @@ const updateCountyData = (trId, countyName, percentage, income) => {
   const percentageElement = document.getElementById(`percentage_${trId}`);
   const incomeElement = document.getElementById(`income_${trId}`);
 
-
   // Format values
   const formattedIncome = new Intl.NumberFormat().format(income);
   const formattedPercentage = Math.round(percentage);
@@ -443,3 +452,27 @@ const checkForCountyDataIncomeTablem = (
     updateCountyData(trId, "", "", "");
   }
 };
+
+// <------------------------------------  SLIDER RANGE ------------------------------------------------------------------>
+$(async () => {
+  $("#slider-range").slider({
+    range: true,
+    min: 0,
+    max: 25000,
+    step: 100,
+    values: [sliderValue, sliderValue2],
+    slide: async (event, ui) => {
+      await $("#amount").val(ui.values[0] + " - " + ui.values[1]);
+      sliderValue = ui.values[0];
+      sliderValue2 = ui.values[1];
+    },
+  });
+
+  $("#amount").val(
+    $("#slider-range").slider("values", 0) +
+      " - " +
+      $("#slider-range").slider("values", 1)
+  );
+
+  amount = $('input[id="amount"]')[0].value;
+}); // ----------------   >  $ Function Slider

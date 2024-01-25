@@ -9,6 +9,7 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
     />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css"
@@ -6389,7 +6390,7 @@
               id="custom-select-region"
               class="block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400 appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl"
             >
-              <div class="flex items-center justify-between">
+              <div class="flex flex-col items-center justify-between">
                 <div class="flex items-center">
                   <svg
                     class="w-5 h-5 text-gray-500 dark:text-white"
@@ -6423,6 +6424,13 @@
                   id="options-list-region"
                   class="absolute top-9 left-0 z-10 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-max invisible"
                 ></div>
+                <div class='slidecontainer'>
+                  <div class='rangeDiv'>
+                    <label for='amount'>Giving Units Range: </label>
+                    <input type="text" name='slider' id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;" >
+                  </div>
+                  <div id="slider-range"></div>
+                </div>      
               </div>
             </div>
           </div>
