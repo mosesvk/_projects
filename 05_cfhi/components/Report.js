@@ -186,7 +186,7 @@ const addToSingleRow = (
     const tableModalRow = document.getElementById(`${name}_modal_${year}`);
 
     if (tableModalRow) {
-      console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
+      // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
 
       addClientDataToModalRow(tableModalRow, year, client, type, fixedNum);
       addPeerDataToRow(

@@ -22,12 +22,7 @@ let sliderAmount = null;
 let sliderRange = null;
 let sliderValue = 0;
 let sliderValue2 = 25000;
-let amount = null;
-let sliderAmount2 = null;
-let sliderRange2 = null;
-let sliderValue3 = 0;
-let sliderValue4 = 25000;
-let amount2 = null;
+// let amount = null;
 
 const selectedRegions_Array = [];
 
@@ -453,26 +448,36 @@ const checkForCountyDataIncomeTablem = (
   }
 };
 
+
+
 // <------------------------------------  SLIDER RANGE ------------------------------------------------------------------>
-$(async () => {
-  $("#slider-range").slider({
-    range: true,
-    min: 0,
-    max: 25000,
-    step: 100,
-    values: [sliderValue, sliderValue2],
-    slide: async (event, ui) => {
-      await $("#amount").val(ui.values[0] + " - " + ui.values[1]);
-      sliderValue = ui.values[0];
-      sliderValue2 = ui.values[1];
-    },
-  });
 
-  $("#amount").val(
-    $("#slider-range").slider("values", 0) +
-      " - " +
-      $("#slider-range").slider("values", 1)
-  );
 
-  amount = $('input[id="amount"]')[0].value;
-}); // ----------------   >  $ Function Slider
+// const slider = document.getElementById('slider-range');
+// const amount = document.getElementById('amount');
+
+// // Initialize the input field value
+// amount.value = slider.value;
+
+// // Update input field value when slider changes
+// slider.addEventListener('input', function() {
+//     amount.value = this.value + ' - ' + (parseInt(this.value) + 100);
+// });
+
+// // Update slider value when input field changes (optional)
+// amount.addEventListener('input', function() {
+
+//     let values = this.value.split(" - ");
+//     let value1 = parseInt(values[0]);
+//     let value2 = parseInt(values[1]);
+    
+//     // Ensure values are within the slider range
+//     value1 = Math.max(0, Math.min(value1, 25000));
+//     value2 = Math.max(0, Math.min(value2, 25000));
+    
+//     // Update slider value
+//     slider.value = value1;
+// });
+
+
+
