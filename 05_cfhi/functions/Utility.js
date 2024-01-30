@@ -448,36 +448,51 @@ const checkForCountyDataIncomeTablem = (
   }
 };
 
+function changeThWidth(elementId) {
+  // Get the element by its ID
+  var trElement = document.getElementById(elementId);
+
+  // Check if the element exists
+  if (trElement) {
+      // Find the first <th> element child of the <tr>
+      var thElement = trElement.querySelector('th');
+
+      // Check if the <th> element exists
+      if (thElement) {
+          // Change the width of the <th> to 50rem
+          thElement.style.width = '50rem';
+      } else {
+          console.error('No <th> element found inside the specified <tr>.');
+      }
+  } else {
+      console.error('Element with ID ' + elementId + ' not found.');
+  }
+}
 
 
 // <------------------------------------  SLIDER RANGE ------------------------------------------------------------------>
 
-
-// const slider = document.getElementById('slider-range');
-// const amount = document.getElementById('amount');
-
-// // Initialize the input field value
-// amount.value = slider.value;
-
-// // Update input field value when slider changes
-// slider.addEventListener('input', function() {
-//     amount.value = this.value + ' - ' + (parseInt(this.value) + 100);
-// });
-
-// // Update slider value when input field changes (optional)
-// amount.addEventListener('input', function() {
-
-//     let values = this.value.split(" - ");
-//     let value1 = parseInt(values[0]);
-//     let value2 = parseInt(values[1]);
+const range = () => {
+  return {
+    minprice: 1000, 
+    maxprice: 7000,
+    min: 100, 
+    max: 10000,
+    minthumb: 0,
+    maxthumb: 0, 
     
-//     // Ensure values are within the slider range
-//     value1 = Math.max(0, Math.min(value1, 25000));
-//     value2 = Math.max(0, Math.min(value2, 25000));
-    
-//     // Update slider value
-//     slider.value = value1;
-// });
+    mintrigger() {   
+      this.minprice = Math.min(this.minprice, this.maxprice - 500);      
+      this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
+    },
+     
+    maxtrigger() {
+      this.maxprice = Math.max(this.maxprice, this.minprice + 500); 
+      this.maxthumb = 100 - (((this.maxprice - this.min) / (this.max - this.min)) * 100);    
+    }, 
+  }
+}
+
 
 
 
