@@ -474,12 +474,13 @@ function changeThWidth(elementId) {
 
 const range = () => {
   return {
-    minprice: 1000, 
-    maxprice: 7000,
-    min: 100, 
-    max: 10000,
-    minthumb: 0,
-    maxthumb: 0, 
+    minprice: 0, 
+    maxprice: 25000,
+    min: 0, 
+    max: 25000,
+    minthumb: 1,
+    maxthumb: 1, 
+
     
     mintrigger() {   
       this.minprice = Math.min(this.minprice, this.maxprice - 500);      

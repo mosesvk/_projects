@@ -6404,7 +6404,10 @@
               class="block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400 appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl"
             >
               <div class="flex flex-col items-center justify-between gap-y-5">
-                <div id="custom-select-region" class="flex items-center">
+                <div
+                  id="custom-select-region"
+                  class="flex items-center cursor-pointer"
+                >
                   <svg
                     class="w-5 h-5 text-gray-500 dark:text-white"
                     aria-hidden="true"
@@ -6435,13 +6438,32 @@
                 </div>
                 <div
                   id="options-list-region"
-                  class="absolute top-9 left-0 z-10 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-max invisible"
+                  class="absolute top-9 left-0 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-max invisible"
                 ></div>
                 <div
                   x-data="range()"
                   x-init="mintrigger(); maxtrigger()"
                   class="relative max-w-md w-full"
                 >
+                  <div class="flex items-center py-5">
+                    <p class="whitespace-nowrap mr-4">Giving Units Range:</p>
+                    <input
+                      type="text"
+                      maxlength="5"
+                      x-on:input="mintrigger"
+                      x-model="minprice"
+                      x-ref="minInput"
+                      class="bg-transparent border-none text-center w-24 text-xl"
+                    />
+                    -
+                    <input
+                      type="text"
+                      maxlength="5"
+                      x-on:input="maxtrigger"
+                      x-model="maxprice"
+                      class="bg-transparent border-none text-center w-24 text-xl"
+                    />
+                  </div>
                   <div>
                     <input
                       type="range"
@@ -6479,28 +6501,10 @@
                       ></div>
 
                       <div
-                        class="absolute z-30 w-6 h-6 top-0 right-0 bg-green-300 rounded-full -mt-2 -mr-3"
+                        class="absolute z-30 w-6 h-6 top-0 right-0 bg-green-300 rounded-full -mt-2 -mr-1"
                         x-bind:style="'right: '+maxthumb+'%'"
                       ></div>
                     </div>
-                  </div>
-                  <div class="flex justify-between items-center py-5">
-                    <p>Giving Units</p>
-                    <input
-                      type="text"
-                      maxlength="5"
-                      x-on:input="mintrigger"
-                      x-model="minprice"
-                      class="px-3 py-2 border border-gray-200 rounded w-24 text-center"
-                    />
-                    -
-                    <input
-                      type="text"
-                      maxlength="5"
-                      x-on:input="maxtrigger"
-                      x-model="maxprice"
-                      class="px-3 py-2 border border-gray-200 rounded w-24 text-center"
-                    />
                   </div>
                 </div>
               </div>
