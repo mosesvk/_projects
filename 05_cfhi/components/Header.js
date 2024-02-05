@@ -1,5 +1,5 @@
 document.getElementById("nav").innerHTML = (
-`  <div class="px-3 py-3 lg:px-5 lg:pl-3">
+  `<div class="px-3 py-3 lg:px-5 lg:pl-3">
     <div class="flex items-center justify-between">
       <div class="flex items-center justify-start">
         <button
@@ -85,9 +85,9 @@ document.getElementById("nav").innerHTML = (
           data-modal-target="options_modal"
           data-modal-toggle="options_modal"
           type="button"
-          class="mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
         >
-          Options
+          <span>Options</span>
           <svg class="pl-2 w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
             <path d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"/>
           </svg>
@@ -130,8 +130,8 @@ document.getElementById("nav").innerHTML = (
         </button>
       </div>
     </div>
-  </div>
-`);
+  </div>`
+);
 
 const customSelectElement = document.getElementById("custom-select");
 const optionsListElement = document.getElementById("options-list");
