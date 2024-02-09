@@ -3375,6 +3375,7 @@ document.addEventListener("DOMContentLoaded", () => {
   findUniqueYears(recordsClient);
 
   addUniqueRegionsToOptionsSelectRegion(regions_Array);
+  addUniqueSitesToOptionsSelectSite(sites_Array);
 
   displayDemoComponent();
   displayCashComponent();

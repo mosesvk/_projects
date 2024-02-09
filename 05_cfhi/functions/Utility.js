@@ -18,6 +18,12 @@ const regions_Array = [
   },
   { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
 ];
+const sites_Array = [
+  'Single Site', 
+  '2 - 5 Sites', 
+  '6+ Sites'
+]
+
 let sliderAmount = null;
 let sliderRange = null;
 let sliderValue = 0;
@@ -25,6 +31,7 @@ let sliderValue2 = 25000;
 // let amount = null;
 
 const selectedRegions_Array = [];
+const selectedSites_Array = [];
 
 // Utility Functions
 
@@ -301,12 +308,14 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
 
   optionsListElement.innerHTML = "";
 
+  yearsArray.sort((a, b) => b - a);
+
   yearsArray.forEach((year) => {
     const newLabel = document.createElement("label");
     newLabel.setAttribute("for", `option-${year}`);
     newLabel.setAttribute(
       "class",
-      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+      "flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
     );
 
     const newInput = document.createElement("input");
@@ -471,7 +480,6 @@ function changeThWidth(elementId) {
 
 
 // <------------------------------------  SLIDER RANGE ------------------------------------------------------------------>
-
 const range = () => {
   return {
     minprice: 0, 
@@ -493,6 +501,23 @@ const range = () => {
     }, 
   }
 }
+
+const adjustDivHeight = () => {
+  var div = document.getElementById("options-list");
+  console.log(div.scrollHeight);
+  if (div.scrollHeight <= 20 * 16) { // 50rem converted to pixels
+    div.classList.remove("h-80");
+    div.classList.add("h-fit");
+    div.classList.add("py-4")
+  } else {
+    div.classList.remove("h-fit");
+    div.classList.remove("py-4")
+    div.classList.add("h-80");
+  }
+}
+
+
+
 
 
 

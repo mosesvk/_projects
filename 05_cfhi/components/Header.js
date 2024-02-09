@@ -1,5 +1,6 @@
-document.getElementById("nav").innerHTML = (
-  `<div class="px-3 py-3 lg:px-5 lg:pl-3">
+document.getElementById(
+  "nav"
+).innerHTML = `<div class="px-3 py-3 lg:px-5 lg:pl-3">
     <div class="flex items-center justify-between">
       <div class="flex items-center justify-start">
         <button
@@ -78,7 +79,7 @@ document.getElementById("nav").innerHTML = (
           </div>
           <div
             id="options-list"
-            class="absolute left-0 z-10 mt-2 w-full bg-white border shadow-2xl rounded-lg invisible dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey"
+            class="absolute left-0 z-10 mt-2 w-full bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey h-80 overflow-y-auto"
           ></div>
         </div>
         <button
@@ -130,8 +131,7 @@ document.getElementById("nav").innerHTML = (
         </button>
       </div>
     </div>
-  </div>`
-);
+  </div>`;
 
 const customSelectElement = document.getElementById("custom-select");
 const optionsListElement = document.getElementById("options-list");
@@ -142,6 +142,11 @@ const customSelectRegionElement = document.getElementById(
   "custom-select-region"
 );
 const optionsListRegionElement = document.getElementById("options-list-region");
+
+const customSelectSitesElement = document.getElementById(
+  "custom-select-site"
+);
+const optionsListSitesElement = document.getElementById("options-list-site");
 
 customSelectElement.addEventListener("click", (event) => {
   // Check if the click target is not a checkbox inside the customSelectElement
@@ -162,6 +167,17 @@ customSelectRegionElement.addEventListener("click", (event) => {
   }
 });
 
+customSelectSitesElement.addEventListener("click", (event) => {
+  // Check if the click target is not a checkbox inside the customSelectSitesElement
+  if (
+    !event.target.closest(".form-checkbox") &&
+    !event.target.closest("label")
+  ) {
+    optionsListSitesElement.classList.toggle("invisible");
+  }
+});
+
+
 document.addEventListener("click", (event) => {
   if (
     !customSelectElement.contains(event.target) &&
@@ -176,6 +192,14 @@ document.addEventListener("click", (event) => {
   ) {
     optionsListRegionElement.classList.add("invisible");
   }
+
+  if (
+    !optionsListSitesElement.contains(event.target) &&
+    !customSelectSitesElement.contains(event.target)
+  ) {
+    optionsListSitesElement.classList.add("invisible");
+  }
+
 });
 
 const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionsArray) => {
@@ -279,3 +303,116 @@ const addUniqueRegionsToOptionsSelectRegion = (regionsArray) => {
     optionsListRegion.appendChild(newLabel);
   });
 };
+
+const addUniqueSitesToOptionsSelectSitesDropdown = (sitesArray) => {
+  const optionsListSite = document.getElementById("options-list-site");
+
+  sitesArray.forEach((site) => {
+    const siteName = site;
+    const siteString = site.replace(/\s+/g, "_").toUpperCase();
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `option-${siteString}`);
+    newLabel.setAttribute(
+      "class",
+      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("id", `option-${siteString}`);
+    newInput.setAttribute(
+      "class",
+      "form-checkbox h-4 w-4 text-gray-600 mr-2 rounded"
+    );
+    newInput.setAttribute("value", siteString);
+
+    // Add the value to selectedSites_Array and check the input by default
+    selectedSites_Array.push(siteString);
+    newInput.checked = true;
+
+    // Add an onChange event to the input element
+    newInput.addEventListener("change", function () {
+      if (newInput.checked) {
+        // Handle when the site is selected
+        selectedSites_Array.push(siteString);
+      } else {
+        // Handle when the site is deselected
+        const index = selectedSites_Array.indexOf(siteString);
+        if (index > -1) {
+          selectedSites_Array.splice(index, 1);
+        }
+      }
+    });
+
+    const newSpan = document.createElement("span");
+    newSpan.innerText = siteName;
+
+    newLabel.appendChild(newInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListSite.appendChild(newLabel);
+  });
+};
+
+const addUniqueSitesToOptionsSelectSite = (sitesArray) => {
+  const optionsListSite = document.getElementById("options-list-site");
+
+  console.log(sitesArray);
+
+  sitesArray.forEach((site) => {
+    const siteName = site;
+    const siteString = site.replace(/\s+/g, "_").toUpperCase();
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `option-${siteString}`);
+    newLabel.setAttribute(
+      "class",
+      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("id", `option-${siteString}`);
+    newInput.setAttribute(
+      "class",
+      "form-checkbox h-4 w-4 text-gray-600 mr-2 rounded"
+    );
+    newInput.setAttribute("value", siteString);
+
+    // Add the value to selectedSites_Array and check the input by default
+    selectedSites_Array.push(siteString);
+    newInput.checked = true;
+
+    // Add an onChange event to the input element
+    newInput.addEventListener("change", function () {
+      if (newInput.checked) {
+        // Handle when the site is selected
+        selectedSites_Array.push(siteString);
+      } else {
+        // Handle when the site is deselected
+        const index = selectedSites_Array.indexOf(siteString);
+        if (index > -1) {
+          selectedSites_Array.splice(index, 1);
+        }
+      }
+    });
+
+    const newSpan = document.createElement("span");
+    newSpan.innerText = siteName;
+
+    newLabel.appendChild(newInput);
+    newLabel.appendChild(newSpan);
+
+    // console.log(optionsListSite);
+
+    optionsListSite.appendChild(newLabel);
+  });
+
+  
+
+};
+
+adjustDivHeight()
+
+window.addEventListener('resize', adjustDivHeight);
