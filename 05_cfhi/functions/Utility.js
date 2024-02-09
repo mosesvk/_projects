@@ -505,7 +505,7 @@ const range = () => {
 const adjustDivHeight = () => {
   var div = document.getElementById("options-list");
   console.log(div.scrollHeight);
-  if (div.scrollHeight <= 20 * 16) { // 50rem converted to pixels
+  if (div.scrollHeight <= 20 * 16) { // 
     div.classList.remove("h-80");
     div.classList.add("h-fit");
     div.classList.add("py-4")
