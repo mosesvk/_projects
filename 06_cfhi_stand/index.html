@@ -481,66 +481,6 @@
             </div>
           </div>
           <div id="cashContent" class="tab-content hidden">
-            <!-- Days Expendable -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-shrink-0">
-                  <span
-                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
-                  >
-                    Days of Expendable Net Asset Reserves
-                  </span>
-                </div>
-                <div
-                  id="daysExpendableNetAssets_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div id="daysExpendableNetAssets_chart"></div>
-              <div
-                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
-              >
-                <div class="flex-shrink-0">
-                  <button
-                    data-modal-target="daysExpendableNetAssets_modal"
-                    data-modal-toggle="daysExpendableNetAssets_modal"
-                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
-                  >
-                    Expand Info
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
 
             <!-- Days Operating -->
             <div
@@ -582,128 +522,6 @@
                   <button
                     data-modal-target="daysOperatingCash_modal"
                     data-modal-toggle="daysOperatingCash_modal"
-                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
-                  >
-                    Expand Info
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Available Days of Cash Flow -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-shrink-0">
-                  <span
-                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
-                  >
-                    Available Days of Cash Flow Coverage
-                  </span>
-                </div>
-                <div
-                  id="availableDaysOfCashFlow_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div id="availableDaysOfCashFlow_chart"></div>
-              <div
-                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
-              >
-                <div class="flex-shrink-0">
-                  <button
-                    data-modal-target="availableDaysOfCashFlow_modal"
-                    data-modal-toggle="availableDaysOfCashFlow_modal"
-                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
-                  >
-                    Expand Info
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Liquidity Ratio -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-shrink-0">
-                  <span
-                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
-                  >
-                    Liquidity Ratio
-                  </span>
-                </div>
-                <div
-                  id="liquidityRatio_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div id="liquidityRatio_chart"></div>
-              <div
-                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
-              >
-                <div class="flex-shrink-0">
-                  <button
-                    data-modal-target="liquidityRatio_modal"
-                    data-modal-toggle="liquidityRatio_modal"
                     class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
                   >
                     Expand Info
@@ -849,129 +667,6 @@
               </div>
             </div>
 
-            <!-- currentRatio -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-shrink-0">
-                  <span
-                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
-                  >
-                    Current Ratio
-                  </span>
-                </div>
-                <div
-                  id="currentRatio_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div id="currentRatio_chart"></div>
-              <div
-                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
-              >
-                <div class="flex-shrink-0">
-                  <button
-                    data-modal-target="currentRatio_modal"
-                    data-modal-toggle="currentRatio_modal"
-                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
-                  >
-                    Expand Info
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- mandatoryDebtServiceToContributionsWithout -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-shrink-0">
-                  <span
-                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
-                  >
-                    Mandatory Debt Service to Contributions without Donor
-                    Restrictions
-                  </span>
-                </div>
-                <div
-                  id="mandatoryDebtServiceToContributionsWithout_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div id="mandatoryDebtServiceToContributionsWithout_chart"></div>
-              <div
-                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
-              >
-                <div class="flex-shrink-0">
-                  <button
-                    data-modal-target="mandatoryDebtServiceToContributionsWithout_modal"
-                    data-modal-toggle="mandatoryDebtServiceToContributionsWithout_modal"
-                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
-                  >
-                    Expand Info
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
             <!-- debtPerGivingUnit -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -1033,128 +728,9 @@
               </div>
             </div>
 
-            <!-- debtCoverage -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-shrink-0">
-                  <span
-                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
-                  >
-                    Debt Coverage
-                  </span>
-                </div>
-                <div
-                  id="debtCoverage_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div id="debtCoverage_chart"></div>
-              <div
-                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
-              >
-                <div class="flex-shrink-0">
-                  <button
-                    data-modal-target="debtCoverage_modal"
-                    data-modal-toggle="debtCoverage_modal"
-                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
-                  >
-                    Expand Info
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
+            
           </div>
           <div id="incomeContent" class="tab-content hidden">
-            <!-- netIncomeRatio -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-shrink-0">
-                  <span
-                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
-                  >
-                    Net Income Ratio
-                  </span>
-                </div>
-                <div
-                  id="netIncomeRatio_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div id="netIncomeRatio_chart"></div>
-              <div
-                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
-              >
-                <div class="flex-shrink-0">
-                  <button
-                    data-modal-target="netIncomeRatio_modal"
-                    data-modal-toggle="netIncomeRatio_modal"
-                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
-                  >
-                    Expand Info
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
 
             <!-- contributionsWithoutDonorPerGivingUnit -->
             <div
@@ -1279,196 +855,6 @@
             </div>
           </div>
           <div id="expenseContent" class="tab-content hidden">
-            <!-- benefitsToSalaries -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-shrink-0">
-                  <span
-                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
-                  >
-                    Benefits to Salaries (All Employees, Not Just FTEs)
-                  </span>
-                </div>
-                <div
-                  id="benefitsToSalaries_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div id="benefitsToSalaries_chart"></div>
-              <div
-                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
-              >
-                <div class="flex-shrink-0">
-                  <button
-                    data-modal-target="benefitsToSalaries_modal"
-                    data-modal-toggle="benefitsToSalaries_modal"
-                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
-                  >
-                    Expand Info
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- salariesBenefitsIncludingOutsourcedEmployees -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-shrink-0">
-                  <span
-                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
-                  >
-                    Salaries and Benefits of All Employees
-                    <p class="text-lg">(Including Outsourced Employees)</p>
-                  </span>
-                </div>
-                <div
-                  id="salariesBenefitsIncludingOutsourcedEmployees_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div
-                id="salariesBenefitsIncludingOutsourcedEmployees_chart"
-              ></div>
-              <div
-                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
-              >
-                <div class="flex-shrink-0">
-                  <button
-                    data-modal-target="salariesBenefitsIncludingOutsourcedEmployees_modal"
-                    data-modal-toggle="salariesBenefitsIncludingOutsourcedEmployees_modal"
-                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
-                  >
-                    Expand Info
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- personnelToCashExpenditure -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-shrink-0">
-                  <span
-                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
-                  >
-                    Personnel to Total Cash Expenditures
-                    <p class="text-lg">
-                      (Excluding Depreciation but not Including Current Debt
-                      Principle)
-                    </p>
-                  </span>
-                </div>
-                <div
-                  id="personnelToCashExpenditure_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div id="personnelToCashExpenditure_chart"></div>
-              <div
-                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
-              >
-                <div class="flex-shrink-0">
-                  <button
-                    data-modal-target="personnelToCashExpenditure_modal"
-                    data-modal-toggle="personnelToCashExpenditure_modal"
-                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
-                  >
-                    Expand Info
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
             <!-- cashExpendituresPerGivingUnit -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -1535,7 +921,6 @@
             </div>
           </div>
           <div id="reportContent" class="tab-content hidden">
-            
             <!-- Demo Table -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -1640,17 +1025,6 @@
                         </thead>
                         <tbody>
                           <tr
-                            id="row_daysExpendableNetAssets"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              1. Days of Expendable Net Asset Reserves
-                            </th>
-                          </tr>
-                          <tr
                             id="row_daysOperatingCash"
                             class="min-w-[200px] bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
@@ -1658,32 +1032,8 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
                             >
-                              2. Days of Operating Cash and Investments on Hand
-                              to Fund Annual Cash Expenditures (Excluding
-                              Depreciation but Including Current Debt Principal)
+                              1. Days of Operating Cash and Investments on Hand to Fund Annual Cash Expenses
                             </td>
-                          </tr>
-                          <tr
-                            id="row_availableDaysOfCashFlow"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              3. Available Days of Cash Flow Coverage
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_liquidityRatio"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              4. Liquidity Ratio
-                            </th>
                           </tr>
                           <tr
                             id="row_netCashAvailability"
@@ -1693,19 +1043,7 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
                             >
-                              5. Net Cash Availability
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_netCashAvailability_including"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Net Cash Availability - Including Unused Operating
-                              Line of Credit
+                              2. Net Cash Availability
                             </th>
                           </tr>
                           <tr
@@ -1765,76 +1103,8 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
                             >
-                              6. Debt to Contributions Without Donor
+                              3. Debt to Contributions Without Donor
                               Restrictions
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_currentRatio"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              7. Current Ratio
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_mandatoryDebtServiceToContributionsWithout"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              8. Mandatory Debt Service to Contributions Without
-                              Donor Restrictions
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_debtPerAAAGU"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              9. Debt per Average Adult Attendee and Giving Unit
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_debtPerAverageAdultAttendee"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Debt per Average Adult Attendee
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_debtPerAverageAdultAttendee_percentChange"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              __ Percent Change
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_debtPerAverageAdultAttendee_standard"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              __ Std: 2.0 X Contributions Without Donor
-                              Restrictions per Average Adult Attendee
                             </th>
                           </tr>
                           <tr
@@ -1849,17 +1119,6 @@
                             </th>
                           </tr>
                           <tr
-                            id="row_debtPerGivingUnit_percentChange"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              __ Percent Change
-                            </th>
-                          </tr>
-                          <tr
                             id="row_debtPerGivingUnit_standard"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
@@ -1871,17 +1130,7 @@
                               Restrictions per Average Adult Attendee
                             </th>
                           </tr>
-                          <tr
-                            id="row_debtCoverage"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Debt Coverage
-                            </th>
-                          </tr>
+                          
                         </tbody>
                       </table>
                     </div>
@@ -1921,63 +1170,6 @@
                         </thead>
                         <tbody>
                           <tr
-                            id="row_netIncomeRatio"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              11. Net Income Ratio
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_netIncomeRatio_twoYrAvg"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Two Year Average Net Income Ratio
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_contributionsWithoutDonorPerAAAGU"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              12. Contributions without Donor Restrictions per
-                              Average Adult Attendee and Giving Unit
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_contributionsWithoutDonorPerAverageAdultAttendee"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Contributions without Donor Restrictions per
-                              Average Adult Attendee
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_contributionsWithoutDonorPerAverageAdultAttendee_percentChange"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              __ Percent Change
-                            </th>
-                          </tr>
-                          <tr
                             id="row_contributionsWithoutDonorPerGivingUnit"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
@@ -1985,47 +1177,12 @@
                               scope="row"
                               class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
                             >
-                              Contributions without Donor Restrictions per
+                              5. Contributions without Donor Restrictions per
                               Giving Units
                             </th>
                           </tr>
                           <tr
                             id="row_contributionsWithoutDonorPerGivingUnit_percentChange"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              __ Percent Change
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_totalContributionsPerAAAGU"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              13. Total Contributions per Average Adult Attendee
-                              and Giving Unit
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_totalContributionsPerAverageAdultAttendee"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Contributions without Donor Restrictions per
-                              Average Adult Attendee
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_totalContributionsPerAverageAdultAttendee_percentChange"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -2043,7 +1200,7 @@
                               scope="row"
                               class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
                             >
-                              Contributions without Donor Restrictions per
+                              6. Contributions without Donor Restrictions per
                               Giving Units
                             </th>
                           </tr>
@@ -2066,7 +1223,7 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
                             >
-                              14. Median Household Income Given to the Church
+                              7 . Median Household Income Given to the Church
                             </th>
                           </tr>
                           <tr
@@ -2236,220 +1393,6 @@
                         </thead>
                         <tbody>
                           <tr
-                            id="row_benefitsToSalaries"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              15. Benefits to Salaries (All Employees)
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_averageSalariesAndBenefitsPerFTE"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              16. Average Salaries and Benefits per FTE
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_salaries"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Salaries
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_benefits"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Benefits
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_salariesBenefits"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Salaries & Benefits
-                            </th>
-                          </tr>
-                          <tr
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-16 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              ADDITIONAL DATA:
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_salariesBenefitsIncludingOutsourcedEmployees"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              16a. Salaries and Benefits of All Employees
-                              (including Outsourced Employees)
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_personnelMandatoryDebtServicePayment"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              17. Personnel and Mandatory Debt Service Payment
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_personnelToCashExpenditure"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Personnel to Cash Expenditures
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_mandatoryDebtServiceToCashExpenditure"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Mandatory Debt Service Payments to Cash
-                              Expenditures
-                            </th>
-                          </tr>
-                          <tr
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-16 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              ADDITIONAL DATA:
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_personnelIncludingToTotalCashExpenditures"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              17a. Personnel (Including Outsourced Personnel) to
-                              Total Cash Expenditures
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_totalMissions"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              18. Total Missions Categories to Total Cash
-                              Expenditures (Excluding Depreciation but including
-                              Current Debt)
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_localOutreachExpenses"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Local Outreach Expenses
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_globalOutreachExpenses"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Global Outreach Expenses
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_totalGlobalAndLocalOutreachExpenses"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Total (Global and Local) Outreach Expenses
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_totalCashExpenditures"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              19. Total Cash Expenditures (Excluding
-                              Depreciation but including Current Debt Principal)
-                              per Avg Attendee & Giving Unit
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_cashExpendituresPerAvgAdultAttendee"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Cash Expenditures per Avg Adult Attend
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_cashExpendituresPerAvgAdultAttendee_percentChange"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Percent Change
-                            </th>
-                          </tr>
-                          <tr
                             id="row_cashExpendituresPerGivingUnit"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
@@ -2460,17 +1403,7 @@
                               Cash Expenditures per Giving
                             </th>
                           </tr>
-                          <tr
-                            id="row_cashExpendituresPerGivingUnit_percentChange"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Percent Change
-                            </th>
-                          </tr>
+                          
                         </tbody>
                       </table>
                     </div>
@@ -2478,212 +1411,7 @@
                 </div>
               </div>
             </div>
-            <!-- Additional Table -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex flex-col mt-2">
-                <div class="overflow-x-auto rounded-lg">
-                  <div class="inline-block min-w-full align-middle">
-                    <div
-                      class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                    >
-                      <table
-                        class="w-fit xl:w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                      >
-                        <thead
-                          class="text-xs text-white uppercase backgroundGreen dark:bg-gray-700 dark:text-lime-300"
-                        >
-                          <tr id="row_additional_tableHeader">
-                            <th
-                              scope="col"
-                              class="px-6 py-3 text-lg tracking-wide whitespace-nowrap"
-                            >
-                              Additional Ratios & Measurements
-                            </th>
-
-                            <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">Mid</th>
-                            <th scope="col" class="px-6 py-3">Min</th>
-                            <th scope="col" class="px-6 py-3">Max</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            id="row_measurementsPerAccountingFTE"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white underline"
-                            >
-                              Measurements per Accounting FTE:
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_contributionsPerAccountingFTE"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              20. Contributions per Accounting FTE
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_expensesPerAccountingFTE"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              21. Expenses per Accounting FTE
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_facilitiesRatios"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white underline"
-                            >
-                              Facilities Ratios:
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_facilitiesExpenseToTotalCashExpenditures"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              22. Facilities Expense to Total Cash Expenditures
-                              (Excluding Depreciation)
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_facilitiesExpenseToTotalCashExpenditures_lessThanTen"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Avg. Age of Facility < 10 Years
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Avg. Age of Facility > 10 Years
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_facilityCostPerSquareFootExcluding"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              23. Facility Cost per Square Foot (Excluding
-                              Interest Expense)
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_facilityCostPerSquareFootExcluding_lessThanTen"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Avg. Age of Facility < 10 Years
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_facilityCostPerSquareFootExcluding_greaterThanTen"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Avg. Age of Facility > 10 Years
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_facilityCostPerSquareFootIncluding"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              24. Facility Cost per Square Foot (Including
-                              Principal and Interest Expense)
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_facilityCostPerSquareFootIncluding_lessThanTen"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Avg. Age of Facility < 10 Years
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_facilityCostPerSquareFootIncluding_greaterThanTen"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              Avg. Age of Facility > 10 Years
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_informationTechnologyRatio"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white underline"
-                            >
-                              Information Technology Ratio:
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_informationTechnologyCostPerFTE"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
-                            >
-                              25. Information Technology Cost per FTE
-                            </th>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </main>
       </div>
