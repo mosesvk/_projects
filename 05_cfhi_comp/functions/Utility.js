@@ -18,8 +18,11 @@ const regions_Array = [
   },
   { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
 ];
-const sites_Array = ["Single Site", "2 - 5 Sites", "6+ Sites"];
-
+const sites_Array = [
+  {arr: ["Single Site"], str: "SINGLE"}, 
+  {arr: ["2 - 5 Sites"], str: "TWOSIX"}, 
+  {arr: ["6+ Sites"], str: "MANY"}
+]
 let sliderAmount = null;
 let sliderRange = null;
 let sliderValue = 0;
@@ -426,7 +429,7 @@ const updateCountyData = (trId, countyName, percentage, income) => {
   incomeElement.textContent = `$${formattedIncome}`;
 };
 
-const checkForCountyDataIncomeTablem = (
+const checkForCountyDataIncomeTable = (
   trId,
   countyName,
   incomeData,

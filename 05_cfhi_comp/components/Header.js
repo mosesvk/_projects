@@ -307,9 +307,9 @@ const addUniqueRegionsToOptionsSelectRegion = (regionsArray) => {
 const addUniqueSitesToOptionsSelectSitesDropdown = (sitesArray) => {
   const optionsListSite = document.getElementById("options-list-site");
 
-  sitesArray.forEach((site) => {
-    const siteName = site;
-    const siteString = site.replace(/\s+/g, "_").toUpperCase();
+  sitesArray.forEach((siteObject) => {
+    const siteName = siteObject.arr[0];
+    const siteString = siteObject.str;
 
     const newLabel = document.createElement("label");
     newLabel.setAttribute("for", `option-${siteString}`);
@@ -358,11 +358,10 @@ const addUniqueSitesToOptionsSelectSitesDropdown = (sitesArray) => {
 const addUniqueSitesToOptionsSelectSite = (sitesArray) => {
   const optionsListSite = document.getElementById("options-list-site");
 
-  console.log(sitesArray);
-
-  sitesArray.forEach((site) => {
-    const siteName = site;
-    const siteString = site.replace(/\s+/g, "_").toUpperCase();
+  sitesArray.forEach((siteObject) => {
+    // console.log(siteObject);
+    const siteName = siteObject.arr[0];
+    const siteString = siteObject.str;
 
     const newLabel = document.createElement("label");
     newLabel.setAttribute("for", `option-${siteString}`);
@@ -404,14 +403,10 @@ const addUniqueSitesToOptionsSelectSite = (sitesArray) => {
     newLabel.appendChild(newInput);
     newLabel.appendChild(newSpan);
 
-    // console.log(optionsListSite);
-
     optionsListSite.appendChild(newLabel);
   });
-
-  
-
 };
+
 
 adjustDivHeight()
 

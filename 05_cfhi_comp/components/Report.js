@@ -46,42 +46,42 @@ const displayReportComponent = () => {
       ["debtCoverage", "num", 0, "wa"],
     ]);
 
-    checkForCountyDataIncomeTablem(
+    checkForCountyDataIncomeTable(
       "localCounty",
       "localCountyName_Client",
       "localCountyMedianHouseholdIncome_Client",
       "localCountyPerGivingUnit_Client",
       selectedYears[0]
     );
-    checkForCountyDataIncomeTablem(
+    checkForCountyDataIncomeTable(
       "localCounty_two",
       "localCountyName_two_Client",
       "localCountyMedianHouseholdIncome_two_Client",
       "localCountyPerGivingUnit_two_Client",
       selectedYears[0]
     );
-    checkForCountyDataIncomeTablem(
+    checkForCountyDataIncomeTable(
       "localCounty_three",
       "localCountyName_three_Client",
       "localCountyMedianHouseholdIncome_three_Client",
       "localCountyPerGivingUnit_three_Client",
       selectedYears[0]
     );
-    checkForCountyDataIncomeTablem(
+    checkForCountyDataIncomeTable(
       "localCounty_four",
       "localCountyName_four_Client",
       "localCountyMedianHouseholdIncome_four_Client",
       "localCountyPerGivingUnit_four_Client",
       selectedYears[0]
     );
-    checkForCountyDataIncomeTablem(
+    checkForCountyDataIncomeTable(
       "localCounty_five",
       "localCountyName_five_Client",
       "localCountyMedianHouseholdIncome_five_Client",
       "localCountyPerGivingUnit_five_Client",
       selectedYears[0]
     );
-    checkForCountyDataIncomeTablem(
+    checkForCountyDataIncomeTable(
       "localCounty_six",
       "localCountyName_six_Client",
       "localCountyMedianHouseholdIncomesix_Client",
