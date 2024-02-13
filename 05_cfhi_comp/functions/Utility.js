@@ -18,11 +18,7 @@ const regions_Array = [
   },
   { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
 ];
-const sites_Array = [
-  'Single Site', 
-  '2 - 5 Sites', 
-  '6+ Sites'
-]
+const sites_Array = ["Single Site", "2 - 5 Sites", "6+ Sites"];
 
 let sliderAmount = null;
 let sliderRange = null;
@@ -463,62 +459,80 @@ function changeThWidth(elementId) {
 
   // Check if the element exists
   if (trElement) {
-      // Find the first <th> element child of the <tr>
-      var thElement = trElement.querySelector('th');
+    // Find the first <th> element child of the <tr>
+    var thElement = trElement.querySelector("th");
 
-      // Check if the <th> element exists
-      if (thElement) {
-          // Change the width of the <th> to 50rem
-          thElement.style.width = '50rem';
-      } else {
-          console.error('No <th> element found inside the specified <tr>.');
-      }
+    // Check if the <th> element exists
+    if (thElement) {
+      // Change the width of the <th> to 50rem
+      thElement.style.width = "50rem";
+    } else {
+      console.error("No <th> element found inside the specified <tr>.");
+    }
   } else {
-      console.error('Element with ID ' + elementId + ' not found.');
+    console.error("Element with ID " + elementId + " not found.");
   }
 }
-
 
 // <------------------------------------  SLIDER RANGE ------------------------------------------------------------------>
 const range = () => {
   return {
-    minprice: 0, 
+    minprice: 0,
     maxprice: 25000,
-    min: 0, 
+    min: 0,
     max: 25000,
     minthumb: 1,
-    maxthumb: 1, 
+    maxthumb: 1,
 
-    
-    mintrigger() {   
-      this.minprice = Math.min(this.minprice, this.maxprice - 500);      
-      this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
+    mintrigger() {
+      this.minprice = Math.min(this.minprice, this.maxprice - 500);
+      this.minthumb =
+        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+
+      // Update sliderValue and trigger slider movement if necessary
+      sliderValue = this.minprice;
+      if (sliderAmount) {
+        sliderAmount.value = sliderValue; // Assuming sliderAmount is an input element
+        // Update slider position dynamically using appropriate API (e.g., jQuery UI, NoUiSlider)
+      }
+
+      this.minthumb =
+        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+
+      // Consider adding visual or functional feedback for minthumb movement
     },
-     
+
     maxtrigger() {
-      this.maxprice = Math.max(this.maxprice, this.minprice + 500); 
-      this.maxthumb = 100 - (((this.maxprice - this.min) / (this.max - this.min)) * 100);    
-    }, 
-  }
-}
+      this.maxprice = Math.max(this.maxprice, this.minprice + 500);
+      this.maxthumb =
+        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+
+      // Update sliderValue2 and trigger slider movement if necessary
+      sliderValue2 = this.maxprice;
+      if (sliderRange) {
+        sliderRange.value = sliderValue2; // Assuming sliderRange is an input element
+        // Update slider position dynamically using appropriate API
+      }
+
+      this.maxthumb =
+        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+
+      // Consider adding visual or functional feedback for maxthumb movement
+    },
+  };
+};
 
 const adjustDivHeight = () => {
   var div = document.getElementById("options-list");
   console.log(div.scrollHeight);
-  if (div.scrollHeight <= 20 * 16) { // 
+  if (div.scrollHeight <= 20 * 16) {
+    //
     div.classList.remove("h-80");
     div.classList.add("h-fit");
-    div.classList.add("py-4")
+    div.classList.add("py-4");
   } else {
     div.classList.remove("h-fit");
-    div.classList.remove("py-4")
+    div.classList.remove("py-4");
     div.classList.add("h-80");
   }
-}
-
-
-
-
-
-
-
+};
