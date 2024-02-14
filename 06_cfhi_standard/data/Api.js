@@ -1,5 +1,5 @@
-const xmlPeerString = `
-  <qdbapi>
+const xmlPeerString = (
+  `<qdbapi>
     <record>
       <s52_formatted_year>2020</s52_formatted_year>
       <s02___giving_units>496</s02___giving_units>
@@ -3050,8 +3050,8 @@ const xmlPeerString = `
       <s13___it_cost />
       <update_id>1697571395204</update_id>
     </record>
-  </qdbapi>
-`;
+  </qdbapi>`
+  );
 
 const xmlClientString = (`
   <qdbapi>
