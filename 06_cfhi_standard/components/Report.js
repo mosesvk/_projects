@@ -12,38 +12,18 @@ const displayReportComponent = () => {
     addYearColumnsToReportTable(selectedYears);
     insertDataToReport(demoData, selectedYears, [
       ["givingUnits", "num", 0],
-      ["averageAdultAttendees", "num", 0],
-      ["totalAttendees", "num", 0],
-      ["fullTimeEquivalent", "num", 0],
-      ["attendeesToStaff", "num", 1, "wa"],
       ["contributionsWithoutDonorExcludingLargeGifts", "dollar", 0],
       ["totalContributionsExclude", "dollar", 0],
-      ["totalContributionOnline", "dollar", 0],
-      ["percentContributionsOnline", "percent", 0, "wa"],
-      ["totalOutsourcedEmployees", "num", 0],
-      ["facilitySquareFootage", "num", 0],
-      ["numberOfLocations", "num", 0],
     ]);
     insertDataToReport(cashData, selectedYears, [
-      ["daysExpendableNetAssets", "num", 0, "wa"],
       ["daysOperatingCash", "num", 0, "wa"],
-      ["availableDaysOfCashFlow", "num", 0, "wa"],
-      ["liquidityRatio", "num", 1, "wa"],
       ["netCashAvailability", "dollar", 0, "wa"],
-      ["netCashAvailability_including", "dollar", 0, "wa"],
       ["netCashAvailability_standard", "dollar", 0, "wa"],
     ]);
     insertDataToReport(debtData, selectedYears, [
       ["debtToContributionsWithout", "num", 0, "wa"],
-      ["currentRatio", "num", 0, "wa"],
-      ["mandatoryDebtServiceToContributionsWithout", "percent", 0, "wa"],
-      ["debtPerAverageAdultAttendee", "dollar", 0, "wa"],
-      ["debtPerAverageAdultAttendee_percentChange", "percent", 0],
-      ["debtPerAverageAdultAttendee_standard", "dollar", 0, "wa"],
       ["debtPerGivingUnit", "dollar", 0, "wa"],
-      ["debtPerGivingUnit_percentChange", "percent", 0],
       ["debtPerGivingUnit_standard", "dollar", 0, "wa"],
-      ["debtCoverage", "num", 0, "wa"],
     ]);
 
     checkForCountyDataIncomeTablem(
@@ -53,86 +33,20 @@ const displayReportComponent = () => {
       "localCountyPerGivingUnit_Client",
       selectedYears[0]
     );
-    checkForCountyDataIncomeTablem(
-      "localCounty_two",
-      "localCountyName_two_Client",
-      "localCountyMedianHouseholdIncome_two_Client",
-      "localCountyPerGivingUnit_two_Client",
-      selectedYears[0]
-    );
-    checkForCountyDataIncomeTablem(
-      "localCounty_three",
-      "localCountyName_three_Client",
-      "localCountyMedianHouseholdIncome_three_Client",
-      "localCountyPerGivingUnit_three_Client",
-      selectedYears[0]
-    );
-    checkForCountyDataIncomeTablem(
-      "localCounty_four",
-      "localCountyName_four_Client",
-      "localCountyMedianHouseholdIncome_four_Client",
-      "localCountyPerGivingUnit_four_Client",
-      selectedYears[0]
-    );
-    checkForCountyDataIncomeTablem(
-      "localCounty_five",
-      "localCountyName_five_Client",
-      "localCountyMedianHouseholdIncome_five_Client",
-      "localCountyPerGivingUnit_five_Client",
-      selectedYears[0]
-    );
-    checkForCountyDataIncomeTablem(
-      "localCounty_six",
-      "localCountyName_six_Client",
-      "localCountyMedianHouseholdIncomesix_Client",
-      "localCountyPerGivingUnitsix_Client",
-      selectedYears[0]
-    );
 
     insertDataToReport(incomeData, selectedYears, [
-      ["netIncomeRatio", "percent", 0, "wa"],
-      ["netIncomeRatio_twoYrAvg", "percent", 0],
-      ["contributionsWithoutDonorPerAverageAdultAttendee", "dollar", 0, "wa"],
-      ["contributionsWithoutDonorPerAverageAdultAttendee_percentChange", "percent", 0],
       ["contributionsWithoutDonorPerGivingUnit", "dollar", 0, "wa"],
       ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0],
-      ["totalContributionsPerAverageAdultAttendee", "dollar", 0, "wa"],
-      ["totalContributionsPerAverageAdultAttendee_percentChange", "percent", 0],
       ["totalContributionsPerGivingUnit", "dollar", 0, "wa"],
       ["totalContributionsPerGivingUnit_percentChange", "percent", 0],
     ])
 
     insertDataToReport(expenseData, selectedYears, [
-      ["benefitsToSalaries", "percent", 0, "wa"],
-      ["salaries", "dollar", 0, "wa"],
-      ["benefits", "dollar", 0, "wa"],
-      ["salariesBenefits", "dollar", 0, "wa"],
-      ["salariesBenefitsIncludingOutsourcedEmployees", "dollar", 0, "wa"],
-      ["personnelToCashExpenditure", "percent", 0, "wa"],
-      ["mandatoryDebtServiceToCashExpenditure", "percent", 0, "wa"],
-      ["personnelIncludingToTotalCashExpenditures", "percent", 0, "wa"],
-      ["localOutreachExpenses", "percent", 0, "wa"],
-      ["globalOutreachExpenses", "percent", 0, "wa"],
-      ["totalGlobalAndLocalOutreachExpenses", "percent", 0, "wa"],
-      ["cashExpendituresPerAvgAdultAttendee", "dollar", 0, "wa"],
-      ["cashExpendituresPerAvgAdultAttendee_percentChange", "percent", 0],
       ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
       ["cashExpendituresPerGivingUnit_percentChange", "percent", 0],
   
     ])
 
-    insertDataToReport(additionalData, selectedYears, [
-      ["contributionsPerAccountingFTE", "dollar", 0, "wa"],
-      ["expensesPerAccountingFTE", "dollar", 0, "wa"],
-      ["facilitiesExpenseToTotalCashExpenditures_lessThanTen", "percent", 0, "wa"],
-      ["facilitiesExpenseToTotalCashExpenditures_greaterThanTen", "percent", 0, "wa"],
-      ["facilityCostPerSquareFootExcluding_lessThanTen", "dollar", 2, "wa"],
-      ["facilityCostPerSquareFootExcluding_greaterThanTen", "dollar", 2, "wa"],
-      ["facilityCostPerSquareFootIncluding_lessThanTen", "dollar", 2, "wa"],
-      ["facilityCostPerSquareFootIncluding_greaterThanTen", "dollar", 2, "wa"],
-      ["informationTechnologyCostPerFTE", "dollar", 0, "wa"],
-
-    ])
   }
 
 

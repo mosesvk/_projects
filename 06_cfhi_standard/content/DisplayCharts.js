@@ -12,15 +12,15 @@ const displayDemoComponent = () => {
     0,
     "givingUnits"
   );
-  // attendeesToStaff
+  // contributionsWithoutDonorExcludingLargeGifts
   createChartFromParsedData(
     parseData,
-    "attendeesToStaff_chart",
-    "attendeesToStaff_Peer",
-    "attendeesToStaff_Client",
+    "contributionsWithoutDonorExcludingLargeGifts_chart",
+    "contributionsWithoutDonorExcludingLargeGifts_Peer",
+    "contributionsWithoutDonorExcludingLargeGifts_Client",
     "number",
     0,
-    "attendeesToStaff"
+    "contributionsWithoutDonorExcludingLargeGifts"
   );
 
   closeSidebarAfterSelectingOption("demo");
@@ -29,17 +29,6 @@ const displayDemoComponent = () => {
 const displayCashComponent = () => {
   const savedData = getStoredData("cashData");
   const parseData = parseStoredData(savedData);
-
-  // daysExpendableNetAssets
-  createChartFromParsedData(
-    parseData,
-    "daysExpendableNetAssets_chart",
-    "daysExpendableNetAssets_Peer",
-    "daysExpendableNetAssets_Client",
-    "number",
-    0,
-    "daysExpendableNetAssets"
-  );
 
     // daysOperatingCash
     createChartFromParsedData(
@@ -50,28 +39,6 @@ const displayCashComponent = () => {
       "number",
       0,
       "daysOperatingCash"
-    );
-
-    // availableDaysOfCashFlow
-    createChartFromParsedData(
-      parseData,
-      "availableDaysOfCashFlow_chart",
-      "availableDaysOfCashFlow_Peer",
-      "availableDaysOfCashFlow_Client",
-      "number",
-      0,
-      "availableDaysOfCashFlow"
-    );
-
-    // liquidityRatio
-    createChartFromParsedData(
-      parseData,
-      "liquidityRatio_chart",
-      "liquidityRatio_Peer",
-      "liquidityRatio_Client",
-      "number",
-      0,
-      "liquidityRatio"
     );
 
     // netCashAvailability
@@ -105,28 +72,6 @@ const displayDebtComponent = () => {
     "debtToContributionsWithout"
   );
 
-  // currentRatio
-  createChartFromParsedData(
-    parseData,
-    "currentRatio_chart",
-    "currentRatio_Peer",
-    "currentRatio_Client",
-    "number",
-    0,
-    "currentRatio"
-  );
-
-  // mandatoryDebtServiceToContributionsWithout
-  createChartFromParsedData(
-    parseData,
-    "mandatoryDebtServiceToContributionsWithout_chart",
-    "mandatoryDebtServiceToContributionsWithout_Peer",
-    "mandatoryDebtServiceToContributionsWithout_Client",
-    "percent",
-    0,
-    "mandatoryDebtServiceToContributionsWithout"
-  );
-
   // debtPerGivingUnit
   createChartFromParsedData(
     parseData,
@@ -138,18 +83,6 @@ const displayDebtComponent = () => {
     "debtPerGivingUnit"
   );
 
-  // debtCoverage
-  createChartFromParsedData(
-    parseData,
-    "debtCoverage_chart",
-    "debtCoverage_Peer",
-    "debtCoverage_Client",
-    "dollar",
-    0,
-    "debtCoverage"
-  );
-
-
 
   closeSidebarAfterSelectingOption("debt");
 };
@@ -158,16 +91,6 @@ const displayIncomeComponent = () => {
   const savedData = getStoredData('incomeData');
   const parseData = parseStoredData(savedData);
 
-  // netIncomeRatio
-  createChartFromParsedData(
-    parseData,
-    'netIncomeRatio_chart',
-    'netIncomeRatio_Peer',
-    'netIncomeRatio_Client',
-    'percent',
-    1,
-    'netIncomeRatio'
-  );
 
   // contributionsWithoutDonorPerGivingUnit
   createChartFromParsedData(
@@ -197,39 +120,6 @@ const displayIncomeComponent = () => {
 const displayExpenseComponent = () => {
   const savedData = getStoredData('expenseData');
   const parseData = parseStoredData(savedData);
-
-  // benefitsToSalaries
-  createChartFromParsedData(
-    parseData,
-    'benefitsToSalaries_chart',
-    'benefitsToSalaries_Peer',
-    'benefitsToSalaries_Client',
-    'number',
-    1,
-    'benefitsToSalaries'
-  );
-
-  // salariesBenefitsIncludingOutsourcedEmployees
-  createChartFromParsedData(
-    parseData,
-    'salariesBenefitsIncludingOutsourcedEmployees_chart',
-    'salariesBenefitsIncludingOutsourcedEmployees_Peer',
-    'salariesBenefitsIncludingOutsourcedEmployees_Client',
-    'number',
-    1,
-    'salariesBenefitsIncludingOutsourcedEmployees'
-  );
-
-  // personnelToCashExpenditure
-  createChartFromParsedData(
-    parseData,
-    'personnelToCashExpenditure_chart',
-    'personnelToCashExpenditure_Peer',
-    'personnelToCashExpenditure_Client',
-    'number',
-    1,
-    'personnelToCashExpenditure'
-  );
 
   // cashExpendituresPerGivingUnit
   createChartFromParsedData(
