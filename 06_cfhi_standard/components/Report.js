@@ -43,8 +43,6 @@ const displayReportComponent = () => {
 
     insertDataToReport(expenseData, selectedYears, [
       ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
-      ["cashExpendituresPerGivingUnit_percentChange", "percent", 0],
-  
     ])
 
   }
