@@ -430,7 +430,7 @@ const updateCountyData = (trId, countyName, percentage, income) => {
   incomeElement.textContent = `$${formattedIncome}`;
 };
 
-const checkForCountyDataIncomeTablem = (
+const checkForCountyDataIncomeTable = (
   trId,
   countyName,
   incomeData,
@@ -504,7 +504,7 @@ const range = () => {
 
 const adjustDivHeight = () => {
   var div = document.getElementById("options-list");
-  console.log(div.scrollHeight);
+  // console.log(div.scrollHeight);
   if (div.scrollHeight <= 20 * 16) { // 
     div.classList.remove("h-80");
     div.classList.add("h-fit");

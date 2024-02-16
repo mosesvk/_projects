@@ -4,7 +4,6 @@ const displayReportComponent = () => {
   const debtData = JSON.parse(localStorage.getItem("debtData"));
   const incomeData = JSON.parse(localStorage.getItem("incomeData"));
   const expenseData = JSON.parse(localStorage.getItem("expenseData"));
-  const additionalData = JSON.parse(localStorage.getItem("additionalData"));
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -26,7 +25,7 @@ const displayReportComponent = () => {
       ["debtPerGivingUnit_standard", "dollar", 0, "wa"],
     ]);
 
-    checkForCountyDataIncomeTablem(
+    checkForCountyDataIncomeTable(
       "localCounty",
       "localCountyName_Client",
       "localCountyMedianHouseholdIncome_Client",

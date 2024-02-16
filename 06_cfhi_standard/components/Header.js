@@ -358,7 +358,7 @@ const addUniqueSitesToOptionsSelectSitesDropdown = (sitesArray) => {
 const addUniqueSitesToOptionsSelectSite = (sitesArray) => {
   const optionsListSite = document.getElementById("options-list-site");
 
-  console.log(sitesArray);
+  // console.log(sitesArray);
 
   sitesArray.forEach((site) => {
     const siteName = site;
