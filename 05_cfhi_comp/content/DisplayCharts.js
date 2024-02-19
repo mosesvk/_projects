@@ -30,17 +30,6 @@ const displayCashComponent = () => {
   const savedData = getStoredData("cashData");
   const parseData = parseStoredData(savedData);
 
-  // daysExpendableNetAssets
-  createChartFromParsedData(
-    parseData,
-    "daysExpendableNetAssets_chart",
-    "daysExpendableNetAssets_Peer",
-    "daysExpendableNetAssets_Client",
-    "number",
-    0,
-    "daysExpendableNetAssets"
-  );
-
     // daysOperatingCash
     createChartFromParsedData(
       parseData,
@@ -50,28 +39,6 @@ const displayCashComponent = () => {
       "number",
       0,
       "daysOperatingCash"
-    );
-
-    // availableDaysOfCashFlow
-    createChartFromParsedData(
-      parseData,
-      "availableDaysOfCashFlow_chart",
-      "availableDaysOfCashFlow_Peer",
-      "availableDaysOfCashFlow_Client",
-      "number",
-      0,
-      "availableDaysOfCashFlow"
-    );
-
-    // liquidityRatio
-    createChartFromParsedData(
-      parseData,
-      "liquidityRatio_chart",
-      "liquidityRatio_Peer",
-      "liquidityRatio_Client",
-      "number",
-      0,
-      "liquidityRatio"
     );
 
     // netCashAvailability
