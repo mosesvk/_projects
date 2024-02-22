@@ -18,11 +18,13 @@ const regions_Array = [
   },
   { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
 ];
+
 const sites_Array = [
-  {arr: ["Single Site"], str: "SINGLE"}, 
-  {arr: ["2 - 5 Sites"], str: "TWOSIX"}, 
-  {arr: ["6+ Sites"], str: "MANY"}
-]
+  { arr: ["Single Site"], str: "SINGLE" },
+  { arr: ["2 - 5 Sites"], str: "TWOSIX" },
+  { arr: ["6+ Sites"], str: "MANY" },
+];
+
 let sliderAmount = null;
 let sliderRange = null;
 let sliderValue = 0;
@@ -434,17 +436,21 @@ const checkForCountyDataIncomeTable = (
   countyName,
   incomeData,
   percentData,
-  year
+  year,
+  cb
 ) => {
   const data = JSON.parse(localStorage.getItem("incomeData"));
   // check the data of the passed dataId to see if it has data, if there is no data, then add the class "hidden" to the trId
 
-  // console.log({
-  //   trId,
-  //   county: data[countyName],
-  //   income: data[incomeData],
-  //   percent: data[percentData],
-  // })
+  /*
+   console.log({
+     trId,
+     county: data[countyName],
+     income: data[incomeData],
+     percent: data[percentData],
+   })
+  */
+
   if (data[countyName][year].value.length > 0) {
     const countyNameVal = data[countyName][year].value;
     const percentageVal = data[percentData][year].value;
@@ -453,6 +459,15 @@ const checkForCountyDataIncomeTable = (
     updateCountyData(trId, countyNameVal, percentageVal * 100, incomeVal);
   } else {
     updateCountyData(trId, "", "", "");
+  }
+
+  if (cb) {
+    const benchmarkArray = getBenchmarks(data[percentData]);
+    const row = $(`#row_${trId}`)[0];
+
+    console.log(benchmarkArray, row);
+
+    getBackgroundColor(benchmarkArray, row);
   }
 };
 
@@ -527,7 +542,7 @@ const range = () => {
 
 const adjustDivHeight = () => {
   var div = document.getElementById("options-list");
-  console.log(div.scrollHeight);
+
   if (div.scrollHeight <= 20 * 16) {
     //
     div.classList.remove("h-80");
@@ -538,4 +553,35 @@ const adjustDivHeight = () => {
     div.classList.remove("py-4");
     div.classList.add("h-80");
   }
+};
+
+function getBenchmarks(obj) {
+  // console.log('getBenchmarks', obj)
+
+  let benchmarks = [];
+  for (let year in obj) {
+    if (obj.hasOwnProperty(year)) {
+      benchmarks.push(obj[year].benchmark);
+    }
+  }
+  return benchmarks;
+}
+
+const getBackgroundColor = (array, row, i = 0) => {
+  console.log({ array, row, i });
+
+  if (!array.length) return;
+
+  let color =
+    array[0] === "Warning"
+      ? "warning"
+      : array[0] === "Good"
+      ? "good"
+      : array[0] === "Action Required"
+      ? "actionRequired"
+      : null;
+
+  if (color) row.children[1].classList.add(color);
+
+  getBackgroundColor(array.slice(1), row, i);
 };

@@ -12,10 +12,10 @@ const displayReportComponent = () => {
     addYearColumnsToReportTable(selectedYears);
     insertDataToReport(demoData, selectedYears, [
       ["givingUnits", "num", 0],
-      ["averageAdultAttendees", "num", 0],
+      ["averageAdultAttendees", "num", 0,],
       ["totalAttendees", "num", 0],
       ["fullTimeEquivalent", "num", 0],
-      ["attendeesToStaff", "num", 1, "wa"],
+      ["attendeesToStaff", "num", 1, "wa", 'cb'],
       ["contributionsWithoutDonorExcludingLargeGifts", "dollar", 0],
       ["totalContributionsExclude", "dollar", 0],
       ["totalContributionOnline", "dollar", 0],
@@ -25,25 +25,25 @@ const displayReportComponent = () => {
       ["numberOfLocations", "num", 0],
     ]);
     insertDataToReport(cashData, selectedYears, [
-      ["daysExpendableNetAssets", "num", 0, "wa"],
-      ["daysOperatingCash", "num", 0, "wa"],
-      ["availableDaysOfCashFlow", "num", 0, "wa"],
-      ["liquidityRatio", "num", 1, "wa"],
-      ["netCashAvailability", "dollar", 0, "wa"],
+      ["daysExpendableNetAssets", "num", 0, "wa", 'cb'],
+      ["daysOperatingCash", "num", 0, "wa", 'cb'],
+      ["availableDaysOfCashFlow", "num", 0, "wa", 'cb'],
+      ["liquidityRatio", "num", 1, "wa", 'cb'],
+      ["netCashAvailability", "dollar", 0, "wa", 'cb'],
       ["netCashAvailability_including", "dollar", 0, "wa"],
       ["netCashAvailability_standard", "dollar", 0, "wa"],
     ]);
     insertDataToReport(debtData, selectedYears, [
-      ["debtToContributionsWithout", "num", 0, "wa"],
-      ["currentRatio", "num", 0, "wa"],
-      ["mandatoryDebtServiceToContributionsWithout", "percent", 0, "wa"],
-      ["debtPerAverageAdultAttendee", "dollar", 0, "wa"],
+      ["debtToContributionsWithout", "num", 0, "wa", 'cb'],
+      ["currentRatio", "num", 0, "wa", 'cb'],
+      ["mandatoryDebtServiceToContributionsWithout", "percent", 0, "wa", 'cb'],
+      ["debtPerAverageAdultAttendee", "dollar", 0, "wa", 'cb'],
       ["debtPerAverageAdultAttendee_percentChange", "percent", 0],
       ["debtPerAverageAdultAttendee_standard", "dollar", 0, "wa"],
-      ["debtPerGivingUnit", "dollar", 0, "wa"],
+      ["debtPerGivingUnit", "dollar", 0, "wa", 'cb'],
       ["debtPerGivingUnit_percentChange", "percent", 0],
       ["debtPerGivingUnit_standard", "dollar", 0, "wa"],
-      ["debtCoverage", "num", 0, "wa"],
+      ["debtCoverage", "num", 0, "wa", 'cb'],
     ]);
 
     checkForCountyDataIncomeTable(
@@ -51,7 +51,8 @@ const displayReportComponent = () => {
       "localCountyName_Client",
       "localCountyMedianHouseholdIncome_Client",
       "localCountyPerGivingUnit_Client",
-      selectedYears[0]
+      selectedYears[0], 
+      'cb'
     );
     checkForCountyDataIncomeTable(
       "localCounty_two",
@@ -90,16 +91,16 @@ const displayReportComponent = () => {
     );
 
     insertDataToReport(incomeData, selectedYears, [
-      ["netIncomeRatio", "percent", 0, "wa"],
-      ["netIncomeRatio_twoYrAvg", "percent", 0],
+      ["netIncomeRatio", "percent", 0, "wa", 'cb'],
+      ["netIncomeRatio_twoYrAvg", "percent", 0, 'cb'],
       ["contributionsWithoutDonorPerAverageAdultAttendee", "dollar", 0, "wa"],
-      ["contributionsWithoutDonorPerAverageAdultAttendee_percentChange", "percent", 0],
+      ["contributionsWithoutDonorPerAverageAdultAttendee_percentChange", "percent", 0, 'cb'],
       ["contributionsWithoutDonorPerGivingUnit", "dollar", 0, "wa"],
-      ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0],
-      ["totalContributionsPerAverageAdultAttendee", "dollar", 0, "wa"],
-      ["totalContributionsPerAverageAdultAttendee_percentChange", "percent", 0],
+      ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0, 'cb'],
+      ["totalContributionsPerAverageAdultAttendee", "dollar", 0, "wa", 'cb'],
+      ["totalContributionsPerAverageAdultAttendee_percentChange", "percent", 0, 'cb'],
       ["totalContributionsPerGivingUnit", "dollar", 0, "wa"],
-      ["totalContributionsPerGivingUnit_percentChange", "percent", 0],
+      ["totalContributionsPerGivingUnit_percentChange", "percent", 0, 'cb'],
     ])
 
     insertDataToReport(expenseData, selectedYears, [
@@ -108,12 +109,12 @@ const displayReportComponent = () => {
       ["benefits", "dollar", 0, "wa"],
       ["salariesBenefits", "dollar", 0, "wa"],
       ["salariesBenefitsIncludingOutsourcedEmployees", "dollar", 0, "wa"],
-      ["personnelToCashExpenditure", "percent", 0, "wa"],
-      ["mandatoryDebtServiceToCashExpenditure", "percent", 0, "wa"],
-      ["personnelIncludingToTotalCashExpenditures", "percent", 0, "wa"],
+      ["personnelToCashExpenditure", "percent", 0, "wa", 'cb'],
+      ["mandatoryDebtServiceToCashExpenditure", "percent", 0, "wa", 'cb'],
+      ["personnelIncludingToTotalCashExpenditures", "percent", 0, "wa", 'cb'],
       ["localOutreachExpenses", "percent", 0, "wa"],
       ["globalOutreachExpenses", "percent", 0, "wa"],
-      ["totalGlobalAndLocalOutreachExpenses", "percent", 0, "wa"],
+      ["totalGlobalAndLocalOutreachExpenses", "percent", 0, "wa", 'cb'],
       ["cashExpendituresPerAvgAdultAttendee", "dollar", 0, "wa"],
       ["cashExpendituresPerAvgAdultAttendee_percentChange", "percent", 0],
       ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
@@ -126,7 +127,7 @@ const displayReportComponent = () => {
       ["expensesPerAccountingFTE", "dollar", 0, "wa"],
       ["facilitiesExpenseToTotalCashExpenditures_lessThanTen", "percent", 0, "wa"],
       ["facilitiesExpenseToTotalCashExpenditures_greaterThanTen", "percent", 0, "wa"],
-      ["facilityCostPerSquareFootExcluding_lessThanTen", "dollar", 2, "wa"],
+      ["facilityCostPerSquareFootExcluding_lessThanTen", "dollar", 2, "wa", 'cb'],
       ["facilityCostPerSquareFootExcluding_greaterThanTen", "dollar", 2, "wa"],
       ["facilityCostPerSquareFootIncluding_lessThanTen", "dollar", 2, "wa"],
       ["facilityCostPerSquareFootIncluding_greaterThanTen", "dollar", 2, "wa"],
@@ -158,7 +159,8 @@ const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
       data[`${name[0]}_Peer`],
       name[1],
       name[2],
-      name[3]
+      name[3], 
+      name[4]
     );
   }
 };
@@ -171,9 +173,10 @@ const addToSingleRow = (
   peer,
   type,
   fixedNum,
-  wa
+  wa, 
+  cb
 ) => {
-  // console.log({ selectedYears, name, client, peer, type, fixedNum });
+  //console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);
@@ -207,7 +210,8 @@ const addToSingleRow = (
     selectedYears,
     client,
     type,
-    fixedNum
+    fixedNum,
+    cb
   );
   addPeerDataToRow(
     tableReportRow,
@@ -226,7 +230,8 @@ const addClientDataToReportRow = (
   selectedYears,
   client,
   type,
-  fixedNum
+  fixedNum, 
+  cb
 ) => {
   const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
@@ -241,6 +246,15 @@ const addClientDataToReportRow = (
     dataPoint.textContent = text;
 
     tableRow.appendChild(dataPoint);
+
+    if (cb) {
+
+       let clientBenchmarkArray = getBenchmarks(client)
+
+  	getBackgroundColor(clientBenchmarkArray, tableRow)
+
+    }
+
   });
 };
 

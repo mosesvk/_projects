@@ -4416,7 +4416,7 @@ const runApiMain = () => {
       processDemoData(selectedYears, recordsPeer, recordsClient);
       processCashData(selectedYears, recordsPeer, recordsClient);
       processDebtData(selectedYears, recordsPeer, recordsClient);
-      processIncomeData(selectedYears, recordsPlkeer, recordsClient);
+      processIncomeData(selectedYears, recordsPeer, recordsClient);
       processExpenseData(selectedYears, recordsPeer, recordsClient);
 
       displayDemoComponent();
