@@ -9,7 +9,7 @@
 7. [Debugging Skills](#debugging-skills)
 8. [Browser Security](#browser-security)
 
-> <details>
+> <details open>
 > <summary>Resources</summary>
 >
 > - [MDN Web Docs - JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
@@ -32,7 +32,7 @@
 <img src="https://miro.medium.com/v2/resize:fit:1400/1*LyZcwuLWv2FArOumCxobpA.png" width="300" height="200" />
 </div>
 
-<details>
+<details open>
 <summary>What is a Programming Language?</summary>
 
 > A Programming Language is a **formal language that specifies a set of instructions.**
@@ -45,7 +45,7 @@
 
 </details>
 
-<details>
+<details open>
 <summary>What is JavaScript?</summary>
 
 > JavaScript (JS) is a  is a powerful programming language that can add interactivity to a website. It was invented by Brendan Eich.
@@ -76,34 +76,45 @@
 </details>
 
 
-<details>
-<summary>Hello, World</summary>
+<details open>
+<summary>How to run JavaScript code</summary>
 
-><i>let's practice putting our first javascript code to the web</i>
+> Remember, all JavaScript can be run in the browser. But let's practice using our IDE
 >
-> 1. Go to your test site and create a new folder named scripts. Within the scripts folder, create a new text document called main.js, and save it.
->
-> 2. In your index.html file, enter this code on a new line, just before the closing </body> tag:
+> The simplest way to get started is to create an HTML file with the JavaScript code inside of it. Type the basic HTML skeleton into a file on your computer somewhere:
 >
 > ```html
-> <script src="scripts/main.js"></script>
+> <!DOCTYPE html>
+> <html>
+> <head>
+>   <meta charset="UTF-8">
+>   <title>Page Title</title>
+> </head>
+> <body>
+>   <script>
+>     // Your JavaScript goes here!
+>     console.log("Hello, World!")
+>   </script>
+> </body>
+> </html>
 > ```
-> 3. This is doing the same job as the <link> element for CSS. It applies the JavaScript to the page, so it can have an effect on the HTML (along with the CSS, and anything else on the page).
+> Save and open this file up in a web browser (you can use “Live Server” on Visual Studio Code to do this!) and then open up the browser’s console by right-clicking on the blank webpage and selecting “Inspect” or “Inspect Element”. In the ‘Developer Tools’ pane find and select the ‘Console’ tab, where you should see the output of our console.log statement.
 >
-> 4. Add this code to the main.js file:
+> ![](image-1.png)
 >
-> ```javascript
-> const myHeading = document.querySelector("h1");
-> myHeading.textContent = "Hello world!";
+> **console.log()** is the command to print something to the developer console in your browser. You can use this to print the results from any of the following exercises to the console. 
+>
+> Another way to include JavaScript in a webpage is through an **external script**. This is very similar to linking external CSS docs to your website. 
+>
+> ```html
+>   <script src="javascript.js"></script>
 > ```
-> 5. Make sure the HTML and JavaScript files are saved. Then load index.html in your browser.
+> JavaScript files have the extension .js similar to .css for stylesheets. External JavaScript files are used for more complex scripts.
+>
 >
 </details>
 
-```javascript
-const myHeading = document.querySelector("h1");
-myHeading.textContent = "Hello world!";
- ```
+
 
 
 
