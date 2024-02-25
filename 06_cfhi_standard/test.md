@@ -1,13 +1,10 @@
 ## Table of Contents
 
-1. [Introduction to JavaScript](#introduction-to-javascript)
-2. [Syntax and Basics](#syntax-and-basics)
-3. [Variables and Values](#variables-and-values)
-4. [Code Organization](#code-organization)
-5. [DOM Manipulation](#dom-manipulation)
-6. [Control Flow](#control-flow)
-7. [Debugging Skills](#debugging-skills)
-8. [Browser Security](#browser-security)
+- [Table of Contents](#table-of-contents)
+- [Introduction to JavaScript {#introduction-to-javascript}](#introduction-to-javascript-introduction-to-javascript)
+- [Variables](#variables)
+- [Operators](#operators)
+- [Overview](#overview)
 
 > <details open>
 > <summary>Resources</summary>
@@ -23,8 +20,6 @@
 >   - Gold standard of JavaScript education
 >
 > </details>
-
-
 
 ## Introduction to JavaScript {#introduction-to-javascript}
 
@@ -48,33 +43,32 @@
 <details open>
 <summary>What is JavaScript?</summary>
 
-> JavaScript (JS) is a  is a powerful programming language that can add interactivity to a website. It was invented by Brendan Eich.
+> JavaScript (JS) is a is a powerful programming language that can add interactivity to a website. It was invented by Brendan Eich.
 >
 > JavaScript is one of the **most popular modern web technologies!**. It is versatile and beginner-friendly. As your JavaScript skills grow, your websites will enter a new dimension of <u>power</u> and <u>creativity</u>. You'll be able to create games, animated 2D and 3D graphics, comprehensive database-driven apps, and much more!
 >
-><details>
-><summary>Java vs. JavaScript, are they the same?</summary>
+> <details>
+> <summary>Java vs. JavaScript, are they the same?</summary>
 >
->> No, Java and JavaScript are different languages with different syntax, semantics, and use cases. Java is typically used for server-side development, while JavaScript is primarily used for client-side scripting in web browsers.
+> > No, Java and JavaScript are different languages with different syntax, semantics, and use cases. Java is typically used for server-side development, while JavaScript is primarily used for client-side scripting in web browsers.
 >
-></details>
+> </details>
 >
-><details>
-><summary>What can we do with JavaScript?</summary>
+> <details>
+> <summary>What can we do with JavaScript?</summary>
 >
->> With JavaScript, you can create interactive web pages, handle user input, manipulate HTML and CSS, perform asynchronous operations like AJAX requests, and much more.
+> > With JavaScript, you can create interactive web pages, handle user input, manipulate HTML and CSS, perform asynchronous operations like AJAX requests, and much more.
 >
-></details>
+> </details>
 >
-><details>
-><summary>What can’t we do with JavaScript?</summary>
+> <details>
+> <summary>What can’t we do with JavaScript?</summary>
 >
->> While JavaScript is powerful for client-side scripting, it cannot directly access the user's file system for security reasons. Additionally, it may not be suitable for CPU-intensive tasks or for developing standalone desktop applications.
+> > While JavaScript is powerful for client-side scripting, it cannot directly access the user's file system for security reasons. Additionally, it may not be suitable for CPU-intensive tasks or for developing standalone desktop applications.
 >
-></details>
+> </details>
 
 </details>
-
 
 <details open>
 <summary>How to run JavaScript code</summary>
@@ -86,160 +80,411 @@
 > ```html
 > <!DOCTYPE html>
 > <html>
-> <head>
->   <meta charset="UTF-8">
->   <title>Page Title</title>
-> </head>
-> <body>
->   <script>
->     // Your JavaScript goes here!
->     console.log("Hello, World!")
->   </script>
-> </body>
+>   <head>
+>     <meta charset="UTF-8" />
+>     <title>Page Title</title>
+>   </head>
+>   <body>
+>     <script>
+>       // Your JavaScript goes here!
+>       console.log("Hello, World!");
+>     </script>
+>   </body>
 > </html>
 > ```
+>
 > Save and open this file up in a web browser (you can use “Live Server” on Visual Studio Code to do this!) and then open up the browser’s console by right-clicking on the blank webpage and selecting “Inspect” or “Inspect Element”. In the ‘Developer Tools’ pane find and select the ‘Console’ tab, where you should see the output of our console.log statement.
 >
 > ![](image-1.png)
 >
-> **console.log()** is the command to print something to the developer console in your browser. You can use this to print the results from any of the following exercises to the console. 
+> **console.log()** is the command to print something to the developer console in your browser. You can use this to print the results from any of the following exercises to the console.
 >
-> Another way to include JavaScript in a webpage is through an **external script**. This is very similar to linking external CSS docs to your website. 
+> Another way to include JavaScript in a webpage is through an **external script**. This is very similar to linking external CSS docs to your website.
 >
 > ```html
->   <script src="javascript.js"></script>
+> <script src="javascript.js"></script>
 > ```
+>
 > JavaScript files have the extension .js similar to .css for stylesheets. External JavaScript files are used for more complex scripts.
 >
+> </details>
+
+</details>
+
+<details>
+<summary>In-class Exercise #1</summary>
+
+> <details>
+> <summary>1. Create an html page on vs code. Add a div with an id inside the body element. Add a  script tag with some JavaScript on it
+> </summary>
 >
+> ```html
+> <!DOCTYPE html>
+> <html lang="en">
+>   <head>
+>     <meta charset="UTF-8" />
+>     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+>     <title>My First HTML Page</title>
+>   </head>
+>   <body>
+>     <div id="myDiv">
+>       <!-- Your content here -->
+>     </div>
+>
+>     <script>
+>       // Your JavaScript code here
+>     </script>
+>   </body>
+> </html>
+> ```
+>
+> </details>
+>
+> 2. Add a file with some more JavaScript on it. Externally load that file via a script tag. Open it on a browser and make sure it works
+>    ![](image-2.png)
+>
+> </details>
+
 </details>
 
+> <details>
+> <summary>Quiz</summary>
+> <details>
+> <summary>What is a programming language?</summary>
+>
+> > A programming language is a formal language for specifying instructions.
+>
+> </details>
+>
+> <details>
+> <summary>What does JavaScript add to a website?</summary>
+>
+> > JavaScript adds interactivity to a website.
+>
+> </details>
+>
+> <details>
+> <summary>Who invented JavaScript?</summary>
+>
+> > JavaScript was invented by Brendan Eich.
+>
+> </details>
+>
+> <details>
+> <summary>What can you create with JavaScript as your skills grow?</summary>
+>
+> > As your JavaScript skills grow, you can create games, animations, comprehensive database-driven apps, and much more!
+>
+> </details>
+>
+> <details>
+> <summary>Are Java and JavaScript the same?</summary>
+>
+> > No, Java and JavaScript are different languages with different syntax, semantics, and use cases.
+>
+> </details>
+>
+> <details>
+> <summary>What can you not directly do with JavaScript?</summary>
+>
+> > You cannot directly access the user's file system with JavaScript for security reasons. Additionally, JavaScript may not be suitable for CPU-intensive tasks or for developing standalone desktop applications.
+>
+> </details>
 
+---
 
-
-
-
-
-
-
-
-
-
-
-<details>
-<summary>Quiz</summary>
-<details>
-<summary></summary>
-</details>
-
-</details>
-
-
-
-
-
-***
-
-
-
-## Syntax and Basics {#syntax-and-basics}
-
-- Learn the fundamental syntax and principles of JavaScript.
-
-## Variables and Values {#variables-and-values}
+## Variables
 
 - Create and manipulate variables and values in JavaScript.
 
-## Code Organization {#code-organization}
+<details open>
+<summary>What are Variables</summary>
 
-- Write JavaScript code both inline and in external files.
+> JavaScript variables are containers for storing data values. The data stored in a JavaScript variable can be of any data type, such as a string, a number, an array, an object, or a Boolean.
+>
+> ![alt text](https://cdn.statically.io/gh/TheOdinProject/curriculum/d39eaf2ca95e80705f703bb218216c10508f5047/foundations/javascript_basics/fundamentals-1/imgs/00.png)
+>
+> Variables allow us to store and manipulate data for use in our programs. They also help us to keep our code organized and make it easier to read.
+>
+> - `let x = 5;` // think like in algebra
+> - `let y = 'text';` // can hold numbers, strings, booleans, functions
+> - `let price = 100;` // can be initialized
+> - `let price;` // or not initialized
+> - `let price1;` // can have numbers in name, cannot start with numbers
+> - `let Price;` // are case sensitive
+> - `let pricePerCamel;` // standard is to use camel case\
 
-## DOM Manipulation {#dom-manipulation}
+</details>
 
-- Utilize JavaScript to manipulate the Document Object Model (DOM) for dynamic web content.
+<details open>
+<summary>What are Expressions</summary>
 
-## Control Flow {#control-flow}
+> Expressions are combinations of values, variables, operators, and function calls that evaluate to a single value.
+>
+> They are the building blocks of JavaScript code and are used to perform computations or produce new values.
+>
+> Expressions can be as simple as a single value or as complex as a combination of multiple operators and operands.
+>
+> Examples:
+>
+> - `5 + 3` is a simple expression that evaluates to `8`.
+> - `x * 2` is an expression that involves a variable `x` and an arithmetic operation, which evaluates to `10` if `x` is `5`.
 
-- Implement basic logic and control flow using JavaScript's conditional statements and loops.
+</details>
 
-## Debugging Skills {#debugging-skills}
 
-- Develop the ability to debug and troubleshoot JavaScript code effectively.
 
-## Browser Security {#browser-security}
 
-- Understand the importance of browser security and its implications on JavaScript usage.
 
-## Key Terms
+<details open>
+<summary>In-class Exercise #2: JavaScript Expressions and Variables</summary>
 
-- Browsers
-- Java
-- JavaScript
-- ECMAScript
-- TC39
+> **Exercise Description:**
+> 
+> You are tasked with creating a simple JavaScript program that calculates the total price of items in a shopping cart. You'll utilize expressions and variables to achieve this task.
+>
+> **Requirements:**
+> 
+> 1. Create a JavaScript file named `shoppingCart.js`.
+> 2. Define variables to store the prices of three items in the shopping cart.
+> 3. Use expressions to calculate the total price by adding the prices of all items.
+> 4. Display the total price in the console.
+>
+> **Tips:**
+> 
+> - Remember that expressions can involve arithmetic operations (+, -, *, /).
+> - Use descriptive variable names to represent the prices of items.
+> - Ensure that your code is well-organized and easy to read.
+> - Test your program with different item prices to verify its correctness.
+>
+> **Example:**
+> 
+> ```javascript
+> // Define item prices
+> let item1Price = 20;
+> let item2Price = 30;
+> let item3Price = 15;
+> 
+> // Calculate total price
+> let totalPrice = item1Price + item2Price + item3Price;
+> 
+> // Display total price
+> console.log("Total Price:", totalPrice);
+> ```
+> 
+> **Challenge (Optional):**
+> 
+> Enhance your program to include the quantity of each item in the shopping cart. Adjust the expressions accordingly to calculate the total price based on both item prices and quantities.
+>
+
+
+
+---
+
+
+
+## Operators
+
+<details open>
+<summary>JavaScript Operators</summary>
+
+> JavaScript operators are symbols that perform operations on operands. These operands can be values or variables. There are various types of operators in JavaScript.
+
+> 1. **Assignment Operator (`=`)**: Assigns a value to a variable.
+>    ```javascript
+>    let x = 5;
+>    ```
+
+> 2. **Arithmetic Operators**: Perform arithmetic operations.
+>    - Addition (`+`)
+>    ```javascript
+>    let sum = 5 + 3; // sum equals 8
+>    ```
+>    - Subtraction (`-`)
+>    ```javascript
+>    let difference = 5 - 3; // difference equals 2
+>    ```
+>    - Multiplication (`*`)
+>    ```javascript
+>    let product = 5 * 3; // product equals 15
+>    ```
+>    - Division (`/`)
+>    ```javascript
+>    let quotient = 6 / 2; // quotient equals 3
+>    ```
+
+> 3. **Comparison Operators**: Compare two values and return a boolean result.
+>    - Equality (`==`, `===`)
+>
+> - The `==` operator checks for equality after converting both operands to a common type. It performs type coercion if the operands are of different types.
+> - The `===` operator, known as the strict equality operator, checks for equality without type coercion. It returns true only if both the value and the type of the operands are the same.
+>
+>```javascript
+> // Example 1: Using ==
+>console.log(5 == '5'); // true (Type coercion: string '5' is converted to number 5)
+>console.log(0 == false); // true (Type coercion: boolean false is converted to number 0)
+>
+> // Example 2: Using ===
+> console.log(5 === '5'); // false (Value and type are different)
+> console.log(0 === false); // false (Value and type are different)
+> ```
+>
+> - Inequality (`!=`, `!==`)
+>
+> ```javascript
+> let isNotEqual = 5 !== "5"; // isNotEqual is true
+> ```
+>
+> - Greater than (`>`)
+>
+> ```javascript
+> let isGreater = 5 > 3; // isGreater is true
+> ```
+>
+> - Less than (`<`)
+>
+> ```javascript
+> let isLess = 3 < 5; // isLess is true
+> ```
+
+> 4. **Logical Operators**: Perform logical operations and return a boolean result.
+>    - AND (`&&`)
+>    ```javascript
+>    let andResult = true && false; // andResult is false
+>    ```
+>    - OR (`||`)
+>    ```javascript
+>    let orResult = true || false; // orResult is true
+>    ```
+>    - NOT (`!`)
+>    ```javascript
+>    let notResult = !true; // notResult is false
+>    ```
+
+> 5. **Increment (`++`)**: Increases the value of a variable by 1.
+>    ```javascript
+>    let count = 0;
+>    count++; // count is incremented by 1
+>    ```
+
+> 6. **Decrement (`--`)**: Decreases the value of a variable by 1.
+>    ```javascript
+>    let total = 10;
+>    total--; // total is decremented by 1
+>    ```
+
+</details>
+
+
+<details open>
+<summary>In-class Exercise #3: JavaScript Operators</summary>
+
+> **Exercise Description:**
+> 
+> Your task is to create a simple JavaScript program that demonstrates the usage of various operators covered in the lesson.
+>
+> **Requirements:**
+> 
+> 1. Create a JavaScript file named `operatorsDemo.js`.
+> 2. Implement examples for each type of operator mentioned in the lesson:
+>    - Assignment Operator (`=`)
+>    - Arithmetic Operators: Addition (`+`), Subtraction (`-`), Multiplication (`*`), Division (`/`)
+>    - Comparison Operators: Equality (`==`, `===`), Inequality (`!=`, `!==`), Greater than (`>`), Less than (`<`)
+>    - Logical Operators: AND (`&&`), OR (`||`), NOT (`!`)
+>    - Increment (`++`) and Decrement (`--`)
+> 3. Use comments to explain each example and its expected output.
+> 4. Test each example by running the JavaScript file in a browser console or a Node.js environment.
+>
+> **Tips:**
+> 
+> - Start with simple examples and gradually increase complexity.
+> - Ensure clarity and readability of your code by using descriptive variable names and comments.
+> - Experiment with different values and scenarios to thoroughly understand how each operator works.
+>
+> **Example:**
+> 
+> ```javascript
+> // Assignment Operator (=)
+> let x = 5;
+> 
+> // Arithmetic Operators
+> let sum = 5 + 3;        // Addition (+)
+> let difference = 5 - 3; // Subtraction (-)
+> let product = 5 * 3;    // Multiplication (*)
+> let quotient = 6 / 2;   // Division (/)
+> 
+> // Comparison Operators
+> let isEqual = 5 === '5';   // Equality (===)
+> let isNotEqual = 5 !== '5'; // Inequality (!==)
+> let isGreater = 5 > 3;      // Greater than (>)
+> let isLess = 3 < 5;         // Less than (<)
+> 
+> // Logical Operators
+> let andResult = true && false; // AND (&&)
+> let orResult = true || false;  // OR (||)
+> let notResult = !true;         // NOT (!)
+> 
+> // Increment (++)
+> let count = 0;
+> count++; // Increment count by 1
+> 
+> // Decrement (--)
+> let total = 10;
+> total--; // Decrement total by 1
+> ```
+> 
+> **Challenge (Optional):**
+> 
+> Implement additional examples that showcase more advanced usage of operators, such as combining multiple operators in a single expression or using operators in control flow statements.
+>
+> **Additional Resources:**
+> 
+> - [MDN Web Docs: Expressions and Operators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators)
+>
+> Happy coding!
+
+</details>
+
+
+
+
+---
+
+
 
 ## Overview
+<details open>
+<summary>Overall Quiz</summary>
 
-JavaScript is a dynamic computer scripting programming language which is compiled at runtime. It is lightweight and most commonly used as a part of web pages, whose implementations allow client-side script to interact with the user and make dynamic pages. It is an interpreted programming language with object-oriented capabilities.
+> <details>
+> <summary>What are JavaScript operators used for?</summary>
+> 
+> JavaScript operators are symbols that perform operations on operands. These operands can be values or variables. There are various types of operators in JavaScript.
+> </details>
+>
+> <details>
+> <summary>What is the difference between the `==` operator and the `===` operator in JavaScript?</summary>
+>
+> - The `==` operator checks for equality after converting both operands to a common type. It performs type coercion if the operands are of different types.
+> - The `===` operator, known as the strict equality operator, checks for equality without type coercion. It returns true only if both the value and the type of the operands are the same.
+> </details>
+>
+> <details>
+> <summary>What are variables used for in JavaScript?</summary>
+>
+> Variables allow us to store and manipulate data for use in our programs. They also help us to keep our code organized and make it easier to read.
+> </details>
+>
+> <details>
+> <summary>Describe the characteristics of JavaScript variables.</summary>
+>
+> JavaScript variables are containers for storing data values. The data stored in a JavaScript variable can be of any data type, such as a string, a number, an array, an object, or a Boolean.
+> </details>
+>
+> <details>
+> <summary>What types of data can be stored in a JavaScript variable?</summary>
+>
+> Any data type, such as a string, a number, an array, an object, or a Boolean, can be stored in a JavaScript variable.
+> </details>
 
-## Lesson Plan
-
-### History of JavaScript
-
-JavaScript is a scripting programming language. Some programmers have their reservations about JavaScript being a programming language, but that's ok. What I care about is how to program in this language. It is important to understand some history and the process that it takes for a new feature to be released as part of official language specification. Three terms Ecma, EcmaScript, and the TC39 to keep in mind.
-
-In 1995, websites typically looked like Berkshire Hathaway (http://berkshirehathaway.com/) and back then this was an amazing thing to see. At this time, Netscape Navigator was the most popular web browser with close to 80% market share. The Netscape founder, Marc Andreessen envisioned a more dynamic platform with client side interactivity that was easy to use by designers and developers.
-
-Brendan Eich was recruited by Netscape to embed the Scheme programming language into Netscape Navigator. However, before he could get started, Netscape had worked with Sun Microsystems to make a rising programming language Java available in the browser. Netscape wanted "a scripting language that was simple enough for coding amateurs to use" - sadly, Java wasn’t that. From there, the idea became that Java could be used by "professionals" and this new language “Mocha” (which was the initial name of JavaScript) would be used by amateurs. Because of this collaboration between languages, Netscape decided that Mocha needed to compliment Java and should have a relatively similar syntax.
-
-History states that in just 10 days Brendan created the first version of Mocha. Eventually Mocha changed it's name to LiveScript then today we know to be JavaScript. Back then it was a marketing ploy to ride the hype of Java. JavaScript was then marketed as a scripting language for the browser - accessible to both amateurs while Java was the professional tool for building rich web components.
-
-Microsoft was also working on Internet Explorer. Because JavaScript fundamentally changed the user experience of the web, if you were a competing browser, since there was no JavaScript specification, you had no choice but to come up with your own implementation. History showed, that it was exactly what Microsoft did and they called it JScript.
-
-This lead to a problem, JScript filled the same use case as JavaScript, but its implementation was different. This meant that you couldn’t build one website and expect it to work on both Internet Explorer and Netscape Navigator. The two implementations were different that “Best viewed in Netscape” and “Best viewed in Internet Explorer” badges became common for most companies who couldn’t afford to build for both implementations. This is where Ecma comes into the picture.
-
-Ecma International is “an industry association founded in 1961, dedicated to the standardization of information and communication systems”. In 1996, Netscape submitted JavaScript to Ecma to build out a standard specification. In doing so, it gave other contributors a voice in the evolution of the language and, ideally, it would help keep other implementations consistent across browsers.
-
-Under Ecma, each new specification comes with a standard and a committee. In JavaScript’s case, the standard is ECMA-262 and the committee who works on the ECMA-262 standard is the TC39.
-
-If you look up the ECMA262 standard, you’ll notice that the term “JavaScript” is never used. Instead, they use the term “EcmaScript” to talk about the official language. The reason for this is because Oracle owns the trademark for the term “JavaScript”. To avoid legal issues, Ecma decided to use the term EcmaScript instead. ECMAScript is usually used to refer to the official standard, ECMA-262, while JavaScript is used when talking about the language in practice.
-
-The committee which oversees the evolution of the Ecma262 standard is the TC39, which stands for Technical Committee 39. The TC39 is made up of members who are typically browser vendors and large companies who’ve invested heavily in the web like Facebook and PayPal.
-
-When a new proposal is created, that proposal has to go through certain stages before it becomes part of the official specification. It’s important to keep in mind that in order for any proposal to move from one stage to another, a consensus among the TC39 must be met. This means that a large majority must agree.
-
-Each new proposal starts off at Stage 0. This stage is called the "Straw man" stage. Stage 0 proposals are proposals which are planned to be presented to the committee by a TC39 champion or, have been presented to the committee and not rejected definitively, but not yet achieved any of the criteria to get into stage 1. The only requirement for becoming Stage 0 proposal is that the document must be reviewed at a TC39 meeting.
-
-The next stage is Stage 1. In order to progress to Stage 1, an official “champion” who is part of TC39 must be identified and is responsible for the proposal. In addition, the proposal needs to describe the problem it solves, have illustrative examples of usage, a high level API, and identify potential concerns and implementation challenges. By accepting a proposal for stage 1, the committee signals they’re willing to spend resources to look into the proposal in more depth.
-
-The next stage is Stage 2. At this point, it’s more than likely that this feature will eventually become part of the official specification. In order to make it to stage 2, the proposal must, in formal language, have a description of the syntax and semantics of the new feature. This is the stage where all aspects of the feature is carefully reviewed and lock down. Future changes may still likely occur, but they should only be minor, incremental changes.
-
-Next up is Stage 3. At this point the proposal is mostly finished and now it just needs feedback from implementors and users to progress further. In order to progress to Stage 3, the spec should be finished and at least two spec compliant implementations must be created.
-
-The last stage is Stage 4. At this point, the proposal is ready to be included in the official specification. To get to Stage 4, tests have to be written, two spec compliant implementations should pass those tests, members should have significant practical experience with the new feature, and the EcmaScript spec editor must sign off on the spec text. Basically once a proposal makes it to stage 4, it’s ready to stop being a proposal and make its way into the official specification. This brings up the last thing you need to know about this whole process and that is TC39s release schedule.
-
-As of 2016, a new version of ECMAScript is released every year with whatever features are ready at that time. What that means is that any Stage 4 proposals that exist when a new release happens, will be included in the release for that year. Because of this yearly release cycle, new features should be much more incremental and easier to adopt.
-
-JavaScript is used today to develop web applications and mobile applications. It is also used to create interactive websites and to add animation and other features to enhance the user experience. JavaScript is also used to create web, mobile, and server applications that can run on a server, as well as client-side applications that run in the user’s browser.
-
-Although JavaScript generally operates synchronously, the language allows us to easily write code that will allow multiple tasks to run at the same time. This allows a website to be more interactive, because multiple things can be happening “under the hood” at once while the user is exploring content. For example, you can interact with a page while a large amount of data is being fetched from a server in the background, without interrupting your experience. JavaScript allows many processes to run at once, and you can control this behavior in your application by writing different types of functions.
-
-For more about the history and basic features of JavaScript, visit the Wikipedia’s JavaScript page.
-
-### Why JavaScript is so useful today
-
-There are two main reasons why JavaScript became so popular in web development; its ability to render dynamic content, and its ability to perform asynchronous tasks.
-
-### Static vs dynamic web content
-
-One of the early benefits of JavaScript was its ability to handle dynamic content. In the early days of the web, all web pages were static, which means that the data displayed on the page was loaded by the browser ahead of time, and the page would need to be re-loaded for any updates to show up. Websites are dynamic when they are able to render new data without reloading the page, and this is the type of behavior that JavaScript was designed to do. For example, because of JavaScript, we are able to see new messages show up in a social media feed without having to refresh the page.
-
-### Performing asynchronous tasks
-
-In order for the user to have a smooth experience working with a dynamic website, it needs to be able to accomplish tasks asynchronously. Many programming languages operate synchronously, which means that one operation needs to be completed before the next operation will begin.
-
-### How to get started in learning JS
-
-The best way to learn JS is to start writing JS.
-
-To do that, you need to know how the language works, and that's what we'll focus on here. Even if you've programmed in other languages before, take your time getting comfortable with JS, and make sure to practice each piece.
+</details>
