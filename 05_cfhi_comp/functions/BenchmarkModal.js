@@ -45,115 +45,12 @@ const createBenchmark = (benchmarkDesc) => {
 
 
 
-
-
-
-
-
-	  // MAIN CREATEMODAL FUNCTION  -------------------------------------------------------------->
-
-		const createModal = (id, whatDoesThisMean, benchMark, title) => {
-
-
-		   // CREATING DYNAMIC VARIABLES -------------------------------------------------------------->
-
-			let whatDoesThisMean_body = whatDoesThisMean.map(item => {
-				return '<p>' + item + '</p>'
-			}).join(',').replaceAll(',','') 
-			
-
-				let benchMark_body
-			if (benchMark) {
-				benchMark_body = benchMark.map(item => {
-					return '<p>' + item + '</p>'
-				}).join(',').replaceAll(',','') 
-			} else {
-				benchMark_body = '<p>No benchmark has been set for this ratio.</p>'
-			}
-
-			let mainTitle = title ? title : 'NEED TITLE'
-
-
-
-		   // CREATING THE MODAL -------------------------------------------------------------->
-			
-			$(`#modal-${id}`).append(`
-				<div class="modal-dialog modal-lg">
-    					<div class="modal-content">
-      						<div class="modal-header">
-					       		<h4 class="modal-title" id="exampleModalLabel">` + mainTitle + `</h4>
-       						</div>
-						<div class="modal-body">
-							<div class="accordion-item">
-								<h2 class="accordion-header" id="headingOne">
-      									<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-		        							Support Data
-			      						</button>
-								</h2>
-								<div>
-			    						<div id="collapseOne" class="accordion-collapse" aria-labelledby="headingOne" >
-	      									<div class="accordion-body">								
-											<table id='table-` + id + `' class='table table-striped table-striped-accordion'>
-												<thead>
-													<th scope='col'>YEAR</th>
-													<th scope='col'>Client Data</th>
-													<th scope='col'>Peer Average</th>
-													<th scope='col'>Peer Mid</th>
-													<th scope='col'>Peer Min</th>
-													<th scope='col'>Peer Max</th>
-												</thead>
-												<tbody id='table-body-` + id + `'></tbody>
-											</table>
-										</div>
-				    					</div>
-								</div>
-							</div> <!-- accordion-item-one-->
-
-					  		<div class="accordion-item">
-    								<h2 class="accordion-header" id="headingTwo">
-      									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-        									What does this mean? 
-		      							</button>
-				    				</h2>
-	    							<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" >
-      									<div class="accordion-body">
-										`+ whatDoesThisMean_body + `
-									</div>
-	    							</div>
-		  					</div> <!-- accordion-item-two -->
-
-		 		 			<div class="accordion-item">
-    								<h2 class="accordion-header" id="headingThree">
-	      								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-	       									Benchmark
-		      							</button>
-				    					</h2>
-    									<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" >
-      										<div class="accordion-body">
-											` + benchMark_body + `
-										</div>
-	    								</div>
-	  						</div> <!-- accordion-item-three -->
-		      				</div> <!------------- modal-body -->
-					      	<div class="modal-footer">
-        						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					      	</div>
-	    				</div> <!------ modal-content -----> 
-				</div> <!------ modal-dialog ----->`)
-			
-		} // createModal()
-
-
-
 	   // DYNAMIC ADDING OF ALL MODALS -------------------------------------------------->
 
 
 		
 		   // DEMO - Modals ------------------------------------------------------->
 
-				let givingUnit_whatDoesThisMean = ['This measure introduces the concept of a giving unit. A giving unit is usually a group of family members who contribute jointly to the church. A giving unit is also defined as any recurring supporter of the ministry. This excludes the individual who may make a smaller one-time gift supporting an event, such as a short-term mission trip. To identify only the regular recurring giving units, the measure only includes giving units that contribute more than $250 annually to the church.']
-			createModal('givingUnits', givingUnit_whatDoesThisMean, null, 'Giving Units')
-		
 				let attendToStaff_whatDoesThisMean = ['Another way to analyze the portion of the operating budget that a church spends on personnel costs is to look at the non-financial ratio of attendees to staff. A key point to remember is that this ratio isn’t impacted by size, so it doesn’t matter if the church has 200, 2,000, or 20,000 attendees. This ratio tells the church that one full-time staff equivalent is being paid for a specific number of attendees. This information may be especially useful alongside Ratios 15 – 17 when a church is assessing its own staffing levels and the amount spent on personnel costs compared to peers.']
 				let attendToStaff_benchmark = ['We believe that a reasonable benchmark is between 65 - 90 range.']
 			createModal('attendToStaff', attendToStaff_whatDoesThisMean, attendToStaff_benchmark, 'Attendees to Staff')
