@@ -467,6 +467,12 @@
 >
 > - The `==` operator checks for equality after converting both operands to a common type. It performs type coercion if the operands are of different types.
 > - The `===` operator, known as the strict equality operator, checks for equality without type coercion. It returns true only if both the value and the type of the operands are the same.
+> 
+> **Example:**
+> ```javascript
+> console.log(5 == '5'); // true (Type coercion: string '5' is converted to number 5)
+> console.log(0 === false); // false (Value and type are different)
+> ```
 > </details>
 >
 > <details>
@@ -485,6 +491,58 @@
 > <summary>What types of data can be stored in a JavaScript variable?</summary>
 >
 > Any data type, such as a string, a number, an array, an object, or a Boolean, can be stored in a JavaScript variable.
+> </details>
+>
+> <details>
+> <summary>Java vs. JavaScript, are they the same?</summary>
+> 
+> No, Java and JavaScript are different languages with different syntax, semantics, and use cases. Java is typically used for server-side development, while JavaScript is primarily used for client-side scripting in web browsers.
+> </details>
+>
+> <details>
+> <summary>What can we do with JavaScript?</summary>
+> 
+> With JavaScript, you can create interactive web pages, handle user input, manipulate HTML and CSS, perform asynchronous operations like AJAX requests, and much more.
+> </details>
+>
+> <details>
+> <summary>What can’t we do with JavaScript?</summary>
+> 
+> While JavaScript is powerful for client-side scripting, it cannot directly access the user's file system for security reasons. Additionally, it may not be suitable for CPU-intensive tasks or for developing standalone desktop applications.
+> </details>
+>
+> <details>
+> <summary>What does the `&&` operator do in JavaScript?</summary>
+> 
+> The `&&` operator, known as the logical AND operator, returns true if both operands are true; otherwise, it returns false.
+> 
+> **Example:**
+> ```javascript
+> let andResult = true && false; // andResult is false
+> ```
+> </details>
+>
+> <details>
+> <summary>What does the `||` operator do in JavaScript?</summary>
+> 
+> The `||` operator, known as the logical OR operator, returns true if at least one of the operands is true; otherwise, it returns false.
+> 
+> **Example:**
+> ```javascript
+> let orResult = true || false; // orResult is true
+> ```
+> </details>
+>
+> <details>
+> <summary>What does the `!=` operator do in JavaScript?</summary>
+> 
+> The `!=` operator, known as the inequality operator, returns true if the operands are not equal; otherwise, it returns false.
+> </details>
+>
+> <details>
+> <summary>What does the `!==` operator do in JavaScript?</summary>
+> 
+> The `!==` operator, known as the strict inequality operator, returns true if the operands are not equal and of the same type; otherwise, it returns false.
 > </details>
 
 </details>
