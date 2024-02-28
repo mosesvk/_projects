@@ -23,6 +23,13 @@ const displayDemoComponent = () => {
     "attendeesToStaff"
   );
 
+  let attendToStaff_benchmark = ['We believe that a reasonable benchmark is between 65 - 90 range.']
+  let attendeeToStaffBenchmarkPopup = createBenchmark(attendToStaff_benchmark)
+  // when clicking the id='attendeesToStaff', the attendeeToStaffBenchmarkPopup.open() will be called
+  document.getElementById('row_attendeesToStaff').addEventListener('click', () => {
+    attendeeToStaffBenchmarkPopup.open()
+  })
+
   closeSidebarAfterSelectingOption("demo");
 };
 
