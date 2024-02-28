@@ -465,7 +465,7 @@ const checkForCountyDataIncomeTable = (
     const benchmarkArray = getBenchmarks(data[percentData]);
     const row = $(`#row_${trId}`)[0];
 
-    console.log(benchmarkArray, row);
+    // console.log(benchmarkArray, row);
 
     getBackgroundColor(benchmarkArray, row);
   }
@@ -568,7 +568,6 @@ function getBenchmarks(obj) {
 }
 
 const getBackgroundColor = (array, row, i = 0) => {
-  console.log({ array, row, i });
 
   if (!array.length) return;
 
@@ -587,42 +586,49 @@ const getBackgroundColor = (array, row, i = 0) => {
 };
 
 
-const createBenchmark = (benchmarkDesc) => {
+const createBenchmark = (benchmarkDesc, elementId) => {
 
-	let variable = new tingle.modal({
- 		footer: false,
-		stickyFooter: false,
-		closeMethods: ['overlay', 'button', 'escape'],
-		closeLabel: "Close",
-    		cssClass: ['custom-class-1', 'custom-class-2'],
-    		onOpen: function() {
-        		console.log('modal open');
-    		},
-    		onClose: function() {
-        		console.log('modal closed');
-    		},
-    		beforeClose: function() {
-        		// here's goes some logic
-        		// e.g. save content before closing the modal
-        		return true; // close the modal
-        		return false; // nothing happens
-    		}
-	})
+  let variable = new tingle.modal({
+    footer: false,
+    stickyFooter: false,
+    closeMethods: ['overlay', 'button', 'escape'],
+    closeLabel: "Close",
+    cssClass: ['custom-class-1', 'custom-class-2'],
+    // onOpen: function () {
+    //   console.log('modal open');
+    // },
+    // onClose: function () {
+    //   console.log('modal closed');
+    // },
+    // beforeClose: function () {
+    //   // here's goes some logic
+    //   // e.g. save content before closing the modal
+    //   return true; // close the modal
+    //   return false; // nothing happens
+    // }
+  });
 
+  // Add event listener to the specified element ID
+  document.getElementById(elementId).addEventListener('click', () => {
+    variable.open();
+  });
 
-	if (benchmarkDesc.length > 1) {
-		let message = '<div>'
-		let p = ''
-		for (let par of benchmarkDesc) {
-			p +=`<p>${par}</p>`
-		}
-		message += p
-		message += '</div>'
-		variable.setContent(`${message}`)
-	} else {
-		variable.setContent(`<p>${benchmarkDesc}<p>`)
-	}
+  if (benchmarkDesc.length > 1) {
+    let message = '<div>';
+    let p = '';
+    for (let i = 0; i < benchmarkDesc.length; i++) {
+      if (i === 0) {
+        p += `<p class="text-center font-bold mb-2">${benchmarkDesc[i]}</p>`;
+      } else {
+        p += `<p>${benchmarkDesc[i]}</p>`;
+      }
+    }
+    message += p;
+    message += '</div>';
+    variable.setContent(`${message}`);
+  } else {
+    variable.setContent(`<p>${benchmarkDesc}</p>`);
+  }
 
-
-	return variable
-}
+  return variable;
+};
