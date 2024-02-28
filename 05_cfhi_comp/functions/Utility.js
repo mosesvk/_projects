@@ -568,7 +568,6 @@ function getBenchmarks(obj) {
 }
 
 const getBackgroundColor = (array, row, i = 0) => {
-
   if (!array.length) return;
 
   let color =
@@ -585,50 +584,87 @@ const getBackgroundColor = (array, row, i = 0) => {
   getBackgroundColor(array.slice(1), row, i);
 };
 
+const addClickEventToBenchmark = (elementId, benchmarkDesc) => {
+  const element = document.getElementById(elementId);
+  element.onclick = createBenchmark(benchmarkDesc, elementId);
+};
 
-const createBenchmark = (benchmarkDesc, elementId) => {
-
+const createBenchmark = async (benchmarkDesc, elementId) => {
   let variable = new tingle.modal({
     footer: false,
     stickyFooter: false,
-    closeMethods: ['overlay', 'button', 'escape'],
+    closeMethods: ["overlay", "button", "escape"],
     closeLabel: "Close",
-    cssClass: ['custom-class-1', 'custom-class-2'],
+    cssClass: ["custom-class-1", "custom-class-2"],
     // onOpen: function () {
     //   console.log('modal open');
     // },
     // onClose: function () {
     //   console.log('modal closed');
     // },
-    // beforeClose: function () {
-    //   // here's goes some logic
-    //   // e.g. save content before closing the modal
-    //   return true; // close the modal
-    //   return false; // nothing happens
-    // }
-  });
-
-  // Add event listener to the specified element ID
-  document.getElementById(elementId).addEventListener('click', () => {
-    variable.open();
+    beforeClose: function () {
+      // here's goes some logic
+      // e.g. save content before closing the modal
+      return true; // close the modal
+      return false; // nothing happens
+    },
   });
 
   if (benchmarkDesc.length > 1) {
-    let message = '<div>';
-    let p = '';
+    let message = "<div>";
+    let p = "";
     for (let i = 0; i < benchmarkDesc.length; i++) {
       if (i === 0) {
         p += `<p class="text-center font-bold mb-2">${benchmarkDesc[i]}</p>`;
       } else {
-        p += `<p>${benchmarkDesc[i]}</p>`;
+        p += `<p >${benchmarkDesc[i]}</p>`;
       }
     }
     message += p;
-    message += '</div>';
+    message += "</div>";
     variable.setContent(`${message}`);
   } else {
     variable.setContent(`<p>${benchmarkDesc}</p>`);
   }
 
+  const selectedYears = JSON.parse(localStorage.getItem("selectedYears"));
+  // console.log({selectedYears, elementId})
+  if (selectedYears) {
+    const children = await document.getElementById(elementId).children;
+    // console.log(children);
+
+    for (let i = 1; i < selectedYears.length + 1; i++) {
+      editElementChildren(children[i]);
+    }
+  }
+
   return variable;
+};
+
+const editElementChildren = (element) => {
+  element.addEventListener("click", () => {
+    variable.open();
+  });
+  element.classList.add("cursor-pointer");
+  element.classList.add("hover:text-lg");
+
+  // Create SVG element
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "h-8 w-8 ml-2 font-medium text-gray-900 dark:text-white");
+  svg.setAttribute("fill", "none");
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("stroke", "currentColor");
+
+  // Create path element and set its attributes
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("stroke-linecap", "round");
+  path.setAttribute("stroke-linejoin", "round");
+  path.setAttribute("stroke-width", "2");
+  path.setAttribute("d", "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6");
+
+  // Append path element to the SVG element
+  svg.appendChild(path);
+
+  // Append the SVG element to the element
+  element.appendChild(svg);
 };

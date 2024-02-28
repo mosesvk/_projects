@@ -234,7 +234,7 @@ const addClientDataToReportRow = (
   cb
 ) => {
   const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white align-center flex";
   const propScope = "row";
 
   selectedYears.forEach((year) => {
@@ -251,7 +251,7 @@ const addClientDataToReportRow = (
 
        let clientBenchmarkArray = getBenchmarks(client)
 
-  	getBackgroundColor(clientBenchmarkArray, tableRow)
+  	  getBackgroundColor(clientBenchmarkArray, tableRow)
 
     }
 
@@ -268,7 +268,7 @@ const addClientDataToModalRow = (
   // console.log({ tableModalRow, year, client, type, fixedNum });
 
   const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex";
   const propScope = "row";
 
   const dataPoint = document.createElement("th");
