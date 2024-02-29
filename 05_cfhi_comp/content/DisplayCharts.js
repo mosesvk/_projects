@@ -243,6 +243,29 @@ const displayIncomeComponent = () => {
     "totalContributionsPerGivingUnit"
   );
 
+  let netIncome_benchmark = [
+    'The benchmark for this ratio in any particular year is that it is positive. However, we understand there will be years the church invests in its ministry and the ratio may be negative because of a predetermined choice. A more important benchmark is for the average net income ratio to be an improving trend over the years.',
+    ]
+  createBenchmark(netIncome_benchmark, "row_netIncomeRatio");
+
+  let totalContrPerAAA_benchmark = [
+    'Total Contributions Per Average Adult Attendee Benchmark',
+    'Good: >$2,000',
+    'Above Average: >$2,500',
+    'Strong: >=$3,000'
+  ]
+  createBenchmark(totalContrPerAAA_benchmark, "row_totalContributionsPerAverageAdultAttendee");
+
+  let contrWithoutAverageAdultAttendee_benchmark = [
+    'An improving trend is the benchmark.',
+    ]
+  createBenchmark(contrWithoutAverageAdultAttendee_benchmark, "row_contributionsWithoutDonorPerAverageAdultAttendee");
+  createBenchmark(contrWithoutAverageAdultAttendee_benchmark, "row_contributionsWithoutDonorPerGivingUnit");
+  createBenchmark(contrWithoutAverageAdultAttendee_benchmark, "row_totalContributionsPerAverageAdultAttendee_percentChange");
+  createBenchmark(contrWithoutAverageAdultAttendee_benchmark, "row_totalContributionsPerGivingUnit_percentChange");
+
+
+
   closeSidebarAfterSelectingOption("income");
 };
 
@@ -293,6 +316,12 @@ const displayExpenseComponent = () => {
     1,
     "cashExpendituresPerGivingUnit"
   );
+
+
+
+
+
+  
 
   closeSidebarAfterSelectingOption("expense");
 };

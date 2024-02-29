@@ -634,19 +634,22 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
     // console.log(children);
 
     for (let i = 1; i < selectedYears.length + 1; i++) {
-      editElementChildren(children[i]);
+      editElementChildren(children[i], variable);
     }
   }
 
   return variable;
 };
 
-const editElementChildren = (element) => {
+const editElementChildren = (element, variable) => {
   element.addEventListener("click", () => {
     variable.open();
   });
   element.classList.add("cursor-pointer");
   element.classList.add("hover:text-lg");
+  element.classList.add("hover:opacity-100");
+  element.classList.add("transition");
+  element.classList.add("ease-in-out");
 
   // Create SVG element
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");

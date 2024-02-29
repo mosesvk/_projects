@@ -92,15 +92,15 @@ const displayReportComponent = () => {
 
     insertDataToReport(incomeData, selectedYears, [
       ["netIncomeRatio", "percent", 0, "wa", 'cb'],
-      ["netIncomeRatio_twoYrAvg", "percent", 0, 'cb'],
-      ["contributionsWithoutDonorPerAverageAdultAttendee", "dollar", 0, "wa"],
-      ["contributionsWithoutDonorPerAverageAdultAttendee_percentChange", "percent", 0, 'cb'],
-      ["contributionsWithoutDonorPerGivingUnit", "dollar", 0, "wa"],
-      ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0, 'cb'],
+      ["netIncomeRatio_twoYrAvg", "percent", 0, null, 'cb'],
+      ["contributionsWithoutDonorPerAverageAdultAttendee", "dollar", 0, null, 'cb'],
+      ["contributionsWithoutDonorPerAverageAdultAttendee_percentChange", "percent", 0],
+      ["contributionsWithoutDonorPerGivingUnit", "dollar", 0, null, 'cb'],
+      ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0],
       ["totalContributionsPerAverageAdultAttendee", "dollar", 0, "wa", 'cb'],
-      ["totalContributionsPerAverageAdultAttendee_percentChange", "percent", 0, 'cb'],
-      ["totalContributionsPerGivingUnit", "dollar", 0, "wa"],
-      ["totalContributionsPerGivingUnit_percentChange", "percent", 0, 'cb'],
+      ["totalContributionsPerAverageAdultAttendee_percentChange", "percent", 0],
+      ["totalContributionsPerGivingUnit", "dollar", 0, "wa", 'cb'],
+      ["totalContributionsPerGivingUnit_percentChange", "percent", 0],
     ])
 
     insertDataToReport(expenseData, selectedYears, [
@@ -234,7 +234,7 @@ const addClientDataToReportRow = (
   cb
 ) => {
   const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white align-center flex";
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex opacity-80 justify-between";
   const propScope = "row";
 
   selectedYears.forEach((year) => {
