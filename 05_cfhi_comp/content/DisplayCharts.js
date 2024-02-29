@@ -319,9 +319,26 @@ const displayExpenseComponent = () => {
 
 
 
+  let personnelInclude_benchmark = [
+    'Personnel Costs (Salaries and Benefits) Including Outsourced Employees Benchmark',
+    'We believe reasonable benchmarks for these ratios are:<ul><li>Personnel costs (salaries and benefits), including outsourced employees, should fall between 40% and 55% of expenses </li></ul>',
+    ]
+  createBenchmark(personnelInclude_benchmark, "row_salariesBenefitsIncludingOutsourcedEmployees");
 
+  let totalCashExpendExcludePerGU_benchmark = [
+    '',
+    ]
+  createBenchmark(totalCashExpendExcludePerGU_benchmark, "row_cashExpendituresPerGivingUnit");
 
-  
+  let personnelToCash_benchmark = ['40% - 55%']
+  createBenchmark(personnelToCash_benchmark, "row_personnelToCashExpenditure");
+
+  let mandatoryDebtToCashExpend_benchmark = ['15% or less']
+  createBenchmark(mandatoryDebtToCashExpend_benchmark, "row_mandatoryDebtServiceToCashExpenditure");
+
+  let totalGlobalAndLocalOutreachExpenses_benchmark = ['10% - 25%']
+  createBenchmark(totalGlobalAndLocalOutreachExpenses_benchmark, "row_totalGlobalAndLocalOutreachExpenses");
+
 
   closeSidebarAfterSelectingOption("expense");
 };

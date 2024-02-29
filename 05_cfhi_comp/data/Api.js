@@ -3415,7 +3415,8 @@ const insertDataIntoObject = (
   record,
   child,
   dynamicValueClientPeer,
-  name
+  name, 
+  paragraph
 ) => {
   // console.log({
   //   type,
