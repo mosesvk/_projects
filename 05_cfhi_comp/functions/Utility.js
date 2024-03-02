@@ -402,7 +402,7 @@ const styleNumber = (num, type, fixed) => {
 };
 
 const updateCountyData = (trId, countyName, percentage, income, year) => {
-  console.log({ trId, countyName, percentage, income });
+  // console.log({ trId, countyName, percentage, income });
 
   if (countyName === "" && percentage === "" && income === "") {
     const trElement = document.getElementById(`row_${trId}`);
@@ -459,6 +459,9 @@ const checkForCountyDataIncomeTable = (
   selectedYearsArray,
   cb
 ) => {
+
+  // console.log({ trId, countyName, incomeData, percentData, selectedYearsArray, cb });
+
   const data = JSON.parse(localStorage.getItem("incomeData"));
   // check the data of the passed dataId to see if it has data, if there is no data, then add the class "hidden" to the trId
 
@@ -470,10 +473,13 @@ const checkForCountyDataIncomeTable = (
     thElement.className =
       "pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white";
 
+  
+    console.log('COUNTY', data[countyName][selectedYearsArray[0]]);
+
     // Create the span element inside the first <th>
     const spanElement = document.createElement("span");
     spanElement.id = `title_${trId}`
-    spanElement.textContent = data[countyName][selectedYearsArray[0]].value;
+    spanElement.textContent = data[countyName][selectedYearsArray[0]] ? data[countyName][selectedYearsArray[0]].value : '';
     thElement.appendChild(spanElement);
 
     // Create the <p> elements inside the first <th>
