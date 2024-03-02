@@ -474,7 +474,7 @@ const checkForCountyDataIncomeTable = (
       "pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white";
 
   
-    console.log('COUNTY', data[countyName][selectedYearsArray[0]]);
+    // console.log('COUNTY', data[countyName][selectedYearsArray[0]]);
 
     // Create the span element inside the first <th>
     const spanElement = document.createElement("span");
@@ -509,14 +509,13 @@ const checkForCountyDataIncomeTable = (
     } else {
       updateCountyData(trId, "", "", "");
     }
-
-    if (cb) {
-      const benchmarkArray = getBenchmarks(data[percentData]);
-      const row = document.getElementById(`row_${trId}`);
-
-      getBackgroundColor(benchmarkArray, row);
-    }
   });
+  if (cb) {
+    const benchmarkArray = getBenchmarks(data[percentData]);
+    const row = document.getElementById(`row_${trId}`);
+
+    getBackgroundColor(benchmarkArray, row);
+  }
 };
 
 
@@ -617,7 +616,7 @@ function getBenchmarks(obj) {
 }
 
 const getBackgroundColor = (array, row, i = 0) => {
-  // console.log({ array, row, i });
+  console.log({ array, row, i });
   if (!array.length) return;
 
   let color =
