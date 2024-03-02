@@ -23,7 +23,7 @@ const displayDemoComponent = () => {
     "attendeesToStaff"
   );
 
-  let attendToStaff_benchmark = [
+  const attendToStaff_benchmark = [
     "Attendees to Staff Benchmark",
     "We believe that a reasonable benchmark is between 65 - 90 range.",
   ];
@@ -58,32 +58,32 @@ const displayCashComponent = () => {
     "netCashAvailability"
   );
 
-  let daysExpendable_benchmark = [
+  const daysExpendable_benchmark = [
     "Days Expendable Benchmark",
     'We believe a reasonable benchmark for this ratio is 30 to 60 days of cash expenses on hand. Furthermore, a result of less than 15 days could be interpreted as a <span class="red">red flag</span>.',
   ];
   createBenchmark(daysExpendable_benchmark, "row_daysExpendableNetAssets");
 
-  let daysOperatingCash_benchmark = [
+  const daysOperatingCash_benchmark = [
     "Days Operating Cash Benchmark",
     "Some churches want to maintain a certain level of reserves. The reserves can be used for economic downturns or unexpected expenses, events, or new opportunities. Often, churches that try to build up reserves have a goal.",
     'We believe an appropriate benchmark for this ratio is 40 to 80 days of annual cash expenditures on hand.  Furthermore, a result of less than 20 days could be interpreted as a  <span class="red">red flag</span>',
   ];
   createBenchmark(daysOperatingCash_benchmark, "row_daysOperatingCash");
 
-  let availableDaysCash_benchmark = [
+  const availableDaysCash_benchmark = [
     "Available Days of Cash Flow Benchmark",
     'We believe a reasonable benchmark is 120 to 180 days worth of cash expenditures on hand. A result of less than 60 days could be interpreted as a <span class="red">red flag</span>',
   ];
   createBenchmark(availableDaysCash_benchmark, "row_availableDaysOfCashFlow");
 
-  let liquidityRatio_benchmark = [
+  const liquidityRatio_benchmark = [
     "Liquidity Ratio Benchmark",
     "Based on our experience, we have set the minimum benchmark for this ratio at greater than or equal to 5.0. Results less than this may indicate that the church is keeping fewer liquid reserves and is less likely to be able to handle unexpected operating expenses, events, or new opportunities that may come along.",
   ];
   createBenchmark(liquidityRatio_benchmark, "row_liquidityRatio");
 
-  let netCashAvailability_benchmark = [
+  const netCashAvailability_benchmark = [
     "Net Cash Availability Benchmark",
     'We believe the minimum benchmark for this number is at least one month’s worth of cash expenses. Any positive amount less than this is in the warning range. Any negative amount indicates that the church is borrowing from funds with donor restrictions and could be interpreted as a <span class="red">red flag</span>. Also, a calculation that is positive only when amounts available on an operating line of credit are included could be interpreted as a <span class="red">red flag</span> because the church is still relying on short-term revolving debt to meet its immediate cash needs.',
   ];
@@ -151,7 +151,7 @@ const displayDebtComponent = () => {
     "debtCoverage"
   );
 
-  let debtToContributionsWithout_benchmark = [
+  const debtToContributionsWithout_benchmark = [
     "Debt to Contributions Without Donor Restrictions Benchmark",
     "We discussed this with several church lenders and concluded that the benchmark for this ratio should be less than or equal to 2.0.",
     "Based on our experience with church clients across the country, we realize the lower this ratio is, the less strain debt will be on the church’s budget.  We started with the lender-recommended benchmark as the maximum limit and have further broken it down as follows:",
@@ -164,13 +164,13 @@ const displayDebtComponent = () => {
     "row_debtToContributionsWithout"
   );
 
-  let currentRatio_benchmark = [
+  const currentRatio_benchmark = [
     "Current Ratio Benchmark",
     "We believe the benchmark for this ratio is a minimum of 2.0.",
   ];
   createBenchmark(currentRatio_benchmark, "row_currentRatio");
 
-  let mandatoryDebtService_benchmark = [
+  const mandatoryDebtService_benchmark = [
     "Mandatory Debt Service to Contributions Benchmark",
     "The benchmark was set based on our discussions with various church lenders, who had very consistent responses. We believe the benchmark for this ratio is less than 15% - 20% of contributions without donor restrictions. However, some lenders will allow up to 30% of contributions without donor restrictions as an acceptable benchmark. Results below the benchmark would allow room in the budget in case the church’s interest rate increases.",
   ];
@@ -179,7 +179,7 @@ const displayDebtComponent = () => {
     "row_mandatoryDebtServiceToContributionsWithout"
   );
 
-  let debtPerAverageAttendeeBenchmarkPopup = [
+  const debtPerAverageAttendeeBenchmarkPopup = [
     "Debt Per Average Adult Attendee Benchmark",
     "Within Benchmark: < or = 2.0 x contributions without donor restrictions Per Average Adult Attendee.",
   ];
@@ -188,7 +188,7 @@ const displayDebtComponent = () => {
     "row_debtPerAverageAdultAttendee"
   );
 
-  let debtPerGivingUnit_benchmark = [
+  const debtPerGivingUnit_benchmark = [
     "Debt Per Giving Unit Benchmark",
     "In developing this benchmark, we looked at the RMA standards and had conversations with both lenders and churches. We determined that it was not possible to come up with a firm number because of the many factors that impact the levels of debt per adult attendee and giving unit a particular church is able to successfully carry.",
     "We decided that the benchmark should be set by the revenue stream lenders consider for repayment, or by contributions without donor restrictions. Because giving varies so much from church to church, we decided it is not possible to set a fixed amount for this benchmark. Rather, the benchmark should be determined by the level of giving without donor restrictions per adult attendee or giving unit.",
@@ -197,7 +197,7 @@ const displayDebtComponent = () => {
   ];
   createBenchmark(debtPerGivingUnit_benchmark, "row_debtPerGivingUnit");
 
-  let debtCoverage_benchmark = [
+  const debtCoverage_benchmark = [
     "Debt Coverage Benchmark",
     'We believe the benchmark is a result greater than or equal to 1.15, based on our conversations with church lenders and our experience.',
     ]
@@ -243,12 +243,13 @@ const displayIncomeComponent = () => {
     "totalContributionsPerGivingUnit"
   );
 
-  let netIncome_benchmark = [
+  const netIncome_benchmark = [
     'The benchmark for this ratio in any particular year is that it is positive. However, we understand there will be years the church invests in its ministry and the ratio may be negative because of a predetermined choice. A more important benchmark is for the average net income ratio to be an improving trend over the years.',
     ]
   createBenchmark(netIncome_benchmark, "row_netIncomeRatio");
+  createBenchmark(netIncome_benchmark, "row_netIncomeRatio_twoYrAvg");
 
-  let totalContrPerAAA_benchmark = [
+  const totalContrPerAAA_benchmark = [
     'Total Contributions Per Average Adult Attendee Benchmark',
     'Good: >$2,000',
     'Above Average: >$2,500',
@@ -256,14 +257,36 @@ const displayIncomeComponent = () => {
   ]
   createBenchmark(totalContrPerAAA_benchmark, "row_totalContributionsPerAverageAdultAttendee");
 
-  let contrWithoutAverageAdultAttendee_benchmark = [
+  const contrWithoutAverageAdultAttendee_benchmark = [
+    'Contributions Without Donor Restrictions Per Average Adult Attendee Benchmark',
     'An improving trend is the benchmark.',
     ]
-  createBenchmark(contrWithoutAverageAdultAttendee_benchmark, "row_contributionsWithoutDonorPerAverageAdultAttendee");
-  createBenchmark(contrWithoutAverageAdultAttendee_benchmark, "row_contributionsWithoutDonorPerGivingUnit");
-  createBenchmark(contrWithoutAverageAdultAttendee_benchmark, "row_totalContributionsPerAverageAdultAttendee_percentChange");
-  createBenchmark(contrWithoutAverageAdultAttendee_benchmark, "row_totalContributionsPerGivingUnit_percentChange");
+  createBenchmark(contrWithoutAverageAdultAttendee_benchmark, "row_contributionsWithoutDonorPerAverageAdultAttendee_percentChange");
 
+  const contrWithoutDonorPerGivingUnit_benchmark = [
+    'Contributions Without Donor Restrictions Per Giving Unit Benchmark',
+    'An improving trend is the benchmark.',
+    ]
+  createBenchmark(contrWithoutDonorPerGivingUnit_benchmark, "row_contributionsWithoutDonorPerGivingUnit_percentChange");
+
+  const totalContributtionsPerAverageAdultAttendee_benchmark = [
+    'Total Contributions Per Average Adult Attendee Benchmark',
+    'An improving trend is the benchmark.',
+    ]
+  createBenchmark(totalContributtionsPerAverageAdultAttendee_benchmark, "row_totalContributionsPerAverageAdultAttendee_percentChange");
+
+  const totalContributionsPerGivingUnit_benchmark = [
+    'Total Contributions Per Giving Unit Benchmark',
+    'An improving trend is the benchmark.',
+    ]
+  createBenchmark(totalContributionsPerGivingUnit_benchmark, "row_totalContributionsPerGivingUnit_percentChange");
+
+
+  const localCounty_benchmark = [
+     `Local County - Benchmark`,
+    'We believe that a reasonable benchmark is between 1.5% - 3% of the total giving.',
+    ]
+  createBenchmark(localCounty_benchmark, "row_localCounty");
 
 
   closeSidebarAfterSelectingOption("income");
@@ -319,26 +342,30 @@ const displayExpenseComponent = () => {
 
 
 
-  let personnelInclude_benchmark = [
-    'Personnel Costs (Salaries and Benefits) Including Outsourced Employees Benchmark',
-    'We believe reasonable benchmarks for these ratios are:<ul><li>Personnel costs (salaries and benefits), including outsourced employees, should fall between 40% and 55% of expenses </li></ul>',
-    ]
-  createBenchmark(personnelInclude_benchmark, "row_salariesBenefitsIncludingOutsourcedEmployees");
-
-  let totalCashExpendExcludePerGU_benchmark = [
-    '',
-    ]
-  createBenchmark(totalCashExpendExcludePerGU_benchmark, "row_cashExpendituresPerGivingUnit");
-
-  let personnelToCash_benchmark = ['40% - 55%']
+  const personnelToCash_benchmark = [
+    'Personnel to Cash Expenditure Benchmark',
+    '40% - 55%']
   createBenchmark(personnelToCash_benchmark, "row_personnelToCashExpenditure");
 
-  let mandatoryDebtToCashExpend_benchmark = ['15% or less']
+  const mandatoryDebtToCashExpend_benchmark = [
+    'Mandatory Debt Service to Cash Expenditure Benchmark',
+    '15% or less']
   createBenchmark(mandatoryDebtToCashExpend_benchmark, "row_mandatoryDebtServiceToCashExpenditure");
 
-  let totalGlobalAndLocalOutreachExpenses_benchmark = ['10% - 25%']
+  const personnelIncludingToTotalCashExpenditures_benchmark = [
+    'Personnel Including Benefits to Total Cash Expenditures Benchmark',
+    'An improving trend is the benchmark.']
+  createBenchmark(personnelIncludingToTotalCashExpenditures_benchmark, "row_personnelIncludingToTotalCashExpenditures");
+
+  const totalGlobalAndLocalOutreachExpenses_benchmark = [
+    'Total Global and Local Outreach Expenses Benchmark',
+    '10% - 25%']
   createBenchmark(totalGlobalAndLocalOutreachExpenses_benchmark, "row_totalGlobalAndLocalOutreachExpenses");
 
+  const facilitiesExpenseToTotalCashExpenditures_benchmark = [
+    'Facilities Expense to Total Cash Expenditures Benchmark',
+    '20% - 30%']
+  createBenchmark(facilitiesExpenseToTotalCashExpenditures_benchmark, "row_facilitiesExpenseToTotalCashExpenditures_lessThanTen");
 
   closeSidebarAfterSelectingOption("expense");
 };

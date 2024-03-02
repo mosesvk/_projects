@@ -401,34 +401,54 @@ const styleNumber = (num, type, fixed) => {
   return text;
 };
 
-const updateCountyData = (trId, countyName, percentage, income) => {
-  // console.log({ trId, countyName, percentage, income });
+const updateCountyData = (trId, countyName, percentage, income, year) => {
+  console.log({ trId, countyName, percentage, income });
 
-  // if (trId === "localCounty_two") {
-  //   console.log($('#row_localCounty_two')[0].classList)
-  // }
   if (countyName === "" && percentage === "" && income === "") {
-    // console.log("hit the if statement");
-    // add the class 'hidden' to the trId row
     const trElement = document.getElementById(`row_${trId}`);
     trElement.classList.add("hidden");
     return;
   }
 
-  const titleElement = document.getElementById(`title_${trId}`);
-  const percentageElement = document.getElementById(`percentage_${trId}`);
-  const incomeElement = document.getElementById(`income_${trId}`);
+  // Create the <tr> element if it doesn't exist
+  let trElement = document.getElementById(`row_${trId}`);
+
+  // Create the second <th> element and its children
+  const secondThElement = document.createElement("th");
+  secondThElement.scope = "row";
+  secondThElement.className =
+    "px-4 py-4 font-medium text-gray-900 whitespace-normal dark:text-white";
+
+  // Create the span element inside the second <th>
+  const spanElementSecond = document.createElement("span");
+  spanElementSecond.textContent = "---";
+  secondThElement.appendChild(spanElementSecond);
+
+  // Create the <p> elements inside the second <th>
+  const percentagePElement = document.createElement("p");
+  percentagePElement.id = `percentage_${trId}_${year}`;
+  percentagePElement.className = "mb-2";
+  percentagePElement.textContent = "adfas";
+  secondThElement.appendChild(percentagePElement);
+
+  const incomePElement = document.createElement("p");
+  incomePElement.id = `income_${trId}_${year}`;
+  incomePElement.textContent = "fadf";
+  secondThElement.appendChild(incomePElement);
+
+  trElement.appendChild(secondThElement);
+
 
   // Format values
   const formattedIncome = new Intl.NumberFormat().format(income);
   const formattedPercentage = Math.round(percentage);
 
-  // console.log({titleElement, percentageElement, incomeElement});
-
   // Update the content of the selected elements
-  titleElement.textContent = countyName;
-  percentageElement.textContent = `${formattedPercentage}%`;
-  incomeElement.textContent = `$${formattedIncome}`;
+  
+  document.getElementById(
+    `percentage_${trId}_${year}`
+  ).textContent = `${formattedPercentage}%`;
+  document.getElementById(`income_${trId}_${year}`).textContent = `$${formattedIncome}`;
 };
 
 const checkForCountyDataIncomeTable = (
@@ -436,40 +456,63 @@ const checkForCountyDataIncomeTable = (
   countyName,
   incomeData,
   percentData,
-  year,
+  selectedYearsArray,
   cb
 ) => {
   const data = JSON.parse(localStorage.getItem("incomeData"));
   // check the data of the passed dataId to see if it has data, if there is no data, then add the class "hidden" to the trId
 
-  /*
-   console.log({
-     trId,
-     county: data[countyName],
-     income: data[incomeData],
-     percent: data[percentData],
-   })
-  */
+  // Create the first <th> element and its children if it doesn't exist
+  let thElement = document.getElementById(`th_${trId}`);
+  if (!thElement) {
+    thElement = document.createElement("th");
+    thElement.scope = "row";
+    thElement.className =
+      "pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white";
 
-  if (data[countyName][year].value.length > 0) {
-    const countyNameVal = data[countyName][year].value;
-    const percentageVal = data[percentData][year].value;
-    const incomeVal = data[incomeData][year].value;
+    // Create the span element inside the first <th>
+    const spanElement = document.createElement("span");
+    spanElement.id = `title_${trId}`
+    spanElement.textContent = data[countyName][selectedYearsArray[0]].value;
+    thElement.appendChild(spanElement);
 
-    updateCountyData(trId, countyNameVal, percentageVal * 100, incomeVal);
-  } else {
-    updateCountyData(trId, "", "", "");
+    // Create the <p> elements inside the first <th>
+    const firstPElement = document.createElement("p");
+    firstPElement.className = "pl-4 mb-2";
+    firstPElement.textContent = "__ Per Giving Units";
+    thElement.appendChild(firstPElement);
+
+    const secondPElement = document.createElement("p");
+    secondPElement.className = "pl-4";
+    secondPElement.textContent = "__ Median Household Income";
+    thElement.appendChild(secondPElement);
+
+    const tableRow = document.getElementById(`row_${trId}`);
+    tableRow.appendChild(thElement);
+
   }
+  
 
-  if (cb) {
-    const benchmarkArray = getBenchmarks(data[percentData]);
-    const row = $(`#row_${trId}`)[0];
+  selectedYearsArray.forEach((year) => {
+    if (data[countyName][year].value.length > 0) {
+      const countyNameVal = data[countyName][year].value;
+      const percentageVal = data[percentData][year].value;
+      const incomeVal = data[incomeData][year].value;
 
-    // console.log(benchmarkArray, row);
+      updateCountyData(trId, countyNameVal, percentageVal * 100, incomeVal, year);
+    } else {
+      updateCountyData(trId, "", "", "");
+    }
 
-    getBackgroundColor(benchmarkArray, row);
-  }
+    if (cb) {
+      const benchmarkArray = getBenchmarks(data[percentData]);
+      const row = document.getElementById(`row_${trId}`);
+
+      getBackgroundColor(benchmarkArray, row);
+    }
+  });
 };
+
 
 function changeThWidth(elementId) {
   // Get the element by its ID
@@ -568,6 +611,7 @@ function getBenchmarks(obj) {
 }
 
 const getBackgroundColor = (array, row, i = 0) => {
+  // console.log({ array, row, i });
   if (!array.length) return;
 
   let color =
@@ -582,6 +626,7 @@ const getBackgroundColor = (array, row, i = 0) => {
   if (color) row.children[1].classList.add(color);
 
   getBackgroundColor(array.slice(1), row, i);
+  // console.log('---');
 };
 
 const addClickEventToBenchmark = (elementId, benchmarkDesc) => {
@@ -590,6 +635,7 @@ const addClickEventToBenchmark = (elementId, benchmarkDesc) => {
 };
 
 const createBenchmark = async (benchmarkDesc, elementId) => {
+  // console.log({ benchmarkDesc, elementId });
   let variable = new tingle.modal({
     footer: false,
     stickyFooter: false,
@@ -642,6 +688,8 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
 };
 
 const editElementChildren = (element, variable) => {
+  // console.log({ element, variable });
+
   element.addEventListener("click", () => {
     variable.open();
   });
@@ -650,10 +698,14 @@ const editElementChildren = (element, variable) => {
   element.classList.add("hover:opacity-100");
   element.classList.add("transition");
   element.classList.add("ease-in-out");
+  // element.classList.add("inline-flex");
 
   // Create SVG element
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("class", "h-8 w-8 ml-2 font-medium text-gray-900 dark:text-white");
+  svg.setAttribute(
+    "class",
+    "h-8 w-8 ml-2 font-medium text-gray-900 dark:text-white float-right"
+  );
   svg.setAttribute("fill", "none");
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("stroke", "currentColor");

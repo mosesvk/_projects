@@ -51,7 +51,7 @@ const displayReportComponent = () => {
       "localCountyName_Client",
       "localCountyMedianHouseholdIncome_Client",
       "localCountyPerGivingUnit_Client",
-      selectedYears[0], 
+      selectedYears, 
       'cb'
     );
     checkForCountyDataIncomeTable(
@@ -59,48 +59,48 @@ const displayReportComponent = () => {
       "localCountyName_two_Client",
       "localCountyMedianHouseholdIncome_two_Client",
       "localCountyPerGivingUnit_two_Client",
-      selectedYears[0]
+      selectedYears
     );
     checkForCountyDataIncomeTable(
       "localCounty_three",
       "localCountyName_three_Client",
       "localCountyMedianHouseholdIncome_three_Client",
       "localCountyPerGivingUnit_three_Client",
-      selectedYears[0]
+      selectedYears
     );
     checkForCountyDataIncomeTable(
       "localCounty_four",
       "localCountyName_four_Client",
       "localCountyMedianHouseholdIncome_four_Client",
       "localCountyPerGivingUnit_four_Client",
-      selectedYears[0]
+      selectedYears
     );
     checkForCountyDataIncomeTable(
       "localCounty_five",
       "localCountyName_five_Client",
       "localCountyMedianHouseholdIncome_five_Client",
       "localCountyPerGivingUnit_five_Client",
-      selectedYears[0]
+      selectedYears
     );
     checkForCountyDataIncomeTable(
       "localCounty_six",
       "localCountyName_six_Client",
-      "localCountyMedianHouseholdIncomesix_Client",
-      "localCountyPerGivingUnitsix_Client",
-      selectedYears[0]
+      "localCountyMedianHouseholdIncome_six_Client",
+      "localCountyPerGivingUnit_six_Client",
+      selectedYears
     );
 
     insertDataToReport(incomeData, selectedYears, [
       ["netIncomeRatio", "percent", 0, "wa", 'cb'],
       ["netIncomeRatio_twoYrAvg", "percent", 0, null, 'cb'],
-      ["contributionsWithoutDonorPerAverageAdultAttendee", "dollar", 0, null, 'cb'],
-      ["contributionsWithoutDonorPerAverageAdultAttendee_percentChange", "percent", 0],
-      ["contributionsWithoutDonorPerGivingUnit", "dollar", 0, null, 'cb'],
-      ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0],
+      ["contributionsWithoutDonorPerAverageAdultAttendee", "dollar", 0],
+      ["contributionsWithoutDonorPerAverageAdultAttendee_percentChange", "percent", 0, null, 'cb'],
+      ["contributionsWithoutDonorPerGivingUnit", "dollar", 0],
+      ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0, null, 'cb'],
       ["totalContributionsPerAverageAdultAttendee", "dollar", 0, "wa", 'cb'],
-      ["totalContributionsPerAverageAdultAttendee_percentChange", "percent", 0],
-      ["totalContributionsPerGivingUnit", "dollar", 0, "wa", 'cb'],
-      ["totalContributionsPerGivingUnit_percentChange", "percent", 0],
+      ["totalContributionsPerAverageAdultAttendee_percentChange", "percent", 0, null, 'cb'],
+      ["totalContributionsPerGivingUnit", "dollar", 0],
+      ["totalContributionsPerGivingUnit_percentChange", "percent", 0, "wa", 'cb'],
     ])
 
     insertDataToReport(expenseData, selectedYears, [
@@ -125,9 +125,9 @@ const displayReportComponent = () => {
     insertDataToReport(additionalData, selectedYears, [
       ["contributionsPerAccountingFTE", "dollar", 0, "wa"],
       ["expensesPerAccountingFTE", "dollar", 0, "wa"],
-      ["facilitiesExpenseToTotalCashExpenditures_lessThanTen", "percent", 0, "wa"],
-      ["facilitiesExpenseToTotalCashExpenditures_greaterThanTen", "percent", 0, "wa"],
-      ["facilityCostPerSquareFootExcluding_lessThanTen", "dollar", 2, "wa", 'cb'],
+      ["facilitiesExpenseToTotalCashExpenditures_lessThanTen", "percent", 0, "wa", 'cb'],
+      ["facilitiesExpenseToTotalCashExpenditures_greaterThanTen", "percent", 0, "wa", 'cb'],
+      ["facilityCostPerSquareFootExcluding_lessThanTen", "dollar", 2, "wa"],
       ["facilityCostPerSquareFootExcluding_greaterThanTen", "dollar", 2, "wa"],
       ["facilityCostPerSquareFootIncluding_lessThanTen", "dollar", 2, "wa"],
       ["facilityCostPerSquareFootIncluding_greaterThanTen", "dollar", 2, "wa"],
@@ -234,7 +234,7 @@ const addClientDataToReportRow = (
   cb
 ) => {
   const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex opacity-80 justify-between";
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between";
   const propScope = "row";
 
   selectedYears.forEach((year) => {
@@ -250,6 +250,8 @@ const addClientDataToReportRow = (
     if (cb) {
 
        let clientBenchmarkArray = getBenchmarks(client)
+
+      //  console.log(clientBenchmarkArray, tableRow);
 
   	  getBackgroundColor(clientBenchmarkArray, tableRow)
 
@@ -268,7 +270,7 @@ const addClientDataToModalRow = (
   // console.log({ tableModalRow, year, client, type, fixedNum });
 
   const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex";
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
   const propScope = "row";
 
   const dataPoint = document.createElement("th");
