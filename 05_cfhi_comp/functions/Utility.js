@@ -133,7 +133,7 @@ function updateModal(mainName, avgData, clientData) {
       // Create a table header cell for the year
       const yearCell = document.createElement("th");
       yearCell.className =
-        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between";
       yearCell.scope = "row";
       yearCell.textContent = year;
 
@@ -417,7 +417,7 @@ const updateCountyData = (trId, countyName, percentage, income, year) => {
   const secondThElement = document.createElement("th");
   secondThElement.scope = "row";
   secondThElement.className =
-    "px-4 py-4 font-medium text-gray-900 whitespace-normal dark:text-white";
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between";
 
   // Create the span element inside the second <th>
   const spanElementSecond = document.createElement("span");
@@ -615,9 +615,9 @@ function getBenchmarks(obj) {
   return benchmarks;
 }
 
-const getBackgroundColor = (array, row, i = 0) => {
-  console.log({ array, row, i });
+const getBackgroundColor = (array, row, i = 1) => {
   if (!array.length) return;
+  console.log({ array, row, i });
 
   let color =
     array[0] === "Warning"
@@ -628,9 +628,9 @@ const getBackgroundColor = (array, row, i = 0) => {
       ? "actionRequired"
       : null;
 
-  if (color) row.children[1].classList.add(color);
+  if (color) row.children[i].classList.add(color);
 
-  getBackgroundColor(array.slice(1), row, i);
+  getBackgroundColor(array.slice(1), row, i+1);
   // console.log('---');
 };
 

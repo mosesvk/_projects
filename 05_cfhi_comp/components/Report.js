@@ -247,17 +247,17 @@ const addClientDataToReportRow = (
 
     tableRow.appendChild(dataPoint);
 
-    if (cb) {
-
-       let clientBenchmarkArray = getBenchmarks(client)
-
-      //  console.log(clientBenchmarkArray, tableRow);
-
-  	  getBackgroundColor(clientBenchmarkArray, tableRow)
-
-    }
-
   });
+
+  if (cb) {
+
+    let clientBenchmarkArray = getBenchmarks(client)
+
+   //  console.log(clientBenchmarkArray, tableRow);
+
+   getBackgroundColor(clientBenchmarkArray, tableRow)
+
+ }
 };
 
 const addClientDataToModalRow = (
