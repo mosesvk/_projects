@@ -617,7 +617,7 @@ function getBenchmarks(obj) {
 
 const getBackgroundColor = (array, row, i = 1) => {
   if (!array.length) return;
-  console.log({ array, row, i });
+  // console.log({ array, row, i });
 
   let color =
     array[0] === "Warning"
@@ -695,6 +695,8 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
 const editElementChildren = (element, variable) => {
   // console.log({ element, variable });
 
+  // console.log(element.firstChild);
+
   element.addEventListener("click", () => {
     variable.open();
   });
@@ -726,5 +728,6 @@ const editElementChildren = (element, variable) => {
   svg.appendChild(path);
 
   // Append the SVG element to the element
-  element.appendChild(svg);
+  element.firstChild.appendChild(svg);
 };
+
