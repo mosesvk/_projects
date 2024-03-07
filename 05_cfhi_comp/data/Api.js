@@ -10858,6 +10858,8 @@ const runApiMain = () => {
       displayExpenseComponent();
 
       displayReportComponent();
+
+      processTHElements()
     } catch (err) {
       console.error(err);
     }

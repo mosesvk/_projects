@@ -342,7 +342,7 @@ const addPeerDataToRow = (
   name,
   data
 ) => {
-  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data });
+  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name });
 
   const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
@@ -354,19 +354,20 @@ const addPeerDataToRow = (
   if (peer && wa) {
     avg = getWeightedAverageOfArray(data, name);
   } else if (peer && !wa) {
-    avg = getAverageOfArray(peer[dataArray]);
+    avg = getAverageOfArray(peer[dataArray], name);
   } else {
     avg = 0;
   }
-
-  // console.log(peer[dataArray]);
-
+  
+  
   const textAvg = styleNumber(avg, type, fixedNum);
   const dataPointMid = document.createElement("th");
   const mid = peer ? getMidpointOfArray(peer[dataArray]) : 0;
+  // console.log('mid', mid);
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement("th");
   const min = peer ? getMinOfArray(peer[dataArray]) : 0;
+if (name == 'totalOutsourcedEmployees') console.log('totalOutsourcedEmployees', {min, peerArray: peer[dataArray]})
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
   const max = peer ? getMaxOfArray(peer[dataArray]) : 0;

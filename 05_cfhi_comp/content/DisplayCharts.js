@@ -244,10 +244,15 @@ const displayIncomeComponent = () => {
   );
 
   const netIncome_benchmark = [
+    'Net Income Ratio Benchmark',
     'The benchmark for this ratio in any particular year is that it is positive. However, we understand there will be years the church invests in its ministry and the ratio may be negative because of a predetermined choice. A more important benchmark is for the average net income ratio to be an improving trend over the years.',
     ]
   createBenchmark(netIncome_benchmark, "row_netIncomeRatio");
-  createBenchmark(netIncome_benchmark, "row_netIncomeRatio_twoYrAvg");
+  const netIncome_twoYrAvg_benchmark = [
+    'Net Income Ratio Two Year Average Benchmark',
+    'The benchmark for this ratio in any particular year is that it is positive. However, we understand there will be years the church invests in its ministry and the ratio may be negative because of a predetermined choice. A more important benchmark is for the average net income ratio to be an improving trend over the years.',
+    ]
+  createBenchmark(netIncome_twoYrAvg_benchmark, "row_netIncomeRatio_twoYrAvg");
 
   const totalContrPerAAA_benchmark = [
     'Total Contributions Per Average Adult Attendee Benchmark',

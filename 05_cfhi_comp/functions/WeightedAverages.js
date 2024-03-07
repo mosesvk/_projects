@@ -364,7 +364,7 @@ const debtCoverage_weightedAverage = (data, name) => {
   );
 };
 
-const netCashAvailability_standard_weightedAverage = (data, name) => {
+const netCashAvailability_standard_weightedAverage = (data, name) => {a
   const s45 = getSumOfArray(data.totalExpense[name]);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name]);
   const s168 = getSumOfArray(data.internetOnFinanceLease[name]);
@@ -383,7 +383,7 @@ const netCashAvailability_including_weightedAverage = (data, name) => {
   const s21 = getSumOfArray(data.pledgeReceivable[name]);
   const s30 = getSumOfArray(data.availableOperatingLineOfCredit[name]);
 
-  return s18 + s20 - (s26 - s166 - s31) - s36 + s21 + s30;
+  return (s18 + s20 - ((s26 - s166) - s31) - s36) + s21 + s30;
 };
 
 const netCashAvailability_weightedAverage = (data, name) => {
@@ -395,7 +395,8 @@ const netCashAvailability_weightedAverage = (data, name) => {
   const s36 = getSumOfArray(data.netAssetWithDonor[name]);
   const s21 = getSumOfArray(data.pledgeReceivable[name]);
 
-  return s18 + s20 - (s26 - s166 - s31) - s36 + s21;
+  // console.log({s18, s20, s26, s166, s31, s36, s21});
+  return s18 + s20 - ((s26 - s166) - s31) - s36 + s21;
 };
 
 const liquidityRatio_weightedAverage = (data, name) => {
