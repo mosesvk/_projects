@@ -168,6 +168,8 @@ const displayReportComponent = () => {
       ["facilityCostPerSquareFootIncluding_greaterThanTen", "dollar", 2, "wa"],
       ["informationTechnologyCostPerFTE", "dollar", 0, "wa"],
     ]);
+
+    processTHElements()
   }
 
   closeSidebarAfterSelectingOption("report");
@@ -267,7 +269,7 @@ const addClientDataToReportRow = (
   cb
 ) => {
   const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between";
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
   const propScope = "row";
 
   selectedYears.forEach((year) => {
@@ -319,7 +321,7 @@ const addClientDataToModalRow = (
   // console.log({ tableModalRow, year, client, type, fixedNum });
 
   const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
   const propScope = "row";
 
   const dataPoint = document.createElement("th");
@@ -345,7 +347,7 @@ const addPeerDataToRow = (
   // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name });
 
   const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
   const propScope = "row";
 
   const dataPointAvg = document.createElement("th");
@@ -470,3 +472,68 @@ const clearColumnsFromOtherRowsInTable = (idName, columnsToPreserve) => {
       });
   });
 };
+
+function processTHElements() {
+  // Select all <tr> elements with an id
+  const rows = document.querySelectorAll('tr[id]');
+
+  rows.forEach(row => {
+    // Select all <th> elements inside the current <tr>
+    const thElements = row.querySelectorAll('th');
+
+    thElements.forEach(th => {
+      // Check if the <th> has a <div> child
+      const divChild = th.querySelector('div');
+      if (divChild) {
+        // If <th> has a <div> child, find the <span> inside it
+        const spanChild = divChild.querySelector('span');
+        if (spanChild) {
+          // Process the text content of <span> child
+          let textContent = spanChild.textContent.trim();
+          // Check if the text content contains numbers
+          if (/\d/.test(textContent)) {
+            if (textContent.includes("-")) {
+              // Remove "-" and apply classes
+              textContent = `(${textContent.replace("-", "")})`;
+              spanChild.textContent = textContent;
+              th.classList.remove("text-gray-900", "dark:text-white");
+              th.classList.add("text-red-500", "dark:text-red-400");
+            }
+          }
+        }
+      } else {
+        // Check if the <th> has exactly three children
+        if (th.childElementCount === 3) {
+          // Process the two <p> tags
+          const pTags = th.querySelectorAll('p');
+          pTags.forEach(p => {
+            let textContent = p.textContent.trim();
+            // Check if the text content contains numbers
+            if (/\d/.test(textContent)) {
+              if (textContent.includes("-")) {
+                // Remove "-" and apply classes
+                textContent = `(${textContent.replace("-", "")})`;
+                p.textContent = textContent;
+                p.classList.remove("text-gray-900", "dark:text-white");
+                p.classList.add("text-red-500", "dark:text-red-400");
+              }
+            }
+          });
+        } else {
+          // Process the text content of <th> directly
+          let textContent = th.textContent.trim();
+          // Check if the text content contains numbers
+          if (/\d/.test(textContent)) {
+            if (textContent.includes("-")) {
+              // Remove "-" and apply classes
+              textContent = `(${textContent.replace("-", "")})`;
+              th.textContent = textContent;
+              th.classList.remove("text-gray-900", "dark:text-white");
+              th.classList.add("text-red-500", "dark:text-red-400");
+            }
+          }
+        }
+      }
+    });
+  });
+}

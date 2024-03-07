@@ -133,7 +133,7 @@ function updateModal(mainName, avgData, clientData) {
       // Create a table header cell for the year
       const yearCell = document.createElement("th");
       yearCell.className =
-        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between";
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
       yearCell.scope = "row";
       yearCell.textContent = year;
 
@@ -412,7 +412,7 @@ const updateCountyData = (trId, countyName, percentage, income, year) => {
   const secondThElement = document.createElement("th");
   secondThElement.scope = "row";
   secondThElement.className =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between";
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
 
   // Create the span element inside the second <th>
   const spanElementSecond = document.createElement("span");
@@ -726,95 +726,30 @@ const editElementChildren = (element, variable, elementId) => {
   element.classList.add("transition");
   element.classList.add("ease-in-out");
 
-  // Create SVG element
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute(
-    "class",
-    "h-8 w-8 ml-2 font-medium text-gray-900 dark:text-white float-right"
-  );
-  svg.setAttribute("fill", "none");
-  svg.setAttribute("viewBox", "0 0 24 24");
-  svg.setAttribute("stroke", "currentColor");
+  // // Create SVG element
+  // const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  // svg.setAttribute(
+  //   "class",
+  //   "h-8 w-8 ml-2 font-medium text-gray-900 dark:text-white float-right"
+  // );
+  // svg.setAttribute("fill", "none");
+  // svg.setAttribute("viewBox", "0 0 24 24");
+  // svg.setAttribute("stroke", "currentColor");
 
-  // Create path element and set its attributes
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("stroke-linecap", "round");
-  path.setAttribute("stroke-linejoin", "round");
-  path.setAttribute("stroke-width", "2");
-  path.setAttribute("d", "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6");
+  // // Create path element and set its attributes
+  // const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  // path.setAttribute("stroke-linecap", "round");
+  // path.setAttribute("stroke-linejoin", "round");
+  // path.setAttribute("stroke-width", "2");
+  // path.setAttribute("d", "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6");
 
   // Append path element to the SVG element
-  svg.appendChild(path);
+  // svg.appendChild(path);
 
   // Append the SVG element to the element
-  element.firstChild.appendChild(svg);
+  // element.firstChild.appendChild(svg);
 };
 
 
-function processTHElements() {
-  // Select all <tr> elements with an id
-  const rows = document.querySelectorAll('tr[id]');
 
-  rows.forEach(row => {
-    // Select all <th> elements inside the current <tr>
-    const thElements = row.querySelectorAll('th');
 
-    thElements.forEach(th => {
-      // Check if the <th> has a <div> child
-      const divChild = th.querySelector('div');
-      if (divChild) {
-        // If <th> has a <div> child, find the <span> inside it
-        const spanChild = divChild.querySelector('span');
-        if (spanChild) {
-          // Process the text content of <span> child
-          let textContent = spanChild.textContent.trim();
-          // Check if the text content contains numbers
-          if (/\d/.test(textContent)) {
-            if (textContent.includes("-")) {
-              // Remove "-" and apply classes
-              textContent = `(${textContent.replace("-", "")})`;
-              spanChild.textContent = textContent;
-              th.classList.remove("text-gray-900", "dark:text-white");
-              th.classList.add("text-red-500", "dark:text-red-400");
-            }
-          }
-        }
-      } else {
-        // Check if the <th> has exactly three children
-        if (th.childElementCount === 3) {
-          // Process the two <p> tags
-          const pTags = th.querySelectorAll('p');
-          pTags.forEach(p => {
-            let textContent = p.textContent.trim();
-            // Check if the text content contains numbers
-            if (/\d/.test(textContent)) {
-              if (textContent.includes("-")) {
-                // Remove "-" and apply classes
-                textContent = `(${textContent.replace("-", "")})`;
-                p.textContent = textContent;
-                p.classList.remove("text-gray-900", "dark:text-white");
-                p.classList.add("text-red-500", "dark:text-red-400");
-              }
-            }
-          });
-        } else {
-          // Process the text content of <th> directly
-          let textContent = th.textContent.trim();
-          // Check if the text content contains numbers
-          if (/\d/.test(textContent)) {
-            if (textContent.includes("-")) {
-              // Remove "-" and apply classes
-              textContent = `(${textContent.replace("-", "")})`;
-              th.textContent = textContent;
-              th.classList.remove("text-gray-900", "dark:text-white");
-              th.classList.add("text-red-500", "dark:text-red-400");
-            }
-          }
-        }
-      }
-    });
-  });
-}
-
-// Call the function to process <th> elements
-// processTHElements();
