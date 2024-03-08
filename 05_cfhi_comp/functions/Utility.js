@@ -655,7 +655,7 @@ const getBackgroundColor = (array, row, i = 1) => {
       allowHTML: true,
       content: `<p class="flex items-center text-md">
         Click
-        <svg class="w-4 h-4 mx-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+        <svg class="w-4 h-4 mx-2 text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
         </svg>
         Benchmark
