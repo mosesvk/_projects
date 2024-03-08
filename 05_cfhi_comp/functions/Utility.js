@@ -189,13 +189,12 @@ const getMidpointOfArray = (array) => {
 
   if (array.length % 2 === 1) {
     // If odd length, return the value at the midpoint
-    return Number(array[midpoint])
+    return Number(array[midpoint]);
   } else {
     // If even length, return the average of the two midpoints
     return (Number(array[midpoint - 1]) + Number(array[midpoint])) / 2;
   }
 };
-
 
 const getMaxOfArray = (array) => {
   const nonZeroArray = array.filter((num) => num !== 0);
@@ -504,7 +503,6 @@ const checkForCountyDataIncomeTable = (
 
     // Iterate over the years
     for (const year of Object.keys(data[countyName])) {
-
       // Check if the value is not empty
       if (data[countyName][year].value !== "") {
         // Store the value and break the loop
@@ -515,7 +513,11 @@ const checkForCountyDataIncomeTable = (
     // console.log(countyNameVal, trId);
 
     // If countyNameVal is still undefined, all values were empty
-    if (countyNameVal === 0 || countyNameVal === undefined || countyNameVal === "") {
+    if (
+      countyNameVal === 0 ||
+      countyNameVal === undefined ||
+      countyNameVal === ""
+    ) {
       const trElement = document.getElementById(`row_${trId}`);
       trElement.classList.add("hidden");
     }
@@ -645,7 +647,24 @@ const getBackgroundColor = (array, row, i = 1) => {
       ? "actionRequired"
       : null;
 
-  if (color) row.children[i].classList.add(color);
+  if (color) {
+    // Add class to apply background color
+    row.children[i].classList.add(color);
+    // Initialize tippy popover
+    tippy(row.children[i], {
+      allowHTML: true,
+      content: `<p class="flex items-center text-md">
+        Click
+        <svg class="w-4 h-4 mx-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+        </svg>
+        Benchmark
+      </p>`,
+      arrow: true,
+      placement: "left",
+      // animation: scaleExtreme
+    });
+  }
 
   getBackgroundColor(array.slice(1), row, i + 1);
   // console.log('---');
@@ -749,7 +768,3 @@ const editElementChildren = (element, variable, elementId) => {
   // Append the SVG element to the element
   // element.firstChild.appendChild(svg);
 };
-
-
-
-

@@ -3,12 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CFHI</title>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.js" integrity="sha512-SxopZNPB/jzFpgtGdR6lI7dK8EbbheOZVLNDI0FsMNM0NAqNkJyVoT83C72esOJCTdPVfDb8miZ3whsW4o/+fA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.css" integrity="sha512-ZKliQ0+hD8CfDJ2v8kzEzNxT5Y4EnmG5cFV6oFvswCDyckUCRG+1p6nyMMlLgi1vM5srVpX+6YkxiUoF2tOfRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.js" integrity="sha512-nsQH9RD40r4g0C32+8AvcOqHtpotZ+7AI3LpKPbfTXgYWHhwbJ+20ATTkbUz+kO3ZeruAiaubTq97pD6sWSRbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.css" integrity="sha512-j5NOES5oZiza0awDPWoDCbU50obvmJUQobyAqYzhsXFxaXaxkcxB2WhnRcZa5wRGNyborruWuJaeg9J508HfQg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>CFHI - COMP</title>
 
+    <!-- Development -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+
+    <!-- Production -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.js"
+      integrity="sha512-SxopZNPB/jzFpgtGdR6lI7dK8EbbheOZVLNDI0FsMNM0NAqNkJyVoT83C72esOJCTdPVfDb8miZ3whsW4o/+fA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.css"
+      integrity="sha512-ZKliQ0+hD8CfDJ2v8kzEzNxT5Y4EnmG5cFV6oFvswCDyckUCRG+1p6nyMMlLgi1vM5srVpX+6YkxiUoF2tOfRw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.js"
+      integrity="sha512-nsQH9RD40r4g0C32+8AvcOqHtpotZ+7AI3LpKPbfTXgYWHhwbJ+20ATTkbUz+kO3ZeruAiaubTq97pD6sWSRbA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.css"
+      integrity="sha512-j5NOES5oZiza0awDPWoDCbU50obvmJUQobyAqYzhsXFxaXaxkcxB2WhnRcZa5wRGNyborruWuJaeg9J508HfQg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
     <link
       rel="stylesheet"
@@ -1566,12 +1596,12 @@
                         class="w-fit xl:w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundGreen dark:bg-gray-700 dark:text-lime-300"
+                          class="text-xs text-white uppercase backgroundGreen opacity-75"
                         >
                           <tr id="row_demo_tableHeader">
                             <th
                               scope="col"
-                              class="px-6 py-3 text-lg tracking-wide whitespace-nowrap"
+                              class="px-6 py-3 text-lg tracking-wide whitespace-nowrap dark:ftext-white"
                             >
                               Demo Comparison between Years
                             </th>
@@ -1746,7 +1776,7 @@
                         class="w-fit xl:w-full min-w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundGreen dark:bg-gray-700 dark:text-lime-300"
+                          class="text-xs text-white uppercase backgroundGreen opacity-75"
                         >
                           <tr id="row_cash_tableHeader">
                             <th
@@ -2196,28 +2226,23 @@
                           <tr
                             id="row_localCounty"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                          </tr>
+                          ></tr>
                           <tr
                             id="row_localCounty_two"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                          </tr>
+                          ></tr>
                           <tr
                             id="row_localCounty_three"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                          </tr>
+                          ></tr>
                           <tr
                             id="row_localCounty_four"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                          </tr>
+                          ></tr>
                           <tr
                             id="row_localCounty_five"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                          </tr>
+                          ></tr>
                           <tr
                             id="row_localCounty_six"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
