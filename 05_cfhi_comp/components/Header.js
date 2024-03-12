@@ -54,7 +54,7 @@ document.getElementById(
         >
           <div class="flex items-center justify-between">
             <svg
-              class="w-5 h-5 text-gray-500 dark:text-white"
+              class="w-5 h-5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg" 
               fill="currentColor"
@@ -64,7 +64,7 @@ document.getElementById(
             </svg>
             <div class="px-2">Select Years</div>
             <svg
-              class="h-5 w-5 text-gray-400"
+              class="h-5 w-5"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
