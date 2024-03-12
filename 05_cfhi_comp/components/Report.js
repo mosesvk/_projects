@@ -369,7 +369,7 @@ const addPeerDataToRow = (
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement("th");
   const min = peer ? getMinOfArray(peer[dataArray]) : 0;
-if (name == 'totalOutsourcedEmployees') console.log('totalOutsourcedEmployees', {min, peerArray: peer[dataArray]})
+// if (name == 'totalOutsourcedEmployees') console.log('totalOutsourcedEmployees', {min, peerArray: peer[dataArray]})
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
   const max = peer ? getMaxOfArray(peer[dataArray]) : 0;

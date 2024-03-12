@@ -10332,6 +10332,16 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
+        "totalMaintenanceOccupancyCost",
+        record,
+        "s12___total_maint___occupancy_cost",
+        "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
+        "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
         "accountingDepartmentVolunteer",
         record,
         "s160___accounting_department_volunteer",
@@ -10413,7 +10423,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalExpense",
+        "totalMaintenanceOccupancyCost",
         record,
         "s12___total_maint___occupancy_cost",
         "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
@@ -10494,7 +10504,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalExpense",
+        "totalMaintenanceOccupancyCost",
         record,
         "s12___total_maint___occupancy_cost",
         "cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10",
@@ -10504,7 +10514,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalFacilit",
+        "totalFacilitySquareFootage",
         record,
         "s08___total_facility_square_footage",
         "cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10",
@@ -10525,7 +10535,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalExpense",
+        "totalMaintenanceOccupancyCost",
         record,
         "s12___total_maint___occupancy_cost",
         "cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10",
@@ -10535,7 +10545,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalFacilit",
+        "totalFacilitySquareFootage",
         record,
         "s08___total_facility_square_footage",
         "cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10",
@@ -10556,7 +10566,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalExpense",
+        "totalMaintenanceOccupancyCost",
         record,
         "s12___total_maint___occupancy_cost",
         "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
@@ -10606,7 +10616,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalFacilit",
+        "totalFacilitySquareFootage",
         record,
         "s08___total_facility_square_footage",
         "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
@@ -10627,7 +10637,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalExpense",
+        "totalMaintenanceOccupancyCost",
         record,
         "s12___total_maint___occupancy_cost",
         "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
@@ -10677,7 +10687,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalFacilit",
+        "totalFacilitySquareFootage",
         record,
         "s08___total_facility_square_footage",
         "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
@@ -10689,7 +10699,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "informationTechnologyCostPerFTEn_Peer",
+        "informationTechnologyCostPerFTE_Peer",
         record,
         "cfhi_compre_25_ratio___it_cost_per_fte",
         "cfhi_compre_25_yes_no___it_cost_per_fte"
@@ -10702,7 +10712,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         record,
         "s13___it_cost",
         "cfhi_compre_25_yes_no___it_cost_per_fte",
-        "facilityCostPerSquareFootIncluding_greaterThanTen"
+        "informationTechnologyCostPerFTE"
       );
       insertDataIntoObject(
         "peer",
@@ -10712,7 +10722,7 @@ const processAdditionalData = (years, recordsPeer, recordsClient) => {
         record,
         "s151___church_only_full_time_equivalent_excluding_childcare_worker",
         "cfhi_compre_25_yes_no___it_cost_per_fte",
-        "facilityCostPerSquareFootIncluding_greaterThanTen"
+        "informationTechnologyCostPerFTE"
       );
     });
 
@@ -10857,7 +10867,7 @@ const runApiMain = () => {
       displayIncomeComponent();
       displayExpenseComponent();
 
-      processTHElements()
+      displayReportComponent();
     } catch (err) {
       console.error(err);
     }
