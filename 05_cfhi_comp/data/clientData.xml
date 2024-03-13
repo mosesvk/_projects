@@ -1,0 +1,962 @@
+<qdbapi>
+    <record>
+        <merged_client_name>12Stone Church, Inc.</merged_client_name>
+        <related_client>2711</related_client>
+        <s52_formatted_year>2020</s52_formatted_year>
+        <s02___giving_units>6298</s02___giving_units>
+        <s01_average_adult_attendees_excluding_children>10861</s01_average_adult_attendees_excluding_children>
+        <s150___total_attendee_including_children>14269</s150___total_attendee_including_children>
+        <s151___church_only_full_time_equivalent_excluding_childcare_worker>145</s151___church_only_full_time_equivalent_excluding_childcare_worker>
+        <cfhi_compre_00a_ratio___attendees_to_staff>98</cfhi_compre_00a_ratio___attendees_to_staff>
+        <cfhi_compre_00b_ratio___contributions_w_o_donor_restrictions_exclude_lage>32900839</cfhi_compre_00b_ratio___contributions_w_o_donor_restrictions_exclude_lage>
+        <cfhi_compre_00c_ratio___total_contributions_exclude_large_gifts>33308219</cfhi_compre_00c_ratio___total_contributions_exclude_large_gifts>
+        <s40___total_contribution>37079090</s40___total_contribution>
+        <cfhi_compre_00d_ratio___percent_of_total_given_online>0.68</cfhi_compre_00d_ratio___percent_of_total_given_online>
+        <s157___total_outsourced_employee__fte_>30</s157___total_outsourced_employee__fte_>
+        <s08___total_facility_square_footage>359511</s08___total_facility_square_footage>
+        <s161___number_of_location>8</s161___number_of_location>
+        <cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>245</cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+        <cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+            258</cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        <cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>287</cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+        <cfhi_compre_04_ratio___liquidity_ratio>4.9</cfhi_compre_04_ratio___liquidity_ratio>
+        <cfhi_compre_05_ratio___net_cash_availability>15274096</cfhi_compre_05_ratio___net_cash_availability>
+        <cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>15274096</cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+        <cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>2312258</cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+        <cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>0.8</cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+        <cfhi_compre_07_ratio___current_ratio>4.3</cfhi_compre_07_ratio___current_ratio>
+        <cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>0.07</cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        <cfhi_compre_09a_ratio___debt_per_average_adult_attendee>2757</cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+        <cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>6059</cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>
+        <cfhi_compre_09d_ratio___debt_per_giving_unit>4754</cfhi_compre_09d_ratio___debt_per_giving_unit>
+        <cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+            10448.027627818</cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+        <cfhi_compre_10_ratio___debt_coverage>4.85</cfhi_compre_10_ratio___debt_coverage>
+        <cfhi_compre_11_ratio___net_income_ratio>0.18</cfhi_compre_11_ratio___net_income_ratio>
+        <cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+            3029.2642482276</cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+        <cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+            5224.0138139092</cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+        <cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>3067</cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>
+        <cfhi_compre_13b_ratio___total_contributions_per_giving_unit>5289</cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+        <cfhi_compre_15_ratio___benefits_to_salaries>0.28</cfhi_compre_15_ratio___benefits_to_salaries>
+        <cfhi_compre_16_ratio___average_salaries_per_fte>61693.47826087</cfhi_compre_16_ratio___average_salaries_per_fte>
+        <cfhi_compre_16_ratio___average_benefits_per_fte>17362.726017943</cfhi_compre_16_ratio___average_benefits_per_fte>
+        <cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>79056.204278813</cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+        <cfhi_compre_16a_ratio___average_salaries_and_benefits_per_fte___outsourced>78767.689220183</cfhi_compre_16a_ratio___average_salaries_and_benefits_per_fte___outsourced>
+        <cfhi_compre_17_1_ratio___personnel_to_total_cash_expenditures>0.40</cfhi_compre_17_1_ratio___personnel_to_total_cash_expenditures>
+        <cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>0.08</cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+        <cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>0.48</cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        <cfhi_compre_18a_ratio___local_outreach_to_total_cash_expend>0.05</cfhi_compre_18a_ratio___local_outreach_to_total_cash_expend>
+        <cfhi_compre_18b_ratio___global_outreach_to_total_cash_expend>0.03</cfhi_compre_18b_ratio___global_outreach_to_total_cash_expend>
+        <cfhi_compre_18c_ratio___total_outreach_to_total_cash_expend>0.08</cfhi_compre_18c_ratio___total_outreach_to_total_cash_expend>
+        <cfhi_compre_19a_ratio___cash_exp_per_average_adult>2614</cfhi_compre_19a_ratio___cash_exp_per_average_adult>
+        <cfhi_compre_19b_ratio___cash_exp_per_giving_unit>4507</cfhi_compre_19b_ratio___cash_exp_per_giving_unit>
+        <cfhi_compre_20_ratio___contributions_per_accounting_fte>5551369.8333333</cfhi_compre_20_ratio___contributions_per_accounting_fte>
+        <cfhi_compre_21_ratio___expenses_per_accounting_fte>5144830</cfhi_compre_21_ratio___expenses_per_accounting_fte>
+        <cfhi_compre_22_ratio___facilities_expenses_of_total_cash_expend>0.12</cfhi_compre_22_ratio___facilities_expenses_of_total_cash_expend>
+        <cfhi_compre_23ratio___facility_cost_per_square_foot__excluding_interest_expense_>9.14</cfhi_compre_23ratio___facility_cost_per_square_foot__excluding_interest_expense_>
+        <cfhi_compre_24_ratio___facility_cost_per_square_foot__including_principal_and_interest_expense_>
+            15.74</cfhi_compre_24_ratio___facility_cost_per_square_foot__including_principal_and_interest_expense_>
+        <cfhi_compre_25_ratio___information_technology_cost_per_fte>12746.611456177</cfhi_compre_25_ratio___information_technology_cost_per_fte>
+        <cfhi_compre_14_ratio___median_household_income_given_to_church>0.072</cfhi_compre_14_ratio___median_household_income_given_to_church>
+        <cfhi_compre_14a_ratio___median_household_income_given_to_church>0.078</cfhi_compre_14a_ratio___median_household_income_given_to_church>
+        <cfhi_compre_14b_ratio___median_household_income_given_to_church>0.082</cfhi_compre_14b_ratio___median_household_income_given_to_church>
+        <cfhi_compre_14c_ratio___median_household_income_given_to_church />
+        <cfhi_compre_14d_ratio___median_household_income_given_to_church />
+        <cfhi_compre_14e_ratio___median_household_income_given_to_church />
+        <s54_county_code___data>73460</s54_county_code___data>
+        <s54_county_code_1054___data>67735</s54_county_code_1054___data>
+        <s54_county_code_2054___data>64460</s54_county_code_2054___data>
+        <s54_county_code_3054___data />
+        <s54_county_code_4054___data />
+        <s54_county_code_5054___data />
+        <s163___total_contribution_given_online>25107526</s163___total_contribution_given_online>
+        <cfhi_compre_09a_ratio_change___debt_per_average_adult_attendee>-0.06</cfhi_compre_09a_ratio_change___debt_per_average_adult_attendee>
+        <cfhi_compre_09d_ratio_change___debt_per_giving_unit>-0.10</cfhi_compre_09d_ratio_change___debt_per_giving_unit>
+        <cfhi_compre_11a_ratio___two_year_net_income_ratio>0.16</cfhi_compre_11a_ratio___two_year_net_income_ratio>
+        <cfhi_compre_12a_ratio_change___contributions_without_donor_restrictions_per_average_adult_attendee>
+            0.15</cfhi_compre_12a_ratio_change___contributions_without_donor_restrictions_per_average_adult_attendee>
+        <cfhi_compre_12b_ratio_change__contributions_without_donor_restrictions_per_giving_unit>0.11</cfhi_compre_12b_ratio_change__contributions_without_donor_restrictions_per_giving_unit>
+        <cfhi_compre_13a_ratio_change___total_contributions_per_average_adult_attendee>0.14</cfhi_compre_13a_ratio_change___total_contributions_per_average_adult_attendee>
+        <cfhi_compre_13b_ratio_change___total_contributions_per_giving_unit>0.10</cfhi_compre_13b_ratio_change___total_contributions_per_giving_unit>
+        <cfhi_compre_19a_ratio_change___cash_exp_per_average_adult>0.09</cfhi_compre_19a_ratio_change___cash_exp_per_average_adult>
+        <cfhi_compre_19b_ratio_change___cash_exp_per_giving_unit>0.05</cfhi_compre_19b_ratio_change___cash_exp_per_giving_unit>
+        <cfhi_compre_00a_bench_rating___attendees_to_staff>Warning</cfhi_compre_00a_bench_rating___attendees_to_staff>
+        <cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves>Good</cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves>
+        <cfhi_compre_02_bench_rating___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+            Good</cfhi_compre_02_bench_rating___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        <cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage>Good</cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage>
+        <cfhi_compre_04_bench_rating___liquidity_ratio>Warning</cfhi_compre_04_bench_rating___liquidity_ratio>
+        <cfhi_compre_05_bench_rating___net_cash_availability>Good</cfhi_compre_05_bench_rating___net_cash_availability>
+        <cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions>Good</cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions>
+        <cfhi_compre_07_bench_rating___current_ratio>Good</cfhi_compre_07_bench_rating___current_ratio>
+        <cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+            Good</cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        <cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee>Good</cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee>
+        <cfhi_compre_09d_bench_rating___debt_per_giving_unit>Good</cfhi_compre_09d_bench_rating___debt_per_giving_unit>
+        <cfhi_compre_10_bench_rating___debt_coverage>Good</cfhi_compre_10_bench_rating___debt_coverage>
+        <cfhi_compre_11_bench_ratings___net_income_ratio>Good</cfhi_compre_11_bench_ratings___net_income_ratio>
+        <cfhi_compre_13a_bench_rating___total_contributions_per_average_adult_attendee>Good</cfhi_compre_13a_bench_rating___total_contributions_per_average_adult_attendee>
+        <cfhi_compre_14_bench_rating___median_household_income_given_to_church>Good</cfhi_compre_14_bench_rating___median_household_income_given_to_church>
+        <cfhi_compre_17_1_bench_rating___personnel_to_total_cash_expenditures>Good</cfhi_compre_17_1_bench_rating___personnel_to_total_cash_expenditures>
+        <cfhi_compre_17_2_bench_rating___mandatory_debt_to_total_cash_expenditures>Good</cfhi_compre_17_2_bench_rating___mandatory_debt_to_total_cash_expenditures>
+        <cfhi_compre_17_3_bench_rating___mandatory_debt_and_personnel_to_total_cash_expenditures>
+            Good</cfhi_compre_17_3_bench_rating___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        <cfhi_compre_18c_bench_rating___total_outreach_to_total_cash_expend>Warning</cfhi_compre_18c_bench_rating___total_outreach_to_total_cash_expend>
+        <cfhi_compre_22_bench_rating___facilities_expenses_of_total_cash_expend>Good</cfhi_compre_22_bench_rating___facilities_expenses_of_total_cash_expend>
+        <s53___how_old_is_your_facility_factoring_in_improvement__>Under 10 Years</s53___how_old_is_your_facility_factoring_in_improvement__>
+        <cfhi_compre_11a_bench_ratings___two_year_net_income_ratio>Action Required</cfhi_compre_11a_bench_ratings___two_year_net_income_ratio>
+        <cfhi_compre_12a_bench_ratings___percent_change___contributions_without_donor_restrictions_per_adult>Action
+            Required</cfhi_compre_12a_bench_ratings___percent_change___contributions_without_donor_restrictions_per_adult>
+        <cfhi_compre_12b_bench_ratings___percent_change___contributions_without_donor_restrictions_per_gu>Action
+            Required</cfhi_compre_12b_bench_ratings___percent_change___contributions_without_donor_restrictions_per_gu>
+        <cfhi_compre_13a_bench_ratings___percent_change___total_contributions_per_adult>Action
+            Required</cfhi_compre_13a_bench_ratings___percent_change___total_contributions_per_adult>
+        <cfhi_compre_13b_bench_ratings___percent_change___total_contributions_per_giving_unit>Action
+            Required</cfhi_compre_13b_bench_ratings___percent_change___total_contributions_per_giving_unit>
+        <s54_county_code___county>Gwinnett County</s54_county_code___county>
+        <s54_county_code_1054___county>Hall County</s54_county_code_1054___county>
+        <s54_county_code_2054___county>Barrow County</s54_county_code_2054___county>
+        <s54_county_code_3054___county />
+        <s54_county_code_4054___county />
+        <s54_county_code_5054___county />
+        <cfhi_compre_22_value_under10___facilities_expenses_of_total_cash_expend>0.12</cfhi_compre_22_value_under10___facilities_expenses_of_total_cash_expend>
+        <cfhi_compre_22_rating_under10___facilities_expenses_of_total_cash_expend>Good</cfhi_compre_22_rating_under10___facilities_expenses_of_total_cash_expend>
+        <cfhi_compre_22_value_over10___facilities_expenses_of_total_cash_expend />
+        <cfhi_compre_22_rating_over10___facilities_expenses_of_total_cash_expend />
+        <cfhi_compre_23_value_under10___facility_cost_per_square_foot__excluding_interest_expense_>
+            9.14</cfhi_compre_23_value_under10___facility_cost_per_square_foot__excluding_interest_expense_>
+        <cfhi_compre_23_value_over10___facility_cost_per_square_foot__excluding_interest_expense_ />
+        <cfhi_compre_24_value_under10___facility_cost_per_square_foot__including_principal_and_interest_expense_>
+            15.74</cfhi_compre_24_value_under10___facility_cost_per_square_foot__including_principal_and_interest_expense_>
+        <cfhi_compre_24_value_over10___facility_cost_per_square_foot__including_principal_and_interest_expense_ />
+        <cfhi_compre_25_ratio___information_technology_cost_per_fte>12746.611456177</cfhi_compre_25_ratio___information_technology_cost_per_fte>
+        <cfhi_compre_00a_bench_paragraph___attendees_to_staff>&lt;p&gt;Another way to analyze the
+            portion of the operating budget that a church spends on personnel costs is to look at
+            the non-financial ratio of attendees to staff. A key point to remember is that this
+            ratio isnt impacted by size, so it doesnt matter if the church has 200, 2,000, or
+            20,000 attendees. This ratio tells the church that one full-time staff equivalent is
+            being paid for a specific number of attendees. This information may be especially useful
+            alongside Ratios 15  17 when a church is assessing its own staffing levels and the
+            amount spent on personnel costs compared to peers. This result indicates that the ratio
+            is borderline to just above the recommended limits, so staffing and personnel costs are
+            less than peers. It may also indicate that you could be understaffed and might need to
+            consider increasing staffing. &lt;/p&gt;</cfhi_compre_00a_bench_paragraph___attendees_to_staff>
+        <cfhi_compre_01_bench_paragraph___days_of_expendable_net_asset_reserves>&lt;p&gt;This ratio
+            tells how many days of operating expenses are available in net asset reserves. Net asset
+            reserves take into account the accrual of current assets and current liabilities. The
+            term expendable net assets represents the total resources available to spend on
+            operations, excluding future gifts made or revenues generated by the church. Think of it
+            as how long you could live on a savings account. Expendable net assets consist of net
+            assets without donor restrictions, undesignated (formerly referred to as unrestricted,
+            undesignated net assets), which are net assets that result from achieving positive net
+            income year after year in the without donor restrictions column of the statement of
+            activities. It also includes reserves designated by the board for specific operating
+            purposes, but excludes reserves that represent the churchs equity in land, buildings,
+            and equipment (NIFA).&lt;/p&gt;&lt;br /&gt;The total of the amounts in the numerator is
+            divided by total expenditures less the annual non-cash expense of depreciation. The net
+            result of removing depreciation is to calculate, based on prior expenditures, the cash
+            expenses your church would incur. The number of days can be temporarily high if the
+            church has recorded large gifts without donor restrictions that have not been spent at
+            year-end. This is the case for churches with fiscal years ending on December 31, when
+            many attendees give large year-end gifts in order to meet tax-reporting deadlines. The
+            number of days can also appear low if the church incurred a large one-time expenditure
+            that won't be repeated in the future. This result indicates that the church has an
+            amount within or above the recommended benchmark.</cfhi_compre_01_bench_paragraph___days_of_expendable_net_asset_reserves>
+        <cfhi_compre_02_bench_paragraph___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>&lt;p&gt;This
+            ratio calculates the days of operating cash and investments on hand to fund annual cash
+            expenditures, but specifically related to very liquid assets. It only considers
+            operating cash and investments, not other current assets and liabilities. This number is
+            divided by the sum of expenses plus capitalized interest, which is interest paid in cash
+            but not expensed by the church. This may occur during periods of construction when GAAP
+            requires the church to capitalize this cash expense as part of the cost of the asset
+            being built. Depreciation is also removed because it represents a significant non-cash
+            annual expense recorded by the church. Current debt principal is added back because it
+            represents cash spent, but it is not recorded as an expense in the financial statements.
+            The net effect of these adjustments is to estimate, based on prior expenditures, the
+            annual cash expenditures the church would incur.&lt;/p&gt;&lt;br /&gt;&lt;p&gt;This
+            result indicates that the church has an amount within or above the recommended
+            benchmark. These reserves can be used for economic downturns or unexpected expenses,
+            events, or new opportunities. Often, churches that try to build up reserves have a goal.
+            If a goal has not been set, we recommend setting and maintaining one.&lt;/p&gt;</cfhi_compre_02_bench_paragraph___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        <cfhi_compre_03_bench_paragraph___available_days_of_cash_flow_coverage>&lt;p&gt;This ratio
+            represents the number of days of operations (including making scheduled debt service
+            payments) that would be available from the sum of operating cash flow, operating cash
+            and investments on hand at the beginning of the year, and the amount available from the
+            operating line of credit. In other words, if your church used all of the cash generated
+            from operations, all available cash and investments on hand at the beginning of the
+            year, and available line of credit, how many days could it continue to operate on these
+            sources? This ratio represents your maximum level of reserves and should always be the
+            highest of the three ratios calculating days of cash reserves. This result indicates
+            that the church has an amount within or above the recommended benchmark.&lt;/p&gt;</cfhi_compre_03_bench_paragraph___available_days_of_cash_flow_coverage>
+        <cfhi_compre_04_bench_paragraph___liquidity_ratio>&lt;p&gt;This ratio will tell the reader
+            how many times actual operating liabilities can be funded from operating reserves. These
+            operating liabilities exclude current building fund liabilities, which normally have a
+            separate source of cash from restricted revenues or budgets. It also excludes any
+            amounts owed on a short-term construction line of credit. These are typically
+            interest-only until converted into a long-term debt and paid over time, and do not
+            require payment from operating cash or investments in the short-term. It also excludes
+            deferred revenues, which do not require an outlay of cash. &lt;/p&gt;&lt;br /&gt;This
+            result is in the caution range because it is just outside of the expected benchmark.
+            Results less than the recommended benchmark may indicate that the church is keeping
+            fewer liquid reserves and is less likely to be able to handle unexpected operating
+            expenses, events, or new opportunities that may come along. To improve this ratio,
+            either operating cash or investments must improve at a rate greater than operating
+            liabilities. Conversely, operating liabilities must decrease while the operating cash
+            and investments remain consistent or decrease at a lesser rate. </cfhi_compre_04_bench_paragraph___liquidity_ratio>
+        <cfhi_compre_05_bench_paragraph___net_cash_availability>&lt;p&gt;This measurement calculates
+            the amount of cash available for other uses after the church has satisfied its adjusted
+            current liabilities (excluding amounts borrowed on a construction line of credit) and
+            cash and investments set aside for projects with donor restrictions (excluding non-cash
+            amounts or pledges receivable from donor-restricted projects) resulting from gifts given
+            by donors who have placed restrictions on their use.&lt;/p&gt;&lt;br /&gt;&lt;p&gt;This
+            may be one of the most important measures provided to your church leadership. Many
+            churches today find that senior management (pastoral staff) and the governing board want
+            to know how much cash the church has. The most important question is not "How much do we
+            have?" but rather, "Whose cash is it and how much of it can we spend?" Those are
+            typically two very different answers.&lt;/p&gt;&lt;br /&gt;&lt;p&gt;A net cash
+            availability number factors in the cash required for the immediate future (less than 10
+            days) to determine what can safely be spent. Net assets with donor restrictions are not
+            to be expended for general operating purposes and therefore are excluded from the cash
+            balance. Keep in mind that the portion of net assets with donor restrictions that are
+            supported by pledges receivable are excluded (deducted from total net assets with donor
+            restrictions) as they would have no impact on this cash-based calculation. Some churches
+            have in essence "borrowed" from reserves with donor restrictions because they overspent
+            in operations. This calculation will help management identify if this is happening in
+            your church, so it is crucial to provide this information to decision makers. This
+            result indicates that the church has an amount within or above the recommended
+            benchmark.</cfhi_compre_05_bench_paragraph___net_cash_availability>
+        <cfhi_compre_06_bench_paragraph___debt_to_contributions_w_o_donor_restrictions>&lt;p&gt;This
+            ratio measures how many times debt is greater than annual contributions without donor
+            restrictions, which are the primary income source for most churches. Lenders look at
+            debt as funded by contributions without donor restrictions because those are the
+            resources from which the church will be able to pay mandatory debt service payments. By
+            looking at trends in various congregations, contributions without donor restrictions
+            help the lender determine what debt load the church will be able to handle on top of
+            other required expenditures (salaries, benefits, mission expenses, facility expenses,
+            etc.). Based on our experience with church clients across the country, we realize the
+            lower this ratio is, the less strain debt will be on the church's budget.
+            &lt;/p&gt;&lt;br /&gt;&lt;p&gt;This result indicates that the church has an amount
+            within or above the recommended benchmark and is easily able to handle the level of debt
+            it is presently carrying.&lt;/p&gt;</cfhi_compre_06_bench_paragraph___debt_to_contributions_w_o_donor_restrictions>
+        <cfhi_compre_07_bench_paragraph___current_ratio>&lt;p&gt;This ratio helps determine how
+            easily the church can meet its current obligations through current assets. There are
+            differences of opinion as to what the ratio results should be. A ratio of less than 1.0
+            could be interpreted as a red flag that the church does not have enough in current
+            assets to pay its upcoming liabilities. This could result in the need to borrow from
+            restricted funds or the need to obtain a temporary line of credit to cover short-term
+            obligations. Results this low would also warrant a careful review of the cash flow and
+            reserves ratios and measurements. Your church will need to be aware of this and monitor
+            the ratio on an ongoing basis to avoid being surprised by a cash shortage.
+            &lt;/p&gt;&lt;br /&gt;&lt;p&gt;This result indicates that the church has an amount
+            within or above the recommended benchmark, and is easily able to handle the level of
+            current liabilities it is presently carrying and still have reserves
+            remaining.&lt;/p&gt;</cfhi_compre_07_bench_paragraph___current_ratio>
+        <cfhi_compre_08_bench_paragraph__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>This
+            ratio pertains more to the debt service (debt payment requirements), and looks at the
+            percentage of contributions that will be used to make annual debt service payments.
+            Although a church may have many revenue sources, lenders typically only consider
+            contributions without donor restrictions when determining how much debt a church can
+            manage. This result indicates that the church has an amount within or above the
+            recommended benchmark and is easily able to handle the level of debt service it is
+            presently carrying.</cfhi_compre_08_bench_paragraph__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        <cfhi_compre_09a_bench_paragraph___debt_per_average_adult_attendee>&lt;p&gt;This figure is
+            calculated by dividing total debt by the average number of adult attendees. It will vary
+            significantly based on the philosophy, denomination, location, age, size, and
+            demographics of the church. Each church will need to determine the level of debt it is
+            comfortable maintaining or servicing. You will probably encounter varying opinions
+            within your congregation. Some individuals believe that a church should not incur debt
+            while others are very comfortable with a high debt load. Lenders believe that debt will
+            be funded by contributions without donor restrictions because typically these are the
+            resources from which the church will be able to pay mandatory debt service payments.
+            This result indicates that the church has a level of debt per adult attendee within or
+            below the recommended benchmark and is easily able to handle the level of debt it is
+            presently carrying.&lt;/p&gt;</cfhi_compre_09a_bench_paragraph___debt_per_average_adult_attendee>
+        <cfhi_compre_09d_bench_paragraph___debt_per_giving_unit>&lt;p&gt;This figure is calculated
+            by dividing total debt by the average number of giving units. It will vary significantly
+            based on the philosophy, denomination, location, age, size, and demographics of the
+            church. Each church will need to determine the level of debt it is comfortable
+            maintaining or servicing. You will probably encounter varying opinions within your
+            congregation. Some individuals believe that a church should not incur debt while others
+            are very comfortable with a high debt load. Lenders believe that debt will be funded by
+            contributions without donor restrictions because typically these are the resources from
+            which the church will be able to pay mandatory debt service payments. This result
+            indicates that the church has a level of debt per giving unit within or below the
+            recommended benchmark and is easily able to handle the level of debt it is presently
+            carrying.&lt;/p&gt;</cfhi_compre_09d_bench_paragraph___debt_per_giving_unit>
+        <cfhi_compre_10_bench_paragraph___debt_coverage>&lt;p&gt;This ratio is used to determine how
+            many times a church would be able to cover its current annual debt obligations from
+            current operations. This is a very common debt covenant ratio used by lenders to monitor
+            the ability of a church to make annual debt service payments. The results could change
+            dramatically between years based on swings in the change in net assets without donor
+            restrictions. For example, if a church used its reserves to perform more repairs and
+            maintenance to its facility than normal, the increase in expense could cause a much
+            lower positive or even negative change in net assets without donor restrictions. This
+            would adversely affect the ratio and could unexpectedly violate a debt covenant,
+            potentially requiring the church to obtain a bank covenant waiver and pay related fees.
+            The benchmark agreed to by the lender is a key negotiation point, especially with a new
+            lender. It may also factor into the amount of reserves the church leadership deems
+            necessary. &lt;/p&gt;&lt;br /&gt;&lt;p&gt;The change in net assets without donor
+            restrictions is primarily driven by operational decisions such as successes or failures
+            at managing budgeted expenses. Successes or failures at developing good stewardship
+            habits in the congregation, resulting in growth or decline of contributions without
+            donor restrictions, can also have a significant effect on this number. Interest expense
+            represents interest payments under the terms of the note. The biggest factor impacting
+            this ratio is significant increases or decreases to the change in net assets without
+            donor restrictions . Ministry decisions or necessary additional expenditures may drive
+            the decision to spend net assets without donor restrictions and result in lower positive
+            or negative change in net assets without donor restrictions. While a lower positive or
+            negative change in net assets without donor restrictions may impact this ratio in the
+            current year, it is important to look at the trends and understand the reasons behind
+            ministry decisions to spend resources without donor restrictions. This result indicates
+            that the church has an amount within or above the recommended benchmark and is able to
+            cover its current annual debt obligations from current operations.&lt;/p&gt;</cfhi_compre_10_bench_paragraph___debt_coverage>
+        <cfhi_compre_11_bench_paragraph___net_income_ratio>&lt;p&gt;The purpose of this ratio is to
+            show if the results of the church's general operations are positive or negative, and by
+            how much. In business terms, this shows if the church is making or losing money in its
+            basic day-to-day function of ministering to the local community. The importance of this
+            ratio is immediately apparent. If a church is losing money in its basic operations over
+            time, eventually it will no longer be viable and will have to close. At some point this
+            church will reach the stage where it is either too late to make the necessary
+            operational changes or it no longer has the funds or the confidence to make them. That
+            point is more easily identified in retrospect, but the net income ratio can provide a
+            bellwether to warn of impending financial distress. &lt;/p&gt;&lt;br /&gt;&lt;p&gt;One
+            factor to consider when calculating this ratio is that very large one-time events, such
+            as the receipt of a large one-time gift without donor restrictions made at the end of
+            the fiscal year, can significantly influence a church's net income without donor
+            restrictions. Your church may not want to have large surpluses every year. You may want
+            to make sure that money is invested in the ministries of the church. However, you need
+            to make sure some reserves are in place. Monitoring this ratio and the trend of it from
+            year to year will help determine the financial health of your church. There are many
+            ministry reasons why a church may or may not choose to show consistent surpluses. It is
+            because of these reasons that the ratio is also calculated using the average net income
+            over several years, to determine if recent deficits are a one-time issue or a growing,
+            unchecked trend. This result indicates that the church has an improving trend, which is
+            within the recommended benchmark.&lt;/p&gt;</cfhi_compre_11_bench_paragraph___net_income_ratio>
+        <cfhi_compre_13a_bench_paragraph___total_contributions_per_average_adult_attendee>&lt;p&gt;When
+            a church is in the midst of a specific campaign, it will likely receive some large
+            one-time gifts. Since this ratio includes both gifts with and without donor
+            restrictions, it is important to determine if any unusual or large gifts should be
+            eliminated; otherwise, there could be large swings between years. The power of this
+            ratio is in analyzing trends in congregational giving habits between years. Keep in mind
+            that during the period of a capital campaign this figure may be inflated even with the
+            removal of large or one-time gifts because of an increase in smaller gifts as well. This
+            result indicates that the measure is within the recommended benchmark and giving per
+            adult attendee is strong.&lt;/p&gt;</cfhi_compre_13a_bench_paragraph___total_contributions_per_average_adult_attendee>
+        <cfhi_compre_13v19a_bench_paragraph___total_contr_vs_exp_per_adult>&lt;p&gt;Have you ever
+            wondered what the net position (per average adult attendee and giving unit) is between
+            the total contributions received (excluding accrual pledges and large one-time gifts)
+            and the financial cost per adult attendee and giving unit? This comparison takes the net
+            between these two measures and gives you the information to know if your contributions
+            are high enough to cover the cash cost per adult attendee and giving unit. Because the
+            net position of these two measures is positive, the result is within the recommended
+            limits and your church can conclude that you are able to fund cash operations though
+            current contributions received.&lt;/p&gt;</cfhi_compre_13v19a_bench_paragraph___total_contr_vs_exp_per_adult>
+        <cfhi_compre_13v19b_bench_paragraph___total_contr_vs_exp_per_gu>&lt;p&gt;Have you ever
+            wondered what the net position (per average adult attendee and giving unit) is between
+            the total contributions received (excluding accrual pledges and large one-time gifts)
+            and the financial cost per adult attendee and giving unit? This comparison takes the net
+            between these two measures and gives you the information to know if your contributions
+            are high enough to cover the cash cost per adult attendee and giving unit. Because the
+            net position of these two measures is positive, the result is within the recommended
+            limits and your church can conclude that you are able to fund cash operations though
+            current contributions received.&lt;/p&gt;</cfhi_compre_13v19b_bench_paragraph___total_contr_vs_exp_per_gu>
+        <cfhi_compre_14_bench_paragraph___median_household_income_given_to_church>&lt;p&gt;The
+            purpose of this ratio is to see what percentage of the local median county household
+            income adult attendees and giving units are contributing to your church. The median
+            income figure is obtained from the most recent U.S. Census data available, which is
+            usually one year in arrears. Your church must be aware of the demographics of your
+            congregation as compared to the county's demographics if you are in a large county with
+            much economic diversity. This ratio allows your church to see the percentage of median
+            household income your adult attendees and giving units contribute to your church. Trends
+            between years in this data are very important. This percentage and the changes between
+            years allow management and the board to see how much additional giving capacity the
+            congregation has. It also is great feedback for the senior pastor to see changes in
+            giving habits between years and in response to stewardship teaching and focus. This
+            result indicates that the church has an amount within or above the recommended
+            benchmark.&lt;/p&gt;</cfhi_compre_14_bench_paragraph___median_household_income_given_to_church>
+        <cfhi_compre_17_1_bench_paragraph___personnel_to_total_cash_expenditures>&lt;p&gt;Salaries
+            and benefits represent significant resource outflows from the local church. Therefore,
+            it is essential to continually monitor these levels as a percentage of cash
+            expenditures. It is also important to promptly follow up on changes in trends or unusual
+            variances from peers to ensure that your ministry resources are continually maximized.
+            This ratio allows your church to look at one of its largest expenses and determine the
+            portion of the operating budget that will be used. This result indicates that the
+            present level of personnel to total cash expenditures (excluding depreciation but
+            including current debt principal) are within the recommended limits. &lt;/p&gt;</cfhi_compre_17_1_bench_paragraph___personnel_to_total_cash_expenditures>
+        <cfhi_compre_17_2_bench_paragraph___mandatory_debt_to_total_cash_expenditures>&lt;p&gt;Interest
+            and debt service payments (which are not an expense but rather a reduction of a
+            liability) can represent major resource outflows from the local church. Therefore, it is
+            essential to continually monitor these levels as a percentage of cash expenditures. It
+            is also important to promptly follow up on changes in trends or unusual variances from
+            peers to ensure that your ministry resources are continually maximized.
+            &lt;/p&gt;&lt;p&gt;This ratio allows your church to look at two of its largest outflows
+            and determine the portion of the operating budget that will be used. Often a growth
+            cycle results in an amount of debt the church anticipates being able to pay off as more
+            people are able and encouraged to attend. However, the church needs to be able to pay
+            the bills and provide the services that will attract new people with the current budget.
+            Reviewing this measure in advance of any major debt decisions will help you analyze the
+            feasibility of any facility expansion goals. &lt;/p&gt;&lt;p&gt;This result indicates
+            that the measure is within the recommended benchmark, and mandatory debt service
+            payments to total cash expenditures (excluding depreciation but including current debt
+            principal) are within the recommended limits.&lt;/p&gt;</cfhi_compre_17_2_bench_paragraph___mandatory_debt_to_total_cash_expenditures>
+        <cfhi_compre_17_3_bench_paragraph___mandatory_debt_and_personnel_to_total_cash_expenditures>&lt;p&gt;Salaries
+            and benefits, interest, and debt service payments (which are not an expense but rather a
+            reduction of a liability) represent the majority of resource outflows from the local
+            church. Therefore, it is essential to continually monitor these levels as a percentage
+            of total cash expenditures. It is also important to promptly follow up on changes in
+            trends or unusual variances from peers to ensure that your ministry resources are
+            continually maximized. This ratio allows your church to look at two of its largest
+            expenses and resource outflows and determine the portion of the operating budget that
+            will be used. Often a growth cycle results in an amount of debt the church anticipates
+            being able to pay off as more people are able and encouraged to attend. However, the
+            church needs to be able to pay the bills and provide the services that will attract new
+            people with the current budget. Reviewing this ratio in advance of any major debt
+            decisions will help you analyze the feasibility of your facility expansion goals. This
+            result indicates that the overall measure is within the recommended benchmark, and
+            personnel and mandatory debt service payments to total cash expenditures (excluding
+            depreciation but including current debt principal) are within the recommended
+            limits.&lt;/p&gt;</cfhi_compre_17_3_bench_paragraph___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        <cfhi_compre_18c_bench_paragraph___total_outreach_to_total_cash_expend>&lt;p&gt;This ratio
+            looks at the combined total of missions outreach (outside missions and benevolence)
+            expenses as a percentage of total cash expenditures, as defined above. It specifically
+            excludes internally allocated costs and salaries of church employees included within
+            missions for some churches budgets because the methods used to allocate these types of
+            expenses vary significantly between churches. Churches may find this ratio useful in
+            benchmarking their total outreach expenditures with other churches.
+            &lt;p&gt;&lt;/p&gt;When a church experiences economic difficulties, ministry and
+            outreach expenses are usually the first to be decreased, as debt service payments are
+            not discretionary and personnel costs are difficult to reduce. Monitoring this ratio
+            over several years will allow the church to spot any percentage changes over time. This
+            result indicates that total outreach expenses are borderline to just below the
+            recommended limits. The likely cause of this may be a lack of funds available because
+            personnel and/or debt service costs comprise too much of the operating budget. This
+            could also be a preliminary indicator that the church is becoming stressed. Decreased
+            missions expenditures are often a sign that the church is dealing with other
+            difficulties and losing focus on its primary objective of outreach. The best way to
+            improve this measure is to set in motion a plan to decrease other expenses, which will
+            ease stress and allow additional funds for increased outside missions
+            expenditures.&lt;/p&gt;</cfhi_compre_18c_bench_paragraph___total_outreach_to_total_cash_expend>
+        <cfhi_compre_22_bench_paragraph___facilities_expenses_of_total_cash_expend>&lt;p&gt;Facilities
+            expense measures can vary, depending on whether the church has new or older facilities.
+            This measure is categorized by churches less or greater than 10 years old to ensure that
+            your church is compared to churches of a similar age. A few churches choose to rent
+            rather than own. Some do a combination of both. And many churches meet in community
+            venues such as local schools and invest the money that would have been used for
+            facilities back into ministry. Finally, with the recent trend of establishing multiple
+            campuses versus one large location, it is important to realize that these decisions will
+            impact this amount. Monitoring this ratio over several years will allow the church to
+            monitor any percentage changes over time. This result indicates that facilities expenses
+            to cash expenditures are within the recommended limits.&lt;/p&gt;</cfhi_compre_22_bench_paragraph___facilities_expenses_of_total_cash_expend>
+        <cfhi_stand_01_bench_paragraph___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures>&lt;p&gt;This
+            ratio shows the days of operating cash and investments on hand to fund annual
+            expenditures, but specifically related to very liquid assets. It only considers
+            operating cash and investments, not other current assets and liabilities. This result
+            indicates that the church has an amount within or above the recommended benchmark. These
+            reserves can be used for economic downturns or unexpected expenses, events, or new
+            opportunities. Often, churches that try to build up reserves have a goal. If a goal has
+            not been set, we recommend setting and maintaining one.&lt;/p&gt;</cfhi_stand_01_bench_paragraph___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures>
+        <cfhi_stand_02_bench_paragraph___net_cash_availability>&lt;p&gt;This measurement calculates
+            the amount of cash available for other uses after the church has satisfied its current
+            liabilities and set aside funds donors have restricted for specific uses. This may be
+            one of the most important measures provided to your church leadership. Many churches
+            today find that senior management (pastoral staff) and the governing board want to know
+            how much cash the church has. The most important question is not 'How much do we have?'
+            but rather, 'Whose cash is it and how much of it can we spend?' Those are typically two
+            very different answers. A net cash availability number factors in the cash required for
+            the immediate future (less than 10 days) to determine what can safely be spent. This
+            result indicates that the church has an amount within or above the recommended
+            benchmark.&lt;/p&gt;</cfhi_stand_02_bench_paragraph___net_cash_availability>
+        <cfhi_stand_03_bench_paragraph___debt_to_contribution_w_o_donor_rest />
+        <cfhi_stand_04_bench_paragraph___debt_per_givingunit />
+        <cfhi_stand_06and08_bench_paragraph_total_contributions_per_giving_unit_less_cash_expense_per_giving_unit>&lt;p&gt;Have
+            you ever wondered what the net position is (per giving unit) when compared to the
+            financial cost of total contributions received? This calculation takes the net between
+            these two measures and gives you the information to know if your contributions are high
+            enough to cover the monetary cost per giving unit.&lt;/p&gt;&lt;p&gt;Because the net
+            position of these two measures is positive, the result is within the recommended limits
+            and your church can conclude that you are able to pay cash operations though current
+            contributions received.&lt;/p&gt;</cfhi_stand_06and08_bench_paragraph_total_contributions_per_giving_unit_less_cash_expense_per_giving_unit>
+        <update_id>1688653496665</update_id>
+    </record>
+    <record>
+        <merged_client_name>12Stone Church, Inc.</merged_client_name>
+        <related_client>2711</related_client>
+        <s52_formatted_year>2021</s52_formatted_year>
+        <s02___giving_units>5759</s02___giving_units>
+        <s01_average_adult_attendees_excluding_children>10861</s01_average_adult_attendees_excluding_children>
+        <s150___total_attendee_including_children>14269</s150___total_attendee_including_children>
+        <s151___church_only_full_time_equivalent_excluding_childcare_worker>122</s151___church_only_full_time_equivalent_excluding_childcare_worker>
+        <cfhi_compre_00a_ratio___attendees_to_staff>117</cfhi_compre_00a_ratio___attendees_to_staff>
+        <cfhi_compre_00b_ratio___contributions_w_o_donor_restrictions_exclude_lage>32419015</cfhi_compre_00b_ratio___contributions_w_o_donor_restrictions_exclude_lage>
+        <cfhi_compre_00c_ratio___total_contributions_exclude_large_gifts>32419168</cfhi_compre_00c_ratio___total_contributions_exclude_large_gifts>
+        <s40___total_contribution>34314252</s40___total_contribution>
+        <cfhi_compre_00d_ratio___percent_of_total_given_online>0.79</cfhi_compre_00d_ratio___percent_of_total_given_online>
+        <s157___total_outsourced_employee__fte_>28</s157___total_outsourced_employee__fte_>
+        <s08___total_facility_square_footage>353094</s08___total_facility_square_footage>
+        <s161___number_of_location>7</s161___number_of_location>
+        <cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>389</cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves>
+        <cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+            386</cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        <cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>452</cfhi_compre_03_ratio___available_days_of_cash_flow_coverage>
+        <cfhi_compre_04_ratio___liquidity_ratio>7.9</cfhi_compre_04_ratio___liquidity_ratio>
+        <cfhi_compre_05_ratio___net_cash_availability>22579891</cfhi_compre_05_ratio___net_cash_availability>
+        <cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>22579891</cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit>
+        <cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>2045616</cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses>
+        <cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>0.3</cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions>
+        <cfhi_compre_07_ratio___current_ratio>7.2</cfhi_compre_07_ratio___current_ratio>
+        <cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>0.04</cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        <cfhi_compre_09a_ratio___debt_per_average_adult_attendee>950</cfhi_compre_09a_ratio___debt_per_average_adult_attendee>
+        <cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>5970</cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee>
+        <cfhi_compre_09d_ratio___debt_per_giving_unit>1792</cfhi_compre_09d_ratio___debt_per_giving_unit>
+        <cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+            11258.557041153</cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit>
+        <cfhi_compre_10_ratio___debt_coverage>7.98</cfhi_compre_10_ratio___debt_coverage>
+        <cfhi_compre_11_ratio___net_income_ratio>0.18</cfhi_compre_11_ratio___net_income_ratio>
+        <cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+            2984.9014823681</cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee>
+        <cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+            5629.2785205765</cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit>
+        <cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>2985</cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee>
+        <cfhi_compre_13b_ratio___total_contributions_per_giving_unit>5629</cfhi_compre_13b_ratio___total_contributions_per_giving_unit>
+        <cfhi_compre_15_ratio___benefits_to_salaries>0.29</cfhi_compre_15_ratio___benefits_to_salaries>
+        <cfhi_compre_16_ratio___average_salaries_per_fte>69544.913580247</cfhi_compre_16_ratio___average_salaries_per_fte>
+        <cfhi_compre_16_ratio___average_benefits_per_fte>20314.559670782</cfhi_compre_16_ratio___average_benefits_per_fte>
+        <cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>89859.473251029</cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte>
+        <cfhi_compre_16a_ratio___average_salaries_and_benefits_per_fte___outsourced>88273.879194631</cfhi_compre_16a_ratio___average_salaries_and_benefits_per_fte___outsourced>
+        <cfhi_compre_17_1_ratio___personnel_to_total_cash_expenditures>0.44</cfhi_compre_17_1_ratio___personnel_to_total_cash_expenditures>
+        <cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>0.05</cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures>
+        <cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>0.53</cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        <cfhi_compre_18a_ratio___local_outreach_to_total_cash_expend>0.07</cfhi_compre_18a_ratio___local_outreach_to_total_cash_expend>
+        <cfhi_compre_18b_ratio___global_outreach_to_total_cash_expend>0.01</cfhi_compre_18b_ratio___global_outreach_to_total_cash_expend>
+        <cfhi_compre_18c_ratio___total_outreach_to_total_cash_expend>0.08</cfhi_compre_18c_ratio___total_outreach_to_total_cash_expend>
+        <cfhi_compre_19a_ratio___cash_exp_per_average_adult>2291</cfhi_compre_19a_ratio___cash_exp_per_average_adult>
+        <cfhi_compre_19b_ratio___cash_exp_per_giving_unit>4320</cfhi_compre_19b_ratio___cash_exp_per_giving_unit>
+        <cfhi_compre_20_ratio___contributions_per_accounting_fte>6234455.3846154</cfhi_compre_20_ratio___contributions_per_accounting_fte>
+        <cfhi_compre_21_ratio___expenses_per_accounting_fte>5425871.5384615</cfhi_compre_21_ratio___expenses_per_accounting_fte>
+        <cfhi_compre_22_ratio___facilities_expenses_of_total_cash_expend>0.13</cfhi_compre_22_ratio___facilities_expenses_of_total_cash_expend>
+        <cfhi_compre_23ratio___facility_cost_per_square_foot__excluding_interest_expense_>9.11</cfhi_compre_23ratio___facility_cost_per_square_foot__excluding_interest_expense_>
+        <cfhi_compre_24_ratio___facility_cost_per_square_foot__including_principal_and_interest_expense_>
+            12.94</cfhi_compre_24_ratio___facility_cost_per_square_foot__including_principal_and_interest_expense_>
+        <cfhi_compre_25_ratio___information_technology_cost_per_fte>16106.526748971</cfhi_compre_25_ratio___information_technology_cost_per_fte>
+        <cfhi_compre_14_ratio___median_household_income_given_to_church>0.075</cfhi_compre_14_ratio___median_household_income_given_to_church>
+        <cfhi_compre_14a_ratio___median_household_income_given_to_church>0.083</cfhi_compre_14a_ratio___median_household_income_given_to_church>
+        <cfhi_compre_14b_ratio___median_household_income_given_to_church>0.083</cfhi_compre_14b_ratio___median_household_income_given_to_church>
+        <cfhi_compre_14c_ratio___median_household_income_given_to_church />
+        <cfhi_compre_14d_ratio___median_household_income_given_to_church />
+        <cfhi_compre_14e_ratio___median_household_income_given_to_church />
+        <s54_county_code___data>75021</s54_county_code___data>
+        <s54_county_code_1054___data>68057</s54_county_code_1054___data>
+        <s54_county_code_2054___data>67646</s54_county_code_2054___data>
+        <s54_county_code_3054___data />
+        <s54_county_code_4054___data />
+        <s54_county_code_5054___data />
+        <s163___total_contribution_given_online>27185809</s163___total_contribution_given_online>
+        <cfhi_compre_09a_ratio_change___debt_per_average_adult_attendee>-0.66</cfhi_compre_09a_ratio_change___debt_per_average_adult_attendee>
+        <cfhi_compre_09d_ratio_change___debt_per_giving_unit>-0.62</cfhi_compre_09d_ratio_change___debt_per_giving_unit>
+        <cfhi_compre_11a_ratio___two_year_net_income_ratio>0.18</cfhi_compre_11a_ratio___two_year_net_income_ratio>
+        <cfhi_compre_12a_ratio_change___contributions_without_donor_restrictions_per_average_adult_attendee>
+            -0.01</cfhi_compre_12a_ratio_change___contributions_without_donor_restrictions_per_average_adult_attendee>
+        <cfhi_compre_12b_ratio_change__contributions_without_donor_restrictions_per_giving_unit>0.08</cfhi_compre_12b_ratio_change__contributions_without_donor_restrictions_per_giving_unit>
+        <cfhi_compre_13a_ratio_change___total_contributions_per_average_adult_attendee>-0.03</cfhi_compre_13a_ratio_change___total_contributions_per_average_adult_attendee>
+        <cfhi_compre_13b_ratio_change___total_contributions_per_giving_unit>0.06</cfhi_compre_13b_ratio_change___total_contributions_per_giving_unit>
+        <cfhi_compre_19a_ratio_change___cash_exp_per_average_adult>-0.12</cfhi_compre_19a_ratio_change___cash_exp_per_average_adult>
+        <cfhi_compre_19b_ratio_change___cash_exp_per_giving_unit>-0.04</cfhi_compre_19b_ratio_change___cash_exp_per_giving_unit>
+        <cfhi_compre_00a_bench_rating___attendees_to_staff>Warning</cfhi_compre_00a_bench_rating___attendees_to_staff>
+        <cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves>Good</cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves>
+        <cfhi_compre_02_bench_rating___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+            Good</cfhi_compre_02_bench_rating___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        <cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage>Good</cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage>
+        <cfhi_compre_04_bench_rating___liquidity_ratio>Good</cfhi_compre_04_bench_rating___liquidity_ratio>
+        <cfhi_compre_05_bench_rating___net_cash_availability>Good</cfhi_compre_05_bench_rating___net_cash_availability>
+        <cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions>Good</cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions>
+        <cfhi_compre_07_bench_rating___current_ratio>Good</cfhi_compre_07_bench_rating___current_ratio>
+        <cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+            Good</cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        <cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee>Good</cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee>
+        <cfhi_compre_09d_bench_rating___debt_per_giving_unit>Good</cfhi_compre_09d_bench_rating___debt_per_giving_unit>
+        <cfhi_compre_10_bench_rating___debt_coverage>Good</cfhi_compre_10_bench_rating___debt_coverage>
+        <cfhi_compre_11_bench_ratings___net_income_ratio>Good</cfhi_compre_11_bench_ratings___net_income_ratio>
+        <cfhi_compre_13a_bench_rating___total_contributions_per_average_adult_attendee>Warning</cfhi_compre_13a_bench_rating___total_contributions_per_average_adult_attendee>
+        <cfhi_compre_14_bench_rating___median_household_income_given_to_church>Good</cfhi_compre_14_bench_rating___median_household_income_given_to_church>
+        <cfhi_compre_17_1_bench_rating___personnel_to_total_cash_expenditures>Good</cfhi_compre_17_1_bench_rating___personnel_to_total_cash_expenditures>
+        <cfhi_compre_17_2_bench_rating___mandatory_debt_to_total_cash_expenditures>Good</cfhi_compre_17_2_bench_rating___mandatory_debt_to_total_cash_expenditures>
+        <cfhi_compre_17_3_bench_rating___mandatory_debt_and_personnel_to_total_cash_expenditures>
+            Good</cfhi_compre_17_3_bench_rating___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        <cfhi_compre_18c_bench_rating___total_outreach_to_total_cash_expend>Warning</cfhi_compre_18c_bench_rating___total_outreach_to_total_cash_expend>
+        <cfhi_compre_22_bench_rating___facilities_expenses_of_total_cash_expend>Good</cfhi_compre_22_bench_rating___facilities_expenses_of_total_cash_expend>
+        <s53___how_old_is_your_facility_factoring_in_improvement__>Under 10 Years</s53___how_old_is_your_facility_factoring_in_improvement__>
+        <cfhi_compre_11a_bench_ratings___two_year_net_income_ratio>Good</cfhi_compre_11a_bench_ratings___two_year_net_income_ratio>
+        <cfhi_compre_12a_bench_ratings___percent_change___contributions_without_donor_restrictions_per_adult>Action
+            Required</cfhi_compre_12a_bench_ratings___percent_change___contributions_without_donor_restrictions_per_adult>
+        <cfhi_compre_12b_bench_ratings___percent_change___contributions_without_donor_restrictions_per_gu>Action
+            Required</cfhi_compre_12b_bench_ratings___percent_change___contributions_without_donor_restrictions_per_gu>
+        <cfhi_compre_13a_bench_ratings___percent_change___total_contributions_per_adult>Action
+            Required</cfhi_compre_13a_bench_ratings___percent_change___total_contributions_per_adult>
+        <cfhi_compre_13b_bench_ratings___percent_change___total_contributions_per_giving_unit>Action
+            Required</cfhi_compre_13b_bench_ratings___percent_change___total_contributions_per_giving_unit>
+        <s54_county_code___county>Gwinnett County</s54_county_code___county>
+        <s54_county_code_1054___county>Hall County</s54_county_code_1054___county>
+        <s54_county_code_2054___county>Barrow County</s54_county_code_2054___county>
+        <s54_county_code_3054___county />
+        <s54_county_code_4054___county />
+        <s54_county_code_5054___county />
+        <cfhi_compre_22_value_under10___facilities_expenses_of_total_cash_expend>0.13</cfhi_compre_22_value_under10___facilities_expenses_of_total_cash_expend>
+        <cfhi_compre_22_rating_under10___facilities_expenses_of_total_cash_expend>Good</cfhi_compre_22_rating_under10___facilities_expenses_of_total_cash_expend>
+        <cfhi_compre_22_value_over10___facilities_expenses_of_total_cash_expend />
+        <cfhi_compre_22_rating_over10___facilities_expenses_of_total_cash_expend />
+        <cfhi_compre_23_value_under10___facility_cost_per_square_foot__excluding_interest_expense_>
+            9.11</cfhi_compre_23_value_under10___facility_cost_per_square_foot__excluding_interest_expense_>
+        <cfhi_compre_23_value_over10___facility_cost_per_square_foot__excluding_interest_expense_ />
+        <cfhi_compre_24_value_under10___facility_cost_per_square_foot__including_principal_and_interest_expense_>
+            12.94</cfhi_compre_24_value_under10___facility_cost_per_square_foot__including_principal_and_interest_expense_>
+        <cfhi_compre_24_value_over10___facility_cost_per_square_foot__including_principal_and_interest_expense_ />
+        <cfhi_compre_25_ratio___information_technology_cost_per_fte>16106.526748971</cfhi_compre_25_ratio___information_technology_cost_per_fte>
+        <cfhi_compre_00a_bench_paragraph___attendees_to_staff>&lt;p&gt;Another way to analyze the
+            portion of the operating budget that a church spends on personnel costs is to look at
+            the non-financial ratio of attendees to staff. A key point to remember is that this
+            ratio isnt impacted by size, so it doesnt matter if the church has 200, 2,000, or
+            20,000 attendees. This ratio tells the church that one full-time staff equivalent is
+            being paid for a specific number of attendees. This information may be especially useful
+            alongside Ratios 15  17 when a church is assessing its own staffing levels and the
+            amount spent on personnel costs compared to peers. This result indicates that the ratio
+            is borderline to just above the recommended limits, so staffing and personnel costs are
+            less than peers. It may also indicate that you could be understaffed and might need to
+            consider increasing staffing. &lt;/p&gt;</cfhi_compre_00a_bench_paragraph___attendees_to_staff>
+        <cfhi_compre_01_bench_paragraph___days_of_expendable_net_asset_reserves>&lt;p&gt;This ratio
+            tells how many days of operating expenses are available in net asset reserves. Net asset
+            reserves take into account the accrual of current assets and current liabilities. The
+            term expendable net assets represents the total resources available to spend on
+            operations, excluding future gifts made or revenues generated by the church. Think of it
+            as how long you could live on a savings account. Expendable net assets consist of net
+            assets without donor restrictions, undesignated (formerly referred to as unrestricted,
+            undesignated net assets), which are net assets that result from achieving positive net
+            income year after year in the without donor restrictions column of the statement of
+            activities. It also includes reserves designated by the board for specific operating
+            purposes, but excludes reserves that represent the churchs equity in land, buildings,
+            and equipment (NIFA).&lt;/p&gt;&lt;br /&gt;The total of the amounts in the numerator is
+            divided by total expenditures less the annual non-cash expense of depreciation. The net
+            result of removing depreciation is to calculate, based on prior expenditures, the cash
+            expenses your church would incur. The number of days can be temporarily high if the
+            church has recorded large gifts without donor restrictions that have not been spent at
+            year-end. This is the case for churches with fiscal years ending on December 31, when
+            many attendees give large year-end gifts in order to meet tax-reporting deadlines. The
+            number of days can also appear low if the church incurred a large one-time expenditure
+            that won't be repeated in the future. This result indicates that the church has an
+            amount within or above the recommended benchmark.</cfhi_compre_01_bench_paragraph___days_of_expendable_net_asset_reserves>
+        <cfhi_compre_02_bench_paragraph___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>&lt;p&gt;This
+            ratio calculates the days of operating cash and investments on hand to fund annual cash
+            expenditures, but specifically related to very liquid assets. It only considers
+            operating cash and investments, not other current assets and liabilities. This number is
+            divided by the sum of expenses plus capitalized interest, which is interest paid in cash
+            but not expensed by the church. This may occur during periods of construction when GAAP
+            requires the church to capitalize this cash expense as part of the cost of the asset
+            being built. Depreciation is also removed because it represents a significant non-cash
+            annual expense recorded by the church. Current debt principal is added back because it
+            represents cash spent, but it is not recorded as an expense in the financial statements.
+            The net effect of these adjustments is to estimate, based on prior expenditures, the
+            annual cash expenditures the church would incur.&lt;/p&gt;&lt;br /&gt;&lt;p&gt;This
+            result indicates that the church has an amount within or above the recommended
+            benchmark. These reserves can be used for economic downturns or unexpected expenses,
+            events, or new opportunities. Often, churches that try to build up reserves have a goal.
+            If a goal has not been set, we recommend setting and maintaining one.&lt;/p&gt;</cfhi_compre_02_bench_paragraph___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures>
+        <cfhi_compre_03_bench_paragraph___available_days_of_cash_flow_coverage>&lt;p&gt;This ratio
+            represents the number of days of operations (including making scheduled debt service
+            payments) that would be available from the sum of operating cash flow, operating cash
+            and investments on hand at the beginning of the year, and the amount available from the
+            operating line of credit. In other words, if your church used all of the cash generated
+            from operations, all available cash and investments on hand at the beginning of the
+            year, and available line of credit, how many days could it continue to operate on these
+            sources? This ratio represents your maximum level of reserves and should always be the
+            highest of the three ratios calculating days of cash reserves. This result indicates
+            that the church has an amount within or above the recommended benchmark.&lt;/p&gt;</cfhi_compre_03_bench_paragraph___available_days_of_cash_flow_coverage>
+        <cfhi_compre_04_bench_paragraph___liquidity_ratio>&lt;p&gt;This ratio will tell the reader
+            how many times actual operating liabilities can be funded from operating reserves. These
+            operating liabilities exclude current building fund liabilities, which normally have a
+            separate source of cash from restricted revenues or budgets. It also excludes any
+            amounts owed on a short-term construction line of credit. These are typically
+            interest-only until converted into a long-term debt and paid over time, and do not
+            require payment from operating cash or investments in the short-term. It also excludes
+            deferred revenues, which do not require an outlay of cash. This result indicates that
+            the church has an amount within or above the recommended benchmark.&lt;/p&gt;</cfhi_compre_04_bench_paragraph___liquidity_ratio>
+        <cfhi_compre_05_bench_paragraph___net_cash_availability>&lt;p&gt;This measurement calculates
+            the amount of cash available for other uses after the church has satisfied its adjusted
+            current liabilities (excluding amounts borrowed on a construction line of credit) and
+            cash and investments set aside for projects with donor restrictions (excluding non-cash
+            amounts or pledges receivable from donor-restricted projects) resulting from gifts given
+            by donors who have placed restrictions on their use.&lt;/p&gt;&lt;br /&gt;&lt;p&gt;This
+            may be one of the most important measures provided to your church leadership. Many
+            churches today find that senior management (pastoral staff) and the governing board want
+            to know how much cash the church has. The most important question is not "How much do we
+            have?" but rather, "Whose cash is it and how much of it can we spend?" Those are
+            typically two very different answers.&lt;/p&gt;&lt;br /&gt;&lt;p&gt;A net cash
+            availability number factors in the cash required for the immediate future (less than 10
+            days) to determine what can safely be spent. Net assets with donor restrictions are not
+            to be expended for general operating purposes and therefore are excluded from the cash
+            balance. Keep in mind that the portion of net assets with donor restrictions that are
+            supported by pledges receivable are excluded (deducted from total net assets with donor
+            restrictions) as they would have no impact on this cash-based calculation. Some churches
+            have in essence "borrowed" from reserves with donor restrictions because they overspent
+            in operations. This calculation will help management identify if this is happening in
+            your church, so it is crucial to provide this information to decision makers. This
+            result indicates that the church has an amount within or above the recommended
+            benchmark.</cfhi_compre_05_bench_paragraph___net_cash_availability>
+        <cfhi_compre_06_bench_paragraph___debt_to_contributions_w_o_donor_restrictions>&lt;p&gt;This
+            ratio measures how many times debt is greater than annual contributions without donor
+            restrictions, which are the primary income source for most churches. Lenders look at
+            debt as funded by contributions without donor restrictions because those are the
+            resources from which the church will be able to pay mandatory debt service payments. By
+            looking at trends in various congregations, contributions without donor restrictions
+            help the lender determine what debt load the church will be able to handle on top of
+            other required expenditures (salaries, benefits, mission expenses, facility expenses,
+            etc.). Based on our experience with church clients across the country, we realize the
+            lower this ratio is, the less strain debt will be on the church's budget.
+            &lt;/p&gt;&lt;br /&gt;&lt;p&gt;This result indicates that the church has an amount
+            within or above the recommended benchmark and is easily able to handle the level of debt
+            it is presently carrying.&lt;/p&gt;</cfhi_compre_06_bench_paragraph___debt_to_contributions_w_o_donor_restrictions>
+        <cfhi_compre_07_bench_paragraph___current_ratio>&lt;p&gt;This ratio helps determine how
+            easily the church can meet its current obligations through current assets. There are
+            differences of opinion as to what the ratio results should be. A ratio of less than 1.0
+            could be interpreted as a red flag that the church does not have enough in current
+            assets to pay its upcoming liabilities. This could result in the need to borrow from
+            restricted funds or the need to obtain a temporary line of credit to cover short-term
+            obligations. Results this low would also warrant a careful review of the cash flow and
+            reserves ratios and measurements. Your church will need to be aware of this and monitor
+            the ratio on an ongoing basis to avoid being surprised by a cash shortage.
+            &lt;/p&gt;&lt;br /&gt;&lt;p&gt;This result indicates that the church has an amount
+            within or above the recommended benchmark, and is easily able to handle the level of
+            current liabilities it is presently carrying and still have reserves
+            remaining.&lt;/p&gt;</cfhi_compre_07_bench_paragraph___current_ratio>
+        <cfhi_compre_08_bench_paragraph__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>This
+            ratio pertains more to the debt service (debt payment requirements), and looks at the
+            percentage of contributions that will be used to make annual debt service payments.
+            Although a church may have many revenue sources, lenders typically only consider
+            contributions without donor restrictions when determining how much debt a church can
+            manage. This result indicates that the church has an amount within or above the
+            recommended benchmark and is easily able to handle the level of debt service it is
+            presently carrying.</cfhi_compre_08_bench_paragraph__mandatory_debt_service_to_contributions_w_o_donor_restrictuions>
+        <cfhi_compre_09a_bench_paragraph___debt_per_average_adult_attendee>&lt;p&gt;This figure is
+            calculated by dividing total debt by the average number of adult attendees. It will vary
+            significantly based on the philosophy, denomination, location, age, size, and
+            demographics of the church. Each church will need to determine the level of debt it is
+            comfortable maintaining or servicing. You will probably encounter varying opinions
+            within your congregation. Some individuals believe that a church should not incur debt
+            while others are very comfortable with a high debt load. Lenders believe that debt will
+            be funded by contributions without donor restrictions because typically these are the
+            resources from which the church will be able to pay mandatory debt service payments.
+            This result indicates that the church has a level of debt per adult attendee within or
+            below the recommended benchmark and is easily able to handle the level of debt it is
+            presently carrying.&lt;/p&gt;</cfhi_compre_09a_bench_paragraph___debt_per_average_adult_attendee>
+        <cfhi_compre_09d_bench_paragraph___debt_per_giving_unit>&lt;p&gt;This figure is calculated
+            by dividing total debt by the average number of giving units. It will vary significantly
+            based on the philosophy, denomination, location, age, size, and demographics of the
+            church. Each church will need to determine the level of debt it is comfortable
+            maintaining or servicing. You will probably encounter varying opinions within your
+            congregation. Some individuals believe that a church should not incur debt while others
+            are very comfortable with a high debt load. Lenders believe that debt will be funded by
+            contributions without donor restrictions because typically these are the resources from
+            which the church will be able to pay mandatory debt service payments. This result
+            indicates that the church has a level of debt per giving unit within or below the
+            recommended benchmark and is easily able to handle the level of debt it is presently
+            carrying.&lt;/p&gt;</cfhi_compre_09d_bench_paragraph___debt_per_giving_unit>
+        <cfhi_compre_10_bench_paragraph___debt_coverage>&lt;p&gt;This ratio is used to determine how
+            many times a church would be able to cover its current annual debt obligations from
+            current operations. This is a very common debt covenant ratio used by lenders to monitor
+            the ability of a church to make annual debt service payments. The results could change
+            dramatically between years based on swings in the change in net assets without donor
+            restrictions. For example, if a church used its reserves to perform more repairs and
+            maintenance to its facility than normal, the increase in expense could cause a much
+            lower positive or even negative change in net assets without donor restrictions. This
+            would adversely affect the ratio and could unexpectedly violate a debt covenant,
+            potentially requiring the church to obtain a bank covenant waiver and pay related fees.
+            The benchmark agreed to by the lender is a key negotiation point, especially with a new
+            lender. It may also factor into the amount of reserves the church leadership deems
+            necessary. &lt;/p&gt;&lt;br /&gt;&lt;p&gt;The change in net assets without donor
+            restrictions is primarily driven by operational decisions such as successes or failures
+            at managing budgeted expenses. Successes or failures at developing good stewardship
+            habits in the congregation, resulting in growth or decline of contributions without
+            donor restrictions, can also have a significant effect on this number. Interest expense
+            represents interest payments under the terms of the note. The biggest factor impacting
+            this ratio is significant increases or decreases to the change in net assets without
+            donor restrictions . Ministry decisions or necessary additional expenditures may drive
+            the decision to spend net assets without donor restrictions and result in lower positive
+            or negative change in net assets without donor restrictions. While a lower positive or
+            negative change in net assets without donor restrictions may impact this ratio in the
+            current year, it is important to look at the trends and understand the reasons behind
+            ministry decisions to spend resources without donor restrictions. This result indicates
+            that the church has an amount within or above the recommended benchmark and is able to
+            cover its current annual debt obligations from current operations.&lt;/p&gt;</cfhi_compre_10_bench_paragraph___debt_coverage>
+        <cfhi_compre_11_bench_paragraph___net_income_ratio>&lt;p&gt;The purpose of this ratio is to
+            show if the results of the church's general operations are positive or negative, and by
+            how much. In business terms, this shows if the church is making or losing money in its
+            basic day-to-day function of ministering to the local community. The importance of this
+            ratio is immediately apparent. If a church is losing money in its basic operations over
+            time, eventually it will no longer be viable and will have to close. At some point this
+            church will reach the stage where it is either too late to make the necessary
+            operational changes or it no longer has the funds or the confidence to make them. That
+            point is more easily identified in retrospect, but the net income ratio can provide a
+            bellwether to warn of impending financial distress. &lt;/p&gt;&lt;br /&gt;&lt;p&gt;One
+            factor to consider when calculating this ratio is that very large one-time events, such
+            as the receipt of a large one-time gift without donor restrictions made at the end of
+            the fiscal year, can significantly influence a church's net income without donor
+            restrictions. Your church may not want to have large surpluses every year. You may want
+            to make sure that money is invested in the ministries of the church. However, you need
+            to make sure some reserves are in place. Monitoring this ratio and the trend of it from
+            year to year will help determine the financial health of your church. There are many
+            ministry reasons why a church may or may not choose to show consistent surpluses. It is
+            because of these reasons that the ratio is also calculated using the average net income
+            over several years, to determine if recent deficits are a one-time issue or a growing,
+            unchecked trend. This result indicates that the church has an improving trend, which is
+            within the recommended benchmark.&lt;/p&gt;</cfhi_compre_11_bench_paragraph___net_income_ratio>
+        <cfhi_compre_13a_bench_paragraph___total_contributions_per_average_adult_attendee>&lt;p&gt;When
+            a church is in the midst of a specific campaign, it will likely receive some large
+            one-time gifts. Since this ratio includes both gifts with and without donor
+            restrictions, it is important to determine if any unusual or large gifts should be
+            eliminated; otherwise, there could be large swings between years. The power of this
+            ratio is in analyzing trends in congregational giving habits between years. Keep in mind
+            that during the period of a capital campaign this figure may be inflated even with the
+            removal of large or one-time gifts because of an increase in smaller gifts as well. This
+            result indicates that the measure is in the warning range, and giving per adult attendee
+            ranges between above average and good. We recognize that these levels are impacted by
+            the average age, location, and other inherent factors of the congregation. The most
+            apparent way to improve this calculation is to increase total contributions, with the
+            goal of improving contributions per adult attendee into the strong range (&gt; or
+            =$3,000 per adult attendee).&lt;/p&gt;</cfhi_compre_13a_bench_paragraph___total_contributions_per_average_adult_attendee>
+        <cfhi_compre_13v19a_bench_paragraph___total_contr_vs_exp_per_adult>&lt;p&gt;Have you ever
+            wondered what the net position (per average adult attendee and giving unit) is between
+            the total contributions received (excluding accrual pledges and large one-time gifts)
+            and the financial cost per adult attendee and giving unit? This comparison takes the net
+            between these two measures and gives you the information to know if your contributions
+            are high enough to cover the cash cost per adult attendee and giving unit. Because the
+            net position of these two measures is positive, the result is within the recommended
+            limits and your church can conclude that you are able to fund cash operations though
+            current contributions received.&lt;/p&gt;</cfhi_compre_13v19a_bench_paragraph___total_contr_vs_exp_per_adult>
+        <cfhi_compre_13v19b_bench_paragraph___total_contr_vs_exp_per_gu>&lt;p&gt;Have you ever
+            wondered what the net position (per average adult attendee and giving unit) is between
+            the total contributions received (excluding accrual pledges and large one-time gifts)
+            and the financial cost per adult attendee and giving unit? This comparison takes the net
+            between these two measures and gives you the information to know if your contributions
+            are high enough to cover the cash cost per adult attendee and giving unit. Because the
+            net position of these two measures is positive, the result is within the recommended
+            limits and your church can conclude that you are able to fund cash operations though
+            current contributions received.&lt;/p&gt;</cfhi_compre_13v19b_bench_paragraph___total_contr_vs_exp_per_gu>
+        <cfhi_compre_14_bench_paragraph___median_household_income_given_to_church>&lt;p&gt;The
+            purpose of this ratio is to see what percentage of the local median county household
+            income adult attendees and giving units are contributing to your church. The median
+            income figure is obtained from the most recent U.S. Census data available, which is
+            usually one year in arrears. Your church must be aware of the demographics of your
+            congregation as compared to the county's demographics if you are in a large county with
+            much economic diversity. This ratio allows your church to see the percentage of median
+            household income your adult attendees and giving units contribute to your church. Trends
+            between years in this data are very important. This percentage and the changes between
+            years allow management and the board to see how much additional giving capacity the
+            congregation has. It also is great feedback for the senior pastor to see changes in
+            giving habits between years and in response to stewardship teaching and focus. This
+            result indicates that the church has an amount within or above the recommended
+            benchmark.&lt;/p&gt;</cfhi_compre_14_bench_paragraph___median_household_income_given_to_church>
+        <cfhi_compre_17_1_bench_paragraph___personnel_to_total_cash_expenditures>&lt;p&gt;Salaries
+            and benefits represent significant resource outflows from the local church. Therefore,
+            it is essential to continually monitor these levels as a percentage of cash
+            expenditures. It is also important to promptly follow up on changes in trends or unusual
+            variances from peers to ensure that your ministry resources are continually maximized.
+            This ratio allows your church to look at one of its largest expenses and determine the
+            portion of the operating budget that will be used. This result indicates that the
+            present level of personnel to total cash expenditures (excluding depreciation but
+            including current debt principal) are within the recommended limits. &lt;/p&gt;</cfhi_compre_17_1_bench_paragraph___personnel_to_total_cash_expenditures>
+        <cfhi_compre_17_2_bench_paragraph___mandatory_debt_to_total_cash_expenditures>&lt;p&gt;Interest
+            and debt service payments (which are not an expense but rather a reduction of a
+            liability) can represent major resource outflows from the local church. Therefore, it is
+            essential to continually monitor these levels as a percentage of cash expenditures. It
+            is also important to promptly follow up on changes in trends or unusual variances from
+            peers to ensure that your ministry resources are continually maximized.
+            &lt;/p&gt;&lt;p&gt;This ratio allows your church to look at two of its largest outflows
+            and determine the portion of the operating budget that will be used. Often a growth
+            cycle results in an amount of debt the church anticipates being able to pay off as more
+            people are able and encouraged to attend. However, the church needs to be able to pay
+            the bills and provide the services that will attract new people with the current budget.
+            Reviewing this measure in advance of any major debt decisions will help you analyze the
+            feasibility of any facility expansion goals. &lt;/p&gt;&lt;p&gt;This result indicates
+            that the measure is within the recommended benchmark, and mandatory debt service
+            payments to total cash expenditures (excluding depreciation but including current debt
+            principal) are within the recommended limits.&lt;/p&gt;</cfhi_compre_17_2_bench_paragraph___mandatory_debt_to_total_cash_expenditures>
+        <cfhi_compre_17_3_bench_paragraph___mandatory_debt_and_personnel_to_total_cash_expenditures>&lt;p&gt;Salaries
+            and benefits, interest, and debt service payments (which are not an expense but rather a
+            reduction of a liability) represent the majority of resource outflows from the local
+            church. Therefore, it is essential to continually monitor these levels as a percentage
+            of total cash expenditures. It is also important to promptly follow up on changes in
+            trends or unusual variances from peers to ensure that your ministry resources are
+            continually maximized. This ratio allows your church to look at two of its largest
+            expenses and resource outflows and determine the portion of the operating budget that
+            will be used. Often a growth cycle results in an amount of debt the church anticipates
+            being able to pay off as more people are able and encouraged to attend. However, the
+            church needs to be able to pay the bills and provide the services that will attract new
+            people with the current budget. Reviewing this ratio in advance of any major debt
+            decisions will help you analyze the feasibility of your facility expansion goals. This
+            result indicates that the overall measure is within the recommended benchmark, and
+            personnel and mandatory debt service payments to total cash expenditures (excluding
+            depreciation but including current debt principal) are within the recommended
+            limits.&lt;/p&gt;</cfhi_compre_17_3_bench_paragraph___mandatory_debt_and_personnel_to_total_cash_expenditures>
+        <cfhi_compre_18c_bench_paragraph___total_outreach_to_total_cash_expend>&lt;p&gt;This ratio
+            looks at the combined total of missions outreach (outside missions and benevolence)
+            expenses as a percentage of total cash expenditures, as defined above. It specifically
+            excludes internally allocated costs and salaries of church employees included within
+            missions for some churches budgets because the methods used to allocate these types of
+            expenses vary significantly between churches. Churches may find this ratio useful in
+            benchmarking their total outreach expenditures with other churches.
+            &lt;p&gt;&lt;/p&gt;When a church experiences economic difficulties, ministry and
+            outreach expenses are usually the first to be decreased, as debt service payments are
+            not discretionary and personnel costs are difficult to reduce. Monitoring this ratio
+            over several years will allow the church to spot any percentage changes over time. This
+            result indicates that total outreach expenses are borderline to just below the
+            recommended limits. The likely cause of this may be a lack of funds available because
+            personnel and/or debt service costs comprise too much of the operating budget. This
+            could also be a preliminary indicator that the church is becoming stressed. Decreased
+            missions expenditures are often a sign that the church is dealing with other
+            difficulties and losing focus on its primary objective of outreach. The best way to
+            improve this measure is to set in motion a plan to decrease other expenses, which will
+            ease stress and allow additional funds for increased outside missions
+            expenditures.&lt;/p&gt;</cfhi_compre_18c_bench_paragraph___total_outreach_to_total_cash_expend>
+        <cfhi_compre_22_bench_paragraph___facilities_expenses_of_total_cash_expend>&lt;p&gt;Facilities
+            expense measures can vary, depending on whether the church has new or older facilities.
+            This measure is categorized by churches less or greater than 10 years old to ensure that
+            your church is compared to churches of a similar age. A few churches choose to rent
+            rather than own. Some do a combination of both. And many churches meet in community
+            venues such as local schools and invest the money that would have been used for
+            facilities back into ministry. Finally, with the recent trend of establishing multiple
+            campuses versus one large location, it is important to realize that these decisions will
+            impact this amount. Monitoring this ratio over several years will allow the church to
+            monitor any percentage changes over time. This result indicates that facilities expenses
+            to cash expenditures are within the recommended limits.&lt;/p&gt;</cfhi_compre_22_bench_paragraph___facilities_expenses_of_total_cash_expend>
+        <cfhi_stand_01_bench_paragraph___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures>&lt;p&gt;This
+            ratio shows the days of operating cash and investments on hand to fund annual
+            expenditures, but specifically related to very liquid assets. It only considers
+            operating cash and investments, not other current assets and liabilities. This result
+            indicates that the church has an amount within or above the recommended benchmark. These
+            reserves can be used for economic downturns or unexpected expenses, events, or new
+            opportunities. Often, churches that try to build up reserves have a goal. If a goal has
+            not been set, we recommend setting and maintaining one.&lt;/p&gt;</cfhi_stand_01_bench_paragraph___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures>
+        <cfhi_stand_02_bench_paragraph___net_cash_availability>&lt;p&gt;This measurement calculates
+            the amount of cash available for other uses after the church has satisfied its current
+            liabilities and set aside funds donors have restricted for specific uses. This may be
+            one of the most important measures provided to your church leadership. Many churches
+            today find that senior management (pastoral staff) and the governing board want to know
+            how much cash the church has. The most important question is not 'How much do we have?'
+            but rather, 'Whose cash is it and how much of it can we spend?' Those are typically two
+            very different answers. A net cash availability number factors in the cash required for
+            the immediate future (less than 10 days) to determine what can safely be spent. This
+            result indicates that the church has an amount within or above the recommended
+            benchmark.&lt;/p&gt;</cfhi_stand_02_bench_paragraph___net_cash_availability>
+        <cfhi_stand_03_bench_paragraph___debt_to_contribution_w_o_donor_rest />
+        <cfhi_stand_04_bench_paragraph___debt_per_givingunit />
+        <cfhi_stand_06and08_bench_paragraph_total_contributions_per_giving_unit_less_cash_expense_per_giving_unit>&lt;p&gt;Have
+            you ever wondered what the net position is (per giving unit) when compared to the
+            financial cost of total contributions received? This calculation takes the net between
+            these two measures and gives you the information to know if your contributions are high
+            enough to cover the monetary cost per giving unit.&lt;/p&gt;&lt;p&gt;Because the net
+            position of these two measures is positive, the result is within the recommended limits
+            and your church can conclude that you are able to pay cash operations though current
+            contributions received.&lt;/p&gt;</cfhi_stand_06and08_bench_paragraph_total_contributions_per_giving_unit_less_cash_expense_per_giving_unit>
+        <update_id>1688653496665</update_id>
+    </record>
+</qdbapi>
