@@ -370,7 +370,7 @@ const getPeerAndClientChartDataArrays = (
 const styleNumber = (num, type, fixed) => {
   let text = num;
 
-  if (text == 0) text = "-";
+  // if (text == 0) text = "-";
 
   if (!isNaN(text)) {
     if (type === "num" && text != 0) {

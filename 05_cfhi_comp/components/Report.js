@@ -23,6 +23,7 @@ const displayReportComponent = () => {
       ["totalOutsourcedEmployees", "num", 0],
       ["facilitySquareFootage", "num", 0],
       ["numberOfLocations", "num", 0],
+      ['additionalDataDemo', 'num', 0, null],
     ]);
     insertDataToReport(cashData, selectedYears, [
       ["daysExpendableNetAssets", "num", 0, "wa", "cb"],
@@ -34,8 +35,8 @@ const displayReportComponent = () => {
       ["netCashAvailability_standard", "dollar", 0, "wa"],
     ]);
     insertDataToReport(debtData, selectedYears, [
-      ["debtToContributionsWithout", "num", 0, "wa", "cb"],
-      ["currentRatio", "num", 0, "wa", "cb"],
+      ["debtToContributionsWithout", "num", 1, "wa", "cb"],
+      ["currentRatio", "num", 1, "wa", "cb"],
       ["mandatoryDebtServiceToContributionsWithout", "percent", 0, "wa", "cb"],
       ["debtPerAverageAdultAttendee", "dollar", 0, "wa", "cb"],
       ["debtPerAverageAdultAttendee_percentChange", "percent", 0],
@@ -43,7 +44,7 @@ const displayReportComponent = () => {
       ["debtPerGivingUnit", "dollar", 0, "wa", "cb"],
       ["debtPerGivingUnit_percentChange", "percent", 0],
       ["debtPerGivingUnit_standard", "dollar", 0, "wa"],
-      ["debtCoverage", "num", 0, "wa", "cb"],
+      ["debtCoverage", "num", 2, "wa", "cb"],
     ]);
 
     checkForCountyDataIncomeTable(
@@ -143,6 +144,8 @@ const displayReportComponent = () => {
       ["cashExpendituresPerAvgAdultAttendee_percentChange", "percent", 0],
       ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
       ["cashExpendituresPerGivingUnit_percentChange", "percent", 0],
+      ["additionalRatioOneExpense", "num", 0, null],
+      ["additionalRatioTwoExpense", "num", 0, null]
     ]);
 
     insertDataToReport(additionalData, selectedYears, [
@@ -274,7 +277,7 @@ const addClientDataToReportRow = (
 
   selectedYears.forEach((year) => {
     const dataPoint = document.createElement("th");
-    const text = styleNumber(client[year].value, type, fixedNum);
+    const text = client ? styleNumber(client[year].value, type, fixedNum) : "";
 
     // Create a new span element
     const spanElement = document.createElement("span");
@@ -362,17 +365,17 @@ const addPeerDataToRow = (
   }
   
   
-  const textAvg = styleNumber(avg, type, fixedNum);
+  const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
   const dataPointMid = document.createElement("th");
-  const mid = peer ? getMidpointOfArray(peer[dataArray]) : 0;
+  const mid = peer ? getMidpointOfArray(peer[dataArray]) : '';
   // console.log('mid', mid);
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement("th");
-  const min = peer ? getMinOfArray(peer[dataArray]) : 0;
+  const min = peer ? getMinOfArray(peer[dataArray]) : '';
 // if (name == 'totalOutsourcedEmployees') console.log('totalOutsourcedEmployees', {min, peerArray: peer[dataArray]})
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
-  const max = peer ? getMaxOfArray(peer[dataArray]) : 0;
+  const max = peer ? getMaxOfArray(peer[dataArray]) : '';
   const textMax = styleNumber(max, type, fixedNum);
 
   dataPointAvg.className = propClass;

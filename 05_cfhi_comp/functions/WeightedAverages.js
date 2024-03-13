@@ -430,6 +430,7 @@ const contributionsWithoutDonorPerAverageAdultAttendee_weightedAverage = (
   const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]);
   const s01 = getSumOfArray(data.averageAdultAttendees[name]);
 
+  console.log({ s39, s152, s01});
   return (s39 - s152) / s01;
 };
 
@@ -446,6 +447,7 @@ const debtPerGivingUnit_standard_weightedAverage = (data, name) => {
   const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
   const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]);
   const s02 = getSumOfArray(data.givingUnits[name]);
+  // console.log({s39, s152, s02});
 
   return ((s39 - s152) / s02) * 2;
 };
@@ -551,7 +553,7 @@ const netCashAvailability_weightedAverage = (data, name) => {
   const s36 = getSumOfArray(data.netAssetWithDonor[name]);
   const s21 = getSumOfArray(data.pledgeReceivable[name]);
 
-  console.log({s18, s20, s26, s166, s31, s36, s21})
+  // console.log({s18, s20, s26, s166, s31, s36, s21})
 
   return s18 + s20 - ((s26 - s166) - s31) - s36 + s21
 };
