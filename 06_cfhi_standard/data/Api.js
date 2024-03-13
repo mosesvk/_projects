@@ -3436,7 +3436,7 @@ const insertDataIntoObject = (
   if (type === "client") {
     if (!object[dataKey]) {
       object[dataKey] = {};
-    }
+  }
     if (!object[dataKey][year]) {
       object[dataKey][year] = {};
     }
