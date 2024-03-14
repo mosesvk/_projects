@@ -18,11 +18,12 @@ const regions_Array = [
   },
   { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
 ];
+
 const sites_Array = [
-  'Single Site', 
-  '2 - 5 Sites', 
-  '6+ Sites'
-]
+  { arr: ["Single Site"], str: "SINGLE" },
+  { arr: ["2 - 5 Sites"], str: "TWOSIX" },
+  { arr: ["6+ Sites"], str: "MANY" },
+];
 
 let sliderAmount = null;
 let sliderRange = null;
@@ -132,7 +133,7 @@ function updateModal(mainName, avgData, clientData) {
       // Create a table header cell for the year
       const yearCell = document.createElement("th");
       yearCell.className =
-        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
       yearCell.scope = "row";
       yearCell.textContent = year;
 
@@ -177,23 +178,21 @@ const getAverageOfArray = (array) => {
 };
 
 const getMidpointOfArray = (array) => {
-  // console.trace(array);
-
+  // console.log(array);
   if (array.length === 0) {
     return 0;
   }
 
+  array.sort((a, b) => a - b); // Sort the array
+
+  const midpoint = Math.floor(array.length / 2); // Calculate the midpoint index
+
   if (array.length % 2 === 1) {
-    // Array has an odd number of elements
-    const midpointIndex = Math.floor(array.length / 2);
-    return Number(array[midpointIndex]);
+    // If odd length, return the value at the midpoint
+    return Number(array[midpoint]);
   } else {
-    // Array has an even number of elements
-    const midpointIndex1 = array.length / 2 - 1;
-    const midpointIndex2 = array.length / 2;
-    const midpoint1 = Number(array[midpointIndex1]);
-    const midpoint2 = Number(array[midpointIndex2]);
-    return (midpoint1 + midpoint2) / 2;
+    // If even length, return the average of the two midpoints
+    return (Number(array[midpoint - 1]) + Number(array[midpoint])) / 2;
   }
 };
 
@@ -208,18 +207,8 @@ const getMaxOfArray = (array) => {
 };
 
 const getMinOfArray = (array) => {
-  const nonZeroArray = array.filter((num) => {
-    if (num != 0 || num != 0.0) {
-      return num;
-    }
-    return;
-  });
 
-  if (nonZeroArray.length === 0) {
-    return 0;
-  }
-
-  return Math.min(...nonZeroArray);
+  return Math.min(...array);
 };
 
 const getSumOfArray = (array) => {
@@ -352,14 +341,16 @@ const getPeerAndClientChartDataArrays = (
   const peerMax = [];
   const clientArray = [];
 
+  // console.log(year, dataPeer)
   years.forEach((year) => {
-    // console.log(year, dataPeer)
     if (dataPeer[year]) {
       const array = dataPeer[year];
       const avg = getAverageOfArray(array);
       const mid = getMidpointOfArray(array);
       const min = Math.min(...array);
       const max = Math.max(...array);
+
+      // console.log(mid);
 
       peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
       peerMid.push(parseFloat(mid.toFixed(fixedNum)));
@@ -379,7 +370,7 @@ const getPeerAndClientChartDataArrays = (
 const styleNumber = (num, type, fixed) => {
   let text = num;
 
-  if (text == 0) text = "-";
+  // if (text == 0) text = "-";
 
   if (!isNaN(text)) {
     if (type === "num" && text != 0) {
@@ -400,34 +391,49 @@ const styleNumber = (num, type, fixed) => {
   return text;
 };
 
-const updateCountyData = (trId, countyName, percentage, income) => {
+const updateCountyData = (trId, countyName, percentage, income, year) => {
   // console.log({ trId, countyName, percentage, income });
 
-  // if (trId === "localCounty_two") {
-  //   console.log($('#row_localCounty_two')[0].classList)
-  // }
-  if (countyName === "" && percentage === "" && income === "") {
-    // console.log("hit the if statement");
-    // add the class 'hidden' to the trId row
-    const trElement = document.getElementById(`row_${trId}`);
-    trElement.classList.add("hidden");
-    return;
-  }
+  // Create the <tr> element if it doesn't exist
+  let trElement = document.getElementById(`row_${trId}`);
 
-  const titleElement = document.getElementById(`title_${trId}`);
-  const percentageElement = document.getElementById(`percentage_${trId}`);
-  const incomeElement = document.getElementById(`income_${trId}`);
+  // Create the second <th> element and its children
+  const secondThElement = document.createElement("th");
+  secondThElement.scope = "row";
+  secondThElement.className =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+
+  // Create the span element inside the second <th>
+  const spanElementSecond = document.createElement("span");
+  spanElementSecond.textContent = "---";
+  secondThElement.appendChild(spanElementSecond);
+
+  // Create the <p> elements inside the second <th>
+  const percentagePElement = document.createElement("p");
+  percentagePElement.id = `percentage_${trId}_${year}`;
+  percentagePElement.className = "mb-2";
+  percentagePElement.textContent = "adfas";
+  secondThElement.appendChild(percentagePElement);
+
+  const incomePElement = document.createElement("p");
+  incomePElement.id = `income_${trId}_${year}`;
+  incomePElement.textContent = "fadf";
+  secondThElement.appendChild(incomePElement);
+
+  trElement.appendChild(secondThElement);
 
   // Format values
   const formattedIncome = new Intl.NumberFormat().format(income);
   const formattedPercentage = Math.round(percentage);
 
-  // console.log({titleElement, percentageElement, incomeElement});
-
   // Update the content of the selected elements
-  titleElement.textContent = countyName;
-  percentageElement.textContent = `${formattedPercentage}%`;
-  incomeElement.textContent = `$${formattedIncome}`;
+
+  document.getElementById(
+    `percentage_${trId}_${year}`
+  ).textContent = `${formattedPercentage}%`;
+  document.getElementById(
+    `income_${trId}_${year}`
+  ).textContent = `$${formattedIncome}`;
 };
 
 const checkForCountyDataIncomeTable = (
@@ -435,25 +441,90 @@ const checkForCountyDataIncomeTable = (
   countyName,
   incomeData,
   percentData,
-  year
+  selectedYearsArray,
+  cb
 ) => {
+  // console.log({ trId, countyName, incomeData, percentData, selectedYearsArray, cb });
+
   const data = JSON.parse(localStorage.getItem("incomeData"));
   // check the data of the passed dataId to see if it has data, if there is no data, then add the class "hidden" to the trId
 
-  // console.log({
-  //   trId,
-  //   county: data[countyName],
-  //   income: data[incomeData],
-  //   percent: data[percentData],
-  // })
-  if (data[countyName][year].value.length > 0) {
-    const countyNameVal = data[countyName][year].value;
+  // Create the first <th> element and its children if it doesn't exist
+  let thElement = document.getElementById(`th_${trId}`);
+  if (!thElement) {
+    thElement = document.createElement("th");
+    thElement.scope = "row";
+    thElement.className =
+      "pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white";
+
+    // console.log('COUNTY', data[countyName][selectedYearsArray[0]]);
+
+    // Create the span element inside the first <th>
+    const spanElement = document.createElement("span");
+    spanElement.id = `title_${trId}`;
+    spanElement.textContent = data[countyName][selectedYearsArray[0]]
+      ? data[countyName][selectedYearsArray[0]].value
+      : "";
+    thElement.appendChild(spanElement);
+
+    // Create the <p> elements inside the first <th>
+    const firstPElement = document.createElement("p");
+    firstPElement.className = "pl-4 mb-2";
+    firstPElement.textContent = "__ Per Giving Units";
+    thElement.appendChild(firstPElement);
+
+    const secondPElement = document.createElement("p");
+    secondPElement.className = "pl-4";
+    secondPElement.textContent = "__ Median Household Income";
+    thElement.appendChild(secondPElement);
+
+    const tableRow = document.getElementById(`row_${trId}`);
+    tableRow.appendChild(thElement);
+  }
+
+  if (data[countyName][selectedYearsArray[0]].value === "") {
+    const trElement = document.getElementById(`row_${trId}`);
+    trElement.classList.add("hidden");
+    return;
+  }
+
+  selectedYearsArray.forEach((year) => {
+    let countyNameVal;
+
+    // Iterate over the years
+    for (const year of Object.keys(data[countyName])) {
+      // Check if the value is not empty
+      if (data[countyName][year].value !== "") {
+        // Store the value and break the loop
+        countyNameVal = data[countyName][year].value;
+        break;
+      }
+    }
+    // console.log(countyNameVal, trId);
+
+    // If countyNameVal is still undefined, all values were empty
+    if (
+      countyNameVal === 0 ||
+      countyNameVal === undefined ||
+      countyNameVal === ""
+    ) {
+      const trElement = document.getElementById(`row_${trId}`);
+      trElement.classList.add("hidden");
+    }
+
+    // Now you have the countyNameVal, you can continue with your logic
+    // Assuming the rest of your code...
     const percentageVal = data[percentData][year].value;
     const incomeVal = data[incomeData][year].value;
 
-    updateCountyData(trId, countyNameVal, percentageVal * 100, incomeVal);
-  } else {
-    updateCountyData(trId, "", "", "");
+    updateCountyData(trId, countyNameVal, percentageVal * 100, incomeVal, year);
+  });
+
+  if (cb) {
+    const benchmarkArray = getBenchmarks(data[percentData]);
+    const row = document.getElementById(`row_${trId}`);
+
+    getBackgroundColor(benchmarkArray, row);
   }
 };
 
@@ -463,62 +534,205 @@ function changeThWidth(elementId) {
 
   // Check if the element exists
   if (trElement) {
-      // Find the first <th> element child of the <tr>
-      var thElement = trElement.querySelector('th');
+    // Find the first <th> element child of the <tr>
+    var thElement = trElement.querySelector("th");
 
-      // Check if the <th> element exists
-      if (thElement) {
-          // Change the width of the <th> to 50rem
-          thElement.style.width = '50rem';
-      } else {
-          console.error('No <th> element found inside the specified <tr>.');
-      }
+    // Check if the <th> element exists
+    if (thElement) {
+      // Change the width of the <th> to 50rem
+      thElement.style.width = "50rem";
+    } else {
+      console.error("No <th> element found inside the specified <tr>.");
+    }
   } else {
-      console.error('Element with ID ' + elementId + ' not found.');
+    console.error("Element with ID " + elementId + " not found.");
   }
 }
-
 
 // <------------------------------------  SLIDER RANGE ------------------------------------------------------------------>
 const range = () => {
   return {
-    minprice: 0, 
+    minprice: 0,
     maxprice: 25000,
-    min: 0, 
+    min: 0,
     max: 25000,
     minthumb: 1,
-    maxthumb: 1, 
+    maxthumb: 1,
 
-    
-    mintrigger() {   
-      this.minprice = Math.min(this.minprice, this.maxprice - 500);      
-      this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
+    mintrigger() {
+      this.minprice = Math.min(this.minprice, this.maxprice - 500);
+      this.minthumb =
+        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+
+      // Update sliderValue and trigger slider movement if necessary
+      sliderValue = this.minprice;
+      if (sliderAmount) {
+        sliderAmount.value = sliderValue; // Assuming sliderAmount is an input element
+        // Update slider position dynamically using appropriate API (e.g., jQuery UI, NoUiSlider)
+      }
+
+      this.minthumb =
+        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+
+      // Consider adding visual or functional feedback for minthumb movement
     },
-     
+
     maxtrigger() {
-      this.maxprice = Math.max(this.maxprice, this.minprice + 500); 
-      this.maxthumb = 100 - (((this.maxprice - this.min) / (this.max - this.min)) * 100);    
-    }, 
-  }
-}
+      this.maxprice = Math.max(this.maxprice, this.minprice + 500);
+      this.maxthumb =
+        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+
+      // Update sliderValue2 and trigger slider movement if necessary
+      sliderValue2 = this.maxprice;
+      if (sliderRange) {
+        sliderRange.value = sliderValue2; // Assuming sliderRange is an input element
+        // Update slider position dynamically using appropriate API
+      }
+
+      this.maxthumb =
+        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+
+      // Consider adding visual or functional feedback for maxthumb movement
+    },
+  };
+};
 
 const adjustDivHeight = () => {
   var div = document.getElementById("options-list");
-  // console.log(div.scrollHeight);
-  if (div.scrollHeight <= 20 * 16) { // 
+
+  if (div.scrollHeight <= 20 * 16) {
+    //
     div.classList.remove("h-80");
     div.classList.add("h-fit");
-    div.classList.add("py-4")
+    div.classList.add("py-4");
   } else {
     div.classList.remove("h-fit");
-    div.classList.remove("py-4")
+    div.classList.remove("py-4");
     div.classList.add("h-80");
   }
+};
+
+function getBenchmarks(obj) {
+  // console.log('getBenchmarks', obj)
+
+  let benchmarks = [];
+  for (let year in obj) {
+    if (obj.hasOwnProperty(year)) {
+      benchmarks.push(obj[year].benchmark);
+    }
+  }
+  return benchmarks;
 }
 
+const getBackgroundColor = (array, row, i = 1) => {
+  if (!array.length) return;
+  // console.log({ array, row, i });
 
+  let color =
+    array[0] === "Warning"
+      ? "warning"
+      : array[0] === "Good"
+      ? "good"
+      : array[0] === "Action Required"
+      ? "actionRequired"
+      : null;
 
+  if (color) {
+    // Add class to apply background color
+    row.children[i].classList.add(color);
+    // Initialize tippy popover
+    tippy(row.children[i], {
+      allowHTML: true,
+      content: `<p class="flex items-center text-md">
+        Click
+        <svg class="w-4 h-4 mx-2 text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+        </svg>
+        Benchmark
+      </p>`,
+      arrow: true,
+      placement: "left",
+      // animation: scaleExtreme
+    });
+  }
 
+  getBackgroundColor(array.slice(1), row, i + 1);
+  // console.log('---');
+};
 
+const addClickEventToBenchmark = (elementId, benchmarkDesc) => {
+  const element = document.getElementById(elementId);
+  // if (!element) return;
+  element.onclick = createBenchmark(benchmarkDesc, elementId);
+};
 
+const createBenchmark = async (benchmarkDesc, elementId) => {
+  // console.log({ benchmarkDesc, elementId });
 
+  let variable = new tingle.modal({
+    footer: false,
+    stickyFooter: false,
+    closeMethods: ["overlay", "button", "escape"],
+    closeLabel: "Close",
+    cssClass: ["custom-class-1", "custom-class-2"],
+    // onOpen: function () {
+    //   console.log('modal open');
+    // },
+    // onClose: function () {
+    //   console.log('modal closed');
+    // },
+    beforeClose: function () {
+      // here's goes some logic
+      // e.g. save content before closing the modal
+      return true; // close the modal
+      return false; // nothing happens
+    },
+  });
+
+  if (benchmarkDesc.length > 1) {
+    let message = "<div>";
+    let p = "";
+    for (let i = 0; i < benchmarkDesc.length; i++) {
+      if (i === 0) {
+        p += `<p class="text-center font-bold mb-2">${benchmarkDesc[i]}</p>`;
+      } else {
+        p += `<p >${benchmarkDesc[i]}</p>`;
+      }
+    }
+    message += p;
+    message += "</div>";
+    variable.setContent(`${message}`);
+  } else {
+    variable.setContent(`<p>${benchmarkDesc}</p>`);
+  }
+
+  const selectedYears = JSON.parse(localStorage.getItem("selectedYears"));
+  // console.log({selectedYears, elementId})
+  if (selectedYears) {
+    const children = await document.getElementById(elementId).children;
+    // console.log(children);
+
+    for (let i = 1; i < selectedYears.length + 1; i++) {
+      editElementChildren(children[i], variable, elementId);
+    }
+  }
+
+  return variable;
+};
+
+const editElementChildren = (element, variable, elementId) => {
+  // console.log({ element, variable });
+  if (!element) console.log(elementId);
+
+  // console.log(element);
+
+  element.addEventListener("click", () => {
+    variable.open();
+  });
+  element.classList.add("cursor-pointer");
+  element.classList.add("hover:text-lg");
+  element.classList.add("hover:opacity-100");
+  element.classList.add("transition");
+  element.classList.add("ease-in-out");
+
+};

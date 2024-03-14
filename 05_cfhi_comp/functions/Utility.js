@@ -730,31 +730,8 @@ const editElementChildren = (element, variable, elementId) => {
     variable.open();
   });
   element.classList.add("cursor-pointer");
-  element.classList.add("hover:text-lg");
   element.classList.add("hover:opacity-100");
   element.classList.add("transition");
   element.classList.add("ease-in-out");
 
-  // // Create SVG element
-  // const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  // svg.setAttribute(
-  //   "class",
-  //   "h-8 w-8 ml-2 font-medium text-gray-900 dark:text-white float-right"
-  // );
-  // svg.setAttribute("fill", "none");
-  // svg.setAttribute("viewBox", "0 0 24 24");
-  // svg.setAttribute("stroke", "currentColor");
-
-  // // Create path element and set its attributes
-  // const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  // path.setAttribute("stroke-linecap", "round");
-  // path.setAttribute("stroke-linejoin", "round");
-  // path.setAttribute("stroke-width", "2");
-  // path.setAttribute("d", "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6");
-
-  // Append path element to the SVG element
-  // svg.appendChild(path);
-
-  // Append the SVG element to the element
-  // element.firstChild.appendChild(svg);
 };

@@ -1,6 +1,4 @@
 
-let recordsClient
-
 function fetchClientData() {
   return fetch('./data/clientData.xml')
     .then(response => response.text())
@@ -32,6 +30,8 @@ function fetchPeerData() {
 document.addEventListener("DOMContentLoaded", async () => {
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
+
+  console.log(recordsClient);
 
   findUniqueYears(recordsClient);
 

@@ -36,6 +36,17 @@ const displayCashComponent = () => {
   const savedData = getStoredData("cashData");
   const parseData = parseStoredData(savedData);
 
+  // daysExpendableNetAssets
+  createChartFromParsedData(
+    parseData,
+    "daysExpendableNetAssets_chart",
+    "daysExpendableNetAssets_Peer",
+    "daysExpendableNetAssets_Client",
+    "number",
+    0,
+    "daysExpendableNetAssets"
+  );
+
   // daysOperatingCash
   createChartFromParsedData(
     parseData,
@@ -45,6 +56,28 @@ const displayCashComponent = () => {
     "number",
     0,
     "daysOperatingCash"
+  );
+
+  // availableDaysOfCashFlow
+  createChartFromParsedData(
+    parseData,
+    "availableDaysOfCashFlow_chart",
+    "availableDaysOfCashFlow_Peer",
+    "availableDaysOfCashFlow_Client",
+    "number",
+    0,
+    "availableDaysOfCashFlow"
+  );
+
+  // liquidityRatio
+  createChartFromParsedData(
+    parseData,
+    "liquidityRatio_chart",
+    "liquidityRatio_Peer",
+    "liquidityRatio_Client",
+    "number",
+    0,
+    "liquidityRatio"
   );
 
   // netCashAvailability
@@ -199,8 +232,8 @@ const displayDebtComponent = () => {
 
   const debtCoverage_benchmark = [
     "Debt Coverage Benchmark",
-    'We believe the benchmark is a result greater than or equal to 1.15, based on our conversations with church lenders and our experience.',
-    ]
+    "We believe the benchmark is a result greater than or equal to 1.15, based on our conversations with church lenders and our experience.",
+  ];
   createBenchmark(debtCoverage_benchmark, "row_debtCoverage");
 
   closeSidebarAfterSelectingOption("debt");
@@ -244,55 +277,68 @@ const displayIncomeComponent = () => {
   );
 
   const netIncome_benchmark = [
-    'Net Income Ratio Benchmark',
-    'The benchmark for this ratio in any particular year is that it is positive. However, we understand there will be years the church invests in its ministry and the ratio may be negative because of a predetermined choice. A more important benchmark is for the average net income ratio to be an improving trend over the years.',
-    ]
+    "Net Income Ratio Benchmark",
+    "The benchmark for this ratio in any particular year is that it is positive. However, we understand there will be years the church invests in its ministry and the ratio may be negative because of a predetermined choice. A more important benchmark is for the average net income ratio to be an improving trend over the years.",
+  ];
   createBenchmark(netIncome_benchmark, "row_netIncomeRatio");
   const netIncome_twoYrAvg_benchmark = [
-    'Net Income Ratio Two Year Average Benchmark',
-    'The benchmark for this ratio in any particular year is that it is positive. However, we understand there will be years the church invests in its ministry and the ratio may be negative because of a predetermined choice. A more important benchmark is for the average net income ratio to be an improving trend over the years.',
-    ]
+    "Net Income Ratio Two Year Average Benchmark",
+    "The benchmark for this ratio in any particular year is that it is positive. However, we understand there will be years the church invests in its ministry and the ratio may be negative because of a predetermined choice. A more important benchmark is for the average net income ratio to be an improving trend over the years.",
+  ];
   createBenchmark(netIncome_twoYrAvg_benchmark, "row_netIncomeRatio_twoYrAvg");
 
   const totalContrPerAAA_benchmark = [
-    'Total Contributions Per Average Adult Attendee Benchmark',
-    'Good: >$2,000',
-    'Above Average: >$2,500',
-    'Strong: >=$3,000'
-  ]
-  createBenchmark(totalContrPerAAA_benchmark, "row_totalContributionsPerAverageAdultAttendee");
+    "Total Contributions Per Average Adult Attendee Benchmark",
+    "Good: >$2,000",
+    "Above Average: >$2,500",
+    "Strong: >=$3,000",
+  ];
+  createBenchmark(
+    totalContrPerAAA_benchmark,
+    "row_totalContributionsPerAverageAdultAttendee"
+  );
 
   const contrWithoutAverageAdultAttendee_benchmark = [
-    'Contributions Without Donor Restrictions Per Average Adult Attendee Benchmark',
-    'An improving trend is the benchmark.',
-    ]
-  createBenchmark(contrWithoutAverageAdultAttendee_benchmark, "row_contributionsWithoutDonorPerAverageAdultAttendee_percentChange");
+    "Contributions Without Donor Restrictions Per Average Adult Attendee Benchmark",
+    "An improving trend is the benchmark.",
+  ];
+  createBenchmark(
+    contrWithoutAverageAdultAttendee_benchmark,
+    "row_contributionsWithoutDonorPerAverageAdultAttendee_percentChange"
+  );
 
   const contrWithoutDonorPerGivingUnit_benchmark = [
-    'Contributions Without Donor Restrictions Per Giving Unit Benchmark',
-    'An improving trend is the benchmark.',
-    ]
-  createBenchmark(contrWithoutDonorPerGivingUnit_benchmark, "row_contributionsWithoutDonorPerGivingUnit_percentChange");
+    "Contributions Without Donor Restrictions Per Giving Unit Benchmark",
+    "An improving trend is the benchmark.",
+  ];
+  createBenchmark(
+    contrWithoutDonorPerGivingUnit_benchmark,
+    "row_contributionsWithoutDonorPerGivingUnit_percentChange"
+  );
 
   const totalContributtionsPerAverageAdultAttendee_benchmark = [
-    'Total Contributions Per Average Adult Attendee Benchmark',
-    'An improving trend is the benchmark.',
-    ]
-  createBenchmark(totalContributtionsPerAverageAdultAttendee_benchmark, "row_totalContributionsPerAverageAdultAttendee_percentChange");
+    "Total Contributions Per Average Adult Attendee Benchmark",
+    "An improving trend is the benchmark.",
+  ];
+  createBenchmark(
+    totalContributtionsPerAverageAdultAttendee_benchmark,
+    "row_totalContributionsPerAverageAdultAttendee_percentChange"
+  );
 
   const totalContributionsPerGivingUnit_benchmark = [
-    'Total Contributions Per Giving Unit Benchmark',
-    'An improving trend is the benchmark.',
-    ]
-  createBenchmark(totalContributionsPerGivingUnit_benchmark, "row_totalContributionsPerGivingUnit_percentChange");
-
+    "Total Contributions Per Giving Unit Benchmark",
+    "An improving trend is the benchmark.",
+  ];
+  createBenchmark(
+    totalContributionsPerGivingUnit_benchmark,
+    "row_totalContributionsPerGivingUnit_percentChange"
+  );
 
   const localCounty_benchmark = [
-     `Local County - Benchmark`,
-    'We believe that a reasonable benchmark is between 1.5% - 3% of the total giving.',
-    ]
+    `Local County - Benchmark`,
+    "We believe that a reasonable benchmark is between 1.5% - 3% of the total giving.",
+  ];
   createBenchmark(localCounty_benchmark, "row_localCounty");
-
 
   closeSidebarAfterSelectingOption("income");
 };
@@ -345,32 +391,47 @@ const displayExpenseComponent = () => {
     "cashExpendituresPerGivingUnit"
   );
 
-
-
   const personnelToCash_benchmark = [
-    'Personnel to Cash Expenditure Benchmark',
-    '40% - 55%']
+    "Personnel to Cash Expenditure Benchmark",
+    "40% - 55%",
+  ];
   createBenchmark(personnelToCash_benchmark, "row_personnelToCashExpenditure");
 
   const mandatoryDebtToCashExpend_benchmark = [
-    'Mandatory Debt Service to Cash Expenditure Benchmark',
-    '15% or less']
-  createBenchmark(mandatoryDebtToCashExpend_benchmark, "row_mandatoryDebtServiceToCashExpenditure");
+    "Mandatory Debt Service to Cash Expenditure Benchmark",
+    "15% or less",
+  ];
+  createBenchmark(
+    mandatoryDebtToCashExpend_benchmark,
+    "row_mandatoryDebtServiceToCashExpenditure"
+  );
 
   const personnelIncludingToTotalCashExpenditures_benchmark = [
-    'Personnel Including Benefits to Total Cash Expenditures Benchmark',
-    'An improving trend is the benchmark.']
-  createBenchmark(personnelIncludingToTotalCashExpenditures_benchmark, "row_personnelIncludingToTotalCashExpenditures");
+    "Personnel Including Benefits to Total Cash Expenditures Benchmark",
+    "An improving trend is the benchmark.",
+  ];
+  createBenchmark(
+    personnelIncludingToTotalCashExpenditures_benchmark,
+    "row_personnelIncludingToTotalCashExpenditures"
+  );
 
   const totalGlobalAndLocalOutreachExpenses_benchmark = [
-    'Total Global and Local Outreach Expenses Benchmark',
-    '10% - 25%']
-  createBenchmark(totalGlobalAndLocalOutreachExpenses_benchmark, "row_totalGlobalAndLocalOutreachExpenses");
+    "Total Global and Local Outreach Expenses Benchmark",
+    "10% - 25%",
+  ];
+  createBenchmark(
+    totalGlobalAndLocalOutreachExpenses_benchmark,
+    "row_totalGlobalAndLocalOutreachExpenses"
+  );
 
   const facilitiesExpenseToTotalCashExpenditures_benchmark = [
-    'Facilities Expense to Total Cash Expenditures Benchmark',
-    '20% - 30%']
-  createBenchmark(facilitiesExpenseToTotalCashExpenditures_benchmark, "row_facilitiesExpenseToTotalCashExpenditures_lessThanTen");
+    "Facilities Expense to Total Cash Expenditures Benchmark",
+    "20% - 30%",
+  ];
+  createBenchmark(
+    facilitiesExpenseToTotalCashExpenditures_benchmark,
+    "row_facilitiesExpenseToTotalCashExpenditures_lessThanTen"
+  );
 
   closeSidebarAfterSelectingOption("expense");
 };
