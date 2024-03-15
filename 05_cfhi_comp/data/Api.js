@@ -2241,7 +2241,8 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsWithoutDonorPerAverageAdultAttendee_Client",
         record,
-        "cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee"
+        "cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee",
+        "cfhi_compre_12a_bench_ratings___percent_change___contributions_without_donor_restrictions_per_adult"
       );
 
       // contributionsWithoutDonorPerAverageAdultAttendee_percentChange
@@ -2262,7 +2263,8 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsWithoutDonorPerGivingUnit_Client",
         record,
-        "cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit"
+        "cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit",
+        "cfhi_compre_12b_bench_ratings___percent_change___contributions_without_donor_restrictions_per_gu"
       );
 
       // contributionsWithoutDonorPerGivingUnit_percentChange

@@ -341,7 +341,7 @@ const getPeerAndClientChartDataArrays = (
   const peerMax = [];
   const clientArray = [];
 
-  // console.log(year, dataPeer)
+  // console.log(years, dataPeer)
   years.forEach((year) => {
     if (dataPeer[year]) {
       const array = dataPeer[year];
@@ -370,7 +370,7 @@ const getPeerAndClientChartDataArrays = (
 const styleNumber = (num, type, fixed) => {
   let text = num;
 
-  // if (text == 0) text = "-";
+  // if (text == 0 || text == 0.00) text = "-";
 
   if (!isNaN(text)) {
     if (type === "num" && text != 0) {
@@ -380,6 +380,8 @@ const styleNumber = (num, type, fixed) => {
 
     if (type === "percent" && text != 0) {
       text = parseFloat(text * 100).toFixed(fixed) + "%";
+    } else if (type === "percent" && text == 0.00) { 
+      text = "0%"
     }
 
     if (type === "dollar" && text != 0) {
@@ -524,6 +526,8 @@ const checkForCountyDataIncomeTable = (
     const benchmarkArray = getBenchmarks(data[percentData]);
     const row = document.getElementById(`row_${trId}`);
 
+    console.log(row, benchmarkArray, trId);
+
     getBackgroundColor(benchmarkArray, row);
   }
 };
@@ -626,14 +630,16 @@ function getBenchmarks(obj) {
 
 const getBackgroundColor = (array, row, i = 1) => {
   if (!array.length) return;
-  // console.log({ array, row, i });
+  
+  const trimmedArray = array.map(item => item.trim().replace(/\n/g, '').replace(/Action\s+Required/g, 'Action Required'));
+  // console.log({ array, row, trimmedArray});
 
   let color =
-    array[0] === "Warning"
+    trimmedArray[0] === "Warning"
       ? "warning"
-      : array[0] === "Good"
+      : trimmedArray[0] === "Good"
       ? "good"
-      : array[0] === "Action Required"
+      : trimmedArray[0] === "Action Required"
       ? "actionRequired"
       : null;
 

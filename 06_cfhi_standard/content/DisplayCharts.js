@@ -149,6 +149,28 @@ const displayIncomeComponent = () => {
     'totalContributionsPerGivingUnit'
   );
 
+
+  const contributionsWithoutDonorPerGivingUnit_percentChange_benchmark = [
+    "Contributions Without Donor Restrictions per Giving Unit [Percent Change] - Benchmark",
+    "Improving Trend is the Benchmark"
+  ];
+  createBenchmark(
+    contributionsWithoutDonorPerGivingUnit_percentChange_benchmark,
+    "row_contributionsWithoutDonorPerGivingUnit_percentChange"
+  );
+
+  
+  const totalContributionsPerGivingUnit_percentChange_benchmark = [
+    "Total Contributions per Giving Unit [Percent Change] - Benchmark",
+    "Improving Trend is the Benchmark"
+  ];
+  createBenchmark(
+    totalContributionsPerGivingUnit_percentChange_benchmark,
+    "row_totalContributionsPerGivingUnit_percentChange"
+  );
+
+
+
   closeSidebarAfterSelectingOption("income");
 };
 

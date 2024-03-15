@@ -16,13 +16,13 @@ const displayReportComponent = () => {
     ]);
     insertDataToReport(cashData, selectedYears, [
       ["daysOperatingCash", "num", 0, "wa", 'cb'],
-      ["netCashAvailability", "dollar", 0, "wa", 'cb'],
-      ["netCashAvailability_standard", "dollar", 0, "wa"],
+      ["netCashAvailability", "dollar", 0, null, 'cb'],
+      ["netCashAvailability_standard", "dollar", 0],
     ]);
     insertDataToReport(debtData, selectedYears, [
       ["debtToContributionsWithout", "num", 0, "wa", 'cb'],
       ["debtPerGivingUnit", "dollar", 0, "wa", 'cb'],
-      ["debtPerGivingUnit_standard", "dollar", 0, "wa"],
+      ["contributionsWithoutDonorPerGivingUnit_standard", "dollar", 0, "wa"],
     ]);
 
     checkForCountyDataIncomeTable(
@@ -31,7 +31,6 @@ const displayReportComponent = () => {
       "localCountyMedianHouseholdIncome_Client",
       "localCountyPerGivingUnit_Client",
       selectedYears,
-      "cb"
     );
 
     insertDataToReport(incomeData, selectedYears, [
@@ -42,7 +41,7 @@ const displayReportComponent = () => {
     ])
 
     insertDataToReport(expenseData, selectedYears, [
-      ["cashExpendituresPerGivingUnit", "dollar", 0, "wa", 'cb'],
+      ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
     ])
 
   }
@@ -87,7 +86,7 @@ const addToSingleRow = (
   wa,
   cb
 ) => {
-  //console.log({ selectedYears, name, client, peer, type, fixedNum });
+  // console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);
