@@ -1,6838 +1,36 @@
-const xmlPeerString = `
-  <qdbapi>
-    <record>
-      <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>3000</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change />
-      <_01b_ratio_students_enrollment_average />
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        3899
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>0.0748</_02_ratio_student_faculty_ratio>
-      <main_queryregions>SO</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>197</_01_03_ft_teachers>
-      <_01_05_pt_teachers>55</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        3000
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -7319
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        184565.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        100000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>124555.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        100000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>124555.00</_03_11_total_debt>
-      <_04_08_total_expenses>307049.00</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        316253.00
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -20.053
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        1.15
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>123444.00</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        133909.00
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>119898.00</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-34.06</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>112343.00</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        344962
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        97655
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>247307</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        344962.00
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        97655.00
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        -22
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        100000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        165777.00
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.285
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        141898.00
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>110433.00</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -3.9669
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        151787.00
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219218.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        257481.00
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.25
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>124555.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        100000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.98</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>110433.00</_03_01_current_assets>
-      <_03_09_current_liabilities>112343.00</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -8.24
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>112343.00</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        184565.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        100000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>124555.00</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        198202.00
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>42</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.73</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        355890.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        340819.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>363817.00</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        89755.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.227</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        355890.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        289982.00
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.318
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        316253.00
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.175
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        257481.00
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219218.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.806
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219218.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        271920.00
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.032
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>280488.00</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        271920.00
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>73</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219218.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        81
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>243560.00</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-81</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        86
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        257481.00
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-13</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219218.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -6.156
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>235539.00</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -1.304
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>49888.00</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219218.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        257481.00
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -1.427
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>54600.00</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -2.731
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219218.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>17</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>18</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        35
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.094
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -11.352
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>mkaumatule@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        316253.00
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        4.278
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        65111.00
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>307049.00</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -7.074
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -86.309
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>363817.00</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -93.384
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        89755.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        340819.00
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.503
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>280488.00</_04_06_total_contributions>
-      <_04_13_fundraising_income>368989.00</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>93</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>280488.00</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-3</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-13</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219218.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        257481.00
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -9.6863333333333
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        84
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>280488.00</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.89
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>73544.00</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        38989
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.89
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        22.26
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>73544.00</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        89755.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        340819.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>363817.00</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        38989
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        22.26
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        27.114666666667
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        81344.00
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        326881.00
-      </_04_10_total_fundraising_expenses>
-      <update_id>1701460985308</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>3500</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change />
-      <_01b_ratio_students_enrollment_average />
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        4444
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>0.0636</_02_ratio_student_faculty_ratio>
-      <main_queryregions>SO</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>200</_01_03_ft_teachers>
-      <_01_05_pt_teachers>45</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        3500
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -3526
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        120323.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        80000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>112343.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        80000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>112343.00</_03_11_total_debt>
-      <_04_08_total_expenses>118997.00</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        131452.00
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -9.661
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        1.13
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>104445.00</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        113989.00
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>102343.00</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-21.84</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>92343.00</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        170405
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        82333
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>88072</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        170405.00
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        82333.00
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        -21
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        80000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        154121.00
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.412
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        128989.00
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>91333.00</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -3.3808
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        143444.00
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        32550.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        74979.00
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.40
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>112343.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        80000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.99</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>91333.00</_03_01_current_assets>
-      <_03_09_current_liabilities>92343.00</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        0.91
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>92343.00</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        120323.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        80000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>112343.00</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        18444.00
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>32</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.56</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        171154.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        160193.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>179550.00</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        72344.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.589</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        171154.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        107711.00
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.809
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        131452.00
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        2.304
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        74979.00
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        32550.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.424
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        32550.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        76774.00
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.253
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>96176.00</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        76774.00
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>9</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        32550.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        16
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>57549.00</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-16</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        21
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        74979.00
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-12</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        32550.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -1.099
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>46639.00</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -1.056
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>44808.00</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        32550.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        74979.00
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -1.176
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>49890.00</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -2.232
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        32550.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>13</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>14</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        27
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.113
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -7.603
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>mkaumatule@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        131452.00
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        3.211
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        54699.00
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>118997.00</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -4.392
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -33.086
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>179550.00</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -37.478
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        72344.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        160193.00
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.502
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>96176.00</_04_06_total_contributions>
-      <_04_13_fundraising_income>185892.00</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>27</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>96176.00</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-4</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-12</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        32550.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        74979.00
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -8.564
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        19
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>96176.00</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.73
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>59787.00</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        34555
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.73
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        13.66
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>59787.00</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        72344.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        160193.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>179550.00</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        34555
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        13.66
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        18.856857142857
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        65999.00
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        141496.00
-      </_04_10_total_fundraising_expenses>
-      <update_id>1701460985308</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>2000</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change />
-      <_01b_ratio_students_enrollment_average />
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        7000
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>5.5520</_02_ratio_student_faculty_ratio>
-      <main_queryregions>PL</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>104</_01_03_ft_teachers>
-      <_01_05_pt_teachers>22000</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        2000
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -9271
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        127000.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        102000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>122000.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        102000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>122000.00</_03_11_total_debt>
-      <_04_08_total_expenses>177000.00</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        182000.00
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -25.400
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.36
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>77000.00</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        82000.00
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>117000.00</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-31.80</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>112000.00</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        207000
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        67000
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>140000</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        207000.00
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        67000.00
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        0
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        102000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        102000.00
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.278
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        92000.00
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>72000.00</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -6.4667
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        97000.00
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        642000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        657000.00
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.20
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>122000.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        102000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.64</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>72000.00</_03_01_current_assets>
-      <_03_09_current_liabilities>112000.00</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -22.40
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>112000.00</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        127000.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        102000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>122000.00</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        132000.00
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>61</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.68</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        197000.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        192000.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>212000.00</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        62000.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.145</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        197000.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        172000.00
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.203
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        182000.00
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.023
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        657000.00
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        642000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        3.963
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        642000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        162000.00
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.031
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>167000.00</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        162000.00
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>321</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        642000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        376
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>752000.00</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-376</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        329
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        657000.00
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-8</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        642000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -29.800
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>447000.00</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -2.467
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>37000.00</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        642000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        657000.00
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -2.800
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>42000.00</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -5.267
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        642000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>19</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>21</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        40
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.135
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -15.800
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>LWhinnery@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        182000.00
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        6.400
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        47000.00
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>177000.00</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -9.400
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -93.200
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>212000.00</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -102.600
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        62000.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        192000.00
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.507
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>167000.00</_04_06_total_contributions>
-      <_04_13_fundraising_income>202000.00</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>84</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>167000.00</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-3</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-8</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        642000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        657000.00
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -5
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        79
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>167000.00</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.63
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>52000.00</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        32000
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.63
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        16.19
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>52000.00</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        62000.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        192000.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>212000.00</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        32000
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        16.19
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        28.5
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        57000.00
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        187000.00
-      </_04_10_total_fundraising_expenses>
-      <update_id>1701360570736</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2020</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>10000</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        4.000
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        6000
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        11455
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>0.0600</_02_ratio_student_faculty_ratio>
-      <main_queryregions>NE</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>500</_01_03_ft_teachers>
-      <_01_05_pt_teachers>200</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        10000
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -6897
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        201323.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        125000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>190232.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        125000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>190232.00</_03_11_total_debt>
-      <_04_08_total_expenses>309986.00</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        320640.00
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -18.896
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.32
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>120322.00</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        129878.00
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>189565.00</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-10.57</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>165898.00</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        391758
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        105433
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>286325</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        391758.00
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        105433.00
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        -5
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        125000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        172212.00
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.257
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        140800.00
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>112021.00</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -0.5567
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        149877.00
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees />
-      <_04_04_financial_aid___scholarships>
-        269226.00
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.52
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>190232.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        125000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.68</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>112021.00</_03_01_current_assets>
-      <_03_09_current_liabilities>165898.00</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -17.07
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>165898.00</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        201323.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        125000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>190232.00</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        211040.00
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>19</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.68</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        356251.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        346097.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>411637.00</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        98009.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.192</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        356251.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        298977.00
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.264
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        320640.00
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees />
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        269226.00
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees />
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.000
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees />
-      <_04_05_total_support_and_revenue>
-        270483.00
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.052
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>284453.00</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        270483.00
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>0</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees />
-      <_22b1_ratio_financial_assistance_discount_based>
-        25
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>250018.00</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-25</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        27
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        269226.00
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-27</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees />
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -0.856
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>230471.00</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -0.241
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>65001.00</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees />
-      <_04_04_financial_aid___scholarships>
-        269226.00
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -0.257
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>69101.00</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -0.498
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees />
-      <_25a_ratio_salaries_per_students>7</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>7</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        13
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.063
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -12.587
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>mkaumatule@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        320640.00
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        5.369
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        76899.00
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>309986.00</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -7.218
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -80.321
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>411637.00</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -87.539
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        98009.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        346097.00
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.503
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>284453.00</_04_06_total_contributions>
-      <_04_13_fundraising_income>375733.00</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>28</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>284453.00</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-1</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-27</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees />
-      <_04_04_financial_aid___scholarships>
-        269226.00
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -25.8572
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        3
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>284453.00</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.65
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>84555.00</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        51234
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.65
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        18.35
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>84555.00</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        98009.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        346097.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>411637.00</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        51234
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        18.35
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        9.1222
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        91222.00
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        331938.00
-      </_04_10_total_fundraising_expenses>
-      <update_id>1701460985308</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2020</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>9000</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        3.500
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        5500
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        19000
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>5.9444</_02_ratio_student_faculty_ratio>
-      <main_queryregions>PL</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>29000</_01_03_ft_teachers>
-      <_01_05_pt_teachers>49000</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        9000
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -9454
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        259000.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        219000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>249000.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        219000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>249000.00</_03_11_total_debt>
-      <_04_08_total_expenses>359000.00</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        369000.00
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -25.900
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.37
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>159000.00</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        169000.00
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>239000.00</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-32.80</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>229000.00</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        419000
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        139000
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>280000</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        419000.00
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        139000.00
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        1
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        219000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        209000.00
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.268
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        189000.00
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>149000.00</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -6.6333
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        199000.00
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        289000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        319000.00
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.14
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>249000.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        219000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.65</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>149000.00</_03_01_current_assets>
-      <_03_09_current_liabilities>229000.00</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -22.90
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>229000.00</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        259000.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        219000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>249000.00</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        269000.00
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>28</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.67</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        399000.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        389000.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>429000.00</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        129000.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.143</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        399000.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        349000.00
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.201
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        369000.00
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.104
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        319000.00
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        289000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.878
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        289000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        329000.00
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.030
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>339000.00</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        329000.00
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>32</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        289000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        34
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>309000.00</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-34</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        35
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        319000.00
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-3</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        289000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -9.967
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>299000.00</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -2.633
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>79000.00</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        289000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        319000.00
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -2.967
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>89000.00</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -5.600
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        289000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>9</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>10</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        19
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.127
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -16.800
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>LWhinnery@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        369000.00
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        6.900
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        99000.00
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>359000.00</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -9.900
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -94.700
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>429000.00</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -104.600
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        129000.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        389000.00
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.507
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>339000.00</_04_06_total_contributions>
-      <_04_13_fundraising_income>409000.00</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>38</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>339000.00</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-1</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-3</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        289000.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        319000.00
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -2.2222222222222
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        35
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>339000.00</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.58
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>109000.00</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        69000
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.58
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        15.30
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>109000.00</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        129000.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        389000.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>429000.00</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        69000
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        15.30
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        13.222222222222
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        119000.00
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        379000.00
-      </_04_10_total_fundraising_expenses>
-      <update_id>1698859871348</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2021</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>9101</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        0.011
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        9051
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        10434
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>0.0555</_02_ratio_student_faculty_ratio>
-      <main_queryregions>SO</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>453</_01_03_ft_teachers>
-      <_01_05_pt_teachers>104</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        9101
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -5713
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        201900.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        120000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>191898.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        120000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>191898.00</_03_11_total_debt>
-      <_04_08_total_expenses>321882.00</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        334782.00
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -15.651
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.32
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>120344.00</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        128999.00
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>188575.00</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-7.65</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>155999.00</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        396562
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        104433
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>292129</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        396562.00
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        104433.00
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        -5
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        120000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        169433.00
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.267
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        140666.00
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>110988.00</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -3.1409
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        147888.00
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        224654.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        271739.00
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.60
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>191898.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        120000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.71</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>110988.00</_03_01_current_assets>
-      <_03_09_current_liabilities>155999.00</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -22.16
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>155999.00</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        201900.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        120000.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>191898.00</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        208939.00
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>21</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.71</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        376289.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        363293.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>407013.00</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        97866.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.214</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        376289.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        310002.00
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.294
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        334782.00
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.210
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        271739.00
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        224654.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.788
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        224654.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        285093.00
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.056
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>300924.00</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        285093.00
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>25</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        224654.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        28
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>254354.00</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-28</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        30
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        271739.00
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-5</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        224654.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -5.080
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>239182.00</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -1.325
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>62405.00</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        224654.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        271739.00
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -1.385
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>65202.00</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -2.710
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        224654.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>7</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>7</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        14
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.045
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -9.892
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>mkaumatule@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        334782.00
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        4.199
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        73444.00
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>321882.00</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -5.693
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -67.300
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>407013.00</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -72.993
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        97866.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        363293.00
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.497
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>300924.00</_04_06_total_contributions>
-      <_04_13_fundraising_income>393816.00</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>33</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>300924.00</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-1</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-5</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        224654.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        271739.00
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -3.7561806394902
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        29
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>300924.00</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.66
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>82433.00</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        49564
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.66
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        19.18
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>82433.00</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        97866.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        363293.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>407013.00</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        49564
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        19.18
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        9.997692561257
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        90989.00
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        345536.00
-      </_04_10_total_fundraising_expenses>
-      <update_id>1701460985308</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2021</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>8404</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        -0.066
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        8702
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        9007
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>0.0538</_02_ratio_student_faculty_ratio>
-      <main_queryregions>SO</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>404</_01_03_ft_teachers>
-      <_01_05_pt_teachers>97</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        8404
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -9205
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        201999.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>193232.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>193232.00</_03_11_total_debt>
-      <_04_08_total_expenses>331101.00</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        339111.00
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -25.218
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.31
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>120366.00</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        124555.00
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>187121.00</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-30.16</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>178999.00</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        385371
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        103233
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>282138</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        385371.00
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        103233.00
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        1
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        161222.00
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.291
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        141900.00
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>109889.00</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -3.3472
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        151433.00
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        231611.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        276853.00
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.14
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>193232.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.61</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>109889.00</_03_01_current_assets>
-      <_03_09_current_liabilities>178999.00</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -16.20
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>178999.00</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        201999.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>193232.00</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        213045.00
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>23</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.71</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        375525.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        367484.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>404732.00</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        96788.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.167</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        375525.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        321733.00
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.221
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        339111.00
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.195
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        276853.00
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        231611.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.762
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        231611.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        303785.00
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.030
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>313035.00</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        303785.00
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>28</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        231611.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        32
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>264889.00</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-32</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        33
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        276853.00
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-5</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        231611.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -5.518
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>249650.00</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -1.355
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>61305.00</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        231611.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        276853.00
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -1.525
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>69010.00</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -2.880
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        231611.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>7</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>8</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        16
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.126
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -16.269
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>mkaumatule@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        339111.00
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        6.653
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        77022.00
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>331101.00</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -9.616
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -108.490
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>404732.00</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -118.106
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        96788.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        367484.00
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.503
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>313035.00</_04_06_total_contributions>
-      <_04_13_fundraising_income>392608.00</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>37</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>313035.00</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-1</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-5</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        231611.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        276853.00
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -4.4302712993812
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        33
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>313035.00</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.78
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>86544.00</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        48711
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.78
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        19.62
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>86544.00</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        96788.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        367484.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>404732.00</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        48711
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        19.62
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        11.25249881009
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        94566.00
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        354603.00
-      </_04_10_total_fundraising_expenses>
-      <update_id>1701460985308</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2021</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>8462</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        -0.060
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        8731
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        20000
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>6.9545</_02_ratio_student_faculty_ratio>
-      <main_queryregions>PL</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>31538.461538462</_01_03_ft_teachers>
-      <_01_05_pt_teachers>54615.384615385</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        8462
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -9393
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        296923.08
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        250769.23
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>285384.62</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        250769.23
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>285384.62</_03_11_total_debt>
-      <_04_08_total_expenses>412307.69</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        423846.15
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -25.733
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.37
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>181538.46</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        193076.92
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>273846.15</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-32.47</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>262307.69</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        481538
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        158462
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>323077</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        481538.46
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        158461.54
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        1
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        250769.23
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        239230.77
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.271
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        216153.85
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>170000.00</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -6.5778
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        227692.31
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        331538.46
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        366153.85
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.14
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>285384.62</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        250769.23
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.65</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>170000.00</_03_01_current_assets>
-      <_03_09_current_liabilities>262307.69</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -22.73
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>262307.69</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        296923.08
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        250769.23
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>285384.62</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        308461.54
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>34</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.68</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        458461.54
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        446923.08
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>493076.92</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        146923.08
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.144</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        458461.54
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        400769.23
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.202
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        423846.15
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.104
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        366153.85
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        331538.46
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.878
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        331538.46
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        377692.31
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.031
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>389230.77</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        377692.31
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>39</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        331538.46
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        42
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>354615.38</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-42</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        43
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        366153.85
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-4</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        331538.46
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -9.911
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>343076.92</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -2.578
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>89230.77</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        331538.46
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        366153.85
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -2.911
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>100769.23</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -5.489
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        331538.46
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>11</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>12</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        22
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.129
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -16.467
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>LWhinnery@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        423846.15
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        6.733
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        112307.69
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>412307.69</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -9.733
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -94.200
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>493076.92</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -103.933
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        146923.08
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        446923.08
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.507
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>389230.77</_04_06_total_contributions>
-      <_04_13_fundraising_income>470000.00</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>46</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>389230.77</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-1</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-4</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        331538.46
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        366153.85
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -2.7272727272727
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        43
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>389230.77</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.59
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>123846.15</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        77692.307692308
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.59
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        15.58
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>123846.15</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        146923.08
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        446923.08
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>493076.92</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        77692.307692308
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        15.58
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        16
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        135384.62
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        435384.62
-      </_04_10_total_fundraising_expenses>
-      <update_id>1698859871348</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2022</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>7550</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        -0.108
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        8006
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        8500
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>0.0501</_02_ratio_student_faculty_ratio>
-      <main_queryregions>SO</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>328</_01_03_ft_teachers>
-      <_01_05_pt_teachers>101</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        7550
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -4280
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        199888.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        159888.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>194544.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        159888.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>194544.00</_03_11_total_debt>
-      <_04_08_total_expenses>313478.00</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        330526.00
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -11.725
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.21
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>110555.00</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        120444.00
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>190828.00</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-135.32</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>189121.00</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        388319
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        104555
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>283764</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        388319.00
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        104555.00
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        -1
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        159888.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        164989.00
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.276
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        138777.00
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>108767.00</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -3.5915
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        146333.00
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        228129.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        268873.00
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.22
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>194544.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        159888.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.58</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>108767.00</_03_01_current_assets>
-      <_03_09_current_liabilities>189121.00</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -13.93
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>189121.00</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        199888.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        159888.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>194544.00</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        213464.00
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>26</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.71</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        381987.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        363626.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>403200.00</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        96777.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.251</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        381987.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        305337.00
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.334
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        330526.00
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.179
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        268873.00
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        228129.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.821
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        228129.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        278010.00
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.038
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>288456.00</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        278010.00
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>30</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        228129.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        33
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>252820.00</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-33</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        36
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        268873.00
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-5</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        228129.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -5.983
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>243773.00</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -1.559
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>63505.00</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        228129.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        268873.00
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -1.666
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>67899.00</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -3.225
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        228129.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>8</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>9</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        17
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.069
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -7.708
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>mkaumatule@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        330526.00
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        3.329
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        74655.00
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>313478.00</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -4.379
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -50.657
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>403200.00</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -55.036
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        96777.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        363626.00
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.503
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>288456.00</_04_06_total_contributions>
-      <_04_13_fundraising_income>400266.00</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>38</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>288456.00</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-2</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-5</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        228129.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        268873.00
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -3.1385430463576
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        35
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>288456.00</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.89
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>85433.00</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        45099
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.89
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        21.04
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>85433.00</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        96777.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        363626.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>403200.00</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        45099
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        21.04
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        12.378145695364
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        93455.00
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        346196.00
-      </_04_10_total_fundraising_expenses>
-      <update_id>1701460985308</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2022</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>7440</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        -0.121
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        7951
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        84433
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>0.0476</_02_ratio_student_faculty_ratio>
-      <main_queryregions>SO</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>304</_01_03_ft_teachers>
-      <_01_05_pt_teachers>101</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        7440
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -7418
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        199121.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        160898.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>192322.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        160898.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>192322.00</_03_11_total_debt>
-      <_04_08_total_expenses>342039.00</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        351837.00
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -20.323
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.26
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>120303.00</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        121222.00
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>191343.00</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-41.44</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>185515.00</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        365301
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        105434
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>259867</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        365301.00
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        105434.00
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        3
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        160898.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        139888.00
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.254
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        136000.00
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>108444.00</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -3.7572
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        143888.00
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223596.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        261893.00
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.20
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>192322.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        160898.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.58</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>108444.00</_03_01_current_assets>
-      <_03_09_current_liabilities>185515.00</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -27.37
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>185515.00</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        199121.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        160898.00
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>192322.00</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        205898.00
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>26</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.76</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        393681.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        378443.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>382219.00</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        97544.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.217</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        393681.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        323455.00
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.305
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        351837.00
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.171
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        261893.00
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223596.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.755
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223596.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        296295.00
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.031
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>305460.00</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        296295.00
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>30</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223596.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        33
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>249133.00</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-33</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        35
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        261893.00
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-5</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223596.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -6.126
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>234606.00</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -1.695
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>64900.00</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223596.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        261893.00
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -1.828
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>70009.00</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -3.523
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223596.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>9</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>9</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        18
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.079
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -13.769
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>mkaumatule@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        351837.00
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        5.400
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        81999.00
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>342039.00</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -8.369
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -87.590
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>382219.00</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -95.959
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        97544.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        378443.00
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.506
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>305460.00</_04_06_total_contributions>
-      <_04_13_fundraising_income>412550.00</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>41</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>305460.00</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-1</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-5</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223596.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        261893.00
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -3.8305107526882
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        37
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>305460.00</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.94
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>90765.00</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        46788
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.94
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        20.28
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>90765.00</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        97544.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        378443.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>382219.00</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        46788
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        20.28
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        12.709005376344
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        94555.00
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        362998.00
-      </_04_10_total_fundraising_expenses>
-      <update_id>1701460985308</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2022</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>6487</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        -0.233
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        7475
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        15333
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>6.9545</_02_ratio_student_faculty_ratio>
-      <main_queryregions>PL</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>24179.487179487</_01_03_ft_teachers>
-      <_01_05_pt_teachers>41871.794871795</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        6487
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -9393
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        227641.03
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        192256.41
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>218794.87</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        192256.41
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>218794.87</_03_11_total_debt>
-      <_04_08_total_expenses>316102.56</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        324948.72
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -25.733
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.37
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>139179.49</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        148025.64
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>209948.72</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-32.47</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>201102.56</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        369179
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        121487
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>247692</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        369179.49
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        121487.18
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        1
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        192256.41
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        183410.26
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.271
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        165717.95
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>130333.33</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -6.5778
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        174564.10
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        254179.49
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        280717.95
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.14
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>218794.87</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        192256.41
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.65</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>130333.33</_03_01_current_assets>
-      <_03_09_current_liabilities>201102.56</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -22.73
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>201102.56</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        227641.03
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        192256.41
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>218794.87</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        236487.18
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>34</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.68</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        351487.18
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        342641.03
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>378025.64</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        112641.03
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.144</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        351487.18
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        307256.41
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.202
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        324948.72
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.104
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        280717.95
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        254179.49
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.878
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        254179.49
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        289564.10
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.031
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>298410.26</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        289564.10
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>39</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        254179.49
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        42
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>271871.79</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-42</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        43
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        280717.95
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-4</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        254179.49
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -9.911
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>263025.64</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -2.578
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>68410.26</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        254179.49
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        280717.95
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -2.911
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>77256.41</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -5.489
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        254179.49
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>11</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>12</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        22
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.129
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -16.467
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>LWhinnery@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        324948.72
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        6.733
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        86102.56
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>316102.56</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -9.733
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -94.200
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>378025.64</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -103.933
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        112641.03
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        342641.03
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.507
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>298410.26</_04_06_total_contributions>
-      <_04_13_fundraising_income>360333.33</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>46</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>298410.26</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-1</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-4</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        254179.49
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        280717.95
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -2.7272727272727
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        43
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>298410.26</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.59
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>94948.72</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        59564.102564103
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.59
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        15.58
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>94948.72</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        112641.03
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        342641.03
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>378025.64</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        59564.102564103
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        15.58
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        16
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        103794.87
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        333794.87
-      </_04_10_total_fundraising_expenses>
-      <update_id>1698859871348</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2023</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>6500</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        0.002
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        6494
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        8203
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>0.0615</_02_ratio_student_faculty_ratio>
-      <main_queryregions>SO</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>356</_01_03_ft_teachers>
-      <_01_05_pt_teachers>88</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        6500
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -5122
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        200444.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>191343.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>191343.00</_03_11_total_debt>
-      <_04_08_total_expenses>310930.00</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        325215.00
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -14.032
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.35
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>117555.00</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        130454.00
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>183949.00</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-48.72</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>178858.00</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        382645
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        104356
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>278289</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        382645.00
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        104356.00
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        -3
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        190878.00
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.411
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        145666.00
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>103202.00</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -4.2504
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        152909.00
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        218843.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        254818.00
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.13
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>191343.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.58</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>103202.00</_03_01_current_assets>
-      <_03_09_current_liabilities>178858.00</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -40.25
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>178858.00</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        200444.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>191343.00</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        204888.00
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>29</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.69</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        366988.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        356662.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>401454.00</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        97555.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.224</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        366988.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        299842.00
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.309
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        325215.00
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.164
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        254818.00
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        218843.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.798
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        218843.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        274180.00
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.040
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>285073.00</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        274180.00
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>34</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        218843.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        37
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>239525.00</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-37</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        39
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        254818.00
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-6</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        218843.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -6.323
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>227477.00</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -1.893
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>68099.00</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        218843.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        254818.00
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -2.017
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>72566.00</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -3.910
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        218843.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>10</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>11</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        22
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.066
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -9.847
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>mkaumatule@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        325215.00
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        4.197
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        80717.00
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>310930.00</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -5.650
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -59.900
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>401454.00</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -65.550
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        97555.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        356662.00
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.507
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>285073.00</_04_06_total_contributions>
-      <_04_13_fundraising_income>383121.00</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>44</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>285073.00</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-2</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-6</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        218843.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        254818.00
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -3.3369230769231
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        41
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>285073.00</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        2.09
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>87675.00</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        41900
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        2.09
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        22.51
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>87675.00</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        97555.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        356662.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>401454.00</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        41900
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        22.51
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        14.386923076923
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        93515.00
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        338453.00
-      </_04_10_total_fundraising_expenses>
-      <update_id>1701460985308</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2023</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>6600</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        0.017
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        6544
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        8001
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>0.0519</_02_ratio_student_faculty_ratio>
-      <main_queryregions>SO</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>302</_01_03_ft_teachers>
-      <_01_05_pt_teachers>81</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        6600
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -4526
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        199001.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>192343.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>192343.00</_03_11_total_debt>
-      <_04_08_total_expenses>326422.00</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        342470.00
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -12.400
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.27
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>112344.00</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        123444.00
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>184939.00</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-8.98</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>158676.00</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        367216
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        102444
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>264772</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        367216.00
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        102444.00
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        1
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        160577.00
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.327
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        139888.00
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>105434.00</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -3.2831
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        149787.00
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219508.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        265131.00
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.14
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>192343.00</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.66</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>105434.00</_03_01_current_assets>
-      <_03_09_current_liabilities>158676.00</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -25.55
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>158676.00</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        199001.00
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>192343.00</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        205212.00
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>29</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.74</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        381254.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        370783.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>380301.00</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        96877.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.232</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        381254.00
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        309394.00
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.339
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        342470.00
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.208
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        265131.00
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219508.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.775
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219508.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        283202.00
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.048
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>296687.00</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        283202.00
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>33</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219508.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        39
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>254920.00</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-39</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        40
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        265131.00
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-7</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219508.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -5.170
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>235851.00</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -1.563
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>71303.00</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219508.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        265131.00
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -1.658
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>75655.00</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -3.221
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219508.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>11</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>11</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        22
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.061
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -9.157
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>mkaumatule@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        342470.00
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        4.035
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        82198.00
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>326422.00</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -5.122
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -52.839
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>380301.00</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -57.961
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        96877.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        370783.00
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.520
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>296687.00</_04_06_total_contributions>
-      <_04_13_fundraising_income>393674.00</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>45</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>296687.00</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-2</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-7</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        219508.00
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        265131.00
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -4.4810606060606
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        40
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>296687.00</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        2.15
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>89711.00</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        41808
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        2.15
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        22.43
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>89711.00</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        96877.00
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        370783.00
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>380301.00</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        41808
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        22.43
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        14.005151515152
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        92434.00
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        358699.00
-      </_04_10_total_fundraising_expenses>
-      <update_id>1701460985308</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2023</fiscal_ye_date_formatted_year>
-      <_01_ratio_students_enrollment>5709</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        -0.120
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        6098
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        13493
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>3.3262</_02_ratio_student_faculty_ratio>
-      <main_queryregions>SO</main_queryregions>
-      <_01_yes_no_students_enrollment>Yes</_01_yes_no_students_enrollment>
-      <_01c_yes_no_students_enrollment_peak_enrolmment>
-        Yes
-      </_01c_yes_no_students_enrollment_peak_enrolmment>
-      <_02_yes_no_student_faculty_ratio>Yes</_02_yes_no_student_faculty_ratio>
-      <_01_03_ft_teachers>565</_01_03_ft_teachers>
-      <_01_05_pt_teachers>36847.179487179</_01_05_pt_teachers>
-      <_01_01_students_average_enrollment>
-        5709
-      </_01_01_students_average_enrollment>
-      <_03_ratio_expendable_reserves___in_days>
-        -9393
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_yes_no_expendable_reserves___in_days>
-        Yes
-      </_03_yes_no_expendable_reserves___in_days>
-      <_03_12_total_unrestricted_net_assets>
-        200324.10
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>192539.49</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>192539.49</_03_11_total_debt>
-      <_04_08_total_expenses>278170.26</_04_08_total_expenses>
-      <_04_09_total_depreciation_expense>
-        285954.87
-      </_04_09_total_depreciation_expense>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -25.733
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_yes_no_expendable_reserves______of_total_cash_expenses>
-        Yes
-      </_04_yes_no_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.37
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_05_yes_no_cash_available_to_deferred_revenues>
-        Yes
-      </_05_yes_no_cash_available_to_deferred_revenues>
-      <_03_02_total_cash>122477.95</_03_02_total_cash>
-      <_03_03_non_endowment_investments>
-        130262.56
-      </_03_03_non_endowment_investments>
-      <_03_10_deferred_revenue>184754.87</_03_10_deferred_revenue>
-      <_06_ratio_liquidity_ratio>-32.47</_06_ratio_liquidity_ratio>
-      <_06_yes_no_liquidity_ratio>Yes</_06_yes_no_liquidity_ratio>
-      <_03_09_current_liabilities>176970.26</_03_09_current_liabilities>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        324878
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07a_yes_no_as_per_statement_of_cash_flows>
-        Yes
-      </_07a_yes_no_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        106909
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-        Yes
-      </_07b_yes_no_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>217969</_07c_ratio_over_under_benchmark>
-      <_07c_yes_no_over_under_benchmark>Yes</_07c_yes_no_over_under_benchmark>
-      <_05_01_cash_flows_from_operating_activities>
-        324877.95
-      </_05_01_cash_flows_from_operating_activities>
-      <_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-        106908.72
-      </_02_07_depreciation_expense_on_3_to_7_year_assets_only>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        1
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_08_yes_no_property_and_equipment_per_student_excluding_land>
-        Yes
-      </_08_yes_no_property_and_equipment_per_student_excluding_land>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_07_land_and_land_improvements>
-        161401.03
-      </_03_07_land_and_land_improvements>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.271
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-        Yes
-      </_09_yes_no_net_tuition_a_r_as_a___of_current_assets>
-      <_03_05_student_accounts_receivable>
-        145831.79
-      </_03_05_student_accounts_receivable>
-      <_03_01_current_assets>114693.33</_03_01_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -6.5778
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        Yes
-      </_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_03_06_student_accounts_receivable_written_off>
-        153616.41
-      </_03_06_student_accounts_receivable_written_off>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223677.95
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        247031.79
-      </_04_04_financial_aid___scholarships>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.14
-      </_11_ratio_debt_to_property_and_equipment>
-      <_11_yes_no_debt_to_property_and_equipment>
-        Yes
-      </_11_yes_no_debt_to_property_and_equipment>
-      <_03_11_total_debt>192539.49</_03_11_total_debt>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_12_ratio_current_ratio>0.65</_12_ratio_current_ratio>
-      <_12_yes_no_current_ratio>Yes</_12_yes_no_current_ratio>
-      <_03_01_current_assets>114693.33</_03_01_current_assets>
-      <_03_09_current_liabilities>176970.26</_03_09_current_liabilities>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -22.73
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_yes_no_current_liabilities_to_available_net_assets>
-        Yes
-      </_13_yes_no_current_liabilities_to_available_net_assets>
-      <_03_09_current_liabilities>176970.26</_03_09_current_liabilities>
-      <_03_12_total_unrestricted_net_assets>
-        200324.10
-      </_03_12_total_unrestricted_net_assets>
-      <_03_08_land__buildings_and_equipment__net>
-        169185.64
-      </_03_08_land__buildings_and_equipment__net>
-      <_03_11_total_debt>192539.49</_03_11_total_debt>
-      <_03_13_bod_designated_for_operations_>
-        208108.72
-      </_03_13_bod_designated_for_operations_>
-      <_14_ratio_debt_per_students>34</_14_ratio_debt_per_students>
-      <_14_yes_no_debt_per_students>Yes</_14_yes_no_debt_per_students>
-      <_15_ratio_debt_coverage>1.68</_15_ratio_debt_coverage>
-      <_15_yes_no_debt_coverage>Yes</_15_yes_no_debt_coverage>
-      <_04_12_change_in_unrestricted_net_assets>
-        309308.72
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_11_current_year_interest_expense>
-        301524.10
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>332662.56</_05_02_capitalized_interest>
-      <_02_06_current_maturities_of_lt_debt>
-        99124.10
-      </_02_06_current_maturities_of_lt_debt>
-      <_16_ratio_net_income_ratio>1.144</_16_ratio_net_income_ratio>
-      <_16_yes_no_net_income_ratio>Yes</_16_yes_no_net_income_ratio>
-      <_04_12_change_in_unrestricted_net_assets>
-        309308.72
-      </_04_12_change_in_unrestricted_net_assets>
-      <_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-        270385.64
-      </_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes>
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.202
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_yes_no_net_income_ratio_excluding_depreciation>
-        Yes
-      </_17_yes_no_net_income_ratio_excluding_depreciation>
-      <_04_09_total_depreciation_expense>
-        285954.87
-      </_04_09_total_depreciation_expense>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.104
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-        Yes
-      </_19_yes_no_financial_assistance_as_a___of_tuition_and_fees>
-      <_04_04_financial_aid___scholarships>
-        247031.79
-      </_04_04_financial_aid___scholarships>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223677.95
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.878
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_20_yes_no_tuition_and_fees_as_a___of_total_income>
-        Yes
-      </_20_yes_no_tuition_and_fees_as_a___of_total_income>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223677.95
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_05_total_support_and_revenue>
-        254816.41
-      </_04_05_total_support_and_revenue>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.031
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_21_yes_no_contributions_as_a___of_total_income>
-        Yes
-      </_21_yes_no_contributions_as_a___of_total_income>
-      <_04_06_total_contributions>262601.03</_04_06_total_contributions>
-      <_04_05_total_support_and_revenue>
-        254816.41
-      </_04_05_total_support_and_revenue>
-      <_22a1_ratio_gross_tuition>39</_22a1_ratio_gross_tuition>
-      <_22a1_yes_no_gross_tuition>Yes</_22a1_yes_no_gross_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223677.95
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_22b1_ratio_financial_assistance_discount_based>
-        42
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b1_yes_no_financial_assistance_discount_based>
-        Yes
-      </_22b1_yes_no_financial_assistance_discount_based>
-      <_04_03_discounts>239247.18</_04_03_discounts>
-      <_22c1_ratio_scholarship_awarded>-42</_22c1_ratio_scholarship_awarded>
-      <_22c1_yes_no_scholarship_awarded>Yes</_22c1_yes_no_scholarship_awarded>
-      <_22d1_ratio_total_financial_assistance>
-        43
-      </_22d1_ratio_total_financial_assistance>
-      <_22d1_yes_no_total_financial_assistance>
-        Yes
-      </_22d1_yes_no_total_financial_assistance>
-      <_04_04_financial_aid___scholarships>
-        247031.79
-      </_04_04_financial_aid___scholarships>
-      <_22e1_ratio_net_tuition>-4</_22e1_ratio_net_tuition>
-      <_22e1_yes_no_net_tuition>Yes</_22e1_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223677.95
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -9.911
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_23_yes_no_fees_as_a_percent_of_net_tuition>
-        Yes
-      </_23_yes_no_fees_as_a_percent_of_net_tuition>
-      <_04_02_fees>231462.56</_04_02_fees>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -2.578
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24a_yes_no_salaries_as___of_net_tuition>
-        Yes
-      </_24a_yes_no_salaries_as___of_net_tuition>
-      <_02_01_total_teacher_salaries>60201.03</_02_01_total_teacher_salaries>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223677.95
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        247031.79
-      </_04_04_financial_aid___scholarships>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -2.911
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24b_yes_no_benefits_as___of_net_tuition>
-        Yes
-      </_24b_yes_no_benefits_as___of_net_tuition>
-      <_02_02_total_teacher_benefits_>67985.64</_02_02_total_teacher_benefits_>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -5.489
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_24c_yes_no_salaries_benefits_as___of_net_tuition>
-        Yes
-      </_24c_yes_no_salaries_benefits_as___of_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223677.95
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_25a_ratio_salaries_per_students>11</_25a_ratio_salaries_per_students>
-      <_25a_yes_no_salaries_per_students>Yes</_25a_yes_no_salaries_per_students>
-      <_25b_ratio_benefits_per_students>12</_25b_ratio_benefits_per_students>
-      <_25b_yes_no_benefits_per_students>Yes</_25b_yes_no_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        22
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_25c_yes_no_salaries_and_benefits_per_students>
-        Yes
-      </_25c_yes_no_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.129
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-        Yes
-      </_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -16.467
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses>
-      <record_owner>LWhinnery@capincrouse.com</record_owner>
-      <_04_09_total_depreciation_expense>
-        285954.87
-      </_04_09_total_depreciation_expense>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        6.733
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses>
-      <_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-        75770.26
-      </_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees>
-      <_04_08_total_expenses>278170.26</_04_08_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -9.733
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-        Yes
-      </_27a3_yes_no_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -94.200
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-        Yes
-      </_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_05_02_capitalized_interest>332662.56</_05_02_capitalized_interest>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -103.933
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        Yes
-      </_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_02_06_current_maturities_of_lt_debt>
-        99124.10
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        301524.10
-      </_04_11_current_year_interest_expense>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.507
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        Yes
-      </_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_04_06_total_contributions>262601.03</_04_06_total_contributions>
-      <_04_13_fundraising_income>317093.33</_04_13_fundraising_income>
-      <_29a_ratio_funds_raised>46</_29a_ratio_funds_raised>
-      <_29a_yes_no_funds_raised>Yes</_29a_yes_no_funds_raised>
-      <_04_06_total_contributions>262601.03</_04_06_total_contributions>
-      <_29b_ratio_cash_expenses>-1</_29b_ratio_cash_expenses>
-      <_29b_yes_no_cash_expenses>Yes</_29b_yes_no_cash_expenses>
-      <_29c_ratio_net_tuition>-4</_29c_ratio_net_tuition>
-      <_29c_yes_no_net_tuition>Yes</_29c_yes_no_net_tuition>
-      <_04_01_gross_tuition_revenues_excluding_fees>
-        223677.95
-      </_04_01_gross_tuition_revenues_excluding_fees>
-      <_04_04_financial_aid___scholarships>
-        247031.79
-      </_04_04_financial_aid___scholarships>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -2.7272727272727
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        Yes
-      </_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        43
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        Yes
-      </_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_04_06_total_contributions>262601.03</_04_06_total_contributions>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.59
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest>
-      <_02_04_total_maintenance_costs>83554.87</_02_04_total_maintenance_costs>
-      <_01_07_total_facility_square_footage>
-        52416.41025641
-      </_01_07_total_facility_square_footage>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.59
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-        Yes
-      </_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        15.58
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest>
-      <_02_04_total_maintenance_costs>83554.87</_02_04_total_maintenance_costs>
-      <_02_06_current_maturities_of_lt_debt>
-        99124.10
-      </_02_06_current_maturities_of_lt_debt>
-      <_04_11_current_year_interest_expense>
-        301524.10
-      </_04_11_current_year_interest_expense>
-      <_05_02_capitalized_interest>332662.56</_05_02_capitalized_interest>
-      <_01_07_total_facility_square_footage>
-        52416.41025641
-      </_01_07_total_facility_square_footage>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        15.58
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-        Yes
-      </_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        16
-      </_32_ratio_information_technology_costs>
-      <_32_yes_no_information_technology_costs>
-        Yes
-      </_32_yes_no_information_technology_costs>
-      <_02_05_information_technology_costs>
-        91339.49
-      </_02_05_information_technology_costs>
-      <_04_10_total_fundraising_expenses>
-        293739.49
-      </_04_10_total_fundraising_expenses>
-      <update_id>1701357783039</update_id>
-    </record>2
-  </qdbapi>
-`;
-const xmlClientString = `
-  <qdbapi>
-    <record>
-      <fiscal_ye_date_formatted_year>2019</fiscal_ye_date_formatted_year>
-      <related_client>3197</related_client>
-      <_01_ratio_students_enrollment>2000</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change />
-      <_01b_ratio_students_enrollment_average />
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        7000
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>11.5000</_02_ratio_student_faculty_ratio>
-      <main_queryregions>MW</main_queryregions>
-      <_03_ratio_expendable_reserves___in_days>
-        -9271
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_bench_rating_expendable_reserves___in_days>
-        Action Required
-      </_03_bench_rating_expendable_reserves___in_days>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -25.400
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
-        Action Required
-      </_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.36
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_06_ratio_liquidity_ratio>-31.80</_06_ratio_liquidity_ratio>
-      <_06_bench_rating_liquidity_ratio>
-        Action Required
-      </_06_bench_rating_liquidity_ratio>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        207000
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        67000
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>140000</_07c_ratio_over_under_benchmark>
-      <_07c_bench_rating_over_under_benchmark>
-        Good
-      </_07c_bench_rating_over_under_benchmark>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        0
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.278
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -6.4667
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10a_ratio___change />
-      <_11_ratio_debt_to_property_and_equipment>
-        1.20
-      </_11_ratio_debt_to_property_and_equipment>
-      <_12_ratio_current_ratio>0.64</_12_ratio_current_ratio>
-      <_12_bench_rating_current_ratio>
-        Action Required
-      </_12_bench_rating_current_ratio>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -22.40
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_bench_rating_current_liabilities_to_available_net_assets />
-      <_14_ratio_debt_per_students>61</_14_ratio_debt_per_students>
-      <_15_ratio_debt_coverage>1.68</_15_ratio_debt_coverage>
-      <_16_ratio_net_income_ratio>1.145</_16_ratio_net_income_ratio>
-      <_16_bench_rating_net_income_ratio />
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.203
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_bench_rating_net_income_ratio_excluding_depreciation />
-      <_18_ratio_percentage_of_average_tuition_increase_between_years />
-      <_18_bench_rating_percentage_of_average_tuition_increase_between_years />
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.023
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        3.963
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.031
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_22a1_ratio_gross_tuition>321</_22a1_ratio_gross_tuition>
-      <_22a2_ratio___change />
-      <_22b1_ratio_financial_assistance_discount_based>
-        376
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b2_ratio___change />
-      <_22c1_ratio_scholarship_awarded>-376</_22c1_ratio_scholarship_awarded>
-      <_22c2_ratio___change />
-      <_22d1_ratio_total_financial_assistance>
-        329
-      </_22d1_ratio_total_financial_assistance>
-      <_22d2_ratio___change />
-      <_22e1_ratio_net_tuition>-8</_22e1_ratio_net_tuition>
-      <_22e2_ratio___change />
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -29.800
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -2.467
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -2.800
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -5.267
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_25a_ratio_salaries_per_students>19</_25a_ratio_salaries_per_students>
-      <_25b_ratio_benefits_per_students>21</_25b_ratio_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        40
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.135
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -15.800
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        6.400
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -9.400
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -93.200
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -102.600
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.507
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_29a_ratio_funds_raised>84</_29a_ratio_funds_raised>
-      <_29b_ratio_cash_expenses>-3</_29b_ratio_cash_expenses>
-      <_29c_ratio_net_tuition>-8</_29c_ratio_net_tuition>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -5
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        79
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.63
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.63
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        16.19
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        16.19
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        28.5
-      </_32_ratio_information_technology_costs>
-      <update_id>1698857103692</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2020</fiscal_ye_date_formatted_year>
-      <related_client>3197</related_client>
-      <_01_ratio_students_enrollment>9000</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        3.500
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        5500
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        19000
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>5.9444</_02_ratio_student_faculty_ratio>
-      <main_queryregions>MW</main_queryregions>
-      <_03_ratio_expendable_reserves___in_days>
-        -9454
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_bench_rating_expendable_reserves___in_days>
-        Action Required
-      </_03_bench_rating_expendable_reserves___in_days>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -25.900
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
-        Action Required
-      </_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.37
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_06_ratio_liquidity_ratio>-32.80</_06_ratio_liquidity_ratio>
-      <_06_bench_rating_liquidity_ratio>
-        Action Required
-      </_06_bench_rating_liquidity_ratio>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        419000
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        139000
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>280000</_07c_ratio_over_under_benchmark>
-      <_07c_bench_rating_over_under_benchmark>
-        Good
-      </_07c_bench_rating_over_under_benchmark>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        1
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.268
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -6.6333
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10a_ratio___change>-0.167</_10a_ratio___change>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.14
-      </_11_ratio_debt_to_property_and_equipment>
-      <_12_ratio_current_ratio>0.65</_12_ratio_current_ratio>
-      <_12_bench_rating_current_ratio>
-        Action Required
-      </_12_bench_rating_current_ratio>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -22.90
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_bench_rating_current_liabilities_to_available_net_assets />
-      <_14_ratio_debt_per_students>28</_14_ratio_debt_per_students>
-      <_15_ratio_debt_coverage>1.67</_15_ratio_debt_coverage>
-      <_16_ratio_net_income_ratio>1.143</_16_ratio_net_income_ratio>
-      <_16_bench_rating_net_income_ratio />
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.201
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_bench_rating_net_income_ratio_excluding_depreciation>
-        Warning
-      </_17_bench_rating_net_income_ratio_excluding_depreciation>
-      <_18_ratio_percentage_of_average_tuition_increase_between_years>
-        -0.550
-      </_18_ratio_percentage_of_average_tuition_increase_between_years>
-      <_18_bench_rating_percentage_of_average_tuition_increase_between_years />
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.104
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.878
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.030
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_22a1_ratio_gross_tuition>32</_22a1_ratio_gross_tuition>
-      <_22a2_ratio___change>-0.900</_22a2_ratio___change>
-      <_22b1_ratio_financial_assistance_discount_based>
-        34
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b2_ratio___change>-0.909</_22b2_ratio___change>
-      <_22c1_ratio_scholarship_awarded>-34</_22c1_ratio_scholarship_awarded>
-      <_22c2_ratio___change>-0.909</_22c2_ratio___change>
-      <_22d1_ratio_total_financial_assistance>
-        35
-      </_22d1_ratio_total_financial_assistance>
-      <_22d2_ratio___change>-0.892</_22d2_ratio___change>
-      <_22e1_ratio_net_tuition>-3</_22e1_ratio_net_tuition>
-      <_22e2_ratio___change>-0.583</_22e2_ratio___change>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -9.967
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -2.633
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -2.967
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -5.600
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_25a_ratio_salaries_per_students>9</_25a_ratio_salaries_per_students>
-      <_25b_ratio_benefits_per_students>10</_25b_ratio_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        19
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.127
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -16.800
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        6.900
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -9.900
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -94.700
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -104.600
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.507
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_29a_ratio_funds_raised>38</_29a_ratio_funds_raised>
-      <_29b_ratio_cash_expenses>-1</_29b_ratio_cash_expenses>
-      <_29c_ratio_net_tuition>-3</_29c_ratio_net_tuition>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -2.2222222222222
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        35
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.58
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.58
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        15.30
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        15.30
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        13.222222222222
-      </_32_ratio_information_technology_costs>
-      <update_id>1698853160919</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2021</fiscal_ye_date_formatted_year>
-      <related_client>3197</related_client>
-      <_01_ratio_students_enrollment>8462</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        -0.060
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        8731
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        20000
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>6.9545</_02_ratio_student_faculty_ratio>
-      <main_queryregions>MW</main_queryregions>
-      <_03_ratio_expendable_reserves___in_days>
-        -9393
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_bench_rating_expendable_reserves___in_days>
-        Action Required
-      </_03_bench_rating_expendable_reserves___in_days>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -25.733
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
-        Action Required
-      </_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.37
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_06_ratio_liquidity_ratio>-32.47</_06_ratio_liquidity_ratio>
-      <_06_bench_rating_liquidity_ratio>
-        Action Required
-      </_06_bench_rating_liquidity_ratio>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        481538
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        158462
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>323077</_07c_ratio_over_under_benchmark>
-      <_07c_bench_rating_over_under_benchmark>
-        Good
-      </_07c_bench_rating_over_under_benchmark>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        1
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.271
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -6.5778
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10a_ratio___change>0.056</_10a_ratio___change>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.14
-      </_11_ratio_debt_to_property_and_equipment>
-      <_12_ratio_current_ratio>0.65</_12_ratio_current_ratio>
-      <_12_bench_rating_current_ratio>
-        Action Required
-      </_12_bench_rating_current_ratio>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -22.73
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_bench_rating_current_liabilities_to_available_net_assets />
-      <_14_ratio_debt_per_students>34</_14_ratio_debt_per_students>
-      <_15_ratio_debt_coverage>1.68</_15_ratio_debt_coverage>
-      <_16_ratio_net_income_ratio>1.144</_16_ratio_net_income_ratio>
-      <_16_bench_rating_net_income_ratio />
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.202
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_bench_rating_net_income_ratio_excluding_depreciation>
-        Warning
-      </_17_bench_rating_net_income_ratio_excluding_depreciation>
-      <_18_ratio_percentage_of_average_tuition_increase_between_years>
-        0.147
-      </_18_ratio_percentage_of_average_tuition_increase_between_years>
-      <_18_bench_rating_percentage_of_average_tuition_increase_between_years>
-        Good
-      </_18_bench_rating_percentage_of_average_tuition_increase_between_years>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.104
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.878
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.031
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_22a1_ratio_gross_tuition>39</_22a1_ratio_gross_tuition>
-      <_22a2_ratio___change>0.224</_22a2_ratio___change>
-      <_22b1_ratio_financial_assistance_discount_based>
-        42
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b2_ratio___change>0.233</_22b2_ratio___change>
-      <_22c1_ratio_scholarship_awarded>-42</_22c1_ratio_scholarship_awarded>
-      <_22c2_ratio___change>0.233</_22c2_ratio___change>
-      <_22d1_ratio_total_financial_assistance>
-        43
-      </_22d1_ratio_total_financial_assistance>
-      <_22d2_ratio___change>0.236</_22d2_ratio___change>
-      <_22e1_ratio_net_tuition>-4</_22e1_ratio_net_tuition>
-      <_22e2_ratio___change>0.364</_22e2_ratio___change>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -9.911
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -2.578
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -2.911
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -5.489
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_25a_ratio_salaries_per_students>11</_25a_ratio_salaries_per_students>
-      <_25b_ratio_benefits_per_students>12</_25b_ratio_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        22
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.129
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -16.467
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        6.733
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -9.733
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -94.200
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -103.933
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.507
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_29a_ratio_funds_raised>46</_29a_ratio_funds_raised>
-      <_29b_ratio_cash_expenses>-1</_29b_ratio_cash_expenses>
-      <_29c_ratio_net_tuition>-4</_29c_ratio_net_tuition>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -2.7272727272727
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        43
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.59
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.59
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        15.58
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        15.58
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        16
-      </_32_ratio_information_technology_costs>
-      <update_id>1698853160919</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2022</fiscal_ye_date_formatted_year>
-      <related_client>3197</related_client>
-      <_01_ratio_students_enrollment>6487</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        -0.233
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        7475
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        15333
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>6.9545</_02_ratio_student_faculty_ratio>
-      <main_queryregions>MW</main_queryregions>
-      <_03_ratio_expendable_reserves___in_days>
-        -9393
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_bench_rating_expendable_reserves___in_days>
-        Action Required
-      </_03_bench_rating_expendable_reserves___in_days>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -25.733
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
-        Action Required
-      </_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.37
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_06_ratio_liquidity_ratio>-32.47</_06_ratio_liquidity_ratio>
-      <_06_bench_rating_liquidity_ratio>
-        Action Required
-      </_06_bench_rating_liquidity_ratio>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        369179
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        121487
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>247692</_07c_ratio_over_under_benchmark>
-      <_07c_bench_rating_over_under_benchmark>
-        Good
-      </_07c_bench_rating_over_under_benchmark>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        1
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.271
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -6.5778
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10a_ratio___change>0.000</_10a_ratio___change>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.14
-      </_11_ratio_debt_to_property_and_equipment>
-      <_12_ratio_current_ratio>0.65</_12_ratio_current_ratio>
-      <_12_bench_rating_current_ratio>
-        Action Required
-      </_12_bench_rating_current_ratio>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -22.73
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_bench_rating_current_liabilities_to_available_net_assets />
-      <_14_ratio_debt_per_students>34</_14_ratio_debt_per_students>
-      <_15_ratio_debt_coverage>1.68</_15_ratio_debt_coverage>
-      <_16_ratio_net_income_ratio>1.144</_16_ratio_net_income_ratio>
-      <_16_bench_rating_net_income_ratio />
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.202
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_bench_rating_net_income_ratio_excluding_depreciation>
-        Warning
-      </_17_bench_rating_net_income_ratio_excluding_depreciation>
-      <_18_ratio_percentage_of_average_tuition_increase_between_years>
-        -0.233
-      </_18_ratio_percentage_of_average_tuition_increase_between_years>
-      <_18_bench_rating_percentage_of_average_tuition_increase_between_years>
-        Action Required
-      </_18_bench_rating_percentage_of_average_tuition_increase_between_years>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.104
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.878
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.031
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_22a1_ratio_gross_tuition>39</_22a1_ratio_gross_tuition>
-      <_22a2_ratio___change>0.005</_22a2_ratio___change>
-      <_22b1_ratio_financial_assistance_discount_based>
-        42
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b2_ratio___change>-0.002</_22b2_ratio___change>
-      <_22c1_ratio_scholarship_awarded>-42</_22c1_ratio_scholarship_awarded>
-      <_22c2_ratio___change>-0.002</_22c2_ratio___change>
-      <_22d1_ratio_total_financial_assistance>
-        43
-      </_22d1_ratio_total_financial_assistance>
-      <_22d2_ratio___change>0.006</_22d2_ratio___change>
-      <_22e1_ratio_net_tuition>-4</_22e1_ratio_net_tuition>
-      <_22e2_ratio___change>0.023</_22e2_ratio___change>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -9.911
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -2.578
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -2.911
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -5.489
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_25a_ratio_salaries_per_students>11</_25a_ratio_salaries_per_students>
-      <_25b_ratio_benefits_per_students>12</_25b_ratio_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        22
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.129
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -16.467
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        6.733
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -9.733
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -94.200
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -103.933
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.507
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_29a_ratio_funds_raised>46</_29a_ratio_funds_raised>
-      <_29b_ratio_cash_expenses>-1</_29b_ratio_cash_expenses>
-      <_29c_ratio_net_tuition>-4</_29c_ratio_net_tuition>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -2.7272727272727
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        43
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.59
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.59
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        15.58
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        15.58
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        16
-      </_32_ratio_information_technology_costs>
-      <update_id>1698853160919</update_id>
-    </record>
-    <record>
-      <fiscal_ye_date_formatted_year>2023</fiscal_ye_date_formatted_year>
-      <related_client>3197</related_client>
-      <_01_ratio_students_enrollment>5709</_01_ratio_students_enrollment>
-      <_01a_ratio_students_enrollment___change>
-        -0.120
-      </_01a_ratio_students_enrollment___change>
-      <_01b_ratio_students_enrollment_average>
-        6098
-      </_01b_ratio_students_enrollment_average>
-      <_01c_ratio_students_enrollment_peak_enrolmment>
-        13493
-      </_01c_ratio_students_enrollment_peak_enrolmment>
-      <_02_ratio_student_faculty_ratio>6.9545</_02_ratio_student_faculty_ratio>
-      <main_queryregions>MW</main_queryregions>
-      <_03_ratio_expendable_reserves___in_days>
-        -9393
-      </_03_ratio_expendable_reserves___in_days>
-      <_03_bench_rating_expendable_reserves___in_days>
-        Action Required
-      </_03_bench_rating_expendable_reserves___in_days>
-      <_04_ratio_expendable_reserves______of_total_cash_expenses>
-        -25.733
-      </_04_ratio_expendable_reserves______of_total_cash_expenses>
-      <_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
-        Action Required
-      </_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
-      <_05_ratio_cash_available_to_deferred_revenues>
-        0.37
-      </_05_ratio_cash_available_to_deferred_revenues>
-      <_06_ratio_liquidity_ratio>-32.47</_06_ratio_liquidity_ratio>
-      <_06_bench_rating_liquidity_ratio>
-        Action Required
-      </_06_bench_rating_liquidity_ratio>
-      <_07a_ratio_as_per_statement_of_cash_flows>
-        324878
-      </_07a_ratio_as_per_statement_of_cash_flows>
-      <_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-        106909
-      </_07b_ratio_depreciation_expenses_on_3_7_year_assets>
-      <_07c_ratio_over_under_benchmark>217969</_07c_ratio_over_under_benchmark>
-      <_07c_bench_rating_over_under_benchmark>
-        Good
-      </_07c_bench_rating_over_under_benchmark>
-      <_08_ratio_property_and_equipment_per_student_excluding_land>
-        1
-      </_08_ratio_property_and_equipment_per_student_excluding_land>
-      <_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-        1.271
-      </_09_ratio_net_tuition_a_r_as_a___of_current_assets>
-      <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-        -6.5778
-      </_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
-      <_10a_ratio___change>0.000</_10a_ratio___change>
-      <_11_ratio_debt_to_property_and_equipment>
-        1.14
-      </_11_ratio_debt_to_property_and_equipment>
-      <_12_ratio_current_ratio>0.65</_12_ratio_current_ratio>
-      <_12_bench_rating_current_ratio>
-        Action Required
-      </_12_bench_rating_current_ratio>
-      <_13_ratio_current_liabilities_to_available_net_assets>
-        -22.73
-      </_13_ratio_current_liabilities_to_available_net_assets>
-      <_13_bench_rating_current_liabilities_to_available_net_assets />
-      <_14_ratio_debt_per_students>34</_14_ratio_debt_per_students>
-      <_15_ratio_debt_coverage>1.68</_15_ratio_debt_coverage>
-      <_16_ratio_net_income_ratio>1.144</_16_ratio_net_income_ratio>
-      <_16_bench_rating_net_income_ratio />
-      <_17_ratio_net_income_ratio_excluding_depreciation>
-        2.202
-      </_17_ratio_net_income_ratio_excluding_depreciation>
-      <_17_bench_rating_net_income_ratio_excluding_depreciation>
-        Warning
-      </_17_bench_rating_net_income_ratio_excluding_depreciation>
-      <_18_ratio_percentage_of_average_tuition_increase_between_years>
-        -0.120
-      </_18_ratio_percentage_of_average_tuition_increase_between_years>
-      <_18_bench_rating_percentage_of_average_tuition_increase_between_years>
-        Good
-      </_18_bench_rating_percentage_of_average_tuition_increase_between_years>
-      <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        1.104
-      </_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-      <_20_ratio_tuition_and_fees_as_a___of_total_income>
-        0.878
-      </_20_ratio_tuition_and_fees_as_a___of_total_income>
-      <_21_ratio_contributions_as_a___of_total_income>
-        1.031
-      </_21_ratio_contributions_as_a___of_total_income>
-      <_22a1_ratio_gross_tuition>39</_22a1_ratio_gross_tuition>
-      <_22a2_ratio___change>0.005</_22a2_ratio___change>
-      <_22b1_ratio_financial_assistance_discount_based>
-        42
-      </_22b1_ratio_financial_assistance_discount_based>
-      <_22b2_ratio___change>-0.002</_22b2_ratio___change>
-      <_22c1_ratio_scholarship_awarded>-42</_22c1_ratio_scholarship_awarded>
-      <_22c2_ratio___change>-0.002</_22c2_ratio___change>
-      <_22d1_ratio_total_financial_assistance>
-        43
-      </_22d1_ratio_total_financial_assistance>
-      <_22d2_ratio___change>0.006</_22d2_ratio___change>
-      <_22e1_ratio_net_tuition>-4</_22e1_ratio_net_tuition>
-      <_22e2_ratio___change>0.023</_22e2_ratio___change>
-      <_23_ratio_fees_as_a_percent_of_net_tuition>
-        -9.911
-      </_23_ratio_fees_as_a_percent_of_net_tuition>
-      <_24a_ratio_salaries_as___of_net_tuition>
-        -2.578
-      </_24a_ratio_salaries_as___of_net_tuition>
-      <_24b_ratio_benefits_as___of_net_tuition>
-        -2.911
-      </_24b_ratio_benefits_as___of_net_tuition>
-      <_24c_ratio_salaries_benefits_as___of_net_tuition>
-        -5.489
-      </_24c_ratio_salaries_benefits_as___of_net_tuition>
-      <_25a_ratio_salaries_per_students>11</_25a_ratio_salaries_per_students>
-      <_25b_ratio_benefits_per_students>12</_25b_ratio_benefits_per_students>
-      <_25c_ratio_salaries_and_benefits_per_students>
-        22
-      </_25c_ratio_salaries_and_benefits_per_students>
-      <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-        1.129
-      </_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
-      <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        -16.467
-      </_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-      <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        6.733
-      </_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-      <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        -9.733
-      </_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-      <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        -94.200
-      </_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-      <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        -103.933
-      </_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-      <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        0.507
-      </_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-      <_29a_ratio_funds_raised>46</_29a_ratio_funds_raised>
-      <_29b_ratio_cash_expenses>-1</_29b_ratio_cash_expenses>
-      <_29c_ratio_net_tuition>-4</_29c_ratio_net_tuition>
-      <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        -2.7272727272727
-      </_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-      <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-        43
-      </_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
-      <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-        1.59
-      </_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
-      <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-        1.59
-      </_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
-      <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-        15.58
-      </_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
-      <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        15.58
-      </_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-      <_32_ratio_information_technology_costs>
-        16
-      </_32_ratio_information_technology_costs>
-      <update_id>1698853160919</update_id>
-    </record>
-  </qdbapi>
-`;
+const fetchClientData = async () => {
+  return fetch("./components/data/clientData.xml")
+    .then((response) => response.text())
+    .then((xmlString) => {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+      return xmlDoc.querySelectorAll("record");
+    })
+    .catch((error) => {
+      console.error("Error fetching XML file:", error);
+      return []; // Return an empty array in case of error
+    });
+};
 
-const parser = new DOMParser();
-const parserClient = new DOMParser();
-const xmlPeerDoc = parser.parseFromString(xmlPeerString, 'text/xml');
-const xmlClientDoc = parser.parseFromString(xmlClientString, 'text/xml');
-const recordsPeer = xmlPeerDoc.querySelectorAll('record');
-const recordsClient = xmlClientDoc.querySelectorAll('record');
+const fetchPeerData = async () => {
+  return fetch("./components/data/peerData.xml")
+    .then((response) => response.text())
+    .then((xmlString) => {
+      // console.log(xmlString);
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+      return xmlDoc.querySelectorAll("record");
+    })
+    .catch((error) => {
+      console.error("Error fetching XML file:", error);
+      return []; // Return an empty array in case of error
+    });
+};
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  const recordsClient = await fetchClientData();
+  const recordsPeer = await fetchPeerData();
+
   findUniqueYears(recordsClient);
 
   addUniqueRegionsToOptionsSelectRegionDropdown(regions_Array);
@@ -6845,12 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
   displayExpenseComponent();
   displayReportComponent();
 
-  runApiMain();
+  runApiMain(recordsPeer, recordsClient);
 });
 
 const findUniqueYears = (data) => {
-  recordsClient.forEach((item) => {
-    const yearElement = item.querySelector('fiscal_ye_date_formatted_year');
+  data.forEach((item) => {
+    const yearElement = item.querySelector("fiscal_ye_date_formatted_year");
     if (yearElement) {
       const year = yearElement.textContent;
 
@@ -6879,11 +77,11 @@ const insertDataIntoObject = (
 ) => {
   // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
   const innerData =
-    record.querySelector(child).innerHTML.split('').length > 0
+    record.querySelector(child).innerHTML.split("").length > 0
       ? record.querySelector(child).innerHTML.trim()
       : 0;
 
-  if (type === 'client') {
+  if (type === "client") {
     if (!object[dataKey]) {
       object[dataKey] = {};
     }
@@ -6902,7 +100,7 @@ const insertDataIntoObject = (
       dynamicValueClientPeer &&
       record.querySelector(dynamicValueClientPeer).textContent.trim();
 
-    if (yesNoField == 'Yes') {
+    if (yesNoField == "Yes") {
       if (!object[dataKey]) {
         object[dataKey] = {};
       }
@@ -6911,10 +109,10 @@ const insertDataIntoObject = (
       }
 
       if (!name) {
-        if (!object[dataKey]['total']) {
-          object[dataKey]['total'] = [];
+        if (!object[dataKey]["total"]) {
+          object[dataKey]["total"] = [];
         }
-        object[dataKey]['total'].push(innerData);
+        object[dataKey]["total"].push(innerData);
       } else {
         if (!object[dataKey][name]) {
           object[dataKey][name] = [];
@@ -6933,7 +131,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
+        "fiscal_ye_date_formatted_year"
       ).textContent;
 
       return fiscalYear.includes(year.toString());
@@ -6941,1310 +139,1310 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
     filteredPeerRecords.forEach((record) => {
       // salariesBenefitsTeachersAsPercentNetTuition_Salaries
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries_Peer',
+        "salariesBenefitsTeachersAsPercentNetTuition_Salaries_Peer",
         record,
-        '_24a_ratio_salaries_as___of_net_tuition',
-        '_24a_yes_no_salaries_as___of_net_tuition'
+        "_24a_ratio_salaries_as___of_net_tuition",
+        "_24a_yes_no_salaries_as___of_net_tuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherSalaries',
+        "totalTeacherSalaries",
         record,
-        '_02_01_total_teacher_salaries',
-        '_24a_yes_no_salaries_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
+        "_02_01_total_teacher_salaries",
+        "_24a_yes_no_salaries_as___of_net_tuition",
+        "salariesBenefitsTeachersAsPercentNetTuition_Salaries"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'grossTuitionRevenuesExcludingFees',
+        "grossTuitionRevenuesExcludingFees",
         record,
-        '_02_01_total_teacher_salaries',
-        '_24a_yes_no_salaries_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
+        "_02_01_total_teacher_salaries",
+        "_24a_yes_no_salaries_as___of_net_tuition",
+        "salariesBenefitsTeachersAsPercentNetTuition_Salaries"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAidScholarships',
+        "financialAidScholarships",
         record,
-        '_04_04_financial_aid___scholarships',
-        '_24a_yes_no_salaries_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
+        "_04_04_financial_aid___scholarships",
+        "_24a_yes_no_salaries_as___of_net_tuition",
+        "salariesBenefitsTeachersAsPercentNetTuition_Salaries"
       );
 
       // salariesBenefitsTeachersAsPercentNetTuition_Benefits
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'salariesBenefitsTeachersAsPercentNetTuition_Benefits_Peer',
+        "salariesBenefitsTeachersAsPercentNetTuition_Benefits_Peer",
         record,
-        '_24b_ratio_benefits_as___of_net_tuition',
-        '_24b_yes_no_benefits_as___of_net_tuition'
+        "_24b_ratio_benefits_as___of_net_tuition",
+        "_24b_yes_no_benefits_as___of_net_tuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherBenefits',
+        "totalTeacherBenefits",
         record,
-        '_02_02_total_teacher_benefits_',
-        '_24b_yes_no_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
+        "_02_02_total_teacher_benefits_",
+        "_24b_yes_no_benefits_as___of_net_tuition",
+        "salariesBenefitsTeachersAsPercentNetTuition_Salaries"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'grossTuitionRevenuesExcludingFees',
+        "grossTuitionRevenuesExcludingFees",
         record,
-        '_02_01_total_teacher_salaries',
-        '_24b_yes_no_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
+        "_02_01_total_teacher_salaries",
+        "_24b_yes_no_benefits_as___of_net_tuition",
+        "salariesBenefitsTeachersAsPercentNetTuition_Salaries"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAidScholarships',
+        "financialAidScholarships",
         record,
-        '_04_04_financial_aid___scholarships',
-        '_24b_yes_no_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries'
+        "_04_04_financial_aid___scholarships",
+        "_24b_yes_no_benefits_as___of_net_tuition",
+        "salariesBenefitsTeachersAsPercentNetTuition_Salaries"
       );
 
       // salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Peer',
+        "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Peer",
         record,
-        '_24c_ratio_salaries_benefits_as___of_net_tuition',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition'
+        "_24c_ratio_salaries_benefits_as___of_net_tuition",
+        "_24c_yes_no_salaries_benefits_as___of_net_tuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherSalaries',
+        "totalTeacherSalaries",
         record,
-        '_02_01_total_teacher_salaries',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
+        "_02_01_total_teacher_salaries",
+        "_24c_yes_no_salaries_benefits_as___of_net_tuition",
+        "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherBenefits',
+        "totalTeacherBenefits",
         record,
-        '_02_02_total_teacher_benefits_',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
+        "_02_02_total_teacher_benefits_",
+        "_24c_yes_no_salaries_benefits_as___of_net_tuition",
+        "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'grossTuitionRevenuesExcludingFees',
+        "grossTuitionRevenuesExcludingFees",
         record,
-        '_02_01_total_teacher_salaries',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
+        "_02_01_total_teacher_salaries",
+        "_24c_yes_no_salaries_benefits_as___of_net_tuition",
+        "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAidScholarships',
+        "financialAidScholarships",
         record,
-        '_04_04_financial_aid___scholarships',
-        '_24c_yes_no_salaries_benefits_as___of_net_tuition',
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
+        "_04_04_financial_aid___scholarships",
+        "_24c_yes_no_salaries_benefits_as___of_net_tuition",
+        "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits"
       );
 
       // salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries_Peer',
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries_Peer",
         record,
-        '_25a_ratio_salaries_per_students',
-        '_25a_yes_no_salaries_per_students'
+        "_25a_ratio_salaries_per_students",
+        "_25a_yes_no_salaries_per_students"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherSalaries',
+        "totalTeacherSalaries",
         record,
-        '_02_01_total_teacher_salaries',
-        '_25a_yes_no_salaries_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries'
+        "_02_01_total_teacher_salaries",
+        "_25a_yes_no_salaries_per_students",
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_25a_yes_no_salaries_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries'
+        "_01b_ratio_students_enrollment_average",
+        "_25a_yes_no_salaries_per_students",
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries"
       );
 
       // salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits_Peer',
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits_Peer",
         record,
-        '_25b_ratio_benefits_per_students',
-        '_25b_yes_no_benefits_per_students'
+        "_25b_ratio_benefits_per_students",
+        "_25b_yes_no_benefits_per_students"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherBenefits',
+        "totalTeacherBenefits",
         record,
-        '_02_02_total_teacher_benefits_',
-        '_25b_yes_no_benefits_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits'
+        "_02_02_total_teacher_benefits_",
+        "_25b_yes_no_benefits_per_students",
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_25b_yes_no_benefits_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits'
+        "_01b_ratio_students_enrollment_average",
+        "_25b_yes_no_benefits_per_students",
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits"
       );
 
       // salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits_Peer',
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits_Peer",
         record,
-        '_25c_ratio_salaries_and_benefits_per_students',
-        '_25c_yes_no_salaries_and_benefits_per_students'
+        "_25c_ratio_salaries_and_benefits_per_students",
+        "_25c_yes_no_salaries_and_benefits_per_students"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherSalaries',
+        "totalTeacherSalaries",
         record,
-        '_02_01_total_teacher_salaries',
-        '_25c_yes_no_salaries_and_benefits_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits'
+        "_02_01_total_teacher_salaries",
+        "_25c_yes_no_salaries_and_benefits_per_students",
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherBenefits',
+        "totalTeacherBenefits",
         record,
-        '_02_02_total_teacher_benefits_',
-        '_25c_yes_no_salaries_and_benefits_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits'
+        "_02_02_total_teacher_benefits_",
+        "_25c_yes_no_salaries_and_benefits_per_students",
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_25c_yes_no_salaries_and_benefits_per_students',
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits'
+        "_01b_ratio_students_enrollment_average",
+        "_25c_yes_no_salaries_and_benefits_per_students",
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits"
       );
 
       // benefitsPercentSalariesTeachers
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'benefitsPercentSalariesTeachers_Peer',
+        "benefitsPercentSalariesTeachers_Peer",
         record,
-        '_26_ratio_benefits_as_a_percent_of_salaries_for_teachers',
-        '_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers'
+        "_26_ratio_benefits_as_a_percent_of_salaries_for_teachers",
+        "_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherSalaries',
+        "totalTeacherSalaries",
         record,
-        '_02_01_total_teacher_salaries',
-        '_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers',
-        'benefitsPercentSalariesTeachers'
+        "_02_01_total_teacher_salaries",
+        "_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers",
+        "benefitsPercentSalariesTeachers"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherBenefits',
+        "totalTeacherBenefits",
         record,
-        '_02_02_total_teacher_benefits_',
-        '_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers',
-        'benefitsPercentSalariesTeachers'
+        "_02_02_total_teacher_benefits_",
+        "_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers",
+        "benefitsPercentSalariesTeachers"
       );
 
       // personnelMandatoryDebtService_SalariesAndBenefits_Teachers
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Teachers_Peer',
+        "personnelMandatoryDebtService_SalariesAndBenefits_Teachers_Peer",
         record,
-        '_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses',
-        '_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses'
+        "_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses",
+        "_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherSalaries',
+        "totalTeacherSalaries",
         record,
-        '_02_01_total_teacher_salaries',
-        '_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses',
-        'personnelMandatoryDebtService_SalariesAndBenefits_Teachers'
+        "_02_01_total_teacher_salaries",
+        "_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Teachers"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherBenefits',
+        "totalTeacherBenefits",
         record,
-        '_02_02_total_teacher_benefits_',
-        '_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses',
-        'personnelMandatoryDebtService_SalariesAndBenefits_Teachers'
+        "_02_02_total_teacher_benefits_",
+        "_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Teachers"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalExpenses',
+        "totalExpenses",
         record,
-        '_04_08_total_expenses',
-        '_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses',
-        'personnelMandatoryDebtService_SalariesAndBenefits_Teachers'
+        "_04_08_total_expenses",
+        "_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Teachers"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalDepreciationExpense",
         record,
-        '_04_09_total_depreciation_expense',
-        '_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses',
-        'personnelMandatoryDebtService_SalariesAndBenefits_Teachers'
+        "_04_09_total_depreciation_expense",
+        "_27a1_yes_no_teachers_salaries_and_benefits_per_total_expenses",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Teachers"
       );
 
       // personnelMandatoryDebtService_SalariesAndBenefits_Administration
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Administration_Peer',
+        "personnelMandatoryDebtService_SalariesAndBenefits_Administration_Peer",
         record,
-        '_27a2_ratio_admin_salaries_and_benefits_per_total_expenses',
-        '_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses'
+        "_27a2_ratio_admin_salaries_and_benefits_per_total_expenses",
+        "_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalPersonnelCostsSalariesBenefits',
+        "totalPersonnelCostsSalariesBenefits",
         record,
-        '_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees',
-        '_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses',
-        'personnelMandatoryDebtService_SalariesAndBenefits_Administration'
+        "_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees",
+        "_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Administration"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherSalaries',
+        "totalTeacherSalaries",
         record,
-        '_02_01_total_teacher_salaries',
-        '_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses',
-        'personnelMandatoryDebtService_SalariesAndBenefits_Administration'
+        "_02_01_total_teacher_salaries",
+        "_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Administration"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalTeacherBenefits',
+        "totalTeacherBenefits",
         record,
-        '_02_02_total_teacher_benefits_',
-        '_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses',
-        'personnelMandatoryDebtService_SalariesAndBenefits_Administration'
+        "_02_02_total_teacher_benefits_",
+        "_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Administration"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalExpenses',
+        "totalExpenses",
         record,
-        '_04_08_total_expenses',
-        '_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses',
-        'personnelMandatoryDebtService_SalariesAndBenefits_Administration'
+        "_04_08_total_expenses",
+        "_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Administration"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalDepreciationExpense",
         record,
-        '_04_09_total_depreciation_expense',
-        '_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses',
-        'personnelMandatoryDebtService_SalariesAndBenefits_Administration'
+        "_04_09_total_depreciation_expense",
+        "_27a2_yes_no_admin_salaries_and_benefits_per_total_expenses",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Administration"
       );
 
       // personnelMandatoryDebtService_SalariesAndBenefits_Employees
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Administration_Peer',
+        "personnelMandatoryDebtService_SalariesAndBenefits_Administration_Peer",
         record,
-        '_27a3_ratio_all_salaries_and_benefits_per_total_expenses',
-        '_27a3_yes_no_all_salaries_and_benefits_per_total_expenses'
+        "_27a3_ratio_all_salaries_and_benefits_per_total_expenses",
+        "_27a3_yes_no_all_salaries_and_benefits_per_total_expenses"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalPersonnelCostsSalariesBenefits',
+        "totalPersonnelCostsSalariesBenefits",
         record,
-        '_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees',
-        '_27a3_yes_no_all_salaries_and_benefits_per_total_expenses',
-        'personnelMandatoryDebtService_SalariesAndBenefits_Employees'
+        "_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees",
+        "_27a3_yes_no_all_salaries_and_benefits_per_total_expenses",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Employees"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalExpenses',
+        "totalExpenses",
         record,
-        '_04_08_total_expenses',
-        '_27a3_yes_no_all_salaries_and_benefits_per_total_expenses',
-        'personnelMandatoryDebtService_SalariesAndBenefits_Employees'
+        "_04_08_total_expenses",
+        "_27a3_yes_no_all_salaries_and_benefits_per_total_expenses",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Employees"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalDepreciationExpense",
         record,
-        '_04_09_total_depreciation_expense',
-        '_27a3_yes_no_all_salaries_and_benefits_per_total_expenses',
-        'personnelMandatoryDebtService_SalariesAndBenefits_Employees'
+        "_04_09_total_depreciation_expense",
+        "_27a3_yes_no_all_salaries_and_benefits_per_total_expenses",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Employees"
       );
 
       // personnelMandatoryDebtService_Mandatory
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'personnelMandatoryDebtService_Mandatory_Peer',
+        "personnelMandatoryDebtService_Mandatory_Peer",
         record,
-        '_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses',
-        '_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses'
+        "_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses",
+        "_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentMaturingDebt',
+        "currentMaturingDebt",
         record,
-        '_02_06_current_maturities_of_lt_debt',
-        '_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses',
-        'personnelMandatoryDebtService_Mandatory'
+        "_02_06_current_maturities_of_lt_debt",
+        "_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses",
+        "personnelMandatoryDebtService_Mandatory"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentYearInterestExpense',
+        "currentYearInterestExpense",
         record,
-        '_04_11_current_year_interest_expense',
-        '_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses',
-        'personnelMandatoryDebtService_Mandatory'
+        "_04_11_current_year_interest_expense",
+        "_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses",
+        "personnelMandatoryDebtService_Mandatory"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'capitalizedInterest',
+        "capitalizedInterest",
         record,
-        '_05_02_capitalized_interest',
-        '_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses',
-        'personnelMandatoryDebtService_Mandatory'
+        "_05_02_capitalized_interest",
+        "_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses",
+        "personnelMandatoryDebtService_Mandatory"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalExpenses',
+        "totalExpenses",
         record,
-        '_04_08_total_expenses',
-        '_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses',
-        'personnelMandatoryDebtService_Mandatory'
+        "_04_08_total_expenses",
+        "_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses",
+        "personnelMandatoryDebtService_Mandatory"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalDepreciationExpense",
         record,
-        '_04_09_total_depreciation_expense',
-        '_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses',
-        'personnelMandatoryDebtService_Mandatory'
+        "_04_09_total_depreciation_expense",
+        "_27b_yes_no_mandatory_debt_service_payments_including_interest_per_total_expenses",
+        "personnelMandatoryDebtService_Mandatory"
       );
 
       // personnelMandatoryDebtService_Personnel
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'personnelMandatoryDebtService_Personnel_Peer',
+        "personnelMandatoryDebtService_Personnel_Peer",
         record,
-        '_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses',
-        '_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses'
+        "_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses",
+        "_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalPersonnelCostsSalariesBenefits',
+        "totalPersonnelCostsSalariesBenefits",
         record,
-        '_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees',
-        '_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses',
-        'personnelMandatoryDebtService_Personnel'
+        "_02_03_total_personnel_costs_salaries___benefits_of_all_school_employees",
+        "_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses",
+        "personnelMandatoryDebtService_Personnel"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentMaturingDebt',
+        "currentMaturingDebt",
         record,
-        '_02_06_current_maturities_of_lt_debt',
-        '_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses',
-        'personnelMandatoryDebtService_Personnel'
+        "_02_06_current_maturities_of_lt_debt",
+        "_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses",
+        "personnelMandatoryDebtService_Personnel"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentYearInterestExpense',
+        "currentYearInterestExpense",
         record,
-        '_04_11_current_year_interest_expense',
-        '_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses',
-        'personnelMandatoryDebtService_Personnel'
+        "_04_11_current_year_interest_expense",
+        "_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses",
+        "personnelMandatoryDebtService_Personnel"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'capitalizedInterest',
+        "capitalizedInterest",
         record,
-        '_05_02_capitalized_interest',
-        '_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses',
-        'personnelMandatoryDebtService_Personnel'
+        "_05_02_capitalized_interest",
+        "_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses",
+        "personnelMandatoryDebtService_Personnel"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalExpenses',
+        "totalExpenses",
         record,
-        '_04_08_total_expenses',
-        '_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses',
-        'personnelMandatoryDebtService_Personnel'
+        "_04_08_total_expenses",
+        "_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses",
+        "personnelMandatoryDebtService_Personnel"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalDepreciationExpense",
         record,
-        '_04_09_total_depreciation_expense',
-        '_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses',
-        'personnelMandatoryDebtService_Personnel'
+        "_04_09_total_depreciation_expense",
+        "_27c_yes_no__personnel_and_mandatory_debt_service_payments_per_total_expenses",
+        "personnelMandatoryDebtService_Personnel"
       );
 
       // percentFundRaisingExpensesExceeding
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'percentFundRaisingExpensesExceeding_Peer',
+        "percentFundRaisingExpensesExceeding_Peer",
         record,
-        '_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised',
-        '_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised'
+        "_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised",
+        "_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalFundraising',
+        "totalFundraising",
         record,
-        '_04_10_total_fundraising_expenses',
-        '_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised',
-        'percentFundRaisingExpensesExceeding'
+        "_04_10_total_fundraising_expenses",
+        "_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised",
+        "percentFundRaisingExpensesExceeding"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalContributions',
+        "totalContributions",
         record,
-        '_04_06_total_contributions',
-        '_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised',
-        'percentFundRaisingExpensesExceeding'
+        "_04_06_total_contributions",
+        "_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised",
+        "percentFundRaisingExpensesExceeding"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'fundraisingIncome',
+        "fundraisingIncome",
         record,
-        '_04_13_fundraising_income',
-        '_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised',
-        'percentFundRaisingExpensesExceeding'
+        "_04_13_fundraising_income",
+        "_28_yes_no___of_fund_raising_expenses_exceeding_or_less_than_funds_raised",
+        "percentFundRaisingExpensesExceeding"
       );
 
       // fundsExpensesPerStudent_FundsRaised
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'fundsExpensesPerStudent_FundsRaised_Peer',
+        "fundsExpensesPerStudent_FundsRaised_Peer",
         record,
-        '_29a_ratio_funds_raised',
-        '_29a_yes_no_funds_raised'
+        "_29a_ratio_funds_raised",
+        "_29a_yes_no_funds_raised"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalContributions',
+        "totalContributions",
         record,
-        '_04_06_total_contributions',
-        '_29a_yes_no_funds_raised',
-        'fundsExpensesPerStudent_FundsRaised'
+        "_04_06_total_contributions",
+        "_29a_yes_no_funds_raised",
+        "fundsExpensesPerStudent_FundsRaised"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_29a_yes_no_funds_raised',
-        'fundsExpensesPerStudent_FundsRaised'
+        "_01b_ratio_students_enrollment_average",
+        "_29a_yes_no_funds_raised",
+        "fundsExpensesPerStudent_FundsRaised"
       );
 
       // fundsExpensesPerStudent_CashExpensesExcludingDepreciation
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'fundsExpensesPerStudent_CashExpensesExcludingDepreciation_Peer',
+        "fundsExpensesPerStudent_CashExpensesExcludingDepreciation_Peer",
         record,
-        '_29b_ratio_cash_expenses',
-        '_29b_yes_no_cash_expenses'
+        "_29b_ratio_cash_expenses",
+        "_29b_yes_no_cash_expenses"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalExpenses',
+        "totalExpenses",
         record,
-        '_04_08_total_expenses',
-        '_29b_yes_no_cash_expenses',
-        'fundsExpensesPerStudent_CashExpensesExcludingDepreciation'
+        "_04_08_total_expenses",
+        "_29b_yes_no_cash_expenses",
+        "fundsExpensesPerStudent_CashExpensesExcludingDepreciation"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalDepreciationExpense",
         record,
-        '_04_09_total_depreciation_expense',
-        '_29b_yes_no_cash_expenses',
-        'fundsExpensesPerStudent_CashExpensesExcludingDepreciation'
+        "_04_09_total_depreciation_expense",
+        "_29b_yes_no_cash_expenses",
+        "fundsExpensesPerStudent_CashExpensesExcludingDepreciation"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_29b_yes_no_cash_expenses',
-        'fundsExpensesPerStudent_CashExpensesExcludingDepreciation'
+        "_01b_ratio_students_enrollment_average",
+        "_29b_yes_no_cash_expenses",
+        "fundsExpensesPerStudent_CashExpensesExcludingDepreciation"
       );
 
       // fundsExpensesPerStudent_netTuition
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'fundsExpensesPerStudent_netTuition_Peer',
+        "fundsExpensesPerStudent_netTuition_Peer",
         record,
-        '_29c_ratio_net_tuition',
-        '_29c_yes_no_net_tuition'
+        "_29c_ratio_net_tuition",
+        "_29c_yes_no_net_tuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'grossTuitionRevenuesExcludingFees',
+        "grossTuitionRevenuesExcludingFees",
         record,
-        '_04_01_gross_tuition_revenues_excluding_fees',
-        '_29c_yes_no_net_tuition',
-        'fundsExpensesPerStudent_netTuition'
+        "_04_01_gross_tuition_revenues_excluding_fees",
+        "_29c_yes_no_net_tuition",
+        "fundsExpensesPerStudent_netTuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAidScholarships',
+        "financialAidScholarships",
         record,
-        '_04_04_financial_aid___scholarships',
-        '_29c_yes_no_net_tuition',
-        'fundsExpensesPerStudent_netTuition'
+        "_04_04_financial_aid___scholarships",
+        "_29c_yes_no_net_tuition",
+        "fundsExpensesPerStudent_netTuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_29c_yes_no_net_tuition',
-        'fundsExpensesPerStudent_netTuition'
+        "_01b_ratio_students_enrollment_average",
+        "_29c_yes_no_net_tuition",
+        "fundsExpensesPerStudent_netTuition"
       );
 
       // fundsExpensesPerStudent_cashExpensesExcessNetTuition
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'fundsExpensesPerStudent_cashExpensesExcessNetTuition_Peer',
+        "fundsExpensesPerStudent_cashExpensesExcessNetTuition_Peer",
         record,
-        '_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition',
-        '_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition'
+        "_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition",
+        "_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'grossTuitionRevenuesExcludingFees',
+        "grossTuitionRevenuesExcludingFees",
         record,
-        '_04_01_gross_tuition_revenues_excluding_fees',
-        '_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition',
-        'fundsExpensesPerStudent_cashExpensesExcessNetTuition'
+        "_04_01_gross_tuition_revenues_excluding_fees",
+        "_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition",
+        "fundsExpensesPerStudent_cashExpensesExcessNetTuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAidScholarships',
+        "financialAidScholarships",
         record,
-        '_04_04_financial_aid___scholarships',
-        '_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition',
-        'fundsExpensesPerStudent_cashExpensesExcessNetTuition'
+        "_04_04_financial_aid___scholarships",
+        "_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition",
+        "fundsExpensesPerStudent_cashExpensesExcessNetTuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition',
-        'fundsExpensesPerStudent_cashExpensesExcessNetTuition'
+        "_01b_ratio_students_enrollment_average",
+        "_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition",
+        "fundsExpensesPerStudent_cashExpensesExcessNetTuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalExpenses',
+        "totalExpenses",
         record,
-        '_04_08_total_expenses',
-        '_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition',
-        'fundsExpensesPerStudent_cashExpensesExcessNetTuition'
+        "_04_08_total_expenses",
+        "_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition",
+        "fundsExpensesPerStudent_cashExpensesExcessNetTuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalDepreciationExpense",
         record,
-        '_04_09_total_depreciation_expense',
-        '_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition',
-        'fundsExpensesPerStudent_cashExpensesExcessNetTuition'
+        "_04_09_total_depreciation_expense",
+        "_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition",
+        "fundsExpensesPerStudent_cashExpensesExcessNetTuition"
       );
 
       // fundsExpensesPerStudent_FundsRaisedOverUnder
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'fundsExpensesPerStudent_FundsRaisedOverUnder_Peer',
+        "fundsExpensesPerStudent_FundsRaisedOverUnder_Peer",
         record,
-        '_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit',
-        '_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit'
+        "_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalContributions',
+        "totalContributions",
         record,
-        '_04_06_total_contributions',
-        '_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit',
-        'fundsExpensesPerStudent_FundsRaisedOverUnder'
+        "_04_06_total_contributions",
+        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit',
-        'fundsExpensesPerStudent_FundsRaisedOverUnder'
-      );
-      // insertDataIntoObject(
-      //   'peer',
-      //   year,
-      //   object,
-      //   'discounts',
-      //   record,
-      //   '_04_03_discounts',
-      //   '_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit',
-      //   'fundsExpensesPerStudent_FundsRaisedOverUnder'
-      // );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'grossTuitionRevenuesExcludingFees',
-        record,
-        '_04_01_gross_tuition_revenues_excluding_fees',
-        '_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit',
-        'fundsExpensesPerStudent_FundsRaisedOverUnder'
+        "_01b_ratio_students_enrollment_average",
+        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAidScholarships',
+        "grossTuitionRevenuesExcludingFees",
         record,
-        '_04_04_financial_aid___scholarships',
-        '_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit',
-        'fundsExpensesPerStudent_FundsRaisedOverUnder'
+        "_04_01_gross_tuition_revenues_excluding_fees",
+        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalExpenses',
+        "financialAidScholarships",
         record,
-        '_04_08_total_expenses',
-        '_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit',
-        'fundsExpensesPerStudent_FundsRaisedOverUnder'
+        "_04_04_financial_aid___scholarships",
+        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalExpenses",
         record,
-        '_04_09_total_depreciation_expense',
-        '_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit',
-        'fundsExpensesPerStudent_FundsRaisedOverUnder'
+        "_04_08_total_expenses",
+        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "fundsExpensesPerStudent_FundsRaisedOverUnder"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDepreciationExpense",
+        record,
+        "_04_09_total_depreciation_expense",
+        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "fundsExpensesPerStudent_FundsRaisedOverUnder"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "discounts",
+        record,
+        "_04_03_discounts",
+        "_22b1_yes_no_financial_assistance_discount_based",
+        "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
 
       // facilityCostExcluding_lessThanTen
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'facilityCostExcluding_lessThanTen_Peer',
+        "facilityCostExcluding_lessThanTen_Peer",
         record,
-        '_30a_ratio_lt10_facility_cost_per_square_foot_no_interest',
-        '_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest'
+        "_30a_ratio_lt10_facility_cost_per_square_foot_no_interest",
+        "_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalMaintenanceCosts',
+        "totalMaintenanceCosts",
         record,
-        '_02_04_total_maintenance_costs',
-        '_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest',
-        'facilityCostExcluding_lessThanTen'
+        "_02_04_total_maintenance_costs",
+        "_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest",
+        "facilityCostExcluding_lessThanTen"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalFacilitySquareFootage',
+        "totalFacilitySquareFootage",
         record,
-        '_01_07_total_facility_square_footage',
-        '_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest',
-        'facilityCostExcluding_lessThanTen'
+        "_01_07_total_facility_square_footage",
+        "_30a_yes_no_lt10_facility_cost_per_square_foot_no_interest",
+        "facilityCostExcluding_lessThanTen"
       );
 
       // facilityCostExcluding_greaterThanTen
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'facilityCostExcluding_greaterThanTen_Peer',
+        "facilityCostExcluding_greaterThanTen_Peer",
         record,
-        '_30b_ratio_gte10_facility_cost_per_square_foot_no_interest',
-        '_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest'
+        "_30b_ratio_gte10_facility_cost_per_square_foot_no_interest",
+        "_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalMaintenanceCosts',
+        "totalMaintenanceCosts",
         record,
-        '_02_04_total_maintenance_costs',
-        '_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest',
-        'facilityCostExcluding_greaterThanTen'
+        "_02_04_total_maintenance_costs",
+        "_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest",
+        "facilityCostExcluding_greaterThanTen"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalFacilitySquareFootage',
+        "totalFacilitySquareFootage",
         record,
-        '_01_07_total_facility_square_footage',
-        '_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest',
-        'facilityCostExcluding_greaterThanTen'
+        "_01_07_total_facility_square_footage",
+        "_30b_yes_no_gte10_facility_cost_per_square_foot_no_interest",
+        "facilityCostExcluding_greaterThanTen"
       );
 
       // facilityCostIncluding_lessThanTen
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'facilityCostIncluding_lessThanTen_Peer',
+        "facilityCostIncluding_lessThanTen_Peer",
         record,
-        '_31a_ratio_lt10_facility_cost_per_square_foot_with_interest',
-        '_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest'
+        "_31a_ratio_lt10_facility_cost_per_square_foot_with_interest",
+        "_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalMaintenanceCosts',
+        "totalMaintenanceCosts",
         record,
-        '_02_04_total_maintenance_costs',
-        '_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest',
-        'facilityCostIncluding_lessThanTen'
+        "_02_04_total_maintenance_costs",
+        "_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest",
+        "facilityCostIncluding_lessThanTen"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalFacilitySquareFootage',
+        "totalFacilitySquareFootage",
         record,
-        '_01_07_total_facility_square_footage',
-        '_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest',
-        'facilityCostIncluding_lessThanTen'
+        "_01_07_total_facility_square_footage",
+        "_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest",
+        "facilityCostIncluding_lessThanTen"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentMaturingDebt',
+        "currentMaturingDebt",
         record,
-        '_02_06_current_maturities_of_lt_debt',
-        '_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest',
-        'facilityCostIncluding_lessThanTen'
+        "_02_06_current_maturities_of_lt_debt",
+        "_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest",
+        "facilityCostIncluding_lessThanTen"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentYearInterestExpense',
+        "currentYearInterestExpense",
         record,
-        '_04_11_current_year_interest_expense',
-        '_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest',
-        'facilityCostIncluding_lessThanTen'
+        "_04_11_current_year_interest_expense",
+        "_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest",
+        "facilityCostIncluding_lessThanTen"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'capitalizedInterest',
+        "capitalizedInterest",
         record,
-        '_05_02_capitalized_interest',
-        '_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest',
-        'facilityCostIncluding_lessThanTen'
+        "_05_02_capitalized_interest",
+        "_31a_yes_no_lt10_facility_cost_per_square_foot_with_interest",
+        "facilityCostIncluding_lessThanTen"
       );
 
       // facilityCostIncluding_greaterThanTen
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'facilityCostIncluding_greaterThanTen_Peer',
+        "facilityCostIncluding_greaterThanTen_Peer",
         record,
-        '_31b_ratio_gte10_facility_cost_per_square_foot_with_interest',
-        '_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest'
+        "_31b_ratio_gte10_facility_cost_per_square_foot_with_interest",
+        "_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalMaintenanceCosts',
+        "totalMaintenanceCosts",
         record,
-        '_02_04_total_maintenance_costs',
-        '_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest',
-        'facilityCostIncluding_greaterThanTen'
+        "_02_04_total_maintenance_costs",
+        "_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest",
+        "facilityCostIncluding_greaterThanTen"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalFacilitySquareFootage',
+        "totalFacilitySquareFootage",
         record,
-        '_01_07_total_facility_square_footage',
-        '_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest',
-        'facilityCostIncluding_greaterThanTen'
+        "_01_07_total_facility_square_footage",
+        "_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest",
+        "facilityCostIncluding_greaterThanTen"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentMaturingDebt',
+        "currentMaturingDebt",
         record,
-        '_02_06_current_maturities_of_lt_debt',
-        '_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest',
-        'facilityCostIncluding_greaterThanTen'
+        "_02_06_current_maturities_of_lt_debt",
+        "_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest",
+        "facilityCostIncluding_greaterThanTen"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentYearInterestExpense',
+        "currentYearInterestExpense",
         record,
-        '_04_11_current_year_interest_expense',
-        '_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest',
-        'facilityCostIncluding_greaterThanTen'
+        "_04_11_current_year_interest_expense",
+        "_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest",
+        "facilityCostIncluding_greaterThanTen"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'capitalizedInterest',
+        "capitalizedInterest",
         record,
-        '_05_02_capitalized_interest',
-        '_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest',
-        'facilityCostIncluding_greaterThanTen'
+        "_05_02_capitalized_interest",
+        "_31b_yes_no_gte10_facility_cost_per_square_foot_with_interest",
+        "facilityCostIncluding_greaterThanTen"
       );
 
       // informationTechnologyCosts
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'informationTechnologyCosts_Peer',
+        "informationTechnologyCosts_Peer",
         record,
-        '_32_ratio_information_technology_costs',
-        '_32_yes_no_information_technology_costs'
+        "_32_ratio_information_technology_costs",
+        "_32_yes_no_information_technology_costs"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'informationTechnologyCosts',
+        "informationTechnologyCosts",
         record,
-        '_02_05_information_technology_costs',
-        '_32_yes_no_information_technology_costs',
-        'informationTechnologyCosts'
+        "_02_05_information_technology_costs",
+        "_32_yes_no_information_technology_costs",
+        "informationTechnologyCosts"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_32_yes_no_information_technology_costs',
-        'informationTechnologyCosts'
+        "_01b_ratio_students_enrollment_average",
+        "_32_yes_no_information_technology_costs",
+        "informationTechnologyCosts"
       );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
+        "fiscal_ye_date_formatted_year"
       ).textContent;
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
       // salariesBenefitsTeachersAsPercentNetTuition_Salaries
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'salariesBenefitsTeachersAsPercentNetTuition_Salaries_Client',
+        "salariesBenefitsTeachersAsPercentNetTuition_Salaries_Client",
         record,
-        '_24a_ratio_salaries_as___of_net_tuition'
+        "_24a_ratio_salaries_as___of_net_tuition"
       );
       // salariesBenefitsTeachersAsPercentNetTuition_Benefits
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'salariesBenefitsTeachersAsPercentNetTuition_Benefits_Client',
+        "salariesBenefitsTeachersAsPercentNetTuition_Benefits_Client",
         record,
-        '_24b_ratio_benefits_as___of_net_tuition'
+        "_24b_ratio_benefits_as___of_net_tuition"
       );
       // salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Client',
+        "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Client",
         record,
-        '_24c_ratio_salaries_benefits_as___of_net_tuition'
+        "_24c_ratio_salaries_benefits_as___of_net_tuition"
       );
       // salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries_Client',
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries_Client",
         record,
-        '_25a_ratio_salaries_per_students'
+        "_25a_ratio_salaries_per_students"
       );
       // salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits_Client',
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits_Client",
         record,
-        '_25b_ratio_benefits_per_students'
+        "_25b_ratio_benefits_per_students"
       );
       // salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits_Client',
+        "salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits_Client",
         record,
-        '_25c_ratio_salaries_and_benefits_per_students'
+        "_25c_ratio_salaries_and_benefits_per_students"
       );
       // benefitsPercentSalariesTeachers
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'benefitsPercentSalariesTeachers_Client',
+        "benefitsPercentSalariesTeachers_Client",
         record,
-        '_26_ratio_benefits_as_a_percent_of_salaries_for_teachers'
+        "_26_ratio_benefits_as_a_percent_of_salaries_for_teachers"
       );
       // personnelMandatoryDebtService_SalariesAndBenefits_Teachers
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Teachers_Client',
+        "personnelMandatoryDebtService_SalariesAndBenefits_Teachers_Client",
         record,
-        '_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses'
+        "_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses"
       );
       // personnelMandatoryDebtService_SalariesAndBenefits_Administration
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Administration_Client',
+        "personnelMandatoryDebtService_SalariesAndBenefits_Administration_Client",
         record,
-        '_27a2_ratio_admin_salaries_and_benefits_per_total_expenses'
+        "_27a2_ratio_admin_salaries_and_benefits_per_total_expenses"
       );
 
       // personnelMandatoryDebtService_SalariesAndBenefits_Employees
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'personnelMandatoryDebtService_SalariesAndBenefits_Employees_Client',
+        "personnelMandatoryDebtService_SalariesAndBenefits_Employees_Client",
         record,
-        '_27a3_ratio_all_salaries_and_benefits_per_total_expenses'
+        "_27a3_ratio_all_salaries_and_benefits_per_total_expenses"
       );
 
       // personnelMandatoryDebtService_Mandatory
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'personnelMandatoryDebtService_Mandatory_Client',
+        "personnelMandatoryDebtService_Mandatory_Client",
         record,
-        '_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses'
+        "_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses"
       );
 
       // personnelMandatoryDebtService_Personnel
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'personnelMandatoryDebtService_Personnel_Client',
+        "personnelMandatoryDebtService_Personnel_Client",
         record,
-        '_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses'
+        "_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses"
       );
 
       // percentFundRaisingExpensesExceeding
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'percentFundRaisingExpensesExceeding_Client',
+        "percentFundRaisingExpensesExceeding_Client",
         record,
-        '_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised'
+        "_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised"
       );
 
       // fundsExpensesPerStudent_FundsRaised
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'fundsExpensesPerStudent_FundsRaised_Client',
+        "fundsExpensesPerStudent_FundsRaised_Client",
         record,
-        '_29a_ratio_funds_raised'
+        "_29a_ratio_funds_raised"
       );
 
       // fundsExpensesPerStudent_CashExpensesExcludingDepreciation
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'fundsExpensesPerStudent_CashExpensesExcludingDepreciation_Client',
+        "fundsExpensesPerStudent_CashExpensesExcludingDepreciation_Client",
         record,
-        '_29b_ratio_cash_expenses'
+        "_29b_ratio_cash_expenses"
       );
 
       // fundsExpensesPerStudent_netTuition
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'fundsExpensesPerStudent_netTuition_Client',
+        "fundsExpensesPerStudent_netTuition_Client",
         record,
-        '_29c_ratio_net_tuition'
+        "_29c_ratio_net_tuition"
       );
 
       // fundsExpensesPerStudent_cashExpensesExcessNetTuition
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'fundsExpensesPerStudent_cashExpensesExcessNetTuition_Client',
+        "fundsExpensesPerStudent_cashExpensesExcessNetTuition_Client",
         record,
-        '_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition'
+        "_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition"
       );
 
       // fundsExpensesPerStudent_FundsRaisedOverUnder
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'fundsExpensesPerStudent_FundsRaisedOverUnder_Client',
+        "fundsExpensesPerStudent_FundsRaisedOverUnder_Client",
         record,
-        '_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit'
+        "_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit"
       );
 
       // facilityCostExcluding_lessThanTen
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'facilityCostExcluding_lessThanTen_Client',
+        "facilityCostExcluding_lessThanTen_Client",
         record,
-        '_30a_ratio_lt10_facility_cost_per_square_foot_no_interest'
+        "_30a_ratio_lt10_facility_cost_per_square_foot_no_interest"
       );
 
       // facilityCostExcluding_greaterThanTen
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'facilityCostExcluding_greaterThanTen_Client',
+        "facilityCostExcluding_greaterThanTen_Client",
         record,
-        '_30b_ratio_gte10_facility_cost_per_square_foot_no_interest'
+        "_30b_ratio_gte10_facility_cost_per_square_foot_no_interest"
       );
 
       // facilityCostIncluding_lessThanTen
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'facilityCostIncluding_lessThanTen_Client',
+        "facilityCostIncluding_lessThanTen_Client",
         record,
-        '_31a_ratio_lt10_facility_cost_per_square_foot_with_interest'
+        "_31a_ratio_lt10_facility_cost_per_square_foot_with_interest"
       );
 
       // facilityCostIncluding_greaterThanTen
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'facilityCostIncluding_greaterThanTen_Client',
+        "facilityCostIncluding_greaterThanTen_Client",
         record,
-        '_31b_ratio_gte10_facility_cost_per_square_foot_with_interest'
+        "_31b_ratio_gte10_facility_cost_per_square_foot_with_interest"
       );
 
       // informationTechnologyCosts
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'informationTechnologyCosts_Client',
+        "informationTechnologyCosts_Client",
         record,
-        '_32_ratio_information_technology_costs'
+        "_32_ratio_information_technology_costs"
       );
     });
   });
 
-  localStorage.removeItem('expenseData');
-  localStorage.setItem('expenseData', JSON.stringify(object));
+  localStorage.removeItem("expenseData");
+  localStorage.setItem("expenseData", JSON.stringify(object));
 };
 
-const processIncomeData = (years, recordsPeer, rdecordsClient) => {
+const processIncomeData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
+        "fiscal_ye_date_formatted_year"
       ).textContent;
 
       return fiscalYear.includes(year.toString());
@@ -8252,560 +1450,560 @@ const processIncomeData = (years, recordsPeer, rdecordsClient) => {
     filteredPeerRecords.forEach((record) => {
       // netIncomeRatio
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'netIncomeRatio_Peer',
+        "netIncomeRatio_Peer",
         record,
-        '_16_ratio_net_income_ratio',
-        '_16_yes_no_net_income_ratio'
+        "_16_ratio_net_income_ratio",
+        "_16_yes_no_net_income_ratio"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'changeInUnrestrictedNetAssets',
+        "changeInUnrestrictedNetAssets",
         record,
-        '_04_12_change_in_unrestricted_net_assets',
-        '_16_yes_no_net_income_ratio',
-        'netIncomeRatio'
+        "_04_12_change_in_unrestricted_net_assets",
+        "_16_yes_no_net_income_ratio",
+        "netIncomeRatio"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'unrestrictedSupportRevenuesReclassification',
+        "unrestrictedSupportRevenuesReclassification",
         record,
-        '_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes',
-        '_16_yes_no_net_income_ratio',
-        'netIncomeRatio'
+        "_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes",
+        "_16_yes_no_net_income_ratio",
+        "netIncomeRatio"
       );
 
       // netIncomeRatioExcludingDepreciation
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'netIncomeRatioExcludingDepreciation_Peer',
+        "netIncomeRatioExcludingDepreciation_Peer",
         record,
-        '_17_ratio_net_income_ratio_excluding_depreciation',
-        '_17_yes_no_net_income_ratio_excluding_depreciation'
+        "_17_ratio_net_income_ratio_excluding_depreciation",
+        "_17_yes_no_net_income_ratio_excluding_depreciation"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'changeInUnrestrictedNetAssets',
+        "changeInUnrestrictedNetAssets",
         record,
-        '_04_12_change_in_unrestricted_net_assets',
-        '_17_yes_no_net_income_ratio_excluding_depreciation',
-        'netIncomeRatioExcludingDepreciation'
+        "_04_12_change_in_unrestricted_net_assets",
+        "_17_yes_no_net_income_ratio_excluding_depreciation",
+        "netIncomeRatioExcludingDepreciation"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalDepreciationExpense",
         record,
-        '_04_09_total_depreciation_expense',
-        '_17_yes_no_net_income_ratio_excluding_depreciation',
-        'netIncomeRatioExcludingDepreciation'
+        "_04_09_total_depreciation_expense",
+        "_17_yes_no_net_income_ratio_excluding_depreciation",
+        "netIncomeRatioExcludingDepreciation"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'unrestrictedSupportRevenuesReclassification',
+        "unrestrictedSupportRevenuesReclassification",
         record,
-        '_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes',
-        '_17_yes_no_net_income_ratio_excluding_depreciation',
-        'netIncomeRatioExcludingDepreciation'
+        "_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes",
+        "_17_yes_no_net_income_ratio_excluding_depreciation",
+        "netIncomeRatioExcludingDepreciation"
       );
 
       // financialAssistanceAsPercentTuitionAndFees
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAssistanceAsPercentTuitionAndFees_Peer',
+        "financialAssistanceAsPercentTuitionAndFees_Peer",
         record,
-        '_19_ratio_financial_assistance_as_a___of_tuition_and_fees',
-        '_19_yes_no_financial_assistance_as_a___of_tuition_and_fees'
+        "_19_ratio_financial_assistance_as_a___of_tuition_and_fees",
+        "_19_yes_no_financial_assistance_as_a___of_tuition_and_fees"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAidScholarships',
+        "financialAidScholarships",
         record,
-        '_04_04_financial_aid___scholarships',
-        '_19_yes_no_financial_assistance_as_a___of_tuition_and_fees',
-        'financialAssistanceAsPercentTuitionAndFees'
+        "_04_04_financial_aid___scholarships",
+        "_19_yes_no_financial_assistance_as_a___of_tuition_and_fees",
+        "financialAssistanceAsPercentTuitionAndFees"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'grossTuitionRevenuesExcludingFees',
+        "grossTuitionRevenuesExcludingFees",
         record,
-        '_04_01_gross_tuition_revenues_excluding_fees',
-        '_19_yes_no_financial_assistance_as_a___of_tuition_and_fees',
-        'financialAssistanceAsPercentTuitionAndFees'
+        "_04_01_gross_tuition_revenues_excluding_fees",
+        "_19_yes_no_financial_assistance_as_a___of_tuition_and_fees",
+        "financialAssistanceAsPercentTuitionAndFees"
       );
 
       // tuitionAndFeesAsPercentTotalIncome
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'tuitionAndFeesAsPercentTotalIncome_Peer',
+        "tuitionAndFeesAsPercentTotalIncome_Peer",
         record,
-        '_20_ratio_tuition_and_fees_as_a___of_total_income',
-        '_20_yes_no_tuition_and_fees_as_a___of_total_income'
+        "_20_ratio_tuition_and_fees_as_a___of_total_income",
+        "_20_yes_no_tuition_and_fees_as_a___of_total_income"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'grossTuitionRevenuesExcludingFees',
+        "grossTuitionRevenuesExcludingFees",
         record,
-        '_04_01_gross_tuition_revenues_excluding_fees',
-        '_20_yes_no_tuition_and_fees_as_a___of_total_income',
-        'tuitionAndFeesAsPercentTotalIncome'
+        "_04_01_gross_tuition_revenues_excluding_fees",
+        "_20_yes_no_tuition_and_fees_as_a___of_total_income",
+        "tuitionAndFeesAsPercentTotalIncome"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalSupportRevenue',
+        "totalSupportRevenue",
         record,
-        '_04_05_total_support_and_revenue',
-        '_20_yes_no_tuition_and_fees_as_a___of_total_income',
-        'tuitionAndFeesAsPercentTotalIncome'
+        "_04_05_total_support_and_revenue",
+        "_20_yes_no_tuition_and_fees_as_a___of_total_income",
+        "tuitionAndFeesAsPercentTotalIncome"
       );
 
       // contributionsAsAPercentOfTotalIncome
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'contributionsAsAPercentOfTotalIncome_Peer',
+        "contributionsAsAPercentOfTotalIncome_Peer",
         record,
-        '_21_ratio_contributions_as_a___of_total_income',
-        '_21_yes_no_contributions_as_a___of_total_income'
+        "_21_ratio_contributions_as_a___of_total_income",
+        "_21_yes_no_contributions_as_a___of_total_income"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalContributions',
+        "totalContributions",
         record,
-        '_04_06_total_contributions',
-        '_21_yes_no_contributions_as_a___of_total_income',
-        'contributionsAsAPercentOfTotalIncome'
+        "_04_06_total_contributions",
+        "_21_yes_no_contributions_as_a___of_total_income",
+        "contributionsAsAPercentOfTotalIncome"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalSupportRevenue',
+        "totalSupportRevenue",
         record,
-        '_04_05_total_support_and_revenue',
-        '_21_yes_no_contributions_as_a___of_total_income',
-        'contributionsAsAPercentOfTotalIncome'
+        "_04_05_total_support_and_revenue",
+        "_21_yes_no_contributions_as_a___of_total_income",
+        "contributionsAsAPercentOfTotalIncome"
       );
 
       // grossTuition
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'grossTuition_Peer',
+        "grossTuition_Peer",
         record,
-        '_22a1_ratio_gross_tuition',
-        '_22a1_yes_no_gross_tuition'
+        "_22a1_ratio_gross_tuition",
+        "_22a1_yes_no_gross_tuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'grossTuitionRevenuesExcludingFees',
+        "grossTuitionRevenuesExcludingFees",
         record,
-        '_04_01_gross_tuition_revenues_excluding_fees',
-        '_22a1_yes_no_gross_tuition',
-        'grossTuition'
+        "_04_01_gross_tuition_revenues_excluding_fees",
+        "_22a1_yes_no_gross_tuition",
+        "grossTuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_22a1_yes_no_gross_tuition',
-        'grossTuition'
+        "_01b_ratio_students_enrollment_average",
+        "_22a1_yes_no_gross_tuition",
+        "grossTuition"
       );
 
       // financialAssistanceDiscountBased
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAssistanceDiscountBased_Peer',
+        "financialAssistanceDiscountBased_Peer",
         record,
-        '_22b1_ratio_financial_assistance_discount_based',
-        '_22b1_yes_no_financial_assistance_discount_based'
+        "_22b1_ratio_financial_assistance_discount_based",
+        "_22b1_yes_no_financial_assistance_discount_based"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'discounts',
+        "discounts",
         record,
-        '_04_03_discounts',
-        '_22b1_yes_no_financial_assistance_discount_based',
-        'financialAssistanceDiscountBased'
+        "_04_03_discounts",
+        "_22b1_yes_no_financial_assistance_discount_based",
+        "financialAssistanceDiscountBased"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_22b1_yes_no_financial_assistance_discount_based',
-        'financialAssistanceDiscountBased'
+        "_01b_ratio_students_enrollment_average",
+        "_22b1_yes_no_financial_assistance_discount_based",
+        "financialAssistanceDiscountBased"
       );
 
       // scholarshipAwarded
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'scholarshipAwarded_Peer',
+        "scholarshipAwarded_Peer",
         record,
-        '_22c1_ratio_scholarship_awarded',
-        '_22c1_yes_no_scholarship_awarded'
+        "_22c1_ratio_scholarship_awarded",
+        "_22c1_yes_no_scholarship_awarded"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'discounts',
+        "discounts",
         record,
-        '_04_03_discounts',
-        '_22c1_yes_no_scholarship_awarded',
-        'scholarshipAwarded'
+        "_04_03_discounts",
+        "_22c1_yes_no_scholarship_awarded",
+        "scholarshipAwarded"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_22c1_yes_no_scholarship_awarded',
-        'scholarshipAwarded'
+        "_01b_ratio_students_enrollment_average",
+        "_22c1_yes_no_scholarship_awarded",
+        "scholarshipAwarded"
       );
 
       // totalFinancialAssistance
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalFinancialAssistance_Peer',
+        "totalFinancialAssistance_Peer",
         record,
-        '_22d1_ratio_total_financial_assistance',
-        '_22d1_yes_no_total_financial_assistance'
+        "_22d1_ratio_total_financial_assistance",
+        "_22d1_yes_no_total_financial_assistance"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAidScholarships',
+        "financialAidScholarships",
         record,
-        '_04_04_financial_aid___scholarships',
-        '_22d1_yes_no_total_financial_assistance',
-        'totalFinancialAssistance'
+        "_04_04_financial_aid___scholarships",
+        "_22d1_yes_no_total_financial_assistance",
+        "totalFinancialAssistance"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_22d1_yes_no_total_financial_assistance',
-        'totalFinancialAssistance'
+        "_01b_ratio_students_enrollment_average",
+        "_22d1_yes_no_total_financial_assistance",
+        "totalFinancialAssistance"
       );
 
       // netTuition
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'netTuition_Peer',
+        "netTuition_Peer",
         record,
-        '_22e1_ratio_net_tuition',
-        '_22e1_yes_no_net_tuition'
+        "_22e1_ratio_net_tuition",
+        "_22e1_yes_no_net_tuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'grossTuitionRevenuesExcludingFees',
+        "grossTuitionRevenuesExcludingFees",
         record,
-        '_04_01_gross_tuition_revenues_excluding_fees',
-        '_22e1_yes_no_net_tuition',
-        'netTuition'
+        "_04_01_gross_tuition_revenues_excluding_fees",
+        "_22e1_yes_no_net_tuition",
+        "netTuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAidScholarships',
+        "financialAidScholarships",
         record,
-        '_04_04_financial_aid___scholarships',
-        '_22e1_yes_no_net_tuition',
-        'netTuition'
+        "_04_04_financial_aid___scholarships",
+        "_22e1_yes_no_net_tuition",
+        "netTuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01b_ratio_students_enrollment_average',
-        '_22e1_yes_no_net_tuition',
-        'netTuition'
+        "_01b_ratio_students_enrollment_average",
+        "_22e1_yes_no_net_tuition",
+        "netTuition"
       );
 
       // feesPercentOfNetTuition
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'feesPercentOfNetTuition_Peer',
+        "feesPercentOfNetTuition_Peer",
         record,
-        '_23_ratio_fees_as_a_percent_of_net_tuition',
-        '_23_yes_no_fees_as_a_percent_of_net_tuition'
+        "_23_ratio_fees_as_a_percent_of_net_tuition",
+        "_23_yes_no_fees_as_a_percent_of_net_tuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'fees',
+        "fees",
         record,
-        '_04_02_fees',
-        '_23_yes_no_fees_as_a_percent_of_net_tuition',
-        'feesPercentOfNetTuition'
+        "_04_02_fees",
+        "_23_yes_no_fees_as_a_percent_of_net_tuition",
+        "feesPercentOfNetTuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'grossTuitionRevenuesExcludingFees',
+        "grossTuitionRevenuesExcludingFees",
         record,
-        '_04_01_gross_tuition_revenues_excluding_fees',
-        '_23_yes_no_fees_as_a_percent_of_net_tuition',
-        'feesPercentOfNetTuition'
+        "_04_01_gross_tuition_revenues_excluding_fees",
+        "_23_yes_no_fees_as_a_percent_of_net_tuition",
+        "feesPercentOfNetTuition"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAidScholarships',
+        "financialAidScholarships",
         record,
-        '_04_04_financial_aid___scholarships',
-        '_23_yes_no_fees_as_a_percent_of_net_tuition',
-        'feesPercentOfNetTuition'
+        "_04_04_financial_aid___scholarships",
+        "_23_yes_no_fees_as_a_percent_of_net_tuition",
+        "feesPercentOfNetTuition"
       );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
+        "fiscal_ye_date_formatted_year"
       ).textContent;
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
       // netIncomeRatio
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'netIncomeRatio_Client',
+        "netIncomeRatio_Client",
         record,
-        '_16_ratio_net_income_ratio',
-        '_16_bench_rating_net_income_ratio'
+        "_16_ratio_net_income_ratio",
+        "_16_bench_rating_net_income_ratio"
       );
 
       // netIncomeRatioExcludingDepreciation
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'netIncomeRatioExcludingDepreciation_Client',
+        "netIncomeRatioExcludingDepreciation_Client",
         record,
-        '_17_ratio_net_income_ratio_excluding_depreciation',
-        '_17_bench_rating_net_income_ratio_excluding_depreciation'
+        "_17_ratio_net_income_ratio_excluding_depreciation",
+        "_17_bench_rating_net_income_ratio_excluding_depreciation"
       );
 
       // percentAverageTuitionIncreaseBetweenYears
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'percentAverageTuitionIncreaseBetweenYears_Client',
+        "percentAverageTuitionIncreaseBetweenYears_Client",
         record,
-        '_18_ratio_percentage_of_average_tuition_increase_between_years',
-        '_18_bench_rating_percentage_of_average_tuition_increase_between_years'
+        "_18_ratio_percentage_of_average_tuition_increase_between_years",
+        "_18_bench_rating_percentage_of_average_tuition_increase_between_years"
       );
 
       // financialAssistanceAsPercentTuitionAndFees
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'financialAssistanceAsPercentTuitionAndFees_Client',
+        "financialAssistanceAsPercentTuitionAndFees_Client",
         record,
-        '_19_ratio_financial_assistance_as_a___of_tuition_and_fees'
+        "_19_ratio_financial_assistance_as_a___of_tuition_and_fees"
       );
 
       // tuitionAndFeesAsPercentTotalIncome
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'tuitionAndFeesAsPercentTotalIncome_Client',
+        "tuitionAndFeesAsPercentTotalIncome_Client",
         record,
-        '_20_ratio_tuition_and_fees_as_a___of_total_income'
+        "_20_ratio_tuition_and_fees_as_a___of_total_income"
       );
 
       // contributionsAsAPercentOfTotalIncome
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'contributionsAsAPercentOfTotalIncome_Client',
+        "contributionsAsAPercentOfTotalIncome_Client",
         record,
-        '_20_ratio_tuition_and_fees_as_a___of_total_income'
+        "_20_ratio_tuition_and_fees_as_a___of_total_income"
       );
 
       // grossTuition
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'grossTuition_Client',
+        "grossTuition_Client",
         record,
-        '_22a1_ratio_gross_tuition'
+        "_22a1_ratio_gross_tuition"
       );
 
       // grossTuition_Percent
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'grossTuition_Percent_Client',
+        "grossTuition_Percent_Client",
         record,
-        '_22a2_ratio___change'
+        "_22a2_ratio___change"
       );
 
       // financialAssistanceDiscountBased
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'financialAssistanceDiscountBased_Client',
+        "financialAssistanceDiscountBased_Client",
         record,
-        '_22b1_ratio_financial_assistance_discount_based'
+        "_22b1_ratio_financial_assistance_discount_based"
       );
 
       // financialAssistanceDiscountBased_Percent
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'financialAssistanceDiscountBased_Percent_Client',
+        "financialAssistanceDiscountBased_Percent_Client",
         record,
-        '_22b2_ratio___change'
+        "_22b2_ratio___change"
       );
 
       // scholarshipAwarded
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'scholarshipAwarded_Client',
+        "scholarshipAwarded_Client",
         record,
-        '_22c1_ratio_scholarship_awarded'
+        "_22c1_ratio_scholarship_awarded"
       );
 
       // scholarshipAwarded_Percent
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'scholarshipAwarded_Percent_Client',
+        "scholarshipAwarded_Percent_Client",
         record,
-        '_22c2_ratio___change'
+        "_22c2_ratio___change"
       );
 
       // totalFinancialAssistance
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'totalFinancialAssistance_Client',
+        "totalFinancialAssistance_Client",
         record,
-        '_22d1_ratio_total_financial_assistance'
+        "_22d1_ratio_total_financial_assistance"
       );
 
       // totalFinancialAssistance_Percent
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'totalFinancialAssistance_Percent_Client',
+        "totalFinancialAssistance_Percent_Client",
         record,
-        '_22d2_ratio___change'
+        "_22d2_ratio___change"
       );
 
       // netTuition
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'netTuition_Client',
+        "netTuition_Client",
         record,
-        '_22e1_ratio_net_tuition'
+        "_22e1_ratio_net_tuition"
       );
 
       // netTuition_Percent
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'netTuition_Percent_Client',
+        "netTuition_Percent_Client",
         record,
-        '_22e2_ratio___change'
+        "_22e2_ratio___change"
       );
 
       // feesPercentOfNetTuition
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'feesPercentOfNetTuition_Client',
+        "feesPercentOfNetTuition_Client",
         record,
-        '_23_ratio_fees_as_a_percent_of_net_tuition'
+        "_23_ratio_fees_as_a_percent_of_net_tuition"
       );
     });
   });
 
-  localStorage.removeItem('incomeData');
-  localStorage.setItem('incomeData', JSON.stringify(object));
+  localStorage.removeItem("incomeData");
+  localStorage.setItem("incomeData", JSON.stringify(object));
 };
 
 const processDebtData = (years, recordsPeer, recordsClient) => {
@@ -8814,7 +2012,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
+        "fiscal_ye_date_formatted_year"
       ).textContent;
 
       return fiscalYear.includes(year.toString());
@@ -8822,323 +2020,323 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
     filteredPeerRecords.forEach((record) => {
       // debtToPropertyAndEquipment
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'debtToPropertyAndEquipment_Peer',
+        "debtToPropertyAndEquipment_Peer",
         record,
-        '_11_ratio_debt_to_property_and_equipment',
-        '_11_yes_no_debt_to_property_and_equipment'
+        "_11_ratio_debt_to_property_and_equipment",
+        "_11_yes_no_debt_to_property_and_equipment"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDebt',
+        "totalDebt",
         record,
-        '_03_11_total_debt',
-        '_11_yes_no_debt_to_property_and_equipment',
-        'debtToPropertyAndEquipment'
+        "_03_11_total_debt",
+        "_11_yes_no_debt_to_property_and_equipment",
+        "debtToPropertyAndEquipment"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'landBuildingEquipmentNet',
+        "landBuildingEquipmentNet",
         record,
-        '_03_08_land__buildings_and_equipment__net',
-        '_11_yes_no_debt_to_property_and_equipment',
-        'debtToPropertyAndEquipment'
+        "_03_08_land__buildings_and_equipment__net",
+        "_11_yes_no_debt_to_property_and_equipment",
+        "debtToPropertyAndEquipment"
       );
 
       // currentRatio
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentRatio_Peer',
+        "currentRatio_Peer",
         record,
-        '_12_ratio_current_ratio',
-        '_12_yes_no_current_ratio'
+        "_12_ratio_current_ratio",
+        "_12_yes_no_current_ratio"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentAssets',
+        "currentAssets",
         record,
-        '_03_01_current_assets',
-        '_12_yes_no_current_ratio',
-        'currentRatio'
+        "_03_01_current_assets",
+        "_12_yes_no_current_ratio",
+        "currentRatio"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentLiabilities',
+        "currentLiabilities",
         record,
-        '_03_09_current_liabilities',
-        '_12_yes_no_current_ratio',
-        'currentRatio'
+        "_03_09_current_liabilities",
+        "_12_yes_no_current_ratio",
+        "currentRatio"
       );
 
       // currentLiabilitiesToAvailableNetAssets
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentLiabilitiesToAvailableNetAssets_Peer',
+        "currentLiabilitiesToAvailableNetAssets_Peer",
         record,
-        '_13_ratio_current_liabilities_to_available_net_assets',
-        '_13_yes_no_current_liabilities_to_available_net_assets'
+        "_13_ratio_current_liabilities_to_available_net_assets",
+        "_13_yes_no_current_liabilities_to_available_net_assets"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentLiabilities',
+        "currentLiabilities",
         record,
-        '_03_09_current_liabilities',
-        '_13_yes_no_current_liabilities_to_available_net_assets',
-        'currentLiabilitiesToAvailableNetAssets'
+        "_03_09_current_liabilities",
+        "_13_yes_no_current_liabilities_to_available_net_assets",
+        "currentLiabilitiesToAvailableNetAssets"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalUnrestrictedNetAssets',
+        "totalUnrestrictedNetAssets",
         record,
-        '_03_12_total_unrestricted_net_assets',
-        '_13_yes_no_current_liabilities_to_available_net_assets',
-        'currentLiabilitiesToAvailableNetAssets'
+        "_03_12_total_unrestricted_net_assets",
+        "_13_yes_no_current_liabilities_to_available_net_assets",
+        "currentLiabilitiesToAvailableNetAssets"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'landBuildingEquipmentNet',
+        "landBuildingEquipmentNet",
         record,
-        '_03_08_land__buildings_and_equipment__net',
-        '_13_yes_no_current_liabilities_to_available_net_assets',
-        'currentLiabilitiesToAvailableNetAssets'
+        "_03_08_land__buildings_and_equipment__net",
+        "_13_yes_no_current_liabilities_to_available_net_assets",
+        "currentLiabilitiesToAvailableNetAssets"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDebt',
+        "totalDebt",
         record,
-        '_03_11_total_debt',
-        '_13_yes_no_current_liabilities_to_available_net_assets',
-        'currentLiabilitiesToAvailableNetAssets'
+        "_03_11_total_debt",
+        "_13_yes_no_current_liabilities_to_available_net_assets",
+        "currentLiabilitiesToAvailableNetAssets"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'bodDesignatedForOperations',
+        "bodDesignatedForOperations",
         record,
-        '_03_13_bod_designated_for_operations_',
-        '_13_yes_no_current_liabilities_to_available_net_assets',
-        'currentLiabilitiesToAvailableNetAssets'
+        "_03_13_bod_designated_for_operations_",
+        "_13_yes_no_current_liabilities_to_available_net_assets",
+        "currentLiabilitiesToAvailableNetAssets"
       );
 
       // debtPerStudents
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'debtPerStudents_Peer',
+        "debtPerStudents_Peer",
         record,
-        '_14_ratio_debt_per_students',
-        '_14_yes_no_debt_per_students'
+        "_14_ratio_debt_per_students",
+        "_14_yes_no_debt_per_students"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDebt',
+        "totalDebt",
         record,
-        '_03_11_total_debt',
-        '_14_yes_no_debt_per_students',
-        'debtPerStudents'
+        "_03_11_total_debt",
+        "_14_yes_no_debt_per_students",
+        "debtPerStudents"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01_01_students_average_enrollment',
-        '_14_yes_no_debt_per_students',
-        'debtPerStudents'
+        "_01_01_students_average_enrollment",
+        "_14_yes_no_debt_per_students",
+        "debtPerStudents"
       );
 
       // debtCoverage
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'debtCoverage_Peer',
+        "debtCoverage_Peer",
         record,
-        '_15_ratio_debt_coverage',
-        '_15_yes_no_debt_coverage'
+        "_15_ratio_debt_coverage",
+        "_15_yes_no_debt_coverage"
       );
       // changeInUnrestrictedNetAssets
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'changeInUnrestrictedNetAssets',
+        "changeInUnrestrictedNetAssets",
         record,
-        '_04_12_change_in_unrestricted_net_assets',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
+        "_04_12_change_in_unrestricted_net_assets",
+        "_15_yes_no_debt_coverage",
+        "debtCoverage"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentYearInterestExpense',
+        "currentYearInterestExpense",
         record,
-        '_04_11_current_year_interest_expense',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
+        "_04_11_current_year_interest_expense",
+        "_15_yes_no_debt_coverage",
+        "debtCoverage"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalDepreciationExpense",
         record,
-        '_04_09_total_depreciation_expense',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
+        "_04_09_total_depreciation_expense",
+        "_15_yes_no_debt_coverage",
+        "debtCoverage"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'capitalizedInterest',
+        "capitalizedInterest",
         record,
-        '_05_02_capitalized_interest',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
+        "_05_02_capitalized_interest",
+        "_15_yes_no_debt_coverage",
+        "debtCoverage"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentMaturingDebt',
+        "currentMaturingDebt",
         record,
-        '_02_06_current_maturities_of_lt_debt',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
+        "_02_06_current_maturities_of_lt_debt",
+        "_15_yes_no_debt_coverage",
+        "debtCoverage"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentMaturingDebt',
+        "currentMaturingDebt",
         record,
-        '_02_06_current_maturities_of_lt_debt',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
+        "_02_06_current_maturities_of_lt_debt",
+        "_15_yes_no_debt_coverage",
+        "debtCoverage"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentYearInterestExpense',
+        "currentYearInterestExpense",
         record,
-        '_04_11_current_year_interest_expense',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
+        "_04_11_current_year_interest_expense",
+        "_15_yes_no_debt_coverage",
+        "debtCoverage"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'capitalizedInterest',
+        "capitalizedInterest",
         record,
-        '_05_02_capitalized_interest',
-        '_15_yes_no_debt_coverage',
-        'debtCoverage'
+        "_05_02_capitalized_interest",
+        "_15_yes_no_debt_coverage",
+        "debtCoverage"
       );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
+        "fiscal_ye_date_formatted_year"
       ).textContent;
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
       // debtToPropertyAndEquipment
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'debtToPropertyAndEquipment_Client',
+        "debtToPropertyAndEquipment_Client",
         record,
-        '_11_ratio_debt_to_property_and_equipment'
+        "_11_ratio_debt_to_property_and_equipment"
       );
 
       // currentRatio
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'currentRatio_Client',
+        "currentRatio_Client",
         record,
-        '_12_ratio_current_ratio',
-        '_12_bench_rating_current_ratio'
+        "_12_ratio_current_ratio",
+        "_12_bench_rating_current_ratio"
       );
 
       // currentLiabilitiesToAvailableNetAssets
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'currentLiabilitiesToAvailableNetAssets_Client',
+        "currentLiabilitiesToAvailableNetAssets_Client",
         record,
-        '_13_ratio_current_liabilities_to_available_net_assets',
-        '_13_bench_rating_current_liabilities_to_available_net_assets'
+        "_13_ratio_current_liabilities_to_available_net_assets",
+        "_13_bench_rating_current_liabilities_to_available_net_assets"
       );
 
       // debtPerStudents
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'debtPerStudents_Client',
+        "debtPerStudents_Client",
         record,
-        '_14_ratio_debt_per_students'
+        "_14_ratio_debt_per_students"
       );
 
       // debtCoverage
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'debtCoverage_Client',
+        "debtCoverage_Client",
         record,
-        '_15_ratio_debt_coverage'
+        "_15_ratio_debt_coverage"
       );
     });
   });
 
-  localStorage.removeItem('debtData');
-  localStorage.setItem('debtData', JSON.stringify(object));
+  localStorage.removeItem("debtData");
+  localStorage.setItem("debtData", JSON.stringify(object));
 };
 
-const processAssedData = (years, recordsPeer, recordsClient) => {
+const processAssetData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
+        "fiscal_ye_date_formatted_year"
       ).textContent;
 
       return fiscalYear.includes(year.toString());
@@ -9146,169 +2344,169 @@ const processAssedData = (years, recordsPeer, recordsClient) => {
     filteredPeerRecords.forEach((record) => {
       // propertyEquipmentPerStudent
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'propertyEquipmentPerStudent_Peer',
+        "propertyEquipmentPerStudent_Peer",
         record,
-        '_08_ratio_property_and_equipment_per_student_excluding_land',
-        '_08_yes_no_property_and_equipment_per_student_excluding_land'
+        "_08_ratio_property_and_equipment_per_student_excluding_land",
+        "_08_yes_no_property_and_equipment_per_student_excluding_land"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'landBuildingsEquipmentNet',
+        "landBuildingsEquipmentNet",
         record,
-        '_03_08_land__buildings_and_equipment__net',
-        '_08_yes_no_property_and_equipment_per_student_excluding_land',
-        'propertyEquipmentPerStudent'
+        "_03_08_land__buildings_and_equipment__net",
+        "_08_yes_no_property_and_equipment_per_student_excluding_land",
+        "propertyEquipmentPerStudent"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'landAndLandImprovements',
+        "landAndLandImprovements",
         record,
-        '_03_07_land_and_land_improvements',
-        '_08_yes_no_property_and_equipment_per_student_excluding_land',
-        'propertyEquipmentPerStudent'
+        "_03_07_land_and_land_improvements",
+        "_08_yes_no_property_and_equipment_per_student_excluding_land",
+        "propertyEquipmentPerStudent"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01_01_students_average_enrollment',
-        '_08_yes_no_property_and_equipment_per_student_excluding_land',
-        'propertyEquipmentPerStudent'
+        "_01_01_students_average_enrollment",
+        "_08_yes_no_property_and_equipment_per_student_excluding_land",
+        "propertyEquipmentPerStudent"
       );
 
       // netTuitionARasPercentCurrentAssets
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'netTuitionARasPercentCurrentAssets_Peer',
+        "netTuitionARasPercentCurrentAssets_Peer",
         record,
-        '_09_ratio_net_tuition_a_r_as_a___of_current_assets',
-        '_09_yes_no_net_tuition_a_r_as_a___of_current_assets'
+        "_09_ratio_net_tuition_a_r_as_a___of_current_assets",
+        "_09_yes_no_net_tuition_a_r_as_a___of_current_assets"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentsAccountsReceivable',
+        "studentsAccountsReceivable",
         record,
-        '_03_05_student_accounts_receivable',
-        '_09_yes_no_net_tuition_a_r_as_a___of_current_assets',
-        'netTuitionARasPercentCurrentAssets'
+        "_03_05_student_accounts_receivable",
+        "_09_yes_no_net_tuition_a_r_as_a___of_current_assets",
+        "netTuitionARasPercentCurrentAssets"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentAssets',
+        "currentAssets",
         record,
-        '_03_01_current_assets',
-        '_09_yes_no_net_tuition_a_r_as_a___of_current_assets',
-        'netTuitionARasPercentCurrentAssets'
+        "_03_01_current_assets",
+        "_09_yes_no_net_tuition_a_r_as_a___of_current_assets",
+        "netTuitionARasPercentCurrentAssets"
       );
 
       // receivableWriteOffsAsPercentNetTuitionAndFees
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'receivableWriteOffsAsPercentNetTuitionAndFees_Peer',
+        "receivableWriteOffsAsPercentNetTuitionAndFees_Peer",
         record,
-        '_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees',
-        '_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees'
+        "_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees",
+        "_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAccountsReceivableWriteOffs',
+        "studentAccountsReceivableWriteOffs",
         record,
-        '_03_05_student_accounts_receivable',
-        '_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees',
-        'receivableWriteOffsAsPercentNetTuitionAndFees'
+        "_03_05_student_accounts_receivable",
+        "_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees",
+        "receivableWriteOffsAsPercentNetTuitionAndFees"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'grossTuitionRevenuesExcludingFees',
+        "grossTuitionRevenuesExcludingFees",
         record,
-        '_04_01_gross_tuition_revenues_excluding_fees',
-        '_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees',
-        'receivableWriteOffsAsPercentNetTuitionAndFees'
+        "_04_01_gross_tuition_revenues_excluding_fees",
+        "_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees",
+        "receivableWriteOffsAsPercentNetTuitionAndFees"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'financialAidScholarships',
+        "financialAidScholarships",
         record,
-        '_04_04_financial_aid___scholarships',
-        '_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees',
-        'receivableWriteOffsAsPercentNetTuitionAndFees'
+        "_04_04_financial_aid___scholarships",
+        "_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees",
+        "receivableWriteOffsAsPercentNetTuitionAndFees"
       );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
+        "fiscal_ye_date_formatted_year"
       ).textContent;
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
       // propertyEquipmentPerStudent
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'propertyEquipmentPerStudent_Client',
+        "propertyEquipmentPerStudent_Client",
         record,
-        '_08_ratio_property_and_equipment_per_student_excluding_land'
+        "_08_ratio_property_and_equipment_per_student_excluding_land"
       );
 
       // netTuitionARasPercentCurrentAssets
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'netTuitionARasPercentCurrentAssets_Client',
+        "netTuitionARasPercentCurrentAssets_Client",
         record,
-        '_09_ratio_net_tuition_a_r_as_a___of_current_assets'
+        "_09_ratio_net_tuition_a_r_as_a___of_current_assets"
       );
 
       // receivableWriteOffsAsPercentNetTuitionAndFees
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'receivableWriteOffsAsPercentNetTuitionAndFees_Client',
+        "receivableWriteOffsAsPercentNetTuitionAndFees_Client",
         record,
-        '_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees'
+        "_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees"
       );
 
       // receivableWriteOffsAsPercentNetTuitionAndFees_Percent
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'receivableWriteOffsAsPercentNetTuitionAndFees_Percent_Client',
+        "receivableWriteOffsAsPercentNetTuitionAndFees_Percent_Client",
         record,
-        '_10a_ratio___change'
+        "_10a_ratio___change"
       );
     });
   });
 
-  localStorage.removeItem('assetData');
-  localStorage.setItem('assetData', JSON.stringify(object));
+  localStorage.removeItem("assetData");
+  localStorage.setItem("assetData", JSON.stringify(object));
 };
 
 const processCashData = (years, recordsPeer, recordsClient) => {
@@ -9317,7 +2515,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
+        "fiscal_ye_date_formatted_year"
       ).textContent;
 
       return fiscalYear.includes(year.toString());
@@ -9325,352 +2523,352 @@ const processCashData = (years, recordsPeer, recordsClient) => {
     filteredPeerRecords.forEach((record) => {
       // expendableReserves_inDays
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'expendableReserves_inDays_Peer',
+        "expendableReserves_inDays_Peer",
         record,
-        '_03_ratio_expendable_reserves___in_days',
-        '_03_yes_no_expendable_reserves___in_days'
+        "_03_ratio_expendable_reserves___in_days",
+        "_03_yes_no_expendable_reserves___in_days"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'unrestrictedNetAssets',
+        "unrestrictedNetAssets",
         record,
-        '_03_12_total_unrestricted_net_assets',
-        '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        "_03_12_total_unrestricted_net_assets",
+        "_03_yes_no_expendable_reserves___in_days",
+        "expendableReserves_inDays"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'landBuildingsEquipmentNet',
+        "landBuildingsEquipmentNet",
         record,
-        '_03_08_land__buildings_and_equipment__net',
-        '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        "_03_08_land__buildings_and_equipment__net",
+        "_03_yes_no_expendable_reserves___in_days",
+        "expendableReserves_inDays"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDebt',
+        "totalDebt",
         record,
-        '_03_11_total_debt',
-        '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        "_03_11_total_debt",
+        "_03_yes_no_expendable_reserves___in_days",
+        "expendableReserves_inDays"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalDepreciationExpense",
         record,
-        '_04_09_total_depreciation_expense',
-        '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        "_04_09_total_depreciation_expense",
+        "_03_yes_no_expendable_reserves___in_days",
+        "expendableReserves_inDays"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalExpense',
+        "totalExpense",
         record,
-        '_04_08_total_expenses',
-        '_03_yes_no_expendable_reserves___in_days',
-        'expendableReserves_inDays'
+        "_04_08_total_expenses",
+        "_03_yes_no_expendable_reserves___in_days",
+        "expendableReserves_inDays"
       );
 
       // expaendableReserves_Percent
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'expendableReserves_Percent_Peer',
+        "expendableReserves_Percent_Peer",
         record,
-        '_04_ratio_expendable_reserves______of_total_cash_expenses',
-        '_04_yes_no_expendable_reserves______of_total_cash_expenses'
+        "_04_ratio_expendable_reserves______of_total_cash_expenses",
+        "_04_yes_no_expendable_reserves______of_total_cash_expenses"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'unrestrictedNetAssets',
+        "unrestrictedNetAssets",
         record,
-        '_03_12_total_unrestricted_net_assets',
-        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
+        "_03_12_total_unrestricted_net_assets",
+        "_04_yes_no_expendable_reserves______of_total_cash_expenses",
+        "expendableReserves_Percent"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'landBuildingsEquipmentNet',
+        "landBuildingsEquipmentNet",
         record,
-        '_03_08_land__buildings_and_equipment__net',
-        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
+        "_03_08_land__buildings_and_equipment__net",
+        "_04_yes_no_expendable_reserves______of_total_cash_expenses",
+        "expendableReserves_Percent"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDebt',
+        "totalDebt",
         record,
-        '_03_11_total_debt',
-        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
+        "_03_11_total_debt",
+        "_04_yes_no_expendable_reserves______of_total_cash_expenses",
+        "expendableReserves_Percent"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalDepreciationExpense",
         record,
-        '_04_09_total_depreciation_expense',
-        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
+        "_04_09_total_depreciation_expense",
+        "_04_yes_no_expendable_reserves______of_total_cash_expenses",
+        "expendableReserves_Percent"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalExpense',
+        "totalExpense",
         record,
-        '_04_08_total_expenses',
-        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
-        'expendableReserves_Percent'
+        "_04_08_total_expenses",
+        "_04_yes_no_expendable_reserves______of_total_cash_expenses",
+        "expendableReserves_Percent"
       );
 
       // cashAvailableDeferred
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'cashAvailableDeferred_Peer',
+        "cashAvailableDeferred_Peer",
         record,
-        '_05_ratio_cash_available_to_deferred_revenues',
-        '_05_yes_no_cash_available_to_deferred_revenues'
+        "_05_ratio_cash_available_to_deferred_revenues",
+        "_05_yes_no_cash_available_to_deferred_revenues"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalCash',
+        "totalCash",
         record,
-        '_03_02_total_cash',
-        '_05_yes_no_cash_available_to_deferred_revenues',
-        'cashAvailableDeferred'
+        "_03_02_total_cash",
+        "_05_yes_no_cash_available_to_deferred_revenues",
+        "cashAvailableDeferred"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'nonEndowmentInvestments',
+        "nonEndowmentInvestments",
         record,
-        '_03_03_non_endowment_investments',
-        '_05_yes_no_cash_available_to_deferred_revenues',
-        'cashAvailableDeferred'
+        "_03_03_non_endowment_investments",
+        "_05_yes_no_cash_available_to_deferred_revenues",
+        "cashAvailableDeferred"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'deferredRevenue',
+        "deferredRevenue",
         record,
-        '_03_10_deferred_revenue',
-        '_05_yes_no_cash_available_to_deferred_revenues',
-        'cashAvailableDeferred'
+        "_03_10_deferred_revenue",
+        "_05_yes_no_cash_available_to_deferred_revenues",
+        "cashAvailableDeferred"
       );
 
       // liquidityRatio
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'liquidityRatio_Peer',
+        "liquidityRatio_Peer",
         record,
-        '_06_ratio_liquidity_ratio',
-        '_06_yes_no_liquidity_ratio'
+        "_06_ratio_liquidity_ratio",
+        "_06_yes_no_liquidity_ratio"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalCash',
+        "totalCash",
         record,
-        '_03_02_total_cash',
-        '_06_yes_no_liquidity_ratio',
-        'liquidityRatio'
+        "_03_02_total_cash",
+        "_06_yes_no_liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'currentLiabilities',
+        "currentLiabilities",
         record,
-        '_03_09_current_liabilities',
-        '_06_yes_no_liquidity_ratio',
-        'liquidityRatio'
+        "_03_09_current_liabilities",
+        "_06_yes_no_liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'deferredRevenue',
+        "deferredRevenue",
         record,
-        '_03_10_deferred_revenue',
-        '_06_yes_no_liquidity_ratio',
-        'liquidityRatio'
+        "_03_10_deferred_revenue",
+        "_06_yes_no_liquidity_ratio",
+        "liquidityRatio"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'nonEndowmentInvestments',
+        "nonEndowmentInvestments",
         record,
-        '_03_03_non_endowment_investments',
-        '_06_yes_no_liquidity_ratio',
-        'liquidityRatio'
+        "_03_03_non_endowment_investments",
+        "_06_yes_no_liquidity_ratio",
+        "liquidityRatio"
       );
 
       // netCashUsedOperating_asPerStatementCash
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'netCashUsedOperating_asPerStatementCash_Peer',
+        "netCashUsedOperating_asPerStatementCash_Peer",
         record,
-        '_07a_ratio_as_per_statement_of_cash_flows',
-        '_07a_yes_no_as_per_statement_of_cash_flows'
+        "_07a_ratio_as_per_statement_of_cash_flows",
+        "_07a_yes_no_as_per_statement_of_cash_flows"
       );
 
       // netCashUsedOperating_depreciation
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'netCashUsedOperating_depreciation_Peer',
+        "netCashUsedOperating_depreciation_Peer",
         record,
-        '_07b_ratio_depreciation_expenses_on_3_7_year_assets',
-        '_07b_yes_no_depreciation_expenses_on_3_7_year_assets'
+        "_07b_ratio_depreciation_expenses_on_3_7_year_assets",
+        "_07b_yes_no_depreciation_expenses_on_3_7_year_assets"
       );
 
       // netCashUsedOperating_overUnderBench
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'netCashUsedOperating_overUnderBench_Peer',
+        "netCashUsedOperating_overUnderBench_Peer",
         record,
-        '_07c_ratio_over_under_benchmark',
-        '_07c_yes_no_over_under_benchmark'
+        "_07c_ratio_over_under_benchmark",
+        "_07c_yes_no_over_under_benchmark"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'cashFlowsOperatingActivities',
+        "cashFlowsOperatingActivities",
         record,
-        '_05_01_cash_flows_from_operating_activities',
-        '_07c_yes_no_over_under_benchmark',
-        'netCashUsedOperating_overUnderBench'
+        "_05_01_cash_flows_from_operating_activities",
+        "_07c_yes_no_over_under_benchmark",
+        "netCashUsedOperating_overUnderBench"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'totalDepreciationExpense',
+        "totalDepreciationExpense",
         record,
-        '_04_09_total_depreciation_expense',
-        '_07c_yes_no_over_under_benchmark',
-        'netCashUsedOperating_overUnderBench'
+        "_04_09_total_depreciation_expense",
+        "_07c_yes_no_over_under_benchmark",
+        "netCashUsedOperating_overUnderBench"
       );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
+        "fiscal_ye_date_formatted_year"
       ).textContent;
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
       // expendableReserves_inDays
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'expendableReserves_inDays_Client',
+        "expendableReserves_inDays_Client",
         record,
-        '_03_ratio_expendable_reserves___in_days',
-        '_03_bench_rating_expendable_reserves___in_days'
+        "_03_ratio_expendable_reserves___in_days",
+        "_03_bench_rating_expendable_reserves___in_days"
       );
       // expendableReserves_Percent
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'expendableReserves_Percent_Client',
+        "expendableReserves_Percent_Client",
         record,
-        '_04_ratio_expendable_reserves______of_total_cash_expenses',
-        '_04_benchmark_rating_expendable_reserves______of_total_cash_expenses'
+        "_04_ratio_expendable_reserves______of_total_cash_expenses",
+        "_04_benchmark_rating_expendable_reserves______of_total_cash_expenses"
       );
       // cashAvailableDeferred
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'cashAvailableDeferred_Client',
+        "cashAvailableDeferred_Client",
         record,
-        '_05_ratio_cash_available_to_deferred_revenues'
+        "_05_ratio_cash_available_to_deferred_revenues"
       );
       // liquidityRatio
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'liquidityRatio_Client',
+        "liquidityRatio_Client",
         record,
-        '_06_ratio_liquidity_ratio',
-        '_06_bench_rating_liquidity_ratio'
+        "_06_ratio_liquidity_ratio",
+        "_06_bench_rating_liquidity_ratio"
       );
       // netCashUsedOperating_asPerStatementCash
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'netCashUsedOperating_asPerStatementCash_Client',
+        "netCashUsedOperating_asPerStatementCash_Client",
         record,
-        '_07a_ratio_as_per_statement_of_cash_flows'
+        "_07a_ratio_as_per_statement_of_cash_flows"
       );
       // netCashUsedOperating_depreciation
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'netCashUsedOperating_depreciation_Client',
+        "netCashUsedOperating_depreciation_Client",
         record,
-        '_07b_ratio_depreciation_expenses_on_3_7_year_assets'
+        "_07b_ratio_depreciation_expenses_on_3_7_year_assets"
       );
       // netCashUsedOperating_overUnderBench
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'netCashUsedOperating_overUnderBench_Client',
+        "netCashUsedOperating_overUnderBench_Client",
         record,
-        '_07c_ratio_over_under_benchmark',
-        '_07c_bench_rating_over_under_benchmark'
+        "_07c_ratio_over_under_benchmark",
+        "_07c_bench_rating_over_under_benchmark"
       );
     });
   });
 
   // console.log(object);
-  localStorage.removeItem('cashData');
-  localStorage.setItem('cashData', JSON.stringify(object));
+  localStorage.removeItem("cashData");
+  localStorage.setItem("cashData", JSON.stringify(object));
 };
 
 const processEnrollmentData = (years, recordsPeer, recordsClient) => {
@@ -9679,140 +2877,140 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
+        "fiscal_ye_date_formatted_year"
       ).textContent;
 
       return fiscalYear.includes(year.toString());
     });
     filteredPeerRecords.forEach((record) => {
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Peer',
+        "studentAverageEnrollment_Peer",
         record,
-        '_01_ratio_students_enrollment',
-        '_01_yes_no_students_enrollment'
+        "_01_ratio_students_enrollment",
+        "_01_yes_no_students_enrollment"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Peak_Peer',
+        "studentAverageEnrollment_Peak_Peer",
         record,
-        '_01c_ratio_students_enrollment_peak_enrolmment',
-        '_01c_yes_no_students_enrollment_peak_enrolmment'
+        "_01c_ratio_students_enrollment_peak_enrolmment",
+        "_01c_yes_no_students_enrollment_peak_enrolmment"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentFacilityRatio_Peer',
+        "studentFacilityRatio_Peer",
         record,
-        '_02_ratio_student_faculty_ratio',
-        '_02_yes_no_student_faculty_ratio'
+        "_02_ratio_student_faculty_ratio",
+        "_02_yes_no_student_faculty_ratio"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'fullTimeTeachers_Peer',
+        "fullTimeTeachers_Peer",
         record,
-        '_01_03_ft_teachers',
-        '_02_yes_no_student_faculty_ratio',
-        'studentFacilityRatio'
+        "_01_03_ft_teachers",
+        "_02_yes_no_student_faculty_ratio",
+        "studentFacilityRatio"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'partTimeTeachers_Peer',
+        "partTimeTeachers_Peer",
         record,
-        '_01_05_pt_teachers',
-        '_02_yes_no_student_faculty_ratio',
-        'studentFacilityRatio'
+        "_01_05_pt_teachers",
+        "_02_yes_no_student_faculty_ratio",
+        "studentFacilityRatio"
       );
       insertDataIntoObject(
-        'peer',
+        "peer",
         year,
         object,
-        'studentAverageEnrollment_Main',
+        "studentAverageEnrollment_Main",
         record,
-        '_01_01_students_average_enrollment',
-        '_02_yes_no_student_faculty_ratio',
-        'studentFacilityRatio'
+        "_01_01_students_average_enrollment",
+        "_02_yes_no_student_faculty_ratio",
+        "studentFacilityRatio"
       );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector(
-        'fiscal_ye_date_formatted_year'
+        "fiscal_ye_date_formatted_year"
       ).textContent;
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'studentAverageEnrollment_Client',
+        "studentAverageEnrollment_Client",
         record,
-        '_01_ratio_students_enrollment'
+        "_01_ratio_students_enrollment"
       );
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'studentAverageEnrollment_PercentChange_Client',
+        "studentAverageEnrollment_PercentChange_Client",
         record,
-        '_01a_ratio_students_enrollment___change'
+        "_01a_ratio_students_enrollment___change"
       );
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'studentAverageEnrollment_Average_Client',
+        "studentAverageEnrollment_Average_Client",
         record,
-        '_01b_ratio_students_enrollment_average'
+        "_01b_ratio_students_enrollment_average"
       );
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'studentAverageEnrollment_Peak_Client',
+        "studentAverageEnrollment_Peak_Client",
         record,
-        '_01c_ratio_students_enrollment_peak_enrolmment'
+        "_01c_ratio_students_enrollment_peak_enrolmment"
       );
       insertDataIntoObject(
-        'client',
+        "client",
         year,
         object,
-        'studentFacilityRatio_Client',
+        "studentFacilityRatio_Client",
         record,
-        '_02_ratio_student_faculty_ratio'
+        "_02_ratio_student_faculty_ratio"
       );
     });
   });
 
-  localStorage.removeItem('enrollmentData');
-  localStorage.setItem('enrollmentData', JSON.stringify(object));
+  localStorage.removeItem("enrollmentData");
+  localStorage.setItem("enrollmentData", JSON.stringify(object));
 };
 
 const addColumnsToOtherRows = (idName, year) => {
   const rows = document.querySelectorAll(`#${idName} + tbody tr`);
 
   rows.forEach((row) => {
-    const tdElement = document.createElement('td');
+    const tdElement = document.createElement("td");
     // You can customize the content of the new columns as needed
-    tdElement.textContent = 'New Data'; // Change this line accordingly
+    tdElement.textContent = "New Data"; // Change this line accordingly
     row.appendChild(tdElement);
   });
 };
 
-const runApiMain = () => {
-  const run_btn = document.querySelector('#run');
+const runApiMain = (recordsPeer, recordsClient) => {
+  const run_btn = document.querySelector("#run");
 
-  run_btn.addEventListener('click', () => {
+  run_btn.addEventListener("click", () => {
     try {
       const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -9820,11 +3018,11 @@ const runApiMain = () => {
       const selectedYearsArray = Array.from(selectedYears_Set).sort(
         (a, b) => a - b
       );
-      localStorage.setItem('selectedYears', JSON.stringify(selectedYearsArray));
+      localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
 
       processEnrollmentData(selectedYears, recordsPeer, recordsClient);
       processCashData(selectedYears, recordsPeer, recordsClient);
-      processAssetdData(selectedYears, recordsPeer, recordsClient);
+      processAssetData(selectedYears, recordsPeer, recordsClient);
       processDebtData(selectedYears, recordsPeer, recordsClient);
       processIncomeData(selectedYears, recordsPeer, recordsClient);
       processExpenseData(selectedYears, recordsPeer, recordsClient);
