@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   findUniqueYears(recordsClient);
 
-  addUniqueRegionsToOptionsSelectRegionDropdown(regions_Array);
+  addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown(schoolChurch_Array);
 
   displayEnrollmentComponent();
   displayCashComponent();

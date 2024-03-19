@@ -1,5 +1,6 @@
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
+
 const regions_Array = [
   { arr: ["New England (CT, RI, MA, VT, NH)"], str: "NE" },
   {
@@ -549,7 +550,6 @@ function changeThWidth(elementId) {
   }
 }
 
-// <------------------------------------  SLIDER RANGE ------------------------------------------------------------------>
 const range = () => {
   return {
     minprice: 0,
