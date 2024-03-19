@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   displayIncomeComponent();
   displayExpenseComponent();
 
-  displayReportComponent();
+  displayReportComponent()
 
   runApiMain(recordsPeer, recordsClient);
 });

@@ -121,7 +121,7 @@ function updateModal(mainName, avgData, clientData) {
     headerRow.appendChild(avgColumn);
 
     // Add the remaining columns
-    const columns = ["Mid", "Min", "Max"];
+    const columns = ["Mid", "25%", "75%"];
     columns.forEach((column) => {
       const col = document.createElement("th");
       col.className = "px-6 py-3";
@@ -212,9 +212,63 @@ const getMaxOfArray = (array) => {
   return Math.max(...nonZeroArray);
 };
 
-const getMinOfArray = (array) => {
-
+const OfArray = (array) => {
   return Math.min(...array);
+};
+
+const get25thPercentileOfArray = (array) => {
+  // Step 1: Sort the array in ascending order
+  const sortedArray = array.sort((a, b) => a - b);
+  // console.log(sortedArray);
+
+  // Step 2: Check if the array has less than or equal to 2 elements
+  if (sortedArray.length <= 2) {
+    // If array has 1 or 2 elements, return the average of the elements
+    return sortedArray.reduce((acc, val) => Number(acc) + Number(val), 0) / sortedArray.length;
+  }
+
+  // Step 3: Calculate the index for the 25th percentile
+  const index = (sortedArray.length + 1) * 0.25;
+
+  // Step 4: Check if the index is an integer
+  if (Number.isInteger(index)) {
+    // If it's an integer, return the value at that index
+    return sortedArray[index - 1];
+  } else {
+    // If not an integer, interpolate between the two nearest values
+    const lowerIndex = Math.floor(index);
+    const upperIndex = Math.ceil(index);
+    const lowerValue = Number(sortedArray[lowerIndex - 1]);
+    const upperValue = Number(sortedArray[upperIndex - 1]);
+    return (lowerValue + upperValue) / 2;
+  }
+};
+
+const get75thPercentileOfArray = (array) => {
+  // Step 1: Sort the array in ascending order
+  const sortedArray = array.sort((a, b) => a - b);
+
+  // Step 2: Check if the array has less than or equal to 2 elements
+  if (sortedArray.length <= 2) {
+    // If array has 1 or 2 elements, return the average of the elements
+    return sortedArray.reduce((acc, val) => Number(acc) + Number(val), 0) / sortedArray.length;
+  }
+
+  // Step 3: Calculate the index for the 75th percentile
+  const index = (sortedArray.length + 1) * 0.75;
+
+  // Step 4: Check if the index is an integer
+  if (Number.isInteger(index)) {
+    // If it's an integer, return the value at that index
+    return sortedArray[index - 1];
+  } else {
+    // If not an integer, interpolate between the two nearest values
+    const lowerIndex = Math.floor(index);
+    const upperIndex = Math.ceil(index);
+    const lowerValue = Number(sortedArray[lowerIndex - 1]);
+    const upperValue = Number(sortedArray[upperIndex - 1]);
+    return (lowerValue + upperValue) / 2;
+  }
 };
 
 const getSumOfArray = (array) => {
@@ -738,5 +792,4 @@ const editElementChildren = (element, variable, elementId) => {
   element.classList.add("hover:opacity-100");
   element.classList.add("transition");
   element.classList.add("ease-in-out");
-
 };

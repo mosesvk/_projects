@@ -3022,6 +3022,8 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
         "_02_yes_no_student_faculty_ratio",
         "studentFacilityRatio"
       );
+
+      // studentFacilityRatio (01-03 FT Teachers + (0.5 * 01-05 PT Teachers) ) / 01-01 Students-average enrollment
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {

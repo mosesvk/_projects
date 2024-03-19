@@ -104,7 +104,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
 
 const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
   // console.log('data', data);
-  
+
   for (let name of arrayOfNames) {
     // console.log('name', name);
     addToSingleRow(
@@ -115,7 +115,8 @@ const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
       data[`${name[0]}_Peer`],
       name[1],
       name[2],
-      name[3]
+      name[3],
+      name[4]
     );
   }
 };
@@ -128,12 +129,13 @@ const addToSingleRow = (
   peer,
   type,
   fixedNum,
-  wa
+  wa,
+  cb
 ) => {
-  // console.log({selectedYears, name, client, peer, type, fixedNum});
+  //console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
-  // console.log('tableReportRow', tableReportRow);
+  // console.log("tableReportRow", tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);
@@ -146,7 +148,16 @@ const addToSingleRow = (
       // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
 
       addClientDataToModalRow(tableModalRow, year, client, type, fixedNum);
-      addPeerDataToRow(tableModalRow, peer, type, fixedNum, year, wa, name, data);
+      addPeerDataToRow(
+        tableModalRow,
+        peer,
+        type,
+        fixedNum,
+        year,
+        wa,
+        name,
+        data
+      );
     }
   });
 
@@ -155,14 +166,15 @@ const addToSingleRow = (
     selectedYears,
     client,
     type,
-    fixedNum 
+    fixedNum,
+    cb
   );
   addPeerDataToRow(
     tableReportRow,
     peer,
     type,
     fixedNum,
-    'total',
+    "total",
     wa,
     name,
     data
@@ -174,22 +186,50 @@ const addClientDataToReportRow = (
   selectedYears,
   client,
   type,
-  fixedNum
+  fixedNum,
+  cb
 ) => {
   const propClass =
-    'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
-  const propScope = 'row';
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
+  const propScope = "row";
 
   selectedYears.forEach((year) => {
-    const dataPoint = document.createElement('th');
-    const text = styleNumber(client[year].value, type, fixedNum);
+    const dataPoint = document.createElement("th");
+    const text = client ? styleNumber(client[year].value, type, fixedNum) : "";
 
+    // Create a new span element
+    const spanElement = document.createElement("span");
+    spanElement.textContent = text;
+
+    // Add the "mr-2" class to the span element
+    spanElement.classList.add("mr-2");
+
+    // Create a new div element
+    const divElement = document.createElement("div");
+
+    // Add the "flex" class to the div element
+    divElement.classList.add("flex");
+    divElement.classList.add("justify-between");
+
+    // Append the span element to the div element
+    divElement.appendChild(spanElement);
+
+    // Append the div element to the dataPoint
+    dataPoint.appendChild(divElement);
     dataPoint.className = propClass;
     dataPoint.scope = propScope;
-    dataPoint.textContent = text;
 
+    // Append the dataPoint to the tableRow
     tableRow.appendChild(dataPoint);
   });
+
+  if (cb) {
+    let clientBenchmarkArray = getBenchmarks(client);
+
+    //  console.log(clientBenchmarkArray, tableRow);
+
+    getBackgroundColor(clientBenchmarkArray, tableRow);
+  }
 };
 
 const addClientDataToModalRow = (
@@ -199,11 +239,13 @@ const addClientDataToModalRow = (
   type,
   fixedNum
 ) => {
-  const propClass =
-    'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
-  const propScope = 'row';
+  // console.log({ tableModalRow, year, client, type, fixedNum });
 
-  const dataPoint = document.createElement('th');
+  const propClass =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  const propScope = "row";
+
+  const dataPoint = document.createElement("th");
   const text = styleNumber(client[year].value, type, fixedNum);
 
   dataPoint.className = propClass;
@@ -223,34 +265,35 @@ const addPeerDataToRow = (
   name,
   data
 ) => {
-  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data });
+  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name });
 
   const propClass =
-    'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white';
-  const propScope = 'row';
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  const propScope = "row";
 
-  const dataPointAvg = document.createElement('th');
+  const dataPointAvg = document.createElement("th");
 
   let avg;
   if (peer && wa) {
     avg = getWeightedAverageOfArray(data, name);
   } else if (peer && !wa) {
-    avg = getAverageOfArray(peer[dataArray]);
+    avg = getAverageOfArray(peer[dataArray], name);
   } else {
     avg = 0;
   }
-
-  // console.log(peer[dataArray]);
-
-  const textAvg = styleNumber(avg, type, fixedNum);
-  const dataPointMid = document.createElement('th');
-  const mid = peer ? getMidpointOfArray(peer[dataArray]) : 0;
+  
+  
+  const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
+  const dataPointMid = document.createElement("th");
+  const mid = peer ? getMidpointOfArray(peer[dataArray]) : '';
+  // console.log('mid', mid);
   const textMid = styleNumber(mid, type, fixedNum);
-  const dataPointMin = document.createElement('th');
-  const min = peer ? getMinOfArray(peer[dataArray]) : 0;
+  const dataPointMin = document.createElement("th");
+  const min = peer ? get25thPercentileOfArray(peer[dataArray]) : '';
+if (name == 'studentAverageEnrollment') console.log('totalOutsourcedEmployees', {min, peerArray: peer[dataArray]})
   const textMin = styleNumber(min, type, fixedNum);
-  const dataPointMax = document.createElement('th');
-  const max = peer ? getMaxOfArray(peer[dataArray]) : 0;
+  const dataPointMax = document.createElement("th");
+  const max = peer ? get75thPercentileOfArray(peer[dataArray]) : '';
   const textMax = styleNumber(max, type, fixedNum);
 
   dataPointAvg.className = propClass;
@@ -275,15 +318,15 @@ const addPeerDataToRow = (
 };
 
 const addYearColumnsToReportTable = (years) => {
-  const tables = document.querySelectorAll('table');
+  const tables = document.querySelectorAll("table");
   // console.log(tables);
 
   tables.forEach((table) => {
     // console.log(table);
-    const trElements = table.querySelectorAll('tr');
+    const trElements = table.querySelectorAll("tr");
     const trIds = Array.from(trElements)
-      .map((tr) => tr.getAttribute('id'))
-      .filter((id) => id && id.endsWith('_tableHeader'));
+      .map((tr) => tr.getAttribute("id"))
+      .filter((id) => id && id.endsWith("_tableHeader"));
 
     trIds.forEach((idName) => {
       // Clear existing columns before adding new ones
@@ -307,9 +350,9 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
   // Iterate through the selectedYearArray and add new columns
   yearsArray.forEach((year) => {
     // Create a new <th> element for each selected year
-    const newTh = document.createElement('th');
-    newTh.setAttribute('scope', 'col');
-    newTh.setAttribute('class', 'px-6 py-3');
+    const newTh = document.createElement("th");
+    newTh.setAttribute("scope", "col");
+    newTh.setAttribute("class", "px-6 py-3");
     newTh.innerText = year;
 
     // Insert the new <th> element before the "avg" <th>
@@ -319,7 +362,7 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
 
 const clearTableColumns = (idName) => {
   const headerRow = document.getElementById(idName);
-  const columnsToPreserve = ['Avg', 'Mid', 'Min', 'Max'];
+  const columnsToPreserve = ["Avg", "Mid", "25%", "75%"];
 
   // Remove all existing th elements except the first one and those to be preserved
   Array.from(headerRow.children)
@@ -350,3 +393,68 @@ const clearColumnsFromOtherRowsInTable = (idName, columnsToPreserve) => {
       });
   });
 };
+
+function processTHElements() {
+  // Select all <tr> elements with an id
+  const rows = document.querySelectorAll('tr[id]');
+
+  rows.forEach(row => {
+    // Select all <th> elements inside the current <tr>
+    const thElements = row.querySelectorAll('th');
+
+    thElements.forEach(th => {
+      // Check if the <th> has a <div> child
+      const divChild = th.querySelector('div');
+      if (divChild) {
+        // If <th> has a <div> child, find the <span> inside it
+        const spanChild = divChild.querySelector('span');
+        if (spanChild) {
+          // Process the text content of <span> child
+          let textContent = spanChild.textContent.trim();
+          // Check if the text content contains numbers
+          if (/\d/.test(textContent)) {
+            if (textContent.includes("-")) {
+              // Remove "-" and apply classes
+              textContent = `(${textContent.replace("-", "")})`;
+              spanChild.textContent = textContent;
+              th.classList.remove("text-gray-900", "dark:text-white");
+              th.classList.add("text-red-500", "dark:text-red-400");
+            }
+          }
+        }
+      } else {
+        // Check if the <th> has exactly three children
+        if (th.childElementCount === 3) {
+          // Process the two <p> tags
+          const pTags = th.querySelectorAll('p');
+          pTags.forEach(p => {
+            let textContent = p.textContent.trim();
+            // Check if the text content contains numbers
+            if (/\d/.test(textContent)) {
+              if (textContent.includes("-")) {
+                // Remove "-" and apply classes
+                textContent = `(${textContent.replace("-", "")})`;
+                p.textContent = textContent;
+                p.classList.remove("text-gray-900", "dark:text-white");
+                p.classList.add("text-red-500", "dark:text-red-400");
+              }
+            }
+          });
+        } else {
+          // Process the text content of <th> directly
+          let textContent = th.textContent.trim();
+          // Check if the text content contains numbers
+          if (/\d/.test(textContent)) {
+            if (textContent.includes("-")) {
+              // Remove "-" and apply classes
+              textContent = `(${textContent.replace("-", "")})`;
+              th.textContent = textContent;
+              th.classList.remove("text-gray-900", "dark:text-white");
+              th.classList.add("text-red-500", "dark:text-red-400");
+            }
+          }
+        }
+      }
+    });
+  });
+}
