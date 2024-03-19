@@ -28,7 +28,7 @@ const getWeightedAverageOfArray = (data, name) => {
       return currentRatio_weightedAverage(data, name);
     case "currentLiabilitiesToAvailableNetAssets":
       return currentLiabilitiesToAvailableNetAssets_weightedAverage(data, name);
-    case "debtPerStudents":
+    case "debtPerStudent":
       return debtPerStudents_weightedAverage(data, name);
     case "debtCoverage":
       return debtCoverage_weightedAverage(data, name);
@@ -135,10 +135,35 @@ const getWeightedAverageOfArray = (data, name) => {
         data,
         name
       );
+    case "daysCashOnHand": 
+      return daysCashOnHand_weightedAverage(data, name);
+    case "debtToNetAssets": 
+      return debtToNetAssets_weightedAverage(data, name);
     default:
       return;
   }
 };
+
+const debtToNetAssets_weightedAverage = (data, name) => {
+  // [03-11 Total Debt] / [03-12 Total Unrestricted Net Assets]
+
+  let numTotalDebt = getSumOfArray(data.totalDebt[name]);
+  let numTotalUnrestrictedNetAssets = getSumOfArray(
+    data.totalUnrestrictedNetAssets[name]
+  );
+
+  return numTotalDebt / numTotalUnrestrictedNetAssets;
+
+}
+
+const daysCashOnHand_weightedAverage = (data, name) => {
+  // [03-02 Total Cash]/([04-08 Total Expenses]/365)
+
+  let numTotalCash = getSumOfArray(data.totalCash[name]);
+  let numTotalExpenses = getSumOfArray(data.totalExpenses[name]);
+
+  return numTotalCash / (numTotalExpenses / 365);
+}
 
 const fundsExpensesPerStudent_FundsRaisedOverUnder_weightedAverage = (
   data,
@@ -295,7 +320,7 @@ const personnelMandatoryDebtService_Mandatory_weightedAverage = (
 ) => {
   // ( [18] 02-06 Current maturities of LT Debt + [44] 04-11 Current Year Interest Expense +  [48] 05-02 Capitalized Interest )  / ([41] 04-08 Total Expenses - [42] 04-09 Total Depreciation Expense )
 
-  console.log("dataName", data, name);
+  // console.log("dataName", data, name);
 
   let numCurrentMaturingDebt = getSumOfArray(data.currentMaturingDebt[name]);
   let numCurrentYearInterestExpense = getSumOfArray(
@@ -338,7 +363,7 @@ const personnelMandatoryDebtService_SalariesAndBenefits_Employees_weightedAverag
 
 const personnelMandatoryDebtService_SalariesAndBenefits_Administration_weightedAverage =
   (data, name) => {
-    console.log("wa", data, name);
+    // console.log("wa", data, name);
 
     let numTotalPersonnelCostsSalariesBenefits = getSumOfArray(
       data.totalPersonnelCostsSalariesBenefits[name]
@@ -825,7 +850,7 @@ const expendableReservesInDays_weightedAverage = (data, name) => {
     data.landBuildingsEquipmentNet[name]
   );
   let numTotalDebt = getSumOfArray(data.totalDebt[name]);
-  let numTotalExpense = getSumOfArray(data.totalExpense[name]);
+  let numTotalExpenses = getSumOfArray(data.totalExpenses[name]);
   let numTotalDepreciationExpense = getSumOfArray(
     data.totalDepreciationExpense[name]
   );
@@ -837,7 +862,7 @@ const expendableReservesInDays_weightedAverage = (data, name) => {
 
   return (
     ((numTotalUnrestricted - numIf) /
-      (numTotalExpense - numTotalDepreciationExpense)) *
+      (numTotalExpenses - numTotalDepreciationExpense)) *
     365
   );
 };
@@ -848,7 +873,7 @@ const expendableReservesPercent_weightedAverage = (data, name) => {
     data.landBuildingsEquipmentNet[name]
   );
   let numTotalDebt = getSumOfArray(data.totalDebt[name]);
-  let numTotalExpense = getSumOfArray(data.totalExpense[name]);
+  let numTotalExpense = getSumOfArray(data.totalExpenses[name]);
   let numTotalDepreciationExpense = getSumOfArray(
     data.totalDepreciationExpense[name]
   );

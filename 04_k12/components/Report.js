@@ -20,11 +20,15 @@ const displayReportComponent = () => {
     insertDataToReport(cashData, selectedYears, [
       ['expendableReserves_inDays', 'num', 0, 'wa'],
       ['expendableReserves_Percent', 'percent', 0, 'wa'],
+      ['daysCashOnHand', 'num', 0, 'wa'],
+      // ['cashAvailableDeferred', 'num', 2, 'wa'],
+      // ['liquidityRatio', 'num', 1, 'wa'],
+      // ['netCashUsedOperating_asPerStatementCash', 'dollar', 0],
+      // ['netCashUsedOperating_depreciation', 'dollar', 0]
       ['cashAvailableDeferred', 'num', 2, 'wa'],
       ['liquidityRatio', 'num', 1, 'wa'],
       ['netCashUsedOperating_asPerStatementCash', 'dollar', 0],
-      ['netCashUsedOperating_depreciation', 'dollar', 0],
-      ['netCashUsedOperating_overUnderBench', 'dollar', 0]
+      ['netCashUsedOperating_depreciation', 'dollar', 0]
     ]);
 
     insertDataToReport(assetData, selectedYears, [
@@ -36,9 +40,10 @@ const displayReportComponent = () => {
 
     insertDataToReport(debtData, selectedYears, [
       ['debtToPropertyAndEquipment', 'num', 2],
+      ['debtToNetAssets', 'num', 2],
       ['currentRatio', 'num', 2],
       ['currentLiabilitiesToAvailableNetAssets', 'num', 2],
-      ['debtPerStudents', 'num', 0],
+      ['debtPerStudent', 'num', 0],
       ['debtCoverage', 'num', 2]
     ]);
 
@@ -50,10 +55,10 @@ const displayReportComponent = () => {
       ['contributionsAsAPercentOfTotalIncome', 'percent', 1, 'wa'],
       ['grossTuition' , 'num', 0, 'wa'],
       ['grossTuition_Percent', 'percent', 1],
-      ['financialAssistanceDiscountBased', 'num', 0, 'wa'],
-      ['financialAssistanceDiscountBased_Percent', 'percent', 1],
-      ['scholarshipAwarded', 'num', 0, 'wa'],
-      ['scholarshipAwarded_Percent', 'percent', 1],
+      // ['financialAssistanceDiscountBased', 'num', 0, 'wa'],
+      // ['financialAssistanceDiscountBased_Percent', 'percent', 1],
+      // ['scholarshipAwarded', 'num', 0, 'wa'],
+      // ['scholarshipAwarded_Percent', 'percent', 1],
       ['totalFinancialAssistance', 'num', 0, 'wa'],
       ['totalFinancialAssistance_Percent', 'percent', 1],
       ['netTuition', 'num', 0, 'wa'],
@@ -68,7 +73,7 @@ const displayReportComponent = () => {
       ['salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries', 'num', 0, 'wa'],
       ['salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits', 'num', 0, 'wa'],
       ['salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits', 'num', 0, 'wa'],
-      ['benefitsPercentSalariesTeachers', 'num', 2, 'wa'],
+      // ['benefitsPercentSalariesTeachers', 'num', 2, 'wa'],
       ['personnelMandatoryDebtService_SalariesAndBenefits_Teachers', 'num', 1, 'wa'],
       ['personnelMandatoryDebtService_SalariesAndBenefits_Administration', 'num', 1, 'wa'],
       ['personnelMandatoryDebtService_SalariesAndBenefits_Employees', 'num', 1, 'wa'],
@@ -80,11 +85,11 @@ const displayReportComponent = () => {
       ['fundsExpensesPerStudent_netTuition', 'num', 0, 'wa'],
       ['fundsExpensesPerStudent_cashExpensesExcessNetTuition', 'num', 0, 'wa'],
       ['fundsExpensesPerStudent_FundsRaisedOverUnder', 'num', 0, 'wa'],
-      ['facilityCostExcluding_lessThanTen', 'num', 2],
-      ['facilityCostExcluding_greaterThanTen', 'num', 2],
-      ['facilityCostIncluding_lessThanTen', 'num', 2],
-      ['facilityCostIncluding_greaterThanTen', 'num', 2],
-      ['informationTechnologyCosts', 'num', 2],
+      // ['facilityCostExcluding_lessThanTen', 'num', 2],
+      // ['facilityCostExcluding_greaterThanTen', 'num', 2],
+      // ['facilityCostIncluding_lessThanTen', 'num', 2],
+      // ['facilityCostIncluding_greaterThanTen', 'num', 2],
+      // ['informationTechnologyCosts', 'num', 2],
     ])
   }
 

@@ -620,6 +620,67 @@
                 </div>
               </div>
             </div>
+
+            <!-- daysCashOnHand -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Days Cash on Hand
+                  </span>
+                </div>
+                <div
+                  id="daysCashOnHand_percentageChange"
+                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
+                >
+                  0%
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div id="daysCashOnHand_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="daysCashOnHand_modal"
+                    data-modal-toggle="daysCashOnHand_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- NET ASSET TAB -->
@@ -748,6 +809,189 @@
                 </div>
               </div>
             </div>
+
+            <!-- debtPerStudent -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Debt Per Student
+                  </span>
+                </div>
+                <div
+                  id="debtPerStudent_percentageChange"
+                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
+                >
+                  0%
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div id="debtPerStudent_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="debtPerStudent_modal"
+                    data-modal-toggle="debtPerStudent_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- debtCoverage -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Debt Coverage
+                  </span>
+                </div>
+                <div
+                  id="debtCoverage_percentageChange"
+                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
+                >
+                  0%
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div id="debtCoverage_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="debtCoverage_modal"
+                    data-modal-toggle="debtCoverage_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- debtToNetAssets -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Debt to Net Assets
+                  </span>
+                </div>
+                <div
+                  id="debtToNetAssets_percentageChange"
+                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
+                >
+                  0%
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div id="debtToNetAssets_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="debtToNetAssets_modal"
+                    data-modal-toggle="debtToNetAssets_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- INCOME TAB -->
@@ -852,6 +1096,67 @@
                   <button
                     data-modal-target="grossTuition_modal"
                     data-modal-toggle="grossTuition_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!--financialAssistanceAsPercentTuitionAndFees-->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Financial Assistance as % of Tuition and Fees
+                  </span>
+                </div>
+                <div
+                  id="financialAssistanceAsPercentTuitionAndFees_percentageChange"
+                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
+                >
+                  0%
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div id="financialAssistanceAsPercentTuitionAndFees_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="financialAssistanceAsPercentTuitionAndFees_modal"
+                    data-modal-toggle="financialAssistanceAsPercentTuitionAndFees_modal"
                     class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
                   >
                     Expand Info
@@ -1087,6 +1392,17 @@
                             </th>
                           </tr>
                           <tr
+                            id="row_daysCashOnHand"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              5. Days Cash on Hand
+                            </th>
+                          </tr>
+                          <tr
                             id="row_cashAvailableDeferred"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
@@ -1094,7 +1410,7 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              5. Cash Available to Deferred Revenues
+                              6. Cash Available to Deferred Revenues
                             </th>
                           </tr>
                           <tr
@@ -1105,7 +1421,7 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              6. Liquidity Ratio
+                              7. Liquidity Ratio
                             </th>
                           </tr>
                           <tr
@@ -1116,7 +1432,7 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              7. Net Cash Provided (used) by Operating
+                              8. Net Cash Provided (used) by Operating
                               Activities
                             </th>
                           </tr>
@@ -1139,18 +1455,7 @@
                               scope="row"
                               class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              b. Depreciation Expenses on 3 - 7 Year Assets
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_netCashUsedOperating_overUnderBench"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              c. Over (Under) Benchmark
+                              b. Total Depreciation
                             </th>
                           </tr>
                         </tbody>
@@ -1196,7 +1501,7 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              8. Property and equipment per student excluding
+                              9. Property and equipment per student excluding
                               land
                             </th>
                           </tr>
@@ -1208,7 +1513,7 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              9. Net Tuition A/R as a % of Current Assets
+                              10. Net Tuition A/R as a % of Current Assets
                             </th>
                           </tr>
                           <tr
@@ -1219,7 +1524,7 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              10. Receivable write offs as a % of Net Tuition
+                              11. Receivable write offs as a % of Net Tuition
                               and Fees
                             </th>
                           </tr>
@@ -1281,6 +1586,17 @@
                             </th>
                           </tr>
                           <tr
+                            id="row_debtToNetAssets"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              12. Debt to Net Assets
+                            </th>
+                          </tr>
+                          <tr
                             id="row_currentRatio"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
@@ -1288,7 +1604,7 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              12. Current Ratio
+                              13. Current Ratio
                             </th>
                           </tr>
                           <tr
@@ -1299,11 +1615,11 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              13. Current Liabilities to Available Net Assets
+                              14. Current Liabilities to Available Net Assets
                             </th>
                           </tr>
                           <tr
-                            id="row_debtPerStudents"
+                            id="row_debtPerStudent"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
@@ -1461,29 +1777,7 @@
                               a2. % Change
                             </th>
                           </tr>
-                          <tr
-                            id="row_financialAssistanceDiscountBased"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              b1. Financial Assistance Discount Based
-                            </th>
-                          </tr>
-                          <tr
-                            id="row_financialAssistanceDiscountBased_Percent"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              b2. % Change
-                            </th>
-                          </tr>
-                          <tr
+                          <!-- <tr
                             id="row_scholarshipAwarded"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
@@ -1504,7 +1798,7 @@
                             >
                               c2. % Change
                             </th>
-                          </tr>
+                          </tr> -->
                           <tr
                             id="row_totalFinancialAssistance"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -1805,14 +2099,14 @@
                             </th>
                           </tr>
                           <tr
-                            id="row_fundsExpensesPerStudent_FundsRaised"
+                            id="row_fundsExpensesPerStudent_netTuition"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
                               scope="row"
                               class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              a. Funds raised
+                              a. Net tuition (#20-E1)
                             </th>
                           </tr>
                           <tr
@@ -1827,17 +2121,6 @@
                             </th>
                           </tr>
                           <tr
-                            id="row_fundsExpensesPerStudent_netTuition"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <th
-                              scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              c. Net tuition (#20-E1)
-                            </th>
-                          </tr>
-                          <tr
                             id="row_fundsExpensesPerStudent_cashExpensesExcessNetTuition"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
@@ -1845,10 +2128,22 @@
                               scope="row"
                               class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              d. Cash expenses (in excess of) or less than net
+                              c. Cash expenses (in excess of) or less than net
                               tuition
                             </th>
                           </tr>
+                          <tr
+                            id="row_fundsExpensesPerStudent_FundsRaised"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              d. Funds raised
+                            </th>
+                          </tr>
+
                           <tr
                             id="row_fundsExpensesPerStudent_FundsRaisedOverUnder"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -1862,7 +2157,7 @@
                             </th>
                           </tr>
 
-                          <tr
+                          <!-- <tr
                             id="row_facilityCostExcluding"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
@@ -1930,9 +2225,9 @@
                             >
                               Average age of facility > 10 years
                             </th>
-                          </tr>
+                          </tr> -->
 
-                          <tr
+                          <!-- <tr
                             id="row_informationTechnologyCosts"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
@@ -1942,7 +2237,7 @@
                             >
                               32. Information Technology Costs
                             </th>
-                          </tr>
+                          </tr> -->
                         </tbody>
                       </table>
                     </div>
@@ -2897,6 +3192,194 @@
       </div>
     </div>
 
+    <div
+      id="daysCashOnHand_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="daysCashOnHand_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Days Cash On Hand
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="daysCashOnHand_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="daysCashOnHand-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#daysCashOnHand-body-1"
+                aria-expanded="true"
+                aria-controls="daysCashOnHand-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="daysCashOnHand-body-1"
+              class="hidden"
+              aria-labelledby="daysCashOnHand-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="daysCashOnHand_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="daysCashOnHand-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#daysCashOnHand-body-2"
+                aria-expanded="false"
+                aria-controls="daysCashOnHand-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="daysCashOnHand-body-2"
+              class="hidden"
+              aria-labelledby="daysCashOnHand-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Similique delectus nisi commodi. Quidem quam eum quas
+                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                  incidunt, porro pariatur libero doloremque iste.
+                </p>
+              </div>
+            </div>
+            <h2 id="daysCashOnHand-heading-3">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#daysCashOnHand-body-3"
+                aria-expanded="false"
+                aria-controls="daysCashOnHand-body-3"
+              >
+                <span>Benchmark</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="daysCashOnHand-body-3"
+              class="hidden"
+              aria-labelledby="daysCashOnHand-heading-3"
+            >
+              <div
+                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Ratione optio id ex odio recusandae maiores repellendus eum
+                  numquam laborum eos illo rem, pariatur cum temporibus
+                  praesentium natus veritatis blanditiis. Magnam.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!--ASSET MODALS-->
     <div
       id="netTuitionARasPercentCurrentAssets_modal"
@@ -3260,6 +3743,570 @@
               id="currentRatio-body-3"
               class="hidden"
               aria-labelledby="currentRatio-heading-3"
+            >
+              <div
+                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Ratione optio id ex odio recusandae maiores repellendus eum
+                  numquam laborum eos illo rem, pariatur cum temporibus
+                  praesentium natus veritatis blanditiis. Magnam.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="debtPerStudent_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="debtPerStudent_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Debt Per Student
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="debtPerStudent_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="debtPerStudent-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#debtPerStudent-body-1"
+                aria-expanded="true"
+                aria-controls="debtPerStudent-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="debtPerStudent-body-1"
+              class="hidden"
+              aria-labelledby="debtPerStudent-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="debtPerStudent_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="debtPerStudent-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#debtPerStudent-body-2"
+                aria-expanded="false"
+                aria-controls="debtPerStudent-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="debtPerStudent-body-2"
+              class="hidden"
+              aria-labelledby="debtPerStudent-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Similique delectus nisi commodi. Quidem quam eum quas
+                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                  incidunt, porro pariatur libero doloremque iste.
+                </p>
+              </div>
+            </div>
+            <h2 id="debtPerStudent-heading-3">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#debtPerStudent-body-3"
+                aria-expanded="false"
+                aria-controls="debtPerStudent-body-3"
+              >
+                <span>Benchmark</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="debtPerStudent-body-3"
+              class="hidden"
+              aria-labelledby="debtPerStudent-heading-3"
+            >
+              <div
+                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Ratione optio id ex odio recusandae maiores repellendus eum
+                  numquam laborum eos illo rem, pariatur cum temporibus
+                  praesentium natus veritatis blanditiis. Magnam.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="debtCoverage_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="debtCoverage_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Debt Coverage
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="debtCoverage_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="debtCoverage-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#debtCoverage-body-1"
+                aria-expanded="true"
+                aria-controls="debtCoverage-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="debtCoverage-body-1"
+              class="hidden"
+              aria-labelledby="debtCoverage-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="debtCoverage_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="debtCoverage-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#debtCoverage-body-2"
+                aria-expanded="false"
+                aria-controls="debtCoverage-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="debtCoverage-body-2"
+              class="hidden"
+              aria-labelledby="debtCoverage-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Similique delectus nisi commodi. Quidem quam eum quas
+                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                  incidunt, porro pariatur libero doloremque iste.
+                </p>
+              </div>
+            </div>
+            <h2 id="debtCoverage-heading-3">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#debtCoverage-body-3"
+                aria-expanded="false"
+                aria-controls="debtCoverage-body-3"
+              >
+                <span>Benchmark</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="debtCoverage-body-3"
+              class="hidden"
+              aria-labelledby="debtCoverage-heading-3"
+            >
+              <div
+                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Ratione optio id ex odio recusandae maiores repellendus eum
+                  numquam laborum eos illo rem, pariatur cum temporibus
+                  praesentium natus veritatis blanditiis. Magnam.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="debtToNetAssets_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="debtToNetAssets_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Debt to Net Assets (new ratio you just added)
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="debtToNetAssets_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="debtToNetAssets-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#debtToNetAssets-body-1"
+                aria-expanded="true"
+                aria-controls="debtToNetAssets-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="debtToNetAssets-body-1"
+              class="hidden"
+              aria-labelledby="debtToNetAssets-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="debtToNetAssets_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="debtToNetAssets-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#debtToNetAssets-body-2"
+                aria-expanded="false"
+                aria-controls="debtToNetAssets-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="debtToNetAssets-body-2"
+              class="hidden"
+              aria-labelledby="debtToNetAssets-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Similique delectus nisi commodi. Quidem quam eum quas
+                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                  incidunt, porro pariatur libero doloremque iste.
+                </p>
+              </div>
+            </div>
+            <h2 id="debtToNetAssets-heading-3">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#debtToNetAssets-body-3"
+                aria-expanded="false"
+                aria-controls="debtToNetAssets-body-3"
+              >
+                <span>Benchmark</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="debtToNetAssets-body-3"
+              class="hidden"
+              aria-labelledby="debtToNetAssets-heading-3"
             >
               <div
                 class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
@@ -3654,6 +4701,194 @@
       </div>
     </div>
 
+    <div
+    id="financialAssistanceAsPercentTuitionAndFees_modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  >
+    <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+        <div
+          id="financialAssistanceAsPercentTuitionAndFees_modal"
+          data-accordion="collapse"
+          data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+        >
+          <div
+            class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+          >
+            <h1 class="text-white font-bold text-center self-center">
+              Financial Assistance as Percent of Tuition and Fees
+            </h1>
+            <button
+              type="button"
+              class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto dinline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-hide="financialAssistanceAsPercentTuitionAndFees_modal"
+            >
+              <svg
+                class="w-3 h-3 font-bold"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                ></path>
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+          </div>
+          <h2 id="financialAssistanceAsPercentTuitionAndFees-heading-1">
+            <button
+              type="button"
+              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+              data-accordion-target="#financialAssistanceAsPercentTuitionAndFees-body-1"
+              aria-expanded="true"
+              aria-controls="financialAssistanceAsPercentTuitionAndFees-body-1"
+            >
+              <span>Support Data</span>
+              <svg
+                data-accordion-icon
+                class="w-3 h-3 rotate-180 shrink-0"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5 5 1 1 5"
+                />
+              </svg>
+            </button>
+          </h2>
+          <div
+            id="financialAssistanceAsPercentTuitionAndFees-body-1"
+            class="hidden"
+            aria-labelledby="financialAssistanceAsPercentTuitionAndFees-heading-1"
+          >
+            <div
+              class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+            >
+              <div class="flex flex-col">
+                <div class="overflow-x-auto">
+                  <div class="inline-block min-w-full align-middle">
+                    <div class="relative overflow-x-auto shadow-md">
+                      <table
+                        class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                      >
+                        <thead
+                          class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                        >
+                          <tr id="financialAssistanceAsPercentTuitionAndFees_modal_row"></tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h2 id="financialAssistanceAsPercentTuitionAndFees-heading-2">
+            <button
+              type="button"
+              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+              data-accordion-target="#financialAssistanceAsPercentTuitionAndFees-body-2"
+              aria-expanded="false"
+              aria-controls="financialAssistanceAsPercentTuitionAndFees-body-2"
+            >
+              <span>What does this mean?</span>
+              <svg
+                data-accordion-icon
+                class="w-3 h-3 rotate-180 shrink-0"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5 5 1 1 5"
+                />
+              </svg>
+            </button>
+          </h2>
+          <div
+            id="financialAssistanceAsPercentTuitionAndFees-body-2"
+            class="hidden"
+            aria-labelledby="financialAssistanceAsPercentTuitionAndFees-heading-2"
+          >
+            <div
+              class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+            >
+              <p class="mb-2 text-gray-500 dark:text-gray-400">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Similique delectus nisi commodi. Quidem quam eum quas
+                assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                incidunt, porro pariatur libero doloremque iste.
+              </p>
+            </div>
+          </div>
+          <h2 id="financialAssistanceAsPercentTuitionAndFees-heading-3">
+            <button
+              type="button"
+              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+              data-accordion-target="#financialAssistanceAsPercentTuitionAndFees-body-3"
+              aria-expanded="false"
+              aria-controls="financialAssistanceAsPercentTuitionAndFees-body-3"
+            >
+              <span>Benchmark</span>
+              <svg
+                data-accordion-icon
+                class="w-3 h-3 rotate-180 shrink-0"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5 5 1 1 5"
+                />
+              </svg>
+            </button>
+          </h2>
+          <div
+            id="financialAssistanceAsPercentTuitionAndFees-body-3"
+            class="hidden"
+            aria-labelledby="financialAssistanceAsPercentTuitionAndFees-heading-3"
+          >
+            <div
+              class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+            >
+              <p class="mb-2 text-gray-500 dark:text-gray-400">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Ratione optio id ex odio recusandae maiores repellendus eum
+                numquam laborum eos illo rem, pariatur cum temporibus
+                praesentium natus veritatis blanditiis. Magnam.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
     <!--EXPENSE MODALS -->
     <div
       id="salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_modal"
@@ -3856,7 +5091,7 @@
     <script src="./components/_api.js"></script>
     <script src="./components/comp_Nav.js"></script>
     <script src="./components/comp_chartDisplay.js"></script>
-    <script src="./components/comp_Report.js"></script>
+    <script src="./components/Report.js"></script>
     <script src="./components/_uiManagement.js"></script>
     <script src="./components/charts.js"></script>
   </body>

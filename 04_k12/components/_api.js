@@ -2049,6 +2049,38 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "debtToPropertyAndEquipment"
       );
 
+      // debtToNetAssets [03-11 Total Debt] / [03-12 Total Unrestricted Net Assets]
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "debtToNetAssets_Peer",
+        record,
+        "_11_1_ratio_debt_to_net_assets",
+        "_11_1__yes_no_ratio_debt_to_net_assets"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalDebt",
+        record,
+        "_03_11_total_debt",
+        "_11_1__yes_no_ratio_debt_to_net_assets",
+        "debtToNetAssets"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalUnrestrictedNetAssets",
+        record,
+        "_03_12_total_unrestricted_net_assets",
+        "_11_1__yes_no_ratio_debt_to_net_assets",
+        "debtToNetAssets"
+      );
+
+
       // currentRatio
       insertDataIntoObject(
         "peer",
@@ -2141,12 +2173,12 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "currentLiabilitiesToAvailableNetAssets"
       );
 
-      // debtPerStudents
+      // debtPerStudent
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "debtPerStudents_Peer",
+        "debtPerStudent_Peer",
         record,
         "_14_ratio_debt_per_students",
         "_14_yes_no_debt_per_students"
@@ -2159,7 +2191,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         record,
         "_03_11_total_debt",
         "_14_yes_no_debt_per_students",
-        "debtPerStudents"
+        "debtPerStudent"
       );
       insertDataIntoObject(
         "peer",
@@ -2169,7 +2201,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         record,
         "_01_01_students_average_enrollment",
         "_14_yes_no_debt_per_students",
-        "debtPerStudents"
+        "debtPerStudent"
       );
 
       // debtCoverage
@@ -2182,7 +2214,6 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "_15_ratio_debt_coverage",
         "_15_yes_no_debt_coverage"
       );
-      // changeInUnrestrictedNetAssets
       insertDataIntoObject(
         "peer",
         year,
@@ -2282,6 +2313,16 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "_11_ratio_debt_to_property_and_equipment"
       );
 
+      // debtToNetAssets
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "debtToNetAssets_Client",
+        record,
+        "_11_1_ratio_debt_to_net_assets"
+      );
+
       // currentRatio
       insertDataIntoObject(
         "client",
@@ -2304,12 +2345,12 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "_13_bench_rating_current_liabilities_to_available_net_assets"
       );
 
-      // debtPerStudents
+      // debtPerStudent
       insertDataIntoObject(
         "client",
         year,
         object,
-        "debtPerStudents_Client",
+        "debtPerStudent_Client",
         record,
         "_14_ratio_debt_per_students"
       );
@@ -2575,7 +2616,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalExpense",
+        "totalExpenses",
         record,
         "_04_08_total_expenses",
         "_03_yes_no_expendable_reserves___in_days",
@@ -2636,12 +2677,44 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalExpense",
+        "totalExpenses",
         record,
         "_04_08_total_expenses",
         "_04_yes_no_expendable_reserves______of_total_cash_expenses",
         "expendableReserves_Percent"
       );
+
+      // daysCashOnHand [03-02 Total Cash]/([04-08 Total Expenses]/365)
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "daysCashOnHand_Peer",
+        record,
+        "_05_1_ratio_days_cash_on_hand",
+        "_05_1_yes_no_ratio_days_cash_on_hand"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalCash",
+        record,
+        "_03_02_total_cash",
+        "_05_1_yes_no_ratio_days_cash_on_hand",
+        "daysCashOnHand"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpenses",
+        record,
+        "_04_08_total_expenses",
+        "_05_1_yes_no_ratio_days_cash_on_hand",
+        "daysCashOnHand"
+      );
+
 
       // cashAvailableDeferred
       insertDataIntoObject(
@@ -2815,6 +2888,15 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         "_04_ratio_expendable_reserves______of_total_cash_expenses",
         "_04_benchmark_rating_expendable_reserves______of_total_cash_expenses"
+      );
+      // daysCashOnHand
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "daysCashOnHand_Client",
+        record,
+        "_05_1_ratio_days_cash_on_hand"
       );
       // cashAvailableDeferred
       insertDataIntoObject(

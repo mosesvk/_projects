@@ -1,153 +1,196 @@
 const displayEnrollmentComponent = () => {
   // console.log('displayEnrollmentComponent()');
 
-  const savedData = getStoredData('enrollmentData');
+  const savedData = getStoredData("enrollmentData");
   const parseData = parseStoredData(savedData);
 
   // studentAverageEnrollment
   createChartFromParsedData(
     parseData,
-    'studentAverageEnrollment_chart',
-    'studentAverageEnrollment_Peer',
-    'studentAverageEnrollment_Client',
-    'number',
+    "studentAverageEnrollment_chart",
+    "studentAverageEnrollment_Peer",
+    "studentAverageEnrollment_Client",
+    "number",
     0,
-    'studentAverageEnrollment'
+    "studentAverageEnrollment"
   );
   // studentFacilityRatio
   createChartFromParsedData(
     parseData,
-    'studentFacilityRatio_chart',
-    'studentFacilityRatio_Peer',
-    'studentFacilityRatio_Client',
-    'number',
+    "studentFacilityRatio_chart",
+    "studentFacilityRatio_Peer",
+    "studentFacilityRatio_Client",
+    "number",
     1,
-    'studentFacilityRatio'
+    "studentFacilityRatio"
   );
 
-  closeSidebarAfterSelectingOption('enrollment');
+  closeSidebarAfterSelectingOption("enrollment");
 };
 
 const displayCashComponent = () => {
-  const savedData = getStoredData('cashData');
+  const savedData = getStoredData("cashData");
   const parseData = parseStoredData(savedData);
 
   // expendableReserves_inDays
   createChartFromParsedData(
     parseData,
-    'expendableReserves_inDays_chart',
-    'expendableReserves_inDays_Peer',
-    'expendableReserves_inDays_Client',
-    'number',
+    "expendableReserves_inDays_chart",
+    "expendableReserves_inDays_Peer",
+    "expendableReserves_inDays_Client",
+    "number",
     0,
-    'expendableReserves_inDays'
+    "expendableReserves_inDays"
   );
 
   // expendableReserves_Percent
   createChartFromParsedData(
     parseData,
-    'expendableReserves_Percent_chart',
-    'expendableReserves_Percent_Peer',
-    'expendableReserves_Percent_Client',
-    'percent',
+    "expendableReserves_Percent_chart",
+    "expendableReserves_Percent_Peer",
+    "expendableReserves_Percent_Client",
+    "percent",
     0,
-    'expendableReserves_Percent'
+    "expendableReserves_Percent"
   );
 
   // liquidityRatio
   createChartFromParsedData(
     parseData,
-    'liquidityRatio_chart',
-    'liquidityRatio_Peer',
-    'liquidityRatio_Client',
-    'number',
+    "liquidityRatio_chart",
+    "liquidityRatio_Peer",
+    "liquidityRatio_Client",
+    "number",
     1,
-    'liquidityRatio'
+    "liquidityRatio"
   );
 
-  closeSidebarAfterSelectingOption('cash');
+  // daysCashOnHand
+  createChartFromParsedData(
+    parseData,
+    "daysCashOnHand_chart",
+    "daysCashOnHand_Peer",
+    "daysCashOnHand_Client",
+    "number",
+    0,
+    "daysCashOnHand"
+  );
+
+  closeSidebarAfterSelectingOption("cash");
 };
 
 const displayAssetComponent = () => {
-  const savedData = getStoredData('assetData');
+  const savedData = getStoredData("assetData");
   const parseData = parseStoredData(savedData);
 
   // netTuitionARasPercentCurrentAssets
   createChartFromParsedData(
     parseData,
-    'netTuitionARasPercentCurrentAssets_chart',
-    'netTuitionARasPercentCurrentAssets_Peer',
-    'netTuitionARasPercentCurrentAssets_Client',
-    'number',
+    "netTuitionARasPercentCurrentAssets_chart",
+    "netTuitionARasPercentCurrentAssets_Peer",
+    "netTuitionARasPercentCurrentAssets_Client",
+    "number",
     1,
-    'netTuitionARasPercentCurrentAssets'
+    "netTuitionARasPercentCurrentAssets"
   );
 
-  closeSidebarAfterSelectingOption('asset');
+  closeSidebarAfterSelectingOption("asset");
 };
 
 const displayDebtComponent = () => {
-  const savedData = getStoredData('debtData');
+  const savedData = getStoredData("debtData");
   const parseData = parseStoredData(savedData);
 
   // currentRatio
   createChartFromParsedData(
     parseData,
-    'currentRatio_chart',
-    'currentRatio_Peer',
-    'currentRatio_Client',
-    'number',
+    "currentRatio_chart",
+    "currentRatio_Peer",
+    "currentRatio_Client",
+    "number",
     1,
-    'currentRatio'
+    "currentRatio"
   );
 
-  closeSidebarAfterSelectingOption('debt');
+  // debtPerStudent
+  createChartFromParsedData(
+    parseData,
+    "debtPerStudent_chart",
+    "debtPerStudent_Peer",
+    "debtPerStudent_Client",
+    "number",
+    1,
+    "debtPerStudent"
+  );
+
+  // debtCoverage
+  createChartFromParsedData(
+    parseData,
+    "debtCoverage_chart",
+    "debtCoverage_Peer",
+    "debtCoverage_Client",
+    "number",
+    1,
+    "debtCoverage"
+  );
+
+  // debtToNetAssets
+  createChartFromParsedData(
+    parseData,
+    "debtToNetAssets_chart",
+    "debtToNetAssets_Peer",
+    "debtToNetAssets_Client",
+    "number",
+    1,
+    "debtToNetAssets"
+  );
+
+  closeSidebarAfterSelectingOption("debt");
 };
 
 const displayIncomeComponent = () => {
-  const savedData = getStoredData('incomeData');
+  const savedData = getStoredData("incomeData");
   const parseData = parseStoredData(savedData);
 
   // netIncomeRatio
   createChartFromParsedData(
     parseData,
-    'netIncomeRatio_chart',
-    'netIncomeRatio_Peer',
-    'netIncomeRatio_Client',
-    'number',
+    "netIncomeRatio_chart",
+    "netIncomeRatio_Peer",
+    "netIncomeRatio_Client",
+    "number",
     1,
-    'netIncomeRatio'
+    "netIncomeRatio"
   );
 
   // grossTuition
   createChartFromParsedData(
     parseData,
-    'grossTuition_chart',
-    'grossTuition_Peer',
-    'grossTuition_Client',
-    'number',
+    "grossTuition_chart",
+    "grossTuition_Peer",
+    "grossTuition_Client",
+    "number",
     1,
-    'grossTuition'
+    "grossTuition"
   );
 
-  closeSidebarAfterSelectingOption('income');
+  closeSidebarAfterSelectingOption("income");
 };
 
 const displayExpenseComponent = () => {
-  const savedData = getStoredData('expenseData');
+  const savedData = getStoredData("expenseData");
   const parseData = parseStoredData(savedData);
-
 
   // salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits
   createChartFromParsedData(
     parseData,
-    'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_chart',
-    'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Peer',
-    'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Client',
-    'number',
+    "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_chart",
+    "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Peer",
+    "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Client",
+    "number",
     1,
-    'salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits'
+    "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits"
   );
 
-  closeSidebarAfterSelectingOption('expense');
+  closeSidebarAfterSelectingOption("expense");
 };
