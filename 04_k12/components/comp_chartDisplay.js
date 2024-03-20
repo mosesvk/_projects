@@ -174,6 +174,18 @@ const displayIncomeComponent = () => {
     "grossTuition"
   );
 
+
+  // financialAssistanceAsPercentTuitionAndFees
+  createChartFromParsedData(
+    parseData,
+    "financialAssistanceAsPercentTuitionAndFees_chart",
+    "financialAssistanceAsPercentTuitionAndFees_Peer",
+    "financialAssistanceAsPercentTuitionAndFees_Client",
+    "number", 
+    1,
+    "financialAssistanceAsPercentTuitionAndFees"
+  );
+
   closeSidebarAfterSelectingOption("income");
 };
 

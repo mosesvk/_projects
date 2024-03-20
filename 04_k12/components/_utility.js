@@ -20,8 +20,8 @@ const regions_Array = [
 ];
 
 const schoolChurch_Array = [
-  { arr: ["School"], str: "School" },
-  { arr: ["Church"], str: "School with Church" },
+  { arr: ["School"], str: 0},
+  { arr: ["Church"], str: 1},
 ];
 
 const sites_Array = [
@@ -38,7 +38,7 @@ let sliderValue2 = 25000;
 
 const selectedRegions_Array = [];
 const selectedSites_Array = [];
-const selectedSchoolChurch_Array = [];
+let selectedSchoolChurch_Selected;
 
 // Utility Functions
 
@@ -792,4 +792,14 @@ const editElementChildren = (element, variable, elementId) => {
   element.classList.add("hover:opacity-100");
   element.classList.add("transition");
   element.classList.add("ease-in-out");
+};
+
+const getSelectedSchoolChurchOption = () => {
+  const options = document.querySelectorAll('input[name="schoolChurch"]');
+  options.forEach((option, index) => {
+    if (option.checked) {
+      selectedSchoolChurch_Selected = index.toString();
+      return;
+    }
+  });
 };

@@ -186,7 +186,7 @@ document.addEventListener("click", (event) => {
 const addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown = (SchoolChurchArray) => {
   const optionsListSchoolChurch = document.getElementById("options-list-schoolChurch");
 
-  SchoolChurchArray.forEach((regionObject) => {
+  SchoolChurchArray.forEach((regionObject, index) => {
     const regionName = regionObject.arr[0];
     const SchoolChurchString = regionObject.str;
 
@@ -198,17 +198,19 @@ const addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown = (SchoolChurchAr
     );
 
     const newInput = document.createElement("input");
-    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("type", "radio");
+    newInput.setAttribute("name", "schoolChurch"); // Set the same name for all radio inputs
     newInput.setAttribute("id", `option-${SchoolChurchString}`);
     newInput.setAttribute(
       "class",
-      "form-checkbox h-4 w-4 text-gray-600 mr-2 rounded"
+      "form-radio h-4 w-4 text-gray-600 mr-2 rounded"
     );
     newInput.setAttribute("value", SchoolChurchString);
 
-    // Add the value to selectedSchoolChurch_Array and check the input by default
-    selectedSchoolChurch_Array.push(SchoolChurchString);
-    newInput.checked = true;
+    // Check the first radio button by default
+    if (index === 0) {
+      newInput.checked = true;
+    }
 
     // Add an onChange event to the input element
     newInput.addEventListener("change", function () {
@@ -233,6 +235,7 @@ const addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown = (SchoolChurchAr
     optionsListSchoolChurch.appendChild(newLabel);
   });
 };
+
 
 const addUniqueSchoolChurchToOptionsSelectRegion = (SchoolChurchArray) => {
   const optionsListSchoolChurch = document.getElementById("options-list-schoolChurch");
