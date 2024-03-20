@@ -290,7 +290,7 @@ const addPeerDataToRow = (
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement("th");
   const min = peer ? get25thPercentileOfArray(peer[dataArray]) : '';
-if (name == 'studentAverageEnrollment') console.log('totalOutsourcedEmployees', {min, peerArray: peer[dataArray]})
+// if (name == 'studentAverageEnrollment') console.log('totalOutsourcedEmployees', {min, peerArray: peer[dataArray]})
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
   const max = peer ? get75thPercentileOfArray(peer[dataArray]) : '';

@@ -439,7 +439,7 @@ const styleNumber = (num, type, fixed) => {
     }
 
     if (type === "percent" && text != 0) {
-      text = parseFloat(text * 100).toFixed(fixed) + "%";
+      text = parseFloat(text).toFixed(fixed) + "%";
     }
 
     if (type === "dollar" && text != 0) {

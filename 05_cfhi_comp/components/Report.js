@@ -365,7 +365,6 @@ const addPeerDataToRow = (
     avg = 0;
   }
   
-  
   const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
   const dataPointMid = document.createElement("th");
   const mid = peer ? getMidpointOfArray(peer[dataArray]) : '';
@@ -378,6 +377,7 @@ const addPeerDataToRow = (
   const dataPointMax = document.createElement("th");
   const max = peer ? getMaxOfArray(peer[dataArray]) : '';
   const textMax = styleNumber(max, type, fixedNum);
+
 
   dataPointAvg.className = propClass;
   dataPointAvg.scope = propScope;
