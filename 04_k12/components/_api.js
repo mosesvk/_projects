@@ -18,6 +18,7 @@ const fetchPeerData = async () => {
     .then((xmlString) => {
       // console.log(xmlString);
       const parser = new DOMParser();
+      // changes
       const xmlDoc = parser.parseFromString(xmlString, "text/xml");
       return xmlDoc.querySelectorAll("record");
     })
