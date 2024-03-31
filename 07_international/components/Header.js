@@ -40,7 +40,7 @@ document.getElementById(
             <img
               src="https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0"
               class="h-8 mr-3"
-              alt="Logo"
+              alt="Logo"1
             />
             <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
               INT
