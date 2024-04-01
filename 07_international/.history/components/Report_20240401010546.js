@@ -21,10 +21,11 @@ const displayReportComponent = () => {
         ['daysCashOnHand', 'num', 0],
         ['daysExpensesInUnrestrictedNA', 'num', 0],
         ['daysExpensesInNAwithDR', 'num', 0],
-        ['daysExpensesInNAwithDR_excludingPPE', 'num', 0],
+        ['daysExpensesInNAwithDR_excludingPPES', 'num', 0],
         ['liquidityFundsAvailable', 'num', 0],
         ['financialAssetsAvailableFY', 'num', 0],
-        ['daysFinancialAssetsOnHand', 'num', 0],
+        ['daysFinancialAssetsOnHandToFundAnnualExpenditures', 'num', 0],
+        ['daysFinancialAssetsOnHandToFundAnnualExpenditures_excludingPPES', 'num', 1],
         ['totalCoverageRatio', 'num', 1],
         ['cashFlowsTrendFinancing', 'num', 0],
         ['cashFlowsTrendInvesting', 'num', 0],
@@ -73,7 +74,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
     wa,
     cb
   ) => {
-    // console.log({ selectedYears, name, client, peer, type, fixedNum });
+    //console.log({ selectedYears, name, client, peer, type, fixedNum });
     const tableReportRow = document.getElementById(`row_${name}`);
     // console.log(`row_${name}`);
     // console.log("tableReportRow", tableReportRow);

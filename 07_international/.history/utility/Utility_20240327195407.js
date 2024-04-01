@@ -1,6 +1,5 @@
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
-
 const regions_Array = [
   { arr: ["New England (CT, RI, MA, VT, NH)"], str: "NE" },
   {
@@ -20,6 +19,11 @@ const regions_Array = [
   { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
 ];
 
+const schoolChurch_Array = [
+  { arr: ["School"], str: 0},
+  { arr: ["Church"], str: 1},
+];
+
 const sites_Array = [
   { arr: ["Single Site"], str: "SINGLE" },
   { arr: ["2 - 5 Sites"], str: "TWOSIX" },
@@ -34,6 +38,7 @@ let sliderValue2 = 25000;
 
 const selectedRegions_Array = [];
 const selectedSites_Array = [];
+let selectedSchoolChurch_Selected;
 
 // Utility Functions
 

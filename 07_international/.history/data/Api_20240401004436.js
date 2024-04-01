@@ -79,9 +79,7 @@ const insertDataIntoObject = (
   name
 ) => {
   // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
-
-
-  const innerData = child == 0 ? 0 :
+  const innerData =
     record.querySelector(child).innerHTML.split('').length > 0
       ? record.querySelector(child).innerHTML.trim()
       : 0;
@@ -151,6 +149,7 @@ const processGeneralData = (years, recordsPeer, recordsClient) => {
         'givingUnits_Peer',
         record,
         '0',
+        'yes'
       );
 
       // missionaryUnit
@@ -161,6 +160,7 @@ const processGeneralData = (years, recordsPeer, recordsClient) => {
         'missionaryUnit_Peer',
         record,
         '0',
+        'yes'
       );
 
       // numberOfEmployeesFTE
@@ -171,6 +171,7 @@ const processGeneralData = (years, recordsPeer, recordsClient) => {
         'numberOfEmployeesFTE_Peer',
         record,
         '0',
+        'yes'
       );
 
       // ItExpenses
@@ -486,12 +487,12 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'financialAssetsAvailableFY'
       );
 
-      // daysFinancialAssetsOnHand
+      // daysFinancialAssetsOnHandToFundAnnualExpenditures
       insertDataIntoObject(
         'peer',
         year,
         object,
-        'daysFinancialAssetsOnHand_Peer',
+        'daysFinancialAssetsOnHandToFundAnnualExpenditures_Peer',
         record,
         'c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures',
         'c02_07_yes_no_days_financial_assets_on_hand_to_fund_expenditures'
@@ -504,7 +505,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_05_01liquid___01_financial_assets_available_per_liquidity_fn',
         'c02_07_yes_no_days_financial_assets_on_hand_to_fund_expenditures',
-        'daysFinancialAssetsOnHand'
+        'daysFinancialAssetsOnHandToFundAnnualExpenditures'
       );
       insertDataIntoObject(
         'peer',
@@ -514,7 +515,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         '_02_03exp___05_total_expenses',
         'c02_07_yes_no_days_financial_assets_on_hand_to_fund_expenditures',
-        'daysFinancialAssetsOnHand'
+        'daysFinancialAssetsOnHandToFundAnnualExpenditures'
       );
 
       // currentRatio
@@ -637,6 +638,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'cashFlowsTrendFinancing_Peer',
         record,
         '0',
+        'yes'
       );
 
       // cashFlowsTrendInvesting
@@ -647,6 +649,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'cashFlowsTrendInvesting_Peer',
         record,
         '0',
+        'yes'
       );
 
       // cashFlowsTrendOperating
@@ -657,6 +660,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'cashFlowsTrendOperating_Peer',
         record,
         '0',
+        'yes'
       );
 
     });
@@ -729,12 +733,12 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures'
       );
 
-      // daysFinancialAssetsOnHand
+      // daysFinancialAssetsOnHandToFundAnnualExpenditures
       insertDataIntoObject(
         'client',
         year,
         object,
-        'daysFinancialAssetsOnHand_Client',
+        'daysFinancialAssetsOnHandToFundAnnualExpenditures_Client',
         record,
         'c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures'
       );
@@ -788,6 +792,15 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         'c02_10c_ratio_cash_flows_trend___operating'
       );
+
+
+
+
+
+
+
+      
+
     });
 
     localStorage.removeItem('cashData');
