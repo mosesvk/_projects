@@ -140,43 +140,6 @@ const processGeneralData = (years, recordsPeer, recordsClient) => {
       return fiscalYear.includes(year.toString());
     });
     filteredPeerRecords.forEach((record) => {
-
-      // givingUnits
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'givingUnits_Peer',
-        record,
-        '0',
-        'yes'
-      );
-
-      // missionaryUnit
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'missionaryUnit_Peer',
-        record,
-        '0',
-        'yes'
-      );
-
-      // numberOfEmployeesFTE
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'numberOfEmployeesFTE_Peer',
-        record,
-        '0',
-        'yes'
-      );
-
-
-
-
       // ItExpenses
       insertDataIntoObject(
         'peer',
@@ -632,40 +595,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'c02_09_yes_no_total_coverage_ratio',
         'totalCoverageRatio'
       );
-
-      // cashFlowsTrendFinancing
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'cashFlowsTrendFinancing_Peer',
-        record,
-        '0',
-        'yes'
-      );
-
-      // cashFlowsTrendInvesting
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'cashFlowsTrendInvesting_Peer',
-        record,
-        '0',
-        'yes'
-      );
-
-      // cashFlowsTrendOperating
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'cashFlowsTrendOperating_Peer',
-        record,
-        '0',
-        'yes'
-      );
-      
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
