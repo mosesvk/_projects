@@ -1,5 +1,5 @@
 const fetchClientData = async () => {
-  return fetch("./data/clientData.xml")
+  return fetch("./clientData.xml")
     .then((response) => response.text())
     .then((xmlString) => {
       const parser = new DOMParser();

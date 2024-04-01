@@ -1,4 +1,5 @@
-<qdbapi>
+<qdbapi xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="peerData.xsd">
     <record>
         <fiscal_ye_date_formatted_year_text>2020</fiscal_ye_date_formatted_year_text>
         <pe___client_informal_name>4.2.20 Foundation, Inc.</pe___client_informal_name>

@@ -16,7 +16,7 @@ const fetchPeerData = async () => {
   return fetch("./data/peerData.xml")
     .then((response) => response.text())
     .then((xmlString) => {
-      // console.log(xmlString);
+      console.log(xmlString);
       const parser = new DOMParser();
       // changes
       const xmlDoc = parser.parseFromString(xmlString, "text/xml");

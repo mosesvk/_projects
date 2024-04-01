@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="qdbapi">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="record" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="fiscal_ye_date_formatted_year_text" type="xs:string" />
+                            <xs:element name="pe___client_informal_name" type="xs:string" />
+                            <xs:element name="pe___client_legal_name" type="xs:string" />
+                            <xs:element name="client___pe___ccllp_office" type="xs:string" />
+                            <xs:element name="client___pe___ccllp_region" type="xs:string" />
+                            <xs:element name="client___pe___department" type="xs:string" />
+                            <xs:element name="client___pe___mailing_address__state_region"
+                                type="xs:string" />
+                            <xs:element name="c01_04_ratio_it_expenses" type="xs:string" />
+                            <xs:element name="c01_04_yes_no_it_expenses" type="xs:string" />
+                            <xs:element name="c02_01_ratio_days_cash_on_hand" type="xs:string" />
+                            <xs:element name="c02_01_yes_no_days_cash_on_hand" type="xs:string" />
+                            <xs:element name="main_query_region" type="xs:string" />
+                            <xs:element name="c02_02_ratio_days_expenses_in_unrestricted_na"
+                                type="xs:string" />
+                            <xs:element name="c02_02_yes_no_days_expenses_in_unrestricted_na"
+                                type="xs:string" />
+                            <xs:element name="c02_03_ratio_days_expenses_in_net_assets_with_dr"
+                                type="xs:string" />
+                            <xs:element name="c02_03_yes_no_days_expenses_in_net_assets_with_dr"
+                                type="xs:string" />
+                            <xs:element name="year" type="xs:string" />
+                            <xs:element name="c02_05_ratio_liquidity_funds_available"
+                                type="xs:string" />
+                            <xs:element name="c02_05_yes_no_liquidity_funds_available"
+                                type="xs:string" />
+                            <xs:element
+                                name="c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
+                                type="xs:string" />
+                            <xs:element
+                                name="c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
+                                type="xs:string" />
+                            <xs:element
+                                name="c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures"
+                                type="xs:string" />
+                            <xs:element
+                                name="c02_07_yes_no_days_financial_assets_on_hand_to_fund_expenditures"
+                                type="xs:string" />
+                            <xs:element name="c02_08_ratio_current_ratio" type="xs:string" />
+                            <xs:element name="c02_08_yes_no_current_ratio" type="xs:string" />
+                            <xs:element name="c02_09_ratio_total_coverage_ratio" type="xs:string" />
+                            <xs:element name="c02_09_yes_no_total_coverage_ratio" type="xs:string" />
+                            <xs:element name="update_id" type="xs:string" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

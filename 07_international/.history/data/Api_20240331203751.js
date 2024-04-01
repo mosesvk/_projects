@@ -7,7 +7,7 @@ const fetchClientData = async () => {
       return xmlDoc.querySelectorAll("record");
     })
     .catch((error) => {
-      console.error("Error fetching XML file (fetchClientData):", error);
+      console.error("Error fetching XML file:", error);
       return []; // Return an empty array in case of error
     });
 };
@@ -16,14 +16,14 @@ const fetchPeerData = async () => {
   return fetch("./data/peerData.xml")
     .then((response) => response.text())
     .then((xmlString) => {
-      // console.log(xmlString);
+    //   console.log(xmlString);
       const parser = new DOMParser();
       // changes
       const xmlDoc = parser.parseFromString(xmlString, "text/xml");
       return xmlDoc.querySelectorAll("record");
     })
     .catch((error) => {
-      console.error("Error fetching XML file (fetchPeerData):", error);
+      console.error("Error fetching XML file:", error);
       return []; // Return an empty array in case of error
     });
 };

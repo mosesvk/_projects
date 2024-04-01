@@ -153,7 +153,7 @@
                       class="flex-1 ml-3 text-left whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
-                      Enrollment
+                      General
                     </span>
                   </button>
                   <div
@@ -166,9 +166,9 @@
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
                     >
                       <h3
-                        class="font-semibold text-gray-900 text-lg dark:text-white"
+                        class="font-semibold text-gray-900 text-lg"
                       >
-                        Enrollment Comparison Between Years
+                        General Metrics
                       </h3>
                     </div>
                     <div
@@ -216,7 +216,7 @@
                       <h3
                         class="font-semibold text-gray-900 dark:text-white text-lg"
                       >
-                        Cash Flow and Reserve Ratios
+                        Cash Flow and Reserve Ratios and Measurements
                       </h3>
                     </div>
                     <div
@@ -228,6 +228,9 @@
                 <li>
                   <button
                     id="netAssetsLink"
+                    data-popover-target="popoverAssets-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
                     type="button"
                     class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
@@ -248,38 +251,36 @@
                       class="flex-1 ml-3 text-left whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
-                      Asset Ratio
+                      Net Assets
                     </span>
                   </button>
-                </li>
-                <li>
-                  <button
-                    id="debtLink"
-                    type="button"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                  <div
+                    data-popover
+                    id="popoverAssets-hover"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
                   >
-                    <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
+                    <div
+                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
                     >
-                      <path
-                        d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"
-                      ></path>
-                    </svg>
-                    <span
-                      class="flex-1 ml-3 text-left whitespace-nowrap"
-                      sidebar-toggle-item=""
-                    >
-                      Debt
-                    </span>
-                  </button>
+                      <h3
+                        class="font-semibold text-gray-900 dark:text-white text-lg"
+                      >
+                        Net Assets Measurements
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
                 </li>
                 <li>
                   <button
                     id="incomeLink"
+                    data-popover-target="popoverIncome-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
                     type="button"
                     class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
@@ -300,13 +301,36 @@
                       class="flex-1 ml-3 text-left whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
-                      Income/Giving Ratio
+                      Income
                     </span>
                   </button>
+                  <div
+                    data-popover
+                    id="popoverIncome-hover"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                    >
+                      <h3
+                        class="font-semibold text-gray-900 dark:text-white text-lg"
+                      >
+                        Income/Giving Ratios and Measurements
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
                 </li>
                 <li>
                   <button
                     id="expenseLink"
+                    data-popover-target="popoverExpense-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
                     type="button"
                     class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
@@ -328,6 +352,26 @@
                       Expense
                     </span>
                   </button>
+                  <div
+                    data-popover
+                    id="popoverExpense-hover"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                    >
+                      <h3
+                        class="font-semibold text-gray-900 dark:text-white text-lg"
+                      >
+                        Expense Ratios and Measurements
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
                 </li>
                 <li>
                   <button
@@ -380,7 +424,7 @@
 
           <!-- NET ASSET TAB -->
           <div id="netAssetsContent" class="tab-content hidden">
-            <h1>Net Asset</h1>
+            <h1>Net Assets</h1>
           </div>
 
           <!-- INCOME TAB -->
@@ -392,8 +436,6 @@
           <div id="expenseContent" class="tab-content hidden">
             <h1>Expense</h1>
           </div>
-
-          <!-- MISC TAB -->
 
           <!-- REPORT TAB -->
           <div id="reportsContent" class="tab-content hidden">
@@ -422,8 +464,8 @@
                             </th>
 
                             <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">Mid</th>
                             <th scope="col" class="px-6 py-3">25%</th>
+                            <th scope="col" class="px-6 py-3">Mid</th>
                             <th scope="col" class="px-6 py-3">75%</th>
                           </tr>
                         </thead>
@@ -501,8 +543,8 @@
                             </th>
 
                             <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">Mid</th>
                             <th scope="col" class="px-6 py-3">25%</th>
+                            <th scope="col" class="px-6 py-3">Mid</th>
                             <th scope="col" class="px-6 py-3">75%</th>
                           </tr>
                         </thead>
@@ -671,8 +713,8 @@
                             </th>
 
                             <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">Mid</th>
                             <th scope="col" class="px-6 py-3">25%</th>
+                            <th scope="col" class="px-6 py-3">Mid</th>
                             <th scope="col" class="px-6 py-3">75%</th>
                           </tr>
                         </thead>
@@ -740,8 +782,8 @@
                             </th>
 
                             <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">Mid</th>
                             <th scope="col" class="px-6 py-3">25%</th>
+                            <th scope="col" class="px-6 py-3">Mid</th>
                             <th scope="col" class="px-6 py-3">75%</th>
                           </tr>
                         </thead>
@@ -897,8 +939,8 @@
                             </th>
 
                             <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">Mid</th>
                             <th scope="col" class="px-6 py-3">25%</th>
+                            <th scope="col" class="px-6 py-3">Mid</th>
                             <th scope="col" class="px-6 py-3">75%</th>
                           </tr>
                         </thead>
@@ -1064,8 +1106,8 @@
                             </th>
 
                             <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">Mid</th>
                             <th scope="col" class="px-6 py-3">25%</th>
+                            <th scope="col" class="px-6 py-3">Mid</th>
                             <th scope="col" class="px-6 py-3">75%</th>
                           </tr>
                         </thead>
