@@ -3,8 +3,8 @@ const displayReportComponent = () => {
   const cashData = JSON.parse(localStorage.getItem("cashData"));
   const assetData = JSON.parse(localStorage.getItem("assetData"));
   const incomeData = JSON.parse(localStorage.getItem("incomeData"));
-  // const expenseData = JSON.parse(localStorage.getItem("expenseData"));
-  // const additionalData = JSON.parse(localStorage.getItem("additionalData"));
+  const expenseData = JSON.parse(localStorage.getItem("expenseData"));
+  const miscData = JSON.parse(localStorage.getItem("miscData"));
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -33,22 +33,40 @@ const displayReportComponent = () => {
     ]);
 
     insertDataToReport(assetData, selectedYears, [
-      ['percentWithDR', 'percent', 0],
-      ['percentWithoutDR_excludingPPE', 'percent', 0],
-      ['percentWithoutDR', 'percent', 0]
+      ['percentWithDR', 'percent', 0, 'wa'],
+      ['percentWithoutDR_excludingPPE', 'percent', 0, 'wa'],
+      ['percentWithoutDR', 'percent', 0, 'wa']
     ])
 
     insertDataToReport(incomeData, selectedYears, [
-      ['netIncomeRatio', 'percent', 0],
+      ['netIncomeRatio', 'percent', 0, 'wa'],
       ['contributionsTrend_basedOnNumberOfDonors', 'num', 0],
       ['contributionsTrend', 'num', 0],
-      ['contributionsPercentWithoutDR', 'percent', 0],
-      ['contributionsPercentWithDR', 'percent', 0],
-      ['contributionsPerGivingUnit', 'num', 0],
-      ['contributionsPerMissionaryUnit', 'num', 0],
-      ['contributionsPerFullTimeEquivalent', 'num', 0],
-      ['fundraisingAsPercentOfContributions', 'num', 0],
+      ['contributionsPercentWithoutDR', 'percent', 0, 'wa'],
+      ['contributionsPercentWithDR', 'percent', 0, 'wa'],
+      ['contributionsPerGivingUnit', 'num', 0, 'wa'],
+      ['contributionsPerMissionaryUnit', 'num', 0, 'wa'],
+      ['contributionsPerFullTimeEquivalent', 'num', 0, 'wa'],
+      ['fundraisingAsPercentOfContributions', 'num', 0, 'wa'],
       ['annualizedInvestmentReturn', 'num', 0],
+    ])
+
+    insertDataToReport(expenseData, selectedYears, [
+      ['functionalExpensePercent_program', 'percent', 0, 'wa'],
+      ['functionalExpensePercent_administrative', 'percent', 0, 'wa'],
+      ['functionalExpensePercent_fundraising', 'percent', 0, 'wa'],
+      ['functionalExpensePercent_other', 'percent', 0, 'wa'],
+      ['costOfContributions', 'dollar', 0, 'wa'],
+      ['expensesPerGivingUnit', 'dollar', 0, 'wa'],
+      ['expensesPerMissionaryUnit', 'dollar', 0, 'wa'],
+      ['expensesPerFullTimeEquivalent', 'dollar', 0, 'wa'],
+      ['salariesAndBenefitsAsPercentOfTotalExpenses', 'percent', 0, 'wa'],
+      ['salariesAndBenefitsPerFTE', 'dollar', 0, 'wa'],
+    ])
+
+    insertDataToReport(miscData, selectedYears, [
+      ['percentageAssessmentOnRestrictedGifts', 'percent', 0, 'wa'],
+      ['ageOfFacilities', 'num', 0, 'wa'],
     ])
 
     processTHElements();
@@ -93,10 +111,10 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
     wa,
     cb
   ) => {
-    // console.log({ selectedYears, name, client, peer, type, fixedNum });
+    console.log({ selectedYears, name, client, peer, type, fixedNum });
     const tableReportRow = document.getElementById(`row_${name}`);
-    // console.log(`row_${name}`);
-    // console.log("tableReportRow", tableReportRow);
+    console.log(`row_${name}`);
+    console.log("tableReportRow", tableReportRow);
   
     while (tableReportRow.children.length > 1) {
       tableReportRow.removeChild(tableReportRow.children[1]);
@@ -226,7 +244,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
     name,
     data
   ) => {
-    console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name });
+    // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name });
   
     const propClass =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";

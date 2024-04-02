@@ -866,7 +866,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         record,
         '_01__03na___01_net_assets_without_donor_restrictions',
         'c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe',
-        'percentWithoutDR'
+        'percentWithoutDR_excludingPPE'
       );
       insertDataIntoObject(
         'peer',
@@ -876,7 +876,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         record,
         '_01__01ass___09_property__plant_and_equipment',
         'c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe',
-        'percentWithoutDR'
+        'percentWithoutDR_excludingPPE'
       );
       insertDataIntoObject(
         'peer',
@@ -886,7 +886,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         record,
         '_01__02liab___02_notes_payable',
         'c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe',
-        'percentWithoutDR'
+        'percentWithoutDR_excludingPPE'
       );
       insertDataIntoObject(
         'peer',
@@ -896,7 +896,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         record,
         '_01__03na___04_total_net_assets',
         'c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe',
-        'percentWithoutDR'
+        'percentWithoutDR_excludingPPE'
       );
 
       // percentWithoutDR
@@ -1006,7 +1006,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'netAssetsWithoutDR',
+        'changeInNetAssetsWithoutDR',
         record,
         '_02_04change___01_change_in_net_assets_without_donor_restriction',
         'c04_01_yes_no_net_income_ratio',
@@ -1016,7 +1016,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'netAssetsWithDR',
+        'changeInNetAssetsWithDR',
         record,
         '_02_04change___02_change_in_net_assets_with_donor_restriction',
         'c04_01_yes_no_net_income_ratio',
@@ -1425,7 +1425,329 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
 
       return fiscalYear.includes(year.toString());
     });
-    filteredPeerRecords.forEach((record) => {});
+    filteredPeerRecords.forEach((record) => {
+      // functionalExpensePercent_program
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'functionalExpensePercent_program_Peer',
+        record,
+        'c05_01_ratio_functional_expense_percentage___program',
+        'c05_01_yes_no_functional_expense_percentage___program'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'programExpenses',
+        record,
+        '_02_03exp___01_program_expenses',
+        'c05_01_yes_no_functional_expense_percentage___program',
+        'functionalExpensePercent_program'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalExpenses',
+        record,
+        '_02_03exp___05_total_expenses',
+        'c05_01_yes_no_functional_expense_percentage___program',
+        'functionalExpensePercent_program'
+      );
+
+      // functionalExpensePercent_administrative
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'functionalExpensePercent_administrative_Peer',
+        record,
+        'c05_02_ratio_functional_expense_percentage___administrative',
+        'c05_02_yes_no_functional_expense_percentage___administrative'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'administrativeExpenses',
+        record,
+        '_02_03exp___02_administrative_expenses',
+        'c05_02_yes_no_functional_expense_percentage___administrative',
+        'functionalExpensePercent_administrative'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalExpenses',
+        record,
+        '_02_03exp___05_total_expenses',
+        'c05_02_yes_no_functional_expense_percentage___administrative',
+        'functionalExpensePercent_administrative'
+      );
+
+      // functionalExpensePercent_fundraising
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'functionalExpensePercent_fundraising_Peer',
+        record,
+        'c05_03_ratio_functional_expense_percentage___fundraising',
+        'c05_03_yes_no_functional_expense_percentage___fundraising'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'fundraisingExpenses',
+        record,
+        '_02_03exp___03_fundraising_expenses',
+        'c05_03_yes_no_functional_expense_percentage___fundraising',
+        'functionalExpensePercent_fundraising'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalExpenses',
+        record,
+        '_02_03exp___05_total_expenses',
+        'c05_03_yes_no_functional_expense_percentage___fundraising',
+        'functionalExpensePercent_fundraising'
+      );
+
+      // functionalExpensePercent_other
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'functionalExpensePercent_other_Peer',
+        record,
+        'c05_04_ratio_functional_expense_percentage___other',
+        'c05_04_yes_no_functional_expense_percentage___other'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'otherExpenses',
+        record,
+        '_02_03exp___04_other_expenses',
+        'c05_04_yes_no_functional_expense_percentage___other',
+        'functionalExpensePercent_other'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalExpenses',
+        record,
+        '_02_03exp___05_total_expenses',
+        'c05_04_yes_no_functional_expense_percentage___other',
+        'functionalExpensePercent_other'
+      );
+
+      // costOfContributions
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'costOfContributions_Peer',
+        record,
+        'c05_05_ratio_cost_of_contributions_raise_1_dollar',
+        'c05_05_yes_no_cost_of_contributions_raise_1_dollar'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'fundraisingExpenses',
+        record,
+        '_02_03exp___03_fundraising_expenses',
+        'c05_05_yes_no_cost_of_contributions_raise_1_dollar',
+        'costOfContributions'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'contributionsWithoutDR',
+        record,
+        '_02_01sr___01_contributions_without_donor_restrictions',
+        'c05_05_yes_no_cost_of_contributions_raise_1_dollar',
+        'costOfContributions'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'contributionsWithDR',
+        record,
+        '_02_01sr___02_contributions_with_donor_restrictions',
+        'c05_05_yes_no_cost_of_contributions_raise_1_dollar',
+        'costOfContributions'
+      );
+
+      // expensesPerGivingUnit
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'expensesPerGivingUnit_Peer',
+        record,
+        'c05_06_ratio_expenses_per_giving_unit',
+        'c05_06_yes_no_expenses_per_giving_unit'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalExpenses',
+        record,
+        '_02_03exp___05_total_expenses',
+        'c05_06_yes_no_expenses_per_giving_unit',
+        'expensesPerGivingUnit'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'givingUnit',
+        record,
+        '_06_01nonfin___02_giving_unit',
+        'c05_06_yes_no_expenses_per_giving_unit',
+        'expensesPerGivingUnit'
+      );
+
+      // expensesPerMissionaryUnit
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'expensesPerMissionaryUnit_Peer',
+        record,
+        'c05_07_ratio_expenses_per_missionary_unit',
+        'c05_07_yes_no_expenses_per_missionary_unit'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalExpenses',
+        record,
+        '_02_03exp___05_total_expenses',
+        'c05_07_yes_no_expenses_per_missionary_unit',
+        'expensesPerMissionaryUnit'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'missionaryUnit',
+        record,
+        '_06_01nonfin___01_missionary_unit',
+        'c05_07_yes_no_expenses_per_missionary_unit',
+        'expensesPerMissionaryUnit'
+      );
+
+      // expensesPerFullTimeEquivalent
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'expensesPerFullTimeEquivalent_Peer',
+        record,
+        'c05_08_ratio_expenses_per_full_time_equivalent',
+        'c05_08_yes_no_expenses_per_full_time_equivalent'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalExpenses',
+        record,
+        '_02_03exp___05_total_expenses',
+        'c05_08_yes_no_expenses_per_full_time_equivalent',
+        'expensesPerFullTimeEquivalent'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'numberOfEmployeesFTE',
+        record,
+        '_06_01nonfin___03_number_of_employees_fte',
+        'c05_08_yes_no_expenses_per_full_time_equivalent',
+        'expensesPerFullTimeEquivalent'
+      );
+
+      // salariesAndBenefitsAsPercentOfTotalExpenses
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'salariesAndBenefitsAsPercentOfTotalExpenses_Peer',
+        record,
+        'c05_09_ratio_salaries_and_benefits_as_percent_of_total_expenses',
+        'c05_09_yes_no_salaries_and_benefits_as_percent_of_total_expenses'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'salariesAndBenefits',
+        record,
+        '_04_01fexp___03_salaries___benefits',
+        'c05_09_yes_no_salaries_and_benefits_as_percent_of_total_expenses',
+        'salariesAndBenefitsAsPercentOfTotalExpenses'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalExpenses',
+        record,
+        '_02_03exp___05_total_expenses',
+        'c05_09_yes_no_salaries_and_benefits_as_percent_of_total_expenses',
+        'salariesAndBenefitsAsPercentOfTotalExpenses'
+      );
+      
+      // salariesAndBenefitsPerFTE
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'salariesAndBenefitsPerFTE_Peer',
+        record,
+        'c05_10_ratio_salaries___benefits_per_fte',
+        'c05_10_yes_no_salaries___benefits_per_fte'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'salariesAndBenefits',
+        record,
+        '_04_01fexp___03_salaries___benefits',
+        'c05_10_yes_no_salaries___benefits_per_fte',
+        'salariesAndBenefitsPerFTE'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'numberOfEmployeesFTE',
+        record,
+        '_06_01nonfin___03_number_of_employees_fte',
+        'c05_10_yes_no_salaries___benefits_per_fte',
+        'salariesAndBenefitsPerFTE'
+      );
+
+
+    });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector(
@@ -1433,12 +1755,217 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
       ).textContent;
       return fiscalYear.includes(year.toString());
     });
-    filteredClientRecords.forEach((record) => {});
+    filteredClientRecords.forEach((record) => {
+      // functionalExpensePercent_program
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'functionalExpensePercent_program_Client',
+        record,
+        'c05_01_ratio_functional_expense_percentage___program'
+      );
+      // functionalExpensePercent_administrative
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'functionalExpensePercent_administrative_Client',
+        record,
+        'c05_02_ratio_functional_expense_percentage___administrative'
+      );
+      // functionalExpensePercent_fundraising
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'functionalExpensePercent_fundraising_Client',
+        record,
+        'c05_03_ratio_functional_expense_percentage___fundraising'
+      );
+      // functionalExpensePercent_other
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'functionalExpensePercent_other_Client',
+        record,
+        'c05_04_ratio_functional_expense_percentage___other'
+      );
+      // costOfContributions
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'costOfContributions_Client',
+        record,
+        'c05_05_ratio_cost_of_contributions_raise_1_dollar'
+      );
+      // expensesPerGivingUnit
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'expensesPerGivingUnit_Client',
+        record,
+        'c05_06_ratio_expenses_per_giving_unit'
+      );
+      // expensesPerMissionaryUnit
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'expensesPerMissionaryUnit_Client',
+        record,
+        'c05_07_ratio_expenses_per_missionary_unit'
+      );
+      // expensesPerFullTimeEquivalent
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'expensesPerFullTimeEquivalent_Client',
+        record,
+        'c05_08_ratio_expenses_per_full_time_equivalent'
+      );
+      // salariesAndBenefitsAsPercentOfTotalExpenses
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'salariesAndBenefitsAsPercentOfTotalExpenses_Client',
+        record,
+        'c05_09_ratio_salaries_and_benefits_as_percent_of_total_expenses'
+      );
+      // salariesAndBenefitsPerFTE
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'salariesAndBenefitsPerFTE_Client',
+        record,
+        'c05_10_ratio_salaries___benefits_per_fte'
+      );
+
+
+    });
 
     localStorage.removeItem('expenseData');
     localStorage.setItem('expenseData', JSON.stringify(object));
   });
+
+
 };
+
+const processMiscData = (years, recordsPeer, recordsClient) => {
+  const object = {};
+
+  years.forEach((year) => {
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year_text'
+      ).textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredPeerRecords.forEach((record) => {
+      // percentageAssessmentOnRestrictedGifts
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'percentageAssessmentOnRestrictedGifts_Peer',
+        record,
+        'c06_01_ratio_percentage_assessment_on_restricted_gifts',
+        'c06_01_yes_no_percentage_assessment_on_restricted_gifts'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalAdministrativeAssessments',
+        record,
+        '_02_02reclass___01_total_administrative_assessments',
+        'c06_01_yes_no_percentage_assessment_on_restricted_gifts',
+        'percentageAssessmentOnRestrictedGifts'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'contributionsWithDR',
+        record,
+        '_02_01sr___02_contributions_with_donor_restrictions',
+        'c06_01_yes_no_percentage_assessment_on_restricted_gifts',
+        'percentageAssessmentOnRestrictedGifts'
+      );
+
+      // ageOfFacilities
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'ageOfFacilities_Peer',
+        record,
+        'c06_02_ratio_age_of_facilities',
+        'c06_02_yes_no_age_of_facilities'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'accumulatedDepreciation',
+        record,
+        '_05_02land___06_accumulated_depreciation',
+        'c06_02_yes_no_age_of_facilities',
+        'ageOfFacilities'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'depreciationAndAmortization',
+        record,
+        '_04_01fexp___06_depreciation_and_amortization',
+        'c06_02_yes_no_age_of_facilities',
+        'ageOfFacilities'
+      );
+    });
+
+    const filteredClientRecords = [...recordsClient].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year_text'
+      ).textContent;
+      return fiscalYear.includes(year.toString());
+    });
+    filteredClientRecords.forEach((record) => {
+      // percentageAssessmentOnRestrictedGifts
+
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'percentageAssessmentOnRestrictedGifts_Client',
+        record,
+        'c06_01_ratio_percentage_assessment_on_restricted_gifts'
+      );
+      // ageOfFacilities
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'ageOfFacilities_Client',
+        record,
+        'c06_02_ratio_age_of_facilities'
+      );
+
+    });
+
+    localStorage.removeItem('miscData');
+    localStorage.setItem('miscData', JSON.stringify(object));
+  });
+
+}
 
 const runApiMain = (recordsPeer, recordsClient) => {
   const run_btn = document.querySelector('#run');
@@ -1457,7 +1984,9 @@ const runApiMain = (recordsPeer, recordsClient) => {
       processCashData(selectedYears, recordsPeer, recordsClient);
       processAssetData(selectedYears, recordsPeer, recordsClient);
       processIncomeData(selectedYears, recordsPeer, recordsClient);
-      // processExpenseData(selectedYears, recordsPeer, recordsClient);
+      processExpenseData(selectedYears, recordsPeer, recordsClient);
+      processMiscData(selectedYears, recordsPeer, recordsClient);
+      // processMiscData(selectedYears, recordsPeer, recordsClient);
 
       // displayEnrollmentComponent();
       // displayCashComponent();

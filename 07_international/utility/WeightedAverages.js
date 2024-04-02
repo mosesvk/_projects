@@ -19,10 +19,343 @@ const getWeightedAverageOfArray = (data, name) => {
         return currentRatio_weightedAverage(data, name);
     case 'totalCoverageRatio':
         return totalCoverageRatio_weightedAverage(data, name);
+    case 'percentWithDR':
+        return percentWithDR_weightedAverage(data, name);
+    case 'percentWithoutDR_excludingPPE':
+        return percentWithoutDR_excludingPPE_weightedAverage(data, name);
+    case 'percentWithoutDR':
+        return percentWithoutDR_weightedAverage(data, name);
+    case 'netIncomeRatio':
+        return netIncomeRatio_weightedAverage(data, name);
+    case 'contributionsPercentWithoutDR':
+        return contributionsPercentWithoutDR_weightedAverage(data, name);
+    case 'contributionsPercentWithDR':
+        return contributionsPercentWithDR_weightedAverage(data, name);
+    case 'contributionsPerGivingUnit':
+        return contributionsPerGivingUnit_weightedAverage(data, name);
+    case 'contributionsPerMissionaryUnit':
+        return contributionsPerMissionaryUnit_weightedAverage(data, name);
+    case 'contributionsPerFullTimeEquivalent':
+        return contributionsPerFullTimeEquivalent_weightedAverage(data, name);
+    case 'fundraisingAsPercentOfContributions':
+        return fundraisingAsPercentOfContributions_weightedAverage(data, name);
+    case 'functionalExpensePercent_program':
+        return functionalExpensePercent_program_weightedAverage(data, name);
+    case 'functionalExpensePercent_administrative':
+        return functionalExpensePercent_administrative_weightedAverage(data, name);
+    case 'functionalExpensePercent_fundraising':
+        return functionalExpensePercent_fundraising_weightedAverage(data, name);
+    case 'functionalExpensePercent_other':
+        return functionalExpensePercent_other_weightedAverage(data, name);
+    case 'costOfContributions':
+        return costOfContributions_weightedAverage(data, name);
+    case 'expensesPerGivingUnit':
+        return expensesPerGivingUnit_weightedAverage(data, name);
+    case 'expensesPerMissionaryUnit':
+        return expensesPerMissionaryUnit_weightedAverage(data, name);
+    case 'expensesPerFullTimeEquivalent':
+        return expensesPerFullTimeEquivalent_weightedAverage(data, name);
+    case 'salariesAndBenefitsAsPercentOfTotalExpenses':
+        return salariesAndBenefitsAsPercentOfTotalExpenses_weightedAverage(data, name);
+    case 'salariesAndBenefitsPerFTES':
+        return salariesAndBenefitsPerFTES_weightedAverage(data, name);
+    case 'percentageAssessmentOnRestrictedGifts':
+        return percentageAssessmentOnRestrictedGifts_weightedAverage(data, name);
+    case 'ageOfFacilities':
+        return ageOfFacilities_weightedAverage(data, name);
     default:
       return;
   }
 };
+
+const ageOfFacilities_weightedAverage = (data, name) => {
+    // [05.02Land - 06 Accumulated Depreciation]
+    // /
+    // [04.01FExp - 06 Depreciation and Amortization]
+
+    const accumulatedDepreciation = getSumOfArray(data.accumulatedDepreciation[name]);
+    const depreciationAndAmortization = getSumOfArray(data.depreciationAndAmortization[name]);
+
+    return accumulatedDepreciation / depreciationAndAmortization;   
+}
+
+const percentageAssessmentOnRestrictedGifts_weightedAverage = (data, name) => {
+    // [02.02Reclass - 01 Total Administrative Assessments]
+    // /
+    // [02.01SR - 02 Contributions with donor restrictions]
+
+    const totalAdministrativeAssessments = getSumOfArray(data.totalAdministrativeAssessments[name]);
+    const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
+
+    return totalAdministrativeAssessments / contributionsWithDR;
+}
+
+const salariesAndBenefitsPerFTES_weightedAverage = (data, name) => {
+    // [04.01FExp - 03 Salaries & Benefits]
+    // /
+    // [06.01NonFin - 03 Number of Employees FTE]
+
+    const salariesAndBenefits = getSumOfArray(data.salariesAndBenefits[name]);
+    const numberOfEmployeesFTE = getSumOfArray(data.numberOfEmployeesFTE[name]);
+
+    return salariesAndBenefits / numberOfEmployeesFTE;
+}
+
+const salariesAndBenefitsAsPercentOfTotalExpenses_weightedAverage = (data, name) => {
+    // [04.01FExp - 03 Salaries & Benefits]
+    // /
+    // [02.03Exp - 05 Total Expenses]
+
+    const salariesAndBenefits = getSumOfArray(data.salariesAndBenefits[name]);
+    const totalExpenses = getSumOfArray(data.totalExpenses[name]);
+
+    return salariesAndBenefits / totalExpenses;
+}
+
+const expensesPerFullTimeEquivalent_weightedAverage = (data, name) => {
+    // [02.03Exp - 05 Total Expenses]
+    // /
+    // [06.01NonFin - 03 Number of Employees FTE]
+
+    const totalExpenses = getSumOfArray(data.totalExpenses[name]);
+    const numberOfEmployeesFTE = getSumOfArray(data.numberOfEmployeesFTE[name]);
+
+    return totalExpenses / numberOfEmployeesFTE;
+}
+
+const expensesPerMissionaryUnit_weightedAverage = (data, name) => {
+    // [02.03Exp - 05 Total Expenses]
+    // /
+    // [06.01NonFin - 01 Missionary Unit]
+
+    const totalExpenses = getSumOfArray(data.totalExpenses[name]);
+    const missionaryUnit = getSumOfArray(data.missionaryUnit[name]);
+
+    return totalExpenses / missionaryUnit;
+}
+
+const expensesPerGivingUnit_weightedAverage = (data, name) => {
+    // [02.03Exp - 05 Total Expenses]
+    // /
+    // [06.01NonFin - 02 Giving Unit]
+
+    const totalExpenses = getSumOfArray(data.totalExpenses[name]);
+    const givingUnit = getSumOfArray(data.givingUnit[name]);
+
+    return totalExpenses / givingUnit;
+}
+
+const costOfContributions_weightedAverage = (data, name) => {
+    // [02.03Exp - 03 Fundraising Expenses]
+
+    // /
+    
+    // (
+    //     [02.01SR - 01 Contributions without donor restrictions] + 
+    //     [02.01SR - 02 Contributions with donor restrictions]
+    // )
+
+    const fundraisingExpenses = getSumOfArray(data.fundraisingExpenses[name]);
+    const contributionsWithoutDR = getSumOfArray(data.contributionsWithoutDR[name]);
+    const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
+
+    return fundraisingExpenses / (contributionsWithoutDR + contributionsWithDR);
+}
+
+const  functionalExpensePercent_other_weightedAverage = (data, name) => {
+//     [02.03Exp - 04 Other Expenses]
+// /
+// [02.03Exp - 05 Total Expenses]
+
+    const otherExpenses = getSumOfArray(data.otherExpenses[name]);
+    const totalExpenses = getSumOfArray(data.totalExpenses[name]);
+
+    return otherExpenses / totalExpenses;
+}
+
+const functionalExpensePercent_fundraising_weightedAverage = (data, name) => {
+    // [02.03Exp - 03 Fundraising Expenses]
+    // /
+    // [02.03Exp - 05 Total Expenses]
+
+    const fundraisingExpenses = getSumOfArray(data.fundraisingExpenses[name]);
+    const totalExpenses = getSumOfArray(data.totalExpenses[name]);
+
+    return fundraisingExpenses / totalExpenses;
+}
+
+const functionalExpensePercent_administrative_weightedAverage = (data, name) => {
+//     [02.03Exp - 02 Administrative Expenses]
+// /
+// [02.03Exp - 05 Total Expenses]
+
+    const administrativeExpenses = getSumOfArray(data.administrativeExpenses[name]);
+    const totalExpenses = getSumOfArray(data.totalExpenses[name]);
+
+    return administrativeExpenses / totalExpenses;
+}
+
+const functionalExpensePercent_program_weightedAverage = (data, name) => {
+    // [02.03Exp - 01 Program Expenses]
+    // /
+    // [02.03Exp - 05 Total Expenses]
+
+    const programExpenses = getSumOfArray(data.programExpenses[name]);
+    const totalExpenses = getSumOfArray(data.totalExpenses[name]);
+
+    return programExpenses / totalExpenses;
+}
+
+const fundraisingAsPercentOfContributions_weightedAverage = (data, name) => {
+    // [02.03Exp - 03 Fundraising Expenses]
+    // /
+    // (
+    //     [02.01SR - 01 Contributions without donor restrictions] +
+    //     [02.01SR - 02 Contributions with donor restrictions]
+    // )
+
+    const fundraisingExpenses = getSumOfArray(data.fundraisingExpenses[name]);
+    const contributionsWithoutDR = getSumOfArray(data.contributionsWithoutDR[name]);
+    const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
+
+    return fundraisingExpenses / (contributionsWithoutDR + contributionsWithDR);
+}
+
+const contributionsPerFullTimeEquivalent_weightedAverage = (data, name) => {
+    // (
+    //     [02.01SR - 01 Contributions without donor restrictions] +
+    //     [02.01SR - 02 Contributions with donor restrictions]
+    // )
+    // /
+    // [06.01NonFin - 03 Number of Employees FTE]
+
+    const contributionsWithoutDR = getSumOfArray(data.contributionsWithoutDR[name]);
+    const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
+    const numberOfEmployeesFTE = getSumOfArray(data.numberOfEmployeesFTE[name]);
+
+    return (contributionsWithoutDR + contributionsWithDR) / numberOfEmployeesFTE;
+}
+
+const contributionsPerMissionaryUnit_weightedAverage = (data, name) => {
+    // (
+    //     [02.01SR - 01 Contributions without donor restrictions] +
+    //     [02.01SR - 02 Contributions with donor restrictions]
+    // )
+    // /
+    // [06.01NonFin - 01 Missionary Unit]
+
+    const contributionsWithoutDR = getSumOfArray(data.contributionsWithoutDR[name]);
+    const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
+    const missionaryUnit = getSumOfArray(data.missionaryUnit[name]);
+
+    return (contributionsWithoutDR + contributionsWithDR) / missionaryUnit;
+}
+
+const contributionsPerGivingUnit_weightedAverage = (data, name) => {
+    // (
+    //     [02.01SR - 01 Contributions without donor restrictions] +
+    //     [02.01SR - 02 Contributions with donor restrictions]
+    // )
+    // /
+    // [06.01NonFin - 02 Giving Unit]
+
+    const contributionsWithoutDR = getSumOfArray(data.contributionsWithoutDR[name]);
+    const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
+    const givingUnit = getSumOfArray(data.givingUnit[name]);
+
+    return (contributionsWithoutDR + contributionsWithDR) / givingUnit;
+}
+
+const contributionsPercentWithDR_weightedAverage = (data, name) => {
+    // [02.01SR - 02 Contributions with donor restrictions]
+    // /
+    // (
+    //    [02.01SR - 01 Contributions without donor restrictions] +
+    //    [02.01SR - 02 Contributions with donor restrictions]
+    // )
+
+    const contributionsWithoutDR = getSumOfArray(data.contributionsWithoutDR[name]);
+    const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
+        
+    return contributionsWithDR / (contributionsWithoutDR + contributionsWithDR);
+
+}
+
+const contributionsPercentWithoutDR_weightedAverage = (data, name) => {
+    // [02.01SR - 01 Contributions without donor restrictions]
+    // /
+    // (
+    //    [02.01SR - 01 Contributions without donor restrictions] +
+    //    [02.01SR - 02 Contributions with donor restrictions]
+    // )
+
+    const contributionsWithoutDR = getSumOfArray(data.contributionsWithoutDR[name]);
+    const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
+
+    return contributionsWithoutDR / (contributionsWithoutDR + contributionsWithDR);
+}
+
+const netIncomeRatio_weightedAverage = (data, name) => {
+    // (
+    //     [02.04Change - 01 Change in Net Assets without Donor Restriction] +
+    //     [02.04Change - 02 Change in Net Assets with Donor Restriction]
+    // )
+    // /
+    // (
+    //     [02.01SR - 08 Total Support and Revenue without Donor Restrictions] +
+    //     [02.01SR - 09 Total Support and Revenue with Donor Restrictions]
+    // )
+
+    const changeInNetAssetsWithoutDR = getSumOfArray(data.changeInNetAssetsWithoutDR[name]);
+    const changeInNetAssetsWithDR = getSumOfArray(data.changeInNetAssetsWithDR[name]);
+    const totalSupportAndRevenueWithoutDR = getSumOfArray(data.totalSupportAndRevenueWithoutDR[name]);
+    const totalSupportAndRevenueWithDR = getSumOfArray(data.totalSupportAndRevenueWithDR[name]);
+
+    return (changeInNetAssetsWithoutDR + changeInNetAssetsWithDR) / (totalSupportAndRevenueWithoutDR + totalSupportAndRevenueWithDR);
+}
+
+const percentWithoutDR_weightedAverage = (data, name) => {
+    // [01. 03NA - 01 Net assets without donor restrictions]
+    // /
+    // [01. 03NA - 04 Total Net Assets]
+
+    const netAssetsWithoutDR = getSumOfArray(data.netAssetsWithoutDR[name]);
+    const totalNetAssets = getSumOfArray(data.totalNetAssets[name]);
+
+    return netAssetsWithoutDR / totalNetAssets;
+}
+
+const percentWithoutDR_excludingPPE_weightedAverage = (data, name) => {
+    // (
+    //     [01. 03NA - 01 Net assets without donor restrictions] - 
+    //     [01. 01Ass - 09 Property, plant and equipment] - 
+    //     [01. 02Liab - 02 Notes Payable]
+    // )
+    // /
+    // [01. 03NA - 04 Total Net Assets]
+
+    const netAssetsWithoutDR = getSumOfArray(data.netAssetsWithoutDR[name]);
+    const propertyPlantAndEquipment = getSumOfArray(data.propertyPlantAndEquipment[name]);
+    const notesPayable = getSumOfArray(data.notesPayable[name]);
+    const totalNetAssets = getSumOfArray(data.totalNetAssets[name]);
+
+    return (netAssetsWithoutDR - propertyPlantAndEquipment - notesPayable) / totalNetAssets;
+}
+
+const percentWithDR_weightedAverage = (data, name) => {
+    // (
+    //     [01. 03NA - 02 Net assets with donor restrictions by purpose or time] + 
+    //     [01. 03NA - 03 Net assets with donor restrictions in perpetuity]
+    // )
+    // /
+    // [01. 03NA - 04 Total Net Assets]
+
+    const netAssetsWithDRByPurposeOrTime = getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name]);
+    const netAssetsWithDRInPerpetuity = getSumOfArray(data.netAssetsWithDRInPerpetuity[name]);
+    const totalNetAssets = getSumOfArray(data.totalNetAssets[name]);
+
+    return (netAssetsWithDRByPurposeOrTime + netAssetsWithDRInPerpetuity) / totalNetAssets;
+}
 
 const totalCoverageRatio_weightedAverage = (data, name) => {
     // [01. 01Ass - 10 Total Assets] 
