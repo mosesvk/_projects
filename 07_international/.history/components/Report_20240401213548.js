@@ -18,15 +18,15 @@ const displayReportComponent = () => {
     ]);
 
     insertDataToReport(cashData, selectedYears, [
-        ['daysCashOnHand', 'num', 0, 'wa'],
-        ['daysExpensesInUnrestrictedNA', 'num', 0, 'wa'],
-        ['daysExpensesInNAwithDR', 'num', 0, 'wa'],
-        ['daysExpensesInNAwithDR_excludingPPE', 'num', 0, 'wa'],
-        ['liquidityFundsAvailable', 'num', 0, 'wa'],
-        ['financialAssetsAvailableFY', 'num', 0, 'wa'],
-        ['daysFinancialAssetsOnHand', 'num', 0, 'wa'],
-        ['currentRatio', 'num', 0, 'wa'],
-        ['totalCoverageRatio', 'num', 1, 'wa'],
+        ['daysCashOnHand', 'num', 0],
+        ['daysExpensesInUnrestrictedNA', 'num', 0],
+        ['daysExpensesInNAwithDR', 'num', 0],
+        ['daysExpensesInNAwithDR_excludingPPE', 'num', 0],
+        ['liquidityFundsAvailable', 'num', 0],
+        ['financialAssetsAvailableFY', 'num', 0],
+        ['daysFinancialAssetsOnHand', 'num', 0],
+        ['currentRatio', 'num', 0],
+        ['totalCoverageRatio', 'num', 1],
         ['cashFlowsTrendFinancing', 'num', 0],
         ['cashFlowsTrendInvesting', 'num', 0],
         ['cashFlowsTrendOperating', 'num', 0]
@@ -226,7 +226,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
     name,
     data
   ) => {
-    console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name });
+    // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name });
   
     const propClass =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";

@@ -284,7 +284,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'depreciationAndAmortization',
+        'DepreciationAndAmortization',
         record,
         '_04_01fexp___06_depreciation_and_amortization',
         'c02_01_yes_no_days_cash_on_hand',
@@ -1456,7 +1456,8 @@ const runApiMain = (recordsPeer, recordsClient) => {
       processGeneralData(selectedYears, recordsPeer, recordsClient);
       processCashData(selectedYears, recordsPeer, recordsClient);
       processAssetData(selectedYears, recordsPeer, recordsClient);
-      processIncomeData(selectedYears, recordsPeer, recordsClient);
+      // processDebtData(selectedYears, recordsPeer, recordsClient);
+      // processIncomeData(selectedYears, recordsPeer, recordsClient);
       // processExpenseData(selectedYears, recordsPeer, recordsClient);
 
       // displayEnrollmentComponent();

@@ -284,7 +284,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'depreciationAndAmortization',
+        'DepreciationAndAmortization',
         record,
         '_04_01fexp___06_depreciation_and_amortization',
         'c02_01_yes_no_days_cash_on_hand',
@@ -1077,7 +1077,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'contributionsWithoutDR',
+        'totalSupportAndRevenueWithoutDR',
         record,
         '_02_01sr___01_contributions_without_donor_restrictions',
         'c04_04_yes_no_contributions_percent_without_donor_restrictions',
@@ -1087,7 +1087,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'contributionsWithDR',
+        'totalSupportAndRevenueWithDR',
         record,
         '_02_01sr___02_contributions_with_donor_restrictions',
         'c04_04_yes_no_contributions_percent_without_donor_restrictions',
@@ -1108,7 +1108,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'contributionsWithoutDR',
+        'totalSupportAndRevenueWithoutDR',
         record,
         '_02_01sr___01_contributions_without_donor_restrictions',
         'c04_05_yes_no_contributions_percent_with_donor_restrictions',
@@ -1118,7 +1118,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'contributionsWithDR',
+        'totalSupportAndRevenueWithDR',
         record,
         '_02_01sr___02_contributions_with_donor_restrictions',
         'c04_05_yes_no_contributions_percent_with_donor_restrictions',
@@ -1139,7 +1139,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'contributionsWithoutDR',
+        'totalSupportAndRevenueWithoutDR',
         record,
         '_02_01sr___01_contributions_without_donor_restrictions',
         'c04_06_yes_no_contributions_per_giving_unit',
@@ -1149,7 +1149,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'contributionsWithDR',
+        'totalSupportAndRevenueWithDR',
         record,
         '_02_01sr___02_contributions_with_donor_restrictions',
         'c04_06_yes_no_contributions_per_giving_unit',
@@ -1166,138 +1166,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         'contributionsPerGivingUnit'
       );
 
-      // contributionsPerMissionaryUnit
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'contributionsPerMissionaryUnit_Peer',
-        record,
-        'c04_07_ratio_contributions_per_missionary_unit',
-        'c04_07_yes_no_contributions_per_missionary_unit'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'contributionsWithoutDR',
-        record,
-        '_02_01sr___01_contributions_without_donor_restrictions',
-        'c04_07_yes_no_contributions_per_missionary_unit',
-        'contributionsPerMissionaryUnit'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'contributionsWithDR',
-        record,
-        '_02_01sr___02_contributions_with_donor_restrictions',
-        'c04_07_yes_no_contributions_per_missionary_unit',
-        'contributionsPerMissionaryUnit'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'missionaryUnit',
-        record,
-        '_06_01nonfin___01_missionary_unit',
-        'c04_07_yes_no_contributions_per_missionary_unit',
-        'contributionsPerMissionaryUnit'
-      );
 
-      // contributionsPerFullTimeEquivalent
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'contributionsPerFullTimeEquivalent_Peer',
-        record,
-        'c04_08_ratio_contributions_per_full_time_equivalent',
-        'c04_08_yes_no_contributions_per_full_time_equivalent'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'contributionsWithoutDR',
-        record,
-        '_02_01sr___01_contributions_without_donor_restrictions',
-        'c04_08_yes_no_contributions_per_full_time_equivalent',
-        'contributionsPerFullTimeEquivalent'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'contributionsWithDR',
-        record,
-        '_02_01sr___02_contributions_with_donor_restrictions',
-        'c04_08_yes_no_contributions_per_full_time_equivalent',
-        'contributionsPerFullTimeEquivalent'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'numberOfEmployeesFTE',
-        record,
-        '_06_01nonfin___03_number_of_employees_fte',
-        'c04_08_yes_no_contributions_per_full_time_equivalent',
-        'contributionsPerFullTimeEquivalent'
-      );
-
-      // fundraisingAsPercentOfContributions
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'fundraisingAsPercentOfContributions_Peer',
-        record,
-        'c04_09_ratio_fundraising_as_percent_of_contributions',
-        'c04_09_yes_no_fundraising_as_percent_of_contributions'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'contributionsWithoutDR',
-        record,
-        '_02_01sr___01_contributions_without_donor_restrictions',
-        'c04_09_yes_no_fundraising_as_percent_of_contributions',
-        'fundraisingAsPercentOfContributions'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'contributionsWithDR',
-        record,
-        '_02_01sr___02_contributions_with_donor_restrictions',
-        'c04_09_yes_no_fundraising_as_percent_of_contributions',
-        'fundraisingAsPercentOfContributions'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'fundraisingExpenses',
-        record,
-        '_02_03exp___03_fundraising_expenses',
-        'c04_09_yes_no_fundraising_as_percent_of_contributions',
-        'fundraisingAsPercentOfContributions'
-      );
-
-      // annualizedInvestmentReturn
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'annualizedInvestmentReturn_Peer',
-        record,
-        '0'
-      );
 
     });
 
@@ -1307,107 +1176,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
       ).textContent;
       return fiscalYear.includes(year.toString());
     });
-    filteredClientRecords.forEach((record) => {
-      // netIncomeRatio
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'netIncomeRatio_Client',
-        record,
-        'c04_01_ratio_net_income_ratio'
-      );
-
-      // contributionsTrend_basedOnNumberOfDonors
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'contributionsTrend_basedOnNumberOfDonors_Client',
-        record,
-        'c04_02_ratio_contributions_trend_based_on_donor_count'
-      );
-
-      // contributionsTrend
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'contributionsTrend_Client',
-        record,
-        'c04_03_ratio_contributions_trend'
-      );
-
-      // contributionsPercentWithoutDR
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'contributionsPercentWithoutDR_Client',
-        record,
-        'c04_04_ratio_contributions_percent_without_donor_restrictions'
-      );
-
-      // contributionsPercentWithDR
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'contributionsPercentWithDR_Client',
-        record,
-        'c04_05_ratio_contributions_percent_with_donor_restrictions'
-      );
-
-      // contributionsPerGivingUnit
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'contributionsPerGivingUnit_Client',
-        record,
-        'c04_06_ratio_contributions_per_giving_unit'
-      );
-
-      // contributionsPerMissionaryUnit
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'contributionsPerMissionaryUnit_Client',
-        record,
-        'c04_07_ratio_contributions_per_missionary_unit'
-      );
-      // contributionsPerFullTimeEquivalent
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'contributionsPerFullTimeEquivalent_Client',
-        record,
-        'c04_08_ratio_contributions_per_full_time_equivalent'
-      );
-      // fundraisingAsPercentOfContributions
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'fundraisingAsPercentOfContributions_Client',
-        record,
-        'c04_09_ratio_fundraising_as_percent_of_contributions'
-      );
-      // annualizedInvestmentReturn
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'annualizedInvestmentReturn_Client',
-        record,
-        'c04_10_ratio_annualized_investment_return'
-      );
-
-
-
-    });
+    filteredClientRecords.forEach((record) => {});
 
     localStorage.removeItem('incomeData');
     localStorage.setItem('incomeData', JSON.stringify(object));
@@ -1456,7 +1225,8 @@ const runApiMain = (recordsPeer, recordsClient) => {
       processGeneralData(selectedYears, recordsPeer, recordsClient);
       processCashData(selectedYears, recordsPeer, recordsClient);
       processAssetData(selectedYears, recordsPeer, recordsClient);
-      processIncomeData(selectedYears, recordsPeer, recordsClient);
+      // processDebtData(selectedYears, recordsPeer, recordsClient);
+      // processIncomeData(selectedYears, recordsPeer, recordsClient);
       // processExpenseData(selectedYears, recordsPeer, recordsClient);
 
       // displayEnrollmentComponent();

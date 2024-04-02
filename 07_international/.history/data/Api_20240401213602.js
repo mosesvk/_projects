@@ -284,7 +284,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         'peer',
         year,
         object,
-        'depreciationAndAmortization',
+        'DepreciationAndAmortization',
         record,
         '_04_01fexp___06_depreciation_and_amortization',
         'c02_01_yes_no_days_cash_on_hand',
