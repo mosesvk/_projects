@@ -1,7 +1,7 @@
 const displayReportComponent = () => {
   const generalData = JSON.parse(localStorage.getItem('generalData'));
   const cashData = JSON.parse(localStorage.getItem("cashData"));
-  const assetData = JSON.parse(localStorage.getItem("assetData"));
+  // const debtData = JSON.parse(localStorage.getItem("debtData"));
   // const incomeData = JSON.parse(localStorage.getItem("incomeData"));
   // const expenseData = JSON.parse(localStorage.getItem("expenseData"));
   // const additionalData = JSON.parse(localStorage.getItem("additionalData"));
@@ -31,13 +31,6 @@ const displayReportComponent = () => {
         ['cashFlowsTrendInvesting', 'num', 0],
         ['cashFlowsTrendOperating', 'num', 0]
     ]);
-
-    insertDataToReport(assetData, selectedYears, [
-      ['percentWithDR', 'percent', 0],
-      ['percentWithoutDR_excludingPPE', 'percent', 0],
-      ['percentWithoutDR', 'percent', 0],
-
-    ])
 
     processTHElements();
   }

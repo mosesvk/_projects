@@ -32,13 +32,6 @@ const displayReportComponent = () => {
         ['cashFlowsTrendOperating', 'num', 0]
     ]);
 
-    insertDataToReport(assetData, selectedYears, [
-      ['percentWithDR', 'percent', 0],
-      ['percentWithoutDR_excludingPPE', 'percent', 0],
-      ['percentWithoutDR', 'percent', 0],
-
-    ])
-
     processTHElements();
   }
 

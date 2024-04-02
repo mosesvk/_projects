@@ -806,131 +806,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
 
       return fiscalYear.includes(year.toString());
     });
-    filteredPeerRecords.forEach((record) => {
-      // percentWithDR
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'percentWithDR_Peer',
-        record,
-        'c03_01_ratio_percent_with_donor_restrictions',
-        'c03_01_yes_no_percent_with_donor_restrictions'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'netAssetsWithDRByPurposeOrTime',
-        record,
-        '_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time',
-        'c03_01_yes_no_percent_with_donor_restrictions',
-        'percentWithDR'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'netAssetsWithDRInPerpetuity',
-        record,
-        '_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity',
-        'c03_01_yes_no_percent_with_donor_restrictions',
-        'percentWithDR'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalNetAssets',
-        record,
-        '_01__03na___04_total_net_assets',
-        'c03_01_yes_no_percent_with_donor_restrictions',
-        'percentWithDR'
-      );
-
-      // percentWithoutDR_excludingPPE
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'percentWithoutDR_Peer',
-        record,
-        'c03_02_ratio_percent_without_donor_restrictions_excluding_net_investment_in_ppe',
-        'c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'netAssetsWithoutDR',
-        record,
-        '_01__03na___01_net_assets_without_donor_restrictions',
-        'c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe',
-        'percentWithoutDR'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'propertyPlantAndEquipment',
-        record,
-        '_01__01ass___09_property__plant_and_equipment',
-        'c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe',
-        'percentWithoutDR'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'notesPayable',
-        record,
-        '_01__02liab___02_notes_payable',
-        'c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe',
-        'percentWithoutDR'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalNetAssets',
-        record,
-        '_01__03na___04_total_net_assets',
-        'c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe',
-        'percentWithoutDR'
-      );
-
-      // percentWithoutDR
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'percentWithoutDR_excludingPPE_Peer',
-        record,
-        'c03_03_ratio_percent_without_donor_restrictions',
-        'c03_03_yes_no_percent_without_donor_restrictions'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'netAssetsWithoutDR',
-        record,
-        '_01__03na___01_net_assets_without_donor_restrictions',
-        'c03_03_yes_no_percent_without_donor_restrictions',
-        'percentWithoutDR'
-      );
-      insertDataIntoObject(
-        'peer',
-        year,
-        object,
-        'totalNetAssets',
-        record,
-        '_01__03na___04_total_net_assets',
-        'c03_03_yes_no_percent_without_donor_restrictions',
-        'percentWithoutDR'
-      );
-
-    });
+    filteredPeerRecords.forEach((record) => {});
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector(
@@ -938,42 +814,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
       ).textContent;
       return fiscalYear.includes(year.toString());
     });
-    filteredClientRecords.forEach((record) => {
-
-      // percentWithDR
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'percentWithDR_Client',
-        record,
-        'c03_01_ratio_percent_with_donor_restrictions'
-      );
-
-      // percentWithoutDR_excludingPPE
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'percentWithoutDR_Client',
-        record,
-        'c03_02_ratio_percent_without_donor_restrictions_excluding_net_investment_in_ppe'
-      );
-
-      // percentWithoutDR
-      insertDataIntoObject(
-        'client',
-        year,
-        object,
-        'percentWithoutDR_excludingPPE_Client',
-        record,
-        'c03_03_ratio_percent_without_donor_restrictions'
-      );
-
-
-
-
-    });
+    filteredClientRecords.forEach((record) => {});
 
     localStorage.removeItem('assetData');
     localStorage.setItem('assetData', JSON.stringify(object));
@@ -1047,7 +888,7 @@ const runApiMain = (recordsPeer, recordsClient) => {
 
       processGeneralData(selectedYears, recordsPeer, recordsClient);
       processCashData(selectedYears, recordsPeer, recordsClient);
-      processAssetData(selectedYears, recordsPeer, recordsClient);
+      // processAssetData(selectedYears, recordsPeer, recordsClient);
       // processDebtData(selectedYears, recordsPeer, recordsClient);
       // processIncomeData(selectedYears, recordsPeer, recordsClient);
       // processExpenseData(selectedYears, recordsPeer, recordsClient);
