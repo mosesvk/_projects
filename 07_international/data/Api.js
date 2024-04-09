@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown(schoolChurch_Array);
 
-  // displayEnrollmentComponent();
-  // displayCashComponent();
+
+  displayCashComponent();
   // displayAssetComponent();
   // displayDebtComponent();
   // displayIncomeComponent();
@@ -1989,7 +1989,7 @@ const runApiMain = (recordsPeer, recordsClient) => {
       // processMiscData(selectedYears, recordsPeer, recordsClient);
 
       // displayEnrollmentComponent();
-      // displayCashComponent();
+      displayCashComponent();
       // displayAssetComponent();
       // displayDebtComponent();
       // displayIncomeComponent();
