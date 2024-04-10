@@ -1,5 +1,6 @@
 const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
-  // console.log('getMainChartOptions()')
+  console.log('-----')
+  console.log('getMainChartOptions()')
 
   const chartColors = document.documentElement.classList.contains('dark')
     ? {
@@ -41,7 +42,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
     } else {
       return formatNumber(value);
     }
-  };
+  };s
 
   const tooltipFormatter = (value) => {
     if (!value) return;

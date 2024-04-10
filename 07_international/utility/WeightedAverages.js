@@ -76,7 +76,7 @@ const ageOfFacilities_weightedAverage = (data, name) => {
     const accumulatedDepreciation = getSumOfArray(data.accumulatedDepreciation[name]);
     const depreciationAndAmortization = getSumOfArray(data.depreciationAndAmortization[name]);
 
-    return accumulatedDepreciation / depreciationAndAmortization;   
+    return depreciationAndAmortization > 0 ? accumulatedDepreciation / depreciationAndAmortization : 0;
 }
 
 const percentageAssessmentOnRestrictedGifts_weightedAverage = (data, name) => {
@@ -87,7 +87,7 @@ const percentageAssessmentOnRestrictedGifts_weightedAverage = (data, name) => {
     const totalAdministrativeAssessments = getSumOfArray(data.totalAdministrativeAssessments[name]);
     const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
 
-    return totalAdministrativeAssessments / contributionsWithDR;
+    return contributionsWithDR > 0 ? totalAdministrativeAssessments / contributionsWithDR : 0;
 }
 
 const salariesAndBenefitsPerFTES_weightedAverage = (data, name) => {
@@ -109,7 +109,7 @@ const salariesAndBenefitsAsPercentOfTotalExpenses_weightedAverage = (data, name)
     const salariesAndBenefits = getSumOfArray(data.salariesAndBenefits[name]);
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
 
-    return salariesAndBenefits / totalExpenses;
+    return totalExpenses ? salariesAndBenefits / totalExpenses : 0;
 }
 
 const expensesPerFullTimeEquivalent_weightedAverage = (data, name) => {
@@ -120,7 +120,7 @@ const expensesPerFullTimeEquivalent_weightedAverage = (data, name) => {
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
     const numberOfEmployeesFTE = getSumOfArray(data.numberOfEmployeesFTE[name]);
 
-    return totalExpenses / numberOfEmployeesFTE;
+    return numberOfEmployeesFTE ? totalExpenses / numberOfEmployeesFTE : 0;
 }
 
 const expensesPerMissionaryUnit_weightedAverage = (data, name) => {
@@ -131,7 +131,7 @@ const expensesPerMissionaryUnit_weightedAverage = (data, name) => {
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
     const missionaryUnit = getSumOfArray(data.missionaryUnit[name]);
 
-    return totalExpenses / missionaryUnit;
+    return missionaryUnit > 0 ? totalExpenses / missionaryUnit : 0;
 }
 
 const expensesPerGivingUnit_weightedAverage = (data, name) => {
@@ -142,7 +142,7 @@ const expensesPerGivingUnit_weightedAverage = (data, name) => {
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
     const givingUnit = getSumOfArray(data.givingUnit[name]);
 
-    return totalExpenses / givingUnit;
+    return givingUnit > 0 ? totalExpenses / givingUnit : 0;
 }
 
 const costOfContributions_weightedAverage = (data, name) => {
@@ -159,7 +159,9 @@ const costOfContributions_weightedAverage = (data, name) => {
     const contributionsWithoutDR = getSumOfArray(data.contributionsWithoutDR[name]);
     const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
 
-    return fundraisingExpenses / (contributionsWithoutDR + contributionsWithDR);
+    const denominator = contributionsWithoutDR + contributionsWithDR;
+
+    return denominator > 0 ? fundraisingExpenses / denominator : 0;
 }
 
 const  functionalExpensePercent_other_weightedAverage = (data, name) => {
@@ -170,7 +172,7 @@ const  functionalExpensePercent_other_weightedAverage = (data, name) => {
     const otherExpenses = getSumOfArray(data.otherExpenses[name]);
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
 
-    return otherExpenses / totalExpenses;
+    return totalExpenses > 0 ? otherExpenses / totalExpenses : 0;
 }
 
 const functionalExpensePercent_fundraising_weightedAverage = (data, name) => {
@@ -181,7 +183,7 @@ const functionalExpensePercent_fundraising_weightedAverage = (data, name) => {
     const fundraisingExpenses = getSumOfArray(data.fundraisingExpenses[name]);
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
 
-    return fundraisingExpenses / totalExpenses;
+    return totalExpenses > 0 ? fundraisingExpenses / totalExpenses : 0;
 }
 
 const functionalExpensePercent_administrative_weightedAverage = (data, name) => {
@@ -192,7 +194,7 @@ const functionalExpensePercent_administrative_weightedAverage = (data, name) => 
     const administrativeExpenses = getSumOfArray(data.administrativeExpenses[name]);
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
 
-    return administrativeExpenses / totalExpenses;
+    return totalExpenses > 0 ? administrativeExpenses / totalExpenses : 0;
 }
 
 const functionalExpensePercent_program_weightedAverage = (data, name) => {
@@ -203,7 +205,7 @@ const functionalExpensePercent_program_weightedAverage = (data, name) => {
     const programExpenses = getSumOfArray(data.programExpenses[name]);
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
 
-    return programExpenses / totalExpenses;
+    return totalExpenses > 0 ? programExpenses / totalExpenses : 0;
 }
 
 const fundraisingAsPercentOfContributions_weightedAverage = (data, name) => {
@@ -218,7 +220,9 @@ const fundraisingAsPercentOfContributions_weightedAverage = (data, name) => {
     const contributionsWithoutDR = getSumOfArray(data.contributionsWithoutDR[name]);
     const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
 
-    return fundraisingExpenses / (contributionsWithoutDR + contributionsWithDR);
+    const denominator = contributionsWithoutDR + contributionsWithDR;
+
+    return denominator > 0 ? fundraisingExpenses / denominator : 0;
 }
 
 const contributionsPerFullTimeEquivalent_weightedAverage = (data, name) => {
@@ -233,12 +237,12 @@ const contributionsPerFullTimeEquivalent_weightedAverage = (data, name) => {
     const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
     const numberOfEmployeesFTE = getSumOfArray(data.numberOfEmployeesFTE[name]);
 
-    return (contributionsWithoutDR + contributionsWithDR) / numberOfEmployeesFTE;
+    return numberOfEmployeesFTE > 0 ? (contributionsWithoutDR + contributionsWithDR) / numberOfEmployeesFTE : 0;
 }
 
 const contributionsPerMissionaryUnit_weightedAverage = (data, name) => {
     // (
-    //     [02.01SR - 01 Contributions without donor restrictions] +
+    //     [02.01SR - 01 Contributions without donor restrictions
     //     [02.01SR - 02 Contributions with donor restrictions]
     // )
     // /
@@ -248,7 +252,7 @@ const contributionsPerMissionaryUnit_weightedAverage = (data, name) => {
     const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
     const missionaryUnit = getSumOfArray(data.missionaryUnit[name]);
 
-    return (contributionsWithoutDR + contributionsWithDR) / missionaryUnit;
+    return missionaryUnit > 0 ? (contributionsWithoutDR + contributionsWithDR) / missionaryUnit : 0;
 }
 
 const contributionsPerGivingUnit_weightedAverage = (data, name) => {
@@ -263,7 +267,7 @@ const contributionsPerGivingUnit_weightedAverage = (data, name) => {
     const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
     const givingUnit = getSumOfArray(data.givingUnit[name]);
 
-    return (contributionsWithoutDR + contributionsWithDR) / givingUnit;
+    return givingUnit > 0 ? (contributionsWithoutDR + contributionsWithDR) / givingUnit : 0;
 }
 
 const contributionsPercentWithDR_weightedAverage = (data, name) => {
@@ -276,8 +280,10 @@ const contributionsPercentWithDR_weightedAverage = (data, name) => {
 
     const contributionsWithoutDR = getSumOfArray(data.contributionsWithoutDR[name]);
     const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
+
+    const denominator = contributionsWithoutDR + contributionsWithDR;
         
-    return contributionsWithDR / (contributionsWithoutDR + contributionsWithDR);
+    return denominator > 0 ? contributionsWithDR / denominator : 0;
 
 }
 
@@ -292,7 +298,9 @@ const contributionsPercentWithoutDR_weightedAverage = (data, name) => {
     const contributionsWithoutDR = getSumOfArray(data.contributionsWithoutDR[name]);
     const contributionsWithDR = getSumOfArray(data.contributionsWithDR[name]);
 
-    return contributionsWithoutDR / (contributionsWithoutDR + contributionsWithDR);
+    const denominator = contributionsWithoutDR + contributionsWithDR;
+
+    return denominator > 0 ? contributionsWithoutDR / denominator : 0;
 }
 
 const netIncomeRatio_weightedAverage = (data, name) => {
@@ -311,7 +319,9 @@ const netIncomeRatio_weightedAverage = (data, name) => {
     const totalSupportAndRevenueWithoutDR = getSumOfArray(data.totalSupportAndRevenueWithoutDR[name]);
     const totalSupportAndRevenueWithDR = getSumOfArray(data.totalSupportAndRevenueWithDR[name]);
 
-    return (changeInNetAssetsWithoutDR + changeInNetAssetsWithDR) / (totalSupportAndRevenueWithoutDR + totalSupportAndRevenueWithDR);
+    const denominator = totalSupportAndRevenueWithoutDR + totalSupportAndRevenueWithDR;
+
+    return denominator > 0 ? (changeInNetAssetsWithoutDR + changeInNetAssetsWithDR) / denominator : 0;
 }
 
 const percentWithoutDR_weightedAverage = (data, name) => {
@@ -322,7 +332,7 @@ const percentWithoutDR_weightedAverage = (data, name) => {
     const netAssetsWithoutDR = getSumOfArray(data.netAssetsWithoutDR[name]);
     const totalNetAssets = getSumOfArray(data.totalNetAssets[name]);
 
-    return netAssetsWithoutDR / totalNetAssets;
+    return totalNetAssets > 0 ? netAssetsWithoutDR / totalNetAssets : 0;
 }
 
 const percentWithoutDR_excludingPPE_weightedAverage = (data, name) => {
@@ -339,7 +349,7 @@ const percentWithoutDR_excludingPPE_weightedAverage = (data, name) => {
     const notesPayable = getSumOfArray(data.notesPayable[name]);
     const totalNetAssets = getSumOfArray(data.totalNetAssets[name]);
 
-    return (netAssetsWithoutDR - propertyPlantAndEquipment - notesPayable) / totalNetAssets;
+    return totalNetAssets > 0 ? (netAssetsWithoutDR - propertyPlantAndEquipment - notesPayable) / totalNetAssets : 0;
 }
 
 const percentWithDR_weightedAverage = (data, name) => {
@@ -354,7 +364,7 @@ const percentWithDR_weightedAverage = (data, name) => {
     const netAssetsWithDRInPerpetuity = getSumOfArray(data.netAssetsWithDRInPerpetuity[name]);
     const totalNetAssets = getSumOfArray(data.totalNetAssets[name]);
 
-    return (netAssetsWithDRByPurposeOrTime + netAssetsWithDRInPerpetuity) / totalNetAssets;
+    return totalNetAssets > 0 ? (netAssetsWithDRByPurposeOrTime + netAssetsWithDRInPerpetuity) / totalNetAssets : 0;
 }
 
 const totalCoverageRatio_weightedAverage = (data, name) => {
@@ -365,7 +375,7 @@ const totalCoverageRatio_weightedAverage = (data, name) => {
     const totalAssets = getSumOfArray(data.totalAssets[name]);
     const totalLiabilities = getSumOfArray(data.totalLiabilities[name]);
 
-    return totalAssets / totalLiabilities;
+    return totalLiabilities > 0 ? totalAssets / totalLiabilities : 0
 }
 
 const currentRatio_weightedAverage = (data, name) => {
@@ -392,7 +402,9 @@ const currentRatio_weightedAverage = (data, name) => {
     const longTermLiabilities = getSumOfArray(data.longTermLiabilities[name]);
     const notesPayable = getSumOfArray(data.notesPayable[name]);
 
-    return (totalAssets - cashAndCashEquivalents - investments - propertyPlantAndEquipment) / (totalLiabilities - longTermLiabilities - notesPayable);
+    const denominator = totalLiabilities - longTermLiabilities - notesPayable;
+
+    return denominator > 0 ? (totalAssets - cashAndCashEquivalents - investments - propertyPlantAndEquipment) / denominator : 0;
 
 }
 
@@ -408,7 +420,9 @@ const daysFinancialAssetsOnHand_weightedAverage = (data, name) => {
 const financialAssetsAvailablePerLiquidity = getSumOfArray(data.financialAssetsAvailablePerLiquidity[name]);
 const totalExpenses = getSumOfArray(data.totalExpenses[name]);
 
-return financialAssetsAvailablePerLiquidity / (totalExpenses / 365);
+const denominator = totalExpenses / 365;
+
+return denominator > 0 ? financialAssetsAvailablePerLiquidity / denominator : 0;
 }
 
 const financialAssetsAvailableFY_weightedAverage = (data, name) => {
@@ -421,7 +435,7 @@ const financialAssetsAvailableFY_weightedAverage = (data, name) => {
     const financialAssetsAvailablePerLiquidity = getSumOfArray(data.financialAssetsAvailablePerLiquidity[name]);
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
 
-    return financialAssetsAvailablePerLiquidity / totalExpenses;
+    return totalExpenses > 0 ? financialAssetsAvailablePerLiquidity / totalExpenses : 0;
 }
 
 const liquidityFundsAvailable_weightedAverage = (data, name) => {
@@ -438,7 +452,7 @@ const liquidityFundsAvailable_weightedAverage = (data, name) => {
     const propertyPlantAndEquipment = getSumOfArray(data.propertyPlantAndEquipment[name]);
     const totalLiabilities = getSumOfArray(data.totalLiabilities[name]);
 
-    return (totalAssets - propertyPlantAndEquipment) / totalLiabilities;
+    return totalLiabilities > 0 ? (totalAssets - propertyPlantAndEquipment) / totalLiabilities : 0;
 }
 
 const daysExpensesInNAwithDR_excludingPPE_weightedAverage = (data, name) => {
@@ -458,7 +472,9 @@ const daysExpensesInNAwithDR_excludingPPE_weightedAverage = (data, name) => {
     const notesPayable = getSumOfArray(data.notesPayable[name]);
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
 
-    return (totalNetAssets - propertyPlantAndEquipment - notesPayable) / (totalExpenses / 365);
+    const denominator = totalExpenses / 365;
+
+    return denominator > 0 ? (totalNetAssets - propertyPlantAndEquipment - notesPayable) / denominator : 0;
 }
 
 const daysExpensesInNAwithDR_weightedAverage = (data, name) => {
@@ -477,7 +493,9 @@ const daysExpensesInNAwithDR_weightedAverage = (data, name) => {
     const netAssetsWithDRInPerpetuity = getSumOfArray(data.netAssetsWithDRInPerpetuity[name]);
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
 
-    return (netAssetsWithDRByPurposeOrTime + netAssetsWithDRInPerpetuity) / (totalExpenses / 365);
+    const denominator = totalExpenses / 365;
+
+    return denominator > 0 ? (netAssetsWithDRByPurposeOrTime + netAssetsWithDRInPerpetuity) / denominator : 0;
 }
 
 const daysExpensesInUnrestrictedNA_weightedAverage = (data, name) => {
@@ -492,7 +510,9 @@ const daysExpensesInUnrestrictedNA_weightedAverage = (data, name) => {
     const netAssetsWithoutDR = getSumOfArray(data.netAssetsWithoutDR[name]);
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
 
-    return netAssetsWithoutDR / (totalExpenses / 365);
+    const denominator = totalExpenses / 365;
+
+    return denominator > 0 ? netAssetsWithoutDR / denominator : 0;
 }
 
 const daysCashOnHand_weightedAverage = (data, name) => {
@@ -508,5 +528,7 @@ const daysCashOnHand_weightedAverage = (data, name) => {
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
     const depreciationAndAmortization = getSumOfArray(data.depreciationAndAmortization[name]);
 
-    return cashAndCashEquivalents / ((totalExpenses - depreciationAndAmortization) / 365);
+    const denominator = totalExpenses - depreciationAndAmortization / 365;
+
+    return denominator > 0 ? cashAndCashEquivalents / denominator : 0;
 }

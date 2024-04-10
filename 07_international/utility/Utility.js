@@ -51,8 +51,8 @@ const createChartFromParsedData = (
   fixedNum,
   mainName
 ) => {
-  //console.log('parsedData', parsedData);
   if (parsedData) {
+    // console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
     updateModal(mainName, parsedData[peer], parsedData[client]);
   }
@@ -803,3 +803,12 @@ const getSelectedSchoolChurchOption = () => {
     }
   });
 };
+
+function calculatePercentageChange(numbers) {
+  const percentageChanges = [];
+  for (let i = 1; i < numbers.length; i++) {
+      const change = ((numbers[i] - numbers[i - 1]) / numbers[i - 1]) * 100;
+      percentageChanges.push(change);
+  }
+  return percentageChanges;
+}

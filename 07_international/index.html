@@ -57,7 +57,7 @@
 
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
-      defer=true
+      defer="true"
     ></script>
 
     <script>
@@ -608,12 +608,436 @@
 
           <!-- INCOME TAB -->
           <div id="incomeContent" class="tab-content hidden">
-            <h1>Income</h1>
+            <!-- contributionsTrend -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Contributions Trend
+                  </span>
+                </div>
+                <div
+                  id="contributionsTrend_percentageChange"
+                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
+                >
+                  0%
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div id="contributionsTrend_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="contributionsTrend_modal"
+                    data-modal-toggle="contributionsTrend_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- annualizedInvestmentReturn -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Annualized Investment Return
+                  </span>
+                </div>
+                <div
+                  id="annualizedInvestmentReturn_percentageChange"
+                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
+                >
+                  0%
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div id="annualizedInvestmentReturn_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="annualizedInvestmentReturn_modal"
+                    data-modal-toggle="annualizedInvestmentReturn_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- EXPENSE TAB  -->
           <div id="expenseContent" class="tab-content hidden">
-            <h1>Expense</h1>
+            <!-- functionalExpensePercent_program -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Functional Expense % - Program
+                  </span>
+                </div>
+                <div
+                  id="functionalExpensePercent_program_percentageChange"
+                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
+                >
+                  0%
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div id="functionalExpensePercent_program_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="functionalExpensePercent_program_modal"
+                    data-modal-toggle="functionalExpensePercent_program_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- functionalExpensePercent_administrative -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Functional Expense % - Administrative
+                  </span>
+                </div>
+                <div
+                  id="functionalExpensePercent_administrative_percentageChange"
+                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
+                >
+                  0%
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div id="functionalExpensePercent_administrative_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="functionalExpensePercent_administrative_modal"
+                    data-modal-toggle="functionalExpensePercent_administrative_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- functionalExpensePercent_fundraising -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Functional Expense % - Fundraising
+                  </span>
+                </div>
+                <div
+                  id="functionalExpensePercent_fundraising_percentageChange"
+                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
+                >
+                  0%
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div id="functionalExpensePercent_fundraising_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="functionalExpensePercent_fundraising_modal"
+                    data-modal-toggle="functionalExpensePercent_fundraising_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- functionalExpensePercent_other -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Functional Expense % - Other
+                  </span>
+                </div>
+                <div
+                  id="functionalExpensePercent_other_percentageChange"
+                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
+                >
+                  0%
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div id="functionalExpensePercent_other_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="functionalExpensePercent_other_modal"
+                    data-modal-toggle="functionalExpensePercent_other_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- costOfContributions -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Cost of Contributions (Raise $1)
+                  </span>
+                </div>
+                <div
+                  id="costOfContributions_percentageChange"
+                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
+                >
+                  0%
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div id="costOfContributions_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="costOfContributions_modal"
+                    data-modal-toggle="costOfContributions_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <!-- REPORT TAB -->
@@ -1834,196 +2258,1505 @@
       </div>
     </div>
 
-    totalCoverageRatio
     <div
-    id="totalCoverageRatio_modal"
-    tabindex="-1"
-    aria-hidden="true"
-    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
-  >
-    <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
-        <div
-          id="totalCoverageRatio_modal"
-          data-accordion="collapse"
-          data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
-        >
+      id="totalCoverageRatio_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
           <div
-            class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
-          >
-            <h1 class="text-white font-bold text-center self-center">
-              Days Expenses In Unrestricted Net Assets
-            </h1>
-            <button
-              type="button"
-              class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-              data-modal-hide="totalCoverageRatio_modal"
-            >
-              <svg
-                class="w-3 h-3 font-bold"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                ></path>
-              </svg>
-              <span class="sr-only">Close modal</span>
-            </button>
-          </div>
-          <h2 id="totalCoverageRatio-heading-1">
-            <button
-              type="button"
-              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
-              data-accordion-target="#totalCoverageRatio-body-1"
-              aria-expanded="true"
-              aria-controls="totalCoverageRatio-body-1"
-            >
-              <span>Support Data</span>
-              <svg
-                data-accordion-icon
-                class="w-3 h-3 rotate-180 shrink-0"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 10 6"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5 5 1 1 5"
-                />
-              </svg>
-            </button>
-          </h2>
-          <div
-            id="totalCoverageRatio-body-1"
-            class="hidden"
-            aria-labelledby="totalCoverageRatio-heading-1"
+            id="totalCoverageRatio_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
           >
             <div
-              class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
             >
-              <div class="flex flex-col">
-                <div class="overflow-x-auto">
-                  <div class="inline-block min-w-full align-middle">
-                    <div class="relative overflow-x-auto shadow-md">
-                      <table
-                        class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                      >
-                        <thead
-                          class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+              <h1 class="text-white font-bold text-center self-center">
+                Days Expenses In Unrestricted Net Assets
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="totalCoverageRatio_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="totalCoverageRatio-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#totalCoverageRatio-body-1"
+                aria-expanded="true"
+                aria-controls="totalCoverageRatio-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="totalCoverageRatio-body-1"
+              class="hidden"
+              aria-labelledby="totalCoverageRatio-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                         >
-                          <tr
-                            id="totalCoverageRatio_modal_row"
-                          ></tr>
-                        </thead>
-                        <tbody></tbody>
-                      </table>
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="totalCoverageRatio_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <h2 id="totalCoverageRatio-heading-2">
-            <button
-              type="button"
-              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
-              data-accordion-target="#totalCoverageRatio-body-2"
-              aria-expanded="false"
-              aria-controls="totalCoverageRatio-body-2"
-            >
-              <span>What does this mean?</span>
-              <svg
-                data-accordion-icon
-                class="w-3 h-3 rotate-180 shrink-0"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 10 6"
+            <h2 id="totalCoverageRatio-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#totalCoverageRatio-body-2"
+                aria-expanded="false"
+                aria-controls="totalCoverageRatio-body-2"
               >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5 5 1 1 5"
-                />
-              </svg>
-            </button>
-          </h2>
-          <div
-            id="totalCoverageRatio-body-2"
-            class="hidden"
-            aria-labelledby="totalCoverageRatio-heading-2"
-          >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
             <div
-              class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              id="totalCoverageRatio-body-2"
+              class="hidden"
+              aria-labelledby="totalCoverageRatio-heading-2"
             >
-              <p class="mb-2 text-gray-500 dark:text-gray-400">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Similique delectus nisi commodi. Quidem quam eum quas
-                assumenda adipisci ipsum eligendi, sit asperiores odit quis
-                incidunt, porro pariatur libero doloremque iste.
-              </p>
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Similique delectus nisi commodi. Quidem quam eum quas
+                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                  incidunt, porro pariatur libero doloremque iste.
+                </p>
+              </div>
             </div>
-          </div>
-          <h2 id="totalCoverageRatio-heading-3">
-            <button
-              type="button"
-              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
-              data-accordion-target="#totalCoverageRatio-body-3"
-              aria-expanded="false"
-              aria-controls="totalCoverageRatio-body-3"
-            >
-              <span>Benchmark</span>
-              <svg
-                data-accordion-icon
-                class="w-3 h-3 rotate-180 shrink-0"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 10 6"
+            <h2 id="totalCoverageRatio-heading-3">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#totalCoverageRatio-body-3"
+                aria-expanded="false"
+                aria-controls="totalCoverageRatio-body-3"
               >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5 5 1 1 5"
-                />
-              </svg>
-            </button>
-          </h2>
-          <div
-            id="totalCoverageRatio-body-3"
-            class="hidden"
-            aria-labelledby="totalCoverageRatio-heading-3"
-          >
+                <span>Benchmark</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
             <div
-              class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              id="totalCoverageRatio-body-3"
+              class="hidden"
+              aria-labelledby="totalCoverageRatio-heading-3"
             >
-              <p class="mb-2 text-gray-500 dark:text-gray-400">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Ratione optio id ex odio recusandae maiores repellendus eum
-                numquam laborum eos illo rem, pariatur cum temporibus
-                praesentium natus veritatis blanditiis. Magnam.
-              </p>
+              <div
+                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Ratione optio id ex odio recusandae maiores repellendus eum
+                  numquam laborum eos illo rem, pariatur cum temporibus
+                  praesentium natus veritatis blanditiis. Magnam.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- INCOME MODALS -->
+
+    <div id="contributionsTrend_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="contributionsTrend_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Contributions Trend
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="contributionsTrend_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="contributionsTrend-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#contributionsTrend-body-1"
+                aria-expanded="true"
+                aria-controls="contributionsTrend-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="contributionsTrend-body-1"
+              class="hidden"
+              aria-labelledby="contributionsTrend-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="contributionsTrend_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="contributionsTrend-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#contributionsTrend-body-2"
+                aria-expanded="false"
+                aria-controls="contributionsTrend-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="contributionsTrend-body-2"
+              class="hidden"
+              aria-labelledby="contributionsTrend-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Similique delectus nisi commodi. Quidem quam eum quas
+                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                  incidunt, porro pariatur libero doloremque iste.
+                </p>
+              </div>
+            </div>
+            <h2 id="contributionsTrend-heading-3">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#contributionsTrend-body-3"
+                aria-expanded="false"
+                aria-controls="contributionsTrend-body-3"
+              >
+                <span>Benchmark</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="contributionsTrend-body-3"
+              class="hidden"
+              aria-labelledby="contributionsTrend-heading-3"
+            >
+              <div
+                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Ratione optio id ex odio recusandae maiores repellendus eum
+                  numquam laborum eos illo rem, pariatur cum temporibus
+                  praesentium natus veritatis blanditiis. Magnam.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="annualizedInvestmentReturn_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="annualizedInvestmentReturn_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Annualized Investment Return
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="annualizedInvestmentReturn_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="annualizedInvestmentReturn-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#annualizedInvestmentReturn-body-1"
+                aria-expanded="true"
+                aria-controls="annualizedInvestmentReturn-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="annualizedInvestmentReturn-body-1"
+              class="hidden"
+              aria-labelledby="annualizedInvestmentReturn-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="annualizedInvestmentReturn_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="annualizedInvestmentReturn-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#annualizedInvestmentReturn-body-2"
+                aria-expanded="false"
+                aria-controls="annualizedInvestmentReturn-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="annualizedInvestmentReturn-body-2"
+              class="hidden"
+              aria-labelledby="annualizedInvestmentReturn-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Similique delectus nisi commodi. Quidem quam eum quas
+                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                  incidunt, porro pariatur libero doloremque iste.
+                </p>
+              </div>
+            </div>
+            <h2 id="annualizedInvestmentReturn-heading-3">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#annualizedInvestmentReturn-body-3"
+                aria-expanded="false"
+                aria-controls="annualizedInvestmentReturn-body-3"
+              >
+                <span>Benchmark</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="annualizedInvestmentReturn-body-3"
+              class="hidden"
+              aria-labelledby="annualizedInvestmentReturn-heading-3"
+            >
+              <div
+                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Ratione optio id ex odio recusandae maiores repellendus eum
+                  numquam laborum eos illo rem, pariatur cum temporibus
+                  praesentium natus veritatis blanditiis. Magnam.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPENSE MODALS -->
+    <div id="functionalExpensePercent_administrative_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="functionalExpensePercent_administrative_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Functional Expense % - Administrative
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="functionalExpensePercent_administrative_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="functionalExpensePercent_administrative-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#functionalExpensePercent_administrative-body-1"
+                aria-expanded="true"
+                aria-controls="functionalExpensePercent_administrative-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="functionalExpensePercent_administrative-body-1"
+              class="hidden"
+              aria-labelledby="functionalExpensePercent_administrative-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="functionalExpensePercent_administrative_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="functionalExpensePercent_administrative-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#functionalExpensePercent_administrative-body-2"
+                aria-expanded="false"
+                aria-controls="functionalExpensePercent_administrative-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="functionalExpensePercent_administrative-body-2"
+              class="hidden"
+              aria-labelledby="functionalExpensePercent_administrative-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Similique delectus nisi commodi. Quidem quam eum quas
+                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                  incidunt, porro pariatur libero doloremque iste.
+                </p>
+              </div>
+            </div>
+            <h2 id="functionalExpensePercent_administrative-heading-3">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#functionalExpensePercent_administrative-body-3"
+                aria-expanded="false"
+                aria-controls="functionalExpensePercent_administrative-body-3"
+              >
+                <span>Benchmark</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="functionalExpensePercent_administrative-body-3"
+              class="hidden"
+              aria-labelledby="functionalExpensePercent_administrative-heading-3"
+            >
+              <div
+                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Ratione optio id ex odio recusandae maiores repellendus eum
+                  numquam laborum eos illo rem, pariatur cum temporibus
+                  praesentium natus veritatis blanditiis. Magnam.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="functionalExpensePercent_program_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="functionalExpensePercent_program_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Functional Expense % - Program
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="functionalExpensePercent_program_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="functionalExpensePercent_program-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#functionalExpensePercent_program-body-1"
+                aria-expanded="true"
+                aria-controls="functionalExpensePercent_program-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="functionalExpensePercent_program-body-1"
+              class="hidden"
+              aria-labelledby="functionalExpensePercent_program-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="functionalExpensePercent_program_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="functionalExpensePercent_program-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#functionalExpensePercent_program-body-2"
+                aria-expanded="false"
+                aria-controls="functionalExpensePercent_program-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="functionalExpensePercent_program-body-2"
+              class="hidden"
+              aria-labelledby="functionalExpensePercent_program-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Similique delectus nisi commodi. Quidem quam eum quas
+                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                  incidunt, porro pariatur libero doloremque iste.
+                </p>
+              </div>
+            </div>
+            <h2 id="functionalExpensePercent_program-heading-3">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#functionalExpensePercent_program-body-3"
+                aria-expanded="false"
+                aria-controls="functionalExpensePercent_program-body-3"
+              >
+                <span>Benchmark</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="functionalExpensePercent_program-body-3"
+              class="hidden"
+              aria-labelledby="functionalExpensePercent_program-heading-3"
+            >
+              <div
+                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Ratione optio id ex odio recusandae maiores repellendus eum
+                  numquam laborum eos illo rem, pariatur cum temporibus
+                  praesentium natus veritatis blanditiis. Magnam.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="functionalExpensePercent_fundraising_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="functionalExpensePercent_fundraising_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Functional Expense % - Fundraising
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="functionalExpensePercent_fundraising_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="functionalExpensePercent_fundraising-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#functionalExpensePercent_fundraising-body-1"
+                aria-expanded="true"
+                aria-controls="functionalExpensePercent_fundraising-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="functionalExpensePercent_fundraising-body-1"
+              class="hidden"
+              aria-labelledby="functionalExpensePercent_fundraising-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="functionalExpensePercent_fundraising_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="functionalExpensePercent_fundraising-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#functionalExpensePercent_fundraising-body-2"
+                aria-expanded="false"
+                aria-controls="functionalExpensePercent_fundraising-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="functionalExpensePercent_fundraising-body-2"
+              class="hidden"
+              aria-labelledby="functionalExpensePercent_fundraising-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Similique delectus nisi commodi. Quidem quam eum quas
+                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                  incidunt, porro pariatur libero doloremque iste.
+                </p>
+              </div>
+            </div>
+            <h2 id="functionalExpensePercent_fundraising-heading-3">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#functionalExpensePercent_fundraising-body-3"
+                aria-expanded="false"
+                aria-controls="functionalExpensePercent_fundraising-body-3"
+              >
+                <span>Benchmark</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="functionalExpensePercent_fundraising-body-3"
+              class="hidden"
+              aria-labelledby="functionalExpensePercent_fundraising-heading-3"
+            >
+              <div
+                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Ratione optio id ex odio recusandae maiores repellendus eum
+                  numquam laborum eos illo rem, pariatur cum temporibus
+                  praesentium natus veritatis blanditiis. Magnam.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="functionalExpensePercent_other_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="functionalExpensePercent_other_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Functional Expense % - Other
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="functionalExpensePercent_other_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="functionalExpensePercent_other-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#functionalExpensePercent_other-body-1"
+                aria-expanded="true"
+                aria-controls="functionalExpensePercent_other-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="functionalExpensePercent_other-body-1"
+              class="hidden"
+              aria-labelledby="functionalExpensePercent_other-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="functionalExpensePercent_other_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="functionalExpensePercent_other-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#functionalExpensePercent_other-body-2"
+                aria-expanded="false"
+                aria-controls="functionalExpensePercent_other-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="functionalExpensePercent_other-body-2"
+              class="hidden"
+              aria-labelledby="functionalExpensePercent_other-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Similique delectus nisi commodi. Quidem quam eum quas
+                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                  incidunt, porro pariatur libero doloremque iste.
+                </p>
+              </div>
+            </div>
+            <h2 id="functionalExpensePercent_other-heading-3">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#functionalExpensePercent_other-body-3"
+                aria-expanded="false"
+                aria-controls="functionalExpensePercent_other-body-3"
+              >
+                <span>Benchmark</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="functionalExpensePercent_other-body-3"
+              class="hidden"
+              aria-labelledby="functionalExpensePercent_other-heading-3"
+            >
+              <div
+                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Ratione optio id ex odio recusandae maiores repellendus eum
+                  numquam laborum eos illo rem, pariatur cum temporibus
+                  praesentium natus veritatis blanditiis. Magnam.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="costOfContributions_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="costOfContributions_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Cost of Contributions (Raise $1)
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="costOfContributions_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="costOfContributions-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#costOfContributions-body-1"
+                aria-expanded="true"
+                aria-controls="costOfContributions-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="costOfContributions-body-1"
+              class="hidden"
+              aria-labelledby="costOfContributions-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="costOfContributions_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="costOfContributions-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#costOfContributions-body-2"
+                aria-expanded="false"
+                aria-controls="costOfContributions-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="costOfContributions-body-2"
+              class="hidden"
+              aria-labelledby="costOfContributions-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Similique delectus nisi commodi. Quidem quam eum quas
+                  assumenda adipisci ipsum eligendi, sit asperiores odit quis
+                  incidunt, porro pariatur libero doloremque iste.
+                </p>
+              </div>
+            </div>
+            <h2 id="costOfContributions-heading-3">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#costOfContributions-body-3"
+                aria-expanded="false"
+                aria-controls="costOfContributions-body-3"
+              >
+                <span>Benchmark</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="costOfContributions-body-3"
+              class="hidden"
+              aria-labelledby="costOfContributions-heading-3"
+            >
+              <div
+                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Ratione optio id ex odio recusandae maiores repellendus eum
+                  numquam laborum eos illo rem, pariatur cum temporibus
+                  praesentium natus veritatis blanditiis. Magnam.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- import all the .js files from components, data, and utility folders-->
     <script src="./utility/Utility.js"></script>
