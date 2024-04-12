@@ -34,7 +34,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   findUniqueYears(recordsClient);
 
-  // addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown(schoolChurch_Array);
+  addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
+  addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
 
   // displayCashComponent();
   // displayAssetComponent();
@@ -379,9 +380,19 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalNetAssets",
+        "netAssetsWithDRByPurposeOrTime",
         record,
-        "_01__03na___04_total_net_assets",
+        "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
+        "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
+        "daysExpensesInNAwithDR_excludingPPE"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "netAssetsWithDRInPerpetuity",
+        record,
+        "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
         "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
         "daysExpensesInNAwithDR_excludingPPE"
       );
@@ -457,12 +468,12 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "liquidityFundsAvailable"
       );
 
-      // financialAssetsAvailableFY
+      // liquidityRatio
       insertDataIntoObject(
         "peer",
         year,
         object,
-        "financialAssetsAvailableFY_Peer",
+        "liquidityRatio_Peer",
         record,
         "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
         "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
@@ -475,7 +486,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         "_05_01liquid___01_financial_assets_available_per_liquidity_fn",
         "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
-        "financialAssetsAvailableFY"
+        "liquidityRatio"
       );
       insertDataIntoObject(
         "peer",
@@ -485,8 +496,40 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         "_02_03exp___05_total_expenses",
         "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
-        "financialAssetsAvailableFY"
+        "liquidityRatio"
       );
+
+      // financialAssetsAvailableFY
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "financialAssetsAvailableFY_Peer",
+        record,
+        'c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures', 
+        'c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "financialAssetsAvailablePerLiquidity",
+        record,
+        '_05_01liquid___01_financial_assets_available_per_liquidity_fn',
+        'c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures',
+        'financialAssetsAvailableFY'
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpenses",
+        record,
+        '_02_03exp___05_total_expenses',
+        'c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures',
+        'financialAssetsAvailableFY'
+      );
+
 
       // daysFinancialAssetsOnHand
       insertDataIntoObject(
@@ -719,6 +762,16 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "c02_05_ratio_liquidity_funds_available"
       );
 
+      // liquidityRatio
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "liquidityRatio_Client",
+        record,
+        "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
+      );
+      
       // financialAssetsAvailableFY
       insertDataIntoObject(
         "client",
@@ -956,7 +1009,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         "client",
         year,
         object,
-        "percentWithoutDR_Client",
+        "percentWithoutDR_excludingPPE_Client",
         record,
         "c03_02_ratio_percent_without_donor_restrictions_excluding_net_investment_in_ppe"
       );
@@ -966,7 +1019,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         "client",
         year,
         object,
-        "percentWithoutDR_excludingPPE_Client",
+        "percentWithoutDR_Client",
         record,
         "c03_03_ratio_percent_without_donor_restrictions"
       );
@@ -1899,36 +1952,6 @@ const processMiscData = (years, recordsPeer, recordsClient) => {
         "percentageAssessmentOnRestrictedGifts"
       );
 
-      // ageOfFacilities
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "ageOfFacilities_Peer",
-        record,
-        "c06_02_ratio_age_of_facilities",
-        "c06_02_yes_no_age_of_facilities"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "accumulatedDepreciation",
-        record,
-        "_05_02land___06_accumulated_depreciation",
-        "c06_02_yes_no_age_of_facilities",
-        "ageOfFacilities"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "depreciationAndAmortization",
-        record,
-        "_04_01fexp___06_depreciation_and_amortization",
-        "c06_02_yes_no_age_of_facilities",
-        "ageOfFacilities"
-      );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -1947,15 +1970,7 @@ const processMiscData = (years, recordsPeer, recordsClient) => {
         record,
         "c06_01_ratio_percentage_assessment_on_restricted_gifts"
       );
-      // ageOfFacilities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "ageOfFacilities_Client",
-        record,
-        "c06_02_ratio_age_of_facilities"
-      );
+
     });
 
     localStorage.removeItem("miscData");

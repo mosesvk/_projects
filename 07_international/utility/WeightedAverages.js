@@ -467,14 +467,15 @@ const daysExpensesInNAwithDR_excludingPPE_weightedAverage = (data, name) => {
     //     [02.03Exp - 05 Total Expenses] / 365
     // )
 
-    const totalNetAssets = getSumOfArray(data.totalNetAssets[name]);
+    const netAssetsWithDRByPurposeOrTime = getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name]);
+    const netAssetsWithDRInPerpetuity = getSumOfArray(data.netAssetsWithDRInPerpetuity[name]);
     const propertyPlantAndEquipment = getSumOfArray(data.propertyPlantAndEquipment[name]);
     const notesPayable = getSumOfArray(data.notesPayable[name]);
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
 
     const denominator = totalExpenses / 365;
 
-    return denominator > 0 ? (totalNetAssets - propertyPlantAndEquipment - notesPayable) / denominator : 0;
+    return denominator > 0 ? (netAssetsWithDRByPurposeOrTime + netAssetsWithDRInPerpetuity - propertyPlantAndEquipment - notesPayable) / denominator : 0;
 }
 
 const daysExpensesInNAwithDR_weightedAverage = (data, name) => {

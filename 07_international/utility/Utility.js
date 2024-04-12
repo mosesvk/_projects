@@ -19,6 +19,23 @@ const regions_Array = [
   { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
 ];
 
+// Mission Sending
+// Relief Ops
+// Healthcare
+// Bible Translators
+// Education
+// Other
+// Child Sponsorships
+const types_Array = [
+  { arr: ["Mission Sending"], str: "MS" },
+  { arr: ["Relief Ops"], str: "RO" },
+  { arr: ["Healthcare"], str: "HC" },
+  { arr: ["Bible Translators"], str: "BT" },
+  { arr: ["Education"], str: "ED" },
+  { arr: ["Other"], str: "OT" },
+  { arr: ["Child Sponsorships"], str: "CS" },
+]
+
 const schoolChurch_Array = [
   { arr: ["School"], str: 0},
   { arr: ["Church"], str: 1},
@@ -36,8 +53,10 @@ let sliderValue = 0;
 let sliderValue2 = 25000;
 // let amount = null;
 
-const selectedRegions_Array = [];
+let selectedRegion = "";
+const selectedregion_Array = [];
 const selectedSites_Array = [];
+const selectedTypes_Array = []
 let selectedSchoolChurch_Selected;
 
 // Utility Functions
@@ -217,6 +236,7 @@ const OfArray = (array) => {
 };
 
 const get25thPercentileOfArray = (array) => {
+  // console.log(array);
   // Step 1: Sort the array in ascending order
   const sortedArray = array.sort((a, b) => a - b);
   // console.log(sortedArray);
@@ -396,26 +416,27 @@ const getPeerAndClientChartDataArrays = (
 ) => {
   // console.log({ years, dataPeer, dataClient, fixedNum })
   const peerAvg = [];
-  const peerMid = [];
-  const peerMin = [];
-  const peerMax = [];
+  const  peerMid = [];
+  const peer25 = [];
+  const peer75 = [];
   const clientArray = [];
 
-  // console.log(year, dataPeer)
   years.forEach((year) => {
+    // console.log(year, dataPeer)
     if (dataPeer[year]) {
       const array = dataPeer[year];
+      // console.log(array)
       const avg = getAverageOfArray(array);
       const mid = getMidpointOfArray(array);
-      const min = Math.min(...array);
-      const max = Math.max(...array);
+      const lower25 = get25thPercentileOfArray(array);
+      const higher75 = get75thPercentileOfArray(array);
 
       // console.log(mid);
 
       peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
       peerMid.push(parseFloat(mid.toFixed(fixedNum)));
-      peerMin.push(parseFloat(min.toFixed(fixedNum)));
-      peerMax.push(parseFloat(max.toFixed(fixedNum)));
+      peer25.push(parseFloat(lower25.toFixed(fixedNum)));
+      peer75.push(parseFloat(higher75.toFixed(fixedNum)));
 
       const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
       clientArray.push(clientNum);
@@ -424,32 +445,33 @@ const getPeerAndClientChartDataArrays = (
     }
   });
 
-  return { clientArray, peerAvg, peerMid, peerMin, peerMax };
+  return { clientArray, peerAvg, peerMid, peer25, peer75 };
 };
 
 const styleNumber = (num, type, fixed) => {
   let text = num;
-
-  // if (text == 0) text = "-";
-
+  let textNum
+  
   if (!isNaN(text)) {
     if (type === "num" && text != 0) {
-      text = Number(text).toFixed(fixed);
-      text = Number(text).toLocaleString(); // Add commas for thousands
+      textNum = Number(text).toFixed(fixed);
+      text = Number(textNum).toLocaleString(); // Add commas for thousands
     }
-
+    
     if (type === "percent" && text != 0) {
-      text = parseFloat(text).toFixed(fixed) + "%";
+      text = (parseFloat(text) * 100).toFixed(fixed) + "%";
     }
-
+    
     if (type === "dollar" && text != 0) {
-      text = parseFloat(text).toFixed(fixed);
-      text = "$ " + Number(text).toLocaleString(); // Add commas for thousands
+      textNum = parseFloat(text).toFixed(fixed);
+      text = fixed ? "$ " + Number(textNum).toFixed(fixed) : "$ " + Number(textNum).toLocaleString(); // Add commas for thousands
     }
   }
 
+
   return text;
 };
+
 
 const updateCountyData = (trId, countyName, percentage, income, year) => {
   // console.log({ trId, countyName, percentage, income });
@@ -811,4 +833,18 @@ function calculatePercentageChange(numbers) {
       percentageChanges.push(change);
   }
   return percentageChanges;
+}
+
+
+function missionaryRange() {
+  return {
+    min: 0,
+    max: 10000,
+    missionprice: 0,
+    missionthumb: 0,
+    missiontrigger() {
+      let minposition = ((this.missionprice - this.min) / (this.max - this.min)) * 100;
+      this.missionthumb = minposition > 100 ? 100 : minposition < 0 ? 0 : minposition;
+    }
+  };
 }

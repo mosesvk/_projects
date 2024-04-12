@@ -1,6 +1,6 @@
 const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
-  console.log('-----')
-  console.log('getMainChartOptions()')
+  // console.log('-----')
+  // console.log('getMainChartOptions()')
 
   const chartColors = document.documentElement.classList.contains('dark')
     ? {
@@ -26,7 +26,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
 
   // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
 
-  ({ clientArray, peerAvg, peerMid, peerMin, peerMax } =
+  ({ clientArray, peerAvg, peerMid, peer25, peer75 } =
     getPeerAndClientChartDataArrays(
       selectedYearsArray,
       dataPeer,
@@ -42,7 +42,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
     } else {
       return formatNumber(value);
     }
-  };s
+  };
 
   const tooltipFormatter = (value) => {
     if (!value) return;
@@ -100,13 +100,13 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       {
         name: '25%',
         type: 'line',
-        data: peerMin,
+        data: peer25,
         visible: false
       },
       {
         name: '75%',
         type: 'line',
-        data: peerMax,
+        data: peer75,
         visible: false
       }
     ],

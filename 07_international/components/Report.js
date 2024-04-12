@@ -14,7 +14,7 @@ const displayReportComponent = () => {
       ['givingUnits', 'num', 0],
       ['missionaryUnit', 'num', 0],
       ['numberOfEmployeesFTE', 'num', 0],
-      ['itExpenses', 'num', 0]
+      ['itExpenses', 'dollar', 0]
     ]);
 
     insertDataToReport(cashData, selectedYears, [
@@ -22,14 +22,14 @@ const displayReportComponent = () => {
         ['daysExpensesInUnrestrictedNA', 'num', 0, 'wa'],
         ['daysExpensesInNAwithDR', 'num', 0, 'wa'],
         ['daysExpensesInNAwithDR_excludingPPE', 'num', 0, 'wa'],
-        ['liquidityFundsAvailable', 'num', 0, 'wa'],
-        ['financialAssetsAvailableFY', 'num', 0, 'wa'],
+        ['liquidityRatio', 'dollar', 1, 'wa'],
+        ['financialAssetsAvailableFY', 'dollar', 0, 'wa'],
         ['daysFinancialAssetsOnHand', 'num', 0, 'wa'],
-        ['currentRatio', 'num', 0, 'wa'],
-        ['totalCoverageRatio', 'num', 1, 'wa'],
-        ['cashFlowsTrendFinancing', 'num', 0],
-        ['cashFlowsTrendInvesting', 'num', 0],
-        ['cashFlowsTrendOperating', 'num', 0]
+        ['currentRatio', 'num', 1, 'wa'],
+        ['totalCoverageRatio', 'dollar', 2, 'wa'],
+        ['cashFlowsTrendFinancing', 'dollar', 0],
+        ['cashFlowsTrendInvesting', 'dollar', 0],
+        ['cashFlowsTrendOperating', 'dollar', 0]
     ]);
 
     insertDataToReport(assetData, selectedYears, [
@@ -39,16 +39,16 @@ const displayReportComponent = () => {
     ])
 
     insertDataToReport(incomeData, selectedYears, [
-      ['netIncomeRatio', 'percent', 0, 'wa'],
-      ['contributionsTrend_basedOnNumberOfDonors', 'num', 0],
-      ['contributionsTrend', 'num', 0],
+      ['netIncomeRatio', 'num', 1, 'wa'],
+      ['contributionsTrend_basedOnNumberOfDonors', 'percent', 0],
+      ['contributionsTrend', 'percent', 0],
       ['contributionsPercentWithoutDR', 'percent', 0, 'wa'],
       ['contributionsPercentWithDR', 'percent', 0, 'wa'],
-      ['contributionsPerGivingUnit', 'num', 0, 'wa'],
-      ['contributionsPerMissionaryUnit', 'num', 0, 'wa'],
-      ['contributionsPerFullTimeEquivalent', 'num', 0, 'wa'],
-      ['fundraisingAsPercentOfContributions', 'num', 0, 'wa'],
-      ['annualizedInvestmentReturn', 'num', 0],
+      ['contributionsPerGivingUnit', 'dollar', 0, 'wa'],
+      ['contributionsPerMissionaryUnit', 'dollar', 0, 'wa'],
+      ['contributionsPerFullTimeEquivalent', 'dollar', 0, 'wa'],
+      ['fundraisingAsPercentOfContributions', 'percent', 0, 'wa'],
+      ['annualizedInvestmentReturn', 'percent', 0],
     ])
 
     insertDataToReport(expenseData, selectedYears, [
@@ -56,7 +56,7 @@ const displayReportComponent = () => {
       ['functionalExpensePercent_administrative', 'percent', 0, 'wa'],
       ['functionalExpensePercent_fundraising', 'percent', 0, 'wa'],
       ['functionalExpensePercent_other', 'percent', 0, 'wa'],
-      ['costOfContributions', 'dollar', 0, 'wa'],
+      ['costOfContributions', 'dollar', 2, 'wa'],
       ['expensesPerGivingUnit', 'dollar', 0, 'wa'],
       ['expensesPerMissionaryUnit', 'dollar', 0, 'wa'],
       ['expensesPerFullTimeEquivalent', 'dollar', 0, 'wa'],
@@ -66,7 +66,6 @@ const displayReportComponent = () => {
 
     insertDataToReport(miscData, selectedYears, [
       ['percentageAssessmentOnRestrictedGifts', 'percent', 0, 'wa'],
-      ['ageOfFacilities', 'num', 0, 'wa'],
     ])
 
     processTHElements();
@@ -174,7 +173,10 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
   
     selectedYears.forEach((year) => {
       const dataPoint = document.createElement("th");
-      const text = client ? styleNumber(client[year].value, type, fixedNum) : "";
+      
+      // console.log({client, tableRow, year, type, fixedNum, dataPoint})
+      
+      const text = Number(client[year].value) !== 0 ? styleNumber(client[year].value, type, fixedNum) : '-';
   
       // Create a new span element
       const spanElement = document.createElement("span");
@@ -218,15 +220,16 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
     type,
     fixedNum
   ) => {
-    // console.log({ tableModalRow, year, client, type, fixedNum });
-  
+    
     const propClass =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
     const propScope = "row";
-  
+    
     const dataPoint = document.createElement("th");
-    const text = styleNumber(client[year].value, type, fixedNum);
-  
+    const text = Number(client[year].value) !== 0 ? styleNumber(client[year].value, type, fixedNum) : '-';
+    
+    // console.log({ tableModalRow, year, client, type, fixedNum, dataPoint, text });
+
     dataPoint.className = propClass;
     dataPoint.scope = propScope;
     dataPoint.textContent = text;
@@ -244,14 +247,13 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
     name,
     data
   ) => {
-    // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name });
-  
+    
     const propClass =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
     const propScope = "row";
-  
+    
     const dataPointAvg = document.createElement("th");
-  
+    
     let avg;
     if (peer && wa) {
       avg = getWeightedAverageOfArray(data, name);
@@ -260,6 +262,9 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
     } else {
       avg = 0;
     }
+    
+    // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name, avg });
+
     
     
     const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
