@@ -36,14 +36,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown(schoolChurch_Array);
 
-  displayEnrollmentComponent();
-  displayCashComponent();
-  displayAssetComponent();
-  displayDebtComponent();
-  displayIncomeComponent();
-  displayExpenseComponent();
-  displayReportComponent();
-
   runApiMain(recordsPeer, recordsClient);
 });
 
@@ -1918,7 +1910,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "financialAssistanceDiscountBased_Client",
         record,
-        "_22b1_ratio_financial_assistance_discount_based"
+        "_22d1_ratio_total_financial_assistance"
       );
 
       // financialAssistanceDiscountBased_Percent
@@ -1927,46 +1919,6 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         year,
         object,
         "financialAssistanceDiscountBased_Percent_Client",
-        record,
-        "_22b2_ratio___change"
-      );
-
-      // scholarshipAwarded
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "scholarshipAwarded_Client",
-        record,
-        "_22c1_ratio_scholarship_awarded"
-      );
-
-      // scholarshipAwarded_Percent
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "scholarshipAwarded_Percent_Client",
-        record,
-        "_22c2_ratio___change"
-      );
-
-      // totalFinancialAssistance
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalFinancialAssistance_Client",
-        record,
-        "_22d1_ratio_total_financial_assistance"
-      );
-
-      // totalFinancialAssistance_Percent
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalFinancialAssistance_Percent_Client",
         record,
         "_22d2_ratio___change"
       );
@@ -2831,36 +2783,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "_07b_yes_no_depreciation_expenses_on_3_7_year_assets"
       );
 
-      // netCashUsedOperating_overUnderBench
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "netCashUsedOperating_overUnderBench_Peer",
-        record,
-        "_07c_ratio_over_under_benchmark",
-        "_07c_yes_no_over_under_benchmark"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "cashFlowsOperatingActivities",
-        record,
-        "_05_01_cash_flows_from_operating_activities",
-        "_07c_yes_no_over_under_benchmark",
-        "netCashUsedOperating_overUnderBench"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "totalDepreciationExpense",
-        record,
-        "_04_09_total_depreciation_expense",
-        "_07c_yes_no_over_under_benchmark",
-        "netCashUsedOperating_overUnderBench"
-      );
+
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -2936,16 +2859,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         "_07b_ratio_depreciation_expenses_on_3_7_year_assets"
       );
-      // netCashUsedOperating_overUnderBench
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "netCashUsedOperating_overUnderBench_Client",
-        record,
-        "_07c_ratio_over_under_benchmark",
-        "_07c_bench_rating_over_under_benchmark"
-      );
+
     });
   });
 
@@ -3079,17 +2993,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 
   localStorage.removeItem("enrollmentData");
   localStorage.setItem("enrollmentData", JSON.stringify(object));
-};
-
-const addColumnsToOtherRows = (idName, year) => {
-  const rows = document.querySelectorAll(`#${idName} + tbody tr`);
-
-  rows.forEach((row) => {
-    const tdElement = document.createElement("td");
-    // You can customize the content of the new columns as needed
-    tdElement.textContent = "New Data"; // Change this line accordingly
-    row.appendChild(tdElement);
-  });
 };
 
 const runApiMain = (recordsPeer, recordsClient) => {
