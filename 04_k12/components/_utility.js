@@ -803,3 +803,12 @@ const getSelectedSchoolChurchOption = () => {
     }
   });
 };
+
+function calculatePercentageChange(numbers) {
+  const percentageChanges = [];
+  for (let i = 1; i < numbers.length; i++) {
+      const change = ((numbers[i] - numbers[i - 1]) / numbers[i - 1]) * 100;
+      percentageChanges.push(change);
+  }
+  return percentageChanges;
+}
