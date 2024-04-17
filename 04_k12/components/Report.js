@@ -132,7 +132,7 @@ const addToSingleRow = (
   wa,
   cb
 ) => {
-  //console.log({ selectedYears, name, client, peer, type, fixedNum });
+  // console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);
@@ -195,7 +195,10 @@ const addClientDataToReportRow = (
 
   selectedYears.forEach((year) => {
     const dataPoint = document.createElement("th");
-    const text = client ? styleNumber(client[year].value, type, fixedNum) : "";
+    
+    // console.log({client, tableRow, year, type, fixedNum, dataPoint})
+    
+    const text = Number(client[year].value) !== 0 ? styleNumber(client[year].value, type, fixedNum) : '-';
 
     // Create a new span element
     const spanElement = document.createElement("span");
@@ -239,14 +242,15 @@ const addClientDataToModalRow = (
   type,
   fixedNum
 ) => {
-  // console.log({ tableModalRow, year, client, type, fixedNum });
-
+  
   const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
   const propScope = "row";
-
+  
   const dataPoint = document.createElement("th");
-  const text = styleNumber(client[year].value, type, fixedNum);
+  const text = Number(client[year].value) !== 0 ? styleNumber(client[year].value, type, fixedNum) : '-';
+  
+  // console.log({ tableModalRow, year, client, type, fixedNum, dataPoint, text });
 
   dataPoint.className = propClass;
   dataPoint.scope = propScope;
@@ -265,14 +269,13 @@ const addPeerDataToRow = (
   name,
   data
 ) => {
-  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name });
-
+  
   const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
   const propScope = "row";
-
+  
   const dataPointAvg = document.createElement("th");
-
+  
   let avg;
   if (peer && wa) {
     avg = getWeightedAverageOfArray(data, name);
@@ -281,6 +284,9 @@ const addPeerDataToRow = (
   } else {
     avg = 0;
   }
+  
+  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name, avg });
+
   
   
   const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';

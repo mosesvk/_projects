@@ -25,7 +25,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
 
   // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
 
-  ({ clientArray, peerAvg, peerMid, peerMin, peerMax } =
+  ({ clientArray, peerAvg, peerMid, peer25, peer75 } =
     getPeerAndClientChartDataArrays(
       selectedYearsArray,
       dataPeer,
@@ -99,13 +99,13 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       {
         name: 'Min',
         type: 'line',
-        data: peerMin,
+        data: peer25,
         visible: false
       },
       {
         name: 'Max',
         type: 'line',
-        data: peerMax,
+        data: peer75,
         visible: false
       }
     ],

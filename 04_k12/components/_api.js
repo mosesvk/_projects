@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
 
+  document.getElementById('firmName').textContent = recordsClient[0].children[2].innerHTML
+
   findUniqueYears(recordsClient);
 
   addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown(schoolChurch_Array);
