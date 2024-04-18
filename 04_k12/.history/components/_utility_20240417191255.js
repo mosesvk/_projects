@@ -275,8 +275,6 @@ const get75thPercentileOfArray = (array) => {
   return sortedArray[index - 1];
 };
 
-// 
-
 
 const getSumOfArray = (array) => {
   // console.log(array);

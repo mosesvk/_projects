@@ -1905,22 +1905,22 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "_22a2_ratio___change"
       );
 
-      // financialAssistanceDiscountBased
+      // totalFinancialAssistance
       insertDataIntoObject(
         "client",
         year,
         object,
-        "financialAssistanceDiscountBased_Client",
+        "totalFinancialAssistance_Client",
         record,
         "_22d1_ratio_total_financial_assistance"
       );
 
-      // financialAssistanceDiscountBased_Percent
+      // totalFinancialAssistance_Percent
       insertDataIntoObject(
         "client",
         year,
         object,
-        "financialAssistanceDiscountBased_Percent_Client",
+        "totalFinancialAssistance_Percent_Client",
         record,
         "_22d2_ratio___change"
       );

@@ -275,8 +275,6 @@ const get75thPercentileOfArray = (array) => {
   return sortedArray[index - 1];
 };
 
-// 
-
 
 const getSumOfArray = (array) => {
   // console.log(array);
@@ -415,7 +413,7 @@ const getPeerAndClientChartDataArrays = (
       const lower25 = parseFloat(get25thPercentileOfArray(array));
       const higher75 = parseFloat(get75thPercentileOfArray(array));
 
-      // console.log({ avg, mid, lower25, higher75 });
+      console.log({ avg, mid, lower25, higher75 });
 
       peerAvg.push(avg.toFixed(fixedNum));
       peerMid.push(mid.toFixed(fixedNum));

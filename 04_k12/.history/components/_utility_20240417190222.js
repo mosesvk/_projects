@@ -275,8 +275,6 @@ const get75thPercentileOfArray = (array) => {
   return sortedArray[index - 1];
 };
 
-// 
-
 
 const getSumOfArray = (array) => {
   // console.log(array);
@@ -435,8 +433,13 @@ const getPeerAndClientChartDataArrays = (
 
 const styleNumber = (num, type, fixed) => {
   let text = num;
-  let textNum
+  let textNum;
   
+  // Convert text to number if it's a string
+  if (typeof text === 'string') {
+    text = parseFloat(text);
+  }
+
   if (!isNaN(text)) {
     if (type === "num" && text != 0) {
       textNum = Number(text).toFixed(fixed);
@@ -444,7 +447,7 @@ const styleNumber = (num, type, fixed) => {
     }
     
     if (type === "percent" && text != 0) {
-      text = (parseFloat(text) * 100).toFixed(fixed) + "%";
+      text = (text * 100).toFixed(fixed) + "%";
     }
     
     if (type === "dollar" && text != 0) {
@@ -453,9 +456,9 @@ const styleNumber = (num, type, fixed) => {
     }
   }
 
-
   return text;
 };
+
 
 
 const updateCountyData = (trId, countyName, percentage, income, year) => {

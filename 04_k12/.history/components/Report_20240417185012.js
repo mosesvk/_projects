@@ -67,9 +67,9 @@ const displayReportComponent = () => {
     ])
 
     insertDataToReport(expenseData, selectedYears, [
-      ['salariesBenefitsTeachersAsPercentNetTuition_Salaries', 'num', 1, 'wa'],
-      ['salariesBenefitsTeachersAsPercentNetTuition_Benefits', 'num', 1], 
-      ['salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits', 'num', 1, 'wa'],
+      ['salariesBenefitsTeachersAsPercentNetTuition_Salaries', 'num', 2, 'wa'],
+      ['salariesBenefitsTeachersAsPercentNetTuition_Benefits', 'num', 2], 
+      ['salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits', 'num', 2, 'wa'],
       ['salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries', 'num', 0, 'wa'],
       ['salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits', 'num', 0, 'wa'],
       ['salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits', 'num', 0, 'wa'],
@@ -295,7 +295,7 @@ const addPeerDataToRow = (
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement("th");
   const min = peer ? get25thPercentileOfArray(peer[dataArray]) : '';
-// if (name == 'salariesBenefitsTeachersAsPercentNetTuition_Salaries') console.log('salariesBenefitsTeachersAsPercentNetTuition_Salaries', {min, peerArray: peer[dataArray], type, fixedNum})
+// if (name == 'studentAverageEnrollment') console.log('totalOutsourcedEmployees', {min, peerArray: peer[dataArray]})
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
   const max = peer ? get75thPercentileOfArray(peer[dataArray]) : '';
