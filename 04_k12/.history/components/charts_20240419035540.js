@@ -70,29 +70,24 @@ const getMainChartOptions = (
   </svg>
 `;
 
-  // console.log(`${name}_percentageChange`)
+  console.log(`${name}_percentageChange`)
 
-  if (percentChange < 0 && name) {
+  if (percentChange < 0) {
     document.getElementById(`${name}_percentageChange`).classList.remove('text-green-500')
     document.getElementById(`${name}_percentageChange`).classList.remove('dark:text-green-400')
     document.getElementById(`${name}_percentageChange`).classList.add('colorRed')
-
-    document.getElementById(`${name}_percentageChange`).innerHTML = `${percentChange}% ${downArrow}`;
-  } else if (percentChange > 0 && name) {
+  } else {
     document.getElementById(`${name}_percentageChange`).classList.remove('text-green-500')
     document.getElementById(`${name}_percentageChange`).classList.remove('dark:text-green-400')
     document.getElementById(`${name}_percentageChange`).classList.add('colorGreen')
-
-    document.getElementById(`${name}_percentageChange`).innerHTML = `${percentChange}% ${upArrow}`;
-  } else if (percentChange === 0 && name) {
-    document.getElementById(`${name}_percentageChange`).classList.remove('text-green-500')
-    document.getElementById(`${name}_percentageChange`).classList.remove('dark:text-green-400')
-    document.getElementById(`${name}_percentageChange`).classList.add('colorGrey')
-
-    document.getElementById(`${name}_percentageChange`).innerHTML = `${percentChange}%`;
   }
 
-
+  document.getElementById(`${name}_percentageChange`).innerHTML =
+    percentChange == 0
+      ? `${percentChange}%`
+      : percentChange < 0
+      ? `${percentChange}% ${downArrow}`
+      : `${percentChange}% ${upArrow}`;
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {

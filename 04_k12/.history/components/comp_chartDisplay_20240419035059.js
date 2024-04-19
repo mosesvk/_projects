@@ -171,7 +171,7 @@ const displayIncomeComponent = () => {
     "grossTuition_Client",
     "dollar",
     1,
-    "grossTuition"
+    "grossTuitiond"
   );
 
 

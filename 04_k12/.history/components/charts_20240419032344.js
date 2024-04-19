@@ -7,7 +7,6 @@ const getMainChartOptions = (
 ) => {
   // console.log('getMainChartOptions()')
 
-
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
         borderColor: "#374151",
@@ -44,55 +43,46 @@ const getMainChartOptions = (
 
   const percentChange = calculatePercentageChange(clientArray);
   // console.log({ percentChange });
-  const upArrow = `<svg
-    class="w-5 h-5"
-    fill="currentColor"
-    viewBox="0 0 20 20"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      fill-rule="evenodd"
-      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-      clip-rule="evenodd"
-    ></path>
-  </svg>`;
-  const downArrow = `<svg
-    class="w-5 h-5"
-    fill="currentColor"
-    viewBox="0 0 20 20"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      fill-rule="evenodd"
-      d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 15.586V4a1 1 0 112 0v11.586l3.293-3.293a1 1 0 011.414 0z"
-      clip-rule="evenodd"
-    ></path>
-  </svg>
-`;
-
-  // console.log(`${name}_percentageChange`)
-
-  if (percentChange < 0 && name) {
-    document.getElementById(`${name}_percentageChange`).classList.remove('text-green-500')
-    document.getElementById(`${name}_percentageChange`).classList.remove('dark:text-green-400')
-    document.getElementById(`${name}_percentageChange`).classList.add('colorRed')
-
-    document.getElementById(`${name}_percentageChange`).innerHTML = `${percentChange}% ${downArrow}`;
-  } else if (percentChange > 0 && name) {
-    document.getElementById(`${name}_percentageChange`).classList.remove('text-green-500')
-    document.getElementById(`${name}_percentageChange`).classList.remove('dark:text-green-400')
-    document.getElementById(`${name}_percentageChange`).classList.add('colorGreen')
-
-    document.getElementById(`${name}_percentageChange`).innerHTML = `${percentChange}% ${upArrow}`;
-  } else if (percentChange === 0 && name) {
-    document.getElementById(`${name}_percentageChange`).classList.remove('text-green-500')
-    document.getElementById(`${name}_percentageChange`).classList.remove('dark:text-green-400')
-    document.getElementById(`${name}_percentageChange`).classList.add('colorGrey')
-
-    document.getElementById(`${name}_percentageChange`).innerHTML = `${percentChange}%`;
-  }
-
-
+  const downArrow = (
+    `<svg
+      class="w-5 h-5 text-gray-800 dark:text-white"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 10 14"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M5 1v12m0 0 4-4m-4 4L1 9"
+      />
+    </svg>`
+  );
+  const upArrow = (
+   ` <svg
+      class="w-5 h-5 text-gray-800 dark:text-white"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 10 14"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M5 13V1m0 0L1 5m4-4 4 4"
+      />
+    </svg>`
+  );
+  document.getElementById(`${name}_percentageChange`).innerHTML =
+    percentChange == 0
+      ? `${percentChange}%`
+      : percentChange < 0
+      ? `${downArrow} ${percentChange}%`
+      : `${upArrow} ${percentChange}%`;
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {

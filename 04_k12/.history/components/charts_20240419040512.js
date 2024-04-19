@@ -70,7 +70,7 @@ const getMainChartOptions = (
   </svg>
 `;
 
-  // console.log(`${name}_percentageChange`)
+  console.log(`${name}_percentageChange`)
 
   if (percentChange < 0 && name) {
     document.getElementById(`${name}_percentageChange`).classList.remove('text-green-500')
