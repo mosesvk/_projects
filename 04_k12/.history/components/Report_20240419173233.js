@@ -278,9 +278,9 @@ const addPeerDataToRow = (
   
   let avg;
   if (peer && wa) {
-    avg = parseFloat(getWeightedAverageOfArray(data, name));
+    avg = getWeightedAverageOfArray(data, name);
   } else if (peer && !wa) {
-    avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+    avg = getAverageOfArray(peer[dataArray], name);
   } else {
     avg = 0;
   }
@@ -290,15 +290,15 @@ const addPeerDataToRow = (
   
   const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
   const dataPointMid = document.createElement("th");
-  const mid = peer ? parseFloat(getMidpointOfArray(peer[dataArray])) : '';
+  const mid = peer ? getMidpointOfArray(peer[dataArray]) : '';
   // console.log('mid', mid);
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement("th");
-  const min = peer ? parseFloat(get25thPercentileOfArray(peer[dataArray])) : '';
+  const min = peer ? get25thPercentileOfArray(peer[dataArray]) : '';
 // if (name == 'salariesBenefitsTeachersAsPercentNetTuition_Salaries') console.log('salariesBenefitsTeachersAsPercentNetTuition_Salaries', {min, peerArray: peer[dataArray], type, fixedNum})
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
-  const max = peer ? parseFloat(get75thPercentileOfArray(peer[dataArray])) : '';
+  const max = peer ? get75thPercentileOfArray(peer[dataArray]) : '';
   const textMax = styleNumber(max, type, fixedNum);
 
   console.log({ tableRow, fixedNum, avg, mid, min, textMin, max, textMax });

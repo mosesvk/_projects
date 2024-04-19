@@ -418,12 +418,12 @@ const getPeerAndClientChartDataArrays = (
       const lower25 = parseFloat(get25thPercentileOfArray(array));
       const higher75 = parseFloat(get75thPercentileOfArray(array));
 
+      if (lower25 == 0.000) console.log({ avg, mid, lower25, higher75 });
+
       peerAvg.push(avg.toFixed(fixedNum));
       peerMid.push(mid.toFixed(fixedNum));
       peer25.push(lower25.toFixed(fixedNum));
       peer75.push(higher75.toFixed(fixedNum));
-      
-      // if (lower25 == 0.000) console.log({ avg, mid, lower25, higher75 });
 
       const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
       clientArray.push(clientNum);
