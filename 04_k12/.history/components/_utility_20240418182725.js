@@ -817,35 +817,22 @@ const getSelectedSchoolChurchOption = () => {
 function calculatePercentageChange(numbers) {
   const numericNumbers = numbers.map(num => {
     // Convert string numbers to numeric values, keeping non-string numbers unchanged
-    if (typeof num === 'string') {
-      // Parse string numbers, handle "-0" as regular zero
-      return parseFloat(num.replace(/-0/, '0'));
-    } else if (isNaN(num)) {
-      return 0; // Treat NaN as 0
-    } else {
-      return num;
-    }
+    return typeof num === 'string' ? parseFloat(num) : num;
   });
 
   const percentageChanges = [];
   for (let i = 1; i < numericNumbers.length; i++) {
-    // If either current or previous value is NaN or zero, skip the calculation
-    if (numericNumbers[i] === 0 || numericNumbers[i - 1] === 0 || isNaN(numericNumbers[i]) || isNaN(numericNumbers[i - 1])) {
-      continue;
-    }
-    const change = ((numericNumbers[i] - numericNumbers[i - 1]) / Math.abs(numericNumbers[i - 1])) * 100;
-    percentageChanges.push(change);
+      const change = ((numericNumbers[i] - numericNumbers[i - 1]) / numericNumbers[i - 1]) * 100;
+      percentageChanges.push(change);
   }
 
-  // Calculate average percentage change if there are changes
-  if (percentageChanges.length === 0) {
-    return 0; // Return 0 if there are no changes
-  } else {
-    // Calculate average percentage change
-    const averagePercentageChange = percentageChanges.reduce((acc, val) => acc + val, 0) / percentageChanges.length;
+  // Calculate average percentage change
+  const averagePercentageChange = percentageChanges.reduce((acc, val) => acc + val, 0) / percentageChanges.length;
 
-    return Math.round(averagePercentageChange); // Round to the nearest whole number
-  }
+  // Round to the nearest whole number
+  const roundedAveragePercentageChange = Math.round(averagePercentageChange);
+
+  return roundedAveragePercentageChange;
 }
 
 

@@ -833,7 +833,7 @@ function calculatePercentageChange(numbers) {
     if (numericNumbers[i] === 0 || numericNumbers[i - 1] === 0 || isNaN(numericNumbers[i]) || isNaN(numericNumbers[i - 1])) {
       continue;
     }
-    const change = ((numericNumbers[i] - numericNumbers[i - 1]) / Math.abs(numericNumbers[i - 1])) * 100;
+    const change = ((numericNumbers[i] - numericNumbers[i - 1]) / numericNumbers[i - 1]) * 100;
     percentageChanges.push(change);
   }
 

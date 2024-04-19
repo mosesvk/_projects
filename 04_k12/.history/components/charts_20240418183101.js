@@ -36,7 +36,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, name) 
     // console.log({clientArray})
 
     const percentChange = calculatePercentageChange(clientArray)
-    console.log({percentChange})
+    // console.log({percentChange})
     document.getElementById(`${name}_percentageChange`).innerHTML = `${percentChange}%`;
 
   const yaxisLabelFormatter = (value) => {
