@@ -13,6 +13,7 @@ const fetchClientData = async () => {
 };
 
 const fetchPeerData = async () => {
+  
   return fetch("./data/peerData.xml")
     .then((response) => response.text())
     .then((xmlString) => {
