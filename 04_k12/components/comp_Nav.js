@@ -133,6 +133,85 @@ document.getElementById(
       </div>
     </div>`;
 
+const printOptionsButton = document.querySelector(
+  '[data-modal-target="print_modal"]'
+);
+const optionsButton = document.querySelector(
+  '[data-modal-toggle="options_modal"]'
+);
+const optionsModal = document.getElementById("options_modal");
+const printModal = document.getElementById("print_modal");
+
+
+let backdropRemoved = false; // Flag to track whether the backdrop is removed
+
+// Function to remove all backdrop elements
+const removeBackdrops = () => {
+  console.log("removeBackdrop");
+  const backdrops = document.querySelectorAll("[modal-backdrop]");
+  backdrops.forEach((backdrop) => {
+    backdrop.remove();
+  });
+
+  optionsModal.setAttribute("aria-hidden", "true");
+  optionsModal.removeAttribute('aria-modal')
+  optionsModal.removeAttribute('role')
+
+  
+  backdropRemoved = true;
+};
+
+// Function to add the backdrop
+const addBackdrop = () => {
+  console.log("addBackdrop");
+  // optionsModal.setAttribute("role", "dialog");
+
+  const backdrop = document.createElement("div");
+  backdrop.setAttribute("modal-backdrop", "");
+  backdrop.classList.add(
+    "bg-gray-900/50",
+    "dark:bg-gray-900/80",
+    "fixed",
+    "inset-0",
+    "z-40"
+  );
+
+  document.body.appendChild(backdrop);
+
+  backdropRemoved = false;
+};
+
+printOptionsButton.addEventListener("click", function () {
+  // Hide the options modal
+  optionsModal.classList.toggle("hidden");
+
+  // Show the print modal
+  printModal.classList.toggle("hidden");
+
+  // If backdrop is removed, add it back
+  if (printModal.classList.contains("hidden")) {
+    // console.log('hit');
+    addBackdrop();
+    // console.log('hit after');
+  }
+  // Remove all backdrops
+  removeBackdrops();
+
+  optionsButton.click()
+
+});
+
+// Function to toggle the options modal
+const toggleOptionsModal = () => {
+
+  console.log('toggleOptionModal', backdropRemoved);
+  if (backdropRemoved) {
+    addBackdrop();
+  }
+};
+
+optionsButton.addEventListener("click", toggleOptionsModal);
+
 const customSelectElement = document.getElementById("custom-select");
 const optionsListElement = document.getElementById("options-list");
 const sidebarElement = document.getElementById("sidebar");
@@ -141,11 +220,11 @@ const backdropElement = document.getElementById("sidebarBackdrop");
 const customSelectSchoolChurchElement = document.getElementById(
   "custom-select-schoolChurch"
 );
-const optionsListSchoolChurchElement = document.getElementById("options-list-schoolChurch");
-
+const optionsListSchoolChurchElement = document.getElementById(
+  "options-list-schoolChurch"
+);
 
 customSelectElement.addEventListener("click", (event) => {
-  // Check if the click target is not a checkbox inside the customSelectElement
   if (
     !event.target.closest(".form-checkbox") &&
     !event.target.closest("label")
@@ -154,16 +233,13 @@ customSelectElement.addEventListener("click", (event) => {
   }
 });
 customSelectSchoolChurchElement.addEventListener("click", (event) => {
-  // Check if the click target is not a checkbox inside the customSelectRegion
   if (
     !event.target.closest(".form-checkbox") &&
     !event.target.closest("label")
   ) {
-    optionsListSchoolChurchElement.classList.toggle("invisible"); // Corrected class name
+    optionsListSchoolChurchElement.classList.toggle("invisible");
   }
 });
-
-
 
 document.addEventListener("click", (event) => {
   if (
@@ -179,12 +255,14 @@ document.addEventListener("click", (event) => {
   ) {
     optionsListSchoolChurchElement.classList.add("invisible");
   }
-
-
 });
 
-const addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown = (SchoolChurchArray) => {
-  const optionsListSchoolChurch = document.getElementById("options-list-schoolChurch");
+const addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown = (
+  SchoolChurchArray
+) => {
+  const optionsListSchoolChurch = document.getElementById(
+    "options-list-schoolChurch"
+  );
 
   SchoolChurchArray.forEach((regionObject, index) => {
     const regionName = regionObject.arr[0];
@@ -236,9 +314,10 @@ const addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown = (SchoolChurchAr
   });
 };
 
-
 const addUniqueSchoolChurchToOptionsSelectRegion = (SchoolChurchArray) => {
-  const optionsListSchoolChurch = document.getElementById("options-list-schoolChurch");
+  const optionsListSchoolChurch = document.getElementById(
+    "options-list-schoolChurch"
+  );
 
   SchoolChurchArray.forEach((regionObject) => {
     const regionName = regionObject.arr[0];
@@ -288,7 +367,6 @@ const addUniqueSchoolChurchToOptionsSelectRegion = (SchoolChurchArray) => {
   });
 };
 
+adjustDivHeight();
 
-adjustDivHeight()
-
-window.addEventListener('resize', adjustDivHeight);
+window.addEventListener("resize", adjustDivHeight);

@@ -13,11 +13,32 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.js" integrity="sha512-SxopZNPB/jzFpgtGdR6lI7dK8EbbheOZVLNDI0FsMNM0NAqNkJyVoT83C72esOJCTdPVfDb8miZ3whsW4o/+fA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.css" integrity="sha512-ZKliQ0+hD8CfDJ2v8kzEzNxT5Y4EnmG5cFV6oFvswCDyckUCRG+1p6nyMMlLgi1vM5srVpX+6YkxiUoF2tOfRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.js" integrity="sha512-nsQH9RD40r4g0C32+8AvcOqHtpotZ+7AI3LpKPbfTXgYWHhwbJ+20ATTkbUz+kO3ZeruAiaubTq97pD6sWSRbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.css" integrity="sha512-j5NOES5oZiza0awDPWoDCbU50obvmJUQobyAqYzhsXFxaXaxkcxB2WhnRcZa5wRGNyborruWuJaeg9J508HfQg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.js"
+      integrity="sha512-SxopZNPB/jzFpgtGdR6lI7dK8EbbheOZVLNDI0FsMNM0NAqNkJyVoT83C72esOJCTdPVfDb8miZ3whsW4o/+fA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.css"
+      integrity="sha512-ZKliQ0+hD8CfDJ2v8kzEzNxT5Y4EnmG5cFV6oFvswCDyckUCRG+1p6nyMMlLgi1vM5srVpX+6YkxiUoF2tOfRw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.js"
+      integrity="sha512-nsQH9RD40r4g0C32+8AvcOqHtpotZ+7AI3LpKPbfTXgYWHhwbJ+20ATTkbUz+kO3ZeruAiaubTq97pD6sWSRbA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.css"
+      integrity="sha512-j5NOES5oZiza0awDPWoDCbU50obvmJUQobyAqYzhsXFxaXaxkcxB2WhnRcZa5wRGNyborruWuJaeg9J508HfQg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
     <link
       rel="stylesheet"
@@ -71,7 +92,7 @@
         color: #c9cbcf;
       }
       .colorRed {
-        color: #CD5A2C;
+        color: #cd5a2c;
       }
       .actionRequired {
         background-color: #e68f96 !important;
@@ -108,9 +129,7 @@
           class="relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
         >
           <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
-            <div
-              class="flex-1 px-3 space-y-1 bg-white dark:bg-gray-800"
-            >
+            <div class="flex-1 px-3 space-y-1 bg-white dark:bg-gray-800">
               <ul class="mb-20 space-y-2">
                 <li>
                   <button
@@ -335,9 +354,16 @@
                   </button>
                 </li>
               </ul>
-              <div >
-                <h3 class="border-b dark:border-gray-500 text-gray-900 dark:text-gray-300">client</h3>
-                <h1 class="text-lg mt-2 font-bold leading-none sm:text-2xl text-gray-900 dark:text-gray-300" id="firmName"></h1>
+              <div>
+                <h3
+                  class="border-b dark:border-gray-500 text-gray-900 dark:text-gray-300"
+                >
+                  client
+                </h3>
+                <h1
+                  class="text-lg mt-2 font-bold leading-none sm:text-2xl text-gray-900 dark:text-gray-300"
+                  id="firmName"
+                ></h1>
               </div>
             </div>
           </div>
@@ -5140,7 +5166,6 @@
       <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
           <div
-            id="options_modal"
             data-accordion="collapse"
             data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
           >
@@ -5151,9 +5176,9 @@
                 class="flex flex-col items-left ml-20 justify-between gap-y-5"
               >
                 <div
+                  class="relative max-w-md w-full pb-5"
                   x-data="range()"
                   x-init="mintrigger(); maxtrigger()"
-                  class="relative max-w-md w-full pb-5"
                 >
                   <div class="flex items-center p-2">
                     <p class="whitespace-nowrap mr-4">Enrollment Range:</p>
@@ -5218,7 +5243,8 @@
                   </div>
                 </div>
                 <div class="flex">
-                  <div id="custom-select-schoolChurch"
+                  <div
+                    id="custom-select-schoolChurch"
                     class="flex max-w-max cursor-pointer text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                   >
                     <svg
@@ -5247,11 +5273,99 @@
                       />
                     </svg>
                   </div>
-                  <div id="options-list-schoolChurch"
+                  <div
+                    id="options-list-schoolChurch"
                     class="absolute top-36 left-20 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 invisible"
                   ></div>
-
                 </div>
+                <div class="flex">
+                  <button
+                    data-modal-target="print_modal"
+                    data-modal-toggle="print_modal"
+                    data-modal-toggle="options_modal"
+                    type="button"
+                    class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                  >
+                    <span>Print options</span>
+                    <svg
+                      class="pl-2 w-6 h-6 text-white"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRINT MODAL -->
+    <div
+      id="print_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="block py-2.5 md:py-4 px-0 justify-center w-full text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400 appearance-none dark:text-gray-400 dark:border-gray-700 dark:hover:border-gray-500 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl flex items-center"
+            >
+              <div
+                class="flex flex-col items-left justify-between gap-y-5"
+              >
+                <div class="flex">
+                  <p
+                    class="flex max-w-max cursor-pointer text-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  >
+                      Please use the buttons below to download the reports in
+                      your preferred format.
+                  </p>
+                </div>
+                <button
+                  href=""
+                  class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                  id="trendXLSFinal"
+                  target="_blank"
+                >
+                  Trends XLS
+                </button>
+                <button
+                  href=""
+                  class="flex mr-3 backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                  id="trendPDFFinal"
+                  target="_blank"
+                >
+                  Trends PDF
+                </button>
+                <button
+                  href=""
+                  class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                  id="benchXLSFinal"
+                  target="_blank"
+                >
+                  Benchmark XLS
+                </button>
+                <button
+                  href=""
+                  class="flex mr-3 backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                  id="benchPDFFinal"
+                  target="_blank"
+                >
+                  Benchmark PDF
+                </button>
               </div>
             </div>
           </div>
