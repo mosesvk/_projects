@@ -5163,30 +5163,36 @@
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
     >
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-800 p-4 w-full max-w-fit md:max-w-4xl max-h-full border dark:border-gray-500">
+      <div
+        class="relative bg-white rounded-lg shadow dark:bg-gray-800 p-4 w-full max-w-fit md:max-w-4xl max-h-full"
+      >
         <div class="relative">
           <div
             data-accordion="collapse"
             data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
           >
             <div class="flex justify-center py-4">
-              <h2 class="text-3xl dark:text-white font-bold leading-none">Select Options</h2>
+              <h2 class="text-3xl dark:text-white font-bold leading-none uppercase">
+                Select Options
+              </h2>
             </div>
             <!-- <hr class="h-px my-4 mx-8 bg-gray-700 border-0 dark:bg-gray-500" /> -->
             <div
               class="block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent dark:text-gray-400 relative text-xl"
             >
               <div class="flex flex-col gap-y-5 mx-8">
-                <div class="flex flex-row p-4 items-center border border-gray-500 rounded">
+                <div
+                  class="flex flex-row p-4 items-center border border-gray-500 rounded"
+                >
                   <div class="w-48">
                     <p
-                    class="text-xl font-semibold text-gray-900 dark:text-white"
-                  >
-                    Enrollment Range:
-                  </p>
+                      class="text-xl font-semibold text-gray-900 dark:text-white"
+                    >
+                      Enrollment Range:
+                    </p>
                   </div>
                   <div
-                    class="relative max-w-md w-full pb-5"
+                    class="relative max-w-lg w-full pb-5"
                     x-data="range()"
                     x-init="mintrigger(); maxtrigger()"
                   >
@@ -5235,155 +5241,95 @@
                         ></div>
 
                         <div
-                          class="absolute z-20 top-0 bottom-0 rounded-md bg-green-300"
+                          class="absolute z-20 top-0 bottom-0 rounded-md backgroundGreen"
                           x-bind:style="'right:'+maxthumb+'%; left:'+minthumb+'%'"
                         ></div>
 
                         <div
-                          class="absolute z-30 w-6 h-6 top-0 left-0 bg-green-300 rounded-full -mt-2 -ml-1"
+                          class="absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
                           x-bind:style="'left: '+minthumb+'%'"
                         ></div>
 
                         <div
-                          class="absolute z-30 w-6 h-6 top-0 right-0 bg-green-300 rounded-full -mt-2 -mr-1"
+                          class="absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
                           x-bind:style="'right: '+maxthumb+'%'"
                         ></div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex flex-row p-4 items-center border border-gray-500 rounded">
+                <div
+                  class="flex flex-row p-4 items-center border border-gray-500 rounded"
+                >
                   <div
                     id="custom-select-schoolChurch"
                     class="flex max-w-max cursor-pointer text-gray-900 dark:text-white items-center"
                   >
                     <div class="w-48">
-                      <p class="text-xl font-semibold w-max items-center">Select One:</p>
+                      <p class="text-xl font-semibold w-max items-center">
+                        Select One:
+                      </p>
                     </div>
-                    <div
-                      id="options-list-schoolChurch"
-                      class="flex flex-row w-60"
-                    ></div>
+                    <div id="options-list-schoolChurch" class="flex flex-row">
+                    </div>
                   </div>
                 </div>
-                <div class="flex">
+                <div class="flex justify-center py-4">
                   <button
-                    data-modal-target="print_modal"
-                    data-modal-toggle="print_modal"
-                    data-modal-toggle="options_modal"
                     type="button"
-                    class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    class="flex backgroundGreen text-xl font-bold py-4 px-8 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    id="generateReports"
                   >
-                    <span>Print options</span>
-                    <svg
-                      class="pl-2 w-6 h-6 text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"
-                      />
-                    </svg>
+                    Generate Trends and Benchmark Reports
                   </button>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PRINT Modal -->
-    <div
-      id="print_modal"
-      tabindex="-1"
-      class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
-    >
-      <div class="relative w-full max-w-lg max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-          <div class="flex items-center justify-between px-4 pt-2 rounded-t">
-            <button
-              type="button"
-              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-              data-modal-hide="print_modal"
-            >
-              <svg
-                class="w-3 h-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
+              <div
+                class="hidden flex flex-col items-center p-2 border-t border-gray-200 rounded-b dark:border-gray-600"
               >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                />
-              </svg>
-              <span class="sr-only">Close modal</span>
-            </button>
-          </div>
-          <!-- Modal body -->
-          <div class="p-4 flex justify-center">
-            <button
-              type="button"
-              class="flex backgroundGreen text-2xl font-bold py-4 px-8 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-              id="generateReports"
-            >
-              Generate Trends and Benchmark Reports
-            </button>
-          </div>
-          <!-- Modal footer -->
-          <div
-            class="hidden flex flex-col items-center p-2 border-t border-gray-200 rounded-b dark:border-gray-600"
-          >
-            <p
-              class="text-center pb-4 pt-2 text-lg font-medium text-gray-900 dark:text-white"
-            >
-              Please use the buttons below to download the reports in your
-              preferred format.
-            </p>
-            <div
-              class="flex justify-center flex-col md:flex-row grid-rows-4 grid-flow-col gap-4"
-            >
-              <button
-                href=""
-                class="flex backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-                id="trendXLSFinal"
-                target="_blank"
-              >
-                Trends XLS
-              </button>
-              <button
-                href=""
-                class="flex backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-                id="trendPDFFinal"
-                target="_blank"
-              >
-                Trends PDF
-              </button>
-              <button
-                href=""
-                class="flex backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-                id="benchXLSFinal"
-                target="_blank"
-              >
-                Benchmark XLS
-              </button>
-              <button
-                href=""
-                class="flex backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-                id="benchPDFFinal"
-                target="_blank"
-              >
-                Benchmark PDF
-              </button>
+                <p
+                  class="text-center pb-4 pt-2 text-lg font-medium text-gray-900 dark:text-white"
+                >
+                  Please use the buttons below to download the reports in your
+                  preferred format.
+                </p>
+                <div
+                  class="flex justify-center flex-col md:flex-row grid-rows-4 grid-flow-col gap-4"
+                >
+                  <button
+                    href=""
+                    class="flex backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    id="trendXLSFinal"
+                    target="_blank"
+                  >
+                    Trends XLS
+                  </button>
+                  <button
+                    href=""
+                    class="flex backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    id="trendPDFFinal"
+                    target="_blank"
+                  >
+                    Trends PDF
+                  </button>
+                  <button
+                    href=""
+                    class="flex backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    id="benchXLSFinal"
+                    target="_blank"
+                  >
+                    Benchmark XLS
+                  </button>
+                  <button
+                    href=""
+                    class="flex backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    id="benchPDFFinal"
+                    target="_blank"
+                  >
+                    Benchmark PDF
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

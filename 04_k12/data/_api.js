@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   findUniqueYears(recordsClient);
 
-  addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown(schoolChurch_Array);
+  // addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown(schoolChurch_Array);
 
   runApiMain(recordsPeer, recordsClient);
 });

@@ -133,9 +133,7 @@ document.getElementById(
       </div>
     </div>`;
 
-const printOptionsButton = document.querySelector(
-  '[data-modal-target="print_modal"]'
-);
+
 const optionsButton = document.querySelector(
   '[data-modal-toggle="options_modal"]'
 );
@@ -181,25 +179,7 @@ const addBackdrop = () => {
   backdropRemoved = false;
 };
 
-printOptionsButton.addEventListener("click", function () {
-  // Hide the options modal
-  optionsModal.classList.toggle("hidden");
 
-  // Show the print modal
-  printModal.classList.toggle("hidden");
-
-  // If backdrop is removed, add it back
-  if (printModal.classList.contains("hidden")) {
-    // console.log('hit');
-    addBackdrop();
-    // console.log('hit after');
-  }
-  // Remove all backdrops
-  removeBackdrops();
-
-  optionsButton.click()
-
-});
 
 // Function to toggle the options modal
 const toggleOptionsModal = () => {
@@ -257,62 +237,6 @@ document.addEventListener("click", (event) => {
   // }
 });
 
-const addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown = (
-  SchoolChurchArray
-) => {
-  const optionsListSchoolChurch = document.getElementById(
-    "options-list-schoolChurch"
-  );
-
-  SchoolChurchArray.forEach((regionObject, index) => {
-    const regionName = regionObject.arr[0];
-    const SchoolChurchString = regionObject.str;
-
-    const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", `option-${SchoolChurchString}`);
-    newLabel.setAttribute(
-      "class",
-      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-    );
-
-    const newInput = document.createElement("input");
-    newInput.setAttribute("type", "radio");
-    newInput.setAttribute("name", "schoolChurch"); // Set the same name for all radio inputs
-    newInput.setAttribute("id", `option-${SchoolChurchString}`);
-    newInput.setAttribute(
-      "class",
-      "form-radio h-4 w-4 text-gray-600 mr-2 rounded"
-    );
-    newInput.setAttribute("value", SchoolChurchString);
-
-    // Check the first radio button by default
-    if (index === 0) {
-      newInput.checked = true;
-    }
-
-    // Add an onChange event to the input element
-    newInput.addEventListener("change", function () {
-      if (newInput.checked) {
-        // Handle when the region is selected
-        selectedSchoolChurch_Array.push(SchoolChurchString);
-      } else {
-        // Handle when the region is deselected
-        const index = selectedSchoolChurch_Array.indexOf(SchoolChurchString);
-        if (index > -1) {
-          selectedSchoolChurch_Array.splice(index, 1);
-        }
-      }
-    });
-
-    const newSpan = document.createElement("span");
-    newSpan.innerText = regionName;
-
-    newLabel.appendChild(newInput);
-    newLabel.appendChild(newSpan);
-
-    optionsListSchoolChurch.appendChild(newLabel);
-  });
-};
 
 const addUniqueSchoolChurchToOptionsSelectRegion = (SchoolChurchArray) => {
   const optionsListSchoolChurch = document.getElementById(
@@ -365,8 +289,32 @@ const addUniqueSchoolChurchToOptionsSelectRegion = (SchoolChurchArray) => {
 
     optionsListSchoolChurch.appendChild(newLabel);
   });
+
 };
 
 adjustDivHeight();
 
 window.addEventListener("resize", adjustDivHeight);
+
+
+const addCheckmarkToSelectedOption = () => {
+  const radioButtons = document.querySelectorAll('input[type="radio"][name="schoolChurch"]');
+  
+  radioButtons.forEach((radio) => {
+    console.log(radio);
+    radio.addEventListener("change", function () {
+      const labels = document.querySelectorAll(`label[for="${this.id}"]`);
+      labels.forEach((label) => {
+        const checkIcon = label.querySelector(".check-icon");
+        if (this.checked) {
+          checkIcon.classList.remove("hidden");
+        } else {
+          checkIcon.classList.add("hidden");
+        }
+      });
+    });
+  });
+};
+
+// Call the function to add checkmark dynamically to selected option
+addCheckmarkToSelectedOption();

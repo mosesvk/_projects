@@ -1,6 +1,6 @@
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
-const selectedSchoolChurch_Array = []
+let selectedSchoolChurch;
 const regions_Array = [
   { arr: ["New England (CT, RI, MA, VT, NH)"], str: "NE" },
   {
@@ -381,7 +381,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     const newInput = document.createElement("input");
     newInput.setAttribute("type", "checkbox");
     newInput.setAttribute("id", `option-${year}`);
-    newInput.setAttribute("class", `form-checkbox h-4 w-4 text-gray-600 mr-2`);
+    newInput.setAttribute("class", `form-checkbox h-4 w-4 colorBlue mr-2`);
     newInput.setAttribute("value", year);
     newInput.checked = selectedYears_Set.has(year);
 
@@ -390,6 +390,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     );
 
     const newSpan = document.createElement("span");
+    newSpan.setAttribute("class", `dark:text-white`)
     newSpan.innerText = year;
 
     newLabel.appendChild(newInput);
