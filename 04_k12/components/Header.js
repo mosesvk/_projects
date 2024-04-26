@@ -50,9 +50,9 @@ document.getElementById(
         <div class="flex items-center cursor-pointer">
           <div
             id="custom-select"
-            class="block py-2.5 px-0 mr-4 w-full text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 bg-transparent border-0 border-b-2 border-gray-400 hover:border-gray-600 dark:border-gray-400 dark:hover:border-gray-300 appearance-none transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl"
+            class="block py-2.5 px-0 mr-4 w-full text-gray-600 bg-transparent border-0 border-b-2 border-gray-600 hover:border-gray-400 dark:hover:border-white 0 appearance-none transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl"
           >
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between hover:text-gray-400 dark:text-gray-400 dark:hover:text-white">
               <svg
                 class="w-5 h-5"
                 aria-hidden="true"
@@ -79,7 +79,7 @@ document.getElementById(
             </div>
             <div
               id="options-list"
-              class="absolute left-0 z-10 mt-2 w-full bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey h-80 overflow-y-auto"
+              class="absolute left-0 z-10 mt-2 w-full dark:text-gray-400 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto h-fit py-4 invisible"
             ></div>
           </div>
           <button
@@ -232,14 +232,14 @@ customSelectElement.addEventListener("click", (event) => {
     optionsListElement.classList.toggle("invisible");
   }
 });
-customSelectSchoolChurchElement.addEventListener("click", (event) => {
-  if (
-    !event.target.closest(".form-checkbox") &&
-    !event.target.closest("label")
-  ) {
-    optionsListSchoolChurchElement.classList.toggle("invisible");
-  }
-});
+// customSelectSchoolChurchElement.addEventListener("click", (event) => {
+//   if (
+//     !event.target.closest(".form-checkbox") &&
+//     !event.target.closest("label")
+//   ) {
+//     optionsListSchoolChurchElement.classList.toggle("invisible");
+//   }
+// });
 
 document.addEventListener("click", (event) => {
   if (
@@ -249,12 +249,12 @@ document.addEventListener("click", (event) => {
     optionsListElement.classList.add("invisible");
   }
 
-  if (
-    !optionsListSchoolChurchElement.contains(event.target) &&
-    !customSelectSchoolChurchElement.contains(event.target)
-  ) {
-    optionsListSchoolChurchElement.classList.add("invisible");
-  }
+  // if (
+  //   !optionsListSchoolChurchElement.contains(event.target) &&
+  //   !customSelectSchoolChurchElement.contains(event.target)
+  // ) {
+  //   optionsListSchoolChurchElement.classList.add("invisible");
+  // }
 });
 
 const addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown = (
