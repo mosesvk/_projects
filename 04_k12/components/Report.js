@@ -301,8 +301,7 @@ const addPeerDataToRow = (
   const max = peer ? parseFloat(get75thPercentileOfArray(peer[dataArray])) : '';
   const textMax = styleNumber(max, type, fixedNum);
 
-  console.log({ tableRow, fixedNum, avg, mid, min, textMin, max, textMax });
-
+  // console.log({ tableRow, fixedNum, avg, mid, min, textMin, max, textMax });
 
   dataPointAvg.className = propClass;
   dataPointAvg.scope = propScope;

@@ -3002,64 +3002,142 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("enrollmentData", JSON.stringify(object));
 };
 
+const toggleButtonLoadingState = (btn) => {
+  btn.innerHTML = `
+    <svg aria-hidden="true" role="status" class="inline w-6 h-6 me-3 colorBlued animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
+      <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
+    </svg>
+    Loading...`;
+  btn.disabled = true;
+};
+
+const toggleButtonNormalState = (btn) => {
+  btn.innerHTML = `
+    <span class='text-xl mr-2'>RUN</span>
+    <svg class="w-8 h-8 text-2xl text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+    </svg>`;
+  btn.disabled = false;
+};
+
+const createToastWarning = () => {
+  const toastWarningDiv = document.createElement("div");
+  toastWarningDiv.id = "toast-warning";
+  toastWarningDiv.classList.add(
+    "transition",
+    "ease-in-out",
+    "delay-150",
+    "fixed",
+    "top-20",
+    "left-1/2",
+    "transform",
+    "-translate-x-1/2",
+    "z-50",
+    "flex",
+    "items-center",
+    "w-full",
+    "max-w-md",
+    "p-4",
+    "text-gray-700",
+    "bg-gray-300",
+    "rounded-lg",
+    "shadow",
+    "dark:text-gray-200",
+    "dark:bg-gray-600"
+  );
+
+  toastWarningDiv.innerHTML = `
+    <div class="animate-pulse inline-flex items-center justify-center flex-shrink-0 w-10 h-10 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
+      <svg class="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
+      </svg>
+      <span class="sr-only">Warning icon</span>
+    </div>
+    <div class="ms-3 text-lg font-normal">
+      Please select year(s) for data to appear
+    </div>
+    <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-gray-300 text-gray-600 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-200 dark:hover:text-white dark:bg-gray-600 dark:hover:bg-gray-700" data-dismiss-target="#toast-warning" aria-label="Close">
+      <span class="sr-only">Close</span>
+      <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+      </svg>
+    </button>
+  `;
+
+  
+  const closeButton = toastWarningDiv.querySelector('[data-dismiss-target="#toast-warning"]');
+  closeButton.addEventListener("click", (event) => {
+    event.stopPropagation(); // Prevent propagation to the toast
+    toastWarningDiv.remove();
+  });
+
+  document.body.appendChild(toastWarningDiv);
+
+  // Event listener to close the toast when clicking outside of it
+  const clickOutsideHandler = (event) => {
+    if (!toastWarningDiv.contains(event.target)) {
+      toastWarningDiv.remove();
+      document.body.removeEventListener("click", clickOutsideHandler);
+    }
+  };
+
+  setTimeout(() => {
+    document.body.addEventListener("click", clickOutsideHandler);
+  }, 100); // Delay adding the event listener to prevent immediate removal
+
+};
+
+const processSelectedYears = () => {
+  const selectedYears = getSelectedYearsFromLocalStorage();
+
+  if (!selectedYears.length) {
+    createToastWarning();
+    throw new Error("No years selected.");
+  }
+
+  return selectedYears;
+};
+
+const saveSelectedYearsToLocalStorage = (selectedYears_Set) => {
+  const selectedYearsArray = Array.from(selectedYears_Set).sort(
+    (a, b) => a - b
+  );
+  localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+};
+
+const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
+  processEnrollmentData(selectedYears, recordsPeer, recordsClient);
+  processCashData(selectedYears, recordsPeer, recordsClient);
+  processAssetData(selectedYears, recordsPeer, recordsClient);
+  processDebtData(selectedYears, recordsPeer, recordsClient);
+  processIncomeData(selectedYears, recordsPeer, recordsClient);
+  processExpenseData(selectedYears, recordsPeer, recordsClient);
+};
+
+const displayComponents = () => {
+  displayEnrollmentComponent();
+  displayCashComponent();
+  displayAssetComponent();
+  displayDebtComponent();
+  displayIncomeComponent();
+  displayExpenseComponent();
+  displayReportComponent();
+};
+
 const runApiMain = (recordsPeer, recordsClient) => {
   const run_btn = document.querySelector("#run");
-
-  run_btn.addEventListener("click", () => {
+  run_btn.addEventListener("click", async () => {
     try {
-      // Toggle button text and appearance to show loading spinner
-      run_btn.innerHTML =
-        `<svg aria-hidden="true" role="status" class="inline w-6 h-6 me-3 colorBlued animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
-        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
-        </svg>
-        Loading...`;
-      run_btn.disabled = true; // Disable button during API call
-
-      const selectedYears = getSelectedYearsFromLocalStorage();
-
-      if (!selectedYears.length) {
-
-
-    }
-    
-
-      // After processing, save selectedYears_Set to localStorage
-      const selectedYearsArray = Array.from(selectedYears_Set).sort(
-        (a, b) => a - b
-      );
-      localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
-
-      processEnrollmentData(selectedYears, recordsPeer, recordsClient);
-      processCashData(selectedYears, recordsPeer, recordsClient);
-      processAssetData(selectedYears, recordsPeer, recordsClient);
-      processDebtData(selectedYears, recordsPeer, recordsClient);
-      processIncomeData(selectedYears, recordsPeer, recordsClient);
-      processExpenseData(selectedYears, recordsPeer, recordsClient);
-
-      displayEnrollmentComponent();
-      displayCashComponent();
-      displayAssetComponent();
-      displayDebtComponent();
-      displayIncomeComponent();
-      displayExpenseComponent();
-      displayReportComponent();
-
-      // Toggle button text and appearance back to "Run" after API call is finished
-      run_btn.innerHTML = `<span class='text-xl mr-2'>RUN</span>
-      <svg class="w-8 h-8 text-2xl  text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
-      </svg>`;
-      run_btn.disabled = false; // Re-enable button
+      toggleButtonLoadingState(run_btn);
+      const selectedYears = processSelectedYears();
+      saveSelectedYearsToLocalStorage(selectedYears);
+      processApiCalls(selectedYears, recordsPeer, recordsClient);
+      displayComponents();
     } catch (err) {
       console.error(err);
-
-      // Toggle button text and appearance back to "Run" after API call is finished
-      run_btn.innerHTML = `<span class='text-xl mr-2'>RUN</span>
-      <svg class="w-8 h-8 text-2xl  text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
-      </svg>`;
-      run_btn.disabled = false; // Re-enable button
+    } finally {
+      toggleButtonNormalState(run_btn);
     }
   });
 };
