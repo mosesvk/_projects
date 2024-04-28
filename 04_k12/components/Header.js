@@ -36,7 +36,7 @@ document.getElementById(
               ></path>
             </svg>
           </button>
-          <div class="flex ml-2 md:mr-24">
+          <div class="flex ml-2 md:mr-12">
             <img
               src="https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0"
               class="h-8 mr-3"
@@ -46,6 +46,17 @@ document.getElementById(
               K-12
             </span>
           </div>
+          <div>
+          <h3
+            class="border-b dark:border-gray-500 text-gray-900 dark:text-gray-300"
+          >
+            client
+          </h3>
+          <h1
+            class="text-lg m-0 p-0 font-bold leading-none sm:text-2xl text-gray-900 dark:text-gray-300"
+            id="firmName"
+          ></h1>
+        </div>
         </div>
         <div class="flex items-center cursor-pointer">
           <div
@@ -88,18 +99,22 @@ document.getElementById(
             type="button"
             class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
           >
-            <span>Options</span>
-            <svg class="pl-2 w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <span class="text-lg">Options</span>
+            <svg class="pl-2 w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
               <path d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"/>
             </svg>
           </button>
           <button
             id="run"
-            class="backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100 cursor:pointer"
+            class="flex flex-row items-center backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100 cursor:pointer"
           >
-            <span>Run</span>
+            <span class='text-xl mr-2'>RUN</span>
+            <svg class="w-8 h-8 text-2xl text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+            </svg>
           </button>
         </div>
+
         <div class="flex items-center">
           <button
             id="theme-toggle"
@@ -133,13 +148,11 @@ document.getElementById(
       </div>
     </div>`;
 
-
 const optionsButton = document.querySelector(
   '[data-modal-toggle="options_modal"]'
 );
 const optionsModal = document.getElementById("options_modal");
 const printModal = document.getElementById("print_modal");
-
 
 let backdropRemoved = false; // Flag to track whether the backdrop is removed
 
@@ -152,10 +165,9 @@ const removeBackdrops = () => {
   });
 
   optionsModal.setAttribute("aria-hidden", "true");
-  optionsModal.removeAttribute('aria-modal')
-  optionsModal.removeAttribute('role')
+  optionsModal.removeAttribute("aria-modal");
+  optionsModal.removeAttribute("role");
 
-  
   backdropRemoved = true;
 };
 
@@ -179,11 +191,8 @@ const addBackdrop = () => {
   backdropRemoved = false;
 };
 
-
-
 // Function to toggle the options modal
 const toggleOptionsModal = () => {
-
   // console.log('toggleOptionModal', backdropRemoved);
   if (backdropRemoved) {
     addBackdrop();
@@ -237,7 +246,6 @@ document.addEventListener("click", (event) => {
   // }
 });
 
-
 const addUniqueSchoolChurchToOptionsSelectRegion = (SchoolChurchArray) => {
   const optionsListSchoolChurch = document.getElementById(
     "options-list-schoolChurch"
@@ -289,17 +297,17 @@ const addUniqueSchoolChurchToOptionsSelectRegion = (SchoolChurchArray) => {
 
     optionsListSchoolChurch.appendChild(newLabel);
   });
-
 };
 
 adjustDivHeight();
 
 window.addEventListener("resize", adjustDivHeight);
 
-
 const addCheckmarkToSelectedOption = () => {
-  const radioButtons = document.querySelectorAll('input[type="radio"][name="schoolChurch"]');
-  
+  const radioButtons = document.querySelectorAll(
+    'input[type="radio"][name="schoolChurch"]'
+  );
+
   radioButtons.forEach((radio) => {
     console.log(radio);
     radio.addEventListener("change", function () {
