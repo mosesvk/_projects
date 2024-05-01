@@ -188,7 +188,6 @@
               </span>
             </div>
             <div class="colorBlue dark:text-white">
-              <h3 class="border-b dark:border-gray-500 font-mono">client</h3>
               <h1
                 class="text-2xl m-0 p-0 font-bold leading-snug tracking-wide"
                 id="firmName"
@@ -196,25 +195,6 @@
             </div>
           </div>
           <div class="flex items-center cursor-pointer">
-            <button
-              data-modal-target="options_modal"
-              data-modal-toggle="options_modal"
-              type="button"
-              class="flex mr-3 backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-            >
-              <span class="text-lg">Options</span>
-              <svg
-                class="pl-2 w-8 h-8 text-white"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"
-                />
-              </svg>
-            </button>
             <div
               id="custom-select"
               class="block py-2.5 px-0 mr-4 w-full text-gray-600 bg-transparent border-0 border-b-2 border-gray-400 dark:border-white appearance-none transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl"
@@ -254,6 +234,25 @@
               ></div>
             </div>
             <button
+              data-modal-target="options_modal"
+              data-modal-toggle="options_modal"
+              type="button"
+              class="flex mr-3 backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            >
+              <span class="text-lg">Options</span>
+              <svg
+                class="pl-2 w-8 h-8 text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"
+                />
+              </svg>
+            </button>
+            <button
               id="run"
               class="flex flex-row items-center backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
@@ -278,8 +277,8 @@
             </button>
           </div>
           <div class="flex flex-rowcolorBlue text-right dark:text-white">
-            <p class="font-mono">
-              unique clients: <span id="uniqueClients"></span>
+            <p class="font-bold">
+              peer client count - <span id="uniqueClients"></span>
             </p>
           </div>
           <div class="flex items-center">
@@ -350,7 +349,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left text-2xl font-normal tracking-wide whitespace-nowrap"
+                      class="dark:text-gray-400 dark:text-gray-400 dark:text-gray-400 dark:text-gray-400 flex-1 ml-3 text-gray-500 hover:text-gray-900 text-left text-xl font-bold tracking-normal whitespace-nowrap dark:hover:text-white"
                       sidebar-toggle-item=""
                     >
                       Enrollment
@@ -398,7 +397,7 @@
                       />
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left text-2xl font-normal tracking-wide whitespace-nowrap"
+                      class="dark:text-gray-400 dark:text-gray-400 dark:text-gray-400 dark:text-gray-400 flex-1 ml-3 text-gray-500 hover:text-gray-900 text-left text-xl font-bold tracking-normal whitespace-nowrap dark:hover:text-white"
                       sidebar-toggle-item=""
                     >
                       Cash
@@ -445,10 +444,10 @@
                       />
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left text-2xl font-normal tracking-wide whitespace-nowrap"
+                      class="dark:text-gray-400 dark:text-gray-400 dark:text-gray-400 flex-1 ml-3 text-gray-500 hover:text-gray-900 text-left text-xl font-bold tracking-normal whitespace-nowrap dark:group-hover:text-white dark:group-hover:text-white dark:group-hover:text-white"
                       sidebar-toggle-item=""
                     >
-                      Asset Ratio
+                      Asset
                     </span>
                   </button>
                 </li>
@@ -470,7 +469,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left text-2xl font-normal tracking-wide whitespace-nowrap"
+                      class="dark:text-gray-400 dark:text-gray-400 dark:text-gray-400 flex-1 ml-3 text-gray-500 hover:text-gray-900 text-left text-xl font-bold tracking-normal whitespace-nowrap dark:group-hover:text-white dark:group-hover:text-white dark:group-hover:text-white"
                       sidebar-toggle-item=""
                     >
                       Debt
@@ -497,7 +496,7 @@
                       />
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left text-2xl font-normal tracking-wide whitespace-nowrap"
+                      class="dark:text-gray-400 dark:text-gray-400 dark:text-gray-400 flex-1 ml-3 text-gray-500 hover:text-gray-900 text-left text-xl font-bold tracking-normal whitespace-nowrap dark:group-hover:text-white dark:group-hover:text-white dark:group-hover:text-white"
                       sidebar-toggle-item=""
                     >
                       Income
@@ -522,7 +521,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left text-2xl font-normal tracking-wide whitespace-nowrap"
+                      class="dark:text-gray-400 dark:text-gray-400 dark:text-gray-400 flex-1 ml-3 text-gray-500 hover:text-gray-900 text-left text-xl font-bold tracking-normal whitespace-nowrap dark:group-hover:text-white dark:group-hover:text-white dark:group-hover:text-white"
                       sidebar-toggle-item=""
                     >
                       Expense
@@ -548,7 +547,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="ml-3 text-left text-2xl font-bold whitespace-nowrap"
+                      class="ml-3 text-left text-xl font-bold whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       All Reports
@@ -1521,7 +1520,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundBlue opacity-75"
+                          class="text-xs text-white uppercase backgroundGreen opacity-75"
                         >
                           <tr id="row_enrollment_tableHeader">
                             <th
@@ -1614,7 +1613,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundBlue opacity-75"
+                          class="text-xs text-white uppercase backgroundGreen opacity-75"
                         >
                           <tr id="row_cash_tableHeader">
                             <th
@@ -1741,7 +1740,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundBlue opacity-75"
+                          class="text-xs text-white uppercase backgroundGreen opacity-75"
                         >
                           <tr id="row_asset_tableHeader">
                             <th
@@ -1825,7 +1824,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundBlue opacity-75"
+                          class="text-xs text-white uppercase backgroundGreen opacity-75"
                         >
                           <tr id="row_debt_tableHeader">
                             <th
@@ -1929,7 +1928,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundBlue opacity-75"
+                          class="text-xs text-white uppercase backgroundGreen opacity-75"
                         >
                           <tr id="row_income_tableHeader">
                             <th
@@ -2146,7 +2145,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundBlue opacity-75"
+                          class="text-xs text-white uppercase backgroundGreen opacity-75"
                         >
                           <tr id="row_expense_tableHeader">
                             <th
