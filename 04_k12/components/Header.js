@@ -161,7 +161,7 @@ const addCheckmarkToSelectedOption = () => {
   );
 
   radioButtons.forEach((radio) => {
-    console.log(radio);
+    // console.log(radio);
     radio.addEventListener("change", function () {
       const labels = document.querySelectorAll(`label[for="${this.id}"]`);
       labels.forEach((label) => {

@@ -13,6 +13,7 @@ const fetchClientData = async () => {
 };
 
 const fetchPeerData = async () => {
+
   return fetch("./data/peerData.xml")
     .then((response) => response.text())
     .then((xmlString) => {
@@ -31,13 +32,12 @@ const fetchPeerData = async () => {
 document.addEventListener("DOMContentLoaded", async () => {
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
+  countUniqueClients(recordsPeer)
 
   document.getElementById("firmName").textContent =
     recordsClient[0].children[2].innerHTML;
 
   findUniqueYears(recordsClient);
-
-  // addUniqueSchoolChurchToOptionsSelectSchoolChurchDropdown(schoolChurch_Array);
 
   runApiMain(recordsPeer, recordsClient);
 });
@@ -3002,6 +3002,31 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("enrollmentData", JSON.stringify(object));
 };
 
+
+
+
+
+// Helper functions
+
+const countUniqueClients = (records) => {
+  const uniqueClients = new Set();
+  try {
+    records.forEach((record) => {
+        const mainRelatedClient = record.querySelector("main__related_client").textContent;
+        // console.log(mainRelatedClient);
+        uniqueClients.add(mainRelatedClient);
+    });
+
+    const count = uniqueClients.size;
+    console.log(count);
+    document.getElementById('uniqueClients').textContent = count;
+  } catch (error) {
+    console.error("Error counting unique clients:", error);
+    document.getElementById('uniqueClients').textContent = 0; // Set to 0 in case of error
+  }
+};
+
+
 const toggleButtonLoadingState = (btn) => {
   btn.innerHTML = `
     <svg aria-hidden="true" role="status" class="inline w-6 h-6 me-3 colorBlued animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3090,6 +3115,13 @@ const createToastWarning = () => {
 
 const processSelectedYears = () => {
   const selectedYears = getSelectedYearsFromLocalStorage();
+
+  // console.log(selectedYears);
+
+  if (!selectedYears) {
+    createToastWarning();
+    throw new Error("No years selected.");
+  }
 
   if (!selectedYears.length) {
     createToastWarning();

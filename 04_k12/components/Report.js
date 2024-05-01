@@ -85,14 +85,11 @@ const displayReportComponent = () => {
       ['fundsExpensesPerStudent_netTuition', 'num', 0, 'wa'],
       ['fundsExpensesPerStudent_cashExpensesExcessNetTuition', 'num', 0, 'wa'],
       ['fundsExpensesPerStudent_FundsRaisedOverUnder', 'num', 0, 'wa'],
-      // ['facilityCostExcluding_lessThanTen', 'num', 2],
-      // ['facilityCostExcluding_greaterThanTen', 'num', 2],
-      // ['facilityCostIncluding_lessThanTen', 'num', 2],
-      // ['facilityCostIncluding_greaterThanTen', 'num', 2],
-      // ['informationTechnologyCosts', 'num', 2],
     ])
   }
 
+
+  
   closeSidebarAfterSelectingOption('report');
 };
 
@@ -190,7 +187,7 @@ const addClientDataToReportRow = (
   cb
 ) => {
   const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
+    "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
   const propScope = "row";
 
   selectedYears.forEach((year) => {
@@ -271,7 +268,7 @@ const addPeerDataToRow = (
 ) => {
   
   const propClass =
-  "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
   const propScope = "row";
   
   const dataPointAvg = document.createElement("th");
@@ -359,7 +356,7 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
     // Create a new <th> element for each selected year
     const newTh = document.createElement("th");
     newTh.setAttribute("scope", "col");
-    newTh.setAttribute("class", "px-6 py-3");
+    newTh.setAttribute("class", "px-6 py-3 text-xl");
     newTh.innerText = year;
 
     // Insert the new <th> element before the "avg" <th>

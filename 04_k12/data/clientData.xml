@@ -7,75 +7,75 @@
         <main_queryregions>MT</main_queryregions>
         <date_created>1710950131394</date_created>
         <last_modified_by>LWhinnery@capincrouse.com</last_modified_by>
-        <_01_ratio_students_enrollment>100</_01_ratio_students_enrollment>
+        <_01_ratio_students_enrollment>0</_01_ratio_students_enrollment>
         <_01a_ratio_students_enrollment___change></_01a_ratio_students_enrollment___change>
         <_01b_ratio_students_enrollment_average></_01b_ratio_students_enrollment_average>
         <_01c_ratio_students_enrollment_peak_enrolmment>0</_01c_ratio_students_enrollment_peak_enrolmment>
-        <_02_ratio_student_faculty_ratio>0.0000</_02_ratio_student_faculty_ratio>
+        <_02_ratio_student_faculty_ratio></_02_ratio_student_faculty_ratio>
         <main_queryregions>MT</main_queryregions>
-        <_03_ratio_expendable_reserves___in_days>-24</_03_ratio_expendable_reserves___in_days>
+        <_03_ratio_expendable_reserves___in_days>-21</_03_ratio_expendable_reserves___in_days>
         <_03_bench_rating_expendable_reserves___in_days>Action Required</_03_bench_rating_expendable_reserves___in_days>
-        <_04_ratio_expendable_reserves______of_total_cash_expenses>-0.07</_04_ratio_expendable_reserves______of_total_cash_expenses>
+        <_04_ratio_expendable_reserves______of_total_cash_expenses>-0.06</_04_ratio_expendable_reserves______of_total_cash_expenses>
         <_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>Action Required</_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
         <_05_ratio_cash_available_to_deferred_revenues>1.17</_05_ratio_cash_available_to_deferred_revenues>
         <_06_ratio_liquidity_ratio>21.4</_06_ratio_liquidity_ratio>
         <_06_bench_rating_liquidity_ratio>Good</_06_bench_rating_liquidity_ratio>
         <_07a_ratio_as_per_statement_of_cash_flows>818685</_07a_ratio_as_per_statement_of_cash_flows>
-        <_07b_ratio_depreciation_expenses_on_3_7_year_assets>633214</_07b_ratio_depreciation_expenses_on_3_7_year_assets>
+        <_07b_ratio_depreciation_expenses_on_3_7_year_assets>246582</_07b_ratio_depreciation_expenses_on_3_7_year_assets>
         <_07c_bench_rating_over_under_benchmark></_07c_bench_rating_over_under_benchmark>
-        <_08_ratio_property_and_equipment_per_student_excluding_land>65854</_08_ratio_property_and_equipment_per_student_excluding_land>
+        <_08_ratio_property_and_equipment_per_student_excluding_land></_08_ratio_property_and_equipment_per_student_excluding_land>
         <_09_ratio_net_tuition_a_r_as_a___of_current_assets>0.00</_09_ratio_net_tuition_a_r_as_a___of_current_assets>
         <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>0.00</_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
         <_10a_ratio___change></_10a_ratio___change>
-        <_11_ratio_debt_to_property_and_equipment>0.00</_11_ratio_debt_to_property_and_equipment>
-        <_12_ratio_current_ratio>9.68</_12_ratio_current_ratio>
+        <_11_ratio_debt_to_property_and_equipment>0.0</_11_ratio_debt_to_property_and_equipment>
+        <_12_ratio_current_ratio>1.9</_12_ratio_current_ratio>
         <_12_bench_rating_current_ratio>Action Required</_12_bench_rating_current_ratio>
-        <_13_ratio_current_liabilities_to_available_net_assets>-4.46</_13_ratio_current_liabilities_to_available_net_assets>
+        <_13_ratio_current_liabilities_to_available_net_assets>-4.5</_13_ratio_current_liabilities_to_available_net_assets>
         <_13_bench_rating_current_liabilities_to_available_net_assets></_13_bench_rating_current_liabilities_to_available_net_assets>
-        <_14_ratio_debt_per_students>0</_14_ratio_debt_per_students>
+        <_14_ratio_debt_per_students></_14_ratio_debt_per_students>
         <_15_ratio_debt_coverage></_15_ratio_debt_coverage>
         <_16_ratio_net_income_ratio>0.077</_16_ratio_net_income_ratio>
         <_16_bench_rating_net_income_ratio></_16_bench_rating_net_income_ratio>
-        <_17_ratio_net_income_ratio_excluding_depreciation>0.278</_17_ratio_net_income_ratio_excluding_depreciation>
+        <_17_ratio_net_income_ratio_excluding_depreciation>0.155</_17_ratio_net_income_ratio_excluding_depreciation>
         <_17_bench_rating_net_income_ratio_excluding_depreciation></_17_bench_rating_net_income_ratio_excluding_depreciation>
         <_18_ratio_percentage_of_average_tuition_increase_between_years></_18_ratio_percentage_of_average_tuition_increase_between_years>
         <_18_bench_rating_percentage_of_average_tuition_increase_between_years></_18_bench_rating_percentage_of_average_tuition_increase_between_years>
         <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>0.162</_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
         <_20_ratio_tuition_and_fees_as_a___of_total_income>0.516</_20_ratio_tuition_and_fees_as_a___of_total_income>
         <_21_ratio_contributions_as_a___of_total_income>0.518</_21_ratio_contributions_as_a___of_total_income>
-        <_22a1_ratio_gross_tuition>23528</_22a1_ratio_gross_tuition>
+        <_22a1_ratio_gross_tuition></_22a1_ratio_gross_tuition>
         <_22a2_ratio___change></_22a2_ratio___change>
-        <_22d1_ratio_total_financial_assistance>3814</_22d1_ratio_total_financial_assistance>
+        <_22d1_ratio_total_financial_assistance></_22d1_ratio_total_financial_assistance>
         <_22d2_ratio___change></_22d2_ratio___change>
-        <_22e1_ratio_net_tuition>19715</_22e1_ratio_net_tuition>
+        <_22e1_ratio_net_tuition></_22e1_ratio_net_tuition>
         <_22e2_ratio___change></_22e2_ratio___change>
         <_23_ratio_fees_as_a_percent_of_net_tuition>0.000</_23_ratio_fees_as_a_percent_of_net_tuition>
         <_24a_ratio_salaries_as___of_net_tuition>0.000</_24a_ratio_salaries_as___of_net_tuition>
         <_24b_ratio_benefits_as___of_net_tuition>0.000</_24b_ratio_benefits_as___of_net_tuition>
         <_24c_ratio_salaries_benefits_as___of_net_tuition>0.000</_24c_ratio_salaries_benefits_as___of_net_tuition>
-        <_25a_ratio_salaries_per_students>0</_25a_ratio_salaries_per_students>
-        <_25b_ratio_benefits_per_students>0</_25b_ratio_benefits_per_students>
-        <_25c_ratio_salaries_and_benefits_per_students>0</_25c_ratio_salaries_and_benefits_per_students>
+        <_25a_ratio_salaries_per_students></_25a_ratio_salaries_per_students>
+        <_25b_ratio_benefits_per_students></_25b_ratio_benefits_per_students>
+        <_25c_ratio_salaries_and_benefits_per_students></_25c_ratio_salaries_and_benefits_per_students>
         <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers></_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
         <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>0.000</_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>0.000</_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>0.000</_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
+        <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>0.723</_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
+        <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>0.723</_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
         <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>0.000</_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>0.000</_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>0.161</_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        <_29a_ratio_funds_raised>23640</_29a_ratio_funds_raised>
-        <_29b_ratio_cash_expenses>22792</_29b_ratio_cash_expenses>
-        <_29c_ratio_net_tuition>19715</_29c_ratio_net_tuition>
-        <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>-3076.8</_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>20563</_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
+        <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>0.723</_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
+        <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>0.000</_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
+        <_29a_ratio_funds_raised></_29a_ratio_funds_raised>
+        <_29b_ratio_cash_expenses></_29b_ratio_cash_expenses>
+        <_29c_ratio_net_tuition></_29c_ratio_net_tuition>
+        <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition></_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
+        <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit></_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
         <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest></_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
         <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest></_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
         <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest></_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
         <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest></_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        <_32_ratio_information_technology_costs>0</_32_ratio_information_technology_costs>
+        <_32_ratio_information_technology_costs></_32_ratio_information_technology_costs>
         <_05_1_ratio_days_cash_on_hand>288</_05_1_ratio_days_cash_on_hand>
-        <_11_1_ratio_debt_to_net_assets>0.00</_11_1_ratio_debt_to_net_assets>
-        <update_id>1713388646432</update_id>
+        <_11_1_ratio_debt_to_net_assets>0.0</_11_1_ratio_debt_to_net_assets>
+        <update_id>1714408265526</update_id>
     </record>
     <record>
         <fiscal_ye_date_formatted_year>2021</fiscal_ye_date_formatted_year>
@@ -85,11 +85,11 @@
         <main_queryregions>MT</main_queryregions>
         <date_created>1710949412747</date_created>
         <last_modified_by>LWhinnery@capincrouse.com</last_modified_by>
-        <_01_ratio_students_enrollment>200</_01_ratio_students_enrollment>
-        <_01a_ratio_students_enrollment___change>1.000</_01a_ratio_students_enrollment___change>
-        <_01b_ratio_students_enrollment_average>150</_01b_ratio_students_enrollment_average>
+        <_01_ratio_students_enrollment>0</_01_ratio_students_enrollment>
+        <_01a_ratio_students_enrollment___change></_01a_ratio_students_enrollment___change>
+        <_01b_ratio_students_enrollment_average></_01b_ratio_students_enrollment_average>
         <_01c_ratio_students_enrollment_peak_enrolmment>0</_01c_ratio_students_enrollment_peak_enrolmment>
-        <_02_ratio_student_faculty_ratio>0.0000</_02_ratio_student_faculty_ratio>
+        <_02_ratio_student_faculty_ratio></_02_ratio_student_faculty_ratio>
         <main_queryregions>MT</main_queryregions>
         <_03_ratio_expendable_reserves___in_days>174</_03_ratio_expendable_reserves___in_days>
         <_03_bench_rating_expendable_reserves___in_days>Good</_03_bench_rating_expendable_reserves___in_days>
@@ -101,59 +101,59 @@
         <_07a_ratio_as_per_statement_of_cash_flows>1076194</_07a_ratio_as_per_statement_of_cash_flows>
         <_07b_ratio_depreciation_expenses_on_3_7_year_assets>254253</_07b_ratio_depreciation_expenses_on_3_7_year_assets>
         <_07c_bench_rating_over_under_benchmark></_07c_bench_rating_over_under_benchmark>
-        <_08_ratio_property_and_equipment_per_student_excluding_land>59966</_08_ratio_property_and_equipment_per_student_excluding_land>
+        <_08_ratio_property_and_equipment_per_student_excluding_land></_08_ratio_property_and_equipment_per_student_excluding_land>
         <_09_ratio_net_tuition_a_r_as_a___of_current_assets>0.00</_09_ratio_net_tuition_a_r_as_a___of_current_assets>
         <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>0.00</_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
         <_10a_ratio___change>0.000</_10a_ratio___change>
-        <_11_ratio_debt_to_property_and_equipment>0.00</_11_ratio_debt_to_property_and_equipment>
-        <_12_ratio_current_ratio>10.94</_12_ratio_current_ratio>
+        <_11_ratio_debt_to_property_and_equipment>0.0</_11_ratio_debt_to_property_and_equipment>
+        <_12_ratio_current_ratio>2.0</_12_ratio_current_ratio>
         <_12_bench_rating_current_ratio>Action Required</_12_bench_rating_current_ratio>
-        <_13_ratio_current_liabilities_to_available_net_assets>1.37</_13_ratio_current_liabilities_to_available_net_assets>
+        <_13_ratio_current_liabilities_to_available_net_assets>1.4</_13_ratio_current_liabilities_to_available_net_assets>
         <_13_bench_rating_current_liabilities_to_available_net_assets></_13_bench_rating_current_liabilities_to_available_net_assets>
-        <_14_ratio_debt_per_students>0</_14_ratio_debt_per_students>
+        <_14_ratio_debt_per_students></_14_ratio_debt_per_students>
         <_15_ratio_debt_coverage></_15_ratio_debt_coverage>
-        <_16_ratio_net_income_ratio>1.000</_16_ratio_net_income_ratio>
+        <_16_ratio_net_income_ratio>0.685</_16_ratio_net_income_ratio>
         <_16_bench_rating_net_income_ratio></_16_bench_rating_net_income_ratio>
-        <_17_ratio_net_income_ratio_excluding_depreciation>1.036</_17_ratio_net_income_ratio_excluding_depreciation>
+        <_17_ratio_net_income_ratio_excluding_depreciation>0.709</_17_ratio_net_income_ratio_excluding_depreciation>
         <_17_bench_rating_net_income_ratio_excluding_depreciation>Good</_17_bench_rating_net_income_ratio_excluding_depreciation>
-        <_18_ratio_percentage_of_average_tuition_increase_between_years>0.196</_18_ratio_percentage_of_average_tuition_increase_between_years>
+        <_18_ratio_percentage_of_average_tuition_increase_between_years>0.244</_18_ratio_percentage_of_average_tuition_increase_between_years>
         <_18_bench_rating_percentage_of_average_tuition_increase_between_years></_18_bench_rating_percentage_of_average_tuition_increase_between_years>
-        <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>0.087</_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        <_20_ratio_tuition_and_fees_as_a___of_total_income>0.312</_20_ratio_tuition_and_fees_as_a___of_total_income>
+        <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>0.122</_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
+        <_20_ratio_tuition_and_fees_as_a___of_total_income>0.324</_20_ratio_tuition_and_fees_as_a___of_total_income>
         <_21_ratio_contributions_as_a___of_total_income>0.687</_21_ratio_contributions_as_a___of_total_income>
-        <_22a1_ratio_gross_tuition>14069</_22a1_ratio_gross_tuition>
-        <_22a2_ratio___change>-0.402</_22a2_ratio___change>
-        <_22d1_ratio_total_financial_assistance>1225</_22d1_ratio_total_financial_assistance>
-        <_22d2_ratio___change>-0.679</_22d2_ratio___change>
-        <_22e1_ratio_net_tuition>12844</_22e1_ratio_net_tuition>
-        <_22e2_ratio___change>-0.348</_22e2_ratio___change>
+        <_22a1_ratio_gross_tuition></_22a1_ratio_gross_tuition>
+        <_22a2_ratio___change></_22a2_ratio___change>
+        <_22d1_ratio_total_financial_assistance></_22d1_ratio_total_financial_assistance>
+        <_22d2_ratio___change></_22d2_ratio___change>
+        <_22e1_ratio_net_tuition></_22e1_ratio_net_tuition>
+        <_22e2_ratio___change></_22e2_ratio___change>
         <_23_ratio_fees_as_a_percent_of_net_tuition>0.000</_23_ratio_fees_as_a_percent_of_net_tuition>
         <_24a_ratio_salaries_as___of_net_tuition>0.000</_24a_ratio_salaries_as___of_net_tuition>
         <_24b_ratio_benefits_as___of_net_tuition>0.000</_24b_ratio_benefits_as___of_net_tuition>
         <_24c_ratio_salaries_benefits_as___of_net_tuition>0.000</_24c_ratio_salaries_benefits_as___of_net_tuition>
-        <_25a_ratio_salaries_per_students>0</_25a_ratio_salaries_per_students>
-        <_25b_ratio_benefits_per_students>0</_25b_ratio_benefits_per_students>
-        <_25c_ratio_salaries_and_benefits_per_students>0</_25c_ratio_salaries_and_benefits_per_students>
+        <_25a_ratio_salaries_per_students></_25a_ratio_salaries_per_students>
+        <_25b_ratio_benefits_per_students></_25b_ratio_benefits_per_students>
+        <_25c_ratio_salaries_and_benefits_per_students></_25c_ratio_salaries_and_benefits_per_students>
         <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers></_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
         <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>0.000</_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>0.000</_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>0.000</_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
+        <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>0.750</_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
+        <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>0.750</_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
         <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>0.000</_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>0.000</_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>0.072</_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        <_29a_ratio_funds_raised>30991</_29a_ratio_funds_raised>
-        <_29b_ratio_cash_expenses>14788</_29b_ratio_cash_expenses>
-        <_29c_ratio_net_tuition>12844</_29c_ratio_net_tuition>
-        <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>-1943.895</_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>29047</_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
+        <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>0.750</_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
+        <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>0.000</_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
+        <_29a_ratio_funds_raised></_29a_ratio_funds_raised>
+        <_29b_ratio_cash_expenses></_29b_ratio_cash_expenses>
+        <_29c_ratio_net_tuition></_29c_ratio_net_tuition>
+        <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition></_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
+        <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit></_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
         <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest></_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
         <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest></_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
         <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest></_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
         <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest></_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        <_32_ratio_information_technology_costs>0</_32_ratio_information_technology_costs>
+        <_32_ratio_information_technology_costs></_32_ratio_information_technology_costs>
         <_05_1_ratio_days_cash_on_hand>279</_05_1_ratio_days_cash_on_hand>
-        <_11_1_ratio_debt_to_net_assets>0.00</_11_1_ratio_debt_to_net_assets>
-        <update_id>1713388646432</update_id>
+        <_11_1_ratio_debt_to_net_assets>0.0</_11_1_ratio_debt_to_net_assets>
+        <update_id>1714407768176</update_id>
     </record>
     <record>
         <fiscal_ye_date_formatted_year>2022</fiscal_ye_date_formatted_year>
@@ -163,15 +163,15 @@
         <main_queryregions>MT</main_queryregions>
         <date_created>1710946451876</date_created>
         <last_modified_by>LWhinnery@capincrouse.com</last_modified_by>
-        <_01_ratio_students_enrollment>300</_01_ratio_students_enrollment>
-        <_01a_ratio_students_enrollment___change>0.500</_01a_ratio_students_enrollment___change>
-        <_01b_ratio_students_enrollment_average>250</_01b_ratio_students_enrollment_average>
+        <_01_ratio_students_enrollment>0</_01_ratio_students_enrollment>
+        <_01a_ratio_students_enrollment___change></_01a_ratio_students_enrollment___change>
+        <_01b_ratio_students_enrollment_average></_01b_ratio_students_enrollment_average>
         <_01c_ratio_students_enrollment_peak_enrolmment>0</_01c_ratio_students_enrollment_peak_enrolmment>
-        <_02_ratio_student_faculty_ratio>0.0000</_02_ratio_student_faculty_ratio>
+        <_02_ratio_student_faculty_ratio></_02_ratio_student_faculty_ratio>
         <main_queryregions>MT</main_queryregions>
-        <_03_ratio_expendable_reserves___in_days>348</_03_ratio_expendable_reserves___in_days>
+        <_03_ratio_expendable_reserves___in_days>250</_03_ratio_expendable_reserves___in_days>
         <_03_bench_rating_expendable_reserves___in_days>Good</_03_bench_rating_expendable_reserves___in_days>
-        <_04_ratio_expendable_reserves______of_total_cash_expenses>0.95</_04_ratio_expendable_reserves______of_total_cash_expenses>
+        <_04_ratio_expendable_reserves______of_total_cash_expenses>0.68</_04_ratio_expendable_reserves______of_total_cash_expenses>
         <_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>Good</_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
         <_05_ratio_cash_available_to_deferred_revenues>1.43</_05_ratio_cash_available_to_deferred_revenues>
         <_06_ratio_liquidity_ratio>81.3</_06_ratio_liquidity_ratio>
@@ -179,59 +179,59 @@
         <_07a_ratio_as_per_statement_of_cash_flows>1848585</_07a_ratio_as_per_statement_of_cash_flows>
         <_07b_ratio_depreciation_expenses_on_3_7_year_assets>462303</_07b_ratio_depreciation_expenses_on_3_7_year_assets>
         <_07c_bench_rating_over_under_benchmark></_07c_bench_rating_over_under_benchmark>
-        <_08_ratio_property_and_equipment_per_student_excluding_land>40340</_08_ratio_property_and_equipment_per_student_excluding_land>
+        <_08_ratio_property_and_equipment_per_student_excluding_land></_08_ratio_property_and_equipment_per_student_excluding_land>
         <_09_ratio_net_tuition_a_r_as_a___of_current_assets>0.00</_09_ratio_net_tuition_a_r_as_a___of_current_assets>
         <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>0.00</_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
         <_10a_ratio___change>0.000</_10a_ratio___change>
-        <_11_ratio_debt_to_property_and_equipment>0.00</_11_ratio_debt_to_property_and_equipment>
-        <_12_ratio_current_ratio>9.92</_12_ratio_current_ratio>
+        <_11_ratio_debt_to_property_and_equipment>0.0</_11_ratio_debt_to_property_and_equipment>
+        <_12_ratio_current_ratio>2.3</_12_ratio_current_ratio>
         <_12_bench_rating_current_ratio>Action Required</_12_bench_rating_current_ratio>
-        <_13_ratio_current_liabilities_to_available_net_assets>0.64</_13_ratio_current_liabilities_to_available_net_assets>
+        <_13_ratio_current_liabilities_to_available_net_assets>1.0</_13_ratio_current_liabilities_to_available_net_assets>
         <_13_bench_rating_current_liabilities_to_available_net_assets></_13_bench_rating_current_liabilities_to_available_net_assets>
-        <_14_ratio_debt_per_students>0</_14_ratio_debt_per_students>
+        <_14_ratio_debt_per_students></_14_ratio_debt_per_students>
         <_15_ratio_debt_coverage></_15_ratio_debt_coverage>
         <_16_ratio_net_income_ratio>0.227</_16_ratio_net_income_ratio>
         <_16_bench_rating_net_income_ratio></_16_bench_rating_net_income_ratio>
         <_17_ratio_net_income_ratio_excluding_depreciation>0.313</_17_ratio_net_income_ratio_excluding_depreciation>
         <_17_bench_rating_net_income_ratio_excluding_depreciation>Action Required</_17_bench_rating_net_income_ratio_excluding_depreciation>
-        <_18_ratio_percentage_of_average_tuition_increase_between_years>0.365</_18_ratio_percentage_of_average_tuition_increase_between_years>
+        <_18_ratio_percentage_of_average_tuition_increase_between_years>0.278</_18_ratio_percentage_of_average_tuition_increase_between_years>
         <_18_bench_rating_percentage_of_average_tuition_increase_between_years>Good</_18_bench_rating_percentage_of_average_tuition_increase_between_years>
-        <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>0.112</_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
-        <_20_ratio_tuition_and_fees_as_a___of_total_income>0.727</_20_ratio_tuition_and_fees_as_a___of_total_income>
+        <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>0.115</_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
+        <_20_ratio_tuition_and_fees_as_a___of_total_income>0.708</_20_ratio_tuition_and_fees_as_a___of_total_income>
         <_21_ratio_contributions_as_a___of_total_income>0.316</_21_ratio_contributions_as_a___of_total_income>
-        <_22a1_ratio_gross_tuition>12805</_22a1_ratio_gross_tuition>
-        <_22a2_ratio___change>-0.090</_22a2_ratio___change>
-        <_22d1_ratio_total_financial_assistance>1439</_22d1_ratio_total_financial_assistance>
-        <_22d2_ratio___change>0.175</_22d2_ratio___change>
-        <_22e1_ratio_net_tuition>11365</_22e1_ratio_net_tuition>
-        <_22e2_ratio___change>-0.115</_22e2_ratio___change>
+        <_22a1_ratio_gross_tuition></_22a1_ratio_gross_tuition>
+        <_22a2_ratio___change></_22a2_ratio___change>
+        <_22d1_ratio_total_financial_assistance></_22d1_ratio_total_financial_assistance>
+        <_22d2_ratio___change></_22d2_ratio___change>
+        <_22e1_ratio_net_tuition></_22e1_ratio_net_tuition>
+        <_22e2_ratio___change></_22e2_ratio___change>
         <_23_ratio_fees_as_a_percent_of_net_tuition>0.000</_23_ratio_fees_as_a_percent_of_net_tuition>
         <_24a_ratio_salaries_as___of_net_tuition>0.000</_24a_ratio_salaries_as___of_net_tuition>
         <_24b_ratio_benefits_as___of_net_tuition>0.000</_24b_ratio_benefits_as___of_net_tuition>
         <_24c_ratio_salaries_benefits_as___of_net_tuition>0.000</_24c_ratio_salaries_benefits_as___of_net_tuition>
-        <_25a_ratio_salaries_per_students>0</_25a_ratio_salaries_per_students>
-        <_25b_ratio_benefits_per_students>0</_25b_ratio_benefits_per_students>
-        <_25c_ratio_salaries_and_benefits_per_students>0</_25c_ratio_salaries_and_benefits_per_students>
+        <_25a_ratio_salaries_per_students></_25a_ratio_salaries_per_students>
+        <_25b_ratio_benefits_per_students></_25b_ratio_benefits_per_students>
+        <_25c_ratio_salaries_and_benefits_per_students></_25c_ratio_salaries_and_benefits_per_students>
         <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers></_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
         <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>0.000</_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>0.000</_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>0.000</_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
+        <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>0.733</_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
+        <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>0.733</_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
         <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>0.000</_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>0.000</_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>0.341</_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        <_29a_ratio_funds_raised>5575</_29a_ratio_funds_raised>
-        <_29b_ratio_cash_expenses>12310</_29b_ratio_cash_expenses>
-        <_29c_ratio_net_tuition>11365</_29c_ratio_net_tuition>
-        <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>-944.22</_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>4631</_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
+        <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>0.733</_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
+        <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>0.000</_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
+        <_29a_ratio_funds_raised></_29a_ratio_funds_raised>
+        <_29b_ratio_cash_expenses></_29b_ratio_cash_expenses>
+        <_29c_ratio_net_tuition></_29c_ratio_net_tuition>
+        <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition></_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
+        <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit></_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
         <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest></_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
         <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest></_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
         <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest></_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
         <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest></_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        <_32_ratio_information_technology_costs>0</_32_ratio_information_technology_costs>
+        <_32_ratio_information_technology_costs></_32_ratio_information_technology_costs>
         <_05_1_ratio_days_cash_on_hand>293</_05_1_ratio_days_cash_on_hand>
-        <_11_1_ratio_debt_to_net_assets>0.00</_11_1_ratio_debt_to_net_assets>
-        <update_id>1713388646432</update_id>
+        <_11_1_ratio_debt_to_net_assets>0.0</_11_1_ratio_debt_to_net_assets>
+        <update_id>1714405375060</update_id>
     </record>
     <record>
         <fiscal_ye_date_formatted_year>2023</fiscal_ye_date_formatted_year>
@@ -241,74 +241,74 @@
         <main_queryregions>MT</main_queryregions>
         <date_created>1710945386975</date_created>
         <last_modified_by>LWhinnery@capincrouse.com</last_modified_by>
-        <_01_ratio_students_enrollment>400</_01_ratio_students_enrollment>
-        <_01a_ratio_students_enrollment___change>0.333</_01a_ratio_students_enrollment___change>
-        <_01b_ratio_students_enrollment_average>350</_01b_ratio_students_enrollment_average>
+        <_01_ratio_students_enrollment>0</_01_ratio_students_enrollment>
+        <_01a_ratio_students_enrollment___change></_01a_ratio_students_enrollment___change>
+        <_01b_ratio_students_enrollment_average></_01b_ratio_students_enrollment_average>
         <_01c_ratio_students_enrollment_peak_enrolmment>0</_01c_ratio_students_enrollment_peak_enrolmment>
-        <_02_ratio_student_faculty_ratio>0.0000</_02_ratio_student_faculty_ratio>
+        <_02_ratio_student_faculty_ratio></_02_ratio_student_faculty_ratio>
         <main_queryregions>MT</main_queryregions>
-        <_03_ratio_expendable_reserves___in_days>1403</_03_ratio_expendable_reserves___in_days>
+        <_03_ratio_expendable_reserves___in_days>236</_03_ratio_expendable_reserves___in_days>
         <_03_bench_rating_expendable_reserves___in_days>Good</_03_bench_rating_expendable_reserves___in_days>
-        <_04_ratio_expendable_reserves______of_total_cash_expenses>3.84</_04_ratio_expendable_reserves______of_total_cash_expenses>
+        <_04_ratio_expendable_reserves______of_total_cash_expenses>0.65</_04_ratio_expendable_reserves______of_total_cash_expenses>
         <_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>Good</_04_benchmark_rating_expendable_reserves______of_total_cash_expenses>
-        <_05_ratio_cash_available_to_deferred_revenues>0.28</_05_ratio_cash_available_to_deferred_revenues>
-        <_06_ratio_liquidity_ratio>30.5</_06_ratio_liquidity_ratio>
+        <_05_ratio_cash_available_to_deferred_revenues>2.51</_05_ratio_cash_available_to_deferred_revenues>
+        <_06_ratio_liquidity_ratio>83.3</_06_ratio_liquidity_ratio>
         <_06_bench_rating_liquidity_ratio>Good</_06_bench_rating_liquidity_ratio>
         <_07a_ratio_as_per_statement_of_cash_flows>783000</_07a_ratio_as_per_statement_of_cash_flows>
         <_07b_ratio_depreciation_expenses_on_3_7_year_assets>562340</_07b_ratio_depreciation_expenses_on_3_7_year_assets>
         <_07c_bench_rating_over_under_benchmark></_07c_bench_rating_over_under_benchmark>
-        <_08_ratio_property_and_equipment_per_student_excluding_land>-36883</_08_ratio_property_and_equipment_per_student_excluding_land>
+        <_08_ratio_property_and_equipment_per_student_excluding_land></_08_ratio_property_and_equipment_per_student_excluding_land>
         <_09_ratio_net_tuition_a_r_as_a___of_current_assets>0.00</_09_ratio_net_tuition_a_r_as_a___of_current_assets>
         <_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>0.00</_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees>
         <_10a_ratio___change>0.000</_10a_ratio___change>
-        <_11_ratio_debt_to_property_and_equipment></_11_ratio_debt_to_property_and_equipment>
-        <_12_ratio_current_ratio>11.38</_12_ratio_current_ratio>
+        <_11_ratio_debt_to_property_and_equipment>0.0</_11_ratio_debt_to_property_and_equipment>
+        <_12_ratio_current_ratio>3.4</_12_ratio_current_ratio>
         <_12_bench_rating_current_ratio>Action Required</_12_bench_rating_current_ratio>
-        <_13_ratio_current_liabilities_to_available_net_assets>0.13</_13_ratio_current_liabilities_to_available_net_assets>
+        <_13_ratio_current_liabilities_to_available_net_assets>1.1</_13_ratio_current_liabilities_to_available_net_assets>
         <_13_bench_rating_current_liabilities_to_available_net_assets></_13_bench_rating_current_liabilities_to_available_net_assets>
-        <_14_ratio_debt_per_students>0</_14_ratio_debt_per_students>
-        <_15_ratio_debt_coverage>5.88</_15_ratio_debt_coverage>
+        <_14_ratio_debt_per_students></_14_ratio_debt_per_students>
+        <_15_ratio_debt_coverage></_15_ratio_debt_coverage>
         <_16_ratio_net_income_ratio>0.147</_16_ratio_net_income_ratio>
         <_16_bench_rating_net_income_ratio></_16_bench_rating_net_income_ratio>
         <_17_ratio_net_income_ratio_excluding_depreciation>0.240</_17_ratio_net_income_ratio_excluding_depreciation>
         <_17_bench_rating_net_income_ratio_excluding_depreciation>Action Required</_17_bench_rating_net_income_ratio_excluding_depreciation>
-        <_18_ratio_percentage_of_average_tuition_increase_between_years>0.159</_18_ratio_percentage_of_average_tuition_increase_between_years>
+        <_18_ratio_percentage_of_average_tuition_increase_between_years>0.190</_18_ratio_percentage_of_average_tuition_increase_between_years>
         <_18_bench_rating_percentage_of_average_tuition_increase_between_years>Action Required</_18_bench_rating_percentage_of_average_tuition_increase_between_years>
         <_19_ratio_financial_assistance_as_a___of_tuition_and_fees>0.098</_19_ratio_financial_assistance_as_a___of_tuition_and_fees>
         <_20_ratio_tuition_and_fees_as_a___of_total_income>0.394</_20_ratio_tuition_and_fees_as_a___of_total_income>
         <_21_ratio_contributions_as_a___of_total_income>0.517</_21_ratio_contributions_as_a___of_total_income>
-        <_22a1_ratio_gross_tuition>11128</_22a1_ratio_gross_tuition>
-        <_22a2_ratio___change>-0.131</_22a2_ratio___change>
-        <_22d1_ratio_total_financial_assistance>1089</_22d1_ratio_total_financial_assistance>
-        <_22d2_ratio___change>-0.243</_22d2_ratio___change>
-        <_22e1_ratio_net_tuition>10039</_22e1_ratio_net_tuition>
-        <_22e2_ratio___change>-0.117</_22e2_ratio___change>
+        <_22a1_ratio_gross_tuition></_22a1_ratio_gross_tuition>
+        <_22a2_ratio___change></_22a2_ratio___change>
+        <_22d1_ratio_total_financial_assistance></_22d1_ratio_total_financial_assistance>
+        <_22d2_ratio___change></_22d2_ratio___change>
+        <_22e1_ratio_net_tuition></_22e1_ratio_net_tuition>
+        <_22e2_ratio___change></_22e2_ratio___change>
         <_23_ratio_fees_as_a_percent_of_net_tuition>0.000</_23_ratio_fees_as_a_percent_of_net_tuition>
         <_24a_ratio_salaries_as___of_net_tuition>0.000</_24a_ratio_salaries_as___of_net_tuition>
         <_24b_ratio_benefits_as___of_net_tuition>0.000</_24b_ratio_benefits_as___of_net_tuition>
         <_24c_ratio_salaries_benefits_as___of_net_tuition>0.000</_24c_ratio_salaries_benefits_as___of_net_tuition>
-        <_25a_ratio_salaries_per_students>0</_25a_ratio_salaries_per_students>
-        <_25b_ratio_benefits_per_students>0</_25b_ratio_benefits_per_students>
-        <_25c_ratio_salaries_and_benefits_per_students>0</_25c_ratio_salaries_and_benefits_per_students>
+        <_25a_ratio_salaries_per_students></_25a_ratio_salaries_per_students>
+        <_25b_ratio_benefits_per_students></_25b_ratio_benefits_per_students>
+        <_25c_ratio_salaries_and_benefits_per_students></_25c_ratio_salaries_and_benefits_per_students>
         <_26_ratio_benefits_as_a_percent_of_salaries_for_teachers></_26_ratio_benefits_as_a_percent_of_salaries_for_teachers>
         <_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>0.000</_27a1_ratio_teachers_salaries_and_benefits_per_total_expenses>
-        <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>0.000</_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
-        <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>0.000</_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
-        <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>0.065</_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
-        <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>0.065</_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
-        <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>0.110</_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
-        <_29a_ratio_funds_raised>14596</_29a_ratio_funds_raised>
-        <_29b_ratio_cash_expenses>11530</_29b_ratio_cash_expenses>
-        <_29c_ratio_net_tuition>10039</_29c_ratio_net_tuition>
-        <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>-1490.8625</_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
-        <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>13105</_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
+        <_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>0.745</_27a2_ratio_admin_salaries_and_benefits_per_total_expenses>
+        <_27a3_ratio_all_salaries_and_benefits_per_total_expenses>0.745</_27a3_ratio_all_salaries_and_benefits_per_total_expenses>
+        <_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>0.000</_27b_ratio__mandatory_debt_service_payments_including_interest_per_total_expenses>
+        <_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>0.745</_27c_ratio__personnel_and_mandatory_debt_service_payments_per_total_expenses>
+        <_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>0.000</_28_ratio___of_fund_raising_expenses_exceeding_or_less_than_funds_raised>
+        <_29a_ratio_funds_raised></_29a_ratio_funds_raised>
+        <_29b_ratio_cash_expenses></_29b_ratio_cash_expenses>
+        <_29c_ratio_net_tuition></_29c_ratio_net_tuition>
+        <_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition></_29d_ratio_cash_expenses_in_excess_of_or_less_than_net_tuition>
+        <_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit></_29e_ratio_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit>
         <_30a_ratio_lt10_facility_cost_per_square_foot_no_interest></_30a_ratio_lt10_facility_cost_per_square_foot_no_interest>
         <_30b_ratio_gte10_facility_cost_per_square_foot_no_interest></_30b_ratio_gte10_facility_cost_per_square_foot_no_interest>
         <_31a_ratio_lt10_facility_cost_per_square_foot_with_interest></_31a_ratio_lt10_facility_cost_per_square_foot_with_interest>
         <_31b_ratio_gte10_facility_cost_per_square_foot_with_interest></_31b_ratio_gte10_facility_cost_per_square_foot_with_interest>
-        <_32_ratio_information_technology_costs>0</_32_ratio_information_technology_costs>
+        <_32_ratio_information_technology_costs></_32_ratio_information_technology_costs>
         <_05_1_ratio_days_cash_on_hand>194</_05_1_ratio_days_cash_on_hand>
-        <_11_1_ratio_debt_to_net_assets>0.00</_11_1_ratio_debt_to_net_assets>
-        <update_id>1713388646432</update_id>
+        <_11_1_ratio_debt_to_net_assets>0.0</_11_1_ratio_debt_to_net_assets>
+        <update_id>1714406567432</update_id>
     </record>
 </qdbapi>
