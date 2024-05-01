@@ -18,17 +18,17 @@ const displayReportComponent = () => {
     ]);
 
     insertDataToReport(cashData, selectedYears, [
-      ['expendableReserves_inDays', 'num', 0, 'wa'],
-      ['expendableReserves_Percent', 'percent', 0, 'wa'],
+      ['expendableReserves_inDays', 'num', 0, 'wa', 'cb'],
+      ['expendableReserves_Percent', 'percent', 0, 'wa', 'cb'],
       ['daysCashOnHand', 'num', 0, 'wa'],
       // ['cashAvailableDeferred', 'num', 2, 'wa'],
       // ['liquidityRatio', 'num', 1, 'wa'],
       // ['netCashUsedOperating_asPerStatementCash', 'dollar', 0],
       // ['netCashUsedOperating_depreciation', 'dollar', 0]
       ['cashAvailableDeferred', 'num', 2, 'wa'],
-      ['liquidityRatio', 'num', 1, 'wa'],
+      ['liquidityRatio', 'num', 1, 'wa', 'cb'],
       ['netCashUsedOperating_asPerStatementCash', 'dollar', 0],
-      ['netCashUsedOperating_depreciation', 'dollar', 0]
+      ['netCashUsedOperating_depreciation', 'dollar', 0], 
     ]);
 
     insertDataToReport(assetData, selectedYears, [
@@ -41,15 +41,16 @@ const displayReportComponent = () => {
     insertDataToReport(debtData, selectedYears, [
       ['debtToPropertyAndEquipment', 'num', 1],
       ['debtToNetAssets', 'num', 1],
-      ['currentRatio', 'num', 1],
-      ['currentLiabilitiesToAvailableNetAssets', 'num', 1],
+      ['currentRatio', 'num', 1, 'cb'],
+      ['currentLiabilitiesToAvailableNetAssets', 'num', 1, 'cb'],
       ['debtPerStudent', 'num', 0],
       ['debtCoverage', 'num', 1]
     ]);
 
     insertDataToReport(incomeData, selectedYears, [
-      ['netIncomeRatio', 'num', 2, 'wa'], 
-      ['netIncomeRatioExcludingDepreciation', 'num', 1, 'wa'],
+      ['netIncomeRatio', 'num', 2, 'wa', 'cb'], 
+      ['netIncomeRatioExcludingDepreciation', 'num', 1, 'wa', 'cb'],
+      ['percentAverageTuitionIncreaseBetweenYears', 'percent', 0, 'wa', 'cb'],
       ['financialAssistanceAsPercentTuitionAndFees', 'num', 1, 'wa'],
       ['tuitionAndFeesAsPercentTotalIncome', 'num', 1, 'wa'],
       ['contributionsAsAPercentOfTotalIncome', 'percent', 1, 'wa'],

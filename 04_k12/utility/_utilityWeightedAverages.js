@@ -726,10 +726,11 @@ const currentLiabilitiesToAvailableNetAssets_weightedAverage = (data, name) => {
   // [28] 03-09 Current Liabilities / ([31] 03-12 Total Unrestricted Net Assets - (IF [27] 03-08 Land, Buildings and Equipment, net - [30] 03-11 Total Debt <0,0, [27] 03-08 Land, Buildings and Equipment, net - [30] 03-11 Total Debt) - [32] 03-13 BOD Designated for Operations )
   // Current Liabilities / (03-12 Total Unrestricted Net Assets - 03-08 Land, Buildings and Equipment, net - 03-11 Total Debt - BOD Designated for Operations)
 
+  // console.log({data, name})
 
   let numCurrentLiabilities = getSumOfArray(data.currentLiabilities[name]);
   let numTotalUnrestrictedNetAssets = getSumOfArray(
-    data.unrestrictedNetAssets[name]
+    data.totalUnrestrictedNetAssets[name]
   );
   let numLandBuildingsEquipmentNet = getSumOfArray(
     data.landBuildingsEquipmentNet[name]

@@ -1997,7 +1997,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "landBuildingEquipmentNet",
+        "landBuildingsEquipmentNet",
         record,
         "_03_08_land__buildings_and_equipment__net",
         "_11_yes_no_debt_to_property_and_equipment",
@@ -2100,7 +2100,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "landBuildingEquipmentNet",
+        "landBuildingsEquipmentNet",
         record,
         "_03_08_land__buildings_and_equipment__net",
         "_13_yes_no_current_liabilities_to_available_net_assets",
@@ -2782,6 +2782,17 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "_07b_ratio_depreciation_expenses_on_3_7_year_assets",
         "_07b_yes_no_depreciation_expenses_on_3_7_year_assets"
       );
+
+      // netCashUsedOperating_overUnder
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "netCashUsedOperating_overUnder_Peer",
+        record,
+        "_07c_ratio_over_under_benchmark",
+        "_07c_yes_no_over_under_benchmark"
+      );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -2856,6 +2867,16 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "netCashUsedOperating_depreciation_Client",
         record,
         "_07b_ratio_depreciation_expenses_on_3_7_year_assets"
+      );
+      // netCashUsedOperating_overUnder
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "netCashUsedOperating_overUnder_Client",
+        record,
+        "_07b_ratio_depreciation_expenses_on_3_7_year_assets", 
+        "_07c_bench_rating_over_under_benchmark"
       );
     });
   });
@@ -3156,9 +3177,6 @@ const displayComponents = () => {
   displayReportComponent();
 };
 
-const runApiMain = async () => {
-
-};
 
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {

@@ -25,6 +25,26 @@ const displayEnrollmentComponent = () => {
     "studentFacilityRatio"
   );
 
+  const expendableReserves_inDays_benchmark = [
+    "Expendable Reserves in Days Benchmark",
+    "We believe that a reasonable benchmark is between 30 - 60 range.",
+  ];
+  createBenchmark(expendableReserves_inDays_benchmark, "row_expendableReserves_inDays");
+
+  const expendableReserves_Percent_benchmark = [
+    "Expendable Reserves - Percent Benchmark",
+    "We believe that a reasonable benchmark is between 10% - 20% range.",
+  ];
+  createBenchmark(expendableReserves_Percent_benchmark, "row_expendableReserves_Percent");
+
+  const liquidityRatio_benchmark = [
+    "Liquidity Ratio Benchmark",
+    "We believe that a reasonable benchmark Greater than or Equal to 5",
+  ];
+  createBenchmark(liquidityRatio_benchmark, "row_liquidityRatio");
+
+
+
   closeSidebarAfterSelectingOption("enrollment");
 };
 
@@ -145,6 +165,18 @@ const displayDebtComponent = () => {
     "debtToNetAssets"
   );
 
+  const currentRatio_benchmark = [
+    "Current Ratio Benchmark",
+    "We believe that a reasonable benchmark is Less than .6",
+  ];
+  createBenchmark(currentRatio_benchmark, "row_currentRatio");
+
+  const currentLiabilitiesToAvailableNetAssets_benchmark = [
+    "Current Liabilities to Available Net Assets Benchmark",
+    "We believe that a reasonable benchmark is Less than .6",
+  ];
+  createBenchmark(currentLiabilitiesToAvailableNetAssets_benchmark, "row_currentLiabilitiesToAvailableNetAssets");
+
   closeSidebarAfterSelectingOption("debt");
 };
 
@@ -185,6 +217,25 @@ const displayIncomeComponent = () => {
     1,
     "financialAssistanceAsPercentTuitionAndFees"
   );
+
+
+  const netIncomeRatio_benchmark = [
+    "Net Income Benchmark",
+    "We believe that a reasonable benchmark is Greater than or equal to .6",
+  ];
+  createBenchmark(netIncomeRatio_benchmark, "row_netIncomeRatio");
+
+  const netIncomeRatioExcludingDepreciation_benchmark = [
+    "Net Income Ratio (Excluding Depreciation) Benchmark",
+    "We believe that a reasonable benchmark is Greater than or equal to .6",
+  ];
+  createBenchmark(netIncomeRatioExcludingDepreciation_benchmark, "row_netIncomeRatioExcludingDepreciation");
+
+  const percentAverageTuitionIncreaseBetweenYears_benchmark = [
+    "Percentage of Average Tuition Increase Between Years Benchmark",
+    "We believe that a reasonable benchmark is a Positive Yearly Trend",
+  ];
+  createBenchmark(percentAverageTuitionIncreaseBetweenYears_benchmark, "row_percentAverageTuitionIncreaseBetweenYears");
 
   closeSidebarAfterSelectingOption("income");
 };
