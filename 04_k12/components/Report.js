@@ -14,7 +14,7 @@ const displayReportComponent = () => {
       ['studentAverageEnrollment_PercentChange', 'percent', 1],
       ['studentAverageEnrollment_Average', 'num', 0],
       ['studentAverageEnrollment_Peak', 'num', 0],
-      ['studentFacilityRatio', 'num', 1, 'wa']
+      ['studentFacilityRatio', 'percent', 1, 'wa']
     ]);
 
     insertDataToReport(cashData, selectedYears, [
@@ -41,51 +41,51 @@ const displayReportComponent = () => {
     insertDataToReport(debtData, selectedYears, [
       ['debtToPropertyAndEquipment', 'num', 1],
       ['debtToNetAssets', 'num', 1],
-      ['currentRatio', 'num', 1, 'cb'],
-      ['currentLiabilitiesToAvailableNetAssets', 'num', 1, 'cb'],
+      ['currentRatio', 'num', 1, null, 'cb'],
+      ['currentLiabilitiesToAvailableNetAssets', 'num', 1, null, 'cb'],
       ['debtPerStudent', 'num', 0],
       ['debtCoverage', 'num', 1]
     ]);
 
     insertDataToReport(incomeData, selectedYears, [
-      ['netIncomeRatio', 'num', 2, 'wa', 'cb'], 
+      ['netIncomeRatio', 'num', 1, 'wa', 'cb'], 
       ['netIncomeRatioExcludingDepreciation', 'num', 1, 'wa', 'cb'],
       ['percentAverageTuitionIncreaseBetweenYears', 'percent', 0, 'wa', 'cb'],
-      ['financialAssistanceAsPercentTuitionAndFees', 'num', 1, 'wa'],
-      ['tuitionAndFeesAsPercentTotalIncome', 'num', 1, 'wa'],
-      ['contributionsAsAPercentOfTotalIncome', 'percent', 1, 'wa'],
-      ['grossTuition' , 'num', 0, 'wa'],
-      ['grossTuition_Percent', 'percent', 1],
+      ['financialAssistanceAsPercentTuitionAndFees', 'percent', 0, 'wa'],
+      ['tuitionAndFeesAsPercentTotalIncome', 'percent', 0, 'wa'],
+      ['contributionsAsAPercentOfTotalIncome', 'percent', 0, 'wa'],
+      ['grossTuition' , 'dollar', 0, 'wa'],
+      ['grossTuition_Percent', 'percent', 0],
       // ['financialAssistanceDiscountBased', 'num', 0, 'wa'],
       // ['financialAssistanceDiscountBased_Percent', 'percent', 1],
       // ['scholarshipAwarded', 'num', 0, 'wa'],
       // ['scholarshipAwarded_Percent', 'percent', 1],
-      ['totalFinancialAssistance', 'num', 0, 'wa'],
-      ['totalFinancialAssistance_Percent', 'percent', 1],
-      ['netTuition', 'num', 0, 'wa'],
-      ['netTuition_Percent', 'percent', 1],
-      ['feesPercentOfNetTuition', 'num', 2, 'wa']
+      ['totalFinancialAssistance', 'dollar', 0, 'wa'],
+      ['totalFinancialAssistance_Percent', 'percent', 0],
+      ['netTuition', 'dollar', 0, 'wa'],
+      ['netTuition_Percent', 'percent', 0],
+      ['feesPercentOfNetTuition', 'percent', 1, 'wa']
     ])
 
     insertDataToReport(expenseData, selectedYears, [
-      ['salariesBenefitsTeachersAsPercentNetTuition_Salaries', 'num', 1, 'wa'],
-      ['salariesBenefitsTeachersAsPercentNetTuition_Benefits', 'num', 1], 
-      ['salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits', 'num', 1, 'wa'],
-      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries', 'num', 0, 'wa'],
-      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits', 'num', 0, 'wa'],
-      ['salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits', 'num', 0, 'wa'],
+      ['salariesBenefitsTeachersAsPercentNetTuition_Salaries', 'percent', 0, 'wa'],
+      ['salariesBenefitsTeachersAsPercentNetTuition_Benefits', 'percent', 0], 
+      ['salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits', 'percent', 0, 'wa'],
+      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries', 'dollar', 0, 'wa'],
+      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits', 'dollar', 0, 'wa'],
+      ['salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits', 'dollar', 0, 'wa'],
       // ['benefitsPercentSalariesTeachers', 'num', 2, 'wa'],
-      ['personnelMandatoryDebtService_SalariesAndBenefits_Teachers', 'num', 1, 'wa'],
-      ['personnelMandatoryDebtService_SalariesAndBenefits_Administration', 'num', 1, 'wa'],
-      ['personnelMandatoryDebtService_SalariesAndBenefits_Employees', 'num', 1, 'wa'],
-      ['personnelMandatoryDebtService_Mandatory', 'num', 1, 'wa'],
-      ['personnelMandatoryDebtService_Personnel', 'num', 1, 'wa'],
-      ['percentFundRaisingExpensesExceeding', 'percent', 1, 'wa'],
-      ['fundsExpensesPerStudent_FundsRaised', 'num', 0, 'wa'],
-      ['fundsExpensesPerStudent_CashExpensesExcludingDepreciation', 'num', 0, 'wa'],
-      ['fundsExpensesPerStudent_netTuition', 'num', 0, 'wa'],
-      ['fundsExpensesPerStudent_cashExpensesExcessNetTuition', 'num', 0, 'wa'],
-      ['fundsExpensesPerStudent_FundsRaisedOverUnder', 'num', 0, 'wa'],
+      ['personnelMandatoryDebtService_SalariesAndBenefits_Teachers', 'percent', 0, 'wa'],
+      ['personnelMandatoryDebtService_SalariesAndBenefits_Administration', 'percent', 0, 'wa'],
+      ['personnelMandatoryDebtService_SalariesAndBenefits_Employees', 'percent', 0, 'wa'],
+      ['personnelMandatoryDebtService_Mandatory', 'percent', 0, 'wa'],
+      ['personnelMandatoryDebtService_Personnel', 'percent', 0, 'wa'],
+      ['percentFundRaisingExpensesExceeding', 'percent', 0, 'wa'],
+      ['fundsExpensesPerStudent_FundsRaised', 'dollar', 0, 'wa'],
+      ['fundsExpensesPerStudent_CashExpensesExcludingDepreciation', 'dollar', 0, 'wa'],
+      ['fundsExpensesPerStudent_netTuition', 'dollar', 0, 'wa'],
+      ['fundsExpensesPerStudent_cashExpensesExcessNetTuition', 'dollar', 0, 'wa'],
+      ['fundsExpensesPerStudent_FundsRaisedOverUnder', 'dollar', 0, 'wa'],
     ])
   }
 

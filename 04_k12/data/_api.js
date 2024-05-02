@@ -38,6 +38,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   findUniqueYears(recordsClient);
 
+  resetSelectedYears()
+
   // runApiMain();
 });
 
@@ -369,35 +371,36 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
       );
 
       // benefitsPercentSalariesTeachers
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "benefitsPercentSalariesTeachers_Peer",
-        record,
-        "_26_ratio_benefits_as_a_percent_of_salaries_for_teachers",
-        "_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "totalTeacherSalaries",
-        record,
-        "_02_01_total_teacher_salaries",
-        "_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers",
-        "benefitsPercentSalariesTeachers"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "totalTeacherBenefits",
-        record,
-        "_02_02_total_teacher_benefits_",
-        "_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers",
-        "benefitsPercentSalariesTeachers"
-      );
+      // insertDataIntoObject(
+      //   "peer",
+      //   year,
+      //   object,
+      //   "benefitsPercentSalariesTeachers_Peer",
+      //   record,
+      //   "_26_ratio_benefits_as_a_percent_of_salaries_for_teachers",
+      //   "_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers"
+      // );
+      // insertDataIntoObject(
+      //   "peer",
+      //   year,
+      //   object,
+      //   "totalTeacherSalaries",
+      //   record,
+      //   "_02_01_total_teacher_salaries",
+      //   "_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers",
+      //   "benefitsPercentSalariesTeachers"
+      // );
+      // insertDataIntoObject(
+      //   "peer",
+      //   year,
+      //   object,
+      //   "totalTeacherBenefits",
+      //   record,
+      //   "_02_02_total_teacher_benefits_",
+      //   "_26_yes_no_benefits_as_a_percent_of_salaries_for_teachers",
+      //   "benefitsPercentSalariesTeachers"
+      // );
+
 
       // personnelMandatoryDebtService_SalariesAndBenefits_Teachers
       insertDataIntoObject(
@@ -1258,14 +1261,14 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "_25c_ratio_salaries_and_benefits_per_students"
       );
       // benefitsPercentSalariesTeachers
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "benefitsPercentSalariesTeachers_Client",
-        record,
-        "_26_ratio_benefits_as_a_percent_of_salaries_for_teachers"
-      );
+      // insertDataIntoObject(
+      //   "client",
+      //   year,
+      //   object,
+      //   "benefitsPercentSalariesTeachers_Client",
+      //   record,
+      //   "_26_ratio_benefits_as_a_percent_of_salaries_for_teachers"
+      // );
       // personnelMandatoryDebtService_SalariesAndBenefits_Teachers
       insertDataIntoObject(
         "client",
@@ -1882,7 +1885,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsAsAPercentOfTotalIncome_Client",
         record,
-        "_20_ratio_tuition_and_fees_as_a___of_total_income"
+        "_21_ratio_contributions_as_a___of_total_income"
       );
 
       // grossTuition
@@ -3156,6 +3159,11 @@ const saveSelectedYearsToLocalStorage = (selectedYears_Set) => {
     (a, b) => a - b
   );
   localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+};
+
+const resetSelectedYears = () => {
+  const selectedYears_Set = new Set();
+  saveSelectedYearsToLocalStorage(selectedYears_Set);
 };
 
 const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {

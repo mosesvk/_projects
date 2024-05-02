@@ -685,7 +685,7 @@ const adjustDivHeight = () => {
 };
 
 function getBenchmarks(obj) {
-  console.log('getBenchmarks', obj)
+  // console.log('getBenchmarks', obj)
 
   let benchmarks = [];
   for (let year in obj) {
