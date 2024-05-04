@@ -141,7 +141,8 @@
       <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center justify-start">
-            <button id="toggleSidebarMobile"
+            <button
+              id="toggleSidebarMobile"
               aria-expanded="true"
               aria-controls="sidebar"
               class="p-2 text-gray-600 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -188,7 +189,7 @@
             </div>
             <div class="colorBlue dark:text-white">
               <h1
-                class="text-2xl m-0 p-0 font-bold leading-snug tracking-wide"
+                class="text-xl m-0 p-0 font-bold leading-snug tracking-wide"
                 id="firmName"
               ></h1>
             </div>
@@ -277,7 +278,7 @@
           </div>
           <div class="flex flex-rowcolorBlue text-right dark:text-white">
             <p class="font-bold">
-              peer client count - <span id="uniqueClients"></span>
+              Peer client count - <span id="uniqueClients"></span>
             </p>
           </div>
           <div class="flex items-center">
@@ -319,8 +320,8 @@
       class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900 h-screen"
     >
       <aside
-      id="sidebar"
-      class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-56 h-full pt-16 font-normal duration-75 lg:flex transition-width duration-500 ease-in-out"
+        id="sidebar"
+        class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-56 h-full pt-16 font-normal duration-75 lg:flex transition-width duration-500 ease-in-out"
       >
         <div
           class="relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
@@ -550,6 +551,36 @@
                       sidebar-toggle-item=""
                     >
                       All Reports
+                    </span>
+                  </button>
+                </li>
+                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                <li>
+                  <button
+                    id="print"
+                    class="flex items-center w-full py-2 pl-1 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                  >
+                    <svg
+                      class="w-6 h-6 text-gray-800 dark:text-white"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8 3a2 2 0 0 0-2 2v3h12V5a2 2 0 0 0-2-2H8Zm-3 7a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h1v-4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v4h1a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5Zm4 11a1 1 0 0 1-1-1v-4h8v4a1 1 0 0 1-1 1H9Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+
+                    <span
+                      class="ml-4 text-left text-xl font-bold whitespace-nowrap"
+                      sidebar-toggle-item=""
+                    >
+                      Print
                     </span>
                   </button>
                 </li>
@@ -1692,8 +1723,7 @@
                               scope="row"
                               class="px-6 py-4 text-xl font-medium leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              Net Cash Provided (used) by Operating
-                              Activities
+                              Net Cash Provided (used) by Operating Activities
                             </th>
                           </tr>
                           <tr
@@ -1764,8 +1794,7 @@
                               scope="row"
                               class="px-6 py-4 text-xl font-medium leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              Property and equipment per student excluding
-                              land
+                              Property and equipment per student excluding land
                             </th>
                           </tr>
                           <tr
@@ -1787,8 +1816,8 @@
                               scope="row"
                               class="px-6 py-4 text-xl font-medium leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              Receivable write offs as a % of Net Tuition
-                              and Fees
+                              Receivable write offs as a % of Net Tuition and
+                              Fees
                             </th>
                           </tr>
                           <tr
@@ -1986,8 +2015,7 @@
                               scope="row"
                               class="px-6 py-4 text-xl font-medium leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              Financial Assistance as a % of Tuition and
-                              Fees
+                              Financial Assistance as a % of Tuition and Fees
                             </th>
                           </tr>
                           <tr
@@ -2020,8 +2048,8 @@
                               scope="row"
                               class="px-6 py-4 text-xl font-medium leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              Net Tuition and Financial Assistance Awarded,
-                              per student :
+                              Net Tuition and Financial Assistance Awarded, per
+                              student :
                             </th>
                           </tr>
                           <tr
@@ -2273,9 +2301,8 @@
                               scope="row"
                               class="px-6 py-4 text-xl font-medium leading-tight tracking-wide text-gray-900 dark:text-white"
                             >
-                              Personnel and mandatory debt service payments
-                              as a percent of total expenses (excluding
-                              depreciation)
+                              Personnel and mandatory debt service payments as a
+                              percent of total expenses (excluding depreciation)
                             </th>
                           </tr>
                           <tr
@@ -2354,8 +2381,8 @@
                               scope="row"
                               class="px-6 py-4 text-xl font-medium leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              Percentage of fund raising expenses exceeding (less
-                              than) funds raised
+                              Percentage of fund raising expenses exceeding
+                              (less than) funds raised
                             </th>
                           </tr>
 
@@ -2523,7 +2550,8 @@
     </div>
 
     <!-- ENROLLMENT MODALS -->
-    <div id="studentAverageEnrollment_modal"
+    <div
+      id="studentAverageEnrollment_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -2710,7 +2738,8 @@
       </div>
     </div>
 
-    <div id="studentFacilityRatio_modal"
+    <div
+      id="studentFacilityRatio_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"

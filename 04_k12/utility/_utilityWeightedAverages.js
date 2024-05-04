@@ -145,14 +145,17 @@ const getWeightedAverageOfArray = (data, name) => {
 };
 
 const debtToNetAssets_weightedAverage = (data, name) => {
-  // [03-11 Total Debt] / [03-12 Total Unrestricted Net Assets]
+  // [03-11 Total Debt] / [03-12 Total Unrestricted Net Assets] + [03-14 Temporarily Restricted Net Assets]
 
   let numTotalDebt = getSumOfArray(data.totalDebt[name]);
   let numTotalUnrestrictedNetAssets = getSumOfArray(
     data.totalUnrestrictedNetAssets[name]
   );
+  let numTemporarilyRestrictedNetAssets = getSumOfArray(
+    data.temporarilyRestrictedNetAssets[name]
+  );
 
-  return numTotalDebt / numTotalUnrestrictedNetAssets;
+  return numTotalDebt / (numTotalUnrestrictedNetAssets + numTemporarilyRestrictedNetAssets);
 
 }
 

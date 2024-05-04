@@ -2037,6 +2037,17 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "_11_1__yes_no_ratio_debt_to_net_assets",
         "debtToNetAssets"
       );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "temporarilyRestrictedNetAssets",
+        record,
+        "_03_14_temporarily_restricted_net_assets",
+        "_11_1__yes_no_ratio_debt_to_net_assets",
+        "debtToNetAssets"
+      );
+
 
       // currentRatio
       insertDataIntoObject(
