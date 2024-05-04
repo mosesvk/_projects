@@ -1,79 +1,49 @@
 if (sidebar) {
-  const toggleSidebarMobile = (
-    sidebar,
-    sidebarBackdrop,
-    toggleSidebarMobileHamburger,
-    toggleSidebarMobileClose
-  ) => {
-    sidebar.classList.toggle("hidden");
-    sidebarBackdrop.classList.toggle("hidden");
-    toggleSidebarMobileHamburger.classList.toggle("hidden");
-    toggleSidebarMobileClose.classList.toggle("hidden");
+  const toggleSidebarWidth = (sidebar) => {
+    sidebar.classList.toggle("w-56");
+    sidebar.classList.toggle("w-14");
+
+    mainContent.classList.toggle("ml-56");
+    mainContent.classList.toggle("ml-14");
   };
-
+  
   const sidebar = document.getElementById("sidebar");
-  // console.log("sidebar", sidebar);
-
-
   const sidebarBackdrop = document.getElementById("sidebarBackdrop");
-  const toggleSidebarMobileHamburger = document.getElementById(
-    "toggleSidebarMobileHamburger"
-  );
-  const toggleSidebarMobileClose = document.getElementById(
-    "toggleSidebarMobileClose"
-  );
+  const toggleSidebarMobileHamburger = document.getElementById("toggleSidebarMobileHamburger");
+  const toggleSidebarMobileClose = document.getElementById("toggleSidebarMobileClose");
   const sidebarButtons = document.querySelectorAll("button[id$='Link']");
-
   const tabContents = document.querySelectorAll(".tab-content");
+  const mainContent = document.getElementById("main-content"); // Get the main content element
 
   const handleSidebarButtonClick = () => {
-    toggleSidebarMobile(
-      sidebar,
-      sidebarBackdrop,
-      toggleSidebarMobileHamburger,
-      toggleSidebarMobileClose
-    );
+    toggleSidebarWidth(sidebar);
   };
-
+  
   const activateButton = (clickedIndex) => {
     sidebarButtons.forEach((button, index) => {
       if (index === clickedIndex) {
-        button.classList.add("active"); // Add a class to the clicked button
+        button.classList.add("active");
       } else {
-        button.classList.remove("active"); // Remove the class from other buttons
+        button.classList.remove("active");
       }
     });
   };
-
-  toggleSidebarMobileHamburger.addEventListener(
-    "click",
-    handleSidebarButtonClick
-  );
-  toggleSidebarMobileClose.addEventListener("click", handleSidebarButtonClick);
-  sidebarBackdrop.addEventListener("click", handleSidebarButtonClick);
-
+  
   sidebarButtons.forEach((button, index) => {
     button.addEventListener("click", () => {
-      // Hide all tab contents
       tabContents.forEach((content) => {
         content.classList.add("hidden");
       });
-
-      // Show the corresponding tab content based on the button index
       tabContents[index].classList.remove("hidden");
-
-      // Activate the clicked button
       activateButton(index);
-
-      // Hide the sidebar and backdrop
-      sidebar.classList.add("hidden");
-      sidebarBackdrop.classList.add("hidden");
-
-      // Update the toggleSidebarMobile icon
-      toggleSidebarMobileHamburger.classList.remove("hidden");
-      toggleSidebarMobileClose.classList.add("hidden");
+      // handleSidebarButtonClick(); // Toggle sidebar width
     });
   });
+  
+  toggleSidebarMobileHamburger.addEventListener("click", handleSidebarButtonClick);
+  toggleSidebarMobileClose.addEventListener("click", handleSidebarButtonClick);
+  sidebarBackdrop.addEventListener("click", handleSidebarButtonClick);
+  
 }
 
 // DARK MODE FUNCTIONALITY

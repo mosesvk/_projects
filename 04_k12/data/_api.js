@@ -3049,7 +3049,6 @@ const countUniqueClients = (records) => {
   }
 };
 
-
 const toggleButtonLoadingState = (btn) => {
   btn.innerHTML = `
     <svg aria-hidden="true" role="status" class="inline w-6 h-6 me-3 text-xl colorGreen font-extrabold animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3062,7 +3061,7 @@ const toggleButtonLoadingState = (btn) => {
 
 const toggleButtonNormalState = (btn) => {
   btn.innerHTML = `
-    <span class='text-xl mr-2'>RUN</span>
+    <span class='text-xl mr-2'>Run</span>
     <svg class="w-8 h-8 text-2xl text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
     </svg>`;
