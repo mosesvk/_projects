@@ -2,11 +2,20 @@ if (sidebar) {
   const toggleSidebarWidth = (sidebar) => {
     sidebar.classList.toggle("w-56");
     sidebar.classList.toggle("w-14");
-
+    // Toggle ml-64 and ml-14 classes on main-content
     mainContent.classList.toggle("ml-56");
     mainContent.classList.toggle("ml-14");
   };
-  
+
+  const toggleListItemsPadding = () => {
+    const sidebarListItems = document.querySelectorAll("#sidebar li button");
+    sidebarListItems.forEach((item) => {
+      item.classList.toggle("p-2");
+      item.classList.toggle("py-2");
+      item.classList.toggle("pl-1");
+    });
+  };
+
   const sidebar = document.getElementById("sidebar");
   const sidebarBackdrop = document.getElementById("sidebarBackdrop");
   const toggleSidebarMobileHamburger = document.getElementById("toggleSidebarMobileHamburger");
@@ -17,8 +26,9 @@ if (sidebar) {
 
   const handleSidebarButtonClick = () => {
     toggleSidebarWidth(sidebar);
+    // toggleListItemsPadding(); // Toggle padding on sidebar list items
   };
-  
+
   const activateButton = (clickedIndex) => {
     sidebarButtons.forEach((button, index) => {
       if (index === clickedIndex) {
@@ -28,7 +38,7 @@ if (sidebar) {
       }
     });
   };
-  
+
   sidebarButtons.forEach((button, index) => {
     button.addEventListener("click", () => {
       tabContents.forEach((content) => {
@@ -36,15 +46,17 @@ if (sidebar) {
       });
       tabContents[index].classList.remove("hidden");
       activateButton(index);
-      // handleSidebarButtonClick(); // Toggle sidebar width
+      // Removed handleSidebarButtonClick() from here
     });
   });
-  
+
+  toggleSidebarMobileClose.addEventListener("click", () => {
+    handleSidebarButtonClick(); // Toggle sidebar width and main content margin-left
+  });
   toggleSidebarMobileHamburger.addEventListener("click", handleSidebarButtonClick);
-  toggleSidebarMobileClose.addEventListener("click", handleSidebarButtonClick);
   sidebarBackdrop.addEventListener("click", handleSidebarButtonClick);
-  
 }
+
 
 // DARK MODE FUNCTIONALITY
 const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
