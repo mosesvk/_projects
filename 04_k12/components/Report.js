@@ -367,7 +367,7 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
 
 const clearTableColumns = (idName) => {
   const headerRow = document.getElementById(idName);
-  const columnsToPreserve = ["Avg", "50%", "25%", "75%"];
+  const columnsToPreserve = ["Avg", "25%", "50%", "75%"];
 
   // Remove all existing th elements except the first one and those to be preserved
   Array.from(headerRow.children)
