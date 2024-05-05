@@ -1,6 +1,6 @@
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
-let selectedSchoolChurch;
+let selectedSchoolChurch = 0;
 const regions_Array = [
   { arr: ["New England (CT, RI, MA, VT, NH)"], str: "NE" },
   {
