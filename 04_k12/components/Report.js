@@ -269,7 +269,7 @@ const addPeerDataToRow = (
 ) => {
   
   const propClass =
-  "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
   const propScope = "row";
   
   const dataPointAvg = document.createElement("th");

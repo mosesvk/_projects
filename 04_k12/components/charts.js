@@ -152,19 +152,19 @@ const getMainChartOptions = (
         },
       },
       {
-        name: "Midpoint",
+        name: "50%",
         type: "line",
         data: peerMid,
         visible: false,
       },
       {
-        name: "Min",
+        name: "25%",
         type: "line",
         data: peer25,
         visible: false,
       },
       {
-        name: "Max",
+        name: "75%",
         type: "line",
         data: peer75,
         visible: false,
