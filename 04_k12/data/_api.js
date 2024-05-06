@@ -3046,6 +3046,7 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 // Helper functions
 
 const countUniqueClients = (records) => {
+  uniqueClients = new Set()
   try {
     records.forEach((record) => {
         const mainRelatedClient = record.querySelector("main__related_client").textContent;

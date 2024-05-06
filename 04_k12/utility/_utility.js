@@ -2,7 +2,7 @@ const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 let selectedSchoolChurch = document.getElementById('schoolChurch').checked ? 0 : 1;
 let selectedImagesArray = []
-const uniqueClients = new Set();
+let uniqueClients
 let firmName;
 
 

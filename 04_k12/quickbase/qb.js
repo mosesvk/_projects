@@ -3054,20 +3054,21 @@ localStorage.setItem("enrollmentData", JSON.stringify(object));
 // Helper functions
 
 const countUniqueClients = (records) => {
-try {
-  records.forEach((record) => {
-      const mainRelatedClient = record.querySelector("main__related_client").textContent;
-      // console.log(mainRelatedClient);
-      uniqueClients.add(mainRelatedClient);
-  });
+  uniqueClients = new Set()
+  try {
+    records.forEach((record) => {
+        const mainRelatedClient = record.querySelector("main__related_client").textContent;
+        // console.log(mainRelatedClient);
+        uniqueClients.add(mainRelatedClient);
+    });
 
-  const count = uniqueClients.size;
-  console.log(count);
-  document.getElementById('uniqueClients').textContent = count;
-} catch (error) {
-  console.error("Error counting unique clients:", error);
-  document.getElementById('uniqueClients').textContent = 0; // Set to 0 in case of error
-}
+    const count = uniqueClients.size;
+    console.log(count);
+    document.getElementById('uniqueClients').textContent = count;
+  } catch (error) {
+    console.error("Error counting unique clients:", error);
+    document.getElementById('uniqueClients').textContent = 0; // Set to 0 in case of error
+  }
 };
 
 const toggleButtonLoadingState = (btn) => {
