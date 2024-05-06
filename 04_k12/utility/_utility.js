@@ -1,6 +1,6 @@
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
-let selectedSchoolChurch = 0;
+let selectedSchoolChurch = document.getElementById('schoolChurch').checked ? 0 : 1;
 const regions_Array = [
   { arr: ["New England (CT, RI, MA, VT, NH)"], str: "NE" },
   {
@@ -851,7 +851,6 @@ function calculatePercentageChange(numbers) {
   }
 }
 
-
 function missionaryRange() {
   return {
     min: 0,
@@ -865,3 +864,11 @@ function missionaryRange() {
   };
 }
 
+// Add event listener to checkbox input
+document.getElementById('schoolChurch').addEventListener('change', function() {
+  // Update selectedSchoolChurch based on the checked state
+  selectedSchoolChurch = this.checked ? 0 : 1;
+  
+  // For testing purposes, you can log the updated value
+  // console.log('selectedSchoolChurch:', selectedSchoolChurch);
+});
