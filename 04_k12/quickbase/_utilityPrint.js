@@ -155,6 +155,8 @@ function uploadSingleToFile(id, val, end) {
 }
 
 const printToExcel = (dataString) => {
+  toggleButtonLoadingState(generateReportsBtn)
+
   dataParseExcelString = dataString;
 
   var urlUploadFile =
@@ -200,22 +202,19 @@ const printToExcel = (dataString) => {
         //     newDownloadURLFormattedArray[2];
       } else {
         console.log("Quickbase returned an error.");
-        toggleGenerateReportButtonNormalState(generateReportsBtn);
       }
     },
     error: function (response) {
       console.log("Quickbase returned an error.");
-      toggleButtonNormalState(generateReportsBtn);
     },
   }); //end ajax call
 
-  toggleButtonNormalState(generateReportsBtn);
 }; // printToExcel()
 
 const createPrintExcel = () => {
   uploadSingleToFile(186, ClientRid);
-  uploadSingleToFile(187, clientName);
-  uploadSingleToFile(188, uniqueClients);
+  uploadSingleToFile(187, firmName);
+  uploadSingleToFile(188, uniqueClients.size);
 
   let yearLength = selectedYears_Set.size;
   let j = 189;
@@ -230,9 +229,15 @@ const createPrintExcel = () => {
     j++;
     index++;
   }
+
+  toggleButtonLoadingState(generateReportsBtn)
   setTimeout(() => {
     printToExcel(uploadMainFile); // Main Function
+    toggleGenerateReportButtonNormalState(generateReportsBtn)
+    document.getElementById('print_modal_footer').classList.remove("hidden");
+    createToastSuccess("Report Generated Successfully")
   }, 1500); //setTimeout
+
 };
 
 createFileForPrint = (

@@ -36,6 +36,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("firmName").textContent =
     recordsClient[0].children[2].innerHTML;
 
+  document.getElementById('print_modal_footer').classList.add('hidden');
+
   findUniqueYears(recordsClient);
 
   resetSelectedYears()
@@ -3085,7 +3087,7 @@ const toggleGenerateReportButtonNormalState = (btn) => {
 `
 }
 
-const createToastWarning = () => {
+const createToastWarning = (textString) => {
   const toastWarningDiv = document.createElement("div");
   toastWarningDiv.id = "toast-warning";
   toastWarningDiv.classList.add(
@@ -3119,7 +3121,7 @@ const createToastWarning = () => {
       <span class="sr-only">Warning icon</span>
     </div>
     <div class="ms-3 text-lg font-normal">
-      Please select year(s) for data to appear
+    ${textString}
     </div>
     <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-gray-300 text-gray-600 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-200 dark:hover:text-white dark:bg-gray-600 dark:hover:bg-gray-700" data-dismiss-target="#toast-warning" aria-label="Close">
       <span class="sr-only">Close</span>
@@ -3152,18 +3154,82 @@ const createToastWarning = () => {
 
 };
 
+const createToastSuccess = (textString) => {
+  const toastSuccessDiv = document.createElement("div");
+  toastSuccessDiv.id = "toast-success";
+  toastSuccessDiv.classList.add(
+    "transition",
+    "ease-in-out",
+    "delay-150",
+    "fixed",
+    "top-20",
+    "left-1/2",
+    "transform",
+    "-translate-x-1/2",
+    "z-50",
+    "flex",
+    "items-center",
+    "w-full",
+    "max-w-md",
+    "p-4",
+    "text-gray-700",
+    "bg-gray-300",
+    "rounded-lg",
+    "shadow",
+    "dark:text-gray-200",
+    "dark:bg-gray-600"
+  );
+
+  toastSuccessDiv.innerHTML = `
+    <div class="animate-pulse inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+      <svg class="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+      </svg>
+      <span class="sr-only">success</span>
+    </div>
+    <div class="ms-3 text-sm font-normal">${textString}</div>
+    <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+        </svg>
+    </button>
+  `;
+
+  const closeButton = toastSuccessDiv.querySelector('[data-dismiss-target="#toast-success"]');
+  closeButton.addEventListener("click", (event) => {
+    event.stopPropagation(); // Prevent propagation to the toast
+    toastSuccessDiv.remove();
+  });
+
+  document.body.appendChild(toastSuccessDiv);
+
+  // Event listener to close the toast when clicking outside of it
+  const clickOutsideHandler = (event) => {
+    if (!toastSuccessDiv.contains(event.target)) {
+      toastSuccessDiv.remove();
+      document.body.removeEventListener("click", clickOutsideHandler);
+    }
+  };
+
+  setTimeout(() => {
+    document.body.addEventListener("click", clickOutsideHandler);
+  }, 100); // Delay adding the event listener to prevent immediate removal
+};
+
+
 const processSelectedYears = () => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   // console.log(selectedYears);
 
   if (!selectedYears) {
-    createToastWarning();
+    createToastWarning('Please select year(s) for data to appear');
     throw new Error("No years selected.");
   }
 
   if (!selectedYears.length) {
-    createToastWarning();
+    createToastWarning('Please select year(s) for data to appear');
     throw new Error("No years selected.");
   }
 
@@ -3204,6 +3270,8 @@ const displayComponents = () => {
 
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
+  uploadMainFile = ''
+  document.getElementById('print_modal_footer').classList.add('hidden');
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
   countUniqueClients(recordsPeer)

@@ -152,15 +152,15 @@ const getMainChartOptions = (
         },
       },
       {
-        name: "50%",
-        type: "line",
-        data: peerMid,
-        visible: false,
-      },
-      {
         name: "25%",
         type: "line",
         data: peer25,
+        visible: false,
+      },
+      {
+        name: "50%",
+        type: "line",
+        data: peerMid,
         visible: false,
       },
       {
