@@ -1,6 +1,11 @@
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 let selectedSchoolChurch = document.getElementById('schoolChurch').checked ? 0 : 1;
+let selectedImagesArray = []
+const uniqueClients = new Set();
+let firmName;
+
+
 const regions_Array = [
   { arr: ["New England (CT, RI, MA, VT, NH)"], str: "NE" },
   {
@@ -872,3 +877,15 @@ document.getElementById('schoolChurch').addEventListener('change', function() {
   // For testing purposes, you can log the updated value
   // console.log('selectedSchoolChurch:', selectedSchoolChurch);
 });
+
+
+const selectedImages = () => {
+  selectedImagesArray = []
+  
+  $("input:checkbox[name=printCheckbox]:checked").map(function() {
+    selectedImagesArray.push($(this).val())
+  })
+  console.log(selectedImagesArray)
+}
+
+

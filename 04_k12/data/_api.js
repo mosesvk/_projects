@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   findUniqueYears(recordsClient);
 
   resetSelectedYears()
+  localStorage.clear()
 
   // runApiMain();
 });
@@ -3043,7 +3044,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 // Helper functions
 
 const countUniqueClients = (records) => {
-  const uniqueClients = new Set();
   try {
     records.forEach((record) => {
         const mainRelatedClient = record.querySelector("main__related_client").textContent;
@@ -3078,6 +3078,12 @@ const toggleButtonNormalState = (btn) => {
     </svg>`;
   btn.disabled = false;
 };
+
+const toggleGenerateReportButtonNormalState = (btn) => {
+  btn.innerHTML = `
+  Generate Trends and Benchmark Reports
+`
+}
 
 const createToastWarning = () => {
   const toastWarningDiv = document.createElement("div");

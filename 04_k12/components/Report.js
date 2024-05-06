@@ -10,86 +10,75 @@ const displayReportComponent = () => {
   if (selectedYears) {
     addYearColumnsToReportTable(selectedYears);
     insertDataToReport(enrollmentData, selectedYears, [
-      ['studentAverageEnrollment', 'num', 0],
+      ['studentAverageEnrollment', 'num', 0, null, null, 6, 'begin', null],
       ['studentAverageEnrollment_PercentChange', 'percent', 1],
       ['studentAverageEnrollment_Average', 'num', 0],
-      ['studentAverageEnrollment_Peak', 'num', 0],
-      ['studentFacilityRatio', 'percent', 1, 'wa']
+      ['studentAverageEnrollment_Peak', 'num', 0, null, null, 10, null, null],
+      ['studentFacilityRatio', 'percent', 1, 'wa', null, 14, null, null]
     ]);
 
     insertDataToReport(cashData, selectedYears, [
-      ['expendableReserves_inDays', 'num', 0, 'wa', 'cb'],
-      ['expendableReserves_Percent', 'percent', 0, 'wa', 'cb'],
-      ['daysCashOnHand', 'num', 0, 'wa'],
-      // ['cashAvailableDeferred', 'num', 2, 'wa'],
-      // ['liquidityRatio', 'num', 1, 'wa'],
-      // ['netCashUsedOperating_asPerStatementCash', 'dollar', 0],
-      // ['netCashUsedOperating_depreciation', 'dollar', 0]
-      ['cashAvailableDeferred', 'num', 2, 'wa'],
-      ['liquidityRatio', 'num', 1, 'wa', 'cb'],
-      ['netCashUsedOperating_asPerStatementCash', 'dollar', 0],
-      ['netCashUsedOperating_depreciation', 'dollar', 0], 
+      ['expendableReserves_inDays', 'num', 0, 'wa', 'cb', 16, null, null],
+      ['expendableReserves_Percent', 'percent', 0, 'wa', 'cb', 22, null, null],
+      ['daysCashOnHand', 'num', 0, 'wa',  null, 30, null, null],
+      ['cashAvailableDeferred', 'num', 2, 'wa', null, 26, null, null],
+      ['liquidityRatio', 'num', 1, 'wa', 'cb', 34, null, null],
+      ['netCashUsedOperating_asPerStatementCash', 'dollar', 0, null, null, 38, null, null],
+      ['netCashUsedOperating_depreciation', 'dollar', 0, null, null, 42, null, null], 
     ]);
 
     insertDataToReport(assetData, selectedYears, [
-      ['propertyEquipmentPerStudent', 'dollar', 0],
-      ['netTuitionARasPercentCurrentAssets', 'percent', 0],
-      ['receivableWriteOffsAsPercentNetTuitionAndFees', 'percent', 0],
-      ['receivableWriteOffsAsPercentNetTuitionAndFees_Percent', 'percent', 1]
+      ['propertyEquipmentPerStudent', 'dollar', 0, null, null, 46, null, null],
+      ['netTuitionARasPercentCurrentAssets', 'percent', 0, null, null, 50, null, null],
+      ['receivableWriteOffsAsPercentNetTuitionAndFees', 'percent', 0, null, null, 54, null, null],
+      ['receivableWriteOffsAsPercentNetTuitionAndFees_Percent', 'percent', 1],  
     ]);
 
     insertDataToReport(debtData, selectedYears, [
-      ['debtToPropertyAndEquipment', 'num', 1],
-      ['debtToNetAssets', 'num', 1],
-      ['currentRatio', 'num', 1, null, 'cb'],
-      ['currentLiabilitiesToAvailableNetAssets', 'num', 1, null, 'cb'],
-      ['debtPerStudent', 'num', 0],
-      ['debtCoverage', 'num', 1]
+      ['debtToPropertyAndEquipment', 'num', 1, null, null, 58, null, null],
+      ['debtToNetAssets', 'num', 1, null, null, 62, null, null],
+      ['currentRatio', 'num', 1, null, 'cb', 66, null, null], 
+      ['currentLiabilitiesToAvailableNetAssets', 'num', 1, null, 'cb', 70, null, null],
+      ['debtPerStudent', 'num', 0, null, null, 74, null, null],
+      ['debtCoverage', 'num', 1, null, null, 78, null, null],
     ]);
 
     insertDataToReport(incomeData, selectedYears, [
-      ['netIncomeRatio', 'num', 1, 'wa', 'cb'], 
-      ['netIncomeRatioExcludingDepreciation', 'num', 1, 'wa', 'cb'],
+      ['netIncomeRatio', 'num', 1, 'wa', 'cb', 82, null, null], 
+      ['netIncomeRatioExcludingDepreciation', 'num', 1, 'wa', 'cb', 86, null, null],
       ['percentAverageTuitionIncreaseBetweenYears', 'percent', 0, 'wa', 'cb'],
-      ['financialAssistanceAsPercentTuitionAndFees', 'percent', 0, 'wa'],
-      ['tuitionAndFeesAsPercentTotalIncome', 'percent', 0, 'wa'],
-      ['contributionsAsAPercentOfTotalIncome', 'percent', 0, 'wa'],
-      ['grossTuition' , 'dollar', 0, 'wa'],
+      ['financialAssistanceAsPercentTuitionAndFees', 'percent', 0, 'wa', null, 90, null, null],
+      ['tuitionAndFeesAsPercentTotalIncome', 'percent', 0, 'wa', null, 94, null, null],
+      ['contributionsAsAPercentOfTotalIncome', 'percent', 0, 'wa', null, 98, null, null],
+      ['grossTuition' , 'dollar', 0, 'wa', null, 102, null, null],
       ['grossTuition_Percent', 'percent', 0],
-      // ['financialAssistanceDiscountBased', 'num', 0, 'wa'],
-      // ['financialAssistanceDiscountBased_Percent', 'percent', 1],
-      // ['scholarshipAwarded', 'num', 0, 'wa'],
-      // ['scholarshipAwarded_Percent', 'percent', 1],
-      ['totalFinancialAssistance', 'dollar', 0, 'wa'],
+      ['totalFinancialAssistance', 'dollar', 0, 'wa', null, 106, null, null],
       ['totalFinancialAssistance_Percent', 'percent', 0],
-      ['netTuition', 'dollar', 0, 'wa'],
+      ['netTuition', 'dollar', 0, 'wa', null, 110, null, null],
       ['netTuition_Percent', 'percent', 0],
-      ['feesPercentOfNetTuition', 'percent', 1, 'wa']
+      ['feesPercentOfNetTuition', 'percent', 1, 'wa', null, 114, null, null],
     ])
 
     insertDataToReport(expenseData, selectedYears, [
-      ['salariesBenefitsTeachersAsPercentNetTuition_Salaries', 'percent', 0, 'wa'],
-      ['salariesBenefitsTeachersAsPercentNetTuition_Benefits', 'percent', 0], 
-      ['salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits', 'percent', 0, 'wa'],
-      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries', 'dollar', 0, 'wa'],
-      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits', 'dollar', 0, 'wa'],
-      ['salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits', 'dollar', 0, 'wa'],
-      // ['benefitsPercentSalariesTeachers', 'num', 2, 'wa'],
-      ['personnelMandatoryDebtService_SalariesAndBenefits_Teachers', 'percent', 0, 'wa'],
-      ['personnelMandatoryDebtService_SalariesAndBenefits_Administration', 'percent', 0, 'wa'],
-      ['personnelMandatoryDebtService_SalariesAndBenefits_Employees', 'percent', 0, 'wa'],
-      ['personnelMandatoryDebtService_Mandatory', 'percent', 0, 'wa'],
-      ['personnelMandatoryDebtService_Personnel', 'percent', 0, 'wa'],
-      ['percentFundRaisingExpensesExceeding', 'percent', 0, 'wa'],
-      ['fundsExpensesPerStudent_FundsRaised', 'dollar', 0, 'wa'],
-      ['fundsExpensesPerStudent_CashExpensesExcludingDepreciation', 'dollar', 0, 'wa'],
-      ['fundsExpensesPerStudent_netTuition', 'dollar', 0, 'wa'],
-      ['fundsExpensesPerStudent_cashExpensesExcessNetTuition', 'dollar', 0, 'wa'],
-      ['fundsExpensesPerStudent_FundsRaisedOverUnder', 'dollar', 0, 'wa'],
+      ['salariesBenefitsTeachersAsPercentNetTuition_Salaries', 'percent', 0, 'wa', null, 118, null, null],
+      ['salariesBenefitsTeachersAsPercentNetTuition_Benefits', 'percent', 0, null, null, 122, null, null], 
+      ['salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits', 'percent', 0, 'wa', null, 126, null, null],
+      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries', 'dollar', 0, 'wa', null, 130, null, null],
+      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits', 'dollar', 0, 'wa', null , 134, null, null],
+      ['salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits', 'dollar', 0, 'wa', null, 138, null, null],
+      ['personnelMandatoryDebtService_SalariesAndBenefits_Teachers', 'percent', 0, 'wa', null, 142, null, null],
+      ['personnelMandatoryDebtService_SalariesAndBenefits_Administration', 'percent', 0, 'wa', null, 146, null, null],
+      ['personnelMandatoryDebtService_SalariesAndBenefits_Employees', 'percent', 0, 'wa', null, 150, null, null],
+      ['personnelMandatoryDebtService_Mandatory', 'percent', 0, 'wa', null, 154, null, null],
+      ['personnelMandatoryDebtService_Personnel', 'percent', 0, 'wa', null, 158, null, null],
+      ['percentFundRaisingExpensesExceeding', 'percent', 0, 'wa', null, 162, null, null],
+      ['fundsExpensesPerStudent_FundsRaised', 'dollar', 0, 'wa', null, 166, null, null],
+      ['fundsExpensesPerStudent_CashExpensesExcludingDepreciation', 'dollar', 0, 'wa', null, 170, null, null],
+      ['fundsExpensesPerStudent_netTuition', 'dollar', 0, 'wa', null , 174, null, null],
+      ['fundsExpensesPerStudent_cashExpensesExcessNetTuition', 'dollar', 0, 'wa', null, 178, null, null],
+      ['fundsExpensesPerStudent_FundsRaisedOverUnder', 'dollar', 0, 'wa', null, 182, null, null],
     ])
   }
-
-
   
   closeSidebarAfterSelectingOption('report');
 };
@@ -114,7 +103,10 @@ const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
       name[1],
       name[2],
       name[3],
-      name[4]
+      name[4],
+      name[5],
+      name[6],
+      name[7]
     );
   }
 };
@@ -128,7 +120,10 @@ const addToSingleRow = (
   type,
   fixedNum,
   wa,
-  cb
+  cb,
+  fId, 
+  begin, 
+  end
 ) => {
   // console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
@@ -175,8 +170,12 @@ const addToSingleRow = (
     "total",
     wa,
     name,
-    data
+    data, 
+    fId, 
+    begin, 
+    end
   );
+
 };
 
 const addClientDataToReportRow = (
@@ -265,7 +264,10 @@ const addPeerDataToRow = (
   dataArray,
   wa,
   name,
-  data
+  data,
+  fId, 
+  begin, 
+  end
 ) => {
   
   const propClass =
@@ -293,7 +295,7 @@ const addPeerDataToRow = (
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement("th");
   const min = peer ? parseFloat(get25thPercentileOfArray(peer[dataArray])) : '';
-// if (name == 'salariesBenefitsTeachersAsPercentNetTuition_Salaries') console.log('salariesBenefitsTeachersAsPercentNetTuition_Salaries', {min, peerArray: peer[dataArray], type, fixedNum})
+  // if (name == 'salariesBenefitsTeachersAsPercentNetTuition_Salaries') console.log('salariesBenefitsTeachersAsPercentNetTuition_Salaries', {min, peerArray: peer[dataArray], type, fixedNum})
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
   const max = peer ? parseFloat(get75thPercentileOfArray(peer[dataArray])) : '';
@@ -320,6 +322,8 @@ const addPeerDataToRow = (
   dataPointMax.scope = propScope;
   dataPointMax.textContent = textMax;
   tableRow.appendChild(dataPointMax);
+
+  if (fId) createFileForPrint(name, fId, begin, end, textAvg, textMid, textMin, textMax, peer, data);
 };
 
 const addYearColumnsToReportTable = (years) => {
