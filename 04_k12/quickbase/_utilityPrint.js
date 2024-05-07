@@ -189,9 +189,7 @@ const printToExcel = (dataString) => {
           .text();
         // newDownloadURLFormatted = newDownloadURL.replace(/amp;/g, "");
         // newDownloadURLFormattedArray = newDownloadURLFormatted.split("---");
-
         //   document.getElementById('print_modal_footer').classList.remove('hidden');
-
         //   document.getElementById("trendXLSFinal").href =
         //     newDownloadURLFormattedArray[1];
         //   document.getElementById("trendPDFFinal").href =
