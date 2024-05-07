@@ -160,7 +160,7 @@ const printToExcel = (dataString) => {
   dataParseExcelString = dataString;
 
   var urlUploadFile =
-    "https://capincrouse.quickbase.com/db/bt3q4xqn5?a=API_AddRecord";
+    "https://capincrouse.quickbase.com/db/bt3q4xqn5?a=API_AddRecor";
 
   // console.log(dataString);
 
@@ -202,10 +202,12 @@ const printToExcel = (dataString) => {
         //     newDownloadURLFormattedArray[2];
       } else {
         console.log("Quickbase returned an error.");
+        createToastWarning(`Quickbase returned an error: if (xmlUpload.find("qdbapi").find("errcode").text() == "0")`)
       }
     },
     error: function (response) {
-      console.log("Quickbase returned an error.");
+      console.log("Quickbase returned an error: " + response);
+      createToastWarning(`Quickbase returned an error: ${response}`)
     },
   }); //end ajax call
 
@@ -234,8 +236,7 @@ const createPrintExcel = () => {
   setTimeout(() => {
     printToExcel(uploadMainFile); // Main Function
     toggleGenerateReportButtonNormalState(generateReportsBtn)
-    document.getElementById('print_modal_footer').classList.remove("hidden");
-    createToastSuccess("Report Generated Successfully")
+    document.getElementById('print_modal_footer').classList.remove("hidden")
   }, 1500); //setTimeout
 
 };
@@ -261,6 +262,7 @@ document.getElementById("generateReports").addEventListener("click", () => {
   // extract data from the table
 
   if (!localStorage.enrollmentData) {
+    createToastWarning("No Data Retrieved. Make sure to select years and run the report")
     throw new Error("No Data Retrieved.");
   } else {
     createPrintExcel();
