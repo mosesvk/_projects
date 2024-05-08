@@ -254,7 +254,7 @@ const get25thPercentileOfArray = (array) => {
   // Step 4: Check if the index is an integer
   if (Number.isInteger(index)) {
     // If it's an integer, return the value at that index
-    return sortedArray[index - 1];
+    return Number(sortedArray[index - 1])
   } else {
     // If not an integer, interpolate between the two nearest values
     const lowerIndex = Math.floor(index);
@@ -281,7 +281,7 @@ const get75thPercentileOfArray = (array) => {
   // Step 4: Check if the index is an integer
   if (Number.isInteger(index)) {
     // If it's an integer, return the value at that index
-    return sortedArray[index - 1];
+    return Number(sortedArray[index - 1]);
   } else {
     // If not an integer, interpolate between the two nearest values
     const lowerIndex = Math.floor(index);
@@ -432,7 +432,7 @@ const getPeerAndClientChartDataArrays = (
       const lower25 = get25thPercentileOfArray(array);
       const higher75 = get75thPercentileOfArray(array);
 
-      // console.log(mid);
+      // console.log({ avg, mid, lower25, higher75 });
 
       peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
       peerMid.push(parseFloat(mid.toFixed(fixedNum)));
@@ -445,6 +445,8 @@ const getPeerAndClientChartDataArrays = (
       console.error(`Data for year ${year} is undefined in dataPeer`);
     }
   });
+
+  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   return { clientArray, peerAvg, peerMid, peer25, peer75 };
 };
