@@ -59,6 +59,7 @@ const selectedSites_Array = [];
 const selectedTypes_Array = []
 let selectedSchoolChurch_Selected;
 
+
 // Utility Functions
 
 const createChartFromParsedData = (

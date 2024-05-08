@@ -1985,7 +1985,7 @@ const countUniqueClients = (records) => {
   uniqueClients = new Set()
   try {
     records.forEach((record) => {
-        const mainRelatedClient = record.querySelector("main__related_client").textContent;
+        const mainRelatedClient = record.querySelector("pe___client_legal_name").textContent;
         // console.log(mainRelatedClient);
         uniqueClients.add(mainRelatedClient);
     });
@@ -2202,22 +2202,23 @@ const displayComponents = () => {
   // displayReportComponent();
 };
 
-const runApiMain = (recordsPeer, recordsClient) => {
-  const run_btn = document.querySelector("#run");
-
-  run_btn.addEventListener("click", () => {
-    countUniqueClients(recordsPeer)
-
-    try {
-      toggleButtonLoadingState(run_btn);
-      const selectedYears = processSelectedYears();
-      saveSelectedYearsToLocalStorage(selectedYears);
-      processApiCalls(selectedYears, recordsPeer, recordsClient);
-      displayComponents();
-    } catch (err) {
-      console.error(err);
-    } finally {
-      toggleButtonNormalState(run_btn);
-    }
-  });
-};
+const run_btn = document.querySelector("#run");
+run_btn.addEventListener("click", async () => {
+  // uploadMainFile = ''
+  // document.getElementById('print_modal_footer').classList.add('hidden');
+  const recordsClient = await fetchClientData();
+  const recordsPeer = await fetchPeerData();
+  countUniqueClients(recordsPeer)
+  
+  try {
+    toggleButtonLoadingState(run_btn);
+    const selectedYears = processSelectedYears();
+    saveSelectedYearsToLocalStorage(selectedYears);
+    processApiCalls(selectedYears, recordsPeer, recordsClient);
+    displayComponents();
+  } catch (err) {
+    console.error(err);
+  } finally {
+    toggleButtonNormalState(run_btn);
+  }
+});
