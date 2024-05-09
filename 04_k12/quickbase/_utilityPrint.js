@@ -160,7 +160,7 @@ const printToExcel = (dataString) => {
   dataParseExcelString = dataString;
 
   var urlUploadFile =
-    "https://capincrouse.quickbase.com/db/bt3q4xqn5?a=API_AddRecor";
+    "https://capincrouse.quickbase.com/db/bt3q4xqn5?a=API_AddRecord";
 
   // console.log(dataString);
 
@@ -203,18 +203,23 @@ const printToExcel = (dataString) => {
         createToastWarning(`Quickbase returned an error: if (xmlUpload.find("qdbapi").find("errcode").text() == "0")`)
       }
     },
-    error: function (response) {
-      console.log("Quickbase returned an error: " + response);
-      createToastWarning(`Quickbase returned an error: ${response}`)
+    error: function (err) {
+      // console.log("Quickbase returned an error: " + response);
+      console.log(err)
+      createToastWarning(`Quickbase returned an error: ${err}`)
     },
   }); //end ajax call
 
 }; // printToExcel()
 
 const createPrintExcel = () => {
-  uploadSingleToFile(186, ClientRid);
-  uploadSingleToFile(187, firmName);
-  uploadSingleToFile(188, uniqueClients.size);
+  // uploadSingleToFile(186, ClientRid);
+  // uploadSingleToFile(187, firmName);
+  // uploadSingleToFile(188, uniqueClients.size);
+
+   uploadSingleToFile(186, 3197);
+  uploadSingleToFile(187, "CapinIT");
+  uploadSingleToFile(188, 35); 
 
   let yearLength = selectedYears_Set.size;
   let j = 189;
@@ -251,7 +256,7 @@ createFileForPrint = (
   peer,
   data
 ) => {
-  console.log({ name, fId, begin, end, avg, mid, min, max, peer, data });
+  // console.log({ name, fId, begin, end, avg, mid, min, max, peer, data });
 
   uploadToFile(avg, mid, min, max, fId, begin, end);
 };

@@ -2199,7 +2199,7 @@ const displayComponents = () => {
   // displayAssetComponent();
   displayIncomeComponent();
   displayExpenseComponent();
-  // displayReportComponent();
+  displayReportComponent();
 };
 
 const run_btn = document.querySelector("#run");
