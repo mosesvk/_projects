@@ -1,5 +1,3 @@
-
-
 const optionsButton = document.querySelector(
   '[data-modal-toggle="options_modal"]'
 );

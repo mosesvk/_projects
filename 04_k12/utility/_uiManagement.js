@@ -18,15 +18,30 @@ if (sidebar) {
 
   const sidebar = document.getElementById("sidebar");
   const sidebarBackdrop = document.getElementById("sidebarBackdrop");
-  const toggleSidebarMobileHamburger = document.getElementById("toggleSidebarMobileHamburger");
-  const toggleSidebarMobileClose = document.getElementById("toggleSidebarMobileClose");
+  const toggleSidebarMobileHamburger = document.getElementById(
+    "toggleSidebarMobileHamburger"
+  );
+  const toggleSidebarMobileClose = document.getElementById(
+    "toggleSidebarMobileClose"
+  );
   const sidebarButtons = document.querySelectorAll("button[id$='Link']");
+  const popoverDivs = document.querySelectorAll("div[id^='popover']");
   const tabContents = document.querySelectorAll(".tab-content");
   const mainContent = document.getElementById("main-content"); // Get the main content element
 
   const handleSidebarButtonClick = () => {
     toggleSidebarWidth(sidebar);
+    togglePopoverVisibility(); // Toggle visibility of popover divs
+
     // toggleListItemsPadding(); // Toggle padding on sidebar list items
+  };
+
+  // Function to toggle the "hidden" class for popover divs
+  const togglePopoverVisibility = () => {
+    const popoverDivs = document.querySelectorAll("div[id^='popover']");
+    popoverDivs.forEach((popoverDiv) => {
+      popoverDiv.classList.toggle("hidden");
+    });
   };
 
   const activateButton = (clickedIndex) => {
@@ -53,10 +68,12 @@ if (sidebar) {
   toggleSidebarMobileClose.addEventListener("click", () => {
     handleSidebarButtonClick(); // Toggle sidebar width and main content margin-left
   });
-  toggleSidebarMobileHamburger.addEventListener("click", handleSidebarButtonClick);
+  toggleSidebarMobileHamburger.addEventListener(
+    "click",
+    handleSidebarButtonClick
+  );
   sidebarBackdrop.addEventListener("click", handleSidebarButtonClick);
 }
-
 
 // DARK MODE FUNCTIONALITY
 const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
