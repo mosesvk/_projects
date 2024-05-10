@@ -27,8 +27,8 @@ const regions_Array = [
 // Other
 // Child Sponsorships
 const types_Array = [
-  { arr: ["Mission Sending"], str: "MS" },
-  { arr: ["Relief Ops"], str: "RO" },
+  { arr: ["Mission-Sending"], str: "MS" },
+  { arr: ["Relief"], str: "RO" },
   { arr: ["Healthcare"], str: "HC" },
   { arr: ["Bible Translators"], str: "BT" },
   { arr: ["Education"], str: "ED" },

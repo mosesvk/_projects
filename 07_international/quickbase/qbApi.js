@@ -2247,15 +2247,23 @@ const getRecordsForPeer = async (years, dataStr) => {
     return parsedData;
   }
 
-  //	{239.GTE.${sliderValue}} AND
-  //	{239.LTE.${sliderValue2}} AND
-  //      	{122.EX.${selectedRegion}}
+  // {195.EX.${currentYear}} AND 
+  // {123.GTE.${sliderValue}} AND 
+  // {123.LTE.${sliderValue2}} AND 
+  // {122.GTE.${sliderValue3}} AND 
+  // {122.LTE.${sliderValue4}} AND 
+  // {193.EX.'Comprehensive'} AND 
+  // ( {267.EX.${selectedRegionArray[0]}} OR {267.EX.${selectedRegionArray[1]}} OR {267.EX.${selectedRegionArray[2]}} OR {267.EX.${selectedRegionArray[3]}} OR {267.EX.${selectedRegionArray[4]}} OR {267.EX.${selectedRegionArray[5]}} OR {267.EX.${selectedRegionArray[6]}} ) AND 
+  // ( {268.EX.${selectedMultiSiteArray[0]}} OR {268.EX.${selectedMultiSiteArray[1]}} OR {268.EX.${selectedMultiSiteArray[2]}} ) 
 
   const currentYear = years[0];
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
-	{301.EX.${currentYear}}
+	    {301.EX.${currentYear}} AND
+      {239.GTE.${sliderValue}} AND 
+      {239.LTE.${sliderValue2}} AND 
+      ( {122.EX.${selectedTypes_Array[0]}} OR {122.EX.${selectedTypes_Array[1]}} OR {122.EX.${selectedTypes_Array[2]}}  OR {122.EX.${selectedTypes_Array[3]}}  OR {122.EX.${selectedTypes_Array[4]}}  OR {122.EX.${selectedTypes_Array[5]}}  OR {122.EX.${selectedTypes_Array[6]}} ) 
     `,
     clist:
       "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344",

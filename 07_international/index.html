@@ -338,7 +338,7 @@
                     data-popover
                     id="popoverEnrollment-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
                   >
                     <div
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
@@ -386,7 +386,7 @@
                     data-popover
                     id="popoverCash-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
                   >
                     <div
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
@@ -436,7 +436,7 @@
                     data-popover
                     id="popoverAssets-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
                   >
                     <div
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
@@ -486,7 +486,7 @@
                     data-popover
                     id="popoverIncome-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
                   >
                     <div
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
@@ -534,7 +534,7 @@
                     data-popover
                     id="popoverExpense-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
                   >
                     <div
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
@@ -554,6 +554,9 @@
                 <li>
                   <button
                     id="reportLink"
+                    data-popover-target="popoverReports-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
                     class="flex items-center w-full py-2 pl-1 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
                     <svg
@@ -569,10 +572,33 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="dark:text-gray-400 dark:text-gray-400 dark:text-gray-400 dark:text-gray-400 flex-1 ml-4 text-gray-500 hover:text-gray-900 text-left text-xl font-semibold tracking-wide whitespace-nowrap dark:hover:text-white" sidebar-toggle-item="">
+                    <span
+                      class="dark:text-gray-400 dark:text-gray-400 dark:text-gray-400 dark:text-gray-400 flex-1 ml-4 text-gray-500 hover:text-gray-900 text-left text-xl font-semibold tracking-wide whitespace-nowrap dark:hover:text-white"
+                      sidebar-toggle-item=""
+                    >
                       All Reports
                     </span>
                   </button>
+                  <div
+                    data-popover
+                    id="popoverReports-hover"
+                    role="tooltip"
+                    class="hidden absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                    >
+                      <h3
+                        class="font-semibold text-gray-900 dark:text-white text-lg"
+                      >
+                        All Reports
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -1890,8 +1916,7 @@
                             <th scope="col" class="px-6 py-3">Avg</th>
                             <th scope="col" class="px-6 py-3">25%</th>
                             <th scope="col" class="px-6 py-3">50%</th>
-                            <th scope="col" class="px-6 py-3">75%<
-                              /th>
+                            <th scope="col" class="px-6 py-3">75%< /th></th>
                           </tr>
                         </thead>
                         <tbody>

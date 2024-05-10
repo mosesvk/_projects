@@ -27,8 +27,19 @@ if (sidebar) {
 
   const handleSidebarButtonClick = () => {
     toggleSidebarWidth(sidebar);
+    togglePopoverVisibility(); // Toggle visibility of popover divs
+
     // toggleListItemsPadding(); // Toggle padding on sidebar list items
   };
+
+  // Function to toggle the "hidden" class for popover divs
+  const togglePopoverVisibility = () => {
+    const popoverDivs = document.querySelectorAll("div[id^='popover']");
+    popoverDivs.forEach((popoverDiv) => {
+      popoverDiv.classList.toggle("hidden");
+    });
+  };
+  
 
   const activateButton = (clickedIndex) => {
     sidebarButtons.forEach((button, index) => {
