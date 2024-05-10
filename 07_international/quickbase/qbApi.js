@@ -2247,22 +2247,12 @@ const getRecordsForPeer = async (years, dataStr) => {
     return parsedData;
   }
 
-  // {195.EX.${currentYear}} AND 
-  // {123.GTE.${sliderValue}} AND 
-  // {123.LTE.${sliderValue2}} AND 
-  // {122.GTE.${sliderValue3}} AND 
-  // {122.LTE.${sliderValue4}} AND 
-  // {193.EX.'Comprehensive'} AND 
-  // ( {267.EX.${selectedRegionArray[0]}} OR {267.EX.${selectedRegionArray[1]}} OR {267.EX.${selectedRegionArray[2]}} OR {267.EX.${selectedRegionArray[3]}} OR {267.EX.${selectedRegionArray[4]}} OR {267.EX.${selectedRegionArray[5]}} OR {267.EX.${selectedRegionArray[6]}} ) AND 
-  // ( {268.EX.${selectedMultiSiteArray[0]}} OR {268.EX.${selectedMultiSiteArray[1]}} OR {268.EX.${selectedMultiSiteArray[2]}} ) 
-
   const currentYear = years[0];
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
 	    {301.EX.${currentYear}} AND
-      {239.GTE.${sliderValue}} AND 
-      {239.LTE.${sliderValue2}} AND 
+      ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}}) AND
       ( {122.EX.${selectedTypes_Array[0]}} OR {122.EX.${selectedTypes_Array[1]}} OR {122.EX.${selectedTypes_Array[2]}}  OR {122.EX.${selectedTypes_Array[3]}}  OR {122.EX.${selectedTypes_Array[4]}}  OR {122.EX.${selectedTypes_Array[5]}}  OR {122.EX.${selectedTypes_Array[6]}} ) 
     `,
     clist:
@@ -2275,6 +2265,8 @@ const getRecordsForPeer = async (years, dataStr) => {
     // console.log('PEER-XML', xml)
 
     const recordsForPeer = $("record", xml).toArray();
+
+    console.log("recordsForPeer", recordsForPeer[0].children);
 
     // Update dataStr with the records from the current API call
     // console.log(`year - ${currentYear}`)
