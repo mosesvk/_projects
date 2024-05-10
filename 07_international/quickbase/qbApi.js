@@ -2248,15 +2248,20 @@ const getRecordsForPeer = async (years, dataStr) => {
   }
 
   const currentYear = years[0];
+
+  // console.log({ currentYear, sliderValue, sliderValue2, selectedTypes_Array})
+  // ({334.EX.${selectedTypes_Array[0]}} OR {334.EX.${selectedTypes_Array[1]}} OR {334.EX.${selectedTypes_Array[2]}}  OR {334.EX.${selectedTypes_Array[3]}}  OR {334.EX.${selectedTypes_Array[4]}}  OR {334.EX.${selectedTypes_Array[5]}}  OR {334.EX.${selectedTypes_Array[6]}})
+
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
 	    {301.EX.${currentYear}} AND
-      ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}}) AND
-      ( {122.EX.${selectedTypes_Array[0]}} OR {122.EX.${selectedTypes_Array[1]}} OR {122.EX.${selectedTypes_Array[2]}}  OR {122.EX.${selectedTypes_Array[3]}}  OR {122.EX.${selectedTypes_Array[4]}}  OR {122.EX.${selectedTypes_Array[5]}}  OR {122.EX.${selectedTypes_Array[6]}} ) 
-    `,
+      ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
+      ({334.EX.${selectedTypes_Array[0]}} OR {334.EX.${selectedTypes_Array[1]}} OR {334.EX.${selectedTypes_Array[2]}}  OR {334.EX.${selectedTypes_Array[3]}}  OR {334.EX.${selectedTypes_Array[4]}}  OR {334.EX.${selectedTypes_Array[5]}}  OR {334.EX.${selectedTypes_Array[6]}})
+
+          `,
     clist:
-      "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344",
+      "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334",
   };
 
   try {
@@ -2266,7 +2271,8 @@ const getRecordsForPeer = async (years, dataStr) => {
 
     const recordsForPeer = $("record", xml).toArray();
 
-    console.log("recordsForPeer", recordsForPeer[0].children);
+    // console.log("recordsForPeer", recordsForPeer);
+    // console.log("recordsForPeer", recordsForPeer[0].children);
 
     // Update dataStr with the records from the current API call
     // console.log(`year - ${currentYear}`)

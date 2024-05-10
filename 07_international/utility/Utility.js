@@ -27,13 +27,13 @@ const regions_Array = [
 // Other
 // Child Sponsorships
 const types_Array = [
-  { arr: ["Mission-Sending"], str: "MS" },
-  { arr: ["Relief"], str: "RO" },
-  { arr: ["Healthcare"], str: "HC" },
-  { arr: ["Bible Translators"], str: "BT" },
-  { arr: ["Education"], str: "ED" },
-  { arr: ["Other"], str: "OT" },
-  { arr: ["Child Sponsorships"], str: "CS" },
+  { arr: ["Mission-sending"], str: "Mission-sending" },
+  { arr: ["Relief"], str: "Relief" },
+  { arr: ["Healthcare"], str: "Healthcare" },
+  { arr: ["Bible Translators"], str: "Bible Translators" },
+  { arr: ["Education"], str: "Education" },
+  { arr: ["Other"], str: "Other" },
+  { arr: ["Child Sponsorships"], str: "Child Sponsorships" },
 ]
 
 const schoolChurch_Array = [
@@ -54,7 +54,7 @@ let sliderValue2 = 25000;
 // let amount = null;
 
 let selectedRegion = "";
-const selectedregion_Array = [];
+const selectedRegions_Array = [];
 const selectedSites_Array = [];
 const selectedTypes_Array = []
 let selectedSchoolChurch_Selected;

@@ -1,5 +1,3 @@
-
-
 const customSelectElement = document.getElementById("custom-select");
 const optionsListElement = document.getElementById("options-list");
 const sidebarElement = document.getElementById("sidebar");
@@ -65,6 +63,54 @@ document.addEventListener("click", (event) => {
   }
 });
 
+// const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionArray) => {
+//   const optionsListRegion = document.getElementById("options-list-region");
+
+//   regionArray.forEach((regionObject, index) => {
+//     const regionName = regionObject.arr[0];
+//     const regionString = regionObject.str;
+
+//     const newLabel = document.createElement("label");
+//     newLabel.setAttribute("for", `option-${regionString}`);
+//     newLabel.setAttribute(
+//       "class",
+//       "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+//     );
+
+//     const newInput = document.createElement("input");
+//     newInput.setAttribute("type", "radio");
+//     newInput.setAttribute("name", "region"); // Set the same name for all radio inputs
+//     newInput.setAttribute("id", `option-${regionString}`);
+//     newInput.setAttribute(
+//       "class",
+//       "form-radio h-4 w-4 text-gray-600 mr-2 rounded"
+//     );
+//     newInput.setAttribute("value", regionString);
+
+//     // Check the first radio button by default
+//     if (index === 0) {
+//       newInput.checked = true;
+//       selectedRegion = regionString; // Set the selected region initially
+//     }
+
+//     // Add an onChange event to the input element
+//     newInput.addEventListener("change", function () {
+//       if (newInput.checked) {
+//         // Set the selected region when changed
+//         selectedRegion = regionString;
+//       }
+//     });
+
+//     const newSpan = document.createElement("span");
+//     newSpan.innerText = regionName;
+
+//     newLabel.appendChild(newInput);
+//     newLabel.appendChild(newSpan);
+
+//     optionsListRegion.appendChild(newLabel);
+//   });
+// };
+
 const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionArray) => {
   const optionsListRegion = document.getElementById("options-list-region");
 
@@ -80,55 +126,8 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionArray) => {
     );
 
     const newInput = document.createElement("input");
-    newInput.setAttribute("type", "radio");
-    newInput.setAttribute("name", "region"); // Set the same name for all radio inputs
-    newInput.setAttribute("id", `option-${regionString}`);
-    newInput.setAttribute(
-      "class",
-      "form-radio h-4 w-4 text-gray-600 mr-2 rounded"
-    );
-    newInput.setAttribute("value", regionString);
-
-    // Check the first radio button by default
-    if (index === 0) {
-      newInput.checked = true;
-      selectedRegion = regionString; // Set the selected region initially
-    }
-
-    // Add an onChange event to the input element
-    newInput.addEventListener("change", function () {
-      if (newInput.checked) {
-        // Set the selected region when changed
-        selectedRegion = regionString;
-      }
-    });
-
-    const newSpan = document.createElement("span");
-    newSpan.innerText = regionName;
-
-    newLabel.appendChild(newInput);
-    newLabel.appendChild(newSpan);
-
-    optionsListRegion.appendChild(newLabel);
-  });
-};
-
-const addUniqueRegionToOptionsSelectRegion = (regionArray) => {
-  const optionsListRegion = document.getElementById("options-list-region");
-
-  regionArray.forEach((regionObject) => {
-    const regionName = regionObject.arr[0];
-    const regionString = regionObject.str;
-
-    const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", `option-${regionString}`);
-    newLabel.setAttribute(
-      "class",
-      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-    );
-
-    const newInput = document.createElement("input");
     newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("name", "region"); // Set the same name for all checkboxes
     newInput.setAttribute("id", `option-${regionString}`);
     newInput.setAttribute(
       "class",
@@ -136,20 +135,20 @@ const addUniqueRegionToOptionsSelectRegion = (regionArray) => {
     );
     newInput.setAttribute("value", regionString);
 
-    // Add the value to selectedregion_Array and check the input by default
-    selectedRegion_Array.push(regionString);
+    // Add the value to selectedTypes_Array and check the input by default
+    selectedRegions_Array.push(regionString);
     newInput.checked = true;
 
     // Add an onChange event to the input element
     newInput.addEventListener("change", function () {
       if (newInput.checked) {
         // Handle when the region is selected
-        selectedRegion_Array.push(regionString);
+        selectedRegions_Array.push(regionString);
       } else {
         // Handle when the region is deselected
-        const index = selectedRegion_Array.indexOf(regionString);
+        const index = selectedRegions_Array.indexOf(regionString);
         if (index > -1) {
-          selectedRegion_Array.splice(index, 1);
+          selectedRegions_Array.splice(index, 1);
         }
       }
     });
@@ -163,6 +162,7 @@ const addUniqueRegionToOptionsSelectRegion = (regionArray) => {
     optionsListRegion.appendChild(newLabel);
   });
 };
+
 
 const addUniqueTypesToOptionsSelectTypeDropdown = (typeArray) => {
   const optionsListType = document.getElementById("options-list-type");
