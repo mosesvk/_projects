@@ -29,6 +29,9 @@ window.addEventListener("beforeunload", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+
+  getRecordsForUniqueClientPeerNames()
+
   addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
   addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
 });
@@ -1972,24 +1975,21 @@ const processMiscData = (years, recordsPeer, recordsClient) => {
 
 // Helper functions
 
-const countUniqueClients = (records) => {
-  uniqueClients = new Set();
+const getUniqueClientPeerNames = (records) => {
+  const uniquePeerClientNames = new Set();
   try {
     records.forEach((record) => {
-      const mainRelatedClient = record.querySelector(
-        "pe___client_legal_name"
+      const clientInformalName = record.querySelector(
+        "pe___client_informal_name"
       ).textContent;
-      // console.log(mainRelatedClient);
-      uniqueClients.add(mainRelatedClient);
+      uniquePeerClientNames.add(clientInformalName);
     });
-
-    const count = uniqueClients.size;
-    console.log(count);
-    document.getElementById("uniqueClients").textContent = count;
+    return Array.from(uniquePeerClientNames);
   } catch (error) {
-    console.error("Error counting unique clients:", error);
-    document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
+    console.error("Error getting unique peer client names:", error);
+    return []; // Return empty array in case of error
   }
+  addUniqueClientsToOptionsSelectClientDropdown(uniquePeerClientNames);
 };
 
 const toggleButtonLoadingState = (btn) => {
@@ -2193,7 +2193,7 @@ const displayComponents = () => {
   // displayAssetComponent();
   displayIncomeComponent();
   displayExpenseComponent();
-  // displayReportComponent();
+  displayReportComponent();
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2257,8 +2257,8 @@ const getRecordsForPeer = async (years, dataStr) => {
     query: `
 	    {301.EX.${currentYear}} AND
       ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
-      ({334.EX.${selectedTypes_Array[0]}} OR {334.EX.${selectedTypes_Array[1]}} OR {334.EX.${selectedTypes_Array[2]}}  OR {334.EX.${selectedTypes_Array[3]}}  OR {334.EX.${selectedTypes_Array[4]}}  OR {334.EX.${selectedTypes_Array[5]}}  OR {334.EX.${selectedTypes_Array[6]}})
-
+      ({334.EX.${selectedTypes_Array[0]}} OR {334.EX.${selectedTypes_Array[1]}} OR {334.EX.${selectedTypes_Array[2]}}  OR {334.EX.${selectedTypes_Array[3]}}  OR {334.EX.${selectedTypes_Array[4]}}  OR {334.EX.${selectedTypes_Array[5]}}  OR {334.EX.${selectedTypes_Array[6]}}) AND
+      ({122.EX.${selectedRegions_Array[0]}} OR {122.EX.${selectedRegions_Array[1]}} OR {122.EX.${selectedRegions_Array[2]}}  OR {122.EX.${selectedRegions_Array[3]}}  OR {122.EX.${selectedRegions_Array[4]}}  OR {122.EX.${selectedRegions_Array[5]}}  OR {122.EX.${selectedRegions_Array[6]}}) AND
           `,
     clist:
       "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334",
@@ -2300,6 +2300,41 @@ const getRecordsForPeer = async (years, dataStr) => {
     console.error("Error fetching data:", error);
     // Handle the error as needed
     return dataStr; // Return the accumulated data so far even in case of an error
+  }
+};
+
+const getRecordsForUniqueClientPeerNames = async () => {
+
+  const apiCallPeerData = {
+    act: "API_DoQuery",
+    clist:
+      "301.59",
+  };
+
+  try {
+    const xml = await $.get(peerData, apiCallPeerData);
+
+    const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
+
+    const uniquePeerClientNames = new Set();
+
+    recordsForPeerUniqueClientPeerNames.forEach((record, index) => {
+
+      const clientInformalName = record.querySelector(
+        "pe___client_informal_name"
+      ).textContent;
+      uniquePeerClientNames.add(clientInformalName);
+
+    });
+
+    console.log({uniquePeerClientNames});
+
+    const sortedUniquePeerClientNames = Array.from(uniquePeerClientNames).sort();
+
+    addUniqueClientsToOptionsSelectClientDropdown(sortedUniquePeerClientNames);
+
+  } catch (error) {
+    console.error("Error fetching data:", error);
   }
 };
 

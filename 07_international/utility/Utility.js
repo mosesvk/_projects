@@ -57,6 +57,7 @@ let selectedRegion = "";
 const selectedRegions_Array = [];
 const selectedSites_Array = [];
 const selectedTypes_Array = []
+const selectedClients_Array = []
 let selectedSchoolChurch_Selected;
 
 
@@ -141,7 +142,7 @@ function updateModal(mainName, avgData, clientData) {
     headerRow.appendChild(avgColumn);
 
     // Add the remaining columns
-    const columns = ["Mid", "25%", "75%"];
+    const columns = ["50%", "25%", "75%"];
     columns.forEach((column) => {
       const col = document.createElement("th");
       col.className = "px-6 py-3";
