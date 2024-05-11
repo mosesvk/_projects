@@ -1975,7 +1975,7 @@ const processMiscData = (years, recordsPeer, recordsClient) => {
 
 // Helper functions
 
-const getUniqueClientPeerNames = (records) => {
+const countUniqueClients = (records) => {
   const uniquePeerClientNames = new Set();
   try {
     records.forEach((record) => {
@@ -1984,13 +1984,15 @@ const getUniqueClientPeerNames = (records) => {
       ).textContent;
       uniquePeerClientNames.add(clientInformalName);
     });
-    return Array.from(uniquePeerClientNames);
+
+    document.getElementById("uniqueClients").textContent = uniquePeerClientNames.size;
+
   } catch (error) {
-    console.error("Error getting unique peer client names:", error);
-    return []; // Return empty array in case of error
+    console.error("Error counting unique clients:", error);
+    return 0; // Return 0 in case of error
   }
-  addUniqueClientsToOptionsSelectClientDropdown(uniquePeerClientNames);
 };
+
 
 const toggleButtonLoadingState = (btn) => {
   btn.innerHTML = `
