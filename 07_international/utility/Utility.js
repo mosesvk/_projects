@@ -57,7 +57,7 @@ let selectedRegion = "";
 const selectedRegions_Array = [];
 const selectedSites_Array = [];
 const selectedTypes_Array = []
-const selectedClients_Array = []
+const selectedClients_Array = new Set()
 let selectedSchoolChurch_Selected;
 
 

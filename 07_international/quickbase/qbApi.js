@@ -2333,6 +2333,8 @@ const getRecordsForUniqueClientPeerNames = async () => {
 
     const sortedUniquePeerClientNames = Array.from(uniquePeerClientNames).sort();
 
+    sortedUniquePeerClientNames.forEach(item => selectedClients_Array.add(item))
+
     addUniqueClientsToOptionsSelectClientDropdown(sortedUniquePeerClientNames);
 
   } catch (error) {
