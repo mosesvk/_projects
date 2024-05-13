@@ -108,6 +108,7 @@
         -webkit-appearance: none;
         /* @apply w-6 h-6 appearance-none pointer-events-auto; */
       }
+
     </style>
   </head>
   <body>
@@ -177,7 +178,7 @@
               class="block py-2.5 px-0 mr-4 w-full text-gray-600 bg-transparent border-0 border-b-2 border-gray-400 dark:border-white appearance-none transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl"
             >
               <div
-                class="flex items-center justify-between hover:text-gray-400 dark:text-gray-400 dark:hover:text-white"
+                class="flex items-center justify-between hover:text-gray-400 dark:text-white dark:hover:text-gray-400"
               >
                 <svg
                   class="w-5 h-5"
@@ -207,7 +208,7 @@
               </div>
               <div
                 id="options-list"
-                class="absolute left-0 z-10 mt-2 w-full dark:text-gray-400 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto h-fit py-4 invisible"
+                class="text-2xl absolute left-0 z-10 mt-2 w-full dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto h-fit py-4 invisible"
               ></div>
             </div>
             <button
@@ -3844,34 +3845,55 @@
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
     >
-      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+      <div class="relative p-4 w-full max-w-2xl 2x:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div
             id="options_modal"
             data-accordion="collapse"
             data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
           >
             <div
-              class="block py-2.5 px-0 mr-4 w-full text-gray-800 bg-transparent border-0 border-b-2 border-gray-200 hover:border-gray-400 appearance-none dark:text-gray-100 dark:border-gray-700  transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl"
+              class="block py-2.5 px-0 mr-4 w-full text-gray-800 bg-transparent border border-b-1 border-gray-200 hover:border-gray-400 appearance-none dark:text-gray-100 dark:border-gray-700 transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl"
             >
               <!-- MODAL HEADER -->
-              <div class="flex justify-center py-4">
-                <h2
-                  class="text-3xl dark:text-white font-bold leading-none uppercase"
+              <div
+                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
+              >
+                <h3
+                  class="text-2xl font-semibold text-gray-900 dark:text-white"
                 >
                   Select Options
-                </h2>
+                </h3>
+                <button
+                  type="button"
+                  class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  data-modal-toggle="options_modal"
+                >
+                  <svg
+                    class="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span class="sr-only">Close modal</span>
+                </button>
               </div>
-              <hr class="h-px my-2 mx-10 bg-gray-200 border-1 dark:bg-gray-700">
-
 
               <!-- MODAL BODY -->
-              <div
-                class="flex flex-col items-left ml-20 justify-between gap-y-5"
-              >
+              <div class="flex flex-col justify-between gap-y-5 ml-8">
                 <!-- Region and Type -->
                 <div class="flex py-4">
-                  <div id="custom-select-region"
+                  <div
+                    id="custom-select-region"
                     class="flex mr-4 pb-2 max-w-max cursor-pointer text-gray-800 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-300"
                   >
                     <svg
@@ -3902,9 +3924,10 @@
                   </div>
                   <div
                     id="options-list-region"
-                    class="absolute top-32 left-20 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 invisible overflow-y-auto h-full"
+                    class="absolute top-32 right-24 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-fit invisible overflow-y-scroll h-fit"
                   ></div>
-                  <div id="custom-select-type"
+                  <div
+                    id="custom-select-type"
                     class="mx-4 flex max-w-max cursor-pointer text-gray-800 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-300"
                   >
                     <svg
@@ -3939,7 +3962,7 @@
                   </div>
                   <div
                     id="options-list-type"
-                    class="absolute top-32 left-72 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 invisible overflow-y-auto h-full"
+                    class="absolute top-32 left-56 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 invisible overflow-y-auto h-fit"
                   ></div>
                   <div
                     id="custom-select-client"
@@ -3977,20 +4000,41 @@
                   </div>
                   <div
                     id="options-list-client"
-                    class="absolute top-32 right-40 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 invisible overflow-scroll h-full"
+                    class="absolute top-32 left-96 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 invisible overflow-scroll h-full"
                   >
-                  <div class="p-3">
-                    <label for="input-group-search" class="sr-only">Search</label>
-                    <div class="relative">
-                      <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
+                    <div class="p-3">
+                      <label for="input-group-search" class="sr-only"
+                        >Search</label
+                      >
+                      <div class="relative">
+                        <div
+                          class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none"
+                        >
+                          <svg
+                            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                            />
+                          </svg>
+                        </div>
+                        <input
+                          type="text"
+                          id="input-group-search"
+                          class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          placeholder="Search client"
+                        />
                       </div>
-                      <input type="text" id="input-group-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search client">
                     </div>
                   </div>
-                </div>
                 </div>
                 <!-- Giving Units -->
                 <div

@@ -93,36 +93,21 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionArray) => {
     newLabel.setAttribute("for", `option-${regionString}`);
     newLabel.setAttribute(
       "class",
-      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate"
     );
 
     const newInput = document.createElement("input");
     newInput.setAttribute("type", "checkbox");
-    newInput.setAttribute("name", "region"); // Set the same name for all checkboxes
     newInput.setAttribute("id", `option-${regionString}`);
     newInput.setAttribute(
       "class",
-      "form-checkbox h-4 w-4 text-gray-600 mr-2 rounded"
+      "w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
     );
     newInput.setAttribute("value", regionString);
 
-    // Add the value to selectedTypes_Array and check the input by default
-    selectedRegions_Array.push(regionString);
-    newInput.checked = true;
-
-    // Add an onChange event to the input element
-    newInput.addEventListener("change", function () {
-      if (newInput.checked) {
-        // Handle when the region is selected
-        selectedRegions_Array.push(regionString);
-      } else {
-        // Handle when the region is deselected
-        const index = selectedRegions_Array.indexOf(regionString);
-        if (index > -1) {
-          selectedRegions_Array.splice(index, 1);
-        }
-      }
-    });
+    // Add the value to selectedRegions_Array and check the input by default
+    selectedRegions_Array.add(regionString);
+    newInput.checked = false;
 
     const newSpan = document.createElement("span");
     newSpan.innerText = regionName;
@@ -131,6 +116,45 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionArray) => {
     newLabel.appendChild(newSpan);
 
     optionsListRegion.appendChild(newLabel);
+  });
+
+  // query all inputs inside of options-list-type id
+  const regionLabels = document.querySelectorAll("#options-list-region label");
+  regionLabels.forEach((label, index) => {
+    const input = label.querySelector("input");
+    const regionString = label.querySelector("input").value;
+
+    input.addEventListener("change", function () {
+      if (input.checked && !selectedRegions_Array.has(regionString)) {
+        // Handle when the region is selected
+        selectedRegions_Array.add(regionString);
+      } else if (input.checked && selectedRegions_Array.has(regionString)) {
+        // loop through regionLabels again to find any unchecked inputs, if so, delete from selectedRegions_Array
+        regionLabels.forEach((label) => {
+          const input = label.querySelector("input");
+          const regionString = label.querySelector("input").value;
+          if (!input.checked) {
+            selectedRegions_Array.delete(regionString);
+          }
+        });
+      } else {
+        selectedRegions_Array.delete(regionString);
+        // check if all inputs are unchecked, if so, make sure selectedRegions_Array contains all regions
+        let allUnchecked = true;
+        regionLabels.forEach((label) => {
+          const input = label.querySelector("input");
+          if (input.checked) {
+            allUnchecked = false;
+          }
+        });
+        if (allUnchecked) {
+          regionLabels.forEach((label) => {
+            const regionString = label.querySelector("input").value;
+            selectedRegions_Array.add(regionString);
+          });
+        }
+      }
+    });
   });
 };
 
@@ -153,27 +177,13 @@ const addUniqueTypesToOptionsSelectTypeDropdown = (typeArray) => {
     newInput.setAttribute("id", `option-${typeString}`);
     newInput.setAttribute(
       "class",
-      "form-checkbox h-4 w-4 text-gray-600 mr-2 rounded"
+      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
     );
     newInput.setAttribute("value", typeString);
 
     // Add the value to selectedTypes_Array and check the input by default
-    selectedTypes_Array.push(typeString);
-    newInput.checked = true;
-
-    // Add an onChange event to the input element
-    newInput.addEventListener("change", function () {
-      if (newInput.checked) {
-        // Handle when the type is selected
-        selectedTypes_Array.push(typeString);
-      } else {
-        // Handle when the type is deselected
-        const index = selectedTypes_Array.indexOf(typeString);
-        if (index > -1) {
-          selectedTypes_Array.splice(index, 1);
-        }
-      }
-    });
+    selectedTypes_Array.add(typeString);
+    newInput.checked = false;
 
     const newSpan = document.createElement("span");
     newSpan.innerText = typeName;
@@ -182,6 +192,55 @@ const addUniqueTypesToOptionsSelectTypeDropdown = (typeArray) => {
     newLabel.appendChild(newSpan);
 
     optionsListType.appendChild(newLabel);
+
+    // Add click event listener to label to toggle checkbox
+    newLabel.addEventListener("click", function () {
+      newInput.checked = !newInput.checked; // Toggle checkbox
+      if (newInput.checked) {
+        selectedTypes_Array.add(typeString); // Add to selectedTypes_Array if checked
+      } else {
+        selectedTypes_Array.delete(typeString); // Remove from selectedTypes_Array if unchecked
+      }
+    });
+  });
+
+  // query all inputs inside of options-list-type id
+  const typeLabels = document.querySelectorAll("#options-list-type label");
+  typeLabels.forEach((label, index) => {
+    const input = label.querySelector("input");
+    const typeString = label.querySelector("input").value;
+
+    input.addEventListener("change", function () {
+      if (input.checked && !selectedTypes_Array.has(typeString)) {
+        // Handle when the region is selected
+        selectedTypes_Array.add(typeString);
+      } else if (input.checked && selectedTypes_Array.has(typeString)) {
+        // loop through regionLabels again to find any unchecked inputs, if so, delete from selectedTypes_Array
+        typeLabels.forEach((label) => {
+          const input = label.querySelector("input");
+          const typeString = label.querySelector("input").value;
+          if (!input.checked) {
+            selectedTypes_Array.delete(typeString);
+          }
+        });
+      } else {
+        selectedTypes_Array.delete(typeString);
+        // check if all inputs are unchecked, if so, make sure selectedTypes_Array contains all types
+        let allUnchecked = true;
+        typeLabels.forEach((label) => {
+          const input = label.querySelector("input");
+          if (input.checked) {
+            allUnchecked = false;
+          }
+        });
+        if (allUnchecked) {
+          typeLabels.forEach((label) => {
+            const typeString = label.querySelector("input").value;
+            selectedTypes_Array.add(typeString);
+          });
+        }
+      }
+    });
   });
 };
 
@@ -251,7 +310,7 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientSet) => {
     newInput.setAttribute("value", "");
     newInput.setAttribute(
       "class",
-      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+      "w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
     );
 
     const newLabel = document.createElement("label");
