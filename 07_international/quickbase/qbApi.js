@@ -2267,11 +2267,14 @@ const getRecordsForPeer = async (years, dataStr) => {
   }
 
   function getClientQuery(selectedClients) {
-    const clientConditions = [...selectedClients]
-      .map((client) => `{59.EX.${client}}`)
-      .join(" OR ");
+    const clientConditions = [...selectedClients].map((client) => `{59.EX.'${client}'}`).join(" OR ");
+    console.log(`(${clientConditions})`);
     return `(${clientConditions})`;
   }
+
+  getClientQuery(selectedClients_Array)
+  // AND
+  // (${getClientQuery(selectedClients_Array)})
 
   const apiCallPeerData = {
     act: "API_DoQuery",
@@ -2279,7 +2282,7 @@ const getRecordsForPeer = async (years, dataStr) => {
       {301.EX.${currentYear}} AND
       ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
       (${getTypeQuery(selectedTypes_Array)}) AND
-      (${getRegionQuery(selectedRegions_Array)})AND
+      (${getRegionQuery(selectedRegions_Array)}) AND
       (${getClientQuery(selectedClients_Array)})
     `,
     clist:
