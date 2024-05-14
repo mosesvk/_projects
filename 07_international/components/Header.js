@@ -85,6 +85,47 @@ document.addEventListener("click", (event) => {
 const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionArray) => {
   const optionsListRegion = document.getElementById("options-list-region");
 
+  // Create "Select All" checkbox and label
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text");
+  selectAllSpan.innerText = "Select All";
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+  
+  optionsListRegion.appendChild(selectAllLabel);
+
+  // Add event listener to toggle "Select All" text and checkboxes
+  selectAllInput.addEventListener("change", function() {
+    const isChecked = selectAllInput.checked;
+    if (isChecked) {
+      selectAllSpan.innerText = "Deselect All";
+    } else {
+      selectAllSpan.innerText = "Select All";
+    }
+    // Toggle other checkboxes based on "Select All" checkbox state
+    const regionCheckboxes = document.querySelectorAll("#options-list-region input[type='checkbox']");
+    regionCheckboxes.forEach((checkbox) => {
+      checkbox.checked = isChecked;
+    });
+  });
+
+  // Add other region labels
   regionArray.forEach((regionObject, index) => {
     const regionName = regionObject.arr[0];
     const regionString = regionObject.str;
@@ -118,7 +159,7 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionArray) => {
     optionsListRegion.appendChild(newLabel);
   });
 
-  // query all inputs inside of options-list-type id
+  // Add event listeners to other checkboxes
   const regionLabels = document.querySelectorAll("#options-list-region label");
   regionLabels.forEach((label, index) => {
     const input = label.querySelector("input");
@@ -157,6 +198,7 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionArray) => {
     });
   });
 };
+
 
 const addUniqueTypesToOptionsSelectTypeDropdown = (typeArray) => {
   const optionsListType = document.getElementById("options-list-type");
