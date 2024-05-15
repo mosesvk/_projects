@@ -33,15 +33,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("firmName").textContent =
     recordsClient[0].children[43].innerHTML;
-  
+
   findUniqueYears(recordsClient);
 
   addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
   addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
 
-
-  localStorage.clear()
-
+  localStorage.clear();
 });
 
 const findUniqueYears = (data) => {
@@ -99,9 +97,11 @@ const insertDataIntoObject = (
   } else {
     // type === 'peer'
 
-    const yesNoField = dynamicValueClientPeer == 'Yes' ? 'Yes' :
-      dynamicValueClientPeer &&
-      record.querySelector(dynamicValueClientPeer).textContent.trim();
+    const yesNoField =
+      dynamicValueClientPeer == "Yes"
+        ? "Yes"
+        : dynamicValueClientPeer &&
+          record.querySelector(dynamicValueClientPeer).textContent.trim();
 
     if (yesNoField == "Yes") {
       if (!object[dataKey]) {
@@ -322,6 +322,68 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "daysExpensesInUnrestrictedNA"
       );
 
+      // daysExpensesInUnrestrictedNA_excludingPPE
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "daysExpensesInUnrestrictedNA_excludingPPE_Peer",
+        record,
+        "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe",
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "netAssetsWithDRByPurposeOrTime",
+        record,
+        "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
+        "Yes",
+        "daysExpensesInUnrestrictedNA_excludingPPE"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "netAssetsWithDRInPerpetuity",
+        record,
+        "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
+        "Yes",
+        "daysExpensesInUnrestrictedNA_excludingPPE"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "propertyPlantAndEquipment",
+        record,
+        "_01__01ass___09_property__plant_and_equipment",
+        "Yes",
+        "daysExpensesInUnrestrictedNA_excludingPPE"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "notesPayable",
+        record,
+        "_01__02liab___02_notes_payable",
+        "Yes",
+        "daysExpensesInUnrestrictedNA_excludingPPE"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpenses",
+        record,
+        "_02_03exp___05_total_expenses",
+        "Yes",
+        "daysExpensesInUnrestrictedNA_excludingPPE"
+      );
+
+
+
       // daysExpensesInNAwithDR
       insertDataIntoObject(
         "peer",
@@ -503,8 +565,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "financialAssetsAvailableFY_Peer",
         record,
-        'c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures', 
-        'c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures'
+        "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
+        "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
       );
       insertDataIntoObject(
         "peer",
@@ -512,9 +574,9 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "financialAssetsAvailablePerLiquidity",
         record,
-        '_05_01liquid___01_financial_assets_available_per_liquidity_fn',
-        'c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures',
-        'financialAssetsAvailableFY'
+        "_05_01liquid___01_financial_assets_available_per_liquidity_fn",
+        "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
+        "financialAssetsAvailableFY"
       );
       insertDataIntoObject(
         "peer",
@@ -522,11 +584,10 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "totalExpenses",
         record,
-        '_02_03exp___05_total_expenses',
-        'c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures',
-        'financialAssetsAvailableFY'
+        "_02_03exp___05_total_expenses",
+        "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
+        "financialAssetsAvailableFY"
       );
-
 
       // daysFinancialAssetsOnHand
       insertDataIntoObject(
@@ -729,6 +790,16 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "c02_02_ratio_days_expenses_in_unrestricted_na"
       );
 
+      // daysExpensesInUnrestrictedNA_excludingPPE
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "daysExpensesInUnrestrictedNA_excludingPPE_Client",
+        record,
+        "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe"
+      );
+
       // daysExpensesInNAwithDR
       insertDataIntoObject(
         "client",
@@ -768,7 +839,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
       );
-      
+
       // financialAssetsAvailableFY
       insertDataIntoObject(
         "client",
@@ -1100,7 +1171,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_basedOnNumberOfDonors_Peer",
         record,
-        "0", 
+        "0",
         "Yes"
       );
 
@@ -1111,7 +1182,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_Peer",
         record,
-        "0", 
+        "0",
         "Yes"
       );
 
@@ -1348,8 +1419,8 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "annualizedInvestmentReturn_Peer",
         record,
-        "0", 
-        'Yes'
+        "0",
+        "Yes"
       );
     });
 
@@ -1948,7 +2019,6 @@ const processMiscData = (years, recordsPeer, recordsClient) => {
         "c06_01_yes_no_percentage_assessment_on_restricted_gifts",
         "percentageAssessmentOnRestrictedGifts"
       );
-
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -1967,7 +2037,6 @@ const processMiscData = (years, recordsPeer, recordsClient) => {
         record,
         "c06_01_ratio_percentage_assessment_on_restricted_gifts"
       );
-
     });
 
     localStorage.removeItem("miscData");
@@ -1978,24 +2047,25 @@ const processMiscData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("miscData", JSON.stringify(object));
 };
 
-
 // Helper functions
 
 const countUniqueClients = (records) => {
-  uniqueClients = new Set()
+  uniqueClients = new Set();
   try {
     records.forEach((record) => {
-        const mainRelatedClient = record.querySelector("pe___client_legal_name").textContent;
-        // console.log(mainRelatedClient);
-        uniqueClients.add(mainRelatedClient);
+      const mainRelatedClient = record.querySelector(
+        "pe___client_legal_name"
+      ).textContent;
+      // console.log(mainRelatedClient);
+      uniqueClients.add(mainRelatedClient);
     });
 
     const count = uniqueClients.size;
     console.log(count);
-    document.getElementById('uniqueClients').textContent = count;
+    document.getElementById("uniqueClients").textContent = count;
   } catch (error) {
     console.error("Error counting unique clients:", error);
-    document.getElementById('uniqueClients').textContent = 0; // Set to 0 in case of error
+    document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
   }
 };
 
@@ -2021,8 +2091,8 @@ const toggleButtonNormalState = (btn) => {
 const toggleGenerateReportButtonNormalState = (btn) => {
   btn.innerHTML = `
   Generate Trends and Benchmark Reports
-`
-}
+`;
+};
 
 const createToastWarning = (textString) => {
   const toastWarningDiv = document.createElement("div");
@@ -2068,8 +2138,9 @@ const createToastWarning = (textString) => {
     </button>
   `;
 
-  
-  const closeButton = toastWarningDiv.querySelector('[data-dismiss-target="#toast-warning"]');
+  const closeButton = toastWarningDiv.querySelector(
+    '[data-dismiss-target="#toast-warning"]'
+  );
   closeButton.addEventListener("click", (event) => {
     event.stopPropagation(); // Prevent propagation to the toast
     toastWarningDiv.remove();
@@ -2088,7 +2159,6 @@ const createToastWarning = (textString) => {
   setTimeout(() => {
     document.body.addEventListener("click", clickOutsideHandler);
   }, 100); // Delay adding the event listener to prevent immediate removal
-
 };
 
 const createToastSuccess = (textString) => {
@@ -2133,7 +2203,9 @@ const createToastSuccess = (textString) => {
     </button>
   `;
 
-  const closeButton = toastSuccessDiv.querySelector('[data-dismiss-target="#toast-success"]');
+  const closeButton = toastSuccessDiv.querySelector(
+    '[data-dismiss-target="#toast-success"]'
+  );
   closeButton.addEventListener("click", (event) => {
     event.stopPropagation(); // Prevent propagation to the toast
     toastSuccessDiv.remove();
@@ -2154,19 +2226,18 @@ const createToastSuccess = (textString) => {
   }, 100); // Delay adding the event listener to prevent immediate removal
 };
 
-
 const processSelectedYears = () => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   // console.log(selectedYears);
 
   if (!selectedYears) {
-    createToastWarning('Please select year(s) for data to appear');
+    createToastWarning("Please select year(s) for data to appear");
     throw new Error("No years selected.");
   }
 
   if (!selectedYears.length) {
-    createToastWarning('Please select year(s) for data to appear');
+    createToastWarning("Please select year(s) for data to appear");
     throw new Error("No years selected.");
   }
 
@@ -2208,8 +2279,8 @@ run_btn.addEventListener("click", async () => {
   // document.getElementById('print_modal_footer').classList.add('hidden');
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
-  countUniqueClients(recordsPeer)
-  
+  countUniqueClients(recordsPeer);
+
   try {
     toggleButtonLoadingState(run_btn);
     const selectedYears = processSelectedYears();

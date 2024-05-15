@@ -317,6 +317,67 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "daysExpensesInUnrestrictedNA"
       );
 
+      // daysExpensesInUnrestrictedNA_excludingPPE
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "daysExpensesInUnrestrictedNA_excludingPPE_Peer",
+        record,
+        "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe", 
+        "Yes"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "netAssetsWithDRByPurposeOrTime",
+        record,
+        "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
+        "Yes",
+        "daysExpensesInUnrestrictedNA_excludingPPE"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "netAssetsWithDRInPerpetuity",
+        record,
+        "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
+        "Yes",
+        "daysExpensesInUnrestrictedNA_excludingPPE"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "propertyPlantAndEquipment",
+        record,
+        "_01__01ass___09_property__plant_and_equipment",
+        "Yes",
+        "daysExpensesInUnrestrictedNA_excludingPPE"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "notesPayable",
+        record,
+        "_01__02liab___02_notes_payable",
+        "Yes",
+        "daysExpensesInUnrestrictedNA_excludingPPE"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpenses",
+        record,
+        "_02_03exp___05_total_expenses",
+        "Yes",
+        "daysExpensesInUnrestrictedNA_excludingPPE"
+      );
+
       // daysExpensesInNAwithDR
       insertDataIntoObject(
         "peer",
@@ -458,37 +519,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "_01__02liab___05_total_liabilities",
         "c02_05_yes_no_liquidity_funds_available",
         "liquidityFundsAvailable"
-      );
-
-      // liquidityRatio
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "liquidityRatio_Peer",
-        record,
-        "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
-        "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "financialAssetsAvailablePerLiquidity",
-        record,
-        "_05_01liquid___01_financial_assets_available_per_liquidity_fn",
-        "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
-        "liquidityRatio"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "totalExpenses",
-        record,
-        "_02_03exp___05_total_expenses",
-        "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
-        "liquidityRatio"
       );
 
       // financialAssetsAvailableFY
@@ -723,6 +753,16 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "c02_02_ratio_days_expenses_in_unrestricted_na"
       );
 
+      // daysExpensesInUnrestrictedNA_excludingPPE
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "daysExpensesInUnrestrictedNA_excludingPPE_Client",
+        record,
+        "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe"
+      );
+
       // daysExpensesInNAwithDR
       insertDataIntoObject(
         "client",
@@ -751,16 +791,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "liquidityFundsAvailable_Client",
         record,
         "c02_05_ratio_liquidity_funds_available"
-      );
-
-      // liquidityRatio
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "liquidityRatio_Client",
-        record,
-        "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
       );
 
       // financialAssetsAvailableFY
@@ -2267,12 +2297,14 @@ const getRecordsForPeer = async (years, dataStr) => {
   }
 
   function getClientQuery(selectedClients) {
-    const clientConditions = [...selectedClients].map((client) => `{59.EX.'${client}'}`).join(" OR ");
+    const clientConditions = [...selectedClients]
+      .map((client) => `{59.EX.'${client}'}`)
+      .join(" OR ");
     console.log(`(${clientConditions})`);
     return `(${clientConditions})`;
   }
 
-  getClientQuery(selectedClients_Array)
+  getClientQuery(selectedClients_Array);
   // AND
   // (${getClientQuery(selectedClients_Array)})
 
@@ -2282,11 +2314,10 @@ const getRecordsForPeer = async (years, dataStr) => {
       {301.EX.${currentYear}} AND
       ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
       (${getTypeQuery(selectedTypes_Array)}) AND
-      (${getRegionQuery(selectedRegions_Array)}) AND
-      (${getClientQuery(selectedClients_Array)})
+      (${getRegionQuery(selectedRegions_Array)}) 
     `,
     clist:
-      "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334",
+      "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347",
   };
 
   try {
@@ -2378,7 +2409,7 @@ const getRecordsForClient = async (years, dataStr) => {
 	{192.EX.${currentYear}} AND
 	{29.EX.${ClientRid}}`,
     clist:
-      "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31",
+      "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213",
   };
 
   try {

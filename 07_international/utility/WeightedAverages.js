@@ -5,6 +5,8 @@ const getWeightedAverageOfArray = (data, name) => {
         return daysCashOnHand_weightedAverage(data, name);
     case 'daysExpensesInUnrestrictedNA':
         return daysExpensesInUnrestrictedNA_weightedAverage(data, name);
+    case 'daysExpensesInUnrestrictedNA_excludingPPE':
+        return daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage(data, name);
     case 'daysExpensesInNAwithDR':
         return daysExpensesInNAwithDR_weightedAverage(data, name);
     case 'daysExpensesInNAwithDR_excludingPPE':
@@ -514,6 +516,30 @@ const daysExpensesInUnrestrictedNA_weightedAverage = (data, name) => {
     const denominator = totalExpenses / 365;
 
     return denominator > 0 ? netAssetsWithoutDR / denominator : 0;
+}
+
+const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (data, name) => {
+    // (
+    //     [01. 03NA - 02 Net assets with donor restrictions by purpose or time] +
+    //     [01. 03NA - 03 Net assets with donor restrictions in perpetuity]-
+    //     [01. 01Ass - 09 Property, plant and equipment]-
+    //     [01. 02Liab - 02 Notes Payable]
+    // )
+    
+    // /
+    // (
+    //     [02.03Exp - 05 Total Expenses] / 365
+    // )
+
+    const netAssetsWithDRByPurposeOrTime = getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name]);
+    const netAssetsWithDRInPerpetuity = getSumOfArray(data.netAssetsWithDRInPerpetuity[name]);
+    const propertyPlantAndEquipment = getSumOfArray(data.propertyPlantAndEquipment[name]);
+    const notesPayable = getSumOfArray(data.notesPayable[name]);
+    const totalExpenses = getSumOfArray(data.totalExpenses[name]);
+
+    const denominator = totalExpenses / 365;
+
+    return denominator > 0 ? (netAssetsWithDRByPurposeOrTime + netAssetsWithDRInPerpetuity - propertyPlantAndEquipment - notesPayable) / denominator : 0;
 }
 
 const daysCashOnHand_weightedAverage = (data, name) => {

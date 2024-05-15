@@ -44,6 +44,7 @@
         <c06_01_ratio_percentage_assessment_on_restricted_gifts>0.00</c06_01_ratio_percentage_assessment_on_restricted_gifts>
         <c06_02_ratio_age_of_facilities>0.0</c06_02_ratio_age_of_facilities>
         <pe___client_legal_name>Friends of Agape</pe___client_legal_name>
+        <c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe></c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe>
         <update_id>1675355257742</update_id>
     </record>
     <record>
@@ -91,6 +92,7 @@
         <c06_01_ratio_percentage_assessment_on_restricted_gifts>0.00</c06_01_ratio_percentage_assessment_on_restricted_gifts>
         <c06_02_ratio_age_of_facilities>0.0</c06_02_ratio_age_of_facilities>
         <pe___client_legal_name>Friends of Agape</pe___client_legal_name>
+        <c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe></c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe>
         <update_id>1675355165621</update_id>
     </record>
     <record>
@@ -138,6 +140,7 @@
         <c06_01_ratio_percentage_assessment_on_restricted_gifts>0.00</c06_01_ratio_percentage_assessment_on_restricted_gifts>
         <c06_02_ratio_age_of_facilities>0.0</c06_02_ratio_age_of_facilities>
         <pe___client_legal_name>Friends of Agape</pe___client_legal_name>
+        <c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe></c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe>
         <update_id>1675355093890</update_id>
     </record>
 </qdbapi>

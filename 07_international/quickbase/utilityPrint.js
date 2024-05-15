@@ -1,6 +1,6 @@
 const uploadFileBegin = `<qdbapi> <apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>`;
 const uploadFileEnd = `</qdbapi>`;
-const uploadClist = `<clist>186</clist>`;
+const uploadClist = `<clist>171</clist>`;
 const generateReportsBtn = document.getElementById("generateReports");
 let uploadMainFile = "";
 
@@ -160,7 +160,7 @@ const printToExcel = (dataString) => {
   dataParseExcelString = dataString;
 
   var urlUploadFile =
-    "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord";
+    "https://capincrouse.quickbase.com/db/bt3q4xqn5?a=API_AddRecord";
 
   // console.log(dataString);
 
@@ -213,9 +213,13 @@ const printToExcel = (dataString) => {
 }; // printToExcel()
 
 const createPrintExcel = () => {
-  uploadSingleToFile(186, ClientRid);
-  uploadSingleToFile(187, firmName);
-  uploadSingleToFile(188, uniqueClients.size);
+  // uploadSingleToFile(186, ClientRid);
+  // uploadSingleToFile(187, firmName);
+  // uploadSingleToFile(188, uniqueClients.size);
+
+   uploadSingleToFile(186, 3197);
+  uploadSingleToFile(187, "CapinIT");
+  uploadSingleToFile(188, 35); 
 
   let yearLength = selectedYears_Set.size;
   let j = 189;
@@ -260,7 +264,7 @@ createFileForPrint = (
 document.getElementById("generateReports").addEventListener("click", () => {
   // extract data from the table
 
-  if (!localStorage.enrollmentData) {
+  if (!localStorage.generalData) {
     createToastWarning("No Data Retrieved. Make sure to select years and run the report")
     throw new Error("No Data Retrieved.");
   } else {
