@@ -256,7 +256,7 @@ createFileForPrint = (
   peer,
   data
 ) => {
-  // console.log({ name, fId, begin, end, avg, mid, min, max, peer, data });
+//   console.log({ name, fId, begin, end, avg, mid, min, max, peer, data });
 
   uploadToFile(avg, mid, min, max, fId, begin, end);
 };

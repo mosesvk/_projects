@@ -34,11 +34,11 @@ const types_Array = [
   { arr: ["Education"], str: "Education" },
   { arr: ["Other"], str: "Other" },
   { arr: ["Child Sponsorships"], str: "Child Sponsorships" },
-]
+];
 
 const schoolChurch_Array = [
-  { arr: ["School"], str: 0},
-  { arr: ["Church"], str: 1},
+  { arr: ["School"], str: 0 },
+  { arr: ["Church"], str: 1 },
 ];
 
 const sites_Array = [
@@ -57,9 +57,8 @@ let selectedRegion = "";
 const selectedRegions_Array = new Set();
 const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
-const selectedClients_Array = new Set()
+const selectedClients_Array = new Set();
 let selectedSchoolChurch_Selected;
-
 
 // Utility Functions
 
@@ -246,7 +245,10 @@ const get25thPercentileOfArray = (array) => {
   // Step 2: Check if the array has less than or equal to 2 elements
   if (sortedArray.length <= 2) {
     // If array has 1 or 2 elements, return the average of the elements
-    return sortedArray.reduce((acc, val) => Number(acc) + Number(val), 0) / sortedArray.length;
+    return (
+      sortedArray.reduce((acc, val) => Number(acc) + Number(val), 0) /
+      sortedArray.length
+    );
   }
 
   // Step 3: Calculate the index for the 25th percentile
@@ -255,7 +257,7 @@ const get25thPercentileOfArray = (array) => {
   // Step 4: Check if the index is an integer
   if (Number.isInteger(index)) {
     // If it's an integer, return the value at that index
-    return Number(sortedArray[index - 1])
+    return Number(sortedArray[index - 1]);
   } else {
     // If not an integer, interpolate between the two nearest values
     const lowerIndex = Math.floor(index);
@@ -273,7 +275,10 @@ const get75thPercentileOfArray = (array) => {
   // Step 2: Check if the array has less than or equal to 2 elements
   if (sortedArray.length <= 2) {
     // If array has 1 or 2 elements, return the average of the elements
-    return sortedArray.reduce((acc, val) => Number(acc) + Number(val), 0) / sortedArray.length;
+    return (
+      sortedArray.reduce((acc, val) => Number(acc) + Number(val), 0) /
+      sortedArray.length
+    );
   }
 
   // Step 3: Calculate the index for the 75th percentile
@@ -389,12 +394,15 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
       "flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
     );
 
-    // w-4 h-4 mr-2 
+    // w-4 h-4 mr-2
 
     const newInput = document.createElement("input");
     newInput.setAttribute("type", "checkbox");
     newInput.setAttribute("id", `option-${year}`);
-    newInput.setAttribute("class", `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`);
+    newInput.setAttribute(
+      "class",
+      `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
+    );
     newInput.setAttribute("value", year);
     newInput.checked = selectedYears_Set.has(year);
 
@@ -420,7 +428,7 @@ const getPeerAndClientChartDataArrays = (
 ) => {
   // console.log({ years, dataPeer, dataClient, fixedNum })
   const peerAvg = [];
-  const  peerMid = [];
+  const peerMid = [];
   const peer25 = [];
   const peer75 = [];
   const clientArray = [];
@@ -456,28 +464,28 @@ const getPeerAndClientChartDataArrays = (
 
 const styleNumber = (num, type, fixed) => {
   let text = num;
-  let textNum
-  
+  let textNum;
+
   if (!isNaN(text)) {
     if (type === "num" && text != 0) {
       textNum = Number(text).toFixed(fixed);
       text = Number(textNum).toLocaleString(); // Add commas for thousands
     }
-    
+
     if (type === "percent" && text != 0) {
       text = (parseFloat(text) * 100).toFixed(fixed) + "%";
     }
-    
+
     if (type === "dollar" && text != 0) {
       textNum = parseFloat(text).toFixed(fixed);
-      text = fixed ? "$ " + Number(textNum).toFixed(fixed) : "$ " + Number(textNum).toLocaleString(); // Add commas for thousands
+      text = fixed
+        ? "$ " + Number(textNum).toFixed(fixed)
+        : "$ " + Number(textNum).toLocaleString(); // Add commas for thousands
     }
   }
 
-
   return text;
 };
-
 
 const updateCountyData = (trId, countyName, percentage, income, year) => {
   // console.log({ trId, countyName, percentage, income });
@@ -835,12 +843,11 @@ const getSelectedSchoolChurchOption = () => {
 function calculatePercentageChange(numbers) {
   const percentageChanges = [];
   for (let i = 1; i < numbers.length; i++) {
-      const change = ((numbers[i] - numbers[i - 1]) / numbers[i - 1]) * 100;
-      percentageChanges.push(change);
+    const change = ((numbers[i] - numbers[i - 1]) / numbers[i - 1]) * 100;
+    percentageChanges.push(change);
   }
   return percentageChanges;
 }
-
 
 function missionaryRange() {
   return {
@@ -849,8 +856,27 @@ function missionaryRange() {
     missionprice: 0,
     missionthumb: 0,
     missiontrigger() {
-      let minposition = ((this.missionprice - this.min) / (this.max - this.min)) * 100;
-      this.missionthumb = minposition > 100 ? 100 : minposition < 0 ? 0 : minposition;
-    }
+      let minposition =
+        ((this.missionprice - this.min) / (this.max - this.min)) * 100;
+      this.missionthumb =
+        minposition > 100 ? 100 : minposition < 0 ? 0 : minposition;
+    },
   };
 }
+
+
+document.querySelector("#sidebar ul").addEventListener("click", function () {
+  // Select all div elements whose ID ends with "Link"
+  const buttons = document.querySelectorAll('button[id$="Link"]');
+
+  buttons.forEach((button) => {
+    // Check if the button has the class "active"
+    if (button.classList.contains("active")) {
+      // Add the classes bg-gray-300 and dark:bg-gray-700 if they are not already present
+      button.classList.add("bg-gray-300", "dark:bg-gray-700");
+    } else {
+      // Remove the classes bg-gray-300 and dark:bg-gray-700 if they are present
+      button.classList.remove("bg-gray-300", "dark:bg-gray-700");
+    }
+  });
+});
