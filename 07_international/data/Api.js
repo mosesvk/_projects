@@ -909,6 +909,16 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         "c02_10c_ratio_cash_flows_trend___operating"
       );
+
+      // cashFlowsTrendTotal
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "cashFlowsTrendTotal_Client",
+        record,
+        "_03_01cashflow___total"
+      );
     });
 
     localStorage.removeItem("cashData");

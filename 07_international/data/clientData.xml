@@ -15,6 +15,10 @@
         <c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures></c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures>
         <c02_08_ratio_current_ratio>35.8</c02_08_ratio_current_ratio>
         <c02_09_ratio_total_coverage_ratio>35.8</c02_09_ratio_total_coverage_ratio>
+        <_03_01cashflow___01_operating></_03_01cashflow___01_operating>
+        <_03_01cashflow___02_investing></_03_01cashflow___02_investing>
+        <_03_01cashflow___03_financing></_03_01cashflow___03_financing>
+        <_03_01cashflow___total>0</_03_01cashflow___total>
         <c02_10a_ratio_cash_flows_trend___financing></c02_10a_ratio_cash_flows_trend___financing>
         <c02_10b_ratio_cash_flows_trend___investing></c02_10b_ratio_cash_flows_trend___investing>
         <c02_10c_ratio_cash_flows_trend___operating></c02_10c_ratio_cash_flows_trend___operating>
@@ -63,6 +67,10 @@
         <c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures></c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures>
         <c02_08_ratio_current_ratio>5.8</c02_08_ratio_current_ratio>
         <c02_09_ratio_total_coverage_ratio>5.8</c02_09_ratio_total_coverage_ratio>
+        <_03_01cashflow___01_operating></_03_01cashflow___01_operating>
+        <_03_01cashflow___02_investing></_03_01cashflow___02_investing>
+        <_03_01cashflow___03_financing></_03_01cashflow___03_financing>
+        <_03_01cashflow___total>0</_03_01cashflow___total>
         <c02_10a_ratio_cash_flows_trend___financing></c02_10a_ratio_cash_flows_trend___financing>
         <c02_10b_ratio_cash_flows_trend___investing></c02_10b_ratio_cash_flows_trend___investing>
         <c02_10c_ratio_cash_flows_trend___operating></c02_10c_ratio_cash_flows_trend___operating>
@@ -111,6 +119,10 @@
         <c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures></c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures>
         <c02_08_ratio_current_ratio>123.7</c02_08_ratio_current_ratio>
         <c02_09_ratio_total_coverage_ratio>123.7</c02_09_ratio_total_coverage_ratio>
+        <_03_01cashflow___01_operating></_03_01cashflow___01_operating>
+        <_03_01cashflow___02_investing></_03_01cashflow___02_investing>
+        <_03_01cashflow___03_financing></_03_01cashflow___03_financing>
+        <_03_01cashflow___total>0</_03_01cashflow___total>
         <c02_10a_ratio_cash_flows_trend___financing></c02_10a_ratio_cash_flows_trend___financing>
         <c02_10b_ratio_cash_flows_trend___investing></c02_10b_ratio_cash_flows_trend___investing>
         <c02_10c_ratio_cash_flows_trend___operating></c02_10c_ratio_cash_flows_trend___operating>

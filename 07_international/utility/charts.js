@@ -1,3 +1,4 @@
+
 const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
   // console.log('-----')
   // console.log('getMainChartOptions()')
@@ -193,13 +194,9 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
 };
 
 const getCashFlowChartOptions = (
-  dataPeer,
   dataClient,
-  numType,
-  fixedNum = 0
 ) => {
-  // console.log('-----')
-  // console.log('getMainChartOptions()')
+  console.log({ dataClient });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -225,14 +222,6 @@ const getCashFlowChartOptions = (
 
   // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
 
-  ({ clientArray, peerAvg, peerMid, peer25, peer75 } =
-    getPeerAndClientChartDataArrays(
-      selectedYearsArray,
-      dataPeer,
-      dataClient,
-      fixedNum
-    ));
-
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {
       return `$${formatNumber(value)}`;
@@ -255,200 +244,63 @@ const getCashFlowChartOptions = (
     }
   };
 
-  return {
-    series: [
-      {
-        name: "Net Profit",
-        data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-      },
-      {
-        name: "Revenue",
-        data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-      },
-      {
-        name: "Free Cash Flow",
-        data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-      },
-    ],
-    chart: {
-      type: "bar",
-      height: 350,
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: "55%",
-        endingShape: "rounded",
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: [
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-      ],
-    },
-    yaxis: {
-      title: {
-        text: "$ (thousands)",
-      },
-    },
-    fill: {
-      opacity: 1,
-    },
-    tooltip: {
-      y: {
-        formatter: function (val) {
-          return "$ " + val + " thousands";
-        },
-      },
-    },
-  };
+  // return {
+  //   series: [
+  //     {
+  //       name: "Net Profit",
+  //       data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
+  //     },
+  //     {
+  //       name: "Revenue",
+  //       data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+  //     },
+  //     {
+  //       name: "Free Cash Flow",
+  //       data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
+  //     },
+  //   ],
+  //   chart: {
+  //     type: "bar",
+  //     height: 350,
+  //   },
+  //   plotOptions: {
+  //     bar: {
+  //       horizontal: false,
+  //       columnWidth: "55%",
+  //       endingShape: "rounded",
+  //     },
+  //   },
+  //   dataLabels: {
+  //     enabled: false,
+  //   },
+  //   stroke: {
+  //     show: true,
+  //     width: 2,
+  //     colors: ["transparent"],
+  //   },
+  //   xaxis: {
+  //     categories: [
+  //       "Operating",
+  //       "Investing",
+  //       "Financing",
+  //       "Total"
+  //     ],
+  //   },
+  //   yaxis: {
+  //     title: {
+  //       text: "$ (thousands)",
+  //     },
+  //   },
+  //   fill: {
+  //     opacity: 1,
+  //   },
+  //   tooltip: {
+  //     y: {
+  //       formatter: function (val) {
+  //         return "$ " + val + " thousands";
+  //       },
+  //     },
+  //   },
+  // };
 
-  return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.blue,
-      window.chartColors.red,
-      window.chartColors.orange,
-      window.chartColors.grey,
-    ],
-    series: [
-      {
-        name: "Client",
-        type: "column",
-        data: clientArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
-      },
-      {
-        name: "Avg",
-        type: "line",
-        data: peerAvg,
-        yaxis: 0,
-        style: {
-          colors: ["transparent"], // Set the line color to transparent
-        },
-        fill: {
-          type: "gradient",
-          gradient: {
-            shadeIntensity: 1,
-            opacityFrom: 0.7,
-            opacityTo: 0.9,
-            stops: [0, 80, 80],
-          },
-        },
-      },
-      {
-        name: "Midpoint",
-        type: "line",
-        data: peerMid,
-        visible: false,
-      },
-      {
-        name: "25%",
-        type: "line",
-        data: peer25,
-        visible: false,
-      },
-      {
-        name: "75%",
-        type: "line",
-        data: peer75,
-        visible: false,
-      },
-    ],
-    chart: {
-      height: 350,
-      type: "line",
-      stacked: false,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      width: [2, 6, 4, 4, 4],
-    },
-    title: {
-      text: "",
-      align: "left",
-      offsetX: 110,
-    },
-    xaxis: {
-      categories: selectedYearsArray,
-      labels: {
-        style: {
-          colors: chartColors.labelColor,
-          fontSize: "1rem",
-        },
-      },
-    },
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        },
-        tooltip: {
-          enabled: true,
-        },
-      },
-    ],
-    tooltip: {
-      fixed: {
-        enabled: true,
-        position: "topLeft",
-        offsetY: 30,
-        offsetX: 60,
-      },
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    legend: {
-      horizontalAlign: "center",
-      offsetX: 40,
-      fontSize: "20px",
-    },
-    grid: {
-      row: {
-        colors: ["transparent"],
-        opacity: 0.5,
-        thickness: 4,
-      },
-    },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
-      },
-    },
-  };
 };

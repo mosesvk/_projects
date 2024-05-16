@@ -34,6 +34,9 @@ displayCashComponent = (data) => {
     0,
     "totalCoverageRatio"
   );
+
+  // cashFlowsTrendFinancing, cashFlowsTrendInvesting, cashFlowsTrendOperating, cashFlowsTrendTotal
+  getCashFlowChartOptions(parseData);
 };
 
 displayIncomeComponent = (data) => {
