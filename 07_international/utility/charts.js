@@ -1,4 +1,3 @@
-
 const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
   // console.log('-----')
   // console.log('getMainChartOptions()')
@@ -195,8 +194,31 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
 
 const getCashFlowChartOptions = (
   dataClient,
+  [financing, investing, operating, total]
 ) => {
-  console.log({ dataClient });
+  console.log(dataClient);
+
+  const financeData = dataClient[`${financing}_Client`];
+  const investingData = dataClient[`${investing}_Client`];
+  const operatingData = dataClient[`${operating}_Client`];
+  const totalData = dataClient[`${total}_Client`];
+
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  const seriesData = getSeriesData(
+    selectedYearsArray,
+    operatingData,
+    investingData,
+    financeData,
+    totalData
+  );
+
+  console.log({
+    finance: financeData,
+    investing: investingData,
+    operating: operatingData,
+    total: totalData,
+  });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -216,91 +238,133 @@ const getCashFlowChartOptions = (
     ? "#e3f0fa"
     : "#3a464f";
 
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
-
   const formatNumber = (value) => value.toLocaleString();
 
-  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
-
   const yaxisLabelFormatter = (value) => {
-    if (numType === "dollar") {
-      return `$${formatNumber(value)}`;
-    } else if (numType === "percent") {
-      return `${formatNumber(value)}%`;
-    } else {
-      return formatNumber(value);
-    }
+    return `$${formatNumber(value)}`;
   };
 
   const tooltipFormatter = (value) => {
     if (!value) return;
     const formattedValue = value.toLocaleString();
-    if (numType === "dollar") {
-      return `$${formattedValue}`;
-    } else if (numType === "percent") {
-      return `${formattedValue}%`;
-    } else {
-      return formattedValue;
-    }
+    return `$${formattedValue}`;
   };
 
-  // return {
-  //   series: [
-  //     {
-  //       name: "Net Profit",
-  //       data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-  //     },
-  //     {
-  //       name: "Revenue",
-  //       data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-  //     },
-  //     {
-  //       name: "Free Cash Flow",
-  //       data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-  //     },
-  //   ],
-  //   chart: {
-  //     type: "bar",
-  //     height: 350,
-  //   },
-  //   plotOptions: {
-  //     bar: {
-  //       horizontal: false,
-  //       columnWidth: "55%",
-  //       endingShape: "rounded",
-  //     },
-  //   },
-  //   dataLabels: {
-  //     enabled: false,
-  //   },
-  //   stroke: {
-  //     show: true,
-  //     width: 2,
-  //     colors: ["transparent"],
-  //   },
-  //   xaxis: {
-  //     categories: [
-  //       "Operating",
-  //       "Investing",
-  //       "Financing",
-  //       "Total"
-  //     ],
-  //   },
-  //   yaxis: {
-  //     title: {
-  //       text: "$ (thousands)",
-  //     },
-  //   },
-  //   fill: {
-  //     opacity: 1,
-  //   },
-  //   tooltip: {
-  //     y: {
-  //       formatter: function (val) {
-  //         return "$ " + val + " thousands";
-  //       },
-  //     },
-  //   },
-  // };
-
+  return {
+    colors: [
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.red,
+      window.chartColors.orange,
+      window.chartColors.grey,
+    ],
+    series: seriesData,
+    chart: {
+      type: "bar",
+      height: 350,
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: "55%",
+        endingShape: "rounded",
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ["transparent"],
+    },
+    title: {
+      text: "",
+      align: "left",
+      offsetX: 110,
+    },
+    xaxis: {
+      categories: ["Operating", "Investing", "Financing", "Total"],
+      labels: {
+        style: {
+          colors: chartColors.labelColor,
+          fontSize: "1rem",
+        },
+      },
+    },
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
+        },
+        tooltip: {
+          enabled: true,
+        },
+      },
+    ],
+    tooltip: {
+      fixed: {
+        enabled: true,
+        position: "topLeft",
+        offsetY: 30,
+        offsetX: 60,
+      },
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
+        },
+      },
+    },
+    legend: {
+      horizontalAlign: "center",
+      offsetX: 40,
+      fontSize: "20px",
+    },
+    grid: {
+      row: {
+        colors: ["transparent"],
+        opacity: 0.5,
+        thickness: 4,
+      },
+    },
+    plotOptions: {
+      bar: {
+        barHeight: "90%",
+      },
+    },
+  };
 };
+
+function getSeriesData(
+  selectedYearsArray,
+  operatingData,
+  investingData,
+  financingData,
+  totalData
+) {
+  return selectedYearsArray.map((year) => {
+    const data = [
+      operatingData[year]?.value || 0,
+      investingData[year]?.value || 0,
+      financingData[year]?.value || 0,
+      totalData[year]?.value || 0,
+    ];
+
+    return {
+      name: year.toString(),
+      data: data,
+    };
+  });
+}

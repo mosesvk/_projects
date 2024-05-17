@@ -330,6 +330,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "daysExpensesInUnrestrictedNA_excludingPPE_Peer",
         record,
         "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe",
+        "Yes"
       );
       insertDataIntoObject(
         "peer",
@@ -761,6 +762,16 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         "0"
       );
+
+      // cashFlowsTrendTotal
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "cashFlowsTrendTotal_Peer",
+        record,
+        "0"
+      );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -887,7 +898,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "cashFlowsTrendFinancing_Client",
         record,
-        "c02_10a_ratio_cash_flows_trend___financing"
+        "_03_01cashflow___03_financing"
       );
 
       // cashFlowsTrendInvesting
@@ -897,7 +908,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "cashFlowsTrendInvesting_Client",
         record,
-        "c02_10b_ratio_cash_flows_trend___investing"
+        "_03_01cashflow___02_investing"
       );
 
       // cashFlowsTrendOperating
@@ -907,7 +918,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "cashFlowsTrendOperating_Client",
         record,
-        "c02_10c_ratio_cash_flows_trend___operating"
+        "_03_01cashflow___01_operating"
       );
 
       // cashFlowsTrendTotal
