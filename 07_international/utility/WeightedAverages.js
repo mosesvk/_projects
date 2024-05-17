@@ -59,8 +59,8 @@ const getWeightedAverageOfArray = (data, name) => {
         return expensesPerFullTimeEquivalent_weightedAverage(data, name);
     case 'salariesAndBenefitsAsPercentOfTotalExpenses':
         return salariesAndBenefitsAsPercentOfTotalExpenses_weightedAverage(data, name);
-    case 'salariesAndBenefitsPerFTES':
-        return salariesAndBenefitsPerFTES_weightedAverage(data, name);
+    case 'salariesAndBenefitsPerFTE':
+        return salariesAndBenefitsPerFTE_weightedAverage(data, name);
     case 'percentageAssessmentOnRestrictedGifts':
         return percentageAssessmentOnRestrictedGifts_weightedAverage(data, name);
     case 'ageOfFacilities':
@@ -92,13 +92,15 @@ const percentageAssessmentOnRestrictedGifts_weightedAverage = (data, name) => {
     return contributionsWithDR > 0 ? totalAdministrativeAssessments / contributionsWithDR : 0;
 }
 
-const salariesAndBenefitsPerFTES_weightedAverage = (data, name) => {
+const salariesAndBenefitsPerFTE_weightedAverage = (data, name) => {
     // [04.01FExp - 03 Salaries & Benefits]
     // /
     // [06.01NonFin - 03 Number of Employees FTE]
 
     const salariesAndBenefits = getSumOfArray(data.salariesAndBenefits[name]);
     const numberOfEmployeesFTE = getSumOfArray(data.numberOfEmployeesFTE[name]);
+
+    console.log({salariesAndBenefits, numberOfEmployeesFTE});
 
     return numberOfEmployeesFTE > 0 ? salariesAndBenefits / numberOfEmployeesFTE : 0;
 }

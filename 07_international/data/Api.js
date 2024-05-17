@@ -2149,6 +2149,7 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
   processAssetData(selectedYears, recordsPeer, recordsClient);
   processIncomeData(selectedYears, recordsPeer, recordsClient);
   processExpenseData(selectedYears, recordsPeer, recordsClient);
+  processMiscData(selectedYears, recordsPeer, recordsClient);
 };
 
 const displayComponents = () => {
