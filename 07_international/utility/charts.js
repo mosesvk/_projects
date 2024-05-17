@@ -1,4 +1,4 @@
-const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
+const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainName) => {
   // console.log('-----')
   // console.log('getMainChartOptions()')
 
@@ -31,7 +31,8 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       selectedYearsArray,
       dataPeer,
       dataClient,
-      fixedNum
+      fixedNum, 
+      mainName
     ));
 
   // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
@@ -196,7 +197,7 @@ const getCashFlowChartOptions = (
   dataClient,
   [financing, investing, operating, total]
 ) => {
-  console.log(dataClient);
+  // console.log(dataClient);
 
   const financeData = dataClient[`${financing}_Client`];
   const investingData = dataClient[`${investing}_Client`];
@@ -213,12 +214,12 @@ const getCashFlowChartOptions = (
     totalData
   );
 
-  console.log({
-    finance: financeData,
-    investing: investingData,
-    operating: operatingData,
-    total: totalData,
-  });
+  // console.log({
+  //   finance: financeData,
+  //   investing: investingData,
+  //   operating: operatingData,
+  //   total: totalData,
+  // });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
