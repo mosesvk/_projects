@@ -244,6 +244,116 @@ const createChart = (
   });
 };
 
+const updateCashFlowModal = (
+  mainName,
+  data,
+  [financing, investing, operating, total]
+) => {
+  // Get the selected years from local storage
+
+  const financingData = data[`${financing}_Client`];
+  const investingData = data[`${investing}_Client`];
+  const operatingData = data[`${operating}_Client`];
+  const totalData = data[`${total}_Client`];
+  const selectedYears = getSelectedYearsFromLocalStorage();
+
+  // Find the modal element
+  const modal = document.getElementById(`${mainName}_modal`);
+
+  // Check if the modal element exists
+  if (modal) {
+    // Find the table header row
+    const headerRow = modal.querySelector(`#${mainName}_modal_row`);
+    let tableHead = headerRow.parentElement;
+
+    // Clear existing rows after the headerRow
+    let nextRow = headerRow.nextSibling;
+    while (nextRow) {
+      tableHead.removeChild(nextRow);
+      nextRow = headerRow.nextSibling; // Get the next sibling again
+    }
+
+    // Clear existing header content
+    headerRow.innerHTML = "";
+
+    // Add the "Year" column
+    const yearColumn = document.createElement("th");
+    yearColumn.className = "px-6 py-3";
+    yearColumn.textContent = "Year";
+    headerRow.appendChild(yearColumn);
+
+    // Add the "Operating" column
+    const operatingColumn = document.createElement("th");
+    operatingColumn.className = "px-6 py-3";
+    operatingColumn.textContent = "Operating";
+    headerRow.appendChild(operatingColumn);
+
+    // Add the "Investing" column
+    const investingColumn = document.createElement("th");
+    investingColumn.className = "px-6 py-3";
+    investingColumn.textContent = "Investing";
+    headerRow.appendChild(investingColumn);
+
+    // Add the "Financing" column
+    const financingColumn = document.createElement("th");
+    financingColumn.className = "px-6 py-3";
+    financingColumn.textContent = "Financing";
+    headerRow.appendChild(financingColumn);
+
+    // Add the "Total" column
+    const totalColumn = document.createElement("th");
+    totalColumn.className = "px-6 py-3";
+    totalColumn.textContent = "Total";
+    headerRow.appendChild(totalColumn);
+
+    // Loop through selected years and add data rows
+    selectedYears.forEach((year) => {
+      const row = document.createElement("tr");
+      row.className =
+        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
+      row.id = `${mainName}_modal_${year}`;
+
+      // Add year cell
+      const yearCell = document.createElement("td");
+      yearCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      yearCell.scope = "row";
+      yearCell.textContent = year;
+      row.appendChild(yearCell);
+
+      // Add operating cell
+      const operatingCell = document.createElement("td");
+      operatingCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      operatingCell.scope = "row";
+      operatingCell.textContent = operatingData[year] ? styleNumber(operatingData[year].value, 'dollar') : 0;
+      row.appendChild(operatingCell);
+
+      // Add investing cell
+      const investingCell = document.createElement("td");
+      investingCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      investingCell.scope = "row";
+      investingCell.textContent = investingData[year] ? styleNumber(investingData[year].value, 'dollar') : 0;
+      row.appendChild(investingCell);
+
+      // Add financing cell
+      const financingCell = document.createElement("td");
+      financingCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      financingCell.scope = "row";
+      financingCell.textContent = financingData[year] ? styleNumber(financingData[year].value, 'dollar') : 0;
+      row.appendChild(financingCell);
+
+      // Add total cell
+      const totalCell = document.createElement("td");
+      totalCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      totalCell.scope = "row";
+      totalCell.textContent = totalData[year] ? styleNumber(totalData[year].value, 'dollar') : 0;
+      row.appendChild(totalCell);
+
+      // Append the row to the table
+      tableHead.appendChild(row);
+    });
+  }
+};
+
 function updateModal(mainName, avgData, clientData) {
   // Get the selected years from local storage
   const selectedYears = getSelectedYearsFromLocalStorage();

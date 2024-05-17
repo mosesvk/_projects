@@ -100,7 +100,7 @@ const salariesAndBenefitsPerFTES_weightedAverage = (data, name) => {
     const salariesAndBenefits = getSumOfArray(data.salariesAndBenefits[name]);
     const numberOfEmployeesFTE = getSumOfArray(data.numberOfEmployeesFTE[name]);
 
-    return salariesAndBenefits / numberOfEmployeesFTE;
+    return numberOfEmployeesFTE > 0 ? salariesAndBenefits / numberOfEmployeesFTE : 0;
 }
 
 const salariesAndBenefitsAsPercentOfTotalExpenses_weightedAverage = (data, name) => {

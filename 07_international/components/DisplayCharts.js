@@ -59,6 +59,13 @@ displayCashComponent = (data) => {
 
   cashFlowsTrendChart.render();
 
+  updateCashFlowModal("cashFlowsTrend", parseData, [
+    "cashFlowsTrendFinancing",
+    "cashFlowsTrendInvesting",
+    "cashFlowsTrendOperating",
+    "cashFlowsTrendTotal",
+  ]);
+
   // init again when toggling dark mode
   document.addEventListener("dark-mode", function () {
     cashFlowsTrendChart.updateOptions(

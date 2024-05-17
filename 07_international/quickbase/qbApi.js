@@ -324,7 +324,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "daysExpensesInUnrestrictedNA_excludingPPE_Peer",
         record,
-        "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe", 
+        "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe",
         "Yes"
       );
       insertDataIntoObject(
@@ -377,6 +377,8 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "Yes",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
+
+
 
       // daysExpensesInNAwithDR
       insertDataIntoObject(
@@ -519,6 +521,37 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "_01__02liab___05_total_liabilities",
         "c02_05_yes_no_liquidity_funds_available",
         "liquidityFundsAvailable"
+      );
+
+      // liquidityRatio
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "liquidityRatio_Peer",
+        record,
+        "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
+        "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "financialAssetsAvailablePerLiquidity",
+        record,
+        "_05_01liquid___01_financial_assets_available_per_liquidity_fn",
+        "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
+        "liquidityRatio"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "totalExpenses",
+        record,
+        "_02_03exp___05_total_expenses",
+        "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
+        "liquidityRatio"
       );
 
       // financialAssetsAvailableFY
@@ -724,6 +757,16 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         "0"
       );
+
+      // cashFlowsTrendTotal
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "cashFlowsTrendTotal_Peer",
+        record,
+        "0"
+      );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
@@ -793,6 +836,16 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "c02_05_ratio_liquidity_funds_available"
       );
 
+      // liquidityRatio
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "liquidityRatio_Client",
+        record,
+        "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
+      );
+
       // financialAssetsAvailableFY
       insertDataIntoObject(
         "client",
@@ -840,7 +893,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "cashFlowsTrendFinancing_Client",
         record,
-        "c02_10a_ratio_cash_flows_trend___financing"
+        "_03_01cashflow___03_financing"
       );
 
       // cashFlowsTrendInvesting
@@ -850,7 +903,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "cashFlowsTrendInvesting_Client",
         record,
-        "c02_10b_ratio_cash_flows_trend___investing"
+        "_03_01cashflow___02_investing"
       );
 
       // cashFlowsTrendOperating
@@ -860,7 +913,17 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "cashFlowsTrendOperating_Client",
         record,
-        "c02_10c_ratio_cash_flows_trend___operating"
+        "_03_01cashflow___01_operating"
+      );
+
+      // cashFlowsTrendTotal
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "cashFlowsTrendTotal_Client",
+        record,
+        "_03_01cashflow___total"
       );
     });
 
@@ -1124,8 +1187,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_basedOnNumberOfDonors_Peer",
         record,
-        "0",
-        "Yes"
+        "0"
       );
 
       // contributionsTrend
@@ -1135,8 +1197,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_Peer",
         record,
-        "0",
-        "Yes"
+        "0"
       );
 
       // contributionsPercentWithoutDR
@@ -2000,25 +2061,25 @@ const processMiscData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("miscData", JSON.stringify(object));
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 // Helper functions
 
 const countUniqueClients = (records) => {
-  const uniquePeerClientNames = new Set();
+  uniqueClients = new Set();
   try {
     records.forEach((record) => {
-      const clientInformalName = record.querySelector(
-        "pe___client_informal_name"
+      const mainRelatedClient = record.querySelector(
+        "pe___client_legal_name"
       ).textContent;
-      uniquePeerClientNames.add(clientInformalName);
+      // console.log(mainRelatedClient);
+      uniqueClients.add(mainRelatedClient);
     });
 
-    document.getElementById("uniqueClients").textContent =
-      uniquePeerClientNames.size;
+    const count = uniqueClients.size;
+    console.log(count);
+    document.getElementById("uniqueClients").textContent = count;
   } catch (error) {
     console.error("Error counting unique clients:", error);
-    return 0; // Return 0 in case of error
+    document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
   }
 };
 
@@ -2045,138 +2106,6 @@ const toggleGenerateReportButtonNormalState = (btn) => {
   btn.innerHTML = `
   Generate Trends and Benchmark Reports
 `;
-};
-
-const createToastWarning = (textString) => {
-  const toastWarningDiv = document.createElement("div");
-  toastWarningDiv.id = "toast-warning";
-  toastWarningDiv.classList.add(
-    "transition",
-    "ease-in-out",
-    "delay-150",
-    "fixed",
-    "top-20",
-    "left-1/2",
-    "transform",
-    "-translate-x-1/2",
-    "z-50",
-    "flex",
-    "items-center",
-    "w-full",
-    "max-w-md",
-    "p-4",
-    "text-gray-700",
-    "bg-gray-300",
-    "rounded-lg",
-    "shadow",
-    "dark:text-gray-200",
-    "dark:bg-gray-600"
-  );
-
-  toastWarningDiv.innerHTML = `
-    <div class="animate-pulse inline-flex items-center justify-center flex-shrink-0 w-10 h-10 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
-      <svg class="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
-      </svg>
-      <span class="sr-only">Warning icon</span>
-    </div>
-    <div class="ms-3 text-lg font-normal">
-    ${textString}
-    </div>
-    <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-gray-300 text-gray-600 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-200 dark:hover:text-white dark:bg-gray-600 dark:hover:bg-gray-700" data-dismiss-target="#toast-warning" aria-label="Close">
-      <span class="sr-only">Close</span>
-      <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-      </svg>
-    </button>
-  `;
-
-  const closeButton = toastWarningDiv.querySelector(
-    '[data-dismiss-target="#toast-warning"]'
-  );
-  closeButton.addEventListener("click", (event) => {
-    event.stopPropagation(); // Prevent propagation to the toast
-    toastWarningDiv.remove();
-  });
-
-  document.body.appendChild(toastWarningDiv);
-
-  // Event listener to close the toast when clicking outside of it
-  const clickOutsideHandler = (event) => {
-    if (!toastWarningDiv.contains(event.target)) {
-      toastWarningDiv.remove();
-      document.body.removeEventListener("click", clickOutsideHandler);
-    }
-  };
-
-  setTimeout(() => {
-    document.body.addEventListener("click", clickOutsideHandler);
-  }, 100); // Delay adding the event listener to prevent immediate removal
-};
-
-const createToastSuccess = (textString) => {
-  const toastSuccessDiv = document.createElement("div");
-  toastSuccessDiv.id = "toast-success";
-  toastSuccessDiv.classList.add(
-    "transition",
-    "ease-in-out",
-    "delay-150",
-    "fixed",
-    "top-20",
-    "left-1/2",
-    "transform",
-    "-translate-x-1/2",
-    "z-50",
-    "flex",
-    "items-center",
-    "w-full",
-    "max-w-md",
-    "p-4",
-    "text-gray-700",
-    "bg-gray-300",
-    "rounded-lg",
-    "shadow",
-    "dark:text-gray-200",
-    "dark:bg-gray-600"
-  );
-
-  toastSuccessDiv.innerHTML = `
-    <div class="animate-pulse inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
-      <svg class="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-      </svg>
-      <span class="sr-only">success</span>
-    </div>
-    <div class="ms-3 text-sm font-normal">${textString}</div>
-    <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
-        <span class="sr-only">Close</span>
-        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-        </svg>
-    </button>
-  `;
-
-  const closeButton = toastSuccessDiv.querySelector(
-    '[data-dismiss-target="#toast-success"]'
-  );
-  closeButton.addEventListener("click", (event) => {
-    event.stopPropagation(); // Prevent propagation to the toast
-    toastSuccessDiv.remove();
-  });
-
-  document.body.appendChild(toastSuccessDiv);
-
-  // Event listener to close the toast when clicking outside of it
-  const clickOutsideHandler = (event) => {
-    if (!toastSuccessDiv.contains(event.target)) {
-      toastSuccessDiv.remove();
-      document.body.removeEventListener("click", clickOutsideHandler);
-    }
-  };
-
-  setTimeout(() => {
-    document.body.addEventListener("click", clickOutsideHandler);
-  }, 100); // Delay adding the event listener to prevent immediate removal
 };
 
 const processSelectedYears = () => {

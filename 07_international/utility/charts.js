@@ -194,15 +194,15 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
 };
 
 const getCashFlowChartOptions = (
-  dataClient,
+  data,
   [financing, investing, operating, total]
 ) => {
-  // console.log(dataClient);
+  // console.log(data);
 
-  const financeData = dataClient[`${financing}_Client`];
-  const investingData = dataClient[`${investing}_Client`];
-  const operatingData = dataClient[`${operating}_Client`];
-  const totalData = dataClient[`${total}_Client`];
+  const financeData = data[`${financing}_Client`];
+  const investingData = data[`${investing}_Client`];
+  const operatingData = data[`${operating}_Client`];
+  const totalData = data[`${total}_Client`];
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
