@@ -2153,12 +2153,13 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
 };
 
 const displayComponents = () => {
-  // displayGeneralComponent();
+  displayGeneralComponent();
   displayCashComponent();
   // displayAssetComponent();
   displayIncomeComponent();
   displayExpenseComponent();
   displayReportComponent();
+
 };
 
 const run_btn = document.querySelector("#run");

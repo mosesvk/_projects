@@ -1,3 +1,42 @@
+let cashFlowsTrendChart
+
+displayGeneralComponent = (data) => {
+  const savedData = getStoredData("cashData");
+  const parseData = parseStoredData(savedData);
+
+  // cashFlowsTrend
+  cashFlowsTrendChart = new ApexCharts(
+    document.getElementById("cashFlowsTrend_chart"),
+    getCashFlowChartOptions(parseData, [
+      "cashFlowsTrendFinancing",
+      "cashFlowsTrendInvesting",
+      "cashFlowsTrendOperating",
+      "cashFlowsTrendTotal",
+    ])
+  );
+
+  cashFlowsTrendChart.render();
+
+  updateCashFlowModal("cashFlowsTrend", parseData, [
+    "cashFlowsTrendFinancing",
+    "cashFlowsTrendInvesting",
+    "cashFlowsTrendOperating",
+    "cashFlowsTrendTotal",
+  ]);
+
+  // init again when toggling dark mode
+  document.addEventListener("dark-mode", function () {
+    cashFlowsTrendChart.updateOptions(
+      getCashFlowChartOptions(parseData, [
+        "cashFlowsTrendFinancing",
+        "cashFlowsTrendInvesting",
+        "cashFlowsTrendOperating",
+        "cashFlowsTrendTotal",
+      ])
+    );
+  });
+};
+
 displayCashComponent = (data) => {
   const savedData = getStoredData("cashData");
   const parseData = parseStoredData(savedData);
@@ -45,38 +84,6 @@ displayCashComponent = (data) => {
     0,
     "totalCoverageRatio"
   );
-
-  // cashFlowsTrend
-  const cashFlowsTrendChart = new ApexCharts(
-    document.getElementById("cashFlowsTrend_chart"),
-    getCashFlowChartOptions(parseData, [
-      "cashFlowsTrendFinancing",
-      "cashFlowsTrendInvesting",
-      "cashFlowsTrendOperating",
-      "cashFlowsTrendTotal",
-    ])
-  );
-
-  cashFlowsTrendChart.render();
-
-  updateCashFlowModal("cashFlowsTrend", parseData, [
-    "cashFlowsTrendFinancing",
-    "cashFlowsTrendInvesting",
-    "cashFlowsTrendOperating",
-    "cashFlowsTrendTotal",
-  ]);
-
-  // init again when toggling dark mode
-  document.addEventListener("dark-mode", function () {
-    cashFlowsTrendChart.updateOptions(
-      getCashFlowChartOptions(parseData, [
-        "cashFlowsTrendFinancing",
-        "cashFlowsTrendInvesting",
-        "cashFlowsTrendOperating",
-        "cashFlowsTrendTotal",
-      ])
-    );
-  });
 };
 
 displayIncomeComponent = (data) => {
