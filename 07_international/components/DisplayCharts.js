@@ -5,7 +5,7 @@ displayGeneralComponent = (data) => {
   const parseData = parseStoredData(savedData);
 
   // cashFlowsTrend
-  cashFlowsTrendChart = new ApexCharts(
+  d = new ApexCharts(
     document.getElementById("cashFlowsTrend_chart"),
     getCashFlowChartOptions(parseData, [
       "cashFlowsTrendFinancing",
