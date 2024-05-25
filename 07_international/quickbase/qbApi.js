@@ -1991,7 +1991,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("expenseData", JSON.stringify(object));
 };
 
-const processMiscData = (years, recordsPeer, recordsClient) => {
+const processMiscData = (years, recordsaPeer, recordsClient) => {
   const object = {};
 
   years.forEach((year) => {
@@ -2148,7 +2148,7 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
 };
 
 const displayComponents = () => {
-  // displayGeneralComponent();
+  displayGeneralComponent();
   displayCashComponent();
   // displayAssetComponent();
   displayIncomeComponent();
@@ -2230,7 +2230,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     const clientConditions = [...selectedClients]
       .map((client) => `{59.EX.'${client}'}`)
       .join(" OR ");
-    console.log(`(${clientConditions})`);
+    // console.log(`(${clientConditions})`);
     return `(${clientConditions})`;
   }
 
@@ -2309,7 +2309,7 @@ const getRecordsForUniqueClientPeerNames = async () => {
       uniquePeerClientNames.add(clientInformalName);
     });
 
-    console.log({ uniquePeerClientNames });
+    // console.log({ uniquePeerClientNames });
 
     const sortedUniquePeerClientNames = Array.from(
       uniquePeerClientNames

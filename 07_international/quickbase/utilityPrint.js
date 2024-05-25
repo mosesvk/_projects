@@ -162,7 +162,7 @@ const printToExcel = (dataString) => {
   var urlUploadFile =
     "https://capincrouse.quickbase.com/db/bt3q4xqn5?a=API_AddRecord";
 
-  // console.log(dataString);
+  console.log(dataString);
 
   let newRecordID;
 
@@ -256,7 +256,7 @@ createFileForPrint = (
   peer,
   data
 ) => {
-//   console.log({ name, fId, begin, end, avg, mid, min, max, peer, data });
+  console.log({ name, fId, begin, end, avg, mid, min, max, peer, data });
 
   uploadToFile(avg, mid, min, max, fId, begin, end);
 };

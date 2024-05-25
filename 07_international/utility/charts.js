@@ -79,6 +79,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
       {
         name: "Avg",
         type: "line",
+        stacked: false,
         data: peerAvg,
         yaxis: 0,
         style: {

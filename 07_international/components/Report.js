@@ -315,7 +315,7 @@ const addPeerDataToRow = (
   dataPointMax.textContent = textMax;
   tableRow.appendChild(dataPointMax);
 
-  // if (fId) createFileForPrint(name, fId, begin, end, textAvg, textMid, textMin, textMax, peer, data);
+  if (fId) createFileForPrint(name, fId, begin, end, textAvg, textMid, textMin, textMax, peer, data);
 };
 
 const addYearColumnsToReportTable = (years) => {
