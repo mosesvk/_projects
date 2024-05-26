@@ -8,7 +8,7 @@ $.get(clientData, apiCallClientDataForUniqueYears)
   .then(async (xml) => {
     recordsClient = await $("record", xml).toArray();
 
-    const firmName = recordsClient[0].children[2].innerHTML;
+    firmName = recordsClient[0].children[2].innerHTML;
     document.querySelector("#firmName").textContent = firmName;
 
     // console.log(recordsClient[0].children)

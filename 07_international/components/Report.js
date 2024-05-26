@@ -14,59 +14,59 @@ const displayReportComponent = () => {
       ['givingUnits', 'num', 0],
       ['missionaryUnit', 'num', 0],
       ['numberOfEmployeesFTE', 'num', 0],
-      ['itExpenses', 'dollar', 0, null, null, 6, 'begin', null]
+      ['itExpenses', 'dollar', 0, null, null, [6, 44, 82, 120], 'begin', null]
     ]);
 
     insertDataToReport(cashData, selectedYears, [
-        ['daysCashOnHand', 'num', 0, 'wa', null, 10, null, null],
-        ['daysExpensesInUnrestrictedNA', 'num', 0, 'wa', null, 14, null, null],
-        ['daysExpensesInUnrestrictedNA_excludingPPE', 'num', 0, 'wa', null, 18, null, null],
-        ['daysExpensesInNAwithDR', 'num', 0, 'wa', null, 22, null, null],
-        ['daysExpensesInNAwithDR_excludingPPE', 'num', 0, 'wa', null, 26, null, null],
-        ['liquidityFundsAvailable', 'dollar', 1, 'wa', null, 32, null, null],
-        ['financialAssetsAvailableFY', 'dollar', 0, 'wa', null, 38, null, null],
-        ['daysFinancialAssetsOnHand', 'num', 0, 'wa', null, 44, null, null],
-        ['currentRatio', 'num', 1, 'wa', null, 50, null, null],
-        ['totalCoverageRatio', 'dollar', 2, 'wa', null, 56, null, null],
-        ['cashFlowsTrendFinancing', 'dollar', 0, null, null, 62, null, null],
-        ['cashFlowsTrendInvesting', 'dollar', 0, null, null, 68, null, null],
-        ['cashFlowsTrendOperating', 'dollar', 0, null, null, 74, null, null],
+        ['daysCashOnHand', 'num', 0, 'wa', null, [7, 45, 83, 121], null, null],
+        ['daysExpensesInUnrestrictedNA', 'num', 0, 'wa', null, [8, 46, 84, 122], null, null],
+        ['daysExpensesInUnrestrictedNA_excludingPPE', 'num', 0, 'wa', null, [9, 47, 85, 123], null, null],
+        ['daysExpensesInNAwithDR', 'num', 0, 'wa', null, [10, 48, 86, 124], null, null],
+        ['daysExpensesInNAwithDR_excludingPPE', 'num', 0, 'wa', null, [11, 49, 87, 125], null, null],
+        ['liquidityFundsAvailable', 'dollar', 1, 'wa', null, [12, 50, 88, 126], null, null],
+        ['financialAssetsAvailableFY', 'dollar', 0, 'wa', null, [13, 51, 89, 127], null, null],
+        ['daysFinancialAssetsOnHand', 'num', 0, 'wa', null, [14, 52, 90, 128], null, null],
+        ['currentRatio', 'num', 1, 'wa', null, [15, 53, 91, 129], null, null],
+        ['totalCoverageRatio', 'dollar', 2, 'wa', null, [16, 54, 92, 130], null, null],
+        ['cashFlowsTrendFinancing', 'dollar', 0, null, null, [17, 55, 93, 131], null, null],
+        ['cashFlowsTrendInvesting', 'dollar', 0, null, null, [18, 56, 94, 132], null, null],
+        ['cashFlowsTrendOperating', 'dollar', 0, null, null, [19, 57, 95, 133], null, null],
     ]);
     
     insertDataToReport(assetData, selectedYears, [
-      ['percentWithDR', 'percent', 0, 'wa', null, 78, null, null],
-      ['percentWithoutDR_excludingPPE', 'percent', 0, 'wa', null, 82, null, null],
-      ['percentWithoutDR', 'percent', 0, 'wa', null, 86, null, null]
+      ['percentWithDR', 'percent', 0, 'wa', null, [20, 58, 96, 134], null, null],
+      ['percentWithoutDR_excludingPPE', 'percent', 0, 'wa', null, [21, 59, 97, 135], null, null],
+      ['percentWithoutDR', 'percent', 0, 'wa', null, [22, 60, 98, 136], null, null]
     ])
 
     insertDataToReport(incomeData, selectedYears, [
-      ['netIncomeRatio', 'num', 1, 'wa', null, 90, null, null],
-      ['contributionsTrend_basedOnNumberOfDonors', 'percent', 0, 'wa', null, 94, null, null],
-      ['contributionsTrend', 'percent', 0, 'wa', null, 98, null, null],
-      ['contributionsPercentWithoutDR', 'percent', 0, 'wa', null, 102, null, null],
-      ['contributionsPercentWithDR', 'percent', 0, 'wa', null, 106, null, null],
-      ['contributionsPerGivingUnit', 'dollar', 0, 'wa', null, 110, null, null],
-      ['contributionsPerMissionaryUnit', 'dollar', 0, 'wa', null, 114, null, null],
-      ['contributionsPerFullTimeEquivalent', 'dollar', 0, 'wa', null, 118, null, null],
-      ['fundraisingAsPercentOfContributions', 'percent', 0, 'wa', null, 122, null, null],
-      ['annualizedInvestmentReturn', 'percent', 0, null, null, 126, null, null],
+      ['netIncomeRatio', 'num', 1, 'wa', null, [23, 61, 99, 137], null, null],
+      ['contributionsTrend_basedOnNumberOfDonors', 'percent', 0, 'wa', null, [24, 62, 100, 138], null, null],
+      ['contributionsTrend', 'percent', 0, 'wa', null, [25, 63, 101, 139], null, null],
+      ['contributionsPercentWithoutDR', 'percent', 0, 'wa', null, [26, 64, 102, 140], null, null],
+      ['contributionsPercentWithDR', 'percent', 0, 'wa', null, [27, 65, 103, 141], null, null],
+      ['contributionsPerGivingUnit', 'dollar', 0, 'wa', null, [28, 66, 104, 142], null, null],
+      ['contributionsPerMissionaryUnit', 'dollar', 0, 'wa', null, [29, 67, 105, 143], null, null],
+      ['contributionsPerFullTimeEquivalent', 'dollar', 0, 'wa', null, [30, 68, 106, 144], null, null],
+      ['fundraisingAsPercentOfContributions', 'percent', 0, 'wa', null, [31, 69, 107, 145], null, null],
+      ['annualizedInvestmentReturn', 'percent', 0, null, null, [32, 70, 108, 146], null, null],
     ])
 
     insertDataToReport(expenseData, selectedYears, [
-      ['functionalExpensePercent_program', 'percent', 0, 'wa', null, 130, null, null],
-      ['functionalExpensePercent_administrative', 'percent', 0, 'wa', null, 134, null, null],
-      ['functionalExpensePercent_fundraising', 'percent', 0, 'wa', null, 138, null, null],
-      ['functionalExpensePercent_other', 'percent', 0, 'wa', null, 142, null, null],
-      ['costOfContributions', 'dollar', 2, 'wa', null, 146, null, null],
-      ['expensesPerGivingUnit', 'dollar', 0, 'wa', null, 150, null, null],
-      ['expensesPerMissionaryUnit', 'dollar', 0, 'wa', null, 154, null, null],
-      ['expensesPerFullTimeEquivalent', 'dollar', 0, 'wa', null, 158, null, null],
-      ['salariesAndBenefitsAsPercentOfTotalExpenses', 'percent', 0, 'wa', null, 162, null, null],
-      ['salariesAndBenefitsPerFTE', 'dollar', 0, 'wa', null, 166, null, null],
+      ['functionalExpensePercent_program', 'percent', 0, 'wa', null, [33, 71, 109, 147], null, null],
+      ['functionalExpensePercent_administrative', 'percent', 0, 'wa', null, [34, 72, 110, 148], null, null],
+      ['functionalExpensePercent_fundraising', 'percent', 0, 'wa', null, [35, 73, 111, 149], null, null],
+      ['functionalExpensePercent_other', 'percent', 0, 'wa', null, [36, 74, 112, 150], null, null],
+      ['costOfContributions', 'dollar', 2, 'wa', null, [37, 75, 113, 151], null, null],
+      ['expensesPerGivingUnit', 'dollar', 0, 'wa', null, [38, 76, 114, 152], null, null],
+      ['expensesPerMissionaryUnit', 'dollar', 0, 'wa', null, [39, 77, 115, 153], null, null],
+      ['expensesPerFullTimeEquivalent', 'dollar', 0, 'wa', null, [40, 78, 116, 154], null, null],
+      ['salariesAndBenefitsAsPercentOfTotalExpenses', 'percent', 0, 'wa', null, [41, 79, 117, 155], null, null],
+      ['salariesAndBenefitsPerFTE', 'dollar', 0, 'wa', null, [42, 80, 118, 156], null, null],
     ])
 
     insertDataToReport(miscData, selectedYears, [
-      ['percentageAssessmentOnRestrictedGifts', 'percent', 0, 'wa', null, 170, null, null],
+      ['percentageAssessmentOnRestrictedGifts', 'percent', 0, 'wa', null, [43, 81, 119, 157], null, null],
     ])
 
     processTHElements();
@@ -113,7 +113,7 @@ const addToSingleRow = (
   fixedNum,
   wa,
   cb,
-  fId, 
+  fIdArray, 
   begin, 
   end
 ) => {
@@ -163,7 +163,7 @@ const addToSingleRow = (
     wa,
     name,
     data, 
-    fId, 
+    fIdArray, 
     begin, 
     end
   );
@@ -257,7 +257,7 @@ const addPeerDataToRow = (
   wa,
   name,
   data,
-  fId, 
+  fIdArray, 
   begin, 
   end
 ) => {
@@ -315,7 +315,7 @@ const addPeerDataToRow = (
   dataPointMax.textContent = textMax;
   tableRow.appendChild(dataPointMax);
 
-  if (fId) createFileForPrint(name, fId, begin, end, textAvg, textMid, textMin, textMax, peer, data);
+  if (fIdArray) createFileForPrint(name, fIdArray, begin, end, avg, mid, min, max, peer, data);
 };
 
 const addYearColumnsToReportTable = (years) => {

@@ -51,6 +51,8 @@ let sliderAmount = null;
 let sliderRange = null;
 let sliderValue = 0;
 let sliderValue2 = 25000;
+let missionValue = 0
+let firmName = "";
 // let amount = null;
 
 let selectedRegion = "";
@@ -964,6 +966,22 @@ const range = () => {
   };
 };
 
+function missionaryRange() {
+  return {
+    min: 0,
+    max: 10000,
+    missionprice: 0,
+    missionthumb: 0,
+    missiontrigger() {
+      missionValue = this.missionprice
+      let missionValuePercent =
+        ((this.missionprice - this.min) / (this.max - this.min)) * 100;
+      this.missionthumb =
+        missionValuePercent > 100 ? 100 : missionValuePercent < 0 ? 0 : missionValuePercent;
+    },
+  };
+}
+
 const adjustDivHeight = () => {
   var div = document.getElementById("options-list");
 
@@ -1119,21 +1137,6 @@ function calculatePercentageChange(numbers) {
     percentageChanges.push(change);
   }
   return percentageChanges;
-}
-
-function missionaryRange() {
-  return {
-    min: 0,
-    max: 10000,
-    missionprice: 0,
-    missionthumb: 0,
-    missiontrigger() {
-      let minposition =
-        ((this.missionprice - this.min) / (this.max - this.min)) * 100;
-      this.missionthumb =
-        minposition > 100 ? 100 : minposition < 0 ? 0 : minposition;
-    },
-  };
 }
 
 document.querySelector("#sidebar ul").addEventListener("click", function () {

@@ -26,11 +26,11 @@ $("#downloadPdf").on("click", function () {
 });
 
 const downloadImage = (elem) => {
-  console.log(elem);
-  console.log("hit before");
+  // console.log(elem);
+  // console.log("hit before");
   const element = document.getElementById(elem);
   let image = element.toDataURL("image/png");
-  console.log("hit after");
+  // console.log("hit after");
 
   let a = document.createElement("a");
   a.name = element.id;
@@ -129,21 +129,23 @@ const dataArrayObjects = (
   };
 }; //dataArrayObjects
 
-function uploadToFile(avg, mid, min, max, num, begin, end) {
+function uploadToFile(avg, mid, min, max, fIdArray, begin, end) {
+  // console.log({ avg, mid, min, max, num, begin, end });
+
+  let avgId = fIdArray[0];
   var avgVal = avg;
+  let midId = fIdArray[2];
   var midVal = mid;
+  let minId = fIdArray[1];
   var minVal = min;
+  let maxId = fIdArray[3];
   var maxVal = max;
 
   if (begin)
     uploadMainFile +=
       "<qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>";
 
-  uploadMainFile += `<field fid='${num}'>${avgVal}</field><field fid='${
-    num + 1
-  }'>${midVal}</field><field fid='${num + 2}'>${minVal}</field><field fid='${
-    num + 3
-  }'>${maxVal}</field>`;
+  uploadMainFile += `<field fid='${avgId}'>${avgVal}</field><field fid='${midId}'>${midVal}</field><field fid='${minId}'>${minVal}</field><field fid='${maxId}'>${maxVal}</field>`;
 } //uploadToFile
 
 function uploadSingleToFile(id, val, end) {
@@ -155,12 +157,12 @@ function uploadSingleToFile(id, val, end) {
 }
 
 const printToExcel = (dataString) => {
-  toggleButtonLoadingState(generateReportsBtn)
+  toggleButtonLoadingState(generateReportsBtn);
 
   dataParseExcelString = dataString;
 
   var urlUploadFile =
-    "https://capincrouse.quickbase.com/db/bt3q4xqn5?a=API_AddRecord";
+    "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord";
 
   console.log(dataString);
 
@@ -200,29 +202,29 @@ const printToExcel = (dataString) => {
         //     newDownloadURLFormattedArray[2];
       } else {
         console.log("Quickbase returned an error.");
-        createToastWarning(`Quickbase returned an error: if (xmlUpload.find("qdbapi").find("errcode").text() == "0")`)
+        createToastWarning(
+          `Quickbase returned an error: if (xmlUpload.find("qdbapi").find("errcode").text() == "0")`
+        );
       }
     },
     error: function (err) {
       // console.log("Quickbase returned an error: " + response);
-      console.log(err)
-      createToastWarning(`Quickbase returned an error: ${err}`)
+      console.log(err);
+      createToastWarning(`Quickbase returned an error: ${err}`);
     },
   }); //end ajax call
-
 }; // printToExcel()
 
 const createPrintExcel = () => {
-  // uploadSingleToFile(186, ClientRid);
-  // uploadSingleToFile(187, firmName);
-  // uploadSingleToFile(188, uniqueClients.size);
-
-   uploadSingleToFile(186, 3197);
-  uploadSingleToFile(187, "CapinIT");
-  uploadSingleToFile(188, 35); 
+  uploadSingleToFile(171, ClientRid);
+  uploadSingleToFile(170, firmName);
+  uploadSingleToFile(169, uniqueClients.size);
+  uploadSingleToFile(163, sliderValue);
+  uploadSingleToFile(164, sliderValue2);
+  // uploadSingleToFile(164, sliderValue2);
 
   let yearLength = selectedYears_Set.size;
-  let j = 189;
+  let j = 158;
 
   let index = 0;
   for (let year of selectedYears_Set) {
@@ -235,18 +237,17 @@ const createPrintExcel = () => {
     index++;
   }
 
-  toggleButtonLoadingState(generateReportsBtn)
+  toggleButtonLoadingState(generateReportsBtn);
   setTimeout(() => {
     printToExcel(uploadMainFile); // Main Function
-    toggleGenerateReportButtonNormalState(generateReportsBtn)
-    document.getElementById('print_modal_footer').classList.remove("hidden")
+    toggleGenerateReportButtonNormalState(generateReportsBtn);
+    document.getElementById("print_modal_footer").classList.remove("hidden");
   }, 1500); //setTimeout
-
 };
 
-createFileForPrint = (
+const createFileForPrint = (
   name,
-  fId,
+  fIdArray,
   begin,
   end,
   avg,
@@ -256,16 +257,18 @@ createFileForPrint = (
   peer,
   data
 ) => {
-  console.log({ name, fId, begin, end, avg, mid, min, max, peer, data });
+  // console.log({ name, fId, begin, end, avg, mid, min, max, peer, data });
 
-  uploadToFile(avg, mid, min, max, fId, begin, end);
+  uploadToFile(avg, mid, min, max, fIdArray, begin, end);
 };
 
 document.getElementById("generateReports").addEventListener("click", () => {
   // extract data from the table
 
   if (!localStorage.generalData) {
-    createToastWarning("No Data Retrieved. Make sure to select years and run the report")
+    createToastWarning(
+      "No Data Retrieved. Make sure to select years and run the report"
+    );
     throw new Error("No Data Retrieved.");
   } else {
     createPrintExcel();
