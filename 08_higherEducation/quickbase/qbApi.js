@@ -1,26 +1,28 @@
 let apiCallClientDataForUniqueYears = {
   act: "API_DoQuery",
   query: `{533.EX.${ClientRid}}`,
-  clist: "533.640.539",
+  clist: "533.7.539",
 };
 
 $.get(clientData, apiCallClientDataForUniqueYears)
   .then(async (xml) => {
     recordsClient = await $("record", xml).toArray();
 
-    firmName = recordsClient[0].children[2].innerHTML;
-    document.querySelector("#firmName").textContent = firmName;
+    console.log(recordsClient[0]);
+
+    const firmName = recordsClient[0].querySelector("merged_client_name").textContent;
+    document.getElementById("firmName").textContent = firmName;
 
     // console.log(recordsClient[0].children)
 
-    if (recordsClient.length > 0) {
-      findUniqueYears(recordsClient);
-      dataClient = recordsClient[0].children;
-    } else {
-      console.error(
-        "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
-      );
-    }
+    // if (recordsClient.length > 0) {
+    //   findUniqueYears(recordsClient);
+    //   dataClient = recordsClient[0].children;
+    // } else {
+    //   console.error(
+    //     "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
+    //   );
+    // }
   })
   .catch((err) => console.error(err));
 
