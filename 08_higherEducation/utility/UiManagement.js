@@ -46,7 +46,7 @@ if (sidebar) {
     const popoverToggleSidebarHover = document.getElementById('popoverToggleSidebar-hover');
     const h3Element = popoverToggleSidebarHover.querySelector('h3');
 
-    console.log(sidebar.classList)
+    // console.log(sidebar.classList)
 
     if (sidebar.classList.contains('w-14')) {
       h3Element.textContent = 'Show Sidebar';
@@ -54,7 +54,7 @@ if (sidebar) {
       h3Element.textContent = 'Minimize Sidebar';
     }
 
-    console.log(h3Element.textContent);
+    // console.log(h3Element.textContent);
   };
   
   updatePopoverText()
