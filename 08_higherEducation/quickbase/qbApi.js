@@ -1,7 +1,7 @@
 let apiCallClientDataForUniqueYears = {
   act: "API_DoQuery",
-  query: `{29.EX.${ClientRid}}`,
-  clist: "29.191.31",
+  query: `{533.EX.${ClientRid}}`,
+  clist: "533.640.539",
 };
 
 $.get(clientData, apiCallClientDataForUniqueYears)
