@@ -185,10 +185,7 @@
                   Minimize Sidebar
                 </h3>
               </div>
-              <div
-                data-popper-arrow
-                class="bg-gray-300 dark:bg-gray-700"
-              ></div>
+              <div data-popper-arrow class="bg-gray-300 dark:bg-gray-700"></div>
             </div>
           </div>
           <!-- Middle Lower (Option Buttons) -->
@@ -398,7 +395,7 @@
     </nav>
     <!-- MAIN BODY -->
     <div
-      class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900 h-screen"
+      class="flex pt-32 overflow-hidden bg-gray-50 dark:bg-gray-900 h-screen"
     >
       <!-- SIDEBAR -->
       <aside
@@ -414,7 +411,8 @@
             >
               <ul class="pb-2 space-y-2">
                 <li>
-                  <button id="cfiLink"
+                  <button
+                    id="cfiLink"
                     data-popover-target="popoverCfi-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
@@ -457,7 +455,8 @@
                 </li>
                 <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
                 <li>
-                  <button id="doeLink"
+                  <button
+                    id="doeLink"
                     data-popover-target="popoverDoe-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
@@ -503,7 +502,8 @@
                 </li>
                 <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
                 <li>
-                  <button id="financialAnalysisLink"
+                  <button
+                    id="financialAnalysisLink"
                     data-popover-target="popoverFinancialAnalysis-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
@@ -561,7 +561,15 @@
         id="main-content"
         class="relative w-full h-full overflow-y-auto bg-gray-200 dark:bg-gray-900 transition-width duration-500 ease-in-out ml-64"
       >
-        <main class="px-4 pt-6 grid gap-y-4 dark:text-white"></main>
+        <main class="px-4 pt-6 grid gap-y-4 dark:text-white">
+          <div id="CfiContent" class="tab-content">
+            <h2>CFI Content</h2>
+          </div>
+          <div id="DoeContent" class="tab-content hidden">DOE Content</div>
+          <div id="FinancialAnalysisContent" class="tab-content hidden">
+            Financial Analysis Content
+          </div>
+        </main>
       </div>
     </div>
   </body>
