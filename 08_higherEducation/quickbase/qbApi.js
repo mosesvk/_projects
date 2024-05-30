@@ -10,7 +10,8 @@ $.get(clientData, apiCallClientDataForUniqueYears)
 
     // consozle.log(recordsClient[0]);
 
-    const firmName = recordsClient[0].querySelector("merged_client_name").textContent;
+    const firmName =
+      recordsClient[0].querySelector("merged_client_name").textContent;
     document.getElementById("firmName").textContent = firmName;
 
     // console.log(recordsClient[0].children)
@@ -32,7 +33,6 @@ window.addEventListener("beforeunload", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   // getRecordsForUniqueClientPeerNames();
-
   // addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
   // addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
 });
@@ -379,8 +379,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "Yes",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
-
-
 
       // daysExpensesInNAwithDR
       insertDataIntoObject(
@@ -2065,25 +2063,25 @@ const processMiscData = (years, recordsaPeer, recordsClient) => {
 
 // Helper functions
 
-const countUniqueClients = (records) => {
-  uniqueClients = new Set();
-  try {
-    records.forEach((record) => {
-      const mainRelatedClient = record.querySelector(
-        "pe___client_legal_name"
-      ).textContent;
-      // console.log(mainRelatedClient);
-      uniqueClients.add(mainRelatedClient);
-    });
+// const countUniqueClients = (records) => {
+//   uniqueClients = new Set();
+//   try {
+//     records.forEach((record) => {
+//       const mainRelatedClient = record.querySelector(
+//         "pe___client_legal_name"
+//       ).textContent;
+//       // console.log(mainRelatedClient);
+//       uniqueClients.add(mainRelatedClient);
+//     });
 
-    const count = uniqueClients.size;
-    console.log(count);
-    document.getElementById("uniqueClients").textContent = count;
-  } catch (error) {
-    console.error("Error counting unique clients:", error);
-    document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
-  }
-};
+//     const count = uniqueClients.size;
+//     console.log(count);
+//     document.getElementById("uniqueClients").textContent = count;
+//   } catch (error) {
+//     console.error("Error counting unique clients:", error);
+//     document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
+//   }
+// };
 
 const toggleButtonLoadingState = (btn) => {
   btn.innerHTML = `
@@ -2173,7 +2171,7 @@ run_btn.addEventListener("click", async () => {
     saveSelectedYearsToLocalStorage(selectedYears);
 
     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
-    countUniqueClients(recordsPeer);
+    // countUniqueClients(recordsPeer);
 
     const recordsClient = await getRecordsForClient(selectedYears, "<qdbapi>");
 
@@ -2187,8 +2185,8 @@ run_btn.addEventListener("click", async () => {
     )}</qdbapi>`;
     console.log("PEER", qdbapiElementPeer);
 
-    processApiCalls(selectedYears, recordsPeer, recordsClient);
-    displayComponents();
+    // processApiCalls(selectedYears, recordsPeer, recordsClient);
+    // displayComponents();
   } catch (err) {
     console.error(err);
   } finally {
@@ -2243,14 +2241,14 @@ const getRecordsForPeer = async (years, dataStr) => {
   // {301.EX.${currentYear}} AND
   // ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
   // (${getTypeQuery(selectedTypes_Array)}) AND
-  // (${getRegionQuery(selectedRegions_Array)}) 
+  // (${getRegionQuery(selectedRegions_Array)})
 
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
+    {7.EX.${currentYear}}
     `,
-    clist:
-      "541.549.551.547.553",
+    clist: "7.539.541.549.551.547.553.390.392.396.393.395",
   };
 
   try {
@@ -2339,10 +2337,10 @@ const getRecordsForClient = async (years, dataStr) => {
   const apiCallClientData = {
     act: "API_DoQuery",
     query: `
-	{192.EX.${currentYear}} AND
-	{29.EX.${ClientRid}}`,
+	    {7.EX.${currentYear}} AND
+	    {533.EX.${ClientRid}}`,
     clist:
-      "580.578.576.577.578.579.712.725.722.719.714.726.723.720.717.724.721.718.580.576.387.388.569.386.632.551.550.551.406.578.561.418.579.387.388.567.441.386",
+      "539.536.619.537.618.534.539.580.578.576.577.578.579.712.725.722.719.714.726.723.720.717.724.721.718.580.576.387.388.569.386.632.551.550.551.406.578.561.418.579.387.388.567.441.386.540.541.542.540.541.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.570.571.572.",
   };
 
   try {
