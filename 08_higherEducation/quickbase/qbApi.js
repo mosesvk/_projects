@@ -8,21 +8,21 @@ $.get(clientData, apiCallClientDataForUniqueYears)
   .then(async (xml) => {
     recordsClient = await $("record", xml).toArray();
 
-    console.log(recordsClient[0]);
+    // consozle.log(recordsClient[0]);
 
     const firmName = recordsClient[0].querySelector("merged_client_name").textContent;
     document.getElementById("firmName").textContent = firmName;
 
     // console.log(recordsClient[0].children)
 
-    // if (recordsClient.length > 0) {
-    //   findUniqueYears(recordsClient);
-    //   dataClient = recordsClient[0].children;
-    // } else {
-    //   console.error(
-    //     "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
-    //   );
-    // }
+    if (recordsClient.length > 0) {
+      findUniqueYears(recordsClient);
+      dataClient = recordsClient[0].children;
+    } else {
+      console.error(
+        "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
+      );
+    }
   })
   .catch((err) => console.error(err));
 
@@ -31,16 +31,16 @@ window.addEventListener("beforeunload", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  getRecordsForUniqueClientPeerNames();
+  // getRecordsForUniqueClientPeerNames();
 
-  addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
-  addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
+  // addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
+  // addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
 });
 
 const findUniqueYears = (data) => {
   if (data) {
     data.forEach((item) => {
-      const yearElement = item.querySelector("fiscal_ye_date_formatted_year");
+      const yearElement = item.querySelector("year");
       if (yearElement) {
         const year = yearElement.textContent;
 
@@ -2240,16 +2240,17 @@ const getRecordsForPeer = async (years, dataStr) => {
   // AND
   // (${getClientQuery(selectedClients_Array)})
 
+  // {301.EX.${currentYear}} AND
+  // ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
+  // (${getTypeQuery(selectedTypes_Array)}) AND
+  // (${getRegionQuery(selectedRegions_Array)}) 
+
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
-      {301.EX.${currentYear}} AND
-      ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
-      (${getTypeQuery(selectedTypes_Array)}) AND
-      (${getRegionQuery(selectedRegions_Array)}) 
     `,
     clist:
-      "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347",
+      "541.549.551.547.553",
   };
 
   try {
@@ -2341,7 +2342,7 @@ const getRecordsForClient = async (years, dataStr) => {
 	{192.EX.${currentYear}} AND
 	{29.EX.${ClientRid}}`,
     clist:
-      "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213",
+      "580.578.576.577.578.579.712.725.722.719.714.726.723.720.717.724.721.718.580.576.387.388.569.386.632.551.550.551.406.578.561.418.579.387.388.567.441.386",
   };
 
   try {
