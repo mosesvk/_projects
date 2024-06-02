@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const recordsClient = await fetchClientData();
 
   document.getElementById("firmName").textContent =
-    recordsClient[0].children[43].innerHTML;
+    recordsClient[0].querySelector("pe___client_legal_name").textContent;
 
   findUniqueYears(recordsClient);
 
@@ -382,8 +382,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "Yes",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
-
-
 
       // daysExpensesInNAwithDR
       insertDataIntoObject(
@@ -898,7 +896,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "cashFlowsTrendFinancing_Client",
         record,
-        "_03_01cashflow___03_financing"
+        "c02_10a_ratio_cash_flows_trend___financing"
       );
 
       // cashFlowsTrendInvesting
@@ -908,7 +906,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "cashFlowsTrendInvesting_Client",
         record,
-        "_03_01cashflow___02_investing"
+        "c02_10b_ratio_cash_flows_trend___investing"
       );
 
       // cashFlowsTrendOperating
@@ -918,7 +916,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "cashFlowsTrendOperating_Client",
         record,
-        "_03_01cashflow___01_operating"
+        "c02_10c_ratio_cash_flows_trend___operating"
       );
 
       // cashFlowsTrendTotal
@@ -2159,7 +2157,6 @@ const displayComponents = () => {
   displayIncomeComponent();
   displayExpenseComponent();
   displayReportComponent();
-
 };
 
 const run_btn = document.querySelector("#run");

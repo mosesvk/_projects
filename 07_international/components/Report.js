@@ -23,11 +23,11 @@ const displayReportComponent = () => {
         ['daysExpensesInUnrestrictedNA_excludingPPE', 'num', 0, 'wa', null, [9, 47, 85, 123], null, null],
         ['daysExpensesInNAwithDR', 'num', 0, 'wa', null, [10, 48, 86, 124], null, null],
         ['daysExpensesInNAwithDR_excludingPPE', 'num', 0, 'wa', null, [11, 49, 87, 125], null, null],
-        ['liquidityFundsAvailable', 'dollar', 1, 'wa', null, [12, 50, 88, 126], null, null],
+        ['liquidityFundsAvailable', 'num', 1, 'wa', null, [12, 50, 88, 126], null, null],
         ['financialAssetsAvailableFY', 'dollar', 0, 'wa', null, [13, 51, 89, 127], null, null],
         ['daysFinancialAssetsOnHand', 'num', 0, 'wa', null, [14, 52, 90, 128], null, null],
         ['currentRatio', 'num', 1, 'wa', null, [15, 53, 91, 129], null, null],
-        ['totalCoverageRatio', 'dollar', 2, 'wa', null, [16, 54, 92, 130], null, null],
+        ['totalCoverageRatio', 'num', 1, 'wa', null, [16, 54, 92, 130], null, null],
         ['cashFlowsTrendFinancing', 'dollar', 0, null, null, [17, 55, 93, 131], null, null],
         ['cashFlowsTrendInvesting', 'dollar', 0, null, null, [18, 56, 94, 132], null, null],
         ['cashFlowsTrendOperating', 'dollar', 0, null, null, [19, 57, 95, 133], null, null],
@@ -277,8 +277,7 @@ const addPeerDataToRow = (
     avg = 0;
   }
 
-  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name, avg });
-  
+  // console.log(name, { tableRow, peer, type, fixedNum, dataArray, wa, data, avg });
   
   const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
   const dataPointMid = document.createElement("th");
@@ -286,14 +285,19 @@ const addPeerDataToRow = (
   // console.log('mid', mid);
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement("th");
-  const min = peer ? parseFloat(get25thPercentileOfArray(peer[dataArray])) : '';
-  // if (name == 'salariesBenefitsTeachersAsPercentNetTuition_Salaries') console.log('salariesBenefitsTeachersAsPercentNetTuition_Salaries', {min, peerArray: peer[dataArray], type, fixedNum})
+  let min
+  if (name == 'daysCashOnHand') {
+    min = peer ? parseFloat(get25thPercentileOfArray(peer[dataArray], name)) : '';
+  } else {
+    min = peer ? parseFloat(get25thPercentileOfArray(peer[dataArray])) : '';
+  }
+  // if (name == 'daysCashOnHand') console.log('daysCashOnHand', {min, peerArray: peer[dataArray], type, fixedNum})
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
   const max = peer ? parseFloat(get75thPercentileOfArray(peer[dataArray])) : '';
   const textMax = styleNumber(max, type, fixedNum);
 
-  // console.log({ tableRow, fixedNum, avg, mid, min, textMin, max, textMax });
+  // console.log(name, { tableRow, fixedNum, wa, avg, mid, min, textMin, max, textMax, peer, dataArray });
 
   dataPointAvg.className = propClass;
   dataPointAvg.scope = propScope;
@@ -315,7 +319,7 @@ const addPeerDataToRow = (
   dataPointMax.textContent = textMax;
   tableRow.appendChild(dataPointMax);
 
-  if (fIdArray) createFileForPrint(name, fIdArray, begin, end, avg, mid, min, max, peer, data);
+  // if (fIdArray) createFileForPrint(name, fIdArray, begin, end, avg, mid, min, max, peer, data);
 };
 
 const addYearColumnsToReportTable = (years) => {

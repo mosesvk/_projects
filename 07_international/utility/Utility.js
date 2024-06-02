@@ -51,7 +51,7 @@ let sliderAmount = null;
 let sliderRange = null;
 let sliderValue = 0;
 let sliderValue2 = 25000;
-let missionValue = 0
+let missionValue = 0;
 let firmName = "";
 // let amount = null;
 
@@ -206,7 +206,7 @@ const createChartFromParsedData = (
   mainName
 ) => {
   if (parsedData) {
-    // console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
+    // if (mainName == 'functionalExpensePercent_program') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
     createChart(
       chart,
       parsedData[peer],
@@ -317,37 +317,50 @@ const updateCashFlowModal = (
 
       // Add year cell
       const yearCell = document.createElement("td");
-      yearCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      yearCell.className =
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
       yearCell.scope = "row";
       yearCell.textContent = year;
       row.appendChild(yearCell);
 
       // Add operating cell
       const operatingCell = document.createElement("td");
-      operatingCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      operatingCell.className =
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
       operatingCell.scope = "row";
-      operatingCell.textContent = operatingData[year] ? styleNumber(operatingData[year].value, 'dollar') : 0;
+      operatingCell.textContent = operatingData[year]
+        ? styleNumber(operatingData[year].value, "dollar")
+        : 0;
       row.appendChild(operatingCell);
 
       // Add investing cell
       const investingCell = document.createElement("td");
-      investingCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      investingCell.className =
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
       investingCell.scope = "row";
-      investingCell.textContent = investingData[year] ? styleNumber(investingData[year].value, 'dollar') : 0;
+      investingCell.textContent = investingData[year]
+        ? styleNumber(investingData[year].value, "dollar")
+        : 0;
       row.appendChild(investingCell);
 
       // Add financing cell
       const financingCell = document.createElement("td");
-      financingCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      financingCell.className =
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
       financingCell.scope = "row";
-      financingCell.textContent = financingData[year] ? styleNumber(financingData[year].value, 'dollar') : 0;
+      financingCell.textContent = financingData[year]
+        ? styleNumber(financingData[year].value, "dollar")
+        : 0;
       row.appendChild(financingCell);
 
       // Add total cell
       const totalCell = document.createElement("td");
-      totalCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      totalCell.className =
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
       totalCell.scope = "row";
-      totalCell.textContent = totalData[year] ? styleNumber(totalData[year].value, 'dollar') : 0;
+      totalCell.textContent = totalData[year]
+        ? styleNumber(totalData[year].value, "dollar")
+        : 0;
       row.appendChild(totalCell);
 
       // Append the row to the table
@@ -452,6 +465,7 @@ const closeSidebarAfterSelectingOption = (component) => {
 };
 
 const getAverageOfArray = (array) => {
+  array = array.map((val) => Number(val));
   if (array.length === 0) {
     return 0;
   }
@@ -466,6 +480,7 @@ const getMidpointOfArray = (array) => {
   if (array.length === 0) {
     return 0;
   }
+  array = array.map((val) => Number(val));
 
   array.sort((a, b) => a - b); // Sort the array
 
@@ -494,11 +509,17 @@ const OfArray = (array) => {
   return Math.min(...array);
 };
 
-const get25thPercentileOfArray = (array) => {
-  // console.log(array);
+const get25thPercentileOfArray = (array, name) => {
+  // make sure each value is a Number format before calculating
+  array = array.map((val) => Number(val));
+
+
   // Step 1: Sort the array in ascending order
   const sortedArray = array.sort((a, b) => a - b);
   // console.log(sortedArray);
+
+  // if (name) console.log(name, sortedArray);
+
 
   // Step 2: Check if the array has less than or equal to 2 elements
   if (sortedArray.length <= 2) {
@@ -527,6 +548,7 @@ const get25thPercentileOfArray = (array) => {
 };
 
 const get75thPercentileOfArray = (array) => {
+  array = array.map((val) => Number(val));
   // Step 1: Sort the array in ascending order
   const sortedArray = array.sort((a, b) => a - b);
 
@@ -557,6 +579,7 @@ const get75thPercentileOfArray = (array) => {
 };
 
 const getSumOfArray = (array) => {
+  array = array.map((val) => Number(val));
   // console.log(array);
   if (array.length === 0) {
     return 0;
@@ -683,9 +706,17 @@ const getPeerAndClientChartDataArrays = (
   dataPeer,
   dataClient,
   fixedNum,
-  mainName
+  mainName,
+  numType
 ) => {
-  // console.log({ years, dataPeer, dataClient, fixedNum, mainName });
+  // console.log(mainName, {
+  //   years,
+  //   dataPeer,
+  //   dataClient,
+  //   fixedNum,
+  //   mainName,
+  //   numType,
+  // });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
@@ -697,21 +728,32 @@ const getPeerAndClientChartDataArrays = (
     // check if dataPeer is undefined but dataClient is not
 
     if (dataPeer != undefined && dataClient != undefined) {
-      const array = dataPeer[year];
+      const dataArray = dataPeer[year];
+      const array = dataArray.map((item) => Number(item));
       // console.log(array)
-      const avg = getAverageOfArray(array);
-      const mid = getMidpointOfArray(array);
-      const lower25 = get25thPercentileOfArray(array);
-      const higher75 = get75thPercentileOfArray(array);
+      let avg = getAverageOfArray(array);
+      let mid = getMidpointOfArray(array);
+      let lower25 = get25thPercentileOfArray(array);
+      let higher75 = get75thPercentileOfArray(array);
+      let clientNum = Number(dataClient[year].value);
 
-      // console.log({ avg, mid, lower25, higher75 });
+      if (numType === "percent") {
+        avg *= 100;
+        mid *= 100;
+        lower25 *= 100;
+        higher75 *= 100;
+        clientNum *= 100;
+      }
+
+      clientNum.toFixed(fixedNum);
+
+      // console.log(mainName,{ avg, mid, lower25, higher75, fixedNum, numType});
 
       peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
       peerMid.push(parseFloat(mid.toFixed(fixedNum)));
       peer25.push(parseFloat(lower25.toFixed(fixedNum)));
       peer75.push(parseFloat(higher75.toFixed(fixedNum)));
 
-      const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
       clientArray.push(clientNum);
     } else if (dataPeer == undefined && dataClient) {
       peerAvg.push(0);
@@ -719,7 +761,9 @@ const getPeerAndClientChartDataArrays = (
       peer25.push(0);
       peer75.push(0);
 
-      const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
+      let clientNum = Number(dataClient[year].value);
+      if (numType === "percent") clientNum *= 100;
+      clientNum.toFixed(fixedNum);
       clientArray.push(clientNum);
     } else if (dataClient == undefined || dataPeer == undefined) {
       throw new Error(
@@ -973,11 +1017,15 @@ function missionaryRange() {
     missionprice: 0,
     missionthumb: 0,
     missiontrigger() {
-      missionValue = this.missionprice
+      missionValue = this.missionprice;
       let missionValuePercent =
         ((this.missionprice - this.min) / (this.max - this.min)) * 100;
       this.missionthumb =
-        missionValuePercent > 100 ? 100 : missionValuePercent < 0 ? 0 : missionValuePercent;
+        missionValuePercent > 100
+          ? 100
+          : missionValuePercent < 0
+          ? 0
+          : missionValuePercent;
     },
   };
 }

@@ -1,4 +1,4 @@
-let cashFlowsTrendChart
+// let cashFlowsTrendChart
 
 displayGeneralComponent = (data) => {
   const savedData = getStoredData("cashData");
@@ -96,7 +96,7 @@ displayIncomeComponent = (data) => {
     "contributionsTrend_chart",
     "contributionsTrend_Peer",
     "contributionsTrend_Client",
-    "currency",
+    "percent",
     0,
     "contributionsTrend"
   );
@@ -107,7 +107,7 @@ displayIncomeComponent = (data) => {
     "annualizedInvestmentReturn_chart",
     "annualizedInvestmentReturn_Peer",
     "annualizedInvestmentReturn_Client",
-    "currency",
+    "percent",
     0,
     "annualizedInvestmentReturn"
   );

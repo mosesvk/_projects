@@ -32,10 +32,11 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
       dataPeer,
       dataClient,
       fixedNum, 
-      mainName
+      mainName,
+      numType
     ));
 
-  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
+    // console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 })
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {

@@ -557,7 +557,9 @@ const daysCashOnHand_weightedAverage = (data, name) => {
     const totalExpenses = getSumOfArray(data.totalExpenses[name]);
     const depreciationAndAmortization = getSumOfArray(data.depreciationAndAmortization[name]);
 
-    const denominator = totalExpenses - depreciationAndAmortization / 365;
+    // console.log({cashAndCashEquivalents, totalExpenses, depreciationAndAmortization});
+
+    const denominator = (totalExpenses - depreciationAndAmortization) / 365;
 
     return denominator > 0 ? cashAndCashEquivalents / denominator : 0;
 }
