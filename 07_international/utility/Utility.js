@@ -61,6 +61,7 @@ const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();
 let selectedSchoolChurch_Selected;
+let charts_Array = [];
 
 // Utility Functions
 
@@ -237,6 +238,7 @@ const createChart = (
   );
 
   chart.render();
+  charts_Array.push(chart);
 
   // init again when toggling dark mode
   document.addEventListener("dark-mode", function () {
@@ -1202,3 +1204,12 @@ document.querySelector("#sidebar ul").addEventListener("click", function () {
     }
   });
 });
+
+// Function to destroy all existing charts
+const destroyAllCharts = () => {
+  if (!charts_Array) return;
+  charts_Array.forEach(chart => {
+    chart.destroy();
+  });
+  charts_Array = []; // Clear the chart instances array
+};

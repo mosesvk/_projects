@@ -2164,9 +2164,11 @@ const recordPeerHTMLArray = [];
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
   try {
+
     // uploadMainFile = "";
     // document.getElementById("print_modal_footer").classList.add("hidden");
     toggleButtonLoadingState(run_btn);
+    localStorage.clear();
     const selectedYears = processSelectedYears();
     saveSelectedYearsToLocalStorage(selectedYears);
 

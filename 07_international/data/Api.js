@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
   addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
 
+  resetSelectedYears()
   localStorage.clear();
 });
 
@@ -2161,6 +2162,7 @@ const displayComponents = () => {
 
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
+  // destroyAllCharts()
   // uploadMainFile = ''
   // document.getElementById('print_modal_footer').classList.add('hidden');
   const recordsClient = await fetchClientData();
