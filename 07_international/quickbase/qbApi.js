@@ -123,7 +123,6 @@ const insertDataIntoObject = (
   }
 };
 
-
 const processGeneralData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
@@ -1186,8 +1185,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_basedOnNumberOfDonors_Peer",
         record,
-        "__c04_02_ratio_contributions_trend_based_on_donor_count",
-        "c04_02_yes_no_contributions_trend_based_on_donor_count"
+        "0"
       );
 
       // contributionsTrend
@@ -1197,8 +1195,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_Peer",
         record,
-        "__c04_03_ratio_contributions_trend",
-        "c04_03_yes_no_contributions_trend"
+        "0"
       );
 
       // contributionsPercentWithoutDR
@@ -1434,28 +1431,8 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "annualizedInvestmentReturn_Peer",
         record,
-        "__c04_10_ratio_annualized_investment_return",
-        "c04_10_yes_no_annualized_investment_return"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "investmentIncome",
-        record,
-        "_02_01sr___03_investment_income",
-        "c04_10_yes_no_annualized_investment_return",
-        "annualizedInvestmentReturn"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "Investments",
-        record,
-        "_01__01ass___03_investments",
-        "c04_10_yes_no_annualized_investment_return",
-        "annualizedInvestmentReturn"
+        "0",
+        "Yes"
       );
     });
 
@@ -2259,14 +2236,14 @@ const getRecordsForPeer = async (years, dataStr) => {
   getClientQuery(selectedClients_Array);
   // AND
   // (${getClientQuery(selectedClients_Array)})
+  // ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
+  // (${getTypeQuery(selectedTypes_Array)}) AND
+  // (${getRegionQuery(selectedRegions_Array)}) 
 
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
-      {301.EX.${currentYear}} AND
-      ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
-      (${getTypeQuery(selectedTypes_Array)}) AND
-      (${getRegionQuery(selectedRegions_Array)}) 
+      {301.EX.${currentYear}}
     `,
     clist:
       "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347.343.346.244.205.341.342.344.345",

@@ -89,29 +89,17 @@ const getMainChartOptions = (
         stacked: false,
         data: peerAvg,
         yaxis: 0,
-        style: {
-          colors: ["transparent"], // Set the line color to transparent
-        },
-        fill: {
-          type: "gradient",
-          gradient: {
-            shadeIntensity: 1,
-            opacityFrom: 0.7,
-            opacityTo: 0.9,
-            stops: [0, 80, 80],
-          },
-        },
-      },
-      {
-        name: "Midpoint",
-        type: "line",
-        data: peerMid,
-        visible: false,
       },
       {
         name: "25%",
         type: "line",
         data: peer25,
+        visible: false,
+      },
+      {
+        name: "50%",
+        type: "line",
+        data: peerMid,
         visible: false,
       },
       {
@@ -232,13 +220,6 @@ const getCashFlowChartOptions = (
     financeData,
     totalData
   );
-
-  // console.log({
-  //   finance: financeData,
-  //   investing: investingData,
-  //   operating: operatingData,
-  //   total: totalData,
-  // });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {

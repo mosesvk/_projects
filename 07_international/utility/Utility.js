@@ -15,7 +15,7 @@ const regions_Array = [
   {
     arr: ["Australia"],
     str: "MT",
-  }
+  },
 ];
 
 // Mission Sending
@@ -417,7 +417,7 @@ function updateModal(mainName, avgData, clientData) {
     headerRow.appendChild(avgColumn);
 
     // Add the remaining columns
-    const columns = ["25%","50%", "75%"];
+    const columns = ["25%", "50%", "75%"];
     columns.forEach((column) => {
       const col = document.createElement("th");
       col.className = "px-6 py-3";
@@ -485,7 +485,6 @@ const getAverageOfArray = (array) => {
   return avg;
 };
 
-
 const getMidpointOfArray = (array) => {
   // console.log(array);
   if (array.length === 0) {
@@ -520,13 +519,11 @@ const get25thPercentileOfArray = (array, name) => {
   // make sure each value is a Number format before calculating
   array = array.map((val) => Number(val));
 
-
   // Step 1: Sort the array in ascending order
   const sortedArray = array.sort((a, b) => a - b);
   // console.log(sortedArray);
 
   // if (name) console.log(name, sortedArray);
-
 
   // Step 2: Check if the array has less than or equal to 2 elements
   if (sortedArray.length <= 2) {
@@ -539,7 +536,7 @@ const get25thPercentileOfArray = (array, name) => {
 
   // Step 3: Calculate the index for the 25th percentile
   const index = (sortedArray.length + 1) * 0.25;
-  
+
   // Step 4: Check if the index is an integer
   if (Number.isInteger(index)) {
     // If it's an integer, return the value at that index
@@ -551,7 +548,6 @@ const get25thPercentileOfArray = (array, name) => {
     const upperIndex = Math.ceil(index);
     const lowerValue = Number(sortedArray[lowerIndex - 1]);
     const upperValue = Number(sortedArray[upperIndex - 1]);
-    // if (name) console.log(name, { lowerValue, upperValue });
     return (lowerValue + upperValue) / 2;
   }
 };
@@ -597,43 +593,47 @@ const getSumOfArray = (array) => {
   return array.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
 };
 
-const calculateAveragePercentageChange = (values) => {
-  // console.log(values);
-  // console.log('---');
+function calculatePercentiles(arr, type) {
+  // Convert string values to numbers
+  let numericArr = arr.map((value) => parseFloat(value));
 
-  const years = Object.keys(values);
-  const numberOfYears = years.length;
+  // console.log(numericArr);
 
-  if (numberOfYears < 2) {
-    return 0.0; // No change if there are fewer than two years
+  if (type == "percent") {
+    numericArr = arr.map((value) => parseInt(value * 100));
+  } else {
+    numericArr = arr.map((value) => parseFloat(value));
   }
 
-  let totalChange = 0;
+  console.log(numericArr);
 
-  for (let i = 1; i < numberOfYears; i++) {
-    const year = years[i];
-    const previousYear = years[i - 1];
+  // Sort the array in ascending order
+  const sortedArr = numericArr.slice().sort((a, b) => a - b);
 
-    const initialValue = parseFloat(values[previousYear][0]);
-    const finalValue = parseFloat(values[year][0]);
+  // console.log(sortedArr);
 
-    if (initialValue === 0) {
-      if (finalValue === 0) {
-        continue; // No change if both initial and final values are zero
-      } else {
-        totalChange = Infinity; // Handle division by zero
-        break;
-      }
+  const getPercentile = (percentile) => {
+    const index = (percentile / 100) * (sortedArr.length - 1);
+    const lowerIndex = Math.floor(index);
+    const upperIndex = Math.ceil(index);
+
+    if (lowerIndex === upperIndex) {
+      return sortedArr[lowerIndex];
     }
 
-    const change = ((finalValue - initialValue) / Math.abs(initialValue)) * 100;
-    totalChange += change;
-  }
+    const lowerValue = sortedArr[lowerIndex];
+    const upperValue = sortedArr[upperIndex];
+    const fraction = index - lowerIndex;
 
-  const averagePercentageChange = totalChange / (numberOfYears - 1);
+    return lowerValue + fraction * (upperValue - lowerValue);
+  };
 
-  return averagePercentageChange ? averagePercentageChange.toFixed(1) : 0; // Ensure one decimal point
-};
+  const q1 = getPercentile(25);
+  const median = getPercentile(50);
+  const q3 = getPercentile(75);
+
+  return [q1, median, q3];
+}
 
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
@@ -1240,7 +1240,7 @@ document.querySelector("#sidebar ul").addEventListener("click", function () {
 // Function to destroy all existing charts
 const destroyAllCharts = () => {
   if (!charts_Array) return;
-  charts_Array.forEach(chart => {
+  charts_Array.forEach((chart) => {
     chart.destroy();
   });
   charts_Array = []; // Clear the chart instances array
