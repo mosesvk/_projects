@@ -123,6 +123,7 @@ const insertDataIntoObject = (
   }
 };
 
+
 const processGeneralData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
@@ -377,8 +378,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "Yes",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
-
-
 
       // daysExpensesInNAwithDR
       insertDataIntoObject(
@@ -1187,7 +1186,8 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_basedOnNumberOfDonors_Peer",
         record,
-        "0"
+        "__c04_02_ratio_contributions_trend_based_on_donor_count",
+        "c04_02_yes_no_contributions_trend_based_on_donor_count"
       );
 
       // contributionsTrend
@@ -1197,7 +1197,8 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_Peer",
         record,
-        "0"
+        "__c04_03_ratio_contributions_trend",
+        "c04_03_yes_no_contributions_trend"
       );
 
       // contributionsPercentWithoutDR
@@ -1433,8 +1434,28 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "annualizedInvestmentReturn_Peer",
         record,
-        "0",
-        "Yes"
+        "__c04_10_ratio_annualized_investment_return",
+        "c04_10_yes_no_annualized_investment_return"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "investmentIncome",
+        record,
+        "_02_01sr___03_investment_income",
+        "c04_10_yes_no_annualized_investment_return",
+        "annualizedInvestmentReturn"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "Investments",
+        record,
+        "_01__01ass___03_investments",
+        "c04_10_yes_no_annualized_investment_return",
+        "annualizedInvestmentReturn"
       );
     });
 
@@ -1991,7 +2012,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("expenseData", JSON.stringify(object));
 };
 
-const processMiscData = (years, recordsaPeer, recordsClient) => {
+const processMiscData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
   years.forEach((year) => {
@@ -2111,7 +2132,7 @@ const toggleGenerateReportButtonNormalState = (btn) => {
 const processSelectedYears = () => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  // console.log(selectedYears);
+  console.log({selectedYears});
 
   if (!selectedYears) {
     createToastWarning("Please select year(s) for data to appear");
@@ -2168,10 +2189,9 @@ run_btn.addEventListener("click", async () => {
     // uploadMainFile = "";
     // document.getElementById("print_modal_footer").classList.add("hidden");
     toggleButtonLoadingState(run_btn);
-    localStorage.clear();
     const selectedYears = processSelectedYears();
     saveSelectedYearsToLocalStorage(selectedYears);
-
+    
     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
     countUniqueClients(recordsPeer);
 
@@ -2249,7 +2269,7 @@ const getRecordsForPeer = async (years, dataStr) => {
       (${getRegionQuery(selectedRegions_Array)}) 
     `,
     clist:
-      "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347",
+      "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347.343.346.244.205.341.342.344.345",
   };
 
   try {
@@ -2341,7 +2361,7 @@ const getRecordsForClient = async (years, dataStr) => {
 	{192.EX.${currentYear}} AND
 	{29.EX.${ClientRid}}`,
     clist:
-      "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213",
+      "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42",
   };
 
   try {

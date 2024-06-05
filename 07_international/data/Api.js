@@ -1191,7 +1191,8 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_basedOnNumberOfDonors_Peer",
         record,
-        "0"
+        "__c04_02_ratio_contributions_trend_based_on_donor_count",
+        "c04_02_yes_no_contributions_trend_based_on_donor_count"
       );
 
       // contributionsTrend
@@ -1201,7 +1202,8 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_Peer",
         record,
-        "0"
+        "__c04_03_ratio_contributions_trend",
+        "c04_03_yes_no_contributions_trend"
       );
 
       // contributionsPercentWithoutDR
@@ -1437,8 +1439,28 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "annualizedInvestmentReturn_Peer",
         record,
-        "0",
-        "Yes"
+        "__c04_10_ratio_annualized_investment_return",
+        "c04_10_yes_no_annualized_investment_return"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "investmentIncome",
+        record,
+        "_02_01sr___03_investment_income",
+        "c04_10_yes_no_annualized_investment_return",
+        "annualizedInvestmentReturn"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "Investments",
+        record,
+        "_01__01ass___03_investments",
+        "c04_10_yes_no_annualized_investment_return",
+        "annualizedInvestmentReturn"
       );
     });
 
@@ -2068,16 +2090,17 @@ const processMiscData = (years, recordsPeer, recordsClient) => {
 // Helper functions
 
 const countUniqueClients = (records) => {
-  uniqueClients = new Set();
+  const uniqueClients = new Set();
   try {
     records.forEach((record) => {
-      const mainRelatedClient = record.querySelector(
-        "pe___client_legal_name"
-      ).textContent;
-      // console.log(mainRelatedClient);
-      uniqueClients.add(mainRelatedClient);
+      const fiscalYear = record.querySelector("fiscal_ye_date_formatted_year_text").textContent;
+      if (selectedYears_Set.has(fiscalYear)) {
+        const mainRelatedClient = record.querySelector("pe___client_legal_name").textContent;
+        uniqueClients.add(mainRelatedClient);
+      }
     });
 
+    console.log(uniqueClients);
     const count = uniqueClients.size;
     console.log(count);
     document.getElementById("uniqueClients").textContent = count;
@@ -2086,6 +2109,7 @@ const countUniqueClients = (records) => {
     document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
   }
 };
+
 
 const toggleButtonLoadingState = (btn) => {
   btn.innerHTML = `

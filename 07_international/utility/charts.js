@@ -1,4 +1,10 @@
-const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainName) => {
+const getMainChartOptions = (
+  dataPeer,
+  dataClient,
+  numType,
+  fixedNum = 0,
+  mainName
+) => {
   // console.log('-----')
   // console.log('getMainChartOptions()')
 
@@ -31,12 +37,12 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
       selectedYearsArray,
       dataPeer,
       dataClient,
-      fixedNum, 
+      fixedNum,
       mainName,
       numType
     ));
 
-    // console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 })
+  // console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 })
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {
@@ -192,6 +198,17 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
         barHeight: "90%",
       },
     },
+    toolbar: {
+      show: false,
+      tools: {
+        download: true,
+        selection: false,
+        zoom: false,
+        zoomin: false,
+        zoomout: false,
+        pan: false,
+      },
+    },
   };
 };
 
@@ -345,6 +362,17 @@ const getCashFlowChartOptions = (
     plotOptions: {
       bar: {
         barHeight: "90%",
+      },
+    },
+    toolbar: {
+      show: false,
+      tools: {
+        download: true,
+        selection: false,
+        zoom: false,
+        zoomin: false,
+        zoomout: false,
+        pan: false,
       },
     },
   };

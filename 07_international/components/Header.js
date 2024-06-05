@@ -100,6 +100,7 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionArray) => {
     "class",
     "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
   );
+  selectAllInput.checked = true; // Check "Select All" by default
 
   const selectAllSpan = document.createElement("span");
   selectAllSpan.setAttribute("id", "select-all-text");
@@ -119,6 +120,12 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionArray) => {
     );
     regionCheckboxes.forEach((checkbox) => {
       checkbox.checked = isChecked;
+      const regionString = checkbox.value;
+      if (isChecked) {
+        selectedRegions_Array.add(regionString);
+      } else {
+        selectedRegions_Array.delete(regionString);
+      }
     });
   });
 
@@ -144,7 +151,7 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionArray) => {
 
     // Add the value to selectedRegions_Array and check the input by default
     selectedRegions_Array.add(regionString);
-    newInput.checked = false;
+    newInput.checked = true;
 
     const newSpan = document.createElement("span");
     newSpan.innerText = regionName;
@@ -153,44 +160,19 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = (regionArray) => {
     newLabel.appendChild(newSpan);
 
     optionsListRegion.appendChild(newLabel);
-  });
 
-  // Add event listeners to other checkboxes
-  const regionLabels = document.querySelectorAll("#options-list-region label");
-  regionLabels.forEach((label, index) => {
-    const input = label.querySelector("input");
-    const regionString = label.querySelector("input").value;
-
-    input.addEventListener("change", function () {
-      if (input.checked && !selectedRegions_Array.has(regionString)) {
-        // Handle when the region is selected
+    // Add change event listener to input to update selectedRegions_Array
+    newInput.addEventListener("change", function () {
+      if (newInput.checked) {
         selectedRegions_Array.add(regionString);
-      } else if (input.checked && selectedRegions_Array.has(regionString)) {
-        // loop through regionLabels again to find any unchecked inputs, if so, delete from selectedRegions_Array
-        regionLabels.forEach((label) => {
-          const input = label.querySelector("input");
-          const regionString = label.querySelector("input").value;
-          if (!input.checked) {
-            selectedRegions_Array.delete(regionString);
-          }
-        });
       } else {
         selectedRegions_Array.delete(regionString);
-        // check if all inputs are unchecked, if so, make sure selectedRegions_Array contains all regions
-        let allUnchecked = true;
-        regionLabels.forEach((label) => {
-          const input = label.querySelector("input");
-          if (input.checked) {
-            allUnchecked = false;
-          }
-        });
-        if (allUnchecked) {
-          regionLabels.forEach((label) => {
-            const regionString = label.querySelector("input").value;
-            selectedRegions_Array.add(regionString);
-          });
-        }
       }
+      // Update "Select All" checkbox based on individual checkboxes
+      const allChecked = Array.from(document.querySelectorAll("#options-list-region input[type='checkbox']"))
+        .slice(1) // Exclude the "Select All" checkbox
+        .every(input => input.checked);
+      selectAllInput.checked = allChecked;
     });
   });
 };
@@ -213,6 +195,7 @@ const addUniqueTypesToOptionsSelectTypeDropdown = (typeArray) => {
     "class",
     "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
   );
+  selectAllInput.checked = true; // Check "Select All" by default
 
   const selectAllSpan = document.createElement("span");
   selectAllSpan.setAttribute("id", "select-all-text-type");
@@ -232,6 +215,12 @@ const addUniqueTypesToOptionsSelectTypeDropdown = (typeArray) => {
     );
     typeCheckboxes.forEach((checkbox) => {
       checkbox.checked = isChecked;
+      const typeString = checkbox.value;
+      if (isChecked) {
+        selectedTypes_Array.add(typeString);
+      } else {
+        selectedTypes_Array.delete(typeString);
+      }
     });
   });
 
@@ -257,7 +246,7 @@ const addUniqueTypesToOptionsSelectTypeDropdown = (typeArray) => {
 
     // Add the value to selectedTypes_Array and check the input by default
     selectedTypes_Array.add(typeString);
-    newInput.checked = false;
+    newInput.checked = true;
 
     const newSpan = document.createElement("span");
     newSpan.innerText = typeName;
@@ -267,53 +256,18 @@ const addUniqueTypesToOptionsSelectTypeDropdown = (typeArray) => {
 
     optionsListType.appendChild(newLabel);
 
-    // Add click event listener to label to toggle checkbox
-    newLabel.addEventListener("click", function () {
-      newInput.checked = !newInput.checked; // Toggle checkbox
+    // Add change event listener to input to update selectedTypes_Array
+    newInput.addEventListener("change", function () {
       if (newInput.checked) {
-        selectedTypes_Array.add(typeString); // Add to selectedTypes_Array if checked
-      } else {
-        selectedTypes_Array.delete(typeString); // Remove from selectedTypes_Array if unchecked
-      }
-    });
-  });
-
-  // Add event listeners to other checkboxes
-  const typeLabels = document.querySelectorAll("#options-list-type label");
-  typeLabels.forEach((label, index) => {
-    const input = label.querySelector("input");
-    const typeString = label.querySelector("input").value;
-
-    input.addEventListener("change", function () {
-      if (input.checked && !selectedTypes_Array.has(typeString)) {
-        // Handle when the type is selected
         selectedTypes_Array.add(typeString);
-      } else if (input.checked && selectedTypes_Array.has(typeString)) {
-        // loop through typeLabels again to find any unchecked inputs, if so, delete from selectedTypes_Array
-        typeLabels.forEach((label) => {
-          const input = label.querySelector("input");
-          const typeString = label.querySelector("input").value;
-          if (!input.checked) {
-            selectedTypes_Array.delete(typeString);
-          }
-        });
       } else {
         selectedTypes_Array.delete(typeString);
-        // check if all inputs are unchecked, if so, make sure selectedTypes_Array contains all types
-        let allUnchecked = true;
-        typeLabels.forEach((label) => {
-          const input = label.querySelector("input");
-          if (input.checked) {
-            allUnchecked = false;
-          }
-        });
-        if (allUnchecked) {
-          typeLabels.forEach((label) => {
-            const typeString = label.querySelector("input").value;
-            selectedTypes_Array.add(typeString);
-          });
-        }
       }
+      // Update "Select All" checkbox based on individual checkboxes
+      const allChecked = Array.from(document.querySelectorAll("#options-list-type input[type='checkbox']"))
+        .slice(1) // Exclude the "Select All" checkbox
+        .every(input => input.checked);
+      selectAllInput.checked = allChecked;
     });
   });
 };
@@ -360,6 +314,7 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientSet) => {
     "class",
     "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
   );
+  selectAllInput.checked = true; // Check "Select All" by default
 
   const selectAllSpan = document.createElement("span");
   selectAllSpan.setAttribute("id", "select-all-text-client");
@@ -379,6 +334,12 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientSet) => {
     );
     clientCheckboxes.forEach((checkbox) => {
       checkbox.checked = isChecked;
+      const clientString = checkbox.value;
+      if (isChecked) {
+        selectedClients_Array.add(clientString);
+      } else {
+        selectedClients_Array.delete(clientString);
+      }
     });
   });
 
@@ -412,44 +373,23 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientSet) => {
     newListItem.appendChild(newDiv);
 
     optionsListClient.appendChild(newListItem);
-  });
 
-  // Function to update selectedClients_Array
-  const clientDivs = document.querySelectorAll("#options-list-client li div");
-  clientDivs.forEach((div) => {
-    const input = div.querySelector("input");
-    const clientString = div.querySelector("label").textContent;
+    // Add the value to selectedClients_Array and check the input by default
+    selectedClients_Array.add(clientString);
+    newInput.checked = true;
 
-    input.addEventListener("change", function () {
-      if (input.checked && !selectedClients_Array.has(clientString)) {
-        // Handle when the type is selected
+    // Add change event listener to input to update selectedClients_Array
+    newInput.addEventListener("change", function () {
+      if (newInput.checked) {
         selectedClients_Array.add(clientString);
-      } else if (input.checked && selectedClients_Array.has(clientString)) {
-        // loop through clientDivs again to find any unchecked inputs, if so, delete from selectedClients_Array
-        clientDivs.forEach((div) => {
-          const input = div.querySelector("input");
-          const clientString = div.querySelector("label").textContent;
-          if (!input.checked) {
-            selectedClients_Array.delete(clientString);
-          }
-        });
       } else {
         selectedClients_Array.delete(clientString);
-        // check if all inputs are unchecked, if so, make sure selectedClients_Array contains all types
-        let allUnchecked = true;
-        clientDivs.forEach((label) => {
-          const input = label.querySelector("input");
-          if (input.checked) {
-            allUnchecked = false;
-          }
-        });
-        if (allUnchecked) {
-          clientDivs.forEach((div) => {
-            const clientString = div.querySelector("label").textContent;
-            selectedClients_Array.add(clientString);
-          });
-        }
       }
+      // Update "Select All" checkbox based on individual checkboxes
+      const allChecked = Array.from(document.querySelectorAll("#options-list-client input[type='checkbox']"))
+        .slice(1) // Exclude the "Select All" checkbox
+        .every(input => input.checked);
+      selectAllInput.checked = allChecked;
     });
   });
 };

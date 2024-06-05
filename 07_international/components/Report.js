@@ -56,7 +56,6 @@ const displayReportComponent = () => {
       ['functionalExpensePercent_program', 'percent', 0, 'wa', null, [33, 71, 109, 147], null, null],
       ['functionalExpensePercent_administrative', 'percent', 0, 'wa', null, [34, 72, 110, 148], null, null],
       ['functionalExpensePercent_fundraising', 'percent', 0, 'wa', null, [35, 73, 111, 149], null, null],
-      ['functionalExpensePercent_other', 'percent', 0, 'wa', null, [36, 74, 112, 150], null, null],
       ['costOfContributions', 'dollar', 2, 'wa', null, [37, 75, 113, 151], null, null],
       ['expensesPerGivingUnit', 'dollar', 0, 'wa', null, [38, 76, 114, 152], null, null],
       ['expensesPerMissionaryUnit', 'dollar', 0, 'wa', null, [39, 77, 115, 153], null, null],
@@ -273,9 +272,15 @@ const addPeerDataToRow = (
     avg = parseFloat(getWeightedAverageOfArray(data, name));
   } else if (peer && !wa) {
     avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+    
   } else {
     avg = 0;
   }
+
+// Ensure avg is not NaN
+if (isNaN(avg)) {
+  avg = 0;
+}
 
   // console.log(name, { tableRow, peer, type, fixedNum, dataArray, wa, data, avg });
   

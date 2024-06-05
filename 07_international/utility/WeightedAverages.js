@@ -41,6 +41,8 @@ const getWeightedAverageOfArray = (data, name) => {
         return contributionsPerFullTimeEquivalent_weightedAverage(data, name);
     case 'fundraisingAsPercentOfContributions':
         return fundraisingAsPercentOfContributions_weightedAverage(data, name);
+    case 'annualizedInvestmentReturn': 
+        return annualizedInvestmentReturn_weightedAverage(data, name);
     case 'functionalExpensePercent_program':
         return functionalExpensePercent_program_weightedAverage(data, name);
     case 'functionalExpensePercent_administrative':
@@ -227,6 +229,24 @@ const fundraisingAsPercentOfContributions_weightedAverage = (data, name) => {
     const denominator = contributionsWithoutDR + contributionsWithDR;
 
     return denominator > 0 ? fundraisingExpenses / denominator : 0;
+}
+
+const annualizedInvestmentReturn_weightedAverage = (data, name) => {
+    // [02.01SR - 03 Investment Income] 
+    // / 
+    // ( 
+    //     (
+    //         [01. 01Ass - 03 Investments] + 
+    //         $previousValueNUMBER
+    //     )
+    //     /
+    //     2 
+    // )
+
+    const investmentIncome = getSumOfArray(data.investmentIncome[name]);
+    const investments = getSumOfArray(data.investments[name]);
+
+    return investments > 0 ? investmentIncome / investments : 0;
 }
 
 const contributionsPerFullTimeEquivalent_weightedAverage = (data, name) => {
@@ -517,7 +537,11 @@ const daysExpensesInUnrestrictedNA_weightedAverage = (data, name) => {
 
     const denominator = totalExpenses / 365;
 
-    return denominator > 0 ? netAssetsWithoutDR / denominator : 0;
+    // console.log({netAssetsWithoutDR, totalExpenses, denominator});
+
+    // return denominator > 0 ? netAssetsWithoutDR / denominator : 0;
+
+    return (netAssetsWithoutDR / (totalExpenses / 365))
 }
 
 const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (data, name) => {
@@ -561,5 +585,7 @@ const daysCashOnHand_weightedAverage = (data, name) => {
 
     const denominator = (totalExpenses - depreciationAndAmortization) / 365;
 
-    return denominator > 0 ? cashAndCashEquivalents / denominator : 0;
+    // return denominator > 0 ? cashAndCashEquivalents / denominator : 0;
+
+    return (cashAndCashEquivalents / ((totalExpenses - depreciationAndAmortization) / 365))
 }

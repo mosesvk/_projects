@@ -1,22 +1,21 @@
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const regions_Array = [
-  { arr: ["New England (CT, RI, MA, VT, NH)"], str: "NE" },
+  { arr: ["Europe"], str: "NE" },
   {
-    arr: ["Mid-Atlantic, VA, WV, MD, DE, NJ, NY, PA, DC)"],
+    arr: ["Asia"],
     str: "MA",
   },
   {
-    arr: ["South, AR, LA, AL, TN, KY, GA, FL, SC, NC, MS)"],
+    arr: ["Africa"],
     str: "SO",
   },
-  { arr: ["Midwest, WI, IL, IN, MI, OH, IA, MN)"], str: "MW" },
-  { arr: ["Plains, KS, MO, OK, TX, ND, SD, NE)"], str: "PL" },
+  { arr: ["South America"], str: "MW" },
+  { arr: ["North America"], str: "PL" },
   {
-    arr: ["Mountain/Southwest, ID, MT, WY, CO, UT, NV, AZ, NM)"],
+    arr: ["Australia"],
     str: "MT",
-  },
-  { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
+  }
 ];
 
 // Mission Sending
@@ -48,10 +47,13 @@ const sites_Array = [
 ];
 
 let sliderAmount = null;
+let missionSliderAmount = null;
 let sliderRange = null;
+let missionSliderRange = null;
 let sliderValue = 0;
 let sliderValue2 = 25000;
 let missionValue = 0;
+let missionValue2 = 25000;
 let firmName = "";
 // let amount = null;
 
@@ -60,6 +62,7 @@ const selectedRegions_Array = new Set();
 const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();
+let selectedYears_Set = new Set();
 let selectedSchoolChurch_Selected;
 let charts_Array = [];
 
@@ -414,7 +417,7 @@ function updateModal(mainName, avgData, clientData) {
     headerRow.appendChild(avgColumn);
 
     // Add the remaining columns
-    const columns = ["50%", "25%", "75%"];
+    const columns = ["25%","50%", "75%"];
     columns.forEach((column) => {
       const col = document.createElement("th");
       col.className = "px-6 py-3";
@@ -474,8 +477,14 @@ const getAverageOfArray = (array) => {
   const sum = array.reduce((acc, str) => acc + Number(str), 0);
   const avg = sum / array.length;
 
+  // Check if the average is NaN, undefined, or null, and return 0 in such cases
+  if (isNaN(avg) || avg === undefined || avg === null) {
+    return 0;
+  }
+
   return avg;
 };
+
 
 const getMidpointOfArray = (array) => {
   // console.log(array);
@@ -507,10 +516,6 @@ const getMaxOfArray = (array) => {
   return Math.max(...nonZeroArray);
 };
 
-const OfArray = (array) => {
-  return Math.min(...array);
-};
-
 const get25thPercentileOfArray = (array, name) => {
   // make sure each value is a Number format before calculating
   array = array.map((val) => Number(val));
@@ -534,10 +539,11 @@ const get25thPercentileOfArray = (array, name) => {
 
   // Step 3: Calculate the index for the 25th percentile
   const index = (sortedArray.length + 1) * 0.25;
-
+  
   // Step 4: Check if the index is an integer
   if (Number.isInteger(index)) {
     // If it's an integer, return the value at that index
+    // if (name) console.log(name, { num: sortedArray[index - 1] });
     return Number(sortedArray[index - 1]);
   } else {
     // If not an integer, interpolate between the two nearest values
@@ -545,6 +551,7 @@ const get25thPercentileOfArray = (array, name) => {
     const upperIndex = Math.ceil(index);
     const lowerValue = Number(sortedArray[lowerIndex - 1]);
     const upperValue = Number(sortedArray[upperIndex - 1]);
+    // if (name) console.log(name, { lowerValue, upperValue });
     return (lowerValue + upperValue) / 2;
   }
 };
@@ -630,7 +637,7 @@ const calculateAveragePercentageChange = (values) => {
 
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
-  const storedData = localStorage.getItem("demo");
+  const storedData = localStorage.getItem("enrollment");
   if (!storedSelectedYears && storedData) {
     console.error("Need to Select Year");
   }
@@ -641,8 +648,6 @@ const getSelectedYearsFromLocalStorage = () => {
 const resetSelectedYearsFromLocalStorage = () => {
   localStorage.setItem("selectedYears", JSON.stringify([]));
 };
-
-let selectedYears_Set = new Set();
 
 const changeListenerForInputYears = (input, year) => {
   if (input.checked) {
@@ -1014,20 +1019,47 @@ const range = () => {
 
 function missionaryRange() {
   return {
+    minprice: 0,
+    maxprice: 10000,
     min: 0,
     max: 10000,
-    missionprice: 0,
-    missionthumb: 0,
-    missiontrigger() {
-      missionValue = this.missionprice;
-      let missionValuePercent =
-        ((this.missionprice - this.min) / (this.max - this.min)) * 100;
-      this.missionthumb =
-        missionValuePercent > 100
-          ? 100
-          : missionValuePercent < 0
-          ? 0
-          : missionValuePercent;
+    minthumb: 1,
+    maxthumb: 1,
+
+    mintrigger() {
+      this.minprice = Math.min(this.minprice, this.maxprice - 500);
+      this.minthumb =
+        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+
+      // Update missionValue and trigger slider movement if necessary
+      missionValue = this.minprice;
+      if (missionSliderAmount) {
+        missionSliderAmount.value = missionValue; // Assuming missionSliderAmount is an input element
+        // Update slider position dynamically using appropriate API (e.g., jQuery UI, NoUiSlider)
+      }
+
+      this.minthumb =
+        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+
+      // Consider adding visual or functional feedback for minthumb movement
+    },
+
+    maxtrigger() {
+      this.maxprice = Math.max(this.maxprice, this.minprice + 500);
+      this.maxthumb =
+        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+
+      // Update missionValue2 and trigger slider movement if necessary
+      missionValue2 = this.maxprice;
+      if (missionSliderRange) {
+        missionSliderRange.value = missionValue2; // Assuming missionSliderRange is an input element
+        // Update slider position dynamically using appropriate API
+      }
+
+      this.maxthumb =
+        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+
+      // Consider adding visual or functional feedback for maxthumb movement
     },
   };
 }

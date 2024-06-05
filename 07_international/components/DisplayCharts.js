@@ -1,12 +1,11 @@
-// let cashFlowsTrendChart
 
 displayGeneralComponent = (data) => {
   const savedData = getStoredData("cashData");
   const parseData = parseStoredData(savedData);
 
   // cashFlowsTrend
-  const cashFlowsTrendChart = new ApexCharts(
-    document.getElementById("cashFlowsTrend_chart"),
+  const statementCashFlowsChart = new ApexCharts(
+    document.getElementById("statementCashFlows_chart"),
     getCashFlowChartOptions(parseData, [
       "cashFlowsTrendFinancing",
       "cashFlowsTrendInvesting",
@@ -15,7 +14,7 @@ displayGeneralComponent = (data) => {
     ])
   );
 
-  cashFlowsTrendChart.render();
+  statementCashFlowsChart.render();
 
   updateCashFlowModal("cashFlowsTrend", parseData, [
     "cashFlowsTrendFinancing",
@@ -26,7 +25,7 @@ displayGeneralComponent = (data) => {
 
   // init again when toggling dark mode
   document.addEventListener("dark-mode", function () {
-    cashFlowsTrendChart.updateOptions(
+    statementCashFlowsChart.updateOptions(
       getCashFlowChartOptions(parseData, [
         "cashFlowsTrendFinancing",
         "cashFlowsTrendInvesting",
@@ -147,24 +146,14 @@ displayExpenseComponent = (data) => {
     0,
     "functionalExpensePercent_fundraising"
   );
-  // functionalExpensePercent_other
-  createChartFromParsedData(
-    parseData,
-    "functionalExpensePercent_other_chart",
-    "functionalExpensePercent_other_Peer",
-    "functionalExpensePercent_other_Client",
-    "percent",
-    0,
-    "functionalExpensePercent_other"
-  );
   // costOfContributions
   createChartFromParsedData(
     parseData,
     "costOfContributions_chart",
     "costOfContributions_Peer",
     "costOfContributions_Client",
-    "currency",
-    0,
+    "dollar",
+    2,
     "costOfContributions"
   );
 };
