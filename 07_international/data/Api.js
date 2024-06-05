@@ -331,7 +331,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "daysExpensesInUnrestrictedNA_excludingPPE_Peer",
         record,
         "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe",
-        "Yes"
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe"
       );
       insertDataIntoObject(
         "peer",
@@ -340,7 +340,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "netAssetsWithDRByPurposeOrTime",
         record,
         "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
-        "Yes",
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
       insertDataIntoObject(
@@ -350,7 +350,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "netAssetsWithDRInPerpetuity",
         record,
         "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
-        "Yes",
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
       insertDataIntoObject(
@@ -360,7 +360,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "propertyPlantAndEquipment",
         record,
         "_01__01ass___09_property__plant_and_equipment",
-        "Yes",
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
       insertDataIntoObject(
@@ -370,7 +370,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "notesPayable",
         record,
         "_01__02liab___02_notes_payable",
-        "Yes",
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
       insertDataIntoObject(
@@ -380,7 +380,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalExpenses",
         record,
         "_02_03exp___05_total_expenses",
-        "Yes",
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
 

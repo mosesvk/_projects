@@ -582,13 +582,10 @@ const addPeerDataToRow = (
   }
 
   if (peer) {
-
-    if (name == "annualizedInvestmentReturn") {
-      console.log({tableRow});
-      const [q1, median, q3] = calculatePercentiles(peer[dataArray], type);
-      console.log({ q1, median, q3 });
-    }
+    
   }
+
+  const [q1, median, q3] = calculatePercentiles(peer[dataArray], type);
 
   const textAvg = peer ? styleNumber(avg, type, fixedNum) : "";
   const dataPointMid = document.createElement("th");

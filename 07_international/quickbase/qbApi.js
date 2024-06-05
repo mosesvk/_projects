@@ -325,7 +325,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "daysExpensesInUnrestrictedNA_excludingPPE_Peer",
         record,
         "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe",
-        "Yes"
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe"
       );
       insertDataIntoObject(
         "peer",
@@ -334,7 +334,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "netAssetsWithDRByPurposeOrTime",
         record,
         "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
-        "Yes",
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
       insertDataIntoObject(
@@ -344,7 +344,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "netAssetsWithDRInPerpetuity",
         record,
         "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
-        "Yes",
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
       insertDataIntoObject(
@@ -354,7 +354,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "propertyPlantAndEquipment",
         record,
         "_01__01ass___09_property__plant_and_equipment",
-        "Yes",
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
       insertDataIntoObject(
@@ -364,7 +364,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "notesPayable",
         record,
         "_01__02liab___02_notes_payable",
-        "Yes",
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
       insertDataIntoObject(
@@ -374,7 +374,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalExpenses",
         record,
         "_02_03exp___05_total_expenses",
-        "Yes",
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );
 
@@ -1423,7 +1423,6 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "c04_09_yes_no_fundraising_as_percent_of_contributions",
         "fundraisingAsPercentOfContributions"
       );
-
       // annualizedInvestmentReturn
       insertDataIntoObject(
         "peer",
@@ -1431,8 +1430,28 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "annualizedInvestmentReturn_Peer",
         record,
-        "0",
-        "Yes"
+        "__c04_10_ratio_annualized_investment_return",
+        "c04_10_yes_no_annualized_investment_return"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "investmentIncome",
+        record,
+        "_02_01sr___03_investment_income",
+        "c04_10_yes_no_annualized_investment_return",
+        "annualizedInvestmentReturn"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "Investments",
+        record,
+        "_01__01ass___03_investments",
+        "c04_10_yes_no_annualized_investment_return",
+        "annualizedInvestmentReturn"
       );
     });
 
@@ -2109,7 +2128,7 @@ const toggleGenerateReportButtonNormalState = (btn) => {
 const processSelectedYears = () => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  console.log({selectedYears});
+  console.log({ selectedYears });
 
   if (!selectedYears) {
     createToastWarning("Please select year(s) for data to appear");
@@ -2162,13 +2181,12 @@ const recordPeerHTMLArray = [];
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
   try {
-
     // uploadMainFile = "";
     // document.getElementById("print_modal_footer").classList.add("hidden");
     toggleButtonLoadingState(run_btn);
     const selectedYears = processSelectedYears();
     saveSelectedYearsToLocalStorage(selectedYears);
-    
+
     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
     countUniqueClients(recordsPeer);
 
@@ -2238,7 +2256,7 @@ const getRecordsForPeer = async (years, dataStr) => {
   // (${getClientQuery(selectedClients_Array)})
   // ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
   // (${getTypeQuery(selectedTypes_Array)}) AND
-  // (${getRegionQuery(selectedRegions_Array)}) 
+  // (${getRegionQuery(selectedRegions_Array)})
 
   const apiCallPeerData = {
     act: "API_DoQuery",
@@ -2246,7 +2264,7 @@ const getRecordsForPeer = async (years, dataStr) => {
       {301.EX.${currentYear}}
     `,
     clist:
-      "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347.343.346.244.205.341.342.344.345",
+      "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347.343.346.244.205.341.342.344.345.348",
   };
 
   try {
