@@ -113,6 +113,9 @@ const getMainChartOptions = (
       height: 350,
       type: "line",
       stacked: false,
+      toolbar: {
+        show: false, // Hide the toolbar
+      },
     },
     dataLabels: {
       enabled: false,

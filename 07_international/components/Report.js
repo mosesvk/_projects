@@ -582,8 +582,10 @@ const addPeerDataToRow = (
   }
 
   if (peer) {
-    
+
   }
+
+  console.log(name, { avg, peer, dataArray, type, fixedNum });
 
   const [q1, median, q3] = calculatePercentiles(peer[dataArray], type);
 
