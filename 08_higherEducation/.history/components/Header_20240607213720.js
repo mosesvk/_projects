@@ -33,13 +33,24 @@ customSelectRegionElement.addEventListener ('click', event => {
     optionsListRegionElement.classList.toggle ('invisible'); // Corrected class name
   }
 });
-customSelectStateElement.addEventListener ('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectTypeElement
+// customSelectStateElement.addEventListener ('click', event => {
+//   // Check if the click target is not a checkbox inside the customSelectTypeElement
+//   if (
+//     !event.target.closest ('.form-checkbox') &&
+//     !event.target.closest ('label')
+//   ) {
+//     optionsListStateElement.classList.toggle ('invisible');
+//   }
+// });
+
+customSelectStateElement.addEventListener('click', event => {
+  // Exclude the "Select All" checkbox from toggling the dropdown visibility
   if (
-    !event.target.closest ('.form-checkbox') &&
-    !event.target.closest ('label')
+    !event.target.closest('.form-checkbox') &&
+    !event.target.closest('label') &&
+    event.target.id !== 'select-all-checkbox'
   ) {
-    optionsListStateElement.classList.toggle ('invisible');
+    optionsListStateElement.classList.toggle('invisible');
   }
 });
 
@@ -72,7 +83,7 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = regionArray => {
 
   // Create "Select All" checkbox and label
   const selectAllLabel = document.createElement ('label');
-  selectAllLabel.setAttribute ('for', 'select-all-checkbox-region');
+  selectAllLabel.setAttribute ('for', 'select-all-checkbox');
   selectAllLabel.setAttribute (
     'class',
     'flex items-center justify-start px-4 py-2 cursor-pointer truncate'
@@ -80,7 +91,7 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = regionArray => {
 
   const selectAllInput = document.createElement ('input');
   selectAllInput.setAttribute ('type', 'checkbox');
-  selectAllInput.setAttribute ('id', 'select-all-checkbox-region');
+  selectAllInput.setAttribute ('id', 'select-all-checkbox');
   selectAllInput.setAttribute (
     'class',
     'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer'
@@ -185,7 +196,7 @@ const addUniqueStatesToOptionsSelectStatesDropdown = stateArray => {
 
   // Create "Select All" checkbox and label
   const selectAllLabel = document.createElement ('label');
-  selectAllLabel.setAttribute ('for', 'select-all-checkbox-state');
+  selectAllLabel.setAttribute ('for', 'select-all-checkbox');
   selectAllLabel.setAttribute (
     'class',
     'flex items-center justify-start px-4 py-2 cursor-pointer truncate'
@@ -193,7 +204,7 @@ const addUniqueStatesToOptionsSelectStatesDropdown = stateArray => {
 
   const selectAllInput = document.createElement ('input');
   selectAllInput.setAttribute ('type', 'checkbox');
-  selectAllInput.setAttribute ('id', 'select-all-checkbox-state');
+  selectAllInput.setAttribute ('id', 'select-all-checkbox');
   selectAllInput.setAttribute (
     'class',
     'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer'

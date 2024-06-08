@@ -1,8 +1,6 @@
 <qdbapi>
     <record>
         <merged_client_name>Allegheny Wesleyan College</merged_client_name>
-        <year>2020</year>
-        <related_client>3214</related_client>
         <client___he__g001_geographic_region>Midwest</client___he__g001_geographic_region>
         <r145_cdebt_to_total_capitalization>0</r145_cdebt_to_total_capitalization>
         <client___he__memberships>ABACC;ABHE</client___he__memberships>
@@ -81,8 +79,6 @@
     </record>
     <record>
         <merged_client_name>Allegheny Wesleyan College</merged_client_name>
-        <year>2021</year>
-        <related_client>3214</related_client>
         <client___he__g001_geographic_region>Midwest</client___he__g001_geographic_region>
         <r145_cdebt_to_total_capitalization></r145_cdebt_to_total_capitalization>
         <client___he__memberships>ABACC;ABHE</client___he__memberships>
@@ -161,8 +157,6 @@
     </record>
     <record>
         <merged_client_name>Allegheny Wesleyan College</merged_client_name>
-        <year>2022</year>
-        <related_client>3214</related_client>
         <client___he__g001_geographic_region>Midwest</client___he__g001_geographic_region>
         <r145_cdebt_to_total_capitalization></r145_cdebt_to_total_capitalization>
         <client___he__memberships>ABACC;ABHE</client___he__memberships>
@@ -241,8 +235,6 @@
     </record>
     <record>
         <merged_client_name>Allegheny Wesleyan College</merged_client_name>
-        <year>2023</year>
-        <related_client>3214</related_client>
         <client___he__g001_geographic_region>Midwest</client___he__g001_geographic_region>
         <r145_cdebt_to_total_capitalization></r145_cdebt_to_total_capitalization>
         <client___he__memberships>ABACC;ABHE</client___he__memberships>

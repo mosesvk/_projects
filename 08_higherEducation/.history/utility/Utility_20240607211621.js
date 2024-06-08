@@ -76,28 +76,36 @@ const states_Array = [
   { arr: ["WY"], str: "WY" }
 ];
 
+
+
+
+// Mission Sending
+// Relief Ops
+// Healthcare
+// Bible Translators
+// Education
+// Other
+// Child Sponsorships
 const types_Array = [
-  { arr: ["Bible College / University"], str: "Bible College / University" },
-  { arr: ["Category I (Doctoral)"], str: "Category I (Doctoral)" },
-  { arr: ["Category IIA (Master's)"], str: "Category IIA (Master's)" },
-  { arr: ["Category IIB (Baccalaureate)"], str: "Category IIB (Baccalaureate)" },
-  { arr: ["Graduate University"], str: "Graduate University" },
-  { arr: ["Liberal Arts"], str: "Liberal Arts" },
-  { arr: ["Seminary"], str: "Seminary" }
+  { arr: ["Mission-sending"], str: "Mission-sending" },
+  { arr: ["Relief"], str: "Relief" },
+  { arr: ["Healthcare"], str: "Healthcare" },
+  { arr: ["Bible Translators"], str: "Bible Translators" },
+  { arr: ["Education"], str: "Education" },
+  { arr: ["Other"], str: "Other" },
+  { arr: ["Child Sponsorships"], str: "Child Sponsorships" },
 ];
 
-const memberships_Array = [
-  { arr: ["ABACC"], str: "ABACC" },
-  { arr: ["ABHE"], str: "ABHE" },
-  { arr: ["ACCU"], str: "ACCU" },
-  { arr: ["ATS"], str: "ATS" },
-  { arr: ["CCCU"], str: "CCCU" },
-  { arr: ["CIC"], str: "CIC" },
-  { arr: ["IABCU"], str: "IABCU" },
-  { arr: ["NHERMC"], str: "NHERMC" },
-  { arr: ["TRACS"], str: "TRACS" }
+const schoolChurch_Array = [
+  { arr: ["School"], str: 0 },
+  { arr: ["Church"], str: 1 },
 ];
 
+const sites_Array = [
+  { arr: ["Single Site"], str: "SINGLE" },
+  { arr: ["2 - 5 Sites"], str: "TWOSIX" },
+  { arr: ["6+ Sites"], str: "MANY" },
+];
 
 let sliderAmount = null;
 let sliderRange = null;
@@ -109,7 +117,6 @@ let firmName = "";
 
 let selectedRegion = "";
 const selectedRegions_Array = new Set();
-const selectedStates_Array = new Set();
 const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();

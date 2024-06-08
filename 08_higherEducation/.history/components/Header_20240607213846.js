@@ -185,7 +185,7 @@ const addUniqueStatesToOptionsSelectStatesDropdown = stateArray => {
 
   // Create "Select All" checkbox and label
   const selectAllLabel = document.createElement ('label');
-  selectAllLabel.setAttribute ('for', 'select-all-checkbox-state');
+  selectAllLabel.setAttribute ('for', 'select-all-checkbox');
   selectAllLabel.setAttribute (
     'class',
     'flex items-center justify-start px-4 py-2 cursor-pointer truncate'
@@ -193,7 +193,7 @@ const addUniqueStatesToOptionsSelectStatesDropdown = stateArray => {
 
   const selectAllInput = document.createElement ('input');
   selectAllInput.setAttribute ('type', 'checkbox');
-  selectAllInput.setAttribute ('id', 'select-all-checkbox-state');
+  selectAllInput.setAttribute ('id', 'select-all-checkbox');
   selectAllInput.setAttribute (
     'class',
     'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer'

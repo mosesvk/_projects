@@ -39,8 +39,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   findUniqueYears(recordsClient);
 
   addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
-
-  addUniqueStatesToOptionsSelectStatesDropdown(states_Array);
   // addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
 
   localStorage.clear();

@@ -86,18 +86,18 @@ const types_Array = [
   { arr: ["Seminary"], str: "Seminary" }
 ];
 
-const memberships_Array = [
-  { arr: ["ABACC"], str: "ABACC" },
-  { arr: ["ABHE"], str: "ABHE" },
-  { arr: ["ACCU"], str: "ACCU" },
-  { arr: ["ATS"], str: "ATS" },
-  { arr: ["CCCU"], str: "CCCU" },
-  { arr: ["CIC"], str: "CIC" },
-  { arr: ["IABCU"], str: "IABCU" },
-  { arr: ["NHERMC"], str: "NHERMC" },
-  { arr: ["TRACS"], str: "TRACS" }
+
+
+const schoolChurch_Array = [
+  { arr: ["School"], str: 0 },
+  { arr: ["Church"], str: 1 },
 ];
 
+const sites_Array = [
+  { arr: ["Single Site"], str: "SINGLE" },
+  { arr: ["2 - 5 Sites"], str: "TWOSIX" },
+  { arr: ["6+ Sites"], str: "MANY" },
+];
 
 let sliderAmount = null;
 let sliderRange = null;
@@ -109,7 +109,6 @@ let firmName = "";
 
 let selectedRegion = "";
 const selectedRegions_Array = new Set();
-const selectedStates_Array = new Set();
 const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();

@@ -2242,7 +2242,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     query: `
     {7.EX.${currentYear}}
     `,
-    clist: '7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395',
+    clist: '7.539.541.549.551.547.553.390.392.396.393.395',
   };
 
   try {

@@ -38,34 +38,31 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   findUniqueYears(recordsClient);
 
-  addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
-
-  addUniqueStatesToOptionsSelectStatesDropdown(states_Array);
+  // addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
   // addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
 
   localStorage.clear();
 });
 
-const findUniqueYears = data => {
-  if (data) {
-    data.forEach (item => {
-      // console.log(item);
-      const yearElement = item.querySelector ('year');
-      if (yearElement) {
-        const year = yearElement.textContent;
+const findUniqueYears = (data) => {
+  data.forEach((item) => {
+    const yearElement = item.querySelector(
+      "year"
+    );
+    if (yearElement) {
+      const year = yearElement.textContent;
 
-        // Check if the year is not already in yearsData_Array to ensure uniqueness
-        if (!yearsData_Array.includes (year)) {
-          yearsData_Array.push (year);
-        }
+      // Check if the year is not already in yearsData_Array to ensure uniqueness
+      if (!yearsData_Array.includes(year)) {
+        yearsData_Array.push(year);
       }
-    });
+    }
+  });
 
-    yearsData_Array.sort ();
+  yearsData_Array.sort();
 
-    //nav-component
-    addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
-  }
+  //nav-component
+  addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
 };
 
 const insertDataIntoObject = (
