@@ -14,13 +14,6 @@ const customSelectMembershipElement = document.getElementById (
 const customSelectClientElement = document.getElementById (
   'custom-select-client'
 );
-const customSelectTypeElement = document.getElementById ('custom-select-type');
-const customSelectAthleticElement = document.getElementById (
-  'custom-select-athletic'
-);
-const customSelectTrendlineElement = document.getElementById (
-  'custom-select-trendline'
-);
 
 const optionsListYearElement = document.getElementById ('options-list-year');
 const optionsListRegionElement = document.getElementById (
@@ -32,13 +25,6 @@ const optionsListMembershipElement = document.getElementById (
 );
 const optionsListClientElement = document.getElementById (
   'options-list-client'
-);
-const optionsListTypeElement = document.getElementById ('options-list-type');
-const optionsListAthleticElement = document.getElementById (
-  'options-list-athletic'
-);
-const optionsListTrendlineElement = document.getElementById (
-  'options-list-trendline'
 );
 
 customSelectYearElement.addEventListener ('click', event => {
@@ -86,34 +72,6 @@ customSelectClientElement.addEventListener ('click', event => {
     optionsListClientElement.classList.toggle ('invisible');
   }
 });
-customSelectTypeElement.addEventListener('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectTypeElement
-  if (
-    !event.target.closest('.form-checkbox') &&
-    !event.target.closest('label')
-  ) {
-    optionsListTypeElement.classList.toggle('invisible');
-  }
-});
-customSelectAthleticElement.addEventListener('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectAthleticElement
-  if (
-    !event.target.closest('.form-checkbox') &&
-    !event.target.closest('label')
-  ) {
-    optionsListAthleticElement.classList.toggle('invisible');
-  }
-});
-customSelectTrendlineElement.addEventListener('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectTrendlineElement
-  if (
-    !event.target.closest('.form-checkbox') &&
-    !event.target.closest('label')
-  ) {
-    optionsListTrendlineElement.classList.toggle('invisible');
-  }
-});
-
 
 document.addEventListener ('click', event => {
   if (
@@ -150,28 +108,6 @@ document.addEventListener ('click', event => {
   ) {
     optionsListClientElement.classList.add ('invisible');
   }
-
-  if (
-    !customSelectTypeElement.contains(event.target) &&
-    !optionsListTypeElement.contains(event.target)
-  ) {
-    optionsListTypeElement.classList.add('invisible');
-  }
-  
-  if (
-    !customSelectAthleticElement.contains(event.target) &&
-    !optionsListAthleticElement.contains(event.target)
-  ) {
-    optionsListAthleticElement.classList.add('invisible');
-  }
-  
-  if (
-    !customSelectTrendlineElement.contains(event.target) &&
-    !optionsListTrendlineElement.contains(event.target)
-  ) {
-    optionsListTrendlineElement.classList.add('invisible');
-  }
-  
 });
 
 const addUniqueRegionsToOptionsSelectRegionsDropdown = regionArray => {
@@ -236,8 +172,7 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = regionArray => {
 
     // Add the value to selectedRegions_Array and check the input by default
     selectedRegions_Array.add (regionString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.innerText = regionName;
@@ -350,8 +285,7 @@ const addUniqueStatesToOptionsSelectStatesDropdown = stateArray => {
 
     // Add the value to selectedStates_Array and check the input by default
     selectedStates_Array.add (stateString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.innerText = stateName;
@@ -466,8 +400,7 @@ const addUniqueMembershipsToOptionsSelectMembershipsDropdown = membershipArray =
 
     // Add the value to selectedMemberships_Array and check the input by default
     selectedMemberships_Array.add (membershipString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.innerText = membershipName;
@@ -586,8 +519,7 @@ const addUniqueClientsToOptionsSelectClientsDropdown = clientArray => {
 
     // Add the value to selectedClients_Array and check the input by default
     selectedClients_Array.add (clientString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.setAttribute ('class', 'ml-2');
@@ -681,8 +613,8 @@ const addUniqueTypesToOptionsSelectTypesDropdown = typeArray => {
   });
 
   typeArray.forEach ((item, index) => {
-    const typeName = item.str;
-    const typeString = item.str;
+    const typeName = item;
+    const typeString = item;
 
     const newLabel = document.createElement ('label');
     newLabel.setAttribute ('for', `option-${typeString}`);
@@ -702,8 +634,7 @@ const addUniqueTypesToOptionsSelectTypesDropdown = typeArray => {
 
     // Add the value to selectedTypes_Array and check the input by default
     selectedTypes_Array.add (typeString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.setAttribute ('class', 'ml-2');
@@ -797,8 +728,8 @@ const addUniqueAthleticsToOptionsSelectAthleticsDropdown = athleticArray => {
   });
 
   athleticArray.forEach ((item, index) => {
-    const athleticName = item.str;
-    const athleticString = item.str;
+    const athleticName = item;
+    const athleticString = item;
 
     const newLabel = document.createElement ('label');
     newLabel.setAttribute ('for', `option-${athleticString}`);
@@ -818,8 +749,7 @@ const addUniqueAthleticsToOptionsSelectAthleticsDropdown = athleticArray => {
 
     // Add the value to selectedAthletics_Array and check the input by default
     selectedAthletics_Array.add (athleticString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.setAttribute ('class', 'ml-2');
@@ -878,129 +808,334 @@ const addUniqueAthleticsToOptionsSelectAthleticsDropdown = athleticArray => {
 };
 
 const addUniqueTrendlinesToOptionsSelectTrendlinesDropdown = trendlineArray => {
-  const optionsListTrendline = document.getElementById (
-    'options-list-trendline'
-  );
+  const optionsListTrendline = document.getElementById('options-list-trendline');
 
   // Create "Select All" checkbox and label
-  const selectAllLabel = document.createElement ('label');
-  selectAllLabel.setAttribute ('for', 'select-all-checkbox-trendline');
-  selectAllLabel.setAttribute (
-    'class',
-    'flex items-center justify-start px-4 py-2 cursor-pointer truncate'
-  );
+  const selectAllLabel = document.createElement('label');
+  selectAllLabel.setAttribute('for', 'select-all-checkbox-trendline');
+  selectAllLabel.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer truncate');
 
-  const selectAllInput = document.createElement ('input');
-  selectAllInput.setAttribute ('type', 'checkbox');
-  selectAllInput.setAttribute ('id', 'select-all-checkbox-trendline');
-  selectAllInput.setAttribute (
-    'class',
-    'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer'
-  );
+  const selectAllInput = document.createElement('input');
+  selectAllInput.setAttribute('type', 'checkbox');
+  selectAllInput.setAttribute('id', 'select-all-checkbox-trendline');
+  selectAllInput.setAttribute('class', 'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer');
 
-  const selectAllSpan = document.createElement ('span');
-  selectAllSpan.setAttribute ('id', 'select-all-text');
+  const selectAllSpan = document.createElement('span');
+  selectAllSpan.setAttribute('id', 'select-all-text');
   selectAllSpan.innerText = '(select all)';
-  selectAllSpan.setAttribute ('class', 'text-lg font-semibold');
+  selectAllSpan.setAttribute('class', 'text-lg font-semibold');
 
-  selectAllLabel.appendChild (selectAllInput);
-  selectAllLabel.appendChild (selectAllSpan);
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
 
-  optionsListTrendline.appendChild (selectAllLabel);
+  optionsListTrendline.appendChild(selectAllLabel);
 
-  selectAllInput.addEventListener ('change', function () {
+  selectAllInput.addEventListener('change', function () {
     const isChecked = selectAllInput.checked;
     // Toggle other checkboxes based on "Select All" checkbox state
-    const trendlineCheckboxes = document.querySelectorAll (
-      "#options-list-trendline input[type='checkbox']"
-    );
-    trendlineCheckboxes.forEach (checkbox => {
+    const trendlineCheckboxes = document.querySelectorAll("#options-list-trendline input[type='checkbox']");
+    trendlineCheckboxes.forEach(checkbox => {
       checkbox.checked = isChecked;
     });
   });
 
-  trendlineArray.forEach ((item, index) => {
-    const trendlineName = item.str;
-    const trendlineString = item.str;
+  trendlineArray.forEach((item, index) => {
+    const trendlineName = item 
+    const trendlineString = item
 
-    const newLabel = document.createElement ('label');
-    newLabel.setAttribute ('for', `option-${trendlineString}`);
-    newLabel.setAttribute (
-      'class',
-      'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate whitespace-normal items-baseline'
-    );
+    const newLabel = document.createElement('label');
+    newLabel.setAttribute('for', `option-${trendlineString}`);
+    newLabel.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate whitespace-normal items-baseline');
 
-    const newInput = document.createElement ('input');
-    newInput.setAttribute ('type', 'checkbox');
-    newInput.setAttribute ('id', `option-${trendlineString}`);
-    newInput.setAttribute (
-      'class',
-      'w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500'
-    );
-    newInput.setAttribute ('value', trendlineString);
+    const newInput = document.createElement('input');
+    newInput.setAttribute('type', 'checkbox');
+    newInput.setAttribute('id', `option-${trendlineString}`);
+    newInput.setAttribute('class', 'w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500');
+    newInput.setAttribute('value', trendlineString);
 
     // Add the value to selectedTrendlines_Array and check the input by default
-    selectedTrendlines_Array.add (trendlineString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    selectedTrendlines_Array.add(trendlineString);
+    newInput.checked = false;
 
-    const newSpan = document.createElement ('span');
-    newSpan.setAttribute ('class', 'ml-2');
+    const newSpan = document.createElement('span');
+    newSpan.setAttribute('class', 'ml-2');
 
     newSpan.innerText = trendlineName;
 
-    newLabel.appendChild (newInput);
-    newLabel.appendChild (newSpan);
+    newLabel.appendChild(newInput);
+    newLabel.appendChild(newSpan);
 
-    optionsListTrendline.appendChild (newLabel);
+    optionsListTrendline.appendChild(newLabel);
   });
 
   // Add event listeners to other checkboxes
-  const trendlineLabels = document.querySelectorAll (
-    '#options-list-trendline label'
-  );
-  trendlineLabels.forEach ((label, index) => {
-    const input = label.querySelector ('input');
-    const trendlineString = label.querySelector ('input').value;
+  const trendlineLabels = document.querySelectorAll('#options-list-trendline label');
+  trendlineLabels.forEach((label, index) => {
+    const input = label.querySelector('input');
+    const trendlineString = label.querySelector('input').value;
 
-    input.addEventListener ('change', function () {
-      if (input.checked && !selectedTrendlines_Array.has (trendlineString)) {
+    input.addEventListener('change', function () {
+      if (input.checked && !selectedTrendlines_Array.has(trendlineString)) {
         // Handle when the trendline is selected
-        selectedTrendlines_Array.add (trendlineString);
-      } else if (
-        input.checked &&
-        selectedTrendlines_Array.has (trendlineString)
-      ) {
+        selectedTrendlines_Array.add(trendlineString);
+      } else if (input.checked && selectedTrendlines_Array.has(trendlineString)) {
         // loop through trendlineLabels again to find any unchecked inputs, if so, delete from selectedTrendlines_Array
-        trendlineLabels.forEach (label => {
-          const input = label.querySelector ('input');
-          const trendlineString = label.querySelector ('input').value;
+        trendlineLabels.forEach(label => {
+          const input = label.querySelector('input');
+          const trendlineString = label.querySelector('input').value;
           if (!input.checked) {
-            selectedTrendlines_Array.delete (trendlineString);
+            selectedTrendlines_Array.delete(trendlineString);
           }
         });
       } else {
-        selectedTrendlines_Array.delete (trendlineString);
+        selectedTrendlines_Array.delete(trendlineString);
         // check if all inputs are unchecked, if so, make sure selectedTrendlines_Array contains all trendlines
         let allUnchecked = true;
-        trendlineLabels.forEach (label => {
-          const input = label.querySelector ('input');
+        trendlineLabels.forEach(label => {
+          const input = label.querySelector('input');
           if (input.checked) {
             allUnchecked = false;
           }
-        });
-        if (allUnchecked) {
-          trendlineLabels.forEach (label => {
-            const trendlineString = label.querySelector ('input').value;
-            selectedTrendlines_Array.add (trendlineString);
-          });
-        }
-      }
+const addUniqueTrendlinesToOptionsSelectTrendlinesDropdown = trendlineArray => {
+  const optionsListTrendline = document.getElementById('options-list-trendline');
+
+  // Create "Select All" checkbox and label
+  const selectAllLabel = document.createElement('label');
+  selectAllLabel.setAttribute('for', 'select-all-checkbox-trendline');
+  selectAllLabel.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer truncate');
+
+  const selectAllInput = document.createElement('input');
+  selectAllInput.setAttribute('type', 'checkbox');
+  selectAllInput.setAttribute('id', 'select-all-checkbox-trendline');
+  selectAllInput.setAttribute('class', 'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer');
+
+  const selectAllSpan = document.createElement('span');
+  selectAllSpan.setAttribute('id', 'select-all-text');
+  selectAllSpan.innerText = '(select all)';
+  selectAllSpan.setAttribute('class', 'text-lg font-semibold');
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListTrendline.appendChild(selectAllLabel);
+
+  selectAllInput.addEventListener('change', function () {
+    const isChecked = selectAllInput.checked;
+    // Toggle other checkboxes based on "Select All" checkbox state
+    const trendlineCheckboxes = document.querySelectorAll("#options-list-trendline input[type='checkbox']");
+    trendlineCheckboxes.forEach(checkbox => {
+      checkbox.checked = isChecked;
     });
   });
-};
 
-// --------------------------------------------------------------------------------
+  trendlineArray.forEach((item, index) => {
+    const trendlineName = item 
+    const trendlineString = item
+
+    const newLabel = document.createElement('label');
+    newLabel.setAttribute('for', `option-${trendlineString}`);
+    newLabel.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate whitespace-normal items-baseline');
+
+    const newInput = document.createElement('input');
+    newInput.setAttribute('type', 'checkbox');
+    newInput.setAttribute('id', `option-${trendlineString}`);
+    newInput.setAttribute('class', 'w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500');
+    newInput.setAttribute('value', trendlineString);
+
+    // Add the value to selectedTrendlines_Array and check the input by default
+    selectedTrendlines_Array.add(trendlineString);
+    newInput.checked = false;
+
+    const newSpan = document.createElement('span');
+    newSpan.setAttribute('class', 'ml-2');
+
+    newSpan.innerText = trendlineName;
+
+    newLabel.appendChild(newInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListTrendline.appendChild(newLabel);
+  });
+
+  // Add event listeners to other checkboxes
+  const trendlineLabels = document.querySelectorAll('#options-list-trendline label');
+  trendlineLabels.forEach((label, index) => {
+    const input = label.querySelector('input');
+    const trendlineString = label.querySelector('input').value;
+
+    input.addEventListener('change', function () {
+      if (input.checked && !selectedTrendlines_Array.has(trendlineString)) {
+        // Handle when the trendline is selected
+        selectedTrendlines_Array.add(trendlineString);
+      } else if (input.checked && selectedTrendlines_Array.has(trendlineString)) {
+        // loop through trendlineLabels again to find any unchecked inputs, if so, delete from selectedTrendlines_Array
+        trendlineLabels.forEach(label => {
+          const input = label.querySelector('input');
+          const trendlineString = label.querySelector('input').value;
+          if (!input.checked) {
+            selectedTrendlines_Array.delete(trendlineString);
+          }
+        });
+      } else {
+        selectedTrendlines_Array.delete(trendlineString);
+        // check if all inputs are unchecked, if so, make sure selectedTrendlines_Array contains all trendlines
+        let allUnchecked = true;
+        trendlineLabels.forEach(label => {
+          const input = label.querySelector('input');
+          if (input.checked) {
+            allUnchecked = false;
+          }
+          if (allUnchecked) {
+            trendlineLabels.forEach(label => {
+              const trendlineString = label.querySelector('input').value;
+              selectedTrendlines_Array.add(trendlineString);
+            });
+          }
+        }
+      });
+    });
+  };
+  
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// const addUniqueClientsToOptionsSelectClientDropdown = clientSet => {
+//   const optionsListClient = document.getElementById ('options-list-client');
+//   const searchInput = document.getElementById ('input-group-search');
+
+//   // Function to filter clients based on search input
+//   const filterClients = () => {
+//     const searchValue = searchInput.value.toLowerCase ();
+//     const clients = optionsListClient.querySelectorAll (
+//       "label[for^='client_']"
+//     );
+//     clients.forEach (client => {
+//       if (client.getAttribute ('for') !== 'input-group-search') {
+//         const clientName = client.innerText.toLowerCase ();
+//         const listItem = client.parentElement.parentElement;
+//         if (clientName.includes (searchValue)) {
+//           listItem.style.display = 'block';
+//         } else {
+//           listItem.style.display = 'none';
+//         }
+//       }
+//     });
+//   };
+
+//   // Event listener for search input
+//   searchInput.addEventListener ('input', filterClients);
+
+//   // Create "Select All" checkbox and label
+//   const selectAllLabel = document.createElement ('label');
+//   selectAllLabel.setAttribute ('for', 'select-all-checkbox-client');
+//   selectAllLabel.setAttribute (
+//     'class',
+//     'flex items-center justify-start px-4 py-2 cursor-pointer truncate'
+//   );
+
+//   const selectAllInput = document.createElement ('input');
+//   selectAllInput.setAttribute ('type', 'checkbox');
+//   selectAllInput.setAttribute ('id', 'select-all-checkbox-client');
+//   selectAllInput.setAttribute (
+//     'class',
+//     'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer'
+//   );
+
+//   const selectAllSpan = document.createElement ('span');
+//   selectAllSpan.setAttribute ('id', 'select-all-text-client');
+//   selectAllSpan.innerText = '(select all)';
+//   selectAllSpan.setAttribute ('class', 'text-lg font-semibold');
+
+//   selectAllLabel.appendChild (selectAllInput);
+//   selectAllLabel.appendChild (selectAllSpan);
+
+//   optionsListClient.insertBefore (
+//     selectAllLabel,
+//     optionsListClient.children[1]
+//   );
+
+//   selectAllInput.addEventListener ('change', function () {
+//     const isChecked = selectAllInput.checked;
+//     // Toggle other checkboxes based on "Select All" checkbox state
+//     const clientCheckboxes = document.querySelectorAll (
+//       "#options-list-client input[type='checkbox']"
+//     );
+//     clientCheckboxes.forEach (checkbox => {
+//       checkbox.checked = isChecked;
+//     });
+//   });
+
+//   // Generate client checkboxes
+//   clientSet.forEach (clientString => {
+//     const newListItem = document.createElement ('li');
+//     newListItem.style.listStyleType = 'none';
+
+//     const newDiv = document.createElement ('div');
+//     newDiv.setAttribute (
+//       'class',
+//       'flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600'
+//     );
+
+//     const newInput = document.createElement ('input');
+//     newInput.setAttribute ('id', `client_${clientString}`);
+//     newInput.setAttribute ('type', 'checkbox');
+//     newInput.setAttribute ('value', clientString);
+
+//     const newLabel = document.createElement ('label');
+//     newLabel.setAttribute ('for', `client_${clientString}`);
+//     newLabel.setAttribute (
+//       'class',
+//       'w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300'
+//     );
+//     newLabel.innerText = clientString;
+
+//     newDiv.appendChild (newInput);
+//     newDiv.appendChild (newLabel);
+
+//     newListItem.appendChild (newDiv);
+
+//     optionsListClient.appendChild (newListItem);
+//   });
+
+//   // Function to update selectedClients_Array
+//   const clientDivs = document.querySelectorAll ('#options-list-client li div');
+//   clientDivs.forEach (div => {
+//     const input = div.querySelector ('input');
+//     const clientString = div.querySelector ('label').textContent;
+
+//     input.addEventListener ('change', function () {
+//       if (input.checked && !selectedClients_Array.has (clientString)) {
+//         // Handle when the type is selected
+//         selectedClients_Array.add (clientString);
+//       } else if (input.checked && selectedClients_Array.has (clientString)) {
+//         // loop through clientDivs again to find any unchecked inputs, if so, delete from selectedClients_Array
+//         clientDivs.forEach (div => {
+//           const input = div.querySelector ('input');
+//           const clientString = div.querySelector ('label').textContent;
+//           if (!input.checked) {
+//             selectedClients_Array.delete (clientString);
+//           }
+//         });
+//       } else {
+//         selectedClients_Array.delete (clientString);
+//         // check if all inputs are unchecked, if so, make sure selectedClients_Array contains all types
+//         let allUnchecked = true;
+//         clientDivs.forEach (label => {
+//           const input = label.querySelector ('input');
+//           if (input.checked) {
+//             allUnchecked = false;
+//           }
+//         });
+//         if (allUnchecked) {
+//           clientDivs.forEach (div => {
+//             const clientString = div.querySelector ('label').textContent;
+//             selectedClients_Array.add (clientString);
+//           });
+//         }
+//       }
+//     });
+//   });
+// };
 
 adjustDivHeight ();
 

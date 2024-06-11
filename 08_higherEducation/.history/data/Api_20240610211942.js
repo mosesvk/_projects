@@ -31,12 +31,8 @@ const fetchPeerData = async () => {
 document.addEventListener("DOMContentLoaded", async () => {
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
-  const clientsArray = [...recordsPeer].map((record) => {
-    return record.querySelector("merged_client_name").textContent;
-  }
-  );
-  const uniqueClients = [...new Set(clientsArray)];
 
+  countUniqueClients(recordsPeer);
 
 
   // console.log(recordsClient[0]);
@@ -52,13 +48,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
 
-  addUniqueClientsToOptionsSelectClientsDropdown(uniqueClients);
-
-  addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
-
-  addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
-
   addUniqueTrendlinesToOptionsSelectTrendlinesDropdown(trendlines_Array);
+
+  addUniqueClientsToOptionsSelectClientsDropdown(uniqueClients);
 
   localStorage.clear();
 });
@@ -341,7 +333,8 @@ run_btn.addEventListener("click", async () => {
   // uploadMainFile = ''
   // document.getElementById('print_modal_footer').classList.add('hidden');
   const recordsClient = await fetchClientData();
-  const recordsPeer = await fetchPeerData()
+  const recordsPeer = await fetchPeerData();
+  countUniqueClients(recordsPeer);
 
   try {
     toggleButtonLoadingState(run_btn);

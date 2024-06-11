@@ -214,6 +214,8 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = regionArray => {
     });
   });
 
+  selectAllInput.checked = true;
+
   regionArray.forEach ((regionObject, index) => {
     const regionName = regionObject.arr[0];
     const regionString = regionObject.str;
@@ -236,8 +238,7 @@ const addUniqueRegionsToOptionsSelectRegionsDropdown = regionArray => {
 
     // Add the value to selectedRegions_Array and check the input by default
     selectedRegions_Array.add (regionString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.innerText = regionName;
@@ -350,8 +351,7 @@ const addUniqueStatesToOptionsSelectStatesDropdown = stateArray => {
 
     // Add the value to selectedStates_Array and check the input by default
     selectedStates_Array.add (stateString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.innerText = stateName;
@@ -466,8 +466,7 @@ const addUniqueMembershipsToOptionsSelectMembershipsDropdown = membershipArray =
 
     // Add the value to selectedMemberships_Array and check the input by default
     selectedMemberships_Array.add (membershipString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.innerText = membershipName;
@@ -586,8 +585,7 @@ const addUniqueClientsToOptionsSelectClientsDropdown = clientArray => {
 
     // Add the value to selectedClients_Array and check the input by default
     selectedClients_Array.add (clientString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.setAttribute ('class', 'ml-2');
@@ -702,8 +700,7 @@ const addUniqueTypesToOptionsSelectTypesDropdown = typeArray => {
 
     // Add the value to selectedTypes_Array and check the input by default
     selectedTypes_Array.add (typeString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.setAttribute ('class', 'ml-2');
@@ -818,8 +815,7 @@ const addUniqueAthleticsToOptionsSelectAthleticsDropdown = athleticArray => {
 
     // Add the value to selectedAthletics_Array and check the input by default
     selectedAthletics_Array.add (athleticString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.setAttribute ('class', 'ml-2');
@@ -941,8 +937,7 @@ const addUniqueTrendlinesToOptionsSelectTrendlinesDropdown = trendlineArray => {
 
     // Add the value to selectedTrendlines_Array and check the input by default
     selectedTrendlines_Array.add (trendlineString);
-    selectAllInput.checked = true;
-    newInput.checked = true;
+    newInput.checked = false;
 
     const newSpan = document.createElement ('span');
     newSpan.setAttribute ('class', 'ml-2');

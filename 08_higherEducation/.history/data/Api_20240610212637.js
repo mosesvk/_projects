@@ -31,11 +31,15 @@ const fetchPeerData = async () => {
 document.addEventListener("DOMContentLoaded", async () => {
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
+  // get all the records from recordsPeer xml and grab the "merged_client_name" from each of the records and put them in an array
   const clientsArray = [...recordsPeer].map((record) => {
     return record.querySelector("merged_client_name").textContent;
   }
   );
+  // get all the unique clients from the clientsArray
   const uniqueClients = [...new Set(clientsArray)];
+
+  console.log(uniqueClients);
 
 
 
@@ -53,12 +57,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
 
   addUniqueClientsToOptionsSelectClientsDropdown(uniqueClients);
-
-  addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
-
-  addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
-
-  addUniqueTrendlinesToOptionsSelectTrendlinesDropdown(trendlines_Array);
 
   localStorage.clear();
 });

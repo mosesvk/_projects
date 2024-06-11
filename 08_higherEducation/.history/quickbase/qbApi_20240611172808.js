@@ -2279,7 +2279,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     (${getTrendlinesQuery (selectedTrendlines_Array)}) AND 
     (${getAthleticsQuery (selectedAthletics_Array)}) AND 
     (${getTypeQuery (selectedTypes_Array)}) AND
-    (${getClientQuery (selectedClients_Array)})
+    (${getClientQuery (selectedClients_Array)}
     `,
     clist: '7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395',
   };

@@ -2240,27 +2240,6 @@ const getRecordsForPeer = async (years, dataStr) => {
     return `(${trendlinesConditions})`;
   }
 
-  function getAthleticsQuery(selectedAthletics) {
-    const athleticsConditions = [...selectedAthletics]
-      .map(athletic => `{534.EX.${athletic}}`)
-      .join(' OR ');
-    return `(${athleticsConditions})`;
-  }
-
-  function getTypeQuery(selectedTypes) {
-    const typeConditions = [...selectedTypes]
-      .map (type => `{618.EX.${type}}`)
-      .join (' OR ');
-    return `(${typeConditions})`;
-  }
-
-  function getClientQuery(selectedClients) {
-    const clientConditions = [...selectedClients]
-      .map (client => `{539.EX.${client}}`)
-      .join (' OR ');
-    return `(${clientConditions})`;
-  }
-
   // AND
   // (${getClientQuery(selectedClients_Array)})
 
@@ -2276,10 +2255,6 @@ const getRecordsForPeer = async (years, dataStr) => {
     (${getRegionQuery (selectedRegions_Array)}) AND 
     (${getStateQuery(selectedStates_Array)}) AND 
     (${getMembershipsQuery (selectedMemberships_Array)}) AND 
-    (${getTrendlinesQuery (selectedTrendlines_Array)}) AND 
-    (${getAthleticsQuery (selectedAthletics_Array)}) AND 
-    (${getTypeQuery (selectedTypes_Array)}) AND
-    (${getClientQuery (selectedClients_Array)})
     `,
     clist: '7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395',
   };

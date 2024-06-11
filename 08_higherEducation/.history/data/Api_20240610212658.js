@@ -54,12 +54,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   addUniqueClientsToOptionsSelectClientsDropdown(uniqueClients);
 
-  addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
-
-  addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
-
-  addUniqueTrendlinesToOptionsSelectTrendlinesDropdown(trendlines_Array);
-
   localStorage.clear();
 });
 

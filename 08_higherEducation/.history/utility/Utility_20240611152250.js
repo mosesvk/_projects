@@ -106,7 +106,7 @@ const trendlines_Array = [
   { arr: ["bench"], str: "bench" }
 ];
 
-const athletics_Array = [
+const athletic_Array = [
   { arr: ["NAIA Division I"], str: "NAIA Division I" },
   { arr: ["NAIA Division II"], str: "NAIA Division II" },
   { arr: ["NCAA Division I without football"], str: "NCAA Division I without football" },
@@ -137,7 +137,6 @@ const selectedRegions_Array = new Set();
 const selectedStates_Array = new Set();
 const selectedMemberships_Array = new Set();
 const selectedTrendlines_Array = new Set();
-const selectedAthletics_Array = new Set();
 const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();

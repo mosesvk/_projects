@@ -31,12 +31,6 @@ const fetchPeerData = async () => {
 document.addEventListener("DOMContentLoaded", async () => {
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
-  const clientsArray = [...recordsPeer].map((record) => {
-    return record.querySelector("merged_client_name").textContent;
-  }
-  );
-  const uniqueClients = [...new Set(clientsArray)];
-
 
 
   // console.log(recordsClient[0]);
@@ -52,13 +46,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
 
-  addUniqueClientsToOptionsSelectClientsDropdown(uniqueClients);
-
-  addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
-
-  addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
-
   addUniqueTrendlinesToOptionsSelectTrendlinesDropdown(trendlines_Array);
+
+  addUniqueClientsToOptionsSelectClientsDropdown(uniqueClients);
 
   localStorage.clear();
 });
