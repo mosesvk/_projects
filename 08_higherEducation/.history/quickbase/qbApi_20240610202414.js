@@ -2328,7 +2328,7 @@ const getRecordsForUniqueClientsPeerNames = async () => {
       selectedClients_Array.add (item)
     );
 
-    addUniqueClientsToOptionsSelectClientsDropdown (sortedUniquePeerClientNames);
+    addUniqueClientsToOptionsSelectClientDropdown (sortedUniquePeerClientNames);
   } catch (error) {
     console.error ('Error fetching data:', error);
   }

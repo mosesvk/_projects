@@ -69,7 +69,7 @@
           red: "#ff6384",
           orange: "#ff9f40",
           yellow: "#ffcd56",
-          purple: "#9966ff"
+          purple: "#9966ff",
         };
       </script>
 
@@ -315,13 +315,13 @@
               ></div>
             </button>
             <button
-              id="custom-select-client"
+              id="custom-select-trendline"
               class="mr-3 backgroundBlue font-bold w-44 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
               <div
                 class="flex items-center justify-between dark:text-white px-3"
               >
-                <div class="px-2">Client</div>
+                <div class="px-2">Trendlines</div>
                 <svg
                   class="w-6 h-6 text-white"
                   aria-hidden="true"
@@ -341,8 +341,8 @@
                 </svg>
               </div>
               <div
-                id="options-list-client"
-                class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-80 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
+                id="options-list-trendline"
+                class="text-xl absolute left-0 top-8 z-10 mt-2 w-full colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto h-fit py-4 invisible"
               ></div>
             </button>
             <button
@@ -588,37 +588,34 @@
                 </div>
               </div>
               <div id="CfiRatio_chart"></div>
-              <button
-                id="dropdown_cfiRatio"
-                class="flex items-center justify-between w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+
+              <!-- <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
               >
-                Dropdown
-                <svg
-                  class="w-2.5 h-2.5 ms-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                  id="arrow_cfiRatio"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 1 4 4 1 7"
-                  />
-                </svg>
-              </button>
-              <div id="details_cfiRatio" class="my-5">
-                <h1>DETAIL</h1>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae
-                  ex earum sit id amet, debitis sequi. Expedita ipsa maxime
-                  tempore consequuntur cumque nostrum consequatur, soluta eaque
-                  eveniet eligendi quaerat ut.
-                </p>
-              </div>
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="CfiRatio_modal"
+                    data-modal-toggle="CfiRatio_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div> -->
             </div>
           </div>
           <!-- DOE CONTENT -->

@@ -30,10 +30,6 @@ const fetchPeerData = async () => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const recordsClient = await fetchClientData();
-  const recordsPeer = await fetchPeerData();
-
-  countUniqueClients(recordsPeer);
-  
 
   // console.log(recordsClient[0]);
 
@@ -48,9 +44,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
 
-  addUniqueTrendlinesToOptionsSelectTrendlinesDropdown(trendlines_Array);
-
-  addUniqueClientsToOptionsSelectClientsDropdown(uniqueClients);
 
   localStorage.clear();
 });

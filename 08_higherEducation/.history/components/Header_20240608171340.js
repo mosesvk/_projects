@@ -8,19 +8,12 @@ const customSelectRegionElement = document.getElementById (
 const customSelectStateElement = document.getElementById (
   'custom-select-state'
 );
-const customSelectMembershipElement = document.getElementById('custom-select-membership');
-const customSelectClientElement = document.getElementById('custom-select-client');
-
 
 const optionsListYearElement = document.getElementById ('options-list-year');
 const optionsListRegionElement = document.getElementById (
   'options-list-region'
 );
 const optionsListStateElement = document.getElementById ('options-list-state');
-const optionsListMembershipElement = document.getElementById ('options-list-membership');
-const optionsListClientElement = document.getElementById ('options-list-client');
-
-
 
 customSelectYearElement.addEventListener ('click', event => {
   // Check if the click target is not a checkbox inside the customSelectYearElement
@@ -49,24 +42,6 @@ customSelectStateElement.addEventListener ('click', event => {
     optionsListStateElement.classList.toggle ('invisible');
   }
 });
-customSelectMembershipElement.addEventListener('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectMembershipElement
-  if (
-    !event.target.closest('.form-checkbox') &&
-    !event.target.closest('label')
-  ) {
-    optionsListMembershipElement.classList.toggle('invisible');
-  }
-});
-customSelectClientElement.addEventListener('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectClientElement
-  if (
-    !event.target.closest('.form-checkbox') &&
-    !event.target.closest('label')
-  ) {
-    optionsListClientElement.classList.toggle('invisible');
-  }
-});
 
 document.addEventListener ('click', event => {
   if (
@@ -89,25 +64,7 @@ document.addEventListener ('click', event => {
   ) {
     optionsListStateElement.classList.add ('invisible');
   }
-
-  if (
-    !customSelectMembershipElement.contains(event.target) &&
-    !optionsListMembershipElement.contains(event.target)
-  ) {
-    optionsListMembershipElement.classList.add('invisible');
-  }
-
-  if (
-    !customSelectClientElement.contains(event.target) &&
-    !optionsListClientElement.contains(event.target)
-  ) {
-    optionsListClientElement.classList.add('invisible');
-  }
-  
-
 });
-
-
 
 const addUniqueRegionsToOptionsSelectRegionsDropdown = regionArray => {
   const optionsListRegion = document.getElementById ('options-list-region');
@@ -455,348 +412,145 @@ const addUniqueMembershipsToOptionsSelectMembershipsDropdown = membershipArray =
   });
 };
 
-const addUniqueTrendlinesToOptionsSelectTrendlinesDropdown = trendlineArray => {
-  const optionsListTrendline = document.getElementById('options-list-trendline');
-
-  // Create "Select All" checkbox and label
-  const selectAllLabel = document.createElement('label');
-  selectAllLabel.setAttribute('for', 'select-all-checkbox-trendline');
-  selectAllLabel.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer truncate');
-
-  const selectAllInput = document.createElement('input');
-  selectAllInput.setAttribute('type', 'checkbox');
-  selectAllInput.setAttribute('id', 'select-all-checkbox-trendline');
-  selectAllInput.setAttribute('class', 'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer');
-
-  const selectAllSpan = document.createElement('span');
-  selectAllSpan.setAttribute('id', 'select-all-text');
-  selectAllSpan.innerText = '(select all)';
-  selectAllSpan.setAttribute('class', 'text-lg font-semibold');
-
-  selectAllLabel.appendChild(selectAllInput);
-  selectAllLabel.appendChild(selectAllSpan);
-
-  optionsListTrendline.appendChild(selectAllLabel);
-
-  selectAllInput.addEventListener('change', function () {
-    const isChecked = selectAllInput.checked;
-    // Toggle other checkboxes based on "Select All" checkbox state
-    const trendlineCheckboxes = document.querySelectorAll("#options-list-trendline input[type='checkbox']");
-    trendlineCheckboxes.forEach(checkbox => {
-      checkbox.checked = isChecked;
-    });
-  });
-
-  trendlineArray.forEach((trendlineObject, index) => {
-    const trendlineName = trendlineObject.arr[0];
-    const trendlineString = trendlineObject.str;
-
-    const newLabel = document.createElement('label');
-    newLabel.setAttribute('for', `option-${trendlineString}`);
-    newLabel.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate');
-
-    const newInput = document.createElement('input');
-    newInput.setAttribute('type', 'checkbox');
-    newInput.setAttribute('id', `option-${trendlineString}`);
-    newInput.setAttribute('class', 'w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500');
-    newInput.setAttribute('value', trendlineString);
-
-    // Add the value to selectedTrendlines_Array and check the input by default
-    selectedTrendlines_Array.add(trendlineString);
-    newInput.checked = false;
-
-    const newSpan = document.createElement('span');
-    newSpan.innerText = trendlineName;
-
-    newLabel.appendChild(newInput);
-    newLabel.appendChild(newSpan);
-
-    optionsListTrendline.appendChild(newLabel);
-  });
-
-  // Add event listeners to other checkboxes
-  const trendlineLabels = document.querySelectorAll('#options-list-trendline label');
-  trendlineLabels.forEach((label, index) => {
-    const input = label.querySelector('input');
-    const trendlineString = label.querySelector('input').value;
-
-    input.addEventListener('change', function () {
-      if (input.checked && !selectedTrendlines_Array.has(trendlineString)) {
-        // Handle when the trendline is selected
-        selectedTrendlines_Array.add(trendlineString);
-      } else if (input.checked && selectedTrendlines_Array.has(trendlineString)) {
-        // loop through trendlineLabels again to find any unchecked inputs, if so, delete from selectedTrendlines_Array
-        trendlineLabels.forEach(label => {
-          const input = label.querySelector('input');
-          const trendlineString = label.querySelector('input').value;
-          if (!input.checked) {
-            selectedTrendlines_Array.delete(trendlineString);
-          }
-        });
-      } else {
-        selectedTrendlines_Array.delete(trendlineString);
-        // check if all inputs are unchecked, if so, make sure selectedTrendlines_Array contains all trendlines
-        let allUnchecked = true;
-        trendlineLabels.forEach(label => {
-          const input = label.querySelector('input');
-          if (input.checked) {
-            allUnchecked = false;
-          }
-        });
-        if (allUnchecked) {
-          trendlineLabels.forEach(label => {
-            const trendlineString = label.querySelector('input').value;
-            selectedTrendlines_Array.add(trendlineString);
-          });
-        }
-      }
-    });
-  });
-};
-
-const addUniqueClientsToOptionsSelectClientsDropdown = clientArray => {
-  // console.log(clientArray);
-  const optionsListClient = document.getElementById('options-list-client');
-
-  // Create "Select All" checkbox and label
-  const selectAllLabel = document.createElement('label');
-  selectAllLabel.setAttribute('for', 'select-all-checkbox-client');
-  selectAllLabel.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer truncate');
-
-  const selectAllInput = document.createElement('input');
-  selectAllInput.setAttribute('type', 'checkbox');
-  selectAllInput.setAttribute('id', 'select-all-checkbox-client');
-  selectAllInput.setAttribute('class', 'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer');
-
-  const selectAllSpan = document.createElement('span');
-  selectAllSpan.setAttribute('id', 'select-all-text');
-  selectAllSpan.innerText = '(select all)';
-  selectAllSpan.setAttribute('class', 'text-lg font-semibold');
-
-  selectAllLabel.appendChild(selectAllInput);
-  selectAllLabel.appendChild(selectAllSpan);
-
-  optionsListClient.appendChild(selectAllLabel);
-
-  selectAllInput.addEventListener('change', function () {
-    const isChecked = selectAllInput.checked;
-    // Toggle other checkboxes based on "Select All" checkbox state
-    const clientCheckboxes = document.querySelectorAll("#options-list-client input[type='checkbox']");
-    clientCheckboxes.forEach(checkbox => {
-      checkbox.checked = isChecked;
-    });
-  });
-
-  clientArray.forEach((item, index) => {
-    const clientName = item 
-    const clientString = item
-
-    const newLabel = document.createElement('label');
-    newLabel.setAttribute('for', `option-${clientString}`);
-    newLabel.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate whitespace-normal items-baseline');
-
-    const newInput = document.createElement('input');
-    newInput.setAttribute('type', 'checkbox');
-    newInput.setAttribute('id', `option-${clientString}`);
-    newInput.setAttribute('class', 'w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500');
-    newInput.setAttribute('value', clientString);
-
-    // Add the value to selectedClients_Array and check the input by default
-    selectedClients_Array.add(clientString);
-    newInput.checked = false;
-
-    const newSpan = document.createElement('span');
-    newSpan.setAttribute('class', 'ml-2');
-
-    newSpan.innerText = clientName;
-
-    newLabel.appendChild(newInput);
-    newLabel.appendChild(newSpan);
-
-    optionsListClient.appendChild(newLabel);
-  });
-
-  // Add event listeners to other checkboxes
-  const clientLabels = document.querySelectorAll('#options-list-client label');
-  clientLabels.forEach((label, index) => {
-    const input = label.querySelector('input');
-    const clientString = label.querySelector('input').value;
-
-    input.addEventListener('change', function () {
-      if (input.checked && !selectedClients_Array.has(clientString)) {
-        // Handle when the client is selected
-        selectedClients_Array.add(clientString);
-      } else if (input.checked && selectedClients_Array.has(clientString)) {
-        // loop through clientLabels again to find any unchecked inputs, if so, delete from selectedClients_Array
-        clientLabels.forEach(label => {
-          const input = label.querySelector('input');
-          const clientString = label.querySelector('input').value;
-          if (!input.checked) {
-            selectedClients_Array.delete(clientString);
-          }
-        });
-      } else {
-        selectedClients_Array.delete(clientString);
-        // check if all inputs are unchecked, if so, make sure selectedClients_Array contains all clients
-        let allUnchecked = true;
-        clientLabels.forEach(label => {
-          const input = label.querySelector('input');
-          if (input.checked) {
-            allUnchecked = false;
-          }
-        });
-        if (allUnchecked) {
-          clientLabels.forEach(label => {
-            const clientString = label.querySelector('input').value;
-            selectedClients_Array.add(clientString);
-          });
-        }
-      }
-    });
-  });
-};
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// const addUniqueClientsToOptionsSelectClientDropdown = clientSet => {
-//   const optionsListClient = document.getElementById ('options-list-client');
-//   const searchInput = document.getElementById ('input-group-search');
+const addUniqueClientsToOptionsSelectClientDropdown = clientSet => {
+  const optionsListClient = document.getElementById ('options-list-client');
+  const searchInput = document.getElementById ('input-group-search');
 
-//   // Function to filter clients based on search input
-//   const filterClients = () => {
-//     const searchValue = searchInput.value.toLowerCase ();
-//     const clients = optionsListClient.querySelectorAll (
-//       "label[for^='client_']"
-//     );
-//     clients.forEach (client => {
-//       if (client.getAttribute ('for') !== 'input-group-search') {
-//         const clientName = client.innerText.toLowerCase ();
-//         const listItem = client.parentElement.parentElement;
-//         if (clientName.includes (searchValue)) {
-//           listItem.style.display = 'block';
-//         } else {
-//           listItem.style.display = 'none';
-//         }
-//       }
-//     });
-//   };
+  // Function to filter clients based on search input
+  const filterClients = () => {
+    const searchValue = searchInput.value.toLowerCase ();
+    const clients = optionsListClient.querySelectorAll (
+      "label[for^='client_']"
+    );
+    clients.forEach (client => {
+      if (client.getAttribute ('for') !== 'input-group-search') {
+        const clientName = client.innerText.toLowerCase ();
+        const listItem = client.parentElement.parentElement;
+        if (clientName.includes (searchValue)) {
+          listItem.style.display = 'block';
+        } else {
+          listItem.style.display = 'none';
+        }
+      }
+    });
+  };
 
-//   // Event listener for search input
-//   searchInput.addEventListener ('input', filterClients);
+  // Event listener for search input
+  searchInput.addEventListener ('input', filterClients);
 
-//   // Create "Select All" checkbox and label
-//   const selectAllLabel = document.createElement ('label');
-//   selectAllLabel.setAttribute ('for', 'select-all-checkbox-client');
-//   selectAllLabel.setAttribute (
-//     'class',
-//     'flex items-center justify-start px-4 py-2 cursor-pointer truncate'
-//   );
+  // Create "Select All" checkbox and label
+  const selectAllLabel = document.createElement ('label');
+  selectAllLabel.setAttribute ('for', 'select-all-checkbox-client');
+  selectAllLabel.setAttribute (
+    'class',
+    'flex items-center justify-start px-4 py-2 cursor-pointer truncate'
+  );
 
-//   const selectAllInput = document.createElement ('input');
-//   selectAllInput.setAttribute ('type', 'checkbox');
-//   selectAllInput.setAttribute ('id', 'select-all-checkbox-client');
-//   selectAllInput.setAttribute (
-//     'class',
-//     'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer'
-//   );
+  const selectAllInput = document.createElement ('input');
+  selectAllInput.setAttribute ('type', 'checkbox');
+  selectAllInput.setAttribute ('id', 'select-all-checkbox-client');
+  selectAllInput.setAttribute (
+    'class',
+    'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer'
+  );
 
-//   const selectAllSpan = document.createElement ('span');
-//   selectAllSpan.setAttribute ('id', 'select-all-text-client');
-//   selectAllSpan.innerText = '(select all)';
-//   selectAllSpan.setAttribute ('class', 'text-lg font-semibold');
+  const selectAllSpan = document.createElement ('span');
+  selectAllSpan.setAttribute ('id', 'select-all-text-client');
+  selectAllSpan.innerText = '(select all)';
+  selectAllSpan.setAttribute ('class', 'text-lg font-semibold');
 
-//   selectAllLabel.appendChild (selectAllInput);
-//   selectAllLabel.appendChild (selectAllSpan);
+  selectAllLabel.appendChild (selectAllInput);
+  selectAllLabel.appendChild (selectAllSpan);
 
-//   optionsListClient.insertBefore (
-//     selectAllLabel,
-//     optionsListClient.children[1]
-//   );
+  optionsListClient.insertBefore (
+    selectAllLabel,
+    optionsListClient.children[1]
+  );
 
-//   selectAllInput.addEventListener ('change', function () {
-//     const isChecked = selectAllInput.checked;
-//     // Toggle other checkboxes based on "Select All" checkbox state
-//     const clientCheckboxes = document.querySelectorAll (
-//       "#options-list-client input[type='checkbox']"
-//     );
-//     clientCheckboxes.forEach (checkbox => {
-//       checkbox.checked = isChecked;
-//     });
-//   });
+  selectAllInput.addEventListener ('change', function () {
+    const isChecked = selectAllInput.checked;
+    // Toggle other checkboxes based on "Select All" checkbox state
+    const clientCheckboxes = document.querySelectorAll (
+      "#options-list-client input[type='checkbox']"
+    );
+    clientCheckboxes.forEach (checkbox => {
+      checkbox.checked = isChecked;
+    });
+  });
 
-//   // Generate client checkboxes
-//   clientSet.forEach (clientString => {
-//     const newListItem = document.createElement ('li');
-//     newListItem.style.listStyleType = 'none';
+  // Generate client checkboxes
+  clientSet.forEach (clientString => {
+    const newListItem = document.createElement ('li');
+    newListItem.style.listStyleType = 'none';
 
-//     const newDiv = document.createElement ('div');
-//     newDiv.setAttribute (
-//       'class',
-//       'flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600'
-//     );
+    const newDiv = document.createElement ('div');
+    newDiv.setAttribute (
+      'class',
+      'flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600'
+    );
 
-//     const newInput = document.createElement ('input');
-//     newInput.setAttribute ('id', `client_${clientString}`);
-//     newInput.setAttribute ('type', 'checkbox');
-//     newInput.setAttribute ('value', clientString);
+    const newInput = document.createElement ('input');
+    newInput.setAttribute ('id', `client_${clientString}`);
+    newInput.setAttribute ('type', 'checkbox');
+    newInput.setAttribute ('value', clientString);
 
-//     const newLabel = document.createElement ('label');
-//     newLabel.setAttribute ('for', `client_${clientString}`);
-//     newLabel.setAttribute (
-//       'class',
-//       'w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300'
-//     );
-//     newLabel.innerText = clientString;
+    const newLabel = document.createElement ('label');
+    newLabel.setAttribute ('for', `client_${clientString}`);
+    newLabel.setAttribute (
+      'class',
+      'w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300'
+    );
+    newLabel.innerText = clientString;
 
-//     newDiv.appendChild (newInput);
-//     newDiv.appendChild (newLabel);
+    newDiv.appendChild (newInput);
+    newDiv.appendChild (newLabel);
 
-//     newListItem.appendChild (newDiv);
+    newListItem.appendChild (newDiv);
 
-//     optionsListClient.appendChild (newListItem);
-//   });
+    optionsListClient.appendChild (newListItem);
+  });
 
-//   // Function to update selectedClients_Array
-//   const clientDivs = document.querySelectorAll ('#options-list-client li div');
-//   clientDivs.forEach (div => {
-//     const input = div.querySelector ('input');
-//     const clientString = div.querySelector ('label').textContent;
+  // Function to update selectedClients_Array
+  const clientDivs = document.querySelectorAll ('#options-list-client li div');
+  clientDivs.forEach (div => {
+    const input = div.querySelector ('input');
+    const clientString = div.querySelector ('label').textContent;
 
-//     input.addEventListener ('change', function () {
-//       if (input.checked && !selectedClients_Array.has (clientString)) {
-//         // Handle when the type is selected
-//         selectedClients_Array.add (clientString);
-//       } else if (input.checked && selectedClients_Array.has (clientString)) {
-//         // loop through clientDivs again to find any unchecked inputs, if so, delete from selectedClients_Array
-//         clientDivs.forEach (div => {
-//           const input = div.querySelector ('input');
-//           const clientString = div.querySelector ('label').textContent;
-//           if (!input.checked) {
-//             selectedClients_Array.delete (clientString);
-//           }
-//         });
-//       } else {
-//         selectedClients_Array.delete (clientString);
-//         // check if all inputs are unchecked, if so, make sure selectedClients_Array contains all types
-//         let allUnchecked = true;
-//         clientDivs.forEach (label => {
-//           const input = label.querySelector ('input');
-//           if (input.checked) {
-//             allUnchecked = false;
-//           }
-//         });
-//         if (allUnchecked) {
-//           clientDivs.forEach (div => {
-//             const clientString = div.querySelector ('label').textContent;
-//             selectedClients_Array.add (clientString);
-//           });
-//         }
-//       }
-//     });
-//   });
-// };
+    input.addEventListener ('change', function () {
+      if (input.checked && !selectedClients_Array.has (clientString)) {
+        // Handle when the type is selected
+        selectedClients_Array.add (clientString);
+      } else if (input.checked && selectedClients_Array.has (clientString)) {
+        // loop through clientDivs again to find any unchecked inputs, if so, delete from selectedClients_Array
+        clientDivs.forEach (div => {
+          const input = div.querySelector ('input');
+          const clientString = div.querySelector ('label').textContent;
+          if (!input.checked) {
+            selectedClients_Array.delete (clientString);
+          }
+        });
+      } else {
+        selectedClients_Array.delete (clientString);
+        // check if all inputs are unchecked, if so, make sure selectedClients_Array contains all types
+        let allUnchecked = true;
+        clientDivs.forEach (label => {
+          const input = label.querySelector ('input');
+          if (input.checked) {
+            allUnchecked = false;
+          }
+        });
+        if (allUnchecked) {
+          clientDivs.forEach (div => {
+            const clientString = div.querySelector ('label').textContent;
+            selectedClients_Array.add (clientString);
+          });
+        }
+      }
+    });
+  });
+};
 
 adjustDivHeight ();
 

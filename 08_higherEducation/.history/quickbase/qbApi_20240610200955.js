@@ -14,11 +14,19 @@ $.get (clientData, apiCallClientDataForUniqueYears)
       .textContent;
     document.getElementById ('firmName').textContent = firmName;
 
-    // console.log(recordsClient[0].children)
+    console.log(recordsClient[0].children)
 
     if (recordsClient.length > 0) {
       findUniqueYears (recordsClient);
       dataClient = recordsClient[0].children;
+
+      addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
+
+      addUniqueStatesToOptionsSelectStatesDropdown(states_Array);
+    
+      addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
+    
+      addUniqueTrendlinesToOptionsSelectTrendlinesDropdown(trendlines_Array);
     } else {
       console.error (
         'No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid'
@@ -34,13 +42,9 @@ window.addEventListener ('beforeunload', () => {
 });
 
 document.addEventListener ('DOMContentLoaded', () => {
-  getRecordsForUniqueClientsPeerNames();
-
-  addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
-
-  addUniqueStatesToOptionsSelectStatesDropdown(states_Array);
-
-  addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
+  // getRecordsForUniqueClientPeerNames();
+  // addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
+  // addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
 });
 
 const findUniqueYears = data => {
@@ -2298,10 +2302,10 @@ const getRecordsForPeer = async (years, dataStr) => {
   }
 };
 
-const getRecordsForUniqueClientsPeerNames = async () => {
+const getRecordsForUniqueClientPeerNames = async () => {
   const apiCallPeerData = {
     act: 'API_DoQuery',
-    clist: '7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395',
+    clist: '301.59',
   };
 
   try {
@@ -2313,7 +2317,7 @@ const getRecordsForUniqueClientsPeerNames = async () => {
 
     recordsForPeerUniqueClientPeerNames.forEach ((record, index) => {
       const clientInformalName = record.querySelector (
-        'merged_client_name'
+        'pe___client_informal_name'
       ).textContent;
       uniquePeerClientNames.add (clientInformalName);
     });
@@ -2328,7 +2332,7 @@ const getRecordsForUniqueClientsPeerNames = async () => {
       selectedClients_Array.add (item)
     );
 
-    addUniqueClientsToOptionsSelectClientsDropdown (sortedUniquePeerClientNames);
+    addUniqueClientsToOptionsSelectClientDropdown (sortedUniquePeerClientNames);
   } catch (error) {
     console.error ('Error fetching data:', error);
   }

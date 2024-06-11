@@ -593,7 +593,7 @@ const addUniqueClientsToOptionsSelectClientsDropdown = clientArray => {
 
     const newLabel = document.createElement('label');
     newLabel.setAttribute('for', `option-${clientString}`);
-    newLabel.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate whitespace-normal items-baseline');
+    newLabel.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate whitespace-normal');
 
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'checkbox');
@@ -606,7 +606,7 @@ const addUniqueClientsToOptionsSelectClientsDropdown = clientArray => {
     newInput.checked = false;
 
     const newSpan = document.createElement('span');
-    newSpan.setAttribute('class', 'ml-2');
+    newSpan.setAttribute('class', 'w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500');
 
     newSpan.innerText = clientName;
 

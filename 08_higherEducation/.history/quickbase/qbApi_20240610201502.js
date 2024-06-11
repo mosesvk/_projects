@@ -14,7 +14,7 @@ $.get (clientData, apiCallClientDataForUniqueYears)
       .textContent;
     document.getElementById ('firmName').textContent = firmName;
 
-    // console.log(recordsClient[0].children)
+    console.log(recordsClient[0].children)
 
     if (recordsClient.length > 0) {
       findUniqueYears (recordsClient);
@@ -34,7 +34,7 @@ window.addEventListener ('beforeunload', () => {
 });
 
 document.addEventListener ('DOMContentLoaded', () => {
-  getRecordsForUniqueClientsPeerNames();
+  getRecordsForUniqueClientPeerNames();
 
   addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
 
@@ -2298,10 +2298,10 @@ const getRecordsForPeer = async (years, dataStr) => {
   }
 };
 
-const getRecordsForUniqueClientsPeerNames = async () => {
+const getRecordsForUniqueClientPeerNames = async () => {
   const apiCallPeerData = {
     act: 'API_DoQuery',
-    clist: '7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395',
+    clist: '301.59',
   };
 
   try {
@@ -2328,7 +2328,7 @@ const getRecordsForUniqueClientsPeerNames = async () => {
       selectedClients_Array.add (item)
     );
 
-    addUniqueClientsToOptionsSelectClientsDropdown (sortedUniquePeerClientNames);
+    addUniqueClientsToOptionsSelectClientDropdown (sortedUniquePeerClientNames);
   } catch (error) {
     console.error ('Error fetching data:', error);
   }

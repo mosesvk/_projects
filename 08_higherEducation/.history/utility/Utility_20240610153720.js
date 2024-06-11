@@ -120,7 +120,6 @@ let selectedRegion = "";
 const selectedRegions_Array = new Set();
 const selectedStates_Array = new Set();
 const selectedMemberships_Array = new Set();
-const selectedTrendlines_Array = new Set();
 const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();

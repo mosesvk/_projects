@@ -2318,7 +2318,7 @@ const getRecordsForUniqueClientsPeerNames = async () => {
       uniquePeerClientNames.add (clientInformalName);
     });
 
-    // console.log({ uniquePeerClientNames });
+    console.log({ uniquePeerClientNames });
 
     const sortedUniquePeerClientNames = Array.from (
       uniquePeerClientNames

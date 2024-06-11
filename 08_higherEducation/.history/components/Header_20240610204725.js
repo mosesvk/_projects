@@ -593,7 +593,7 @@ const addUniqueClientsToOptionsSelectClientsDropdown = clientArray => {
 
     const newLabel = document.createElement('label');
     newLabel.setAttribute('for', `option-${clientString}`);
-    newLabel.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate whitespace-normal items-baseline');
+    newLabel.setAttribute('class', 'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate whitespace-normal');
 
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'checkbox');

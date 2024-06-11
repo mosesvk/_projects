@@ -24,8 +24,6 @@ $.get (clientData, apiCallClientDataForUniqueYears)
         'No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid'
       );
     }
-
-
   })
   .catch (err => console.error (err));
 
@@ -34,13 +32,9 @@ window.addEventListener ('beforeunload', () => {
 });
 
 document.addEventListener ('DOMContentLoaded', () => {
-  getRecordsForUniqueClientsPeerNames();
-
-  addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
-
-  addUniqueStatesToOptionsSelectStatesDropdown(states_Array);
-
-  addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
+  // getRecordsForUniqueClientPeerNames();
+  // addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
+  // addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
 });
 
 const findUniqueYears = data => {
@@ -2067,25 +2061,25 @@ const processMiscData = (years, recordsaPeer, recordsClient) => {
 
 // Helper functions
 
-const countUniqueClients = (records) => {
-  uniqueClients = new Set();
-  try {
-    records.forEach((record) => {
-      const mainRelatedClient = record.querySelector(
-        "pe___client_legal_name"
-      ).textContent;
-      // console.log(mainRelatedClient);
-      uniqueClients.add(mainRelatedClient);
-    });
+// const countUniqueClients = (records) => {
+//   uniqueClients = new Set();
+//   try {
+//     records.forEach((record) => {
+//       const mainRelatedClient = record.querySelector(
+//         "pe___client_legal_name"
+//       ).textContent;
+//       // console.log(mainRelatedClient);
+//       uniqueClients.add(mainRelatedClient);
+//     });
 
-    const count = uniqueClients.size;
-    console.log(count);
-    document.getElementById("uniqueClients").textContent = count;
-  } catch (error) {
-    console.error("Error counting unique clients:", error);
-    document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
-  }
-};
+//     const count = uniqueClients.size;
+//     console.log(count);
+//     document.getElementById("uniqueClients").textContent = count;
+//   } catch (error) {
+//     console.error("Error counting unique clients:", error);
+//     document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
+//   }
+// };
 
 const toggleButtonLoadingState = btn => {
   btn.innerHTML = `
@@ -2219,27 +2213,22 @@ const getRecordsForPeer = async (years, dataStr) => {
     return `(${regionConditions})`;
   }
 
-  function getStateQuery(selectedStates) {
-    const stateConditions = [...selectedStates]
-      .map(state => `{619.EX.${state}}`)
-      .join(' OR ');
-    return `(${stateConditions})`;
-  }
-  
-  function getMembershipsQuery(selectedMemberships) {
-    const membershipsConditions = [...selectedMemberships]
-      .map(membership => `{537.EX.${membership}}`)
-      .join(' OR ');
-    return `(${membershipsConditions})`;
-  }
-  
-  function getTrendlinesQuery(selectedTrendlines) {
-    const trendlinesConditions = [...selectedTrendlines]
-      .map(trendline => `{536.EX.${trendline}}`)
-      .join(' OR ');
-    return `(${trendlinesConditions})`;
+  function getTypeQuery (selectedTypes) {
+    const typeConditions = [...selectedTypes]
+      .map (type => `{334.EX.${type}}`)
+      .join (' OR ');
+    return `(${typeConditions})`;
   }
 
+  function getClientQuery (selectedClients) {
+    const clientConditions = [...selectedClients]
+      .map (client => `{59.EX.'${client}'}`)
+      .join (' OR ');
+    // console.log(`(${clientConditions})`);
+    return `(${clientConditions})`;
+  }
+
+  getClientQuery (selectedClients_Array);
   // AND
   // (${getClientQuery(selectedClients_Array)})
 
@@ -2253,8 +2242,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     query: `
     {7.EX.${currentYear}} AND
     (${getRegionQuery (selectedRegions_Array)}) AND 
-    (${getStateQuery(selectedStates_Array)}) AND 
-    (${getMembershipsQuery (selectedMemberships_Array)}) AND 
+    
     `,
     clist: '7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395',
   };
@@ -2298,10 +2286,10 @@ const getRecordsForPeer = async (years, dataStr) => {
   }
 };
 
-const getRecordsForUniqueClientsPeerNames = async () => {
+const getRecordsForUniqueClientPeerNames = async () => {
   const apiCallPeerData = {
     act: 'API_DoQuery',
-    clist: '7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395',
+    clist: '301.59',
   };
 
   try {
@@ -2313,7 +2301,7 @@ const getRecordsForUniqueClientsPeerNames = async () => {
 
     recordsForPeerUniqueClientPeerNames.forEach ((record, index) => {
       const clientInformalName = record.querySelector (
-        'merged_client_name'
+        'pe___client_informal_name'
       ).textContent;
       uniquePeerClientNames.add (clientInformalName);
     });
@@ -2328,7 +2316,7 @@ const getRecordsForUniqueClientsPeerNames = async () => {
       selectedClients_Array.add (item)
     );
 
-    addUniqueClientsToOptionsSelectClientsDropdown (sortedUniquePeerClientNames);
+    addUniqueClientsToOptionsSelectClientDropdown (sortedUniquePeerClientNames);
   } catch (error) {
     console.error ('Error fetching data:', error);
   }

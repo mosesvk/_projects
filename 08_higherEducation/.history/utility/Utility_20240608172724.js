@@ -98,15 +98,6 @@ const memberships_Array = [
   { arr: ["TRACS"], str: "TRACS" }
 ];
 
-const trendlines_Array = [
-  { arr: [25], str: "25" },
-  { arr: [50], str: "50" },
-  { arr: [75], str: "75" },
-  { arr: ["avg"], str: "avg" },
-  { arr: ["bench"], str: "bench" }
-];
-
-
 
 let sliderAmount = null;
 let sliderRange = null;
@@ -120,7 +111,6 @@ let selectedRegion = "";
 const selectedRegions_Array = new Set();
 const selectedStates_Array = new Set();
 const selectedMemberships_Array = new Set();
-const selectedTrendlines_Array = new Set();
 const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();
