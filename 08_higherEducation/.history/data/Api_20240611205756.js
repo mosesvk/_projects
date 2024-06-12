@@ -95,7 +95,7 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
+  // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
 
   const innerData =
     child == 0
@@ -156,7 +156,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
   years.forEach((year) => {
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector(
-        "year"
+        "fiscal_ye_date_formatted_year_text"
       ).textContent;
 
       return fiscalYear.includes(year.toString());
@@ -169,16 +169,14 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         object,
         "cfiRatio_Peer",
         record,
-        "r119_ccfi_overall_ratio",
-        "Yes"
+        "r119_ccfi_overall_ratio"
       );
-
 
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector(
-        "year"
+        "fiscal_ye_date_formatted_year_text"
       ).textContent;
       return fiscalYear.includes(year.toString());
     });
@@ -196,6 +194,8 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
 
     });
 
+    localStorage.removeItem("cfiData");
+    localStorage.setItem("cfiData", JSON.stringify(object));
   });
 
   localStorage.removeItem("cfiData");
@@ -260,16 +260,21 @@ const resetSelectedYears = () => {
 };
 
 const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
-  processCfiData(selectedYears, recordsPeer, recordsClient);
-
+  processGeneralData(selectedYears, recordsPeer, recordsClient);
+  processCashData(selectedYears, recordsPeer, recordsClient);
+  processAssetData(selectedYears, recordsPeer, recordsClient);
+  processIncomeData(selectedYears, recordsPeer, recordsClient);
+  processExpenseData(selectedYears, recordsPeer, recordsClient);
+  processMiscData(selectedYears, recordsPeer, recordsClient);
 };
 
 const displayComponents = () => {
-  displayCfiComponent();
-  // displayCashComponent();
-  // displayIncomeComponent();
-  // displayExpenseComponent();
-  // displayReportComponent();
+  displayGeneralComponent();
+  displayCashComponent();
+  // displayAssetComponent();
+  displayIncomeComponent();
+  displayExpenseComponent();
+  displayReportComponent();
 
 };
 
@@ -279,8 +284,6 @@ run_btn.addEventListener("click", async () => {
   // document.getElementById('print_modal_footer').classList.add('hidden');
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData()
-
-  // console.log({ recordsClient, recordsPeer });
 
   try {
     toggleButtonLoadingState(run_btn);

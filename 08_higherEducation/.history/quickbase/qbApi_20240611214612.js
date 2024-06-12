@@ -365,11 +365,7 @@ run_btn.addEventListener ('click', async () => {
     console.log ('CLIENT', qdbapiElementClient);
 
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join ('')}</qdbapi>`;
-    if (recordPeerHTMLArray.length === 0) {
-      console.error ('No Peer records found for the selected years');
-    } else {
-      console.log ('PEER', qdbapiElementPeer);
-    }
+    console.log ('PEER', qdbapiElementPeer);
 
     // processApiCalls(selectedYears, recordsPeer, recordsClient);
     // displayComponents();
@@ -389,7 +385,7 @@ const getParsedData = xmlString => {
 const getRecordsForPeer = async (years, dataStr) => {
   if (years.length === 0) {
     // Base case: return the final string when the array is empty
-    // if (dataStr === '<qdbapi>') console.error('No Peer records found for the selected years')
+    if (dataStr === '<qdbapi>') throw new Error('No records found for the selected years')
     const parsedData = getParsedData (dataStr + '</qdbapi>');
     return parsedData;
   }
@@ -468,7 +464,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     (${getTypeQuery (selectedTypes_Array)}) AND
     (${getClientQuery (selectedClients_Array)})
     `,
-    clist: '7.536.619.537.536.534.618.539.541.549.551.547.553.390.392.396.393.395',
+    clist: '7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395',
   };
 
   try {

@@ -95,7 +95,7 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
+  // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
 
   const innerData =
     child == 0
@@ -169,8 +169,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         object,
         "cfiRatio_Peer",
         record,
-        "r119_ccfi_overall_ratio",
-        "Yes"
+        "r119_ccfi_overall_ratio"
       );
 
 
@@ -280,7 +279,7 @@ run_btn.addEventListener("click", async () => {
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData()
 
-  // console.log({ recordsClient, recordsPeer });
+  console.log({ recordsClient, recordsPeer });
 
   try {
     toggleButtonLoadingState(run_btn);

@@ -1,18 +1,89 @@
-displayCfiComponent = data => {
-  const savedData = getStoredData ('cfiData');
-  const parseData = parseStoredData (savedData);
 
-  // cfiRatio
-  createChartFromParsedData (
-    parseData,
-    'cfiRatio_chart',
-    'cfiRatio_Peer',
-    'cfiRatio_Client',
-    'number',
-    0,
-    'cfiRatio'
+displayGeneralComponent = (data) => {
+  const savedData = getStoredData("cfiData");
+  const parseData = parseStoredData(savedData);
+
+  // cashFlowsTrend
+  const cashFlowsTrendChart = new ApexCharts(
+    document.getElementById("cashFlowsTrend_chart"),
+    getCashFlowChartOptions(parseData, [
+      "cashFlowsTrendFinancing",
+      "cashFlowsTrendInvesting",
+      "cashFlowsTrendOperating",
+      "cashFlowsTrendTotal",
+    ])
   );
+
+  cashFlowsTrendChart.render();
+
+  updateCashFlowModal("cashFlowsTrend", parseData, [
+    "cashFlowsTrendFinancing",
+    "cashFlowsTrendInvesting",
+    "cashFlowsTrendOperating",
+    "cashFlowsTrendTotal",
+  ]);
+
+  // init again when toggling dark mode
+  document.addEventListener("dark-mode", function () {
+    cashFlowsTrendChart.updateOptions(
+      getCashFlowChartOptions(parseData, [
+        "cashFlowsTrendFinancing",
+        "cashFlowsTrendInvesting",
+        "cashFlowsTrendOperating",
+        "cashFlowsTrendTotal",
+      ])
+    );
+  });
 };
+
+// displayCashComponent = (data) => {
+//   const savedData = getStoredData("cashData");
+//   const parseData = parseStoredData(savedData);
+
+//   // daysCashOnHand
+//   createChartFromParsedData(
+//     parseData,
+//     "daysCashOnHand_chart",
+//     "daysCashOnHand_Peer",
+//     "daysCashOnHand_Client",
+//     "number",
+//     0,
+//     "daysCashOnHand"
+//   );
+
+//   // daysExpensesInUnrestrictedNA
+//   createChartFromParsedData(
+//     parseData,
+//     "daysExpensesInUnrestrictedNA_chart",
+//     "daysExpensesInUnrestrictedNA_Peer",
+//     "daysExpensesInUnrestrictedNA_Client",
+//     "number",
+//     0,
+//     "daysExpensesInUnrestrictedNA"
+//   );
+
+//   // daysExpensesInUnrestrictedNA_excludingPPE
+//   createChartFromParsedData(
+//     parseData,
+//     "daysExpensesInUnrestrictedNA_excludingPPE_chart",
+//     "daysExpensesInUnrestrictedNA_excludingPPE_Peer",
+//     "daysExpensesInUnrestrictedNA_excludingPPE_Client",
+//     "number",
+//     0,
+//     "daysExpensesInUnrestrictedNA_excludingPPE"
+//   );
+
+//   // totalCoverageRatio
+//   createChartFromParsedData(
+//     parseData,
+//     "totalCoverageRatio_chart",
+//     "totalCoverageRatio_Peer",
+//     "totalCoverageRatio_Client",
+//     "number",
+//     0,
+//     "totalCoverageRatio"
+//   );
+// };
 
 // displayIncomeComponent = (data) => {
 //   const savedData = getStoredData("incomeData");

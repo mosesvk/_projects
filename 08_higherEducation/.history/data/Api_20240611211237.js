@@ -169,8 +169,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         object,
         "cfiRatio_Peer",
         record,
-        "r119_ccfi_overall_ratio",
-        "Yes"
+        "r119_ccfi_overall_ratio"
       );
 
 
@@ -190,7 +189,8 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         object,
         "cfiRatio_Client",
         record,
-        "r119_ccfi_overall_ratio"
+        "r119_ccfi_overall_ratio",
+        "yes"
       );
 
 

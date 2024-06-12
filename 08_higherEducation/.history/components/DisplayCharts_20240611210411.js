@@ -1,17 +1,21 @@
-displayCfiComponent = data => {
-  const savedData = getStoredData ('cfiData');
-  const parseData = parseStoredData (savedData);
+
+
+
+displayCfiComponent = (data) => {
+  const savedData = getStoredData("cfiData");
+  const parseData = parseStoredData(savedData);
 
   // cfiRatio
-  createChartFromParsedData (
+  createChartFromParsedData(
     parseData,
-    'cfiRatio_chart',
-    'cfiRatio_Peer',
-    'cfiRatio_Client',
-    'number',
+    "cfiRatio_chart",
+    "cfiRatio_Peer",
+    "cfiRatio_Client",
+    "number",
     0,
-    'cfiRatio'
+    "cfiRatio"
   );
+
 };
 
 // displayIncomeComponent = (data) => {

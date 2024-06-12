@@ -62,6 +62,29 @@
       ></script>
 
       <script>
+        var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
+        $.ajaxSetup({ data: { apptoken: apptoken } });
+
+        //retrieve URL ID for record
+        function getQueryVariable(variable) {
+          var query = window.location.search.substring(1);
+          var vars = query.split("&");
+          for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+              return pair[1];
+            }
+          }
+          return false;
+        }
+        var ClientRid = getQueryVariable("clientrid");
+        const clientData = "bt3egnexu";
+        const peerData = "bt3mx3t3i";
+
+        let clientName;
+      </script>
+
+      <script>
         chartColors = {
           green: "#83b240",
           blue: "#326eaa",
@@ -192,7 +215,8 @@
           <div class="flex items-center justify-start">
             <!-- year -->
             <button
-              id="custom-select-year" class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+              id="custom-select-year"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
               <div
                 class="flex items-center justify-between dark:text-white px-3"
@@ -222,7 +246,9 @@
               ></div>
             </button>
             <!-- region  -->
-            <button id="custom-select-region" class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            <button
+              id="custom-select-region"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
               <div
                 class="flex items-center justify-between dark:text-white px-3"
@@ -252,7 +278,9 @@
               ></div>
             </button>
             <!-- state  -->
-            <button id="custom-select-state" class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            <button
+              id="custom-select-state"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
               <div
                 class="flex items-center justify-between dark:text-white px-3"
@@ -282,7 +310,9 @@
               ></div>
             </button>
             <!-- membership  -->
-            <button id="custom-select-membership" class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            <button
+              id="custom-select-membership"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
               <div
                 class="flex items-center justify-between dark:text-white px-3"
@@ -312,7 +342,9 @@
               ></div>
             </button>
             <!-- type -->
-            <button id="custom-select-type" class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            <button
+              id="custom-select-type"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
               <div
                 class="flex items-center justify-between dark:text-white px-3"
@@ -342,7 +374,9 @@
               ></div>
             </button>
             <!-- athletic -->
-            <button id="custom-select-athletic" class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            <button
+              id="custom-select-athletic"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
               <div
                 class="flex items-center justify-between dark:text-white px-3"
@@ -372,7 +406,9 @@
               ></div>
             </button>
             <!-- client  -->
-            <button id="custom-select-client" class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            <button
+              id="custom-select-client"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
               <div
                 class="flex items-center justify-between dark:text-white px-3"
@@ -402,7 +438,9 @@
               ></div>
             </button>
             <!-- trendline -->
-            <button id="custom-select-trendline" class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            <button
+              id="custom-select-trendline"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
               <div
                 class="flex items-center justify-between dark:text-white px-3"
@@ -699,13 +737,35 @@
                 </svg>
               </button>
               <div id="details_cfiRatio" class="my-5">
-                <h1>DETAIL</h1>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae
-                  ex earum sit id amet, debitis sequi. Expedita ipsa maxime
-                  tempore consequuntur cumque nostrum consequatur, soluta eaque
-                  eveniet eligendi quaerat ut.
-                </p>
+                <div class="w-64 mx-auto">
+                  <!-- Select All Checkbox -->
+                  <label
+                    for="select-all-checkbox-trendline"
+                    class="flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+                  >
+                    <input
+                      type="checkbox"
+                      id="select-all-checkbox-trendline"
+                      class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+                    />
+                    <span id="select-all-text" class="text-lg font-semibold"
+                      >(select all)</span
+                    >
+                  </label>
+
+                  <!-- Vertical Bars -->
+                  <!-- Customize colors, labels, and values as needed -->
+                  <div class="bg-pink-500 h-8 mb-2"></div>
+                  <div class="bg-red-500 h-8 mb-2"></div>
+                  <div class="bg-yellow-500 h-8 mb-2"></div>
+                  <div class="bg-orange-500 h-8 mb-2"></div>
+                  <div class="bg-green-500 h-8 mb-2 relative">
+                    <span
+                      class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black w-2 h-2 rounded-full"
+                    ></span>
+                    7.8
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -719,14 +779,23 @@
       </div>
     </div>
 
-    <!-- import all the .js files from components, data, and utility folders-->
-    <script src="./utility/Utility.js"></script>
-    <script src="./utility/WeightedAverages.js"></script>
-    <script src="./data/Api.js"></script>
-    <script src="./components/DisplayCharts.js"></script>
-    <script src="./components/Header.js"></script>
-    <script src="./components/Report.js"></script>
-    <script src="./utility/UiManagement.js"></script>
-    <script src="utility/charts.js"></script>
+    <!-- utility.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=185"></script>
+    <!-- utilityWeightedAverages.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=187"></script>
+    <!-- utilityPrint.js -->
+    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=180"></script> -->
+    <!-- api.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=184"></script>
+    <!-- Header.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=186"></script>
+    <!-- compEnrollment.js -->
+    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=138"></script> -->
+    <!-- compReport.js -->
+    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=139"></script> -->
+    <!-- uiManagement.js -->
+    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=140"></script> -->
+    <!-- charts.js -->
+    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=141"></script> -->
   </body>
 </html>
