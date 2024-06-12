@@ -226,6 +226,8 @@ const addUniqueYearsToOptionsSelectDropdown = yearsArray => {
     );
     newInput.setAttribute ('value', year);
     newInput.checked = selectedYears_Set.has (year);
+    selectAllInput.checked = true;
+    newInput.checked = true;
 
     newInput.addEventListener ('change', e =>
       changeListenerForInputYears (e.target, year)

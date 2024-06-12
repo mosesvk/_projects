@@ -42,6 +42,8 @@ document.addEventListener ('DOMContentLoaded', () => {
 
   addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
 
+  addUniqueClientsToOptionsSelectClientsDropdown(uniqueClients);
+
   addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
 
   addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);

@@ -243,10 +243,10 @@ const addUniqueYearsToOptionsSelectDropdown = yearsArray => {
   selectAllInput.addEventListener ('change', function () {
     const isChecked = selectAllInput.checked;
     // Toggle other checkboxes based on "Select All" checkbox state
-    const yearCheckboxes = document.querySelectorAll (
+    const trendlineCheckboxes = document.querySelectorAll (
       "#options-list-year input[type='checkbox']"
     );
-    yearCheckboxes.forEach (checkbox => {
+    trendlineCheckboxes.forEach (checkbox => {
       checkbox.checked = isChecked;
     });
   });

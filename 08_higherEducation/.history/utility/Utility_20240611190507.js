@@ -741,6 +741,51 @@ const changeListenerForInputYears = (input, year) => {
   localStorage.setItem ('selectedYears', JSON.stringify (selectedYearsArray));
 };
 
+const addUniqueYearsToOptionsSelectDropdown = yearsArray => {
+  // Initialize selectedYears_Set from local storage if data exists
+  const storedYears = getSelectedYearsFromLocalStorage ();
+
+  if (Array.isArray (storedYears)) {
+    selectedYears_Set = new Set (storedYears);
+  }
+
+  optionsListYearElement;
+  yearsArray.sort ((a, b) => b - a);
+
+  yearsArray.forEach (year => {
+    const newLabel = document.createElement ('label');
+    newLabel.setAttribute ('for', `option-${year}`);
+    newLabel.setAttribute (
+      'class',
+      'flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 colorBlue dark:text-gray-200 rounded'
+    );
+
+    // w-4 h-4 mr-2
+
+    const newInput = document.createElement ('input');
+    newInput.setAttribute ('type', 'checkbox');
+    newInput.setAttribute ('id', `option-${year}`);
+    newInput.setAttribute (
+      'class',
+      `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
+    );
+    newInput.setAttribute ('value', year);
+    newInput.checked = selectedYears_Set.has (year);
+
+    newInput.addEventListener ('change', e =>
+      changeListenerForInputYears (e.target, year)
+    );
+
+    const newSpan = document.createElement ('span');
+    newSpan.innerText = year;
+
+    newLabel.appendChild (newInput);
+    newLabel.appendChild (newSpan);
+
+    optionsListYearElement.appendChild (newLabel);
+  });
+};
+
 const getPeerAndClientChartDataArrays = (
   years,
   dataPeer,

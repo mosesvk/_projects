@@ -225,19 +225,19 @@ const addUniqueYearsToOptionsSelectDropdown = yearsArray => {
       `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
     );
     newInput.setAttribute ('value', year);
-    newInput.checked = selectedYears_Set.has (year);
 
-    newInput.addEventListener ('change', e =>
-      changeListenerForInputYears (e.target, year)
-    );
+    // Add the value to selectedRegions_Array and check the input by default
+    selectedYears_Set.add (year);
+    selectAllInput.checked = true;
+    newInput.checked = true;
 
     const newSpan = document.createElement ('span');
-    newSpan.innerText = year;
+    newSpan.innerText = regionName;
 
     newLabel.appendChild (newInput);
     newLabel.appendChild (newSpan);
 
-    optionsListYearElement.appendChild (newLabel);
+    optionsListRegion.appendChild (newLabel);
   });
 
   selectAllInput.addEventListener ('change', function () {

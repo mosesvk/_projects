@@ -185,7 +185,7 @@ const addUniqueYearsToOptionsSelectDropdown = yearsArray => {
 
   // Create "Select All" checkbox and label
   const selectAllLabel = document.createElement ('label');
-  selectAllLabel.setAttribute ('for', 'select-all-checkbox-year');
+  selectAllLabel.setAttribute ('for', 'select-all-checkbox-trendline');
   selectAllLabel.setAttribute (
     'class',
     'flex items-center justify-start px-4 py-2 cursor-pointer truncate'
@@ -193,7 +193,7 @@ const addUniqueYearsToOptionsSelectDropdown = yearsArray => {
 
   const selectAllInput = document.createElement ('input');
   selectAllInput.setAttribute ('type', 'checkbox');
-  selectAllInput.setAttribute ('id', 'select-all-checkbox-year');
+  selectAllInput.setAttribute ('id', 'select-all-checkbox-trendline');
   selectAllInput.setAttribute (
     'class',
     'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer'
@@ -243,10 +243,10 @@ const addUniqueYearsToOptionsSelectDropdown = yearsArray => {
   selectAllInput.addEventListener ('change', function () {
     const isChecked = selectAllInput.checked;
     // Toggle other checkboxes based on "Select All" checkbox state
-    const yearCheckboxes = document.querySelectorAll (
+    const trendlineCheckboxes = document.querySelectorAll (
       "#options-list-year input[type='checkbox']"
     );
-    yearCheckboxes.forEach (checkbox => {
+    trendlineCheckboxes.forEach (checkbox => {
       checkbox.checked = isChecked;
     });
   });
