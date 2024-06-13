@@ -300,7 +300,7 @@ const createChartFromParsedData = (
   mainName
 ) => {
   if (parsedData) {
-    // console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
+    console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
     createChart (
       chart,
       parsedData[peer],
@@ -309,7 +309,7 @@ const createChartFromParsedData = (
       fixedNum,
       mainName
     );
-    // updateModal (mainName, parsedData[peer], parsedData[client]);
+    updateModal (mainName, parsedData[peer], parsedData[client]);
   }
 };
 
@@ -462,6 +462,80 @@ const updateCashFlowModal = (
     });
   }
 };
+
+function updateModal (mainName, avgData, clientData) {
+  // Get the selected years from local storage
+  const selectedYears = getSelectedYearsFromLocalStorage ();
+
+  // Find the modal element
+  const modal = document.getElementById (`${mainName}_modal`);
+
+  // Check if the modal element exists
+  if (modal) {
+    // Find the table header row
+    const headerRow = modal.querySelector (`#${mainName}_modal_row`);
+    // console.log({headerRow});
+    let tableHead = headerRow.parentElement;
+
+    // Clear existing rows after the headerRow
+    let nextRow = headerRow.nextSibling;
+    while (nextRow) {
+      tableHead.removeChild (nextRow);
+      nextRow = headerRow.nextSibling; // Get the next sibling again
+    }
+
+    // Clear existing header content
+    headerRow.innerHTML = '';
+
+    // Add the "year" column
+    const yearColumn = document.createElement ('th');
+    yearColumn.className = 'px-6 py-3';
+    yearColumn.textContent = 'year';
+    headerRow.appendChild (yearColumn);
+
+    // Add the "Client" column
+    const clientColumn = document.createElement ('th');
+    clientColumn.className = 'px-6 py-3';
+    clientColumn.textContent = 'client';
+    headerRow.appendChild (clientColumn);
+
+    // Add the "Avg" column
+    const avgColumn = document.createElement ('th');
+    avgColumn.className = 'px-6 py-3';
+    avgColumn.textContent = 'Avg';
+    headerRow.appendChild (avgColumn);
+
+    // Add the remaining columns
+    const columns = ['50%', '25%', '75%'];
+    columns.forEach (column => {
+      const col = document.createElement ('th');
+      col.className = 'px-6 py-3';
+      col.textContent = column;
+      headerRow.appendChild (col);
+    });
+
+    // Add a row for each selected year
+    selectedYears.forEach (year => {
+      const yearRow = document.createElement ('tr');
+      yearRow.className =
+        'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600';
+      yearRow.id = `${mainName}_modal_${year}`;
+
+      // Create a table header cell for the year
+      const yearCell = document.createElement ('th');
+      yearCell.className =
+        'px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600';
+      yearCell.scope = 'row';
+      yearCell.textContent = year;
+
+      // Append the year cell to the row
+      yearRow.appendChild (yearCell);
+
+      // Append the row to the header
+      tableHead.appendChild (yearRow);
+    });
+  }
+}
 
 const getStoredData = dataTable => {
   return localStorage.getItem (dataTable) || null;

@@ -377,8 +377,8 @@ run_btn.addEventListener ('click', async () => {
       console.log ('PEER', qdbapiElementPeer);
     }
 
-    processApiCalls(selectedYears, recordsPeer, recordsClient);
-    displayComponents();
+    // processApiCalls(selectedYears, recordsPeer, recordsClient);
+    // displayComponents();
   } catch (err) {
     console.error (err);
   } finally {
@@ -462,18 +462,18 @@ const getRecordsForPeer = async (years, dataStr) => {
   // (${getTypeQuery(selectedTypes_Array)}) AND
   // (${getRegionQuery(selectedRegions_Array)})
 
-  // (${getRegionQuery (selectedRegions_Array)}) AND 
-  // (${getStateQuery(selectedStates_Array)}) AND 
   // (${getMembershipsQuery (selectedMemberships_Array)}) AND 
   // (${getTrendlinesQuery (selectedTrendlines_Array)}) AND 
   // (${getAthleticsQuery (selectedAthletics_Array)}) AND 
   // (${getTypeQuery (selectedTypes_Array)}) AND
-  // (${getClientQuery (selectedClients_Array)})
 
   const apiCallPeerData = {
     act: 'API_DoQuery',
     query: `
-    {7.EX.${currentYear}}
+    {7.EX.${currentYear}} AND
+    (${getRegionQuery (selectedRegions_Array)}) AND 
+    (${getStateQuery(selectedStates_Array)}) AND 
+    (${getClientQuery (selectedClients_Array)})
     `,
     clist: '7.536.619.537.536.534.618.539.541.549.551.547.553.390.392.396.393.395',
   };

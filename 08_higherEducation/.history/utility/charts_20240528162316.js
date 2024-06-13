@@ -77,18 +77,6 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
         },
       },
       {
-        name: "25%",
-        type: "line",
-        data: peer25,
-        visible: false,
-      },
-      {
-        name: "50%",
-        type: "line",
-        data: peerMid,
-        visible: false,
-      },
-      {
         name: "Avg",
         type: "line",
         stacked: false,
@@ -106,6 +94,18 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
             stops: [0, 80, 80],
           },
         },
+      },
+      {
+        name: "Midpoint",
+        type: "line",
+        data: peerMid,
+        visible: false,
+      },
+      {
+        name: "25%",
+        type: "line",
+        data: peer25,
+        visible: false,
       },
       {
         name: "75%",

@@ -377,8 +377,8 @@ run_btn.addEventListener ('click', async () => {
       console.log ('PEER', qdbapiElementPeer);
     }
 
-    processApiCalls(selectedYears, recordsPeer, recordsClient);
-    displayComponents();
+    // processApiCalls(selectedYears, recordsPeer, recordsClient);
+    // displayComponents();
   } catch (err) {
     console.error (err);
   } finally {

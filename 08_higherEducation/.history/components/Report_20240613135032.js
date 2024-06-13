@@ -244,8 +244,7 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
   // console.log(existingColumns);
 
   // Iterate through the selectedYearArray and add new columns
-  yearsArray.sort((a, b) => b - a)
-  console.log(yearsArray);
+  yearsArray.sort((a, b) => a - b)
   yearsArray.forEach((year) => {
     // Create a new <th> element for each selected year
     const newTh = document.createElement("th");

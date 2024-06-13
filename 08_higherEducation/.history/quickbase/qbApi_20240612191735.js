@@ -378,7 +378,7 @@ run_btn.addEventListener ('click', async () => {
     }
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
-    displayComponents();
+    // displayComponents();
   } catch (err) {
     console.error (err);
   } finally {

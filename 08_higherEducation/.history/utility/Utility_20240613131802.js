@@ -309,7 +309,7 @@ const createChartFromParsedData = (
       fixedNum,
       mainName
     );
-    // updateModal (mainName, parsedData[peer], parsedData[client]);
+    updateModal (mainName, parsedData[peer], parsedData[client]);
   }
 };
 

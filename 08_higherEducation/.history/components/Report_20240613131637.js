@@ -240,12 +240,12 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
   // Find the table header row by its ID
   const tableHeaderRow = document.getElementById(tableHeader);
 
+  // Get the reference to the "avg" <th> element
+  const avgTh = tableHeaderRow.children[1];
   // const existingColumns = Array.from(tableHeader.children).slice(1
   // console.log(existingColumns);
 
   // Iterate through the selectedYearArray and add new columns
-  yearsArray.sort((a, b) => b - a)
-  console.log(yearsArray);
   yearsArray.forEach((year) => {
     // Create a new <th> element for each selected year
     const newTh = document.createElement("th");
@@ -253,8 +253,8 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
     newTh.setAttribute("class", "px-6 py-3 text-xl");
     newTh.innerText = year;
 
-    // Insert the new <th> element to tableHeaderRow 
-    tableHeaderRow.appendChild(newTh);
+    // Insert the new <th> element before the "avg" <th>
+    tableHeaderRow.insertBefore(newTh, avgTh);
   });
 };
 

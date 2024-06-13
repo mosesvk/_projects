@@ -62,29 +62,6 @@
       ></script>
 
       <script>
-        var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
-        $.ajaxSetup({ data: { apptoken: apptoken } });
-
-        //retrieve URL ID for record
-        function getQueryVariable(variable) {
-          var query = window.location.search.substring(1);
-          var vars = query.split("&");
-          for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if (pair[0] == variable) {
-              return pair[1];
-            }
-          }
-          return false;
-        }
-        var ClientRid = getQueryVariable("clientrid");
-        const clientData = "bt3egnexu";
-        const peerData = "bt3mx3t3i";
-
-        let clientName;
-      </script>
-
-      <script>
         chartColors = {
           green: "#83b240",
           blue: "#326eaa",
@@ -92,7 +69,7 @@
           red: "#ff6384",
           orange: "#ff9f40",
           yellow: "#ffcd56",
-          purple: "#9966ff",
+          purple: "#9966ff"
         };
       </script>
 
@@ -769,6 +746,9 @@
                                 ></th>
 
                                 <th scope="col" class="px-6 py-3">Avg</th>
+                                <th scope="col" class="px-6 py-3">25%</th>
+                                <th scope="col" class="px-6 py-3">50%</th>
+                                <th scope="col" class="px-6 py-3">75%</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -1035,25 +1015,14 @@
       </div>
     </div>
 
-    <!-- utility.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=185"></script>
-    <!-- utilityWeightedAverages.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=187"></script>
-    <!-- utilityPrint.js -->
-    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=180"></script> -->
-    <!-- api.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=184"></script>
-    <!-- Header.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=186"></script>
-    <!-- displayCharts.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=188"></script>
-    <!-- compEnrollment.js -->
-    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=138"></script> -->
-    <!-- compReport.js -->
-    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=139"></script> -->
-    <!-- uiManagement.js -->
-    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=187"></script> -->
-    <!-- charts.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=189"></script>
+    <!-- import all the .js files from components, data, and utility folders-->
+    <script src="./utility/Utility.js"></script>
+    <script src="./utility/WeightedAverages.js"></script>
+    <script src="./data/Api.js"></script>
+    <script src="./components/DisplayCharts.js"></script>
+    <script src="./components/Header.js"></script>
+    <script src="./components/Report.js"></script>
+    <script src="./utility/UiManagement.js"></script>
+    <script src="utility/charts.js"></script>
   </body>
 </html>

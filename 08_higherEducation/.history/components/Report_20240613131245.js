@@ -12,7 +12,7 @@ const displayReportComponent = () => {
     processTHElements();
   }
 
-  // closeSidebarAfterSelectingOption('report');
+  closeSidebarAfterSelectingOption('report');
 };
 
 const insertDataToReport = (data, selectedYears, arrayOfNames) => {
@@ -66,6 +66,26 @@ const addToSingleRow = (
     tableReportRow.removeChild(tableReportRow.children[1]);
   }
 
+  selectedYears.forEach((year) => {
+    const tableModalRow = document.getElementById(`${name}_modal_${year}`);
+
+    if (tableModalRow) {
+      // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
+
+      addClientDataToModalRow(tableModalRow, year, client, type, fixedNum);
+      addPeerDataToRow(
+        tableModalRow,
+        peer,
+        type,
+        fixedNum,
+        year,
+        wa,
+        name,
+        data
+      );
+    }
+  });
+
   addClientDataToReportRow(
     tableReportRow,
     selectedYears,
@@ -74,19 +94,19 @@ const addToSingleRow = (
     fixedNum,
     cb
   );
-  // addPeerDataToRow(
-  //   tableReportRow,
-  //   peer,
-  //   type,
-  //   fixedNum,
-  //   "total",
-  //   wa,
-  //   name,
-  //   data, 
-  //   fIdArray, 
-  //   begin, 
-  //   end
-  // );
+  addPeerDataToRow(
+    tableReportRow,
+    peer,
+    type,
+    fixedNum,
+    "total",
+    wa,
+    name,
+    data, 
+    fIdArray, 
+    begin, 
+    end
+  );
 
 };
 
@@ -144,80 +164,103 @@ const addClientDataToReportRow = (
   }
 };
 
+const addClientDataToModalRow = (
+  tableModalRow,
+  year,
+  client,
+  type,
+  fixedNum
+) => {
+  
+  const propClass =
+  "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  const propScope = "row";
+  
+  const dataPoint = document.createElement("th");
+  const text = Number(client[year].value) !== 0 ? styleNumber(client[year].value, type, fixedNum) : '-';
+  
+  // console.log({ tableModalRow, year, client, type, fixedNum, dataPoint, text });
 
-// const addPeerDataToRow = (
-//   tableRow,
-//   peer,
-//   type,
-//   fixedNum,
-//   dataArray,
-//   wa,
-//   name,
-//   data,
-//   fIdArray, 
-//   begin, 
-//   end
-// ) => {
-  
-//   const propClass =
-//   "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-//   const propScope = "row";
-  
-//   const dataPointAvg = document.createElement("th");
-  
-//   let avg;
-//   if (peer && wa) {
-//     avg = parseFloat(getWeightedAverageOfArray(data, name));
-//   } else if (peer && !wa) {
-//     avg = parseFloat(getAverageOfArray(peer[dataArray], name));
-//   } else {
-//     avg = 0;
-//   }
+  dataPoint.className = propClass;
+  dataPoint.scope = propScope;
+  dataPoint.textContent = text;
 
-//   // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name, avg });
+  tableModalRow.appendChild(dataPoint);
+};
+
+const addPeerDataToRow = (
+  tableRow,
+  peer,
+  type,
+  fixedNum,
+  dataArray,
+  wa,
+  name,
+  data,
+  fIdArray, 
+  begin, 
+  end
+) => {
+  
+  const propClass =
+  "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  const propScope = "row";
+  
+  const dataPointAvg = document.createElement("th");
+  
+  let avg;
+  if (peer && wa) {
+    avg = parseFloat(getWeightedAverageOfArray(data, name));
+  } else if (peer && !wa) {
+    avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+  } else {
+    avg = 0;
+  }
+
+  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name, avg });
   
   
-//   const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
-//   const dataPointMid = document.createElement("th");
-//   const mid = peer ? parseFloat(getMidpointOfArray(peer[dataArray])) : '';
-//   // console.log('mid', mid);
-//   const textMid = styleNumber(mid, type, fixedNum);
-//   const dataPointMin = document.createElement("th");
-//   const min = peer ? parseFloat(get25thPercentileOfArray(peer[dataArray])) : '';
-//   // if (name == 'salariesBenefitsTeachersAsPercentNetTuition_Salaries') console.log('salariesBenefitsTeachersAsPercentNetTuition_Salaries', {min, peerArray: peer[dataArray], type, fixedNum})
-//   const textMin = styleNumber(min, type, fixedNum);
-//   const dataPointMax = document.createElement("th");
-//   const max = peer ? parseFloat(get75thPercentileOfArray(peer[dataArray])) : '';
-//   const textMax = styleNumber(max, type, fixedNum);
+  const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
+  const dataPointMid = document.createElement("th");
+  const mid = peer ? parseFloat(getMidpointOfArray(peer[dataArray])) : '';
+  // console.log('mid', mid);
+  const textMid = styleNumber(mid, type, fixedNum);
+  const dataPointMin = document.createElement("th");
+  const min = peer ? parseFloat(get25thPercentileOfArray(peer[dataArray])) : '';
+  // if (name == 'salariesBenefitsTeachersAsPercentNetTuition_Salaries') console.log('salariesBenefitsTeachersAsPercentNetTuition_Salaries', {min, peerArray: peer[dataArray], type, fixedNum})
+  const textMin = styleNumber(min, type, fixedNum);
+  const dataPointMax = document.createElement("th");
+  const max = peer ? parseFloat(get75thPercentileOfArray(peer[dataArray])) : '';
+  const textMax = styleNumber(max, type, fixedNum);
 
-//   // console.log({ tableRow, fixedNum, avg, mid, min, textMin, max, textMax });
+  // console.log({ tableRow, fixedNum, avg, mid, min, textMin, max, textMax });
 
-//   dataPointAvg.className = propClass;
-//   dataPointAvg.scope = propScope;
-//   dataPointAvg.textContent = textAvg;
-//   tableRow.appendChild(dataPointAvg);
+  dataPointAvg.className = propClass;
+  dataPointAvg.scope = propScope;
+  dataPointAvg.textContent = textAvg;
+  tableRow.appendChild(dataPointAvg);
   
-//   dataPointMin.className = propClass;
-//   dataPointMin.scope = propScope;
-//   dataPointMin.textContent = textMin;
-//   tableRow.appendChild(dataPointMin);
+  dataPointMin.className = propClass;
+  dataPointMin.scope = propScope;
+  dataPointMin.textContent = textMin;
+  tableRow.appendChild(dataPointMin);
   
-//   dataPointMid.className = propClass;
-//   dataPointMid.scope = propScope;
-//   dataPointMid.textContent = textMid;
-//   tableRow.appendChild(dataPointMid);
+  dataPointMid.className = propClass;
+  dataPointMid.scope = propScope;
+  dataPointMid.textContent = textMid;
+  tableRow.appendChild(dataPointMid);
 
-//   dataPointMax.className = propClass;
-//   dataPointMax.scope = propScope;
-//   dataPointMax.textContent = textMax;
-//   tableRow.appendChild(dataPointMax);
+  dataPointMax.className = propClass;
+  dataPointMax.scope = propScope;
+  dataPointMax.textContent = textMax;
+  tableRow.appendChild(dataPointMax);
 
-//   if (fIdArray) createFileForPrint(name, fIdArray, begin, end, avg, mid, min, max, peer, data);
-// };
+  if (fIdArray) createFileForPrint(name, fIdArray, begin, end, avg, mid, min, max, peer, data);
+};
 
 const addYearColumnsToReportTable = (years) => {
   const tables = document.querySelectorAll("table");
-  console.log(tables);
+  // console.log(tables);
 
   tables.forEach((table) => {
     // console.log(table);
@@ -240,12 +283,12 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
   // Find the table header row by its ID
   const tableHeaderRow = document.getElementById(tableHeader);
 
+  // Get the reference to the "avg" <th> element
+  const avgTh = tableHeaderRow.children[1];
   // const existingColumns = Array.from(tableHeader.children).slice(1
   // console.log(existingColumns);
 
   // Iterate through the selectedYearArray and add new columns
-  yearsArray.sort((a, b) => b - a)
-  console.log(yearsArray);
   yearsArray.forEach((year) => {
     // Create a new <th> element for each selected year
     const newTh = document.createElement("th");
@@ -253,8 +296,8 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
     newTh.setAttribute("class", "px-6 py-3 text-xl");
     newTh.innerText = year;
 
-    // Insert the new <th> element to tableHeaderRow 
-    tableHeaderRow.appendChild(newTh);
+    // Insert the new <th> element before the "avg" <th>
+    tableHeaderRow.insertBefore(newTh, avgTh);
   });
 };
 
