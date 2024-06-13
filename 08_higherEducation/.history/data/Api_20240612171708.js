@@ -198,25 +198,14 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         'Yes'
       );
       
-      // cfiReturnOnNetAssets
+      // cfiNetIncomeOperationsRatio
       insertDataIntoObject (
         'peer',
         year,
         object,
-        'cfiReturnOnNetAssets_Peer',
+        'cfiNetIncomeOperationsRatio_Peer',
         record,
         'r117_ccfi_return_on_net_assets_total_return_ratio',
-        'Yes'
-      );
-
-      // cfiViabilityRatio
-      insertDataIntoObject (
-        'peer',
-        year,
-        object,
-        'cfiViabilityRatio_Peer',
-        record,
-        'r118_ccfi_viability_ratio',
         'Yes'
       );
     });
@@ -254,26 +243,6 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         'cfiNetIncomeOperationsRatio_Client',
         record,
         'r117_ccfi_return_on_net_assets_total_return_ratio'
-      );
-
-      // cfiReturnOnNetAssets
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'cfiReturnOnNetAssets_Client',
-        record,
-        'r117_ccfi_return_on_net_assets_total_return_ratio'
-      );
-
-      // cfiViabilityRatio
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'cfiViabilityRatio_Client',
-        record,
-        'r118_ccfi_viability_ratio'
       );
     });
   });

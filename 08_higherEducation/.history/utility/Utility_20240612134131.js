@@ -1224,6 +1224,6 @@ function toggleDetails(button, details, arrowIcon) {
   button.addEventListener('click', () => {
       console.log('clicked');
       details.classList.toggle('hidden');
-      arrowIcon.classList.toggle('rotate-90');
+      arrowIcon.classList.toggle('rotate-180');
   });
 }

@@ -93,16 +93,16 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  // console.log ({
-  //   type,
-  //   year,
-  //   object,
-  //   dataKey,
-  //   record,
-  //   child,
-  //   dynamicValueClientPeer,
-  //   name,
-  // });
+  console.log ({
+    type,
+    year,
+    object,
+    dataKey,
+    record,
+    child,
+    dynamicValueClientPeer,
+    name,
+  });
 
   const innerData = child == 0
     ? 0
@@ -187,36 +187,14 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         'Yes'
       );
       
-      // cfiNetIncomeOperationsRatio
+      // netInomeOperationsRatio
       insertDataIntoObject (
         'peer',
         year,
         object,
-        'cfiNetIncomeOperationsRatio_Peer',
+        'netInomeOperationsRatio_Peer',
         record,
         'r116_ccfi_net_income_operations_ratio',
-        'Yes'
-      );
-      
-      // cfiReturnOnNetAssets
-      insertDataIntoObject (
-        'peer',
-        year,
-        object,
-        'cfiReturnOnNetAssets_Peer',
-        record,
-        'r117_ccfi_return_on_net_assets_total_return_ratio',
-        'Yes'
-      );
-
-      // cfiViabilityRatio
-      insertDataIntoObject (
-        'peer',
-        year,
-        object,
-        'cfiViabilityRatio_Peer',
-        record,
-        'r118_ccfi_viability_ratio',
         'Yes'
       );
     });
@@ -246,34 +224,14 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         'r115_ccfi_primary_reserve_ratio'
       );
 
-      // cfiNetIncomeOperationsRatio
+      // netInomeOperationsRatio
       insertDataIntoObject (
         'client',
         year,
         object,
-        'cfiNetIncomeOperationsRatio_Client',
+        'netInomeOperationsRatio_Client',
         record,
-        'r117_ccfi_return_on_net_assets_total_return_ratio'
-      );
-
-      // cfiReturnOnNetAssets
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'cfiReturnOnNetAssets_Client',
-        record,
-        'r117_ccfi_return_on_net_assets_total_return_ratio'
-      );
-
-      // cfiViabilityRatio
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'cfiViabilityRatio_Client',
-        record,
-        'r118_ccfi_viability_ratio'
+        'r116_ccfi_net_income_operations_ratio'
       );
     });
   });
