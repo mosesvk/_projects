@@ -217,7 +217,7 @@ const addClientDataToReportRow = (
 
 const addYearColumnsToReportTable = (years) => {
   const tables = document.querySelectorAll("table");
-  // console.log(tables);
+  console.log(tables);
 
   tables.forEach((table) => {
     // console.log(table);
@@ -245,7 +245,7 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
 
   // Iterate through the selectedYearArray and add new columns
   yearsArray.sort((a, b) => b - a)
-  // console.log(yearsArray);
+  console.log(yearsArray);
   yearsArray.forEach((year) => {
     // Create a new <th> element for each selected year
     const newTh = document.createElement("th");

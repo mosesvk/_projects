@@ -217,7 +217,7 @@ const addClientDataToReportRow = (
 
 const addYearColumnsToReportTable = (years) => {
   const tables = document.querySelectorAll("table");
-  // console.log(tables);
+  console.log(tables);
 
   tables.forEach((table) => {
     // console.log(table);
