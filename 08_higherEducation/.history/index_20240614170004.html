@@ -62,29 +62,6 @@
       ></script>
 
       <script>
-        var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
-        $.ajaxSetup({ data: { apptoken: apptoken } });
-
-        //retrieve URL ID for record
-        function getQueryVariable(variable) {
-          var query = window.location.search.substring(1);
-          var vars = query.split("&");
-          for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if (pair[0] == variable) {
-              return pair[1];
-            }
-          }
-          return false;
-        }
-        var ClientRid = getQueryVariable("clientrid");
-        const clientData = "bt3egnexu";
-        const peerData = "bt3mx3t3i";
-
-        let clientName;
-      </script>
-
-      <script>
         chartColors = {
           green: "#83b240",
           blue: "#326eaa",
@@ -99,21 +76,6 @@
       <style>
         .backgroundGreen {
           background-color: #83b240;
-        }
-        .backgroundTwoGreen {
-          background-color: #99d381;
-        }
-        .backgroundThreeGreen {
-          background-color: #9ece8c;
-        }
-        .backgroundYellow {
-          background-color: #ffcd56;
-        }
-        .backgroundOrange {
-          background-color: #ff9f40;
-        }
-        .backgroundRed {
-          background-color: #f1728d;
         }
         .backgroundBlue {
           background-color: #326eaa;
@@ -752,7 +714,7 @@
                 </svg>
               </button>
               <div id="details_cfiRatio" class="m-4 hidden">
-                <div id="cfiRatio_details_text" class="mb-4">
+                <div class="mb-4">
                   <p class="text-xl">
                     The Overall ratio is the Composite Financial Index score, a
                     comprehensive metric to assess overall financial health. It
@@ -764,46 +726,9 @@
                     assets and maintain operational effectiveness.
                   </p>
                 </div>
-                <div class="flex flex-row">
-                  <div
-                    id="cfiRatio_verticleGraph"
-                    class="flex flex-row w-1/3 mr-4"
-                  >
-                    <div>
-                      <p class="text-xl">10</p>
-                      <p class="text-xl mt-12">9</p>
-                      <p class="text-xl mt-14">7</p>
-                      <p class="text-xl mt-14">5</p>
-                      <p class="text-xl mt-14">3</p>
-                      <p class="text-xl mt-14">1</p>
-                      <p class="text-xl mt-20">-4</p>
-                    </div>
-                    <div class="w-14 mt-3 ml-4">
-                      <div class="h-20 backgroundGreen"></div>
-                      <div class="h-20 backgroundTwoGreen"></div>
-                      <div class="h-20 backgroundThreeGreen"></div>
-                      <div class="h-20 backgroundYellow"></div>
-                      <div class="h-20 backgroundOrange"></div>
-                      <div class="h-32 backgroundRed"></div>
-                    </div>
-                    <div class="ml-4">
-                      <p class="text-lg mt-6">
-                        Deploy resources to achieve robust mission
-                      </p>
-                      <p class="text-lg mt-8">
-                        Allow experimentation with new initiatives
-                      </p>
-                      <p class="text-lg mt-6">
-                        Focus resources to compete in future state
-                      </p>
-                      <p class="text-lg mt-5">
-                        Direct resources to allow transformation
-                      </p>
-                      <p class="text-lg mt-8">Re-Engineer the University</p>
-                      <p class="text-lg mt-20">Assess viability to Survive</p>
-                    </div>
-                  </div>
-                  <div class="w-2/3">
+                <div>
+                  <div id="cfiRatio_verticleGraph"></div>
+                  <div>
                     <p class="text-2xl">Data</p>
                     <div id="cfiRatio_clientTable" class="flex flex-col mt-2">
                       <div class="overflow-x-auto rounded-lg">
@@ -831,7 +756,7 @@
                                 >
                                   <th
                                     scope="row"
-                                    class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                   >
                                     CFI Ratio
                                   </th>
@@ -842,7 +767,7 @@
                                 >
                                   <th
                                     scope="row"
-                                    class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                   >
                                     Primary Reserve
                                   </th>
@@ -853,7 +778,7 @@
                                 >
                                   <th
                                     scope="row"
-                                    class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                   >
                                     Viability
                                   </th>
@@ -864,7 +789,7 @@
                                 >
                                   <th
                                     scope="row"
-                                    class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                   >
                                     Return on Net Assets
                                   </th>
@@ -875,7 +800,7 @@
                                 >
                                   <th
                                     scope="row"
-                                    class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                   >
                                     Net Operating Revenues
                                   </th>
@@ -896,35 +821,13 @@
                               class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                             >
                               <thead
-                                class="text-xs text-white backgroundBlue opacity-75"
+                                class="text-xs text-white uppercase backgroundGreen opacity-75"
                               >
                                 <tr id="row_cfiRatio_tableHeader">
                                   <th
                                     scope="col"
-                                    class="px-3 py-2 text-lg text-center"
-                                  >
-                                    Ratio
-                                  </th>
-                                  <th
-                                    scope="col"
-                                    class="px-3 py-2 text-lg text-center"
-                                  >
-                                    Value
-                                  </th>
-                                  <th scope="col" class="px-3 py-2 text-center">
-                                    <span class="text-lg">Strength</span>
-                                    <p class="text-md">(Divide By)</p>
-                                  </th>
-                                  <th scope="col" class="px-3 py-2 text-center">
-                                    <span class="text-lg">Weight</span>
-                                    <p class="text-md">(Multiply By)</p>
-                                  </th>
-                                  <th
-                                    scope="col"
-                                    class="px-3 py-2 text-lg text-center"
-                                  >
-                                    CFI Score
-                                  </th>
+                                    class="px-6 py-3 text-lg tracking-wide"
+                                  ></th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -934,7 +837,7 @@
                                 >
                                   <th
                                     scope="row"
-                                    class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                   >
                                     Primary Reserve
                                   </th>
@@ -945,7 +848,7 @@
                                 >
                                   <th
                                     scope="row"
-                                    class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                   >
                                     Primary Reserve
                                   </th>
@@ -956,7 +859,7 @@
                                 >
                                   <th
                                     scope="row"
-                                    class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                   >
                                     Viability
                                   </th>
@@ -967,7 +870,7 @@
                                 >
                                   <th
                                     scope="row"
-                                    class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                   >
                                     Return on Net Assets
                                   </th>
@@ -978,7 +881,7 @@
                                 >
                                   <th
                                     scope="row"
-                                    class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                   >
                                     Net Operating Revenues
                                   </th>
@@ -1230,25 +1133,14 @@
       </div>
     </div>
 
-    <!-- utility.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=185"></script>
-    <!-- utilityWeightedAverages.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=187"></script>
-    <!-- utilityPrint.js -->
-    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=180"></script> -->
-    <!-- api.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=184"></script>
-    <!-- Header.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=186"></script>
-    <!-- displayCharts.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=188"></script>
-    <!-- compEnrollment.js -->
-    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=138"></script> -->
-    <!-- compReport.js -->
-    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=139"></script> -->
-    <!-- uiManagement.js -->
-    <!-- <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=187"></script> -->
-    <!-- charts.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=189"></script>
+    <!-- import all the .js files from components, data, and utility folders-->
+    <script src="./utility/Utility.js"></script>
+    <script src="./utility/WeightedAverages.js"></script>
+    <script src="./data/Api.js"></script>
+    <script src="./components/DisplayCharts.js"></script>
+    <script src="./components/Header.js"></script>
+    <script src="./components/Report.js"></script>
+    <script src="./utility/UiManagement.js"></script>
+    <script src="utility/charts.js"></script>
   </body>
 </html>

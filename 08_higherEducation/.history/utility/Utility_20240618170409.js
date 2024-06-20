@@ -1148,38 +1148,23 @@ document.querySelector ('#sidebar ul').addEventListener ('click', function () {
 
 function toggleDetails(button, details, arrowIcon) {
   button.addEventListener('click', () => {
-      // console.log('clicked');
+      console.log('clicked');
       details.classList.toggle('hidden');
       arrowIcon.classList.toggle('rotate-90');
   });
 }
 
 
-var cfiValue = 9.4;
-document.getElementById("value").innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + cfiValue;
-if (cfiValue >=10.0) {document.getElementById("10.0").style.backgroundColor ="black";}
-if (cfiValue >=9.7) {document.getElementById("9.7").style.backgroundColor ="black";}
-if (cfiValue >=9.4) {document.getElementById("9.4").style.backgroundColor ="black";}
-if (cfiValue >=9.1) {document.getElementById("9.1").style.backgroundColor ="black";}
-if (cfiValue >=9.0) {document.getElementById("9.0").style.backgroundColor ="black";}
-if (cfiValue >=8.5) {document.getElementById("8.5").style.backgroundColor ="black";}
-if (cfiValue >=8.0) {document.getElementById("8.0").style.backgroundColor ="black";}
-if (cfiValue >=7.5) {document.getElementById("7.5").style.backgroundColor ="black";}
-if (cfiValue >=7.0) {document.getElementById("7.0").style.backgroundColor ="black";}
-if (cfiValue >=6.5) {document.getElementById("6.5").style.backgroundColor ="black";}
-if (cfiValue >=6.0) {document.getElementById("6.0").style.backgroundColor ="black";}
-if (cfiValue >=5.5) {document.getElementById("5.5").style.backgroundColor ="black";}
-if (cfiValue >=5.0) {document.getElementById("5.0").style.backgroundColor ="black";}
-if (cfiValue >=4.5) {document.getElementById("4.5").style.backgroundColor ="black";}
-if (cfiValue >=4.0) {document.getElementById("4.0").style.backgroundColor ="black";}
-if (cfiValue >=3.5) {document.getElementById("3.5").style.backgroundColor ="black";}
-if (cfiValue >=3.0) {document.getElementById("3.0").style.backgroundColor ="black";}
-if (cfiValue >=2.5) {document.getElementById("2.5").style.backgroundColor ="black";}
-if (cfiValue >=2.0) {document.getElementById("2.0").style.backgroundColor ="black";}
-if (cfiValue >=1.5) {document.getElementById("1.5").style.backgroundColor ="black";}
-if (cfiValue >=1.0) {document.getElementById("1.0").style.backgroundColor ="black";}
-if (cfiValue >=0.0) {document.getElementById("0.0").style.backgroundColor ="black";}
-if (cfiValue >=-1.0) {document.getElementById("-1.0").style.backgroundColor ="black";}
-if (cfiValue >=-2.0) {document.getElementById("-2.0").style.backgroundColor ="black";}
-if (cfiValue >=-3.0) {document.getElementById("-3.0").style.backgroundColor ="black";}
-if (cfiValue >=-3.2) {document.getElementById("-3.2").style.backgroundColor ="black";}
+
+var cfiValue = 7.8;
+document.getElementById("value").innerHTML = cfiValue;
+
+for (let i = 10; i >= -4; i -= 0.5) {
+    let id = i.toFixed(1);
+    if (cfiValue >= i) {
+        let element = document.getElementById(id);
+        if (element) {
+            element.style.backgroundColor = "blackd";
+        }
+    }
+}

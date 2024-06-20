@@ -1156,11 +1156,9 @@ function toggleDetails(button, details, arrowIcon) {
 
 
 var cfiValue = 9.4;
-document.getElementById("value").innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + cfiValue;
+document.getElementById("value").innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + cfiValue;
 if (cfiValue >=10.0) {document.getElementById("10.0").style.backgroundColor ="black";}
-if (cfiValue >=9.7) {document.getElementById("9.7").style.backgroundColor ="black";}
-if (cfiValue >=9.4) {document.getElementById("9.4").style.backgroundColor ="black";}
-if (cfiValue >=9.1) {document.getElementById("9.1").style.backgroundColor ="black";}
+if (cfiValue >=9.5) {document.getElementById("9.5").style.backgroundColor ="black";}
 if (cfiValue >=9.0) {document.getElementById("9.0").style.backgroundColor ="black";}
 if (cfiValue >=8.5) {document.getElementById("8.5").style.backgroundColor ="black";}
 if (cfiValue >=8.0) {document.getElementById("8.0").style.backgroundColor ="black";}
