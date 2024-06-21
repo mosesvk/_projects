@@ -562,7 +562,7 @@ const getPeerAndClientChartDataArrays = (
   mainName,
   benchmark
 ) => {
-  // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
+  // console.log({ years, dataPeer, dataClient, fixedNum, mainName });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];

@@ -7,7 +7,7 @@ const getMainChartOptions = (
   benchmark
 ) => {
   // console.log('-----')
-  // console.log('getMainChartOptions()',)
+  // console.log('getMainChartOptions()')
 
   const chartColors = document.documentElement.classList.contains ('dark')
     ? {
@@ -39,14 +39,12 @@ const getMainChartOptions = (
     peerMid,
     peer25,
     peer75,
-    benchmarkArray
   } = getPeerAndClientChartDataArrays (
     selectedYearsArray,
     dataPeer,
     dataClient,
     fixedNum,
-    mainName,
-    benchmark
+    mainName
   ));
 
   // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
@@ -73,20 +71,11 @@ const getMainChartOptions = (
     }
   };
 
-  // console.log({mainName, benchmark});
- 
+  console.log({mainName, benchmark});
 
-  // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })
 
-  return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.blue,
-      window.chartColors.red,
-      window.chartColors.orange,
-      window.chartColors.grey,
-    ],
-    series: [
+  if (benchmark) {
+    series =  [
       {
         name: 'Client',
         type: 'column',
@@ -126,10 +115,10 @@ const getMainChartOptions = (
           },
         },
       },
-     benchmarkArray.length > 0 && {
+     {
         name: 'Benchmark',
         type: 'line',
-        data: benchmarkArray,
+        data: [benchmark],
         visible: false,
       },
       {
@@ -138,7 +127,68 @@ const getMainChartOptions = (
         data: peer75,
         visible: false,
       },
+    ]
+  } else {
+    series =  [
+      {
+        name: 'Client',
+        type: 'column',
+        data: clientArray,
+        style: {
+          colors: [chartColors.labelColor],
+        },
+      },
+      {
+        name: '25%',
+        type: 'line',
+        data: peer25,
+        visible: false,
+      },
+      {
+        name: '50%',
+        type: 'line',
+        data: peerMid,
+        visible: false,
+      },
+      {
+        name: 'Avg',
+        type: 'line',
+        stacked: false,
+        data: peerAvg,
+        yaxis: 0,
+        style: {
+          colors: ['transparent'], // Set the line color to transparent
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 80, 80],
+          },
+        },
+      },
+      {
+        name: '75%',
+        type: 'line',
+        data: peer75,
+        visible: false,
+      },
+    ]
+  }
+
+  console.log({ series })
+
+  return {
+    colors: [
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.red,
+      window.chartColors.orange,
+      window.chartColors.grey,
     ],
+    series: series,
     chart: {
       height: 350,
       type: 'line',

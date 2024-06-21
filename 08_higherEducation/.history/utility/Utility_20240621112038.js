@@ -562,7 +562,7 @@ const getPeerAndClientChartDataArrays = (
   mainName,
   benchmark
 ) => {
-  // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
+  // console.log({ years, dataPeer, dataClient, fixedNum, mainName });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
@@ -613,7 +613,7 @@ const getPeerAndClientChartDataArrays = (
 
   // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
-  return {clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray};
+  return {clientArray, peerAvg, peerMid, peer25, peer75};
 };
 
 function styleNumber (num, type, fixed) {

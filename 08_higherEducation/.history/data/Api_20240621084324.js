@@ -186,7 +186,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         'r115_ccfi_primary_reserve_ratio',
         'Yes'
       );
-
+      
       // cfi_netIncomeOperationsRatio
       insertDataIntoObject (
         'peer',
@@ -197,7 +197,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         'r116_ccfi_net_income_operations_ratio',
         'Yes'
       );
-
+      
       // cfi_returnOnNetAssets
       insertDataIntoObject (
         'peer',
@@ -334,7 +334,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         'cfi_returnOnNetAssets_Strength_Client',
         record,
         'r117_ccfi_return_on_net_assets_total_return_ratio_cfi_score___strength'
-      );
+      );  
 
       // cfi_returnOnNetAssets_Weight_Client
       insertDataIntoObject (
@@ -458,38 +458,13 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         'r044_ctotal_functional_expenses'
       );
 
-      // NET INCOME OPERATIONS RATIO ---------------------------------->
-
-      // operatingRevenuesSupportAndReleases_Client
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'operatingRevenuesSupportAndReleases_Client',
-        record,
-        'r036_coperating_revenues_support_and_releases'
-      );
-
-      // nonOperatingActivitiesInvestmentIncome_Client
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'nonOperatingActivitiesInvestmentIncome_Client',
-        record,
-        'r047_non_operating_activities_investment_income'
-      );
-
     });
   });
 
   localStorage.removeItem ('cfiData');
   localStorage.setItem ('cfiData', JSON.stringify (object));
 
-  const selectedYears = getSelectedYearsFromLocalStorage ();
-  const cfiValue =
-    object.cfiRatio_Client[selectedYears[selectedYears.length - 1]].value;
-  updateCfiValue (cfiValue);
+  console.log (object);
 };
 
 // Helper functions
@@ -558,7 +533,7 @@ const displayComponents = () => {
   // displayCashComponent();
   // displayIncomeComponent();
   // displayExpenseComponent();
-  displayReportComponent ();
+  displayReportComponent();
 };
 
 const run_btn = document.querySelector ('#run');

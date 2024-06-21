@@ -76,16 +76,9 @@ const getMainChartOptions = (
   // console.log({mainName, benchmark});
  
 
-  // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })
+  if (mainName == 'cfi_primaryReserveRatio') console.log({ series })
 
   return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.blue,
-      window.chartColors.red,
-      window.chartColors.orange,
-      window.chartColors.grey,
-    ],
     series: [
       {
         name: 'Client',
@@ -139,6 +132,14 @@ const getMainChartOptions = (
         visible: false,
       },
     ],
+    colors: [
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.red,
+      window.chartColors.orange,
+      window.chartColors.grey,
+    ],
+    series: series,
     chart: {
       height: 350,
       type: 'line',

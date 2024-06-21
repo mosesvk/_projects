@@ -297,8 +297,7 @@ const createChartFromParsedData = (
   client,
   type,
   fixedNum,
-  mainName,
-  benchmark
+  mainName
 ) => {
   if (parsedData) {
     // console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
@@ -308,8 +307,7 @@ const createChartFromParsedData = (
       parsedData[client],
       type,
       fixedNum,
-      mainName,
-      benchmark
+      mainName
     );
     // updateModal (mainName, parsedData[peer], parsedData[client]);
   }
@@ -321,23 +319,15 @@ const createChart = (
   dataClient,
   type,
   fixedNum,
-  mainName,
-  benchmark
+  mainName
 ) => {
   // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById (chartId).innerHTML = '';
 
   // Create a new chart instance
-  let chart = new ApexCharts (
+  const chart = new ApexCharts (
     document.getElementById (chartId),
-    getMainChartOptions (
-      dataPeer,
-      dataClient,
-      type,
-      fixedNum,
-      mainName,
-      benchmark
-    )
+    getMainChartOptions (dataPeer, dataClient, type, fixedNum, mainName)
   );
 
   chart.render ();
@@ -559,22 +549,18 @@ const getPeerAndClientChartDataArrays = (
   dataPeer,
   dataClient,
   fixedNum,
-  mainName,
-  benchmark
+  mainName
 ) => {
-  // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
+  // console.log({ years, dataPeer, dataClient, fixedNum, mainName });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
   const peer75 = [];
   const clientArray = [];
-  const benchmarkArray = []
 
   years.forEach (year => {
     // console.log(year, dataPeer)
     // check if dataPeer is undefined but dataClient is not
-
-    benchmarkArray.push(benchmark)
 
     if (dataPeer != undefined && dataClient != undefined) {
       const array = dataPeer[year];
@@ -613,34 +599,32 @@ const getPeerAndClientChartDataArrays = (
 
   // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
-  return {clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray};
+  return {clientArray, peerAvg, peerMid, peer25, peer75};
 };
 
-function styleNumber (num, type, fixed) {
+function styleNumber(num, type, fixed) {
   // Convert num to float
-  num = parseFloat (num);
-
+  num = parseFloat(num);
+  
   if (type === 'num') {
-    // If fixed is 1 and the number has a decimal part of 0, return with one decimal place
-    if (fixed === 1 && Number.isInteger (num)) {
-      return num.toFixed (1);
-    } else {
-      // Otherwise, format the number with commas for thousands
-      return num.toLocaleString (undefined, {minimumFractionDigits: fixed});
-    }
+      // If fixed is 1 and the number has a decimal part of 0, return with one decimal place
+      if (fixed === 1 && Number.isInteger(num)) {
+          return num.toFixed(1);
+      } else {
+          // Otherwise, format the number with commas for thousands
+          return num.toLocaleString(undefined, { minimumFractionDigits: fixed });
+      }
   } else if (type === 'percent') {
-    // Convert to percentage and format with fixed decimal places
-    return (num * 100).toFixed (fixed) + '%';
+      // Convert to percentage and format with fixed decimal places
+      return (num * 100).toFixed(fixed) + '%';
   } else if (type === 'dollar') {
-    // If fixed is 1 and the number has a decimal part of 0, return with one decimal place
-    if (fixed === 1 && Number.isInteger (num)) {
-      return '$ ' + num.toFixed (1);
-    } else {
-      // Otherwise, format the number with commas for thousands
-      return (
-        '$ ' + num.toLocaleString (undefined, {minimumFractionDigits: fixed})
-      );
-    }
+      // If fixed is 1 and the number has a decimal part of 0, return with one decimal place
+      if (fixed === 1 && Number.isInteger(num)) {
+          return '$ ' + num.toFixed(1);
+      } else {
+          // Otherwise, format the number with commas for thousands
+          return '$ ' + num.toLocaleString(undefined, { minimumFractionDigits: fixed });
+      }
   }
 }
 
@@ -1048,88 +1032,83 @@ function toggleDetails (button, details, arrowIcon) {
   });
 }
 
-const updateCfiValue = cfiValue => {
-  document.getElementById ('value').innerHTML =
-    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + cfiValue;
-
-  const propClass = `text-xl tracking-wide font-bold`;
-
-  if (cfiValue >= 10.0) {
-    document.getElementById ('10.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 9.7) {
-    document.getElementById ('9.7').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 9.4) {
-    document.getElementById ('9.4').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 9.1) {
-    document.getElementById ('9.1').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 9.0) {
-    document.getElementById ('9.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 8.5) {
-    document.getElementById ('8.5').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 8.0) {
-    document.getElementById ('8.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 7.5) {
-    document.getElementById ('7.5').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 7.0) {
-    document.getElementById ('7.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 6.5) {
-    document.getElementById ('6.5').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 6.0) {
-    document.getElementById ('6.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 5.5) {
-    document.getElementById ('5.5').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 5.0) {
-    document.getElementById ('5.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 4.5) {
-    document.getElementById ('4.5').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 4.0) {
-    document.getElementById ('4.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 3.5) {
-    document.getElementById ('3.5').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 3.0) {
-    document.getElementById ('3.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 2.5) {
-    document.getElementById ('2.5').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 2.0) {
-    document.getElementById ('2.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 1.5) {
-    document.getElementById ('1.5').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 1.0) {
-    document.getElementById ('1.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= 0.0) {
-    document.getElementById ('0.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= -1.0) {
-    document.getElementById ('-1.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= -2.0) {
-    document.getElementById ('-2.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= -3.0) {
-    document.getElementById ('-3.0').style.backgroundColor = 'black';
-  }
-  if (cfiValue >= -3.2) {
-    document.getElementById ('-3.2').style.backgroundColor = 'black';
-  }
-};
+document.getElementById ('value').innerHTML =
+  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + cfiValue;
+if (cfiValue >= 10.0) {
+  document.getElementById ('10.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= 9.7) {
+  document.getElementById ('9.7').style.backgroundColor = 'black';
+}
+if (cfiValue >= 9.4) {
+  document.getElementById ('9.4').style.backgroundColor = 'black';
+}
+if (cfiValue >= 9.1) {
+  document.getElementById ('9.1').style.backgroundColor = 'black';
+}
+if (cfiValue >= 9.0) {
+  document.getElementById ('9.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= 8.5) {
+  document.getElementById ('8.5').style.backgroundColor = 'black';
+}
+if (cfiValue >= 8.0) {
+  document.getElementById ('8.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= 7.5) {
+  document.getElementById ('7.5').style.backgroundColor = 'black';
+}
+if (cfiValue >= 7.0) {
+  document.getElementById ('7.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= 6.5) {
+  document.getElementById ('6.5').style.backgroundColor = 'black';
+}
+if (cfiValue >= 6.0) {
+  document.getElementById ('6.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= 5.5) {
+  document.getElementById ('5.5').style.backgroundColor = 'black';
+}
+if (cfiValue >= 5.0) {
+  document.getElementById ('5.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= 4.5) {
+  document.getElementById ('4.5').style.backgroundColor = 'black';
+}
+if (cfiValue >= 4.0) {
+  document.getElementById ('4.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= 3.5) {
+  document.getElementById ('3.5').style.backgroundColor = 'black';
+}
+if (cfiValue >= 3.0) {
+  document.getElementById ('3.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= 2.5) {
+  document.getElementById ('2.5').style.backgroundColor = 'black';
+}
+if (cfiValue >= 2.0) {
+  document.getElementById ('2.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= 1.5) {
+  document.getElementById ('1.5').style.backgroundColor = 'black';
+}
+if (cfiValue >= 1.0) {
+  document.getElementById ('1.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= 0.0) {
+  document.getElementById ('0.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= -1.0) {
+  document.getElementById ('-1.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= -2.0) {
+  document.getElementById ('-2.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= -3.0) {
+  document.getElementById ('-3.0').style.backgroundColor = 'black';
+}
+if (cfiValue >= -3.2) {
+  document.getElementById ('-3.2').style.backgroundColor = 'black';
+}

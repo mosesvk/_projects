@@ -1,5 +1,5 @@
 displayCfiComponent = data => {
-  // console.log('displayCfiComponent()');
+  console.log('displayCfiComponent()');
   const savedData = getStoredData ('cfiData');
   const parseData = parseStoredData (savedData);
 

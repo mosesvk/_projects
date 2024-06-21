@@ -7,7 +7,7 @@ const getMainChartOptions = (
   benchmark
 ) => {
   // console.log('-----')
-  // console.log('getMainChartOptions()',)
+  // console.log('getMainChartOptions()')
 
   const chartColors = document.documentElement.classList.contains ('dark')
     ? {
@@ -39,14 +39,12 @@ const getMainChartOptions = (
     peerMid,
     peer25,
     peer75,
-    benchmarkArray
   } = getPeerAndClientChartDataArrays (
     selectedYearsArray,
     dataPeer,
     dataClient,
     fixedNum,
-    mainName,
-    benchmark
+    mainName
   ));
 
   // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
@@ -73,10 +71,15 @@ const getMainChartOptions = (
     }
   };
 
-  // console.log({mainName, benchmark});
- 
-
-  // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })
+  let benchmarkLine = null
+  if (benchmark) {
+    benchmarkLine = {
+      name: 'Benchmark',
+      type: 'line',
+      data: benchmark,
+      visible: false,
+    };
+  }
 
   return {
     colors: [
@@ -107,6 +110,7 @@ const getMainChartOptions = (
         data: peerMid,
         visible: false,
       },
+      benchmarkLine,
       {
         name: 'Avg',
         type: 'line',
@@ -125,12 +129,6 @@ const getMainChartOptions = (
             stops: [0, 80, 80],
           },
         },
-      },
-     benchmarkArray.length > 0 && {
-        name: 'Benchmark',
-        type: 'line',
-        data: benchmarkArray,
-        visible: false,
       },
       {
         name: '75%',

@@ -297,7 +297,7 @@ const createChartFromParsedData = (
   client,
   type,
   fixedNum,
-  mainName,
+  mainName, 
   benchmark
 ) => {
   if (parsedData) {
@@ -321,8 +321,7 @@ const createChart = (
   dataClient,
   type,
   fixedNum,
-  mainName,
-  benchmark
+  mainName
 ) => {
   // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById (chartId).innerHTML = '';
@@ -330,15 +329,12 @@ const createChart = (
   // Create a new chart instance
   let chart = new ApexCharts (
     document.getElementById (chartId),
-    getMainChartOptions (
-      dataPeer,
-      dataClient,
-      type,
-      fixedNum,
-      mainName,
-      benchmark
-    )
+    getMainChartOptions (dataPeer, dataClient, type, fixedNum, mainName)
   );
+
+  if (benchmark) {
+    chart = addBenchmarkLineChart(chart, benchmark)
+  }
 
   chart.render ();
 
@@ -559,22 +555,18 @@ const getPeerAndClientChartDataArrays = (
   dataPeer,
   dataClient,
   fixedNum,
-  mainName,
-  benchmark
+  mainName
 ) => {
-  // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
+  // console.log({ years, dataPeer, dataClient, fixedNum, mainName });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
   const peer75 = [];
   const clientArray = [];
-  const benchmarkArray = []
 
   years.forEach (year => {
     // console.log(year, dataPeer)
     // check if dataPeer is undefined but dataClient is not
-
-    benchmarkArray.push(benchmark)
 
     if (dataPeer != undefined && dataClient != undefined) {
       const array = dataPeer[year];
@@ -613,7 +605,7 @@ const getPeerAndClientChartDataArrays = (
 
   // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
-  return {clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray};
+  return {clientArray, peerAvg, peerMid, peer25, peer75};
 };
 
 function styleNumber (num, type, fixed) {
@@ -1052,7 +1044,9 @@ const updateCfiValue = cfiValue => {
   document.getElementById ('value').innerHTML =
     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + cfiValue;
 
-  const propClass = `text-xl tracking-wide font-bold`;
+  const propClass = `text-xl tracking-wide font-bold`
+
+
 
   if (cfiValue >= 10.0) {
     document.getElementById ('10.0').style.backgroundColor = 'black';

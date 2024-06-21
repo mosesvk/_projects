@@ -1,5 +1,4 @@
 displayCfiComponent = data => {
-  // console.log('displayCfiComponent()');
   const savedData = getStoredData ('cfiData');
   const parseData = parseStoredData (savedData);
 
@@ -22,8 +21,7 @@ displayCfiComponent = data => {
     'cfi_primaryReserveRatio_Client',
     'percent',
     2,
-    'cfi_primaryReserveRatio',
-    .4
+    'cfi_primaryReserveRatio'
   );
   
   // cfi_netIncomeOperationsRatio

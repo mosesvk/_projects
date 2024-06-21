@@ -562,7 +562,7 @@ const getPeerAndClientChartDataArrays = (
   mainName,
   benchmark
 ) => {
-  // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
+  // console.log({ years, dataPeer, dataClient, fixedNum, mainName });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
@@ -574,7 +574,7 @@ const getPeerAndClientChartDataArrays = (
     // console.log(year, dataPeer)
     // check if dataPeer is undefined but dataClient is not
 
-    benchmarkArray.push(benchmark)
+    benchmark
 
     if (dataPeer != undefined && dataClient != undefined) {
       const array = dataPeer[year];
@@ -613,7 +613,7 @@ const getPeerAndClientChartDataArrays = (
 
   // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
-  return {clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray};
+  return {clientArray, peerAvg, peerMid, peer25, peer75};
 };
 
 function styleNumber (num, type, fixed) {
