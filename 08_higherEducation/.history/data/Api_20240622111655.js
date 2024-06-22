@@ -4,6 +4,8 @@ const fetchClientData = async () => {
     .then (xmlString => {
       const parser = new DOMParser ();
       const xmlDoc = parser.parseFromString (xmlString, 'text/xml');
+      // get the "merged_client_name" from the first record of xmlDoc
+      const firmName = xmlDoc.querySelector ('record').querySelector ('merged_client_name').textContent;
       return xmlDoc.querySelectorAll ('record');
     })
     .catch (error => {
@@ -38,9 +40,9 @@ document.addEventListener ('DOMContentLoaded', async () => {
 
   // console.log(recordsClient[0]);
 
-  clientName = recordsClient[0].querySelector ('merged_client_name')
+  const firmName = recordsClient[0].querySelector ('merged_client_name')
     .textContent;
-  document.getElementById ('firmName').textContent = clientName;
+  document.getElementById ('firmName').textContent = firmName;
 
   findUniqueYears (recordsClient);
 

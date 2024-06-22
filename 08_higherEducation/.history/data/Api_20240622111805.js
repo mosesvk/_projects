@@ -38,7 +38,7 @@ document.addEventListener ('DOMContentLoaded', async () => {
 
   // console.log(recordsClient[0]);
 
-  clientName = recordsClient[0].querySelector ('merged_client_name')
+  const clientName = recordsClient[0].querySelector ('merged_client_name')
     .textContent;
   document.getElementById ('firmName').textContent = clientName;
 

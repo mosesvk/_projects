@@ -144,23 +144,20 @@ const displayFinancialAnalysisContentComponent = () => {
     document.querySelector ('#FinancialAnalysisContent_chart'),
     getFpaChartOptions (parseData)
   );
+
   fpaChart.render();
+
   document.addEventListener ('dark-mode', function () {
     fpaChart.updateOptions (
       getFpaChartOptions (parseData)
     );
   });
 
+
   const atlChart = new ApexCharts (
     document.querySelector ('#assetToLiabilities_chart'),
     getAtlChartOptions (parseData)
   );
-  atlChart.render();
-  document.addEventListener ('dark-mode', function () {
-    atlChart.updateOptions (
-      getAtlChartOptions (parseData)
-    );
-  });
 };
 
 const dropdownButton_assetToLiabilities = document.getElementById (

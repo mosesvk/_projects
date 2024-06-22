@@ -38,9 +38,9 @@ document.addEventListener ('DOMContentLoaded', async () => {
 
   // console.log(recordsClient[0]);
 
-  clientName = recordsClient[0].querySelector ('merged_client_name')
+  const firmName = recordsClient[0].querySelector ('merged_client_name')
     .textContent;
-  document.getElementById ('firmName').textContent = clientName;
+  document.getElementById ('firmName').textContent = firmName;
 
   findUniqueYears (recordsClient);
 

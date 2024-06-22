@@ -138,7 +138,6 @@ let sliderRange = null;
 let sliderValue = 0;
 let sliderValue2 = 25000;
 let missionValue = 0;
-let clientName = ''
 // let amount = null;
 
 let selectedRegion = '';
@@ -1010,13 +1009,6 @@ const getSelectedSchoolChurchOption = () => {
     }
   });
 };
-
-function handleValue(value) {
-    if (value === undefined || isNaN(value)) {
-        return "0";  // Push "0" as a string if value is undefined or NaN
-    }
-    return String(value);  // Convert value to string and push
-}
 
 function calculatePercentageChange (numbers) {
   const percentageChanges = [];

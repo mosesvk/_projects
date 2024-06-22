@@ -377,10 +377,11 @@ const getFpaChartOptions = data => {
   };
 };
 
-const getAtlChartOptions = data => {
-  const clientArray = new Array ();
-  const peerArray = new Array ();
-  const benchmarkArray = new Array ();
+const getAssetToLiabilityChartOptions = data => {
+
+  const clientArray = new Array()
+  const peerArray = new Array()
+  const benchmarkArray = new Array()
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage ();
   const totalAssetsClient = data['totalAssets_Client'];
@@ -389,18 +390,13 @@ const getAtlChartOptions = data => {
   const totalAssetsPeer = data['totalAssets_Peer'];
   const totalLiabilitiesPeer = data['totalLiabilities_Peer'];
 
-  selectedYearsArray.forEach (year => {
-    clientValue =
-      Number (totalAssetsClient[year].value) /
-      Number (totalLiabilitiesClient[year].value);
-    clientArray.push (styleNumber (handleValue (clientValue), 'num', 0)); // Modified line
-
-    peerValue =
-      Number (totalAssetsPeer[year].value) /
-      Number (totalLiabilitiesPeer[year].value);
-    peerArray.push (styleNumber (handleValue (peerValue), 'num', 0)); // Modified line
-    benchmarkArray.push (1);
-  });
+  selectedYearsArray.forEach((year) => {
+    const clientValue = Number(totalAssetsClient[year].value) / Number(totalLiabilitiesClient[year].value)
+    clientArray.push(styleNumber(clientValue, 'num', 0))
+    const peerValue = Number(totalAssetsPeer[year].value) / Number(totalLiabilitiesPeer[year].value)
+    peerArray.push(styleNumber(peerValue, 'num', 0))
+    benchmarkArray.push(1)
+  })
 
   const chartColors = document.documentElement.classList.contains ('dark')
     ? {
@@ -422,6 +418,9 @@ const getAtlChartOptions = data => {
 
   const formatNumber = value => value.toLocaleString ();
 
+  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
+  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
+
   const yaxisLabelFormatter = value => {
     return `$${formatNumber (value)}`;
   };
@@ -432,32 +431,37 @@ const getAtlChartOptions = data => {
     return `$${formattedValue}`;
   };
 
-  console.log ({clientArray, peerArray, benchmarkArray});
+  // console.log({mainName, benchmark});
 
   return {
     colors: [
       window.chartColors.green,
       window.chartColors.blue,
-      window.chartColors.black,
+      window.chartColors.grey,
+      window.chartColors.red,
+      window.chartColors.orange,
     ],
     series: [
       {
         name: clientName,
+        type: 'bar',
         data: clientArray,
         style: {
           colors: [chartColors.labelColor],
         },
       },
       {
-        name: 'Peer Avg',
-        data: peerArray,
+        name: 'Total Liabilities',
+        group: 'column',
+        data: totalLiabilitiesArray,
         style: {
-          colors: [chartColors.labelColor],
+          colors: [chartColors.grey],
         },
       },
       {
-        name: 'Benchmark',
-        data: benchmarkArray,
+        name: 'Net Position',
+        group: 'column',
+        data: netPositionArray,
         style: {
           colors: [chartColors.labelColor],
         },
@@ -465,14 +469,16 @@ const getAtlChartOptions = data => {
     ],
     chart: {
       height: 350,
-      type: 'line',
+      type: 'bar',
+      stacked: true,
     },
+    
     dataLabels: {
       enabled: false,
     },
     stroke: {
       width: 5,
-      curve: 'straight',
+      colors: chartColors.labelColor,
     },
     title: {
       text: '',
@@ -527,6 +533,11 @@ const getAtlChartOptions = data => {
         colors: ['transparent'],
         opacity: 0.5,
         thickness: 4,
+      },
+    },
+    plotOptions: {
+      bar: {
+        barHeight: '90%',
       },
     },
   };

@@ -443,6 +443,7 @@ const getAtlChartOptions = data => {
     series: [
       {
         name: clientName,
+        type: 'line',
         data: clientArray,
         style: {
           colors: [chartColors.labelColor],
@@ -450,6 +451,7 @@ const getAtlChartOptions = data => {
       },
       {
         name: 'Peer Avg',
+        type: 'line',
         data: peerArray,
         style: {
           colors: [chartColors.labelColor],
@@ -457,6 +459,7 @@ const getAtlChartOptions = data => {
       },
       {
         name: 'Benchmark',
+        type: 'line',
         data: benchmarkArray,
         style: {
           colors: [chartColors.labelColor],
@@ -466,6 +469,7 @@ const getAtlChartOptions = data => {
     chart: {
       height: 350,
       type: 'line',
+      stacked: true,
     },
     dataLabels: {
       enabled: false,

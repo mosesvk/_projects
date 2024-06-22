@@ -1012,10 +1012,10 @@ const getSelectedSchoolChurchOption = () => {
 };
 
 function handleValue(value) {
-    if (value === undefined || isNaN(value)) {
-        return "0";  // Push "0" as a string if value is undefined or NaN
-    }
-    return String(value);  // Convert value to string and push
+  if (value === undefined || isNaN(value)) {
+      return "0";  // Push "0" as a string if value is undefined or NaN
+  }
+  return String(value);  // Convert value to string and push
 }
 
 function calculatePercentageChange (numbers) {

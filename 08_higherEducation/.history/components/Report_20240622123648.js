@@ -94,7 +94,7 @@ const displayReportComponent = () => {
 };
 
 const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
-  // console.log({ data, selectedYears });
+  console.log({ data, selectedYears });
   const totalAssetsClient = data['totalAssets_Client'];
   const totalLiabilitiesClient = data['totalLiabilities_Client'];
   const tableBodyClient = document.getElementById('assetToLiabilitiesClient_tbody');
@@ -103,7 +103,7 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
   const totalLiabilitiesPeer = data['totalLiabilities_Peer'];
   const tableBodyPeer = document.getElementById('assetToLiabilitiesPeer_tbody');
 
-  // console.log({ totalAssetsPeer, totalLiabilitiesPeer });
+  console.log({ totalAssetsPeer, totalLiabilitiesPeer });
 
   selectedYears.forEach(year => {
       const totalAssetsClientValue = Number(totalAssetsClient[year].value) > 0 ? styleNumber(totalAssetsClient[year].value, 'dollar', 0) : '-';
