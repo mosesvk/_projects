@@ -65,21 +65,6 @@ const displayReportComponent = () => {
       ]
     );
 
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('viabilityRatio_clientTable'),
-      [
-        ['viabilityRatio_peerAverage_Peer', 'num', 1],
-        ['viabilityRatio', 'num', 1],
-        ['vr_nonrestrictedNetAssets', 'dollar', 0],
-        ['vr_restrictedNetAssets', 'dollar', 0],
-        ['vr_totalPropertyAndEquipment', 'dollar', 0],
-        ['vr_accumulatedDepreciation', 'dollar', 0],
-        ['vr_notesPayable', 'dollar', 0],
-      ]
-    );
-
     // processTHElements ();
   }
 
@@ -390,7 +375,6 @@ const addYearColumnsToReportTable = (years, table) => {
   // console.log(trIds);
 
   trIds.forEach (idName => {
-    console.log({idName, table});
     // Clear existing columns before adding new ones
     clearTableColumns (idName);
 

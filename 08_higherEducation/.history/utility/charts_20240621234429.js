@@ -272,14 +272,14 @@ const getFpaChartOptions = data => {
     colors: [
       window.chartColors.green,
       window.chartColors.blue,
-      window.chartColors.grey,
       window.chartColors.red,
       window.chartColors.orange,
+      window.chartColors.grey,
     ],
     series: [
       {
         name: 'Total Assets',
-        type: 'bar',
+        type: 'column',
         data: totalAssetsArray,
         style: {
           colors: [chartColors.labelColor],
@@ -290,7 +290,7 @@ const getFpaChartOptions = data => {
         group: 'column',
         data: totalLiabilitiesArray,
         style: {
-          colors: [chartColors.grey],
+          colors: [chartColors.labelColor],
         },
       },
       {
@@ -311,8 +311,7 @@ const getFpaChartOptions = data => {
       enabled: false,
     },
     stroke: {
-      width: 5,
-      colors: chartColors.labelColor,
+      width: 2,
     },
     title: {
       text: '',
@@ -324,7 +323,7 @@ const getFpaChartOptions = data => {
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: '1.5rem',
+          fontSize: '1rem',
         },
       },
     },
@@ -350,6 +349,12 @@ const getFpaChartOptions = data => {
       },
     ],
     tooltip: {
+      fixed: {
+        enabled: true,
+        position: 'topLeft',
+        offsetY: 30,
+        offsetX: 60,
+      },
       y: {
         formatter: tooltipFormatter,
         title: {

@@ -40,47 +40,20 @@ const displayReportComponent = () => {
       ]
     );
 
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('netIncomeOperations_clientTable'),
-      [
-        ['netIncomeOperationsRatio_peerAverage_Peer', 'percent', 1],
-        ['netIncomeOperationsRatio', 'percent', 1],
-        ['ni_operatingRevenuesSupportAndReleases', 'dollar', 0],
-        ['ni_totalFunctionalExpenses', 'dollar', 0],
-        ['ni_nonOperatingActivitiesInvestmentIncome', 'dollar', 0],
-      ]
-    );
-    
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('returnOnNetAssets_clientTable'),
-      [
-        ['returnOnNetAssets_peerAverage_Peer', 'percent', 1],
-        ['returnOnNetAssets', 'percent', 1],
-        ['ro_changeInNetAssets', 'dollar', 0],
-        ['ro_netAssetsBeginningOfYear', 'dollar', 0]
-      ]
-    );
+    // insertDataToReport (
+    //   cfiData,
+    //   selectedYears,
+    //   document.getElementById ('netIncomeOperations_clientTable'),
+    //   [
+    //     ['netIncomeOperationsRatio_peerAverage_Peer', 'percent', 1],
+    //     ['netIncomeOperationsRatio', 'percent', 1],
+    //     ['ni_operatingRevenuesSupportAndReleases', 'dollar', 0],
+    //     ['ni_totalFunctionalExpenses', 'dollar', 0],
+    //     ['ni_nonOperatingActivitiesInvestmentIncome', 'dollar', 0],
+    //   ]
+    // );
 
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('viabilityRatio_clientTable'),
-      [
-        ['viabilityRatio_peerAverage_Peer', 'num', 1],
-        ['viabilityRatio', 'num', 1],
-        ['vr_nonrestrictedNetAssets', 'dollar', 0],
-        ['vr_restrictedNetAssets', 'dollar', 0],
-        ['vr_totalPropertyAndEquipment', 'dollar', 0],
-        ['vr_accumulatedDepreciation', 'dollar', 0],
-        ['vr_notesPayable', 'dollar', 0],
-      ]
-    );
-
-    // processTHElements ();
+    processTHElements ();
   }
 
   // closeSidebarAfterSelectingOption('report');
@@ -133,7 +106,7 @@ const addToSingleRow = (
   const rowName = peer ? name.replace('_Peer', '') : name
   const tableHeaderRow = document.getElementById (`row_${rowName}`)
   // console.log (`row_${name}`);
-  console.log ({selectedYears, name, client, peer, type, fixedNum, tableHeaderRow, rowName});
+  // console.log ({selectedYears, name, client, peer, type, fixedNum, tableHeaderRow, rowName});
   while (tableHeaderRow.children.length > 1) {
     tableHeaderRow.removeChild (tableHeaderRow.children[1]);
   }
@@ -390,7 +363,6 @@ const addYearColumnsToReportTable = (years, table) => {
   // console.log(trIds);
 
   trIds.forEach (idName => {
-    console.log({idName, table});
     // Clear existing columns before adding new ones
     clearTableColumns (idName);
 

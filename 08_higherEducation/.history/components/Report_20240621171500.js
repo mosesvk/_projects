@@ -17,20 +17,13 @@ const displayReportComponent = () => {
         ['cfi_viabilityRatio', 'num', 2],
       ]
     );
-    insertCalculatedDataToReport (cfiData, selectedYears, [
-      ['primaryReserveRatio', 'num', 2],
-      ['netIncomeOperationsRatio', 'percent', 1],
-      ['returnOnNetAssets', 'percent', 1],
-      ['viabilityRatio', 'num', 2],
-    ]);
-
     insertDataToReport (
       cfiData,
       selectedYears,
       document.getElementById ('primaryReserveRatio_clientTable'),
       [
-        ['primaryReserveRatio_peerAverage_Peer', 'num', 2],
-        ['primaryReserveRatio', 'num', 2],
+        ['pr_cfiRatio', 'num', 1],
+        ['pr_cfi_primaryReserveRatio', 'num', 2],
         ['pr_nonrestrictedNetAssets', 'dollar', 0],
         ['pr_restrictedNetAssets', 'dollar', 0],
         ['pr_propertyAndEquipment', 'dollar', 0],
@@ -40,47 +33,14 @@ const displayReportComponent = () => {
       ]
     );
 
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('netIncomeOperations_clientTable'),
-      [
-        ['netIncomeOperationsRatio_peerAverage_Peer', 'percent', 1],
-        ['netIncomeOperationsRatio', 'percent', 1],
-        ['ni_operatingRevenuesSupportAndReleases', 'dollar', 0],
-        ['ni_totalFunctionalExpenses', 'dollar', 0],
-        ['ni_nonOperatingActivitiesInvestmentIncome', 'dollar', 0],
-      ]
-    );
-    
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('returnOnNetAssets_clientTable'),
-      [
-        ['returnOnNetAssets_peerAverage_Peer', 'percent', 1],
-        ['returnOnNetAssets', 'percent', 1],
-        ['ro_changeInNetAssets', 'dollar', 0],
-        ['ro_netAssetsBeginningOfYear', 'dollar', 0]
-      ]
-    );
+    insertCalculatedDataToReport (cfiData, selectedYears, [
+      ['primaryReserveRatio', 'num', 2],
+      ['netIncomeOperationsRatio', 'percent', 1],
+      ['returnOnNetAssets', 'percent', 1],
+      ['viabilityRatio', 'num', 2],
+    ]);
 
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('viabilityRatio_clientTable'),
-      [
-        ['viabilityRatio_peerAverage_Peer', 'num', 1],
-        ['viabilityRatio', 'num', 1],
-        ['vr_nonrestrictedNetAssets', 'dollar', 0],
-        ['vr_restrictedNetAssets', 'dollar', 0],
-        ['vr_totalPropertyAndEquipment', 'dollar', 0],
-        ['vr_accumulatedDepreciation', 'dollar', 0],
-        ['vr_notesPayable', 'dollar', 0],
-      ]
-    );
-
-    // processTHElements ();
+    processTHElements ();
   }
 
   // closeSidebarAfterSelectingOption('report');
@@ -141,7 +101,7 @@ const addToSingleRow = (
   // check if variable name ends with '_Peer'
   if (name.endsWith ('_Peer')) {
     addPeerDataToReportRow (
-      tableHeaderRow,
+      tableReportRow,
       peer,
       type,
       fixedNum,
@@ -390,7 +350,6 @@ const addYearColumnsToReportTable = (years, table) => {
   // console.log(trIds);
 
   trIds.forEach (idName => {
-    console.log({idName, table});
     // Clear existing columns before adding new ones
     clearTableColumns (idName);
 

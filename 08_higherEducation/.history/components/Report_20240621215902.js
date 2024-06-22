@@ -390,7 +390,6 @@ const addYearColumnsToReportTable = (years, table) => {
   // console.log(trIds);
 
   trIds.forEach (idName => {
-    console.log({idName, table});
     // Clear existing columns before adding new ones
     clearTableColumns (idName);
 

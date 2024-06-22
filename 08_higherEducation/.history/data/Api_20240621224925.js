@@ -719,7 +719,6 @@ const resetSelectedYears = () => {
 
 const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
   processCfiData (selectedYears, recordsPeer, recordsClient);
-  processFinancialAnalysisContentData (selectedYears, recordsPeer, recordsClient);
 };
 
 const displayComponents = () => {

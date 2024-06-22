@@ -39,7 +39,7 @@ const getMainChartOptions = (
     peerMid,
     peer25,
     peer75,
-    benchmarkArray,
+    benchmarkArray
   } = getPeerAndClientChartDataArrays (
     selectedYearsArray,
     dataPeer,
@@ -74,6 +74,7 @@ const getMainChartOptions = (
   };
 
   // console.log({mainName, benchmark});
+ 
 
   // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })
 
@@ -125,7 +126,7 @@ const getMainChartOptions = (
           },
         },
       },
-      benchmarkArray.length > 0 && {
+     benchmarkArray.length > 0 && {
         name: 'Benchmark',
         type: 'line',
         data: benchmarkArray,
@@ -218,18 +219,13 @@ const getMainChartOptions = (
   };
 };
 
-const getFpaChartOptions = data => {
-  // console.log(data);
-
-  const totalAssetsArray = Object.values (data['totalAssets_Client'])
-    .map (item => item.value)
-    .reverse ();
-  const totalLiabilitiesArray = Object.values (data['totalLiabilities_Client'])
-    .map (item => item.value)
-    .reverse ();
-  const netPositionArray = Object.values (data['netPosition_Client'])
-    .map (item => item.value)
-    .reverse ();
+const getFpaChartOptions = (
+  data
+) => {
+  console.log(data);
+  console.log(data['totaAssets_Client']);
+  const totalAssetsArray = Object.values(data['totaAssets_Client']).map(item => item.value);
+  console.log(totalAssetsArray);
 
   const chartColors = document.documentElement.classList.contains ('dark')
     ? {
@@ -257,122 +253,167 @@ const getFpaChartOptions = data => {
   // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
 
   const yaxisLabelFormatter = value => {
-    return `$${formatNumber (value)}`;
+    if (numType === 'dollar') {
+      return `$${formatNumber (value)}`;
+    } else if (numType === 'percent') {
+      return `${formatNumber (value)}%`;
+    } else {
+      return formatNumber (value);
+    }
   };
 
   const tooltipFormatter = value => {
     if (!value) return;
     const formattedValue = value.toLocaleString ();
-    return `$${formattedValue}`;
+    if (numType === 'dollar') {
+      return `$${formattedValue}`;
+    } else if (numType === 'percent') {
+      return `${formattedValue}%`;
+    } else {
+      return formattedValue;
+    }
   };
 
   // console.log({mainName, benchmark});
 
-  return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.blue,
-      window.chartColors.grey,
-      window.chartColors.red,
-      window.chartColors.orange,
-    ],
-    series: [
-      {
-        name: 'Total Assets',
-        type: 'bar',
-        data: totalAssetsArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
-      },
-      {
-        name: 'Total Liabilities',
-        group: 'column',
-        data: totalLiabilitiesArray,
-        style: {
-          colors: [chartColors.grey],
-        },
-      },
-      {
-        name: 'Net Position',
-        group: 'column',
-        data: netPositionArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
-      },
-    ],
-    chart: {
-      height: 350,
-      type: 'bar',
-      stacked: true,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      width: 5,
-      colors: chartColors.labelColor,
-    },
-    title: {
-      text: '',
-      align: 'left',
-      offsetX: 110,
-    },
-    xaxis: {
-      categories: selectedYearsArray,
-      labels: {
-        style: {
-          colors: chartColors.labelColor,
-          fontSize: '1.5rem',
-        },
-      },
-    },
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: '1.25rem',
-          },
-        },
-        tooltip: {
-          enabled: true,
-        },
-      },
-    ],
-    tooltip: {
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: seriesName => `${seriesName}:`,
-        },
-      },
-    },
-    legend: {
-      horizontalAlign: 'center',
-      offsetX: 40,
-      fontSize: '20px',
-    },
-    grid: {
-      row: {
-        colors: ['transparent'],
-        opacity: 0.5,
-        thickness: 4,
-      },
-    },
-    plotOptions: {
-      bar: {
-        barHeight: '90%',
-      },
-    },
-  };
+
+  // return {
+  //   colors: [
+  //     window.chartColors.green,
+  //     window.chartColors.blue,
+  //     window.chartColors.red,
+  //     window.chartColors.orange,
+  //     window.chartColors.grey,
+  //   ],
+  //   series: [
+  //     {
+  //       name: 'Client',
+  //       type: 'column',
+  //       data: clientArray,
+  //       style: {
+  //         colors: [chartColors.labelColor],
+  //       },
+  //     },
+  //     {
+  //       name: '25%',
+  //       type: 'line',
+  //       data: peer25,
+  //       visible: false,
+  //     },
+  //     {
+  //       name: '50%',
+  //       type: 'line',
+  //       data: peerMid,
+  //       visible: false,
+  //     },
+  //     {
+  //       name: 'Avg',
+  //       type: 'line',
+  //       stacked: false,
+  //       data: peerAvg,
+  //       yaxis: 0,
+  //       style: {
+  //         colors: ['transparent'], // Set the line color to transparent
+  //       },
+  //       fill: {
+  //         type: 'gradient',
+  //         gradient: {
+  //           shadeIntensity: 1,
+  //           opacityFrom: 0.7,
+  //           opacityTo: 0.9,
+  //           stops: [0, 80, 80],
+  //         },
+  //       },
+  //     },
+  //    benchmarkArray.length > 0 && {
+  //       name: 'Benchmark',
+  //       type: 'line',
+  //       data: benchmarkArray,
+  //       visible: false,
+  //     },
+  //     {
+  //       name: '75%',
+  //       type: 'line',
+  //       data: peer75,
+  //       visible: false,
+  //     },
+  //   ],
+  //   chart: {
+  //     height: 350,
+  //     type: 'line',
+  //     stacked: false,
+  //   },
+  //   dataLabels: {
+  //     enabled: false,
+  //   },
+  //   stroke: {
+  //     width: [2, 6, 4, 4, 4],
+  //   },
+  //   title: {
+  //     text: '',
+  //     align: 'left',
+  //     offsetX: 110,
+  //   },
+  //   xaxis: {
+  //     categories: selectedYearsArray,
+  //     labels: {
+  //       style: {
+  //         colors: chartColors.labelColor,
+  //         fontSize: '1rem',
+  //       },
+  //     },
+  //   },
+  //   yaxis: [
+  //     {
+  //       axisTicks: {
+  //         show: true,
+  //       },
+  //       axisBorder: {
+  //         show: true,
+  //         color: chartColor,
+  //       },
+  //       labels: {
+  //         formatter: yaxisLabelFormatter,
+  //         style: {
+  //           colors: chartColor,
+  //           fontSize: '1.25rem',
+  //         },
+  //       },
+  //       tooltip: {
+  //         enabled: true,
+  //       },
+  //     },
+  //   ],
+  //   tooltip: {
+  //     fixed: {
+  //       enabled: true,
+  //       position: 'topLeft',
+  //       offsetY: 30,
+  //       offsetX: 60,
+  //     },
+  //     y: {
+  //       formatter: tooltipFormatter,
+  //       title: {
+  //         formatter: seriesName => `${seriesName}:`,
+  //       },
+  //     },
+  //   },
+  //   legend: {
+  //     horizontalAlign: 'center',
+  //     offsetX: 40,
+  //     fontSize: '20px',
+  //   },
+  //   grid: {
+  //     row: {
+  //       colors: ['transparent'],
+  //       opacity: 0.5,
+  //       thickness: 4,
+  //     },
+  //   },
+  //   plotOptions: {
+  //     bar: {
+  //       barHeight: '90%',
+  //     },
+  //   },
+  // };
 };

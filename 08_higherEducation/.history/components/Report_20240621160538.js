@@ -9,7 +9,6 @@ const displayReportComponent = () => {
       selectedYears,
       document.getElementById ('cfiRatio_clientTable'),
       [
-        ['cfiRatio_peerAverage_Peer', 'num', 1],
         ['cfiRatio', 'num', 1],
         ['cfi_primaryReserveRatio', 'num', 2],
         ['cfi_netIncomeOperationsRatio', 'percent', 1],
@@ -17,20 +16,13 @@ const displayReportComponent = () => {
         ['cfi_viabilityRatio', 'num', 2],
       ]
     );
-    insertCalculatedDataToReport (cfiData, selectedYears, [
-      ['primaryReserveRatio', 'num', 2],
-      ['netIncomeOperationsRatio', 'percent', 1],
-      ['returnOnNetAssets', 'percent', 1],
-      ['viabilityRatio', 'num', 2],
-    ]);
-
     insertDataToReport (
       cfiData,
       selectedYears,
       document.getElementById ('primaryReserveRatio_clientTable'),
       [
-        ['primaryReserveRatio_peerAverage_Peer', 'num', 2],
-        ['primaryReserveRatio', 'num', 2],
+        ['pr_cfiRatio', 'num', 1],
+        ['pr_cfi_primaryReserveRatio', 'num', 2],
         ['pr_nonrestrictedNetAssets', 'dollar', 0],
         ['pr_restrictedNetAssets', 'dollar', 0],
         ['pr_propertyAndEquipment', 'dollar', 0],
@@ -40,257 +32,17 @@ const displayReportComponent = () => {
       ]
     );
 
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('netIncomeOperations_clientTable'),
-      [
-        ['netIncomeOperationsRatio_peerAverage_Peer', 'percent', 1],
-        ['netIncomeOperationsRatio', 'percent', 1],
-        ['ni_operatingRevenuesSupportAndReleases', 'dollar', 0],
-        ['ni_totalFunctionalExpenses', 'dollar', 0],
-        ['ni_nonOperatingActivitiesInvestmentIncome', 'dollar', 0],
-      ]
-    );
-    
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('returnOnNetAssets_clientTable'),
-      [
-        ['returnOnNetAssets_peerAverage_Peer', 'percent', 1],
-        ['returnOnNetAssets', 'percent', 1],
-        ['ro_changeInNetAssets', 'dollar', 0],
-        ['ro_netAssetsBeginningOfYear', 'dollar', 0]
-      ]
-    );
+    insertCalculatedDataToReport (cfiData, selectedYears, [
+      ['primaryReserveRatio', 'num', 2],
+      ['netIncomeOperationsRatio', 'percent', 1],
+      ['returnOnNetAssets', 'percent', 1],
+      ['viabilityRatio', 'num', 2],
+    ]);
 
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('viabilityRatio_clientTable'),
-      [
-        ['viabilityRatio_peerAverage_Peer', 'num', 1],
-        ['viabilityRatio', 'num', 1],
-        ['vr_nonrestrictedNetAssets', 'dollar', 0],
-        ['vr_restrictedNetAssets', 'dollar', 0],
-        ['vr_totalPropertyAndEquipment', 'dollar', 0],
-        ['vr_accumulatedDepreciation', 'dollar', 0],
-        ['vr_notesPayable', 'dollar', 0],
-      ]
-    );
-
-    // processTHElements ();
+    processTHElements ();
   }
 
   // closeSidebarAfterSelectingOption('report');
-};
-
-const insertDataToReport = (data, selectedYears, table, arrayOfNames) => {
-  addYearColumnsToReportTable (selectedYears, table);
-  if (data && selectedYears) {
-    addTotalDataToEveryRow (data, selectedYears, arrayOfNames, table);
-  }
-};
-
-const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames, table) => {
-  // console.log('data', data);
-
-  for (let name of arrayOfNames) {
-    // console.log('name', name);
-    addToSingleRow (
-      selectedYears,
-      name[0],
-      data,
-      data[`${name[0]}_Client`],
-      data[`${name[0]}`],
-      name[1],
-      name[2],
-      name[3],
-      name[4],
-      name[5],
-      name[6],
-      name[7]
-    );
-  }
-};
-
-const addToSingleRow = (
-  selectedYears,
-  name,
-  data,
-  client,
-  peer,
-  type,
-  fixedNum,
-  wa,
-  cb,
-  fIdArray,
-  begin,
-  end
-) => {
-  // take away the "_Peer" from the name
-  const rowName = peer ? name.replace('_Peer', '') : name
-  const tableHeaderRow = document.getElementById (`row_${rowName}`)
-  // console.log (`row_${name}`);
-  console.log ({selectedYears, name, client, peer, type, fixedNum, tableHeaderRow, rowName});
-  while (tableHeaderRow.children.length > 1) {
-    tableHeaderRow.removeChild (tableHeaderRow.children[1]);
-  }
-
-  // check if variable name ends with '_Peer'
-  if (name.endsWith ('_Peer')) {
-    addPeerDataToReportRow (
-      tableHeaderRow,
-      peer,
-      type,
-      fixedNum,
-      'total',
-      wa,
-      name,
-      data,
-      fIdArray,
-      begin,
-      end,
-      selectedYears
-    );
-  } else {
-
-
-    addClientDataToReportRow (
-      tableHeaderRow,
-      selectedYears,
-      client,
-      type,
-      fixedNum,
-      cb,
-      name
-    );
-  }
-};
-
-const addClientDataToReportRow = (
-  tableHeaderRow,
-  selectedYears,
-  client,
-  type,
-  fixedNum,
-  cb,
-  name
-) => {
-  const propClass =
-    'px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600';
-  const propScope = 'row';
-
-  const tableRow = document.getElementById (`row_${name}`);
-
-  // console.log ({client, tableRow, selectedYears, type, fixedNum, name});
-
-  selectedYears.forEach (year => {
-    const dataPoint = document.createElement ('th');
-
-    // console.log({client, tableRow, year, type, fixedNum, dataPoint, name})
-
-    const text = Number (client[year].value) !== 0
-      ? styleNumber (client[year].value, type, fixedNum)
-      : '-';
-
-    // console.log ({text, client, year, type, fixedNum, dataPoint});
-
-    // Create a new span element
-    const spanElement = document.createElement ('span');
-    spanElement.textContent = text;
-
-    // Add the "mr-2" class to the span element
-    spanElement.classList.add ('mr-2');
-
-    // Create a new div element
-    const divElement = document.createElement ('div');
-
-    // Add the "flex" class to the div element
-    divElement.classList.add ('flex');
-    divElement.classList.add ('justify-between');
-
-    // Append the span element to the div element
-    divElement.appendChild (spanElement);
-
-    // Append the div element to the dataPoint
-    dataPoint.appendChild (divElement);
-    dataPoint.className = propClass;
-    dataPoint.scope = propScope;
-
-    // Append the dataPoint to the tableRow
-    tableRow.appendChild (dataPoint);
-  });
-
-  // if (cb) {
-  //   let clientBenchmarkArray = getBenchmarks (client);
-
-  //   //  console.log(clientBenchmarkArray, tableRow);
-
-  //   getBackgroundColor (clientBenchmarkArray, tableRow);
-  // }
-};
-
-const addPeerDataToReportRow = (
-  tableRow,
-  peer,
-  type,
-  fixedNum,
-  dataArray,
-  wa,
-  name,
-  data,
-  fIdArray,
-  begin,
-  end,
-  selectedYears
-) => {
-
-  const propClass =
-    'px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600';
-  const propScope = 'row';
-
-  let avg;
-  if (peer && wa) {
-    avg = parseFloat(getWeightedAverageOfArray(data, name));
-  } else if (peer && !wa) {
-    avg = parseFloat(getAverageOfArray(peer[dataArray], name));
-  } else {
-    avg = 0;
-  }
-
-  selectedYears.forEach (year => {
-    const dataPoint = document.createElement ('th');
-    const text = peer ? styleNumber(avg, type, fixedNum) : '';
-
-    const spanElement = document.createElement ('span');
-    spanElement.textContent = text;
-
-    // Add the "mr-2" class to the span element
-    spanElement.classList.add ('mr-2');
-
-    // Create a new div element
-    const divElement = document.createElement ('div');
-
-    // Add the "flex" class to the div element
-    divElement.classList.add ('flex');
-    divElement.classList.add ('justify-between');
-
-    // Append the span element to the div element
-    divElement.appendChild (spanElement);
-
-    // Append the div element to the dataPoint
-    dataPoint.appendChild (divElement);
-    dataPoint.className = propClass;
-    dataPoint.scope = propScope;
-
-    // Append the dataPoint to the tableRow
-    tableRow.appendChild (dataPoint);
-  })
-
-  // console.log({ tableRow, fixedNum, avg, mid, min, textMin, max, textMax });
-
 };
 
 const insertCalculatedDataToReport = (data, selectedYears, arrayOfNames) => {
@@ -380,6 +132,214 @@ const addToCalculatedRow = (year, data, name, type, fixedNum) => {
   }
 };
 
+const insertDataToReport = (data, selectedYears, table, arrayOfNames) => {
+  addYearColumnsToReportTable (selectedYears, table);
+  if (data && selectedYears) {
+    addTotalDataToEveryRow (data, selectedYears, arrayOfNames, table);
+  }
+};
+
+const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames, table) => {
+  // console.log('data', data);
+
+  for (let name of arrayOfNames) {
+    // console.log('name', name);
+    addToSingleRow (
+      selectedYears,
+      name[0],
+      data,
+      data[`${name[0]}_Client`],
+      data[`${name[0]}_Peer`],
+      name[1],
+      name[2],
+      name[3],
+      name[4],
+      name[5],
+      name[6],
+      name[7],
+    );
+  }
+};
+
+const addToSingleRow = (
+  selectedYears,
+  name,
+  data,
+  client,
+  peer,
+  type,
+  fixedNum,
+  wa,
+  cb,
+  fIdArray,
+  begin,
+  end,
+) => {
+  // console.log ({selectedYears, name, client, peer, type, fixedNum});
+  // console.log (`row_${name}`);
+  // console.log ('tableReportRow', tableHeaderRow);
+  const tableHeaderRow = document.getElementById (`row_${name}`);
+
+  while (tableHeaderRow.children.length > 1) {
+    tableHeaderRow.removeChild (tableHeaderRow.children[1]);
+  }
+
+  addClientDataToReportRow (
+    tableHeaderRow,
+    selectedYears,
+    client,
+    type,
+    fixedNum,
+    cb,
+    name
+  );
+  // addPeerDataToRow(
+  //   tableReportRow,
+  //   peer,
+  //   type,
+  //   fixedNum,
+  //   "total",
+  //   wa,
+  //   name,
+  //   data,
+  //   fIdArray,
+  //   begin,
+  //   end
+  // );
+};
+
+const addClientDataToReportRow = (
+  tableHeaderRow,
+  selectedYears,
+  client,
+  type,
+  fixedNum,
+  cb,
+  name
+) => {
+  const propClass =
+    'px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600';
+  const propScope = 'row';
+
+  const tableRow = document.getElementById (`row_${name}`);
+
+  // console.log ({client, tableRow, selectedYears, type, fixedNum, name});
+
+  selectedYears.forEach (year => {
+    const dataPoint = document.createElement ('th');
+
+    // console.log({client, tableRow, year, type, fixedNum, dataPoint, name})
+
+    const text = Number (client[year].value) !== 0
+      ? styleNumber (client[year].value, type, fixedNum)
+      : '-';
+
+    // console.log ({text, client, year, type, fixedNum, dataPoint});
+
+    // Create a new span element
+    const spanElement = document.createElement ('span');
+    spanElement.textContent = text;
+
+    // Add the "mr-2" class to the span element
+    spanElement.classList.add ('mr-2');
+
+    // Create a new div element
+    const divElement = document.createElement ('div');
+
+    // Add the "flex" class to the div element
+    divElement.classList.add ('flex');
+    divElement.classList.add ('justify-between');
+
+    // Append the span element to the div element
+    divElement.appendChild (spanElement);
+
+    // Append the div element to the dataPoint
+    dataPoint.appendChild (divElement);
+    dataPoint.className = propClass;
+    dataPoint.scope = propScope;
+
+    // Append the dataPoint to the tableRow
+    tableRow.appendChild (dataPoint);
+  });
+
+  // if (cb) {
+  //   let clientBenchmarkArray = getBenchmarks (client);
+
+  //   //  console.log(clientBenchmarkArray, tableRow);
+
+  //   getBackgroundColor (clientBenchmarkArray, tableRow);
+  // }
+};
+
+// const addPeerDataToRow = (
+//   tableRow,
+//   peer,
+//   type,
+//   fixedNum,
+//   dataArray,
+//   wa,
+//   name,
+//   data,
+//   fIdArray,
+//   begin,
+//   end
+// ) => {
+
+//   const propClass =
+//   "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+//   const propScope = "row";
+
+//   const dataPointAvg = document.createElement("th");
+
+//   let avg;
+//   if (peer && wa) {
+//     avg = parseFloat(getWeightedAverageOfArray(data, name));
+//   } else if (peer && !wa) {
+//     avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+//   } else {
+//     avg = 0;
+//   }
+
+//   // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name, avg });
+
+//   const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
+//   const dataPointMid = document.createElement("th");
+//   const mid = peer ? parseFloat(getMidpointOfArray(peer[dataArray])) : '';
+//   // console.log('mid', mid);
+//   const textMid = styleNumber(mid, type, fixedNum);
+//   const dataPointMin = document.createElement("th");
+//   const min = peer ? parseFloat(get25thPercentileOfArray(peer[dataArray])) : '';
+//   // if (name == 'salariesBenefitsTeachersAsPercentNetTuition_Salaries') console.log('salariesBenefitsTeachersAsPercentNetTuition_Salaries', {min, peerArray: peer[dataArray], type, fixedNum})
+//   const textMin = styleNumber(min, type, fixedNum);
+//   const dataPointMax = document.createElement("th");
+//   const max = peer ? parseFloat(get75thPercentileOfArray(peer[dataArray])) : '';
+//   const textMax = styleNumber(max, type, fixedNum);
+
+//   // console.log({ tableRow, fixedNum, avg, mid, min, textMin, max, textMax });
+
+//   dataPointAvg.className = propClass;
+//   dataPointAvg.scope = propScope;
+//   dataPointAvg.textContent = textAvg;
+//   tableRow.appendChild(dataPointAvg);
+
+//   dataPointMin.className = propClass;
+//   dataPointMin.scope = propScope;
+//   dataPointMin.textContent = textMin;
+//   tableRow.appendChild(dataPointMin);
+
+//   dataPointMid.className = propClass;
+//   dataPointMid.scope = propScope;
+//   dataPointMid.textContent = textMid;
+//   tableRow.appendChild(dataPointMid);
+
+//   dataPointMax.className = propClass;
+//   dataPointMax.scope = propScope;
+//   dataPointMax.textContent = textMax;
+//   tableRow.appendChild(dataPointMax);
+
+//   if (fIdArray) createFileForPrint(name, fIdArray, begin, end, avg, mid, min, max, peer, data);
+// };
+
 const addYearColumnsToReportTable = (years, table) => {
   // console.log({years, table});
   const trElements = table.querySelectorAll ('tr');
@@ -390,7 +350,6 @@ const addYearColumnsToReportTable = (years, table) => {
   // console.log(trIds);
 
   trIds.forEach (idName => {
-    console.log({idName, table});
     // Clear existing columns before adding new ones
     clearTableColumns (idName);
 

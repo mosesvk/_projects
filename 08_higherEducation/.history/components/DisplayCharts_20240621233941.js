@@ -143,11 +143,11 @@ const displayFinancialAnalysisContentComponent = () => {
     getFpaChartOptions (parseData)
   );
 
-  fpaChart.render();
+  // fpaChart.render();
 
-  document.addEventListener ('dark-mode', function () {
-    fpaChart.updateOptions (
-      getFpaChartOptions (parseData)
-    );
-  });
+  // document.addEventListener ('dark-mode', function () {
+  //   fpaChart.updateOptions (
+  //     getFpaChartOptions (dataPeer, dataClient, type, fixedNum, mainName, benchmark)
+  //   );
+  // });
 };

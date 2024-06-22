@@ -17,20 +17,13 @@ const displayReportComponent = () => {
         ['cfi_viabilityRatio', 'num', 2],
       ]
     );
-    insertCalculatedDataToReport (cfiData, selectedYears, [
-      ['primaryReserveRatio', 'num', 2],
-      ['netIncomeOperationsRatio', 'percent', 1],
-      ['returnOnNetAssets', 'percent', 1],
-      ['viabilityRatio', 'num', 2],
-    ]);
-
     insertDataToReport (
       cfiData,
       selectedYears,
       document.getElementById ('primaryReserveRatio_clientTable'),
       [
-        ['primaryReserveRatio_peerAverage_Peer', 'num', 2],
-        ['primaryReserveRatio', 'num', 2],
+        ['pr_cfiRatio', 'num', 1],
+        ['pr_cfi_primaryReserveRatio', 'num', 2],
         ['pr_nonrestrictedNetAssets', 'dollar', 0],
         ['pr_restrictedNetAssets', 'dollar', 0],
         ['pr_propertyAndEquipment', 'dollar', 0],
@@ -40,47 +33,14 @@ const displayReportComponent = () => {
       ]
     );
 
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('netIncomeOperations_clientTable'),
-      [
-        ['netIncomeOperationsRatio_peerAverage_Peer', 'percent', 1],
-        ['netIncomeOperationsRatio', 'percent', 1],
-        ['ni_operatingRevenuesSupportAndReleases', 'dollar', 0],
-        ['ni_totalFunctionalExpenses', 'dollar', 0],
-        ['ni_nonOperatingActivitiesInvestmentIncome', 'dollar', 0],
-      ]
-    );
-    
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('returnOnNetAssets_clientTable'),
-      [
-        ['returnOnNetAssets_peerAverage_Peer', 'percent', 1],
-        ['returnOnNetAssets', 'percent', 1],
-        ['ro_changeInNetAssets', 'dollar', 0],
-        ['ro_netAssetsBeginningOfYear', 'dollar', 0]
-      ]
-    );
+    insertCalculatedDataToReport (cfiData, selectedYears, [
+      ['primaryReserveRatio', 'num', 2],
+      ['netIncomeOperationsRatio', 'percent', 1],
+      ['returnOnNetAssets', 'percent', 1],
+      ['viabilityRatio', 'num', 2],
+    ]);
 
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('viabilityRatio_clientTable'),
-      [
-        ['viabilityRatio_peerAverage_Peer', 'num', 1],
-        ['viabilityRatio', 'num', 1],
-        ['vr_nonrestrictedNetAssets', 'dollar', 0],
-        ['vr_restrictedNetAssets', 'dollar', 0],
-        ['vr_totalPropertyAndEquipment', 'dollar', 0],
-        ['vr_accumulatedDepreciation', 'dollar', 0],
-        ['vr_notesPayable', 'dollar', 0],
-      ]
-    );
-
-    // processTHElements ();
+    processTHElements ();
   }
 
   // closeSidebarAfterSelectingOption('report');
@@ -129,11 +89,11 @@ const addToSingleRow = (
   begin,
   end
 ) => {
-  // take away the "_Peer" from the name
-  const rowName = peer ? name.replace('_Peer', '') : name
-  const tableHeaderRow = document.getElementById (`row_${rowName}`)
+  // console.log ({selectedYears, name, client, peer, type, fixedNum});
   // console.log (`row_${name}`);
-  console.log ({selectedYears, name, client, peer, type, fixedNum, tableHeaderRow, rowName});
+  // console.log ('tableReportRow', tableHeaderRow);
+  const tableHeaderRow = document.getElementById (`row_${name}`);
+
   while (tableHeaderRow.children.length > 1) {
     tableHeaderRow.removeChild (tableHeaderRow.children[1]);
   }
@@ -141,7 +101,7 @@ const addToSingleRow = (
   // check if variable name ends with '_Peer'
   if (name.endsWith ('_Peer')) {
     addPeerDataToReportRow (
-      tableHeaderRow,
+      tableReportRow,
       peer,
       type,
       fixedNum,
@@ -155,8 +115,6 @@ const addToSingleRow = (
       selectedYears
     );
   } else {
-
-
     addClientDataToReportRow (
       tableHeaderRow,
       selectedYears,
@@ -251,6 +209,8 @@ const addPeerDataToReportRow = (
     'px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600';
   const propScope = 'row';
 
+  const dataPointAvg = document.createElement("th");
+
   let avg;
   if (peer && wa) {
     avg = parseFloat(getWeightedAverageOfArray(data, name));
@@ -261,32 +221,12 @@ const addPeerDataToReportRow = (
   }
 
   selectedYears.forEach (year => {
-    const dataPoint = document.createElement ('th');
-    const text = peer ? styleNumber(avg, type, fixedNum) : '';
+    const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
 
-    const spanElement = document.createElement ('span');
-    spanElement.textContent = text;
-
-    // Add the "mr-2" class to the span element
-    spanElement.classList.add ('mr-2');
-
-    // Create a new div element
-    const divElement = document.createElement ('div');
-
-    // Add the "flex" class to the div element
-    divElement.classList.add ('flex');
-    divElement.classList.add ('justify-between');
-
-    // Append the span element to the div element
-    divElement.appendChild (spanElement);
-
-    // Append the div element to the dataPoint
-    dataPoint.appendChild (divElement);
-    dataPoint.className = propClass;
-    dataPoint.scope = propScope;
-
-    // Append the dataPoint to the tableRow
-    tableRow.appendChild (dataPoint);
+    dataPointAvg.className = propClass;
+    dataPointAvg.scope = propScope;
+    dataPointAvg.textContent = textAvg;
+    tableRow.appendChild(dataPointAvg);
   })
 
   // console.log({ tableRow, fixedNum, avg, mid, min, textMin, max, textMax });
@@ -390,7 +330,6 @@ const addYearColumnsToReportTable = (years, table) => {
   // console.log(trIds);
 
   trIds.forEach (idName => {
-    console.log({idName, table});
     // Clear existing columns before adding new ones
     clearTableColumns (idName);
 

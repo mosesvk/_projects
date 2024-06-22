@@ -50,37 +50,11 @@ const displayReportComponent = () => {
         ['ni_operatingRevenuesSupportAndReleases', 'dollar', 0],
         ['ni_totalFunctionalExpenses', 'dollar', 0],
         ['ni_nonOperatingActivitiesInvestmentIncome', 'dollar', 0],
-      ]
-    );
-    
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('returnOnNetAssets_clientTable'),
-      [
-        ['returnOnNetAssets_peerAverage_Peer', 'percent', 1],
-        ['returnOnNetAssets', 'percent', 1],
-        ['ro_changeInNetAssets', 'dollar', 0],
-        ['ro_netAssetsBeginningOfYear', 'dollar', 0]
+        ['ni_operatingRevenuesSupportAndReleases', 'dollar', 0]
       ]
     );
 
-    insertDataToReport (
-      cfiData,
-      selectedYears,
-      document.getElementById ('viabilityRatio_clientTable'),
-      [
-        ['viabilityRatio_peerAverage_Peer', 'num', 1],
-        ['viabilityRatio', 'num', 1],
-        ['vr_nonrestrictedNetAssets', 'dollar', 0],
-        ['vr_restrictedNetAssets', 'dollar', 0],
-        ['vr_totalPropertyAndEquipment', 'dollar', 0],
-        ['vr_accumulatedDepreciation', 'dollar', 0],
-        ['vr_notesPayable', 'dollar', 0],
-      ]
-    );
-
-    // processTHElements ();
+    processTHElements ();
   }
 
   // closeSidebarAfterSelectingOption('report');
@@ -390,7 +364,6 @@ const addYearColumnsToReportTable = (years, table) => {
   // console.log(trIds);
 
   trIds.forEach (idName => {
-    console.log({idName, table});
     // Clear existing columns before adding new ones
     clearTableColumns (idName);
 

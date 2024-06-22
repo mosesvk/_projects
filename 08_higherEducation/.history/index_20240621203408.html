@@ -1768,10 +1768,9 @@
                   <div class="w-1/2 text-center">
                     <p class="text-xl font-semibold mb-4">Benchmark</p>
                     <p class="p-5 borderGreen border-2">
-                      A 6% return on net assets is considered a baseline for
-                      adequate financial health, suggesting that the
-                      organization’s net assets have increased by at least 6%
-                      over the period.
+                      Generally, any positive value is favorable as it indicates
+                      that the organization is generating more revenue than it
+                      spends on operational expenses.
                     </p>
                   </div>
                 </div>
@@ -1817,38 +1816,42 @@
               <!-- DETAILS - CFI VIABILITY RATIO -->
               <div id="details_cfiViabilityRatio" class="my-5 hidden">
                 <p class="mb-12">
-                  The Viability Ratio measures an institution's ability to cover
-                  its long-term financial obligations using its available
-                  financial resources. A higher ratio indicates greater
-                  financial health and the ability to manage and repay debts
-                  effectively.
+                  The Net Income Operations Ratio is a financial metric used to
+                  evaluate how effectively an organization manages its
+                  operational income relative to its operational expenses. This
+                  ratio is particularly significant for assessing the
+                  operational efficiency and sustainability of an institution. A
+                  positive ratio indicates that the organization is not only
+                  covering its operational costs but is also generating surplus
+                  revenues that can be reinvested into the institution or
+                  reserved for future needs. A negative ratio suggests that the
+                  organization is running at a loss indicating inefficiencies or
+                  challenges that might be a threat to long-term sustainability.
                 </p>
                 <p class="text-2xl font-bold mb-4 text-center">Calculations</p>
                 <!-- CALCULATIONS - CFI VIABILITY RATIO -->
                 <div class="flex flex-row p-5 borderGreen border-2">
                   <div class="mr-4 py-10 w-1/3">
                     <div>
-                      <p>Expendable Net Assets</p>
+                      <p>Change in Net Assets</p>
                     </div>
                     <hr
                       class="h-px my-4 bg-gray-200 border-1 dark:bg-gray-700"
                     />
-                    <p>Long-term Debt (Notes Payable)</p>
+                    <p>Net Assets Beginning of the Year</p>
                   </div>
                   <div class="flex flex-col w-2/3">
                     <div class="mb-4">
                       <p>
-                        These are the resources available for spending and are
-                        not tied up in fixed assets such as buildings and
-                        equipment, or legally restricted by donors. These assets
-                        are essentially the financial equity of the institution
-                        minus any non-expendable funds.
+                        This represents the net increase or decrease in the
+                        institution’s assets after accounting for all income,
+                        expenses, gains, and losses over the period.
                       </p>
                     </div>
                     <div class="mt-4">
-                      This includes bonds, capital leases, asset retirement
-                      obligations, and other long-term financial obligations
-                      primarily related to facilities and infrastructure.
+                      This is the total value of the institution’s assets minus
+                      liabilities at the start of the fiscal year, providing a
+                      baseline for measuring growth or decline.
                     </div>
                   </div>
                 </div>
@@ -1975,9 +1978,9 @@
                   <div class="w-1/2 text-center">
                     <p class="text-xl font-semibold mb-4">Benchmark</p>
                     <p class="p-5 borderGreen border-2">
-                      A ratio of 1.25 is considered the threshold for financial
-                      health. this level suggests that the institution's
-                      reserves exceed its long-term obligations by 25%.
+                      Generally, any positive value is favorable as it indicates
+                      that the organization is generating more revenue than it
+                      spends on operational expenses.
                     </p>
                   </div>
                 </div>
@@ -2002,8 +2005,9 @@
                   </span>
                 </div>
               </div>
-              <div id="FinancialAnalysisContent_chart"></div>
-              <button id="dropdown_FinancialAnalysisContent"
+              <div id="cfiRatio_chart"></div>
+              <button
+                id="dropdown_cfiRatio"
                 class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
               >
                 Details
@@ -2013,7 +2017,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 6 10"
-                  id="arrow_FinancialAnalysisContent"
+                  id="arrow_cfiRatio"
                 >
                   <path
                     stroke="currentColor"
@@ -2024,9 +2028,7 @@
                   />
                 </svg>
               </button>
-              <div id="details_FinancialAnalysisContent" class="my-5 hidden">
-                
-              </div>
+              <div id="details_cfiRatio" class="my-5 hidden"></div>
             </div>
           </div>
         </main>

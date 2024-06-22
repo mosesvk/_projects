@@ -147,7 +147,7 @@ const displayFinancialAnalysisContentComponent = () => {
 
   document.addEventListener ('dark-mode', function () {
     fpaChart.updateOptions (
-      getFpaChartOptions (parseData)
+      getFpaChartOptions (dataPeer, dataClient, type, fixedNum, mainName, benchmark)
     );
   });
 };

@@ -155,59 +155,6 @@ const insertDataIntoObject = (
   }
 };
 
-const processFinancialAnalysisContentData = (years, recordsPeer, recordsClient) => {
-  const object = {}
-
-  years.forEach (year => {
-    const filteredPeerRecords = [...recordsPeer].filter (record => {
-      const fiscalYear = record.querySelector ('year').textContent;
-
-      return fiscalYear.includes (year.toString ());
-    });
-    filteredPeerRecords.forEach (record => {
-
-    })
-
-    const filteredClientRecords = [...recordsClient].filter (record => {
-      const fiscalYear = record.querySelector ('year').textContent;
-      return fiscalYear.includes (year.toString ());
-    });
-    filteredClientRecords.forEach (record => {
-      // totalAssets
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'totalAssets_Client',
-        record,
-        'r008_ctotal_assets'
-      );
-      // totalLiabilities
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'totalLiabilities_Client',
-        record,
-        'r016_ctotal_liabilities'
-      );
-      // netPosition
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'netPosition_Client',
-        record,
-        'r020_ctotal_net_assets'
-      );
-
-    })
-  })
-
-  localStorage.removeItem ('financialAnalysisContentData');
-  localStorage.setItem ('financialAnalysisContentData', JSON.stringify (object));
-}
-
 const processCfiData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
@@ -218,56 +165,56 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
       return fiscalYear.includes (year.toString ());
     });
     filteredPeerRecords.forEach (record => {
-      // cfiRatio_peerAverage
+      // cfiRatio
       insertDataIntoObject (
         'peer',
         year,
         object,
-        'cfiRatio_peerAverage_Peer',
+        'cfiRatio_Peer',
         record,
         'r119_ccfi_overall_ratio',
         'Yes'
       );
 
-      // primaryReserveRatio_peerAverage
+      // cfi_primaryReserveRatio
       insertDataIntoObject (
         'peer',
         year,
         object,
-        'primaryReserveRatio_peerAverage_Peer',
+        'cfi_primaryReserveRatio_Peer',
         record,
         'r115_ccfi_primary_reserve_ratio',
         'Yes'
       );
 
-      // netIncomeOperationsRatio_peerAverage
+      // cfi_netIncomeOperationsRatio
       insertDataIntoObject (
         'peer',
         year,
         object,
-        'netIncomeOperationsRatio_peerAverage_Peer',
+        'cfi_netIncomeOperationsRatio_Peer',
         record,
         'r116_ccfi_net_income_operations_ratio',
         'Yes'
       );
 
-      // returnOnNetAssets_peerAverage
+      // cfi_returnOnNetAssets
       insertDataIntoObject (
         'peer',
         year,
         object,
-        'returnOnNetAssets_peerAverage_Peer',
+        'cfi_returnOnNetAssets_Peer',
         record,
         'r117_ccfi_return_on_net_assets_total_return_ratio',
         'Yes'
       );
 
-      // viabilityRatio_peerAverage
+      // cfi_viabilityRatio
       insertDataIntoObject (
         'peer',
         year,
         object,
-        'viabilityRatio_peerAverage_Peer',
+        'cfi_viabilityRatio_Peer',
         record,
         'r118_ccfi_viability_ratio',
         'Yes'
@@ -451,12 +398,22 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
 
       // PRIMARY RESERVE RATIO ---------------------------------->
 
-      // primaryReserveRatio
+      // pr_cfiRatio
       insertDataIntoObject (
         'client',
         year,
         object,
-        'primaryReserveRatio_Client',
+        'pr_cfiRatio_Client',
+        record,
+        'r119_ccfi_overall_ratio'
+      );
+
+      // pr_cfi_primaryReserveRatio
+      insertDataIntoObject (
+        'client',
+        year,
+        object,
+        'pr_cfi_primaryReserveRatio_Client',
         record,
         'r115_ccfi_primary_reserve_ratio'
       );
@@ -522,132 +479,26 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
 
       // NET INCOME OPERATIONS RATIO ---------------------------------->
 
-      // netIncomeOperationsRatio
+      // operatingRevenuesSupportAndReleases_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'netIncomeOperationsRatio_Client',
-        record,
-        'r116_ccfi_net_income_operations_ratio'
-      );
-
-      // ni_operatingRevenuesSupportAndReleases
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'ni_operatingRevenuesSupportAndReleases_Client',
+        'operatingRevenuesSupportAndReleases_Client',
         record,
         'r036_coperating_revenues_support_and_releases'
       );
 
-      // ni_totalFunctionalExpenses
+      // nonOperatingActivitiesInvestmentIncome_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'ni_totalFunctionalExpenses_Client',
-        record,
-        'r044_ctotal_functional_expenses'
-      );
-
-      // ni_nonOperatingActivitiesInvestmentIncome
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'ni_nonOperatingActivitiesInvestmentIncome_Client',
+        'nonOperatingActivitiesInvestmentIncome_Client',
         record,
         'r047_non_operating_activities_investment_income'
       );
 
-      // CFI RETURN ON NET ASSETS ---------------------------------->
-
-      // returnOnNetAssets
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'returnOnNetAssets_Client',
-        record,
-        'r117_ccfi_return_on_net_assets_total_return_ratio'
-      );
-      // ro_changeInNetAssets
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'ro_changeInNetAssets_Client',
-        record,
-        'r065_cchange_in_net_assets'
-      );
-      // ro_netAssetsBeginningOfYear
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'ro_netAssetsBeginningOfYear_Client',
-        record,
-        'r066_net_assets_beginning_of_year'
-      );
-
-      // CFI RETURN ON NET ASSETS ---------------------------------->
-
-      // viabilityRatio
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'viabilityRatio_Client',
-        record,
-        'r118_ccfi_viability_ratio'
-      );
-      // vr_nonrestrictedNetAssets
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'vr_nonrestrictedNetAssets_Client',
-        record,
-        'r017_net_assets_without_donor_restriction'
-      );
-      // vr_restrictedNetAssets
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'vr_restrictedNetAssets_Client',
-        record,
-        'r018_net_assets_restricted_by_time_or_purpose'
-      );
-      // vr_totalPropertyAndEquipment
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'vr_totalPropertyAndEquipment_Client',
-        record,
-        'r099_ctotal_property_and_equipment_less_depreciation'
-      );
-      // vr_accumulatedDepreciation
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'vr_accumulatedDepreciation_Client',
-        record,
-        'r098_accumulated_depreciation'
-      );
-      // vr_notesPayable
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'vr_notesPayable_Client',
-        record,
-        'r015_notes_payable'
-      );
     });
   });
 
@@ -719,12 +570,13 @@ const resetSelectedYears = () => {
 
 const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
   processCfiData (selectedYears, recordsPeer, recordsClient);
-  processFinancialAnalysisContentData (selectedYears, recordsPeer, recordsClient);
 };
 
 const displayComponents = () => {
   displayCfiComponent ();
-  displayFinancialAnalysisContentComponent ()
+  // displayCashComponent();
+  // displayIncomeComponent();
+  // displayExpenseComponent();
   displayReportComponent ();
 };
 

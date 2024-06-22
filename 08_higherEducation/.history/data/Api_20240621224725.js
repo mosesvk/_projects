@@ -173,33 +173,6 @@ const processFinancialAnalysisContentData = (years, recordsPeer, recordsClient) 
       return fiscalYear.includes (year.toString ());
     });
     filteredClientRecords.forEach (record => {
-      // totalAssets
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'totalAssets_Client',
-        record,
-        'r008_ctotal_assets'
-      );
-      // totalLiabilities
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'totalLiabilities_Client',
-        record,
-        'r016_ctotal_liabilities'
-      );
-      // netPosition
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'netPosition_Client',
-        record,
-        'r020_ctotal_net_assets'
-      );
 
     })
   })
@@ -719,7 +692,6 @@ const resetSelectedYears = () => {
 
 const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
   processCfiData (selectedYears, recordsPeer, recordsClient);
-  processFinancialAnalysisContentData (selectedYears, recordsPeer, recordsClient);
 };
 
 const displayComponents = () => {

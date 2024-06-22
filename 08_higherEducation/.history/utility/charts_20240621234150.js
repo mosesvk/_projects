@@ -257,13 +257,25 @@ const getFpaChartOptions = data => {
   // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
 
   const yaxisLabelFormatter = value => {
-    return `$${formatNumber (value)}`;
+    if (numType === 'dollar') {
+      return `$${formatNumber (value)}`;
+    } else if (numType === 'percent') {
+      return `${formatNumber (value)}%`;
+    } else {
+      return formatNumber (value);
+    }
   };
 
   const tooltipFormatter = value => {
     if (!value) return;
     const formattedValue = value.toLocaleString ();
-    return `$${formattedValue}`;
+    if (numType === 'dollar') {
+      return `$${formattedValue}`;
+    } else if (numType === 'percent') {
+      return `${formattedValue}%`;
+    } else {
+      return formattedValue;
+    }
   };
 
   // console.log({mainName, benchmark});
@@ -272,14 +284,14 @@ const getFpaChartOptions = data => {
     colors: [
       window.chartColors.green,
       window.chartColors.blue,
-      window.chartColors.grey,
       window.chartColors.red,
       window.chartColors.orange,
+      window.chartColors.grey,
     ],
     series: [
       {
         name: 'Total Assets',
-        type: 'bar',
+        type: 'column',
         data: totalAssetsArray,
         style: {
           colors: [chartColors.labelColor],
@@ -290,7 +302,7 @@ const getFpaChartOptions = data => {
         group: 'column',
         data: totalLiabilitiesArray,
         style: {
-          colors: [chartColors.grey],
+          colors: [chartColors.labelColor],
         },
       },
       {
@@ -300,7 +312,7 @@ const getFpaChartOptions = data => {
         style: {
           colors: [chartColors.labelColor],
         },
-      },
+      }
     ],
     chart: {
       height: 350,
@@ -311,8 +323,7 @@ const getFpaChartOptions = data => {
       enabled: false,
     },
     stroke: {
-      width: 5,
-      colors: chartColors.labelColor,
+      width: 2,
     },
     title: {
       text: '',
@@ -324,7 +335,7 @@ const getFpaChartOptions = data => {
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: '1.5rem',
+          fontSize: '1rem',
         },
       },
     },
@@ -350,6 +361,12 @@ const getFpaChartOptions = data => {
       },
     ],
     tooltip: {
+      fixed: {
+        enabled: true,
+        position: 'topLeft',
+        offsetY: 30,
+        offsetX: 60,
+      },
       y: {
         formatter: tooltipFormatter,
         title: {

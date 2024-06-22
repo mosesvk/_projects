@@ -155,59 +155,6 @@ const insertDataIntoObject = (
   }
 };
 
-const processFinancialAnalysisContentData = (years, recordsPeer, recordsClient) => {
-  const object = {}
-
-  years.forEach (year => {
-    const filteredPeerRecords = [...recordsPeer].filter (record => {
-      const fiscalYear = record.querySelector ('year').textContent;
-
-      return fiscalYear.includes (year.toString ());
-    });
-    filteredPeerRecords.forEach (record => {
-
-    })
-
-    const filteredClientRecords = [...recordsClient].filter (record => {
-      const fiscalYear = record.querySelector ('year').textContent;
-      return fiscalYear.includes (year.toString ());
-    });
-    filteredClientRecords.forEach (record => {
-      // totalAssets
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'totalAssets_Client',
-        record,
-        'r008_ctotal_assets'
-      );
-      // totalLiabilities
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'totalLiabilities_Client',
-        record,
-        'r016_ctotal_liabilities'
-      );
-      // netPosition
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'netPosition_Client',
-        record,
-        'r020_ctotal_net_assets'
-      );
-
-    })
-  })
-
-  localStorage.removeItem ('financialAnalysisContentData');
-  localStorage.setItem ('financialAnalysisContentData', JSON.stringify (object));
-}
-
 const processCfiData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
@@ -719,12 +666,13 @@ const resetSelectedYears = () => {
 
 const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
   processCfiData (selectedYears, recordsPeer, recordsClient);
-  processFinancialAnalysisContentData (selectedYears, recordsPeer, recordsClient);
 };
 
 const displayComponents = () => {
   displayCfiComponent ();
-  displayFinancialAnalysisContentComponent ()
+  // displayCashComponent();
+  // displayIncomeComponent();
+  // displayExpenseComponent();
   displayReportComponent ();
 };
 
