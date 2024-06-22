@@ -172,19 +172,7 @@ const processFinancialAnalysisContentData = (years, recordsPeer, recordsClient) 
         object,
         'totalLiabilities_Peer',
         record,
-        'r016_ctotal_liabilities',
-        'Yes'
-      );
-
-      // totalAssets
-      insertDataIntoObject (
-        'peer',
-        year,
-        object,
-        'totalAssets_Peer',
-        record,
-        'r008_ctotal_assets',
-        'Yes'
+        'r016_ctotal_liabilities'
       );
     })
 

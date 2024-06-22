@@ -119,8 +119,8 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
       `;
       tableBodyClient.appendChild(clientRow);
 
-      const totalAssetsPeerValue = getSumOfArray(totalAssetsPeer[year]);
-      const totalLiabilitiesPeerValue = getSumOfArray(totalLiabilitiesPeer[year]);
+      const totalAssetsPeerValue = getSumOfArray(totalAssetsPeer['total'][year]);
+      const totalLiabilitiesPeerValue = getSumOfArray(totalLiabilitiesPeer['total'][year]);
       const totalAssetToLiabilitysClientValue = totalAssetsPeerValue / totalLiabilitiesPeerValue;
 
       const peerRow = document.createElement('tr');

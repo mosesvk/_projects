@@ -172,8 +172,7 @@ const processFinancialAnalysisContentData = (years, recordsPeer, recordsClient) 
         object,
         'totalLiabilities_Peer',
         record,
-        'r016_ctotal_liabilities',
-        'Yes'
+        'r016_ctotal_liabilities'
       );
 
       // totalAssets
@@ -183,8 +182,7 @@ const processFinancialAnalysisContentData = (years, recordsPeer, recordsClient) 
         object,
         'totalAssets_Peer',
         record,
-        'r008_ctotal_assets',
-        'Yes'
+        'r008_ctotal_assets'
       );
     })
 

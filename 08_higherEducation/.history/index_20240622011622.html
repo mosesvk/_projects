@@ -2014,7 +2014,7 @@
                   <span
                     class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
                   >
-                    Asset to Liabilities Ratio
+                    Asset to Liabilities
                   </span>
                 </div>
               </div>
@@ -2042,113 +2042,55 @@
                 </svg>
               </button>
               <div id="details_assetToLiabilities" class="my-5 hidden">
-                <div class="flex flex-col max-w-5xl">
-                  <!-- CLIENT TABLE - ASSET TO LIABILITIES -->
-                  <div
-                    id="returnOnNetAssets_clientTable"
-                    class="flex flex-col my-10"
-                  >
-                    <div class="overflow-x-auto rounded-lg">
-                      <div class="inline-block min-w-full align-middle">
-                        <div
-                          class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                <div
+                  id="returnOnNetAssets_clientTable"
+                  class="flex flex-col my-10"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                         >
-                          <table
-                            class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
                           >
-                            <thead
-                              class="text-xs text-white uppercase backgroundGreen opacity-75"
-                            >
-                              <tr id="row_assetToLiabilitiesClient_tableHeader">
-                                <th
-                                  scope="col"
-                                  class="px-6 py-3 text-lg tracking-wide"
-                                >
-                                  Year
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-6 py-3 text-lg tracking-wide"
-                                >
-                                  Assets
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-6 py-3 text-lg tracking-wide"
-                                >
-                                  Liabilities
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-6 py-3 text-lg tracking-wide"
-                                >
-                                  Asset/Liabilities Ratio
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody id="assetToLiabilitiesClient_tbody">
-                              <tr
-                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                            <tr id="row_returnOnNetAssets_tableHeader">
+                              <th
+                                scope="col"
+                                class="px-6 py-3 text-lg tracking-wide"
                               >
-                                <th
-                                  scope="row"
-                                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                ></th>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- PEER TABLE - ASSET TO LIABILITIES -->
-                  <div
-                    id="assetToLiabilities_peerTable"
-                    class="flex flex-col my-10"
-                  >
-                    <div class="overflow-x-auto rounded-lg">
-                      <div class="inline-block min-w-full align-middle">
-                        <div
-                          class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                        >
-                          <table
-                            class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                          >
-                            <thead
-                              class="text-xs text-white uppercase backgroundBlue opacity-75"
+                                Year
+                              </th>
+                              <th
+                                scope="col"
+                                class="px-6 py-3 text-lg tracking-wide"
+                              >
+                                Assets
+                              </th>
+                              <th
+                                scope="col"
+                                class="px-6 py-3 text-lg tracking-wide"
+                              >
+                                Liabilities
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr id="row_returnOnNetAssets_peerAverage"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                             >
-                              <tr id="row_assetToLiabilities_Peer_tableHeader">
-                                <th
-                                  scope="col"
-                                  class="px-6 py-3 text-lg tracking-wide"
-                                >
-                                  Year
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-6 py-3 text-lg tracking-wide"
-                                >
-                                  Peer Assets
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-6 py-3 text-lg tracking-wide"
-                                >
-                                  Peer Liabilities
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-6 py-3 text-lg tracking-wide"
-                                >
-                                  Asset/Liabilities
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody id="assetToLiabilitiesPeer_tbody">
-
-                            </tbody>
-                          </table>
-                        </div>
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>

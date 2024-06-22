@@ -97,40 +97,69 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
   console.log({ data, selectedYears });
   const totalAssetsClient = data['totalAssets_Client'];
   const totalLiabilitiesClient = data['totalLiabilities_Client'];
-  const tableBodyClient = document.getElementById('assetToLiabilitiesClient_tbody');
+  const tableBodyClient = document.getElementById ('assetToLiabilitiesClient_tbody');
 
   const totalAssetsPeer = data['totalAssets_Peer'];
   const totalLiabilitiesPeer = data['totalLiabilities_Peer'];
-  const tableBodyPeer = document.getElementById('assetToLiabilitiesPeer_tbody');
+  const tableBodyPeer = document.getElementById ('assetToLiabilitiesPeer_tbody');
 
-  console.log({ totalAssetsPeer, totalLiabilitiesPeer });
+  selectedYears.forEach (year => {
+    const totalAssetsClientValue = Number(totalAssetsClient[year].value) > 0 ? styleNumber(totalAssetsClient[year].value, 'dollar', 0) : '-';
+    const totalLiabilitiesClientValue = Number(totalAssetsClient[year].value) > 0 ? styleNumber(totalAssetsClient[year].value, 'dollar', 0) : '-';
+    const totalAssetToLiabilityClientValue = Number(totalAssetsClient[year].value) > 0 ? styleNumber((Number(totalAssetsClient[year].value)/Number(totalLiabilitiesClient[year].value)), 'dollar', 0) : '-';
 
-  selectedYears.forEach(year => {
-      const totalAssetsClientValue = Number(totalAssetsClient[year].value) > 0 ? styleNumber(totalAssetsClient[year].value, 'dollar', 0) : '-';
-      const totalLiabilitiesClientValue = Number(totalLiabilitiesClient[year].value) > 0 ? styleNumber(totalLiabilitiesClient[year].value, 'dollar', 0) : '-';
-      const totalAssetToLiabilityClientValue = Number(totalAssetsClient[year].value) > 0 ? styleNumber((Number(totalAssetsClient[year].value) / Number(totalLiabilitiesClient[year].value)), 'dollar', 0) : '-';
+    const clientElement = `
+      <tr 
+        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+      >
+        <th 
+          scope="row"
+          class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >${year}</th>
+        <th 
+          scope="row"
+          class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >${totalAssetsClientValue}</th>
+        <th 
+          scope="row"
+          class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >${totalLiabilitiesClientValue}</th>
+        <th 
+          scope="row"
+          class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >${totalAssetToLiabilityClientValue}</th>
+      </tr>
+    `;
+    tableBodyClient.appendChild (clientElement);
 
-      const clientRow = document.createElement('tr');
-      clientRow.innerHTML = `
-          <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${year}</th>
-          <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalAssetsClientValue}</td>
-          <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalLiabilitiesClientValue}</td>
-          <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalAssetToLiabilityClientValue}</td>
-      `;
-      tableBodyClient.appendChild(clientRow);
+    const totalAssetsPeerValue = getSumOfArray(totalAssetsPeer['total'][year])
+    const totalLiabilitiesPeerValue = getSumOfArray(totalLiabilitiesPeer['total'][year])
+    const totalAssetToLiabilitysClientValue = totalAssetsPeerValue/totalLiabilitiesPeerValue
 
-      const totalAssetsPeerValue = getSumOfArray(totalAssetsPeer[year]);
-      const totalLiabilitiesPeerValue = getSumOfArray(totalLiabilitiesPeer[year]);
-      const totalAssetToLiabilitysClientValue = totalAssetsPeerValue / totalLiabilitiesPeerValue;
+    const peerElement = `
+      <tr 
+        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+      >
+        <th 
+          scope="row"
+          class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >${year}</th>
+        <th 
+          scope="row"
+          class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >${styleNumber(totalAssetsPeerValue, 'num', 0)}</th>
+        <th 
+          scope="row"
+          class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >${styleNumber(totalLiabilitiesPeerValue, 'num', 0)}</th>
+        <th 
+          scope="row"
+          class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >${styleNumber(totalAssetToLiabilitysClientValue, 'num', 0)}</th>
+      </tr>
+    `
 
-      const peerRow = document.createElement('tr');
-      peerRow.innerHTML = `
-          <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${year}</th>
-          <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${styleNumber(totalAssetsPeerValue, 'num', 0)}</td>
-          <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${styleNumber(totalLiabilitiesPeerValue, 'num', 0)}</td>
-          <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${styleNumber(totalAssetToLiabilitysClientValue, 'num', 0)}</td>
-      `;
-      tableBodyPeer.appendChild(peerRow);
+    tableBodyPeer.appendChild (peerElement);
   });
 };
 
