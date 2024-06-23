@@ -408,57 +408,57 @@ const processFinancialAnalysisContentData = (years, recordsPeer, recordsClient) 
         'r054_contributions'
       );
 
-      // ffa_salariesAndWages_Client
+      // ffa_salaries_and_wages_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'ffa_salariesAndWages_Client',
+        'ffa_salaries_and_wages_Client',
         record,
         'r160_salaries_and_wages'
       );
 
-      // ffa_employeeBenefits_Client
+      // ffa_employee_benefits_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'ffa_employeeBenefits_Client',
+        'ffa_employee_benefits_Client',
         record,
         'r161_employee_benefits'
       );
 
-      // ffa_servicesSuppliesAndOther_Client
+      // ffa_services_supplies_and_other_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'ffa_servicesSuppliesAndOther_Client',
+        'ffa_services_supplies_and_other_Client',
         record,
         'r162_services_supplies_and_other'
       );
 
-      // ffa_occupancyUtilitiesAndMaintenance_Client
+      // ffa_occupancy_utilities_and_maintenance_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'ffa_occupancyUtilitiesAndMaintenance_Client',
+        'ffa_occupancy_utilities_and_maintenance_Client',
         record,
         'r163_occupancy_utilities_and_maintenance'
       );
 
-      // ffa_depreciationAndAmortization_Client
+      // ffa_depreciation_and_amortization_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'ffa_depreciationAndAmortization_Client',
+        'ffa_depreciation_and_amortization_Client',
         record,
         'r164_depreciation_and_amortization'
       );
 
-      // ffa_interest
+      // r165_interest
       insertDataIntoObject (
         'client',
         year,
@@ -468,14 +468,14 @@ const processFinancialAnalysisContentData = (years, recordsPeer, recordsClient) 
         'r165_interest'
       );
 
-      // ffa_incomeExpenseSurplusDefecit_Client
+      // ffa_income_expense_surplus_defecit_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'ffa_incomeExpenseSurplusDefecit_Client',
+        'ffa_income_expense_surplus_defecit_Client',
         record,
-        'dashboard_c001_income_expense_surplus_defecit'
+        'r001_cincome_expense_surplus_deficit'
       );
     })
   })

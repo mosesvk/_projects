@@ -475,7 +475,7 @@ const processFinancialAnalysisContentData = (years, recordsPeer, recordsClient) 
         object,
         'ffa_incomeExpenseSurplusDefecit_Client',
         record,
-        'dashboard_c001_income_expense_surplus_defecit'
+        'r001_cincome_expense_surplus_deficit'
       );
     })
   })
