@@ -134,6 +134,8 @@ toggleDetails (
   arrowIcon_cfiViabilityRatio
 );
 
+
+
 const displayFinancialAnalysisContentComponent = () => {
   const savedData = getStoredData ('financialAnalysisContentData');
   const parseData = parseStoredData (savedData);
@@ -142,36 +144,34 @@ const displayFinancialAnalysisContentComponent = () => {
     document.querySelector ('#FinancialAnalysisContent_chart'),
     getFpaChartOptions (parseData)
   );
-  fpaChart.render ();
+  fpaChart.render();
   document.addEventListener ('dark-mode', function () {
-    fpaChart.updateOptions (getFpaChartOptions (parseData));
+    fpaChart.updateOptions (
+      getFpaChartOptions (parseData)
+    );
   });
 
   const atlChart = new ApexCharts (
     document.querySelector ('#assetToLiabilities_chart'),
     getAtlChartOptions (parseData)
   );
-  atlChart.render ();
+  atlChart.render();
   document.addEventListener ('dark-mode', function () {
-    atlChart.updateOptions (getAtlChartOptions (parseData));
+    atlChart.updateOptions (
+      getAtlChartOptions (parseData)
+    );
   });
 
-  const soiClientChart = new ApexCharts (
-    document.querySelector ('#sourceOfIncomeClient_chart'),
-    getSoiClientChartOptions (parseData)
-  );
-  soiClientChart.render ();
-  document.addEventListener ('dark-mode', function () {
-    soiClientChart.updateOptions (getSoiClientChartOptions (parseData));
-  });
 
-  const soiPeerChart = new ApexCharts (
-    document.querySelector ('#sourceOfIncomePeer_chart'),
-    getSoiPeerChartOptions (parseData)
+  const soiChart = new ApexCharts (
+    document.querySelector ('#sourceOfIncome_chart'),
+    getSoiChartOptions (parseData)
   );
-  soiPeerChart.render ();
+  soiChart.render();
   document.addEventListener ('dark-mode', function () {
-    soiPeerChart.updateOptions (getSoiPeerChartOptions (parseData));
+    soiChart.updateOptions (
+      getSoiChartOptions (parseData)
+    );
   });
 };
 

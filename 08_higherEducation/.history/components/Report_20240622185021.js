@@ -116,6 +116,79 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
   // append yearElement as the first child of tableHeaderRows children
   tableHeaderRow.insertAdjacentHTML ('afterbegin', yearElement);
 
+  const tuitionClientValue = Number (
+    data['si_revenueTuitionAndFees_Client'][selectedYears[0]].value
+  ) > 0
+    ? styleNumber (
+        data['si_revenueTuitionAndFees_Client'][selectedYears[0]].value,
+        'percent',
+        0
+      )
+    : '-';
+  const auxiliaryClientValue = Number (
+    data['si_revenueAuxiliaryActivities_Client'][selectedYears[0]].value
+  ) > 0
+    ? styleNumber (
+        data['si_revenueAuxiliaryActivities_Client'][selectedYears[0]].value,
+        'percent',
+        0
+      )
+    : '-';
+  const contributionsClientValue = Number (
+    data['si_revenueContributions_Client'][selectedYears[0]].value
+  ) > 0
+    ? styleNumber (
+        data['si_revenueContributions_Client'][selectedYears[0]].value,
+        'percent',
+        0
+      )
+    : '-';
+  const investmentsClientValue = Number (
+    data['si_revenueInvestmentIncome_Client'][selectedYears[0]].value
+  ) > 0
+    ? styleNumber (
+        data['si_revenueInvestmentIncome_Client'][selectedYears[0]].value,
+        'percent',
+        0
+      )
+    : '-';
+  const otherClientValue = Number (
+    data['si_revenueOther_Client'][selectedYears[0]].value
+  ) > 0
+    ? styleNumber (
+        data['si_revenueOther_Client'][selectedYears[0]].value,
+        'percent',
+        0
+      )
+    : '-';
+
+  const tuitionPeerAvg = styleNumber (
+    getAverageOfArray (data['revenueTuitionAndFees_Peer'][selectedYears[0]]),
+    'dollar',
+    0
+  );
+  const auxiliaryPeerAvg = styleNumber (
+    getAverageOfArray (
+      data['revenueAuxiliaryActivities_Peer'][selectedYears[0]]
+    ),
+    'dollar',
+    0
+  );
+  const contributionsPeerAvg = styleNumber (
+    getAverageOfArray (data['revenueContributions_Peer'][selectedYears[0]]),
+    'dollar',
+    0
+  );
+  const investmentsPeerAvg = styleNumber (
+    getAverageOfArray (data['revenueInvestmentIncome_Peer'][selectedYears[0]]),
+    'dollar',
+    0
+  );
+  const otherPeerAvg = styleNumber (
+    getAverageOfArray (data['revenueOther_Peer'][selectedYears[0]]),
+    'dollar',
+    0
+  );
 
   const variables = [
     ['Tuition', 'revenueTuitionAndFees'],
@@ -126,36 +199,34 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
   ];
 
   variables.forEach ((variable, index) => {
-    // console.log({variable, index});
-    const clientName = `si_${variable[1]}_Client`;
-    const peerName = `${variable[1]}_Peer`;
-    const title = variable[0];
-
-    console.log({clientName, peerName, title, data});
-
-    const clientValue = Number (data[clientName][selectedYears[0]].value) > 0
-      ? styleNumber (data[clientName][selectedYears[0]].value, 'dollar', 0)
-      : '-';
-
-    const peerValue = data[peerName][selectedYears[0]].length > 0
+    const clientValue = Number (
+      data['si_revenueTuitionAndFees_Client'][selectedYears[0]].value
+    ) > 0
       ? styleNumber (
-          getAverageOfArray (data[peerName][selectedYears[0]]),
-          'dollar',
+          data['si_revenueTuitionAndFees_Client'][selectedYears[0]].value,
+          'percent',
           0
         )
       : '-';
 
-      const rowElement = document.createElement('tr');
-      rowElement.className = 'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600';
-      
-      const cellHTML = `
-          <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${title}</th>
-          <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${clientValue}</th>
-          <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${peerValue}</th>
-      `;
-      
-      rowElement.innerHTML = cellHTML;
-      tbody.appendChild(rowElement);
+    const element = `
+    <tr
+      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+    >
+      <th
+        scope="row"
+        class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+      >${variable}</th>
+      <th
+        scope="row"
+        class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+      >${`variable`}</th>
+      <th
+        scope="row"
+        class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+      >${variable}</th>
+    </tr>
+    `;
   });
 };
 

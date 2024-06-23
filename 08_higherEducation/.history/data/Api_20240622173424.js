@@ -187,8 +187,6 @@ const processFinancialAnalysisContentData = (years, recordsPeer, recordsClient) 
         'Yes'
       );
 
-      // SOURCE OF INCOME ---------------------------------->
-
       // revenueTuitionAndFees
       insertDataIntoObject (
         'peer',
@@ -276,54 +274,6 @@ const processFinancialAnalysisContentData = (years, recordsPeer, recordsClient) 
         'netPosition_Client',
         record,
         'r020_ctotal_net_assets'
-      );
-
-      // SOURCE OF INCOME ---------------------------------->
-
-      // si_revenueTuitionAndFees_Client
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'si_revenueTuitionAndFees_Client',
-        record,
-        'r023_revenue_tuition_and_fees'
-      );
-      // si_revenueAuxiliaryActivities_Client
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'si_revenueAuxiliaryActivities_Client',
-        record,
-        'r028_revenue_auxiliary_activities'
-      );
-      // si_revenueContributions_Client
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'si_revenueContributions_Client',
-        record,
-        'r033_revenue_contributions'
-      );
-      // si_revenueInvestmentIncome_Client
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'si_revenueInvestmentIncome_Client',
-        record,
-        'r029_revenue_investment_income'
-      );
-      // si_revenueOther_Client
-      insertDataIntoObject (
-        'client',
-        year,
-        object,
-        'si_revenueOther_Client',
-        record,
-        'r031_revenue_other'
       );
 
     })

@@ -740,7 +740,7 @@ const getSoiPeerChartOptions = data => {
     title: {
       text: 'PEER',
       align: 'top',
-      color: chartColor 
+      colors: chartColors.labelColor,
     },
     plotOptions: {
       pie: {

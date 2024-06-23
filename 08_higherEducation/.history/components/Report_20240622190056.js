@@ -134,28 +134,37 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
     console.log({clientName, peerName, title, data});
 
     const clientValue = Number (data[clientName][selectedYears[0]].value) > 0
-      ? styleNumber (data[clientName][selectedYears[0]].value, 'dollar', 0)
+      ? styleNumber (data[clientName][selectedYears[0]].value, 'percent', 0)
       : '-';
 
     const peerValue = data[peerName][selectedYears[0]].length > 0
       ? styleNumber (
           getAverageOfArray (data[peerName][selectedYears[0]]),
-          'dollar',
+          'percent',
           0
         )
       : '-';
 
-      const rowElement = document.createElement('tr');
-      rowElement.className = 'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600';
-      
-      const cellHTML = `
-          <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${title}</th>
-          <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${clientValue}</th>
-          <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${peerValue}</th>
-      `;
-      
-      rowElement.innerHTML = cellHTML;
-      tbody.appendChild(rowElement);
+    const rowElement = `
+    <tr
+      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+    >
+      <th
+        scope="row"
+        class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+      >${title}</th>
+      <th
+        scope="row"
+        class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+      >${clientValue}</th>
+      <th
+        scope="row"
+        class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+      >${peerValue}</th>
+    </tr>
+    `;
+
+    tbody.appendChild (rowElement);
   });
 };
 

@@ -2168,11 +2168,9 @@
                   </span>
                 </div>
               </div>
-              <div class="flex flex-row justify-center mb-10">
-                <div id="sourceOfIncomeClient_chart" class="w-1/2"></div>
-                <div id="sourceOfIncomePeer_chart" class="w-1/2"></div>
-              </div>
-              <button id="dropdown_sourceOfIncome"
+              <div id="sourceOfIncome_chart"></div>
+              <button
+                id="dropdown_sourceOfIncome"
                 class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
               >
                 Details
@@ -2193,20 +2191,9 @@
                   />
                 </svg>
               </button>
-              <!-- DETAILS - SOURCE OF INCOME -->
               <div id="details_sourceOfIncome" class="my-5 hidden">
-                <div id="sourceOfIncome_details_text" class="mb-8">
-                  <div class="text-xl font-medium tracking-wide">
-                    <p>Source of Income</p>
-                    <p><span class="underline">Tuition</span>: The primary source of income for most higher education institutions.</p>
-                    <p><span class="underline">Auxiliary</span>: Includes revenue from housing, dining, and other campus facilities.</p>
-                    <p><span class="underline">Contributions</span>: Financial support from donors and alumni.</p>
-                    <p><span class="underline">Investments</span>: Returns from endowments and other financial assets.</p>
-                    <p><span class="underline">Other</span>: Miscellaneous income streams that vary by institution.</p>
-                  </div>
-                </div>
                 <div class="flex flex-col max-w-5xl">
-                  <!-- TABLE - SOURCE OF INCOME -->
+                  <!-- TABLE - ASSET TO LIABILITIES -->
                   <div
                     id="sourceOfIncome_clientTable"
                     class="flex flex-col my-10"
@@ -2231,13 +2218,21 @@
                                 </th>
                                 <th
                                   scope="col"
-                                  class="px-6 py-3 text-lg tracking-wide backgroundBlue"
+                                  class="px-6 py-3 text-lg tracking-wide"
                                 >
                                   Peer
                                 </th>
                               </tr>
                             </thead>
                             <tbody id="sourceOfIncomeClient_tbody">
+                              <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                              >
+                                <th
+                                  scope="row"
+                                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                ></th>
+                              </tr>
                             </tbody>
                           </table>
                         </div>

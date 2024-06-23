@@ -234,7 +234,7 @@ const getFpaChartOptions = data => {
   const chartColors = document.documentElement.classList.contains ('dark')
     ? {
         borderColor: '#374151',
-        labelColor: '#3A464F',
+        labelColor: '#ebedf0',
         opacityFrom: 0,
         opacityTo: 0.15,
       }
@@ -315,7 +315,7 @@ const getFpaChartOptions = data => {
       colors: chartColors.labelColor,
     },
     title: {
-      text: 'CLIENT',
+      text: '',
       align: 'left',
       offsetX: 110,
     },
@@ -556,16 +556,16 @@ const getSoiClientChartOptions = data => {
 
   const chartColors = document.documentElement.classList.contains ('dark')
     ? {
-        borderColor: '#F3F4F6',
-        labelColor: '#6B7280',
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      }
-    : {
         borderColor: '#374151',
         labelColor: '#ebedf0',
         opacityFrom: 0,
         opacityTo: 0.15,
+      }
+    : {
+        borderColor: '#F3F4F6',
+        labelColor: '#6B7280',
+        opacityFrom: 0.45,
+        opacityTo: 0,
       };
 
   const chartColor = document.documentElement.classList.contains ('dark')
@@ -598,38 +598,52 @@ const getSoiClientChartOptions = data => {
     ],
     series: [233, 555, 222, 222, 124],
     chart: {
-      height: 450,
+      height: 350,
       type: 'pie',
     },
     labels: ['Tuition', 'Auxiliary', 'Contributions', 'Investments', 'Other'],
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 400,
-          },
-          legend: {
-            position: 'bottom',
-          },
-        },
-      },
-    ],
+    dataLabels: {
+      enabled: false,
+    },
     stroke: {
       width: 5,
       colors: chartColors.labelColor,
     },
     title: {
-      text: 'CLIENT',
-      align: 'top',
+      text: '',
+      align: 'left',
+      offsetX: 110,
     },
-    plotOptions: {
-      pie: {
-        dataLabels: {
-          offset: -20,
+    xaxis: {
+      categories: selectedYearsArray,
+      labels: {
+        style: {
+          colors: chartColors.labelColor,
+          fontSize: '1.5rem',
         },
       },
     },
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColor,
+            fontSize: '1.25rem',
+          },
+        },
+        tooltip: {
+          enabled: true,
+        },
+      },
+    ],
     tooltip: {
       y: {
         formatter: tooltipFormatter,
@@ -640,127 +654,20 @@ const getSoiClientChartOptions = data => {
     },
     legend: {
       horizontalAlign: 'center',
-      position: 'bottom',
+      offsetX: 40,
       fontSize: '20px',
     },
-  };
-};
-const getSoiPeerChartOptions = data => {
-  const selectedYearsArray = getSelectedYearsFromLocalStorage ();
-
-  const tuitionValue = getAverageOfArray (
-    data['revenueTuitionAndFees_Peer'][selectedYearsArray[0]]
-  );
-  const auxiliaryValue = getAverageOfArray (
-    data['revenueAuxiliaryActivities_Peer'][selectedYearsArray[0]]
-  );
-  const contributionsValue = getAverageOfArray (
-    data['revenueContributions_Peer'][selectedYearsArray[0]]
-  );
-  const investmentsValue = getAverageOfArray (
-    data['revenueInvestmentIncome_Peer'][selectedYearsArray[0]]
-  );
-  const otherValue = getAverageOfArray (
-    data['revenueOther_Peer'][selectedYearsArray[0]]
-  );
-
-  console.log ({
-    tuitionValue,
-    auxiliaryValue,
-    contributionsValue,
-    investmentsValue,
-    otherValue,
-  });
-
-  const chartColors = document.documentElement.classList.contains ('dark')
-    ? {
-        borderColor: '#F3F4F6',
-        labelColor: '#6B7280',
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      }
-    : {
-        borderColor: '#374151',
-        labelColor: '#ebedf0',
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      };
-
-  const chartColor = document.documentElement.classList.contains ('dark')
-    ? '#e3f0fa'
-    : '#3a464f';
-
-  const formatNumber = value => value.toLocaleString ();
-
-  const yaxisLabelFormatter = value => {
-    return `$${formatNumber (value)}`;
-  };
-
-  const tooltipFormatter = value => {
-    if (!value) return;
-    const formattedValue = value.toLocaleString ();
-    return `$${formattedValue}`;
-  };
-
-  // console.log ({clientArray, peerArray, benchmarkArray});
-
-  // [tuitionValue, auxiliaryValue, contributionsValue, investmentsValue, otherValue]
-
-  return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.blue,
-      window.chartColors.grey,
-      window.chartColors.red,
-      window.chartColors.orange,
-    ],
-    series: [233, 555, 222, 222, 124],
-    chart: {
-      height: 450,
-      type: 'pie',
-    },
-    labels: ['Tuition', 'Auxiliary', 'Contributions', 'Investments', 'Other'],
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 400,
-          },
-          legend: {
-            position: 'bottom',
-          },
-        },
+    grid: {
+      row: {
+        colors: ['transparent'],
+        opacity: 0.5,
+        thickness: 4,
       },
-    ],
-    stroke: {
-      width: 5,
-      colors: chartColors.labelColor,
-    },
-    title: {
-      text: 'PEER',
-      align: 'top',
-      color: chartColor 
     },
     plotOptions: {
-      pie: {
-        dataLabels: {
-          offset: -20,
-        },
+      bar: {
+        barHeight: '90%',
       },
-    },
-    tooltip: {
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: seriesName => `${seriesName}:`,
-        },
-      },
-    },
-    legend: {
-      horizontalAlign: 'center',
-      position: 'bottom',
-      fontSize: '20px',
     },
   };
 };

@@ -280,48 +280,48 @@ const processFinancialAnalysisContentData = (years, recordsPeer, recordsClient) 
 
       // SOURCE OF INCOME ---------------------------------->
 
-      // si_revenueTuitionAndFees_Client
+      // revenueTuitionAndFees_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'si_revenueTuitionAndFees_Client',
+        'revenueTuitionAndFees_Client',
         record,
         'r023_revenue_tuition_and_fees'
       );
-      // si_revenueAuxiliaryActivities_Client
+      // revenueAuxiliaryActivities_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'si_revenueAuxiliaryActivities_Client',
+        'revenueAuxiliaryActivities_Client',
         record,
         'r028_revenue_auxiliary_activities'
       );
-      // si_revenueContributions_Client
+      // revenueContributions_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'si_revenueContributions_Client',
+        'revenueContributions_Client',
         record,
         'r033_revenue_contributions'
       );
-      // si_revenueInvestmentIncome_Client
+      // revenueInvestmentIncome_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'si_revenueInvestmentIncome_Client',
+        'revenueInvestmentIncome_Client',
         record,
         'r029_revenue_investment_income'
       );
-      // si_revenueOther_Client
+      // revenueOther_Client
       insertDataIntoObject (
         'client',
         year,
         object,
-        'si_revenueOther_Client',
+        'revenueOther_Client',
         record,
         'r031_revenue_other'
       );

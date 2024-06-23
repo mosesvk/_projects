@@ -607,7 +607,7 @@ const getSoiClientChartOptions = data => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 400,
+            width: 250,
           },
           legend: {
             position: 'bottom',
@@ -725,7 +725,7 @@ const getSoiPeerChartOptions = data => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 400,
+            width: 250,
           },
           legend: {
             position: 'bottom',
@@ -740,7 +740,6 @@ const getSoiPeerChartOptions = data => {
     title: {
       text: 'PEER',
       align: 'top',
-      color: chartColor 
     },
     plotOptions: {
       pie: {

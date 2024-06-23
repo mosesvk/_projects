@@ -156,23 +156,14 @@ const displayFinancialAnalysisContentComponent = () => {
     atlChart.updateOptions (getAtlChartOptions (parseData));
   });
 
-  const soiClientChart = new ApexCharts (
-    document.querySelector ('#sourceOfIncomeClient_chart'),
-    getSoiClientChartOptions (parseData)
-  );
-  soiClientChart.render ();
-  document.addEventListener ('dark-mode', function () {
-    soiClientChart.updateOptions (getSoiClientChartOptions (parseData));
-  });
-
-  const soiPeerChart = new ApexCharts (
-    document.querySelector ('#sourceOfIncomePeer_chart'),
-    getSoiPeerChartOptions (parseData)
-  );
-  soiPeerChart.render ();
-  document.addEventListener ('dark-mode', function () {
-    soiPeerChart.updateOptions (getSoiPeerChartOptions (parseData));
-  });
+  // const soiClientChart = new ApexCharts (
+  //   document.querySelector ('#sourceOfIncomeClient_chart'),
+  //   getSoiClientChartOptions (parseData)
+  // );
+  // soiClientChart.render ();
+  // document.addEventListener ('dark-mode', function () {
+  //   soiClientChart.updateOptions (getSoiClientChartOptions (parseData));
+  // });
 };
 
 const dropdownButton_assetToLiabilities = document.getElementById (

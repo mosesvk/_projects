@@ -602,19 +602,17 @@ const getSoiClientChartOptions = data => {
       type: 'pie',
     },
     labels: ['Tuition', 'Auxiliary', 'Contributions', 'Investments', 'Other'],
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 400,
-          },
-          legend: {
-            position: 'bottom',
-          },
+    responsive: [{
+      breakpoint: 480,
+      options: {
+        chart: {
+          width: 250
         },
-      },
-    ],
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }],
     stroke: {
       width: 5,
       colors: chartColors.labelColor,
@@ -622,13 +620,14 @@ const getSoiClientChartOptions = data => {
     title: {
       text: 'CLIENT',
       align: 'top',
+      offsetX: 110,
     },
     plotOptions: {
       pie: {
         dataLabels: {
-          offset: -20,
-        },
-      },
+          offset: -20
+        }
+      }
     },
     tooltip: {
       y: {
@@ -648,21 +647,17 @@ const getSoiClientChartOptions = data => {
 const getSoiPeerChartOptions = data => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage ();
 
-  const tuitionValue = getAverageOfArray (
-    data['revenueTuitionAndFees_Peer'][selectedYearsArray[0]]
-  );
-  const auxiliaryValue = getAverageOfArray (
-    data['revenueAuxiliaryActivities_Peer'][selectedYearsArray[0]]
-  );
-  const contributionsValue = getAverageOfArray (
-    data['revenueContributions_Peer'][selectedYearsArray[0]]
-  );
-  const investmentsValue = getAverageOfArray (
-    data['revenueInvestmentIncome_Peer'][selectedYearsArray[0]]
-  );
-  const otherValue = getAverageOfArray (
-    data['revenueOther_Peer'][selectedYearsArray[0]]
-  );
+  const tuitionValue =
+    getAverageOfArray(data['revenueTuitionAndFees_Peer'][selectedYearsArray[0]].value)
+  const auxiliaryValue =
+    getAverageOfArray(data['revenueAuxiliaryActivities_Peer'][selectedYearsArray[0]].value)
+  const contributionsValue =
+    getAverageOfArray(data['revenueContributions_Peer'][selectedYearsArray[0]].value)
+  const investmentsValue =
+    getAverageOfArray(data['revenueInvestmentIncome_Peer'][selectedYearsArray[0]].value)
+  const otherValue =
+    getAverageOfArray(data['revenueOther_Peer'][selectedYearsArray[0]].value)
+
 
   console.log ({
     tuitionValue,
@@ -716,39 +711,52 @@ const getSoiPeerChartOptions = data => {
     ],
     series: [233, 555, 222, 222, 124],
     chart: {
-      height: 450,
+      height: 350,
       type: 'pie',
     },
     labels: ['Tuition', 'Auxiliary', 'Contributions', 'Investments', 'Other'],
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 400,
-          },
-          legend: {
-            position: 'bottom',
-          },
-        },
-      },
-    ],
+    dataLabels: {
+      enabled: false,
+    },
     stroke: {
       width: 5,
       colors: chartColors.labelColor,
     },
     title: {
-      text: 'PEER',
-      align: 'top',
-      color: chartColor 
+      text: '',
+      align: 'left',
+      offsetX: 110,
     },
-    plotOptions: {
-      pie: {
-        dataLabels: {
-          offset: -20,
+    xaxis: {
+      categories: selectedYearsArray,
+      labels: {
+        style: {
+          colors: [chartColors.labelColor],
+          fontSize: '1.5rem',
         },
       },
     },
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColor,
+            fontSize: '1.25rem',
+          },
+        },
+        tooltip: {
+          enabled: true,
+        },
+      },
+    ],
     tooltip: {
       y: {
         formatter: tooltipFormatter,
@@ -759,8 +767,20 @@ const getSoiPeerChartOptions = data => {
     },
     legend: {
       horizontalAlign: 'center',
-      position: 'bottom',
+      offsetX: 40,
       fontSize: '20px',
+    },
+    grid: {
+      row: {
+        colors: ['transparent'],
+        opacity: 0.5,
+        thickness: 4,
+      },
+    },
+    plotOptions: {
+      bar: {
+        barHeight: '90%',
+      },
     },
   };
 };

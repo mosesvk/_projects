@@ -138,7 +138,7 @@ let sliderRange = null;
 let sliderValue = 0;
 let sliderValue2 = 25000;
 let missionValue = 0;
-let clientName = '';
+let clientName = ''
 // let amount = null;
 
 let selectedRegion = '';
@@ -341,14 +341,7 @@ const createChart = (
   // init again when toggling dark mode
   document.addEventListener ('dark-mode', function () {
     chart.updateOptions (
-      getMainChartOptions (
-        dataPeer,
-        dataClient,
-        type,
-        fixedNum,
-        mainName,
-        benchmark
-      )
+      getMainChartOptions (dataPeer, dataClient, type, fixedNum, mainName, benchmark)
     );
   });
 };
@@ -571,13 +564,13 @@ const getPeerAndClientChartDataArrays = (
   const peer25 = [];
   const peer75 = [];
   const clientArray = [];
-  const benchmarkArray = [];
+  const benchmarkArray = []
 
   years.forEach (year => {
     // console.log(year, dataPeer)
     // check if dataPeer is undefined but dataClient is not
 
-    benchmarkArray.push (benchmark);
+    benchmarkArray.push(benchmark)
 
     if (dataPeer != undefined && dataClient != undefined) {
       const array = dataPeer[year];
@@ -620,7 +613,6 @@ const getPeerAndClientChartDataArrays = (
 };
 
 function styleNumber (num, type, fixed) {
-  if (type == 'dollar') console.log ({num, type, fixed});
   // Convert num to float
   num = parseFloat (num);
 
@@ -629,14 +621,8 @@ function styleNumber (num, type, fixed) {
     if (fixed === 1 && Number.isInteger (num)) {
       return num.toFixed (1);
     } else {
-      if (num < 1000) {
-        return '$ ' + (Number.isInteger (num) ? num : num.toFixed (fixed));
-      } else {
-        // Otherwise, format the number with commas for thousands
-        return (
-          '$ ' + num.toLocaleString (undefined, {minimumFractionDigits: fixed})
-        );
-      }
+      // Otherwise, format the number with commas for thousands
+      return num.toLocaleString (undefined, {minimumFractionDigits: fixed});
     }
   } else if (type === 'percent') {
     // Convert to percentage and format with fixed decimal places
@@ -646,14 +632,10 @@ function styleNumber (num, type, fixed) {
     if (fixed === 1 && Number.isInteger (num)) {
       return '$ ' + num.toFixed (1);
     } else {
-      if (num < 1000) {
-        return '$ ' + (Number.isInteger (num) ? num : num.toFixed (fixed));
-      } else {
-        // Otherwise, format the number with commas for thousands
-        return (
-          '$ ' + num.toLocaleString (undefined, {minimumFractionDigits: fixed})
-        );
-      }
+      // Otherwise, format the number with commas for thousands
+      return (
+        '$ ' + num.toLocaleString (undefined, {minimumFractionDigits: fixed})
+      );
     }
   }
 }
@@ -1029,11 +1011,11 @@ const getSelectedSchoolChurchOption = () => {
   });
 };
 
-function handleValue (value) {
-  if (value === undefined || isNaN (value)) {
-    return '0'; // Push "0" as a string if value is undefined or NaN
-  }
-  return String (value); // Convert value to string and push
+function handleValue(value) {
+    if (value === undefined || isNaN(value)) {
+        return "0";  // Push "0" as a string if value is undefined or NaN
+    }
+    return String(value);  // Convert value to string and push
 }
 
 function calculatePercentageChange (numbers) {

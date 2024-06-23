@@ -607,7 +607,7 @@ const getSoiClientChartOptions = data => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 400,
+            width: 250,
           },
           legend: {
             position: 'bottom',
@@ -622,6 +622,7 @@ const getSoiClientChartOptions = data => {
     title: {
       text: 'CLIENT',
       align: 'top',
+      offsetX: 110,
     },
     plotOptions: {
       pie: {
@@ -649,19 +650,19 @@ const getSoiPeerChartOptions = data => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage ();
 
   const tuitionValue = getAverageOfArray (
-    data['revenueTuitionAndFees_Peer'][selectedYearsArray[0]]
+    data['revenueTuitionAndFees_Peer'][selectedYearsArray[0]].value
   );
   const auxiliaryValue = getAverageOfArray (
-    data['revenueAuxiliaryActivities_Peer'][selectedYearsArray[0]]
+    data['revenueAuxiliaryActivities_Peer'][selectedYearsArray[0]].value
   );
   const contributionsValue = getAverageOfArray (
-    data['revenueContributions_Peer'][selectedYearsArray[0]]
+    data['revenueContributions_Peer'][selectedYearsArray[0]].value
   );
   const investmentsValue = getAverageOfArray (
-    data['revenueInvestmentIncome_Peer'][selectedYearsArray[0]]
+    data['revenueInvestmentIncome_Peer'][selectedYearsArray[0]].value
   );
   const otherValue = getAverageOfArray (
-    data['revenueOther_Peer'][selectedYearsArray[0]]
+    data['revenueOther_Peer'][selectedYearsArray[0]].value
   );
 
   console.log ({
@@ -725,7 +726,7 @@ const getSoiPeerChartOptions = data => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 400,
+            width: 250,
           },
           legend: {
             position: 'bottom',
@@ -738,9 +739,9 @@ const getSoiPeerChartOptions = data => {
       colors: chartColors.labelColor,
     },
     title: {
-      text: 'PEER',
+      text: 'CLIENT',
       align: 'top',
-      color: chartColor 
+      offsetX: 110,
     },
     plotOptions: {
       pie: {

@@ -607,7 +607,7 @@ const getSoiClientChartOptions = data => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 400,
+            width: 250,
           },
           legend: {
             position: 'bottom',
@@ -622,6 +622,7 @@ const getSoiClientChartOptions = data => {
     title: {
       text: 'CLIENT',
       align: 'top',
+      offsetX: 110,
     },
     plotOptions: {
       pie: {
@@ -725,7 +726,7 @@ const getSoiPeerChartOptions = data => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 400,
+            width: 250,
           },
           legend: {
             position: 'bottom',
@@ -738,9 +739,9 @@ const getSoiPeerChartOptions = data => {
       colors: chartColors.labelColor,
     },
     title: {
-      text: 'PEER',
+      text: 'CLIENT',
       align: 'top',
-      color: chartColor 
+      offsetX: 110,
     },
     plotOptions: {
       pie: {

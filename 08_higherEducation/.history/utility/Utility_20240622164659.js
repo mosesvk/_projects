@@ -629,14 +629,8 @@ function styleNumber (num, type, fixed) {
     if (fixed === 1 && Number.isInteger (num)) {
       return num.toFixed (1);
     } else {
-      if (num < 1000) {
-        return '$ ' + (Number.isInteger (num) ? num : num.toFixed (fixed));
-      } else {
-        // Otherwise, format the number with commas for thousands
-        return (
-          '$ ' + num.toLocaleString (undefined, {minimumFractionDigits: fixed})
-        );
-      }
+      // Otherwise, format the number with commas for thousands
+      return num.toLocaleString (undefined, {minimumFractionDigits: fixed});
     }
   } else if (type === 'percent') {
     // Convert to percentage and format with fixed decimal places

@@ -134,13 +134,13 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
     console.log({clientName, peerName, title, data});
 
     const clientValue = Number (data[clientName][selectedYears[0]].value) > 0
-      ? styleNumber (data[clientName][selectedYears[0]].value, 'dollar', 0)
+      ? styleNumber (data[clientName][selectedYears[0]].value, 'percent', 0)
       : '-';
 
     const peerValue = data[peerName][selectedYears[0]].length > 0
       ? styleNumber (
           getAverageOfArray (data[peerName][selectedYears[0]]),
-          'dollar',
+          'percent',
           0
         )
       : '-';
