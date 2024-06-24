@@ -11,56 +11,52 @@ displayCfiComponent = data => {
     'cfiRatio_Client',
     'number',
     1,
-    'cfiRatio',
-    3
+    'cfiRatio'
   );
 
   // cfi_primaryReserveRatio
   createChartFromParsedData (
     parseData,
     'cfi_primaryReserveRatio_chart',
-    'primaryReserveRatio_peerAverage_Peer',
+    'cfi_primaryReserveRatio_peerAverage_Peer',
     'cfi_primaryReserveRatio_Client',
     'percent',
     2,
     'cfi_primaryReserveRatio',
-    .4
+    0.4
   );
 
   // cfi_netIncomeOperationsRatio
   createChartFromParsedData (
     parseData,
     'cfi_netIncomeOperationsRatio_chart',
-    'netIncomeOperationsRatio_peerAverage_Peer',
+    'cfi_netIncomeOperationsRatio_peerAverage_Peer',
     'cfi_netIncomeOperationsRatio_Client',
-    'percent',
+    'num',
     1,
-    'cfi_netIncomeOperationsRatio',
-    0
+    'cfi_netIncomeOperationsRatio'
   );
 
   // cfi_returnOnNetAssets
   createChartFromParsedData (
     parseData,
     'cfi_returnOnNetAssets_chart',
-    'returnOnNetAssets_peerAverage_Peer',
+    'cfi_returnOnNetAssets_peerAverage_Peer',
     'cfi_returnOnNetAssets_Client',
-    'percent',
+    'num',
     1,
-    'cfi_returnOnNetAssets',
-    6
+    'cfi_returnOnNetAssets'
   );
 
   // cfi_viabilityRatio
   createChartFromParsedData (
     parseData,
     'cfi_viabilityRatio_chart',
-    'viabilityRatio_peerAverage_Peer',
+    'cfi_viabilityRatio_peerAverage_Peer',
     'cfi_viabilityRatio_Client',
-    'number',
-    1,
-    'cfi_viabilityRatio',
-    1.25
+    'num',
+    2,
+    'cfi_viabilityRatio'
   );
 };
 

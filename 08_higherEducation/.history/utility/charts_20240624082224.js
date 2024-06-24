@@ -73,7 +73,7 @@ const getMainChartOptions = (
     }
   };
 
-  // console.log({mainName, benchmark});
+  console.log({mainName, benchmark});
 
   // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })
 

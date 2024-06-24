@@ -77,15 +77,13 @@ const getMainChartOptions = (
 
   // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })
 
-
   return {
     colors: [
       window.chartColors.green,
+      window.chartColors.blue,
       window.chartColors.red,
       window.chartColors.orange,
-      window.chartColors.blue,
-      window.chartColors.purple,
-      window.chartColors.black,
+      window.chartColors.grey,
     ],
     series: [
       {
@@ -100,26 +98,44 @@ const getMainChartOptions = (
         name: '25%',
         type: 'line',
         data: peer25,
+        visible: false,
       },
       {
         name: '50%',
         type: 'line',
         data: peerMid,
+        visible: false,
       },
       {
         name: 'Avg',
         type: 'line',
+        stacked: false,
         data: peerAvg,
-      },
-      {
-        name: '75%',
-        type: 'line',
-        data: peer75,
+        yaxis: 0,
+        style: {
+          colors: ['transparent'], // Set the line color to transparent
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 80, 80],
+          },
+        },
       },
       benchmarkArray.length > 0 && {
         name: 'Benchmark',
         type: 'line',
         data: benchmarkArray,
+        visible: false,
+      },
+      {
+        name: '75%',
+        type: 'line',
+        data: peer75,
+        visible: false,
       },
     ],
     chart: {
@@ -127,8 +143,11 @@ const getMainChartOptions = (
       type: 'line',
       stacked: false,
     },
+    dataLabels: {
+      enabled: false,
+    },
     stroke: {
-      width: 4,
+      width: [2, 6, 4, 4, 4],
     },
     title: {
       text: '',
@@ -191,19 +210,6 @@ const getMainChartOptions = (
         opacity: 0.5,
         thickness: 4,
       },
-    },
-    annotations: {
-      yaxis: [
-        {
-          y: benchmark,
-          label: {
-            text: 'Benchmark',
-            style: {
-              color: chartColors.black,
-            },
-          },
-        },
-      ]
     },
     plotOptions: {
       bar: {
@@ -384,12 +390,12 @@ const getAtlChartOptions = data => {
   const totalAssetsPeer = data['totalAssets_Peer'];
   const totalLiabilitiesPeer = data['totalLiabilities_Peer'];
 
-  // console.log ({
-  //   totalAssetsClient,
-  //   totalLiabilitiesClient,
-  //   totalAssetsPeer,
-  //   totalLiabilitiesPeer,
-  // });
+  console.log ({
+    totalAssetsClient,
+    totalLiabilitiesClient,
+    totalAssetsPeer,
+    totalLiabilitiesPeer,
+  });
 
   selectedYearsArray.forEach (year => {
     clientValue =
@@ -406,7 +412,7 @@ const getAtlChartOptions = data => {
 
   const minNum = Math.min (...clientArray, ...peerArray, ...benchmarkArray);
   const maxNum = Math.max (...clientArray, ...peerArray, ...benchmarkArray);
-  // console.log ({minNum, maxNum});
+  console.log ({minNum, maxNum});
 
   const chartColors = document.documentElement.classList.contains ('dark')
     ? {
@@ -1072,7 +1078,6 @@ const getCashFlowTrendChartOptions = (
           colors: chartColors.labelColor,
           fontSize: "1rem",
         },
-        position: "top",
       },
     },
     yaxis: [
@@ -1152,6 +1157,7 @@ function getSeriesData(
       operatingData[year]?.value || 0,
       investingData[year]?.value || 0,
       financingData[year]?.value || 0,
+      totalData[year]?.value || 0,
     ];
 
     return {

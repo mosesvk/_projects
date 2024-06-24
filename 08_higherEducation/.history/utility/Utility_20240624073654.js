@@ -1069,7 +1069,7 @@ function toggleDetails (button, details, arrowIcon) {
 }
 
 const updateCfiValue = cfiValue => {
-  // console.log({ cfiValue });
+  console.log({ cfiValue });
   document.getElementById ('value').innerHTML =
     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + cfiValue;
   // document.getElementById ('th_cfiScore').textContent = cfiValue;

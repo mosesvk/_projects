@@ -77,7 +77,6 @@ const getMainChartOptions = (
 
   // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })
 
-
   return {
     colors: [
       window.chartColors.green,
@@ -126,6 +125,10 @@ const getMainChartOptions = (
       height: 350,
       type: 'line',
       stacked: false,
+    },
+    dataLabels: {
+      enabledOnSeries: [5],
+      textAnchor: 'left',
     },
     stroke: {
       width: 4,
@@ -191,19 +194,6 @@ const getMainChartOptions = (
         opacity: 0.5,
         thickness: 4,
       },
-    },
-    annotations: {
-      yaxis: [
-        {
-          y: benchmark,
-          label: {
-            text: 'Benchmark',
-            style: {
-              color: chartColors.black,
-            },
-          },
-        },
-      ]
     },
     plotOptions: {
       bar: {

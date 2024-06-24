@@ -11,8 +11,7 @@ displayCfiComponent = data => {
     'cfiRatio_Client',
     'number',
     1,
-    'cfiRatio',
-    3
+    'cfiRatio'
   );
 
   // cfi_primaryReserveRatio
@@ -24,7 +23,7 @@ displayCfiComponent = data => {
     'percent',
     2,
     'cfi_primaryReserveRatio',
-    .4
+    0.4
   );
 
   // cfi_netIncomeOperationsRatio
@@ -35,8 +34,7 @@ displayCfiComponent = data => {
     'cfi_netIncomeOperationsRatio_Client',
     'percent',
     1,
-    'cfi_netIncomeOperationsRatio',
-    0
+    'cfi_netIncomeOperationsRatio'
   );
 
   // cfi_returnOnNetAssets
@@ -47,8 +45,7 @@ displayCfiComponent = data => {
     'cfi_returnOnNetAssets_Client',
     'percent',
     1,
-    'cfi_returnOnNetAssets',
-    6
+    'cfi_returnOnNetAssets'
   );
 
   // cfi_viabilityRatio
@@ -59,8 +56,7 @@ displayCfiComponent = data => {
     'cfi_viabilityRatio_Client',
     'number',
     1,
-    'cfi_viabilityRatio',
-    1.25
+    'cfi_viabilityRatio'
   );
 };
 

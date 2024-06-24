@@ -73,7 +73,7 @@ const getMainChartOptions = (
     }
   };
 
-  // console.log({mainName, benchmark});
+  console.log({mainName, benchmark});
 
   // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })
 
@@ -146,6 +146,15 @@ const getMainChartOptions = (
     },
     yaxis: [
       {
+        y: {
+          benchmark, 
+          lable: {
+            text: 'Benchmark',
+            style: {
+              color: chartColors.black,
+            }
+          }
+        },
         axisTicks: {
           show: true,
         },
@@ -191,19 +200,6 @@ const getMainChartOptions = (
         opacity: 0.5,
         thickness: 4,
       },
-    },
-    annotations: {
-      yaxis: [
-        {
-          y: benchmark,
-          label: {
-            text: 'Benchmark',
-            style: {
-              color: chartColors.black,
-            },
-          },
-        },
-      ]
     },
     plotOptions: {
       bar: {
