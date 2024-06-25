@@ -845,13 +845,10 @@ const getFfaChartOptions = (data) => {
       interestClient +
       incomeExpenseSurplusDefecitClient);
 
-  const surplusDefecitClient = 0 + generalExpenseClient;
-
-  const surplusDefecitColor =
-    surplusDefecitClient > 0
-      ? window.chartColors.green
-      : window.chartColors.red;
-  const surplusDefecitLabel = surplusDefecitClient > 0 ? "Surplus" : "Deficit";
+  const dashboardSurplusDefecit_Client = Number(
+    data["dashboardSurplusDefecit_Client"][currentYear].value
+  );
+  const surplusDefecitClient = 0 + generalExpenseClient
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -874,8 +871,7 @@ const getFfaChartOptions = (data) => {
   const formatNumber = (value) => value.toLocaleString();
 
   const yaxisLabelFormatter = (value) => {
-    // return `$${formatNumber(value)}`;
-    return `${value / 1000000}`;
+    return `$${formatNumber(value)}`;
   };
 
   const tooltipFormatter = (value) => {
@@ -889,49 +885,21 @@ const getFfaChartOptions = (data) => {
   // [tuitionValue, auxiliaryValue, contributionsValue, investmentsValue, otherValue]
 
   return {
+    colors: [window.chartColors.yello, window.chartColors.teal],
     series: [
       {
         data: [
-          {
-            x: "Tuition & Fees",
-            y: [0, revenueTuitionAndFeesClient],
-            fillColor: window.chartColors.teal,
-          },
+          { x: "Tuition & Fees", y: [0, revenueTuitionAndFeesClient] },
           {
             x: "Scholarship & Financial Aid",
-            y: [revenueTuitionAndFeesClient, ScholarshipAndFinancialAidClient],
-            fillColor: window.chartColors.yellow,
+            y: [revenueTuitionAndFeesClient],
           },
-          {
-            x: "Unrestricted Gifts",
-            y: [ScholarshipAndFinancialAidClient, unrestrictedGiftsClient],
-            fillColor: window.chartColors.teal,
-          },
-          {
-            x: "Auxiliary & Other",
-            y: [unrestrictedGiftsClient, auxiliaryAndOtherClient],
-            fillColor: window.chartColors.teal,
-          },
-          {
-            x: "Restricted Gifts",
-            y: [auxiliaryAndOtherClient, restrictedGiftsClient],
-            fillColor: window.chartColors.teal,
-          },
-          {
-            x: "Compensation & Benefits",
-            y: [restrictedGiftsClient, compensationAndBenefitsClient],
-            fillColor: window.chartColors.yellow,
-          },
-          {
-            x: "General Expense",
-            y: [compensationAndBenefitsClient, generalExpenseClient],
-            fillColor: window.chartColors.yellow,
-          },
-          {
-            x: surplusDefecitLabel,
-            y: [generalExpenseClient, surplusDefecitClient],
-            fillColor: surplusDefecitColor,
-          },
+          { x: "Unrestricted Gifts", y: [5, 8] },
+          { x: "Auxiliary & Other", y: [3, 11] },
+          { x: "Restricted Gifts", y: [2, 4] },
+          { x: "Compensation & Benefits", y: [1, 3] },
+          { x: "General Expense", y: [5, 8] },
+          { x: "Surplus/Deficit", y: [9, 11] },
         ],
       },
     ],
@@ -940,9 +908,32 @@ const getFfaChartOptions = (data) => {
       width: "100%",
       type: "rangeBar",
     },
+    dataLabels: {
+      enabled: true,
+    },
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 400,
+          },
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+    ],
     stroke: {
       width: 5,
       colors: chartColors.labelColor,
+    },
+    plotOptions: {
+      pie: {
+        dataLabels: {
+          offset: -20,
+        },
+      },
     },
     tooltip: {
       y: {
@@ -959,8 +950,6 @@ const getFfaChartOptions = (data) => {
           fontSize: "1rem",
         },
         rotate: -45, // Adjust the rotation angle as needed
-        minHeight: 150,
-        offsetY: 5,
       },
     },
     yaxis: [

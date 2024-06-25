@@ -851,7 +851,6 @@ const getFfaChartOptions = (data) => {
     surplusDefecitClient > 0
       ? window.chartColors.green
       : window.chartColors.red;
-  const surplusDefecitLabel = surplusDefecitClient > 0 ? "Surplus" : "Deficit";
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -875,7 +874,7 @@ const getFfaChartOptions = (data) => {
 
   const yaxisLabelFormatter = (value) => {
     // return `$${formatNumber(value)}`;
-    return `${value / 1000000}`;
+    return `${value}/1000000 + M`;
   };
 
   const tooltipFormatter = (value) => {
@@ -892,11 +891,7 @@ const getFfaChartOptions = (data) => {
     series: [
       {
         data: [
-          {
-            x: "Tuition & Fees",
-            y: [0, revenueTuitionAndFeesClient],
-            fillColor: window.chartColors.teal,
-          },
+          { x: "Tuition & Fees", y: [0, revenueTuitionAndFeesClient], fillColor: window.chartColors.teal },
           {
             x: "Scholarship & Financial Aid",
             y: [revenueTuitionAndFeesClient, ScholarshipAndFinancialAidClient],
@@ -928,8 +923,8 @@ const getFfaChartOptions = (data) => {
             fillColor: window.chartColors.yellow,
           },
           {
-            x: surplusDefecitLabel,
-            y: [generalExpenseClient, surplusDefecitClient],
+            x: "Surplus/Deficit",
+            y: [0, surplusDefecitClient],
             fillColor: surplusDefecitColor,
           },
         ],
@@ -959,8 +954,6 @@ const getFfaChartOptions = (data) => {
           fontSize: "1rem",
         },
         rotate: -45, // Adjust the rotation angle as needed
-        minHeight: 150,
-        offsetY: 5,
       },
     },
     yaxis: [

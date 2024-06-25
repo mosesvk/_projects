@@ -14,13 +14,13 @@ const getMainChartOptions = (
         borderColor: "#374151",
         labelColor: "#ebedf0",
         opacityFrom: 0,
-        opacityTo: 0.15,
+        opacityTo: 0.15
       }
     : {
         borderColor: "#F3F4F6",
         labelColor: "#6B7280",
         opacityFrom: 0.45,
-        opacityTo: 0,
+        opacityTo: 0
       };
 
   const chartColor = document.documentElement.classList.contains("dark")
@@ -78,7 +78,7 @@ const getMainChartOptions = (
       window.chartColors.orange,
       window.chartColors.blue,
       window.chartColors.purple,
-      window.chartColors.black,
+      window.chartColors.black
     ],
     series: [
       {
@@ -86,104 +86,104 @@ const getMainChartOptions = (
         type: "column",
         data: clientArray,
         style: {
-          colors: [chartColors.labelColor],
-        },
+          colors: [chartColors.labelColor]
+        }
       },
       {
         name: "25%",
         type: "line",
-        data: peer25,
+        data: peer25
       },
       {
         name: "50%",
         type: "line",
-        data: peerMid,
+        data: peerMid
       },
       {
         name: "Avg",
         type: "line",
-        data: peerAvg,
+        data: peerAvg
       },
       {
         name: "75%",
         type: "line",
-        data: peer75,
+        data: peer75
       },
       benchmarkArray.length > 0 && {
         name: "Benchmark",
         type: "line",
-        data: benchmarkArray,
-      },
+        data: benchmarkArray
+      }
     ],
     chart: {
       height: 350,
       type: "line",
-      stacked: false,
+      stacked: false
     },
     stroke: {
-      width: 4,
+      width: 4
     },
     title: {
       text: "",
       align: "left",
-      offsetX: 110,
+      offsetX: 110
     },
     xaxis: {
       categories: selectedYearsArray,
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: "1rem",
-        },
-      },
+          fontSize: "1rem"
+        }
+      }
     },
     yaxis: [
       {
         axisTicks: {
-          show: true,
+          show: true
         },
         axisBorder: {
           show: true,
-          color: chartColor,
+          color: chartColor
         },
         labels: {
           formatter: yaxisLabelFormatter,
           formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
-            fontSize: "1rem",
-          },
+            fontSize: "1rem"
+          }
         },
         tooltip: {
-          enabled: true,
-        },
-      },
+          enabled: true
+        }
+      }
     ],
     tooltip: {
       fixed: {
         enabled: true,
         position: "topLeft",
         offsetY: 30,
-        offsetX: 60,
+        offsetX: 60
       },
       y: {
         formatter: tooltipFormatter,
         title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
+          formatter: (seriesName) => `${seriesName}:`
+        }
+      }
     },
     legend: {
       horizontalAlign: "center",
       offsetX: 40,
-      fontSize: "20px",
+      fontSize: "20px"
     },
     grid: {
       row: {
         colors: ["transparent"],
         opacity: 0.5,
-        thickness: 4,
-      },
+        thickness: 4
+      }
     },
     annotations: {
       yaxis: [
@@ -192,17 +192,17 @@ const getMainChartOptions = (
           label: {
             text: "Benchmark",
             style: {
-              color: chartColors.black,
-            },
-          },
-        },
-      ],
+              color: chartColors.black
+            }
+          }
+        }
+      ]
     },
     plotOptions: {
       bar: {
-        barHeight: "90%",
-      },
-    },
+        barHeight: "90%"
+      }
+    }
   };
 };
 
@@ -224,13 +224,13 @@ const getFpaChartOptions = (data) => {
         borderColor: "#374151",
         labelColor: "#3A464F",
         opacityFrom: 0,
-        opacityTo: 0.15,
+        opacityTo: 0.15
       }
     : {
         borderColor: "#F3F4F6",
         labelColor: "#6B7280",
         opacityFrom: 0.45,
-        opacityTo: 0,
+        opacityTo: 0
       };
 
   const chartColor = document.documentElement.classList.contains("dark")
@@ -262,7 +262,7 @@ const getFpaChartOptions = (data) => {
       window.chartColors.blue,
       window.chartColors.grey,
       window.chartColors.red,
-      window.chartColors.orange,
+      window.chartColors.orange
     ],
     series: [
       {
@@ -270,98 +270,98 @@ const getFpaChartOptions = (data) => {
         type: "bar",
         data: totalAssetsArray,
         style: {
-          colors: [chartColors.labelColor],
-        },
+          colors: [chartColors.labelColor]
+        }
       },
       {
         name: "Total Liabilities",
         group: "column",
         data: totalLiabilitiesArray,
         style: {
-          colors: [chartColors.grey],
-        },
+          colors: [chartColors.grey]
+        }
       },
       {
         name: "Net Position",
         group: "column",
         data: netPositionArray,
         style: {
-          colors: [chartColors.labelColor],
-        },
-      },
+          colors: [chartColors.labelColor]
+        }
+      }
     ],
     chart: {
       height: 350,
       type: "bar",
-      stacked: true,
+      stacked: true
     },
     dataLabels: {
-      enabled: false,
+      enabled: false
     },
     stroke: {
       width: 5,
-      colors: chartColors.labelColor,
+      colors: chartColors.labelColor
     },
     title: {
       text: "CLIENT",
       align: "left",
-      offsetX: 110,
+      offsetX: 110
     },
     xaxis: {
       categories: selectedYearsArray,
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: "1.5rem",
-        },
-      },
+          fontSize: "1.5rem"
+        }
+      }
     },
     yaxis: [
       {
         axisTicks: {
-          show: true,
+          show: true
         },
         axisBorder: {
           show: true,
-          color: chartColor,
+          color: chartColor
         },
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
-            fontSize: "1.25rem",
-          },
+            fontSize: "1.25rem"
+          }
         },
         tooltip: {
-          enabled: true,
-        },
-      },
+          enabled: true
+        }
+      }
     ],
     tooltip: {
       y: {
         formatter: tooltipFormatter,
         title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
+          formatter: (seriesName) => `${seriesName}:`
+        }
+      }
     },
     legend: {
       horizontalAlign: "center",
       offsetX: 40,
-      fontSize: "20px",
+      fontSize: "20px"
     },
     grid: {
       row: {
         colors: ["transparent"],
         opacity: 0.5,
-        thickness: 4,
-      },
+        thickness: 4
+      }
     },
     plotOptions: {
       bar: {
-        barHeight: "90%",
-      },
-    },
+        barHeight: "90%"
+      }
+    }
   };
 };
 
@@ -406,13 +406,13 @@ const getAtlChartOptions = (data) => {
         borderColor: "#374151",
         labelColor: "#ebedf0",
         opacityFrom: 0,
-        opacityTo: 0.15,
+        opacityTo: 0.15
       }
     : {
         borderColor: "#F3F4F6",
         labelColor: "#6B7280",
         opacityFrom: 0.45,
-        opacityTo: 0,
+        opacityTo: 0
       };
 
   const chartColor = document.documentElement.classList.contains("dark")
@@ -437,103 +437,103 @@ const getAtlChartOptions = (data) => {
     colors: [
       window.chartColors.green,
       window.chartColors.blue,
-      window.chartColors.black,
+      window.chartColors.black
     ],
     series: [
       {
         name: clientName,
         data: clientArray,
         style: {
-          colors: [chartColors.labelColor],
-        },
+          colors: [chartColors.labelColor]
+        }
       },
       {
         name: "Peer Avg",
         data: peerArray,
         style: {
-          colors: [chartColors.labelColor],
-        },
+          colors: [chartColors.labelColor]
+        }
       },
       {
         name: "Benchmark",
         data: benchmarkArray,
         style: {
-          colors: [chartColors.labelColor],
-        },
-      },
+          colors: [chartColors.labelColor]
+        }
+      }
     ],
     chart: {
       height: 450,
       width: "100%",
-      type: "line",
+      type: "line"
     },
     dataLabels: {
-      enabled: false,
+      enabled: false
     },
     stroke: {
       width: 5,
-      curve: "straight",
+      curve: "straight"
     },
     title: {
       text: "Asset to Liability Ratio",
       align: "top",
       style: {
-        color: chartColor,
-      },
+        color: chartColor
+      }
     },
     xaxis: {
       categories: selectedYearsArray,
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: "1.5rem",
-        },
-      },
+          fontSize: "1.5rem"
+        }
+      }
     },
     yaxis: [
       {
         axisTicks: {
-          show: true,
+          show: true
         },
         axisBorder: {
           show: true,
-          color: chartColor,
+          color: chartColor
         },
         labels: {
           formatter: (value) => Math.round(value),
           style: {
             colors: chartColor,
-            fontSize: "1.25rem",
-          },
+            fontSize: "1.25rem"
+          }
         },
         tooltip: {
-          enabled: true,
+          enabled: true
         },
         stepSize: 1,
         min: minNum - 1,
-        max: maxNum + 1,
-      },
+        max: maxNum + 1
+      }
     ],
     tooltip: {
       y: {
         formatter: tooltipFormatter,
         title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
+          formatter: (seriesName) => `${seriesName}:`
+        }
+      }
     },
     legend: {
       horizontalAlign: "center",
       offsetX: 40,
-      fontSize: "20px",
+      fontSize: "20px"
     },
     grid: {
       row: {
         colors: ["transparent"],
         opacity: 0.5,
-        thickness: 4,
-      },
-    },
+        thickness: 4
+      }
+    }
   };
 };
 
@@ -564,13 +564,13 @@ const getSoiClientChartOptions = (data) => {
         borderColor: "#F3F4F6",
         labelColor: "#6B7280",
         opacityFrom: 0.45,
-        opacityTo: 0,
+        opacityTo: 0
       }
     : {
         borderColor: "#374151",
         labelColor: "#ebedf0",
         opacityFrom: 0,
-        opacityTo: 0.15,
+        opacityTo: 0.15
       };
 
   const chartColor = document.documentElement.classList.contains("dark")
@@ -599,12 +599,12 @@ const getSoiClientChartOptions = (data) => {
       window.chartColors.blue,
       window.chartColors.grey,
       window.chartColors.red,
-      window.chartColors.orange,
+      window.chartColors.orange
     ],
     series: [233, 555, 222, 222, 124],
     chart: {
       height: 450,
-      type: "pie",
+      type: "pie"
     },
     labels: ["Tuition", "Auxiliary", "Contributions", "Investments", "Other"],
     responsive: [
@@ -612,42 +612,42 @@ const getSoiClientChartOptions = (data) => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 400,
+            width: 400
           },
           legend: {
-            position: "bottom",
-          },
-        },
-      },
+            position: "bottom"
+          }
+        }
+      }
     ],
     stroke: {
       width: 5,
-      colors: chartColors.labelColor,
+      colors: chartColors.labelColor
     },
     title: {
       text: "CLIENT",
-      align: "top",
+      align: "top"
     },
     plotOptions: {
       pie: {
         dataLabels: {
-          offset: -20,
-        },
-      },
+          offset: -20
+        }
+      }
     },
     tooltip: {
       y: {
         formatter: tooltipFormatter,
         title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
+          formatter: (seriesName) => `${seriesName}:`
+        }
+      }
     },
     legend: {
       horizontalAlign: "center",
       position: "bottom",
-      fontSize: "20px",
-    },
+      fontSize: "20px"
+    }
   };
 };
 
@@ -683,13 +683,13 @@ const getSoiPeerChartOptions = (data) => {
         borderColor: "#F3F4F6",
         labelColor: "#6B7280",
         opacityFrom: 0.45,
-        opacityTo: 0,
+        opacityTo: 0
       }
     : {
         borderColor: "#374151",
         labelColor: "#ebedf0",
         opacityFrom: 0,
-        opacityTo: 0.15,
+        opacityTo: 0.15
       };
 
   const chartColor = document.documentElement.classList.contains("dark")
@@ -718,13 +718,13 @@ const getSoiPeerChartOptions = (data) => {
       window.chartColors.blue,
       window.chartColors.grey,
       window.chartColors.red,
-      window.chartColors.orange,
+      window.chartColors.orange
     ],
     series: [233, 555, 222, 222, 124],
     chart: {
       height: 450,
       width: "100%",
-      type: "pie",
+      type: "pie"
     },
     labels: ["Tuition", "Auxiliary", "Contributions", "Investments", "Other"],
     responsive: [
@@ -732,43 +732,43 @@ const getSoiPeerChartOptions = (data) => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 400,
+            width: 400
           },
           legend: {
-            position: "bottom",
-          },
-        },
-      },
+            position: "bottom"
+          }
+        }
+      }
     ],
     stroke: {
       width: 5,
-      colors: chartColors.labelColor,
+      colors: chartColors.labelColor
     },
     title: {
       text: "PEER",
       align: "top",
-      color: chartColor,
+      color: chartColor
     },
     plotOptions: {
       pie: {
         dataLabels: {
-          offset: -20,
-        },
-      },
+          offset: -20
+        }
+      }
     },
     tooltip: {
       y: {
         formatter: tooltipFormatter,
         title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
+          formatter: (seriesName) => `${seriesName}:`
+        }
+      }
     },
     legend: {
       horizontalAlign: "center",
       position: "bottom",
-      fontSize: "20px",
-    },
+      fontSize: "20px"
+    }
   };
 };
 
@@ -813,7 +813,6 @@ const getFfaChartOptions = (data) => {
   const contributionsClient = Number(
     data["ffa_contributions_Client"][currentYear].value
   );
-  const restrictedGiftsClient = auxiliaryAndOtherClient + contributionsClient;
 
   const salariesAndWagesClient = Number(
     data["ffa_salariesAndWages_Client"][currentYear].value
@@ -822,7 +821,7 @@ const getFfaChartOptions = (data) => {
     data["ffa_employeeBenefits_Client"][currentYear].value
   );
   const compensationAndBenefitsClient =
-    restrictedGiftsClient - (salariesAndWagesClient + employeeBenefitsClient);
+    salariesAndWagesClient + employeeBenefitsClient;
 
   const servicesSuppliesAndOtherClient = Number(
     data["ffa_servicesSuppliesAndOther_Client"][currentYear].value
@@ -838,33 +837,28 @@ const getFfaChartOptions = (data) => {
     data["ffa_incomeExpenseSurplusDefecit_Client"][currentYear].value
   );
   const generalExpenseClient =
-    compensationAndBenefitsClient -
-    (servicesSuppliesAndOtherClient +
-      occupancyUtilitiesAndMaintenanceClient +
-      depreciationAndAmortizationClient +
-      interestClient +
-      incomeExpenseSurplusDefecitClient);
+    servicesSuppliesAndOtherClient +
+    occupancyUtilitiesAndMaintenanceClient +
+    depreciationAndAmortizationClient +
+    interestClient +
+    incomeExpenseSurplusDefecitClient;
 
-  const surplusDefecitClient = 0 + generalExpenseClient;
-
-  const surplusDefecitColor =
-    surplusDefecitClient > 0
-      ? window.chartColors.green
-      : window.chartColors.red;
-  const surplusDefecitLabel = surplusDefecitClient > 0 ? "Surplus" : "Deficit";
+  const dashboardSurplusDefecit_Client = Number(
+    data["dashboardSurplusDefecit_Client"][currentYear].value
+  );
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
         borderColor: "#F3F4F6",
         labelColor: "#ffffff",
         opacityFrom: 0.45,
-        opacityTo: 0,
+        opacityTo: 0
       }
     : {
         borderColor: "#374151",
         labelColor: "#1d2a46",
         opacityFrom: 0,
-        opacityTo: 0.15,
+        opacityTo: 0.15
       };
 
   const chartColor = document.documentElement.classList.contains("dark")
@@ -874,8 +868,7 @@ const getFfaChartOptions = (data) => {
   const formatNumber = (value) => value.toLocaleString();
 
   const yaxisLabelFormatter = (value) => {
-    // return `$${formatNumber(value)}`;
-    return `${value / 1000000}`;
+    return `$${formatNumber(value)}`;
   };
 
   const tooltipFormatter = (value) => {
@@ -889,106 +882,99 @@ const getFfaChartOptions = (data) => {
   // [tuitionValue, auxiliaryValue, contributionsValue, investmentsValue, otherValue]
 
   return {
+    colors: [window.chartColors.yello, window.chartColors.teal],
     series: [
       {
         data: [
-          {
-            x: "Tuition & Fees",
-            y: [0, revenueTuitionAndFeesClient],
-            fillColor: window.chartColors.teal,
-          },
+          { x: "Tuition & Fees", y: [0, revenueTuitionAndFeesClient] },
           {
             x: "Scholarship & Financial Aid",
-            y: [revenueTuitionAndFeesClient, ScholarshipAndFinancialAidClient],
-            fillColor: window.chartColors.yellow,
+            y: [revenueTuitionAndFeesClient]
           },
-          {
-            x: "Unrestricted Gifts",
-            y: [ScholarshipAndFinancialAidClient, unrestrictedGiftsClient],
-            fillColor: window.chartColors.teal,
-          },
-          {
-            x: "Auxiliary & Other",
-            y: [unrestrictedGiftsClient, auxiliaryAndOtherClient],
-            fillColor: window.chartColors.teal,
-          },
-          {
-            x: "Restricted Gifts",
-            y: [auxiliaryAndOtherClient, restrictedGiftsClient],
-            fillColor: window.chartColors.teal,
-          },
-          {
-            x: "Compensation & Benefits",
-            y: [restrictedGiftsClient, compensationAndBenefitsClient],
-            fillColor: window.chartColors.yellow,
-          },
-          {
-            x: "General Expense",
-            y: [compensationAndBenefitsClient, generalExpenseClient],
-            fillColor: window.chartColors.yellow,
-          },
-          {
-            x: surplusDefecitLabel,
-            y: [generalExpenseClient, surplusDefecitClient],
-            fillColor: surplusDefecitColor,
-          },
-        ],
-      },
+          { x: "Unrestricted Gifts", y: [5, 8] },
+          { x: "Auxiliary & Other", y: [3, 11] },
+          { x: "Restricted Gifts", y: [2, 4] },
+          { x: "Compensation & Benefits", y: [1, 3] },
+          { x: "General Expense", y: [5, 8] },
+          { x: "Surplus/Deficit", y: [9, 11] }
+        ]
+      }
     ],
     chart: {
       height: 500,
       width: "100%",
-      type: "rangeBar",
+      type: "rangeBar"
     },
+    dataLabels: {
+      enabled: true
+    },
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 400
+          },
+          legend: {
+            position: "bottom"
+          }
+        }
+      }
+    ],
     stroke: {
       width: 5,
-      colors: chartColors.labelColor,
+      colors: chartColors.labelColor
+    },
+    plotOptions: {
+      pie: {
+        dataLabels: {
+          offset: -20
+        }
+      }
     },
     tooltip: {
       y: {
         formatter: tooltipFormatter,
         title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
+          formatter: (seriesName) => `${seriesName}:`
+        }
+      }
     },
     xaxis: {
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: "1rem",
+          fontSize: "1rem"
         },
-        rotate: -45, // Adjust the rotation angle as needed
-        minHeight: 150,
-        offsetY: 5,
-      },
+        rotate: -45 // Adjust the rotation angle as needed
+      }
     },
     yaxis: [
       {
         axisTicks: {
-          show: true,
+          show: true
         },
         axisBorder: {
           show: true,
-          color: chartColor,
+          color: chartColor
         },
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
-            fontSize: "1.25rem",
-          },
+            fontSize: "1.25rem"
+          }
         },
         tooltip: {
-          enabled: true,
-        },
-      },
+          enabled: true
+        }
+      }
     ],
     legend: {
       horizontalAlign: "center",
       position: "bottom",
-      fontSize: "20px",
-    },
+      fontSize: "20px"
+    }
   };
 };
 
@@ -997,21 +983,20 @@ const getCashFlowTrendChartOptions = (data) => {
 
   const financeData = data["cft_FinancingActivities_Client"];
   const investingData = data["cft_InvestingActivities_Client"];
-
   const operatingData = data["cft_OperatingActivities_Client"];
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   const seriesData = selectedYearsArray.map((year) => {
-    const operatingVal = operatingData[year]?.value || 0;
-    const investingVal = investingData[year]?.value || 0;
-    const financeVal = financeData[year]?.value || 0;
-
-    const data = [operatingVal, investingVal, financeVal];
+    const data = [
+      operatingData[year]?.value || 0,
+      investingData[year]?.value || 0,
+      financeData[year]?.value || 0
+    ];
 
     return {
       name: year.toString(),
-      data: data,
+      data: data
     };
   });
 
@@ -1022,13 +1007,13 @@ const getCashFlowTrendChartOptions = (data) => {
         borderColor: "#374151",
         labelColor: "#ebedf0",
         opacityFrom: 0,
-        opacityTo: 0.15,
+        opacityTo: 0.15
       }
     : {
         borderColor: "#F3F4F6",
         labelColor: "#6B7280",
         opacityFrom: 0.45,
-        opacityTo: 0,
+        opacityTo: 0
       };
 
   const chartColor = document.documentElement.classList.contains("dark")
@@ -1053,94 +1038,94 @@ const getCashFlowTrendChartOptions = (data) => {
       window.chartColors.blue,
       window.chartColors.red,
       window.chartColors.orange,
-      window.chartColors.grey,
+      window.chartColors.grey
     ],
     series: seriesData,
     chart: {
       type: "bar",
-      height: 350,
+      height: 350
     },
     plotOptions: {
       bar: {
         horizontal: false,
         columnWidth: "55%",
-        endingShape: "rounded",
-      },
+        endingShape: "rounded"
+      }
     },
     dataLabels: {
-      enabled: false,
+      enabled: false
     },
     stroke: {
       show: true,
       width: 2,
-      colors: ["transparent"],
+      colors: ["transparent"]
     },
     title: {
       text: "",
       align: "left",
-      offsetX: 110,
+      offsetX: 110
     },
     xaxis: {
       categories: ["Operating", "Investing", "Financing"],
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: "1rem",
+          fontSize: "1rem"
         },
-        position: "top",
-      },
+        position: "top"
+      }
     },
     yaxis: [
       {
         axisTicks: {
-          show: true,
+          show: true
         },
         axisBorder: {
           show: true,
-          color: chartColor,
+          color: chartColor
         },
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
-            fontSize: "1.25rem",
-          },
+            fontSize: "1.25rem"
+          }
         },
         tooltip: {
-          enabled: true,
-        },
-      },
+          enabled: true
+        }
+      }
     ],
     tooltip: {
       fixed: {
         enabled: true,
         position: "topLeft",
         offsetY: 30,
-        offsetX: 60,
+        offsetX: 60
       },
       y: {
         formatter: tooltipFormatter,
         title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
+          formatter: (seriesName) => `${seriesName}:`
+        }
+      }
     },
     legend: {
       horizontalAlign: "center",
       offsetX: 40,
-      fontSize: "20px",
+      fontSize: "20px"
     },
     grid: {
       row: {
         colors: ["transparent"],
         opacity: 0.5,
-        thickness: 4,
-      },
+        thickness: 4
+      }
     },
     plotOptions: {
       bar: {
-        barHeight: "90%",
-      },
+        barHeight: "90%"
+      }
     },
     toolbar: {
       show: false,
@@ -1150,8 +1135,8 @@ const getCashFlowTrendChartOptions = (data) => {
         zoom: false,
         zoomin: false,
         zoomout: false,
-        pan: false,
-      },
-    },
+        pan: false
+      }
+    }
   };
 };
