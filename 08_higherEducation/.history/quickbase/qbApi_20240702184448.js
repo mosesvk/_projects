@@ -1320,7 +1320,6 @@ const getRecordsForPeer = async (years, dataStr) => {
     const athleticsConditions = [...selectedAthletics]
       .map((athletic) => `{534.EX.${athletic}}`)
       .join(" OR ");
-    console.log({ athleticsConditions });
     return `(${athleticsConditions})`;
   }
 
@@ -1328,25 +1327,15 @@ const getRecordsForPeer = async (years, dataStr) => {
     const typeConditions = [...selectedTypes]
       .map((type) => `{618.EX.${type}}`)
       .join(" OR ");
-    console.log({ typeConditions });
     return `(${typeConditions})`;
   }
 
   function getClientQuery(selectedClients) {
-    // Check if the "select-all-checkbox-client" input is checked
-    const selectAllCheckbox = document.getElementById("select-all-checkbox-client");
-    if (selectAllCheckbox && selectAllCheckbox.checked) {
-        // If checked, return an empty string
-        return "";
-    }
-
-    // Otherwise, continue with the existing logic
-    const clientConditions = selectedClients
-        .map((client) => `{539.EX.${client}}`)
-        .join(" OR ");
-    console.log({ clientConditions });
+    const clientConditions = [...selectedClients]
+      .map((client) => `{539.EX.${client}}`)
+      .join(" OR ");
     return `(${clientConditions})`;
-}
+  }
 
   // (${getRegionQuery(selectedRegions_Array)}) AND
   // (${getStateQuery(selectedStates_Array)}) AND
@@ -1364,7 +1353,7 @@ const getRecordsForPeer = async (years, dataStr) => {
       (${getRegionQuery(selectedRegions_Array)}) AND
       (${getMembershipsQuery(selectedMemberships_Array)}) AND
       (${getAthleticsQuery(selectedAthletics_Array)}) AND
-      (${getTypeQuery(selectedTypes_Array)}) AND 
+      (${getTypeQuery(selectedTypes_Array)}) AND
       (${getClientQuery(selectedClients_Array)})
     `,
     clist:

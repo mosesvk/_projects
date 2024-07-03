@@ -1333,20 +1333,12 @@ const getRecordsForPeer = async (years, dataStr) => {
   }
 
   function getClientQuery(selectedClients) {
-    // Check if the "select-all-checkbox-client" input is checked
-    const selectAllCheckbox = document.getElementById("select-all-checkbox-client");
-    if (selectAllCheckbox && selectAllCheckbox.checked) {
-        // If checked, return an empty string
-        return "";
-    }
-
-    // Otherwise, continue with the existing logic
-    const clientConditions = selectedClients
-        .map((client) => `{539.EX.${client}}`)
-        .join(" OR ");
+    const clientConditions = [...selectedClients]
+      .map((client) => `{539.EX.${client}}`)
+      .join(" OR ");
     console.log({ clientConditions });
     return `(${clientConditions})`;
-}
+  }
 
   // (${getRegionQuery(selectedRegions_Array)}) AND
   // (${getStateQuery(selectedStates_Array)}) AND
@@ -1389,7 +1381,7 @@ const getRecordsForPeer = async (years, dataStr) => {
 
       // Create a new record element
       const newRecord = document.createElement("record");
-
+      
       // Append each child element to the new record
       Array.from(record.children).forEach((child) => {
         newRecord.appendChild(child.cloneNode(true));

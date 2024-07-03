@@ -296,7 +296,7 @@ const createChartFromParsedData = (
   benchmark
 ) => {
   if (parsedData) {
-    // console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
+    console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
     createChart (
       chart,
       parsedData[peer],
@@ -564,7 +564,7 @@ const getPeerAndClientChartDataArrays = (
   mainName,
   benchmark
 ) => {
-  // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
+  console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
@@ -629,11 +629,11 @@ function styleNumber (num, type, fixed) {
       return num.toFixed (1);
     } else {
       if (num < 1000) {
-        return (Number.isInteger (num) ? num : num.toFixed (fixed));
+        return '$ ' + (Number.isInteger (num) ? num : num.toFixed (fixed));
       } else {
         // Otherwise, format the number with commas for thousands
         return (
-          num.toLocaleString (undefined, {minimumFractionDigits: fixed})
+          '$ ' + num.toLocaleString (undefined, {minimumFractionDigits: fixed})
         );
       }
     }

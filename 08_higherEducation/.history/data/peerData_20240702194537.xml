@@ -1,0 +1,43 @@
+<qdbapi>
+    <record>
+        <year>2021</year>
+        <client___he__g001_geographic_region>West</client___he__g001_geographic_region>
+        <client___merged_state>CA</client___merged_state>
+        <client___he__memberships>ABACC</client___he__memberships>
+        <client___he__g003_institution_type>Category IIB (Baccalaureate)</client___he__g003_institution_type>
+        <client___he__a001_athletic_classificiation>NAIA Division I</client___he__a001_athletic_classificiation>
+        <merged_client_name>Life Pacific University</merged_client_name>
+        <r119_ccfi_overall_ratio>8.7791860108823</r119_ccfi_overall_ratio>
+        <r115_ccfi_primary_reserve_ratio>1.1337051319771</r115_ccfi_primary_reserve_ratio>
+        <r116_ccfi_net_income_operations_ratio>0.1814648391751</r116_ccfi_net_income_operations_ratio>
+        <r117_ccfi_return_on_net_assets_total_return_ratio>0.1295751453048</r117_ccfi_return_on_net_assets_total_return_ratio>
+        <r118_ccfi_viability_ratio>10</r118_ccfi_viability_ratio>
+        <r023_revenue_tuition_and_fees>7891310</r023_revenue_tuition_and_fees>
+        <r028_revenue_auxiliary_activities>848613</r028_revenue_auxiliary_activities>
+        <r033_revenue_contributions>3614164</r033_revenue_contributions>
+        <r029_revenue_investment_income>246271</r029_revenue_investment_income>
+        <r031_revenue_other>203685</r031_revenue_other>
+        <r008_ctotal_assets>33841109</r008_ctotal_assets>
+        <r016_ctotal_liabilities>1198782</r016_ctotal_liabilities>
+        <r023_revenue_tuition_and_fees>7891310</r023_revenue_tuition_and_fees>
+        <r028_revenue_auxiliary_activities>848613</r028_revenue_auxiliary_activities>
+        <r033_revenue_contributions>3614164</r033_revenue_contributions>
+        <r029_revenue_investment_income>246271</r029_revenue_investment_income>
+        <r031_revenue_other>203685</r031_revenue_other>
+        <r023_revenue_tuition_and_fees>7891310</r023_revenue_tuition_and_fees>
+        <r024_revenue_scholarships_and_financial_aid>-1492171</r024_revenue_scholarships_and_financial_aid>
+        <r115_ccfi_primary_reserve_ratio>1.1337051319771</r115_ccfi_primary_reserve_ratio>
+        <r028_revenue_auxiliary_activities>848613</r028_revenue_auxiliary_activities>
+        <r031_revenue_other>203685</r031_revenue_other>
+        <r029_revenue_investment_income>246271</r029_revenue_investment_income>
+        <r030_revenue_endowment_spending_appropriation></r030_revenue_endowment_spending_appropriation>
+        <r054_contributions>2806468</r054_contributions>
+        <r160_salaries_and_wages>6603754</r160_salaries_and_wages>
+        <r161_employee_benefits></r161_employee_benefits>
+        <r162_services_supplies_and_other>3386864</r162_services_supplies_and_other>
+        <r163_occupancy_utilities_and_maintenance>722530</r163_occupancy_utilities_and_maintenance>
+        <r164_depreciation_and_amortization>703062</r164_depreciation_and_amortization>
+        <r165_interest>3950</r165_interest>
+        <update_id>1716914894073</update_id>
+    </record>
+</qdbapi>

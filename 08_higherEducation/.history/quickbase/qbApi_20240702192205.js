@@ -1333,20 +1333,12 @@ const getRecordsForPeer = async (years, dataStr) => {
   }
 
   function getClientQuery(selectedClients) {
-    // Check if the "select-all-checkbox-client" input is checked
-    const selectAllCheckbox = document.getElementById("select-all-checkbox-client");
-    if (selectAllCheckbox && selectAllCheckbox.checked) {
-        // If checked, return an empty string
-        return "";
-    }
-
-    // Otherwise, continue with the existing logic
-    const clientConditions = selectedClients
-        .map((client) => `{539.EX.${client}}`)
-        .join(" OR ");
+    const clientConditions = [...selectedClients]
+      .map((client) => `{539.EX.${client}}`)
+      .join(" OR ");
     console.log({ clientConditions });
     return `(${clientConditions})`;
-}
+  }
 
   // (${getRegionQuery(selectedRegions_Array)}) AND
   // (${getStateQuery(selectedStates_Array)}) AND
@@ -1364,8 +1356,7 @@ const getRecordsForPeer = async (years, dataStr) => {
       (${getRegionQuery(selectedRegions_Array)}) AND
       (${getMembershipsQuery(selectedMemberships_Array)}) AND
       (${getAthleticsQuery(selectedAthletics_Array)}) AND
-      (${getTypeQuery(selectedTypes_Array)}) AND 
-      (${getClientQuery(selectedClients_Array)})
+      (${getTypeQuery(selectedTypes_Array)}) 
     `,
     clist:
       "7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727"
