@@ -1302,7 +1302,7 @@ const getRecordsForPeer = async (years, dataStr) => {
 
   function getMembershipsQuery(selectedMemberships) {
     const membershipsConditions = [...selectedMemberships]
-      .map((membership) => `{'537'.HAS.'${membership}'}`)
+      .map((membership) => `{537.HAS.${membership}}`)
       .join(" OR ");
     console.log({ membershipsConditions });
     return `(${membershipsConditions})`;
@@ -1347,10 +1347,7 @@ const getRecordsForPeer = async (years, dataStr) => {
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
-    {
-      7.EX.${currentYear} AND
-      (${getStateQuery(selectedStates_Array)})
-    }
+    {7.EX.${currentYear}}
     `,
     clist:
       "7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727"
@@ -1364,7 +1361,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     const recordsForPeer = $("record", xml).toArray();
 
     console.log("recordsForPeer", recordsForPeer);
-    // console.log("recordsForPeer", recordsForPeer[0].children);
+    console.log("recordsForPeer", recordsForPeer[0].children);
 
     // Update dataStr with the records from the current API call
     // console.log(`year - ${currentYear}`)

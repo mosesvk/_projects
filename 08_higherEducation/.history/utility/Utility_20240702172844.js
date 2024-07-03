@@ -1,19 +1,19 @@
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const regions_Array = [
-  {arr: ['Northwest'], str: 'Northwest'},
+  {arr: ['Northwest'], str: 'NE'},
   {
     arr: ['West'],
-    str: 'West',
+    str: 'MA',
   },
   {
     arr: ['Canada'],
-    str: 'Canada',
+    str: 'SO',
   },
-  {arr: ['Midwest'], str: 'Midwest'},
+  {arr: ['Midwest'], str: 'MW'},
   {
     arr: ['South'],
-    str: 'South',
+    str: 'MT',
   },
 ];
 const states_Array = [

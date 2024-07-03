@@ -1349,7 +1349,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     query: `
     {
       7.EX.${currentYear} AND
-      (${getStateQuery(selectedStates_Array)})
+      (${getMembershipsQuery(selectedMemberships_Array)})
     }
     `,
     clist:

@@ -1302,7 +1302,7 @@ const getRecordsForPeer = async (years, dataStr) => {
 
   function getMembershipsQuery(selectedMemberships) {
     const membershipsConditions = [...selectedMemberships]
-      .map((membership) => `{'537'.HAS.'${membership}'}`)
+      .map((membership) => `{537.HAS.${membership}}`)
       .join(" OR ");
     console.log({ membershipsConditions });
     return `(${membershipsConditions})`;
@@ -1349,7 +1349,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     query: `
     {
       7.EX.${currentYear} AND
-      (${getStateQuery(selectedStates_Array)})
+      (${getMembershipsQuery(selectedMemberships_Array)})
     }
     `,
     clist:
