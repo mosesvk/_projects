@@ -574,8 +574,7 @@ const getPeerAndClientChartDataArrays = (
   const benchmarkArray = [];
 
   years.forEach((year) => {
-    if (mainName == "cfi_primaryReserveRatio")
-      console.log({ year, peer: dataPeer[year] });
+    // console.log(year, dataPeer)
     // check if dataPeer is undefined but dataClient is not
 
     benchmarkArray.push(benchmark);
@@ -1072,6 +1071,11 @@ function toggleDetails(button, details, arrowIcon) {
 
 const updateCfiValue = (cfiValue) => {
   // console.log({ cfiValue });
+  document.getElementById("value").innerHTML =
+    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + cfiValue;
+  // document.getElementById ('th_cfiScore').textContent = cfiValue;
+
+  const propClass = `text-xl tracking-wide font-bold`;
 
   let thresholds = [
     10.0, 9.7, 9.4, 9.1, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0, 4.5, 4.0,
@@ -1079,42 +1083,88 @@ const updateCfiValue = (cfiValue) => {
   ];
 
   for (let i = 0; i < thresholds.length; i++) {
-    console.log({ cfiValue, thresh: thresholds[i] });
     if (cfiValue >= thresholds[i]) {
       document.getElementById(thresholds[i].toFixed(1)).style.backgroundColor =
         "black";
     }
-    if (cfiValue > thresholds[i] && cfiValue < thresholds[i - 1]) {
-      document.getElementById(thresholds[i - 1].toFixed(1)).innerHTML =
-        cfiValue;
-      document.getElementById(thresholds[i - 1].toFixed(1)).classList =
-        "font-bold text-lg text-black";
-    }
   }
 
-  let ids = [
-    "yearCfiRatio_negative",
-    "yearCfiRatio_1",
-    "yearCfiRatio_3",
-    "yearCfiRatio_5",
-    "yearCfiRatio_7",
-    "yearCfiRatio_9",
-  ];
-
-  const propClass = `text-2xl tracking-wide font-bold`;
-
-  let idThresholds = [1, 3, 5, 7, 9];
-  let idIndex = idThresholds.findIndex((threshold) => cfiValue < threshold);
-
-  if (idIndex === -1) {
-    idIndex = ids.length - 1; // if cfiValue is not less than any threshold, use the last id
-  }
-
-  let element = document.getElementById(ids[idIndex]);
-
-  if (element) {
-    element.classList = propClass;
-  } else {
-    console.log(`Element with id ${ids[idIndex]} does not exist.`);
-  }
+  // if (cfiValue >= 10.0) {
+  //   document.getElementById("10.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 9.7) {
+  //   document.getElementById("9.7").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 9.4) {
+  //   document.getElementById("9.4").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 9.1) {
+  //   document.getElementById("9.1").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 9.0) {
+  //   document.getElementById("9.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 8.5) {
+  //   document.getElementById("8.5").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 8.0) {
+  //   document.getElementById("8.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 7.5) {
+  //   document.getElementById("7.5").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 7.0) {
+  //   document.getElementById("7.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 6.5) {
+  //   document.getElementById("6.5").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 6.0) {
+  //   document.getElementById("6.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 5.5) {
+  //   document.getElementById("5.5").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 5.0) {
+  //   document.getElementById("5.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 4.5) {
+  //   document.getElementById("4.5").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 4.0) {
+  //   document.getElementById("4.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 3.5) {
+  //   document.getElementById("3.5").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 3.0) {
+  //   document.getElementById("3.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 2.5) {
+  //   document.getElementById("2.5").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 2.0) {
+  //   document.getElementById("2.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 1.5) {
+  //   document.getElementById("1.5").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 1.0) {
+  //   document.getElementById("1.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= 0.0) {
+  //   document.getElementById("0.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= -1.0) {
+  //   document.getElementById("-1.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= -2.0) {
+  //   document.getElementById("-2.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= -3.0) {
+  //   document.getElementById("-3.0").style.backgroundColor = "black";
+  // }
+  // if (cfiValue >= -3.2) {
+  //   document.getElementById("-3.2").style.backgroundColor = "black";
+  // }
 };

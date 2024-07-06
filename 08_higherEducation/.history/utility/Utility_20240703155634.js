@@ -574,8 +574,7 @@ const getPeerAndClientChartDataArrays = (
   const benchmarkArray = [];
 
   years.forEach((year) => {
-    if (mainName == "cfi_primaryReserveRatio")
-      console.log({ year, peer: dataPeer[year] });
+    // console.log(year, dataPeer)
     // check if dataPeer is undefined but dataClient is not
 
     benchmarkArray.push(benchmark);
@@ -1072,6 +1071,11 @@ function toggleDetails(button, details, arrowIcon) {
 
 const updateCfiValue = (cfiValue) => {
   // console.log({ cfiValue });
+  document.getElementById("value").innerHTML =
+    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + cfiValue;
+  // document.getElementById ('th_cfiScore').textContent = cfiValue;
+
+  const propClass = `text-xl tracking-wide font-bold`;
 
   let thresholds = [
     10.0, 9.7, 9.4, 9.1, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0, 4.5, 4.0,
@@ -1079,42 +1083,9 @@ const updateCfiValue = (cfiValue) => {
   ];
 
   for (let i = 0; i < thresholds.length; i++) {
-    console.log({ cfiValue, thresh: thresholds[i] });
     if (cfiValue >= thresholds[i]) {
-      document.getElementById(thresholds[i].toFixed(1)).style.backgroundColor =
+      document.getElementById(String(thresholds[i])).style.backgroundColor =
         "black";
     }
-    if (cfiValue > thresholds[i] && cfiValue < thresholds[i - 1]) {
-      document.getElementById(thresholds[i - 1].toFixed(1)).innerHTML =
-        cfiValue;
-      document.getElementById(thresholds[i - 1].toFixed(1)).classList =
-        "font-bold text-lg text-black";
-    }
-  }
-
-  let ids = [
-    "yearCfiRatio_negative",
-    "yearCfiRatio_1",
-    "yearCfiRatio_3",
-    "yearCfiRatio_5",
-    "yearCfiRatio_7",
-    "yearCfiRatio_9",
-  ];
-
-  const propClass = `text-2xl tracking-wide font-bold`;
-
-  let idThresholds = [1, 3, 5, 7, 9];
-  let idIndex = idThresholds.findIndex((threshold) => cfiValue < threshold);
-
-  if (idIndex === -1) {
-    idIndex = ids.length - 1; // if cfiValue is not less than any threshold, use the last id
-  }
-
-  let element = document.getElementById(ids[idIndex]);
-
-  if (element) {
-    element.classList = propClass;
-  } else {
-    console.log(`Element with id ${ids[idIndex]} does not exist.`);
   }
 };
