@@ -43,8 +43,8 @@ const getMainChartOptions = (
       benchmark
     ));
 
-  // if (mainName == "cfi_primaryReserveRatio")
-  //  delete console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+  if (mainName == "cfi_primaryReserveRatio")
+   delete console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {
@@ -74,9 +74,9 @@ const getMainChartOptions = (
 
   return {
     colors: [
-      window.chartColors.blue,
       window.chartColors.red,
       window.chartColors.orange,
+      window.chartColors.blue,
       window.chartColors.purple,
       window.chartColors.green,
       window.chartColors.black

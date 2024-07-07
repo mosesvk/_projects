@@ -380,7 +380,7 @@ const closeSidebarAfterSelectingOption = (component) => {
   localStorage.setItem("lastRenderedComponent", component);
 };
 
-const getAverageOfArray = (array, mainName) => {
+const getAverageOfArray = (array) => {
   // const filteredArray = array.filter(value => Number(value) !== 0);
 
   if (array.length === 0) {
@@ -392,7 +392,7 @@ const getAverageOfArray = (array, mainName) => {
   return avg;
 };
 
-const getMidpointOfArray = (array, mainName) => {
+const getMidpointOfArray = (array) => {
   // const filteredArray = array.filter(value => Number(value) !== 0);
 
   // console.log(array);
@@ -414,7 +414,7 @@ const getMidpointOfArray = (array, mainName) => {
 };
 
 
-const get25thPercentileOfArray = (array, mainName) => {
+const get25thPercentileOfArray = (array) => {
   // const filteredArray = array.filter(value => Number(value) !== 0);
 
   // console.log(array);
@@ -448,7 +448,7 @@ const get25thPercentileOfArray = (array, mainName) => {
   }
 };
 
-const get75thPercentileOfArray = (array, mainName) => {
+const get75thPercentileOfArray = (array) => {
   // const filteredArray = array.filter(value => Number(value) !== 0);
 
   // Step 1: Sort the array in ascending order

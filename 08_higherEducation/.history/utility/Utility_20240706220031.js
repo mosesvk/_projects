@@ -299,7 +299,7 @@ const createChartFromParsedData = (
   benchmark
 ) => {
   if (parsedData) {
-    // if (mainName == 'cfi_primaryReserveRatio') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
+    // console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
     createChart(
       chart,
       parsedData[peer],
@@ -380,46 +380,59 @@ const closeSidebarAfterSelectingOption = (component) => {
   localStorage.setItem("lastRenderedComponent", component);
 };
 
-const getAverageOfArray = (array, mainName) => {
-  // const filteredArray = array.filter(value => Number(value) !== 0);
+const getAverageOfArray = (array) => {
+  const filteredArray = array.filter(value => Number(value) !== 0);
 
-  if (array.length === 0) {
+  if (filteredArray.length === 0) {
     return 0;
   }
-  const sum = array.reduce((acc, str) => acc + Number(str), 0);
+  const sum = filteredArray.reduce((acc, str) => acc + Number(str), 0);
   const avg = sum / array.length;
 
   return avg;
 };
 
-const getMidpointOfArray = (array, mainName) => {
-  // const filteredArray = array.filter(value => Number(value) !== 0);
+const getMidpointOfArray = (array) => {
+  const filteredArray = array.filter(value => Number(value) !== 0);
 
   // console.log(array);
-  if (array.length === 0) {
+  if (filteredArray.length === 0) {
     return 0;
   }
 
-  array.sort((a, b) => a - b); // Sort the array
+  filteredArray.sort((a, b) => a - b); // Sort the array
 
-  const midpoint = Math.floor(array.length / 2); // Calculate the midpoint index
+  const midpoint = Math.floor(filteredArray.length / 2); // Calculate the midpoint index
 
-  if (array.length % 2 === 1) {
+  if (filteredArray.length % 2 === 1) {
     // If odd length, return the value at the midpoint
-    return Number(array[midpoint]);
+    return Number(filteredArray[midpoint]);
   } else {
     // If even length, return the average of the two midpoints
-    return (Number(array[midpoint - 1]) + Number(array[midpoint])) / 2;
+    return (Number(filteredArray[midpoint - 1]) + Number(filteredArray[midpoint])) / 2;
   }
 };
 
+const getMaxOfArray = (array) => {
+  const nonZeroArray = array.filter((num) => num !== 0);
 
-const get25thPercentileOfArray = (array, mainName) => {
-  // const filteredArray = array.filter(value => Number(value) !== 0);
+  if (nonZeroArray.length === 0) {
+    return 0;
+  }
+
+  return Math.max(...nonZeroArray);
+};
+
+const OfArray = (array) => {
+  return Math.min(...array);
+};
+
+const get25thPercentileOfArray = (array) => {
+  const filteredArray = array.filter(value => Number(value) !== 0);
 
   // console.log(array);
   // Step 1: Sort the array in ascending order
-  const sortedArray = array.sort((a, b) => a - b);
+  const sortedArray = filteredArray.sort((a, b) => a - b);
   // console.log(sortedArray);
 
   // Step 2: Check if the array has less than or equal to 2 elements
@@ -448,11 +461,11 @@ const get25thPercentileOfArray = (array, mainName) => {
   }
 };
 
-const get75thPercentileOfArray = (array, mainName) => {
-  // const filteredArray = array.filter(value => Number(value) !== 0);
+const get75thPercentileOfArray = (array) => {
+  const filteredArray = array.filter(value => Number(value) !== 0);
 
   // Step 1: Sort the array in ascending order
-  const sortedArray = array.sort((a, b) => a - b);
+  const sortedArray = filteredArray.sort((a, b) => a - b);
 
   // Step 2: Check if the array has less than or equal to 2 elements
   if (sortedArray.length <= 2) {
@@ -528,7 +541,7 @@ const getPeerAndClientChartDataArrays = (
   mainName,
   benchmark
 ) => {
-  // if (mainName == "cfi_primaryReserveRatio") console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
+  // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
@@ -546,12 +559,12 @@ const getPeerAndClientChartDataArrays = (
     if (dataPeer != undefined && dataClient != undefined) {
       const array = dataPeer[year];
       // console.log(array)
-      const avg = getAverageOfArray(array, mainName);
-      const mid = getMidpointOfArray(array, mainName);
-      const lower25 = get25thPercentileOfArray(array, mainName);
-      const higher75 = get75thPercentileOfArray(array, mainName);
+      const avg = getAverageOfArray(array);
+      const mid = getMidpointOfArray(array);
+      const lower25 = get25thPercentileOfArray(array);
+      const higher75 = get75thPercentileOfArray(array);
 
-      // if (mainName == 'cfi_primaryReserveRatio') console.log({ avg, mid, lower25, higher75 });
+      if (mainName == 'cfi_primaryReserveRatio') console.log({ avg, mid, lower25, higher75 });
 
       peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
       peerMid.push(parseFloat(mid.toFixed(fixedNum)));
@@ -578,7 +591,7 @@ const getPeerAndClientChartDataArrays = (
     }
   });
 
-  // if (mainName == 'cfi_primaryReserveRatio') console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+  if (mainName == 'cfi_primaryReserveRatio') console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
 };

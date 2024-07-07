@@ -171,7 +171,7 @@ const displayFinancialAnalysisContentComponent = () => {
   });
 
   const soiPeerChart = new ApexCharts(
-    document.querySelector("#sourceOfIncomePeer_chart"), 
+    document.querySelector("#sourceOfIncomePeer_chart"),
     getSoiPeerChartOptions(parseData)
   );
   soiPeerChart.render();

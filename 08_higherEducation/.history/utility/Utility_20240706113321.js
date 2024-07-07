@@ -299,7 +299,7 @@ const createChartFromParsedData = (
   benchmark
 ) => {
   if (parsedData) {
-    // if (mainName == 'cfi_primaryReserveRatio') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
+    // console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
     createChart(
       chart,
       parsedData[peer],
@@ -340,7 +340,7 @@ const createChart = (
   chart.render();
 
   console.log(chartId)
-  document.querySelectorAll(`#${chartId} .apexcharts-legend-series`)[5].style.display = "none";
+  document.querySelector(`#${chartId} .apexcharts-legend-series`)[5].style.display = "none";
   
   // init again when toggling dark mode
   document.addEventListener("dark-mode", function () {
@@ -354,8 +354,6 @@ const createChart = (
         benchmark
       )
     );
-    document.querySelectorAll(`#${chartId} .apexcharts-legend-series`)[5].style.display = "none";
-
   });
 };
 
@@ -380,9 +378,7 @@ const closeSidebarAfterSelectingOption = (component) => {
   localStorage.setItem("lastRenderedComponent", component);
 };
 
-const getAverageOfArray = (array, mainName) => {
-  // const filteredArray = array.filter(value => Number(value) !== 0);
-
+const getAverageOfArray = (array) => {
   if (array.length === 0) {
     return 0;
   }
@@ -392,9 +388,7 @@ const getAverageOfArray = (array, mainName) => {
   return avg;
 };
 
-const getMidpointOfArray = (array, mainName) => {
-  // const filteredArray = array.filter(value => Number(value) !== 0);
-
+const getMidpointOfArray = (array) => {
   // console.log(array);
   if (array.length === 0) {
     return 0;
@@ -413,10 +407,21 @@ const getMidpointOfArray = (array, mainName) => {
   }
 };
 
+const getMaxOfArray = (array) => {
+  const nonZeroArray = array.filter((num) => num !== 0);
 
-const get25thPercentileOfArray = (array, mainName) => {
-  // const filteredArray = array.filter(value => Number(value) !== 0);
+  if (nonZeroArray.length === 0) {
+    return 0;
+  }
 
+  return Math.max(...nonZeroArray);
+};
+
+const OfArray = (array) => {
+  return Math.min(...array);
+};
+
+const get25thPercentileOfArray = (array) => {
   // console.log(array);
   // Step 1: Sort the array in ascending order
   const sortedArray = array.sort((a, b) => a - b);
@@ -448,9 +453,7 @@ const get25thPercentileOfArray = (array, mainName) => {
   }
 };
 
-const get75thPercentileOfArray = (array, mainName) => {
-  // const filteredArray = array.filter(value => Number(value) !== 0);
-
+const get75thPercentileOfArray = (array) => {
   // Step 1: Sort the array in ascending order
   const sortedArray = array.sort((a, b) => a - b);
 
@@ -481,14 +484,50 @@ const get75thPercentileOfArray = (array, mainName) => {
 };
 
 const getSumOfArray = (array) => {
-  const filteredArray = array.filter(value => Number(value) !== 0);
-
   // console.log(array);
-  if (filteredArray.length === 0) {
+  if (array.length === 0) {
     return 0;
   }
 
-  return filteredArray.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
+  return array.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
+};
+
+const calculateAveragePercentageChange = (values) => {
+  // console.log(values);
+  // console.log('---');
+
+  const years = Object.keys(values);
+  const numberOfYears = years.length;
+
+  if (numberOfYears < 2) {
+    return 0.0; // No change if there are fewer than two years
+  }
+
+  let totalChange = 0;
+
+  for (let i = 1; i < numberOfYears; i++) {
+    const year = years[i];
+    const previousYear = years[i - 1];
+
+    const initialValue = parseFloat(values[previousYear][0]);
+    const finalValue = parseFloat(values[year][0]);
+
+    if (initialValue === 0) {
+      if (finalValue === 0) {
+        continue; // No change if both initial and final values are zero
+      } else {
+        totalChange = Infinity; // Handle division by zero
+        break;
+      }
+    }
+
+    const change = ((finalValue - initialValue) / Math.abs(initialValue)) * 100;
+    totalChange += change;
+  }
+
+  const averagePercentageChange = totalChange / (numberOfYears - 1);
+
+  return averagePercentageChange ? averagePercentageChange.toFixed(1) : 0; // Ensure one decimal point
 };
 
 const getSelectedYearsFromLocalStorage = () => {
@@ -528,7 +567,7 @@ const getPeerAndClientChartDataArrays = (
   mainName,
   benchmark
 ) => {
-  // if (mainName == "cfi_primaryReserveRatio") console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
+  // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
@@ -546,12 +585,12 @@ const getPeerAndClientChartDataArrays = (
     if (dataPeer != undefined && dataClient != undefined) {
       const array = dataPeer[year];
       // console.log(array)
-      const avg = getAverageOfArray(array, mainName);
-      const mid = getMidpointOfArray(array, mainName);
-      const lower25 = get25thPercentileOfArray(array, mainName);
-      const higher75 = get75thPercentileOfArray(array, mainName);
+      const avg = getAverageOfArray(array);
+      const mid = getMidpointOfArray(array);
+      const lower25 = get25thPercentileOfArray(array);
+      const higher75 = get75thPercentileOfArray(array);
 
-      // if (mainName == 'cfi_primaryReserveRatio') console.log({ avg, mid, lower25, higher75 });
+      if (mainName == 'cfi_primaryReserveRatio') console.log({ avg, mid, lower25, higher75 });
 
       peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
       peerMid.push(parseFloat(mid.toFixed(fixedNum)));
@@ -578,7 +617,7 @@ const getPeerAndClientChartDataArrays = (
     }
   });
 
-  // if (mainName == 'cfi_primaryReserveRatio') console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+  if (mainName == 'cfi_primaryReserveRatio') console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
 };

@@ -43,8 +43,8 @@ const getMainChartOptions = (
       benchmark
     ));
 
-  // if (mainName == "cfi_primaryReserveRatio")
-  //  delete console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+  if (mainName == "cfi_primaryReserveRatio")
+   delete console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {

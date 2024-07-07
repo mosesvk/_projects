@@ -43,8 +43,7 @@ const getMainChartOptions = (
       benchmark
     ));
 
-  // if (mainName == "cfi_primaryReserveRatio")
-  //  delete console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {
@@ -74,18 +73,21 @@ const getMainChartOptions = (
 
   return {
     colors: [
-      window.chartColors.blue,
+      window.chartColors.green,
       window.chartColors.red,
       window.chartColors.orange,
+      window.chartColors.blue,
       window.chartColors.purple,
-      window.chartColors.green,
-      window.chartColors.black
+      window.chartColors.black,
     ],
     series: [
       {
-        name: "Avg",
-        type: "line",
-        data: peerAvg,
+        name: "Client",
+        type: "column",
+        data: clientArray,
+        style: {
+          colors: [chartColors.labelColor],
+        },
       },
       {
         name: "25%",
@@ -98,23 +100,20 @@ const getMainChartOptions = (
         data: peerMid,
       },
       {
+        name: "Avg",
+        type: "line",
+        data: peerAvg,
+      },
+      {
         name: "75%",
         type: "line",
         data: peer75,
-      },
-      {
-        name: "Client",
-        type: "column",
-        data: clientArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
       },
       benchmarkArray.length > 0 && {
         name: "Benchmark",
         type: "line",
         data: benchmarkArray,
-      }
+      },
     ],
     chart: {
       height: 350,

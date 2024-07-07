@@ -380,7 +380,7 @@ const closeSidebarAfterSelectingOption = (component) => {
   localStorage.setItem("lastRenderedComponent", component);
 };
 
-const getAverageOfArray = (array, mainName) => {
+const getAverageOfArray = (array) => {
   // const filteredArray = array.filter(value => Number(value) !== 0);
 
   if (array.length === 0) {
@@ -392,7 +392,7 @@ const getAverageOfArray = (array, mainName) => {
   return avg;
 };
 
-const getMidpointOfArray = (array, mainName) => {
+const getMidpointOfArray = (array) => {
   // const filteredArray = array.filter(value => Number(value) !== 0);
 
   // console.log(array);
@@ -414,7 +414,7 @@ const getMidpointOfArray = (array, mainName) => {
 };
 
 
-const get25thPercentileOfArray = (array, mainName) => {
+const get25thPercentileOfArray = (array) => {
   // const filteredArray = array.filter(value => Number(value) !== 0);
 
   // console.log(array);
@@ -448,7 +448,7 @@ const get25thPercentileOfArray = (array, mainName) => {
   }
 };
 
-const get75thPercentileOfArray = (array, mainName) => {
+const get75thPercentileOfArray = (array) => {
   // const filteredArray = array.filter(value => Number(value) !== 0);
 
   // Step 1: Sort the array in ascending order
@@ -528,7 +528,7 @@ const getPeerAndClientChartDataArrays = (
   mainName,
   benchmark
 ) => {
-  // if (mainName == "cfi_primaryReserveRatio") console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
+  if (mainName == "cfi_primaryReserveRatio") console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
@@ -546,10 +546,10 @@ const getPeerAndClientChartDataArrays = (
     if (dataPeer != undefined && dataClient != undefined) {
       const array = dataPeer[year];
       // console.log(array)
-      const avg = getAverageOfArray(array, mainName);
-      const mid = getMidpointOfArray(array, mainName);
-      const lower25 = get25thPercentileOfArray(array, mainName);
-      const higher75 = get75thPercentileOfArray(array, mainName);
+      const avg = getAverageOfArray(array);
+      const mid = getMidpointOfArray(array);
+      const lower25 = get25thPercentileOfArray(array);
+      const higher75 = get75thPercentileOfArray(array);
 
       // if (mainName == 'cfi_primaryReserveRatio') console.log({ avg, mid, lower25, higher75 });
 

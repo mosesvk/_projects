@@ -93,67 +93,59 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  // console.log ({
-  //   type,
-  //   year,
-  //   object,
-  //   dataKey,
-  //   record,
-  //   child,
-  //   dynamicValueClientPeer,
-  //   name,
-  // });
-
   const innerData = child == 0
     ? 0
-    : record.querySelector (child).innerHTML.split ('').length > 0
-        ? record.querySelector (child).innerHTML.trim ()
-        : 0;
+    : record.querySelector(child).innerHTML.split('').length > 0
+      ? record.querySelector(child).innerHTML.trim()
+      : 0;
 
-  if (type === 'client') {
-    if (!object[dataKey]) {
-      object[dataKey] = {};
-    }
-    if (!object[dataKey][year]) {
-      object[dataKey][year] = {};
-    }
-    object[dataKey][year].value = innerData;
-    const benchmarkField =
-      dynamicValueClientPeer &&
-      record.querySelector (dynamicValueClientPeer).textContent.trim ();
-    object[dataKey][year].benchmark = benchmarkField;
-  } else {
-    // type === 'peer'
-
-    const yesNoField = dynamicValueClientPeer == 'Yes'
-      ? 'Yes'
-      : dynamicValueClientPeer &&
-          record.querySelector (dynamicValueClientPeer).textContent.trim ();
-
-    if (yesNoField == 'Yes') {
+  // Convert innerData to a number and check if it's not zero
+  if (Number(innerData) !== 0) {
+    if (type === 'client') {
       if (!object[dataKey]) {
         object[dataKey] = {};
       }
       if (!object[dataKey][year]) {
-        object[dataKey][year] = [];
+        object[dataKey][year] = {};
       }
+      object[dataKey][year].value = innerData;
+      const benchmarkField =
+        dynamicValueClientPeer &&
+        record.querySelector(dynamicValueClientPeer).textContent.trim();
+      object[dataKey][year].benchmark = benchmarkField;
+    } else {
+      // type === 'peer'
+      const yesNoField = dynamicValueClientPeer == 'Yes'
+        ? 'Yes'
+        : dynamicValueClientPeer &&
+            record.querySelector(dynamicValueClientPeer).textContent.trim();
 
-      if (!name) {
-        if (!object[dataKey]['total']) {
-          object[dataKey]['total'] = [];
+      if (yesNoField == 'Yes') {
+        if (!object[dataKey]) {
+          object[dataKey] = {};
         }
-        object[dataKey]['total'].push (innerData);
-      } else {
-        if (!object[dataKey][name]) {
-          object[dataKey][name] = [];
+        if (!object[dataKey][year]) {
+          object[dataKey][year] = [];
         }
-        object[dataKey][name].push (innerData);
+
+        if (!name) {
+          if (!object[dataKey]['total']) {
+            object[dataKey]['total'] = [];
+          }
+          object[dataKey]['total'].push(innerData);
+        } else {
+          if (!object[dataKey][name]) {
+            object[dataKey][name] = [];
+          }
+          object[dataKey][name].push(innerData);
+        }
+
+        object[dataKey][year].push(innerData);
       }
-
-      object[dataKey][year].push (innerData);
     }
   }
 };
+
 
 const processFinancialAnalysisContentData = (
   years,
