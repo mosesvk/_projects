@@ -40,12 +40,11 @@ const getMainChartOptions = (
       dataClient,
       fixedNum,
       mainName,
-      benchmark,
-      numType
+      benchmark
     ));
 
-  // if (mainName == "cfi_netIncomeOperationsRatio")
-  //   console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+  if (mainName == "cfi_netIncomeOperationsRatio")
+   delete console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {

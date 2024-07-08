@@ -40,8 +40,7 @@ const getMainChartOptions = (
       dataClient,
       fixedNum,
       mainName,
-      benchmark,
-      numType
+      benchmark
     ));
 
   // if (mainName == "cfi_netIncomeOperationsRatio")

@@ -340,10 +340,8 @@ const createChart = (
   chart.render();
 
   // console.log(chartId)
-  document.querySelectorAll(
-    `#${chartId} .apexcharts-legend-series`
-  )[5].style.display = "none";
-
+  document.querySelectorAll(`#${chartId} .apexcharts-legend-series`)[5].style.display = "none";
+  
   // init again when toggling dark mode
   document.addEventListener("dark-mode", function () {
     chart.updateOptions(
@@ -356,9 +354,8 @@ const createChart = (
         benchmark
       )
     );
-    document.querySelectorAll(
-      `#${chartId} .apexcharts-legend-series`
-    )[5].style.display = "none";
+    document.querySelectorAll(`#${chartId} .apexcharts-legend-series`)[5].style.display = "none";
+
   });
 };
 
@@ -396,34 +393,26 @@ const getAverageOfArray = (array, mainName) => {
 };
 
 const getMidpointOfArray = (array, mainName) => {
-  console.log({ array, mainName });
-  const filteredArray = array
-  .filter((value) => Number(value) !== 0)
-  .map((value) => Number(value));
+  // const filteredArray = array.filter(value => Number(value) !== 0);
 
-  console.log(filteredArray);
-  if (filteredArray.length === 0) {
+  // console.log(array);
+  if (array.length === 0) {
     return 0;
   }
 
-  filteredArray.sort((a, b) => a - b); // Sort the array
+  array.sort((a, b) => a - b); // Sort the array
 
-  if (mainName == "cfi_netIncomeOperationsRatio")
-    console.log("getMidpointOfArray", { filteredArray, mainName });
+  const midpoint = Math.floor(array.length / 2); // Calculate the midpoint index
 
-  const midpoint = Math.floor(filteredArray.length / 2); // Calculate the midpoint index
-
-  if (filteredArray.length % 2 === 1) {
+  if (array.length % 2 === 1) {
     // If odd length, return the value at the midpoint
-    return Number(filteredArray[midpoint]);
+    return Number(array[midpoint]);
   } else {
     // If even length, return the average of the two midpoints
-    return (
-      (Number(filteredArray[midpoint - 1]) + Number(filteredArray[midpoint])) /
-      2
-    );
+    return (Number(array[midpoint - 1]) + Number(array[midpoint])) / 2;
   }
 };
+
 
 const get25thPercentileOfArray = (array, mainName) => {
   // const filteredArray = array.filter(value => Number(value) !== 0);
@@ -492,7 +481,7 @@ const get75thPercentileOfArray = (array, mainName) => {
 };
 
 const getSumOfArray = (array) => {
-  const filteredArray = array.filter((value) => Number(value) !== 0);
+  const filteredArray = array.filter(value => Number(value) !== 0);
 
   // console.log(array);
   if (filteredArray.length === 0) {
@@ -537,11 +526,9 @@ const getPeerAndClientChartDataArrays = (
   dataClient,
   fixedNum,
   mainName,
-  benchmark,
-  type
+  benchmark
 ) => {
-  if (mainName == "cfi_netIncomeOperationsRatio")
-    console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
+  if (mainName == "cfi_netIncomeOperationsRatio") console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
@@ -564,18 +551,14 @@ const getPeerAndClientChartDataArrays = (
       const lower25 = get25thPercentileOfArray(array, mainName);
       const higher75 = get75thPercentileOfArray(array, mainName);
 
-      // if (mainName == 'cfi_netIncomeOperationsRatio') console.log({ avg, mid, lower25, higher75 });
+      // if (mainName == 'cfi_primaryReserveRatio') console.log({ avg, mid, lower25, higher75 });
 
-      peerAvg.push(styleNumber(avg, "percent", fixedNum));
-      peerMid.push(styleNumber(mid, "percent", fixedNum));
-      peer25.push(styleNumber(lower25, "percent", fixedNum));
-      peer75.push(styleNumber(higher75, "percent", fixedNum));
-
-      if (mainName == "cfi_netIncomeOperationsRatio")
-        console.log(peerAvg, peerMid, peer25, peer75);
+      peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
+      peerMid.push(parseFloat(mid.toFixed(fixedNum)));
+      peer25.push(parseFloat(lower25.toFixed(fixedNum)));
+      peer75.push(parseFloat(higher75.toFixed(fixedNum)));
 
       const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
-      // const clientNum = styleNumber(clientNum, "percent", fixedNum);
       clientArray.push(clientNum);
     } else if (dataPeer == undefined && dataClient) {
       peerAvg.push(0);
@@ -590,7 +573,7 @@ const getPeerAndClientChartDataArrays = (
         `No Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
       );
       createToastWarning(
-        `check Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
+        `check Data for ${mainName} - object: ${{ ddataPeer, dataClient }}`
       );
     }
   });

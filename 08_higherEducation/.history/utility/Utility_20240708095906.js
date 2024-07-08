@@ -396,12 +396,11 @@ const getAverageOfArray = (array, mainName) => {
 };
 
 const getMidpointOfArray = (array, mainName) => {
-  console.log({ array, mainName });
   const filteredArray = array
-  .filter((value) => Number(value) !== 0)
-  .map((value) => Number(value));
+    .filter((value) => Number(value) !== 0)
+    .forEach((value) => Number(value));
 
-  console.log(filteredArray);
+  // console.log(array);
   if (filteredArray.length === 0) {
     return 0;
   }
@@ -409,7 +408,7 @@ const getMidpointOfArray = (array, mainName) => {
   filteredArray.sort((a, b) => a - b); // Sort the array
 
   if (mainName == "cfi_netIncomeOperationsRatio")
-    console.log("getMidpointOfArray", { filteredArray, mainName });
+    console.log({ filteredArray, mainName });
 
   const midpoint = Math.floor(filteredArray.length / 2); // Calculate the midpoint index
 
@@ -418,10 +417,7 @@ const getMidpointOfArray = (array, mainName) => {
     return Number(filteredArray[midpoint]);
   } else {
     // If even length, return the average of the two midpoints
-    return (
-      (Number(filteredArray[midpoint - 1]) + Number(filteredArray[midpoint])) /
-      2
-    );
+    return (Number(filteredArray[midpoint - 1]) + Number(filteredArray[midpoint])) / 2;
   }
 };
 

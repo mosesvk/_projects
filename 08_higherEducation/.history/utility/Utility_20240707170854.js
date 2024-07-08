@@ -1,20 +1,20 @@
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const regions_Array = [
-  { arr: ["Northwest"], str: "NE" },
+  { arr: ["Northwest"], str: "Northwest" },
   {
     arr: ["West"],
-    str: "MA",
+    str: "West",
   },
   {
     arr: ["Canada"],
-    str: "SO",
+    str: "Canada",
   },
-  { arr: ["Midwest"], str: "MW" },
+  { arr: ["Midwest"], str: "Midwest" },
   {
     arr: ["South"],
-    str: "MT",
-  }
+    str: "South",
+  },
 ];
 const states_Array = [
   { arr: ["AL"], str: "AL" },
@@ -73,19 +73,20 @@ const states_Array = [
   { arr: ["WA"], str: "WA" },
   { arr: ["WV"], str: "WV" },
   { arr: ["WI"], str: "WI" },
-  { arr: ["WY"], str: "WY" }
+  { arr: ["WY"], str: "WY" },
 ];
-
 const types_Array = [
   { arr: ["Bible College / University"], str: "Bible College / University" },
   { arr: ["Category I (Doctoral)"], str: "Category I (Doctoral)" },
   { arr: ["Category IIA (Master's)"], str: "Category IIA (Master's)" },
-  { arr: ["Category IIB (Baccalaureate)"], str: "Category IIB (Baccalaureate)" },
+  {
+    arr: ["Category IIB (Baccalaureate)"],
+    str: "Category IIB (Baccalaureate)",
+  },
   { arr: ["Graduate University"], str: "Graduate University" },
   { arr: ["Liberal Arts"], str: "Liberal Arts" },
-  { arr: ["Seminary"], str: "Seminary" }
+  { arr: ["Seminary"], str: "Seminary" },
 ];
-
 const memberships_Array = [
   { arr: ["ABACC"], str: "ABACC" },
   { arr: ["ABHE"], str: "ABHE" },
@@ -95,21 +96,59 @@ const memberships_Array = [
   { arr: ["CIC"], str: "CIC" },
   { arr: ["IABCU"], str: "IABCU" },
   { arr: ["NHERMC"], str: "NHERMC" },
-  { arr: ["TRACS"], str: "TRACS" }
+  { arr: ["TRACS"], str: "TRACS" },
 ];
-
+const trendlines_Array = [
+  { arr: [25], str: "25" },
+  { arr: [50], str: "50" },
+  { arr: [75], str: "75" },
+  { arr: ["avg"], str: "avg" },
+  { arr: ["bench"], str: "bench" },
+];
+const athletics_Array = [
+  { arr: ["NAIA Division I"], str: "NAIA Division I" },
+  { arr: ["NAIA Division II"], str: "NAIA Division II" },
+  {
+    arr: ["NCAA Division I without football"],
+    str: "NCAA Division I without football",
+  },
+  { arr: ["NCAA Division I FCS"], str: "NCAA Division I FCS" },
+  {
+    arr: ["NCAA Division II with football"],
+    str: "NCAA Division II with football",
+  },
+  {
+    arr: ["NCAA Division II without football"],
+    str: "NCAA Division II without football",
+  },
+  {
+    arr: ["NCAA Division III with football"],
+    str: "NCAA Division III with football",
+  },
+  {
+    arr: ["NCAA Division III without football"],
+    str: "NCAA Division III without football",
+  },
+  { arr: ["NCCAA Division I"], str: "NCCAA Division I" },
+  { arr: ["NCCAA Division II"], str: "NCCAA Division II" },
+  { arr: ["NJCAA Division I"], str: "NJCAA Division I" },
+  { arr: ["Other"], str: "Other" },
+  { arr: ["USCAA"], str: "USCAA" },
+];
 
 let sliderAmount = null;
 let sliderRange = null;
 let sliderValue = 0;
 let sliderValue2 = 25000;
-let missionValue = 0
-let firmName = "";
+let missionValue = 0;
 // let amount = null;
 
 let selectedRegion = "";
 const selectedRegions_Array = new Set();
 const selectedStates_Array = new Set();
+const selectedMemberships_Array = new Set();
+const selectedTrendlines_Array = new Set();
+const selectedAthletics_Array = new Set();
 const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();
@@ -256,19 +295,21 @@ const createChartFromParsedData = (
   client,
   type,
   fixedNum,
-  mainName
+  mainName,
+  benchmark
 ) => {
   if (parsedData) {
-    // console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
+    // if (mainName == 'cfi_primaryReserveRatio') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
     createChart(
       chart,
       parsedData[peer],
       parsedData[client],
       type,
       fixedNum,
-      mainName
+      mainName,
+      benchmark
     );
-    updateModal(mainName, parsedData[peer], parsedData[client]);
+    // updateModal (mainName, parsedData[peer], parsedData[client]);
   }
 };
 
@@ -278,210 +319,45 @@ const createChart = (
   dataClient,
   type,
   fixedNum,
-  mainName
+  mainName,
+  benchmark
 ) => {
   // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
 
   // Create a new chart instance
-  const chart = new ApexCharts(
+  let chart = new ApexCharts(
     document.getElementById(chartId),
-    getMainChartOptions(dataPeer, dataClient, type, fixedNum, mainName)
+    getMainChartOptions(
+      dataPeer,
+      dataClient,
+      type,
+      fixedNum,
+      mainName,
+      benchmark
+    )
   );
-
   chart.render();
 
+  // console.log(chartId)
+  document.querySelectorAll(`#${chartId} .apexcharts-legend-series`)[5].style.display = "none";
+  
   // init again when toggling dark mode
   document.addEventListener("dark-mode", function () {
     chart.updateOptions(
-      getMainChartOptions(dataPeer, dataClient, type, fixedNum, mainName)
+      getMainChartOptions(
+        dataPeer,
+        dataClient,
+        type,
+        fixedNum,
+        mainName,
+        benchmark
+      )
     );
+    document.querySelectorAll(`#${chartId} .apexcharts-legend-series`)[5].style.display = "none";
+
   });
 };
-
-const updateCashFlowModal = (
-  mainName,
-  data,
-  [financing, investing, operating, total]
-) => {
-  // Get the selected years from local storage
-
-  const financingData = data[`${financing}_Client`];
-  const investingData = data[`${investing}_Client`];
-  const operatingData = data[`${operating}_Client`];
-  const totalData = data[`${total}_Client`];
-  const selectedYears = getSelectedYearsFromLocalStorage();
-
-  // Find the modal element
-  const modal = document.getElementById(`${mainName}_modal`);
-
-  // Check if the modal element exists
-  if (modal) {
-    // Find the table header row
-    const headerRow = modal.querySelector(`#${mainName}_modal_row`);
-    let tableHead = headerRow.parentElement;
-
-    // Clear existing rows after the headerRow
-    let nextRow = headerRow.nextSibling;
-    while (nextRow) {
-      tableHead.removeChild(nextRow);
-      nextRow = headerRow.nextSibling; // Get the next sibling again
-    }
-
-    // Clear existing header content
-    headerRow.innerHTML = "";
-
-    // Add the "Year" column
-    const yearColumn = document.createElement("th");
-    yearColumn.className = "px-6 py-3";
-    yearColumn.textContent = "Year";
-    headerRow.appendChild(yearColumn);
-
-    // Add the "Operating" column
-    const operatingColumn = document.createElement("th");
-    operatingColumn.className = "px-6 py-3";
-    operatingColumn.textContent = "Operating";
-    headerRow.appendChild(operatingColumn);
-
-    // Add the "Investing" column
-    const investingColumn = document.createElement("th");
-    investingColumn.className = "px-6 py-3";
-    investingColumn.textContent = "Investing";
-    headerRow.appendChild(investingColumn);
-
-    // Add the "Financing" column
-    const financingColumn = document.createElement("th");
-    financingColumn.className = "px-6 py-3";
-    financingColumn.textContent = "Financing";
-    headerRow.appendChild(financingColumn);
-
-    // Add the "Total" column
-    const totalColumn = document.createElement("th");
-    totalColumn.className = "px-6 py-3";
-    totalColumn.textContent = "Total";
-    headerRow.appendChild(totalColumn);
-
-    // Loop through selected years and add data rows
-    selectedYears.forEach((year) => {
-      const row = document.createElement("tr");
-      row.className =
-        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
-      row.id = `${mainName}_modal_${year}`;
-
-      // Add year cell
-      const yearCell = document.createElement("td");
-      yearCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-      yearCell.scope = "row";
-      yearCell.textContent = year;
-      row.appendChild(yearCell);
-
-      // Add operating cell
-      const operatingCell = document.createElement("td");
-      operatingCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-      operatingCell.scope = "row";
-      operatingCell.textContent = operatingData[year] ? styleNumber(operatingData[year].value, 'dollar') : 0;
-      row.appendChild(operatingCell);
-
-      // Add investing cell
-      const investingCell = document.createElement("td");
-      investingCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-      investingCell.scope = "row";
-      investingCell.textContent = investingData[year] ? styleNumber(investingData[year].value, 'dollar') : 0;
-      row.appendChild(investingCell);
-
-      // Add financing cell
-      const financingCell = document.createElement("td");
-      financingCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-      financingCell.scope = "row";
-      financingCell.textContent = financingData[year] ? styleNumber(financingData[year].value, 'dollar') : 0;
-      row.appendChild(financingCell);
-
-      // Add total cell
-      const totalCell = document.createElement("td");
-      totalCell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-      totalCell.scope = "row";
-      totalCell.textContent = totalData[year] ? styleNumber(totalData[year].value, 'dollar') : 0;
-      row.appendChild(totalCell);
-
-      // Append the row to the table
-      tableHead.appendChild(row);
-    });
-  }
-};
-
-function updateModal(mainName, avgData, clientData) {
-  // Get the selected years from local storage
-  const selectedYears = getSelectedYearsFromLocalStorage();
-
-  // Find the modal element
-  const modal = document.getElementById(`${mainName}_modal`);
-
-  // Check if the modal element exists
-  if (modal) {
-    // Find the table header row
-    const headerRow = modal.querySelector(`#${mainName}_modal_row`);
-    // console.log({headerRow});
-    let tableHead = headerRow.parentElement;
-
-    // Clear existing rows after the headerRow
-    let nextRow = headerRow.nextSibling;
-    while (nextRow) {
-      tableHead.removeChild(nextRow);
-      nextRow = headerRow.nextSibling; // Get the next sibling again
-    }
-
-    // Clear existing header content
-    headerRow.innerHTML = "";
-
-    // Add the "year" column
-    const yearColumn = document.createElement("th");
-    yearColumn.className = "px-6 py-3";
-    yearColumn.textContent = "year";
-    headerRow.appendChild(yearColumn);
-
-    // Add the "Client" column
-    const clientColumn = document.createElement("th");
-    clientColumn.className = "px-6 py-3";
-    clientColumn.textContent = "client";
-    headerRow.appendChild(clientColumn);
-
-    // Add the "Avg" column
-    const avgColumn = document.createElement("th");
-    avgColumn.className = "px-6 py-3";
-    avgColumn.textContent = "Avg";
-    headerRow.appendChild(avgColumn);
-
-    // Add the remaining columns
-    const columns = ["50%", "25%", "75%"];
-    columns.forEach((column) => {
-      const col = document.createElement("th");
-      col.className = "px-6 py-3";
-      col.textContent = column;
-      headerRow.appendChild(col);
-    });
-
-    // Add a row for each selected year
-    selectedYears.forEach((year) => {
-      const yearRow = document.createElement("tr");
-      yearRow.className =
-        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
-      yearRow.id = `${mainName}_modal_${year}`;
-
-      // Create a table header cell for the year
-      const yearCell = document.createElement("th");
-      yearCell.className =
-        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-      yearCell.scope = "row";
-      yearCell.textContent = year;
-
-      // Append the year cell to the row
-      yearRow.appendChild(yearCell);
-
-      // Append the row to the header
-      tableHead.appendChild(yearRow);
-    });
-  }
-}
 
 const getStoredData = (dataTable) => {
   return localStorage.getItem(dataTable) || null;
@@ -504,7 +380,9 @@ const closeSidebarAfterSelectingOption = (component) => {
   localStorage.setItem("lastRenderedComponent", component);
 };
 
-const getAverageOfArray = (array) => {
+const getAverageOfArray = (array, mainName) => {
+  // const filteredArray = array.filter(value => Number(value) !== 0);
+
   if (array.length === 0) {
     return 0;
   }
@@ -514,7 +392,9 @@ const getAverageOfArray = (array) => {
   return avg;
 };
 
-const getMidpointOfArray = (array) => {
+const getMidpointOfArray = (array, mainName) => {
+  // const filteredArray = array.filter(value => Number(value) !== 0);
+
   // console.log(array);
   if (array.length === 0) {
     return 0;
@@ -533,21 +413,10 @@ const getMidpointOfArray = (array) => {
   }
 };
 
-const getMaxOfArray = (array) => {
-  const nonZeroArray = array.filter((num) => num !== 0);
 
-  if (nonZeroArray.length === 0) {
-    return 0;
-  }
+const get25thPercentileOfArray = (array, mainName) => {
+  // const filteredArray = array.filter(value => Number(value) !== 0);
 
-  return Math.max(...nonZeroArray);
-};
-
-const OfArray = (array) => {
-  return Math.min(...array);
-};
-
-const get25thPercentileOfArray = (array) => {
   // console.log(array);
   // Step 1: Sort the array in ascending order
   const sortedArray = array.sort((a, b) => a - b);
@@ -579,7 +448,9 @@ const get25thPercentileOfArray = (array) => {
   }
 };
 
-const get75thPercentileOfArray = (array) => {
+const get75thPercentileOfArray = (array, mainName) => {
+  // const filteredArray = array.filter(value => Number(value) !== 0);
+
   // Step 1: Sort the array in ascending order
   const sortedArray = array.sort((a, b) => a - b);
 
@@ -610,50 +481,14 @@ const get75thPercentileOfArray = (array) => {
 };
 
 const getSumOfArray = (array) => {
+  const filteredArray = array.filter(value => Number(value) !== 0);
+
   // console.log(array);
-  if (array.length === 0) {
+  if (filteredArray.length === 0) {
     return 0;
   }
 
-  return array.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
-};
-
-const calculateAveragePercentageChange = (values) => {
-  // console.log(values);
-  // console.log('---');
-
-  const years = Object.keys(values);
-  const numberOfYears = years.length;
-
-  if (numberOfYears < 2) {
-    return 0.0; // No change if there are fewer than two years
-  }
-
-  let totalChange = 0;
-
-  for (let i = 1; i < numberOfYears; i++) {
-    const year = years[i];
-    const previousYear = years[i - 1];
-
-    const initialValue = parseFloat(values[previousYear][0]);
-    const finalValue = parseFloat(values[year][0]);
-
-    if (initialValue === 0) {
-      if (finalValue === 0) {
-        continue; // No change if both initial and final values are zero
-      } else {
-        totalChange = Infinity; // Handle division by zero
-        break;
-      }
-    }
-
-    const change = ((finalValue - initialValue) / Math.abs(initialValue)) * 100;
-    totalChange += change;
-  }
-
-  const averagePercentageChange = totalChange / (numberOfYears - 1);
-
-  return averagePercentageChange ? averagePercentageChange.toFixed(1) : 0; // Ensure one decimal point
+  return filteredArray.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
 };
 
 const getSelectedYearsFromLocalStorage = () => {
@@ -685,78 +520,38 @@ const changeListenerForInputYears = (input, year) => {
   localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
 };
 
-const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
-  // Initialize selectedYears_Set from local storage if data exists
-  const storedYears = getSelectedYearsFromLocalStorage();
-
-  if (Array.isArray(storedYears)) {
-    selectedYears_Set = new Set(storedYears);
-  }
-
-optionsListYearElement
-  yearsArray.sort((a, b) => b - a);
-
-  yearsArray.forEach((year) => {
-    const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", `option-${year}`);
-    newLabel.setAttribute(
-      "class",
-      "flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 colorBlue dark:text-gray-200 rounded"
-    );
-
-    // w-4 h-4 mr-2
-
-    const newInput = document.createElement("input");
-    newInput.setAttribute("type", "checkbox");
-    newInput.setAttribute("id", `option-${year}`);
-    newInput.setAttribute(
-      "class",
-      `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
-    );
-    newInput.setAttribute("value", year);
-    newInput.checked = selectedYears_Set.has(year);
-
-    newInput.addEventListener("change", (e) =>
-      changeListenerForInputYears(e.target, year)
-    );
-
-    const newSpan = document.createElement("span");
-    newSpan.innerText = year;
-
-    newLabel.appendChild(newInput);
-    newLabel.appendChild(newSpan);
-
-    optionsListYearElement.appendChild(newLabel);
-  });
-};
-
 const getPeerAndClientChartDataArrays = (
   years,
   dataPeer,
   dataClient,
   fixedNum,
-  mainName
+  mainName,
+  benchmark
 ) => {
-  // console.log({ years, dataPeer, dataClient, fixedNum, mainName });
+  // if (mainName == "cfi_netIncomeOperationsRatio") console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
   const peer75 = [];
   const clientArray = [];
+  const benchmarkArray = [];
 
   years.forEach((year) => {
-    // console.log(year, dataPeer)
+    // if (mainName == "cfi_primaryReserveRatio")
+    //   console.log({ year, peer: dataPeer[year] });
     // check if dataPeer is undefined but dataClient is not
+
+    benchmarkArray.push(benchmark);
 
     if (dataPeer != undefined && dataClient != undefined) {
       const array = dataPeer[year];
       // console.log(array)
-      const avg = getAverageOfArray(array);
-      const mid = getMidpointOfArray(array);
-      const lower25 = get25thPercentileOfArray(array);
-      const higher75 = get75thPercentileOfArray(array);
+      const avg = getAverageOfArray(array, mainName);
+      const mid = getMidpointOfArray(array, mainName);
+      const lower25 = get25thPercentileOfArray(array, mainName);
+      const higher75 = get75thPercentileOfArray(array, mainName);
 
-      // console.log({ avg, mid, lower25, higher75 });
+      // if (mainName == 'cfi_primaryReserveRatio') console.log({ avg, mid, lower25, higher75 });
 
       peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
       peerMid.push(parseFloat(mid.toFixed(fixedNum)));
@@ -778,40 +573,52 @@ const getPeerAndClientChartDataArrays = (
         `No Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
       );
       createToastWarning(
-        `check Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
+        `check Data for ${mainName} - object: ${{ ddataPeer, dataClient }}`
       );
     }
   });
 
-  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+  // if (mainName == 'cfi_primaryReserveRatio') console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
-  return { clientArray, peerAvg, peerMid, peer25, peer75 };
+  return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
 };
 
-const styleNumber = (num, type, fixed) => {
-  let text = num;
-  let textNum;
+function styleNumber(num, type, fixed) {
+  // if (type == 'dollar') console.log ({num, type, fixed});
+  // Convert num to float
+  num = parseFloat(num);
 
-  if (!isNaN(text)) {
-    if (type === "num" && text != 0) {
-      textNum = Number(text).toFixed(fixed);
-      text = Number(textNum).toLocaleString(); // Add commas for thousands
+  if (type === "num") {
+    // If fixed is 1 and the number has a decimal part of 0, return with one decimal place
+    if (fixed === 1 && Number.isInteger(num)) {
+      return num.toFixed(1);
+    } else {
+      if (num < 1000) {
+        return Number.isInteger(num) ? num : num.toFixed(fixed);
+      } else {
+        // Otherwise, format the number with commas for thousands
+        return num.toLocaleString(undefined, { minimumFractionDigits: fixed });
+      }
     }
-
-    if (type === "percent" && text != 0) {
-      text = (parseFloat(text) * 100).toFixed(fixed) + "%";
-    }
-
-    if (type === "dollar" && text != 0) {
-      textNum = parseFloat(text).toFixed(fixed);
-      text = fixed
-        ? "$ " + Number(textNum).toFixed(fixed)
-        : "$ " + Number(textNum).toLocaleString(); // Add commas for thousands
+  } else if (type === "percent") {
+    // Convert to percentage and format with fixed decimal places
+    return (num * 100).toFixed(fixed) + "%";
+  } else if (type === "dollar") {
+    // If fixed is 1 and the number has a decimal part of 0, return with one decimal place
+    if (fixed === 1 && Number.isInteger(num)) {
+      return "$ " + num.toFixed(1);
+    } else {
+      if (num < 1000) {
+        return "$ " + (Number.isInteger(num) ? num : num.toFixed(fixed));
+      } else {
+        // Otherwise, format the number with commas for thousands
+        return (
+          "$ " + num.toLocaleString(undefined, { minimumFractionDigits: fixed })
+        );
+      }
     }
   }
-
-  return text;
-};
+}
 
 const updateCountyData = (trId, countyName, percentage, income, year) => {
   // console.log({ trId, countyName, percentage, income });
@@ -1025,11 +832,15 @@ function missionaryRange() {
     missionprice: 0,
     missionthumb: 0,
     missiontrigger() {
-      missionValue = this.missionprice
+      missionValue = this.missionprice;
       let missionValuePercent =
         ((this.missionprice - this.min) / (this.max - this.min)) * 100;
       this.missionthumb =
-        missionValuePercent > 100 ? 100 : missionValuePercent < 0 ? 0 : missionValuePercent;
+        missionValuePercent > 100
+          ? 100
+          : missionValuePercent < 0
+          ? 0
+          : missionValuePercent;
     },
   };
 }
@@ -1182,6 +993,13 @@ const getSelectedSchoolChurchOption = () => {
   });
 };
 
+function handleValue(value) {
+  if (value === undefined || isNaN(value)) {
+    return "0"; // Push "0" as a string if value is undefined or NaN
+  }
+  return String(value); // Convert value to string and push
+}
+
 function calculatePercentageChange(numbers) {
   const percentageChanges = [];
   for (let i = 1; i < numbers.length; i++) {
@@ -1206,3 +1024,60 @@ document.querySelector("#sidebar ul").addEventListener("click", function () {
     }
   });
 });
+
+function toggleDetails(button, details, arrowIcon) {
+  button.addEventListener("click", () => {
+    // console.log('clicked');
+    details.classList.toggle("hidden");
+    arrowIcon.classList.toggle("rotate-90");
+  });
+}
+
+const updateCfiValue = (cfiValue) => {
+  // console.log({ cfiValue });
+
+  let thresholds = [
+    10.0, 9.7, 9.4, 9.1, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0, 4.5, 4.0,
+    3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.0, -1.0, -2.0, -3.0, -3.2,
+  ];
+
+  for (let i = 0; i < thresholds.length; i++) {
+    // console.log({ cfiValue, thresh: thresholds[i] });
+    if (cfiValue >= thresholds[i]) {
+      document.getElementById(thresholds[i].toFixed(1)).style.backgroundColor =
+        "black";
+    }
+    if (cfiValue > thresholds[i] && cfiValue < thresholds[i - 1]) {
+      document.getElementById(thresholds[i - 1].toFixed(1)).innerHTML =
+        cfiValue;
+      document.getElementById(thresholds[i - 1].toFixed(1)).classList =
+        "font-bold text-lg text-black";
+    }
+  }
+
+  let ids = [
+    "yearCfiRatio_negative",
+    "yearCfiRatio_1",
+    "yearCfiRatio_3",
+    "yearCfiRatio_5",
+    "yearCfiRatio_7",
+    "yearCfiRatio_9",
+  ];
+
+  const propClass = `text-2xl tracking-wide font-bold`;
+
+  let idThresholds = [1, 3, 5, 7, 9];
+  let idIndex = idThresholds.findIndex((threshold) => cfiValue < threshold);
+
+  if (idIndex === -1) {
+    idIndex = ids.length - 1; // if cfiValue is not less than any threshold, use the last id
+  }
+
+  let element = document.getElementById(ids[idIndex]);
+
+  if (element) {
+    element.classList = propClass;
+  } else {
+    console.log(`Element with id ${ids[idIndex]} does not exist.`);
+  }
+};

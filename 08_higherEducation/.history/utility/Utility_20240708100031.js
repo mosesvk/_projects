@@ -396,10 +396,10 @@ const getAverageOfArray = (array, mainName) => {
 };
 
 const getMidpointOfArray = (array, mainName) => {
-  console.log({ array, mainName });
+  console.log("getMidpointOfArray", { array, mainName });
   const filteredArray = array
-  .filter((value) => Number(value) !== 0)
-  .map((value) => Number(value));
+    .filter((value) => Number(value) !== 0)
+    .forEach((value) => Number(value));
 
   console.log(filteredArray);
   if (filteredArray.length === 0) {
