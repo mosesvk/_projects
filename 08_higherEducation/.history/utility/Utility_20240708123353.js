@@ -467,9 +467,6 @@ const get75thPercentileOfArray = (array, mainName) => {
     .filter((value) => Number(value) !== 0)
     .map((value) => Number(value));
 
-  // if (mainName == "cfi_primaryReserveRatio")
-  //   console.log("get75thPercentileOfArray", { filteredArray, mainName });
-
   // Step 1: Sort the array in ascending order
   const sortedArray = filteredArray.sort((a, b) => a - b);
 

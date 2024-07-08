@@ -6,7 +6,7 @@ const getMainChartOptions = (
   mainName,
   benchmark
 ) => {
-  // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark });
+  console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {

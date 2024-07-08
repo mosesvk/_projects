@@ -430,9 +430,8 @@ const get25thPercentileOfArray = (array, mainName) => {
     .filter((value) => Number(value) !== 0)
     .map((value) => Number(value));
 
-  // if (mainName == "cfi_primaryReserveRatio")
-  //   console.log("get25thPercentileOfArray", { filteredArray, mainName });
-
+  // console.log(array);
+  // Step 1: Sort the array in ascending order
   const sortedArray = filteredArray.sort((a, b) => a - b);
   // console.log(sortedArray);
 
@@ -466,9 +465,6 @@ const get75thPercentileOfArray = (array, mainName) => {
   const filteredArray = array
     .filter((value) => Number(value) !== 0)
     .map((value) => Number(value));
-
-  // if (mainName == "cfi_primaryReserveRatio")
-  //   console.log("get75thPercentileOfArray", { filteredArray, mainName });
 
   // Step 1: Sort the array in ascending order
   const sortedArray = filteredArray.sort((a, b) => a - b);
@@ -572,7 +568,7 @@ const getPeerAndClientChartDataArrays = (
       const lower25 = get25thPercentileOfArray(array, mainName);
       const higher75 = get75thPercentileOfArray(array, mainName);
 
-      // if (mainName == 'cfi_primaryReserveRatio') console.log({ avg, mid, lower25, higher75 });
+      // if (mainName == 'cfi_netIncomeOperationsRatio') console.log({ avg, mid, lower25, higher75 });
 
       peerAvg.push(styleNumber(avg, type, fixedNum));
       peerMid.push(styleNumber(mid, type, fixedNum));

@@ -384,13 +384,13 @@ const closeSidebarAfterSelectingOption = (component) => {
 };
 
 const getAverageOfArray = (array, mainName) => {
-  const filteredArray = array.filter((value) => Number(value) !== 0);
+  // const filteredArray = array.filter(value => Number(value) !== 0);
 
-  if (filteredArray.length === 0) {
+  if (array.length === 0) {
     return 0;
   }
-  const sum = filteredArray.reduce((acc, str) => acc + Number(str), 0);
-  const avg = sum / filteredArray.length;
+  const sum = array.reduce((acc, str) => acc + Number(str), 0);
+  const avg = sum / array.length;
 
   return avg;
 };
@@ -398,8 +398,8 @@ const getAverageOfArray = (array, mainName) => {
 const getMidpointOfArray = (array, mainName) => {
   // console.log({ mainName, array });
   const filteredArray = array
-    .filter((value) => Number(value) !== 0)
-    .map((value) => Number(value));
+  .filter((value) => Number(value) !== 0)
+  .map((value) => Number(value));
 
   // console.log({mainName, filteredArray});
   if (filteredArray.length === 0) {
@@ -426,14 +426,11 @@ const getMidpointOfArray = (array, mainName) => {
 };
 
 const get25thPercentileOfArray = (array, mainName) => {
-  const filteredArray = array
-    .filter((value) => Number(value) !== 0)
-    .map((value) => Number(value));
+  // const filteredArray = array.filter(value => Number(value) !== 0);
 
-  // if (mainName == "cfi_primaryReserveRatio")
-  //   console.log("get25thPercentileOfArray", { filteredArray, mainName });
-
-  const sortedArray = filteredArray.sort((a, b) => a - b);
+  // console.log(array);
+  // Step 1: Sort the array in ascending order
+  const sortedArray = array.sort((a, b) => a - b);
   // console.log(sortedArray);
 
   // Step 2: Check if the array has less than or equal to 2 elements
@@ -463,15 +460,10 @@ const get25thPercentileOfArray = (array, mainName) => {
 };
 
 const get75thPercentileOfArray = (array, mainName) => {
-  const filteredArray = array
-    .filter((value) => Number(value) !== 0)
-    .map((value) => Number(value));
-
-  // if (mainName == "cfi_primaryReserveRatio")
-  //   console.log("get75thPercentileOfArray", { filteredArray, mainName });
+  // const filteredArray = array.filter(value => Number(value) !== 0);
 
   // Step 1: Sort the array in ascending order
-  const sortedArray = filteredArray.sort((a, b) => a - b);
+  const sortedArray = array.sort((a, b) => a - b);
 
   // Step 2: Check if the array has less than or equal to 2 elements
   if (sortedArray.length <= 2) {
@@ -572,14 +564,15 @@ const getPeerAndClientChartDataArrays = (
       const lower25 = get25thPercentileOfArray(array, mainName);
       const higher75 = get75thPercentileOfArray(array, mainName);
 
-      // if (mainName == 'cfi_primaryReserveRatio') console.log({ avg, mid, lower25, higher75 });
+      // if (mainName == 'cfi_netIncomeOperationsRatio') console.log({ avg, mid, lower25, higher75 });
 
       peerAvg.push(styleNumber(avg, type, fixedNum));
       peerMid.push(styleNumber(mid, type, fixedNum));
       peer25.push(styleNumber(lower25, type, fixedNum));
       peer75.push(styleNumber(higher75, type, fixedNum));
 
-      // console.log({peerAvg, peerMid, peer25, peer75});
+      if (mainName == "cfi_netIncomeOperationsRatio")
+        console.log(peerAvg, peerMid, peer25, peer75);
 
       const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
       // const clientNum = styleNumber(clientNum, "percent", fixedNum);
@@ -608,7 +601,6 @@ const getPeerAndClientChartDataArrays = (
 };
 
 function styleNumber(num, type, fixed) {
-  // console.log({num, type, fixed});
   // if (type == 'dollar') console.log ({num, type, fixed});
   // Convert num to float
   num = parseFloat(num);
