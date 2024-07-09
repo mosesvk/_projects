@@ -104,7 +104,7 @@ const getMainChartOptions = (
         data: peer75,
       },
       {
-        name: clientName,
+        name: title,
         type: "column",
         data: clientArray,
         style: {

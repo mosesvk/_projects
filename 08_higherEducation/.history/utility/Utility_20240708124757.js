@@ -296,8 +296,7 @@ const createChartFromParsedData = (
   type,
   fixedNum,
   mainName,
-  benchmark,
-  title
+  benchmark
 ) => {
   if (parsedData) {
     // if (mainName == 'cfi_primaryReserveRatio') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
@@ -308,8 +307,7 @@ const createChartFromParsedData = (
       type,
       fixedNum,
       mainName,
-      benchmark,
-      title
+      benchmark
     );
     // updateModal (mainName, parsedData[peer], parsedData[client]);
   }
@@ -322,8 +320,7 @@ const createChart = (
   type,
   fixedNum,
   mainName,
-  benchmark, 
-  title
+  benchmark
 ) => {
   // if (mainName == 'cfi_netIncomeOperationsRatio') console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
@@ -337,8 +334,7 @@ const createChart = (
       type,
       fixedNum,
       mainName,
-      benchmark,
-      title
+      benchmark
     )
   );
   chart.render();
@@ -357,8 +353,7 @@ const createChart = (
         type,
         fixedNum,
         mainName,
-        benchmark,
-        title
+        benchmark
       )
     );
     document.querySelectorAll(

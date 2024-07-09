@@ -189,7 +189,7 @@ const addUniqueYearsToOptionsSelectDropdown = yearsArray => {
   });  
   console.log('cleanedArray', cleanedArray);
 
-  cleanedArray.forEach (year => {
+  yearsArray.forEach (year => {
     const newLabel = document.createElement ('label');
     newLabel.setAttribute ('for', `option-${year}`);
     newLabel.setAttribute (

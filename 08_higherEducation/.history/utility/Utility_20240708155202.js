@@ -308,8 +308,7 @@ const createChartFromParsedData = (
       type,
       fixedNum,
       mainName,
-      benchmark,
-      title
+      benchmark
     );
     // updateModal (mainName, parsedData[peer], parsedData[client]);
   }

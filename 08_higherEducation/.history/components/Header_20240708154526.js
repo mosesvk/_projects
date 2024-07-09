@@ -183,13 +183,11 @@ const addUniqueYearsToOptionsSelectDropdown = yearsArray => {
   optionsListYearElement;
   yearsArray.sort ((a, b) => b - a);
 
-  const cleanedArray = yearsArray.map(value => {
-    const match = value.match(/\d+/); // Match one or more digits
-    return match ? parseInt(match[0], 10) : null; // Convert to integer
-  });  
-  console.log('cleanedArray', cleanedArray);
+  yearsArray.map(year => parseInt(value.trim(), 10))
+  
+  console.log('yearsArray', yearsArray);
 
-  cleanedArray.forEach (year => {
+  yearsArray.forEach (year => {
     const newLabel = document.createElement ('label');
     newLabel.setAttribute ('for', `option-${year}`);
     newLabel.setAttribute (

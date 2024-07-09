@@ -7,7 +7,7 @@ const getMainChartOptions = (
   benchmark,
   title
 ) => {
-  console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
+  // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -104,7 +104,7 @@ const getMainChartOptions = (
         data: peer75,
       },
       {
-        name: clientName,
+        name: "Client",
         type: "column",
         data: clientArray,
         style: {

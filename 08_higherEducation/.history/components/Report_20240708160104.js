@@ -298,7 +298,7 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
       ? styleNumber (
           Number (totalAssetsClient[year].value) /
             Number (totalLiabilitiesClient[year].value),
-          'num',
+          'number',
           2
         )
       : '-';

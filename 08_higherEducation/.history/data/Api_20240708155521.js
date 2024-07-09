@@ -39,9 +39,9 @@ document.addEventListener ('DOMContentLoaded', async () => {
   // console.log(recordsClient[0]);
 
   clientName = recordsClient[0].querySelector ('merged_client_name')
-    .textContent.replace(/[^\w\s]/g, '').trim();;
+    .textContent;
 
-
+  console.log({ clientName });
   document.getElementById ('firmName').textContent = clientName;
 
   findUniqueYears (recordsClient);
