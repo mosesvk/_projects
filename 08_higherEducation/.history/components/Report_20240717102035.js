@@ -3,9 +3,6 @@ const displayReportComponent = () => {
   const financialAnalysisContentData = JSON.parse(
     localStorage.getItem("financialAnalysisContentData")
   );
-  const financialStatementContentData = JSON.parse(
-    localStorage.getItem("financialStatementContentData")
-  );
   const years = getSelectedYearsFromLocalStorage();
   const selectedYears = years && years.sort((a, b) => a - b);
   // console.log(selectedYears.sort((a, b) => a - b));
@@ -99,14 +96,8 @@ const displayReportComponent = () => {
     );
 
     insertDataToFfaReport(financialAnalysisContentData, selectedYears);
-
-    insertDataToFSReport(financialStatementContentData, selectedYears);
   }
 };
-
-const insertDataToFSReport = (data, selectedYears) => {
-  console.log({ data, selectedYears });
-}
 
 const insertDataToFfaReport = (data, selectedYears) => {
   const currentYear = selectedYears[0];
