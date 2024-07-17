@@ -458,7 +458,7 @@ const displayFinancialStatementComponent = () => {
     getFSchartOptions(
       parseData,
       "cashFlows_investingActivities_Client",
-      window.chartColors.orange,
+      window.chartColors.teal,
       "dollar",
       "Cash Flows: Investing Activities"
     )
@@ -470,7 +470,7 @@ const displayFinancialStatementComponent = () => {
       getFSchartOptions(
         parseData,
         "cashFlows_investingActivities_Client",
-        window.chartColors.orange,
+        window.chartColors.teal,
         "dollar",
         "Cash Flows: Investing Activities"
       )

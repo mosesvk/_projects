@@ -220,64 +220,6 @@ const processFinancialStatementContentData = (
       );
 
 
-      // totalNonOperatingExpenses
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalNonOperatingExpenses_Client",
-        record,
-        "r052_ctotal_non_operating_changes"
-      );
-
-      // totalChangesInNetAssets
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalChangesInNetAssets_Client",
-        record,
-        "r065_cchange_in_net_assets"
-      );
-
-      // totalNaturalCategoryExpenses
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalNaturalCategoryExpenses_Client",
-        record,
-        "r166_ctotal_natural_category_expenses"
-      );
-
-
-      // cashFlows_operatingActivities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "cashFlows_operatingActivities_Client",
-        record,
-        "r080_cnet_cash_provided_by_operating_activities"
-      );
-      // cashFlows_investingActivities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "cashFlows_investingActivities_Client",
-        record,
-        "r085_cnet_cash_used_in_investing_activities"
-      );
-      // cashFlows_financingActivities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "cashFlows_financingActivities_Client",
-        record,
-        "r089_cnet_cash_used_in_financing_activities"
-      );
 
 
 

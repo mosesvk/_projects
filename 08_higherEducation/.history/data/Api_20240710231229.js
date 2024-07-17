@@ -251,35 +251,6 @@ const processFinancialStatementContentData = (
       );
 
 
-      // cashFlows_operatingActivities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "cashFlows_operatingActivities_Client",
-        record,
-        "r080_cnet_cash_provided_by_operating_activities"
-      );
-      // cashFlows_investingActivities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "cashFlows_investingActivities_Client",
-        record,
-        "r085_cnet_cash_used_in_investing_activities"
-      );
-      // cashFlows_financingActivities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "cashFlows_financingActivities_Client",
-        record,
-        "r089_cnet_cash_used_in_financing_activities"
-      );
-
-
 
       // propertyAndEquipment
       insertDataIntoObject(

@@ -350,7 +350,7 @@ const displayFinancialStatementComponent = () => {
     );
   });
 
-
+  // nonoperatingActivities_chart
   const nonoperatingActivitiesChart = new ApexCharts(
     document.querySelector("#nonoperatingActivities_chart"),
     getFSchartOptions(
@@ -380,10 +380,10 @@ const displayFinancialStatementComponent = () => {
     document.querySelector("#changesInNetAssetsWithDR_chart"),
     getFSchartOptions(
       parseData,
-      "totalChangesInNetAssets_Client",
-      window.chartColors.purple,
+      "totalNonOperatingExpenses_Client",
+      window.chartColors.red,
       "dollar",
-      "Changes in Net Assets with Donor Restrictions"
+      "Educational Program Expenses"
     )
   );
 
@@ -392,115 +392,13 @@ const displayFinancialStatementComponent = () => {
     changeInNetAssetsWithDRChart.updateOptions(
       getFSchartOptions(
         parseData,
-        "totalChangesInNetAssets_Client",
-        window.chartColors.purple,
+        "totalNonOperatingExpenses_Client",
+        window.chartColors.red,
         "dollar",
-        "Changes in Net Assets with Donor Restrictions"
+        "Educational Program Expenses"
       )
     );
   });
-
-
-  // naturalExpenseCategories_chart
-  const naturalExpenseCategoriesChart = new ApexCharts(
-    document.querySelector("#naturalExpenseCategories_chart"),
-    getFSchartOptions(
-      parseData,
-      "totalNaturalCategoryExpenses_Client",
-      window.chartColors.blue,
-      "dollar",
-      "Natural Expense Categories"
-    )
-  );
-
-  naturalExpenseCategoriesChart.render();
-  document.addEventListener("dark-mode", function () {
-    naturalExpenseCategoriesChart.updateOptions(
-      getFSchartOptions(
-        parseData,
-        "totalNaturalCategoryExpenses_Client",
-        window.chartColors.blue,
-        "dollar",
-        "Natural Expense Categories"
-      )
-    );
-  });
-
-
-  // CASH FLOWS  --------------------------------------------------
-  // cashFlowsOperatingActivities_chart
-  const cashFlows_operatingActivitiesChart = new ApexCharts(
-    document.querySelector("#cashFlowsOperatingActivities_chart"),
-    getFSchartOptions(
-      parseData,
-      "cashFlows_operatingActivities_Client",
-      window.chartColors.teal,
-      "dollar",
-      "Cash Flows: Operating Activities"
-    )
-  );
-
-  cashFlows_operatingActivitiesChart.render();
-  document.addEventListener("dark-mode", function () {
-    cashFlows_operatingActivitiesChart.updateOptions(
-      getFSchartOptions(
-        parseData,
-        "cashFlows_operatingActivities_Client",
-        window.chartColors.teal,
-        "dollar",
-        "Cash Flows: Operating Activities"
-      )
-    );
-  });
-  // cashFlowsInvestingActivitiesChart
-  const cashFlowsInvestingActivitiesChart = new ApexCharts(
-    document.querySelector("#cashFlowsInvestingActivities_chart"),
-    getFSchartOptions(
-      parseData,
-      "cashFlows_investingActivities_Client",
-      window.chartColors.orange,
-      "dollar",
-      "Cash Flows: Investing Activities"
-    )
-  );
-
-  cashFlowsInvestingActivitiesChart.render();
-  document.addEventListener("dark-mode", function () {
-    cashFlowsInvestingActivitiesChart.updateOptions(
-      getFSchartOptions(
-        parseData,
-        "cashFlows_investingActivities_Client",
-        window.chartColors.orange,
-        "dollar",
-        "Cash Flows: Investing Activities"
-      )
-    );
-  });
-  // cashFlowsFinancingActivities_chart
-  const cashFlowsFinancingActivities_chart = new ApexCharts(
-    document.querySelector("#cashFlowsFinancingActivities_chart"),
-    getFSchartOptions(
-      parseData,
-      "cashFlows_financingActivities_Client",
-      window.chartColors.teal,
-      "dollar",
-      "Cash Flows: Financing Activities"
-    )
-  );
-
-  cashFlowsFinancingActivities_chart.render();
-  document.addEventListener("dark-mode", function () {
-    cashFlowsFinancingActivities_chart.updateOptions(
-      getFSchartOptions(
-        parseData,
-        "cashFlows_financingActivities_Client",
-        window.chartColors.teal,
-        "dollar",
-        "Cash Flows: Financing Activities"
-      )
-    );
-  });
-
 
   // PROPERTY AND EQUIPMENT ---------------------------------------
   // propertyAndEquipment_chart

@@ -458,7 +458,7 @@ const displayFinancialStatementComponent = () => {
     getFSchartOptions(
       parseData,
       "cashFlows_investingActivities_Client",
-      window.chartColors.orange,
+      window.chartColors.teal,
       "dollar",
       "Cash Flows: Investing Activities"
     )
@@ -470,15 +470,15 @@ const displayFinancialStatementComponent = () => {
       getFSchartOptions(
         parseData,
         "cashFlows_investingActivities_Client",
-        window.chartColors.orange,
+        window.chartColors.teal,
         "dollar",
         "Cash Flows: Investing Activities"
       )
     );
   });
-  // cashFlowsFinancingActivities_chart
-  const cashFlowsFinancingActivities_chart = new ApexCharts(
-    document.querySelector("#cashFlowsFinancingActivities_chart"),
+  // cashFlows_financingActivities_chart
+  const cashFlows_financingActivitiesChart = new ApexCharts(
+    document.querySelector("#cashFlows_financingActivities_chart"),
     getFSchartOptions(
       parseData,
       "cashFlows_financingActivities_Client",
@@ -488,9 +488,9 @@ const displayFinancialStatementComponent = () => {
     )
   );
 
-  cashFlowsFinancingActivities_chart.render();
+  cashFlows_financingActivitiesChart.render();
   document.addEventListener("dark-mode", function () {
-    cashFlowsFinancingActivities_chart.updateOptions(
+    cashFlows_financingActivitiesChart.updateOptions(
       getFSchartOptions(
         parseData,
         "cashFlows_financingActivities_Client",

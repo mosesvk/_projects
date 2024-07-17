@@ -118,17 +118,6 @@ const getMainChartOptions = (
       },
     ],
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
-      },
       height: 350,
       type: "line",
       stacked: false,
@@ -148,7 +137,7 @@ const getMainChartOptions = (
           colors: chartColors.labelColor,
           fontSize: "1rem",
         },
-      }
+      },
     },
     yaxis: [
       {
@@ -219,7 +208,13 @@ const getMainChartOptions = (
   };
 };
 
-const getFSchartOptions = (data, client, color, numType, title) => {
+const getFSchartOptions = (
+  data,
+  client, 
+  color,
+  numType,
+  title
+) => {
   console.log({ data, client, parsedata: data[client] });
 
   const chartColors = document.documentElement.classList.contains("dark")
@@ -241,6 +236,7 @@ const getFSchartOptions = (data, client, color, numType, title) => {
     : "#3a464f";
 
   const formatNumber = (value) => value.toLocaleString();
+
 
   // if (mainName == "cfi_netIncomeOperationsRatio")
   //   console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
@@ -270,10 +266,10 @@ const getFSchartOptions = (data, client, color, numType, title) => {
   const clientArray = [];
 
   for (const year in data[client]) {
-    if (data[client].hasOwnProperty(year)) {
-      const value = data[client][year].value;
-      clientArray.push(value);
-    }
+      if (data[client].hasOwnProperty(year)) {
+          const value = data[client][year].value;
+          clientArray.push(value);
+      }
   }
 
   // console.log({mainName, benchmark});
@@ -281,7 +277,9 @@ const getFSchartOptions = (data, client, color, numType, title) => {
   // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })
 
   return {
-    colors: [color],
+    colors: [
+      color
+    ],
     series: [
       {
         name: clientName,
@@ -293,28 +291,17 @@ const getFSchartOptions = (data, client, color, numType, title) => {
       },
     ],
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
-      },
       height: 350,
       type: "line",
       stacked: false,
       events: {
-        click: function (event, chartContext, opts) {
+        click: function(event, chartContext, opts) {
           // console.log({ event, chartContext, opts });
-          const chart = chartContext.el.id;
+          const chart = chartContext.el.id
           const index = opts.dataPointIndex;
-          displayFSSummary(chart, index);
-        },
-      },
+          displayFSSummary(chart, index)
+        }
+      }
     },
     stroke: {
       width: 4,
@@ -338,7 +325,7 @@ const getFSchartOptions = (data, client, color, numType, title) => {
           color: chartColor,
         },
         labels: {
-          show: false,
+          show: false
         },
         tooltip: {
           enabled: true,
@@ -636,17 +623,6 @@ const getAtlChartOptions = (data) => {
       },
     ],
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        }
-      },
       height: 450,
       width: "100%",
       type: "line",
@@ -729,17 +705,13 @@ const getSoiClientChartOptions = (data) => {
   const auxiliaryValue =
     data["si_revenueAuxiliaryActivities_Client"][selectedYearsArray[0]].value;
   const contributionsValue =
-    data["si_revenueContributions_Client"][selectedYearsArray[0]].value +
-    data["si_revenueContributionsLargeOneTimeGifts_Client"][
-      selectedYearsArray[0]
-    ].value;
+    data["si_revenueContributions_Client"][selectedYearsArray[0]].value + 
+    data["si_revenueContributionsLargeOneTimeGifts_Client"][selectedYearsArray[0]].value;
   const investmentsValue =
     data["si_revenueInvestmentIncome_Client"][selectedYearsArray[0]].value;
   const otherValue =
     data["si_revenueOther_Client"][selectedYearsArray[0]].value +
-    data["si_revenueEndowmentSpendingAppropriation_Client"][
-      selectedYearsArray[0]
-    ].value;
+    data["si_revenueEndowmentSpendingAppropriation_Client"][selectedYearsArray[0]].value;
 
   // console.log ({
   //   tuitionValue,
@@ -793,17 +765,6 @@ const getSoiClientChartOptions = (data) => {
     ],
     series: [233, 555, 222, 222, 124],
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        }
-      },
       height: 450,
       type: "pie",
     },
@@ -923,17 +884,6 @@ const getSoiPeerChartOptions = (data) => {
     ],
     series: [233, 555, 222, 222, 124],
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        }
-      },
       height: 450,
       width: "100%",
       type: "pie",
@@ -1158,17 +1108,6 @@ const getFfaChartOptions = (data) => {
       },
     ],
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        }
-      },
       height: 500,
       width: "100%",
       type: "rangeBar",
@@ -1290,17 +1229,6 @@ const getCashFlowTrendChartOptions = (data) => {
     ],
     series: seriesData,
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        }
-      },
       type: "bar",
       height: 350,
     },

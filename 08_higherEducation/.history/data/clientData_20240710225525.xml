@@ -113,7 +113,6 @@
 		<r085_cnet_cash_used_in_investing_activities>332384</r085_cnet_cash_used_in_investing_activities>
 		<r088_cash_flows_from_financing_activities_other>35620</r088_cash_flows_from_financing_activities_other>
 		<r089_cnet_cash_used_in_financing_activities>-291638</r089_cnet_cash_used_in_financing_activities>
-		<r166_ctotal_natural_category_expenses>8258075</r166_ctotal_natural_category_expenses>
 		<update_id>1710612019564</update_id>
 	</record>
 	<record>
@@ -230,7 +229,6 @@
 		<r085_cnet_cash_used_in_investing_activities>-151654</r085_cnet_cash_used_in_investing_activities>
 		<r088_cash_flows_from_financing_activities_other>146984</r088_cash_flows_from_financing_activities_other>
 		<r089_cnet_cash_used_in_financing_activities>-218063</r089_cnet_cash_used_in_financing_activities>
-		<r166_ctotal_natural_category_expenses>0</r166_ctotal_natural_category_expenses>
 		<update_id>1710612019564</update_id>
 	</record>
 	<record>
@@ -347,7 +345,6 @@
 		<r085_cnet_cash_used_in_investing_activities>-16091</r085_cnet_cash_used_in_investing_activities>
 		<r088_cash_flows_from_financing_activities_other>759801</r088_cash_flows_from_financing_activities_other>
 		<r089_cnet_cash_used_in_financing_activities>263786</r089_cnet_cash_used_in_financing_activities>
-		<r166_ctotal_natural_category_expenses>5183506</r166_ctotal_natural_category_expenses>
 		<update_id>1710612019564</update_id>
 	</record>
 	<record>
@@ -464,7 +461,6 @@
 		<r085_cnet_cash_used_in_investing_activities>-732842</r085_cnet_cash_used_in_investing_activities>
 		<r088_cash_flows_from_financing_activities_other>122061</r088_cash_flows_from_financing_activities_other>
 		<r089_cnet_cash_used_in_financing_activities>-477025</r089_cnet_cash_used_in_financing_activities>
-		<r166_ctotal_natural_category_expenses>5059129</r166_ctotal_natural_category_expenses>
 		<update_id>1710612019564</update_id>
 	</record>
 	<record>
@@ -581,7 +577,6 @@
 		<r085_cnet_cash_used_in_investing_activities>-1037571</r085_cnet_cash_used_in_investing_activities>
 		<r088_cash_flows_from_financing_activities_other>239544</r088_cash_flows_from_financing_activities_other>
 		<r089_cnet_cash_used_in_financing_activities>-205729</r089_cnet_cash_used_in_financing_activities>
-		<r166_ctotal_natural_category_expenses>6136824</r166_ctotal_natural_category_expenses>
 		<update_id>1710612019580</update_id>
 	</record>
 </qdbapi>

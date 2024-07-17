@@ -65,7 +65,7 @@
         chartColors = {
           green: "#83b240",
           darkGreen: "#EDAB20",
-          blue: "#376eaa",
+          blue: "#326eaa",
           darkBlue: "#00588D",
           grey: "#43505a",
           red: "#ff6384",
@@ -74,27 +74,6 @@
           purple: "#723682",
           black: "#161F25",
           teal: "#00808D",
-          hoverGreen: "#567529",
-          hoverBlue: "#1E3A59",
-          hoverYellow: "#B59B42",
-          tealRevenue: "#4EA79F",
-          tealRevenueHover: "#35706A",
-          orangeEducational: "#F4982D",
-          orangeEducationalHover: "#A9691F",
-          redNonoperating: "#EF707E",
-          redNonoperatingHover: "#A05059",
-          purpleChangeNetAssets: "#C57FD7",
-          purpleChangeNetAssetsHover: "#734C7D",
-          blueNaturalExpense: "#4F76D9",
-          blueNaturalExpenseHover: "#385292",
-          blueOperating: "#70B5CC",
-          blueOperatingHover: "#3C616D",
-          orangeInvesting: "#FFA726",
-          orangeInvestingHover: "#A06A1A",
-          pinkFinancing: "#FFCDD2",
-          pinkFinancingHover: "#C69DA1",
-          greenPropertyEquipment: "#459B53",
-          greenPropertyEquipmentHover: "#2E6136",
         };
       </script>
 
@@ -172,25 +151,29 @@
     >
       <div class="px-3 py-3 lg:px-5 lg:pl-3 flex flex-col">
         <!-- UPPER HEADER -->
-        <div
-          class="mb-4 flex items-center justify-between text-gray-600 dark:text-white"
-        >
-          <div class="flex ml-2">
-            <img
-              src="https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0"
-              class="h-12 mr-3"
-              alt="Logo"
-              1
-            />
-            <span class="self-center text-4xl font-semibold whitespace-nowrap">
-              Higher Education
-            </span>
-          </div>
-          <div class="fixed mt-8 left-1/2 -translate-y-1/2 -translate-x-1/2">
-            <h1
-              class="text-2xl font-bold leading-snug tracking-wide"
-              id="firmName"
-            ></h1>
+        <div class="flex items-center justify-between">
+          <div
+            class="flex items-center justify-start text-gray-600 dark:text-white"
+          >
+            <div class="flex ml-2 mb-4 md:mr-12">
+              <img
+                src="https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0"
+                class="h-12 mr-3"
+                alt="Logo"
+                1
+              />
+              <span
+                class="self-center text-4xl font-semibold whitespace-nowrap"
+              >
+                Higher Education
+              </span>
+            </div>
+            <div class="relative left-60">
+              <h1
+                class="text-2xl mb-4 font-bold leading-snug tracking-wide"
+                id="firmName"
+              ></h1>
+            </div>
           </div>
         </div>
         <!-- LOWER HEADER -->
@@ -2559,25 +2542,25 @@
                               >
                                 <th
                                   scope="row"
-                                  class=" font-bold text-lg text-gray-900 whitespace-nowrap dark:text-white"
+                                  class="px-6 py-4 font-bold text-lg text-gray-900 whitespace-nowrap dark:text-white"
                                 >
                                   TOTAL REVENUES
                                 </th>
                                 <th
                                   id="ffa_totalRevenues"
                                   scope="row"
-                                  class=" font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                 ></th>
                                 <th
                                   scope="row"
-                                  class=" font-bold text-lg text-gray-900 whitespace-nowrap dark:text-white"
+                                  class="px-6 py-4 font-bold text-lg text-gray-900 whitespace-nowrap dark:text-white"
                                 >
                                   TOTAL EXPENSES
                                 </th>
                                 <th
                                   id="ffa_totalExpenses"
                                   scope="row"
-                                  class=" font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                 ></th>
                               </tr>
                             </tbody>
@@ -2611,1169 +2594,316 @@
           <div id="FinancialStatementContent" class="tab-content hidden">
             <!-- FS - Balance Sheet -->
             <div id="balanceSheetContent">
-              <!-- ASSETS -->
-              <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-              >
-                <div class="flex flex-row">
-                  <div class="w-1/2">
-                    <div class="flex flex-col">
-                      <p class="text-2xl font-bold mb-2">Assets</p>
-                      <div class="flex flex-row items-baseline">
-                        <p
-                          id="totalAssets_yearSelectData"
-                          class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        >
-                          $123,368,966
-                        </p>
-                        <p
-                          id="totalAssets_yearSelect"
-                          class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        >
-                          (2022)
-                        </p>
+              <div class="flex flex-col">
+                <!-- ASSETS -->
+                <div
+                  class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+                >
+                  <div class="flex flex-row">
+                    <div class="w-1/2">
+                      <div class="flex flex-col">
+                        <p class="text-3xl">Assets</p>
+                        <div class="flex flex-row items-baseline">
+                          <p
+                            id="totalAssets_yearSelectData"
+                            class="text-2xl text-black dark:text-white"
+                          >
+                            $123,368,966
+                          </p>
+                          <p
+                            id="totalAssets_yearSelect"
+                            class="text-lg text-gray-500 dark:textgray-300 ml-2"
+                          >
+                            (2022)
+                          </p>
+                        </div>
                       </div>
+                      <div id="assets_chart"></div>
                     </div>
-                    <div id="assets_chart"></div>
-                  </div>
-                  <div id="assets_summary">
-                    <table
-                      id="assets_table"
-                      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
-                      <tbody class="text-xl dark:text-white">
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Cash & Cash Equivalents
-                          </th>
-                          <td class="">$2999</td>
-                        </tr>
-                        <tr
-                          class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
-                        >
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Accounts Receivable
-                          </th>
-                          <td class="">$1999</td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Student Loans and Other Receivables
-                          </th>
-                          <td class="">$99</td>
-                        </tr>
-                        <tr
-                          class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
-                        >
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Contributions Receivable
-                          </th>
-                          <td class="">$1999</td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Prepaid Expenses and Other Assets
-                          </th>
-                          <td class="">$99</td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Property and Equipment
-                          </th>
-                          <td class="">$99</td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Investments Held for Long Term Purposes
-                          </th>
-                          <td class="">$99</td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                        <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">Total Assets</th>
-                          <td class="px-6 py-3">$99,368,500</td>
-                        </tr>
-                      </tfoot>
-                    </table>
+                    <div id="assets_summary" class="w-1/2">
+                      <table
+                        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                      >
+                        <tbody class="text-xl dark:text-white">
+                          <tr class="bg-white dark:bg-gray-800">
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Cash & Cash Equivalents
+                            </th>
+                            <td class="px-6 py-4">$2999</td>
+                          </tr>
+                          <tr
+                            class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Accounts Receivable
+                            </th>
+                            <td class="px-6 py-4">$1999</td>
+                          </tr>
+                          <tr class="bg-white dark:bg-gray-800">
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Student Loans and Other Receivables
+                            </th>
+                            <td class="px-6 py-4">$99</td>
+                          </tr>
+                          <tr
+                            class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Contributions Receivable
+                            </th>
+                            <td class="px-6 py-4">$1999</td>
+                          </tr>
+                          <tr class="bg-white dark:bg-gray-800">
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Prepaid Expenses and Other Assets
+                            </th>
+                            <td class="px-6 py-4">$99</td>
+                          </tr>
+                          <tr class="bg-white dark:bg-gray-800">
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Property and Equipment
+                            </th>
+                            <td class="px-6 py-4">$99</td>
+                          </tr>
+                          <tr class="bg-white dark:bg-gray-800">
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Investments Held for Long Term Purposes
+                            </th>
+                            <td class="px-6 py-4">$99</td>
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr class="font-semibold dark:text-white text-2xl">
+                            <th scope="row" class="px-6 py-3">Total Assets</th>
+                            <td class="px-6 py-3">$99,368,500</td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!-- LIABILITIES -->
-              <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-              >
-                <div class="flex flex-row">
-                  <div class="w-1/2">
-                    <div class="flex flex-col">
-                      <p class="text-2xl font-bold mb-2">Liabilities</p>
-                      <div class="flex flex-row items-baseline">
-                        <p
-                          id="totalLiabilities_yearSelectData"
-                          class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        >
-                          $100,368,500
-                        </p>
-                        <p
-                          id="totalLiabilities_yearSelect"
-                          class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        >
-                          (2022)
-                        </p>
+                <!-- LIABILITIES -->
+                <div
+                  class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+                >
+                  <div class="flex flex-row">
+                    <div class="w-1/2">
+                      <div class="flex flex-col">
+                        <p class="text-3xl">Liabilities</p>
+                        <div class="flex flex-row items-baseline">
+                          <p
+                            id="totalLiabilities_yearSelectData"
+                            class="text-2xl text-black dark:text-white"
+                          >
+                            $100,368,500
+                          </p>
+                          <p
+                            id="totalLiabilities_yearSelect"
+                            class="text-lg text-gray-500 dark:textgray-300 ml-2"
+                          >
+                            (2022)
+                          </p>
+                        </div>
                       </div>
+                      <div id="liabilities_chart"></div>
                     </div>
-                    <div id="liabilities_chart"></div>
-                  </div>
-                  <div id="liabilities_summary">
-                    <table
-                      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
-                      <tbody class="text-xl dark:text-white">
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Accounts Payable and accrued expenses
-                          </th>
-                          <td class="">$6,500</td>
-                        </tr>
-                        <tr
-                          class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
-                        >
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Deferred Revenue
-                          </th>
-                          <td class="">$7,800,000</td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Post retirement health benefits
-                          </th>
-                          <td class="">$485,000</td>
-                        </tr>
-                        <tr
-                          class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
-                        >
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Annuity and trusts
-                          </th>
-                          <td class="">$8,500,000</td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Other Liabilities
-                          </th>
-                          <td class="">$8,500,555</td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Interest rate swap liability
-                          </th>
-                          <td class="">$26,000,000</td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Bonds and notes payable
-                          </th>
-                          <td class="">$1,000,000</td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                        <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">
-                            Total Liabilities
-                          </th>
-                          <td class="px-6 py-3">$100,633,000</td>
-                        </tr>
-                      </tfoot>
-                    </table>
+                    <div id="liabilities_summary" class="w-1/2">
+                      <table
+                        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                      >
+                        <tbody class="text-xl dark:text-white">
+                          <tr class="bg-white dark:bg-gray-800">
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Accounts Payable and accrued expenses
+                            </th>
+                            <td class="px-6 py-4">$6,500</td>
+                          </tr>
+                          <tr
+                            class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Deferred Revenue
+                            </th>
+                            <td class="px-6 py-4">$7,800,000</td>
+                          </tr>
+                          <tr class="bg-white dark:bg-gray-800">
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Post retirement health benefits
+                            </th>
+                            <td class="px-6 py-4">$485,000</td>
+                          </tr>
+                          <tr
+                            class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Annuity and trusts
+                            </th>
+                            <td class="px-6 py-4">$8,500,000</td>
+                          </tr>
+                          <tr class="bg-white dark:bg-gray-800">
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Other Liabilities
+                            </th>
+                            <td class="px-6 py-4">$8,500,555</td>
+                          </tr>
+                          <tr class="bg-white dark:bg-gray-800">
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Interest rate swap liability
+                            </th>
+                            <td class="px-6 py-4">$26,000,000</td>
+                          </tr>
+                          <tr class="bg-white dark:bg-gray-800">
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Bonds and notes payable
+                            </th>
+                            <td class="px-6 py-4">$1,000,000</td>
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr class="font-semibold dark:text-white text-2xl">
+                            <th scope="row" class="px-6 py-3">
+                              Total Liabilities
+                            </th>
+                            <td class="px-6 py-3">$100,633,000</td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!-- NET ASSETS -->
-              <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-              >
-                <div class="flex flex-row">
-                  <div class="w-1/2">
-                    <div class="flex flex-col">
-                      <p class="text-2xl font-bold mb-2">Net Assets</p>
-                      <div class="flex flex-row items-baseline">
-                        <p
-                          id="totalNetAssets_yearSelectData"
-                          class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        >
-                          $7,909,000
-                        </p>
-                        <p
-                          id="totalNetAssets_yearSelect"
-                          class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        >
-                          (2022)
-                        </p>
+                <!-- NET ASSETS -->
+                <div
+                  class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+                >
+                  <div class="flex flex-row">
+                    <div class="w-1/2">
+                      <div class="flex flex-col">
+                        <p class="text-3xl">Net Assets</p>
+                        <div class="flex flex-row items-baseline">
+                          <p
+                            id="totalNetAssets_yearSelectData"
+                            class="text-2xl text-black dark:text-white"
+                          >
+                            $7,909,000
+                          </p>
+                          <p
+                            id="totalNetAssets_yearSelect"
+                            class="text-lg text-gray-500 dark:textgray-300 ml-2"
+                          >
+                            (2022)
+                          </p>
+                        </div>
                       </div>
+                      <div id="netAssets_chart"></div>
                     </div>
-                    <div id="netAssets_chart"></div>
-                  </div>
-                  <div id="netAssets_summary">
-                    <table
-                      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
-                      <tbody class="text-xl dark:text-white">
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Without Donor Restrictions
-                          </th>
-                          <td class="">$6,500</td>
-                        </tr>
-                        <tr
-                          class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
-                        >
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
+                    <div id="netAssets_summary" class="w-1/2">
+                      <table
+                        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                      >
+                        <tbody class="text-xl dark:text-white">
+                          <tr class="bg-white dark:bg-gray-800">
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Without Donor Restrictions
+                            </th>
+                            <td class="px-6 py-4">$6,500</td>
+                          </tr>
+                          <tr
+                            class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
                           >
-                            Restricted by Time or Purpose
-                          </th>
-                          <td class="">$7,800,000</td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Restricted in Perpetuity
-                          </th>
-                          <td class="">$485,000</td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                        <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">
-                            Total Net Assets
-                          </th>
-                          <td class="px-6 py-3">$7,909,000</td>
-                        </tr>
-                      </tfoot>
-                    </table>
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Restricted by Time or Purpose
+                            </th>
+                            <td class="px-6 py-4">$7,800,000</td>
+                          </tr>
+                          <tr class="bg-white dark:bg-gray-800">
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium whitespace-nowrap"
+                            >
+                              Restricted in Perpetuity
+                            </th>
+                            <td class="px-6 py-4">$485,000</td>
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr class="font-semibold dark:text-white text-2xl">
+                            <th scope="row" class="px-6 py-3">
+                              Total Net Assets
+                            </th>
+                            <td class="px-6 py-3">$7,909,000</td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <!-- FS - Income Statement -->
-            <div id="incomeStatementContent">
-              <!-- Revenue and Support -->
-              <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-              >
-                <div class="flex flex-row">
-                  <div class="w-1/2">
-                    <div class="flex flex-col">
-                      <p class="text-2xl font-bold mb-2">Revenue and Support</p>
-                      <div class="flex flex-row items-baseline">
-                        <p
-                          id="revenueAndSupport_yearSelectData"
-                          class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        >
-                          $123,368,500
-                        </p>
-                        <p
-                          id="revenueAndSupport_yearSelect"
-                          class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        >
-                          (2022)
-                        </p>
-                      </div>
-                    </div>
-                    <div id="revenueAndSupport_chart"></div>
-                  </div>
-                  <div id="revenueAndSupport_summary">
-                    <table
-                      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
-                      <tbody class="text-xl dark:text-white">
-                        <!-- Tuition and Fees -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Tuition and Fees
-                          </th>
-                          <td class="">$5,500</td>
-                        </tr>
-
-                        <!-- Scholarships and Financial Aid -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Scholarships and Financial Aid
-                          </th>
-                          <td class="">$7,800,000</td>
-                        </tr>
-
-                        <!-- Net Tuition and Fees -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Net Tuition and Fees
-                          </th>
-                          <td class="">$104,000</td>
-                        </tr>
-
-                        <!-- Auxiliary Activities -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Auxiliary Activities
-                          </th>
-                          <td class="">$459,000</td>
-                        </tr>
-
-                        <!-- Investment Income -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Investment Income
-                          </th>
-                          <td class="">$8,000,000</td>
-                        </tr>
-
-                        <!-- Endowment Spending Appropriation -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Endowment Spending Appropriation
-                          </th>
-                          <td class="">$57,000,000</td>
-                        </tr>
-
-                        <!-- Other Revenue -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Other Revenue
-                          </th>
-                          <td class="">$26,000,000</td>
-                        </tr>
-
-                        <!-- Non-Contribution Revenue -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Non-Contribution Revenue
-                          </th>
-                          <td class="">$5,500</td>
-                        </tr>
-
-                        <!-- Contributions -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Contributions
-                          </th>
-                          <td class="">$7,800,000</td>
-                        </tr>
-
-                        <!-- Large One-Time Gifts -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Large One-Time Gifts
-                          </th>
-                          <td class="">$104,000</td>
-                        </tr>
-
-                        <!-- Net Assets Released from Restriction -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Net Assets Released from Restriction
-                          </th>
-                          <td class="">$459,000</td>
-                        </tr>
-
-                        <!-- Revenue from Contributions -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Revenue from Contributions
-                          </th>
-                          <td class="">$8,000,000</td>
-                        </tr>
-
-                        <!-- Operating Revenues, Support, and Releases -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Operating Revenues, Support, and Releases
-                          </th>
-                          <td class="">$57,000,000</td>
-                        </tr>
-                      </tbody>
-
-                      <tfoot>
-                        <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">Total Assets</th>
-                          <td class="px-6 py-3">$99,368,500</td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <!-- Educational Program Expenses -->
-              <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-              >
-                <div class="flex flex-row">
-                  <div class="w-1/2">
-                    <div class="flex flex-col">
-                      <p class="text-2xl font-bold mb-2">
-                        Educational Program Expenses
-                      </p>
-                      <div class="flex flex-row items-baseline">
-                        <p
-                          id="educationalProgramExpenses_yearSelectData"
-                          class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        >
-                          $100,368,500
-                        </p>
-                        <p
-                          id="educationalProgramExpenses_yearSelect"
-                          class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        >
-                          (2022)
-                        </p>
-                      </div>
-                    </div>
-                    <div id="educationalProgramExpenses_chart"></div>
-                  </div>
-                  <div id="educationalProgramExpenses_summary">
-                    <table
-                      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
-                      <tbody class="text-xl dark:text-white">
-                        <!-- Instruction -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Instruction
-                          </th>
-                          <td class="">$5,500</td>
-                        </tr>
-
-                        <!-- Research -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Research
-                          </th>
-                          <td class="">$7,800,000</td>
-                        </tr>
-
-                        <!-- Academic Support -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Academic Support
-                          </th>
-                          <td class="">$104,000</td>
-                        </tr>
-
-                        <!-- Student Services -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Student Services
-                          </th>
-                          <td class="">$459,000</td>
-                        </tr>
-
-                        <!-- Auxiliary Activities -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Auxiliary Activities
-                          </th>
-                          <td class="">$8,000,000</td>
-                        </tr>
-
-                        <!-- Institutional Support -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Institutional Support
-                          </th>
-                          <td class="">$57,000,000</td>
-                        </tr>
-
-                        <!-- Public Service -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Public Service
-                          </th>
-                          <td class="">$26,000,000</td>
-                        </tr>
-                      </tbody>
-
-                      <tfoot>
-                        <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">Total Expense</th>
-                          <td class="px-6 py-3">$100,368,500</td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <!-- Non-Operating Activities -->
-              <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-              >
-                <div class="flex flex-row">
-                  <div class="w-1/2">
-                    <div class="flex flex-col">
-                      <p class="text-2xl font-bold mb-2">
-                        Non-Operating Activities
-                      </p>
-                      <div class="flex flex-row items-baseline">
-                        <p
-                          id="nonoperatingActivities_yearSelectData"
-                          class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        >
-                          $7,909,500
-                        </p>
-                        <p
-                          id="nonoperatingActivities_yearSelect"
-                          class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        >
-                          (2022)
-                        </p>
-                      </div>
-                    </div>
-                    <div id="nonoperatingActivities_chart"></div>
-                  </div>
-                  <div id="nonoperatingActivities_summary">
-                    <table
-                      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
-                      <tbody class="text-xl dark:text-white">
-                        <!-- Investment income -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Investment income
-                          </th>
-                          <td class="">$7,800,000</td>
-                        </tr>
-
-                        <!-- Endowment spending policy appropriation -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Endowment spending policy appropriation
-                          </th>
-                          <td class="">$104,000</td>
-                        </tr>
-
-                        <!-- Change in value of interest rate swap -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Change in value of interest rate swap
-                          </th>
-                          <td class="">$5,500</td>
-                        </tr>
-
-                        <!-- Adjustment to PRBO -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Adjustment to PRBO
-                          </th>
-                          <td class="">$7,800,000</td>
-                        </tr>
-
-                        <!-- Contributions and other -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Contributions and other
-                          </th>
-                          <td class="">$104,000</td>
-                        </tr>
-                      </tbody>
-
-                      <tfoot>
-                        <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">
-                            Total Non Operating Activities
-                          </th>
-                          <td class="px-6 py-3">$7,909,500</td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <!-- Changes in Net Assets with Donor Restrictions -->
-              <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-              >
-                <div class="flex flex-row">
-                  <div class="w-1/2">
-                    <div class="flex flex-col">
-                      <p class="text-2xl font-bold mb-2">
-                        Changes in Net Assets with Donor Restrictions
-                      </p>
-                      <div class="flex flex-row items-baseline">
-                        <p
-                          id="changesInNetAssetsWithDR_yearSelectData"
-                          class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        >
-                          $7,909,500
-                        </p>
-                        <p
-                          id="changesInNetAssetsWithDR_yearSelect"
-                          class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        >
-                          (2022)
-                        </p>
-                      </div>
-                    </div>
-                    <div id="changesInNetAssetsWithDR_chart"></div>
-                  </div>
-                  <div id="changesInNetAssetsWithDR_summary">
-                    <table
-                      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
-                      <tbody class="text-xl dark:text-white">
-                        <!-- Restricted by Purpose and Time -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Contributions
-                          </th>
-                          <td class=""></td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Investment income plus endowment spending allocation
-                          </th>
-                          <td class=""></td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Endowment spending policy appropriation
-                          </th>
-                          <td class=""></td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Net assets released from program restrictions
-                          </th>
-                          <td class=""></td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Temporarily Restricted Net Change
-                          </th>
-                          <td class=""></td>
-                        </tr>
-
-                        <!-- Restricted in Perpetuity -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Contributions
-                          </th>
-                          <td class="">$5,500</td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Investment Income
-                          </th>
-                          <td class=""></td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Net assets released from program restrictions
-                          </th>
-                          <td class="">$7,800,000</td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Permanently Restricted Net Change
-                          </th>
-                          <td class="">$104,000</td>
-                        </tr>
-                      </tbody>
-
-                      <tfoot>
-                        <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">
-                            Total Change in Net Assets
-                          </th>
-                          <td class="px-6 py-3">$7,909,500</td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <!-- Natural Expense Categories -->
-              <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-              >
-                <div class="flex flex-row">
-                  <div class="w-1/2">
-                    <div class="flex flex-col">
-                      <p class="text-2xl font-bold mb-2">
-                        Natural Expense Categories
-                      </p>
-                      <div class="flex flex-row items-baseline">
-                        <p
-                          id="naturalExpenseCategories_yearSelectData"
-                          class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        >
-                          $7,909,500
-                        </p>
-                        <p
-                          id="naturalExpenseCategories_yearSelect"
-                          class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        >
-                          (2022)
-                        </p>
-                      </div>
-                    </div>
-                    <div id="naturalExpenseCategories_chart"></div>
-                  </div>
-                  <div id="naturalExpenseCategories_summary">
-                    <table
-                      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
-                      <tbody class="text-xl dark:text-white">
-                        <!-- Salaries and Wages -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Salaries and Wages
-                          </th>
-                          <td class=""></td>
-                        </tr>
-                        <!-- Employee Benefits -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Employee Benefits
-                          </th>
-                          <td class=""></td>
-                        </tr>
-                        <!-- Service, Supplies and Other -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Service, Supplies and Other
-                          </th>
-                          <td class=""></td>
-                        </tr>
-                        <!-- Occupancy, Utilities and Maintenance -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Occupancy, Utilities and Maintenance
-                          </th>
-                          <td class=""></td>
-                        </tr>
-                        <!-- Depreciation and Amortization -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Depreciation and Amortization
-                          </th>
-                          <td class=""></td>
-                        </tr>
-                        <!-- Interest -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Interest
-                          </th>
-                          <td class=""></td>
-                        </tr>
-                      </tbody>
-
-                      <tfoot>
-                        <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">
-                            Total Natural Category Expenses
-                          </th>
-                          <td class="px-6 py-3">$7,909,500</td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div
+              id="incomeStatementContent"
+              class="hidden p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            ></div>
             <!-- FS - Cash Flows -->
-            <div id="cashFlowsContent">
-              <!-- Cash Flows: Operating Activities -->
-              <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-              >
-                <div class="flex flex-row">
-                  <div class="w-1/2">
-                    <div class="flex flex-col">
-                      <p class="text-2xl font-bold mb-2">
-                        Cash Flows: Operating Activities
-                      </p>
-                      <div class="flex flex-row items-baseline">
-                        <p
-                          id="cashFlowsOperatingActivities_yearSelectData"
-                          class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        >
-                          $123,400,404
-                        </p>
-                        <p
-                          id="cashFlowsOperatingActivities_yearSelect"
-                          class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        >
-                          (2022)
-                        </p>
-                      </div>
-                    </div>
-                    <div id="cashFlowsOperatingActivities_chart"></div>
-                  </div>
-                  <div id="cashFlowsOperatingActivities_summary">
-                    <table
-                      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
-                      <tbody class="text-xl dark:text-white">
-                        <!-- Salaries and Wages -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Salaries and Wages
-                          </th>
-                          <td class="">$5,500</td>
-                        </tr>
-                        <!-- Employee Benefits -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Employee Benefits
-                          </th>
-                          <td class="">$7,800,000</td>
-                        </tr>
-                        <!-- Service, Supplies and Other -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Service, Supplies and Other
-                          </th>
-                          <td class="">$104,000</td>
-                        </tr>
-                        <!-- Occupancy, Utilities and Maintenance -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Occupancy, Utilities and Maintenance
-                          </th>
-                          <td class="">$5,500</td>
-                        </tr>
-                        <!-- Depreciation and Amortization -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Depreciation and Amortization
-                          </th>
-                          <td class="">$7,800,000</td>
-                        </tr>
-                        <!-- Interest -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Interest
-                          </th>
-                          <td class="">$104,000</td>
-                        </tr>
-                      </tbody>
-
-                      <tfoot>
-                        <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">
-                            Total Natural Category Expenses
-                          </th>
-                          <td class="px-6 py-3">$7,909,500</td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <!-- Cash Flows: Investing Activities -->
-              <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-              >
-                <div class="flex flex-row">
-                  <div class="w-1/2">
-                    <div class="flex flex-col">
-                      <p class="text-2xl font-bold mb-2">
-                        Cash Flows: Investing Activities
-                      </p>
-                      <div class="flex flex-row items-baseline">
-                        <p
-                          id="cashFlowsInvestingActivities_yearSelectData"
-                          class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        >
-                          $123,400,404
-                        </p>
-                        <p
-                          id="cashFlowsInvestingActivities_yearSelect"
-                          class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        >
-                          (2022)
-                        </p>
-                      </div>
-                    </div>
-                    <div id="cashFlowsInvestingActivities_chart"></div>
-                  </div>
-                  <div id="cashFlowsInvestingActivities_summary">
-                    <table
-                      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
-                      <tbody class="text-xl dark:text-white">
-                        <!-- Purchase of investments -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Purchase of investments
-                          </th>
-                          <td class="">$5,500</td>
-                        </tr>
-                        <!-- Proceeds from sale of investments -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Proceeds from sale of investments
-                          </th>
-                          <td class="">$7,800,000</td>
-                        </tr>
-                        <!-- Purchases of property and equipment -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Purchases of property and equipment
-                          </th>
-                          <td class="">$104,000</td>
-                        </tr>
-                        <!-- Student loan fund -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Student loan fund
-                          </th>
-                          <td class="">$459,000</td>
-                        </tr>
-                      </tbody>
-
-                      <tfoot>
-                        <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">
-                            Net Cash used in investing activities
-                          </th>
-                          <td class="px-6 py-3">$100,368,500</td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <!-- Cash Flows: Financing Activities -->
-              <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-              >
-                <div class="flex flex-row">
-                  <div class="w-1/2">
-                    <div class="flex flex-col">
-                      <p class="text-2xl font-bold mb-2">
-                        Cash Flows: Financing Activities
-                      </p>
-                      <div class="flex flex-row items-baseline">
-                        <p
-                          id="cashFlowsFinancingActivities_yearSelectData"
-                          class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        >
-                          $7,909,500
-                        </p>
-                        <p
-                          id="cashFlowsFinancingActivities_yearSelect"
-                          class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        >
-                          (2022)
-                        </p>
-                      </div>
-                    </div>
-                    <div id="cashFlowsFinancingActivities_chart"></div>
-                  </div>
-                  <div id="cashFlowsFinancingActivities_summary">
-                    <table
-                      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
-                      <tbody class="text-xl dark:text-white">
-                        <!-- Proceeds from notes payable -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Proceeds from notes payable
-                          </th>
-                          <td class="">$5,500</td>
-                        </tr>
-                        <!-- Principal payments on notes payable -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Principal payments on notes payable
-                          </th>
-                          <td class="">$7,800,000</td>
-                        </tr>
-                        <!-- Other -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            Other
-                          </th>
-                          <td class="">$104,000</td>
-                        </tr>
-                      </tbody>
-
-                      <tfoot>
-                        <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">
-                            Net Cash used in financing activities
-                          </th>
-                          <td class="px-6 py-3">$7,909,500</td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
+            <div
+              id="cashFlowsContent"
+              class="hidden p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              Cash Flows Content
             </div>
             <!-- FS - Property & Equipment -->
-            <div id="propertyAndEquipmentContent">
+            <div
+              id="propertyAndEquipmentContent"
+              class="hidden p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
               <!-- Property and Equipment -->
               <div
                 class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -3781,13 +2911,11 @@
                 <div class="flex flex-row">
                   <div class="w-1/2">
                     <div class="flex flex-col">
-                      <p class="text-2xl font-bold mb-2">
-                        Property and Equipment
-                      </p>
+                      <p class="text-3xl">Property and Equipment</p>
                       <div class="flex flex-row items-baseline">
                         <p
                           id="propertyAndEquipment_yearSelectData"
-                          class="text-xl font-semibold tracking-wide text-black dark:text-white"
+                          class="text-2xl text-black dark:text-white"
                         >
                           $7,909,000
                         </p>
@@ -3801,7 +2929,7 @@
                     </div>
                     <div id="propertyAndEquipment_chart"></div>
                   </div>
-                  <div id="propertyAndEquipment_summary">
+                  <div id="propertyAndEquipment_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -3809,62 +2937,62 @@
                         <tr class="bg-white dark:bg-gray-800">
                           <th
                             scope="row"
-                            class=" px-4 py-1 font-medium"
+                            class="px-6 py-4 font-medium whitespace-nowrap"
                           >
                             Land and Improvements
                           </th>
-                          <td class="">$7,800,000</td>
+                          <td class="px-6 py-4">$7,800,000</td>
                         </tr>
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
                         >
                           <th
                             scope="row"
-                            class=" px-4 py-1 font-medium"
+                            class="px-6 py-4 font-medium whitespace-nowrap"
                           >
                             Building and Improvements
                           </th>
-                          <td class="">$104,000</td>
+                          <td class="px-6 py-4">$104,000</td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th
                             scope="row"
-                            class=" px-4 py-1 font-medium"
+                            class="px-6 py-4 font-medium whitespace-nowrap"
                           >
                             Furniture and Equipment
                           </th>
-                          <td class="">$485,000</td>
+                          <td class="px-6 py-4">$485,000</td>
                         </tr>
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
                         >
                           <th
                             scope="row"
-                            class=" px-4 py-1 font-medium"
+                            class="px-6 py-4 font-medium whitespace-nowrap"
                           >
                             CIP
                           </th>
-                          <td class="">$8,000,000</td>
+                          <td class="px-6 py-4">$8,000,000</td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th
                             scope="row"
-                            class=" px-4 py-1 font-medium"
+                            class="px-6 py-4 font-medium whitespace-nowrap"
                           >
                             Total Property and Equipment at Cost
                           </th>
-                          <td class="">$26,000,000</td>
+                          <td class="px-6 py-4">$26,000,000</td>
                         </tr>
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
                         >
                           <th
                             scope="row"
-                            class=" px-4 py-1 font-medium"
+                            class="px-6 py-4 font-medium whitespace-nowrap"
                           >
                             Accumulated Depreciation
                           </th>
-                          <td class="">$8,000,000</td>
+                          <td class="px-6 py-4">$8,000,000</td>
                         </tr>
                       </tbody>
                       <tfoot>

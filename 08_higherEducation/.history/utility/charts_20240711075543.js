@@ -148,7 +148,7 @@ const getMainChartOptions = (
           colors: chartColors.labelColor,
           fontSize: "1rem",
         },
-      }
+      },
     },
     yaxis: [
       {
@@ -636,17 +636,6 @@ const getAtlChartOptions = (data) => {
       },
     ],
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        }
-      },
       height: 450,
       width: "100%",
       type: "line",
@@ -793,17 +782,6 @@ const getSoiClientChartOptions = (data) => {
     ],
     series: [233, 555, 222, 222, 124],
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        }
-      },
       height: 450,
       type: "pie",
     },
@@ -923,17 +901,6 @@ const getSoiPeerChartOptions = (data) => {
     ],
     series: [233, 555, 222, 222, 124],
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        }
-      },
       height: 450,
       width: "100%",
       type: "pie",
@@ -1158,17 +1125,6 @@ const getFfaChartOptions = (data) => {
       },
     ],
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        }
-      },
       height: 500,
       width: "100%",
       type: "rangeBar",
@@ -1290,17 +1246,6 @@ const getCashFlowTrendChartOptions = (data) => {
     ],
     series: seriesData,
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        }
-      },
       type: "bar",
       height: 350,
     },

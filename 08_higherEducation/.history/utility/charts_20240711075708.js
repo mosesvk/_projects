@@ -148,7 +148,7 @@ const getMainChartOptions = (
           colors: chartColors.labelColor,
           fontSize: "1rem",
         },
-      }
+      },
     },
     yaxis: [
       {
@@ -1290,17 +1290,6 @@ const getCashFlowTrendChartOptions = (data) => {
     ],
     series: seriesData,
     chart: {
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        }
-      },
       type: "bar",
       height: 350,
     },

@@ -148,7 +148,8 @@ const getMainChartOptions = (
           colors: chartColors.labelColor,
           fontSize: "1rem",
         },
-      }
+      },
+      range: 2
     },
     yaxis: [
       {
