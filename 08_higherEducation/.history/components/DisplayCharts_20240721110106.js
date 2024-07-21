@@ -513,15 +513,17 @@ const displayFinancialStatementComponent = () => {
 
   propertyAndEquipmentChart.render();
 
-  const svg_propertyAndEquipmentChart = propertyAndEquipmentChart.paper().svg()
+  console.log(propertyAndEquipmentChart.chart
+  );
+  console.log(propertyAndEquipmentChart.chart.paper());
+  // propertyAndEquipmentChart.dataURI().then((...args) => {
+  //   // const { jsPDF } = window.jspdf
+  //   // const pdf = new jsPDF();
+  //   // pdf.addImage(imgURI, 'PNG', 0, 0);
+  //   // pdf.save("pdf-chart.pdf");
 
-  svgToBase64(svg_propertyAndEquipmentChart)
-
-  console.log(propertyAndEquipmentChart.paper().svg());
-  console.log(propertyAndEquipmentChart.ctx);
-  console.log(propertyAndEquipmentChart.ctx.exports);
-
-
+  //   console.log({ args });
+  // })
 
   document.addEventListener("dark-mode", function () {
     propertyAndEquipmentChart.updateOptions(

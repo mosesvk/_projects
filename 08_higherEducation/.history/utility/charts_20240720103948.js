@@ -161,6 +161,7 @@ const getMainChartOptions = (
         },
         labels: {
           formatter: yaxisLabelFormatter,
+          formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
             fontSize: "1rem",

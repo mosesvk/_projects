@@ -1194,7 +1194,6 @@ function svgToBase64(svgString) {
   // Convert the string to base64
   const encodedData = window.btoa(serializedSvg);
 
-  console.log({encodedData});
   return encodedData;
 }
 

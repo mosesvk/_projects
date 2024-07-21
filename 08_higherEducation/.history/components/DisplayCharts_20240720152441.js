@@ -350,6 +350,7 @@ const displayFinancialStatementComponent = () => {
     );
   });
 
+
   const nonoperatingActivitiesChart = new ApexCharts(
     document.querySelector("#nonoperatingActivities_chart"),
     getFSchartOptions(
@@ -399,6 +400,7 @@ const displayFinancialStatementComponent = () => {
     );
   });
 
+
   // naturalExpenseCategories_chart
   const naturalExpenseCategoriesChart = new ApexCharts(
     document.querySelector("#naturalExpenseCategories_chart"),
@@ -423,6 +425,7 @@ const displayFinancialStatementComponent = () => {
       )
     );
   });
+
 
   // CASH FLOWS  --------------------------------------------------
   // cashFlowsOperatingActivities_chart
@@ -498,31 +501,34 @@ const displayFinancialStatementComponent = () => {
     );
   });
 
+
   // PROPERTY AND EQUIPMENT ---------------------------------------
   // propertyAndEquipment_chart
-  const propertyAndEquipmentChart = new ApexCharts(
+  var propertyAndEquipmentChart = new ApexCharts(
     document.querySelector("#propertyAndEquipment_chart"),
     getFSchartOptions(
       parseData,
       "propertyAndEquipment_Client",
-      window.chartColors.green,
+      window.chdartColors.green,
       "dollar",
       "Property and Equipment"
     )
-  )
+  );
+
+  // console.log(propertyAndEquipmentChart);
+
+  // const dataURL = propertyAndEquipmentChart.dataURI().then(({ imgURI, blob }) => {
+  //   const { jsPDF } = window.jspdf
+  //   const pdf = new jsPDF();
+  //   pdf.addImage(imgURI, 'PNG', 0, 0);
+  //   pdf.save("pdf-chart.pdf");
+  // })
+
+  // dataURL.then((data) => {
+  //   console.log(data);
+  // });
 
   propertyAndEquipmentChart.render();
-
-  const svg_propertyAndEquipmentChart = propertyAndEquipmentChart.paper().svg()
-
-  svgToBase64(svg_propertyAndEquipmentChart)
-
-  console.log(propertyAndEquipmentChart.paper().svg());
-  console.log(propertyAndEquipmentChart.ctx);
-  console.log(propertyAndEquipmentChart.ctx.exports);
-
-
-
   document.addEventListener("dark-mode", function () {
     propertyAndEquipmentChart.updateOptions(
       getFSchartOptions(

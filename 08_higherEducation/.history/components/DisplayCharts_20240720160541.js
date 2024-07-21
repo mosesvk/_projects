@@ -350,6 +350,7 @@ const displayFinancialStatementComponent = () => {
     );
   });
 
+
   const nonoperatingActivitiesChart = new ApexCharts(
     document.querySelector("#nonoperatingActivities_chart"),
     getFSchartOptions(
@@ -399,6 +400,7 @@ const displayFinancialStatementComponent = () => {
     );
   });
 
+
   // naturalExpenseCategories_chart
   const naturalExpenseCategoriesChart = new ApexCharts(
     document.querySelector("#naturalExpenseCategories_chart"),
@@ -423,6 +425,7 @@ const displayFinancialStatementComponent = () => {
       )
     );
   });
+
 
   // CASH FLOWS  --------------------------------------------------
   // cashFlowsOperatingActivities_chart
@@ -498,6 +501,7 @@ const displayFinancialStatementComponent = () => {
     );
   });
 
+
   // PROPERTY AND EQUIPMENT ---------------------------------------
   // propertyAndEquipment_chart
   const propertyAndEquipmentChart = new ApexCharts(
@@ -509,20 +513,12 @@ const displayFinancialStatementComponent = () => {
       "dollar",
       "Property and Equipment"
     )
-  )
+  );
+
+  console.log(propertyAndEquipmentChart.dataURI());
+
 
   propertyAndEquipmentChart.render();
-
-  const svg_propertyAndEquipmentChart = propertyAndEquipmentChart.paper().svg()
-
-  svgToBase64(svg_propertyAndEquipmentChart)
-
-  console.log(propertyAndEquipmentChart.paper().svg());
-  console.log(propertyAndEquipmentChart.ctx);
-  console.log(propertyAndEquipmentChart.ctx.exports);
-
-
-
   document.addEventListener("dark-mode", function () {
     propertyAndEquipmentChart.updateOptions(
       getFSchartOptions(

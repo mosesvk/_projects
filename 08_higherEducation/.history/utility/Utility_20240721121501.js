@@ -1180,21 +1180,15 @@ function createFSTable(tableId, data) {
 }
 
 
-function svgToBase64(svgString) {
-  // Create a temporary div element
-  const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = svgString;
-
-  // Get the first child (the SVG node)
-  const svgNode = tempDiv.firstChild;
-
-  // Serialize the SVG node to a string
-  const serializedSvg = new XMLSerializer().serializeToString(svgNode);
+function svgToBase64(svgElement) {
+  console.log({svgElement});
+  // Serialize the SVG element to a string
+  const svgString = new XMLSerializer().serializeToString(svgElement);
 
   // Convert the string to base64
-  const encodedData = window.btoa(serializedSvg);
+  const encodedData = window.btoa(svgString);
 
-  console.log({encodedData});
+  console.log(encodedData);
   return encodedData;
 }
 

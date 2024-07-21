@@ -120,7 +120,7 @@ const getMainChartOptions = (
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -160,6 +160,7 @@ const getMainChartOptions = (
           color: chartColor,
         },
         labels: {
+          formatter: yaxisLabelFormatter,
           formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,

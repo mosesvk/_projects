@@ -1180,42 +1180,8 @@ function createFSTable(tableId, data) {
 }
 
 
-function svgToBase64(svgString) {
-  // Create a temporary div element
-  const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = svgString;
-
-  // Get the first child (the SVG node)
-  const svgNode = tempDiv.firstChild;
-
-  // Serialize the SVG node to a string
-  const serializedSvg = new XMLSerializer().serializeToString(svgNode);
-
-  // Convert the string to base64
-  const encodedData = window.btoa(serializedSvg);
-
-  console.log({encodedData});
-  return encodedData;
+const saveToArchive = async (chartId) => {
+  const chartInstance = window.Apex._chartInstances.find(chart => chart.id === chartId);
+  const base64 = await chartInstance.chart.dataURI();
+  return base64;
 }
-
-// function svgToUri(svgElement) {
-//   // Serialize the SVG element to a string
-//   const serializer = new XMLSerializer();
-//   let svgString = serializer.serializeToString(svgElement);
-
-//   // Add namespaces if missing
-//   if (!svgString.match(/^<svg[^>]+xmlns="http:\/\/www.w3.org\/2000/svg"/)) {
-//       svgString = svgString.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-//   }
-//   if (!svgString.match(/^<svg[^>]+"http:\/\/www.w3.org\/1999/xlink"/)) {
-//       svgString = svgString.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
-//   }
-
-//   // Add XML declaration
-//   svgString = '<?xml version="1.0" standalone="no"?>\r\n' + svgString;
-
-//   // Convert SVG source to URI data scheme
-//   const dataUri = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgString);
-
-//   return dataUri;
-// }

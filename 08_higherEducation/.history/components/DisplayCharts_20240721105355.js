@@ -513,15 +513,10 @@ const displayFinancialStatementComponent = () => {
 
   propertyAndEquipmentChart.render();
 
-  const svg_propertyAndEquipmentChart = propertyAndEquipmentChart.paper().svg()
-
-  svgToBase64(svg_propertyAndEquipmentChart)
-
-  console.log(propertyAndEquipmentChart.paper().svg());
-  console.log(propertyAndEquipmentChart.ctx);
-  console.log(propertyAndEquipmentChart.ctx.exports);
-
-
+  // console.log(propertyAndEquipmentChart.paper())
+  ApexCharts.exec("basic-bar", "dataURI").then(({ imgURI, blob }) => {
+    console.log(imgURI);
+  });
 
   document.addEventListener("dark-mode", function () {
     propertyAndEquipmentChart.updateOptions(

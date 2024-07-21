@@ -509,20 +509,16 @@ const displayFinancialStatementComponent = () => {
       "dollar",
       "Property and Equipment"
     )
-  )
+  );
 
   propertyAndEquipmentChart.render();
 
-  const svg_propertyAndEquipmentChart = propertyAndEquipmentChart.paper().svg()
-
-  svgToBase64(svg_propertyAndEquipmentChart)
-
-  console.log(propertyAndEquipmentChart.paper().svg());
-  console.log(propertyAndEquipmentChart.ctx);
-  console.log(propertyAndEquipmentChart.ctx.exports);
-
-
-
+  propertyAndEquipmentChart.dataURI().then(({ imgURI, blob }) => {
+    console.log("imgURI", imgURI);
+    console.log("blob", blob);
+    // pdf.addImage(imgURI, 'PNG', 0, 0);
+    // pdf.save("pdf-chart.pdf");
+  });
   document.addEventListener("dark-mode", function () {
     propertyAndEquipmentChart.updateOptions(
       getFSchartOptions(

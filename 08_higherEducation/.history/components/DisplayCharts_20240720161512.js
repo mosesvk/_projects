@@ -509,19 +509,9 @@ const displayFinancialStatementComponent = () => {
       "dollar",
       "Property and Equipment"
     )
-  )
+  );
 
   propertyAndEquipmentChart.render();
-
-  const svg_propertyAndEquipmentChart = propertyAndEquipmentChart.paper().svg()
-
-  svgToBase64(svg_propertyAndEquipmentChart)
-
-  console.log(propertyAndEquipmentChart.paper().svg());
-  console.log(propertyAndEquipmentChart.ctx);
-  console.log(propertyAndEquipmentChart.ctx.exports);
-
-
 
   document.addEventListener("dark-mode", function () {
     propertyAndEquipmentChart.updateOptions(
