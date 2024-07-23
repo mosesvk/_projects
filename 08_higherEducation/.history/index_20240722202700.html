@@ -61,32 +61,18 @@
         defer="true"
       ></script>
 
-      <script>
-        var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
-        $.ajaxSetup({ data: { apptoken: apptoken } });
-
-        //retrieve URL ID for record
-        function getQueryVariable(variable) {
-          var query = window.location.search.substring(1);
-          var vars = query.split("&");
-          for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if (pair[0] == variable) {
-              return pair[1];
-            }
-          }
-          return false;
-        }
-        var ClientRid = getQueryVariable("clientrid");
-        const clientData = "bt3egnexu";
-        const peerData = "bt3mx3t3i";
-      </script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+        integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      ></script>
 
       <script>
         chartColors = {
           green: "#83b240",
           darkGreen: "#EDAB20",
-          blue: "#326eaa",
+          blue: "#376eaa",
           darkBlue: "#00588D",
           grey: "#43505a",
           red: "#ff6384",
@@ -95,6 +81,27 @@
           purple: "#723682",
           black: "#161F25",
           teal: "#00808D",
+          hoverGreen: "#567529",
+          hoverBlue: "#1E3A59",
+          hoverYellow: "#B59B42",
+          tealRevenue: "#4EA79F",
+          tealRevenueHover: "#35706A",
+          orangeEducational: "#F4982D",
+          orangeEducationalHover: "#A9691F",
+          redNonoperating: "#EF707E",
+          redNonoperatingHover: "#A05059",
+          purpleChangeNetAssets: "#C57FD7",
+          purpleChangeNetAssetsHover: "#734C7D",
+          blueNaturalExpense: "#4F76D9",
+          blueNaturalExpenseHover: "#385292",
+          blueOperating: "#70B5CC",
+          blueOperatingHover: "#3C616D",
+          orangeInvesting: "#FFA726",
+          orangeInvestingHover: "#A06A1A",
+          pinkFinancing: "#FFCDD2",
+          pinkFinancingHover: "#C69DA1",
+          greenPropertyEquipment: "#459B53",
+          greenPropertyEquipmentHover: "#2E6136",
         };
       </script>
 
@@ -834,10 +841,21 @@
                     type="button"
                     class="flex items-center w-full py-2 pl-1 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
-                    <svg class="flex-shrink-0 w-6 h-6 transition duration-75" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                      <path fill-rule="evenodd" d="M8 3a2 2 0 0 0-2 2v3h12V5a2 2 0 0 0-2-2H8Zm-3 7a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h1v-4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v4h1a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5Zm4 11a1 1 0 0 1-1-1v-4h8v4a1 1 0 0 1-1 1H9Z" clip-rule="evenodd"/>
+                    <svg
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8 3a2 2 0 0 0-2 2v3h12V5a2 2 0 0 0-2-2H8Zm-3 7a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h1v-4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v4h1a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5Zm4 11a1 1 0 0 1-1-1v-4h8v4a1 1 0 0 1-1 1H9Z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
-                    
 
                     <span
                       class="flex-1 ml-4 text-left text-lg font-semibold tracking-wide whitespace-nowrap"
@@ -886,15 +904,6 @@
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-shrink-0">
-                  <span
-                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
-                  >
-                    CFI Ratio
-                  </span>
-                </div>
-              </div>
               <div id="cfiRatio_chart"></div>
               <button
                 id="dropdown_cfiRatio"
@@ -2600,25 +2609,25 @@
                               >
                                 <th
                                   scope="row"
-                                  class=" font-bold text-lg text-gray-900 whitespace-nowrap dark:text-white"
+                                  class="font-bold text-lg text-gray-900 whitespace-nowrap dark:text-white"
                                 >
                                   TOTAL REVENUES
                                 </th>
                                 <th
                                   id="ffa_totalRevenues"
                                   scope="row"
-                                  class=" font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                  class="font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                 ></th>
                                 <th
                                   scope="row"
-                                  class=" font-bold text-lg text-gray-900 whitespace-nowrap dark:text-white"
+                                  class="font-bold text-lg text-gray-900 whitespace-nowrap dark:text-white"
                                 >
                                   TOTAL EXPENSES
                                 </th>
                                 <th
                                   id="ffa_totalExpenses"
                                   scope="row"
-                                  class=" font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                  class="font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                 ></th>
                               </tr>
                             </tbody>
@@ -2868,19 +2877,13 @@
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
                         >
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Restricted by Time or Purpose
                           </th>
                           <td class="">$7,800,000</td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Restricted in Perpetuity
                           </th>
                           <td class="">$485,000</td>
@@ -2933,10 +2936,7 @@
                       <tbody class="text-xl dark:text-white">
                         <!-- Tuition and Fees -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Tuition and Fees
                           </th>
                           <td class="">$5,500</td>
@@ -2944,10 +2944,7 @@
 
                         <!-- Scholarships and Financial Aid -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Scholarships and Financial Aid
                           </th>
                           <td class="">$7,800,000</td>
@@ -2955,10 +2952,7 @@
 
                         <!-- Net Tuition and Fees -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Net Tuition and Fees
                           </th>
                           <td class="">$104,000</td>
@@ -2966,10 +2960,7 @@
 
                         <!-- Auxiliary Activities -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Auxiliary Activities
                           </th>
                           <td class="">$459,000</td>
@@ -2977,10 +2968,7 @@
 
                         <!-- Investment Income -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Investment Income
                           </th>
                           <td class="">$8,000,000</td>
@@ -2988,10 +2976,7 @@
 
                         <!-- Endowment Spending Appropriation -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Endowment Spending Appropriation
                           </th>
                           <td class="">$57,000,000</td>
@@ -2999,10 +2984,7 @@
 
                         <!-- Other Revenue -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Other Revenue
                           </th>
                           <td class="">$26,000,000</td>
@@ -3010,10 +2992,7 @@
 
                         <!-- Non-Contribution Revenue -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Non-Contribution Revenue
                           </th>
                           <td class="">$5,500</td>
@@ -3021,10 +3000,7 @@
 
                         <!-- Contributions -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Contributions
                           </th>
                           <td class="">$7,800,000</td>
@@ -3032,10 +3008,7 @@
 
                         <!-- Large One-Time Gifts -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Large One-Time Gifts
                           </th>
                           <td class="">$104,000</td>
@@ -3043,10 +3016,7 @@
 
                         <!-- Net Assets Released from Restriction -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Net Assets Released from Restriction
                           </th>
                           <td class="">$459,000</td>
@@ -3054,10 +3024,7 @@
 
                         <!-- Revenue from Contributions -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Revenue from Contributions
                           </th>
                           <td class="">$8,000,000</td>
@@ -3065,10 +3032,7 @@
 
                         <!-- Operating Revenues, Support, and Releases -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Operating Revenues, Support, and Releases
                           </th>
                           <td class="">$57,000,000</td>
@@ -3119,10 +3083,7 @@
                       <tbody class="text-xl dark:text-white">
                         <!-- Instruction -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Instruction
                           </th>
                           <td class="">$5,500</td>
@@ -3130,10 +3091,7 @@
 
                         <!-- Research -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Research
                           </th>
                           <td class="">$7,800,000</td>
@@ -3141,10 +3099,7 @@
 
                         <!-- Academic Support -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Academic Support
                           </th>
                           <td class="">$104,000</td>
@@ -3152,10 +3107,7 @@
 
                         <!-- Student Services -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Student Services
                           </th>
                           <td class="">$459,000</td>
@@ -3163,10 +3115,7 @@
 
                         <!-- Auxiliary Activities -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Auxiliary Activities
                           </th>
                           <td class="">$8,000,000</td>
@@ -3174,10 +3123,7 @@
 
                         <!-- Institutional Support -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Institutional Support
                           </th>
                           <td class="">$57,000,000</td>
@@ -3185,10 +3131,7 @@
 
                         <!-- Public Service -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Public Service
                           </th>
                           <td class="">$26,000,000</td>
@@ -3239,10 +3182,7 @@
                       <tbody class="text-xl dark:text-white">
                         <!-- Investment income -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Investment income
                           </th>
                           <td class="">$7,800,000</td>
@@ -3250,10 +3190,7 @@
 
                         <!-- Endowment spending policy appropriation -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Endowment spending policy appropriation
                           </th>
                           <td class="">$104,000</td>
@@ -3261,10 +3198,7 @@
 
                         <!-- Change in value of interest rate swap -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Change in value of interest rate swap
                           </th>
                           <td class="">$5,500</td>
@@ -3272,10 +3206,7 @@
 
                         <!-- Adjustment to PRBO -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Adjustment to PRBO
                           </th>
                           <td class="">$7,800,000</td>
@@ -3283,10 +3214,7 @@
 
                         <!-- Contributions and other -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Contributions and other
                           </th>
                           <td class="">$104,000</td>
@@ -3339,46 +3267,31 @@
                       <tbody class="text-xl dark:text-white">
                         <!-- Restricted by Purpose and Time -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Contributions
                           </th>
                           <td class=""></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Investment income plus endowment spending allocation
                           </th>
                           <td class=""></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Endowment spending policy appropriation
                           </th>
                           <td class=""></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Net assets released from program restrictions
                           </th>
                           <td class=""></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Temporarily Restricted Net Change
                           </th>
                           <td class=""></td>
@@ -3386,37 +3299,25 @@
 
                         <!-- Restricted in Perpetuity -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Contributions
                           </th>
                           <td class="">$5,500</td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Investment Income
                           </th>
                           <td class=""></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Net assets released from program restrictions
                           </th>
                           <td class="">$7,800,000</td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Permanently Restricted Net Change
                           </th>
                           <td class="">$104,000</td>
@@ -3469,60 +3370,42 @@
                       <tbody class="text-xl dark:text-white">
                         <!-- Salaries and Wages -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Salaries and Wages
                           </th>
                           <td class=""></td>
                         </tr>
                         <!-- Employee Benefits -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Employee Benefits
                           </th>
                           <td class=""></td>
                         </tr>
                         <!-- Service, Supplies and Other -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Service, Supplies and Other
                           </th>
                           <td class=""></td>
                         </tr>
                         <!-- Occupancy, Utilities and Maintenance -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Occupancy, Utilities and Maintenance
                           </th>
                           <td class=""></td>
                         </tr>
                         <!-- Depreciation and Amortization -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Depreciation and Amortization
                           </th>
                           <td class=""></td>
                         </tr>
                         <!-- Interest -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Interest
                           </th>
                           <td class=""></td>
@@ -3578,60 +3461,42 @@
                       <tbody class="text-xl dark:text-white">
                         <!-- Salaries and Wages -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Salaries and Wages
                           </th>
                           <td class="">$5,500</td>
                         </tr>
                         <!-- Employee Benefits -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Employee Benefits
                           </th>
                           <td class="">$7,800,000</td>
                         </tr>
                         <!-- Service, Supplies and Other -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Service, Supplies and Other
                           </th>
                           <td class="">$104,000</td>
                         </tr>
                         <!-- Occupancy, Utilities and Maintenance -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Occupancy, Utilities and Maintenance
                           </th>
                           <td class="">$5,500</td>
                         </tr>
                         <!-- Depreciation and Amortization -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Depreciation and Amortization
                           </th>
                           <td class="">$7,800,000</td>
                         </tr>
                         <!-- Interest -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Interest
                           </th>
                           <td class="">$104,000</td>
@@ -3684,40 +3549,28 @@
                       <tbody class="text-xl dark:text-white">
                         <!-- Purchase of investments -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Purchase of investments
                           </th>
                           <td class="">$5,500</td>
                         </tr>
                         <!-- Proceeds from sale of investments -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Proceeds from sale of investments
                           </th>
                           <td class="">$7,800,000</td>
                         </tr>
                         <!-- Purchases of property and equipment -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Purchases of property and equipment
                           </th>
                           <td class="">$104,000</td>
                         </tr>
                         <!-- Student loan fund -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Student loan fund
                           </th>
                           <td class="">$459,000</td>
@@ -3770,30 +3623,21 @@
                       <tbody class="text-xl dark:text-white">
                         <!-- Proceeds from notes payable -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Proceeds from notes payable
                           </th>
                           <td class="">$5,500</td>
                         </tr>
                         <!-- Principal payments on notes payable -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Principal payments on notes payable
                           </th>
                           <td class="">$7,800,000</td>
                         </tr>
                         <!-- Other -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Other
                           </th>
                           <td class="">$104,000</td>
@@ -3848,10 +3692,7 @@
                     >
                       <tbody class="text-xl dark:text-white">
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Land and Improvements
                           </th>
                           <td class="">$7,800,000</td>
@@ -3859,19 +3700,13 @@
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
                         >
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Building and Improvements
                           </th>
                           <td class="">$104,000</td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Furniture and Equipment
                           </th>
                           <td class="">$485,000</td>
@@ -3879,19 +3714,11 @@
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
                         >
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
-                            CIP
-                          </th>
+                          <th scope="row" class="px-4 py-1 font-medium">CIP</th>
                           <td class="">$8,000,000</td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Total Property and Equipment at Cost
                           </th>
                           <td class="">$26,000,000</td>
@@ -3899,10 +3726,7 @@
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
                         >
-                          <th
-                            scope="row"
-                            class=" px-4 py-1 font-medium"
-                          >
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Accumulated Depreciation
                           </th>
                           <td class="">$8,000,000</td>
@@ -3926,21 +3750,15 @@
       </div>
     </div>
 
-    <!-- utility.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=185"></script>
-    <!-- utilityPrint.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=191"></script>
-    <!-- api.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=184"></script>
-    <!-- Header.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=186"></script>
-    <!-- displayCharts.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=188"></script>
-    <!-- compReport.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=190"></script>
-    <!-- uiManagement.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=187"></script>
-    <!-- charts.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=189"></script>
+    <!-- import all the .js files from components, data, and utility folders-->
+    <script src="./utility/Utility.js"></script>
+    <script src="./utility/WeightedAverages.js"></script>
+    <!-- <script src="./utility/Print.js"></script> -->
+    <script src="./data/Api.js"></script>
+    <script src="./components/DisplayCharts.js"></script>
+    <script src="./components/Header.js"></script>
+    <script src="./components/Report.js"></script>
+    <script src="./utility/UiManagement.js"></script>
+    <script src="utility/charts.js"></script>
   </body>
 </html>

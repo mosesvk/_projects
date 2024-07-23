@@ -25,7 +25,7 @@ const getMainChartOptions = (
 
   const chartColor = document.documentElement.classList.contains("dark")
     ? "#e3f0fa"
-    : "#000000";
+    : "#3a464f";
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 

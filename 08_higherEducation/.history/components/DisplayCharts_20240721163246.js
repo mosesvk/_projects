@@ -69,13 +69,44 @@ displayCfiComponent = (data) => {
   );
 };
 
-toggleDetailsByIdentifier("cfiRatio");
-toggleDetailsByIdentifier("primaryReserveRatio");
-toggleDetailsByIdentifier("cfiNetIncomeOperationsRatio");
-toggleDetailsByIdentifier("returnOnNetAssets");
-toggleDetailsByIdentifier("cfiViabilityRatio");
 
-// Financial ANALYSIS
+toggleDetailsByIdentifier("cfiRatio");
+toggleDetailsByIdentifier("primaryReserveRatio")
+toggleDetailsByIdentifier("cfiNetIncomeOperationsRatio")
+
+const dropdownButton_returnOnNetAssets = document.getElementById(
+  "dropdown_returnOnNetAssets"
+);
+const detailsDiv_returnOnNetAssets = document.getElementById(
+  "details_returnOnNetAssets"
+);
+const arrowIcon_returnOnNetAssets = document.getElementById(
+  "arrow_returnOnNetAssets"
+);
+
+toggleDetails(
+  dropdownButton_returnOnNetAssets,
+  detailsDiv_returnOnNetAssets,
+  arrowIcon_returnOnNetAssets
+);
+
+const dropdownButton_cfiViabilityRatio = document.getElementById(
+  "dropdown_cfiViabilityRatio"
+);
+const detailsDiv_cfiViabilityRatio = document.getElementById(
+  "details_cfiViabilityRatio"
+);
+const arrowIcon_cfiViabilityRatio = document.getElementById(
+  "arrow_cfiViabilityRatio"
+);
+
+toggleDetails(
+  dropdownButton_cfiViabilityRatio,
+  detailsDiv_cfiViabilityRatio,
+  arrowIcon_cfiViabilityRatio
+);
+
+// FINANCIAL ANALYSIS
 const displayFinancialAnalysisContentComponent = () => {
   const savedData = getStoredData("financialAnalysisContentData");
   const parseData = parseStoredData(savedData);
@@ -85,15 +116,8 @@ const displayFinancialAnalysisContentComponent = () => {
     getFpaChartOptions(parseData)
   );
   fpaChart.render();
-  // fpaChart.render().then(() => {
-  //   window.setTimeout(function () {
-  //     fpaChart.dataURI().then((uri) => {
-  //       console.log(uri);
-  //     });
-  //   }, 1000);
-  // });
-  const fpaChartElement = fpaChart.paper().svg();
-  map_dataUri.set("financialAnalysisContent", svgToBase64(fpaChartElement));
+  const fpaChartElement = fpaChart.paper().svg()
+  map_dataUri.set('financialAnalysisContent', svgToBase64(fpaChartElement))
   document.addEventListener("dark-mode", function () {
     fpaChart.updateOptions(getFpaChartOptions(parseData));
   });
@@ -103,8 +127,6 @@ const displayFinancialAnalysisContentComponent = () => {
     getAtlChartOptions(parseData)
   );
   atlChart.render();
-  const atlChartElement = atlChart.paper().svg();
-  map_dataUri.set("assetToLiabilities", svgToBase64(atlChartElement));
   document.addEventListener("dark-mode", function () {
     atlChart.updateOptions(getAtlChartOptions(parseData));
   });
@@ -114,8 +136,6 @@ const displayFinancialAnalysisContentComponent = () => {
     getSoiClientChartOptions(parseData)
   );
   soiClientChart.render();
-  // const soiClientChartElement = soiClientChart.paper().svg();
-  // map_dataUri.set("sourceOfIncomeClient", svgToBase64(soiClientChartElement));
   document.addEventListener("dark-mode", function () {
     soiClientChart.updateOptions(getSoiClientChartOptions(parseData));
   });
@@ -125,8 +145,6 @@ const displayFinancialAnalysisContentComponent = () => {
     getSoiPeerChartOptions(parseData)
   );
   soiPeerChart.render();
-  // const soiPeerChartElement = soiPeerChart.paper().svg();
-  // map_dataUri.set("sourceOfIncomePeer", svgToBase64(soiPeerChartElement));
   document.addEventListener("dark-mode", function () {
     soiPeerChart.updateOptions(getSoiPeerChartOptions(parseData));
   });
@@ -136,8 +154,6 @@ const displayFinancialAnalysisContentComponent = () => {
     getFfaChartOptions(parseData)
   );
   ffaChart.render();
-  // const ffaChartElement = ffaChart.paper().svg();
-  // map_dataUri.set("ffa", svgToBase64(ffaChartElement));
   document.addEventListener("dark-mode", function () {
     ffaChart.updateOptions(getFfaChartOptions(parseData));
   });
@@ -147,23 +163,40 @@ const displayFinancialAnalysisContentComponent = () => {
     getCashFlowTrendChartOptions(parseData)
   );
   cashFlowTrendChart.render();
-  // const cashFlowsTrendChartElement = cashFlowTrendChart.paper().svg();
-  // map_dataUri.set("cashFlowsTrend", svgToBase64(cashFlowsTrendChartElement));
   document.addEventListener("dark-mode", function () {
     cashFlowTrendChart.updateOptions(getCashFlowTrendChartOptions(parseData));
   });
 };
 
-toggleDetailsByIdentifier("sourceOfIncome");
-toggleDetailsByIdentifier("ffa");
+const dropdownButton_sourceOfIncome = document.getElementById(
+  "dropdown_sourceOfIncome"
+);
+const detailsDiv_sourceOfIncome = document.getElementById(
+  "details_sourceOfIncome"
+);
+const arrowIcon_sourceOfIncome = document.getElementById(
+  "arrow_sourceOfIncome"
+);
 
-// Financial STATEMENT
+toggleDetails(
+  dropdownButton_sourceOfIncome,
+  detailsDiv_sourceOfIncome,
+  arrowIcon_sourceOfIncome
+);
+
+const dropdownButton_ffa = document.getElementById("dropdown_ffa");
+const detailsDiv_ffa = document.getElementById("details_ffa");
+const arrowIcon_ffa = document.getElementById("arrow_ffa");
+
+toggleDetails(dropdownButton_ffa, detailsDiv_ffa, arrowIcon_ffa);
+
+// FINANCIAL STATEMENT
 const displayFinancialStatementComponent = () => {
   const savedData = getStoredData("financialStatementContentData");
   const parseData = parseStoredData(savedData);
 
   // assets_chart
-  assetsChart = new ApexCharts(
+  const assetsChart = new ApexCharts(
     document.querySelector("#assets_chart"),
     getFSchartOptions(
       parseData,
@@ -174,8 +207,6 @@ const displayFinancialStatementComponent = () => {
     )
   );
   assetsChart.render();
-  // const assetsChartElement = assetsChart.paper().svg();
-  // map_dataUri.set("totalAssets_Client", svgToBase64(assetsChartElement));
   document.addEventListener("dark-mode", function () {
     assetsChart.updateOptions(
       getFSchartOptions(
@@ -199,12 +230,8 @@ const displayFinancialStatementComponent = () => {
       "Liabilities"
     )
   );
+
   liabilitiesChart.render();
-  // const liabilitiesChartElement = liabilitiesChart.paper().svg();
-  // map_dataUri.set(
-  //   "totalLiabilities_Client",
-  //   svgToBase64(liabilitiesChartElement)
-  // );
   document.addEventListener("dark-mode", function () {
     liabilitiesChart.updateOptions(
       getFSchartOptions(
@@ -228,9 +255,8 @@ const displayFinancialStatementComponent = () => {
       "Net Assets"
     )
   );
+
   netAssetsChart.render();
-  // const netAssetsChartElement = netAssetsChart.paper().svg();
-  // map_dataUri.set("totalNetAssets_Client", svgToBase64(netAssetsChartElement));
   document.addEventListener("dark-mode", function () {
     netAssetsChart.updateOptions(
       getFSchartOptions(
@@ -254,12 +280,8 @@ const displayFinancialStatementComponent = () => {
       "Revenue and Support"
     )
   );
+
   revenueAndSupportChart.render();
-  // const revenueAndSupportChartElement = revenueAndSupportChart.paper().svg();
-  // map_dataUri.set(
-  //   "revenueAndSupport_Client",
-  //   svgToBase64(revenueAndSupportChartElement)
-  // );
   document.addEventListener("dark-mode", function () {
     revenueAndSupportChart.updateOptions(
       getFSchartOptions(
@@ -283,14 +305,8 @@ const displayFinancialStatementComponent = () => {
       "Educational Program Expenses"
     )
   );
+
   educationalProgramExpensesChart.render();
-  // const educationalProgramExpensesChartElement = educationalProgramExpensesChart
-  //   .paper()
-  //   .svg();
-  // map_dataUri.set(
-  //   "educationalProgramExpenses_Client",
-  //   svgToBase64(educationalProgramExpensesChartElement)
-  // );
   document.addEventListener("dark-mode", function () {
     educationalProgramExpensesChart.updateOptions(
       getFSchartOptions(
@@ -462,9 +478,10 @@ const displayFinancialStatementComponent = () => {
       "dollar",
       "Property and Equipment"
     )
-  );
+  )
 
   propertyAndEquipmentChart.render();
+
 
   document.addEventListener("dark-mode", function () {
     propertyAndEquipmentChart.updateOptions(

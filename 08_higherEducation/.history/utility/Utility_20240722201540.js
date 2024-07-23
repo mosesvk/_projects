@@ -362,7 +362,6 @@ const createChart = (
         )
       );
     });
-
   } else {
     let chart = new ApexCharts(
       document.getElementById(chartId),

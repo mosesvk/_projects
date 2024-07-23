@@ -163,7 +163,7 @@ const displayFinancialStatementComponent = () => {
   const parseData = parseStoredData(savedData);
 
   // assets_chart
-  assetsChart = new ApexCharts(
+  const assetsChart = new ApexCharts(
     document.querySelector("#assets_chart"),
     getFSchartOptions(
       parseData,

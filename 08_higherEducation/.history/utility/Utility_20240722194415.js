@@ -1,5 +1,3 @@
-let cfiRatioChart, assetsChart;
-
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const regions_Array = [
@@ -155,7 +153,7 @@ const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();
 let selectedSchoolChurch_Selected;
-const map_dataUri = new Map();
+const map_dataUri = new Map()
 
 // Utility Functions
 
@@ -325,66 +323,56 @@ const createChart = (
   type,
   fixedNum,
   mainName,
-  benchmark,
+  benchmark, 
   title
 ) => {
   // if (mainName == 'cfi_netIncomeOperationsRatio') console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
 
   // Create a new chart instance
+  let chart = new ApexCharts(
+    document.getElementById(chartId),
+    getMainChartOptions(
+      dataPeer,
+      dataClient,
+      type,
+      fixedNum,
+      mainName,
+      benchmark,
+      title
+    )
+  )
 
-  if (mainName == "cfiRatio") {
-    cfiRatioChart = new ApexCharts(
-      document.getElementById(chartId),
-      getMainChartOptions(
-        dataPeer,
-        dataClient,
-        type,
-        fixedNum,
-        mainName,
-        benchmark,
-        title
-      )
-    );
+  chart.render();
 
-    cfiRatioChart.render();
+  const svgChartElement = chart.paper().svg()
+  ApexCharts.exec(mainName, "dataURI").then(({ imgURI }) => {
+    if (mainName == 'cfiRatio') console.log({ imgURI, mainName});
+  });
+  map_dataUri.set(mainName, svgToBase64(svgChartElement))
 
-    document.addEventListener("dark-mode", function () {
-      cfiRatioChart.updateOptions(
-        getMainChartOptions(
-          dataPeer,
-          dataClient,
-          type,
-          fixedNum,
-          mainName,
-          benchmark,
-          title
-        )
-      );
-    });
-
-  } else {
-    let chart = new ApexCharts(
-      document.getElementById(chartId),
-      getMainChartOptions(
-        dataPeer,
-        dataClient,
-        type,
-        fixedNum,
-        mainName,
-        benchmark,
-        title
-      )
-    );
-    chart.render();
-  }
-
-  // const svgChartElement = chart.paper().svg()
-  // map_dataUri.set(mainName, svgToBase64(svgChartElement))
-
+  // console.log(chartId)
   document.querySelectorAll(
     `#${chartId} .apexcharts-legend-series`
   )[5].style.display = "none";
+
+  // init again when toggling dark mode
+  document.addEventListener("dark-mode", function () {
+    chart.updateOptions(
+      getMainChartOptions(
+        dataPeer,
+        dataClient,
+        type,
+        fixedNum,
+        mainName,
+        benchmark,
+        title
+      )
+    );
+    document.querySelectorAll(
+      `#${chartId} .apexcharts-legend-series`
+    )[5].style.display = "none";
+  });
 };
 
 const getStoredData = (dataTable) => {
@@ -542,13 +530,15 @@ const getSelectedYearsFromLocalStorage = () => {
   const storedData = localStorage.getItem("demo");
   if (!storedSelectedYears && storedData) {
     console.error("Need to Select Year");
-  }
-
+  } 
+  
   if (storedSelectedYears) {
     // console.log("Selected Years: ", storedSelectedYears);
     // console.log("Sort: ", storedSelectedYears.sort((a, b) => a - b));
     return storedSelectedYears;
   }
+
+
 };
 
 const resetSelectedYearsFromLocalStorage = () => {
@@ -1138,10 +1128,12 @@ const updateCfiValue = (cfiValue) => {
   }
 };
 
+
 const displayFSSummary = (chart, idx) => {
-  const summaryDiv = document.getElementById(chart.replace("chart", "summary"));
+  const summaryDiv = document.getElementById(chart.replace("chart", "summary"))
   console.log({ summaryDiv, idx });
-};
+}
+
 
 function createFSTable(tableId, data) {
   const table = document.getElementById(tableId);
@@ -1151,6 +1143,7 @@ function createFSTable(tableId, data) {
   tbody.classList.add("text-xl", "dark:text-white"); // Add Tailwind classes for <tbody>
 
   data.forEach((item, idx) => {
+    
     const row = document.createElement("tr");
     if (idx % 2 === 0) {
       row.classList.add("bg-gray-200", "dark:bg-gray-600"); // Add Tailwind classes for even rows
@@ -1181,12 +1174,7 @@ function createFSTable(tableId, data) {
   totalTh.classList.add("px-6", "py-3"); // Add Tailwind classes for total <th>
 
   const totalTd = document.createElement("td");
-  totalTd.textContent = data
-    .reduce(
-      (acc, item) => acc + parseFloat(item.value.replace(/[^0-9.-]+/g, "")),
-      0
-    )
-    .toLocaleString();
+  totalTd.textContent = data.reduce((acc, item) => acc + parseFloat(item.value.replace(/[^0-9.-]+/g, "")), 0).toLocaleString();
   totalTd.classList.add("px-6", "py-3"); // Add Tailwind classes for total <td>
 
   totalRow.appendChild(totalTh);
@@ -1208,7 +1196,11 @@ function toggleDetailsByIdentifier(identifier) {
 
   // For demonstration purposes, let's log a message
   toggleDetails(dropdownButton, detailsDiv, arrowIcon);
+
 }
+
+
+
 
 function svgToBase64(svgElement) {
   // Create a temporary div element
@@ -1227,3 +1219,4 @@ function svgToBase64(svgElement) {
   // console.log({encodedData});
   return encodedData;
 }
+

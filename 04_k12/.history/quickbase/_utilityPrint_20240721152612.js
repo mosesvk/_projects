@@ -188,6 +188,17 @@ const printToExcel = (dataString) => {
           .find("record")
           .find("f")
           .text();
+        // newDownloadURLFormatted = newDownloadURL.replace(/amp;/g, "");
+        // newDownloadURLFormattedArray = newDownloadURLFormatted.split("---");
+        //   document.getElementById('print_modal_footer').classList.remove('hidden');
+        //   document.getElementById("trendXLSFinal").href =
+        //     newDownloadURLFormattedArray[1];
+        //   document.getElementById("trendPDFFinal").href =
+        //     newDownloadURLFormattedArray[0];
+        //   document.getElementById("benchXLSFinal").href =
+        //     newDownloadURLFormattedArray[3];
+        //   document.getElementById("benchPDFFinal").href =
+        //     newDownloadURLFormattedArray[2];
       } else {
         console.log("Quickbase returned an error.");
         createToastWarning(`Quickbase returned an error: if (xmlUpload.find("qdbapi").find("errcode").text() == "0")`)

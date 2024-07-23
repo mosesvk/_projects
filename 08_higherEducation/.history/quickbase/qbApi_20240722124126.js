@@ -10,10 +10,11 @@ $.get(clientData, apiCallClientDataForUniqueYears)
 
     // consozle.log(recordsClient[0]);
 
-    clientName =
+    const firmName =
       recordsClient[0].querySelector("merged_client_name").textContent;
-    document.getElementById("firmName").textContent = clientName;
+    document.getElementById("firmName").textContent = firmName;
 
+    clientName = firmName.textContent;
 
     // console.log(recordsClient[0].children)
 

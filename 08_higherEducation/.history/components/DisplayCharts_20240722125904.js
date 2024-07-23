@@ -92,8 +92,8 @@ const displayFinancialAnalysisContentComponent = () => {
   //     });
   //   }, 1000);
   // });
-  const fpaChartElement = fpaChart.paper().svg();
-  map_dataUri.set("financialAnalysisContent", svgToBase64(fpaChartElement));
+  // const fpaChartElement = fpaChart.paper().svg();
+  // map_dataUri.set("financialAnalysisContent", svgToBase64(fpaChartElement));
   document.addEventListener("dark-mode", function () {
     fpaChart.updateOptions(getFpaChartOptions(parseData));
   });
@@ -114,8 +114,8 @@ const displayFinancialAnalysisContentComponent = () => {
     getSoiClientChartOptions(parseData)
   );
   soiClientChart.render();
-  // const soiClientChartElement = soiClientChart.paper().svg();
-  // map_dataUri.set("sourceOfIncomeClient", svgToBase64(soiClientChartElement));
+  const soiClientChartElement = soiClientChart.paper().svg();
+  map_dataUri.set("sourceOfIncomeClient", svgToBase64(soiClientChartElement));
   document.addEventListener("dark-mode", function () {
     soiClientChart.updateOptions(getSoiClientChartOptions(parseData));
   });
@@ -125,8 +125,8 @@ const displayFinancialAnalysisContentComponent = () => {
     getSoiPeerChartOptions(parseData)
   );
   soiPeerChart.render();
-  // const soiPeerChartElement = soiPeerChart.paper().svg();
-  // map_dataUri.set("sourceOfIncomePeer", svgToBase64(soiPeerChartElement));
+  const soiPeerChartElement = soiPeerChart.paper().svg();
+  map_dataUri.set("sourceOfIncomePeer", svgToBase64(soiPeerChartElement));
   document.addEventListener("dark-mode", function () {
     soiPeerChart.updateOptions(getSoiPeerChartOptions(parseData));
   });
@@ -136,8 +136,8 @@ const displayFinancialAnalysisContentComponent = () => {
     getFfaChartOptions(parseData)
   );
   ffaChart.render();
-  // const ffaChartElement = ffaChart.paper().svg();
-  // map_dataUri.set("ffa", svgToBase64(ffaChartElement));
+  const ffaChartElement = ffaChart.paper().svg();
+  map_dataUri.set("ffa", svgToBase64(ffaChartElement));
   document.addEventListener("dark-mode", function () {
     ffaChart.updateOptions(getFfaChartOptions(parseData));
   });
@@ -147,8 +147,8 @@ const displayFinancialAnalysisContentComponent = () => {
     getCashFlowTrendChartOptions(parseData)
   );
   cashFlowTrendChart.render();
-  // const cashFlowsTrendChartElement = cashFlowTrendChart.paper().svg();
-  // map_dataUri.set("cashFlowsTrend", svgToBase64(cashFlowsTrendChartElement));
+  const cashFlowsTrendChartElement = cashFlowTrendChart.paper().svg();
+  map_dataUri.set("cashFlowsTrend", svgToBase64(cashFlowsTrendChartElement));
   document.addEventListener("dark-mode", function () {
     cashFlowTrendChart.updateOptions(getCashFlowTrendChartOptions(parseData));
   });
@@ -163,7 +163,7 @@ const displayFinancialStatementComponent = () => {
   const parseData = parseStoredData(savedData);
 
   // assets_chart
-  assetsChart = new ApexCharts(
+  const assetsChart = new ApexCharts(
     document.querySelector("#assets_chart"),
     getFSchartOptions(
       parseData,
@@ -174,8 +174,8 @@ const displayFinancialStatementComponent = () => {
     )
   );
   assetsChart.render();
-  // const assetsChartElement = assetsChart.paper().svg();
-  // map_dataUri.set("totalAssets_Client", svgToBase64(assetsChartElement));
+  const assetsChartElement = assetsChart.paper().svg();
+  map_dataUri.set("totalAssets_Client", svgToBase64(assetsChartElement));
   document.addEventListener("dark-mode", function () {
     assetsChart.updateOptions(
       getFSchartOptions(
@@ -200,11 +200,11 @@ const displayFinancialStatementComponent = () => {
     )
   );
   liabilitiesChart.render();
-  // const liabilitiesChartElement = liabilitiesChart.paper().svg();
-  // map_dataUri.set(
-  //   "totalLiabilities_Client",
-  //   svgToBase64(liabilitiesChartElement)
-  // );
+  const liabilitiesChartElement = liabilitiesChart.paper().svg();
+  map_dataUri.set(
+    "totalLiabilities_Client",
+    svgToBase64(liabilitiesChartElement)
+  );
   document.addEventListener("dark-mode", function () {
     liabilitiesChart.updateOptions(
       getFSchartOptions(
@@ -229,8 +229,8 @@ const displayFinancialStatementComponent = () => {
     )
   );
   netAssetsChart.render();
-  // const netAssetsChartElement = netAssetsChart.paper().svg();
-  // map_dataUri.set("totalNetAssets_Client", svgToBase64(netAssetsChartElement));
+  const netAssetsChartElement = netAssetsChart.paper().svg();
+  map_dataUri.set("totalNetAssets_Client", svgToBase64(netAssetsChartElement));
   document.addEventListener("dark-mode", function () {
     netAssetsChart.updateOptions(
       getFSchartOptions(
@@ -255,11 +255,11 @@ const displayFinancialStatementComponent = () => {
     )
   );
   revenueAndSupportChart.render();
-  // const revenueAndSupportChartElement = revenueAndSupportChart.paper().svg();
-  // map_dataUri.set(
-  //   "revenueAndSupport_Client",
-  //   svgToBase64(revenueAndSupportChartElement)
-  // );
+  const revenueAndSupportChartElement = revenueAndSupportChart.paper().svg();
+  map_dataUri.set(
+    "revenueAndSupport_Client",
+    svgToBase64(revenueAndSupportChartElement)
+  );
   document.addEventListener("dark-mode", function () {
     revenueAndSupportChart.updateOptions(
       getFSchartOptions(
@@ -284,13 +284,13 @@ const displayFinancialStatementComponent = () => {
     )
   );
   educationalProgramExpensesChart.render();
-  // const educationalProgramExpensesChartElement = educationalProgramExpensesChart
-  //   .paper()
-  //   .svg();
-  // map_dataUri.set(
-  //   "educationalProgramExpenses_Client",
-  //   svgToBase64(educationalProgramExpensesChartElement)
-  // );
+  const educationalProgramExpensesChartElement = educationalProgramExpensesChart
+    .paper()
+    .svg();
+  map_dataUri.set(
+    "educationalProgramExpenses_Client",
+    svgToBase64(educationalProgramExpensesChartElement)
+  );
   document.addEventListener("dark-mode", function () {
     educationalProgramExpensesChart.updateOptions(
       getFSchartOptions(

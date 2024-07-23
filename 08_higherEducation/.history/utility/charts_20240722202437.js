@@ -18,14 +18,14 @@ const getMainChartOptions = (
       }
     : {
         borderColor: "#F3F4F6",
-        labelColor: "#000000",
+        labelColor: "#6B7280",
         opacityFrom: 0.45,
         opacityTo: 0,
       };
 
   const chartColor = document.documentElement.classList.contains("dark")
     ? "#e3f0fa"
-    : "#000000";
+    : "#3a464f";
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -140,11 +140,8 @@ const getMainChartOptions = (
     title: {
       text: title,
       align: "center",
-      margin: 10,
-      offsetY: 20,
       style: {
-        color: chartColors.labelColor,
-        fontSize: "1.5rem",
+        color: chartColor,
       }
     },
     xaxis: {
@@ -163,12 +160,12 @@ const getMainChartOptions = (
         },
         axisBorder: {
           show: true,
-          color: chartColors.labelColor,
+          color: chartColor,
         },
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
-            colors: chartColors.labelColor,
+            colors: chartColor,
             fontSize: "1rem",
           },
         },

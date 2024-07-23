@@ -363,6 +363,7 @@ const createChart = (
       );
     });
 
+    console.log('base64', svgToBase64(cfiRatioChart.paper().svg()));
   } else {
     let chart = new ApexCharts(
       document.getElementById(chartId),

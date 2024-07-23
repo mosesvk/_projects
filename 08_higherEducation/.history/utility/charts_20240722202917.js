@@ -18,14 +18,14 @@ const getMainChartOptions = (
       }
     : {
         borderColor: "#F3F4F6",
-        labelColor: "#000000",
+        labelColor: "#6B7280",
         opacityFrom: 0.45,
         opacityTo: 0,
       };
 
   const chartColor = document.documentElement.classList.contains("dark")
     ? "#e3f0fa"
-    : "#000000";
+    : "#3a464f";
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 

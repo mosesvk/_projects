@@ -61,32 +61,13 @@
         defer="true"
       ></script>
 
-      <script>
-        var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
-        $.ajaxSetup({ data: { apptoken: apptoken } });
-
-        //retrieve URL ID for record
-        function getQueryVariable(variable) {
-          var query = window.location.search.substring(1);
-          var vars = query.split("&");
-          for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if (pair[0] == variable) {
-              return pair[1];
-            }
-          }
-          return false;
-        }
-        var ClientRid = getQueryVariable("clientrid");
-        const clientData = "bt3egnexu";
-        const peerData = "bt3mx3t3i";
-      </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
       <script>
         chartColors = {
           green: "#83b240",
           darkGreen: "#EDAB20",
-          blue: "#326eaa",
+          blue: "#376eaa",
           darkBlue: "#00588D",
           grey: "#43505a",
           red: "#ff6384",
@@ -95,6 +76,27 @@
           purple: "#723682",
           black: "#161F25",
           teal: "#00808D",
+          hoverGreen: "#567529",
+          hoverBlue: "#1E3A59",
+          hoverYellow: "#B59B42",
+          tealRevenue: "#4EA79F",
+          tealRevenueHover: "#35706A",
+          orangeEducational: "#F4982D",
+          orangeEducationalHover: "#A9691F",
+          redNonoperating: "#EF707E",
+          redNonoperatingHover: "#A05059",
+          purpleChangeNetAssets: "#C57FD7",
+          purpleChangeNetAssetsHover: "#734C7D",
+          blueNaturalExpense: "#4F76D9",
+          blueNaturalExpenseHover: "#385292",
+          blueOperating: "#70B5CC",
+          blueOperatingHover: "#3C616D",
+          orangeInvesting: "#FFA726",
+          orangeInvestingHover: "#A06A1A",
+          pinkFinancing: "#FFCDD2",
+          pinkFinancingHover: "#C69DA1",
+          greenPropertyEquipment: "#459B53",
+          greenPropertyEquipmentHover: "#2E6136",
         };
       </script>
 
@@ -827,17 +829,28 @@
                 <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
                 <li>
                   <button
-                    id="printCharts"
-                    data-popover-target="popoverPrint-hover"
+                    id="financialStatementLink"
+                    data-popover-target="popoverFinancialStatement-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
                     type="button"
                     class="flex items-center w-full py-2 pl-1 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
-                    <svg class="flex-shrink-0 w-6 h-6 transition duration-75" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                      <path fill-rule="evenodd" d="M8 3a2 2 0 0 0-2 2v3h12V5a2 2 0 0 0-2-2H8Zm-3 7a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h1v-4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v4h1a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5Zm4 11a1 1 0 0 1-1-1v-4h8v4a1 1 0 0 1-1 1H9Z" clip-rule="evenodd"/>
+                    <svg
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 2a3 3 0 0 0-3 3v1H5a3 3 0 0 0-3 3v2.382l1.447.723.005.003.027.013.12.056c.108.05.272.123.486.212.429.177 1.056.416 1.834.655C7.481 13.524 9.63 14 12 14c2.372 0 4.52-.475 6.08-.956.78-.24 1.406-.478 1.835-.655a14.028 14.028 0 0 0 .606-.268l.027-.013.005-.002L22 11.381V9a3 3 0 0 0-3-3h-2V5a3 3 0 0 0-3-3h-4Zm5 4V5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v1h6Zm6.447 7.894.553-.276V19a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-5.382l.553.276.002.002.004.002.013.006.041.02.151.07c.13.06.318.144.557.242.478.198 1.163.46 2.01.72C7.019 15.476 9.37 16 12 16c2.628 0 4.98-.525 6.67-1.044a22.95 22.95 0 0 0 2.01-.72 15.994 15.994 0 0 0 .707-.312l.041-.02.013-.006.004-.002.001-.001-.431-.866.432.865ZM12 10a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H12Z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
-                    
 
                     <span
                       class="flex-1 ml-4 text-left text-lg font-semibold tracking-wide whitespace-nowrap"
@@ -848,7 +861,7 @@
                   </button>
                   <div
                     data-popover
-                    id="popoverPrint-hover"
+                    id="popoverFinancialStatement-hover"
                     role="tooltip"
                     class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
                   >
@@ -856,7 +869,7 @@
                       class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
                     >
                       <h3 class="font-semibold text-white text-lg">
-                        Print Charts
+                        Financial Statement
                       </h3>
                     </div>
                     <div
@@ -3926,21 +3939,15 @@
       </div>
     </div>
 
-    <!-- utility.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=185"></script>
-    <!-- utilityPrint.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=191"></script>
-    <!-- api.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=184"></script>
-    <!-- Header.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=186"></script>
-    <!-- displayCharts.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=188"></script>
-    <!-- compReport.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=190"></script>
-    <!-- uiManagement.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=187"></script>
-    <!-- charts.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=189"></script>
+    <!-- import all the .js files from components, data, and utility folders-->
+    <script src="./utility/Utility.js"></script>
+    <script src="./utility/WeightedAverages.js"></script>
+    <script src="./utility/Print.js"></script>
+    <script src="./data/Api.js"></script>
+    <script src="./components/DisplayCharts.js"></script>
+    <script src="./components/Header.js"></script>
+    <script src="./components/Report.js"></script>
+    <script src="./utility/UiManagement.js"></script>
+    <script src="utility/charts.js"></script>
   </body>
 </html>

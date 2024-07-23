@@ -1,7 +1,7 @@
 let apiCallClientDataForUniqueYears = {
   act: "API_DoQuery",
   query: `{533.EX.${ClientRid}}`,
-  clist: "533.7.539",
+  clist: "533.7.539"
 };
 
 $.get(clientData, apiCallClientDataForUniqueYears)
@@ -10,10 +10,11 @@ $.get(clientData, apiCallClientDataForUniqueYears)
 
     // consozle.log(recordsClient[0]);
 
-    clientName =
+    const firmName =
       recordsClient[0].querySelector("merged_client_name").textContent;
-    document.getElementById("firmName").textContent = clientName;
+    document.getElementById("firmName").textContent = firmName;
 
+    clientName = firmName.textContent
 
     // console.log(recordsClient[0].children)
 
@@ -136,7 +137,10 @@ const insertDataIntoObject = (
   }
 };
 
-const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
+const processFinancialStatementContentData = (
+  recordsPeer,
+  recordsClient
+) => {
   const object = {};
 
   const years = yearsData_Array.sort((a, b) => a - b);
@@ -180,6 +184,8 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
         "r020_ctotal_net_assets"
       );
 
+
+
       // totalExpenses
       insertDataIntoObject(
         "client",
@@ -189,6 +195,7 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
         record,
         "r044_ctotal_functional_expenses"
       );
+
 
       // totalNonOperatingExpenses
       insertDataIntoObject(
@@ -220,6 +227,7 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
         "r166_ctotal_natural_category_expenses"
       );
 
+
       // cashFlows_operatingActivities
       insertDataIntoObject(
         "client",
@@ -247,6 +255,8 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
         record,
         "r089_cnet_cash_used_in_financing_activities"
       );
+
+
 
       // propertyAndEquipment
       insertDataIntoObject(
@@ -1116,6 +1126,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
       : "-";
 };
 
+
 // Helper functions
 
 const countUniqueClients = (records) => {
@@ -1200,7 +1211,10 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
     recordsPeer,
     recordsClient
   );
-  processFinancialStatementContentData(recordsPeer, recordsClient);
+  processFinancialStatementContentData(
+    recordsPeer,
+    recordsClient
+  );
 };
 
 const displayComponents = () => {
@@ -1318,21 +1332,19 @@ const getRecordsForPeer = async (years, dataStr) => {
 
   function getClientQuery(selectedClients) {
     // Check if the "select-all-checkbox-client" input is checked
-    const selectAllCheckbox = document.getElementById(
-      "select-all-checkbox-client"
-    );
+    const selectAllCheckbox = document.getElementById("select-all-checkbox-client");
     if (selectAllCheckbox && selectAllCheckbox.checked) {
-      // If checked, return an empty string
-      return "";
+        // If checked, return an empty string
+        return "";
     }
 
     // Otherwise, continue with the existing logic
     const clientConditions = selectedClients
-      .map((client) => `{539.EX.${client}}`)
-      .join(" OR ");
+        .map((client) => `{539.EX.${client}}`)
+        .join(" OR ");
     // console.log({ clientConditions });
     return `(${clientConditions})`;
-  }
+}
 
   // (${getRegionQuery(selectedRegions_Array)}) AND
   // (${getStateQuery(selectedStates_Array)}) AND
@@ -1354,7 +1366,7 @@ const getRecordsForPeer = async (years, dataStr) => {
       (${getClientQuery(selectedClients_Array)})
     `,
     clist:
-      "7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633",
+      "7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633"
   };
 
   try {
@@ -1400,7 +1412,7 @@ const getRecordsForUniqueClientsPeerNames = async () => {
   const apiCallPeerData = {
     act: "API_DoQuery",
     clist:
-      "7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395",
+      "7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395"
   };
 
   try {
@@ -1446,7 +1458,7 @@ const getRecordsForClient = async (years, dataStr) => {
 	    {7.EX.${currentYear}} AND
 	    {533.EX.${ClientRid}}`,
     clist:
-      "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.420.421.422.423.424.425.426.427.571.435.572.566",
+      "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.420.421.422.423.424.425.426.427.571.435.572.566"
   };
 
   try {
