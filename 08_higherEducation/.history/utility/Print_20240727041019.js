@@ -5,8 +5,8 @@ async function getBase64Strings(){
 
     // console.log(dataUrLObj)
 
-    const png = await svgToPngBase64(document.getElementById('cfiRatio_chart'), 'cfiRatio')
-    // console.log(png);
+    const png = await svgToPngBase64(document.getElementById('cfiRatio_chart'))
+    console.log(png);
 }
 
 

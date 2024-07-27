@@ -3,9 +3,8 @@ const urlUploadFile =
 let uploadMainFile = "";
 const printButton = document.getElementById("printCharts");
 
-const mainPrint = async () => {
+const mainPrint = () => {
   uploadMainFile += "<qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>";
-  const png = await svgToPngBase64(document.getElementById('cfiRatio_chart'), 'cfiRatio')
   uploadSingleToFile(6, dataUrLObj.get("cfiRatio"));
 //   uploadSingleToFile(8, map_dataUri.get("financialAnalysisContent"));
   uploadMainFile += "</qdbapi>";
