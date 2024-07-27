@@ -156,7 +156,6 @@ const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();
 let selectedSchoolChurch_Selected;
 const map_dataUri = new Map();
-const dataUrLObj = new Object()
 
 // Utility Functions
 
@@ -331,8 +330,6 @@ const createChart = (
 ) => {
   // if (mainName == 'cfi_netIncomeOperationsRatio') console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
-
-  dataUrLObj[mainName] = chartId
 
   // Create a new chart instance
     let chart = new ApexCharts(

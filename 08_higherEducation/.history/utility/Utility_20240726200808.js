@@ -156,7 +156,6 @@ const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();
 let selectedSchoolChurch_Selected;
 const map_dataUri = new Map();
-const dataUrLObj = new Object()
 
 // Utility Functions
 
@@ -332,9 +331,39 @@ const createChart = (
   // if (mainName == 'cfi_netIncomeOperationsRatio') console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
 
-  dataUrLObj[mainName] = chartId
-
   // Create a new chart instance
+
+  if (mainName == "cfiRatio") {
+    cfiRatioChart = new ApexCharts(
+      document.getElementById(chartId),
+      getMainChartOptions(
+        dataPeer,
+        dataClient,
+        type,
+        fixedNum,
+        mainName,
+        benchmark,
+        title
+      )
+    );
+
+    cfiRatioChart.render();
+
+    document.addEventListener("dark-mode", function () {
+      cfiRatioChart.updateOptions(
+        getMainChartOptions(
+          dataPeer,
+          dataClient,
+          type,
+          fixedNum,
+          mainName,
+          benchmark,
+          title
+        )
+      );
+    });
+
+  } else {
     let chart = new ApexCharts(
       document.getElementById(chartId),
       getMainChartOptions(
@@ -348,20 +377,10 @@ const createChart = (
       )
     );
     chart.render();
+  }
 
-    document.addEventListener("dark-mode", function () {
-      chart.updateOptions(
-        getMainChartOptions(
-          dataPeer,
-          dataClient,
-          type,
-          fixedNum,
-          mainName,
-          benchmark,
-          title
-        )
-      );
-    });
+  // const svgChartElement = chart.paper().svg()
+  // map_dataUri.set(mainName, svgToBase64(svgChartElement))
 
   document.querySelectorAll(
     `#${chartId} .apexcharts-legend-series`

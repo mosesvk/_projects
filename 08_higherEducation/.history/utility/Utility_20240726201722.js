@@ -332,8 +332,6 @@ const createChart = (
   // if (mainName == 'cfi_netIncomeOperationsRatio') console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
 
-  dataUrLObj[mainName] = chartId
-
   // Create a new chart instance
     let chart = new ApexCharts(
       document.getElementById(chartId),

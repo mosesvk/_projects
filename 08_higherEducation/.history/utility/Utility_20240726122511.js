@@ -156,7 +156,6 @@ const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();
 let selectedSchoolChurch_Selected;
 const map_dataUri = new Map();
-const dataUrLObj = new Object()
 
 // Utility Functions
 
@@ -332,9 +331,39 @@ const createChart = (
   // if (mainName == 'cfi_netIncomeOperationsRatio') console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
 
-  dataUrLObj[mainName] = chartId
-
   // Create a new chart instance
+
+  if (mainName == "cfiRatio") {
+    cfiRatioChart = new ApexCharts(
+      document.getElementById(chartId),
+      getMainChartOptions(
+        dataPeer,
+        dataClient,
+        type,
+        fixedNum,
+        mainName,
+        benchmark,
+        title
+      )
+    );
+
+    cfiRatioChart.render();
+
+    document.addEventListener("dark-mode", function () {
+      cfiRatioChart.updateOptions(
+        getMainChartOptions(
+          dataPeer,
+          dataClient,
+          type,
+          fixedNum,
+          mainName,
+          benchmark,
+          title
+        )
+      );
+    });
+
+  } else {
     let chart = new ApexCharts(
       document.getElementById(chartId),
       getMainChartOptions(
@@ -348,20 +377,10 @@ const createChart = (
       )
     );
     chart.render();
+  }
 
-    document.addEventListener("dark-mode", function () {
-      chart.updateOptions(
-        getMainChartOptions(
-          dataPeer,
-          dataClient,
-          type,
-          fixedNum,
-          mainName,
-          benchmark,
-          title
-        )
-      );
-    });
+  // const svgChartElement = chart.paper().svg()
+  // map_dataUri.set(mainName, svgToBase64(svgChartElement))
 
   document.querySelectorAll(
     `#${chartId} .apexcharts-legend-series`
@@ -1209,18 +1228,37 @@ function svgToBase64(svgElement) {
   return encodedData;
 }
 
-async function svgToPngBase64(element, id) {
-  let canvasElement = document.createElement("canvas");
-  canvasElement.id = "canvas";
-  document.body.appendChild(canvasElement);
+async function svgToPngBase64(svgElement) {
+  // Create a temporary canvas
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
 
-  html2canvas(element).then(function (canvas) {
-    let picture = document.getElementById("canvas").appendChild(canvas);
-    let base64String = canvas.toDataURL("image/png");
-    const exportString = base64String.slice("data:image/png;base64,".length);
-    map_dataUri.set(id, exportString)
-    picture.remove();
+  // Get the SVG dimensions (you can adjust these as needed)
+  const svgWidth = 300;
+  const svgHeight = 200;
+
+  // Set canvas dimensions
+  canvas.width = svgWidth;
+  canvas.height = svgHeight;
+
+  // Create an image from the SVG
+  const svgBlob = new Blob([svgElement], { type: "image/svg+xml" });
+  const svgUrl = URL.createObjectURL(svgBlob);
+  const img = new Image();
+  img.src = svgUrl;
+
+  // Wait for the image to load
+  await new Promise((resolve) => {
+    img.onload = resolve;
   });
+
+  // Draw the image on the canvas
+  context.drawImage(img, 0, 0, svgWidth, svgHeight);
+
+  // Convert canvas to PNG base64
+  const pngBase64 = canvas.toDataURL("image/png");
+
+  return pngBase64;
 }
 
 
@@ -1238,3 +1276,7 @@ function initializeChart(mainName, chartId, dataPeer, dataClient, type, fixedNum
     });
   }
 }
+
+// Example usage:
+const cfiRatioChartId = "your-chart-id"; // Replace with your actual chart ID
+initializeChart("cfiRatio", cfiRatioChartId, dataPeer, dataClient, type, fixedNum, benchmark, title);

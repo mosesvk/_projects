@@ -156,7 +156,6 @@ const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();
 let selectedSchoolChurch_Selected;
 const map_dataUri = new Map();
-const dataUrLObj = new Object()
 
 // Utility Functions
 
@@ -332,9 +331,39 @@ const createChart = (
   // if (mainName == 'cfi_netIncomeOperationsRatio') console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
 
-  dataUrLObj[mainName] = chartId
-
   // Create a new chart instance
+
+  if (mainName == "cfiRatio") {
+    cfiRatioChart = new ApexCharts(
+      document.getElementById(chartId),
+      getMainChartOptions(
+        dataPeer,
+        dataClient,
+        type,
+        fixedNum,
+        mainName,
+        benchmark,
+        title
+      )
+    );
+
+    cfiRatioChart.render();
+
+    document.addEventListener("dark-mode", function () {
+      cfiRatioChart.updateOptions(
+        getMainChartOptions(
+          dataPeer,
+          dataClient,
+          type,
+          fixedNum,
+          mainName,
+          benchmark,
+          title
+        )
+      );
+    });
+
+  } else {
     let chart = new ApexCharts(
       document.getElementById(chartId),
       getMainChartOptions(
@@ -348,20 +377,10 @@ const createChart = (
       )
     );
     chart.render();
+  }
 
-    document.addEventListener("dark-mode", function () {
-      chart.updateOptions(
-        getMainChartOptions(
-          dataPeer,
-          dataClient,
-          type,
-          fixedNum,
-          mainName,
-          benchmark,
-          title
-        )
-      );
-    });
+  // const svgChartElement = chart.paper().svg()
+  // map_dataUri.set(mainName, svgToBase64(svgChartElement))
 
   document.querySelectorAll(
     `#${chartId} .apexcharts-legend-series`
@@ -1191,25 +1210,7 @@ function toggleDetailsByIdentifier(identifier) {
   toggleDetails(dropdownButton, detailsDiv, arrowIcon);
 }
 
-function svgToBase64(svgElement) {
-  // Create a temporary div element
-  const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = svgElement;
-
-  // Get the first child (the SVG node)
-  const svgNode = tempDiv.firstChild;
-
-  // Serialize the SVG node to a string
-  const serializedSvg = new XMLSerializer().serializeToString(svgNode);
-
-  // Convert the string to base64
-  const encodedData = window.btoa(serializedSvg);
-
-  // console.log({encodedData});
-  return encodedData;
-}
-
-async function svgToPngBase64(element, id) {
+async function svgToPngBase64(element) {
   let canvasElement = document.createElement("canvas");
   canvasElement.id = "canvas";
   document.body.appendChild(canvasElement);
@@ -1217,8 +1218,7 @@ async function svgToPngBase64(element, id) {
   html2canvas(element).then(function (canvas) {
     let picture = document.getElementById("canvas").appendChild(canvas);
     let base64String = canvas.toDataURL("image/png");
-    const exportString = base64String.slice("data:image/png;base64,".length);
-    map_dataUri.set(id, exportString)
+    console.log(base64String);
     picture.remove();
   });
 }

@@ -1,14 +1,12 @@
 const printButton = document.getElementById("printCharts");
 
 
-async function getBase64Strings(){
-
-    console.log(dataUrLObj)
-
+async function mainPrint(){
+    // console.log(cfiRatioChart.paper().svg());
     const png = await svgToPngBase64(document.getElementById('cfiRatio_chart'))
     // console.log(png);
 }
 
 
-printButton.addEventListener("click", getBase64Strings)
+printButton.addEventListener("click", mainPrint)
 

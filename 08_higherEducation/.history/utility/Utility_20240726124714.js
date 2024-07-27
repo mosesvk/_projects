@@ -156,7 +156,6 @@ const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();
 let selectedSchoolChurch_Selected;
 const map_dataUri = new Map();
-const dataUrLObj = new Object()
 
 // Utility Functions
 
@@ -332,9 +331,39 @@ const createChart = (
   // if (mainName == 'cfi_netIncomeOperationsRatio') console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
 
-  dataUrLObj[mainName] = chartId
-
   // Create a new chart instance
+
+  if (mainName == "cfiRatio") {
+    cfiRatioChart = new ApexCharts(
+      document.getElementById(chartId),
+      getMainChartOptions(
+        dataPeer,
+        dataClient,
+        type,
+        fixedNum,
+        mainName,
+        benchmark,
+        title
+      )
+    );
+
+    cfiRatioChart.render();
+
+    document.addEventListener("dark-mode", function () {
+      cfiRatioChart.updateOptions(
+        getMainChartOptions(
+          dataPeer,
+          dataClient,
+          type,
+          fixedNum,
+          mainName,
+          benchmark,
+          title
+        )
+      );
+    });
+
+  } else {
     let chart = new ApexCharts(
       document.getElementById(chartId),
       getMainChartOptions(
@@ -348,20 +377,10 @@ const createChart = (
       )
     );
     chart.render();
+  }
 
-    document.addEventListener("dark-mode", function () {
-      chart.updateOptions(
-        getMainChartOptions(
-          dataPeer,
-          dataClient,
-          type,
-          fixedNum,
-          mainName,
-          benchmark,
-          title
-        )
-      );
-    });
+  // const svgChartElement = chart.paper().svg()
+  // map_dataUri.set(mainName, svgToBase64(svgChartElement))
 
   document.querySelectorAll(
     `#${chartId} .apexcharts-legend-series`
@@ -1209,18 +1228,27 @@ function svgToBase64(svgElement) {
   return encodedData;
 }
 
-async function svgToPngBase64(element, id) {
-  let canvasElement = document.createElement("canvas");
-  canvasElement.id = "canvas";
-  document.body.appendChild(canvasElement);
+async function svgToPngBase64(svgElement) {
+  const svgBlob = new Blob([svgElement], { type: "image/svg+xml" });
+  const svgUrl = URL.createObjectURL(svgBlob);
 
-  html2canvas(element).then(function (canvas) {
-    let picture = document.getElementById("canvas").appendChild(canvas);
-    let base64String = canvas.toDataURL("image/png");
-    const exportString = base64String.slice("data:image/png;base64,".length);
-    map_dataUri.set(id, exportString)
-    picture.remove();
-  });
+  // Use the CORS Anywhere proxy to fetch the SVG as a PNG
+  const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
+  const pngUrl = `${corsProxyUrl}${svgUrl}`;
+
+  try {
+    const response = await fetch(pngUrl);
+    const blob = await response.blob();
+    const pngBase64 = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(",")[1]);
+      reader.readAsDataURL(blob);
+    });
+
+    console.log(pngBase64); // Use the base64 code as needed
+  } catch (error) {
+    console.error("Error fetching SVG as PNG:", error);
+  }
 }
 
 
