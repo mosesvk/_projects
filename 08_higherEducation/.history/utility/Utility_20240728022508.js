@@ -1190,3 +1190,18 @@ function toggleDetailsByIdentifier(identifier) {
   // For demonstration purposes, let's log a message
   toggleDetails(dropdownButton, detailsDiv, arrowIcon);
 }
+
+
+async function svgToPngBase64(element, id) {
+  let canvasElement = document.createElement("canvas");
+  canvasElement.id = "canvas";
+  document.body.appendChild(canvasElement);
+
+  html2canvas(element).then(function (canvas) {
+    let picture = document.getElementById("canvas").appendChild(canvas);
+    let base64String = canvas.toDataURL("image/png");
+    const exportString = base64String.slice("data:image/png;base64,".length);
+    map_dataUri.set(id, exportString)
+    picture.remove();
+  });
+}

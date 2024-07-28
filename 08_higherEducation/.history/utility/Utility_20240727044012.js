@@ -1190,3 +1190,37 @@ function toggleDetailsByIdentifier(identifier) {
   // For demonstration purposes, let's log a message
   toggleDetails(dropdownButton, detailsDiv, arrowIcon);
 }
+
+function svgToBase64(svgElement) {
+  // Create a temporary div element
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = svgElement;
+
+  // Get the first child (the SVG node)
+  const svgNode = tempDiv.firstChild;
+
+  // Serialize the SVG node to a string
+  const serializedSvg = new XMLSerializer().serializeToString(svgNode);
+
+  // Convert the string to base64
+  const encodedData = window.btoa(serializedSvg);
+
+  // console.log({encodedData});
+  return encodedData;
+}
+
+
+function initializeChart(mainName, chartId, dataPeer, dataClient, type, fixedNum, benchmark, title) {
+  if (mainName === "cfiRatio") {
+    const chart = new ApexCharts(
+      document.getElementById(chartId),
+      getMainChartOptions(dataPeer, dataClient, type, fixedNum, mainName, benchmark, title)
+    );
+
+    chart.render();
+
+    document.addEventListener("dark-mode", function () {
+      chart.updateOptions(getMainChartOptions(dataPeer, dataClient, type, fixedNum, mainName, benchmark, title));
+    });
+  }
+}

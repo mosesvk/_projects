@@ -3,39 +3,11 @@ const urlUploadFile =
 let uploadMainFile = "";
 const printButton = document.getElementById("printCharts");
 
-async function svgToPngBase64(element, id) {
-  return new Promise((resolve, reject) => {
-    let canvasElement = document.createElement("canvas");
-    canvasElement.id = "canvas";
-    document.body.appendChild(canvasElement);
-
-    html2canvas(element).then(function (canvas) {
-      let picture = document.getElementById("canvas").appendChild(canvas);
-      let base64String = canvas.toDataURL("image/png");
-      const exportString = base64String.slice("data:image/png;base64,".length);
-      map_dataUri.set(id, exportString);
-      picture.remove();
-      console.log("exportString", exportString);
-      resolve(exportString); // Resolve the promise with the exportString
-    });
-  });
-}
-
-const getPngString = async (id, fieldId) => {
-  const element = document.getElementById(id);
-  const idx = id.replace("_Chart", "");
-  console.log({ element, idx });
-  const string = await svgToPngBase64(element, idx);
-  console.log("string", string);
-
-  uploadSingleToFile(fieldId, string);
-};
-
 const mainPrint = async () => {
   uploadMainFile += "<qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>";
-
-  await getPngString("cfiRatio_chart", 6);
-
+  const cfiRatioString = await getPngString('cfiRatioChart')
+  uploadSingleToFile(6, cfiRatioString);
+//   uploadSingleToFile(8, map_dataUri.get("financialAnalysisContent"));
   uploadMainFile += "</qdbapi>";
 
   console.log({ uploadMainFile });
@@ -50,8 +22,8 @@ const mainPrint = async () => {
     data: uploadMainFile,
     success: function (response) {
       var xmlUpload = $(response);
-      //   console.log(response);
-      //   console.log(xmlUpload);
+      console.log(response);
+      console.log(xmlUpload);
       newRecordID = xmlUpload[0].all[4].innerHTML;
       //console.log(newRecordID)
 

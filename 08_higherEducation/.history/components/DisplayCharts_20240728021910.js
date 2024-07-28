@@ -253,7 +253,6 @@ const displayFinancialStatementComponent = () => {
   revenueAndSupportChart.render();
   // const revenueAndSupportChartElement = revenueAndSupportChart.paper().svg();
   // map_dataUri.set(
-  
   //   "revenueAndSupport_Client",
   //   svgToBase64(revenueAndSupportChartElement)
   // );
