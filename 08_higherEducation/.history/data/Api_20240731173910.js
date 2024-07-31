@@ -408,58 +408,6 @@ const processFinancialStatementContentData = (
         record,
         "r031_revenue_other"
       );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "nonContributionRevenue_Client",
-        record,
-        "r032_cnon_contribution_revenue"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "contributions_Client",
-        record,
-        "r054_contributions"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "contributionsLargeOneTimeGifts_Client",
-        record,
-        "r033a_revenue_contributions_large_one_time_gifts"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "netAssetsReleasedFromRestriction_Client",
-        record,
-        "r034_revenue_net_assets_released_from_restriction"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "totalRevenueContributions_Client",
-        record,
-        "r035_ctotal_revenue_from_contributions"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "operatingRevenuesSupportAndReleases_Client",
-        record,
-        "r036_coperating_revenues_support_and_releases"
-      );
-
-
-
-
 
 
 

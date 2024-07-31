@@ -190,7 +190,7 @@ const processFinancialStatementContentData = (
       insertDataIntoObject(
         "client",
         year,
-        totalAssets_obj,
+        object,
         "totalAssets_Client",
         record,
         "r008_ctotal_assets"
@@ -198,7 +198,7 @@ const processFinancialStatementContentData = (
       insertDataIntoObject(
         "client",
         year,
-        totalAssets_obj,
+        object,
         "cashAndCashEquivalents_Client",
         record,
         "r001_cash_and_cash_equivalents"
@@ -206,7 +206,7 @@ const processFinancialStatementContentData = (
       insertDataIntoObject(
         "client",
         year,
-        totalAssets_obj,
+        object,
         "accountsReceivable_Client",
         record,
         "r002_accounts_receivable_net"
@@ -214,7 +214,7 @@ const processFinancialStatementContentData = (
       insertDataIntoObject(
         "client",
         year,
-        totalAssets_obj,
+        object,
         "studentLoansAndOtherReceivables_Client",
         record,
         "r003_student_loans_and_other_receivables"
@@ -222,7 +222,7 @@ const processFinancialStatementContentData = (
       insertDataIntoObject(
         "client",
         year,
-        totalAssets_obj,
+        object,
         "contributionsReceivable_Client",
         record,
         "r004_contributions_receivable"
@@ -230,7 +230,7 @@ const processFinancialStatementContentData = (
       insertDataIntoObject(
         "client",
         year,
-        totalAssets_obj,
+        object,
         "prepaidExpensesAndOtherAssets_Client",
         record,
         "r005_prepaid_expenses_and_other_assets"
@@ -238,7 +238,7 @@ const processFinancialStatementContentData = (
       insertDataIntoObject(
         "client",
         year,
-        totalAssets_obj,
+        object,
         "propertyAndEquipment_Client",
         record,
         "r006_property_and_equipment_net"
@@ -246,7 +246,7 @@ const processFinancialStatementContentData = (
       insertDataIntoObject(
         "client",
         year,
-        totalAssets_obj,
+        object,
         "investmentsHeldForLongTermPurposes_Client",
         record,
         "r007_investments_held_for_long_term_purposes"
@@ -260,208 +260,32 @@ const processFinancialStatementContentData = (
       insertDataIntoObject(
         "client",
         year,
-        totalLiabilities_obj,
+        object,
         "totalLiabilities_Client",
         record,
         "r016_ctotal_liabilities"
       );
-      insertDataIntoObject(
-        "client",
-        year,
-        totalLiabilities_obj,
-        "deferredRevenue_Client",
-        record,
-        "r010_deferred_revenue"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        totalLiabilities_obj,
-        "postRetirementHealthBenefits_Client",
-        record,
-        "r011_post_retirement_health_benefits"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        totalLiabilities_obj,
-        "annuityObligations_Client",
-        record,
-        "r012_annuity_obligations"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        totalLiabilities_obj,
-        "otherLiabilities_Client",
-        record,
-        "r013_other_liabilities"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        totalLiabilities_obj,
-        "interestRateSwapLiability_Client",
-        record,
-        "r014_interest_rate_swap_liability"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        totalLiabilities_obj,
-        "notesPayable_Client",
-        record,
-        "r015_notes_payable"
-      );
-
-
       // netAssets
       insertDataIntoObject(
         "client",
         year,
-        netAssets_obj,
+        object,
         "netAssets_Client",
         record,
         "r020_ctotal_net_assets"
       );
-      insertDataIntoObject(
-        "client",
-        year,
-        netAssets_obj,
-        "netAssetsWithoutDonorRestriction_Client",
-        record,
-        "r017_net_assets_without_donor_restriction"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        netAssets_obj,
-        "netAssetsRestrictedByTimeOrPurpose_Client",
-        record,
-        "r018_net_assets_restricted_by_time_or_purpose"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        netAssets_obj,
-        "netChangeInNetAssetsRestrictedInPerpetuity_Client",
-        record,
-        "r064_cnet_change_restricted_in_perpetuity"
-      );
 
 
 
-      // revenue and support
+      // totalExpenses
       insertDataIntoObject(
         "client",
         year,
-        revenueAndSupport_obj,
-        "tuitionAndFees_Client",
+        object,
+        "totalExpenses_Client",
         record,
-        "r023_revenue_tuition_and_fees"
+        "r044_ctotal_functional_expenses"
       );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "scholarshipsAndFinancialaid_Client",
-        record,
-        "r024_revenue_scholarships_and_financial_aid"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "netTuitionAndFees_Client",
-        record,
-        "r026_cnet_tuition_and_fees"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "auxiliaryActivities_Client",
-        record,
-        "r028_revenue_auxiliary_activities"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "investmentIncome_Client",
-        record,
-        "r029_revenue_investment_income"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "endowmentSpendingAppropriation_Client",
-        record,
-        "r030_revenue_endowment_spending_appropriation"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "other_Client",
-        record,
-        "r031_revenue_other"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "nonContributionRevenue_Client",
-        record,
-        "r032_cnon_contribution_revenue"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "contributions_Client",
-        record,
-        "r054_contributions"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "contributionsLargeOneTimeGifts_Client",
-        record,
-        "r033a_revenue_contributions_large_one_time_gifts"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "netAssetsReleasedFromRestriction_Client",
-        record,
-        "r034_revenue_net_assets_released_from_restriction"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "totalRevenueContributions_Client",
-        record,
-        "r035_ctotal_revenue_from_contributions"
-      );
-      insertDataIntoObject(
-        "client",
-        year,
-        revenueAndSupport_obj,
-        "operatingRevenuesSupportAndReleases_Client",
-        record,
-        "r036_coperating_revenues_support_and_releases"
-      );
-
-
-
-
-
-
 
 
       // totalNonOperatingExpenses

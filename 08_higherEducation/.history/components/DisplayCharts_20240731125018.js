@@ -100,15 +100,15 @@ const displayFinancialAnalysisContentComponent = async () => {
     atlChart.updateOptions(getAtlChartOptions(parseData));
   });
 
-  // const soiClientChart = new ApexCharts(
-  //   document.querySelector("#sourceOfIncomeClient_chart"),
-  //   getSoiClientChartOptions(parseData)
-  // );
-  // soiClientChart.render();
-  // // console.log({soiClientChart});
-  // document.addEventListener("dark-mode", function () {
-  //   soiClientChart.updateOptions(getSoiClientChartOptions(parseData));
-  // });
+  const soiClientChart = new ApexCharts(
+    document.querySelector("#sourceOfIncomeClient_chart"),
+    getSoiClientChartOptions(parseData)
+  );
+  soiClientChart.render();
+  // console.log({soiClientChart});
+  document.addEventListener("dark-mode", function () {
+    soiClientChart.updateOptions(getSoiClientChartOptions(parseData));
+  });
 
   // const soiPeerChart = new ApexCharts(
   //   document.querySelector("#sourceOfIncomePeer_chart"),
