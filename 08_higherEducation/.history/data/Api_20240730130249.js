@@ -1284,7 +1284,7 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
 
 const displayComponents = () => {
   displayCfiComponent();
-  displayFinancialAnalysisContentComponent();
+  // displayFinancialAnalysisContentComponent();
   displayFinancialStatementComponent();
   displayReportComponent();
 };

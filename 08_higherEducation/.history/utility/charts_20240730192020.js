@@ -784,7 +784,7 @@ const getSoiClientChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
-  // console.log({ clientArray, peerArray, benchmarkArray });
+  console.log({ clientArray, peerArray, benchmarkArray });
 
   const chartData = [
     tuitionValue,

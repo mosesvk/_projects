@@ -16,7 +16,7 @@ displayCfiComponent = (data) => {
     "CFI Ratio"
   );
 
-  // cfi_primaryReserveRatiod
+  // cfi_primaryReserveRatio
   createChartFromParsedData(
     parseData,
     "cfi_primaryReserveRatio_chart",
@@ -78,7 +78,7 @@ toggleDetailsByIdentifier("cfiViabilityRatio");
 
 
 // Financial ANALYSIS
-const displayFinancialAnalysisContentComponent = async () => {
+const displayFinancialAnalysisContentComponent = () => {
   const savedData = getStoredData("financialAnalysisContentData");
   const parseData = parseStoredData(savedData);
 
@@ -105,19 +105,18 @@ const displayFinancialAnalysisContentComponent = async () => {
     getSoiClientChartOptions(parseData)
   );
   soiClientChart.render();
-  console.log({soiClientChart});
   document.addEventListener("dark-mode", function () {
     soiClientChart.updateOptions(getSoiClientChartOptions(parseData));
   });
 
-  // const soiPeerChart = new ApexCharts(
-  //   document.querySelector("#sourceOfIncomePeer_chart"),
-  //   getSoiPeerChartOptions(parseData)
-  // );
-  // soiPeerChart.render();
-  // document.addEventListener("dark-mode", function () {
-  //   soiPeerChart.updateOptions(getSoiPeerChartOptions(parseData));
-  // });
+  const soiPeerChart = new ApexCharts(
+    document.querySelector("#sourceOfIncomePeer_chart"),
+    getSoiPeerChartOptions(parseData)
+  );
+  soiPeerChart.render();
+  document.addEventListener("dark-mode", function () {
+    soiPeerChart.updateOptions(getSoiPeerChartOptions(parseData));
+  });
 
   const ffaChart = new ApexCharts(
     document.querySelector("#ffa_chart"),

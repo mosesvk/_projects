@@ -145,7 +145,7 @@ const getMainChartOptions = (
       style: {
         color: chartColors.labelColor,
         fontSize: "1.5rem",
-      },
+      }
     },
     xaxis: {
       categories: selectedYearsArray,
@@ -154,7 +154,7 @@ const getMainChartOptions = (
           colors: chartColors.labelColor,
           fontSize: "1rem",
         },
-      },
+      }
     },
     yaxis: [
       {
@@ -650,7 +650,7 @@ const getAtlChartOptions = (data) => {
           zoomout: false,
           pan: false,
           reset: false,
-        },
+        }
       },
       height: 450,
       width: "100%",
@@ -784,15 +784,9 @@ const getSoiClientChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
-  // console.log({ clientArray, peerArray, benchmarkArray });
+  // console.log ({clientArray, peerArray, benchmarkArray});
 
-  const chartData = [
-    tuitionValue,
-    auxiliaryValue,
-    contributionsValue,
-    investmentsValue,
-    otherValue,
-  ];
+  const data = [tuitionValue, auxiliaryValue, contributionsValue, investmentsValue, otherValue]
 
   return {
     colors: [
@@ -802,7 +796,7 @@ const getSoiClientChartOptions = (data) => {
       window.chartColors.red,
       window.chartColors.orange,
     ],
-    series: chartData,
+    series: data,
     chart: {
       toolbar: {
         tools: {
@@ -813,7 +807,7 @@ const getSoiClientChartOptions = (data) => {
           zoomout: false,
           pan: false,
           reset: false,
-        },
+        }
       },
       height: 450,
       type: "pie",
@@ -943,7 +937,7 @@ const getSoiPeerChartOptions = (data) => {
           zoomout: false,
           pan: false,
           reset: false,
-        },
+        }
       },
       height: 450,
       width: "100%",
@@ -1178,7 +1172,7 @@ const getFfaChartOptions = (data) => {
           zoomout: false,
           pan: false,
           reset: false,
-        },
+        }
       },
       height: 500,
       width: "100%",
@@ -1310,7 +1304,7 @@ const getCashFlowTrendChartOptions = (data) => {
           zoomout: false,
           pan: false,
           reset: false,
-        },
+        }
       },
       type: "bar",
       height: 350,

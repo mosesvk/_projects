@@ -105,7 +105,6 @@ const displayFinancialAnalysisContentComponent = async () => {
     getSoiClientChartOptions(parseData)
   );
   soiClientChart.render();
-  console.log({soiClientChart});
   document.addEventListener("dark-mode", function () {
     soiClientChart.updateOptions(getSoiClientChartOptions(parseData));
   });

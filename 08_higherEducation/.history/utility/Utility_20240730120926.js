@@ -1071,7 +1071,7 @@ function toggleDetails(button, details, arrowIcon) {
 }
 
 const updateCfiValue = (cfiValue) => {
-  console.log({ cfiValue });
+  // console.log({ cfiValue });
 
   let thresholds = [
     10.0, 9.7, 9.4, 9.1, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0, 4.5, 4.0,

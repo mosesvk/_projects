@@ -100,15 +100,14 @@ const displayFinancialAnalysisContentComponent = async () => {
     atlChart.updateOptions(getAtlChartOptions(parseData));
   });
 
-  const soiClientChart = new ApexCharts(
-    document.querySelector("#sourceOfIncomeClient_chart"),
-    getSoiClientChartOptions(parseData)
-  );
-  soiClientChart.render();
-  console.log({soiClientChart});
-  document.addEventListener("dark-mode", function () {
-    soiClientChart.updateOptions(getSoiClientChartOptions(parseData));
-  });
+  // const soiClientChart = new ApexCharts(
+  //   document.querySelector("#sourceOfIncomeClient_chart"),
+  //   getSoiClientChartOptions(parseData)
+  // );
+  // soiClientChart.render();
+  // document.addEventListener("dark-mode", function () {
+  //   soiClientChart.updateOptions(getSoiClientChartOptions(parseData));
+  // });
 
   // const soiPeerChart = new ApexCharts(
   //   document.querySelector("#sourceOfIncomePeer_chart"),
@@ -128,14 +127,14 @@ const displayFinancialAnalysisContentComponent = async () => {
     ffaChart.updateOptions(getFfaChartOptions(parseData));
   });
 
-  const cashFlowTrendChart = new ApexCharts(
-    document.querySelector("#cashFlowsTrend_chart"),
-    getCashFlowTrendChartOptions(parseData)
-  );
-  cashFlowTrendChart.render();
-  document.addEventListener("dark-mode", function () {
-    cashFlowTrendChart.updateOptions(getCashFlowTrendChartOptions(parseData));
-  });
+  // const cashFlowTrendChart = new ApexCharts(
+  //   document.querySelector("#cashFlowsTrend_chart"),
+  //   getCashFlowTrendChartOptions(parseData)
+  // );
+  // cashFlowTrendChart.render();
+  // document.addEventListener("dark-mode", function () {
+  //   cashFlowTrendChart.updateOptions(getCashFlowTrendChartOptions(parseData));
+  // });
 };
 
 toggleDetailsByIdentifier("sourceOfIncome");

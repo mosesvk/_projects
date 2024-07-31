@@ -100,42 +100,41 @@ const displayFinancialAnalysisContentComponent = async () => {
     atlChart.updateOptions(getAtlChartOptions(parseData));
   });
 
-  const soiClientChart = new ApexCharts(
-    document.querySelector("#sourceOfIncomeClient_chart"),
-    getSoiClientChartOptions(parseData)
-  );
-  soiClientChart.render();
-  console.log({soiClientChart});
-  document.addEventListener("dark-mode", function () {
-    soiClientChart.updateOptions(getSoiClientChartOptions(parseData));
-  });
-
-  // const soiPeerChart = new ApexCharts(
-  //   document.querySelector("#sourceOfIncomePeer_chart"),
-  //   getSoiPeerChartOptions(parseData)
+  // const soiClientChart = new ApexCharts(
+  //   document.querySelector("#sourceOfIncomeClient_chart"),
+  //   getSoiClientChartOptions(parseData)
   // );
-  // soiPeerChart.render();
+  // soiClientChart.render();
   // document.addEventListener("dark-mode", function () {
-  //   soiPeerChart.updateOptions(getSoiPeerChartOptions(parseData));
+  //   soiClientChart.updateOptions(getSoiClientChartOptions(parseData));
   // });
 
-  const ffaChart = new ApexCharts(
-    document.querySelector("#ffa_chart"),
-    getFfaChartOptions(parseData)
+  const soiPeerChart = new ApexCharts(
+    document.querySelector("#sourceOfIncomePeer_chart"),
+    getSoiPeerChartOptions(parseData)
   );
-  ffaChart.render();
+  soiPeerChart.render();
   document.addEventListener("dark-mode", function () {
-    ffaChart.updateOptions(getFfaChartOptions(parseData));
+    soiPeerChart.updateOptions(getSoiPeerChartOptions(parseData));
   });
 
-  const cashFlowTrendChart = new ApexCharts(
-    document.querySelector("#cashFlowsTrend_chart"),
-    getCashFlowTrendChartOptions(parseData)
-  );
-  cashFlowTrendChart.render();
-  document.addEventListener("dark-mode", function () {
-    cashFlowTrendChart.updateOptions(getCashFlowTrendChartOptions(parseData));
-  });
+  // const ffaChart = new ApexCharts(
+  //   document.querySelector("#ffa_chart"),
+  //   getFfaChartOptions(parseData)
+  // );
+  // ffaChart.render();
+  // document.addEventListener("dark-mode", function () {
+  //   ffaChart.updateOptions(getFfaChartOptions(parseData));
+  // });
+
+  // const cashFlowTrendChart = new ApexCharts(
+  //   document.querySelector("#cashFlowsTrend_chart"),
+  //   getCashFlowTrendChartOptions(parseData)
+  // );
+  // cashFlowTrendChart.render();
+  // document.addEventListener("dark-mode", function () {
+  //   cashFlowTrendChart.updateOptions(getCashFlowTrendChartOptions(parseData));
+  // });
 };
 
 toggleDetailsByIdentifier("sourceOfIncome");
