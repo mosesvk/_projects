@@ -1120,46 +1120,6 @@ const getFfaChartOptions = (data) => {
   // console.log ({clientArray, peerArray, benchmarkArray});
 
   // [tuitionValue, auxiliaryValue, contributionsValue, investmentsValue, otherValue]
-  // [          {
-  //   x: "Tuition & Fees",
-  //   y: [0, revenueTuitionAndFeesClient],
-  //   fillColor: window.chartColors.teal,
-  // },
-  // {
-  //   x: "Scholarship & Financial Aid",
-  //   y: [revenueTuitionAndFeesClient, ScholarshipAndFinancialAidClient],
-  //   fillColor: window.chartColors.yellow,
-  // },
-  // {
-  //   x: "Unrestricted Gifts",
-  //   y: [ScholarshipAndFinancialAidClient, unrestrictedGiftsClient],
-  //   fillColor: window.chartColors.teal,
-  // },
-  // {
-  //   x: "Auxiliary & Other",
-  //   y: [unrestrictedGiftsClient, auxiliaryAndOtherClient],
-  //   fillColor: window.chartColors.teal,
-  // },
-  // {
-  //   x: "Restricted Gifts",
-  //   y: [auxiliaryAndOtherClient, restrictedGiftsClient],
-  //   fillColor: window.chartColors.teal,
-  // },
-  // {
-  //   x: "Compensation & Benefits",
-  //   y: [restrictedGiftsClient, compensationAndBenefitsClient],
-  //   fillColor: window.chartColors.yellow,
-  // },
-  // {
-  //   x: "General Expense",
-  //   y: [compensationAndBenefitsClient, generalExpenseClient],
-  //   fillColor: window.chartColors.yellow,
-  // },
-  // {
-  //   x: surplusDefecitLabel,
-  //   y: [generalExpenseClient, surplusDefecitClient],
-  //   fillColor: surplusDefecitColor,
-  // },]
 
   return {
     series: [
@@ -1167,42 +1127,42 @@ const getFfaChartOptions = (data) => {
         data: [
           {
             x: "Tuition & Fees",
-            y: [0, 500],
+            y: [0, revenueTuitionAndFeesClient],
             fillColor: window.chartColors.teal,
           },
           {
             x: "Scholarship & Financial Aid",
-            y: [500, 450],
+            y: [revenueTuitionAndFeesClient, ScholarshipAndFinancialAidClient],
             fillColor: window.chartColors.yellow,
           },
           {
             x: "Unrestricted Gifts",
-            y: [450, 550],
+            y: [ScholarshipAndFinancialAidClient, unrestrictedGiftsClient],
             fillColor: window.chartColors.teal,
           },
           {
             x: "Auxiliary & Other",
-            y: [550, 700],
+            y: [unrestrictedGiftsClient, auxiliaryAndOtherClient],
             fillColor: window.chartColors.teal,
           },
           {
             x: "Restricted Gifts",
-            y: [700, 75],
+            y: [auxiliaryAndOtherClient, restrictedGiftsClient],
             fillColor: window.chartColors.teal,
           },
           {
             x: "Compensation & Benefits",
-            y: [750, 900],
+            y: [restrictedGiftsClient, compensationAndBenefitsClient],
             fillColor: window.chartColors.yellow,
           },
           {
             x: "General Expense",
-            y: [900, 800],
+            y: [compensationAndBenefitsClient, generalExpenseClient],
             fillColor: window.chartColors.yellow,
           },
           {
             x: surplusDefecitLabel,
-            y: [0, 800],
+            y: [generalExpenseClient, surplusDefecitClient],
             fillColor: surplusDefecitColor,
           },
         ],

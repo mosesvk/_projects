@@ -1,39 +1,51 @@
-let apiCallClientDataForUniqueYears = {
-  act: "API_DoQuery",
-  query: `{533.EX.${ClientRid}}`,
-  clist: "533.7.539",
+const fetchClientData = async () => {
+  return fetch("./data/clientData.xml")
+    .then((response) => response.text())
+    .then((xmlString) => {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+      return xmlDoc.querySelectorAll("record");
+    })
+    .catch((error) => {
+      console.error("Error fetching XML file (fetchClientData):", error);
+      return []; // Return an empty array in case of error
+    });
 };
 
-$.get(clientData, apiCallClientDataForUniqueYears)
-  .then(async (xml) => {
-    recordsClient = await $("record", xml).toArray();
+const fetchPeerData = async () => {
+  return fetch("./data/peerData.xml")
+    .then((response) => response.text())
+    .then((xmlString) => {
+      // console.log(xmlString);
+      const parser = new DOMParser();
+      // changes
+      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+      return xmlDoc.querySelectorAll("record");
+    })
+    .catch((error) => {
+      console.error("Error fetching XML file (fetchPeerData):", error);
+      return []; // Return an empty array in case of error
+    });
+};
 
-    // consozle.log(recordsClient[0]);
+document.addEventListener("DOMContentLoaded", async () => {
+  const recordsClient = await fetchClientData();
+  const recordsPeer = await fetchPeerData();
+  const clientsArray = [...recordsPeer].map((record) => {
+    return record.querySelector("merged_client_name").textContent;
+  });
+  const uniqueClients = [...new Set(clientsArray)];
 
-    clientName =
-      recordsClient[0].querySelector("merged_client_name").textContent;
-    document.getElementById("firmName").textContent = clientName;
+  // console.log(recordsClient[0]);
 
+  clientName = recordsClient[0]
+    .querySelector("merged_client_name")
+    .textContent.replace(/[^\w\s]/g, "")
+    .trim();
 
-    // console.log(recordsClient[0].children)
+  document.getElementById("firmName").textContent = clientName;
 
-    if (recordsClient.length > 0) {
-      findUniqueYears(recordsClient);
-      dataClient = recordsClient[0].children;
-    } else {
-      console.error(
-        "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
-      );
-    }
-  })
-  .catch((err) => console.error(err));
-
-window.addEventListener("beforeunload", () => {
-  localStorage.clear();
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  getRecordsForUniqueClientsPeerNames();
+  findUniqueYears(recordsClient);
 
   addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
 
@@ -41,16 +53,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
 
+  addUniqueClientsToOptionsSelectClientsDropdown(uniqueClients);
+
   addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
 
   addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
 
   addUniqueTrendlinesToOptionsSelectTrendlinesDropdown(trendlines_Array);
+
+  localStorage.clear();
 });
 
 const findUniqueYears = (data) => {
   if (data) {
     data.forEach((item) => {
+      // console.log(item);
       const yearElement = item.querySelector("year");
       if (yearElement) {
         const year = yearElement.textContent;
@@ -69,8 +86,6 @@ const findUniqueYears = (data) => {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
 const insertDataIntoObject = (
   type,
   year,
@@ -81,7 +96,16 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
+  // console.log ({
+  //   type,
+  //   year,
+  //   object,
+  //   dataKey,
+  //   record,
+  //   child,
+  //   dynamicValueClientPeer,
+  //   name,
+  // });
 
   const innerData =
     child == 0
@@ -138,125 +162,255 @@ const insertDataIntoObject = (
 
 const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
   const object = {};
+  const totalAssets_obj = {};
+  const totalLiabilities_obj = {};
+  const netAssets_obj = {};
+  const revenueAndSupport_obj = {};
+  const educationalProgram_obj = {};
+  const nonOperatingActivities_obj = {};
+  const changesInNetAssetsWithDR_obj = {};
+  const naturalExpenseCategories_obj = {};
+  const cashFlowsOperating_obj = {};
+  const cashFlowsInvesting_obj = {};
+  const cashFlowsFinancing_obj = {};
+  const propertyAndEquipment_obj = {};
 
   const years = yearsData_Array.sort((a, b) => a - b);
   years.forEach((year) => {
-    const filteredPeerRecords = [...recordsPeer].filter((record) => {
-      const fiscalYear = record.querySelector("year").textContent;
-      return fiscalYear.includes(year.toString());
-    });
-    filteredPeerRecords.forEach((record) => {});
-
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector("year").textContent;
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
-      // totalAssets
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalAssets_Client",
-        record,
-        "r008_ctotal_assets"
-      );
-      // totalLiabilities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalLiabilities_Client",
-        record,
-        "r016_ctotal_liabilities"
-      );
-      // netAssets
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "netAssets_Client",
-        record,
-        "r020_ctotal_net_assets"
-      );
+      const totalAssets_array = [
+        {
+          key: "totalAssets_Client",
+          field: "r008_ctotal_assets",
+        },
+        {
+          key: "cashAndCashEquivalents_Client",
+          field: "r001_cash_and_cash_equivalents",
+        },
+        {
+          key: "accountsReceivable_Client",
+          field: "r002_accounts_receivable_net",
+        },
+        {
+          key: "studentLoansAndOtherReceivables_Client",
+          field: "r003_student_loans_and_other_receivables",
+        },
+        {
+          key: "contributionsReceivable_Client",
+          field: "r004_contributions_receivable",
+        },
+        {
+          key: "prepaidExpensesAndOtherAssets_Client",
+          field: "r005_prepaid_expenses_and_other_assets",
+        },
+        {
+          key: "propertyAndEquipment_Client",
+          field: "r006_property_and_equipment_net",
+        },
+        {
+          key: "investmentsHeldForLongTermPurposes_Client",
+          field: "r007_investments_held_for_long_term_purposes",
+        },
+      ];
+      totalAssets_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          totalAssets_obj,
+          key,
+          record,
+          field
+        );
+      });
 
-      // totalExpenses
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalExpenses_Client",
-        record,
-        "r044_ctotal_functional_expenses"
-      );
+      const totalLiabilities_array = [
+        {
+          key: "totalLiabilities_Client",
+          field: "r016_ctotal_liabilities",
+        },
+        {
+          key: "deferredRevenue_Client",
+          field: "r010_deferred_revenue",
+        },
+        {
+          key: "postRetirementHealthBenefits_Client",
+          field: "r011_post_retirement_health_benefits",
+        },
+        {
+          key: "annuityObligations_Client",
+          field: "r012_annuity_obligations",
+        },
+        {
+          key: "otherLiabilities_Client",
+          field: "r013_other_liabilities",
+        },
+        {
+          key: "interestRateSwapLiability_Client",
+          field: "r014_interest_rate_swap_liability",
+        },
+        {
+          key: "notesPayable_Client",
+          field: "r015_notes_payable",
+        },
+      ];
+      totalLiabilities_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          totalLiabilities_obj,
+          key,
+          record,
+          field
+        );
+      });
 
-      // totalNonOperatingExpenses
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalNonOperatingExpenses_Client",
-        record,
-        "r052_ctotal_non_operating_changes"
-      );
+      const netAssets_array = [
+        {
+          key: "netAssets_Client",
+          field: "r020_ctotal_net_assets",
+        },
+        {
+          key: "netAssetsWithoutDonorRestriction_Client",
+          field: "r017_net_assets_without_donor_restriction",
+        },
+        {
+          key: "netAssetsRestrictedByTimeOrPurpose_Client",
+          field: "r018_net_assets_restricted_by_time_or_purpose",
+        },
+        {
+          key: "netChangeInNetAssetsRestrictedInPerpetuity_Client",
+          field: "r064_cnet_change_restricted_in_perpetuity",
+        },
+      ];
+      netAssets_array.forEach(({ key, field }) => {
+        insertDataIntoObject("client", year, netAssets_obj, key, record, field);
+      });
 
-      // totalChangesInNetAssets
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalChangesInNetAssets_Client",
-        record,
-        "r065_cchange_in_net_assets"
-      );
+      const revenueAndSupport_array = [
+        {
+          key: "tuitionAndFees_Client",
+          field: "r023_revenue_tuition_and_fees",
+        },
+        {
+          key: "scholarshipsAndFinancialaid_Client",
+          field: "r024_revenue_scholarships_and_financial_aid",
+        },
+        {
+          key: "netTuitionAndFees_Client",
+          field: "r026_cnet_tuition_and_fees",
+        },
+        {
+          key: "auxiliaryActivities_Client",
+          field: "r028_revenue_auxiliary_activities",
+        },
+        {
+          key: "investmentIncome_Client",
+          field: "r029_revenue_investment_income",
+        },
+        {
+          key: "endowmentSpendingAppropriation_Client",
+          field: "r030_revenue_endowment_spending_appropriation",
+        },
+        {
+          key: "other_Client",
+          field: "r031_revenue_other",
+        },
+        {
+          key: "nonContributionRevenue_Client",
+          field: "r032_cnon_contribution_revenue",
+        },
+        {
+          key: "contributions_Client",
+          field: "r054_contributions",
+        },
+        {
+          key: "contributionsLargeOneTimeGifts_Client",
+          field: "r033a_revenue_contributions_large_one_time_gifts",
+        },
+        {
+          key: "netAssetsReleasedFromRestriction_Client",
+          field: "r034_revenue_net_assets_released_from_restriction",
+        },
+        {
+          key: "totalRevenueContributions_Client",
+          field: "r035_ctotal_revenue_from_contributions",
+        },
+        {
+          key: "operatingRevenuesSupportAndReleases_Client",
+          field: "r036_coperating_revenues_support_and_releases",
+        },
+        {
+          key: "totalAssets_Client",
+          field: "r008_ctotal_assets",
+        },
+      ];
+      revenueAndSupport_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          revenueAndSupport_obj,
+          key,
+          record,
+          field
+        );
+      });
 
-      // totalNaturalCategoryExpenses
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalNaturalCategoryExpenses_Client",
-        record,
-        "r166_ctotal_natural_category_expenses"
-      );
+      const educationalProgramExpenses_array = [
+        {
+          key: "expensesEducationalInstruction_Client",
+          field: "r037_expenses_educational_program_instruction",
+        },
+        {
+          key: "expensesEducationalResearch_Client",
+          field: "r038_expenses_educational_program_research",
+        },
+        {
+          key: "expensesEducationalAcademicSupport_Client",
+          field: "r039_expenses_educational_program_academic_support",
+        },
+        {
+          key: "expensesEducationalStudentServices_Client",
+          field: "r040_expenses_educational_program_student_services",
+        },
+        {
+          key: "expensesEducationalAuxiliaryActivities_Client",
+          field: "r041_expenses_educational_program_auxiliary_activities",
+        },
+        {
+          key: "expensesEducationalInstitutionalSupport_Client",
+          field: "r042_expenses_educational_program_institutional_support",
+        },
+        {
+          key: "expensesEducationalPublicService_Client",
+          field: "r043_expenses_educational_program_public_service",
+        },
+        {
+          key: "totalFunctionalExpenses_Client",
+          field: "r044_ctotal_functional_expenses",
+        },
+      ];
+      educationalProgramExpenses_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          educationalProgram_obj,
+          key,
+          record,
+          field
+        );
+      });
 
-      // cashFlows_operatingActivities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "cashFlows_operatingActivities_Client",
-        record,
-        "r080_cnet_cash_provided_by_operating_activities"
-      );
-      // cashFlows_investingActivities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "cashFlows_investingActivities_Client",
-        record,
-        "r085_cnet_cash_used_in_investing_activities"
-      );
-      // cashFlows_financingActivities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "cashFlows_financingActivities_Client",
-        record,
-        "r089_cnet_cash_used_in_financing_activities"
-      );
+      const nonOperatingActivities_array = [
+        {
+          key: "expensesEducationalInstruction_Client",
+          field: "r037_expenses_educational_program_instruction",
+        },
+      ]
 
-      // propertyAndEquipment
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "propertyAndEquipment_Client",
-        record,
-        "r099_ctotal_property_and_equipment_less_depreciation"
-      );
     });
   });
 
@@ -1118,29 +1272,9 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
 
 // Helper functions
 
-const countUniqueClients = (records) => {
-  uniqueClients = new Set();
-  try {
-    records.forEach((record) => {
-      const mainRelatedClient = record.querySelector(
-        "pe___client_legal_name"
-      ).textContent;
-      // console.log(mainRelatedClient);
-      uniqueClients.add(mainRelatedClient);
-    });
-
-    const count = uniqueClients.size;
-    console.log(count);
-    document.getElementById("uniqueClients").textContent = count;
-  } catch (error) {
-    console.error("Error counting unique clients:", error);
-    document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
-  }
-};
-
 const toggleButtonLoadingState = (btn) => {
   btn.innerHTML = `
-    <svg aria-hidden="true" role="status" class="inline w-6 h-6 me-3 text-xl colorGreen font-extrabold animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg aria-hidden=dtrue" role="status" class="inline w-6 h-6 me-3 text-xl colorGreen font-extrabold animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
       <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
     </svg>
@@ -1210,39 +1344,19 @@ const displayComponents = () => {
   displayReportComponent();
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const recordClientHTMLArray = [];
-const recordPeerHTMLArray = [];
-
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
+  // uploadMainFile = ''
+  // document.getElementById('print_modal_footer').classList.add('hidden');
+  const recordsClient = await fetchClientData();
+  const recordsPeer = await fetchPeerData();
+
+  // console.log({ recordsClient, recordsPeer });
+
   try {
-    // uploadMainFile = "";
-    // document.getElementById("print_modal_footer").classList.add("hidden");
     toggleButtonLoadingState(run_btn);
     const selectedYears = processSelectedYears();
     saveSelectedYearsToLocalStorage(selectedYears);
-
-    const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
-    // countUniqueClients(recordsPeer);
-
-    const recordsClient = await getRecordsForClient(selectedYears, "<qdbapi>");
-
-    const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
-      ""
-    )}</qdbapi>`;
-    console.log("CLIENT", qdbapiElementClient);
-
-    const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
-      ""
-    )}</qdbapi>`;
-    if (recordPeerHTMLArray.length === 0) {
-      console.error("No Peer records found for the selected years");
-    } else {
-      console.log("PEER", qdbapiElementPeer);
-    }
-
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();
   } catch (err) {
@@ -1251,235 +1365,3 @@ run_btn.addEventListener("click", async () => {
     toggleButtonNormalState(run_btn);
   }
 });
-
-const getParsedData = (xmlString) => {
-  const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(xmlString, "text/xml");
-  return xmlDoc.querySelectorAll("record");
-};
-
-const getRecordsForPeer = async (years, dataStr) => {
-  if (years.length === 0) {
-    // Base case: return the final string when the array is empty
-    // if (dataStr === '<qdbapi>') console.error('No Peer records found for the selected years')
-    const parsedData = getParsedData(dataStr + "</qdbapi>");
-    return parsedData;
-  }
-
-  const currentYear = years[0];
-
-  // console.log({ currentYear, sliderValue, sliderValue2, selectedTypes_Array})
-
-  function getRegionQuery(selectedRegions) {
-    const regionConditions = [...selectedRegions]
-      .map((region) => `{536.EX.${region}}`)
-      .join(" OR ");
-    return `(${regionConditions})`;
-  }
-
-  function getStateQuery(selectedStates) {
-    const stateConditions = [...selectedStates]
-      .map((state) => `{619.EX.${state}}`)
-      .join(" OR ");
-    // console.log({ stateConditions });
-    return `(${stateConditions})`;
-  }
-
-  function getMembershipsQuery(selectedMemberships) {
-    const membershipsConditions = [...selectedMemberships]
-      .map((membership) => `{537.HAS.${membership}}`)
-      .join(" OR ");
-    // console.log({ membershipsConditions });
-    return `(${membershipsConditions})`;
-  }
-
-  function getTrendlinesQuery(selectedTrendlines) {
-    const trendlinesConditions = [...selectedTrendlines]
-      .map((trendline) => `{536.EX.${trendline}}`)
-      .join(" OR ");
-    return `(${trendlinesConditions})`;
-  }
-
-  function getAthleticsQuery(selectedAthletics) {
-    const athleticsConditions = [...selectedAthletics]
-      .map((athletic) => `{534.EX.${athletic}}`)
-      .join(" OR ");
-    // console.log({ athleticsConditions });
-    return `(${athleticsConditions})`;
-  }
-
-  function getTypeQuery(selectedTypes) {
-    const typeConditions = [...selectedTypes]
-      .map((type) => `{618.EX.${type}}`)
-      .join(" OR ");
-    // console.log({ typeConditions });
-    return `(${typeConditions})`;
-  }
-
-  function getClientQuery(selectedClients) {
-    // Check if the "select-all-checkbox-client" input is checked
-    const selectAllCheckbox = document.getElementById(
-      "select-all-checkbox-client"
-    );
-    if (selectAllCheckbox && selectAllCheckbox.checked) {
-      // If checked, return an empty string
-      return "";
-    }
-
-    // Otherwise, continue with the existing logic
-    const clientConditions = selectedClients
-      .map((client) => `{539.EX.${client}}`)
-      .join(" OR ");
-    // console.log({ clientConditions });
-    return `(${clientConditions})`;
-  }
-
-  // (${getRegionQuery(selectedRegions_Array)}) AND
-  // (${getStateQuery(selectedStates_Array)}) AND
-  // (${getMembershipsQuery(selectedMemberships_Array)}) AND
-  // (${getTrendlinesQuery(selectedTrendlines_Array)}) AND
-  // (${getAthleticsQuery(selectedAthletics_Array)}) AND
-  // (${getTypeQuery(selectedTypes_Array)}) AND
-  // (${getClientQuery(selectedClients_Array)})
-
-  const apiCallPeerData = {
-    act: "API_DoQuery",
-    query: `
-      {7.EX.${currentYear}} AND
-      (${getStateQuery(selectedStates_Array)}) AND 
-      (${getRegionQuery(selectedRegions_Array)}) AND
-      (${getMembershipsQuery(selectedMemberships_Array)}) AND
-      (${getAthleticsQuery(selectedAthletics_Array)}) AND
-      (${getTypeQuery(selectedTypes_Array)}) AND 
-      (${getClientQuery(selectedClients_Array)})
-    `,
-    clist:
-      "7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633",
-  };
-
-  try {
-    const xml = await $.get(peerData, apiCallPeerData);
-
-    // console.log('PEER-XML', xml)
-
-    const recordsForPeer = $("record", xml).toArray();
-
-    // console.log("recordsForPeer", recordsForPeer);
-    // console.log("recordsForPeer", recordsForPeer[0].children);
-
-    // Update dataStr with the records from the current API call
-    // console.log(`year - ${currentYear}`)
-
-    recordsForPeer.forEach((record, index) => {
-      // if (index < 2) console.log(`Peer`, record);
-
-      // Create a new record element
-      const newRecord = document.createElement("record");
-
-      // Append each child element to the new record
-      Array.from(record.children).forEach((child) => {
-        newRecord.appendChild(child.cloneNode(true));
-      });
-
-      recordPeerHTMLArray.push(newRecord.outerHTML);
-
-      // Append the new record's outerHTML to dataStr
-      dataStr += newRecord.outerHTML;
-    });
-
-    // Recursive call with updated years and dataStr
-    return getRecordsForPeer(years.slice(1), dataStr);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    // Handle the error as needed
-    return dataStr; // Return the accumulated data so far even in case of an error
-  }
-};
-
-const getRecordsForUniqueClientsPeerNames = async () => {
-  const apiCallPeerData = {
-    act: "API_DoQuery",
-    clist:
-      "7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395",
-  };
-
-  try {
-    const xml = await $.get(peerData, apiCallPeerData);
-
-    const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
-
-    const uniquePeerClientNames = new Set();
-
-    recordsForPeerUniqueClientPeerNames.forEach((record, index) => {
-      const clientInformalName =
-        record.querySelector("merged_client_name").textContent;
-      uniquePeerClientNames.add(clientInformalName);
-    });
-
-    // console.log({ uniquePeerClientNames });
-
-    const sortedUniquePeerClientNames = Array.from(
-      uniquePeerClientNames
-    ).sort();
-
-    sortedUniquePeerClientNames.forEach((item) =>
-      selectedClients_Array.add(item)
-    );
-
-    addUniqueClientsToOptionsSelectClientsDropdown(sortedUniquePeerClientNames);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-};
-
-const getRecordsForClient = async (years, dataStr) => {
-  if (years.length === 0) {
-    // Base case: return the final string when the array is empty
-    const parsedData = getParsedData(dataStr + "</qdbapi>");
-    return parsedData;
-  }
-
-  const currentYear = years[0];
-  const apiCallClientData = {
-    act: "API_DoQuery",
-    query: `
-	    {7.EX.${currentYear}} AND
-	    {533.EX.${ClientRid}}`,
-    clist:
-      "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.420.421.422.423.424.425.426.427.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429",
-  };
-
-  try {
-    const xml = await $.get(clientData, apiCallClientData);
-    const recordsForClient = $("record", xml).toArray();
-
-    //console.log('recordsForClient', recordsForClient[0].children)
-    //console.log($('record', xml))
-    //console.log(`year - ${currentYear}`)
-
-    // Update dataStr with the records from the current API call
-    recordsForClient.forEach((record, index) => {
-      // if (index < 4) console.log(`Client`, record);
-
-      // Create a new record element
-      const newRecord = document.createElement("record");
-
-      // Append each child element to the new record
-      Array.from(record.children).forEach((child) => {
-        newRecord.appendChild(child.cloneNode(true));
-      });
-
-      recordClientHTMLArray.push(newRecord.outerHTML);
-
-      // Append the new record's outerHTML to dataStr
-      dataStr += newRecord.outerHTML;
-    });
-
-    // Recursive call with updated years and dataStr
-    return getRecordsForClient(years.slice(1), dataStr);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    // Handle the error as needed
-    return dataStr; // Return the accumulated data so far even in case of an error
-  }
-};
