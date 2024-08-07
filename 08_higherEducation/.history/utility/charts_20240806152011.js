@@ -225,7 +225,7 @@ const getMainChartOptions = (
 };
 
 const getFSchartOptions = (data, client, color, numType, title, chartId, tableDataClass) => {
-  if (chartId == '#assets_chart') console.log({ data, client, color, numType, title, chartId });
+  // console.log({ data, client, color, numType, title, chartId });
   const clientString = client.replace('_Client', '');
 
 
@@ -283,7 +283,7 @@ const getFSchartOptions = (data, client, color, numType, title, chartId, tableDa
   };
 
   // console.log(yearsData_Array.sort((a, b) => a - b))
-  // console.log({clientArray})
+  console.log({clientArray})
 
   return {
     colors: [color],
@@ -327,9 +327,6 @@ const getFSchartOptions = (data, client, color, numType, title, chartId, tableDa
     xaxis: {
       categories: yearsData_Array.sort((a, b) => a - b),
       labels: {
-        rotate: -45,
-        rotateAlways: true,
-        offsetY: 5,
         style: {
           colors: chartColors.labelColor,
           fontSize: "1rem",

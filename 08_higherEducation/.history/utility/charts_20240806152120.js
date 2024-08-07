@@ -327,9 +327,6 @@ const getFSchartOptions = (data, client, color, numType, title, chartId, tableDa
     xaxis: {
       categories: yearsData_Array.sort((a, b) => a - b),
       labels: {
-        rotate: -45,
-        rotateAlways: true,
-        offsetY: 5,
         style: {
           colors: chartColors.labelColor,
           fontSize: "1rem",

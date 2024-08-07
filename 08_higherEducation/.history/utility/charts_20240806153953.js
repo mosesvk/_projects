@@ -329,7 +329,7 @@ const getFSchartOptions = (data, client, color, numType, title, chartId, tableDa
       labels: {
         rotate: -45,
         rotateAlways: true,
-        offsetY: 5,
+        offsetY: 5
         style: {
           colors: chartColors.labelColor,
           fontSize: "1rem",

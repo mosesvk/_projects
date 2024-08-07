@@ -4,10 +4,10 @@ const getMainChartOptions = (
   numType,
   fixedNum = 0,
   mainName,
-  benchmark
+  benchmark,
+  title
 ) => {
-  // console.log('-----')
-  // console.log('getMainChartOptions()',)
+  // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -18,14 +18,14 @@ const getMainChartOptions = (
       }
     : {
         borderColor: "#F3F4F6",
-        labelColor: "#6B7280",
+        labelColor: "#000000",
         opacityFrom: 0.45,
         opacityTo: 0,
       };
 
   const chartColor = document.documentElement.classList.contains("dark")
     ? "#e3f0fa"
-    : "#3a464f";
+    : "#000000";
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -40,11 +40,12 @@ const getMainChartOptions = (
       dataClient,
       fixedNum,
       mainName,
-      benchmark
+      benchmark,
+      numType
     ));
 
-  if (mainName == "cfi_netIncomeOperationsRatio")
-   delete console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+  // if (mainName == "cfi_netIncomeOperationsRatio")
+  //   console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {
@@ -79,7 +80,7 @@ const getMainChartOptions = (
       window.chartColors.orange,
       window.chartColors.purple,
       window.chartColors.green,
-      window.chartColors.black
+      window.chartColors.black,
     ],
     series: [
       {
@@ -103,7 +104,7 @@ const getMainChartOptions = (
         data: peer75,
       },
       {
-        name: "Client",
+        name: clientName,
         type: "column",
         data: clientArray,
         style: {
@@ -114,10 +115,22 @@ const getMainChartOptions = (
         name: "Benchmark",
         type: "line",
         data: benchmarkArray,
-      }
+      },
     ],
     chart: {
-      height: 350,
+      id: mainName,
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
+      height: 550,
       type: "line",
       stacked: false,
     },
@@ -125,9 +138,14 @@ const getMainChartOptions = (
       width: 4,
     },
     title: {
-      text: "",
-      align: "left",
-      offsetX: 110,
+      text: title,
+      align: "center",
+      margin: 10,
+      offsetY: 20,
+      style: {
+        color: chartColors.labelColor,
+        fontSize: "1.5rem",
+      },
     },
     xaxis: {
       categories: selectedYearsArray,
@@ -145,13 +163,12 @@ const getMainChartOptions = (
         },
         axisBorder: {
           show: true,
-          color: chartColor,
+          color: chartColors.labelColor,
         },
         labels: {
           formatter: yaxisLabelFormatter,
-          formatter: yaxisLabelFormatter,
           style: {
-            colors: chartColor,
+            colors: chartColors.labelColor,
             fontSize: "1rem",
           },
         },
@@ -198,6 +215,166 @@ const getMainChartOptions = (
           },
         },
       ],
+    },
+    plotOptions: {
+      bar: {
+        barHeight: "90%",
+      },
+    },
+  };
+};
+
+const getFSchartOptions = (data, client, color, numType, title, chartId, tableDataClass) => {
+  console.log({ data, client, color, numType, title, chartId });
+  const clientString = client.replace('_Client', '');
+
+
+  // console.log({ clientString });
+  const clientArray = getValuesInChronologicalOrder(data[client]);
+  const tableHeaderData = document.getElementById(`${clientString}_yearSelectData`)
+  const tableHeaderYear = document.getElementById(`${clientString}_yearSelect`)
+  // console.log({ tableHeaderData, tableHeaderYear });
+  let year = yearsData_Array[yearsData_Array.length - 1]
+  const totalNum = Number(clientArray[clientArray.length - 1])
+
+  tableHeaderData.textContent = totalNum.toLocaleString()
+  tableHeaderYear.textContent = year
+
+  const chartColors = document.documentElement.classList.contains("dark")
+    ? {
+        borderColor: "#374151",
+        labelColor: "#ebedf0",
+        opacityFrom: 0,
+        opacityTo: 0.15,
+      }
+    : {
+        borderColor: "#F3F4F6",
+        labelColor: "#6B7280",
+        opacityFrom: 0.45,
+        opacityTo: 0,
+      };
+
+  const chartColor = document.documentElement.classList.contains("dark")
+    ? "#e3f0fa"
+    : "#3a464f";
+
+  const formatNumber = (value) => value.toLocaleString();
+
+  const yaxisLabelFormatter = (value) => {
+    if (numType === "dollar") {
+      return `$${formatNumber(value)}`;
+    } else if (numType === "percent") {
+      return `${formatNumber(value)}%`;
+    } else {
+      return formatNumber(value);
+    }
+  };
+
+  const tooltipFormatter = (value) => {
+    if (!value) return;
+    const formattedValue = value.toLocaleString();
+    if (numType === "dollar") {
+      return `$${formattedValue}`;
+    } else if (numType === "percent") {
+      return `${formattedValue}%`;
+    } else {
+      return formattedValue;
+    }
+  };
+
+  // console.log(yearsData_Array.sort((a, b) => a - b))
+  // console.log({clientArray})
+
+  return {
+    colors: [color],
+    series: [
+      {
+        name: clientName,
+        type: "column",
+        data: clientArray,
+        style: {
+          colors: [chartColors.labelColor],
+        },
+      },
+    ],
+    chart: {
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
+      height: 350,
+      type: "line",
+      stacked: false,
+      events: {
+        dataPointSelection: function (event, chartContext, opts) {
+          const chart = chartContext.el.id;
+          const index = opts.dataPointIndex;
+          // console.log({ chart, index, opts, year: yearsData_Array[index] });
+          processFinancialData(data, tableDataClass, yearsData_Array[index], clientString);
+        },
+      },
+    },
+    stroke: {
+      width: 4,
+    },
+    xaxis: {
+      categories: yearsData_Array.sort((a, b) => a - b),
+      labels: {
+        style: {
+          colors: chartColors.labelColor,
+          fontSize: "1rem",
+        },
+      },
+    },
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          show: false,
+        },
+        tooltip: {
+          enabled: true,
+        },
+      },
+    ],
+    tooltip: {
+      fixed: {
+        enabled: true,
+        position: "topLeft",
+        offsetY: 30,
+        offsetX: 60,
+      },
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
+        },
+      },
+    },
+    legend: {
+      horizontalAlign: "center",
+      offsetX: 40,
+      fontSize: "20px",
+    },
+    grid: {
+      row: {
+        colors: ["transparent"],
+        opacity: 0.5,
+        thickness: 4,
+      },
     },
     plotOptions: {
       bar: {
@@ -464,6 +641,17 @@ const getAtlChartOptions = (data) => {
       },
     ],
     chart: {
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
       height: 450,
       width: "100%",
       type: "line",
@@ -546,11 +734,17 @@ const getSoiClientChartOptions = (data) => {
   const auxiliaryValue =
     data["si_revenueAuxiliaryActivities_Client"][selectedYearsArray[0]].value;
   const contributionsValue =
-    data["si_revenueContributions_Client"][selectedYearsArray[0]].value;
+    data["si_revenueContributions_Client"][selectedYearsArray[0]].value +
+    data["si_revenueContributionsLargeOneTimeGifts_Client"][
+      selectedYearsArray[0]
+    ].value;
   const investmentsValue =
     data["si_revenueInvestmentIncome_Client"][selectedYearsArray[0]].value;
   const otherValue =
-    data["si_revenueOther_Client"][selectedYearsArray[0]].value;
+    data["si_revenueOther_Client"][selectedYearsArray[0]].value +
+    data["si_revenueEndowmentSpendingAppropriation_Client"][
+      selectedYearsArray[0]
+    ].value;
 
   // console.log ({
   //   tuitionValue,
@@ -590,9 +784,15 @@ const getSoiClientChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
-  // console.log ({clientArray, peerArray, benchmarkArray});
+  // console.log({ clientArray, peerArray, benchmarkArray });
 
-  // [tuitionValue, auxiliaryValue, contributionsValue, investmentsValue, otherValue]
+  const chartData = [
+    tuitionValue,
+    auxiliaryValue,
+    contributionsValue,
+    investmentsValue,
+    otherValue,
+  ];
 
   return {
     colors: [
@@ -602,8 +802,19 @@ const getSoiClientChartOptions = (data) => {
       window.chartColors.red,
       window.chartColors.orange,
     ],
-    series: [233, 555, 222, 222, 124],
+    series: [221, 111, 121, 111, 300, 312],
     chart: {
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
       height: 450,
       type: "pie",
     },
@@ -723,6 +934,17 @@ const getSoiPeerChartOptions = (data) => {
     ],
     series: [233, 555, 222, 222, 124],
     chart: {
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
       height: 450,
       width: "100%",
       type: "pie",
@@ -775,13 +997,14 @@ const getSoiPeerChartOptions = (data) => {
 
 const getFfaChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  currentYear = selectedYearsArray[0];
+  currentYear = selectedYearsArray[selectedYearsArray.length - 1];
 
   const revenueTuitionAndFeesClient = Number(
     data["ffa_revenueTuitionAndFees_Client"][currentYear].value
   );
   const revenueSchoolServicesClient = Number(
-    data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value
+    data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value *
+      -1
   );
   const ScholarshipAndFinancialAidClient =
     revenueTuitionAndFeesClient - revenueSchoolServicesClient;
@@ -816,12 +1039,21 @@ const getFfaChartOptions = (data) => {
   );
   const restrictedGiftsClient = auxiliaryAndOtherClient + contributionsClient;
 
+  // console.log('data', data);
+
   const salariesAndWagesClient = Number(
     data["ffa_salariesAndWages_Client"][currentYear].value
   );
   const employeeBenefitsClient = Number(
     data["ffa_employeeBenefits_Client"][currentYear].value
   );
+  // console.log({
+  //   salariesAndWagesClient,
+  //   employeeBenefitsClient,
+  //   addition: salariesAndWagesClient + employeeBenefitsClient,
+  //   currentYear
+  // });
+
   const compensationAndBenefitsClient =
     restrictedGiftsClient - (salariesAndWagesClient + employeeBenefitsClient);
 
@@ -888,6 +1120,46 @@ const getFfaChartOptions = (data) => {
   // console.log ({clientArray, peerArray, benchmarkArray});
 
   // [tuitionValue, auxiliaryValue, contributionsValue, investmentsValue, otherValue]
+  // [          {
+  //   x: "Tuition & Fees",
+  //   y: [0, revenueTuitionAndFeesClient],
+  //   fillColor: window.chartColors.teal,
+  // },
+  // {
+  //   x: "Scholarship & Financial Aid",
+  //   y: [revenueTuitionAndFeesClient, ScholarshipAndFinancialAidClient],
+  //   fillColor: window.chartColors.yellow,
+  // },
+  // {
+  //   x: "Unrestricted Gifts",
+  //   y: [ScholarshipAndFinancialAidClient, unrestrictedGiftsClient],
+  //   fillColor: window.chartColors.teal,
+  // },
+  // {
+  //   x: "Auxiliary & Other",
+  //   y: [unrestrictedGiftsClient, auxiliaryAndOtherClient],
+  //   fillColor: window.chartColors.teal,
+  // },
+  // {
+  //   x: "Restricted Gifts",
+  //   y: [auxiliaryAndOtherClient, restrictedGiftsClient],
+  //   fillColor: window.chartColors.teal,
+  // },
+  // {
+  //   x: "Compensation & Benefits",
+  //   y: [restrictedGiftsClient, compensationAndBenefitsClient],
+  //   fillColor: window.chartColors.yellow,
+  // },
+  // {
+  //   x: "General Expense",
+  //   y: [compensationAndBenefitsClient, generalExpenseClient],
+  //   fillColor: window.chartColors.yellow,
+  // },
+  // {
+  //   x: surplusDefecitLabel,
+  //   y: [generalExpenseClient, surplusDefecitClient],
+  //   fillColor: surplusDefecitColor,
+  // },]
 
   return {
     series: [
@@ -895,48 +1167,59 @@ const getFfaChartOptions = (data) => {
         data: [
           {
             x: "Tuition & Fees",
-            y: [0, revenueTuitionAndFeesClient],
+            y: [0, 500],
             fillColor: window.chartColors.teal,
           },
           {
             x: "Scholarship & Financial Aid",
-            y: [revenueTuitionAndFeesClient, ScholarshipAndFinancialAidClient],
+            y: [500, 450],
             fillColor: window.chartColors.yellow,
           },
           {
             x: "Unrestricted Gifts",
-            y: [ScholarshipAndFinancialAidClient, unrestrictedGiftsClient],
+            y: [450, 550],
             fillColor: window.chartColors.teal,
           },
           {
             x: "Auxiliary & Other",
-            y: [unrestrictedGiftsClient, auxiliaryAndOtherClient],
+            y: [550, 700],
             fillColor: window.chartColors.teal,
           },
           {
             x: "Restricted Gifts",
-            y: [auxiliaryAndOtherClient, restrictedGiftsClient],
+            y: [700, 75],
             fillColor: window.chartColors.teal,
           },
           {
             x: "Compensation & Benefits",
-            y: [restrictedGiftsClient, compensationAndBenefitsClient],
+            y: [750, 900],
             fillColor: window.chartColors.yellow,
           },
           {
             x: "General Expense",
-            y: [compensationAndBenefitsClient, generalExpenseClient],
+            y: [900, 800],
             fillColor: window.chartColors.yellow,
           },
           {
             x: surplusDefecitLabel,
-            y: [generalExpenseClient, surplusDefecitClient],
+            y: [0, 800],
             fillColor: surplusDefecitColor,
           },
         ],
       },
     ],
     chart: {
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
       height: 500,
       width: "100%",
       type: "rangeBar",
@@ -1058,6 +1341,17 @@ const getCashFlowTrendChartOptions = (data) => {
     ],
     series: seriesData,
     chart: {
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
       type: "bar",
       height: 350,
     },

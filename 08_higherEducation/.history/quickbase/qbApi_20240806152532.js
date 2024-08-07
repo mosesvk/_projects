@@ -1668,8 +1668,8 @@ run_btn.addEventListener("click", async () => {
     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
     // countUniqueClients(recordsPeer);
 
-    // console.log({selectedYears, yearsData_Array})
-    const recordsClient = await getRecordsForClient(yearsData_Array, "<qdbapi>");
+    console.log({selectedYears, yearsData_Array})
+    const recordsClient = await getRecordsForClient(selectedYears, "<qdbapi>");
 
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
