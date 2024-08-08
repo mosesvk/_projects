@@ -470,7 +470,7 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
           field: "r059_cchange_in_net_assets_with_donor_restrictions",
         },
         {
-          key: "contributions2_Client",
+          key: "contributions_Client",
           field:
             "r060_change_in_permanently_restricted_net_assets_contributions",
         },

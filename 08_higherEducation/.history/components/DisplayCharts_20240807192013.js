@@ -154,7 +154,7 @@ const displayFinancialStatementComponent = () => {
     "cashFlowsOperatingData",
     "cashFlowsInvestingData",
     "cashFlowsFinancingData",
-    "propertyAndEquipmentData",
+    "propertyAndEquipmentData"
   ];
   const parsedData = {};
 
@@ -171,116 +171,116 @@ const displayFinancialStatementComponent = () => {
     "totalAssets_Client",
     window.chartColors.green,
     "dollar",
-    "Assets",
-    "assets_dataPoint"
-  );
+    "Assets", 
+    'assets_dataPoint'
+);
 
-  createAndRenderFSChart(
+createAndRenderFSChart(
     "#liabilities_chart",
     parsedData["totalLiabilitiesData"],
     "totalLiabilities_Client",
     window.chartColors.blue,
     "dollar",
     "Liabilities",
-    "liabilities_dataPoint"
-  );
+    'liabilities_dataPoint'
+);
 
-  createAndRenderFSChart(
+createAndRenderFSChart(
     "#netAssets_chart",
     parsedData["netAssetsData"],
     "netAssets_Client",
     window.chartColors.yellow,
     "dollar",
     "Net Assets",
-    "netAssets_dataPoint"
-  );
+    'netAssets_dataPoint'
+);
 
-  createAndRenderFSChart(
-    "#revenueAndSupport_chart",
-    parsedData["revenueAndSupportData"],
-    "revenueAndSupport_Client",
-    window.chartColors.yellow,
-    "dollar",
-    "Revenue and Support",
-    "revenueAndSupport_dataPoint"
-  );
+createAndRenderFSChart(
+  "#revenueAndSupport_chart",
+  parsedData["revenueAndSupportData"],
+  "revenueAndSupport_Client",
+  window.chartColors.yellow,
+  "dollar",
+  "Revenue and Support",
+  'revenueAndSupport_dataPoint'
+);
 
-  createAndRenderFSChart(
+createAndRenderFSChart(
     "#educationalProgramExpenses_chart",
     parsedData["educationalProgramData"],
     "educationalProgramExpenses_Client",
     window.chartColors.orange,
     "dollar",
     "Educational Program Expenses",
-    "educationalProgramExpenses_dataPoint"
-  );
+    'educationalProgramExpenses_dataPoint'
+);
 
-  createAndRenderFSChart(
+createAndRenderFSChart(
     "#nonOperatingActivities_chart",
     parsedData["nonOperatingActivitiesData"],
     "nonOperatingActivities_Client",
     window.chartColors.red,
     "dollar",
     "Non-Operating Activities"
-  );
+);
 
-  createAndRenderFSChart(
+createAndRenderFSChart(
     "#changesInNetAssetsWithDR_chart",
     parsedData["changesInNetAssetsWithDRData"],
     "changesInNetAssetsWithDR_Client",
     window.chartColors.purple,
     "dollar",
     "Changes in Net Assets with Donor Restrictions",
-    "changesInNetAssetsWithDR_dataPoint"
-  );
+    'changesInNetAssetsWithDR_dataPoint'
+);
 
-  createAndRenderFSChart(
+createAndRenderFSChart(
     "#naturalExpenseCategories_chart",
     parsedData["naturalExpenseCategoriesData"],
     "naturalExpenseCategories_Client",
     window.chartColors.blue,
     "dollar",
     "Natural Expense Categories",
-    "naturalExpenseCategories_dataPoint"
-  );
+    'naturalExpenseCategories_dataPoint'
+);
 
-  createAndRenderFSChart(
+createAndRenderFSChart(
     "#cashFlowsOperatingActivities_chart",
     parsedData["cashFlowsOperatingData"],
     "cashFlowsOperatingActivities_Client",
     window.chartColors.teal,
     "dollar",
     "Cash Flows: Operating Activities",
-    "cashFlowsOperatingActivities_dataPoint"
-  );
+    'cashFlowsOperatingActivities_dataPoint'
+);
 
-  createAndRenderFSChart(
+createAndRenderFSChart(
     "#cashFlowsInvestingActivities_chart",
     parsedData["cashFlowsInvestingData"],
     "cashFlowsInvestingActivities_Client",
     window.chartColors.orange,
     "dollar",
     "Cash Flows: Investing Activities",
-    "cashFlowsInvestingActivities_dataPoint"
-  );
+    'cashFlowsInvestingActivities_dataPoint'
+);
 
-  createAndRenderFSChart(
+createAndRenderFSChart(
     "#cashFlowsFinancingActivities_chart",
     parsedData["cashFlowsFinancingData"],
     "cashFlowsFinancingActivities_Client",
     window.chartColors.teal,
     "dollar",
     "Cash Flows: Financing Activities",
-    "cashFlowsFinancingActivities_dataPoint"
-  );
+    'cashFlowsFinancingActivities_dataPoint'
+);
 
-  createAndRenderFSChart(
+createAndRenderFSChart(
     "#propertyAndEquipment_chart",
     parsedData["propertyAndEquipmentData"],
     "propertyAndEquipment_Client",
     window.chartColors.green,
     "dollar",
     "Property and Equipment",
-    "propertyAndEquipment_dataPoint"
-  );
+    'propertyAndEquipment_dataPoint'
+);
 };

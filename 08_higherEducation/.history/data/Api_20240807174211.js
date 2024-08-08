@@ -229,6 +229,10 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
 
       const totalLiabilities_array = [
         {
+          key: "totalLiabilities_Client",
+          field: "r016_ctotal_liabilities",
+        },
+        {
           key: "accountsPayable_Client",
           field: "r009_accounts_payable_and_accrued_liabilities",
         },
@@ -274,6 +278,10 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
 
       const netAssets_array = [
         {
+          key: "netAssets_Client",
+          field: "r020_ctotal_net_assets",
+        },
+        {
           key: "netAssetsWithoutDonorRestriction_Client",
           field: "r017_net_assets_without_donor_restriction",
         },
@@ -285,10 +293,6 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
           key: "netChangeInNetAssetsRestrictedInPerpetuity_Client",
           field: "r064_cnet_change_restricted_in_perpetuity",
         },
-        {
-          key: "netAssets_Client",
-          field: "r020_ctotal_net_assets",
-        }
       ];
       netAssets_array.forEach(({ key, field }) => {
         insertDataIntoObject("client", year, netAssets_obj, key, record, field);
@@ -470,7 +474,7 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
           field: "r059_cchange_in_net_assets_with_donor_restrictions",
         },
         {
-          key: "contributions2_Client",
+          key: "contributions_Client",
           field:
             "r060_change_in_permanently_restricted_net_assets_contributions",
         },

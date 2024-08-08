@@ -1153,7 +1153,7 @@ function createFSTable(tableDataClass, data, idString, year) {
 }
 
 function processFinancialData(dataObject, tableDataClass, year, idString) {
-  console.log({ dataObject, tableDataClass, year, idString });
+  // console.log({ dataObject, tableDataClass, year, idString });
 
   // Create an array of values for the current year
   let arrayData = [];
@@ -1189,7 +1189,7 @@ function createAndRenderFSChart(
   tableDataClass
 ) {
 
-  if (tableDataClass == 'changesInNetAssetsWithDR_dataPoint') console.log({ chartId, parsedData, dataKey, color, currency, label });
+  // console.log({ chartId, parsedData, dataKey, color, currency, label });
   // Create the chart
   const chart = new ApexCharts(
     document.querySelector(chartId),
