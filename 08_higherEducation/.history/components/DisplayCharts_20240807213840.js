@@ -290,7 +290,7 @@ const displayFinancialStatementComponent = () => {
 const displayFinancialPositionComponent = () => {
   // console.log('hit');
   const keys = [
-    "currentRatioData",
+    "totalAssetsData",
   ];
   const parsedData = {};
 
@@ -298,19 +298,6 @@ const displayFinancialPositionComponent = () => {
     const storedData = getStoredData(key);
     parsedData[key] = parseStoredData(storedData);
   });
-
-  // console.log(parsedData);
-
-  getCurrentRatioChartOptions(parsedData["currentRatioData"])
-
-  // const currentRatioChart = new ApexCharts(
-  //   document.querySelector("#currentRatio_chart"),
-  //   getCurrentRatioChartOptions(parsedData["currentRatioData"])
-  // );
-  // fpaChart.render();
-  // document.addEventListener("dark-mode", function () {
-  //   currentRatioChart.updateOptions(getCurrentRatioChartOptions(parsedData["currentRatioData"]));
-  // });
 
 
 }

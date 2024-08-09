@@ -1470,47 +1470,33 @@ const getCashFlowTrendChartOptions = (data) => {
 };
 
 const getCurrentRatioChartOptions = (data) => {
-  // console.log({ chartData: data });
+  console.log({ chartData: data });
 
-  const cashAndCashEquivalentsArray = Object.values(
-    data["cashAndCashEquivalents_Client"]
-  ).map((item) => Number(item.value));
-  const accountsReceivableArray = Object.values(
-    data["accountsReceivable_Client"]
-  ).map((item) => Number(item.value));
-  const studentLoansAndOtherReceivablesArray = Object.values(
-    data["studentLoansAndOtherReceivables_Client"]
-  ).map((item) => Number(item.value));
-  const contributionsReceivableArray = Object.values(
-    data["contributionsReceivable_Client"]
-  ).map((item) => Number(item.value));
-  const prepaidExpensesArray = Object.values(
-    data["prepaidExpensesAndOtherAssets_Client"]
-  ).map((item) => Number(item.value));
+  // const accountsPayableArray = Object.values(data["accountsPayable_Client"])
+  //   .map((item) => Number(item.value))
+  //   .reverse();
+  // const accountsReceivableArray = Object.values(data["accountsReceivable_Client"])
+  //   .map((item) => Number(item.value))
+  //   .reverse();
+  // const studentLoansAndOtherReceivablesArray = Object.values(data["studentLoansAndOtherReceivables_Client"])
+  //   .map((item) => Number(item.value))
+  //   .
 
-  const currentAssetsArray = cashAndCashEquivalentsArray.map((_, index) => 
-    cashAndCashEquivalentsArray[index] +
-    accountsReceivableArray[index] +
-    studentLoansAndOtherReceivablesArray[index] +
-    contributionsReceivableArray[index] +
-    prepaidExpensesArray[index]
-  );
+  // const cashAndCashEquivalentsArray = Object.values(data["cashAndCashEquivalents_Client"])
+  //   .map((item) => Number(item.value))
+  //   .reverse();
+  // const contributionsReceivableArray = Object.values(data["contributionsReceivable_Client"])
+  //   .map((item) => Number(item.value))
+  //   .reverse();
+  // const deferredRevenueArray = Object.values(data["deferredRevenue_Client"])
+  //   .map((item) => Number(item.value))
+  //   .reverse();
+  // const prepaidExpensesArray = Object.values(data["prepaidExpenses_Client"])
+  //   .map((item) => Number(item.value))
+  //   .reverse();
 
-  console.log({ currentAssetsArray });
+
   
-
-  const accountsPayableArray = Object.values(
-    data["accountsPayable_Client"]
-  ).map((item) => Number(item.value));
-  const deferredRevenueArray = Object.values(
-    data["deferredRevenue_Client"]
-  ).map((item) => Number(item.value));
-
-
-
-
-
-
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
         borderColor: "#374151",

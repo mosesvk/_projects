@@ -1470,46 +1470,17 @@ const getCashFlowTrendChartOptions = (data) => {
 };
 
 const getCurrentRatioChartOptions = (data) => {
-  // console.log({ chartData: data });
+  // console.log(data);
 
-  const cashAndCashEquivalentsArray = Object.values(
-    data["cashAndCashEquivalents_Client"]
-  ).map((item) => Number(item.value));
-  const accountsReceivableArray = Object.values(
-    data["accountsReceivable_Client"]
-  ).map((item) => Number(item.value));
-  const studentLoansAndOtherReceivablesArray = Object.values(
-    data["studentLoansAndOtherReceivables_Client"]
-  ).map((item) => Number(item.value));
-  const contributionsReceivableArray = Object.values(
-    data["contributionsReceivable_Client"]
-  ).map((item) => Number(item.value));
-  const prepaidExpensesArray = Object.values(
-    data["prepaidExpensesAndOtherAssets_Client"]
-  ).map((item) => Number(item.value));
-
-  const currentAssetsArray = cashAndCashEquivalentsArray.map((_, index) => 
-    cashAndCashEquivalentsArray[index] +
-    accountsReceivableArray[index] +
-    studentLoansAndOtherReceivablesArray[index] +
-    contributionsReceivableArray[index] +
-    prepaidExpensesArray[index]
-  );
-
-  console.log({ currentAssetsArray });
-  
-
-  const accountsPayableArray = Object.values(
-    data["accountsPayable_Client"]
-  ).map((item) => Number(item.value));
-  const deferredRevenueArray = Object.values(
-    data["deferredRevenue_Client"]
-  ).map((item) => Number(item.value));
-
-
-
-
-
+  const totalAssetsArray = Object.values(data["totalAssets_Client"])
+    .map((item) => item.value)
+    .reverse();
+  const totalLiabilitiesArray = Object.values(data["totalLiabilities_Client"])
+    .map((item) => item.value)
+    .reverse();
+  const netPositionArray = Object.values(data["netPosition_Client"])
+    .map((item) => item.value)
+    .reverse();
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -1548,102 +1519,111 @@ const getCurrentRatioChartOptions = (data) => {
 
   // console.log({mainName, benchmark});
 
-  // return {
-  //   colors: [
-  //     window.chartColors.green,
-  //     window.chartColors.blue,
-  //     window.chartColors.grey,
-  //     window.chartColors.red,
-  //     window.chartColors.orange,
-  //   ],
-  //   series: [
-  //     {
-  //       name: "Current Assets",
-  //       group: "column",
-  //       data: totalLiabilitiesArray,
-  //       style: {
-  //         colors: [chartColors.grey],
-  //       },
-  //     },
-  //     {
-  //       name: "Current Liabilities",
-  //       group: "column",
-  //       data: netPositionArray,
-  //       style: {
-  //         colors: [chartColors.labelColor],
-  //       },
-  //     },
-  //   ],
-  //   chart: {
-  //     height: 350,
-  //     type: "bar",
-  //     stacked: true,
-  //   },
-  //   dataLabels: {
-  //     enabled: false,
-  //   },
-  //   stroke: {
-  //     width: 5,
-  //     colors: chartColors.labelColor,
-  //   },
-  //   title: {
-  //     text: "Current Ratio",
-  //     align: "top",
-  //   },
-  //   xaxis: {
-  //     categories: yearsData_Array.sort((a, b) => a - b),
-  //     labels: {
-  //       style: {
-  //         colors: chartColors.labelColor,
-  //         fontSize: "1.5rem",
-  //       },
-  //     },
-  //   },
-  //   yaxis: [
-  //     {
-  //       axisTicks: {
-  //         show: true,
-  //       },
-  //       axisBorder: {
-  //         show: true,
-  //         color: chartColor,
-  //       },
-  //       labels: {
-  //         formatter: yaxisLabelFormatter,
-  //         style: {
-  //           colors: chartColor,
-  //           fontSize: "1.25rem",
-  //         },
-  //       },
-  //       tooltip: {
-  //         enabled: true,
-  //       },
-  //     },
-  //   ],
-  //   tooltip: {
-  //     y: {
-  //       formatter: tooltipFormatter,
-  //       title: {
-  //         formatter: (seriesName) => `${seriesName}:`,
-  //       },
-  //     },
-  //   },
-  //   legend: {
-  //     horizontalAlign: "center",
-  //     offsetX: 40,
-  //     fontSize: "20px",
-  //   },
-  //   grid: {
-  //     row: {
-  //       colors: ["transparent"],
-  //       opacity: 0.5,
-  //       thickness: 4,
-  //     },
-  //   },
-  //   plotOptions: {
-  //     bar: {
-  //       barHeight: "90%",
-  //     },
-  //   },
-  // };
+  return {
+    colors: [
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.grey,
+      window.chartColors.red,
+      window.chartColors.orange,
+    ],
+    series: [
+      {
+        name: "Total Assets",
+        type: "bar",
+        data: totalAssetsArray,
+        style: {
+          colors: [chartColors.labelColor],
+        },
+      },
+      {
+        name: "Total Liabilities",
+        group: "column",
+        data: totalLiabilitiesArray,
+        style: {
+          colors: [chartColors.grey],
+        },
+      },
+      {
+        name: "Net Position",
+        group: "column",
+        data: netPositionArray,
+        style: {
+          colors: [chartColors.labelColor],
+        },
+      },
+    ],
+    chart: {
+      height: 350,
+      type: "bar",
+      stacked: true,
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      width: 5,
+      colors: chartColors.labelColor,
+    },
+    title: {
+      text: "CLIENT",
+      align: "left",
+      offsetX: 110,
+    },
+    xaxis: {
+      categories: selectedYearsArray,
+      labels: {
+        style: {
+          colors: chartColors.labelColor,
+          fontSize: "1.5rem",
+        },
+      },
+    },
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
+        },
+        tooltip: {
+          enabled: true,
+        },
+      },
+    ],
+    tooltip: {
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
+        },
+      },
+    },
+    legend: {
+      horizontalAlign: "center",
+      offsetX: 40,
+      fontSize: "20px",
+    },
+    grid: {
+      row: {
+        colors: ["transparent"],
+        opacity: 0.5,
+        thickness: 4,
+      },
+    },
+    plotOptions: {
+      bar: {
+        barHeight: "90%",
+      },
+    },
+  };
 };

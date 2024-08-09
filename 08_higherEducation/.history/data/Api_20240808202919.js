@@ -256,7 +256,7 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
   const cashFlowsInvesting_obj = {};
   const cashFlowsFinancing_obj = {};
   const propertyAndEquipment_obj = {};
-  
+  3;
 
   const years = yearsData_Array.sort((a, b) => a - b);
   years.forEach((year) => {

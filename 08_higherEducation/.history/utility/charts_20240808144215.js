@@ -1470,46 +1470,17 @@ const getCashFlowTrendChartOptions = (data) => {
 };
 
 const getCurrentRatioChartOptions = (data) => {
-  // console.log({ chartData: data });
+  console.log(clientData, peerData);
 
-  const cashAndCashEquivalentsArray = Object.values(
-    data["cashAndCashEquivalents_Client"]
-  ).map((item) => Number(item.value));
-  const accountsReceivableArray = Object.values(
-    data["accountsReceivable_Client"]
-  ).map((item) => Number(item.value));
-  const studentLoansAndOtherReceivablesArray = Object.values(
-    data["studentLoansAndOtherReceivables_Client"]
-  ).map((item) => Number(item.value));
-  const contributionsReceivableArray = Object.values(
-    data["contributionsReceivable_Client"]
-  ).map((item) => Number(item.value));
-  const prepaidExpensesArray = Object.values(
-    data["prepaidExpensesAndOtherAssets_Client"]
-  ).map((item) => Number(item.value));
-
-  const currentAssetsArray = cashAndCashEquivalentsArray.map((_, index) => 
-    cashAndCashEquivalentsArray[index] +
-    accountsReceivableArray[index] +
-    studentLoansAndOtherReceivablesArray[index] +
-    contributionsReceivableArray[index] +
-    prepaidExpensesArray[index]
-  );
-
-  console.log({ currentAssetsArray });
-  
-
-  const accountsPayableArray = Object.values(
-    data["accountsPayable_Client"]
-  ).map((item) => Number(item.value));
-  const deferredRevenueArray = Object.values(
-    data["deferredRevenue_Client"]
-  ).map((item) => Number(item.value));
-
-
-
-
-
+  const totalAssetsArray = Object.values(data["totalAssets_Client"])
+    .map((item) => item.value)
+    .reverse();
+  const totalLiabilitiesArray = Object.values(data["totalLiabilities_Client"])
+    .map((item) => item.value)
+    .reverse();
+  const netPositionArray = Object.values(data["netPosition_Client"])
+    .map((item) => item.value)
+    .reverse();
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -1558,7 +1529,15 @@ const getCurrentRatioChartOptions = (data) => {
   //   ],
   //   series: [
   //     {
-  //       name: "Current Assets",
+  //       name: "Total Assets",
+  //       type: "bar",
+  //       data: totalAssetsArray,
+  //       style: {
+  //         colors: [chartColors.labelColor],
+  //       },
+  //     },
+  //     {
+  //       name: "Total Liabilities",
   //       group: "column",
   //       data: totalLiabilitiesArray,
   //       style: {
@@ -1566,7 +1545,7 @@ const getCurrentRatioChartOptions = (data) => {
   //       },
   //     },
   //     {
-  //       name: "Current Liabilities",
+  //       name: "Net Position",
   //       group: "column",
   //       data: netPositionArray,
   //       style: {
@@ -1587,11 +1566,12 @@ const getCurrentRatioChartOptions = (data) => {
   //     colors: chartColors.labelColor,
   //   },
   //   title: {
-  //     text: "Current Ratio",
-  //     align: "top",
+  //     text: "CLIENT",
+  //     align: "left",
+  //     offsetX: 110,
   //   },
   //   xaxis: {
-  //     categories: yearsData_Array.sort((a, b) => a - b),
+  //     categories: selectedYearsArray,
   //     labels: {
   //       style: {
   //         colors: chartColors.labelColor,

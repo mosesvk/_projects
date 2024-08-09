@@ -55,38 +55,23 @@
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer="true"
     ></script>
 
-    <script>
-      var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
-      $.ajaxSetup({ data: { apptoken: apptoken } });
-
-      //retrieve URL ID for record
-      function getQueryVariable(variable) {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i = 0; i < vars.length; i++) {
-          var pair = vars[i].split("=");
-          if (pair[0] == variable) {
-            return pair[1];
-          }
-        }
-        return false;
-      }
-      var ClientRid = getQueryVariable("clientrid");
-      const clientData = "bt3egnexu";
-      const peerData = "bt3mx3t3i";
-    </script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+      integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
 
     <script>
       chartColors = {
         green: "#83b240",
         darkGreen: "#EDAB20",
-        blue: "#326eaa",
+        blue: "#376eaa",
         darkBlue: "#00588D",
         grey: "#43505a",
         red: "#ff6384",
@@ -95,6 +80,27 @@
         purple: "#723682",
         black: "#161F25",
         teal: "#00808D",
+        hoverGreen: "#567529",
+        hoverBlue: "#1E3A59",
+        hoverYellow: "#B59B42",
+        tealRevenue: "#4EA79F",
+        tealRevenueHover: "#35706A",
+        orangeEducational: "#F4982D",
+        orangeEducationalHover: "#A9691F",
+        redNonoperating: "#EF707E",
+        redNonoperatingHover: "#A05059",
+        purpleChangeNetAssets: "#C57FD7",
+        purpleChangeNetAssetsHover: "#734C7D",
+        blueNaturalExpense: "#4F76D9",
+        blueNaturalExpenseHover: "#385292",
+        blueOperating: "#70B5CC",
+        blueOperatingHover: "#3C616D",
+        orangeInvesting: "#FFA726",
+        orangeInvestingHover: "#A06A1A",
+        pinkFinancing: "#FFCDD2",
+        pinkFinancingHover: "#C69DA1",
+        greenPropertyEquipment: "#459B53",
+        greenPropertyEquipmentHover: "#2E6136",
       };
     </script>
 
@@ -726,8 +732,7 @@
                 </li>
                 <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
                 <li>
-                  <button
-                    id="financialAnalysisLink"
+                  <button id="financialAnalysisLink"
                     data-popover-target="popoverFinancialAnalysis-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
@@ -848,6 +853,7 @@
                         clip-rule="evenodd"
                       />
                     </svg>
+
                     <span
                       class="flex-1 ml-4 text-left text-lg font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
@@ -2220,6 +2226,114 @@
               <div id="FinancialAnalysisContent_chart"></div>
             </div>
 
+            <!-- Asset to Liabilities -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex flex-row">
+                <!-- TABLES - ASSET TO LIABILITIES -->
+                <div class="flex flex-col">
+                  <!-- CLIENT TABLE - ASSET TO LIABILITIES -->
+                  <div
+                    id="assetToLiabilities_clientTable"
+                    class="flex flex-col mb-10"
+                  >
+                    <div class="overflow-x-auto rounded-lg">
+                      <div class="inline-block min-w-full align-middle">
+                        <div
+                          class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                        >
+                          <table
+                            class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                          >
+                            <thead
+                              class="text-xs text-white uppercase backgroundGreen opacity-75"
+                            >
+                              <tr id="row_assetToLiabilitiesClient_tableHeader">
+                                <th
+                                  scope="col"
+                                  class="px-2 py-1 text-lg tracking-wide"
+                                >
+                                  Client
+                                </th>
+                                <th
+                                  scope="col"
+                                  class="px-2 py-1 text-lg tracking-wide"
+                                >
+                                  Assets
+                                </th>
+                                <th
+                                  scope="col"
+                                  class="px-2 py-1 text-lg tracking-wide"
+                                >
+                                  Liabilities
+                                </th>
+                                <th
+                                  scope="col"
+                                  class="px-2 py-1 text-lg tracking-wide"
+                                >
+                                  Ratio
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody id="assetToLiabilitiesClient_tbody"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- PEER TABLE - ASSET TO LIABILITIES -->
+                  <div id="assetToLiabilities_peerTable" class="flex flex-col">
+                    <div class="overflow-x-auto rounded-lg">
+                      <div class="inline-block min-w-full align-middle">
+                        <div
+                          class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                        >
+                          <table
+                            class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                          >
+                            <thead
+                              class="text-xs text-white uppercase backgroundBlue opacity-75"
+                            >
+                              <tr id="row_assetToLiabilities_Peer_tableHeader">
+                                <th
+                                  scope="col"
+                                  class="px-2 py-1 text-lg tracking-wide"
+                                >
+                                  Peer
+                                </th>
+                                <th
+                                  scope="col"
+                                  class="px-2 py-1 text-lg tracking-wide"
+                                >
+                                  Assets
+                                </th>
+                                <th
+                                  scope="col"
+                                  class="px-2 py-1 text-lg tracking-wide"
+                                >
+                                  Liabilities
+                                </th>
+                                <th
+                                  scope="col"
+                                  class="px-2 py-1 text-lg tracking-wide"
+                                >
+                                  Ratio
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody id="assetToLiabilitiesPeer_tbody"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- CHART - ASSET TO LIABILITIES -->
+                <div id="assetToLiabilities_chart" class="w-full"></div>
+              </div>
+            </div>
+
             <!-- Source of Income -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -2655,11 +2769,13 @@
                         <p
                           id="totalLiabilities_yearSelectData"
                           class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        ></p>
+                        >
+                        </p>
                         <p
                           id="totalLiabilities_yearSelect"
                           class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        ></p>
+                        >
+                        </p>
                       </div>
                     </div>
                     <div id="liabilities_chart"></div>
@@ -2721,7 +2837,8 @@
                           <th scope="row" class="px-6 py-3">
                             Total Liabilities
                           </th>
-                          <td class="px-6 py-3 liabilities_dataPoint"></td>
+                          <td class="px-6 py-3 liabilities_dataPoint">
+                          </td>
                         </tr>
                       </tfoot>
                     </table>
@@ -2740,11 +2857,13 @@
                         <p
                           id="netAssets_yearSelectData"
                           class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        ></p>
+                        >
+                        </p>
                         <p
                           id="netAssets_yearSelect"
                           class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        ></p>
+                        >
+                        </p>
                       </div>
                     </div>
                     <div id="netAssets_chart"></div>
@@ -2780,7 +2899,9 @@
                           <th scope="row" class="px-6 py-3">
                             Total Net Assets
                           </th>
-                          <td class="px-6 py-3 netAssets_dataPoint"></td>
+                          <td class="px-6 py-3 netAssets_dataPoint">
+                            
+                          </td>
                         </tr>
                       </tfoot>
                     </table>
@@ -2802,11 +2923,13 @@
                         <p
                           id="revenueAndSupport_yearSelectData"
                           class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        ></p>
+                        >
+                        </p>
                         <p
                           id="revenueAndSupport_yearSelect"
                           class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        ></p>
+                        >
+                        </p>
                       </div>
                     </div>
                     <div id="revenueAndSupport_chart"></div>
@@ -2914,7 +3037,8 @@
 
                         <!-- Operating Revenues, Support, and Releases -->
                         <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium"></th>
+                          <th scope="row" class="px-4 py-1 font-medium"> 
+                          </th>
                           <td class="revenueAndSupport_dataPoint"></td>
                         </tr>
                       </tbody>
@@ -2922,9 +3046,7 @@
                       <tfoot>
                         <tr class="font-semibold dark:text-white text-2xl">
                           <th scope="row" class="px-6 py-3">Total Assets</th>
-                          <td
-                            class="px-6 py-3 revenueAndSupport_dataPoint"
-                          ></td>
+                          <td class="px-6 py-3 revenueAndSupport_dataPoint"></td>
                         </tr>
                       </tfoot>
                     </table>
@@ -2945,11 +3067,13 @@
                         <p
                           id="educationalProgramExpenses_yearSelectData"
                           class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        ></p>
+                        >
+                        </p>
                         <p
                           id="educationalProgramExpenses_yearSelect"
                           class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        ></p>
+                        >
+                        </p>
                       </div>
                     </div>
                     <div id="educationalProgramExpenses_chart"></div>
@@ -2964,7 +3088,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Instruction
                           </th>
-                          <td class="educationalProgramExpenses_dataPoint"></td>
+                          <td class="educationalProgramExpenses_dataPoint">
+                          </td>
                         </tr>
 
                         <!-- Research -->
@@ -2972,7 +3097,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Research
                           </th>
-                          <td class="educationalProgramExpenses_dataPoint"></td>
+                          <td class="educationalProgramExpenses_dataPoint">
+                          </td>
                         </tr>
 
                         <!-- Academic Support -->
@@ -2980,7 +3106,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Academic Support
                           </th>
-                          <td class="educationalProgramExpenses_dataPoint"></td>
+                          <td class="educationalProgramExpenses_dataPoint">
+                          </td>
                         </tr>
 
                         <!-- Student Services -->
@@ -2988,7 +3115,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Student Services
                           </th>
-                          <td class="educationalProgramExpenses_dataPoint"></td>
+                          <td class="educationalProgramExpenses_dataPoint">
+                          </td>
                         </tr>
 
                         <!-- Auxiliary Activities -->
@@ -2996,7 +3124,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Auxiliary Activities
                           </th>
-                          <td class="educationalProgramExpenses_dataPoint"></td>
+                          <td class="educationalProgramExpenses_dataPoint">
+                          </td>
                         </tr>
 
                         <!-- Institutional Support -->
@@ -3004,7 +3133,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Institutional Support
                           </th>
-                          <td class="educationalProgramExpenses_dataPoint"></td>
+                          <td class="educationalProgramExpenses_dataPoint">
+                          </td>
                         </tr>
 
                         <!-- Public Service -->
@@ -3012,14 +3142,16 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Public Service
                           </th>
-                          <td class="educationalProgramExpenses_dataPoint"></td>
+                          <td class="educationalProgramExpenses_dataPoint">
+                          </td>
                         </tr>
                       </tbody>
 
                       <tfoot>
                         <tr class="font-semibold dark:text-white text-2xl">
                           <th scope="row" class="px-6 py-3">Total Expense</th>
-                          <td class="educationalProgramExpenses_dataPoint"></td>
+                          <td class="educationalProgramExpenses_dataPoint">
+                          </td>
                         </tr>
                       </tfoot>
                     </table>
@@ -3040,11 +3172,13 @@
                         <p
                           id="nonOperatingActivities_yearSelectData"
                           class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        ></p>
+                        >
+                        </p>
                         <p
                           id="nonOperatingActivities_yearSelect"
                           class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        ></p>
+                        >
+                        </p>
                       </div>
                     </div>
                     <div id="nonOperatingActivities_chart"></div>
@@ -3059,7 +3193,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Investment income
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonoperatingActivities_dataPoint">
+                          </td>
                         </tr>
 
                         <!-- Endowment spending policy appropriation -->
@@ -3067,7 +3202,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Endowment spending policy appropriation
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonoperatingActivities_dataPoint">
+                          </td>
                         </tr>
 
                         <!-- Change in value of interest rate swap -->
@@ -3075,7 +3211,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Change in value of interest rate swap
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonoperatingActivities_dataPoint">
+                          </td>
                         </tr>
 
                         <!-- Adjustment to PRBO -->
@@ -3083,7 +3220,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Adjustment to PRBO
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonoperatingActivities_dataPoint">
+                          </td>
                         </tr>
 
                         <!-- Contributions and other -->
@@ -3091,7 +3229,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Contributions and other
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonoperatingActivities_dataPoint">
+                          </td>
                         </tr>
                       </tbody>
 
@@ -3100,7 +3239,8 @@
                           <th scope="row" class="px-6 py-3">
                             Total Non Operating Activities
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonoperatingActivities_dataPoint">
+                          </td>
                         </tr>
                       </tfoot>
                     </table>
@@ -3121,11 +3261,13 @@
                         <p
                           id="changesInNetAssetsWithDR_yearSelectData"
                           class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        ></p>
+                        >
+                        </p>
                         <p
                           id="changesInNetAssetsWithDR_yearSelect"
                           class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        ></p>
+                        >
+                        </p>
                       </div>
                     </div>
                     <div id="changesInNetAssetsWithDR_chart"></div>
@@ -3170,7 +3312,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Contributions
                           </th>
-                          <td class="changesInNetAssetsWithDR_dataPoint"></td>
+                          <td class="changesInNetAssetsWithDR_dataPoint">
+                          </td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
@@ -3182,13 +3325,15 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Net assets released from program restrictions
                           </th>
-                          <td class="changesInNetAssetsWithDR_dataPoint"></td>
+                          <td class="changesInNetAssetsWithDR_dataPoint">
+                          </td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Permanently Restricted Net Change
                           </th>
-                          <td class="changesInNetAssetsWithDR_dataPoint"></td>
+                          <td class="changesInNetAssetsWithDR_dataPoint">
+                          </td>
                         </tr>
                       </tbody>
 
@@ -3197,7 +3342,8 @@
                           <th scope="row" class="px-6 py-3">
                             Total Change in Net Assets
                           </th>
-                          <td class="changesInNetAssetsWithDR_dataPoint"></td>
+                          <td class="changesInNetAssetsWithDR_dataPoint">
+                          </td>
                         </tr>
                       </tfoot>
                     </table>
@@ -3218,11 +3364,13 @@
                         <p
                           id="naturalExpenseCategories_yearSelectData"
                           class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        ></p>
+                        >
+                        </p>
                         <p
                           id="naturalExpenseCategories_yearSelect"
                           class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        ></p>
+                        >
+                        </p>
                       </div>
                     </div>
                     <div id="naturalExpenseCategories_chart"></div>
@@ -3281,7 +3429,8 @@
                           <th scope="row" class="px-6 py-3">
                             Total Natural Category Expenses
                           </th>
-                          <td class="naturalExpenseCategories_dataPoint"></td>
+                          <td class="naturalExpenseCategories_dataPoint">
+                          </td>
                         </tr>
                       </tfoot>
                     </table>
@@ -3305,11 +3454,13 @@
                         <p
                           id="cashFlowsOperatingActivities_yearSelectData"
                           class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        ></p>
+                        >
+                        </p>
                         <p
                           id="cashFlowsOperatingActivities_yearSelect"
                           class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        ></p>
+                        >
+                        </p>
                       </div>
                     </div>
                     <div id="cashFlowsOperatingActivities_chart"></div>
@@ -3324,54 +3475,48 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Salaries and Wages
                           </th>
-                          <td
-                            class="cashFlowsOperatingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsOperatingActivities_dataPoint">
+                          </td>
                         </tr>
                         <!-- Employee Benefits -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Employee Benefits
                           </th>
-                          <td
-                            class="cashFlowsOperatingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsOperatingActivities_dataPoint">
+                          </td>
                         </tr>
                         <!-- Service, Supplies and Other -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Service, Supplies and Other
                           </th>
-                          <td
-                            class="cashFlowsOperatingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsOperatingActivities_dataPoint">
+                          </td>
                         </tr>
                         <!-- Occupancy, Utilities and Maintenance -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Occupancy, Utilities and Maintenance
                           </th>
-                          <td
-                            class="cashFlowsOperatingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsOperatingActivities_dataPoint">
+                          </td>
                         </tr>
                         <!-- Depreciation and Amortization -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Depreciation and Amortization
                           </th>
-                          <td
-                            class="cashFlowsOperatingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsOperatingActivities_dataPoint">
+                          </td>
                         </tr>
                         <!-- Interest -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Interest
                           </th>
-                          <td
-                            class="cashFlowsOperatingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsOperatingActivities_dataPoint">
+                          </td>
                         </tr>
                       </tbody>
 
@@ -3380,9 +3525,8 @@
                           <th scope="row" class="px-6 py-3">
                             Total Natural Category Expenses
                           </th>
-                          <td
-                            class="cashFlowsOperatingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsOperatingActivities_dataPoint">
+                          </td>
                         </tr>
                       </tfoot>
                     </table>
@@ -3403,11 +3547,13 @@
                         <p
                           id="cashFlowsInvestingActivities_yearSelectData"
                           class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        ></p>
+                        >
+                        </p>
                         <p
                           id="cashFlowsInvestingActivities_yearSelect"
                           class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        ></p>
+                        >
+                        </p>
                       </div>
                     </div>
                     <div id="cashFlowsInvestingActivities_chart"></div>
@@ -3422,36 +3568,28 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Purchase of investments
                           </th>
-                          <td
-                            class="cashFlowsInvestingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsInvestingActivities_dataPoint"></td>
                         </tr>
                         <!-- Proceeds from sale of investments -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Proceeds from sale of investments
                           </th>
-                          <td
-                            class="cashFlowsInvestingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsInvestingActivities_dataPoint"></td>
                         </tr>
                         <!-- Purchases of property and equipment -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Purchases of property and equipment
                           </th>
-                          <td
-                            class="cashFlowsInvestingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsInvestingActivities_dataPoint"></td>
                         </tr>
                         <!-- Student loan fund -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Student loan fund
                           </th>
-                          <td
-                            class="cashFlowsInvestingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsInvestingActivities_dataPoint"></td>
                         </tr>
                       </tbody>
 
@@ -3460,9 +3598,7 @@
                           <th scope="row" class="px-6 py-3">
                             Net Cash used in investing activities
                           </th>
-                          <td
-                            class="px-6 py-3 cashFlowsInvestingActivities_dataPoint"
-                          ></td>
+                          <td class="px-6 py-3 cashFlowsInvestingActivities_dataPoint"></td>
                         </tr>
                       </tfoot>
                     </table>
@@ -3483,11 +3619,13 @@
                         <p
                           id="cashFlowsFinancingActivities_yearSelectData"
                           class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        ></p>
+                        >
+                        </p>
                         <p
                           id="cashFlowsFinancingActivities_yearSelect"
                           class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        ></p>
+                        >
+                        </p>
                       </div>
                     </div>
                     <div id="cashFlowsFinancingActivities_chart"></div>
@@ -3502,27 +3640,24 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Proceeds from notes payable
                           </th>
-                          <td
-                            class="cashFlowsFinancingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsFinancingActivities_dataPoint">
+                          </td>
                         </tr>
                         <!-- Principal payments on notes payable -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Principal payments on notes payable
                           </th>
-                          <td
-                            class="cashFlowsFinancingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsFinancingActivities_dataPoint">
+                          </td>
                         </tr>
                         <!-- Other -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Other
                           </th>
-                          <td
-                            class="cashFlowsFinancingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsFinancingActivities_dataPoint">
+                          </td>
                         </tr>
                       </tbody>
 
@@ -3531,9 +3666,8 @@
                           <th scope="row" class="px-6 py-3">
                             Net Cash used in financing activities
                           </th>
-                          <td
-                            class="cashFlowsFinancingActivities_dataPoint"
-                          ></td>
+                          <td class="cashFlowsFinancingActivities_dataPoint">
+                          </td>
                         </tr>
                       </tfoot>
                     </table>
@@ -3557,11 +3691,13 @@
                         <p
                           id="propertyAndEquipment_yearSelectData"
                           class="text-xl font-semibold tracking-wide text-black dark:text-white"
-                        ></p>
+                        >
+                        </p>
                         <p
                           id="propertyAndEquipment_yearSelect"
                           class="text-lg text-gray-500 dark:textgray-300 ml-2"
-                        ></p>
+                        >
+                        </p>
                       </div>
                     </div>
                     <div id="propertyAndEquipment_chart"></div>
@@ -3575,7 +3711,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Land and Improvements
                           </th>
-                          <td class="propertyAndEquipment_dataPoint"></td>
+                          <td class="propertyAndEquipment_dataPoint">
+                          </td>
                         </tr>
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
@@ -3583,25 +3720,29 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Building and Improvements
                           </th>
-                          <td class="propertyAndEquipment_dataPoint"></td>
+                          <td class="propertyAndEquipment_dataPoint">
+                          </td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Furniture and Equipment
                           </th>
-                          <td class="propertyAndEquipment_dataPoint"></td>
+                          <td class="propertyAndEquipment_dataPoint">
+                          </td>
                         </tr>
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
                         >
                           <th scope="row" class="px-4 py-1 font-medium">CIP</th>
-                          <td class="propertyAndEquipment_dataPoint"></td>
+                          <td class="propertyAndEquipment_dataPoint">
+                          </td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Total Property and Equipment at Cost
                           </th>
-                          <td class="propertyAndEquipment_dataPoint"></td>
+                          <td class="propertyAndEquipment_dataPoint">
+                          </td>
                         </tr>
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
@@ -3609,7 +3750,8 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Accumulated Depreciation
                           </th>
-                          <td class="propertyAndEquipment_dataPoint"></td>
+                          <td class="propertyAndEquipment_dataPoint">
+                          </td>
                         </tr>
                       </tbody>
                       <tfoot>
@@ -3617,9 +3759,8 @@
                           <th scope="row" class="px-6 py-3">
                             Total Property and Equipment less Depreciation
                           </th>
-                          <td
-                            class="propertyAndEquipment_dataPoint px-6 py-3"
-                          ></td>
+                          <td class="propertyAndEquipment_dataPoint px-6 py-3">
+                          </td>
                         </tr>
                       </tfoot>
                     </table>
@@ -3628,138 +3769,19 @@
               </div>
             </div>
           </div>
-
-          <div id="FinancialPositionContent" class="tab-content hidden">
-            <!-- Asset to Liabilities -->
-            <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
-            >
-              <div class="flex flex-row">
-                <!-- TABLES - ASSET TO LIABILITIES -->
-                <div class="flex flex-col">
-                  <!-- CLIENT TABLE - ASSET TO LIABILITIES -->
-                  <div
-                    id="assetToLiabilities_clientTable"
-                    class="flex flex-col mb-10"
-                  >
-                    <div class="overflow-x-auto rounded-lg">
-                      <div class="inline-block min-w-full align-middle">
-                        <div
-                          class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                        >
-                          <table
-                            class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                          >
-                            <thead
-                              class="text-xs text-white uppercase backgroundGreen opacity-75"
-                            >
-                              <tr id="row_assetToLiabilitiesClient_tableHeader">
-                                <th
-                                  scope="col"
-                                  class="px-2 py-1 text-lg tracking-wide"
-                                >
-                                  Client
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-1 text-lg tracking-wide"
-                                >
-                                  Assets
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-1 text-lg tracking-wide"
-                                >
-                                  Liabilities
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-1 text-lg tracking-wide"
-                                >
-                                  Ratio
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody id="assetToLiabilitiesClient_tbody"></tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- PEER TABLE - ASSET TO LIABILITIES -->
-                  <div id="assetToLiabilities_peerTable" class="flex flex-col">
-                    <div class="overflow-x-auto rounded-lg">
-                      <div class="inline-block min-w-full align-middle">
-                        <div
-                          class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                        >
-                          <table
-                            class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                          >
-                            <thead
-                              class="text-xs text-white uppercase backgroundBlue opacity-75"
-                            >
-                              <tr id="row_assetToLiabilities_Peer_tableHeader">
-                                <th
-                                  scope="col"
-                                  class="px-2 py-1 text-lg tracking-wide"
-                                >
-                                  Peer
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-1 text-lg tracking-wide"
-                                >
-                                  Assets
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-1 text-lg tracking-wide"
-                                >
-                                  Liabilities
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-1 text-lg tracking-wide"
-                                >
-                                  Ratio
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody id="assetToLiabilitiesPeer_tbody"></tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- CHART - ASSET TO LIABILITIES -->
-                <div id="assetToLiabilities_chart" class="w-full"></div>
-              </div>
-            </div>
-
-            <!-- Current Ratio -->
-          </div>
         </main>
       </div>
     </div>
 
-
-    <!-- utility.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=185"></script>
-    <!-- utilityPrint.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=191"></script>
-    <!-- api.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=184"></script>
-    <!-- Header.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=186"></script>
-    <!-- displayCharts.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=188"></script>
-    <!-- compReport.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=190"></script>
-    <!-- uiManagement.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=187"></script>
-    <!-- charts.js -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=189"></script>
+    <!-- import all the .js files from components, data, and utility folders-->
+    <script src="./utility/Utility.js"></script>
+    <script src="./utility/WeightedAverages.js"></script>
+    <script src="./utility/Print.js"></script>
+    <script src="./data/Api.js"></script>
+    <script src="./components/DisplayCharts.js"></script>
+    <script src="./components/Header.js"></script>
+    <script src="./components/Report.js"></script>
+    <script src="./utility/UiManagement.js"></script>
+    <script src="utility/charts.js"></script>
   </body>
 </html>

@@ -165,15 +165,11 @@ const processFinancialPositionContentData = (recordsPeer, recordsClient) => {
 
   const years = yearsData_Array.sort((a, b) => a - b);
   years.forEach((year) => {
-    
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector("year").textContent;
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
-      if (record.querySelector('_9999_completion_test_fs_tab').innerHTML == 'IN PROCESS') {
-        return 
-      }
       const currentRatio_array = [
         {
           key: "cashAndCashEquivalents_Client",
@@ -204,16 +200,15 @@ const processFinancialPositionContentData = (recordsPeer, recordsClient) => {
           field: "r010_deferred_revenue",
         },
       ];
-      currentRatio_array.forEach(({ key, field }) => {
+      filteredClientRecords.forEach(({ key, field }) => {
         insertDataIntoObject(
           "client",
           year,
-          currentRatio_obj,
+          totalAssets_obj,
           key,
           record,
           field
         );
-      });
     });
 
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
@@ -226,24 +221,27 @@ const processFinancialPositionContentData = (recordsPeer, recordsClient) => {
       insertDataIntoObject(
         "peer",
         year,
-        currentRatio_obj,
+        object,
         "currentRatio_Peer",
         record,
-        "r258c_current_ratio",
+        "r016_ctotal_liabilities",
         "Yes"
       );
     });
+  });
 
-    const dataKeys = ["currentRatioData"];
-    const dataObjects = [currentRatio_obj];
-    dataKeys.forEach((key, index) => {
-      localStorage.removeItem(key);
-      localStorage.setItem(key, JSON.stringify(dataObjects[index]));
-    });
+  const dataKeys = ["currentRatioData"];
+
+  const dataObjects = [currentRatio_obj];
+
+  dataKeys.forEach((key, index) => {
+    localStorage.removeItem(key);
+    localStorage.setItem(key, JSON.stringify(dataObjects[index]));
   });
 };
 
 const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
+  const object = {};
   const totalAssets_obj = {};
   const totalLiabilities_obj = {};
   const netAssets_obj = {};
@@ -256,11 +254,10 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
   const cashFlowsInvesting_obj = {};
   const cashFlowsFinancing_obj = {};
   const propertyAndEquipment_obj = {};
-  
+  3;
 
   const years = yearsData_Array.sort((a, b) => a - b);
   years.forEach((year) => {
-
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector("year").textContent;
       return fiscalYear.includes(year.toString());
@@ -794,6 +791,7 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
     "cashFlowsFinancingData",
     "propertyAndEquipmentData",
   ];
+
   const dataObjects = [
     totalAssets_obj,
     totalLiabilities_obj,
@@ -808,6 +806,7 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
     cashFlowsFinancing_obj,
     propertyAndEquipment_obj,
   ];
+
   dataKeys.forEach((key, index) => {
     localStorage.removeItem(key);
     localStorage.setItem(key, JSON.stringify(dataObjects[index]));

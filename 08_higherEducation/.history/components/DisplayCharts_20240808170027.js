@@ -301,8 +301,6 @@ const displayFinancialPositionComponent = () => {
 
   // console.log(parsedData);
 
-  getCurrentRatioChartOptions(parsedData["currentRatioData"])
-
   // const currentRatioChart = new ApexCharts(
   //   document.querySelector("#currentRatio_chart"),
   //   getCurrentRatioChartOptions(parsedData["currentRatioData"])

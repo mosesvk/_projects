@@ -165,6 +165,9 @@ const processFinancialPositionContentData = (recordsPeer, recordsClient) => {
 
   const years = yearsData_Array.sort((a, b) => a - b);
   years.forEach((year) => {
+
+    const isCompleted = record.querySelector(child).innerHTML === 'COMPLETED' ? true : false
+    if (!isCompleted) return 
     
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector("year").textContent;
@@ -256,7 +259,7 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
   const cashFlowsInvesting_obj = {};
   const cashFlowsFinancing_obj = {};
   const propertyAndEquipment_obj = {};
-  
+  3;
 
   const years = yearsData_Array.sort((a, b) => a - b);
   years.forEach((year) => {

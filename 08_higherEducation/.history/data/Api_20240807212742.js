@@ -165,15 +165,11 @@ const processFinancialPositionContentData = (recordsPeer, recordsClient) => {
 
   const years = yearsData_Array.sort((a, b) => a - b);
   years.forEach((year) => {
-    
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector("year").textContent;
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
-      if (record.querySelector('_9999_completion_test_fs_tab').innerHTML == 'IN PROCESS') {
-        return 
-      }
       const currentRatio_array = [
         {
           key: "cashAndCashEquivalents_Client",
@@ -196,12 +192,12 @@ const processFinancialPositionContentData = (recordsPeer, recordsClient) => {
           field: "r005_prepaid_expenses_and_other_assets",
         },
         {
-          key: "accountsPayable_Client",
-          field: "r009_accounts_payable_and_accrued_liabilities",
+          key: "propertyAndEquipment_Client",
+          field: "r006_property_and_equipment_net",
         },
         {
-          key: "deferredRevenue_Client",
-          field: "r010_deferred_revenue",
+          key: "investmentsHeldForLongTermPurposes_Client",
+          field: "r007_investments_held_for_long_term_purposes",
         },
       ];
       currentRatio_array.forEach(({ key, field }) => {
@@ -214,36 +210,12 @@ const processFinancialPositionContentData = (recordsPeer, recordsClient) => {
           field
         );
       });
-    });
-
-    const filteredPeerRecords = [...recordsPeer].filter((record) => {
-      const fiscalYear = record.querySelector("year").textContent;
-
-      return fiscalYear.includes(year.toString());
-    });
-    filteredPeerRecords.forEach((record) => {
-      // currentRatio
-      insertDataIntoObject(
-        "peer",
-        year,
-        currentRatio_obj,
-        "currentRatio_Peer",
-        record,
-        "r258c_current_ratio",
-        "Yes"
-      );
-    });
-
-    const dataKeys = ["currentRatioData"];
-    const dataObjects = [currentRatio_obj];
-    dataKeys.forEach((key, index) => {
-      localStorage.removeItem(key);
-      localStorage.setItem(key, JSON.stringify(dataObjects[index]));
-    });
-  });
-};
+    })
+  })
+}
 
 const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
+  const object = {};
   const totalAssets_obj = {};
   const totalLiabilities_obj = {};
   const netAssets_obj = {};
@@ -255,12 +227,10 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
   const cashFlowsOperating_obj = {};
   const cashFlowsInvesting_obj = {};
   const cashFlowsFinancing_obj = {};
-  const propertyAndEquipment_obj = {};
-  
+  const propertyAndEquipment_obj = {};3
 
   const years = yearsData_Array.sort((a, b) => a - b);
   years.forEach((year) => {
-
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector("year").textContent;
       return fiscalYear.includes(year.toString());
@@ -372,7 +342,7 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
         {
           key: "netAssets_Client",
           field: "r020_ctotal_net_assets",
-        },
+        }
       ];
       netAssets_array.forEach(({ key, field }) => {
         insertDataIntoObject("client", year, netAssets_obj, key, record, field);
@@ -792,8 +762,9 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
     "cashFlowsOperatingData",
     "cashFlowsInvestingData",
     "cashFlowsFinancingData",
-    "propertyAndEquipmentData",
+    "propertyAndEquipmentData"
   ];
+
   const dataObjects = [
     totalAssets_obj,
     totalLiabilities_obj,
@@ -806,12 +777,14 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
     cashFlowsOperating_obj,
     cashFlowsInvesting_obj,
     cashFlowsFinancing_obj,
-    propertyAndEquipment_obj,
+    propertyAndEquipment_obj
   ];
+
   dataKeys.forEach((key, index) => {
     localStorage.removeItem(key);
     localStorage.setItem(key, JSON.stringify(dataObjects[index]));
   });
+
 };
 
 const processFinancialAnalysisContentData = (
@@ -1731,14 +1704,12 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
     recordsClient
   );
   processFinancialStatementContentData(recordsPeer, recordsClient);
-  processFinancialPositionContentData(recordsPeer, recordsClient);
 };
 
 const displayComponents = () => {
   displayCfiComponent();
   displayFinancialAnalysisContentComponent();
   displayFinancialStatementComponent();
-  displayFinancialPositionComponent();
   displayReportComponent();
 };
 

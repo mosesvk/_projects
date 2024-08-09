@@ -1470,7 +1470,7 @@ const getCashFlowTrendChartOptions = (data) => {
 };
 
 const getCurrentRatioChartOptions = (data) => {
-  // console.log({ chartData: data });
+  console.log({ chartData: data });
 
   const cashAndCashEquivalentsArray = Object.values(
     data["cashAndCashEquivalents_Client"]
@@ -1488,28 +1488,12 @@ const getCurrentRatioChartOptions = (data) => {
     data["prepaidExpensesAndOtherAssets_Client"]
   ).map((item) => Number(item.value));
 
-  const currentAssetsArray = cashAndCashEquivalentsArray.map((_, index) => 
-    cashAndCashEquivalentsArray[index] +
-    accountsReceivableArray[index] +
-    studentLoansAndOtherReceivablesArray[index] +
-    contributionsReceivableArray[index] +
-    prepaidExpensesArray[index]
-  );
-
-  console.log({ currentAssetsArray });
-  
-
   const accountsPayableArray = Object.values(
     data["accountsPayable_Client"]
   ).map((item) => Number(item.value));
   const deferredRevenueArray = Object.values(
     data["deferredRevenue_Client"]
   ).map((item) => Number(item.value));
-
-
-
-
-
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {

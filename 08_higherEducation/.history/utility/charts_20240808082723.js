@@ -224,31 +224,21 @@ const getMainChartOptions = (
   };
 };
 
-const getFSchartOptions = (
-  data,
-  client,
-  color,
-  numType,
-  title,
-  chartId,
-  tableDataClass
-) => {
-  if (chartId == "#assets_chart")
-    console.log({ data, client, color, numType, title, chartId });
-  const clientString = client.replace("_Client", "");
+const getFSchartOptions = (data, client, color, numType, title, chartId, tableDataClass) => {
+  if (chartId == '#assets_chart') console.log({ data, client, color, numType, title, chartId });
+  const clientString = client.replace('_Client', '');
+
 
   // console.log({ clientString });
   const clientArray = getValuesInChronologicalOrder(data[client]);
-  const tableHeaderData = document.getElementById(
-    `${clientString}_yearSelectData`
-  );
-  const tableHeaderYear = document.getElementById(`${clientString}_yearSelect`);
+  const tableHeaderData = document.getElementById(`${clientString}_yearSelectData`)
+  const tableHeaderYear = document.getElementById(`${clientString}_yearSelect`)
   // console.log({ tableHeaderData, tableHeaderYear });
-  let year = yearsData_Array[yearsData_Array.length - 1];
-  const totalNum = Number(clientArray[clientArray.length - 1]);
+  let year = yearsData_Array[yearsData_Array.length - 1]
+  const totalNum = Number(clientArray[clientArray.length - 1])
 
-  tableHeaderData.textContent = totalNum.toLocaleString();
-  tableHeaderYear.textContent = year;
+  tableHeaderData.textContent = totalNum.toLocaleString()
+  tableHeaderYear.textContent = year
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -327,12 +317,7 @@ const getFSchartOptions = (
           const chart = chartContext.el.id;
           const index = opts.dataPointIndex;
           // console.log({ chart, index, opts, year: yearsData_Array[index] });
-          processFinancialData(
-            data,
-            tableDataClass,
-            yearsData_Array[index],
-            clientString
-          );
+          processFinancialData(data, tableDataClass, yearsData_Array[index], clientString);
         },
       },
     },
@@ -1469,181 +1454,7 @@ const getCashFlowTrendChartOptions = (data) => {
   };
 };
 
-const getCurrentRatioChartOptions = (data) => {
-  // console.log({ chartData: data });
+const getCurrentRatioChartOptions = () => {
 
-  const cashAndCashEquivalentsArray = Object.values(
-    data["cashAndCashEquivalents_Client"]
-  ).map((item) => Number(item.value));
-  const accountsReceivableArray = Object.values(
-    data["accountsReceivable_Client"]
-  ).map((item) => Number(item.value));
-  const studentLoansAndOtherReceivablesArray = Object.values(
-    data["studentLoansAndOtherReceivables_Client"]
-  ).map((item) => Number(item.value));
-  const contributionsReceivableArray = Object.values(
-    data["contributionsReceivable_Client"]
-  ).map((item) => Number(item.value));
-  const prepaidExpensesArray = Object.values(
-    data["prepaidExpensesAndOtherAssets_Client"]
-  ).map((item) => Number(item.value));
-
-  const currentAssetsArray = cashAndCashEquivalentsArray.map((_, index) => 
-    cashAndCashEquivalentsArray[index] +
-    accountsReceivableArray[index] +
-    studentLoansAndOtherReceivablesArray[index] +
-    contributionsReceivableArray[index] +
-    prepaidExpensesArray[index]
-  );
-
-  console.log({ currentAssetsArray });
   
-
-  const accountsPayableArray = Object.values(
-    data["accountsPayable_Client"]
-  ).map((item) => Number(item.value));
-  const deferredRevenueArray = Object.values(
-    data["deferredRevenue_Client"]
-  ).map((item) => Number(item.value));
-
-
-
-
-
-
-  const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#3A464F",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#6B7280",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
-
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#3a464f";
-
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
-
-  const formatNumber = (value) => value.toLocaleString();
-
-  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
-  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
-
-  const yaxisLabelFormatter = (value) => {
-    return `$${formatNumber(value)}`;
-  };
-
-  const tooltipFormatter = (value) => {
-    if (!value) return;
-    const formattedValue = value.toLocaleString();
-    return `$${formattedValue}`;
-  };
-
-  // console.log({mainName, benchmark});
-
-  // return {
-  //   colors: [
-  //     window.chartColors.green,
-  //     window.chartColors.blue,
-  //     window.chartColors.grey,
-  //     window.chartColors.red,
-  //     window.chartColors.orange,
-  //   ],
-  //   series: [
-  //     {
-  //       name: "Current Assets",
-  //       group: "column",
-  //       data: totalLiabilitiesArray,
-  //       style: {
-  //         colors: [chartColors.grey],
-  //       },
-  //     },
-  //     {
-  //       name: "Current Liabilities",
-  //       group: "column",
-  //       data: netPositionArray,
-  //       style: {
-  //         colors: [chartColors.labelColor],
-  //       },
-  //     },
-  //   ],
-  //   chart: {
-  //     height: 350,
-  //     type: "bar",
-  //     stacked: true,
-  //   },
-  //   dataLabels: {
-  //     enabled: false,
-  //   },
-  //   stroke: {
-  //     width: 5,
-  //     colors: chartColors.labelColor,
-  //   },
-  //   title: {
-  //     text: "Current Ratio",
-  //     align: "top",
-  //   },
-  //   xaxis: {
-  //     categories: yearsData_Array.sort((a, b) => a - b),
-  //     labels: {
-  //       style: {
-  //         colors: chartColors.labelColor,
-  //         fontSize: "1.5rem",
-  //       },
-  //     },
-  //   },
-  //   yaxis: [
-  //     {
-  //       axisTicks: {
-  //         show: true,
-  //       },
-  //       axisBorder: {
-  //         show: true,
-  //         color: chartColor,
-  //       },
-  //       labels: {
-  //         formatter: yaxisLabelFormatter,
-  //         style: {
-  //           colors: chartColor,
-  //           fontSize: "1.25rem",
-  //         },
-  //       },
-  //       tooltip: {
-  //         enabled: true,
-  //       },
-  //     },
-  //   ],
-  //   tooltip: {
-  //     y: {
-  //       formatter: tooltipFormatter,
-  //       title: {
-  //         formatter: (seriesName) => `${seriesName}:`,
-  //       },
-  //     },
-  //   },
-  //   legend: {
-  //     horizontalAlign: "center",
-  //     offsetX: 40,
-  //     fontSize: "20px",
-  //   },
-  //   grid: {
-  //     row: {
-  //       colors: ["transparent"],
-  //       opacity: 0.5,
-  //       thickness: 4,
-  //     },
-  //   },
-  //   plotOptions: {
-  //     bar: {
-  //       barHeight: "90%",
-  //     },
-  //   },
-  // };
-};
+}
