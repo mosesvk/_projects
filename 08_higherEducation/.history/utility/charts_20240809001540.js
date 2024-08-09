@@ -1572,125 +1572,107 @@ const getCurrentRatioChartOptions = (data) => {
 
   // console.log({mainName, benchmark});
 
-  console.log('hit');
-  
-
-  return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.blue,
-      window.chartColors.grey,
-      window.chartColors.red,
-      window.chartColors.orange,
-    ],
-    series: [
-      {
-        name: "Current Assets",
-        group: "column",
-        data: currentAssetsArray,
-        style: {
-          colors: [chartColors.green],
-        },
-      },
-      {
-        name: "Current Liabilities",
-        group: "column",
-        data: currentLiabilitiesArray,
-        style: {
-          colors: [chartColors.labelColor],
-        }
-      },
-      {
-        name: "Current Ratio",
-        type: "line",
-        data: currentRatioArray,
-      },
-    ],
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        }
-      } , 
-      {
-        opposite: true,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        }
-      }
-    ],
-    chart: {
-      height: 350,
-      type: "bar",
-      stacked: true,
-    },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [1]
-    },
-    stroke: {
-      width: 5,
-      colors: chartColors.labelColor,
-    },
-    title: {
-      text: 'Current Ratio',
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColor,
-        fontSize: "1.5rem",
-      },
-    },
-    xaxis: {
-      categories: yearsDataCurrentRatio_Array.sort((a, b) => a - b),
-      labels: {
-        style: {
-          colors: chartColor,
-          fontSize: "1.5rem",
-        },
-      },
-    },
-    legend: {
-      horizontalAlign: "center",
-      offsetX: 40,
-      fontSize: "20px",
-    },
-    grid: {
-      row: {
-        colors: ["transparent"],
-        opacity: 0.5,
-        thickness: 4,
-      },
-    },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
-      },
-    },
-  };
+  // return {
+  //   colors: [
+  //     window.chartColors.green,
+  //     window.chartColors.blue,
+  //     window.chartColors.grey,
+  //     window.chartColors.red,
+  //     window.chartColors.orange,
+  //   ],
+  //   series: [
+  //     {
+  //       name: "Current Assets",
+  //       group: "column",
+  //       data: currentAssetsArray,
+  //       style: {
+  //         colors: [chartColors.green],
+  //       },
+  //     },
+  //     {
+  //       name: "Current Liabilities",
+  //       group: "column",
+  //       data: currentLiabilitiesArray,
+  //       style: {
+  //         colors: [chartColors.labelColor],
+  //       },
+  //     },
+  //     {
+  //       name: "Current Ratio",
+  //       type: "line",
+  //       data: currentRatioArray,
+  //     },
+  //   ],
+  //   chart: {
+  //     height: 350,
+  //     type: "bar",
+  //     stacked: true,
+  //   },
+  //   dataLabels: {
+  //     enabled: false,
+  //   },
+  //   stroke: {
+  //     width: 5,
+  //     colors: chartColors.labelColor,
+  //   },
+  //   title: {
+  //     text: 'Current Ratio',
+  //     align: "center",
+  //     margin: 10,
+  //     offsetY: 20,
+  //     style: {
+  //       color: chartColor,
+  //       fontSize: "1.5rem",
+  //     },
+  //   },
+  //   xaxis: {
+  //     categories: yearsDataCurrentRatio_Array.sort((a, b) => a - b),
+  //     labels: {
+  //       style: {
+  //         colors: chartColor,
+  //         fontSize: "1.5rem",
+  //       },
+  //     },
+  //   },
+  //   yaxis: [
+  //     {
+  //       title: {
+  //         text: "Website Blog",
+  //       },
+  //     },
+  //     {
+  //       opposite: true,
+  //       title: {
+  //         text: "Social Media",
+  //       },
+  //     },
+  //   ],
+  //   tooltip: {
+  //     y: {
+  //       formatter: tooltipFormatter,
+  //       title: {
+  //         formatter: (seriesName) => `${seriesName}:`,
+  //       },
+  //     },
+  //   },
+  //   legend: {
+  //     horizontalAlign: "center",
+  //     offsetX: 40,
+  //     fontSize: "20px",
+  //   },
+  //   grid: {
+  //     row: {
+  //       colors: ["transparent"],
+  //       opacity: 0.5,
+  //       thickness: 4,
+  //     },
+  //   },
+  //   plotOptions: {
+  //     bar: {
+  //       barHeight: "90%",
+  //     },
+  //   },
+  // };
 };
 
 

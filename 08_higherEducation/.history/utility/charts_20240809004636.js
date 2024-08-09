@@ -1585,6 +1585,11 @@ const getCurrentRatioChartOptions = (data) => {
     ],
     series: [
       {
+        name: "Current Ratio",
+        type: "line",
+        data: currentRatioArray,
+      },
+      {
         name: "Current Assets",
         group: "column",
         data: currentAssetsArray,
@@ -1599,11 +1604,6 @@ const getCurrentRatioChartOptions = (data) => {
         style: {
           colors: [chartColors.labelColor],
         }
-      },
-      {
-        name: "Current Ratio",
-        type: "line",
-        data: currentRatioArray,
       },
     ],
     yaxis: [
@@ -1621,29 +1621,15 @@ const getCurrentRatioChartOptions = (data) => {
             colors: chartColor,
             fontSize: "1.25rem",
           },
-        }
-      } , 
-      {
-        opposite: true,
-        axisTicks: {
-          show: true,
         },
-        axisBorder: {
-          show: true,
-          color: chartColor,
+        tooltip: {
+          enabled: true,
         },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        }
       }
     ],
     chart: {
       height: 350,
-      type: "bar",
+      type: "line",
       stacked: true,
     },
     dataLabels: {
@@ -1670,6 +1656,14 @@ const getCurrentRatioChartOptions = (data) => {
         style: {
           colors: chartColor,
           fontSize: "1.5rem",
+        },
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
         },
       },
     },

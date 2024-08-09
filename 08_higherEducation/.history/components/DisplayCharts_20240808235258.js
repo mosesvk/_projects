@@ -307,7 +307,7 @@ const displayFinancialPositionComponent = () => {
     document.querySelector("#currentRatio_chart"),
     getCurrentRatioChartOptions(parsedData["currentRatioData"])
   );
-  currentRatioChart.render();
+  fpaChart.render();
   document.addEventListener("dark-mode", function () {
     currentRatioChart.updateOptions(getCurrentRatioChartOptions(parsedData["currentRatioData"]));
   });

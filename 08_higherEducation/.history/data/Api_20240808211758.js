@@ -174,7 +174,6 @@ const processFinancialPositionContentData = (recordsPeer, recordsClient) => {
       if (record.querySelector('_9999_completion_test_fs_tab').innerHTML == 'IN PROCESS') {
         return 
       }
-      
       const currentRatio_array = [
         {
           key: "cashAndCashEquivalents_Client",
@@ -266,9 +265,6 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
-      if (record.querySelector('_9999_completion_test_fs_tab').innerHTML == 'IN PROCESS') {
-        return 
-      }
       const totalAssets_array = [
         {
           key: "totalAssets_Client",

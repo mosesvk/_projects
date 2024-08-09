@@ -1482,9 +1482,6 @@ const getCashFlowTrendChartOptions = (data) => {
 const getCurrentRatioChartOptions = (data) => {
   // console.log({ chartData: data });
 
-  const firstKey = Object.keys(data)[0];
-  const yearsDataCurrentRatio_Array = Object.keys(data[firstKey]);
-
   const cashAndCashEquivalentsArray = Object.values(
     data["cashAndCashEquivalents_Client"]
   ).map((item) => Number(item.value));
@@ -1519,21 +1516,16 @@ const getCurrentRatioChartOptions = (data) => {
 
   const currentLiabilitiesArray = accountsPayableArray.map(
     (_, index) =>
-      (accountsPayableArray[index] + deferredRevenueArray[index]) * -1
+      (accountsPayableArray[index] +
+      deferredRevenueArray[index]) * -1
   );
 
   const currentRatioArray = currentAssetsArray.map((asset, index) => {
     const liability = currentLiabilitiesArray[index] * -1;
-    console.log(liability);
-
     return liability !== 0 ? asset / liability : 0; // Avoid division by zero
   });
 
-  console.log({
-    currentAssetsArray,
-    currentLiabilitiesArray,
-    currentRatioArray,
-  });
+
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -1572,9 +1564,6 @@ const getCurrentRatioChartOptions = (data) => {
 
   // console.log({mainName, benchmark});
 
-  console.log('hit');
-  
-
   return {
     colors: [
       window.chartColors.green,
@@ -1598,7 +1587,7 @@ const getCurrentRatioChartOptions = (data) => {
         data: currentLiabilitiesArray,
         style: {
           colors: [chartColors.labelColor],
-        }
+        },
       },
       {
         name: "Current Ratio",
@@ -1606,6 +1595,31 @@ const getCurrentRatioChartOptions = (data) => {
         data: currentRatioArray,
       },
     ],
+    chart: {
+      height: 350,
+      type: "bar",
+      stacked: true,
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      width: 5,
+      colors: chartColors.labelColor,
+    },
+    title: {
+      text: "Current Ratio",
+      align: "top",
+    },
+    xaxis: {
+      categories: yearsData_Array.sort((a, b) => a - b),
+      labels: {
+        style: {
+          colors: chartColors.labelColor,
+          fontSize: "1.5rem",
+        },
+      },
+    },
     yaxis: [
       {
         axisTicks: {
@@ -1621,55 +1635,17 @@ const getCurrentRatioChartOptions = (data) => {
             colors: chartColor,
             fontSize: "1.25rem",
           },
-        }
-      } , 
-      {
-        opposite: true,
-        axisTicks: {
-          show: true,
         },
-        axisBorder: {
-          show: true,
-          color: chartColor,
+        tooltip: {
+          enabled: true,
         },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        }
-      }
-    ],
-    chart: {
-      height: 350,
-      type: "bar",
-      stacked: true,
-    },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [1]
-    },
-    stroke: {
-      width: 5,
-      colors: chartColors.labelColor,
-    },
-    title: {
-      text: 'Current Ratio',
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColor,
-        fontSize: "1.5rem",
       },
-    },
-    xaxis: {
-      categories: yearsDataCurrentRatio_Array.sort((a, b) => a - b),
-      labels: {
-        style: {
-          colors: chartColor,
-          fontSize: "1.5rem",
+    ],
+    tooltip: {
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
         },
       },
     },
@@ -1692,26 +1668,3 @@ const getCurrentRatioChartOptions = (data) => {
     },
   };
 };
-
-
-// yaxis: [
-//   {
-//     axisTicks: {
-//       show: true,
-//     },
-//     axisBorder: {
-//       show: true,
-//       color: chartColor,
-//     },
-//     labels: {
-//       formatter: yaxisLabelFormatter,
-//       style: {
-//         colors: chartColor,
-//         fontSize: "1.25rem",
-//       },
-//     },
-//     tooltip: {
-//       enabled: true,
-//     },
-//   },
-// ],

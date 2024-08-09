@@ -1131,7 +1131,7 @@ const displayFSSummary = (chart, idx) => {
 };
 
 function createFSTable(tableDataClass, data, idString, year) {
-  // console.log({ tableDataClass, data, idString, year });
+  console.log({ tableDataClass, data, idString, year });
 
   const tableHeaderData = document.getElementById(`${idString}_yearSelectData`)
   const tableHeaderYear = document.getElementById(`${idString}_yearSelect`)
@@ -1153,7 +1153,7 @@ function createFSTable(tableDataClass, data, idString, year) {
 }
 
 function processFinancialData(dataObject, tableDataClass, year, idString) {
-  // console.log({ dataObject, tableDataClass, year, idString });
+  console.log({ dataObject, tableDataClass, year, idString });
 
   // Create an array of values for the current year
   let arrayData = [];

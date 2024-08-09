@@ -1585,6 +1585,11 @@ const getCurrentRatioChartOptions = (data) => {
     ],
     series: [
       {
+        name: "Current Ratio",
+        type: "line",
+        data: currentRatioArray,
+      },
+      {
         name: "Current Assets",
         group: "column",
         data: currentAssetsArray,
@@ -1600,51 +1605,10 @@ const getCurrentRatioChartOptions = (data) => {
           colors: [chartColors.labelColor],
         }
       },
-      {
-        name: "Current Ratio",
-        type: "line",
-        data: currentRatioArray,
-      },
-    ],
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        }
-      } , 
-      {
-        opposite: true,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        }
-      }
     ],
     chart: {
       height: 350,
-      type: "bar",
-      stacked: true,
+      type: "line",
     },
     dataLabels: {
       enabled: true,
@@ -1670,6 +1634,38 @@ const getCurrentRatioChartOptions = (data) => {
         style: {
           colors: chartColor,
           fontSize: "1.5rem",
+        },
+      },
+    },
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
+        },
+        tooltip: {
+          enabled: true,
+        },
+      },
+      {
+        opposite: true,
+      },
+    ],
+    tooltip: {
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
         },
       },
     },

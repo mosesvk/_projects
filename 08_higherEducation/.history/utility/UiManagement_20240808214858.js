@@ -141,7 +141,7 @@ function toggleTheme() {
 }
 
 // Check if the user's preference is stored in local storage
-const userThemePreference = localStorage.getItem("color-theme");
+// const userThemePreference = localStorage.getItem("color-theme");
 
 if (userThemePreference === "dark") {
   document.documentElement.classList.add("dark");

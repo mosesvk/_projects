@@ -1625,20 +1625,6 @@ const getCurrentRatioChartOptions = (data) => {
       } , 
       {
         opposite: true,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        }
       }
     ],
     chart: {

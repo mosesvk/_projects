@@ -233,14 +233,15 @@ const getFSchartOptions = (
   chartId,
   tableDataClass
 ) => {
-  // if (chartId == "#assets_chart")
-  //   console.log({ data, client, color, numType, title, chartId });
-
+  if (chartId == "#assets_chart")
+    console.log({ data, client, color, numType, title, chartId });
+    
   const clientString = client.replace("_Client", "");
-
-  const firstKey = Object.keys(data)[0];
-  const yearsDataFinancialStatment_Array = Object.keys(data[firstKey]);
-  // console.log({yearsDataFinancialStatment_Array});
+  
+  const firstKey = Object.keys(data)[0]
+  const yearsDataFinancialStatment_Array = Object.keys(data[firstKey])
+  console.log({yearsDataFinancialStatment_Array});
+  
 
   // console.log({ clientString });
   const clientArray = getValuesInChronologicalOrder(data[client]);
@@ -297,14 +298,8 @@ const getFSchartOptions = (
     }
   };
 
-  processFinancialData(
-    data,
-    tableDataClass,
-    yearsDataFinancialStatment_Array[
-      yearsDataFinancialStatment_Array.length - 1
-    ],
-    clientString
-  );
+  // console.log(yearsData_Array.sort((a, b) => a - b))
+  // console.log({clientArray})
 
   return {
     colors: [color],
@@ -335,6 +330,7 @@ const getFSchartOptions = (
       stacked: false,
       events: {
         dataPointSelection: function (event, chartContext, opts) {
+          const chart = chartContext.el.id;
           const index = opts.dataPointIndex;
           // console.log({ chart, index, opts, year: yearsData_Array[index] });
           processFinancialData(
@@ -1482,9 +1478,6 @@ const getCashFlowTrendChartOptions = (data) => {
 const getCurrentRatioChartOptions = (data) => {
   // console.log({ chartData: data });
 
-  const firstKey = Object.keys(data)[0];
-  const yearsDataCurrentRatio_Array = Object.keys(data[firstKey]);
-
   const cashAndCashEquivalentsArray = Object.values(
     data["cashAndCashEquivalents_Client"]
   ).map((item) => Number(item.value));
@@ -1501,14 +1494,16 @@ const getCurrentRatioChartOptions = (data) => {
     data["prepaidExpensesAndOtherAssets_Client"]
   ).map((item) => Number(item.value));
 
-  const currentAssetsArray = cashAndCashEquivalentsArray.map(
-    (_, index) =>
-      cashAndCashEquivalentsArray[index] +
-      accountsReceivableArray[index] +
-      studentLoansAndOtherReceivablesArray[index] +
-      contributionsReceivableArray[index] +
-      prepaidExpensesArray[index]
+  const currentAssetsArray = cashAndCashEquivalentsArray.map((_, index) => 
+    cashAndCashEquivalentsArray[index] +
+    accountsReceivableArray[index] +
+    studentLoansAndOtherReceivablesArray[index] +
+    contributionsReceivableArray[index] +
+    prepaidExpensesArray[index]
   );
+
+  console.log({ currentAssetsArray });
+  
 
   const accountsPayableArray = Object.values(
     data["accountsPayable_Client"]
@@ -1517,23 +1512,10 @@ const getCurrentRatioChartOptions = (data) => {
     data["deferredRevenue_Client"]
   ).map((item) => Number(item.value));
 
-  const currentLiabilitiesArray = accountsPayableArray.map(
-    (_, index) =>
-      (accountsPayableArray[index] + deferredRevenueArray[index]) * -1
-  );
 
-  const currentRatioArray = currentAssetsArray.map((asset, index) => {
-    const liability = currentLiabilitiesArray[index] * -1;
-    console.log(liability);
 
-    return liability !== 0 ? asset / liability : 0; // Avoid division by zero
-  });
 
-  console.log({
-    currentAssetsArray,
-    currentLiabilitiesArray,
-    currentRatioArray,
-  });
+
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -1572,146 +1554,102 @@ const getCurrentRatioChartOptions = (data) => {
 
   // console.log({mainName, benchmark});
 
-  console.log('hit');
-  
-
-  return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.blue,
-      window.chartColors.grey,
-      window.chartColors.red,
-      window.chartColors.orange,
-    ],
-    series: [
-      {
-        name: "Current Assets",
-        group: "column",
-        data: currentAssetsArray,
-        style: {
-          colors: [chartColors.green],
-        },
-      },
-      {
-        name: "Current Liabilities",
-        group: "column",
-        data: currentLiabilitiesArray,
-        style: {
-          colors: [chartColors.labelColor],
-        }
-      },
-      {
-        name: "Current Ratio",
-        type: "line",
-        data: currentRatioArray,
-      },
-    ],
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        }
-      } , 
-      {
-        opposite: true,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        }
-      }
-    ],
-    chart: {
-      height: 350,
-      type: "bar",
-      stacked: true,
-    },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [1]
-    },
-    stroke: {
-      width: 5,
-      colors: chartColors.labelColor,
-    },
-    title: {
-      text: 'Current Ratio',
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColor,
-        fontSize: "1.5rem",
-      },
-    },
-    xaxis: {
-      categories: yearsDataCurrentRatio_Array.sort((a, b) => a - b),
-      labels: {
-        style: {
-          colors: chartColor,
-          fontSize: "1.5rem",
-        },
-      },
-    },
-    legend: {
-      horizontalAlign: "center",
-      offsetX: 40,
-      fontSize: "20px",
-    },
-    grid: {
-      row: {
-        colors: ["transparent"],
-        opacity: 0.5,
-        thickness: 4,
-      },
-    },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
-      },
-    },
-  };
+  // return {
+  //   colors: [
+  //     window.chartColors.green,
+  //     window.chartColors.blue,
+  //     window.chartColors.grey,
+  //     window.chartColors.red,
+  //     window.chartColors.orange,
+  //   ],
+  //   series: [
+  //     {
+  //       name: "Current Assets",
+  //       group: "column",
+  //       data: totalLiabilitiesArray,
+  //       style: {
+  //         colors: [chartColors.grey],
+  //       },
+  //     },
+  //     {
+  //       name: "Current Liabilities",
+  //       group: "column",
+  //       data: netPositionArray,
+  //       style: {
+  //         colors: [chartColors.labelColor],
+  //       },
+  //     },
+  //   ],
+  //   chart: {
+  //     height: 350,
+  //     type: "bar",
+  //     stacked: true,
+  //   },
+  //   dataLabels: {
+  //     enabled: false,
+  //   },
+  //   stroke: {
+  //     width: 5,
+  //     colors: chartColors.labelColor,
+  //   },
+  //   title: {
+  //     text: "Current Ratio",
+  //     align: "top",
+  //   },
+  //   xaxis: {
+  //     categories: yearsData_Array.sort((a, b) => a - b),
+  //     labels: {
+  //       style: {
+  //         colors: chartColors.labelColor,
+  //         fontSize: "1.5rem",
+  //       },
+  //     },
+  //   },
+  //   yaxis: [
+  //     {
+  //       axisTicks: {
+  //         show: true,
+  //       },
+  //       axisBorder: {
+  //         show: true,
+  //         color: chartColor,
+  //       },
+  //       labels: {
+  //         formatter: yaxisLabelFormatter,
+  //         style: {
+  //           colors: chartColor,
+  //           fontSize: "1.25rem",
+  //         },
+  //       },
+  //       tooltip: {
+  //         enabled: true,
+  //       },
+  //     },
+  //   ],
+  //   tooltip: {
+  //     y: {
+  //       formatter: tooltipFormatter,
+  //       title: {
+  //         formatter: (seriesName) => `${seriesName}:`,
+  //       },
+  //     },
+  //   },
+  //   legend: {
+  //     horizontalAlign: "center",
+  //     offsetX: 40,
+  //     fontSize: "20px",
+  //   },
+  //   grid: {
+  //     row: {
+  //       colors: ["transparent"],
+  //       opacity: 0.5,
+  //       thickness: 4,
+  //     },
+  //   },
+  //   plotOptions: {
+  //     bar: {
+  //       barHeight: "90%",
+  //     },
+  //   },
+  // };
 };
-
-
-// yaxis: [
-//   {
-//     axisTicks: {
-//       show: true,
-//     },
-//     axisBorder: {
-//       show: true,
-//       color: chartColor,
-//     },
-//     labels: {
-//       formatter: yaxisLabelFormatter,
-//       style: {
-//         colors: chartColor,
-//         fontSize: "1.25rem",
-//       },
-//     },
-//     tooltip: {
-//       enabled: true,
-//     },
-//   },
-// ],

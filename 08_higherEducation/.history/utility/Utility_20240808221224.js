@@ -1153,7 +1153,7 @@ function createFSTable(tableDataClass, data, idString, year) {
 }
 
 function processFinancialData(dataObject, tableDataClass, year, idString) {
-  // console.log({ dataObject, tableDataClass, year, idString });
+  console.log({ dataObject, tableDataClass, year, idString });
 
   // Create an array of values for the current year
   let arrayData = [];

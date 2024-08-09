@@ -1572,9 +1572,6 @@ const getCurrentRatioChartOptions = (data) => {
 
   // console.log({mainName, benchmark});
 
-  console.log('hit');
-  
-
   return {
     colors: [
       window.chartColors.green,
@@ -1598,7 +1595,7 @@ const getCurrentRatioChartOptions = (data) => {
         data: currentLiabilitiesArray,
         style: {
           colors: [chartColors.labelColor],
-        }
+        },
       },
       {
         name: "Current Ratio",
@@ -1606,49 +1603,13 @@ const getCurrentRatioChartOptions = (data) => {
         data: currentRatioArray,
       },
     ],
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        }
-      } , 
-      {
-        opposite: true,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        }
-      }
-    ],
     chart: {
       height: 350,
       type: "bar",
       stacked: true,
     },
     dataLabels: {
-      enabled: true,
-      enabledOnSeries: [1]
+      enabled: false,
     },
     stroke: {
       width: 5,
@@ -1670,6 +1631,27 @@ const getCurrentRatioChartOptions = (data) => {
         style: {
           colors: chartColor,
           fontSize: "1.5rem",
+        },
+      },
+    },
+    yaxis: [
+      {
+        title: {
+          text: "Website Blog",
+        },
+      },
+      {
+        opposite: true,
+        title: {
+          text: "Social Media",
+        },
+      },
+    ],
+    tooltip: {
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
         },
       },
     },

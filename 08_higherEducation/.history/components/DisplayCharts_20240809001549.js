@@ -303,14 +303,14 @@ const displayFinancialPositionComponent = () => {
 
   // getCurrentRatioChartOptions(parsedData["currentRatioData"])
 
-  const currentRatioChart = new ApexCharts(
-    document.querySelector("#currentRatio_chart"),
-    getCurrentRatioChartOptions(parsedData["currentRatioData"])
-  );
-  currentRatioChart.render();
-  document.addEventListener("dark-mode", function () {
-    currentRatioChart.updateOptions(getCurrentRatioChartOptions(parsedData["currentRatioData"]));
-  });
+  // const currentRatioChart = new ApexCharts(
+  //   document.querySelector("#currentRatio_chart"),
+  //   getCurrentRatioChartOptions(parsedData["currentRatioData"])
+  // );
+  // currentRatioChart.render();
+  // document.addEventListener("dark-mode", function () {
+  //   currentRatioChart.updateOptions(getCurrentRatioChartOptions(parsedData["currentRatioData"]));
+  // });
 
 
 }

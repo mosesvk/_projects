@@ -1621,24 +1621,10 @@ const getCurrentRatioChartOptions = (data) => {
             colors: chartColor,
             fontSize: "1.25rem",
           },
-        }
-      } , 
-      {
-        opposite: true,
-        axisTicks: {
-          show: true,
         },
-        axisBorder: {
-          show: true,
-          color: chartColor,
+        tooltip: {
+          enabled: true,
         },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        }
       }
     ],
     chart: {
@@ -1670,6 +1656,14 @@ const getCurrentRatioChartOptions = (data) => {
         style: {
           colors: chartColor,
           fontSize: "1.5rem",
+        },
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
         },
       },
     },
