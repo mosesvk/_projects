@@ -1965,9 +1965,9 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
   // console.log({ chartColor });
 
   const textArray = [
-    "Current Ratio Exceeds Target Goal: Reduce to below 70%",
-    "Current Ratio Far Exceeds Target Goal: Reduce to below 70%",
-    "Current Ratio is within Target Goal: below 70%",
+    "Current Ratio Exceeds Target Goal: Reduce to below 60%",
+    "Current Ratio Far Exceeds Target Goal: Reduce to below 60%",
+    "Current Ratio is Below Target Goal: Maintain below 60%",
   ];
 
   const textLabel =
@@ -2213,13 +2213,11 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
     Number(data["salariesAndWages_Client"][mostRecentYear].value) +
     Number(data["employeeBenefits_Client"][mostRecentYear].value);
 
-  const denominator = Number(
-    data["netTuitionAndFees_Client"][mostRecentYear].value
-  );
+  const denominator = Number(data["netTuitionAndFees_Client"][mostRecentYear].value);
 
-  const clientPercent = Math.round((numerator / denominator) * 100);
+  const clientPercent = Math.round((numerator/denominator) * 100);
 
-  // console.log({ mostRecentYear, numerator, denominator, clientPercent });
+  console.log({ mostRecentYear, numerator, denominator, clientPercent });
 
   const chartColor =
     clientPercent <= 60
@@ -2231,9 +2229,9 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
   // console.log({ chartColor });
 
   const textArray = [
-    "Current Ratio Exceeds Target Goal: Reduce to below 70%",
-    "Current Ratio Far Exceeds Target Goal: Reduce to below 70%",
-    "Current Ratio is within Target Goal: below 70%",
+    "Current Ratio Exceeds Target Goal: Reduce to below 60%",
+    "Current Ratio Far Exceeds Target Goal: Reduce to below 60%",
+    "Current Ratio is Below Target Goal: Maintain below 60%",
   ];
 
   const textLabel =

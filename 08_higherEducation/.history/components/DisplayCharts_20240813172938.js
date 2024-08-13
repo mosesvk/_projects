@@ -366,7 +366,7 @@ const displayRevenueAndExpenseComponent = () => {
 
   // getSalariesAndBenefitsPerNetTuitionChartOptions(parsedData["salariesAndBenefitsPerNetTuitionData"])
   const salariesAndBenefitsPerNetTuitionChart = new ApexCharts(
-    document.querySelector("#salariesBenefitsPerNetTuition_chart"),
+    document.querySelector("#salariesAndBenefitsPerNetTuitionChart"),
     getSalariesAndBenefitsPerNetTuitionChartOptions(parsedData["salariesAndBenefitsPerNetTuitionData"])
   );
   salariesAndBenefitsPerNetTuitionChart.render();

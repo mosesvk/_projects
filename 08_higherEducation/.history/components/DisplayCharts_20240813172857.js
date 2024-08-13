@@ -366,12 +366,12 @@ const displayRevenueAndExpenseComponent = () => {
 
   // getSalariesAndBenefitsPerNetTuitionChartOptions(parsedData["salariesAndBenefitsPerNetTuitionData"])
   const salariesAndBenefitsPerNetTuitionChart = new ApexCharts(
-    document.querySelector("#salariesBenefitsPerNetTuition_chart"),
-    getSalariesAndBenefitsPerNetTuitionChartOptions(parsedData["salariesAndBenefitsPerNetTuitionData"])
+    document.querySelector("#salariesAndBenefitsPerNetTuitionChart"),
+    getSalariesAndBenefitsPerNetTuitionChartOptions(parsedData["salariesAndBenefitsToTotalExpenseData"])
   );
   salariesAndBenefitsPerNetTuitionChart.render();
   document.addEventListener("dark-mode", function () {
-    salariesAndBenefitsPerNetTuitionChart.updateOptions(getSalariesAndBenefitsPerNetTuitionChartOptions(parsedData["salariesAndBenefitsPerNetTuitionData"]));
+    salariesAndBenefitsPerNetTuitionChart.updateOptions(getSalariesAndBenefitsPerNetTuitionChartOptions(parsedData["salariesAndBenefitsToTotalExpenseData"]));
   });
   
 }

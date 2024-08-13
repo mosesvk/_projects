@@ -165,7 +165,7 @@ const processRevenueExpenseContentData = (
   recordsPeer,
   recordsClient
 ) => {
-  const salariesAndBenefitsToTotalExpense_obj = {};
+  const salariesAndBenefits_obj = {};
   const averageEmployeeSalary_obj = {};
   const salariesAndBenefitsPerNetTuition_obj = {};
 
@@ -198,7 +198,7 @@ const processRevenueExpenseContentData = (
         insertDataIntoObject(
           "client",
           year,
-          salariesAndBenefitsToTotalExpense_obj,
+          salariesAndBenefits_obj,
           key,
           record,
           field
@@ -292,35 +292,6 @@ const processRevenueExpenseContentData = (
           "client",
           year,
           averageEmployeeSalary_obj,
-          key,
-          record,
-          field
-        );
-      });
-
-      const salariesAndBenefitsPerNetTuition_array = [
-        {
-          key: "salariesAndWages_Client",
-          field: "r160_salaries_and_wages",
-        },
-        {
-          key: "employeeBenefits_Client",
-          field: "r161_employee_benefits",
-        },
-        {
-          key: "netTuitionAndFees_Client",
-          field: "r026_cnet_tuition_and_fees",
-        },
-        {
-          key: "netTuitionAndFees_Client",
-          field: "r026_cnet_tuition_and_fees",
-        },
-      ];
-      salariesAndBenefitsPerNetTuition_array.forEach(({ key, field }) => {
-        insertDataIntoObject(
-          "client",
-          year,
-          salariesAndBenefitsPerNetTuition_obj,
           key,
           record,
           field

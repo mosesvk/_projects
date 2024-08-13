@@ -335,7 +335,7 @@ const displayRevenueAndExpenseComponent = () => {
   const keys = [
     "salariesAndBenefitsToTotalExpenseData",
     "averageEmployeeSalaryData",
-    "salariesAndBenefitsPerNetTuitionData"
+    "salariesAndBenefitsPerNetTuition"
   ];
   const parsedData = {};
 
@@ -345,15 +345,17 @@ const displayRevenueAndExpenseComponent = () => {
   });
 
 
-  const salariesBenefitsToTotalExpenseChart = new ApexCharts(
+  const salariesAndBenefitsChart = new ApexCharts(
     document.querySelector("#salariesBenefitsToTotalExpense_chart"),
-    getSalariesAndBenefitsToTotalExpenseChartOptions(parsedData["salariesAndBenefitsToTotalExpenseData"])
+    getSalariesAndBenefitsToTotalExpenseChartOptions(parsedData["salariesAndBenefitsData"])
   );
-  salariesBenefitsToTotalExpenseChart.render();
+  salariesAndBenefitsChart.render();
   document.addEventListener("dark-mode", function () {
-    salariesBenefitsToTotalExpenseChart.updateOptions(getSalariesAndBenefitsToTotalExpenseChartOptions(parsedData["salariesAndBenefitsToTotalExpenseData"]));
+    salariesAndBenefitsChart.updateOptions(getSalariesAndBenefitsToTotalExpenseChartOptions(parsedData["salariesAndBenefitsData"]));
   });
 
+
+  // getAverageEmployeeSalaryChartOptions(parsedData["averageEmployeeSalaryData"])
 
   const averageEmployeeSalaryChart = new ApexCharts(
     document.querySelector("#averageEmployeeSalary_chart"),
@@ -364,14 +366,6 @@ const displayRevenueAndExpenseComponent = () => {
     averageEmployeeSalaryChart.updateOptions(getAverageEmployeeSalaryChartOptions(parsedData["averageEmployeeSalaryData"]));
   });
 
-  // getSalariesAndBenefitsPerNetTuitionChartOptions(parsedData["salariesAndBenefitsPerNetTuitionData"])
-  const salariesAndBenefitsPerNetTuitionChart = new ApexCharts(
-    document.querySelector("#salariesBenefitsPerNetTuition_chart"),
-    getSalariesAndBenefitsPerNetTuitionChartOptions(parsedData["salariesAndBenefitsPerNetTuitionData"])
-  );
-  salariesAndBenefitsPerNetTuitionChart.render();
-  document.addEventListener("dark-mode", function () {
-    salariesAndBenefitsPerNetTuitionChart.updateOptions(getSalariesAndBenefitsPerNetTuitionChartOptions(parsedData["salariesAndBenefitsPerNetTuitionData"]));
-  });
+  
   
 }

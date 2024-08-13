@@ -300,21 +300,9 @@ const processRevenueExpenseContentData = (
 
       const salariesAndBenefitsPerNetTuition_array = [
         {
-          key: "salariesAndWages_Client",
-          field: "r160_salaries_and_wages",
-        },
-        {
-          key: "employeeBenefits_Client",
-          field: "r161_employee_benefits",
-        },
-        {
-          key: "netTuitionAndFees_Client",
-          field: "r026_cnet_tuition_and_fees",
-        },
-        {
-          key: "netTuitionAndFees_Client",
-          field: "r026_cnet_tuition_and_fees",
-        },
+          key: "salariesAndBenefitsToTotalExpense_Client",
+          field: "r228_csalaries_and_benefits_to_total_expenses",
+        }
       ];
       salariesAndBenefitsPerNetTuition_array.forEach(({ key, field }) => {
         insertDataIntoObject(
