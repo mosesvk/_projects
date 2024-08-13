@@ -1660,39 +1660,6 @@ const getCurrentRatioChartOptions = (data) => {
         data: peerAvgArray,
       },
     ],
-    chart: {
-      height: 550,
-      type: "line",
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    title: {
-      text: "Current Ratio",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColor,
-        fontSize: "1.5rem",
-      },
-    },
     yaxis: [
       {
         axisTicks: {
@@ -1731,6 +1698,39 @@ const getCurrentRatioChartOptions = (data) => {
         },
       },
     ],
+    chart: {
+      height: 550,
+      type: "line",
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
+        },
+      },
+    },
+    title: {
+      text: "Current Ratio",
+      align: "center",
+      margin: 10,
+      offsetY: 20,
+      style: {
+        color: chartColor,
+        fontSize: "1.5rem",
+      },
+    },
     xaxis: {
       categories: yearsDataCurrentRatio_Array.sort((a, b) => a - b),
       labels: {
@@ -2073,14 +2073,13 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
 
   const mostRecentYear = Math.max(...Object.keys(data["adminAsst_Client"]));
 
-  namesArray.map((name, index) => {
+  namesArray.map((name) => {
     const peerData = data[`${name}_Peer`][mostRecentYear];
     const peerAvg = getAverageOfArray(peerData);
     peerArray.push(peerAvg);
 
     const clientData = Number(data[`${name}_Client`][mostRecentYear].value);
-    // clientArray.push(Math.round(clientData));
-    clientArray.push(index % 2 === 0 ? peerAvg + 1000 : peerAvg + 4000);
+    clientArray.push(Math.round(clientData));
   });
 
   function createArrayObjectForAvgEmployeeSalary(
@@ -2097,47 +2096,20 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
           value: peerArray[index],
           strokeWidth: 5,
           strokeHeight: 10,
-          strokeColor: window.chartColors.green,
+          strokeColor: "#775DD0",
         },
       ],
     }));
   }
 
-  const seriesData = createArrayObjectForAvgEmployeeSalary(
-    axisNameArray,
-    clientArray,
-    peerArray
-  );
-
-  const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#3A464F",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#6B7280",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#3a464f";
+  const seriesData = createArrayObjectForAvgEmployeeSalary(axisNameArray, clientArray, peerArray);
 
   console.log({ seriesData });
-
+  
   return {
-    series: [
-      {
-        name: "Actual",
-        data: seriesData,
-      },
-    ],
+    series: seriesData,
     chart: {
-      height: 750,
-      width: "90%",
+      height: 350,
       type: "bar",
     },
     plotOptions: {
@@ -2147,56 +2119,22 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
     },
     colors: [window.chartColors.blue],
     dataLabels: {
-      formatter: function (val, opt) {},
-    },
-    title: {
-      text: "Average Employee Salary",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColor,
-        fontSize: "1.5rem",
+      formatter: function (val, opt) {
+        const goals =
+          opt.w.config.series[opt.seriesIndex].data[opt.dataPointIndex].goals;
+
+        if (goals && goals.length) {
+          return `${val} / ${goals[0].value}`;
+        }
+        return val;
       },
     },
     legend: {
       show: true,
       showForSingleSeries: true,
-      position: "top",
       customLegendItems: ["Client", "Peer"],
       markers: {
         fillColors: [window.chartColors.blue, window.chartColors.green],
-      },
-    },
-    yaxis: {
-      labels: {
-        align: "right",
-        style: {
-          colors: chartColor,
-          fontSize: "1rem",
-          fontWeight: "600",
-        },
-        maxWidth: 650,
-        offsetX: 10,
-      },
-      stepSize: 50
-    },
-    xaxis: {
-      labels: {
-        style: {
-          colors: chartColor,
-          fontSize: "1.5rem",
-        },
-        formatter: function (val) {
-          const num = parseInt(val, 10);
-          if (isNaN(num)) {
-            return "Invalid input";
-          }
-          if (num >= 1000) {
-            return `${Math.floor(num / 1000)}k`;
-          }
-          return val;
-        },
       },
     },
   };

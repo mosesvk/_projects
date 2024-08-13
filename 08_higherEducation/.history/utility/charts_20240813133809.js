@@ -2136,8 +2136,7 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
       },
     ],
     chart: {
-      height: 750,
-      width: "90%",
+      height: 650,
       type: "bar",
     },
     plotOptions: {
@@ -2168,34 +2167,49 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
         fillColors: [window.chartColors.blue, window.chartColors.green],
       },
     },
-    yaxis: {
-      labels: {
-        align: "right",
-        style: {
-          colors: chartColor,
-          fontSize: "1rem",
-          fontWeight: "600",
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
         },
-        maxWidth: 650,
-        offsetX: 10,
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: function (value) {},
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
+        },
       },
-      stepSize: 50
-    },
+      {
+        show: false,
+      },
+      {
+        opposite: true,
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: function (value) {},
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
+        },
+      },
+    ],
     xaxis: {
       labels: {
         style: {
           colors: chartColor,
           fontSize: "1.5rem",
-        },
-        formatter: function (val) {
-          const num = parseInt(val, 10);
-          if (isNaN(num)) {
-            return "Invalid input";
-          }
-          if (num >= 1000) {
-            return `${Math.floor(num / 1000)}k`;
-          }
-          return val;
         },
       },
     },

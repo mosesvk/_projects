@@ -2136,8 +2136,7 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
       },
     ],
     chart: {
-      height: 750,
-      width: "90%",
+      height: 650,
       type: "bar",
     },
     plotOptions: {
@@ -2168,6 +2167,12 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
         fillColors: [window.chartColors.blue, window.chartColors.green],
       },
     },
+    axisBorder: {
+      show: true,
+      color: "#78909C",
+      offsetX: 10,
+      offsetY: 0,
+    },
     yaxis: {
       labels: {
         align: "right",
@@ -2179,7 +2184,6 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
         maxWidth: 650,
         offsetX: 10,
       },
-      stepSize: 50
     },
     xaxis: {
       labels: {

@@ -1660,39 +1660,6 @@ const getCurrentRatioChartOptions = (data) => {
         data: peerAvgArray,
       },
     ],
-    chart: {
-      height: 550,
-      type: "line",
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    title: {
-      text: "Current Ratio",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColor,
-        fontSize: "1.5rem",
-      },
-    },
     yaxis: [
       {
         axisTicks: {
@@ -1731,6 +1698,39 @@ const getCurrentRatioChartOptions = (data) => {
         },
       },
     ],
+    chart: {
+      height: 550,
+      type: "line",
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
+        },
+      },
+    },
+    title: {
+      text: "Current Ratio",
+      align: "center",
+      margin: 10,
+      offsetY: 20,
+      style: {
+        color: chartColor,
+        fontSize: "1.5rem",
+      },
+    },
     xaxis: {
       categories: yearsDataCurrentRatio_Array.sort((a, b) => a - b),
       labels: {
@@ -1962,7 +1962,7 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
       ? window.chartColors.orange
       : window.chartColors.red;
 
-  // console.log({ chartColor });
+  console.log({ chartColor });
 
   const textArray = [
     "Current Ratio Exceeds Target Goal: Reduce to below 60%",
@@ -2020,184 +2020,126 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
 };
 
 const getAverageEmployeeSalaryChartOptions = (data) => {
+
   console.log({ data });
 
-  const namesArray = [
-    "president",
-    "chiefAcademic",
-    "chiefFinance",
-    "chiefEnrollment",
-    "chiefDevelopment",
-    "chiefOps",
-    "dirFinance",
-    "dirHr",
-    "dirIt",
-    "dirPhysPlant",
-    "controller",
-    "busMgr",
-    "bursar",
-    "budgetDir",
-    "dirAcct",
-    "srAcct",
-    "nonSrAcct",
-    "stuAcctMgr",
-    "otherBusOffice",
-    "adminAsst",
-  ];
+  // return {
+  //   series: [
+  //     {
+  //       name: "Actual",
+  //       data: [
+  //         {
+  //           x: "2011",
+  //           y: 12,
+  //           goals: [
+  //             {
+  //               name: "Expected",
+  //               value: 14,
+  //               strokeWidth: 2,
+  //               strokeDashArray: 2,
+  //               strokeColor: "#775DD0",
+  //             },
+  //           ],
+  //         },
+  //         {
+  //           x: "2012",
+  //           y: 44,
+  //           goals: [
+  //             {
+  //               name: "Expected",
+  //               value: 54,
+  //               strokeWidth: 5,
+  //               strokeHeight: 10,
+  //               strokeColor: "#775DD0",
+  //             },
+  //           ],
+  //         },
+  //         {
+  //           x: "2013",
+  //           y: 54,
+  //           goals: [
+  //             {
+  //               name: "Expected",
+  //               value: 52,
+  //               strokeWidth: 10,
+  //               strokeHeight: 0,
+  //               strokeLineCap: "round",
+  //               strokeColor: "#775DD0",
+  //             },
+  //           ],
+  //         },
+  //         {
+  //           x: "2014",
+  //           y: 66,
+  //           goals: [
+  //             {
+  //               name: "Expected",
+  //               value: 61,
+  //               strokeWidth: 10,
+  //               strokeHeight: 0,
+  //               strokeLineCap: "round",
+  //               strokeColor: "#775DD0",
+  //             },
+  //           ],
+  //         },
+  //         {
+  //           x: "2015",
+  //           y: 81,
+  //           goals: [
+  //             {
+  //               name: "Expected",
+  //               value: 66,
+  //               strokeWidth: 10,
+  //               strokeHeight: 0,
+  //               strokeLineCap: "round",
+  //               strokeColor: "#775DD0",
+  //             },
+  //           ],
+  //         },
+  //         {
+  //           x: "2016",
+  //           y: 67,
+  //           goals: [
+  //             {
+  //               name: "Expected",
+  //               value: 70,
+  //               strokeWidth: 5,
+  //               strokeHeight: 10,
+  //               strokeColor: "#775DD0",
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //   ],
+  //   chart: {
+  //     height: 350,
+  //     type: "bar",
+  //   },
+  //   plotOptions: {
+  //     bar: {
+  //       horizontal: true,
+  //     },
+  //   },
+  //   colors: ["#00E396"],
+  //   dataLabels: {
+  //     formatter: function (val, opt) {
+  //       const goals =
+  //         opt.w.config.series[opt.seriesIndex].data[opt.dataPointIndex].goals;
 
-  const axisNameArray = [
-    "President",
-    "Chief Academic Officer",
-    "Chief Financial Officer",
-    "Chief Enrollment Officer",
-    "Chief Development Officer",
-    "Chief Operations Officer",
-    "Director of Financial Aid",
-    "Director of HR",
-    "Director of IT",
-    "Director of Physical Plant",
-    "Controller",
-    "Business Manager",
-    "Bursar",
-    "Budget Director",
-    "Director of Accounting",
-    "Senior Accountant",
-    "Non Senior Accountant",
-    "Student Accounts Manager",
-    "Other Business Office Staff",
-    "Admin Assistant",
-  ];
-
-  let clientArray = [];
-  let peerArray = [];
-
-  const mostRecentYear = Math.max(...Object.keys(data["adminAsst_Client"]));
-
-  namesArray.map((name, index) => {
-    const peerData = data[`${name}_Peer`][mostRecentYear];
-    const peerAvg = getAverageOfArray(peerData);
-    peerArray.push(peerAvg);
-
-    const clientData = Number(data[`${name}_Client`][mostRecentYear].value);
-    // clientArray.push(Math.round(clientData));
-    clientArray.push(index % 2 === 0 ? peerAvg + 1000 : peerAvg + 4000);
-  });
-
-  function createArrayObjectForAvgEmployeeSalary(
-    axisNameArray,
-    clientArray,
-    peerArray
-  ) {
-    return axisNameArray.map((name, index) => ({
-      x: name,
-      y: clientArray[index],
-      goals: [
-        {
-          name: "Expected",
-          value: peerArray[index],
-          strokeWidth: 5,
-          strokeHeight: 10,
-          strokeColor: window.chartColors.green,
-        },
-      ],
-    }));
-  }
-
-  const seriesData = createArrayObjectForAvgEmployeeSalary(
-    axisNameArray,
-    clientArray,
-    peerArray
-  );
-
-  const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#3A464F",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#6B7280",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#3a464f";
-
-  console.log({ seriesData });
-
-  return {
-    series: [
-      {
-        name: "Actual",
-        data: seriesData,
-      },
-    ],
-    chart: {
-      height: 750,
-      width: "90%",
-      type: "bar",
-    },
-    plotOptions: {
-      bar: {
-        horizontal: true,
-      },
-    },
-    colors: [window.chartColors.blue],
-    dataLabels: {
-      formatter: function (val, opt) {},
-    },
-    title: {
-      text: "Average Employee Salary",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColor,
-        fontSize: "1.5rem",
-      },
-    },
-    legend: {
-      show: true,
-      showForSingleSeries: true,
-      position: "top",
-      customLegendItems: ["Client", "Peer"],
-      markers: {
-        fillColors: [window.chartColors.blue, window.chartColors.green],
-      },
-    },
-    yaxis: {
-      labels: {
-        align: "right",
-        style: {
-          colors: chartColor,
-          fontSize: "1rem",
-          fontWeight: "600",
-        },
-        maxWidth: 650,
-        offsetX: 10,
-      },
-      stepSize: 50
-    },
-    xaxis: {
-      labels: {
-        style: {
-          colors: chartColor,
-          fontSize: "1.5rem",
-        },
-        formatter: function (val) {
-          const num = parseInt(val, 10);
-          if (isNaN(num)) {
-            return "Invalid input";
-          }
-          if (num >= 1000) {
-            return `${Math.floor(num / 1000)}k`;
-          }
-          return val;
-        },
-      },
-    },
-  };
+  //       if (goals && goals.length) {
+  //         return `${val} / ${goals[0].value}`;
+  //       }
+  //       return val;
+  //     },
+  //   },
+  //   legend: {
+  //     show: true,
+  //     showForSingleSeries: true,
+  //     customLegendItems: ["Actual", "Expected"],
+  //     markers: {
+  //       fillColors: ["#00E396", "#775DD0"],
+  //     },
+  //   },
+  // };
 };

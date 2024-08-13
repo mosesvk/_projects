@@ -354,16 +354,16 @@ const displayRevenueAndExpenseComponent = () => {
   });
 
 
-  // getAverageEmployeeSalaryChartOptions(parsedData["averageEmployeeSalaryData"])
+  getAverageEmployeeSalaryChartOptions(parsedData["averageEmployeeSalaryData"])
 
-  const averageEmployeeSalaryChart = new ApexCharts(
-    document.querySelector("#averageEmployeeSalary_chart"),
-    getAverageEmployeeSalaryChartOptions(parsedData["averageEmployeeSalaryData"])
-  );
-  averageEmployeeSalaryChart.render();
-  document.addEventListener("dark-mode", function () {
-    averageEmployeeSalaryChart.updateOptions(getAverageEmployeeSalaryChartOptions(parsedData["averageEmployeeSalaryData"]));
-  });
+  // const averageEmployeeSalaryChart = new ApexCharts(
+  //   document.querySelector("#averageEmployeeSalary_chart"),
+  //   getAverageEmployeeSalaryChartOptions(parsedData["averageEmployeeSalaryData"])
+  // );
+  // averageEmployeeSalaryChart.render();
+  // document.addEventListener("dark-mode", function () {
+  //   averageEmployeeSalaryChart.updateOptions(getAverageEmployeeSalaryChartOptions(parsedData["averageEmployeeSalaryData"]));
+  // });
 
   
   

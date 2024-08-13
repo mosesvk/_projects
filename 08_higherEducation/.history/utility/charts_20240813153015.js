@@ -2136,7 +2136,7 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
       },
     ],
     chart: {
-      height: 750,
+      height: 650,
       width: "90%",
       type: "bar",
     },

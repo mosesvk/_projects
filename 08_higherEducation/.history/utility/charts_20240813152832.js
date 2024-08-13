@@ -2136,8 +2136,7 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
       },
     ],
     chart: {
-      height: 750,
-      width: "90%",
+      height: 650,
       type: "bar",
     },
     plotOptions: {
@@ -2179,7 +2178,10 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
         maxWidth: 650,
         offsetX: 10,
       },
-      stepSize: 50
+      axisBorder: {
+        show: true,
+        offsetX: 20,
+      },
     },
     xaxis: {
       labels: {

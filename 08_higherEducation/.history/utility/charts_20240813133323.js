@@ -1660,39 +1660,6 @@ const getCurrentRatioChartOptions = (data) => {
         data: peerAvgArray,
       },
     ],
-    chart: {
-      height: 550,
-      type: "line",
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    title: {
-      text: "Current Ratio",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColor,
-        fontSize: "1.5rem",
-      },
-    },
     yaxis: [
       {
         axisTicks: {
@@ -1731,6 +1698,39 @@ const getCurrentRatioChartOptions = (data) => {
         },
       },
     ],
+    chart: {
+      height: 550,
+      type: "line",
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
+        },
+      },
+    },
+    title: {
+      text: "Current Ratio",
+      align: "center",
+      margin: 10,
+      offsetY: 20,
+      style: {
+        color: chartColor,
+        fontSize: "1.5rem",
+      },
+    },
     xaxis: {
       categories: yearsDataCurrentRatio_Array.sort((a, b) => a - b),
       labels: {
@@ -2109,35 +2109,44 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
     peerArray
   );
 
-  const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#3A464F",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#6B7280",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#3a464f";
-
   console.log({ seriesData });
 
   return {
     series: [
       {
         name: "Actual",
-        data: seriesData,
+        data: [
+          {
+            x: "2012",
+            y: 44,
+            goals: [
+              {
+                name: "Expected",
+                value: 54,
+                strokeWidth: 5,
+                strokeHeight: 10,
+                strokeColor: "#775DD0",
+              },
+            ],
+          },
+          {
+            x: "2016",
+            y: 67,
+            goals: [
+              {
+                name: "Expected",
+                value: 70,
+                strokeWidth: 5,
+                strokeHeight: 10,
+                strokeColor: "#775DD0",
+              },
+            ],
+          },
+        ],
       },
     ],
     chart: {
-      height: 750,
-      width: "90%",
+      height: 350,
       type: "bar",
     },
     plotOptions: {
@@ -2145,58 +2154,24 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
         horizontal: true,
       },
     },
-    colors: [window.chartColors.blue],
+    colors: ["#00E396"],
     dataLabels: {
-      formatter: function (val, opt) {},
-    },
-    title: {
-      text: "Average Employee Salary",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColor,
-        fontSize: "1.5rem",
+      formatter: function (val, opt) {
+        const goals =
+          opt.w.config.series[opt.seriesIndex].data[opt.dataPointIndex].goals;
+
+        if (goals && goals.length) {
+          return `${val} / ${goals[0].value}`;
+        }
+        return val;
       },
     },
     legend: {
       show: true,
       showForSingleSeries: true,
-      position: "top",
-      customLegendItems: ["Client", "Peer"],
+      customLegendItems: ["Actual", "Expected"],
       markers: {
-        fillColors: [window.chartColors.blue, window.chartColors.green],
-      },
-    },
-    yaxis: {
-      labels: {
-        align: "right",
-        style: {
-          colors: chartColor,
-          fontSize: "1rem",
-          fontWeight: "600",
-        },
-        maxWidth: 650,
-        offsetX: 10,
-      },
-      stepSize: 50
-    },
-    xaxis: {
-      labels: {
-        style: {
-          colors: chartColor,
-          fontSize: "1.5rem",
-        },
-        formatter: function (val) {
-          const num = parseInt(val, 10);
-          if (isNaN(num)) {
-            return "Invalid input";
-          }
-          if (num >= 1000) {
-            return `${Math.floor(num / 1000)}k`;
-          }
-          return val;
-        },
+        fillColors: ["#00E396", "#775DD0"],
       },
     },
   };

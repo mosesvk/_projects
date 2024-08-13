@@ -2136,8 +2136,7 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
       },
     ],
     chart: {
-      height: 750,
-      width: "90%",
+      height: 650,
       type: "bar",
     },
     plotOptions: {
@@ -2175,11 +2174,14 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
           colors: chartColor,
           fontSize: "1rem",
           fontWeight: "600",
+          maxWidth:550
         },
-        maxWidth: 650,
-        offsetX: 10,
       },
-      stepSize: 50
+      axisBorder: {
+        show: true,
+        offsetX: 60,
+        offsetY: 60
+      }
     },
     xaxis: {
       labels: {
@@ -2190,10 +2192,10 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
         formatter: function (val) {
           const num = parseInt(val, 10);
           if (isNaN(num)) {
-            return "Invalid input";
+              return "Invalid input";
           }
           if (num >= 1000) {
-            return `${Math.floor(num / 1000)}k`;
+              return `${Math.floor(num / 1000)}k`;
           }
           return val;
         },

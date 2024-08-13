@@ -354,7 +354,6 @@ const displayRevenueAndExpenseComponent = () => {
   });
 
 
-  // getAverageEmployeeSalaryChartOptions(parsedData["averageEmployeeSalaryData"])
 
   const averageEmployeeSalaryChart = new ApexCharts(
     document.querySelector("#averageEmployeeSalary_chart"),
