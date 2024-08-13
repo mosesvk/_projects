@@ -169,48 +169,10 @@ const processRevenueExpenseContentData = (seletectedYears, recordsPeer, recordsC
       const fiscalYear = record.querySelector("year").textContent;
       return fiscalYear.includes(year.toString());
     });
-    filteredClientRecords.forEach((record) => {
-      const salariesAndBenefits_array = [
-        {
-          key: "salariesAndBenefitsToTotalExpense_Client",
-          field: "r228_csalaries_and_benefits_to_total_expenses",
-        },
-        {
-          key: "salariesAndWages_Client",
-          field: "r160_salaries_and_wages",
-        },
-        {
-          key: "employeeBenefits_Client",
-          field: "r161_employee_benefits",
-        },
-        {
-          key: "totalFunctionalExpenses_Client",
-          field: "r044_ctotal_functional_expenses",
-        },
-      ];
-      salariesAndBenefits_array.forEach(({ key, field }) => {
-        insertDataIntoObject(
-          "client",
-          year,
-          salariesAndBenefits_obj,
-          key,
-          record,
-          field
-        );
-      });
-
-
-    })
-
+    filteredClientRecords.forEach((record) => {})
+      
 
   })
-
-  const dataKeys = ["salariesAndBenefitsData"];
-  const dataObjects = [salariesAndBenefits_obj];
-  dataKeys.forEach((key, index) => {
-    localStorage.removeItem(key);
-    localStorage.setItem(key, JSON.stringify(dataObjects[index]));
-  });
 }
 
 const processFinancialPositionContentData = (seletectedYears, recordsPeer, recordsClient) => {
@@ -1824,7 +1786,6 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
   );
   processFinancialStatementContentData(recordsPeer, recordsClient);
   processFinancialPositionContentData(selectedYears, recordsPeer, recordsClient);
-  processRevenueExpenseContentData(selectedYears, recordsPeer, recordsClient);
 };
 
 const displayComponents = () => {
@@ -1832,7 +1793,6 @@ const displayComponents = () => {
   displayFinancialAnalysisContentComponent();
   displayFinancialStatementComponent();
   displayFinancialPositionComponent();
-  displayRevenueAndExpenseComponent();
   displayReportComponent();
 };
 

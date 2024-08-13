@@ -345,11 +345,11 @@ const displayRevenueAndExpenseComponent = () => {
 
   const salariesAndBenefitsChart = new ApexCharts(
     document.querySelector("#salariesBenefitsToTotalExpense_chart"),
-    getSalariesAndBenefitsToTotalExpenseChartOptions(parsedData["salariesAndBenefitsData"])
+    getRadialBarChartOptions(parsedData["salariesAndBenefitsData"])
   );
   salariesAndBenefitsChart.render();
   document.addEventListener("dark-mode", function () {
-    salariesAndBenefitsChart.updateOptions(getSalariesAndBenefitsToTotalExpenseChartOptions(parsedData["salariesAndBenefitsData"]));
+    salariesAndBenefitsChart.updateOptions(getRadialBarChartOptions(parsedData["salariesAndBenefitsData"]));
   });
 
   

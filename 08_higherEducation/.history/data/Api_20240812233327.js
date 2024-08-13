@@ -1832,7 +1832,7 @@ const displayComponents = () => {
   displayFinancialAnalysisContentComponent();
   displayFinancialStatementComponent();
   displayFinancialPositionComponent();
-  displayRevenueAndExpenseComponent();
+  displayRevenueExpenseComponent();
   displayReportComponent();
 };
 

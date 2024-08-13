@@ -1941,7 +1941,7 @@ const getLiquidityChartOptions = (data) => {
   };
 };
 
-const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
+const getRadialBarChartOptions = (data) => {
   console.log({ data });
 
   const mostRecentYear = Math.max(
@@ -1951,9 +1951,11 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
   const num = Number(
     data["salariesAndBenefitsToTotalExpense_Client"][mostRecentYear].value
   );
-  const clientPercent = Math.round(num * 100);
+  // const clientPercent = Math.round(num * 100);
 
   // console.log({ clientPercent });
+
+  const clientPercent = 75
 
   const chartColor =
     clientPercent <= 60
@@ -2018,5 +2020,3 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
     labels: [textLabel],
   };
 };
-
-

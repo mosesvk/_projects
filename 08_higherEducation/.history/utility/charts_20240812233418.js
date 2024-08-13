@@ -1941,82 +1941,52 @@ const getLiquidityChartOptions = (data) => {
   };
 };
 
-const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
+const getRadialBarChartOptions = (data) => {
   console.log({ data });
-
-  const mostRecentYear = Math.max(
-    ...Object.keys(data["salariesAndBenefitsToTotalExpense_Client"])
-  );
-
-  const num = Number(
-    data["salariesAndBenefitsToTotalExpense_Client"][mostRecentYear].value
-  );
-  const clientPercent = Math.round(num * 100);
-
-  // console.log({ clientPercent });
-
-  const chartColor =
-    clientPercent <= 60
-      ? window.chartColors.green
-      : clientPercent <= 80
-      ? window.chartColors.orange
-      : window.chartColors.red;
-
-  console.log({ chartColor });
   
-  const textArray = [
-    "Current Ratio Exceeds Target Goal: Reduce to below 60%",
-    "Current Ratio Far Exceeds Target Goal: Reduce to below 60%",
-    "Current Ratio is Below Target Goal: Maintain below 60%",
-  ];
 
-  const textLabel =
-    clientPercent <= 60
-      ? textArray[2]
-      : clientPercent <= 80
-      ? textArray[0]
-      : textArray[1];
-
-  return {
-    series: [clientPercent],
-    chart: {
-      height: 350,
-      type: "radialBar",
-      offsetY: -10,
-    },
-    plotOptions: {
-      radialBar: {
-        startAngle: -135,
-        endAngle: 135,
-        dataLabels: {
-          name: {
-            fontSize: "16px",
-            color: chartColor,
-            offsetY: 120,
-          },
-          value: {
-            fontSize: "100px",
-            fontWeight: "700",
-            color: chartColor,
-            formatter: function (val) {
-              return val + "%";
-            },
-            offsetY: -10,
-          },
-        },
-      },
-    },
-    fill: {
-      colors: [chartColor],
-    },
-    stroke: {
-      dashArray: 4,
-      style: {
-        color: chartColor,
-      },
-    },
-    labels: [textLabel],
-  };
+  // return {
+  //   series: [67],
+  //   chart: {
+  //     height: 350,
+  //     type: "radialBar",
+  //     offsetY: -10,
+  //   },
+  //   plotOptions: {
+  //     radialBar: {
+  //       startAngle: -135,
+  //       endAngle: 135,
+  //       dataLabels: {
+  //         name: {
+  //           fontSize: "16px",
+  //           color: undefined,
+  //           offsetY: 120,
+  //         },
+  //         value: {
+  //           offsetY: 76,
+  //           fontSize: "22px",
+  //           color: undefined,
+  //           formatter: function (val) {
+  //             return val + "%";
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  //   fill: {
+  //     type: "gradient",
+  //     gradient: {
+  //       shade: "dark",
+  //       shadeIntensity: 0.15,
+  //       inverseColors: false,
+  //       opacityFrom: 1,
+  //       opacityTo: 1,
+  //       stops: [0, 50, 65, 91],
+  //     },
+  //   },
+  //   stroke: {
+  //     dashArray: 4,
+  //   },
+  //   labels: ["Salaries and Benefits to Total Expenses"],
+  // };
 };
-
-

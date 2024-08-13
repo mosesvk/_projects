@@ -1941,7 +1941,7 @@ const getLiquidityChartOptions = (data) => {
   };
 };
 
-const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
+const getRadialBarChartOptions = (data) => {
   console.log({ data });
 
   const mostRecentYear = Math.max(
@@ -2018,5 +2018,3 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
     labels: [textLabel],
   };
 };
-
-

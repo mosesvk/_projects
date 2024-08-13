@@ -1824,7 +1824,6 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
   );
   processFinancialStatementContentData(recordsPeer, recordsClient);
   processFinancialPositionContentData(selectedYears, recordsPeer, recordsClient);
-  processRevenueExpenseContentData(selectedYears, recordsPeer, recordsClient);
 };
 
 const displayComponents = () => {
@@ -1832,7 +1831,6 @@ const displayComponents = () => {
   displayFinancialAnalysisContentComponent();
   displayFinancialStatementComponent();
   displayFinancialPositionComponent();
-  displayRevenueAndExpenseComponent();
   displayReportComponent();
 };
 

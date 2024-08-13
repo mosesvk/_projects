@@ -1941,41 +1941,19 @@ const getLiquidityChartOptions = (data) => {
   };
 };
 
-const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
+const getRadialBarChartOptions = (data) => {
   console.log({ data });
 
   const mostRecentYear = Math.max(
     ...Object.keys(data["salariesAndBenefitsToTotalExpense_Client"])
   );
 
-  const num = Number(
-    data["salariesAndBenefitsToTotalExpense_Client"][mostRecentYear].value
-  );
+  const num = Number(data["salariesAndBenefitsToTotalExpense_Client"][mostRecentYear].value);
   const clientPercent = Math.round(num * 100);
 
   // console.log({ clientPercent });
 
-  const chartColor =
-    clientPercent <= 60
-      ? window.chartColors.green
-      : clientPercent <= 80
-      ? window.chartColors.orange
-      : window.chartColors.red;
-
-  console.log({ chartColor });
-  
-  const textArray = [
-    "Current Ratio Exceeds Target Goal: Reduce to below 60%",
-    "Current Ratio Far Exceeds Target Goal: Reduce to below 60%",
-    "Current Ratio is Below Target Goal: Maintain below 60%",
-  ];
-
-  const textLabel =
-    clientPercent <= 60
-      ? textArray[2]
-      : clientPercent <= 80
-      ? textArray[0]
-      : textArray[1];
+  const chartColor  = clientPercent <= 60 ? window.chartColors.green : clientPercent <= 80 ? window.chartColors.orange : window.chartColors.red;
 
   return {
     series: [clientPercent],
@@ -1992,22 +1970,29 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
           name: {
             fontSize: "16px",
             color: chartColor,
-            offsetY: 120,
+            offsetY: 120
           },
           value: {
-            fontSize: "100px",
-            fontWeight: "700",
+            fontSize: "30px",
             color: chartColor,
             formatter: function (val) {
               return val + "%";
             },
-            offsetY: -10,
+            offsetY: -20
           },
         },
       },
     },
     fill: {
-      colors: [chartColor],
+      type: "gradient",
+      gradient: {
+        shade: "dark",
+        shadeIntensity: 0.15,
+        inverseColors: false,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 50, 65, 91],
+      },
     },
     stroke: {
       dashArray: 4,
@@ -2015,8 +2000,6 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
         color: chartColor,
       },
     },
-    labels: [textLabel],
+    labels: ["Current Ratio Exceeds Target Goal: 60%"],
   };
 };
-
-

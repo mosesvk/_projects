@@ -199,18 +199,11 @@ const processRevenueExpenseContentData = (seletectedYears, recordsPeer, recordsC
         );
       });
 
-
+      
     })
 
 
   })
-
-  const dataKeys = ["salariesAndBenefitsData"];
-  const dataObjects = [salariesAndBenefits_obj];
-  dataKeys.forEach((key, index) => {
-    localStorage.removeItem(key);
-    localStorage.setItem(key, JSON.stringify(dataObjects[index]));
-  });
 }
 
 const processFinancialPositionContentData = (seletectedYears, recordsPeer, recordsClient) => {
@@ -1824,7 +1817,6 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
   );
   processFinancialStatementContentData(recordsPeer, recordsClient);
   processFinancialPositionContentData(selectedYears, recordsPeer, recordsClient);
-  processRevenueExpenseContentData(selectedYears, recordsPeer, recordsClient);
 };
 
 const displayComponents = () => {
@@ -1832,7 +1824,6 @@ const displayComponents = () => {
   displayFinancialAnalysisContentComponent();
   displayFinancialStatementComponent();
   displayFinancialPositionComponent();
-  displayRevenueAndExpenseComponent();
   displayReportComponent();
 };
 

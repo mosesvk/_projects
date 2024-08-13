@@ -1832,7 +1832,6 @@ const displayComponents = () => {
   displayFinancialAnalysisContentComponent();
   displayFinancialStatementComponent();
   displayFinancialPositionComponent();
-  displayRevenueAndExpenseComponent();
   displayReportComponent();
 };
 

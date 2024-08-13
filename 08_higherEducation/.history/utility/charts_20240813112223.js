@@ -1941,7 +1941,7 @@ const getLiquidityChartOptions = (data) => {
   };
 };
 
-const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
+const getRadialBarChartOptions = (data) => {
   console.log({ data });
 
   const mostRecentYear = Math.max(
@@ -1962,8 +1962,6 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
       ? window.chartColors.orange
       : window.chartColors.red;
 
-  console.log({ chartColor });
-  
   const textArray = [
     "Current Ratio Exceeds Target Goal: Reduce to below 60%",
     "Current Ratio Far Exceeds Target Goal: Reduce to below 60%",
@@ -1978,7 +1976,7 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
       : textArray[1];
 
   return {
-    series: [clientPercent],
+    series: [75],
     chart: {
       height: 350,
       type: "radialBar",
@@ -2018,5 +2016,3 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
     labels: [textLabel],
   };
 };
-
-
