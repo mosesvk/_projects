@@ -61,27 +61,6 @@
       defer="true"
     ></script>
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
-      integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-
-    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-    <script src="https://cdn.amcharts.com/lib/4/maps.js"></script>
-    <script src="https://cdn.amcharts.com/lib/4/geodata/usaLow.js"></script>
-    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
-
-    <script
-      type="text/javascript"
-      src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"
-    ></script>
-
     <script>
       var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
       $.ajaxSetup({ data: { apptoken: apptoken } });
@@ -181,11 +160,6 @@
         height: 24px;
         -webkit-appearance: none;
         /* @apply w-6 h-6 appearance-none pointer-events-auto; */
-      }
-
-      #avgScoresUsMap_chart {
-        width: 90%;
-        height: 500px;
       }
     </style>
   </head>
@@ -4015,10 +3989,7 @@
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <div
-                id="annualTraditionalNetTuitionPerStudent_chart"
-                class="text-center"
-              ></div>
+              <div id="annualTraditionalNetTuitionPerStudent_chart" class="text-center"></div>
             </div>
 
             <!-- Tuition Dependency -->
@@ -4038,6 +4009,7 @@
         </main>
       </div>
     </div>
+
 
     <!-- utility.js -->
     <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=185"></script>
