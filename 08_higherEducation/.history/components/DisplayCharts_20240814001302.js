@@ -337,8 +337,7 @@ const displayRevenueAndExpenseComponent = () => {
     "averageEmployeeSalaryData",
     "salariesAndBenefitsPerNetTuitionData",
     "adminCostsPerStudentData",
-    "netEducationalExpensePerStudentData",
-    "tuitionDependencyData"
+    "netEducationalExpensePerStudentData"
   ];
   const parsedData = {};
 
@@ -402,7 +401,5 @@ const displayRevenueAndExpenseComponent = () => {
   });
 
   getAnualTraditionalNetTuitionPerStudentChartOptions()
-
-  getTuitionDependencyChartOptions(parsedData["tuitionDependencyData"])
   
 }

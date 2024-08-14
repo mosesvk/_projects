@@ -337,8 +337,7 @@ const displayRevenueAndExpenseComponent = () => {
     "averageEmployeeSalaryData",
     "salariesAndBenefitsPerNetTuitionData",
     "adminCostsPerStudentData",
-    "netEducationalExpensePerStudentData",
-    "tuitionDependencyData"
+    "netEducationalExpensePerStudentData"
   ];
   const parsedData = {};
 
@@ -391,7 +390,7 @@ const displayRevenueAndExpenseComponent = () => {
   getMapChartOptions()
 
   // netEducationalExpensePerStudent
-  // getNetEducationalExpensePerStudentChartOptions(parsedData["netEducationalExpensePerStudentData"])
+  getNetEducationalExpensePerStudentChartOptions(parsedData["netEducationalExpensePerStudentData"])
   const netEducationalExpensePerStudentChart = new ApexCharts(
     document.querySelector("#netEducationalExpensePerStudent_chart"),
     getNetEducationalExpensePerStudentChartOptions(parsedData["netEducationalExpensePerStudentData"])
@@ -401,8 +400,5 @@ const displayRevenueAndExpenseComponent = () => {
     netEducationalExpensePerStudentChart.updateOptions(getNetEducationalExpensePerStudentChartOptions(parsedData["netEducationalExpensePerStudentData"]));
   });
 
-  getAnualTraditionalNetTuitionPerStudentChartOptions()
-
-  getTuitionDependencyChartOptions(parsedData["tuitionDependencyData"])
   
 }

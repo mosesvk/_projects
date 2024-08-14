@@ -169,8 +169,8 @@ const processRevenueExpenseContentData = (
   const averageEmployeeSalary_obj = {};
   const salariesAndBenefitsPerNetTuition_obj = {};
   const adminCostsPerStudent_obj = {};
-  const netEducationalExpensePerStudent_obj = {};
-  const tuitionDependency_obj = {};
+  const netEducationalExpensePerStudent__obj = {};
+  const tuitionDependency__obj = {};
 
   const years = seletectedYears.sort((a, b) => a - b);
   years.forEach((year) => {
@@ -357,7 +357,7 @@ const processRevenueExpenseContentData = (
         insertDataIntoObject(
           "client",
           year,
-          netEducationalExpensePerStudent_obj,
+          netEducationalExpensePerStudent__obj,
           key,
           record,
           field
@@ -382,7 +382,7 @@ const processRevenueExpenseContentData = (
         insertDataIntoObject(
           "client",
           year,
-          tuitionDependency_obj,
+          tuitionDependency__obj,
           key,
           record,
           field
@@ -548,14 +548,13 @@ const processRevenueExpenseContentData = (
     "salariesAndBenefitsPerNetTuitionData",
     "adminCostsPerStudentData",
     "netEducationalExpensePerStudentData",
-    "tuitionDependencyData"
   ];
   const dataObjects = [
     salariesAndBenefitsToTotalExpense_obj,
     averageEmployeeSalary_obj,
     salariesAndBenefitsPerNetTuition_obj,
     adminCostsPerStudent_obj,
-    netEducationalExpensePerStudent_obj,
+    netEducationalExpensePerStudent__obj,
   ];
   dataKeys.forEach((key, index) => {
     localStorage.removeItem(key);

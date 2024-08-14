@@ -1585,15 +1585,6 @@ const getCurrentRatioChartOptions = (data) => {
   //   peerAvgArray,
   // });
 
-
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
-
-  const formatNumber = (value) => value.toLocaleString();
-
-  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
-  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
-
-
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
         borderColor: "#374151",
@@ -1611,6 +1602,13 @@ const getCurrentRatioChartOptions = (data) => {
   const chartColor = document.documentElement.classList.contains("dark")
     ? "#e3f0fa"
     : "#3a464f";
+
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  const formatNumber = (value) => value.toLocaleString();
+
+  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
+  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
 
   const yaxisLabelFormatter = (value) => {
     return `$${formatNumber(value)}`;
@@ -2783,7 +2781,7 @@ const getMapChartOptions = (data) => {
 
   // Create hover state and set alternative fill color
   var hs = polygonTemplate.states.create("hover");
-  hs.properties.fill = am4core.color("#dc5c3c");
+  hs.properties.fill = am4core.color("#3c5bdc");
 
   // heat legend behavior
   polygonSeries.mapPolygons.template.events.on("over", function (event) {
@@ -2894,19 +2892,17 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       text: clientName,
       position: "top",
       align: "center",
-      offsetY: 20,
       style: {
         color: chartColors.labelColor,
-        fontSize: "1.25rem",
+        fontSize: "1.5rem",
       },
     },
     subtitle: {
       text: "Net Educational Expense Per Student",
       align: "center",
-      offsetY: 45,
       style: {
         color: chartColors.labelColor,
-        fontSize: "1rem",
+        fontSize: "1.25rem",
       },
     },
     xaxis: {
@@ -2953,8 +2949,9 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     },
     legend: {
       horizontalAlign: "center",
-      position: "bottom",
-      fontSize: "14px",
+      position: "top",
+      fontSize: "20px",
+      offsetX: -20,
     },
     plotOptions: {
       bar: {
@@ -2963,279 +2960,3 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     },
   };
 };
-
-const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
-  const value = 75;
-  const benchmark = 70;
-  const text =
-    value > 70
-      ? `Within Range of Benchmark: ${benchmark}%`
-      : `Below Benchmark: ${benchmark}%`;
-
-  const backgroundColor = value > 70 ? "#54ba4a" : "#cf3636";
-
-  var chartObj = new FusionCharts({
-    type: "hlineargauge",
-    renderAt: "annualTraditionalNetTuitionPerStudent_chart",
-    width: "800",
-    height: "200",
-    dataFormat: "json",
-    dataSource: {
-      chart: {
-        theme: "fusion",
-        caption: "Annual Traditional Net Tuition per Student",
-        subcaption: "",
-        lowerLimit: "0",
-        upperLimit: "100",
-        numberSuffix: "",
-        valueAbovePointer: "0",
-        chartBottomMargin: "50",
-        valueFontSize: "14",
-        valueFontBold: "6",
-      },
-      colorRange: {
-        color: [
-          {
-            minValue: "0",
-            maxValue: "35",
-            code: "#EF707E",
-          },
-          {
-            minValue: "35",
-            maxValue: "70",
-            code: "#FFE381",
-          },
-          {
-            minValue: "70",
-            maxValue: "100",
-            code: "#BBE97A",
-          },
-        ],
-      },
-      pointers: {
-        pointer: [
-          {
-            value: value,
-          },
-        ],
-      },
-      trendPoints: {
-        point: [
-          {
-            startValue: benchmark,
-            color: "#171616",
-            dashed: "1",
-            dashlen: "5",
-            dashgap: "3",
-            thickness: "3",
-            displayValue: "Benchmark",
-          },
-        ],
-      },
-      annotations: {
-        origw: "400",
-        origh: "190",
-        autoscale: "1",
-        groups: [
-          {
-            id: "range",
-            items: [
-              {
-                id: "rangeBg",
-                type: "rectangle",
-                x: "$chartCenterX-115",
-                y: "$chartEndY-35",
-                tox: "$chartCenterX +115",
-                toy: "$chartEndY-15",
-                fillcolor: backgroundColor,
-              },
-              {
-                id: "rangeText",
-                type: "Text",
-                fontSize: "14",
-                fillcolor: "#ffffff",
-                text: text,
-                x: "$chartCenterX",
-                y: "$chartEndY-25",
-              },
-            ],
-          },
-        ],
-      },
-    }
-  });
-
-  chartObj.render();
-};
-
-const getTuitionDependencyChartOptions = (data) => {
-  console.log({ data });
-  
-
-
-//   const chartColors = document.documentElement.classList.contains("dark")
-//   ? {
-//       borderColor: "#374151",
-//       labelColor: "#3A464F",
-//       opacityFrom: 0,
-//       opacityTo: 0.15,
-//     }
-//   : {
-//       borderColor: "#F3F4F6",
-//       labelColor: "#6B7280",
-//       opacityFrom: 0.45,
-//       opacityTo: 0,
-//     };
-
-// const chartColor = document.documentElement.classList.contains("dark")
-//   ? "#e3f0fa"
-//   : "#3a464f";
-
-// const yaxisLabelFormatter = (value) => {
-//   return `$${formatNumber(value)}`;
-// };
-// const yaxisLabelFormatter2 = (value) => {
-//   return `${formatNumber(value)}`;
-// };
-
-// const tooltipFormatter = (value) => {
-//   if (!value) return;
-//   let formattedValue = value.toLocaleString();
-//   if (formattedValue.length === 1) formattedValue += ".0";
-
-//   if (value < 10) {
-//     return `${formattedValue}`;
-//   } else {
-//     return `$${formattedValue}`;
-//   }
-// };
-
-// // console.log({mainName, benchmark});
-
-// return {
-//   colors: [
-//     window.chartColors.green,
-//     window.chartColors.red,
-//     window.chartColors.blue,
-//     window.chartColors.grey,
-//   ],
-//   series: [
-//     {
-//       name: "Current Assets",
-//       type: "column",
-//       data: currentAssetsArray,
-//     },
-//     {
-//       name: "Current Liabilities",
-//       type: "column",
-//       data: currentLiabilitiesArray,
-//     },
-//     {
-//       name: "Current Ratio",
-//       type: "line",
-//       data: currentRatioArray,
-//     },
-//     {
-//       name: "Peer Avg",
-//       type: "line",
-//       data: peerAvgArray,
-//     },
-//   ],
-//   chart: {
-//     height: 550,
-//     type: "line",
-//     toolbar: {
-//       tools: {
-//         download: false,
-//         selection: false,
-//         zoom: false,
-//         zoomin: false,
-//         zoomout: false,
-//         pan: false,
-//         reset: false,
-//       },
-//     },
-//   },
-//   tooltip: {
-//     y: {
-//       formatter: tooltipFormatter,
-//       title: {
-//         formatter: (seriesName) => `${seriesName}:`,
-//       },
-//     },
-//   },
-//   title: {
-//     text: "Current Ratio",
-//     align: "center",
-//     margin: 10,
-//     offsetY: 20,
-//     style: {
-//       color: chartColor,
-//       fontSize: "1.5rem",
-//     },
-//   },
-//   yaxis: [
-//     {
-//       axisTicks: {
-//         show: true,
-//       },
-//       axisBorder: {
-//         show: true,
-//         color: chartColor,
-//       },
-//       labels: {
-//         formatter: yaxisLabelFormatter,
-//         style: {
-//           colors: chartColor,
-//           fontSize: "1.25rem",
-//         },
-//       },
-//     },
-//     {
-//       show: false,
-//     },
-//     {
-//       opposite: true,
-//       axisTicks: {
-//         show: true,
-//       },
-//       axisBorder: {
-//         show: true,
-//         color: chartColor,
-//       },
-//       labels: {
-//         formatter: yaxisLabelFormatter2,
-//         style: {
-//           colors: chartColor,
-//           fontSize: "1.25rem",
-//         },
-//       },
-//     },
-//   ],
-//   xaxis: {
-//     categories: yearsDataCurrentRatio_Array.sort((a, b) => a - b),
-//     labels: {
-//       style: {
-//         colors: chartColor,
-//         fontSize: "1.5rem",
-//       },
-//     },
-//   },
-//   legend: {
-//     position: "top",
-//     fontSize: "20px",
-//   },
-//   grid: {
-//     row: {
-//       colors: ["transparent"],
-//       opacity: 0.5,
-//       thickness: 4,
-//     },
-//   },
-//   plotOptions: {
-//     bar: {
-//       barHeight: "90%",
-//     },
-//   },
-// };
-}

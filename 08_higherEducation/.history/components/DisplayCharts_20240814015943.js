@@ -403,6 +403,6 @@ const displayRevenueAndExpenseComponent = () => {
 
   getAnualTraditionalNetTuitionPerStudentChartOptions()
 
-  getTuitionDependencyChartOptions(parsedData["tuitionDependencyData"])
+  getTuitionDependencyChartOptions()
   
 }

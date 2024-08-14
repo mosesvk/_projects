@@ -169,8 +169,7 @@ const processRevenueExpenseContentData = (
   const averageEmployeeSalary_obj = {};
   const salariesAndBenefitsPerNetTuition_obj = {};
   const adminCostsPerStudent_obj = {};
-  const netEducationalExpensePerStudent_obj = {};
-  const tuitionDependency_obj = {};
+  const netEducationalExpensePerStudent__obj = {};
 
   const years = seletectedYears.sort((a, b) => a - b);
   years.forEach((year) => {
@@ -357,32 +356,7 @@ const processRevenueExpenseContentData = (
         insertDataIntoObject(
           "client",
           year,
-          netEducationalExpensePerStudent_obj,
-          key,
-          record,
-          field
-        );
-      });
-
-      const tuitionDependency_array = [
-        {
-          key: "ratio_Client",
-          field: "r147_cnet_tuition_dependency_ratio",
-        },
-        {
-          key: "netTuitionAndFees_Client",
-          field: "r026_cnet_tuition_and_fees",
-        },
-        {
-          key: "operatingRevenuesSupportAndRelease_Client",
-          field: "r036_coperating_revenues_support_and_releases",
-        },
-      ];
-      tuitionDependency_array.forEach(({ key, field }) => {
-        insertDataIntoObject(
-          "client",
-          year,
-          tuitionDependency_obj,
+          netEducationalExpensePerStudent__obj,
           key,
           record,
           field
@@ -548,14 +522,13 @@ const processRevenueExpenseContentData = (
     "salariesAndBenefitsPerNetTuitionData",
     "adminCostsPerStudentData",
     "netEducationalExpensePerStudentData",
-    "tuitionDependencyData"
   ];
   const dataObjects = [
     salariesAndBenefitsToTotalExpense_obj,
     averageEmployeeSalary_obj,
     salariesAndBenefitsPerNetTuition_obj,
     adminCostsPerStudent_obj,
-    netEducationalExpensePerStudent_obj,
+    netEducationalExpensePerStudent__obj,
   ];
   dataKeys.forEach((key, index) => {
     localStorage.removeItem(key);

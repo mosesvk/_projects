@@ -1585,15 +1585,6 @@ const getCurrentRatioChartOptions = (data) => {
   //   peerAvgArray,
   // });
 
-
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
-
-  const formatNumber = (value) => value.toLocaleString();
-
-  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
-  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
-
-
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
         borderColor: "#374151",
@@ -1611,6 +1602,13 @@ const getCurrentRatioChartOptions = (data) => {
   const chartColor = document.documentElement.classList.contains("dark")
     ? "#e3f0fa"
     : "#3a464f";
+
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  const formatNumber = (value) => value.toLocaleString();
+
+  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
+  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
 
   const yaxisLabelFormatter = (value) => {
     return `$${formatNumber(value)}`;
@@ -3067,175 +3065,3 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
 
   chartObj.render();
 };
-
-const getTuitionDependencyChartOptions = (data) => {
-  console.log({ data });
-  
-
-
-//   const chartColors = document.documentElement.classList.contains("dark")
-//   ? {
-//       borderColor: "#374151",
-//       labelColor: "#3A464F",
-//       opacityFrom: 0,
-//       opacityTo: 0.15,
-//     }
-//   : {
-//       borderColor: "#F3F4F6",
-//       labelColor: "#6B7280",
-//       opacityFrom: 0.45,
-//       opacityTo: 0,
-//     };
-
-// const chartColor = document.documentElement.classList.contains("dark")
-//   ? "#e3f0fa"
-//   : "#3a464f";
-
-// const yaxisLabelFormatter = (value) => {
-//   return `$${formatNumber(value)}`;
-// };
-// const yaxisLabelFormatter2 = (value) => {
-//   return `${formatNumber(value)}`;
-// };
-
-// const tooltipFormatter = (value) => {
-//   if (!value) return;
-//   let formattedValue = value.toLocaleString();
-//   if (formattedValue.length === 1) formattedValue += ".0";
-
-//   if (value < 10) {
-//     return `${formattedValue}`;
-//   } else {
-//     return `$${formattedValue}`;
-//   }
-// };
-
-// // console.log({mainName, benchmark});
-
-// return {
-//   colors: [
-//     window.chartColors.green,
-//     window.chartColors.red,
-//     window.chartColors.blue,
-//     window.chartColors.grey,
-//   ],
-//   series: [
-//     {
-//       name: "Current Assets",
-//       type: "column",
-//       data: currentAssetsArray,
-//     },
-//     {
-//       name: "Current Liabilities",
-//       type: "column",
-//       data: currentLiabilitiesArray,
-//     },
-//     {
-//       name: "Current Ratio",
-//       type: "line",
-//       data: currentRatioArray,
-//     },
-//     {
-//       name: "Peer Avg",
-//       type: "line",
-//       data: peerAvgArray,
-//     },
-//   ],
-//   chart: {
-//     height: 550,
-//     type: "line",
-//     toolbar: {
-//       tools: {
-//         download: false,
-//         selection: false,
-//         zoom: false,
-//         zoomin: false,
-//         zoomout: false,
-//         pan: false,
-//         reset: false,
-//       },
-//     },
-//   },
-//   tooltip: {
-//     y: {
-//       formatter: tooltipFormatter,
-//       title: {
-//         formatter: (seriesName) => `${seriesName}:`,
-//       },
-//     },
-//   },
-//   title: {
-//     text: "Current Ratio",
-//     align: "center",
-//     margin: 10,
-//     offsetY: 20,
-//     style: {
-//       color: chartColor,
-//       fontSize: "1.5rem",
-//     },
-//   },
-//   yaxis: [
-//     {
-//       axisTicks: {
-//         show: true,
-//       },
-//       axisBorder: {
-//         show: true,
-//         color: chartColor,
-//       },
-//       labels: {
-//         formatter: yaxisLabelFormatter,
-//         style: {
-//           colors: chartColor,
-//           fontSize: "1.25rem",
-//         },
-//       },
-//     },
-//     {
-//       show: false,
-//     },
-//     {
-//       opposite: true,
-//       axisTicks: {
-//         show: true,
-//       },
-//       axisBorder: {
-//         show: true,
-//         color: chartColor,
-//       },
-//       labels: {
-//         formatter: yaxisLabelFormatter2,
-//         style: {
-//           colors: chartColor,
-//           fontSize: "1.25rem",
-//         },
-//       },
-//     },
-//   ],
-//   xaxis: {
-//     categories: yearsDataCurrentRatio_Array.sort((a, b) => a - b),
-//     labels: {
-//       style: {
-//         colors: chartColor,
-//         fontSize: "1.5rem",
-//       },
-//     },
-//   },
-//   legend: {
-//     position: "top",
-//     fontSize: "20px",
-//   },
-//   grid: {
-//     row: {
-//       colors: ["transparent"],
-//       opacity: 0.5,
-//       thickness: 4,
-//     },
-//   },
-//   plotOptions: {
-//     bar: {
-//       barHeight: "90%",
-//     },
-//   },
-// };
-}
