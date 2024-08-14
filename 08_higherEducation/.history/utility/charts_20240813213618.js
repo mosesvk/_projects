@@ -2361,46 +2361,55 @@ const getAdminCostsPerStudentChartOptions = (data) => {
     peer75Array,
   });
 
+
   const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#ebedf0",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#000000",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
-
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#000000";
-
-  const yaxisLabelFormatter = (val) => {
-    const num = parseInt(val, 10);
-    if (isNaN(num)) {
-      return "Invalid input";
+  ? {
+      borderColor: "#374151",
+      labelColor: "#ebedf0",
+      opacityFrom: 0,
+      opacityTo: 0.15,
     }
-      return `${val}%`;
-  
-  };
+  : {
+      borderColor: "#F3F4F6",
+      labelColor: "#000000",
+      opacityFrom: 0.45,
+      opacityTo: 0,
+    };
 
-  const tooltipFormatter = (value) => {
-    if (!value) return;
-    const formattedValue = value.toLocaleString();
+const chartColor = document.documentElement.classList.contains("dark")
+  ? "#e3f0fa"
+  : "#000000";
+
+const yaxisLabelFormatter = (value) => {
+  if (numType === "dollar") {
+    return `$${formatNumber(value)}`;
+  } else if (numType === "percent") {
+    return `${formatNumber(value)}%`;
+  } else {
+    return formatNumber(value);
+  }
+};
+
+const tooltipFormatter = (value) => {
+  if (!value) return;
+  const formattedValue = value.toLocaleString();
+  if (numType === "dollar") {
+    return `$${formattedValue}`;
+  } else if (numType === "percent") {
     return `${formattedValue}%`;
-  };
+  } else {
+    return formattedValue;
+  }
+};
 
   return {
     colors: [
       window.chartColors.blue,
-      window.chartColors.green,
       window.chartColors.red,
       window.chartColors.orange,
       window.chartColors.purple,
+      window.chartColors.green,
+      window.chartColors.black,
     ],
     series: [
       {
@@ -2433,7 +2442,7 @@ const getAdminCostsPerStudentChartOptions = (data) => {
       },
     ],
     chart: {
-      id: "adminCostsPerStudent",
+      id: mainName,
       toolbar: {
         tools: {
           download: false,
@@ -2482,7 +2491,7 @@ const getAdminCostsPerStudentChartOptions = (data) => {
           color: chartColors.labelColor,
         },
         labels: {
-          formatter: yaxisLabelFormatter,
+          formatter: ,
           style: {
             colors: chartColors.labelColor,
             fontSize: "1rem",
@@ -2519,6 +2528,19 @@ const getAdminCostsPerStudentChartOptions = (data) => {
         opacity: 0.5,
         thickness: 4,
       },
+    },
+    annotations: {
+      yaxis: [
+        {
+          y: benchmark,
+          label: {
+            text: "Benchmark",
+            style: {
+              color: chartColors.black,
+            },
+          },
+        },
+      ],
     },
     plotOptions: {
       bar: {

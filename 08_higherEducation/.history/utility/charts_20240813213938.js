@@ -2361,46 +2361,56 @@ const getAdminCostsPerStudentChartOptions = (data) => {
     peer75Array,
   });
 
+
   const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#ebedf0",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#000000",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
+  ? {
+      borderColor: "#374151",
+      labelColor: "#ebedf0",
+      opacityFrom: 0,
+      opacityTo: 0.15,
+    }
+  : {
+      borderColor: "#F3F4F6",
+      labelColor: "#000000",
+      opacityFrom: 0.45,
+      opacityTo: 0,
+    };
 
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#000000";
+const chartColor = document.documentElement.classList.contains("dark")
+  ? "#e3f0fa"
+  : "#000000";
 
-  const yaxisLabelFormatter = (val) => {
+const yaxisLabelFormatter = (value) => {
     const num = parseInt(val, 10);
     if (isNaN(num)) {
       return "Invalid input";
     }
-      return `${val}%`;
-  
-  };
+    if (num >= 1000) {
+      return `${Math.floor(num / 1000)}k`;
+    }
+    return val;
+  }
 
-  const tooltipFormatter = (value) => {
-    if (!value) return;
-    const formattedValue = value.toLocaleString();
+const tooltipFormatter = (value) => {
+  if (!value) return;
+  const formattedValue = value.toLocaleString();
+  if (numType === "dollar") {
+    return `$${formattedValue}`;
+  } else if (numType === "percent") {
     return `${formattedValue}%`;
-  };
+  } else {
+    return formattedValue;
+  }
+};
 
   return {
     colors: [
       window.chartColors.blue,
-      window.chartColors.green,
       window.chartColors.red,
       window.chartColors.orange,
       window.chartColors.purple,
+      window.chartColors.green,
+      window.chartColors.black,
     ],
     series: [
       {
@@ -2433,7 +2443,7 @@ const getAdminCostsPerStudentChartOptions = (data) => {
       },
     ],
     chart: {
-      id: "adminCostsPerStudent",
+      id: 'adminCostsPerStudent',
       toolbar: {
         tools: {
           download: false,

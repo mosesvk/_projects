@@ -437,56 +437,6 @@ const processRevenueExpenseContentData = (
           "Yes"
         );
       });
-
-      const adminCostsPerStudent_Array = [
-        {
-          key: "salAdminAsst_Peer",
-          field: "c201_sal_admin_asst",
-        },
-        {
-          key: "ficaAdminAsst_Peer",
-          field: "c203_fica_admin_asst",
-        },
-        {
-          key: "healthAdminAsst_Peer",
-          field: "c204_health_admin_asst",
-        },
-        {
-          key: "disabilityAdminAsst_Peer",
-          field: "c205_disability_admin_asst",
-        },
-        {
-          key: "retirementAdminAsst_Peer",
-          field: "c206_retirement_admin_asst",
-        },
-        {
-          key: "housingAdminAsst_Peer",
-          field: "c207_housing_admin_asst",
-        },
-        {
-          key: "otherAdminAsst_Peer",
-          field: "c208_other_admin_asst",
-        },
-        {
-          key: "totalStudentFte_Peer",
-          field: "g025_ctotal_student_fte",
-        },
-        {
-          key: "totalStudentUhc_Peer",
-          field: "g035_ctotal_student_uhc",
-        },
-      ]
-      adminCostsPerStudent_Array.forEach(({ key, field }) => {
-        insertDataIntoObject(
-          "peer",
-          year,
-          adminCostsPerStudent_obj,
-          key,
-          record,
-          field,
-          'Yes'
-        );
-      });
     });
   });
 
@@ -494,13 +444,11 @@ const processRevenueExpenseContentData = (
     "salariesAndBenefitsToTotalExpenseData",
     "averageEmployeeSalaryData",
     "salariesAndBenefitsPerNetTuitionData",
-    "adminCostsPerStudentData"
   ];
   const dataObjects = [
     salariesAndBenefitsToTotalExpense_obj,
     averageEmployeeSalary_obj,
     salariesAndBenefitsPerNetTuition_obj,
-    adminCostsPerStudent_obj
   ];
   dataKeys.forEach((key, index) => {
     localStorage.removeItem(key);

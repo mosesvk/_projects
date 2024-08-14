@@ -2384,8 +2384,10 @@ const getAdminCostsPerStudentChartOptions = (data) => {
     if (isNaN(num)) {
       return "Invalid input";
     }
-      return `${val}%`;
-  
+    if (num >= 1000) {
+      return `${Math.floor(num / 1000)}k`;
+    }
+    return val;
   };
 
   const tooltipFormatter = (value) => {

@@ -376,14 +376,14 @@ const displayRevenueAndExpenseComponent = () => {
   });
 
   // adminCostsPerStudent
-  // getAdminCostsPerStudentChartOptions(parsedData["adminCostsPerStudentData"])
-  const adminCostsPerStudentChart = new ApexCharts(
-    document.querySelector("#adminCostsPerStudent_chart"),
-    getAdminCostsPerStudentChartOptions(parsedData["adminCostsPerStudentData"])
-  );
-  adminCostsPerStudentChart.render();
-  document.addEventListener("dark-mode", function () {
-    adminCostsPerStudentChart.updateOptions(getAdminCostsPerStudentChartOptions(parsedData["adminCostsPerStudentData"]));
-  });
+  getAdminCostsPerStudentChartOptions(parsedData["adminCostsPerStudentData"])
+  // const adminCostsPerStudentChart = new ApexCharts(
+  //   document.querySelector("#adminCostsPerStudent_chart"),
+  //   getAdminCostsPerStudentChartOptions(parsedData["adminCostsPerStudentData"])
+  // );
+  // adminCostsPerStudentChart.render();
+  // document.addEventListener("dark-mode", function () {
+  //   adminCostsPerStudentChart.updateOptions(getAdminCostsPerStudentChartOptions(parsedData["adminCostsPerStudentData"]));
+  // });
   
 }

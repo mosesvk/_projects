@@ -478,13 +478,12 @@ const processRevenueExpenseContentData = (
       ]
       adminCostsPerStudent_Array.forEach(({ key, field }) => {
         insertDataIntoObject(
-          "peer",
+          "client",
           year,
           adminCostsPerStudent_obj,
           key,
           record,
-          field,
-          'Yes'
+          field
         );
       });
     });
@@ -500,7 +499,6 @@ const processRevenueExpenseContentData = (
     salariesAndBenefitsToTotalExpense_obj,
     averageEmployeeSalary_obj,
     salariesAndBenefitsPerNetTuition_obj,
-    adminCostsPerStudent_obj
   ];
   dataKeys.forEach((key, index) => {
     localStorage.removeItem(key);

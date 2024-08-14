@@ -9,6 +9,24 @@ const getMainChartOptions = (
 ) => {
   // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
 
+  const chartColors = document.documentElement.classList.contains("dark")
+    ? {
+        borderColor: "#374151",
+        labelColor: "#ebedf0",
+        opacityFrom: 0,
+        opacityTo: 0.15,
+      }
+    : {
+        borderColor: "#F3F4F6",
+        labelColor: "#000000",
+        opacityFrom: 0.45,
+        opacityTo: 0,
+      };
+
+  const chartColor = document.documentElement.classList.contains("dark")
+    ? "#e3f0fa"
+    : "#000000";
+
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   const formatNumber = (value) => value.toLocaleString();
@@ -28,24 +46,6 @@ const getMainChartOptions = (
 
   // if (mainName == "cfi_netIncomeOperationsRatio")
   //   console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
-
-  const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#ebedf0",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#000000",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
-
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#000000";
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {
@@ -2361,169 +2361,8 @@ const getAdminCostsPerStudentChartOptions = (data) => {
     peer75Array,
   });
 
-  const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#ebedf0",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#000000",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
+  // const weightedPeerAvg = getWeightedAverageOfArray(data, 'adminCostsPerStudent', mostRecentYear);
 
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#000000";
-
-  const yaxisLabelFormatter = (val) => {
-    const num = parseInt(val, 10);
-    if (isNaN(num)) {
-      return "Invalid input";
-    }
-      return `${val}%`;
-  
-  };
-
-  const tooltipFormatter = (value) => {
-    if (!value) return;
-    const formattedValue = value.toLocaleString();
-    return `${formattedValue}%`;
-  };
-
-  return {
-    colors: [
-      window.chartColors.blue,
-      window.chartColors.green,
-      window.chartColors.red,
-      window.chartColors.orange,
-      window.chartColors.purple,
-    ],
-    series: [
-      {
-        name: clientName,
-        type: "column",
-        data: clientArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
-      },
-      {
-        name: "Peer Avg",
-        type: "line",
-        data: peerAvgArray,
-      },
-      {
-        name: "25th",
-        type: "line",
-        data: peer25Array,
-      },
-      {
-        name: "50th",
-        type: "line",
-        data: peer50Array,
-      },
-      {
-        name: "75th",
-        type: "line",
-        data: peer75Array,
-      },
-    ],
-    chart: {
-      id: "adminCostsPerStudent",
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
-      },
-      height: 550,
-      type: "line",
-      stacked: false,
-    },
-    stroke: {
-      width: 4,
-    },
-    title: {
-      text: "Admin Costs Per Student",
-      position: "top",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColors.labelColor,
-        fontSize: "1.5rem",
-      },
-    },
-    xaxis: {
-      categories: selectedYearsArray,
-      labels: {
-        style: {
-          colors: chartColors.labelColor,
-          fontSize: "1rem",
-        },
-      },
-    },
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColors.labelColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColors.labelColor,
-            fontSize: "1rem",
-          },
-        },
-        tooltip: {
-          enabled: true,
-        },
-      },
-    ],
-    tooltip: {
-      fixed: {
-        enabled: true,
-        position: "topLeft",
-        offsetY: 30,
-        offsetX: 60,
-      },
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    legend: {
-      horizontalAlign: "center",
-      position: "top",
-      offsetX: 40,
-      fontSize: "20px",
-    },
-    grid: {
-      row: {
-        colors: ["transparent"],
-        opacity: 0.5,
-        thickness: 4,
-      },
-    },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
-      },
-    },
-  };
+  // const clientValue = Math.round(Number(data["adminCostsPerStudent_Client"][mostRecentYear].value) * 100);
+  // console.log({ weightedPeerAvg, clientValue });
 };

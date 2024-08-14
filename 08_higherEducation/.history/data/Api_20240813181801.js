@@ -476,17 +476,7 @@ const processRevenueExpenseContentData = (
           field: "g035_ctotal_student_uhc",
         },
       ]
-      adminCostsPerStudent_Array.forEach(({ key, field }) => {
-        insertDataIntoObject(
-          "peer",
-          year,
-          adminCostsPerStudent_obj,
-          key,
-          record,
-          field,
-          'Yes'
-        );
-      });
+      
     });
   });
 
@@ -494,13 +484,11 @@ const processRevenueExpenseContentData = (
     "salariesAndBenefitsToTotalExpenseData",
     "averageEmployeeSalaryData",
     "salariesAndBenefitsPerNetTuitionData",
-    "adminCostsPerStudentData"
   ];
   const dataObjects = [
     salariesAndBenefitsToTotalExpense_obj,
     averageEmployeeSalary_obj,
     salariesAndBenefitsPerNetTuition_obj,
-    adminCostsPerStudent_obj
   ];
   dataKeys.forEach((key, index) => {
     localStorage.removeItem(key);

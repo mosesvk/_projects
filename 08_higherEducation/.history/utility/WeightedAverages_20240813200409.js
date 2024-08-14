@@ -22,8 +22,8 @@ const disabilityAdminAsst = getSumOfArray(data.disabilityAdminAsst_Peer[year]);
 const retirementAdminAsst = getSumOfArray(data.retirementAdminAsst_Peer[year]);
 const housingAdminAsst = getSumOfArray(data.housingAdminAsst_Peer[year]);
 const otherAdminAsst = getSumOfArray(data.otherAdminAsst_Peer[year]);
-const totalStudentFTE = getSumOfArray(data.totalStudentFte_Peer[year]);
-const totalStudentUHC = getSumOfArray(data.totalStudentUhc_Peer[year]);
+const totalStudentFTE = getSumOfArray(data.totalStudentFTE_Peer[year]);
+const totalStudentUHC = getSumOfArray(data.totalStudentUHC_Peer[year]);
 
 return (salAdminAsst + ficaAdminAsst + healthAdminAsst + disabilityAdminAsst + retirementAdminAsst + housingAdminAsst + otherAdminAsst) / (totalStudentFTE + totalStudentUHC);
 
