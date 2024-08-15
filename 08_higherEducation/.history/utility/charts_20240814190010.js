@@ -1614,7 +1614,7 @@ const getCurrentRatioChartOptions = (data) => {
     return `$${formatNumber(value)}`;
   };
   const yaxisLabelFormatter2 = (value) => {
-    return `${value}`;
+    return `${formatNumber(value)}`;
   };
 
   const tooltipFormatter = (value) => {
@@ -1817,6 +1817,9 @@ const getLiquidityChartOptions = (data) => {
 
   const yaxisLabelFormatter = (value) => {
     return `$${formatNumber(value)}`;
+  };
+  const yaxisLabelFormatter2 = (value) => {
+    return `${formatNumber(value)}`;
   };
 
   const tooltipFormatter = (value) => {
@@ -3089,12 +3092,12 @@ const getTuitionDependencyChartOptions = (data) => {
     operatingRevenueArray.push(num);
   });
 
-  // console.log({
-  //   clientRatioArray,
-  //   peerRatioArray,
-  //   netTuitionAndFeesArray,
-  //   operatingRevenueArray,
-  // });
+  console.log({
+    clientRatioArray,
+    peerRatioArray,
+    netTuitionAndFeesArray,
+    operatingRevenueArray,
+  });
 
     const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -3114,18 +3117,11 @@ const getTuitionDependencyChartOptions = (data) => {
     ? "#e3f0fa"
     : "#3a464f";
 
-  const yaxisLabelFormatter = (val) => {
-    const num = parseInt(val, 10);
-    if (isNaN(num)) {
-      return "Invalid input";
-    }
-    if (num >= 1000) {
-      return `${Math.floor(num / 1000)}k`;
-    }
-    return val;
+  const yaxisLabelFormatter = (value) => {
+    return `$${formatNumber(value)}`;
   };
   const yaxisLabelFormatter2 = (value) => {
-    return `${value}`;
+    return `${formatNumber(value)}`;
   };
 
   const tooltipFormatter = (value) => {
@@ -3151,22 +3147,22 @@ const getTuitionDependencyChartOptions = (data) => {
     ],
     series: [
       {
-        name: "Net Tuition and Fees",
+        name: "Current Assets",
         type: "column",
         data: netTuitionAndFeesArray,
       },
       {
-        name: "Operating Revenue",
+        name: "Current Liabilities",
         type: "column",
         data: operatingRevenueArray,
       },
       {
-        name: "Client Ratio",
+        name: "Current Ratio",
         type: "line",
         data: clientRatioArray,
       },
       {
-        name: "Peer Ratio",
+        name: "Peer Avg",
         type: "line",
         data: peerRatioArray,
       },
@@ -3243,214 +3239,7 @@ const getTuitionDependencyChartOptions = (data) => {
       },
     ],
     xaxis: {
-      categories: selectedYearsArray,
-      labels: {
-        style: {
-          colors: chartColor,
-          fontSize: "1.5rem",
-        },
-      },
-    },
-    legend: {
-      position: "top",
-      fontSize: "20px",
-    },
-    grid: {
-      row: {
-        colors: ["transparent"],
-        opacity: 0.5,
-        thickness: 4,
-      },
-    },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
-      },
-    },
-  };
-};
-
-const getTuitionDiscountRateChartOptions = (data) => {
-  // console.log({ data });
-
-  let clientRatioArray = [];
-  let peerRatioArray = [];
-  let scholarshipArray = [];
-  let tuitionFeesArray = [];
-
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
-
-  selectedYearsArray.map((year) => {
-    let num = Math.round(Number(data.ratio_Client[year].value) * 100);
-    clientRatioArray.push(num);
-
-    num = Math.round(getAverageOfArray(data.ratio_Peer[year]) * 100);
-    peerRatioArray.push(num);
-
-    num = Math.round(Number(data.revenueScholarshipsAndFinanancialAid_Client[year].value));
-    scholarshipArray.push(num);
-
-    num = Math.round(
-      Number(data.revenueTuitionAndFees_Client[year].value)
-    );
-    tuitionFeesArray.push(num);
-  });
-
-  // console.log({
-  //   clientRatioArray,
-  //   peerRatioArray,
-  //   scholarshipArray,
-  //   tuitionFeesArray,
-  // });
-
-    const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#3A464F",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#6B7280",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
-
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#3a464f";
-
-  const yaxisLabelFormatter = (val) => {
-    const num = parseInt(val, 10);
-    if (isNaN(num)) {
-      return "Invalid input";
-    }
-    if (num >= 1000) {
-      return `${Math.floor(num / 1000)}k`;
-    }
-    return val;
-  };
-  const yaxisLabelFormatter2 = (value) => {
-    return `${value}`;
-  };
-
-  const tooltipFormatter = (value) => {
-    if (!value) return;
-    let formattedValue = value.toLocaleString();
-    if (formattedValue.length === 1) formattedValue += ".0";
-
-    if (value < 10) {
-      return `${formattedValue}`;
-    } else {
-      return `$${formattedValue}`;
-    }
-  };
-
-  // console.log({mainName, benchmark});
-
-  return {
-    colors: [
-      window.chartColors.blue,
-      window.chartColors.teal,
-      window.chartColors.green,
-      window.chartColors.grey,
-    ],
-    series: [
-      {
-        name: "Current Assets",
-        type: "column",
-        data: scholarshipArray,
-      },
-      {
-        name: "Current Liabilities",
-        type: "column",
-        data: tuitionFeesArray,
-      },
-      {
-        name: "Current Ratio",
-        type: "line",
-        data: clientRatioArray,
-      },
-      {
-        name: "Peer Avg",
-        type: "line",
-        data: peerRatioArray,
-      },
-    ],
-    chart: {
-      height: 550,
-      type: "line",
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    title: {
-      text: "Tutiion Discount Rate",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColor,
-        fontSize: "1.5rem",
-      },
-    },
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        },
-      },
-      {
-        show: false,
-      },
-      {
-        opposite: true,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter2,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        },
-      },
-    ],
-    xaxis: {
-      categories: selectedYearsArray,
+      categories: yearsDataCurrentRatio_Array.sort((a, b) => a - b),
       labels: {
         style: {
           colors: chartColor,

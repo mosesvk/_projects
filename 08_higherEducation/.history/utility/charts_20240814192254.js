@@ -3064,7 +3064,7 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
 };
 
 const getTuitionDependencyChartOptions = (data) => {
-  console.log({ data });
+  // console.log({ data });
 
   let clientRatioArray = [];
   let peerRatioArray = [];

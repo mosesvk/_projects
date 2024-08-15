@@ -3064,7 +3064,7 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
 };
 
 const getTuitionDependencyChartOptions = (data) => {
-  console.log({ data });
+  // console.log({ data });
 
   let clientRatioArray = [];
   let peerRatioArray = [];
@@ -3271,7 +3271,7 @@ const getTuitionDependencyChartOptions = (data) => {
 };
 
 const getTuitionDiscountRateChartOptions = (data) => {
-  // console.log({ data });
+  console.log({ data });
 
   let clientRatioArray = [];
   let peerRatioArray = [];
@@ -3296,12 +3296,12 @@ const getTuitionDiscountRateChartOptions = (data) => {
     tuitionFeesArray.push(num);
   });
 
-  // console.log({
-  //   clientRatioArray,
-  //   peerRatioArray,
-  //   scholarshipArray,
-  //   tuitionFeesArray,
-  // });
+  console.log({
+    clientRatioArray,
+    peerRatioArray,
+    scholarshipArray,
+    tuitionFeesArray,
+  });
 
     const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -3402,7 +3402,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
       },
     },
     title: {
-      text: "Tutiion Discount Rate",
+      text: "Tutiion Dependency",
       align: "center",
       margin: 10,
       offsetY: 20,

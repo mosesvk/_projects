@@ -87,8 +87,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>926</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5596556717056</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>0</r229_ctuition_discount_rate>
 		<update_id>1716914894147</update_id>
 	</record>
 	<record>
@@ -179,8 +177,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>210</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6906573964411</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.0826309228914</r229_ctuition_discount_rate>
 		<update_id>1716914894147</update_id>
 	</record>
 	<record>
@@ -271,8 +267,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>631</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3431514926531</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4924709179221</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -363,8 +357,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3006</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -455,8 +447,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>6263</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7756091401295</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2765796133367</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -547,8 +537,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>379</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4891091178833</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3026276643129</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -639,8 +627,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3076</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.806115874736</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2578545757208</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -731,8 +717,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1773</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.0787448334229</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.7389889748196</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -823,8 +807,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2112</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.8411559680232</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2772373887366</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -915,8 +897,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1017</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4790530823662</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5248173219729</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -1007,8 +987,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1230</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6147607352495</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3666956889664</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -1099,8 +1077,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>238</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.297094382774</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5812372758915</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -1191,8 +1167,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>242</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -1283,8 +1257,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>265</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3686967962059</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4407319947182</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -1375,8 +1347,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>665</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3376950497621</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>0</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -1467,8 +1437,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3845</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7187498741912</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3025576944747</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -1559,8 +1527,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>271</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.556752772456</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2032377326194</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -1651,8 +1617,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1882</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5049424410704</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4562132718551</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -1743,8 +1707,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>4789</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5943087104515</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2755314743838</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -1835,8 +1797,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1151</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5376997058897</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4859729526505</r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -1927,8 +1887,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>205</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -2019,8 +1977,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>157</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -2111,8 +2067,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1265</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -2203,8 +2157,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1170</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5852419068554</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4019097928756</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -2295,8 +2247,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>507</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5623310960083</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>0</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -2387,8 +2337,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>696</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -2479,8 +2427,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1128</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -2571,8 +2517,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>620</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5752998002551</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.1485277192995</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -2663,8 +2607,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3705</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7158248342242</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2572956978156</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -2755,8 +2697,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>195</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3266587256696</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3843736690741</r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -2847,8 +2787,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>979</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -2939,8 +2877,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3302</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -3031,8 +2967,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>865</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4903571525089</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3859844925304</r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -3123,8 +3057,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>134</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -3215,8 +3147,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1116</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4522045657546</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5510785865096</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -3307,8 +3237,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1140</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6483972589882</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3879445317404</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -3399,8 +3327,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3513</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6774299599597</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3590219066496</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -3491,8 +3417,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>714</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -3583,8 +3507,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1648</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3755587853226</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5689647859649</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -3675,8 +3597,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>628</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4325758443426</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2544820135095</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -3767,8 +3687,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3319</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6763737655103</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3596566935175</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -3859,8 +3777,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3359</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.67268114384</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4309163137905</r229_ctuition_discount_rate>
 		<update_id>1716914894030</update_id>
 	</record>
 	<record>
@@ -3951,8 +3867,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>164</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3103727826895</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5790411475831</r229_ctuition_discount_rate>
 		<update_id>1716914894030</update_id>
 	</record>
 	<record>
@@ -4043,8 +3957,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3803</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6657125902209</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3112921463816</r229_ctuition_discount_rate>
 		<update_id>1716914894029</update_id>
 	</record>
 	<record>
@@ -4135,8 +4047,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>683</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4588348671715</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5330926458643</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -4227,8 +4137,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>770</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.2825074342486</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5488586472592</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -4319,8 +4227,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2831</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5131724017873</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4146381823898</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -4411,8 +4317,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1695</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6051492782528</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5094820537567</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -4503,8 +4407,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>933</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6922403379315</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3059151977295</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -4595,8 +4497,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>5878</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7250252227893</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3351090299533</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -4687,8 +4587,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1534</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5952904004215</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3988971298192</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -4779,8 +4677,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2455</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7346823488275</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2828110184816</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -4871,8 +4767,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>421</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -4963,8 +4857,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>223</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -5055,8 +4947,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1463</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6270640851363</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3514451869205</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -5147,8 +5037,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1048</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4005984427852</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3851110256439</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -5239,8 +5127,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2853</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -5331,8 +5217,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3500</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7217577310176</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.284838893694</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -5423,8 +5307,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1970</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7504977337741</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2478634514691</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -5515,8 +5397,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>350</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.2157693927175</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3336533089461</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -5607,8 +5487,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1298</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4996140797493</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4188567137992</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -5699,8 +5577,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2544</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4757233028884</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3430371714518</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -5791,8 +5667,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>501</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3426680467005</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5069510853373</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -5883,8 +5757,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1198</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4502921722258</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4730857374913</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -5975,8 +5847,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>834</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6249448466463</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>0</r229_ctuition_discount_rate>
 		<update_id>1716914894147</update_id>
 	</record>
 	<record>
@@ -6067,8 +5937,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>196</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6735972718683</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.0750604792538</r229_ctuition_discount_rate>
 		<update_id>1716914894147</update_id>
 	</record>
 	<record>
@@ -6159,8 +6027,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>753</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3981089414705</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4928134432156</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -6251,8 +6117,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2986</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -6343,8 +6207,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>6239</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7949139177089</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2896434813328</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -6435,8 +6297,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>286</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4449522676308</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2723043010054</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -6527,8 +6387,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2877</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.8274190508595</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2484006972908</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -6619,8 +6477,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1775</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.0757965444553</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.7414143059061</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -6711,8 +6567,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2046</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.8423273017605</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2781942320273</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -6803,8 +6657,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1077</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3927069696262</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.552397601567</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -6895,8 +6747,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>999</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6251803941452</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3625939514765</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -6987,8 +6837,6 @@
 		<c208_other_admin_asst>33</c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>244</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3167420592213</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5157952992</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -7079,8 +6927,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>276</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3495574257958</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4601118089694</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -7171,8 +7017,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>662</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3237297104337</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.7161526591153</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -7263,8 +7107,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>216</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -7355,8 +7197,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3613</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7319126601908</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3055204774284</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -7447,8 +7287,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>252</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6135091076115</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.1972957040065</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -7539,8 +7377,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1859</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5819112340472</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4577955022141</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -7631,8 +7467,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>4530</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6144325044089</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2814667421329</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -7723,8 +7557,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1029</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5184587245135</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.492608358195</r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -7815,8 +7647,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>228</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -7907,8 +7737,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>194</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4569517563836</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2855706909866</r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -7999,8 +7827,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1255</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7680969482025</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.1675360728558</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -8091,8 +7917,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1068</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5781327124129</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4012106124237</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -8183,8 +8007,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>626</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5647278990778</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>0</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -8275,8 +8097,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>775</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4220324545844</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.0488779295972</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -8367,8 +8187,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1401</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -8459,8 +8277,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>579</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5641836448474</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.1657549897813</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -8551,8 +8367,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3553</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.8150396390416</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2708801274889</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -8643,8 +8457,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>214</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.331889441554</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4133845658359</r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -8735,8 +8547,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1000</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -8827,8 +8637,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3007</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -8919,8 +8727,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>845</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5417335508845</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4186006226336</r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -9011,8 +8817,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>129</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -9103,8 +8907,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1084</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4638781215955</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5529093597363</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -9195,8 +8997,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1166</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6088420267951</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4095681374075</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -9287,8 +9087,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3676</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6345620471752</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3765350145975</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -9379,8 +9177,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>714</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -9471,8 +9267,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1656</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3517336261471</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5901055659675</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -9563,8 +9357,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>583</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3689425968667</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2658345419774</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -9655,8 +9447,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3398</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6933065679694</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3590219459008</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -9747,8 +9537,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3107</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6944716559156</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4373867601036</r229_ctuition_discount_rate>
 		<update_id>1716914894030</update_id>
 	</record>
 	<record>
@@ -9839,8 +9627,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>178</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3469230826486</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5761812770529</r229_ctuition_discount_rate>
 		<update_id>1716914894030</update_id>
 	</record>
 	<record>
@@ -9931,8 +9717,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3912</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6861106909591</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3123442702476</r229_ctuition_discount_rate>
 		<update_id>1716914894029</update_id>
 	</record>
 	<record>
@@ -10023,8 +9807,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>737</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4590610297001</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5556774708373</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -10115,8 +9897,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>774</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3451237992764</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5715304658333</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -10207,8 +9987,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2554</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5303187256977</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4400038047528</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -10299,8 +10077,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1566</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5916910507804</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5209280761666</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -10391,8 +10167,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>955</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6892478854896</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3223107633612</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -10483,8 +10257,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>8759</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7489286782623</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3390684189665</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -10575,8 +10347,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1865</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6580256774824</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3826307520994</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -10667,8 +10437,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2568</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7666532249288</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.276638367519</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -10759,8 +10527,6 @@
 		<c208_other_admin_asst>1000</c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>360</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -10851,8 +10617,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>202</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -10943,8 +10707,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1448</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6009071485574</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3822880918201</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -11035,8 +10797,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1077</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4820332624315</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.39639250594</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -11127,8 +10887,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2554</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -11219,8 +10977,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3542</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6646207530069</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2947761902616</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -11311,8 +11067,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1838</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7543310311274</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2087067222728</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -11403,8 +11157,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>392</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.377092638362</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3621816338946</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -11495,8 +11247,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1370</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.404349353604</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4650708543375</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -11587,8 +11337,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2473</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4702008982084</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3538255416818</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -11679,8 +11427,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>539</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.396355836518</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5113653272193</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -11771,8 +11517,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1157</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4471600708401</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.506330693755</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -11863,8 +11607,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>857</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.231674805492</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5197279102989</r229_ctuition_discount_rate>
 		<update_id>1716914894147</update_id>
 	</record>
 	<record>
@@ -11955,8 +11697,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>174</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6845473469935</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.1402338387912</r229_ctuition_discount_rate>
 		<update_id>1716914894147</update_id>
 	</record>
 	<record>
@@ -12047,8 +11787,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>821</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4087626279502</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5394177471816</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -12139,8 +11877,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2941</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -12231,8 +11967,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>6293</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7902071625121</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2969705421745</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -12323,8 +12057,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>248</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4766479795106</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3123886037784</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -12415,8 +12147,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2843</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7835556776791</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2389629598526</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -12507,8 +12237,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1845</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.2598273043767</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.7322782953165</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -12599,8 +12327,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2014</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.8322065504116</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2971944630427</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -12691,8 +12417,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1046</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4288385115915</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5598683589859</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -12783,8 +12507,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>968</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.561109636373</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3787710850369</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -12875,8 +12597,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>241</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.2648686186777</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5404255790889</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -12967,8 +12687,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>262</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3610814207581</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4421147788668</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -13059,8 +12777,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>622</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3128040236097</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.7354885258377</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -13151,8 +12867,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>249</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -13243,8 +12957,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3541</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6738955495084</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3250813866414</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -13335,8 +13047,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>238</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5901480745922</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2039150165044</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -13427,8 +13137,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2326</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5076826636575</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5199677037988</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -13519,8 +13227,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>4323</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5679722022343</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>0</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -13611,8 +13317,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1218</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.503214304639</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4952321856235</r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -13703,8 +13407,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>211</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -13795,8 +13497,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>195</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4804031417324</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2974694776948</r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -13887,8 +13587,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1349</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -13979,8 +13677,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>870</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5765972127938</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3986124032739</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -14071,8 +13767,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>615</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4894722151541</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5836263664631</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -14163,8 +13857,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1034</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5486033625887</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.0513981687913</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -14255,8 +13947,6 @@
 		<c208_other_admin_asst>77</c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1179</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5587092118062</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4309684558696</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -14347,8 +14037,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>572</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6226346671498</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.1911004801295</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -14439,8 +14127,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3622</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7310857314063</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2890302005766</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -14531,8 +14217,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>218</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3665983226623</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3701268950171</r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -14623,8 +14307,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>961</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -14715,8 +14397,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2790</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -14807,8 +14487,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>897</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.47696702407</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4352218383714</r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -14899,8 +14577,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>116</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -14991,8 +14667,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1268</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4618805746989</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5426633290863</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -15083,8 +14757,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1133</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6271845332394</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4173899341772</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -15175,8 +14847,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3640</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6537757670191</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3985765214795</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -15267,8 +14937,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>774</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -15359,8 +15027,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1768</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3436271997786</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.6046231141512</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -15451,8 +15117,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>607</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.41078850331</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2497873772714</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -15543,8 +15207,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3290</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7437899219304</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3760573347862</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -15635,8 +15297,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3098</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6813509142246</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4570338384464</r229_ctuition_discount_rate>
 		<update_id>1716914894030</update_id>
 	</record>
 	<record>
@@ -15727,8 +15387,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>179</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.2775793149591</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5433878973099</r229_ctuition_discount_rate>
 		<update_id>1716914894030</update_id>
 	</record>
 	<record>
@@ -15819,8 +15477,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3931</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6813813047546</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.314288604548</r229_ctuition_discount_rate>
 		<update_id>1716914894029</update_id>
 	</record>
 	<record>
@@ -15911,8 +15567,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>790</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4498928684267</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5578002612068</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -16003,8 +15657,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>718</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4077199292646</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.598213093668</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -16095,8 +15747,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2520</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5187920662338</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4707017303982</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -16187,8 +15837,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1559</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5806775338429</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5578432884432</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -16279,8 +15927,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>818</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5901928139007</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4042901932527</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -16371,8 +16017,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>9215</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7574146230072</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3525429988957</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -16463,8 +16107,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2224</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6779344758294</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3713918156808</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -16555,8 +16197,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3927</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7684319809281</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2771311093923</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -16647,8 +16287,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>427</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -16739,8 +16377,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>204</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -16831,8 +16467,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1375</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -16923,8 +16557,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1009</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4894799814265</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4121352594156</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -17015,8 +16647,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2400</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7004255025916</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3812434347806</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -17107,8 +16737,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3617</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6650414439675</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3065815047212</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -17199,8 +16827,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1783</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.802415963562</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2014002927314</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -17291,8 +16917,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>403</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3210595868413</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3780215924771</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -17383,8 +17007,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1325</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4431349169282</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5041854259276</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -17475,8 +17097,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2498</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4690285430088</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.361095820807</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -17567,8 +17187,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>531</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4104441233988</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5134741439123</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -17659,8 +17277,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1229</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4584071115234</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5184440123655</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -17751,8 +17367,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>986</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6677887068482</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5227982253904</r229_ctuition_discount_rate>
 		<update_id>1716914894147</update_id>
 	</record>
 	<record>
@@ -17843,8 +17457,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>164</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6341549691418</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.1265639583371</r229_ctuition_discount_rate>
 		<update_id>1716914894147</update_id>
 	</record>
 	<record>
@@ -17935,8 +17547,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>884</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4121682532429</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5566707936159</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -18027,8 +17637,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>4921</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6640637684393</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.413175154076</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -18119,8 +17727,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>10989</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.8145805808498</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2871743239679</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -18211,8 +17817,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>239</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4835207309066</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2947085174268</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -18303,8 +17907,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>6383</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7625314311371</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2266130348515</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -18395,8 +17997,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1750</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.1139546082558</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.7473031388423</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -18487,8 +18087,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>5272</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.8230476871242</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.317519821793</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -18579,8 +18177,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1029</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4453777828927</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5670958754314</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -18671,8 +18267,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>842</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6165548565781</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4157600671092</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -18763,8 +18357,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>245</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.1907434391178</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5472278546329</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -18855,8 +18447,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>232</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.2968002242579</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4720814610571</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -18947,8 +18537,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>996</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3349410699172</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.7243191377269</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -19039,8 +18627,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>251</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -19131,8 +18717,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>5174</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6825289796395</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3656856989951</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -19223,8 +18807,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>232</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5465214275101</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2280571778559</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -19315,8 +18897,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1013</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6260765272881</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.457012016405</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -19407,8 +18987,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2487</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5265881266423</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4989252543618</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -19499,8 +19077,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>5204</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6097250210717</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4249686562743</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -19591,8 +19167,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1146</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4698455040399</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5004036997257</r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -19683,8 +19257,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>196</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -19775,8 +19347,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1555</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -19867,8 +19437,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>202</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -19959,8 +19527,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>806</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5423382139687</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5691461817649</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -20051,8 +19617,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>4205</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5572677574643</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.078849689622</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -20143,8 +19707,6 @@
 		<c208_other_admin_asst>78</c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1102</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.507146661017</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4482975399864</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -20235,8 +19797,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>650</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6462432347196</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.1940630838966</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -20327,8 +19887,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>5876</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7363597392288</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2989239163321</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -20419,8 +19977,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>207</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.2956742551024</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3758052452841</r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -20511,8 +20067,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1145</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -20603,8 +20157,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3497</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -20695,8 +20247,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1046</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5376162836571</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4509247311317</r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -20787,8 +20337,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>106</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -20879,8 +20427,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1342</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4689524566773</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5531950612079</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -20971,8 +20517,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1263</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5570760878184</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>0</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -21063,8 +20607,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>5425</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6357552169053</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4261083481231</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -21155,8 +20697,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>4180</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6745533248558</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4009194510672</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -21247,8 +20787,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>638</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -21339,8 +20877,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1747</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3732910672572</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.6134751165727</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -21431,8 +20967,6 @@
 		<c208_other_admin_asst>150</c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>678</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4783158176326</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2515122881119</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -21523,8 +21057,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3920</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6865307377443</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4772728935451</r229_ctuition_discount_rate>
 		<update_id>1716914894030</update_id>
 	</record>
 	<record>
@@ -21615,8 +21147,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>157</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894030</update_id>
 	</record>
 	<record>
@@ -21707,8 +21237,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>10579</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6969291365025</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3104921293011</r229_ctuition_discount_rate>
 		<update_id>1716914894029</update_id>
 	</record>
 	<record>
@@ -21799,8 +21327,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>782</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.2753358243946</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5478889562924</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -21891,8 +21417,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>758</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3183804740441</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.6217117360216</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -21983,8 +21507,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2484</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4942802179244</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.490632566586</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -22075,8 +21597,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1503</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5750369389553</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5797463884455</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -22167,8 +21687,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1062</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5700301804628</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4403458088739</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -22259,8 +21777,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>11672</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.719217302155</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.354771350593</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -22351,8 +21867,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1845</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6902921730508</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3632192572586</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -22443,8 +21957,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3968</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7750321230247</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2734707568955</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -22535,8 +22047,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>406</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -22627,8 +22137,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>287</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -22719,8 +22227,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1390</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -22811,8 +22317,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2086</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5287461302816</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4136749200155</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -22903,8 +22407,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3665</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7141752286555</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3620263953366</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -22995,8 +22497,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>4225</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7291388099002</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3204896154093</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -23087,8 +22587,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2627</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7993789076857</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2034697629993</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -23179,8 +22677,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>366</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4218927067251</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3647387835457</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -23271,8 +22767,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1362</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.472145090415</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5405673332736</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -23363,8 +22857,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3416</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4962967801994</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3787170968566</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -23455,8 +22947,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>573</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3936079990244</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5206566177047</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -23547,8 +23037,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1281</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4369467176431</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5153602517518</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -23639,8 +23127,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1076</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3380385357927</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5253331201882</r229_ctuition_discount_rate>
 		<update_id>1716914894147</update_id>
 	</record>
 	<record>
@@ -23731,8 +23217,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>191</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5245498696669</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.1828735192128</r229_ctuition_discount_rate>
 		<update_id>1716914894147</update_id>
 	</record>
 	<record>
@@ -23823,8 +23307,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>904</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3088341092977</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.6037463449345</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -23915,8 +23397,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>4688</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5825900374306</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4193472889795</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -24007,8 +23487,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>10494</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.8096625505642</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2841945643517</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -24099,8 +23577,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>258</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4195690211781</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2764197238753</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -24191,8 +23667,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>6747</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6953998345906</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2702434640559</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -24283,8 +23757,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1690</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.0210876313548</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.8494321256393</r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -24375,8 +23847,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>5365</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894131</update_id>
 	</record>
 	<record>
@@ -24467,8 +23937,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>958</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4805864666973</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5734117258827</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -24559,8 +24027,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>677</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6352143096529</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4379181701506</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -24651,8 +24117,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>228</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.0928390072159</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3535771996855</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -24743,8 +24207,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>221</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.2249827653633</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4698378535663</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -24835,8 +24297,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1064</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3180769775458</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.77354925145</r229_ctuition_discount_rate>
 		<update_id>1716914894114</update_id>
 	</record>
 	<record>
@@ -24927,8 +24387,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>150</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -25019,8 +24477,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>4886</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6492672373183</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3839978825239</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -25111,8 +24567,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>290</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4824831644038</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3520414077897</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -25203,8 +24657,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>996</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3963809162468</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5006836147915</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -25295,8 +24747,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2279</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4726043934309</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5272452605789</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -25387,8 +24837,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>5149</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5774432309898</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4217043175309</r229_ctuition_discount_rate>
 		<update_id>1716914894099</update_id>
 	</record>
 	<record>
@@ -25479,8 +24927,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1155</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.396559170006</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5565836954559</r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -25571,8 +25017,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>189</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894088</update_id>
 	</record>
 	<record>
@@ -25663,8 +25107,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1610</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -25755,8 +25197,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>246</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4994849108462</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.1818960248979</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -25847,8 +25287,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>753</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4637425341704</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5781686652404</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -25939,8 +25377,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>4580</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.56302416281</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.107875848338</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -26031,8 +25467,6 @@
 		<c208_other_admin_asst>78</c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1154</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.455049811867</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4852241043555</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -26123,8 +25557,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>683</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4586555941866</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.1890904045083</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -26215,8 +25647,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>5937</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.700657527259</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.325211858566</r229_ctuition_discount_rate>
 		<update_id>1716914894073</update_id>
 	</record>
 	<record>
@@ -26307,8 +25737,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>181</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.1818830384692</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3849211317134</r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -26399,8 +25827,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>988</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -26491,8 +25917,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3354</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -26583,8 +26007,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1082</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -26675,8 +26097,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>110</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894056</update_id>
 	</record>
 	<record>
@@ -26767,8 +26187,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1303</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4449348009709</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5484303456286</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -26859,8 +26277,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1063</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5628267073401</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4293901874255</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -26951,8 +26367,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>5651</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5716927688577</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4273890442288</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -27043,8 +26457,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>4207</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6868412854992</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4049121149759</r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -27135,8 +26547,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>613</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894046</update_id>
 	</record>
 	<record>
@@ -27227,8 +26637,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1817</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3889489936037</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.6076256544932</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -27319,8 +26727,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>677</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3497779374742</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2643033773578</r229_ctuition_discount_rate>
 		<update_id>1716914894036</update_id>
 	</record>
 	<record>
@@ -27411,8 +26817,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3980</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7120750198718</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5020054604819</r229_ctuition_discount_rate>
 		<update_id>1716914894030</update_id>
 	</record>
 	<record>
@@ -27503,8 +26907,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>131</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914894030</update_id>
 	</record>
 	<record>
@@ -27595,8 +26997,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>12236</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7808996267726</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.304398969174</r229_ctuition_discount_rate>
 		<update_id>1716914894029</update_id>
 	</record>
 	<record>
@@ -27687,8 +27087,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>776</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3971751271201</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5724013194374</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -27779,8 +27177,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>706</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5530951152587</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5047616590655</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -27871,8 +27267,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2371</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4437529454162</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5033970341875</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -27963,8 +27357,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1430</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4459361105032</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.6046691157975</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -28055,8 +27447,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1244</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5106287699253</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4484894836733</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -28147,8 +27537,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>10958</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6550009803973</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3795209213165</r229_ctuition_discount_rate>
 		<update_id>1716914894015</update_id>
 	</record>
 	<record>
@@ -28239,8 +27627,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1257</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6332864218382</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.274682863827</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -28331,8 +27717,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3717</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6737648658262</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2955893936748</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -28423,8 +27807,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>487</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -28515,8 +27897,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>286</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -28607,8 +27987,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1337</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -28699,8 +28077,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1770</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.5320979055701</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4340343906835</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -28791,8 +28167,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3563</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.6889517510495</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3759670189019</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -28883,8 +28257,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>4299</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.7112448354295</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.2990315696013</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -28975,8 +28347,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>2552</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio></r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate></r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -29067,8 +28437,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>383</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3679299633788</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.4116441581307</r229_ctuition_discount_rate>
 		<update_id>1716914893999</update_id>
 	</record>
 	<record>
@@ -29159,8 +28527,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1289</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3821297890432</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5561984262636</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -29251,8 +28617,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>3177</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4829379698935</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.3944651143347</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -29343,8 +28707,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>671</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.3238437753425</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5786772543593</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 	<record>
@@ -29435,8 +28797,6 @@
 		<c208_other_admin_asst></c208_other_admin_asst>
 		<g025_ctotal_student_fte></g025_ctotal_student_fte>
 		<g035_ctotal_student_uhc>1322</g035_ctotal_student_uhc>
-		<r147_cnet_tuition_dependency_ratio>0.4443508705529</r147_cnet_tuition_dependency_ratio>
-		<r229_ctuition_discount_rate>-0.5342086245304</r229_ctuition_discount_rate>
 		<update_id>1716914893983</update_id>
 	</record>
 </qdbapi>

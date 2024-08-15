@@ -14,7 +14,8 @@ $.get(clientData, apiCallClientDataForUniqueYears)
       recordsClient[0].querySelector("merged_client_name").textContent;
     document.getElementById("firmName").textContent = clientName;
 
-    recordId = recordsClient[0].querySelector("related_client").textContent;
+    recordId = 
+      recordsClient[0].querySelector("related_client").textContent;
 
     // console.log(recordsClient[0].children)
 
@@ -69,6 +70,7 @@ const findUniqueYears = (data) => {
     addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
   }
 };
+
 
 // Main Data Retrieval Functions ----------------------------------------------->
 
@@ -148,7 +150,6 @@ const processRevenueExpenseContentData = (
   const adminCostsPerStudent_obj = {};
   const netEducationalExpensePerStudent_obj = {};
   const tuitionDependency_obj = {};
-  const tuitionDiscountRate_obj = {};
 
   const years = seletectedYears.sort((a, b) => a - b);
   years.forEach((year) => {
@@ -312,9 +313,9 @@ const processRevenueExpenseContentData = (
         "client",
         year,
         adminCostsPerStudent_obj,
-        "adminCostsPerStudent_Client",
+        'adminCostsPerStudent_Client',
         record,
-        "r230_cadmin_costs_per_student"
+        'r230_cadmin_costs_per_student'
       );
 
       const netEducationalExpensePerStudent_array = [
@@ -366,34 +367,8 @@ const processRevenueExpenseContentData = (
           field
         );
       });
-
-      const tuitionDiscountRate_array = [
-        {
-          key: "ratio_Client",
-          field: "r229_ctuition_discount_rate",
-        },
-        {
-          key: "revenueScholarshipsAndFinanancialAid_Client",
-          field: "r024_revenue_scholarships_and_financial_aid",
-        },
-        {
-          key: "revenueTuitionAndFees_Client",
-          field: "r023_revenue_tuition_and_fees",
-        },
-      ];
-      tuitionDiscountRate_array.forEach(({ key, field }) => {
-        insertDataIntoObject(
-          "client",
-          year,
-          tuitionDiscountRate_obj,
-          key,
-          record,
-          field
-        );
-      });
     });
 
-    // PEER
     const filteredPeerRecords = [...recordsPeer].filter((record) => {
       const fiscalYear = record.querySelector("year").textContent;
 
@@ -531,7 +506,7 @@ const processRevenueExpenseContentData = (
           key: "totalStudentUhc_Peer",
           field: "g035_ctotal_student_uhc",
         },
-      ];
+      ]
       adminCostsPerStudent_Array.forEach(({ key, field }) => {
         insertDataIntoObject(
           "peer",
@@ -540,29 +515,9 @@ const processRevenueExpenseContentData = (
           key,
           record,
           field,
-          "Yes"
+          'Yes'
         );
       });
-
-      insertDataIntoObject(
-        "peer",
-        year,
-        tuitionDependency_obj,
-        "ratio_Peer",
-        record,
-        "r147_cnet_tuition_dependency_ratio",
-        "Yes"
-      );
-
-      insertDataIntoObject(
-        "peer",
-        year,
-        tuitionDiscountRate_obj,
-        "ratio_Peer",
-        record,
-        "r229_ctuition_discount_rate",
-        "Yes"
-      );
     });
   });
 
@@ -572,8 +527,7 @@ const processRevenueExpenseContentData = (
     "salariesAndBenefitsPerNetTuitionData",
     "adminCostsPerStudentData",
     "netEducationalExpensePerStudentData",
-    "tuitionDependencyData",
-    "tuitionDiscountRateData",
+    "tuitionDependencyData"
   ];
   const dataObjects = [
     salariesAndBenefitsToTotalExpense_obj,
@@ -581,8 +535,7 @@ const processRevenueExpenseContentData = (
     salariesAndBenefitsPerNetTuition_obj,
     adminCostsPerStudent_obj,
     netEducationalExpensePerStudent_obj,
-    tuitionDependency_obj,
-    tuitionDiscountRate_obj,
+    tuitionDependency_obj
   ];
   dataKeys.forEach((key, index) => {
     localStorage.removeItem(key);
@@ -2130,6 +2083,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
       : "-";
 };
 
+
 // Helper functions   ----------------------------------------------->
 
 const countUniqueClients = (records) => {
@@ -2249,10 +2203,7 @@ run_btn.addEventListener("click", async () => {
     // countUniqueClients(recordsPeer);
 
     // console.log({selectedYears, yearsData_Array})
-    const recordsClient = await getRecordsForClient(
-      yearsData_Array,
-      "<qdbapi>"
-    );
+    const recordsClient = await getRecordsForClient(yearsData_Array, "<qdbapi>");
 
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""

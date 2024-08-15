@@ -415,16 +415,7 @@ const displayRevenueAndExpenseComponent = () => {
   });
 
 
-  // getTuitionDiscountRateChartOptions(parsedData["tuitionDiscountRateData"])
-  const tuitionDiscountRateChart = new ApexCharts(
-    document.querySelector("#tuitionDiscountRate_chart"),
-    getTuitionDiscountRateChartOptions(parsedData["tuitionDiscountRateData"])
-  );
-  tuitionDiscountRateChart.render();
-  document.addEventListener("dark-mode", function () {
-    tuitionDiscountRateChart.updateOptions(getTuitionDiscountRateChartOptions(parsedData["tuitionDiscountRateData"]));
-  });
-  
+  getTuitionDiscountRateChartOptions(parsedData["tuitionDiscountRateData"])
 
   
 }
