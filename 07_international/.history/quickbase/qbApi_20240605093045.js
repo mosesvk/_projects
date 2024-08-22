@@ -1185,8 +1185,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_basedOnNumberOfDonors_Peer",
         record,
-        "__c04_02_ratio_contributions_trend_based_on_donor_count",
-        "c04_02_yes_no_contributions_trend_based_on_donor_count"
+        "0"
       );
 
       // contributionsTrend
@@ -1196,8 +1195,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_Peer",
         record,
-        "__c04_03_ratio_contributions_trend",
-        "c04_03_yes_no_contributions_trend"
+        "0"
       );
 
       // contributionsPercentWithoutDR
@@ -1425,7 +1423,6 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "c04_09_yes_no_fundraising_as_percent_of_contributions",
         "fundraisingAsPercentOfContributions"
       );
-
       // annualizedInvestmentReturn
       insertDataIntoObject(
         "peer",
