@@ -1164,6 +1164,7 @@ function processFinancialData(dataObject, tableDataClass, year, idString) {
       arrayData.push(dataObject[key][year].value);
     }
   }
+
   // Call the createFSTable function with the tableId and arrayData
   createFSTable(tableDataClass, arrayData, idString, year);
 }

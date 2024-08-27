@@ -581,7 +581,7 @@ const getPeerAndClientChartDataArrays = (
       const lower25 = get25thPercentileOfArray(array, mainName);
       const higher75 = get75thPercentileOfArray(array, mainName);
 
-      // if (mainName == 'cfiRatio') consolde.log({ avg, mid, lower25, higher75 });
+      // if (mainName == 'cfiRatio') console.log({ avg, mid, lower25, higher75 });
 
       peerAvg.push(Number(styleNumber(avg, type, fixedNum)))
       peerMid.push(Number(styleNumber(mid, type, fixedNum)))
@@ -1164,6 +1164,7 @@ function processFinancialData(dataObject, tableDataClass, year, idString) {
       arrayData.push(dataObject[key][year].value);
     }
   }
+
   // Call the createFSTable function with the tableId and arrayData
   createFSTable(tableDataClass, arrayData, idString, year);
 }
