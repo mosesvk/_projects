@@ -8,6 +8,8 @@ const displayReportComponent = () => {
   );
   const years = getSelectedYearsFromLocalStorage();
   const selectedYears = years && years.sort((a, b) => a - b);
+  // console.log(selectedYears.sort((a, b) => a - b));
+  // console.log({cfiData, financialAnalysisContentData, selectedYears});
 
   if (selectedYears) {
     insertDataToReport(

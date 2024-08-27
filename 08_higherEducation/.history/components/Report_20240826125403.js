@@ -8,9 +8,11 @@ const displayReportComponent = () => {
   );
   const years = getSelectedYearsFromLocalStorage();
   const selectedYears = years && years.sort((a, b) => a - b);
+  // console.log(selectedYears.sort((a, b) => a - b));
+  // console.log({cfiData, financialAnalysisContentData, selectedYears});
 
   if (selectedYears) {
-    insertDataToReport(
+    (
       cfiData,
       selectedYears,
       document.getElementById("cfiRatio_clientTable"),
@@ -536,17 +538,16 @@ const addPeerDataToReportRow = (
     "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
   const propScope = "row";
 
+  let avg;
+  if (peer && wa) {
+    avg = parseFloat(getWeightedAverageOfArray(data, name));
+  } else if (peer && !wa) {
+    avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+  } else {
+    avg = 0;
+  }
+
   selectedYears.forEach((year) => {
-
-    let avg;
-    if (peer && wa) {
-      avg = parseFloat(getWeightedAverageOfArray(data, name));
-    } else if (peer && !wa) {
-      avg = parseFloat(getAverageOfArray(peer[year], name));
-    } else {
-      avg = 0;
-    }
-
     const dataPoint = document.createElement("th");
     const text = peer ? styleNumber(avg, type, fixedNum) : "";
 

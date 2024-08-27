@@ -1076,10 +1076,10 @@ function getValuesInChronologicalOrder(data) {
   return valuesArray;
 }
 
-const updateCfiValue = (cfiValue, mostRecentYear) => {
+const updateCfiValue = (cfiValue) => {
   // console.log({ cfiValue });
 
-  document.querySelector("#cfiRatio_year").innerHTML = mostRecentYear
+  // document.querySelector("#cfiRatio_year").innerHTML = 
 
   let thresholds = [
     10.0, 9.7, 9.4, 9.1, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0, 4.5, 4.0,
