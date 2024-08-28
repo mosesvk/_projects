@@ -77,13 +77,11 @@ if (sidebar) {
 
   const activateButton = (clickedIndex) => {
     const divMain = document.getElementById("optionsMain");
-    const divFinancialStatement = document.getElementById(
-      "optionsFinancialStatement"
-    );
 
     if (clickedIndex === 2) {
       // Show financial statement options, hide main options
-      divFinancialStatement.classList.remove("hidden");
+      // divFinancialStatement.classList.remove("hidden");
+      document.getElementById("balanceSheetContent").classList.remove("hidden");
       divMain.classList.add("hidden");
     } else {
       // Show main options, hide financial statement options

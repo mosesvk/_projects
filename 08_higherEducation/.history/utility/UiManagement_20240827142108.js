@@ -81,7 +81,7 @@ if (sidebar) {
       "optionsFinancialStatement"
     );
 
-    if (clickedIndex === 2) {
+    if (clickedIndex === 3) {
       // Show financial statement options, hide main options
       divFinancialStatement.classList.remove("hidden");
       divMain.classList.add("hidden");

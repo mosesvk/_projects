@@ -445,9 +445,6 @@ const getFpaChartOptions = (data) => {
   // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
 
   const yaxisLabelFormatter = (value) => {
-    if (value >= 1000000) {
-      return `$${Math.round(value / 1000000)}M`;
-    }
     return `$${formatNumber(value)}`;
   };
 
@@ -724,7 +721,9 @@ const getAtlChartOptions = (data) => {
         tooltip: {
           enabled: true,
         },
-        stepSize: 5,
+        stepSize: 4,
+        min: minNum - 1,
+        max: maxNum + 1,
     },
     tooltip: {
       y: {
@@ -1571,16 +1570,19 @@ const getCurrentRatioChartOptions = (data) => {
     return avg.toFixed(1);
   });
 
-  console.log({
-    currentAssetsArray,
-    currentLiabilitiesArray,
-    currentRatioArray,
-    peerAvgArray,
-  });
+  // console.log({
+  //   currentAssetsArray,
+  //   currentLiabilitiesArray,
+  //   currentRatioArray,
+  //   peerAvgArray,
+  // });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   const formatNumber = (value) => value.toLocaleString();
+
+  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
+  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -1600,14 +1602,11 @@ const getCurrentRatioChartOptions = (data) => {
     ? "#e3f0fa"
     : "#3a464f";
 
-    const yaxisLabelFormatter = (value) => {
-      if (value >= 1000000) {
-        return `${Math.round(value / 1000000)}M`;
-      }
-      return `${formatNumber(value)}`;
-    };
+  const yaxisLabelFormatter = (value) => {
+    return `$${formatNumber(value)}`;
+  };
   const yaxisLabelFormatter2 = (value) => {
-    return `${Math.round(value)}`;
+    return `${value}`;
   };
 
   const tooltipFormatter = (value) => {
@@ -1688,47 +1687,29 @@ const getCurrentRatioChartOptions = (data) => {
     },
     yaxis: [
       {
+        axisTicks: {
+          show: true,
+        },
         axisBorder: {
           show: true,
-          color: window.chartColors.green,
+          color: chartColor,
         },
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
-            colors: window.chartColors.green,
+            colors: chartColor,
             fontSize: "1.25rem",
           },
         },
-        // title: {
-        //   text: "Assets",
-        //   style: {
-        //     color: window.chartColors.green,
-        //   },
-        // }
+      },
+      {
+        show: false,
       },
       {
         opposite: true,
-        axisBorder: {
-          show: false,
-          color: window.chartColors.red,
+        axisTicks: {
+          show: true,
         },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: window.chartColors.red,
-            fontSize: "1.25rem",
-          },
-        },
-        // title: {
-        //   text: "Liabilities",
-        //   style: {
-        //     color: window.chartColors.red,
-        //   },
-        // }
-      },
-      {
-        opposite: true,
-        stepSize: 1,
         axisBorder: {
           show: true,
           color: chartColor,
@@ -1740,12 +1721,6 @@ const getCurrentRatioChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
-        // title: {
-        //   text: "Ratio",
-        //   style: {
-        //     color: chartColor,
-        //   },
-        // }
       },
     ],
     xaxis: {
@@ -1760,7 +1735,6 @@ const getCurrentRatioChartOptions = (data) => {
     legend: {
       position: "top",
       fontSize: "20px",
-      offsetY: -10,
     },
     grid: {
       row: {
@@ -1853,10 +1827,10 @@ const getLiquidityChartOptions = (data) => {
 
   return {
     colors: [
-      "#003366",
-      "#66B2FF",
-      "#66CCCC",
-      "#FFAD5C",
+      window.chartColors.darkBlue,
+      window.chartColors.blue,
+      window.chartColors.tealRevenue,
+      window.chartColors.orange,
     ],
     series: [
       {
@@ -1953,17 +1927,6 @@ const getLiquidityChartOptions = (data) => {
         barHeight: "90%",
       },
     },
-    // fill: {
-    //   type: 'gradient',
-    //   gradient: {
-    //     shade: 'light',
-    //     type: "verticle",
-    //     shadeIntensity: 0.5,
-    //     inverseColors: true,
-    //     opacityFrom: [0.2, 0.4, 0.6],
-    //     opacityTo: 1,
-    //   }
-    // }
   };
 };
 

@@ -1953,17 +1953,20 @@ const getLiquidityChartOptions = (data) => {
         barHeight: "90%",
       },
     },
-    // fill: {
-    //   type: 'gradient',
-    //   gradient: {
-    //     shade: 'light',
-    //     type: "verticle",
-    //     shadeIntensity: 0.5,
-    //     inverseColors: true,
-    //     opacityFrom: [0.2, 0.4, 0.6],
-    //     opacityTo: 1,
-    //   }
-    // }
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shade: 'dark',
+        type: "verticle",
+        shadeIntensity: 0.5,
+        gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
+        inverseColors: true,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 50, 100],
+        colorStops: []
+      }
+    }
   };
 };
 

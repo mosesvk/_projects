@@ -1607,7 +1607,7 @@ const getCurrentRatioChartOptions = (data) => {
       return `${formatNumber(value)}`;
     };
   const yaxisLabelFormatter2 = (value) => {
-    return `${Math.round(value)}`;
+    return `${value}`;
   };
 
   const tooltipFormatter = (value) => {
@@ -1690,45 +1690,31 @@ const getCurrentRatioChartOptions = (data) => {
       {
         axisBorder: {
           show: true,
-          color: window.chartColors.green,
+          color: chartColor,
         },
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
-            colors: window.chartColors.green,
+            colors: chartColor,
             fontSize: "1.25rem",
           },
         },
-        // title: {
-        //   text: "Assets",
-        //   style: {
-        //     color: window.chartColors.green,
-        //   },
-        // }
       },
       {
-        opposite: true,
         axisBorder: {
-          show: false,
-          color: window.chartColors.red,
+          show: true,
+          color: chartColor,
         },
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
-            colors: window.chartColors.red,
+            colors: chartColor,
             fontSize: "1.25rem",
           },
         },
-        // title: {
-        //   text: "Liabilities",
-        //   style: {
-        //     color: window.chartColors.red,
-        //   },
-        // }
       },
       {
         opposite: true,
-        stepSize: 1,
         axisBorder: {
           show: true,
           color: chartColor,
@@ -1740,12 +1726,6 @@ const getCurrentRatioChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
-        // title: {
-        //   text: "Ratio",
-        //   style: {
-        //     color: chartColor,
-        //   },
-        // }
       },
     ],
     xaxis: {
@@ -1853,10 +1833,10 @@ const getLiquidityChartOptions = (data) => {
 
   return {
     colors: [
-      "#003366",
-      "#66B2FF",
-      "#66CCCC",
-      "#FFAD5C",
+      window.chartColors.darkBlue,
+      window.chartColors.blue,
+      window.chartColors.tealRevenue,
+      window.chartColors.orange,
     ],
     series: [
       {
@@ -1953,17 +1933,6 @@ const getLiquidityChartOptions = (data) => {
         barHeight: "90%",
       },
     },
-    // fill: {
-    //   type: 'gradient',
-    //   gradient: {
-    //     shade: 'light',
-    //     type: "verticle",
-    //     shadeIntensity: 0.5,
-    //     inverseColors: true,
-    //     opacityFrom: [0.2, 0.4, 0.6],
-    //     opacityTo: 1,
-    //   }
-    // }
   };
 };
 
