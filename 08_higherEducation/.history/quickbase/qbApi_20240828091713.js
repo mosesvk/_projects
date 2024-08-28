@@ -1,7 +1,7 @@
 let apiCallClientDataForUniqueYears = {
   act: "API_DoQuery",
   query: `{533.EX.${ClientRid}}`,
-  clist: "533.7.539",
+  clist: "533.7.539.3",
 };
 
 $.get(clientData, apiCallClientDataForUniqueYears)
@@ -14,6 +14,7 @@ $.get(clientData, apiCallClientDataForUniqueYears)
       recordsClient[0].querySelector("merged_client_name").textContent;
     document.getElementById("firmName").textContent = clientName;
 
+    recordId = recordsClient[0].querySelector("related_client").textContent;
 
     // console.log(recordsClient[0].children)
 
@@ -69,7 +70,7 @@ const findUniqueYears = (data) => {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+// Main Data Retrieval Functions ----------------------------------------------->
 
 const insertDataIntoObject = (
   type,
@@ -136,132 +137,1145 @@ const insertDataIntoObject = (
   }
 };
 
-const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
-  const object = {};
+const processRevenueExpenseContentData = (
+  seletectedYears,
+  recordsPeer,
+  recordsClient
+) => {
+  const salariesAndBenefitsToTotalExpense_obj = {};
+  const averageEmployeeSalary_obj = {};
+  const salariesAndBenefitsPerNetTuition_obj = {};
+  const adminCostsPerStudent_obj = {};
+  const netEducationalExpensePerStudent_obj = {};
+  const tuitionDependency_obj = {};
+  const tuitionDiscountRate_obj = {};
 
-  const years = yearsData_Array.sort((a, b) => a - b);
+  const years = seletectedYears.sort((a, b) => a - b);
   years.forEach((year) => {
-    const filteredPeerRecords = [...recordsPeer].filter((record) => {
-      const fiscalYear = record.querySelector("year").textContent;
-      return fiscalYear.includes(year.toString());
-    });
-    filteredPeerRecords.forEach((record) => {});
-
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector("year").textContent;
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
-      // totalAssets
+      const salariesAndBenefitsToTotalExpense_array = [
+        {
+          key: "salariesAndBenefitsToTotalExpense_Client",
+          field: "r228_csalaries_and_benefits_to_total_expenses",
+        },
+        {
+          key: "salariesAndWages_Client",
+          field: "r160_salaries_and_wages",
+        },
+        {
+          key: "employeeBenefits_Client",
+          field: "r161_employee_benefits",
+        },
+        {
+          key: "totalFunctionalExpenses_Client",
+          field: "r044_ctotal_functional_expenses",
+        },
+      ];
+      salariesAndBenefitsToTotalExpense_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          salariesAndBenefitsToTotalExpense_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const averageEmployeeSalary_array = [
+        {
+          key: "president_Client",
+          field: "c011_sal_president",
+        },
+        {
+          key: "chiefAcademic_Client",
+          field: "c021_sal_chief_academic",
+        },
+        {
+          key: "chiefFinance_Client",
+          field: "c031_sal_chief_finance",
+        },
+        {
+          key: "chiefEnrollment_Client",
+          field: "c041_sal_chief_enrollment",
+        },
+        {
+          key: "chiefDevelopment_Client",
+          field: "c051_sal_chief_development",
+        },
+        {
+          key: "chiefOps_Client",
+          field: "c061_sal_chief_ops",
+        },
+        {
+          key: "dirFinance_Client",
+          field: "c071_sal_dir_of_fin_aid",
+        },
+        {
+          key: "dirHr_Client",
+          field: "c081_sal_dir_of_hr",
+        },
+        {
+          key: "dirIt_Client",
+          field: "c091_sal_dir_of_it",
+        },
+        {
+          key: "dirPhysPlant_Client",
+          field: "c101_sal_dir_of_phys_plant",
+        },
+        {
+          key: "controller_Client",
+          field: "c111_sal_controller",
+        },
+        {
+          key: "busMgr_Client",
+          field: "c121_sal_bus_mgr",
+        },
+        {
+          key: "bursar_Client",
+          field: "c131_sal_bursar",
+        },
+        {
+          key: "budgetDir_Client",
+          field: "c141_sal_budget_dir",
+        },
+        {
+          key: "dirAcct_Client",
+          field: "c151_sal_dir_of_acct",
+        },
+        {
+          key: "srAcct_Client",
+          field: "c161_sal_sr_acct",
+        },
+        {
+          key: "nonSrAcct_Client",
+          field: "c171_sal_non_sr_acct",
+        },
+        {
+          key: "stuAcctMgr_Client",
+          field: "c181_sal_stu_acct_mgr",
+        },
+        {
+          key: "otherBusOffice_Client",
+          field: "c191_sal_other_bus_office",
+        },
+        {
+          key: "adminAsst_Client",
+          field: "c201_sal_admin_asst",
+        },
+      ];
+      averageEmployeeSalary_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          averageEmployeeSalary_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const salariesAndBenefitsPerNetTuition_array = [
+        {
+          key: "salariesAndWages_Client",
+          field: "r160_salaries_and_wages",
+        },
+        {
+          key: "employeeBenefits_Client",
+          field: "r161_employee_benefits",
+        },
+        {
+          key: "netTuitionAndFees_Client",
+          field: "r026_cnet_tuition_and_fees",
+        },
+        {
+          key: "netTuitionAndFees_Client",
+          field: "r026_cnet_tuition_and_fees",
+        },
+      ];
+      salariesAndBenefitsPerNetTuition_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          salariesAndBenefitsPerNetTuition_obj,
+          key,
+          record,
+          field
+        );
+      });
+
       insertDataIntoObject(
         "client",
         year,
-        object,
-        "totalAssets_Client",
+        adminCostsPerStudent_obj,
+        "adminCostsPerStudent_Client",
         record,
-        "r008_ctotal_assets"
-      );
-      // totalLiabilities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalLiabilities_Client",
-        record,
-        "r016_ctotal_liabilities"
-      );
-      // netAssets
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "netAssets_Client",
-        record,
-        "r020_ctotal_net_assets"
+        "r230_cadmin_costs_per_student"
       );
 
-      // totalExpenses
+      const netEducationalExpensePerStudent_array = [
+        {
+          key: "ratio_Client",
+          field: "r138_cnet_educational_expenses_per_student",
+        },
+        {
+          key: "netEducationalExpenses_Client",
+          field: "r137_cnet_educational_expenses",
+        },
+        {
+          key: "totalStudents_Client",
+          field: "g025_ctotal_student_fte",
+        },
+      ];
+      netEducationalExpensePerStudent_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          netEducationalExpensePerStudent_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const tuitionDependency_array = [
+        {
+          key: "ratio_Client",
+          field: "r147_cnet_tuition_dependency_ratio",
+        },
+        {
+          key: "netTuitionAndFees_Client",
+          field: "r026_cnet_tuition_and_fees",
+        },
+        {
+          key: "operatingRevenuesSupportAndRelease_Client",
+          field: "r036_coperating_revenues_support_and_releases",
+        },
+      ];
+      tuitionDependency_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          tuitionDependency_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const tuitionDiscountRate_array = [
+        {
+          key: "ratio_Client",
+          field: "r229_ctuition_discount_rate",
+        },
+        {
+          key: "revenueScholarshipsAndFinanancialAid_Client",
+          field: "r024_revenue_scholarships_and_financial_aid",
+        },
+        {
+          key: "revenueTuitionAndFees_Client",
+          field: "r023_revenue_tuition_and_fees",
+        },
+      ];
+      tuitionDiscountRate_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          tuitionDiscountRate_obj,
+          key,
+          record,
+          field
+        );
+      });
+    });
+
+    // PEER
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+      const fiscalYear = record.querySelector("year").textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredPeerRecords.forEach((record) => {
+      const averageEmployeeSalary_array = [
+        {
+          key: "president_Peer",
+          field: "c011_sal_president",
+        },
+        {
+          key: "chiefAcademic_Peer",
+          field: "c021_sal_chief_academic",
+        },
+        {
+          key: "chiefFinance_Peer",
+          field: "c031_sal_chief_finance",
+        },
+        {
+          key: "chiefEnrollment_Peer",
+          field: "c041_sal_chief_enrollment",
+        },
+        {
+          key: "chiefDevelopment_Peer",
+          field: "c051_sal_chief_development",
+        },
+        {
+          key: "chiefOps_Peer",
+          field: "c061_sal_chief_ops",
+        },
+        {
+          key: "dirFinance_Peer",
+          field: "c071_sal_dir_of_fin_aid",
+        },
+        {
+          key: "dirHr_Peer",
+          field: "c081_sal_dir_of_hr",
+        },
+        {
+          key: "dirIt_Peer",
+          field: "c091_sal_dir_of_it",
+        },
+        {
+          key: "dirPhysPlant_Peer",
+          field: "c101_sal_dir_of_phys_plant",
+        },
+        {
+          key: "controller_Peer",
+          field: "c111_sal_controller",
+        },
+        {
+          key: "busMgr_Peer",
+          field: "c121_sal_bus_mgr",
+        },
+        {
+          key: "bursar_Peer",
+          field: "c131_sal_bursar",
+        },
+        {
+          key: "budgetDir_Peer",
+          field: "c141_sal_budget_dir",
+        },
+        {
+          key: "dirAcct_Peer",
+          field: "c151_sal_dir_of_acct",
+        },
+        {
+          key: "srAcct_Peer",
+          field: "c161_sal_sr_acct",
+        },
+        {
+          key: "nonSrAcct_Peer",
+          field: "c171_sal_non_sr_acct",
+        },
+        {
+          key: "stuAcctMgr_Peer",
+          field: "c181_sal_stu_acct_mgr",
+        },
+        {
+          key: "otherBusOffice_Peer",
+          field: "c191_sal_other_bus_office",
+        },
+        {
+          key: "adminAsst_Peer",
+          field: "c201_sal_admin_asst",
+        },
+      ];
+      averageEmployeeSalary_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "peer",
+          year,
+          averageEmployeeSalary_obj,
+          key,
+          record,
+          field,
+          "Yes"
+        );
+      });
+
+      const adminCostsPerStudent_Array = [
+        {
+          key: "salAdminAsst_Peer",
+          field: "c201_sal_admin_asst",
+        },
+        {
+          key: "ficaAdminAsst_Peer",
+          field: "c203_fica_admin_asst",
+        },
+        {
+          key: "healthAdminAsst_Peer",
+          field: "c204_health_admin_asst",
+        },
+        {
+          key: "disabilityAdminAsst_Peer",
+          field: "c205_disability_admin_asst",
+        },
+        {
+          key: "retirementAdminAsst_Peer",
+          field: "c206_retirement_admin_asst",
+        },
+        {
+          key: "housingAdminAsst_Peer",
+          field: "c207_housing_admin_asst",
+        },
+        {
+          key: "otherAdminAsst_Peer",
+          field: "c208_other_admin_asst",
+        },
+        {
+          key: "totalStudentFte_Peer",
+          field: "g025_ctotal_student_fte",
+        },
+        {
+          key: "totalStudentUhc_Peer",
+          field: "g035_ctotal_student_uhc",
+        },
+      ];
+      adminCostsPerStudent_Array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "peer",
+          year,
+          adminCostsPerStudent_obj,
+          key,
+          record,
+          field,
+          "Yes"
+        );
+      });
+
       insertDataIntoObject(
-        "client",
+        "peer",
         year,
-        object,
-        "totalExpenses_Client",
+        tuitionDependency_obj,
+        "ratio_Peer",
         record,
-        "r044_ctotal_functional_expenses"
+        "r147_cnet_tuition_dependency_ratio",
+        "Yes"
       );
 
-      // totalNonOperatingExpenses
       insertDataIntoObject(
-        "client",
+        "peer",
         year,
-        object,
-        "totalNonOperatingExpenses_Client",
+        tuitionDiscountRate_obj,
+        "ratio_Peer",
         record,
-        "r052_ctotal_non_operating_changes"
-      );
-
-      // totalChangesInNetAssets
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalChangesInNetAssets_Client",
-        record,
-        "r065_cchange_in_net_assets"
-      );
-
-      // totalNaturalCategoryExpenses
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "totalNaturalCategoryExpenses_Client",
-        record,
-        "r166_ctotal_natural_category_expenses"
-      );
-
-      // cashFlows_operatingActivities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "cashFlows_operatingActivities_Client",
-        record,
-        "r080_cnet_cash_provided_by_operating_activities"
-      );
-      // cashFlows_investingActivities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "cashFlows_investingActivities_Client",
-        record,
-        "r085_cnet_cash_used_in_investing_activities"
-      );
-      // cashFlows_financingActivities
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "cashFlows_financingActivities_Client",
-        record,
-        "r089_cnet_cash_used_in_financing_activities"
-      );
-
-      // propertyAndEquipment
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "propertyAndEquipment_Client",
-        record,
-        "r099_ctotal_property_and_equipment_less_depreciation"
+        "r229_ctuition_discount_rate",
+        "Yes"
       );
     });
   });
 
-  localStorage.removeItem("financialStatementContentData");
-  localStorage.setItem("financialStatementContentData", JSON.stringify(object));
+  const dataKeys = [
+    "salariesAndBenefitsToTotalExpenseData",
+    "averageEmployeeSalaryData",
+    "salariesAndBenefitsPerNetTuitionData",
+    "adminCostsPerStudentData",
+    "netEducationalExpensePerStudentData",
+    "tuitionDependencyData",
+    "tuitionDiscountRateData",
+  ];
+  const dataObjects = [
+    salariesAndBenefitsToTotalExpense_obj,
+    averageEmployeeSalary_obj,
+    salariesAndBenefitsPerNetTuition_obj,
+    adminCostsPerStudent_obj,
+    netEducationalExpensePerStudent_obj,
+    tuitionDependency_obj,
+    tuitionDiscountRate_obj,
+  ];
+  dataKeys.forEach((key, index) => {
+    localStorage.removeItem(key);
+    localStorage.setItem(key, JSON.stringify(dataObjects[index]));
+  });
+};
+
+const processFinancialPositionContentData = (
+  seletectedYears,
+  recordsPeer,
+  recordsClient
+) => {
+  const currentRatio_obj = {};
+  const liquidity_obj = {};
+
+  const years = seletectedYears.sort((a, b) => a - b);
+  years.forEach((year) => {
+    const filteredClientRecords = [...recordsClient].filter((record) => {
+      const fiscalYear = record.querySelector("year").textContent;
+      return fiscalYear.includes(year.toString());
+    });
+    filteredClientRecords.forEach((record) => {
+      const currentRatio_array = [
+        {
+          key: "cashAndCashEquivalents_Client",
+          field: "r001_cash_and_cash_equivalents",
+        },
+        {
+          key: "accountsReceivable_Client",
+          field: "r002_accounts_receivable_net",
+        },
+        {
+          key: "studentLoansAndOtherReceivables_Client",
+          field: "r003_student_loans_and_other_receivables",
+        },
+        {
+          key: "contributionsReceivable_Client",
+          field: "r004_contributions_receivable",
+        },
+        {
+          key: "prepaidExpensesAndOtherAssets_Client",
+          field: "r005_prepaid_expenses_and_other_assets",
+        },
+        {
+          key: "accountsPayable_Client",
+          field: "r009_accounts_payable_and_accrued_liabilities",
+        },
+        {
+          key: "deferredRevenue_Client",
+          field: "r010_deferred_revenue",
+        },
+      ];
+      currentRatio_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          currentRatio_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const liquidity_array = [
+        {
+          key: "fasbLiquidity_Client",
+          field: "r250_fasb_liquidity",
+        },
+        {
+          key: "quasiEndowment_Client",
+          field: "r251_quasi_endowment",
+        },
+        {
+          key: "lineOfCredit_Client",
+          field: "r252_line_of_credit_available",
+        },
+      ];
+      liquidity_array.forEach(({ key, field }) => {
+        insertDataIntoObject("client", year, liquidity_obj, key, record, field);
+      });
+    });
+
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+      const fiscalYear = record.querySelector("year").textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredPeerRecords.forEach((record) => {
+      // currentRatio
+      insertDataIntoObject(
+        "peer",
+        year,
+        currentRatio_obj,
+        "currentRatio_Peer",
+        record,
+        "r258c_current_ratio",
+        "Yes"
+      );
+
+      // liquidity
+      insertDataIntoObject(
+        "peer",
+        year,
+        liquidity_obj,
+        "liquidity_Peer",
+        record,
+        "r250_fasb_liquidity",
+        "Yes"
+      );
+    });
+  });
+
+  const dataKeys = ["currentRatioData", "liquidityData"];
+  const dataObjects = [currentRatio_obj, liquidity_obj];
+  dataKeys.forEach((key, index) => {
+    localStorage.removeItem(key);
+    localStorage.setItem(key, JSON.stringify(dataObjects[index]));
+  });
+};
+
+const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
+  const totalAssets_obj = {};
+  const totalLiabilities_obj = {};
+  const netAssets_obj = {};
+  const revenueAndSupport_obj = {};
+  const educationalProgram_obj = {};
+  const nonOperatingActivities_obj = {};
+  const changesInNetAssetsWithDR_obj = {};
+  const naturalExpenseCategories_obj = {};
+  const cashFlowsOperating_obj = {};
+  const cashFlowsInvesting_obj = {};
+  const cashFlowsFinancing_obj = {};
+  const propertyAndEquipment_obj = {};
+
+  const years = yearsData_Array.sort((a, b) => a - b);
+  years.forEach((year) => {
+    const filteredClientRecords = [...recordsClient].filter((record) => {
+      const fiscalYear = record.querySelector("year").textContent;
+      return fiscalYear.includes(year.toString());
+    });
+    filteredClientRecords.forEach((record) => {
+      if (
+        record.querySelector("_9999_completion_test_fs_tab").innerHTML ==
+        "IN PROCESS"
+      ) {
+        return;
+      }
+      const totalAssets_array = [
+        {
+          key: "totalAssets_Client",
+          field: "r008_ctotal_assets",
+        },
+        {
+          key: "cashAndCashEquivalents_Client",
+          field: "r001_cash_and_cash_equivalents",
+        },
+        {
+          key: "accountsReceivable_Client",
+          field: "r002_accounts_receivable_net",
+        },
+        {
+          key: "studentLoansAndOtherReceivables_Client",
+          field: "r003_student_loans_and_other_receivables",
+        },
+        {
+          key: "contributionsReceivable_Client",
+          field: "r004_contributions_receivable",
+        },
+        {
+          key: "prepaidExpensesAndOtherAssets_Client",
+          field: "r005_prepaid_expenses_and_other_assets",
+        },
+        {
+          key: "propertyAndEquipment_Client",
+          field: "r006_property_and_equipment_net",
+        },
+        {
+          key: "investmentsHeldForLongTermPurposes_Client",
+          field: "r007_investments_held_for_long_term_purposes",
+        },
+      ];
+      totalAssets_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          totalAssets_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const totalLiabilities_array = [
+        {
+          key: "accountsPayable_Client",
+          field: "r009_accounts_payable_and_accrued_liabilities",
+        },
+        {
+          key: "deferredRevenue_Client",
+          field: "r010_deferred_revenue",
+        },
+        {
+          key: "postRetirementHealthBenefits_Client",
+          field: "r011_post_retirement_health_benefits",
+        },
+        {
+          key: "annuityObligations_Client",
+          field: "r012_annuity_obligations",
+        },
+        {
+          key: "otherLiabilities_Client",
+          field: "r013_other_liabilities",
+        },
+        {
+          key: "interestRateSwapLiability_Client",
+          field: "r014_interest_rate_swap_liability",
+        },
+        {
+          key: "bondsNotesPayable_Client",
+          field: "r015_notes_payable",
+        },
+        {
+          key: "totalLiabilities_Client",
+          field: "r016_ctotal_liabilities",
+        },
+      ];
+      totalLiabilities_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          totalLiabilities_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const netAssets_array = [
+        {
+          key: "netAssetsWithoutDonorRestriction_Client",
+          field: "r017_net_assets_without_donor_restriction",
+        },
+        {
+          key: "netAssetsRestrictedByTimeOrPurpose_Client",
+          field: "r018_net_assets_restricted_by_time_or_purpose",
+        },
+        {
+          key: "netChangeInNetAssetsRestrictedInPerpetuity_Client",
+          field: "r064_cnet_change_restricted_in_perpetuity",
+        },
+        {
+          key: "netAssets_Client",
+          field: "r020_ctotal_net_assets",
+        },
+      ];
+      netAssets_array.forEach(({ key, field }) => {
+        insertDataIntoObject("client", year, netAssets_obj, key, record, field);
+      });
+
+      const revenueAndSupport_array = [
+        {
+          key: "tuitionAndFees_Client",
+          field: "r023_revenue_tuition_and_fees",
+        },
+        {
+          key: "scholarshipsAndFinancialaid_Client",
+          field: "r024_revenue_scholarships_and_financial_aid",
+        },
+        {
+          key: "netTuitionAndFees_Client",
+          field: "r026_cnet_tuition_and_fees",
+        },
+        {
+          key: "auxiliaryActivities_Client",
+          field: "r028_revenue_auxiliary_activities",
+        },
+        {
+          key: "investmentIncome_Client",
+          field: "r029_revenue_investment_income",
+        },
+        {
+          key: "endowmentSpendingAppropriation_Client",
+          field: "r030_revenue_endowment_spending_appropriation",
+        },
+        {
+          key: "other_Client",
+          field: "r031_revenue_other",
+        },
+        {
+          key: "nonContributionRevenue_Client",
+          field: "r032_cnon_contribution_revenue",
+        },
+        {
+          key: "contributions_Client",
+          field: "r054_contributions",
+        },
+        {
+          key: "contributionsLargeOneTimeGifts_Client",
+          field: "r033a_revenue_contributions_large_one_time_gifts",
+        },
+        {
+          key: "netAssetsReleasedFromRestriction_Client",
+          field: "r034_revenue_net_assets_released_from_restriction",
+        },
+        {
+          key: "totalRevenueContributions_Client",
+          field: "r035_ctotal_revenue_from_contributions",
+        },
+        {
+          key: "operatingRevenuesSupportAndReleases_Client",
+          field: "r036_coperating_revenues_support_and_releases",
+        },
+        {
+          key: "revenueAndSupport_Client",
+          field: "r008_ctotal_assets",
+        },
+      ];
+      revenueAndSupport_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          revenueAndSupport_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const educationalProgramExpenses_array = [
+        {
+          key: "expensesEducationalInstruction_Client",
+          field: "r037_expenses_educational_program_instruction",
+        },
+        {
+          key: "expensesEducationalResearch_Client",
+          field: "r038_expenses_educational_program_research",
+        },
+        {
+          key: "expensesEducationalAcademicSupport_Client",
+          field: "r039_expenses_educational_program_academic_support",
+        },
+        {
+          key: "expensesEducationalStudentServices_Client",
+          field: "r040_expenses_educational_program_student_services",
+        },
+        {
+          key: "expensesEducationalAuxiliaryActivities_Client",
+          field: "r041_expenses_educational_program_auxiliary_activities",
+        },
+        {
+          key: "expensesEducationalInstitutionalSupport_Client",
+          field: "r042_expenses_educational_program_institutional_support",
+        },
+        {
+          key: "expensesEducationalPublicService_Client",
+          field: "r043_expenses_educational_program_public_service",
+        },
+        {
+          key: "educationalProgramExpenses_Client",
+          field: "r044_ctotal_functional_expenses",
+        },
+      ];
+      educationalProgramExpenses_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          educationalProgram_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const nonOperatingActivities_array = [
+        {
+          key: "investmentIncome_Client",
+          field: "r047_non_operating_activities_investment_income",
+        },
+        {
+          key: "endowmentSpendingPolicy_Client",
+          field:
+            "r048_investments_net_in_excess_of_amounts_appropriated_for_spending",
+        },
+        {
+          key: "changeInValueInterestRateSwap_Client",
+          field:
+            "r049_non_operating_activities_change_in_value_of_split_interest_agreements",
+        },
+        {
+          key: "adjustmentPrbo_Client",
+          field: "r050_non_operating_activities_adjustment_to_prbo",
+        },
+        {
+          key: "contributionsAndOther_Client",
+          field: "r051_other_gains_losses",
+        },
+        {
+          key: "nonOperatingActivities_Client",
+          field: "r052_ctotal_non_operating_changes",
+        },
+      ];
+      nonOperatingActivities_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          nonOperatingActivities_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const changesInNetAssetsWithDR_array = [
+        {
+          key: "contributions_Client",
+          field: "r054_contributions",
+        },
+        {
+          key: "investmentIncomePlusEndowment_Client",
+          field: "r055_investment_return_net",
+        },
+        {
+          key: "endowmentSpendingPolicy_Client",
+          field:
+            "r056_change_in_temporarily_restricted_net_assets_endowment_spending_policy_approp",
+        },
+        {
+          key: "NetAssetsReleasedFromProgram_Client",
+          field: "r058_net_assets_released_from_restriction",
+        },
+        {
+          key: "temporarilyRestrictedNetChange_Client",
+          field: "r059_cchange_in_net_assets_with_donor_restrictions",
+        },
+        {
+          key: "contributions2_Client",
+          field:
+            "r060_change_in_permanently_restricted_net_assets_contributions",
+        },
+        {
+          key: "investmentIncome_Client",
+          field:
+            "r061_change_in_permanently_restricted_net_assets_investment_income",
+        },
+        {
+          key: "netAssetsReleased_Client",
+          field:
+            "r063_change_in_permanently_restricted_net_assets_released_from_program_restrictions",
+        },
+        {
+          key: "permanentlyRestricted_Client",
+          field: "r064_cnet_change_restricted_in_perpetuity",
+        },
+        {
+          key: "changesInNetAssetsWithDR_Client",
+          field: "r065_cchange_in_net_assets",
+        },
+      ];
+      changesInNetAssetsWithDR_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          changesInNetAssetsWithDR_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const naturalExpenseCategories_array = [
+        {
+          key: "salariesAndWages_Client",
+          field: "r160_salaries_and_wages",
+        },
+        {
+          key: "employeeBenefits_Client",
+          field: "r161_employee_benefits",
+        },
+        {
+          key: "servicesSuppliesAndOther_Client",
+          field: "r162_services_supplies_and_other",
+        },
+        {
+          key: "occupancyUtilitiesAndMaintenance_Client",
+          field: "r163_occupancy_utilities_and_maintenance",
+        },
+        {
+          key: "depreciationAndAmortization_Client",
+          field: "r164_depreciation_and_amortization",
+        },
+        {
+          key: "interest_Client",
+          field: "r165_interest",
+        },
+        {
+          key: "naturalExpenseCategories_Client",
+          field: "r166_ctotal_natural_category_expenses",
+        },
+      ];
+      naturalExpenseCategories_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          naturalExpenseCategories_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const cashFlowsOperating_array = [
+        {
+          key: "salariesAndWages_Client",
+          field: "r160_salaries_and_wages",
+        },
+        {
+          key: "employeeBenefits_Client",
+          field: "r161_employee_benefits",
+        },
+        {
+          key: "serviceSuppliesOther_Client",
+          field: "r162_services_supplies_and_other",
+        },
+        {
+          key: "occupancyUtilitiesMaintenance_Client",
+          field: "r163_occupancy_utilities_and_maintenance",
+        },
+        {
+          key: "depreciationAndAmortization_Client",
+          field: "r164_depreciation_and_amortization",
+        },
+        {
+          key: "interest_Client",
+          field: "r165_interest",
+        },
+        {
+          key: "cashFlowsOperatingActivities_Client",
+          field: "r166_ctotal_natural_category_expenses",
+        },
+      ];
+      cashFlowsOperating_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          cashFlowsOperating_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const cashFlowsInvesting_array = [
+        {
+          key: "purchaseOfInvestments_Client",
+          field:
+            "r081_cash_flows_from_investing_activities_purchase_of_investments",
+        },
+        {
+          key: "proceedsFromSaleOfInvestments_Client",
+          field:
+            "r082_cash_flows_from_investing_activities_proceeds_from_sale_of_investments",
+        },
+        {
+          key: "PurchaseOfPropertyAndEquipment_Client",
+          field:
+            "r083_cash_flows_from_investing_activities_purchases_of_property_and_equipment",
+        },
+        {
+          key: "studentLoanFund_Client",
+          field: "r084_cash_flows_from_investing_activities_student_loan_fund",
+        },
+        {
+          key: "cashFlowsInvestingActivities_Client",
+          field: "r085_cnet_cash_used_in_investing_activities",
+        },
+      ];
+      cashFlowsInvesting_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          cashFlowsInvesting_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const cashFlowsFinancing_array = [
+        {
+          key: "proceedsFromNotesPayable_Client",
+          field:
+            "r086_cash_flows_from_financing_activities_proceeds_from_notes_payable",
+        },
+        {
+          key: "principalPayments_Client",
+          field:
+            "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable",
+        },
+        {
+          key: "other_Client",
+          field: "r088_cash_flows_from_financing_activities_other",
+        },
+        {
+          key: "cashFlowsFinancingActivities_Client",
+          field: "r089_cnet_cash_used_in_financing_activities",
+        },
+      ];
+      cashFlowsFinancing_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          cashFlowsFinancing_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const propertyAndEquipment_array = [
+        {
+          key: "landImprovements_Client",
+          field: "r093_property_and_equipment_land_and_improvements",
+        },
+        {
+          key: "buildingImprovements_Client",
+          field: "r094_property_and_equipment_buildings_and_improvements",
+        },
+        {
+          key: "furnitureEquipment_Client",
+          field: "r095_property_and_equipment_furniture_and_equipment",
+        },
+        {
+          key: "cip_Client",
+          field: "r096_property_and_equipment_cip",
+        },
+        {
+          key: "totalPEatCost_Client",
+          field: "r097_ctotal_property_and_equipment_at_cost",
+        },
+        {
+          key: "accumulatedDepreciation_Client",
+          field: "r098_accumulated_depreciation",
+        },
+        {
+          key: "propertyAndEquipment_Client",
+          field: "r099_ctotal_property_and_equipment_less_depreciation",
+        },
+      ];
+      propertyAndEquipment_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          propertyAndEquipment_obj,
+          key,
+          record,
+          field
+        );
+      });
+    });
+  });
+
+  const dataKeys = [
+    "totalAssetsData",
+    "totalLiabilitiesData",
+    "netAssetsData",
+    "revenueAndSupportData",
+    "educationalProgramData",
+    "nonOperatingActivitiesData",
+    "changesInNetAssetsWithDRData",
+    "naturalExpenseCategoriesData",
+    "cashFlowsOperatingData",
+    "cashFlowsInvestingData",
+    "cashFlowsFinancingData",
+    "propertyAndEquipmentData",
+  ];
+  const dataObjects = [
+    totalAssets_obj,
+    totalLiabilities_obj,
+    netAssets_obj,
+    revenueAndSupport_obj,
+    educationalProgram_obj,
+    nonOperatingActivities_obj,
+    changesInNetAssetsWithDR_obj,
+    naturalExpenseCategories_obj,
+    cashFlowsOperating_obj,
+    cashFlowsInvesting_obj,
+    cashFlowsFinancing_obj,
+    propertyAndEquipment_obj,
+  ];
+  dataKeys.forEach((key, index) => {
+    localStorage.removeItem(key);
+    localStorage.setItem(key, JSON.stringify(dataObjects[index]));
+  });
 };
 
 const processFinancialAnalysisContentData = (
@@ -1108,7 +2122,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
   const selectedYears = getSelectedYearsFromLocalStorage();
   const cfiValue =
     object.cfiRatio_Client[selectedYears[selectedYears.length - 1]].value;
-  updateCfiValue(cfiValue);
+  updateCfiValue(cfiValue, selectedYears[selectedYears.length - 1]);
   const thCfiScoreElement = document.getElementById("th_cfiScore");
   thCfiScoreElement.textContent =
     cfiValue !== undefined && !isNaN(cfiValue) && cfiValue !== 0
@@ -1116,7 +2130,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
       : "-";
 };
 
-// Helper functions
+// Helper functions   ----------------------------------------------->
 
 const countUniqueClients = (records) => {
   uniqueClients = new Set();
@@ -1201,15 +2215,22 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
     recordsClient
   );
   processFinancialStatementContentData(recordsPeer, recordsClient);
+  processFinancialPositionContentData(
+    selectedYears,
+    recordsPeer,
+    recordsClient
+  );
+  processRevenueExpenseContentData(selectedYears, recordsPeer, recordsClient);
 };
 
 const displayComponents = () => {
   displayCfiComponent();
-  // displayFinancialAnalysisContentComponent();
+  displayFinancialAnalysisContentComponent();
   displayFinancialStatementComponent();
+  displayFinancialPositionComponent();
+  displayRevenueAndExpenseComponent();
   displayReportComponent();
 };
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const recordClientHTMLArray = [];
@@ -1227,7 +2248,11 @@ run_btn.addEventListener("click", async () => {
     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
     // countUniqueClients(recordsPeer);
 
-    const recordsClient = await getRecordsForClient(selectedYears, "<qdbapi>");
+    // console.log({selectedYears, yearsData_Array})
+    const recordsClient = await getRecordsForClient(
+      yearsData_Array,
+      "<qdbapi>"
+    );
 
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
@@ -1354,7 +2379,7 @@ const getRecordsForPeer = async (years, dataStr) => {
       (${getClientQuery(selectedClients_Array)})
     `,
     clist:
-      "7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633",
+      "7.3.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615",
   };
 
   try {
@@ -1446,7 +2471,7 @@ const getRecordsForClient = async (years, dataStr) => {
 	    {7.EX.${currentYear}} AND
 	    {533.EX.${ClientRid}}`,
     clist:
-      "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.420.421.422.423.424.425.426.427.571.435.572.566",
+      "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.420.421.422.423.424.425.426.427.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429.641.635.481.482.483.709.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.450.451.551.546.711.614.613.633.603.633.621.710.504.550",
   };
 
   try {

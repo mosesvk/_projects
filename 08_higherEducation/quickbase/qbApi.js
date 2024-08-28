@@ -2114,15 +2114,14 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         "r015_notes_payable"
       );
     });
-  });
-
+  })
   localStorage.removeItem("cfiData");
   localStorage.setItem("cfiData", JSON.stringify(object));
 
   const selectedYears = getSelectedYearsFromLocalStorage();
   const cfiValue =
     object.cfiRatio_Client[selectedYears[selectedYears.length - 1]].value;
-  updateCfiValue(cfiValue);
+  updateCfiValue(cfiValue, selectedYears[selectedYears.length - 1]);
   const thCfiScoreElement = document.getElementById("th_cfiScore");
   thCfiScoreElement.textContent =
     cfiValue !== undefined && !isNaN(cfiValue) && cfiValue !== 0
