@@ -28,7 +28,7 @@ const getMainChartOptions = (
     ));
 
   // if (mainName == "cfiRatio")
-  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+    // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -194,7 +194,7 @@ const getMainChartOptions = (
           y: benchmark,
           borderColor: chartColors.labelColor,
           strokeDashArray: 0,
-          width: "200%",
+          width: '200%',
           offsetX: -180,
           label: {
             text: "Benchmark",
@@ -707,24 +707,24 @@ const getAtlChartOptions = (data) => {
       },
     },
     yaxis: {
-      axisTicks: {
-        show: true,
-      },
-      axisBorder: {
-        show: true,
-        color: chartColor,
-      },
-      labels: {
-        formatter: (value) => Math.round(value),
-        style: {
-          colors: chartColor,
-          fontSize: "1.25rem",
+        axisTicks: {
+          show: true,
         },
-      },
-      tooltip: {
-        enabled: true,
-      },
-      stepSize: 5,
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: (value) => Math.round(value),
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
+        },
+        tooltip: {
+          enabled: true,
+        },
+        stepSize: 5,
     },
     tooltip: {
       y: {
@@ -1414,15 +1414,6 @@ const getCashFlowTrendChartOptions = (data) => {
         horizontal: false,
         columnWidth: "55%",
         endingShape: "rounded",
-        colors: {
-          backgroundBarColors: [
-            window.chartColors.green,
-            window.chartColors.blue,
-            window.chartColors.red,
-            window.chartColors.orange,
-            window.chartColors.grey,
-          ],
-        },
       },
     },
     dataLabels: {
@@ -1610,12 +1601,12 @@ const getCurrentRatioChartOptions = (data) => {
     ? "#e3f0fa"
     : "#3a464f";
 
-  const yaxisLabelFormatter = (value) => {
-    if (value >= 1000000) {
-      return `${Math.round(value / 1000000)}M`;
-    }
-    return `${formatNumber(value)}`;
-  };
+    const yaxisLabelFormatter = (value) => {
+      if (value >= 1000000) {
+        return `${Math.round(value / 1000000)}M`;
+      }
+      return `${formatNumber(value)}`;
+    };
   const yaxisLabelFormatter2 = (value) => {
     return `${Math.round(value)}`;
   };
@@ -1862,7 +1853,12 @@ const getLiquidityChartOptions = (data) => {
   // console.log({mainName, benchmark});
 
   return {
-    colors: ["#003366", "#66B2FF", "#66CCCC", "#FFAD5C"],
+    colors: [
+      "#003366",
+      "#66B2FF",
+      "#66CCCC",
+      "#FFAD5C",
+    ],
     series: [
       {
         name: "FASB Liquidity",
