@@ -1392,10 +1392,10 @@ const getCashFlowTrendChartOptions = (data) => {
 
   return {
     colors: [
-      "#3E859C",
-      "#D58611",
-      "#8F1F2B",
-      "#608827",
+      "#70B5CC",
+      "#FFA726",
+      "#BE7179",
+      "#9ACD52",
     ],
     series: seriesData,
     chart: {

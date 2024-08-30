@@ -1388,15 +1388,15 @@ const getCashFlowTrendChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
-
+  // colors: [
+  //   window.chartColors.green,
+  //   window.chartColors.blue,
+  //   window.chartColors.red,
+  //   window.chartColors.orange,
+  //   window.chartColors.grey,
+  // ],
 
   return {
-    colors: [
-      "#3E859C",
-      "#D58611",
-      "#8F1F2B",
-      "#608827",
-    ],
     series: seriesData,
     chart: {
       toolbar: {

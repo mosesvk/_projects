@@ -1388,15 +1388,15 @@ const getCashFlowTrendChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
-
+  // colors: [
+  //   window.chartColors.green,
+  //   window.chartColors.blue,
+  //   window.chartColors.red,
+  //   window.chartColors.orange,
+  //   window.chartColors.grey,
+  // ],
 
   return {
-    colors: [
-      "#3E859C",
-      "#D58611",
-      "#8F1F2B",
-      "#608827",
-    ],
     series: seriesData,
     chart: {
       toolbar: {
@@ -1440,7 +1440,7 @@ const getCashFlowTrendChartOptions = (data) => {
       },
       position: "top",
     },
-    yaxis: 
+    yaxis: [
       {
         axisTicks: {
           show: true,
@@ -1461,6 +1461,26 @@ const getCashFlowTrendChartOptions = (data) => {
         },
         stepSize: 5000000,
       },
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
+        },
+        tooltip: {
+          enabled: true,
+        },
+      },
+    ],
     tooltip: {
       fixed: {
         enabled: true,

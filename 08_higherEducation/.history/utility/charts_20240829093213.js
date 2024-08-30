@@ -1334,6 +1334,7 @@ const getCashFlowTrendChartOptions = (data) => {
 
   const financeData = data["cft_FinancingActivities_Client"];
   const investingData = data["cft_InvestingActivities_Client"];
+
   const operatingData = data["cft_OperatingActivities_Client"];
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
@@ -1343,9 +1344,7 @@ const getCashFlowTrendChartOptions = (data) => {
     const investingVal = investingData[year]?.value || 0;
     const financeVal = financeData[year]?.value || 0;
 
-    const totalVal = operatingVal + investingVal + financeVal;
-
-    const data = [operatingVal, investingVal, financeVal, totalVal];
+    const data = [operatingVal, investingVal, financeVal];
 
     return {
       name: year.toString(),
@@ -1388,15 +1387,15 @@ const getCashFlowTrendChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
-
+  // colors: [
+  //   window.chartColors.green,
+  //   window.chartColors.blue,
+  //   window.chartColors.red,
+  //   window.chartColors.orange,
+  //   window.chartColors.grey,
+  // ],
 
   return {
-    colors: [
-      "#3E859C",
-      "#D58611",
-      "#8F1F2B",
-      "#608827",
-    ],
     series: seriesData,
     chart: {
       toolbar: {
@@ -1417,6 +1416,15 @@ const getCashFlowTrendChartOptions = (data) => {
       bar: {
         horizontal: false,
         columnWidth: "55%",
+        colors: {
+          backgroundBarColors: [
+            window.chartColors.green,
+            window.chartColors.blue,
+            window.chartColors.red,
+            window.chartColors.orange,
+            window.chartColors.grey,
+          ],
+        },
       },
     },
     dataLabels: {
@@ -1431,7 +1439,7 @@ const getCashFlowTrendChartOptions = (data) => {
       },
     },
     xaxis: {
-      categories: ["Operating", "Investing", "Financing", "Total"],
+      categories: ["Operating", "Investing", "Financing"],
       labels: {
         style: {
           colors: chartColors.labelColor,
@@ -1440,7 +1448,7 @@ const getCashFlowTrendChartOptions = (data) => {
       },
       position: "top",
     },
-    yaxis: 
+    yaxis: [
       {
         axisTicks: {
           show: true,
@@ -1459,8 +1467,8 @@ const getCashFlowTrendChartOptions = (data) => {
         tooltip: {
           enabled: true,
         },
-        stepSize: 5000000,
       },
+    ],
     tooltip: {
       fixed: {
         enabled: true,
