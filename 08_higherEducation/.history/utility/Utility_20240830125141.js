@@ -304,7 +304,7 @@ const createChartFromParsedData = (
   title
 ) => {
   if (parsedData) {
-    // if (mainName == 'cfi_primaryReserveRatio') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
+    // if (mainName == 'cfi_netIncomeOperationsRatio') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
     createChart(
       chart,
       parsedData[peer],
@@ -363,9 +363,6 @@ const createChart = (
     );
   });
 
-  document.querySelectorAll(
-    `#${chartId} .apexcharts-legend-series`
-  )[5].style.display = "none";
 };
 
 const getStoredData = (dataTable) => {
@@ -561,7 +558,7 @@ const getPeerAndClientChartDataArrays = (
   type
 ) => {
   // if (mainName == "cfi_netIncomeOperationsRatio")
-  //   console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark });
+  //   console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark, type });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
@@ -570,31 +567,32 @@ const getPeerAndClientChartDataArrays = (
   const benchmarkArray = [];
 
   years.forEach((year) => {
-    // if (mainName == "cfi_primaryReserveRatio")
-    //   console.log({ year, peer: dataPeer[year] });
+    // if (mainName == "cfi_netIncomeOperationsRatio")
+    //   console.log({ year, peer: dataPeer[year], client: dataClient[year] });
     // check if dataPeer is undefined but dataClient is not
 
     benchmarkArray.push(benchmark);
 
     if (dataPeer != undefined && dataClient != undefined) {
       const array = dataPeer[year];
-      // console.log(array)
-      const avg = getAverageOfArray(array, mainName);
-      const mid = getMidpointOfArray(array, mainName);
+      // if (mainName == 'cfiRatio') console.log(array)
+      const avg = getAverageOfArray(array, mainName)
+      const mid = getMidpointOfArray(array, mainName)
       const lower25 = get25thPercentileOfArray(array, mainName);
       const higher75 = get75thPercentileOfArray(array, mainName);
 
-      // if (mainName == 'cfi_primaryReserveRatio') console.log({ avg, mid, lower25, higher75 });
+      // if (mainName == 'cfiRatio') consolde.log({ avg, mid, lower25, higher75 });
 
-      peerAvg.push(styleNumber(avg, type, fixedNum));
-      peerMid.push(styleNumber(mid, type, fixedNum));
-      peer25.push(styleNumber(lower25, type, fixedNum));
-      peer75.push(styleNumber(higher75, type, fixedNum));
-
-      // console.log({peerAvg, peerMid, peer25, peer75});
-
-      const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
-      // const clientNum = styleNumber(clientNum, "percent", fixedNum);
+      peerAvg.push(Number(styleNumber(avg, type, fixedNum)))
+      peerMid.push(Number(styleNumber(mid, type, fixedNum)))
+      peer25.push(Number(styleNumber(lower25, type, fixedNum)))
+      peer75.push(Number(styleNumber(higher75, type, fixedNum)))
+      
+      // if (mainName == "cfi_netIncomeOperationsRatio") console.log({peerAvg, peerMid, peer25, peer75});
+      
+      // const client = Number(dataClient[year].value).toFixed(fixedNum);
+      const client = dataClient[year].value
+      const clientNum = styleNumber(client, type, fixedNum);
       clientArray.push(clientNum);
     } else if (dataPeer == undefined && dataClient) {
       peerAvg.push(0);
@@ -654,6 +652,8 @@ function styleNumber(num, type, fixed) {
         );
       }
     }
+  } else if (type === 'percentNumber') {
+    return (num * 100).toFixed(fixed)
   }
 }
 
@@ -1070,8 +1070,16 @@ function toggleDetails(button, details, arrowIcon) {
   });
 }
 
-const updateCfiValue = (cfiValue) => {
-  console.log({ cfiValue });
+function getValuesInChronologicalOrder(data) {
+  const years = Object.keys(data).sort(); // Get the years in chronological order
+  const valuesArray = years.map((year) => data[year].value); // Map the values to an array
+  return valuesArray;
+}
+
+const updateCfiValue = (cfiValue, mostRecentYear) => {
+  // console.log({ cfiValue });
+
+  document.querySelector("#cfiRatio_year").innerHTML = mostRecentYear
 
   let thresholds = [
     10.0, 9.7, 9.4, 9.1, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0, 4.5, 4.0,
@@ -1121,62 +1129,43 @@ const updateCfiValue = (cfiValue) => {
 
 const displayFSSummary = (chart, idx) => {
   const summaryDiv = document.getElementById(chart.replace("chart", "summary"));
-  console.log({ summaryDiv, idx });
+  // console.log({ summaryDiv, idx });
 };
 
-function createFSTable(tableId, data) {
-  const table = document.getElementById(tableId);
+function createFSTable(tableDataClass, data, idString, year) {
+  // console.log({ tableDataClass, data, idString, year });
 
-  // Create the <tbody> element
-  const tbody = document.createElement("tbody");
-  tbody.classList.add("text-xl", "dark:text-white"); // Add Tailwind classes for <tbody>
+  const tableHeaderData = document.getElementById(`${idString}_yearSelectData`)
+  const tableHeaderYear = document.getElementById(`${idString}_yearSelect`)
+  let index = yearsData_Array.indexOf(year);
+  const totalNum = Number(data[data.length - 1])
 
-  data.forEach((item, idx) => {
-    const row = document.createElement("tr");
-    if (idx % 2 === 0) {
-      row.classList.add("bg-gray-200", "dark:bg-gray-600"); // Add Tailwind classes for even rows
-    } else {
-      row.classList.add("bg-white", "dark:bg-gray-800"); // Add Tailwind classes for odd rows
-    }
+  tableHeaderYear.textContent = `(${year})`
+  tableHeaderData.textContent = `$${totalNum.toLocaleString()}`
 
-    const th = document.createElement("th");
-    th.textContent = item.key;
-    th.classList.add("px-4", "py-1", "font-medium"); // Add Tailwind classes for <th>
+  const tableDataArray = document.querySelectorAll(`.${tableDataClass}`);
 
-    const td = document.createElement("td");
-    td.textContent = item.value;
-    td.classList.add("px-4", "py-1"); // Add Tailwind classes for <td>
-
-    row.appendChild(th);
-    row.appendChild(td);
-    tbody.appendChild(row);
+  // console.log({ tableDataArray });
+  tableDataArray.forEach((item, idx) => {
+    const dataPoint = Number(data[idx]).toLocaleString();
+    // console.log({ dataPoint });
+    item.textContent = `$${dataPoint}`
   });
 
-  // Create the <tfoot> element
-  const tfoot = document.createElement("tfoot");
-  const totalRow = document.createElement("tr");
-  totalRow.classList.add("font-semibold", "dark:text-white", "text-2xl"); // Add Tailwind classes for total <tr>
+}
 
-  const totalTh = document.createElement("th");
-  totalTh.textContent = "Total Assets";
-  totalTh.classList.add("px-6", "py-3"); // Add Tailwind classes for total <th>
+function processFinancialData(dataObject, tableDataClass, year, idString) {
+  // console.log({ dataObject, tableDataClass, year, idString });
 
-  const totalTd = document.createElement("td");
-  totalTd.textContent = data
-    .reduce(
-      (acc, item) => acc + parseFloat(item.value.replace(/[^0-9.-]+/g, "")),
-      0
-    )
-    .toLocaleString();
-  totalTd.classList.add("px-6", "py-3"); // Add Tailwind classes for total <td>
-
-  totalRow.appendChild(totalTh);
-  totalRow.appendChild(totalTd);
-  tfoot.appendChild(totalRow);
-
-  // Append <tbody> and <tfoot> to the table
-  table.appendChild(tbody);
-  table.appendChild(tfoot);
+  // Create an array of values for the current year
+  let arrayData = [];
+  for (let key in dataObject) {
+    if (dataObject[key][year]) {
+      arrayData.push(dataObject[key][year].value);
+    }
+  }
+  // Call the createFSTable function with the tableId and arrayData
+  createFSTable(tableDataClass, arrayData, idString, year);
 }
 
 function toggleDetailsByIdentifier(identifier) {
@@ -1189,4 +1178,32 @@ function toggleDetailsByIdentifier(identifier) {
 
   // For demonstration purposes, let's log a message
   toggleDetails(dropdownButton, detailsDiv, arrowIcon);
+}
+
+function createAndRenderFSChart(
+  chartId,
+  parsedData,
+  dataKey,
+  color,
+  currency,
+  label, 
+  tableDataClass
+) {
+
+  // if (tableDataClass == 'changesInNetAssetsWithDR_dataPoint') console.log({ chartId, parsedData, dataKey, color, currency, label });
+  // Create the chart
+  const chart = new ApexCharts(
+    document.querySelector(chartId),
+    getFSchartOptions(parsedData, dataKey, color, currency, label, chartId, tableDataClass)
+  );
+  chart.render();
+
+  // Update the chart on dark mode event
+  document.addEventListener("dark-mode", function () {
+    chart.updateOptions(
+      getFSchartOptions(parsedData, dataKey, color, currency, label, chartId, tableDataClass)
+    );
+  });
+
+  return chart;
 }

@@ -576,8 +576,8 @@ const getPeerAndClientChartDataArrays = (
     if (dataPeer != undefined && dataClient != undefined) {
       const array = dataPeer[year];
       // if (mainName == 'cfiRatio') console.log(array)
-      const avg = getAverageOfArray(array, mainName);
-      const mid = getMidpointOfArray(array, mainName);
+      const avg = getAverageOfArray(array, mainName)
+      const mid = getMidpointOfArray(array, mainName)
       const lower25 = get25thPercentileOfArray(array, mainName);
       const higher75 = get75thPercentileOfArray(array, mainName);
 
