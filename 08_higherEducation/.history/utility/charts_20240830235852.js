@@ -1087,7 +1087,7 @@ const getFfaChartOptions = (data) => {
 
   const generalExpenseClient =
     compensationAndBenefitsClient -
-    (totalFunctionalExpensesClient - (employeeBenefitsClient + salariesAndWagesClient));
+    (totalFunctionalExpensesClient + employeeBenefitsClient);
 
 
   const surplusDefecitClient = 0 + generalExpenseClient;
@@ -1172,7 +1172,7 @@ const getFfaChartOptions = (data) => {
           },
           {
             x: surplusDefecitLabel,
-            y: [0, surplusDefecitClient],
+            y: [generalExpenseClient, surplusDefecitClient],
             fillColor: surplusDefecitColor,
           },
         ],

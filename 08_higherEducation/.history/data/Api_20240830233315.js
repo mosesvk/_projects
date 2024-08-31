@@ -1580,7 +1580,7 @@ const processFinancialAnalysisContentData = (
         "r054_contributions"
       );
 
-      // ffa_changeInPermanentlyRestrictedNA_Client
+      // ffa_changeInPermanentlyRestrictedNetAssetsContributions_Client
       insertDataIntoObject(
         "client",
         year,
@@ -1609,17 +1609,6 @@ const processFinancialAnalysisContentData = (
         "ffa_employeeBenefits_Client",
         record,
         "r161_employee_benefits"
-      );
-
-
-      // ffa_totalFunctionalExpenses_Client
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "ffa_totalFunctionalExpenses_Client",
-        record,
-        "r044_ctotal_functional_expenses"
       );
 
       // ffa_servicesSuppliesAndOther_Client

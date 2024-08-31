@@ -1053,7 +1053,12 @@ const getFfaChartOptions = (data) => {
   const revenueOtherClient = Number(
     data["ffa_revenueOther_Client"][currentYear].value
   );
-
+  const revenueInvestmentIncomeClient = Number(
+    data["ffa_revenueInvestmentIncome_Client"][currentYear].value
+  );
+  const revenueEndowmentSpendingAppropriationClient = Number(
+    data["ffa_revenueEndowmentSpendingAppropriation_Client"][currentYear].value
+  );
   const auxiliaryAndOtherClient =
     unrestrictedGiftsClient +
     revenueAuxiliaryActivitiesClient +
@@ -1069,6 +1074,7 @@ const getFfaChartOptions = (data) => {
   const restrictedGiftsClient =
     auxiliaryAndOtherClient + (contributionsClient + changeInPermanentClient);
 
+  // console.log('data', data);
 
   const employeeBenefitsClient = Number(
     data["ffa_employeeBenefits_Client"][currentYear].value
@@ -1077,9 +1083,16 @@ const getFfaChartOptions = (data) => {
     data["ffa_salariesAndWages_Client"][currentYear].value
   );
 
+  // console.log({
+  //   salariesAndWagesClient,
+  //   employeeBenefitsClient,
+  //   addition: salariesAndWagesClient + employeeBenefitsClient,
+  //   currentYear
+  // });
 
   const compensationAndBenefitsClient =
     restrictedGiftsClient - (salariesAndWagesClient + employeeBenefitsClient);
+
 
   const totalFunctionalExpensesClient = Number(
     data["ffa_totalFunctionalExpenses_Client"][currentYear].value
@@ -1087,8 +1100,19 @@ const getFfaChartOptions = (data) => {
 
   const generalExpenseClient =
     compensationAndBenefitsClient -
-    (totalFunctionalExpensesClient - (employeeBenefitsClient + salariesAndWagesClient));
+    (totalFunctionalExpensesClient +
+      occupancyUtilitiesAndMaintenanceClient );
 
+  console.log({
+    generalExpenseClient,
+    compensationAndBenefitsClient,
+    denom:
+      servicesSuppliesAndOtherClient +
+      occupancyUtilitiesAndMaintenanceClient +
+      depreciationAndAmortizationClient +
+      interestClient +
+      incomeExpenseSurplusDefecitClient,
+  });
 
   const surplusDefecitClient = 0 + generalExpenseClient;
 
@@ -1172,7 +1196,7 @@ const getFfaChartOptions = (data) => {
           },
           {
             x: surplusDefecitLabel,
-            y: [0, surplusDefecitClient],
+            y: [generalExpenseClient, surplusDefecitClient],
             fillColor: surplusDefecitColor,
           },
         ],

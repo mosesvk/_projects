@@ -1172,7 +1172,7 @@ const getFfaChartOptions = (data) => {
           },
           {
             x: surplusDefecitLabel,
-            y: [0, surplusDefecitClient],
+            y: [generalExpenseClient, surplusDefecitClient],
             fillColor: surplusDefecitColor,
           },
         ],

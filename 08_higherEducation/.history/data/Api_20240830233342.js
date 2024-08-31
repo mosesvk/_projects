@@ -1611,17 +1611,6 @@ const processFinancialAnalysisContentData = (
         "r161_employee_benefits"
       );
 
-
-      // ffa_totalFunctionalExpenses_Client
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "ffa_totalFunctionalExpenses_Client",
-        record,
-        "r044_ctotal_functional_expenses"
-      );
-
       // ffa_servicesSuppliesAndOther_Client
       insertDataIntoObject(
         "client",

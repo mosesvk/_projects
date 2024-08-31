@@ -1036,7 +1036,7 @@ const getFfaChartOptions = (data) => {
     data["ffa_revenueTuitionAndFees_Client"][currentYear].value
   );
   const revenueSchoolServicesClient = Number(
-    data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value
+    data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value 
   );
   const ScholarshipAndFinancialAidClient =
     revenueTuitionAndFeesClient + revenueSchoolServicesClient;
@@ -1053,42 +1053,74 @@ const getFfaChartOptions = (data) => {
   const revenueOtherClient = Number(
     data["ffa_revenueOther_Client"][currentYear].value
   );
-
+  const revenueInvestmentIncomeClient = Number(
+    data["ffa_revenueInvestmentIncome_Client"][currentYear].value
+  );
+  const revenueEndowmentSpendingAppropriationClient = Number(
+    data["ffa_revenueEndowmentSpendingAppropriation_Client"][currentYear].value
+  );
   const auxiliaryAndOtherClient =
     unrestrictedGiftsClient +
-    revenueAuxiliaryActivitiesClient +
-    revenueOtherClient;
+    (revenueAuxiliaryActivitiesClient +
+      revenueOtherClient +
+      revenueInvestmentIncomeClient +
+      revenueEndowmentSpendingAppropriationClient);
 
   const contributionsClient = Number(
     data["ffa_contributions_Client"][currentYear].value
-  );
-  const changeInPermanentClient = Number(
-    data["ffa_changeInPermanentlyRestrictedNA_Client"][currentYear].value
-  );
-
-  const restrictedGiftsClient =
-    auxiliaryAndOtherClient + (contributionsClient + changeInPermanentClient);
-
-
-  const employeeBenefitsClient = Number(
-    data["ffa_employeeBenefits_Client"][currentYear].value
   );
   const salariesAndWagesClient = Number(
     data["ffa_salariesAndWages_Client"][currentYear].value
   );
 
+  const restrictedGiftsClient = auxiliaryAndOtherClient + contributionsClient + salariesAndWagesClient;
+
+  // console.log('data', data);
+
+  const employeeBenefitsClient = Number(
+    data["ffa_employeeBenefits_Client"][currentYear].value
+  );
+  // console.log({
+  //   salariesAndWagesClient,
+  //   employeeBenefitsClient,
+  //   addition: salariesAndWagesClient + employeeBenefitsClient,
+  //   currentYear
+  // });
 
   const compensationAndBenefitsClient =
     restrictedGiftsClient - (salariesAndWagesClient + employeeBenefitsClient);
 
-  const totalFunctionalExpensesClient = Number(
-    data["ffa_totalFunctionalExpenses_Client"][currentYear].value
+  const servicesSuppliesAndOtherClient = Number(
+    data["ffa_servicesSuppliesAndOther_Client"][currentYear].value
   );
-
+  const occupancyUtilitiesAndMaintenanceClient = Number(
+    data["ffa_occupancyUtilitiesAndMaintenance_Client"][currentYear].value
+  );
+  const depreciationAndAmortizationClient = Number(
+    data["ffa_depreciationAndAmortization_Client"][currentYear].value
+  );
+  const interestClient = Number(data["ffa_interest_Client"][currentYear].value);
+  const incomeExpenseSurplusDefecitClient = Number(
+    data["ffa_incomeExpenseSurplusDefecit_Client"][currentYear].value
+  );
   const generalExpenseClient =
     compensationAndBenefitsClient -
-    (totalFunctionalExpensesClient - (employeeBenefitsClient + salariesAndWagesClient));
+    (servicesSuppliesAndOtherClient +
+      occupancyUtilitiesAndMaintenanceClient +
+      depreciationAndAmortizationClient +
+      interestClient +
+      incomeExpenseSurplusDefecitClient);
 
+  console.log({
+    generalExpenseClient,
+    compensationAndBenefitsClient,
+    denom:
+      servicesSuppliesAndOtherClient +
+      occupancyUtilitiesAndMaintenanceClient +
+      depreciationAndAmortizationClient +
+      interestClient +
+      incomeExpenseSurplusDefecitClient,
+  });
 
   const surplusDefecitClient = 0 + generalExpenseClient;
 
@@ -1172,7 +1204,7 @@ const getFfaChartOptions = (data) => {
           },
           {
             x: surplusDefecitLabel,
-            y: [0, surplusDefecitClient],
+            y: [generalExpenseClient, surplusDefecitClient],
             fillColor: surplusDefecitColor,
           },
         ],
@@ -1314,8 +1346,15 @@ const getCashFlowTrendChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
+
+
   return {
-    colors: ["#3E859C", "#D58611", "#8F1F2B", "#608827"],
+    colors: [
+      "#3E859C",
+      "#D58611",
+      "#8F1F2B",
+      "#608827",
+    ],
     series: seriesData,
     chart: {
       toolbar: {
@@ -1359,26 +1398,27 @@ const getCashFlowTrendChartOptions = (data) => {
       },
       position: "top",
     },
-    yaxis: {
-      axisTicks: {
-        show: true,
-      },
-      axisBorder: {
-        show: true,
-        color: chartColor,
-      },
-      labels: {
-        formatter: yaxisLabelFormatter,
-        style: {
-          colors: chartColor,
-          fontSize: "1.25rem",
+    yaxis: 
+      {
+        axisTicks: {
+          show: true,
         },
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
+        },
+        tooltip: {
+          enabled: true,
+        },
+        stepSize: 5000000,
       },
-      tooltip: {
-        enabled: true,
-      },
-      stepSize: 5000000,
-    },
     tooltip: {
       fixed: {
         enabled: true,
