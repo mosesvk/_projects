@@ -101,9 +101,6 @@ const displayReportComponent = () => {
   }
 };
 
-const insertDataToFSReport = (data, selectedYears) => {
-  // console.log({ data, selectedYears });
-};
 
 const insertDataToFfaReport = (data, selectedYears) => {
   const currentYear = selectedYears[0];
@@ -247,7 +244,7 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
     const peerName = `${variable[1]}_Peer`;
     const title = variable[0];
 
-    console.log({clientName, peerNa2me, title, data});
+    // console.log({clientName, peerName, title, data});
 
     const clientValue =
       Number(data[clientName][selectedYears[0]].value) > 0
