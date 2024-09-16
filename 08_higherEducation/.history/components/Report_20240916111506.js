@@ -8,8 +8,6 @@ const displayReportComponent = () => {
   );
   const years = getSelectedYearsFromLocalStorage();
   const selectedYears = years && years.sort((a, b) => a - b);
-  // console.log(selectedYears.sort((a, b) => a - b));
-  // console.log({cfiData, financialAnalysisContentData, selectedYears});
 
   if (selectedYears) {
     insertDataToReport(
@@ -27,8 +25,8 @@ const displayReportComponent = () => {
     );
     insertCalculatedDataToReport(cfiData, selectedYears, [
       ["primaryReserveRatio", "num", 2],
-      ["netIncomeOperationsRatio", "percent", 1],
-      ["returnOnNetAssets", "percent", 1],
+      ["netIncomeOperationsRatio", "num", 1],
+      ["returnOnNetAssets", "num", 1],
       ["viabilityRatio", "num", 2],
     ]);
 
@@ -249,7 +247,7 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
     const peerName = `${variable[1]}_Peer`;
     const title = variable[0];
 
-    // console.log({clientName, peerName, title, data});
+    console.log({clientName, peerName, title, data});
 
     const clientValue =
       Number(data[clientName][selectedYears[0]].value) > 0
@@ -538,16 +536,17 @@ const addPeerDataToReportRow = (
     "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
   const propScope = "row";
 
-  let avg;
-  if (peer && wa) {
-    avg = parseFloat(getWeightedAverageOfArray(data, name));
-  } else if (peer && !wa) {
-    avg = parseFloat(getAverageOfArray(peer[dataArray], name));
-  } else {
-    avg = 0;
-  }
-
   selectedYears.forEach((year) => {
+
+    let avg;
+    if (peer && wa) {
+      avg = parseFloat(getWeightedAverageOfArray(data, name));
+    } else if (peer && !wa) {
+      avg = parseFloat(getAverageOfArray(peer[year], name));
+    } else {
+      avg = 0;
+    }
+
     const dataPoint = document.createElement("th");
     const text = peer ? styleNumber(avg, type, fixedNum) : "";
 

@@ -107,7 +107,7 @@
         purpleChangeNetAssetsHover: "#734C7D",
         cfi25: "#EF707E",
         cfi50: "#FFC700",
-        cfiAvg: "#007AFF", 
+        cfiAvg: "#007AFF",
         cfi75: "#A970D6",
         cfiClient: "#95BD5C",
         blueNaturalExpense: "#4F76D9",
@@ -546,7 +546,8 @@
               </svg>
             </button>
           </div>
-          <div id="optionsFinancialStatement"
+          <div
+            id="optionsFinancialStatement"
             class="flex items-center justify-start hidden"
           >
             <!-- Balance Sheet -->
@@ -1032,7 +1033,10 @@
                 <div class="flex flex-row">
                   <!-- CFI Vertical Chart -->
                   <div class="w-1/3 mr-4">
-                    <p class="text-lg font-semibold">CFI RATIO - <span id="cfiRatio_year" class="font-bold"></span></p>
+                    <p class="text-lg font-semibold">
+                      CFI RATIO -
+                      <span id="cfiRatio_year" class="font-bold"></span>
+                    </p>
                     <table
                       id="myTable"
                       style="border: none"
@@ -1359,7 +1363,9 @@
                         </div>
                       </div>
                     </div>
-                    <h2 class="my-2 ml-2 uppercase font-bold text-xl">Calculation</h2>
+                    <h2 class="my-2 ml-2 uppercase font-bold text-xl">
+                      Calculation
+                    </h2>
                     <div id="cfiRatio_calculatedTable">
                       <div class="overflow-x-auto rounded-lg">
                         <div class="inline-block min-w-full align-middle">
@@ -1924,11 +1930,15 @@
                   <div class="flex flex-col w-2/3">
                     <div class="mb-4">
                       <p>
-                        This represents the net increase or decrease in the institution&rsquo;s assets after accounting for all income, expenses, gains, and losses over the period.
+                        This represents the net increase or decrease in the
+                        institution&rsquo;s assets after accounting for all
+                        income, expenses, gains, and losses over the period.
                       </p>
                     </div>
                     <div class="mt-4">
-                      This is the total value of the institution&rsquo;s assets minus liabilities at the start of the fiscal year, providing a baseline for measuring growth or decline.
+                      This is the total value of the institution&rsquo;s assets
+                      minus liabilities at the start of the fiscal year,
+                      providing a baseline for measuring growth or decline.
                     </div>
                   </div>
                 </div>
@@ -4001,7 +4011,24 @@
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <div id="annualTraditionalNetTuitionPerStudent_chart" class="text-center"></div>
+              <div
+                id="annualTraditionalNetTuitionPerStudent_chart"
+                class="text-center"
+              ></div>
+              <div class="text-center">
+                The Annual Traditional Net Tuition per Student metric represents
+                the average amount of tuition revenue that the institution
+                collects per student after accounting for financial aid,
+                scholarships, and tuition discounts. This figure provides
+                insight into the net revenue the institution earns from each
+                student, which is crucial for understanding the financial
+                contribution of the student body. Monitoring this metric helps
+                institutions evaluate the effectiveness of their tuition pricing
+                strategies and financial aid policies. It also provides a clear
+                picture of how much students are paying out-of-pocket on
+                average, which is important for assessing the institution's
+                affordability and competitiveness.
+              </div>
             </div>
 
             <!-- Tuition Dependency -->
@@ -4009,6 +4036,20 @@
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <div id="tuitionDependency_chart" class="text-center"></div>
+              <div class="text-center">
+                The Tuition Dependency Ratio measures the proportion of an
+                institution's total revenue that comes from tuition and fees.
+                This ratio provides insight into how reliant the institution is
+                on tuition as a primary source of funding. A high tuition
+                dependency ratio indicates that the institution is heavily
+                dependent on student tuition for its operational budget, which
+                can pose risks if enrollment declines or if there's increased
+                pressure to provide financial aid. Conversely, a lower ratio
+                suggests a more diversified revenue base, which can offer
+                greater financial stability. Monitoring this ratio is essential
+                for understanding the institution's financial resilience and for
+                planning strategies to diversify revenue streams.
+              </div>
             </div>
 
             <!-- Tuition Discount Rate -->
@@ -4016,6 +4057,64 @@
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <div id="tuitionDiscountRate_chart" class="text-center"></div>
+              <div class="text-center">
+                The Tuition Discount Rate represents the percentage of gross
+                tuition revenue that is given back to students in the form of
+                scholarships, grants, or other financial aid. It is calculated
+                by dividing the total amount of financial aid provided by the
+                gross tuition revenue. A higher tuition discount rate means that
+                a larger portion of tuition is being offset by financial aid,
+                which can make the institution more affordable for students but
+                also reduce the net tuition revenue the institution collects.
+                Monitoring this rate is important for balancing the
+                institution's financial sustainability with its goals of
+                accessibility and competitiveness.
+              </div>
+            </div>
+          </div>
+
+          <!-- DEBT & ENDOWMENT -->
+          <div id="DebtAndEndowmentContent" class="tab-content hidden">
+            <!-- Long-Term Debt per Total Operating Revenue -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex flex-row">
+                <div class="w-1/2 pr-2">
+                  <div id="ltDebtPerTotalOperatingRevenue_chart"></div>
+                </div>
+                <div class="w-1/2 px-4">
+                  <p class="mb-2 text-xl text-center font-bold">
+                    Long-Term Debt per Total Operating Revenue
+                  </p>
+                  <p>
+                    The Long-Term Debt per Total Operating Revenue metric
+                    measures the proportion of an institution's total operating
+                    revenue that is represented by its long-term debt. This
+                    ratio provides insight into the institution's financial
+                    leverage and its ability to manage and service its debt
+                    relative to its revenue-generating capacity. A lower ratio
+                    indicates that the institution has a manageable level of
+                    debt compared to its revenue, which suggests financial
+                    stability and lower risk. Conversely, a higher ratio may
+                    signal higher financial risk, as the institution might be
+                    more burdened by debt relative to its revenue. Monitoring
+                    this metric is crucial for understanding the institution's
+                    debt sustainability and for making informed decisions about
+                    future borrowing and investment.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Debt Service Coverage Ratio -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div
+                id="annualTraditionalNetTuitionPerStudent_chart"
+                class="text-center"
+              ></div>
             </div>
           </div>
         </main>

@@ -67,6 +67,20 @@
       referrerpolicy="no-referrer"
     ></script>
 
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/maps.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/geodata/usaLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"
+    ></script>
+
     <script>
       chartColors = {
         green: "#83b240",
@@ -91,6 +105,11 @@
         redNonoperatingHover: "#A05059",
         purpleChangeNetAssets: "#C57FD7",
         purpleChangeNetAssetsHover: "#734C7D",
+        cfi25: "#EF707E",
+        cfi50: "#FFC700",
+        cfiAvg: "#007AFF",
+        cfi75: "#A970D6",
+        cfiClient: "#95BD5C",
         blueNaturalExpense: "#4F76D9",
         blueNaturalExpenseHover: "#385292",
         blueOperating: "#70B5CC",
@@ -166,6 +185,11 @@
         height: 24px;
         -webkit-appearance: none;
         /* @apply w-6 h-6 appearance-none pointer-events-auto; */
+      }
+
+      #avgScoresUsMap_chart {
+        width: 90%;
+        height: 500px;
       }
     </style>
   </head>
@@ -803,10 +827,17 @@
                     >
                       <path
                         fill-rule="evenodd"
-                        d="M10 2a3 3 0 0 0-3 3v1H5a3 3 0 0 0-3 3v2.382l1.447.723.005.003.027.013.12.056c.108.05.272.123.486.212.429.177 1.056.416 1.834.655C7.481 13.524 9.63 14 12 14c2.372 0 4.52-.475 6.08-.956.78-.24 1.406-.478 1.835-.655a14.028 14.028 0 0 0 .606-.268l.027-.013.005-.002L22 11.381V9a3 3 0 0 0-3-3h-2V5a3 3 0 0 0-3-3h-4Zm5 4V5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v1h6Zm6.447 7.894.553-.276V19a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-5.382l.553.276.002.002.004.002.013.006.041.02.151.07c.13.06.318.144.557.242.478.198 1.163.46 2.01.72C7.019 15.476 9.37 16 12 16c2.628 0 4.98-.525 6.67-1.044a22.95 22.95 0 0 0 2.01-.72 15.994 15.994 0 0 0 .707-.312l.041-.02.013-.006.004-.002.001-.001-.431-.866.432.865ZM12 10a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H12Z"
+                        d="M7 6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-2v-4a3 3 0 0 0-3-3H7V6Z"
                         clip-rule="evenodd"
                       />
+                      <path
+                        fill-rule="evenodd"
+                        d="M2 11a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7Zm7.5 1a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"
+                        clip-rule="evenodd"
+                      />
+                      <path d="M10.5 14.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" />
                     </svg>
+
                     <span
                       class="flex-1 ml-4 text-left text-lg font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
@@ -853,11 +884,13 @@
                       viewBox="0 0 24 24"
                     >
                       <path
-                        fill-rule="evenodd"
-                        d="M10 2a3 3 0 0 0-3 3v1H5a3 3 0 0 0-3 3v2.382l1.447.723.005.003.027.013.12.056c.108.05.272.123.486.212.429.177 1.056.416 1.834.655C7.481 13.524 9.63 14 12 14c2.372 0 4.52-.475 6.08-.956.78-.24 1.406-.478 1.835-.655a14.028 14.028 0 0 0 .606-.268l.027-.013.005-.002L22 11.381V9a3 3 0 0 0-3-3h-2V5a3 3 0 0 0-3-3h-4Zm5 4V5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v1h6Zm6.447 7.894.553-.276V19a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-5.382l.553.276.002.002.004.002.013.006.041.02.151.07c.13.06.318.144.557.242.478.198 1.163.46 2.01.72C7.019 15.476 9.37 16 12 16c2.628 0 4.98-.525 6.67-1.044a22.95 22.95 0 0 0 2.01-.72 15.994 15.994 0 0 0 .707-.312l.041-.02.013-.006.004-.002.001-.001-.431-.866.432.865ZM12 10a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H12Z"
-                        clip-rule="evenodd"
+                        d="M13.5 2c-.178 0-.356.013-.492.022l-.074.005a1 1 0 0 0-.934.998V11a1 1 0 0 0 1 1h7.975a1 1 0 0 0 .998-.934l.005-.074A7.04 7.04 0 0 0 22 10.5 8.5 8.5 0 0 0 13.5 2Z"
+                      />
+                      <path
+                        d="M11 6.025a1 1 0 0 0-1.065-.998 8.5 8.5 0 1 0 9.038 9.039A1 1 0 0 0 17.975 13H11V6.025Z"
                       />
                     </svg>
+
                     <span
                       class="flex-1 ml-4 text-left text-lg font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
@@ -1000,7 +1033,10 @@
                 <div class="flex flex-row">
                   <!-- CFI Vertical Chart -->
                   <div class="w-1/3 mr-4">
-                    <p class="text-xl">Year CFI Ratio</p>
+                    <p class="text-lg font-semibold">
+                      CFI RATIO -
+                      <span id="cfiRatio_year" class="font-bold"></span>
+                    </p>
                     <table
                       id="myTable"
                       style="border: none"
@@ -1327,6 +1363,9 @@
                         </div>
                       </div>
                     </div>
+                    <h2 class="my-2 ml-2 uppercase font-bold text-xl">
+                      Calculation
+                    </h2>
                     <div id="cfiRatio_calculatedTable">
                       <div class="overflow-x-auto rounded-lg">
                         <div class="inline-block min-w-full align-middle">
@@ -1700,8 +1739,7 @@
                   <div class="mr-4 py-10 w-1/3">
                     <div>
                       <p>Operating Revenues, Support, and Releases -</p>
-                      <p>Total Functional Expenses +</p>
-                      <p>Non-Operating Activities (Investment Income)</p>
+                      <p>Total Functional Expenses</p>
                     </div>
                     <hr class="my-4 border-1 border-black dark:border-white" />
                     <p>Operating Revenues, Support, and Releases:</p>
@@ -1724,19 +1762,6 @@
                         conducting the primary supporting activities of the
                         organization.
                       </p>
-                      <p>
-                        <span class="font-extrabold underline">
-                          Non-Operating Activities (Investment Income):
-                        </span>
-                        This represents the net increase or decrease in the
-                        institution's assets after accounting for all income,
-                        expenses, gains, and losses over the period.
-                      </p>
-                    </div>
-                    <div class="mt-4">
-                      This includes all revenues generated from the core
-                      activities of the organization, such as sales, services,
-                      tuition fees, as well as financial support and releases.
                     </div>
                   </div>
                 </div>
@@ -1906,14 +1931,14 @@
                     <div class="mb-4">
                       <p>
                         This represents the net increase or decrease in the
-                        institution’s assets after accounting for all income,
-                        expenses, gains, and losses over the period.
+                        institution&rsquo;s assets after accounting for all
+                        income, expenses, gains, and losses over the period.
                       </p>
                     </div>
                     <div class="mt-4">
-                      This is the total value of the institution’s assets minus
-                      liabilities at the start of the fiscal year, providing a
-                      baseline for measuring growth or decline.
+                      This is the total value of the institution&rsquo;s assets
+                      minus liabilities at the start of the fiscal year,
+                      providing a baseline for measuring growth or decline.
                     </div>
                   </div>
                 </div>
@@ -3780,14 +3805,13 @@
 
           <!-- REVENUE & EXPENSE CONTENT -->
           <div id="RevenueAndExpenseContent" class="tab-content hidden">
-            <p class="text-center text-2xl font-bold mb-4">
-              Revenue and Expense Analysis
-            </p>
-
             <!-- Source of Income -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
+              <p class="text-center text-2xl font-bold mb-4">
+                Revenue and Expense Analysis
+              </p>
               <div class="flex flex-row justify-center mb-10">
                 <div id="sourceOfIncomeClient_chart" class="w-1/2"></div>
                 <div id="sourceOfIncomePeer_chart" class="w-1/2"></div>
@@ -3898,10 +3922,10 @@
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <div class="flex flex-row">
-                <div class="w-2/5 pr-2">
+                <div class="w-1/2 pr-2">
                   <div id="salariesBenefitsToTotalExpense_chart" class=""></div>
                 </div>
-                <div class="w-3/5 px-4">
+                <div class="w-1/2 px-4">
                   <p class="mb-2 text-xl text-center font-bold">
                     Salaries and Benefits to Total Expenses
                   </p>
@@ -3928,6 +3952,169 @@
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <div id="averageEmployeeSalary_chart" class=""></div>
+            </div>
+
+            <!-- Salaries and Benefits per Net Tuition Revenue -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex flex-row">
+                <div class="w-1/2 pr-2">
+                  <div id="salariesBenefitsPerNetTuition_chart" class=""></div>
+                </div>
+                <div class="w-1/2 px-4">
+                  <p class="mb-2 text-xl text-center font-bold">
+                    Salaries and Benefits per Net Tuition Revenue
+                  </p>
+                  <p>
+                    The Salaries and Benefits per Net Tuition Revenue metric
+                    evaluates the proportion of net tuition revenue that is
+                    spent on employee compensation, including salaries and
+                    benefits. The goal is to maintain this ratio below 70%,
+                    which indicates that the institution is efficiently managing
+                    its payroll costs relative to the tuition revenue it
+                    generates. Keeping this ratio below 70% ensures that a
+                    significant portion of net tuition revenue is available for
+                    other essential expenses, supporting the institution’s
+                    overall financial health and enabling investment in
+                    strategic priorities. Maintaining this threshold reflects
+                    prudent financial management and sustainability.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Admin Costs per Student -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div id="adminCostsPerStudent_chart" class=""></div>
+            </div>
+
+            <!-- Net Educational Expense per Student -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex flex-row">
+                <div class="w-1/2 pr-2">
+                  <div id="avgScoresUsMap_chart"></div>
+                </div>
+                <div class="w-1/2 px-4">
+                  <div id="netEducationalExpensePerStudent_chart"></div>
+                </div>
+              </div>
+            </div>
+
+            <p class="m-4 text-xl font-bold">Tuition Metrics</p>
+
+            <!-- Annual Traditional Net Tuition per Student -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div
+                id="annualTraditionalNetTuitionPerStudent_chart"
+                class="text-center"
+              ></div>
+              <div class="text-center">
+                The Annual Traditional Net Tuition per Student metric represents
+                the average amount of tuition revenue that the institution
+                collects per student after accounting for financial aid,
+                scholarships, and tuition discounts. This figure provides
+                insight into the net revenue the institution earns from each
+                student, which is crucial for understanding the financial
+                contribution of the student body. Monitoring this metric helps
+                institutions evaluate the effectiveness of their tuition pricing
+                strategies and financial aid policies. It also provides a clear
+                picture of how much students are paying out-of-pocket on
+                average, which is important for assessing the institution's
+                affordability and competitiveness.
+              </div>
+            </div>
+
+            <!-- Tuition Dependency -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div id="tuitionDependency_chart" class="text-center"></div>
+              <div class="text-center">
+                The Tuition Dependency Ratio measures the proportion of an
+                institution's total revenue that comes from tuition and fees.
+                This ratio provides insight into how reliant the institution is
+                on tuition as a primary source of funding. A high tuition
+                dependency ratio indicates that the institution is heavily
+                dependent on student tuition for its operational budget, which
+                can pose risks if enrollment declines or if there's increased
+                pressure to provide financial aid. Conversely, a lower ratio
+                suggests a more diversified revenue base, which can offer
+                greater financial stability. Monitoring this ratio is essential
+                for understanding the institution's financial resilience and for
+                planning strategies to diversify revenue streams.
+              </div>
+            </div>
+
+            <!-- Tuition Discount Rate -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div id="tuitionDiscountRate_chart" class="text-center"></div>
+              <div class="text-center">
+                The Tuition Discount Rate represents the percentage of gross
+                tuition revenue that is given back to students in the form of
+                scholarships, grants, or other financial aid. It is calculated
+                by dividing the total amount of financial aid provided by the
+                gross tuition revenue. A higher tuition discount rate means that
+                a larger portion of tuition is being offset by financial aid,
+                which can make the institution more affordable for students but
+                also reduce the net tuition revenue the institution collects.
+                Monitoring this rate is important for balancing the
+                institution's financial sustainability with its goals of
+                accessibility and competitiveness.
+              </div>
+            </div>
+          </div>
+
+          <!-- DEBT & ENDOWMENT -->
+          <div id="DebtAndEndowmentContent" class="tab-content hidden">
+            <!-- Long-Term Debt per Total Operating Revenue -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex flex-row">
+                <div class="w-1/2 pr-2">
+                  <div id="ltDebtPerTotalOperatingRevenue_chart"></div>
+                </div>
+                <div class="w-1/2 px-4">
+                  <p class="mb-2 text-xl text-center font-bold">
+                    Long-Term Debt per Total Operating Revenue
+                  </p>
+                  <p>
+                    The Long-Term Debt per Total Operating Revenue metric
+                    measures the proportion of an institution's total operating
+                    revenue that is represented by its long-term debt. This
+                    ratio provides insight into the institution's financial
+                    leverage and its ability to manage and service its debt
+                    relative to its revenue-generating capacity. A lower ratio
+                    indicates that the institution has a manageable level of
+                    debt compared to its revenue, which suggests financial
+                    stability and lower risk. Conversely, a higher ratio may
+                    signal higher financial risk, as the institution might be
+                    more burdened by debt relative to its revenue. Monitoring
+                    this metric is crucial for understanding the institution's
+                    debt sustainability and for making informed decisions about
+                    future borrowing and investment.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Debt Service Coverage Ratio -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div
+                id="annualTraditionalNetTuitionPerStudent_chart"
+                class="text-center"
+              ></div>
             </div>
           </div>
         </main>
