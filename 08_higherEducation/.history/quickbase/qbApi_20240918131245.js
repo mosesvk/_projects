@@ -9,7 +9,6 @@ $.get(clientData, apiCallClientDataForUniqueYears)
     recordsClient = await $("record", xml).toArray();
 
     console.log(recordsClient[0]);
-    console.log(xml);
 
     clientName =
       recordsClient[0].querySelector("merged_client_name").textContent;

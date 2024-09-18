@@ -8,8 +8,7 @@ $.get(clientData, apiCallClientDataForUniqueYears)
   .then(async (xml) => {
     recordsClient = await $("record", xml).toArray();
 
-    console.log(recordsClient[0]);
-    console.log(xml);
+    // consozle.log(recordsClient[0]);
 
     clientName =
       recordsClient[0].querySelector("merged_client_name").textContent;
@@ -902,7 +901,6 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
   const cashFlowsOperating_obj = {};
   const cashFlowsInvesting_obj = {};
   const cashFlowsFinancing_obj = {};
-
   const propertyAndEquipment_obj = {};
 
   const years = yearsData_Array.sort((a, b) => a - b);
@@ -919,6 +917,10 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
         return;
       }
       const totalAssets_array = [
+        {
+          key: "totalAssets_Client",
+          field: "r008_ctotal_assets",
+        },
         {
           key: "cashAndCashEquivalents_Client",
           field: "r001_cash_and_cash_equivalents",
@@ -946,10 +948,6 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
         {
           key: "investmentsHeldForLongTermPurposes_Client",
           field: "r007_investments_held_for_long_term_purposes",
-        },
-        {
-          key: "totalAssets_Client",
-          field: "r008_ctotal_assets",
         },
       ];
       totalAssets_array.forEach(({ key, field }) => {
@@ -1743,16 +1741,6 @@ const processFinancialAnalysisContentData = (
         "r054_contributions"
       );
 
-      // ffa_changeInPermanentlyRestrictedNA_Client
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "ffa_changeInPermanentlyRestrictedNA_Client",
-        record,
-        "r060_change_in_permanently_restricted_net_assets_contributions"
-      );
-
       // ffa_salariesAndWages_Client
       insertDataIntoObject(
         "client",
@@ -1771,16 +1759,6 @@ const processFinancialAnalysisContentData = (
         "ffa_employeeBenefits_Client",
         record,
         "r161_employee_benefits"
-      );
-
-      // ffa_totalFunctionalExpenses_Client
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "ffa_totalFunctionalExpenses_Client",
-        record,
-        "r044_ctotal_functional_expenses"
       );
 
       // ffa_servicesSuppliesAndOther_Client
@@ -2322,8 +2300,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         "r015_notes_payable"
       );
     });
-  });
-
+  })
   localStorage.removeItem("cfiData");
   localStorage.setItem("cfiData", JSON.stringify(object));
 

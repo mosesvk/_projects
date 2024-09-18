@@ -4203,13 +4203,13 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   let peerArray = [];
 
   selectedYearsArray.map((year) => {
-    const endowmentSizeClient = Number(data.endowmentSize_Client[year].value);
-    const totalStudentFteClient = Number(data.totalStudentFte_Client[year].value);
+    const endowmentSizeClient = data.endowmentSize_Client[year].value;
+    const totalStudentFteClient = data.totalStudentFte_Client[year].value;
     const clientRatio = endowmentSizeClient / totalStudentFteClient;
 
     const endowmentSizePeer = getSumOfArray(data.endowmentSize_Peer[year]);
     const totalStudentFtePeer = getSumOfArray(data.totalStudentFte_Peer[year]);
-    console.log({endowmentSizePeer, totalStudentFtePeer, endowmentSizeClient, totalStudentFteClient});
+    console.log({endowmentSizePeer, totalStudentFtePeer});
     
     const peerRatio = endowmentSizePeer / totalStudentFtePeer
 

@@ -4192,7 +4192,7 @@ const getEndowmentAssetsPerStudentMapOptions = (data) => {
 };
 
 const getEndowmentAssetsPerStudentChartOptions = (data) => {
-  // console.log({ data });
+  console.log({ data });
 
   const mostRecentYear = Math.max(
     ...Object.keys(data["endowmentSize_Client"])
@@ -4203,17 +4203,15 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   let peerArray = [];
 
   selectedYearsArray.map((year) => {
-    const endowmentSizeClient = Number(data.endowmentSize_Client[year].value);
-    const totalStudentFteClient = Number(data.totalStudentFte_Client[year].value);
+    const endowmentSizeClient = data.endowmentSize_Client[year].value;
+    const totalStudentFteClient = data.totalStudentFte_Client[year].value;
     const clientRatio = endowmentSizeClient / totalStudentFteClient;
 
     const endowmentSizePeer = getSumOfArray(data.endowmentSize_Peer[year]);
     const totalStudentFtePeer = getSumOfArray(data.totalStudentFte_Peer[year]);
-    console.log({endowmentSizePeer, totalStudentFtePeer, endowmentSizeClient, totalStudentFteClient});
-    
     const peerRatio = endowmentSizePeer / totalStudentFtePeer
 
-    // console.log({clientRatio, peerRatio});
+    console.log({clientRatio, peerRatio});
     
 
     const clientData =
