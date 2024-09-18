@@ -3617,3 +3617,6 @@ const getEndowmentOperatingChartOptions = (data) => {
 
   chartObj.render();
 };
+
+// ltDebtPerTotalOperatingRevenue_chart
+

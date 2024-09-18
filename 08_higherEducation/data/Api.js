@@ -160,6 +160,108 @@ const insertDataIntoObject = (
   }
 };
 
+const processDebtEndowmentContentData = () => {
+  const ltDebtPerTotalOperatingRevenue_obj = {}
+  const debtServiceCoverageRatio_obj = {};
+  const debtBurdenRatio_obj = {};
+  const endowmentOperatingBudget_obj = {};
+  const endowmentAssetsPerStudent_obj = {};
+
+  const years = seletectedYears.sort((a, b) => a - b);
+  years.forEach((year) => {
+    const filteredClientRecords = [...recordsClient].filter((record) => {
+      const fiscalYear = record.querySelector("year").textContent;
+      return fiscalYear.includes(year.toString());
+    });
+    filteredClientRecords.forEach((record) => {
+      const ltDebtPerTotalOperatingRevenue_array = [
+        {
+          key: "operatingRevenuesSupportAndReleases_Client",
+          field: "r036_coperating_revenues_support_and_releases",
+        },
+        {
+          key: "longTermDebtForLongTermPurpose_Client",
+          field: "z021_clong_term_debt_for_long_term_purposes",
+        },
+      ]
+      ltDebtPerTotalOperatingRevenue_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          ltDebtPerTotalOperatingRevenue_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const debtServiceCoverageRatio_array = [
+        {
+          key: "notesPayable_Client",
+          field: "r015_notes_payable",
+        },
+        {
+          key: "operatingRevenuesSupportAndRelease_Client",
+          field: "r036_coperating_revenues_support_and_releases",
+        },
+      ]
+      debtServiceCoverageRatio_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          debtServiceCoverageRatio_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const debtBurdenRatio_array = [
+        {
+          key: "notesPayable_Client",
+          field: "r015_notes_payable",
+        },
+        {
+          key: "totalNatural_Client",
+          field: "r166_ctotal_natural_category_expenses",
+        },
+      ]
+      debtBurdenRatio_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          debtBurdenRatio_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const endowmentOperatingBudget_array = [
+        {
+          key: "endowmentSize_Client",
+          field: "e001_endowment_size",
+        },
+        {
+          key: "totalStudentFte_Client",
+          field: "g025_ctotal_student_fte",
+        },
+      ]
+      endowmentOperatingBudget_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          endowmentOperatingBudget_obj,
+          key,
+          record,
+          field
+        );
+      });
+    })
+  })
+
+}
+
 const processRevenueExpenseContentData = (
   seletectedYears,
   recordsPeer,

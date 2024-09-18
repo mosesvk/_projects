@@ -428,3 +428,20 @@ const displayRevenueAndExpenseComponent = () => {
 }
 
 toggleDetailsByIdentifier("annualTraditionalNetTuitionPerStudent");
+toggleDetailsByIdentifier("tuitionDependency");
+toggleDetailsByIdentifier("tuitionDiscountRate");
+
+
+// Debt and Endowment
+const displayDebtAndEndowmentComponent = () => {
+  const keys = [
+
+  ];
+  const parsedData = {};
+
+  keys.forEach((key) => {
+    const storedData = getStoredData(key);
+    parsedData[key] = parseStoredData(storedData);
+  });
+
+}
