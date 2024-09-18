@@ -2216,7 +2216,7 @@ const getAdminCostsPerStudentChartOptions = (data) => {
   console.log({ data });
 
   const mostRecentYear = Math.max(
-    ...Object.keys(data["healthAdminAsst_Peer"])
+    ...Object.keys(data["adminCostsPerStudent_Client"])
   );
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
@@ -4192,10 +4192,10 @@ const getEndowmentAssetsPerStudentMapOptions = (data) => {
 };
 
 const getEndowmentAssetsPerStudentChartOptions = (data) => {
-  // console.log({ data });
+  console.log({ data });
 
   const mostRecentYear = Math.max(
-    ...Object.keys(data["endowmentSize_Client"])
+    ...Object.keys(data["adminCostsPerStudent_Client"])
   );
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();

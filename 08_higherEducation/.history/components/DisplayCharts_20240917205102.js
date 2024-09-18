@@ -478,56 +478,16 @@ const displayDebtAndEndowmentComponent = () => {
   // ltDebtPerTotalOperatingRevenue
   const ltDebtPerTotalOperatingRevenueChart = new ApexCharts(
     document.querySelector("#ltDebtPerTotalOperatingRevenue_chart"),
-    getLtDebtPerTotalOperatingRevenueChartOptions(
-      parsedData["ltDebtPerTotalOperatingRevenueData"]
+    getSalariesAndBenefitsToTotalExpenseChartOptions(
+      parsedData["salariesAndBenefitsToTotalExpenseData"]
     )
   );
   ltDebtPerTotalOperatingRevenueChart.render();
   document.addEventListener("dark-mode", function () {
     ltDebtPerTotalOperatingRevenueChart.updateOptions(
-      getLtDebtPerTotalOperatingRevenueChartOptions(
-        parsedData["ltDebtPerTotalOperatingRevenueData"]
+      getSalariesAndBenefitsToTotalExpenseChartOptions(
+        parsedData["salariesAndBenefitsToTotalExpenseData"]
       )
     );
   });
-
-  // debtServiceCoverageRatio
-  getDebtServiceCoverageChartOptions();
-
-  // debtBurdenRatio
-  const debtBurdenRatioChart = new ApexCharts(
-    document.querySelector("#debtBurdenRatio_chart"),
-    getDebtBurdenRatioChartOptions(
-      parsedData["debtBurdenRatioData"]
-    )
-  );
-  debtBurdenRatioChart.render();
-  document.addEventListener("dark-mode", function () {
-    debtBurdenRatioChart.updateOptions(
-      getDebtBurdenRatioChartOptions(
-        parsedData["debtBurdenRatioData"]
-      )
-    );
-  });
-
-  // endowmentOperatingBudget
-  getEndowmentOperatingChartOptions()
-
-  // endowmentAssetsPerStudentMap
-  getEndowmentAssetsPerStudentMapOptions()
-
-  // endowmentAssetsPerStudentChart
-  const endowmentAssetsPerStudentChart = new ApexCharts(
-    document.querySelector("#endowmentAssetsPerStudent_chart"),
-    getEndowmentAssetsPerStudentChartOptions(parsedData["endowmentAssetsPerStudentData"])
-  );
-  endowmentAssetsPerStudentChart.render();
-  document.addEventListener("dark-mode", function () {
-    endowmentAssetsPerStudentChart.updateOptions(
-      getEndowmentAssetsPerStudentChartOptions(
-        parsedData["endowmentAssetsPerStudentData"]
-      )
-    );
-  });
-
 };

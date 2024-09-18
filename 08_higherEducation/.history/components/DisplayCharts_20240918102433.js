@@ -514,20 +514,6 @@ const displayDebtAndEndowmentComponent = () => {
   getEndowmentOperatingChartOptions()
 
   // endowmentAssetsPerStudentMap
-  getEndowmentAssetsPerStudentMapOptions()
-
-  // endowmentAssetsPerStudentChart
-  const endowmentAssetsPerStudentChart = new ApexCharts(
-    document.querySelector("#endowmentAssetsPerStudent_chart"),
-    getEndowmentAssetsPerStudentChartOptions(parsedData["endowmentAssetsPerStudentData"])
-  );
-  endowmentAssetsPerStudentChart.render();
-  document.addEventListener("dark-mode", function () {
-    endowmentAssetsPerStudentChart.updateOptions(
-      getEndowmentAssetsPerStudentChartOptions(
-        parsedData["endowmentAssetsPerStudentData"]
-      )
-    );
-  });
+  getEndowmentAssetsPerStudentMapChartOptions()
 
 };

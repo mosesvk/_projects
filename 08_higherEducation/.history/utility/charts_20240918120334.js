@@ -4195,7 +4195,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   // console.log({ data });
 
   const mostRecentYear = Math.max(
-    ...Object.keys(data["endowmentSize_Client"])
+    ...Object.keys(data["adminCostsPerStudent_Client"])
   );
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();

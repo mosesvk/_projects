@@ -497,35 +497,15 @@ const displayDebtAndEndowmentComponent = () => {
   // debtBurdenRatio
   const debtBurdenRatioChart = new ApexCharts(
     document.querySelector("#debtBurdenRatio_chart"),
-    getDebtBurdenRatioChartOptions(
+    getLtDebtPerTotalOperatingRevenueChartOptions(
       parsedData["debtBurdenRatioData"]
     )
   );
   debtBurdenRatioChart.render();
   document.addEventListener("dark-mode", function () {
     debtBurdenRatioChart.updateOptions(
-      getDebtBurdenRatioChartOptions(
+      getLtDebtPerTotalOperatingRevenueChartOptions(
         parsedData["debtBurdenRatioData"]
-      )
-    );
-  });
-
-  // endowmentOperatingBudget
-  getEndowmentOperatingChartOptions()
-
-  // endowmentAssetsPerStudentMap
-  getEndowmentAssetsPerStudentMapOptions()
-
-  // endowmentAssetsPerStudentChart
-  const endowmentAssetsPerStudentChart = new ApexCharts(
-    document.querySelector("#endowmentAssetsPerStudent_chart"),
-    getEndowmentAssetsPerStudentChartOptions(parsedData["endowmentAssetsPerStudentData"])
-  );
-  endowmentAssetsPerStudentChart.render();
-  document.addEventListener("dark-mode", function () {
-    endowmentAssetsPerStudentChart.updateOptions(
-      getEndowmentAssetsPerStudentChartOptions(
-        parsedData["endowmentAssetsPerStudentData"]
       )
     );
   });

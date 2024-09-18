@@ -2213,10 +2213,10 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
 };
 
 const getAdminCostsPerStudentChartOptions = (data) => {
-  console.log({ data });
+  // console.log({ data });
 
   const mostRecentYear = Math.max(
-    ...Object.keys(data["healthAdminAsst_Peer"])
+    ...Object.keys(data["adminCostsPerStudent_Client"])
   );
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
@@ -3424,7 +3424,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
     type: "hlineargauge",
     renderAt: "debtServiceCoverageRatio_chart",
     width: "800",
-    height: "200",
+    height: "150",
     dataFormat: "json",
     dataSource: {
       chart: {
@@ -3515,10 +3515,10 @@ const getDebtServiceCoverageChartOptions = (data) => {
 };
 
 const getEndowmentOperatingChartOptions = (data) => {
-  const value = 175;
-  const benchmark = 150;
+  const value = 75;
+  const benchmark = 70;
   const text =
-    value > 150
+    value > 70
       ? `Within Range of Benchmark: ${benchmark}%`
       : `Below Benchmark: ${benchmark}%`;
 
@@ -3526,7 +3526,7 @@ const getEndowmentOperatingChartOptions = (data) => {
 
   var chartObj = new FusionCharts({
     type: "hlineargauge",
-    renderAt: "endowmentOperatingBudget_chart",
+    renderAt: "endowmentAssetsPerStudentMAP_chart",
     width: "800",
     height: "200",
     dataFormat: "json",
@@ -3536,7 +3536,7 @@ const getEndowmentOperatingChartOptions = (data) => {
         caption: clientName,
         subcaption: "Endowment Assets per Student",
         lowerLimit: "0",
-        upperLimit: "250",
+        upperLimit: "100",
         numberSuffix: "",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
@@ -3547,17 +3547,17 @@ const getEndowmentOperatingChartOptions = (data) => {
         color: [
           {
             minValue: "0",
-            maxValue: "75",
+            maxValue: "35",
             code: "#EF707E",
           },
           {
-            minValue: "75",
-            maxValue: "150",
+            minValue: "35",
+            maxValue: "70",
             code: "#FFE381",
           },
           {
-            minValue: "150",
-            maxValue: "250",
+            minValue: "70",
+            maxValue: "100",
             code: "#BBE97A",
           },
         ],
@@ -3699,7 +3699,7 @@ const getLtDebtPerTotalOperatingRevenueChartOptions = (data) => {
 };
 
 const getDebtBurdenRatioChartOptions = (data) => {
-  // console.log({ data });
+  console.log({ data });
 
   let clientRatioArray = [];
   let peerRatioArray = [];
@@ -3717,10 +3717,10 @@ const getDebtBurdenRatioChartOptions = (data) => {
     const operationalExpensePeerNum = getSumOfArray(data.operationalExpense_Peer[year])
     const peerRatioNum = debtServicePeerNum/operationalExpensePeerNum
 
-    let num = Math.round(clientRatioNum * 100)
+    let num = clientRatioNum
     clientRatioArray.push(num);
 
-    num = Math.round(peerRatioNum * 100);
+    num = peerRatioNum;
     peerRatioArray.push(num);
 
     num = Math.round(Number(data.debtService_Client[year].value));
@@ -3732,12 +3732,12 @@ const getDebtBurdenRatioChartOptions = (data) => {
     operationalExpenseArray.push(num);
   });
 
-  // console.log({
-  //   clientRatioArray,
-  //   peerRatioArray,
-  //   debtServiceArray,
-  //   operationalExpenseArray,
-  // });
+  console.log({
+    clientRatioArray,
+    peerRatioArray,
+    debtServiceArray,
+    operationalExpenseArray,
+  });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -3785,597 +3785,130 @@ const getDebtBurdenRatioChartOptions = (data) => {
 
   // console.log({mainName, benchmark});
 
-  return {
-    colors: [
-      window.chartColors.blue,
-      window.chartColors.teal,
-      window.chartColors.green,
-      window.chartColors.grey,
-    ],
-    series: [
-      {
-        name: "Debt Service",
-        type: "column",
-        data: debtServiceArray,
-      },
-      {
-        name: "Operating Expense",
-        type: "column",
-        data: operationalExpenseArray,
-      },
-      {
-        name: "Client Ratio",
-        type: "line",
-        data: clientRatioArray,
-      },
-      {
-        name: "Peer Ratio",
-        type: "line",
-        data: peerRatioArray,
-      },
-    ],
-    chart: {
-      height: 550,
-      type: "line",
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    title: {
-      text: "Debt Burden Ratio",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColor,
-        fontSize: "1.5rem",
-      },
-    },
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        },
-      },
-      {
-        show: false,
-      },
-      {
-        opposite: true,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter2,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        },
-      },
-    ],
-    xaxis: {
-      categories: selectedYearsArray,
-      labels: {
-        style: {
-          colors: chartColor,
-          fontSize: "1.5rem",
-        },
-      },
-    },
-    legend: {
-      position: "top",
-      fontSize: "20px",
-    },
-    grid: {
-      row: {
-        colors: ["transparent"],
-        opacity: 0.5,
-        thickness: 4,
-      },
-    },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
-      },
-    },
-  };
-};
-
-const getEndowmentAssetsPerStudentMapOptions = (data) => {
-  am4core.useTheme(am4themes_animated);
-
-  // Create map instance
-  var chart = am4core.create("endowmentAssetsPerStudentMAP_chart", am4maps.MapChart);
-
-  // Set map definition
-  chart.geodata = am4geodata_usaLow;
-
-  // Set projection
-  chart.projection = new am4maps.projections.AlbersUsa();
-
-  // Create map polygon series
-  var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
-
-  //Set min/max fill color for each area
-  polygonSeries.heatRules.push({
-    property: "fill",
-    target: polygonSeries.mapPolygons.template,
-    min: chart.colors.getIndex(1).brighten(1),
-    max: chart.colors.getIndex(1).brighten(-0.3),
-    logarithmic: true,
-  });
-
-  // Make map load polygon data (state shapes and names) from GeoJSON
-  polygonSeries.useGeodata = true;
-
-  // Set heatmap values for each state
-  polygonSeries.data = [
-    {
-      id: "US-AL",
-      value: 444710,
-    },
-    {
-      id: "US-AK",
-      value: 626932,
-    },
-    {
-      id: "US-AZ",
-      value: 5130632,
-    },
-    {
-      id: "US-AR",
-      value: 2673400,
-    },
-    {
-      id: "US-CA",
-      value: 33871648,
-    },
-    {
-      id: "US-CO",
-      value: 4301261,
-    },
-    {
-      id: "US-CT",
-      value: 3405565,
-    },
-    {
-      id: "US-DE",
-      value: 783600,
-    },
-    {
-      id: "US-FL",
-      value: 15982378,
-    },
-    {
-      id: "US-GA",
-      value: 8186453,
-    },
-    {
-      id: "US-HI",
-      value: 1211537,
-    },
-    {
-      id: "US-ID",
-      value: 1293953,
-    },
-    {
-      id: "US-IL",
-      value: 12419293,
-    },
-    {
-      id: "US-IN",
-      value: 6080485,
-    },
-    {
-      id: "US-IA",
-      value: 2926324,
-    },
-    {
-      id: "US-KS",
-      value: 2688418,
-    },
-    {
-      id: "US-KY",
-      value: 4041769,
-    },
-    {
-      id: "US-LA",
-      value: 4468976,
-    },
-    {
-      id: "US-ME",
-      value: 1274923,
-    },
-    {
-      id: "US-MD",
-      value: 5296486,
-    },
-    {
-      id: "US-MA",
-      value: 6349097,
-    },
-    {
-      id: "US-MI",
-      value: 9938444,
-    },
-    {
-      id: "US-MN",
-      value: 4919479,
-    },
-    {
-      id: "US-MS",
-      value: 2844658,
-    },
-    {
-      id: "US-MO",
-      value: 5595211,
-    },
-    {
-      id: "US-MT",
-      value: 902195,
-    },
-    {
-      id: "US-NE",
-      value: 1711263,
-    },
-    {
-      id: "US-NV",
-      value: 1998257,
-    },
-    {
-      id: "US-NH",
-      value: 1235786,
-    },
-    {
-      id: "US-NJ",
-      value: 8414350,
-    },
-    {
-      id: "US-NM",
-      value: 1819046,
-    },
-    {
-      id: "US-NY",
-      value: 18976457,
-    },
-    {
-      id: "US-NC",
-      value: 8049313,
-    },
-    {
-      id: "US-ND",
-      value: 642200,
-    },
-    {
-      id: "US-OH",
-      value: 11353140,
-    },
-    {
-      id: "US-OK",
-      value: 3450654,
-    },
-    {
-      id: "US-OR",
-      value: 3421399,
-    },
-    {
-      id: "US-PA",
-      value: 12281054,
-    },
-    {
-      id: "US-RI",
-      value: 1048319,
-    },
-    {
-      id: "US-SC",
-      value: 4012012,
-    },
-    {
-      id: "US-SD",
-      value: 754844,
-    },
-    {
-      id: "US-TN",
-      value: 5689283,
-    },
-    {
-      id: "US-TX",
-      value: 20851820,
-    },
-    {
-      id: "US-UT",
-      value: 2233169,
-    },
-    {
-      id: "US-VT",
-      value: 608827,
-    },
-    {
-      id: "US-VA",
-      value: 7078515,
-    },
-    {
-      id: "US-WA",
-      value: 5894121,
-    },
-    {
-      id: "US-WV",
-      value: 1808344,
-    },
-    {
-      id: "US-WI",
-      value: 5363675,
-    },
-    {
-      id: "US-WY",
-      value: 493782,
-    },
-  ];
-
-  // Set up heat legend
-  let heatLegend = chart.createChild(am4maps.HeatLegend);
-  heatLegend.series = polygonSeries;
-  heatLegend.align = "right";
-  heatLegend.valign = "bottom";
-  heatLegend.height = am4core.percent(80);
-  heatLegend.orientation = "vertical";
-  heatLegend.valign = "middle";
-  heatLegend.marginRight = am4core.percent(4);
-  heatLegend.valueAxis.renderer.opposite = true;
-  heatLegend.valueAxis.renderer.dx = -25;
-  heatLegend.valueAxis.strictMinMax = false;
-  heatLegend.valueAxis.fontSize = 9;
-  heatLegend.valueAxis.logarithmic = true;
-
-  // Configure series tooltip
-  var polygonTemplate = polygonSeries.mapPolygons.template;
-  polygonTemplate.tooltipText = "{name}: {value}";
-  polygonTemplate.nonScalingStroke = true;
-  polygonTemplate.strokeWidth = 0.5;
-
-  // Create hover state and set alternative fill color
-  var hs = polygonTemplate.states.create("hover");
-  hs.properties.fill = am4core.color("#dc5c3c");
-
-  // heat legend behavior
-  polygonSeries.mapPolygons.template.events.on("over", function (event) {
-    handleHover(event.target);
-  });
-
-  polygonSeries.mapPolygons.template.events.on("hit", function (event) {
-    handleHover(event.target);
-  });
-
-  function handleHover(column) {
-    if (!isNaN(column.dataItem.value)) {
-      heatLegend.valueAxis.showTooltipAt(column.dataItem.value);
-    } else {
-      heatLegend.valueAxis.hideTooltip();
-    }
-  }
-
-  polygonSeries.mapPolygons.template.events.on("out", function (event) {
-    heatLegend.valueAxis.hideTooltip();
-  });
-};
-
-const getEndowmentAssetsPerStudentChartOptions = (data) => {
-  // console.log({ data });
-
-  const mostRecentYear = Math.max(
-    ...Object.keys(data["endowmentSize_Client"])
-  );
-
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  let clientArray = [];
-  let peerArray = [];
-
-  selectedYearsArray.map((year) => {
-    const endowmentSizeClient = data.endowmentSize_Client[year].value;
-    const totalStudentFteClient = data.totalStudentFte_Client[year].value;
-    const clientRatio = endowmentSizeClient / totalStudentFteClient;
-
-    const endowmentSizePeer = getSumOfArray(data.endowmentSize_Peer[year]);
-    const totalStudentFtePeer = getSumOfArray(data.totalStudentFte_Peer[year]);
-    const peerRatio = endowmentSizePeer / totalStudentFtePeer;
-
-    const clientData =
-      Number(clientRatio) * 100;
-    clientArray.push(clientData);
-
-    const peerData = Number(peerRatio) * 100;
-    peerArray.push(peerData);
-
-  });
-
-  // console.log({
-  //   clientArray,
-  //   peerAvgArray,
-  //   peerArray,
-  //   peer25Array,
-  //   peer50Array,
-  //   peer75Array,
-  // });
-
-  const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#ebedf0",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#000000",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
-
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#000000";
-
-  const yaxisLabelFormatter = (val) => {
-    const num = parseInt(val, 10);
-    if (isNaN(num)) {
-      return "Invalid input";
-    }
-    return `${val}%`;
-  };
-
-  const tooltipFormatter = (value) => {
-    if (!value) return;
-    const formattedValue = value.toLocaleString();
-    return `${formattedValue}%`;
-  };
-
-  return {
-    colors: [
-      window.chartColors.blue,
-      window.chartColors.green,
-      window.chartColors.red,
-      window.chartColors.orange,
-      window.chartColors.purple,
-    ],
-    series: [
-      {
-        name: clientName,
-        type: "column",
-        data: clientArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
-      },
-      {
-        name: "Peer Ratio",
-        type: "line",
-        data: peerArray,
-      },
-    ],
-    chart: {
-      id: "adminCostsPerStudent",
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
-      },
-      height: 550,
-      type: "line",
-      stacked: false,
-    },
-    stroke: {
-      width: 4,
-    },
-    title: {
-      text: "Endowment Assets per Student",
-      position: "top",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColors.labelColor,
-        fontSize: "1.5rem",
-      },
-    },
-    xaxis: {
-      categories: selectedYearsArray,
-      labels: {
-        style: {
-          colors: chartColors.labelColor,
-          fontSize: "1rem",
-        },
-      },
-    },
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColors.labelColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColors.labelColor,
-            fontSize: "1rem",
-          },
-        },
-        tooltip: {
-          enabled: true,
-        },
-      },
-    ],
-    tooltip: {
-      fixed: {
-        enabled: true,
-        position: "topLeft",
-        offsetY: 30,
-        offsetX: 60,
-      },
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    legend: {
-      horizontalAlign: "center",
-      position: "top",
-      offsetX: 40,
-      fontSize: "20px",
-    },
-    grid: {
-      row: {
-        colors: ["transparent"],
-        opacity: 0.5,
-        thickness: 4,
-      },
-    },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
-      },
-    },
-  };
+  // return {
+  //   colors: [
+  //     window.chartColors.blue,
+  //     window.chartColors.teal,
+  //     window.chartColors.green,
+  //     window.chartColors.grey,
+  //   ],
+  //   series: [
+  //     {
+  //       name: "Debt Service",
+  //       type: "column",
+  //       data: debtServiceArray,
+  //     },
+  //     {
+  //       name: "Operating Expense",
+  //       type: "column",
+  //       data: operationalExpenseArray,
+  //     },
+  //     {
+  //       name: "Client Ratio",
+  //       type: "line",
+  //       data: clientRatioArray,
+  //     },
+  //     {
+  //       name: "Peer Ratio",
+  //       type: "line",
+  //       data: peerRatioArray,
+  //     },
+  //   ],
+  //   chart: {
+  //     height: 550,
+  //     type: "line",
+  //     toolbar: {
+  //       tools: {
+  //         download: false,
+  //         selection: false,
+  //         zoom: false,
+  //         zoomin: false,
+  //         zoomout: false,
+  //         pan: false,
+  //         reset: false,
+  //       },
+  //     },
+  //   },
+  //   tooltip: {
+  //     y: {
+  //       formatter: tooltipFormatter,
+  //       title: {
+  //         formatter: (seriesName) => `${seriesName}:`,
+  //       },
+  //     },
+  //   },
+  //   title: {
+  //     text: "Debt Burden Ratio",
+  //     align: "center",
+  //     margin: 10,
+  //     offsetY: 20,
+  //     style: {
+  //       color: chartColor,
+  //       fontSize: "1.5rem",
+  //     },
+  //   },
+  //   yaxis: [
+  //     {
+  //       axisTicks: {
+  //         show: true,
+  //       },
+  //       axisBorder: {
+  //         show: true,
+  //         color: chartColor,
+  //       },
+  //       labels: {
+  //         formatter: yaxisLabelFormatter,
+  //         style: {
+  //           colors: chartColor,
+  //           fontSize: "1.25rem",
+  //         },
+  //       },
+  //     },
+  //     {
+  //       show: false,
+  //     },
+  //     {
+  //       opposite: true,
+  //       axisTicks: {
+  //         show: true,
+  //       },
+  //       axisBorder: {
+  //         show: true,
+  //         color: chartColor,
+  //       },
+  //       labels: {
+  //         formatter: yaxisLabelFormatter2,
+  //         style: {
+  //           colors: chartColor,
+  //           fontSize: "1.25rem",
+  //         },
+  //       },
+  //     },
+  //   ],
+  //   xaxis: {
+  //     categories: selectedYearsArray,
+  //     labels: {
+  //       style: {
+  //         colors: chartColor,
+  //         fontSize: "1.5rem",
+  //       },
+  //     },
+  //   },
+  //   legend: {
+  //     position: "top",
+  //     fontSize: "20px",
+  //   },
+  //   grid: {
+  //     row: {
+  //       colors: ["transparent"],
+  //       opacity: 0.5,
+  //       thickness: 4,
+  //     },
+  //   },
+  //   plotOptions: {
+  //     bar: {
+  //       barHeight: "90%",
+  //     },
+  //   },
+  // };
 };

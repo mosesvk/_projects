@@ -2213,10 +2213,10 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
 };
 
 const getAdminCostsPerStudentChartOptions = (data) => {
-  console.log({ data });
+  // console.log({ data });
 
   const mostRecentYear = Math.max(
-    ...Object.keys(data["healthAdminAsst_Peer"])
+    ...Object.keys(data["adminCostsPerStudent_Client"])
   );
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
@@ -3699,7 +3699,7 @@ const getLtDebtPerTotalOperatingRevenueChartOptions = (data) => {
 };
 
 const getDebtBurdenRatioChartOptions = (data) => {
-  // console.log({ data });
+  console.log({ data });
 
   let clientRatioArray = [];
   let peerRatioArray = [];
@@ -3732,12 +3732,12 @@ const getDebtBurdenRatioChartOptions = (data) => {
     operationalExpenseArray.push(num);
   });
 
-  // console.log({
-  //   clientRatioArray,
-  //   peerRatioArray,
-  //   debtServiceArray,
-  //   operationalExpenseArray,
-  // });
+  console.log({
+    clientRatioArray,
+    peerRatioArray,
+    debtServiceArray,
+    operationalExpenseArray,
+  });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -3913,7 +3913,7 @@ const getDebtBurdenRatioChartOptions = (data) => {
   };
 };
 
-const getEndowmentAssetsPerStudentMapOptions = (data) => {
+const getEndowmentAssetsPerStudentMapChartOptions = (data) => {
   am4core.useTheme(am4themes_animated);
 
   // Create map instance
@@ -4189,193 +4189,4 @@ const getEndowmentAssetsPerStudentMapOptions = (data) => {
   polygonSeries.mapPolygons.template.events.on("out", function (event) {
     heatLegend.valueAxis.hideTooltip();
   });
-};
-
-const getEndowmentAssetsPerStudentChartOptions = (data) => {
-  // console.log({ data });
-
-  const mostRecentYear = Math.max(
-    ...Object.keys(data["endowmentSize_Client"])
-  );
-
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  let clientArray = [];
-  let peerArray = [];
-
-  selectedYearsArray.map((year) => {
-    const endowmentSizeClient = data.endowmentSize_Client[year].value;
-    const totalStudentFteClient = data.totalStudentFte_Client[year].value;
-    const clientRatio = endowmentSizeClient / totalStudentFteClient;
-
-    const endowmentSizePeer = getSumOfArray(data.endowmentSize_Peer[year]);
-    const totalStudentFtePeer = getSumOfArray(data.totalStudentFte_Peer[year]);
-    const peerRatio = endowmentSizePeer / totalStudentFtePeer;
-
-    const clientData =
-      Number(clientRatio) * 100;
-    clientArray.push(clientData);
-
-    const peerData = Number(peerRatio) * 100;
-    peerArray.push(peerData);
-
-  });
-
-  // console.log({
-  //   clientArray,
-  //   peerAvgArray,
-  //   peerArray,
-  //   peer25Array,
-  //   peer50Array,
-  //   peer75Array,
-  // });
-
-  const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#ebedf0",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#000000",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
-
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#000000";
-
-  const yaxisLabelFormatter = (val) => {
-    const num = parseInt(val, 10);
-    if (isNaN(num)) {
-      return "Invalid input";
-    }
-    return `${val}%`;
-  };
-
-  const tooltipFormatter = (value) => {
-    if (!value) return;
-    const formattedValue = value.toLocaleString();
-    return `${formattedValue}%`;
-  };
-
-  return {
-    colors: [
-      window.chartColors.blue,
-      window.chartColors.green,
-      window.chartColors.red,
-      window.chartColors.orange,
-      window.chartColors.purple,
-    ],
-    series: [
-      {
-        name: clientName,
-        type: "column",
-        data: clientArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
-      },
-      {
-        name: "Peer Ratio",
-        type: "line",
-        data: peerArray,
-      },
-    ],
-    chart: {
-      id: "adminCostsPerStudent",
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
-      },
-      height: 550,
-      type: "line",
-      stacked: false,
-    },
-    stroke: {
-      width: 4,
-    },
-    title: {
-      text: "Endowment Assets per Student",
-      position: "top",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColors.labelColor,
-        fontSize: "1.5rem",
-      },
-    },
-    xaxis: {
-      categories: selectedYearsArray,
-      labels: {
-        style: {
-          colors: chartColors.labelColor,
-          fontSize: "1rem",
-        },
-      },
-    },
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColors.labelColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColors.labelColor,
-            fontSize: "1rem",
-          },
-        },
-        tooltip: {
-          enabled: true,
-        },
-      },
-    ],
-    tooltip: {
-      fixed: {
-        enabled: true,
-        position: "topLeft",
-        offsetY: 30,
-        offsetX: 60,
-      },
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    legend: {
-      horizontalAlign: "center",
-      position: "top",
-      offsetX: 40,
-      fontSize: "20px",
-    },
-    grid: {
-      row: {
-        colors: ["transparent"],
-        opacity: 0.5,
-        thickness: 4,
-      },
-    },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
-      },
-    },
-  };
 };
