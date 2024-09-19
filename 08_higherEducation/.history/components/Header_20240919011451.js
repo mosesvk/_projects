@@ -152,9 +152,10 @@ document.addEventListener ('click', event => {
   }
 
   if (
-    !document.getElementById('custom-select-other').contains(event.target)
+    !document.getElementById('options-list-trendline').contains(event.target) &&
+    !document.getElementById('custom-select-trendline').contains(event.target)
   ) {
-
+    document.getElementById('options-list-trendline').classList.add('invisible');
   }
 
 });

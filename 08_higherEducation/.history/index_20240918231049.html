@@ -215,36 +215,19 @@
               Higher Education
             </span>
           </div>
-          <div
-            class="flex flex-row items-center fixed mt-8 left-1/2 -translate-y-1/2 -translate-x-1/2"
-          >
+          <div class="flex flex-row items-center fixed mt-8 left-1/2 -translate-y-1/2 -translate-x-1/2">
             <h1
               class="text-2xl font-bold leading-snug tracking-wide"
               id="firmName"
             ></h1>
-            <svg
-              class="w-8 h-8 text-gray-800 dark:text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
+            <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"viewBox="0 0 24 24" fill="none">
               <g id="Interface / Line_Xl">
-                <path
-                  id="Vector"
-                  d="M12 21V3"
-                  stroke="#000000"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+              <path id="Vector" d="M12 21V3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </g>
-            </svg>
+              </svg>
             <p class="font-bold">
               Peer group size - <span id="uniqueClients"></span>
-            </p>
+            </p>            
           </div>
         </div>
         <!-- LOWER HEADER -->
@@ -391,25 +374,30 @@
             <!-- other  -->
             <button
               id="custom-select-other"
-              data-modal-target="otherOptions-modal"
-              data-modal-toggle="otherOptions-modal"
-              class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-              type="button"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
-              <span class="mr-2">Options</span>
-              <svg
-                class="w-6 h-6 text-white"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
+              <div
+                class="flex items-center justify-between dark:text-white px-3"
               >
-                <path
-                  d="M10.83 5a3.001 3.001 0 0 0-5.66 0H4a1 1 0 1 0 0 2h1.17a3.001 3.001 0 0 0 5.66 0H20a1 1 0 1 0 0-2h-9.17ZM4 11h9.17a3.001 3.001 0 0 1 5.66 0H20a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H4a1 1 0 1 1 0-2Zm1.17 6H4a1 1 0 1 0 0 2h1.17a3.001 3.001 0 0 0 5.66 0H20a1 1 0 1 0 0-2h-9.17a3.001 3.001 0 0 0-5.66 0Z"
-                />
-              </svg>
+                <div class="px-2">Other</div>
+                <svg
+                  class="w-6 h-6 text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m19 9-7 7-7-7"
+                  />
+                </svg>
+              </div>
             </button>
             <!-- RUN -->
             <button
@@ -932,36 +920,39 @@
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <p class="font-semibold text-xl italic">Trendline Options</p>
+              <p class="font-bold italic">Trendline Options</p>
               <div id="options-list-trendline" class="flex flex-row justify-center">
                 <label for="select-all-checkbox-trendline" class="flex items-center justify-start px-4 py-2 cursor-pointer truncate">
-                  <input type="checkbox" checked="" id="select-all-checkbox-trendline" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer">
-                  <span id="select-all-text" class="text-2xl font-semibold tracking-wide">(select all)</span>
+                  <input type="checkbox" id="select-all-checkbox-trendline" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer">
+                  <span id="select-all-text" class="text-lg font-semibold">(select all)</span>
                 </label>
                 <label for="option-25" class="flex items-center justify-start px-4 py-2 cursor-pointer truncate">
-                  <input type="checkbox" checked="" id="option-25" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer">
-                  <span id="option-25-text" class="text-2xl font-semibold tracking-wide">25</span>
+                  <input type="checkbox" id="option-25" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer">
+                  <span id="option-25-text" class="text-lg font-semibold">25</span>
                 </label>
-
+                
                 <label for="option-50" class="flex items-center justify-start px-4 py-2 cursor-pointer truncate">
-                  <input type="checkbox" checked="" id="option-50" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer">
-                  <span id="option-50-text" class="text-2xl font-semibold tracking-wide">50</span>
+                  <input type="checkbox" id="option-50" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer">
+                  <span id="option-50-text" class="text-lg font-semibold">50</span>
                 </label>
-
+                
                 <label for="option-75" class="flex items-center justify-start px-4 py-2 cursor-pointer truncate">
-                  <input type="checkbox" checked="" id="option-75" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer">
-                  <span id="option-75-text" class="text-2xl font-semibold tracking-wide">75</span>
+                  <input type="checkbox" id="option-75" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer">
+                  <span id="option-75-text" class="text-lg font-semibold">75</span>
                 </label>
-
+                
                 <label for="option-avg" class="flex items-center justify-start px-4 py-2 cursor-pointer truncate">
-                  <input type="checkbox" checked="" id="option-avg" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer">
-                  <span id="option-avg-text" class="text-2xl font-semibold tracking-wide">avg</span>
+                  <input type="checkbox" id="option-avg" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer">
+                  <span id="option-avg-text" class="text-lg font-semibold">avg</span>
                 </label>
-
+                
                 <label for="option-benchmark" class="flex items-center justify-start px-4 py-2 cursor-pointer truncate">
-                  <input type="checkbox" checked="" id="option-benchmark" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer">
-                  <span id="option-benchmark-text" class="text-2xl font-semibold tracking-wide">benchmark</span>
+                  <input type="checkbox" id="option-benchmark" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer">
+                  <span id="option-benchmark-text" class="text-lg font-semibold">benchmark</span>
                 </label>
+                
+
+
               </div>
             </div>
 
@@ -3783,6 +3774,7 @@
 
           <!-- REVENUE & EXPENSE CONTENT -->
           <div id="RevenueAndExpenseContent" class="tab-content hidden">
+
             <p class="text-center text-2xl font-bold mb-4">
               Revenue and Expense Analysis
             </p>
@@ -4069,24 +4061,26 @@
                 </svg>
               </button>
               <!-- DETAILS - Tuition Dependency -->
-              <div id="details_tuitionDependency" class="my-5 mx-2 hidden">
+              <div
+                id="details_tuitionDependency"
+                class="my-5 mx-2 hidden"
+              >
                 <hr
                   class="my-8 mx-40 border-1 border-black dark:border-white"
                 />
                 <div class="flex flex-col">
                   The Tuition Dependency Ratio measures the proportion of an
-                  institution's total revenue that comes from tuition and fees.
-                  This ratio provides insight into how reliant the institution
-                  is on tuition as a primary source of funding. A high tuition
-                  dependency ratio indicates that the institution is heavily
-                  dependent on student tuition for its operational budget, which
-                  can pose risks if enrollment declines or if there's increased
-                  pressure to provide financial aid. Conversely, a lower ratio
-                  suggests a more diversified revenue base, which can offer
-                  greater financial stability. Monitoring this ratio is
-                  essential for understanding the institution's financial
-                  resilience and for planning strategies to diversify revenue
-                  streams.
+                institution's total revenue that comes from tuition and fees.
+                This ratio provides insight into how reliant the institution is
+                on tuition as a primary source of funding. A high tuition
+                dependency ratio indicates that the institution is heavily
+                dependent on student tuition for its operational budget, which
+                can pose risks if enrollment declines or if there's increased
+                pressure to provide financial aid. Conversely, a lower ratio
+                suggests a more diversified revenue base, which can offer
+                greater financial stability. Monitoring this ratio is essential
+                for understanding the institution's financial resilience and for
+                planning strategies to diversify revenue streams.
                 </div>
               </div>
             </div>
@@ -4119,22 +4113,25 @@
                 </svg>
               </button>
               <!-- DETAILS - Tuition Discount Rate -->
-              <div id="details_tuitionDiscountRate" class="my-5 mx-2 hidden">
+              <div
+                id="details_tuitionDiscountRate"
+                class="my-5 mx-2 hidden"
+              >
                 <hr
                   class="my-8 mx-40 border-1 border-black dark:border-white"
                 />
                 <div class="flex flex-col">
                   The Tuition Discount Rate represents the percentage of gross
-                  tuition revenue that is given back to students in the form of
-                  scholarships, grants, or other financial aid. It is calculated
-                  by dividing the total amount of financial aid provided by the
-                  gross tuition revenue. A higher tuition discount rate means
-                  that a larger portion of tuition is being offset by financial
-                  aid, which can make the institution more affordable for
-                  students but also reduce the net tuition revenue the
-                  institution collects. Monitoring this rate is important for
-                  balancing the institution's financial sustainability with its
-                  goals of accessibility and competitiveness.
+                tuition revenue that is given back to students in the form of
+                scholarships, grants, or other financial aid. It is calculated
+                by dividing the total amount of financial aid provided by the
+                gross tuition revenue. A higher tuition discount rate means that
+                a larger portion of tuition is being offset by financial aid,
+                which can make the institution more affordable for students but
+                also reduce the net tuition revenue the institution collects.
+                Monitoring this rate is important for balancing the
+                institution's financial sustainability with its goals of
+                accessibility and competitiveness.
                 </div>
               </div>
             </div>
@@ -4142,6 +4139,7 @@
 
           <!-- DEBT & ENDOWMENT -->
           <div id="DebtAndEndowmentContent" class="tab-content hidden">
+
             <p class="mb-4 text-2xl font-extrabold text-center">
               Debt & Endowment
             </p>
@@ -4150,7 +4148,9 @@
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <p class="m-4 text-xl font-bold">Debt & Liabilities</p>
+              <p class="m-4 text-xl font-bold">
+                Debt & Liabilities
+              </p>
               <div class="flex flex-row">
                 <div class="w-1/2 pr-2">
                   <div id="ltDebtPerTotalOperatingRevenue_chart"></div>
@@ -4288,6 +4288,7 @@
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
+
               <p class="m-4 text-xl font-bold">
                 Endowment and Financial Sustainability
               </p>
@@ -4342,7 +4343,9 @@
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <p class="m-4 text-xl font-bold">Endowment Assets per Student</p>
+              <p class="m-4 text-xl font-bold">
+                Endowment Assets per Student
+              </p>
               <div class="flex flex-row">
                 <div class="w-1/2 pr-2">
                   <div id="endowmentAssetsPerStudentMAP_chart"></div>
@@ -4382,15 +4385,7 @@
                   class="my-8 mx-40 border-1 border-black dark:border-white"
                 />
                 <div class="flex flex-col">
-                  Endowment assets per student measure the financial resources
-                  available from an institution's endowment on a per-student
-                  basis. This figure is calculated by dividing the total
-                  endowment assets by the number of enrolled students. A higher
-                  endowment per student indicates greater financial support
-                  available for student programs, scholarships, and overall
-                  institutional resources, reflecting the institution's ability
-                  to invest in the student experience and long-term educational
-                  quality.
+                  Endowment assets per student measure the financial resources available from an institution's endowment on a per-student basis. This figure is calculated by dividing the total endowment assets by the number of enrolled students. A higher endowment per student indicates greater financial support available for student programs, scholarships, and overall institutional resources, reflecting the institution's ability to invest in the student experience and long-term educational quality.
                 </div>
               </div>
             </div>
@@ -4399,48 +4394,20 @@
       </div>
     </div>
 
-    <div
-      id="otherOptions-modal"
-      data-modal-placement="top-center"
-      tabindex="-1"
-      aria-hidden="true"
-      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
-    >
-      <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-          <div
-            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
-          >
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-              Options Modal
-            </h3>
-            <button
-              type="button"
-              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-              data-modal-hide="otherOptions-modal"
-            >
-              <svg
-                class="w-3 h-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                />
-              </svg>
-              <span class="sr-only">Close modal</span>
-            </button>
-          </div>
-          <!-- Modal body -->
-          <div class="p-4 md:p-5 space-y-4">
+    <!-- import all the .js files from components, data, and utility folders-->
+    <script src="./utility/Utility.js"></script>
+    <script src="./utility/WeightedAverages.js"></script>
+    <script src="./utility/Print.js"></script>
+    <script src="./data/Api.js"></script>
+    <script src="./components/DisplayCharts.js"></script>
+    <script src="./components/Header.js"></script>
+    <script src="./components/Report.js"></script>
+    <script src="./utility/UiManagement.js"></script>
+    <script src="utility/charts.js"></script>
+  </body>
+</html>
+
+            <!-- membership 
             <button
               id="custom-select-membership"
               class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
@@ -4567,21 +4534,4 @@
                 id="options-list-client"
                 class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-80 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
               ></div>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- import all the .js files from components, data, and utility folders-->
-    <script src="./utility/Utility.js"></script>
-    <script src="./utility/WeightedAverages.js"></script>
-    <script src="./utility/Print.js"></script>
-    <script src="./data/Api.js"></script>
-    <script src="./components/DisplayCharts.js"></script>
-    <script src="./components/Header.js"></script>
-    <script src="./components/Report.js"></script>
-    <script src="./utility/UiManagement.js"></script>
-    <script src="utility/charts.js"></script>
-  </body>
-</html>
+            </button> -->

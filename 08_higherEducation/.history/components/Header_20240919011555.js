@@ -154,7 +154,7 @@ document.addEventListener ('click', event => {
   if (
     !document.getElementById('custom-select-other').contains(event.target)
   ) {
-
+    document.getElementById('custom-select-other').classList.add('invisible');
   }
 
 });

@@ -151,12 +151,6 @@ document.addEventListener ('click', event => {
     optionsListAthleticElement.classList.add ('invisible');
   }
 
-  if (
-    !document.getElementById('custom-select-other').contains(event.target)
-  ) {
-
-  }
-
 });
 
 document.getElementById('options-list-trendline').children[0].addEventListener('click', function() {
