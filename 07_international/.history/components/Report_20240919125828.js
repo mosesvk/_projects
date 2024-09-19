@@ -415,7 +415,7 @@ const addToSingleRow = (
 ) => {
   console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
-  // console.log(`row_${name}`);
+  console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);
 
   while (tableReportRow.children.length > 1) {
@@ -581,24 +581,13 @@ const addPeerDataToRow = (
     avg = 0;
   }
 
-  // console.log(name, {
-  //   tableRow,
-  //   peer,
-  //   type,
-  //   fixedNum,
-  //   dataArray,
-  //   wa,
-  //   data,
-  //   avg,
-  // });
-
   if (peer) {
-    const [q1, median, q3] = calculatePercentiles(peer[dataArray]);
 
-    if (name == "annualizedInvestmentReturn") {
-      // console.log("annualizedInvestmentReturn", { q1, median, q3 });
-    }
   }
+
+  // console.log(name, { avg, peer, dataArray, type, fixedNum });
+
+  const [q1, median, q3] = calculatePercentiles(peer[dataArray], type);
 
   const textAvg = peer ? styleNumber(avg, type, fixedNum) : "";
   const dataPointMid = document.createElement("th");

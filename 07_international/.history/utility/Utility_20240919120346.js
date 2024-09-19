@@ -605,7 +605,7 @@ function calculatePercentiles(arr, type) {
     numericArr = arr.map((value) => parseFloat(value));
   }
 
-  // console.log(numericArr);
+  console.log(numericArr);
 
   // Sort the array in ascending order
   const sortedArr = numericArr.slice().sort((a, b) => a - b);
@@ -716,14 +716,14 @@ const getPeerAndClientChartDataArrays = (
   mainName,
   numType
 ) => {
-  // console.log(mainName, {
-  //   years,
-  //   dataPeer,
-  //   dataClient,
-  //   fixedNum,
-  //   mainName,
-  //   numType,
-  // });
+  console.log(mainName, {
+    years,
+    dataPeer,
+    dataClient,
+    fixedNum,
+    mainName,
+    numType,
+  });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
