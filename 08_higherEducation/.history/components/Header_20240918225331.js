@@ -153,8 +153,8 @@ document.addEventListener ('click', event => {
 
 });
 
-document.getElementById('options-list-trendline').children[0].addEventListener('click', () => {
-  const isChecked = document.getElementById('options-list-trendline').querySelector('input[type="checkbox"]').checked;
+document.getElementById('select-all-checkbox-trendline').addEventListener('change', function () {
+  const isChecked = this.checked;
   const checkboxes = document.querySelectorAll("#options-list-trendline input[type='checkbox']");
   checkboxes.forEach(checkbox => {
     checkbox.checked = isChecked;

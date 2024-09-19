@@ -153,10 +153,14 @@ document.addEventListener ('click', event => {
 
 });
 
-document.getElementById('options-list-trendline').children[0].addEventListener('click', () => {
-  const isChecked = document.getElementById('options-list-trendline').querySelector('input[type="checkbox"]').checked;
+document.getElementById('options-list-trendline ').children[0].addEventListener('onclick', () => {
+  console.log('clicked');
+  
+  const isChecked = this.checked;
   const checkboxes = document.querySelectorAll("#options-list-trendline input[type='checkbox']");
   checkboxes.forEach(checkbox => {
+    console.log({checkbox});
+    
     checkbox.checked = isChecked;
   });
 });

@@ -18,6 +18,9 @@ const customSelectTypeElement = document.getElementById ('custom-select-type');
 const customSelectAthleticElement = document.getElementById (
   'custom-select-athletic'
 );
+const customSelectTrendlineElement = document.getElementById (
+  'custom-select-trendline'
+);
 
 const optionsListYearElement = document.getElementById ('options-list-year');
 const optionsListRegionElement = document.getElementById (
@@ -34,7 +37,9 @@ const optionsListTypeElement = document.getElementById ('options-list-type');
 const optionsListAthleticElement = document.getElementById (
   'options-list-athletic'
 );
-
+const optionsListTrendlineElement = document.getElementById (
+  'options-list-trendline'
+);
 
 customSelectYearElement.addEventListener ('click', event => {
   // Check if the click target is not a checkbox inside the customSelectYearElement
@@ -99,7 +104,15 @@ customSelectAthleticElement.addEventListener ('click', event => {
     optionsListAthleticElement.classList.toggle ('invisible');
   }
 });
-
+customSelectTrendlineElement.addEventListener ('click', event => {
+  // Check if the click target is not a checkbox inside the customSelectTrendlineElement
+  if (
+    !event.target.closest ('.form-checkbox') &&
+    !event.target.closest ('label')
+  ) {
+    optionsListTrendlineElement.classList.toggle ('invisible');
+  }
+});
 
 document.addEventListener ('click', event => {
   if (
@@ -151,14 +164,12 @@ document.addEventListener ('click', event => {
     optionsListAthleticElement.classList.add ('invisible');
   }
 
-});
-
-document.getElementById('options-list-trendline').children[0].addEventListener('click', () => {
-  const isChecked = document.getElementById('options-list-trendline').querySelector('input[type="checkbox"]').checked;
-  const checkboxes = document.querySelectorAll("#options-list-trendline input[type='checkbox']");
-  checkboxes.forEach(checkbox => {
-    checkbox.checked = isChecked;
-  });
+  if (
+    !customSelectTrendlineElement.contains (event.target) &&
+    !optionsListTrendlineElement.contains (event.target)
+  ) {
+    optionsListTrendlineElement.classList.add ('invisible');
+  }
 });
 
 const addUniqueYearsToOptionsSelectDropdown = yearsArray => {
@@ -914,6 +925,15 @@ const addUniqueAthleticsToOptionsSelectAthleticsDropdown = athleticArray => {
   });
 };
 
+const addUniqueTrendlinesToOptionsSelectTrendlinesDropdown = trendlineArray => {
+  document.getElementById('select-all-checkbox-trendline').addEventListener('change', function () {
+    const isChecked = this.checked;
+    const checkboxes = document.querySelectorAll("#options-list-trendline input[type='checkbox']");
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = isChecked;
+    });
+  });
+};
 
 // --------------------------------------------------------------------------------
 
