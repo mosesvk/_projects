@@ -171,7 +171,7 @@ document.getElementById('options-list-trendline').children[0].addEventListener('
 });
 
 const addUniqueYearsToOptionsSelectDropdown = yearsArray => {
-  const yearsObj = new Set()
+  const array = [2018, 2019, 2020, 2021, 2022, 2023, 2024]
   // Initialize selectedYears_Set from local storage if data exists
   const storedYears = getSelectedYearsFromLocalStorage ();
 

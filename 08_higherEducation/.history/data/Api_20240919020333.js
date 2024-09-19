@@ -29,8 +29,6 @@ const fetchPeerData = async () => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-
-  
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
   const clientsArray = [...recordsPeer].map((record) => {
@@ -46,27 +44,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     .trim();
 
   document.getElementById("firmName").textContent = clientName;
-
-  try {
-    const selectedYears = processSelectedYears();
-    const requiredYears = [2018, 2019, 2020, 2021, 2022, 2023, 2024];
-    const filteredYears = requiredYears.filter(year => selectedYears.includes(year));
-  
-    if (filteredYears.length > 0) {
-      saveSelectedYearsToLocalStorage(filteredYears);
-      processApiCalls(filteredYears, recordsPeer, recordsClient);
-    } else {
-      saveSelectedYearsToLocalStorage(selectedYears);
-      processApiCalls(selectedYears, recordsPeer, recordsClient);
-    }
-  
-    displayComponents();
-  } catch (err) {
-    console.error(err);
-  } finally {
-    // Any cleanup code if needed
-  }
-  
 
   findUniqueYears(recordsClient);
 
