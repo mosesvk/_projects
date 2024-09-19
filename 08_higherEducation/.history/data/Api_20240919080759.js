@@ -29,10 +29,11 @@ const fetchPeerData = async () => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+
   
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
-
+  
   findUniqueYears(recordsClient);
   const clientsArray = [...recordsPeer].map((record) => {
     return record.querySelector("merged_client_name").textContent;
