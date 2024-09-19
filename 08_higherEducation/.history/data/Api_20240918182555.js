@@ -2373,10 +2373,14 @@ const countUniqueClients = (records) => {
       
       if (selectedYears_Set.has(Number(fiscalYear))) {
         const mainRelatedClient = record.querySelector("merged_client_name").textContent;
+        // console.log({ mainRelatedClient });
+        
+
         uniqueClients.add(mainRelatedClient);
       }
     });
 
+    // console.log(uniqueClients);
     const count = uniqueClients.size;
     // console.log(count);
     document.getElementById("uniqueClients").textContent = count;

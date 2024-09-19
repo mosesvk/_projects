@@ -2371,12 +2371,16 @@ const countUniqueClients = (records) => {
       const fiscalYear = record.querySelector("year").textContent;
       console.log({ fiscalYear, selectedYears_Set, record });
       
-      if (selectedYears_Set.has(Number(fiscalYear))) {
+      if (selectedYears_Set.has(fiscalYear)) {
         const mainRelatedClient = record.querySelector("merged_client_name").textContent;
+        // console.log({ mainRelatedClient });
+        
+
         uniqueClients.add(mainRelatedClient);
       }
     });
 
+    // console.log(uniqueClients);
     const count = uniqueClients.size;
     // console.log(count);
     document.getElementById("uniqueClients").textContent = count;

@@ -2369,16 +2369,15 @@ const countUniqueClients = (records) => {
   try {
     records.forEach((record) => {
       const fiscalYear = record.querySelector("year").textContent;
-      console.log({ fiscalYear, selectedYears_Set, record });
-      
-      if (selectedYears_Set.has(Number(fiscalYear))) {
+      if (selectedYears_Set.has(fiscalYear)) {
         const mainRelatedClient = record.querySelector("merged_client_name").textContent;
         uniqueClients.add(mainRelatedClient);
       }
     });
 
+    console.log(uniqueClients);
     const count = uniqueClients.size;
-    // console.log(count);
+    console.log(count);
     document.getElementById("uniqueClients").textContent = count;
   } catch (error) {
     console.error("Error counting unique clients:", error);
