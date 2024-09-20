@@ -337,9 +337,19 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "netAssetsWithoutDR",
+        "netAssetsWithDRByPurposeOrTime",
         record,
-        "_01__03na___01_net_assets_without_donor_restrictions",
+        "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
+        "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
+        "daysExpensesInUnrestrictedNA_excludingPPE"
+      );
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
+        "netAssetsWithDRInPerpetuity",
+        record,
+        "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
         "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
         "daysExpensesInUnrestrictedNA_excludingPPE"
       );

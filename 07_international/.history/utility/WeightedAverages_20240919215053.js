@@ -572,17 +572,17 @@ const liquidityFundsAvailable_weightedAverage = (data, name) => {
 };
 
 const daysExpensesInNAwithDR_excludingPPE_weightedAverage = (data, name) => {
-  // (
-  //     [01. 03NA - 02 Net assets with donor restrictions by purpose or time] +
-  //     [01. 03NA - 03 Net assets with donor restrictions in perpetuity]-
-  //     [01. 01Ass - 09 Property, plant and equipment]-
-  //     [01. 02Liab - 02 Notes Payable]
-  // )
-
-  // /
-  // (
-  //     [02.03Exp - 05 Total Expenses] / 365
-  // )
+    // (
+    //     [01. 03NA - 02 Net assets with donor restrictions by purpose or time] +
+    //     [01. 03NA - 03 Net assets with donor restrictions in perpetuity]-
+    //     [01. 01Ass - 09 Property, plant and equipment]-
+    //     [01. 02Liab - 02 Notes Payable]
+    // )
+    
+    // /
+    // (
+    //     [02.03Exp - 05 Total Expenses] / 365
+    // )
 
   const netAssetsWithDRByPurposeOrTime = getSumOfArray(
     data.netAssetsWithDRByPurposeOrTime[name]
@@ -671,7 +671,9 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
   //     365
   // )
 
-  const netAssetsWithoutDR = getSumOfArray(data.netAssetsWithoutDR[name]);
+  const netAssetsWithDRByPurposeOrTime = getSumOfArray(
+    data.netAssetsWithDRByPurposeOrTime[name]
+  );
   const propertyPlantAndEquipment = getSumOfArray(
     data.propertyPlantAndEquipment[name]
   );
@@ -680,15 +682,8 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
 
   const denominator = totalExpenses / 365;
 
-//   console.log({
-//     netAssetsWithoutDR,
-//     propertyPlantAndEquipment,
-//     notesPayable,
-//     totalExpenses,
-//   });
-
   return denominator > 0
-    ? (netAssetsWithoutDR -
+    ? (netAssetsWithDRByPurposeOrTime -
         propertyPlantAndEquipment -
         notesPayable) /
         denominator
