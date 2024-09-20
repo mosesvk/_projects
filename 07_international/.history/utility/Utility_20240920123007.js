@@ -607,7 +607,7 @@ function calculatePercentiles(arr, type, fixed) {
   // Sort the array in ascending order
   const sortedArr = numericArr.slice().sort((a, b) => a - b);
 
-  if (fixed == 2) console.log({sortedArr})
+  if (name == "netIncomeRatio") console.log({sortedArr})
 
   const getPercentile = (percentile) => {
     const index = (percentile / 100) * (sortedArr.length - 1);

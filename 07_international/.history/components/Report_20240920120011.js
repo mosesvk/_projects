@@ -413,7 +413,7 @@ const addToSingleRow = (
   begin,
   end
 ) => {
-  // if (name == "netIncomeRatio") console.log({ selectedYears, name, client, peer, type, fixedNum });
+  console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);
@@ -581,24 +581,22 @@ const addPeerDataToRow = (
     avg = 0;
   }
 
-  if (name == "netIncomeRatio")
-    console.log(name, {
-      tableRow,
-      peerDataArray: peer[dataArray],
-      type,
-      fixedNum,
-      peer,
-      dataArray,
-      wa,
-      data,
-      avg,
-    });
+  // console.log(name, {
+  //   tableRow,
+  //   peer,
+  //   type,
+  //   fixedNum,
+  //   dataArray,
+  //   wa,
+  //   data,
+  //   avg,
+  // });
 
   if (peer) {
-    const [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
+    const [q1, median, q3] = calculatePercentiles(peer[dataArray]);
 
-    if (name == "netIncomeRatio") {
-      console.log("netIncomeRatio", { q1, median, q3 });
+    if (name == "annualizedInvestmentReturn") {
+      // console.log("annualizedInvestmentReturn", { q1, median, q3 });
     }
   }
 
@@ -609,7 +607,7 @@ const addPeerDataToRow = (
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement("th");
   let min;
-  if (name == "netIncomeRatio") {
+  if (name == "annualizedInvestmentReturn") {
     min = peer
       ? parseFloat(get25thPercentileOfArray(peer[dataArray], name))
       : "";

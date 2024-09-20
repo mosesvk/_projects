@@ -581,21 +581,19 @@ const addPeerDataToRow = (
     avg = 0;
   }
 
-  if (name == "netIncomeRatio")
-    console.log(name, {
-      tableRow,
-      peerDataArray: peer[dataArray],
-      type,
-      fixedNum,
-      peer,
-      dataArray,
-      wa,
-      data,
-      avg,
-    });
+  // console.log(name, {
+  //   tableRow,
+  //   peer,
+  //   type,
+  //   fixedNum,
+  //   dataArray,
+  //   wa,
+  //   data,
+  //   avg,
+  // });
 
   if (peer) {
-    const [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
+    const [q1, median, q3] = calculatePercentiles(peer[dataArray]);
 
     if (name == "netIncomeRatio") {
       console.log("netIncomeRatio", { q1, median, q3 });

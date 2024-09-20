@@ -595,7 +595,7 @@ const addPeerDataToRow = (
     });
 
   if (peer) {
-    const [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
+    const [q1, median, q3] = calculatePercentiles(peer[dataArray]);
 
     if (name == "netIncomeRatio") {
       console.log("netIncomeRatio", { q1, median, q3 });
