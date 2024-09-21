@@ -581,24 +581,24 @@ const addPeerDataToRow = (
     avg = 0;
   }
 
-  // if (name == "netIncomeRatio")
-  //   console.log(name, {
-  //     tableRow,
-  //     peerDataArray: peer[dataArray],
-  //     type,
-  //     fixedNum,
-  //     peer,
-  //     dataArray,
-  //     wa,
-  //     data,
-  //     avg,
-  //   });
+  if (name == "netIncomeRatio")
+    console.log(name, {
+      tableRow,
+      peerDataArray: peer[dataArray],
+      type,
+      fixedNum,
+      peer,
+      dataArray,
+      wa,
+      data,
+      avg,
+    });
 
   if (peer) {
     const [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
 
-    if (name == "percentWithoutDR_excludingPPE" || name == "percentWithoutDR") {
-      console.log(name, { q1, median, q3 });
+    if (name == "netIncomeRatio") {
+      console.log("netIncomeRatio", { q1, median, q3 });
     }
   }
 

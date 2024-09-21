@@ -597,9 +597,9 @@ const addPeerDataToRow = (
   if (peer) {
     const [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
 
-    if (name == "percentWithoutDR_excludingPPE" || name == "percentWithoutDR") {
-      console.log(name, { q1, median, q3 });
-    }
+    // if (name == "netIncomeRatio") {
+    //   console.log("netIncomeRatio", { q1, median, q3 });
+    // }
   }
 
   const textAvg = peer ? styleNumber(avg, type, fixedNum) : "";

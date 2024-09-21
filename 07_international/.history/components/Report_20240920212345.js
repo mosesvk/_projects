@@ -598,7 +598,7 @@ const addPeerDataToRow = (
     const [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
 
     if (name == "percentWithoutDR_excludingPPE" || name == "percentWithoutDR") {
-      console.log(name, { q1, median, q3 });
+      console.log("netIncomeRatio", { q1, median, q3 });
     }
   }
 

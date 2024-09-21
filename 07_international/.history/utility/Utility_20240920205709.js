@@ -1244,12 +1244,3 @@ const destroyAllCharts = () => {
   });
   charts_Array = []; // Clear the chart instances array
 };
-
-
-
-
-selectedYears_Set.add(2018)
-selectedYears_Set.add(2019)
-selectedYears_Set.add(2020)
-selectedYears_Set.add(2021)
-selectedYears_Set.add(2022)

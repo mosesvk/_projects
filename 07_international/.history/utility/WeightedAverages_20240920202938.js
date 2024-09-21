@@ -408,7 +408,7 @@ const netIncomeRatio_weightedAverage = (data, name) => {
 };
 
 const percentWithoutDR_weightedAverage = (data, name) => {
-  // [01. 03NA - 01 Net assets without donor restrictions]d
+  // [01. 03NA - 01 Net assets without donor restrictions]
   // /
   // [01. 03NA - 04 Total Net Assets]
 

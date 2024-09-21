@@ -412,7 +412,7 @@ const percentWithoutDR_weightedAverage = (data, name) => {
   // /
   // [01. 03NA - 04 Total Net Assets]
 
-  const netAssetsWithoutDR = getSumOfArray(data.netAssetsWithoutDR[name]);
+  const netAssetsWithoutDR = getSumOfArray(data.ndetAssetsWithoutDR[name]);
   const totalNetAssets = getSumOfArray(data.totalNetAssets[name]);
 
   return totalNetAssets > 0 ? netAssetsWithoutDR / totalNetAssets : 0;

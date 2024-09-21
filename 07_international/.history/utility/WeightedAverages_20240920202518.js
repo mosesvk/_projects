@@ -408,7 +408,7 @@ const netIncomeRatio_weightedAverage = (data, name) => {
 };
 
 const percentWithoutDR_weightedAverage = (data, name) => {
-  // [01. 03NA - 01 Net assets without donor restrictions]d
+  // [01. 03NA - 01 Net assets without donor restrictions]
   // /
   // [01. 03NA - 04 Total Net Assets]
 
@@ -660,11 +660,9 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
   data,
   name
 ) => {
-  //  (
-  //     [01. 03NA - 01 Net assets without donor restrictions]-
+  // ([01. 03NA - 01 Net assets without donor restrictions]-
   //     [01. 01Ass - 09 Property, plant and equipment]-
-  //     [01. 02Liab - 02 Notes Payable]
-  //  )
+  //     [01. 02Liab - 02 Notes Payable])
   // /
   // (
   //     [02.03Exp - 05 Total Expenses]
