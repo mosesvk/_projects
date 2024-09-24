@@ -1105,6 +1105,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("assetData", JSON.stringify(object));
 };
 
+
 const processIncomeData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
@@ -2188,12 +2189,12 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
     )}</qdbapi>`;
-    // console.log("CLIENT", qdbapiElementClient);
+    console.log("CLIENT", qdbapiElementClient);
 
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
     )}</qdbapi>`;
-    // console.log("PEER", qdbapiElementPeer);
+    console.log("PEER", qdbapiElementPeer);
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();
