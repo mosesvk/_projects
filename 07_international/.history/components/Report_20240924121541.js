@@ -413,7 +413,7 @@ const addToSingleRow = (
   begin,
   end
 ) => {
-  // if (name == "percentWithoutDR_excludingPPE" || name == "percentWithoutDR") console.log({ selectedYears, name, client, peer, type, fixedNum });
+  if (name == "percentWithoutDR_excludingPPE" || name == "percentWithoutDR") console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);

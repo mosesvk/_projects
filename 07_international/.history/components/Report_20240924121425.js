@@ -413,7 +413,7 @@ const addToSingleRow = (
   begin,
   end
 ) => {
-  // if (name == "percentWithoutDR_excludingPPE" || name == "percentWithoutDR") console.log({ selectedYears, name, client, peer, type, fixedNum });
+  if (name == "percentWithoutDR_excludingPPE" || name == "percentWithoutDR") console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);
@@ -581,25 +581,25 @@ const addPeerDataToRow = (
     avg = 0;
   }
 
-  if (name == "contributionsPerGivingUnit")
-    console.log(name, {
-      tableRow,
-      peerDataArray: peer[dataArray],
-      type,
-      fixedNum,
-      peer,
-      dataArray,
-      wa,
-      data,
-      avg,
-    });
+  // if (name == "netIncomeRatio")
+  //   console.log(name, {
+  //     tableRow,
+  //     peerDataArray: peer[dataArray],
+  //     type,
+  //     fixedNum,
+  //     peer,
+  //     dataArray,
+  //     wa,
+  //     data,
+  //     avg,
+  //   });
 
   if (peer) {
     const [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
 
-    // if (name == "fundraisingAsPercentOfContributions") {
-    //   console.log(name, { q1, median, q3 });
-    // }
+    if (name == "fundraisingAsPercentOfContributions") {
+      console.log(name, { q1, median, q3 });
+    }
   }
 
   const textAvg = peer ? styleNumber(avg, type, fixedNum) : "";
