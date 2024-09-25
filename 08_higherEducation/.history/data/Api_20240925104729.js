@@ -28,6 +28,64 @@ const fetchPeerData = async () => {
     });
 };
 
+document.addEventListener("DOMContentLoaded", async () => {
+  
+  const recordsClient = await fetchClientData();
+  const recordsPeer = await fetchPeerData();
+
+  findUniqueYears(recordsClient);
+  const clientsArray = [...recordsPeer].map((record) => {
+    return record.querySelector("merged_client_name").textContent;
+  });
+  const uniqueClients = [...new Set(clientsArray)];
+
+  // console.log(recordsClient[0]);
+
+  clientName = recordsClient[0]
+    .querySelector("merged_client_name")
+    .textContent.replace(/[^\w\s]/g, "")
+    .trim();
+
+  document.getElementById("firmName").textContent = clientName;
+
+  try {
+    console.log({selectedYears_Set})
+    const selectedYears = [2018, 2019, 2020, 2021, 2022]
+    const requiredYears = [2018, 2019, 2020, 2021, 2022, 2023, 2024];
+    const filteredYears = requiredYears.filter(year => selectedYears.includes(year));
+  
+    if (filteredYears.length > 0) {
+      saveSelectedYearsToLocalStorage(filteredYears);
+      processApiCalls(filteredYears, recordsPeer, recordsClient);
+    } else {
+      saveSelectedYearsToLocalStorage(selectedYears);
+      processApiCalls(selectedYears, recordsPeer, recordsClient);
+    }
+  
+    displayComponents();
+  } catch (err) {
+    console.error(err);
+  } finally {
+    // Any cleanup code if needed
+  }
+  
+
+
+  addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
+
+  addUniqueStatesToOptionsSelectStatesDropdown(states_Array);
+
+  addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
+
+  addUniqueClientsToOptionsSelectClientsDropdown(uniqueClients);
+
+  addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
+
+  addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
+
+  localStorage.clear();
+});
+
 const findUniqueYears = (data) => {
   if (data) {
     data.forEach((item) => {
@@ -2452,63 +2510,4 @@ run_btn.addEventListener("click", async () => {
   } finally {
     toggleButtonNormalState(run_btn);
   }
-});
-
-
-document.addEventListener("DOMContentLoaded", async () => {
-  
-  const recordsClient = await fetchClientData();
-  const recordsPeer = await fetchPeerData();
-
-  findUniqueYears(recordsClient);
-  const clientsArray = [...recordsPeer].map((record) => {
-    return record.querySelector("merged_client_name").textContent;
-  });
-  const uniqueClients = [...new Set(clientsArray)];
-
-  // console.log(recordsClient[0]);
-
-  clientName = recordsClient[0]
-    .querySelector("merged_client_name")
-    .textContent.replace(/[^\w\s]/g, "")
-    .trim();
-
-  document.getElementById("firmName").textContent = clientName;
-
-  try {
-    console.log({selectedYears_Set})
-    const selectedYears = [2018, 2019, 2020, 2021, 2022]
-    const requiredYears = [2018, 2019, 2020, 2021, 2022, 2023, 2024];
-    const filteredYears = requiredYears.filter(year => selectedYears.includes(year));
-  
-    if (filteredYears.length > 0) {
-      saveSelectedYearsToLocalStorage(filteredYears);
-      processApiCalls(filteredYears, recordsPeer, recordsClient);
-      displayComponents();
-    } else {
-      console.error('no Data')
-    }
-  
-    displayComponents();
-  } catch (err) {
-    console.error(err);
-  } finally {
-    // Any cleanup code if needed
-  }
-  
-
-
-  addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
-
-  addUniqueStatesToOptionsSelectStatesDropdown(states_Array);
-
-  addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
-
-  addUniqueClientsToOptionsSelectClientsDropdown(uniqueClients);
-
-  addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
-
-  addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
-
-  localStorage.clear();
 });
