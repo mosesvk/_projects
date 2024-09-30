@@ -344,74 +344,25 @@ const createChart = (
     title
   );
 
-  const chartIds = [
-    "cfiRatio_chart",
-    "cfi_primaryReserveRatio_chart",
-    "cfi_netIncomeOperationsRatio_chart",
-    "cfi_returnOnNetAssets_chart",
-    "cfi_viabilityRatio_chart",
-  ];
+  const chartInstances = {
+    "cfiRatio_chart": null,
+    "cfi_primaryReserveRatio_chart": null,
+    "cfi_netIncomeOperationsRatio_chart": null,
+    "cfi_returnOnNetAssets_chart": null,
+    "cfi_viabilityRatio_chart": null,
+  };
 
-  if (chartIds.includes(chartId)) {
-    if (chartId === "cfiRatio_chart") {
-      cfiRatio_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
+  if (chartId in chartInstances) {
+    chartInstances[chartId] = new ApexCharts(
+      document.getElementById(chartId),
+      chartOptions
+    );
 
-      cfiRatio_chart.render();
+    chartInstances[chartId].render();
 
-      cfiRatio_chart.addEventListener("dark-mode", function () {
-        chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "cfi_primaryReserveRatio_chart") {
-      cfi_primaryReserveRatio_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-
-      cfi_primaryReserveRatio_chart.render();
-
-      cfi_primaryReserveRatio_chart.addEventListener("dark-mode", function () {
-        chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "cfi_netIncomeOperationsRatio_chart") {
-      cfi_netIncomeOperationsRatio_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-
-      cfi_netIncomeOperationsRatio_chart.render();
-
-      cfi_netIncomeOperationsRatio_chart.addEventListener(
-        "dark-mode",
-        function () {
-          chart.updateOptions(chartOptions);
-        }
-      );
-    } else if (chartId === "cfi_returnOnNetAssets_chart") {
-      cfi_returnOnNetAssets_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-
-      cfi_returnOnNetAssets_chart.render();
-
-      cfi_returnOnNetAssets_chart.addEventListener("dark-mode", function () {
-        chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "cfi_viabilityRatio_chart") {
-      cfi_viabilityRatio_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-
-      cfi_viabilityRatio_chart.render();
-
-      cfi_viabilityRatio_chart.addEventListener("dark-mode", function () {
-        chart.updateOptions(chartOptions);
-      });
-    }
+    chartInstances[chartId].addEventListener("dark-mode", function () {
+      chartInstances[chartId].updateOptions(chartOptions);
+    });
   }
 };
 
@@ -1292,91 +1243,28 @@ function showApiLoadingFunction(action) {
 document
   .getElementById("option-25")
   .addEventListener("change", function (event) {
-    const charts = [
-      cfiRatio_chart,
-      cfi_primaryReserveRatio_chart,
-      cfi_netIncomeOperationsRatio_chart,
-      cfi_returnOnNetAssets_chart,
-      cfi_viabilityRatio_chart
-    ];
-
     if (!event.target.checked) {
       // Select all elements with IDs ending in "_chart"
-      charts.forEach((chart, idx) => {
+      const chartElements = document.querySelectorAll('[id$="_chart"]');
+      console.log({ chartElements });
+
+      chartElements.forEach((chartElement, idx) => {
+        const chart = document.getElementById(chartElement.id);
+        if (idx == 0) {
+          console.log({ chart });
           chart.hideSeries("25th");
+        }
+        // if (chart) {
+        //   chart.updateSeries(chart.w.globals.series.map((s, index) => {
+        //     if (chart.w.globals.seriesNames[index] === '25th') {
+        //       return {
+        //         ...s,
+        //         show: false
+        //       };
+        //     }
+        //     return s;
+        //   }));
+        // }
       });
-    } else {
-      charts.forEach((chart, idx) => {
-        chart.showSeries("25th");
-    });
-    }
-  });
-
-  document
-  .getElementById("option-50")
-  .addEventListener("change", function (event) {
-    const charts = [
-      cfiRatio_chart,
-      cfi_primaryReserveRatio_chart,
-      cfi_netIncomeOperationsRatio_chart,
-      cfi_returnOnNetAssets_chart,
-      cfi_viabilityRatio_chart
-    ];
-
-    if (!event.target.checked) {
-      // Select all elements with IDs ending in "_chart"
-      charts.forEach((chart, idx) => {
-          chart.hideSeries("50th");
-      });
-    } else {
-      charts.forEach((chart, idx) => {
-        chart.showSeries("50th");
-    });
-    }
-  });
-
-  document
-  .getElementById("option-75")
-  .addEventListener("change", function (event) {
-    const charts = [
-      cfiRatio_chart,
-      cfi_primaryReserveRatio_chart,
-      cfi_netIncomeOperationsRatio_chart,
-      cfi_returnOnNetAssets_chart,
-      cfi_viabilityRatio_chart
-    ];
-
-    if (!event.target.checked) {
-      // Select all elements with IDs ending in "_chart"
-      charts.forEach((chart, idx) => {
-          chart.hideSeries("75th");
-      });
-    } else {
-      charts.forEach((chart, idx) => {
-        chart.showSeries("75th");
-    });
-    }
-  });
-
-  document
-  .getElementById("option-avg")
-  .addEventListener("change", function (event) {
-    const charts = [
-      cfiRatio_chart,
-      cfi_primaryReserveRatio_chart,
-      cfi_netIncomeOperationsRatio_chart,
-      cfi_returnOnNetAssets_chart,
-      cfi_viabilityRatio_chart
-    ];
-
-    if (!event.target.checked) {
-      // Select all elements with IDs ending in "_chart"
-      charts.forEach((chart, idx) => {
-          chart.hideSeries("Avg");
-      });
-    } else {
-      charts.forEach((chart, idx) => {
-        chart.showSeries("Avg");
-    });
     }
   });

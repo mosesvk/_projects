@@ -16,6 +16,14 @@ displayCfiComponent = (data) => {
     "CFI Ratio"
   );
 
+  //   chartId,
+  // dataPeer,
+  // dataClient,
+  // type,
+  // fixedNum,
+  // mainName,
+  // benchmark,
+  // title
 
   // cfi_primaryReserveRatiod
   createChartFromParsedData(

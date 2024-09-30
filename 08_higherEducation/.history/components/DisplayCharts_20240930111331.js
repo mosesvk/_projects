@@ -16,6 +16,25 @@ displayCfiComponent = (data) => {
     "CFI Ratio"
   );
 
+  //   chartId,
+  // dataPeer,
+  // dataClient,
+  // type,
+  // fixedNum,
+  // mainName,
+  // benchmark,
+  // title
+
+  const cfiRatio_chart = createChart(
+    "cfiRatio_chart",
+    parseData["cfiRatio_peerAverage_Peer"],
+    parseData["cfiRatio_Client"],
+    "num",
+    1, 
+    'cfiRatio',
+    3, 
+    'CFI RATIO'
+  );
 
   // cfi_primaryReserveRatiod
   createChartFromParsedData(
