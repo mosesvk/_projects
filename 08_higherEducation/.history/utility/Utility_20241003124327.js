@@ -1298,164 +1298,61 @@ function showApiLoadingFunction(action) {
   }
 }
 
-document
-  .getElementById("option-25")
-  .addEventListener("change", function (event) {
-    const charts = [
-      cfiRatio_chart,
-      cfi_primaryReserveRatio_chart,
-      cfi_netIncomeOperationsRatio_chart,
-      cfi_returnOnNetAssets_chart,
-      cfi_viabilityRatio_chart,
-    ];
+const charts = [
+  cfiRatio_chart,
+  cfi_primaryReserveRatio_chart,
+  cfi_netIncomeOperationsRatio_chart,
+  cfi_returnOnNetAssets_chart,
+  cfi_viabilityRatio_chart,
+];
 
-    charts.forEach((chart) => {
-      if (!event.target.checked) {
-        chart.hideSeries("25th");
+const annotations = [
+  cfiRatio_annotation,
+  cfi_primaryReserveRatio_annotation,
+  cfi_netIncomeOperationsRatio_annotation,
+  cfi_returnOnNetAssets_annotation,
+  cfi_viabilityRatio_annotation,
+];
+
+// Function to update charts based on the state of the checkbox
+function updateCharts(option, checked) {
+  charts.forEach((chart, idx) => {
+      if (option === "benchmark") {
+          if (checked) {
+              chart.addYaxisAnnotation(annotations[idx]);
+              chart.update();
+          } else {
+              chart.removeAnnotation('annotation');
+          }
       } else {
-        chart.showSeries("25th");
+          if (checked) {
+              chart.showSeries(option);
+          } else {
+              chart.hideSeries(option);
+          }
       }
-    });
   });
+}
 
-document
-  .getElementById("option-50")
-  .addEventListener("change", function (event) {
-    const charts = [
-      cfiRatio_chart,
-      cfi_primaryReserveRatio_chart,
-      cfi_netIncomeOperationsRatio_chart,
-      cfi_returnOnNetAssets_chart,
-      cfi_viabilityRatio_chart,
-    ];
-
-    charts.forEach((chart) => {
-      if (!event.target.checked) {
-        chart.hideSeries("50th");
-      } else {
-        chart.showSeries("50th");
-      }
-    });
+// Individual option event listeners
+["25", "50", "75", "avg"].forEach(option => {
+  document.getElementById(`option-${option}`).addEventListener("change", function (event) {
+      updateCharts(`${option}th`, event.target.checked);
   });
+});
 
-document
-  .getElementById("option-75")
-  .addEventListener("change", function (event) {
-    const charts = [
-      cfiRatio_chart,
-      cfi_primaryReserveRatio_chart,
-      cfi_netIncomeOperationsRatio_chart,
-      cfi_returnOnNetAssets_chart,
-      cfi_viabilityRatio_chart,
-    ];
+document.getElementById("option-benchmark").addEventListener("change", function (event) {
+  updateCharts("benchmark", event.target.checked);
+});
 
-    charts.forEach((chart) => {
-      if (!event.target.checked) {
-        chart.hideSeries("75th");
-      } else {
-        chart.showSeries("75th");
-      }
-    });
-  });
-
-document
-  .getElementById("option-avg")
-  .addEventListener("change", function (event) {
-    const charts = [
-      cfiRatio_chart,
-      cfi_primaryReserveRatio_chart,
-      cfi_netIncomeOperationsRatio_chart,
-      cfi_returnOnNetAssets_chart,
-      cfi_viabilityRatio_chart,
-    ];
-
-    charts.forEach((chart) => {
-      if (!event.target.checked) {
-        chart.hideSeries("Avg");
-      } else {
-        chart.showSeries("Avg");
-      }
-    });
-  });
-
-document
-  .getElementById("option-benchmark")
-  .addEventListener("change", function (event) {
-    const charts = [
-      cfiRatio_chart,
-      cfi_primaryReserveRatio_chart,
-      cfi_netIncomeOperationsRatio_chart,
-      cfi_returnOnNetAssets_chart,
-      cfi_viabilityRatio_chart,
-    ];
-
-    const annotations = [
-      cfiRatio_annotation,
-      cfi_primaryReserveRatio_annotation,
-      cfi_netIncomeOperationsRatio_annotation,
-      cfi_returnOnNetAssets_annotation,
-      cfi_viabilityRatio_annotation,
-    ];
-
-    charts.forEach((chart, idx) => {
-      if (event.target.checked) {
-        chart.addYaxisAnnotation(annotations[idx]);
-        chart.update();
-      } else {
-        chart.removeAnnotation("annotation");
-      }
-    });
-  });
-
-document
-  .getElementById("select-all-checkbox-trendline")
-  .addEventListener("change", function (event) {
-    console.log('hi');
-    
-    const allOptions = [
-      { id: "25th", elementId: "option-25" },
-      { id: "50th", elementId: "option-50" },
-      { id: "75th", elementId: "option-75" },
-      { id: "Avg", elementId: "option-avg" },
-      { id: "benchmark", elementId: "option-benchmark" },
-    ];
-
-    const checked = event.target.checked;
-
-    allOptions.forEach(({ id, elementId }) => {
-      const optionElement = document.getElementById(elementId);
+// Select-all-text event listener
+document.getElementById("select-all-text").addEventListener("change", function (event) {
+  const checked = event.target.checked;
+  
+  // Set the state of individual checkboxes
+  ["25", "50", "75", "avg", "benchmark"].forEach(option => {
+      const optionElement = document.getElementById(`option-${option}`);
       optionElement.checked = checked;
-
-      const charts = [
-        cfiRatio_chart,
-        cfi_primaryReserveRatio_chart,
-        cfi_netIncomeOperationsRatio_chart,
-        cfi_returnOnNetAssets_chart,
-        cfi_viabilityRatio_chart,
-      ];
-
-      charts.forEach((chart, idx) => {
-        if (id === "benchmark") {
-          if (checked) {
-            const annotations = [
-              cfiRatio_annotation,
-              cfi_primaryReserveRatio_annotation,
-              cfi_netIncomeOperationsRatio_annotation,
-              cfi_returnOnNetAssets_annotation,
-              cfi_viabilityRatio_annotation,
-            ];
-            chart.addYaxisAnnotation(annotations[idx]);
-            chart.update();
-          } else {
-            chart.removeAnnotation("annotation");
-          }
-        } else {
-          if (checked) {
-            chart.showSeries(id);
-          } else {
-            chart.hideSeries(id);
-          }
-        }
-      });
-    });
+      updateCharts(option === "benchmark" ? "benchmark" : `${option}th`, checked);
   });
+});

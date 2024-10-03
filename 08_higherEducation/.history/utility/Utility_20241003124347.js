@@ -1408,10 +1408,8 @@ document
   });
 
 document
-  .getElementById("select-all-checkbox-trendline")
+  .getElementById("select-all-text")
   .addEventListener("change", function (event) {
-    console.log('hi');
-    
     const allOptions = [
       { id: "25th", elementId: "option-25" },
       { id: "50th", elementId: "option-50" },
@@ -1434,7 +1432,7 @@ document
         cfi_viabilityRatio_chart,
       ];
 
-      charts.forEach((chart, idx) => {
+      charts.forEach((chart) => {
         if (id === "benchmark") {
           if (checked) {
             const annotations = [

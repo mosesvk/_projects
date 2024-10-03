@@ -2297,8 +2297,9 @@ const countUniqueClients = (records) => {
   uniqueClients = new Set();
   try {
     records.forEach((record) => {
-      const mainRelatedClient =
-        record.querySelector("merged_client_name").textContent;
+      const mainRelatedClient = record.querySelector(
+        "pe___client_legal_name"
+      ).textContent;
       // console.log(mainRelatedClient);
       uniqueClients.add(mainRelatedClient);
     });
@@ -2439,8 +2440,8 @@ run_btn.addEventListener("click", async () => {
 });
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // console.log({'domLoad': yearsData_Array});
-
+  console.log({'domLoad': yearsData_Array});
+  
   try {
     const selectedYears = getSelectedYearsFromLocalStorage();
     const requiredYears = [2018, 2019, 2020, 2021, 2022, 2023, 2024];
@@ -2454,7 +2455,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     // countUniqueClients(recordsPeer);
 
     // console.log({selectedYears, yearsData_Array})
-    const recordsClient = await getRecordsForClient(selectedYears, "<qdbapi>");
+    const recordsClient = await getRecordsForClient(
+      selectedYears,
+      "<qdbapi>"
+    );
 
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
@@ -2532,69 +2536,69 @@ const getRecordsForPeer = async (years, dataStr) => {
 
   // console.log({ currentYear, sliderValue, sliderValue2, selectedTypes_Array})
 
-  // function getRegionQuery(selectedRegions) {
-  //   const regionConditions = [...selectedRegions]
-  //     .map((region) => `{536.EX.${region}}`)
-  //     .join(" OR ");
-  //   return `(${regionConditions})`;
-  // }
+  function getRegionQuery(selectedRegions) {
+    const regionConditions = [...selectedRegions]
+      .map((region) => `{536.EX.${region}}`)
+      .join(" OR ");
+    return `(${regionConditions})`;
+  }
 
-  // function getStateQuery(selectedStates) {
-  //   const stateConditions = [...selectedStates]
-  //     .map((state) => `{619.EX.${state}}`)
-  //     .join(" OR ");
-  //   // console.log({ stateConditions });
-  //   return `(${stateConditions})`;
-  // }
+  function getStateQuery(selectedStates) {
+    const stateConditions = [...selectedStates]
+      .map((state) => `{619.EX.${state}}`)
+      .join(" OR ");
+    // console.log({ stateConditions });
+    return `(${stateConditions})`;
+  }
 
-  // function getMembershipsQuery(selectedMemberships) {
-  //   const membershipsConditions = [...selectedMemberships]
-  //     .map((membership) => `{537.HAS.${membership}}`)
-  //     .join(" OR ");
-  //   // console.log({ membershipsConditions });
-  //   return `(${membershipsConditions})`;
-  // }
+  function getMembershipsQuery(selectedMemberships) {
+    const membershipsConditions = [...selectedMemberships]
+      .map((membership) => `{537.HAS.${membership}}`)
+      .join(" OR ");
+    // console.log({ membershipsConditions });
+    return `(${membershipsConditions})`;
+  }
 
-  // function getTrendlinesQuery(selectedTrendlines) {
-  //   const trendlinesConditions = [...selectedTrendlines]
-  //     .map((trendline) => `{536.EX.${trendline}}`)
-  //     .join(" OR ");
-  //   return `(${trendlinesConditions})`;
-  // }
+  function getTrendlinesQuery(selectedTrendlines) {
+    const trendlinesConditions = [...selectedTrendlines]
+      .map((trendline) => `{536.EX.${trendline}}`)
+      .join(" OR ");
+    return `(${trendlinesConditions})`;
+  }
 
-  // function getAthleticsQuery(selectedAthletics) {
-  //   const athleticsConditions = [...selectedAthletics]
-  //     .map((athletic) => `{534.EX.${athletic}}`)
-  //     .join(" OR ");
-  //   // console.log({ athleticsConditions });
-  //   return `(${athleticsConditions})`;
-  // }
+  function getAthleticsQuery(selectedAthletics) {
+    const athleticsConditions = [...selectedAthletics]
+      .map((athletic) => `{534.EX.${athletic}}`)
+      .join(" OR ");
+    // console.log({ athleticsConditions });
+    return `(${athleticsConditions})`;
+  }
 
-  // function getTypeQuery(selectedTypes) {
-  //   const typeConditions = [...selectedTypes]
-  //     .map((type) => `{618.EX.${type}}`)
-  //     .join(" OR ");
-  //   // console.log({ typeConditions });
-  //   return `(${typeConditions})`;
-  // }
+  function getTypeQuery(selectedTypes) {
+    const typeConditions = [...selectedTypes]
+      .map((type) => `{618.EX.${type}}`)
+      .join(" OR ");
+    // console.log({ typeConditions });
+    return `(${typeConditions})`;
+  }
 
-  // function getClientQuery(selectedClients) {
-  //   // Check if the "select-all-checkbox-client" input is checked
-  //   const selectAllCheckbox = document.getElementById(
-  //     "select-all-checkbox-client"
-  //   );
-  //   if (selectAllCheckbox && selectAllCheckbox.checked) {
-  //     // If checked, return an empty string
-  //     return "";
-  //   }
+  function getClientQuery(selectedClients) {
+    // Check if the "select-all-checkbox-client" input is checked
+    const selectAllCheckbox = document.getElementById(
+      "select-all-checkbox-client"
+    );
+    if (selectAllCheckbox && selectAllCheckbox.checked) {
+      // If checked, return an empty string
+      return "";
+    }
 
-  //   // Otherwise, continue with the existing logic
-  //   const clientConditions = selectedClients
-  //     .map((client) => `{539.EX.${client}}`)
-  //     .join(" OR ");
-  //   // console.log({ clientConditions });
-  //   return `(${clientConditions})`;
-  // }
+    // Otherwise, continue with the existing logic
+    const clientConditions = selectedClients
+      .map((client) => `{539.EX.${client}}`)
+      .join(" OR ");
+    // console.log({ clientConditions });
+    return `(${clientConditions})`;
+  }
 
   // (${getRegionQuery(selectedRegions_Array)}) AND
   // (${getStateQuery(selectedStates_Array)}) AND
@@ -2699,7 +2703,7 @@ const getRecordsForClient = async (years, dataStr) => {
   const apiCallClientData = {
     act: "API_DoQuery",
     query: `
-	    {7.EX.${currentYear}} AND {533.EX.${ClientRid}}`,
+	    {7.EX.${currentYear}}`,
     clist:
       "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.420.421.422.423.424.425.426.427.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429.641.635.481.482.483.709.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.450.451.551.546.711.614.613.633.603.633.621.710.504.550.217",
   };

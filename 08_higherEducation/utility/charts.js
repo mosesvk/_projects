@@ -74,7 +74,137 @@ const getMainChartOptions = (
 
   // console.log({mainName, benchmark});
 
-  // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })
+  // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })\
+
+  let yaxisAnnotation
+
+  if (mainName == 'cfiRatio') {
+    cfiRatio_annotation =  [
+      {
+        id: 'annotation',
+        y: benchmark,
+        borderColor: chartColors.labelColor,
+        strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
+        label: {
+          text: "Benchmark",
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "top",
+          offsetX: -70,
+          style: {
+            background: "transparent",
+            color: chartColors.labelColor,
+            fontSize: "18px",
+            fontWeight: 600,
+          },
+        },
+      },
+    ]
+    yaxisAnnotation = cfiRatio_annotation
+  } else if (mainName == 'cfi_primaryReserveRatio') {
+    cfi_primaryReserveRatio_annotation =  [
+      {
+        id: 'annotation',
+        y: benchmark,
+        borderColor: chartColors.labelColor,
+        strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
+        label: {
+          text: "Benchmark",
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "top",
+          offsetX: -70,
+          style: {
+            background: "transparent",
+            color: chartColors.labelColor,
+            fontSize: "18px",
+            fontWeight: 600,
+          },
+        },
+      },
+    ]
+    yaxisAnnotation = cfi_primaryReserveRatio_annotation
+  } else if (mainName == 'cfi_netIncomeOperationsRatio') {
+    cfi_netIncomeOperationsRatio_annotation =  [
+      {
+        id: 'annotation',
+        y: benchmark,
+        borderColor: chartColors.labelColor,
+        strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
+        label: {
+          text: "Benchmark",
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "top",
+          offsetX: -70,
+          style: {
+            background: "transparent",
+            color: chartColors.labelColor,
+            fontSize: "18px",
+            fontWeight: 600,
+          },
+        },
+      },
+    ]
+    yaxisAnnotation = cfi_netIncomeOperationsRatio_annotation
+  } else if (mainName == 'cfi_returnOnNetAssets') {
+    cfi_returnOnNetAssets_annotation =  [
+      {
+        id: 'annotation',
+        y: benchmark,
+        borderColor: chartColors.labelColor,
+        strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
+        label: {
+          text: "Benchmark",
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "top",
+          offsetX: -70,
+          style: {
+            background: "transparent",
+            color: chartColors.labelColor,
+            fontSize: "18px",
+            fontWeight: 600,
+          },
+        },
+      },
+    ]
+    yaxisAnnotation = cfi_returnOnNetAssets_annotation
+  } else { // cfi_viabilityRatio
+    cfi_viabilityRatio_annotation =  [
+      {
+        id: 'annotation',
+        y: benchmark,
+        borderColor: chartColors.labelColor,
+        strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
+        label: {
+          text: "Benchmark",
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "top",
+          offsetX: -70,
+          style: {
+            background: "transparent",
+            color: chartColors.labelColor,
+            fontSize: "18px",
+            fontWeight: 600,
+          },
+        },
+      },
+    ]
+    yaxisAnnotation = cfi_viabilityRatio_annotation
+  }
+
 
   return {
     colors: [
@@ -189,28 +319,7 @@ const getMainChartOptions = (
       offsetY: -5,
     },
     annotations: {
-      yaxis: [
-        {
-          y: benchmark,
-          borderColor: chartColors.labelColor,
-          strokeDashArray: 0,
-          width: "200%",
-          offsetX: -180,
-          label: {
-            text: "Benchmark",
-            borderColor: "transparent",
-            borderWidth: 0,
-            position: "top",
-            offsetX: -70,
-            style: {
-              background: "transparent",
-              color: chartColors.labelColor,
-              fontSize: "18px",
-              fontWeight: 600,
-            },
-          },
-        },
-      ],
+      yaxis: yaxisAnnotation,
     },
     markers: {
       size: 0,

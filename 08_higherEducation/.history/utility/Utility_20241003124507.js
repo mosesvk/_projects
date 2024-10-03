@@ -1434,7 +1434,7 @@ document
         cfi_viabilityRatio_chart,
       ];
 
-      charts.forEach((chart, idx) => {
+      charts.forEach((chart) => {
         if (id === "benchmark") {
           if (checked) {
             const annotations = [

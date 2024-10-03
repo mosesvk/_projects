@@ -2297,8 +2297,9 @@ const countUniqueClients = (records) => {
   uniqueClients = new Set();
   try {
     records.forEach((record) => {
-      const mainRelatedClient =
-        record.querySelector("merged_client_name").textContent;
+      const mainRelatedClient = record.querySelector(
+        "merged_client_name"
+      ).textContent;
       // console.log(mainRelatedClient);
       uniqueClients.add(mainRelatedClient);
     });
@@ -2440,7 +2441,7 @@ run_btn.addEventListener("click", async () => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   // console.log({'domLoad': yearsData_Array});
-
+  
   try {
     const selectedYears = getSelectedYearsFromLocalStorage();
     const requiredYears = [2018, 2019, 2020, 2021, 2022, 2023, 2024];
@@ -2454,7 +2455,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     // countUniqueClients(recordsPeer);
 
     // console.log({selectedYears, yearsData_Array})
-    const recordsClient = await getRecordsForClient(selectedYears, "<qdbapi>");
+    const recordsClient = await getRecordsForClient(
+      selectedYears,
+      "<qdbapi>"
+    );
 
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
