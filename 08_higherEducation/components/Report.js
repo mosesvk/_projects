@@ -101,10 +101,6 @@ const displayReportComponent = () => {
   }
 };
 
-const insertDataToFSReport = (data, selectedYears) => {
-  // console.log({ data, selectedYears });
-};
-
 const insertDataToFfaReport = (data, selectedYears) => {
   const currentYear = selectedYears[0];
 
