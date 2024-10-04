@@ -1,6 +1,4 @@
 const displayReportComponent = () => {
-  // console.log('displayReportComponent()');
-  
   const cfiData = JSON.parse(localStorage.getItem("cfiData"));
   const financialAnalysisContentData = JSON.parse(
     localStorage.getItem("financialAnalysisContentData")
@@ -101,10 +99,6 @@ const displayReportComponent = () => {
 
     insertDataToFSReport(financialStatementContentData, selectedYears);
   }
-};
-
-const insertDataToFSReport = (data, selectedYears) => {
-  // console.log({ data, selectedYears });
 };
 
 const insertDataToFfaReport = (data, selectedYears) => {
@@ -290,12 +284,10 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
   const tableBodyClient = document.getElementById(
     "assetToLiabilitiesClient_tbody"
   );
-  tableBodyClient.innerHTML = ''
 
   const totalAssetsPeer = data["totalAssets_Peer"];
   const totalLiabilitiesPeer = data["totalLiabilities_Peer"];
   const tableBodyPeer = document.getElementById("assetToLiabilitiesPeer_tbody");
-  tableBodyPeer.innerHTML = ''
 
   // console.log({ totalAssetsPeer, totalLiabilitiesPeer });
 

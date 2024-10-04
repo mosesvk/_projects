@@ -290,12 +290,10 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
   const tableBodyClient = document.getElementById(
     "assetToLiabilitiesClient_tbody"
   );
-  tableBodyClient.innerHTML = ''
 
   const totalAssetsPeer = data["totalAssets_Peer"];
   const totalLiabilitiesPeer = data["totalLiabilities_Peer"];
   const tableBodyPeer = document.getElementById("assetToLiabilitiesPeer_tbody");
-  tableBodyPeer.innerHTML = ''
 
   // console.log({ totalAssetsPeer, totalLiabilitiesPeer });
 
