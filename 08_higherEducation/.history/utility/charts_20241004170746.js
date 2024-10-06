@@ -1722,19 +1722,18 @@ const getCurrentRatioChartOptions = (data) => {
         // }
       },
       {
-        show: false
-        // opposite: true,
-        // axisBorder: {
-        //   show: false,
-        //   color: window.chartColors.red,
-        // },
-        // labels: {
-        //   formatter: yaxisLabelFormatter,
-        //   style: {
-        //     colors: window.chartColors.red,
-        //     fontSize: "1.25rem",
-        //   },
-        // },
+        opposite: true,
+        axisBorder: {
+          show: false,
+          color: window.chartColors.red,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: window.chartColors.red,
+            fontSize: "1.25rem",
+          },
+        },
         // title: {
         //   text: "Liabilities",
         //   style: {
