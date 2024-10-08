@@ -1,8 +1,6 @@
 window.addEventListener("load", () => {
   localStorage.clear();
   saveSelectedYearsToLocalStorage(selectedYears_Set);
-  const selectedYears = getSelectedYearsFromLocalStorage()
-
 });
 
 const findUniqueYears = (data) => {
@@ -22,7 +20,7 @@ const findUniqueYears = (data) => {
     // yearsData_Array.sort();
 
     //nav-component
-    // we want to display all the years
+    // we want to display all the years 
     addUniqueYearsToOptionsSelectDropdown([
       "2010",
       "2011",
@@ -37,11 +35,12 @@ const findUniqueYears = (data) => {
       "2020",
       "2021",
       "2022",
-      "2023",
-      "2024",
-    ]);
+      "2023", 
+      "2024"
+  ]);
   }
-};
+};    
+
 
 // Main Data Retrieval Functions ----------------------------------------------->
 
@@ -230,7 +229,7 @@ const processDebtEndowmentContentData = (
       return fiscalYear.includes(year.toString());
     });
     filteredPeerRecords.forEach((record) => {
-      const debtBurdenRatio_array = [
+       const debtBurdenRatio_array = [
         {
           key: "debtService_Peer",
           field: "r015_notes_payable",
@@ -239,7 +238,7 @@ const processDebtEndowmentContentData = (
           key: "operationalExpense_Peer",
           field: "r166_ctotal_natural_category_expenses",
         },
-      ];
+       ]
       debtBurdenRatio_array.forEach(({ key, field }) => {
         insertDataIntoObject(
           "peer",
@@ -249,8 +248,8 @@ const processDebtEndowmentContentData = (
           record,
           field,
           "Yes"
-        );
-      });
+        )
+      })
 
       const endowmentOperatingBudget_array = [
         {
@@ -271,9 +270,9 @@ const processDebtEndowmentContentData = (
           record,
           field,
           "Yes"
-        );
-      });
-    });
+        )
+      })
+    })
   });
 
   const dataKeys = [
@@ -1705,6 +1704,7 @@ const processFinancialAnalysisContentData = (
         "r030_revenue_endowment_spending_appropriation"
       );
 
+
       // ffa_changeInNetAssetsWithDR_Client
       insertDataIntoObject(
         "client",
@@ -1714,6 +1714,7 @@ const processFinancialAnalysisContentData = (
         record,
         "r059_cchange_in_net_assets_with_donor_restrictions"
       );
+
 
       // ffa_netChangeRestrictedInPerpetuity_Client
       insertDataIntoObject(
@@ -2322,7 +2323,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   // console.log({selectedYears});
-
+  
   const cfiValue =
     object.cfiRatio_Client[selectedYears[selectedYears.length - 1]].value;
   updateCfiValue(cfiValue, selectedYears[selectedYears.length - 1]);
@@ -2445,12 +2446,7 @@ run_btn.addEventListener("click", async () => {
   try {
     toggleButtonLoadingState(run_btn);
     showApiLoadingFunction("open");
-    // const selectedYears = processSelectedYears();
-    const selectedYears = getSelectedYearsFromLocalStorage();
-    const requiredYears = [2018, 2019, 2020, 2021, 2022];
-    const filteredYears = requiredYears.filter((year) =>
-      selectedYears.includes(year)
-    );
+    const selectedYears = processSelectedYears();
     saveSelectedYearsToLocalStorage(selectedYears);
 
     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
@@ -2485,6 +2481,83 @@ run_btn.addEventListener("click", async () => {
   }
 });
 
+
+// INITIAL PAGE LOAD
+// document.addEventListener("DOMContentLoaded", async () => {
+//   console.log({'domLoad': yearsData_Array});
+
+//   showApiLoadingFunction('open')
+
+//   try {
+//     const selectedYears = getSelectedYearsFromLocalStorage();
+//     const requiredYears = [2018, 2019, 2020, 2021, 2022];
+//     const filteredYears = requiredYears.filter((year) =>
+//       selectedYears.includes(year)
+//     );
+
+//     // console.log({ selectedYears });
+
+//     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
+//     // countUniqueClients(recordsPeer);
+
+//     // console.log({selectedYears, yearsData_Array})
+//     const recordsClient = await getRecordsForClient(selectedYears, "<qdbapi>");
+
+//     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
+//       ""
+//     )}</qdbapi>`;
+//     console.log("CLIENT", qdbapiElementClient);
+
+//     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
+//       ""
+//     )}</qdbapi>`;
+//     if (recordPeerHTMLArray.length === 0) {
+//       console.error("No Peer records found for the selected years");
+//     } else {
+//       console.log("PEER", qdbapiElementPeer);
+//     }
+
+//     clientName =
+//       recordsClient[0].querySelector("merged_client_name").textContent;
+//     document.getElementById("firmName").textContent = clientName;
+
+//     recordId = recordsClient[0].querySelector("related_client").textContent;
+
+//     if (filteredYears.length > 0) {
+//       countUniqueClients(recordsPeer);
+
+//       findUniqueYears(recordsClient);
+//       const clientsArray = [...recordsPeer].map((record) => {
+//         return record.querySelector("merged_client_name").textContent;
+//       });
+//       const uniqueClients = [...new Set(clientsArray)];
+
+//       // console.log(recordsClient[0]);
+
+//       clientName = recordsClient[0]
+//         .querySelector("merged_client_name")
+//         .textContent.replace(/[^\w\s]/g, "")
+//         .trim();
+
+//       document.getElementById("firmName").textContent = clientName;
+//       // console.log({filteredYears})
+//       saveSelectedYearsToLocalStorage(filteredYears);
+//       // console.log({selectedYears_Set})
+
+//       processApiCalls(filteredYears, recordsPeer, recordsClient);
+//       displayComponents();
+//     } else {
+//       console.error("no Data");
+//     }
+
+//     displayComponents();
+//   } catch (err) {
+//     console.error(err);
+//   } finally {
+//     // Any cleanup code if needed
+//     showApiLoadingFunction("close");
+//   }
+// });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2703,7 +2776,7 @@ const getRecordsForClient = async (years, dataStr) => {
       // Append the new record's outerHTML to dataStr
       dataStr += newRecord.outerHTML;
     });
-
+    
     // Recursive call with updated years and dataStr
     return getRecordsForClient(years.slice(1), dataStr);
   } catch (error) {

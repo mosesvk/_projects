@@ -2485,6 +2485,82 @@ run_btn.addEventListener("click", async () => {
   }
 });
 
+// INITIAL PAGE LOAD
+// document.addEventListener("DOMContentLoaded", async () => {
+//   console.log({'domLoad': yearsData_Array});
+
+//   showApiLoadingFunction('open')
+
+//   try {
+//     const selectedYears = getSelectedYearsFromLocalStorage();
+//     const requiredYears = [2018, 2019, 2020, 2021, 2022];
+//     const filteredYears = requiredYears.filter((year) =>
+//       selectedYears.includes(year)
+//     );
+
+//     // console.log({ selectedYears });
+
+//     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
+//     // countUniqueClients(recordsPeer);
+
+//     // console.log({selectedYears, yearsData_Array})
+//     const recordsClient = await getRecordsForClient(selectedYears, "<qdbapi>");
+
+//     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
+//       ""
+//     )}</qdbapi>`;
+//     console.log("CLIENT", qdbapiElementClient);
+
+//     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
+//       ""
+//     )}</qdbapi>`;
+//     if (recordPeerHTMLArray.length === 0) {
+//       console.error("No Peer records found for the selected years");
+//     } else {
+//       console.log("PEER", qdbapiElementPeer);
+//     }
+
+//     clientName =
+//       recordsClient[0].querySelector("merged_client_name").textContent;
+//     document.getElementById("firmName").textContent = clientName;
+
+//     recordId = recordsClient[0].querySelector("related_client").textContent;
+
+//     if (filteredYears.length > 0) {
+//       countUniqueClients(recordsPeer);
+
+//       findUniqueYears(recordsClient);
+//       const clientsArray = [...recordsPeer].map((record) => {
+//         return record.querySelector("merged_client_name").textContent;
+//       });
+//       const uniqueClients = [...new Set(clientsArray)];
+
+//       // console.log(recordsClient[0]);
+
+//       clientName = recordsClient[0]
+//         .querySelector("merged_client_name")
+//         .textContent.replace(/[^\w\s]/g, "")
+//         .trim();
+
+//       document.getElementById("firmName").textContent = clientName;
+//       // console.log({filteredYears})
+//       saveSelectedYearsToLocalStorage(filteredYears);
+//       // console.log({selectedYears_Set})
+
+//       processApiCalls(filteredYears, recordsPeer, recordsClient);
+//       displayComponents();
+//     } else {
+//       console.error("no Data");
+//     }
+
+//     displayComponents();
+//   } catch (err) {
+//     console.error(err);
+//   } finally {
+//     // Any cleanup code if needed
+//     showApiLoadingFunction("close");
+//   }
+// });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

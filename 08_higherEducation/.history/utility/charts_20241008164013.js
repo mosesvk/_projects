@@ -1204,7 +1204,7 @@ const getFfaChartOptions = (data) => {
 
   const generalExpenseClient =
     compensationAndBenefitsClient -
-    ( (servicesSuppliesOtherClient + occupancyUtilitiesAndMaintenanceClient + incomeExpenseSurplusDefecitClient + interestClient) );
+    ( servicesSuppliesOtherClient + occupancyUtilitiesAndMaintenanceClient + incomeExpenseSurplusDefecitClient + interestClient);
 
   const surplusDefecitClient = 0 + generalExpenseClient;
 

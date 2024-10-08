@@ -1,49 +1,55 @@
-window.addEventListener("load", () => {
-  localStorage.clear();
-  saveSelectedYearsToLocalStorage(selectedYears_Set);
-  const selectedYears = getSelectedYearsFromLocalStorage()
+const fetchClientData = async () => {
+  return fetch("./data/clientData.xml")
+    .then((response) => response.text())
+    .then((xmlString) => {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+      return xmlDoc.querySelectorAll("record");
+    })
+    .catch((error) => {
+      console.error("Error fetching XML file (fetchClientData):", error);
+      return []; // Return an empty array in case of error
+    });
+};
 
-});
+const fetchPeerData = async () => {
+  return fetch("./data/peerData.xml")
+    .then((response) => response.text())
+    .then((xmlString) => {
+      // console.log(xmlString);
+      const parser = new DOMParser();
+      // changes
+      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+      return xmlDoc.querySelectorAll("record");
+    })
+    .catch((error) => {
+      console.error("Error fetching XML file (fetchPeerData):", error);
+      return []; // Return an empty array in case of error
+    });
+};
 
 const findUniqueYears = (data) => {
   if (data) {
-    // data.forEach((item) => {
-    //   const yearElement = item.querySelector("year");
-    //   if (yearElement) {
-    //     const year = yearElement.textContent;
+    data.forEach((item) => {
+      // console.log(item);
+      const yearElement = item.querySelector("year");
+      if (yearElement) {
+        const year = yearElement.textContent;
 
-    //     // Check if the year is not already in yearsData_Array to ensure uniqueness
-    //     if (!yearsData_Array.includes(year)) {
-    //       yearsData_Array.push(year);
-    //     }
-    //   }
-    // });
+        // Check if the year is not already in yearsData_Array to ensure uniqueness
+        if (!yearsData_Array.includes(year)) {
+          yearsData_Array.push(year);
+        }
+      }
+    });
+    
 
-    // yearsData_Array.sort();
+    yearsData_Array.sort();
 
     //nav-component
-    // we want to display all the years
-    addUniqueYearsToOptionsSelectDropdown([
-      "2010",
-      "2011",
-      "2012",
-      "2013",
-      "2014",
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024",
-    ]);
+    addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
   }
 };
-
-// Main Data Retrieval Functions ----------------------------------------------->
 
 const insertDataIntoObject = (
   type,
@@ -55,7 +61,16 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
+  // console.log ({
+  //   type,
+  //   year,
+  //   object,
+  //   dataKey,
+  //   record,
+  //   child,
+  //   dynamicValueClientPeer,
+  //   name,
+  // });
 
   const innerData =
     child == 0
@@ -230,7 +245,7 @@ const processDebtEndowmentContentData = (
       return fiscalYear.includes(year.toString());
     });
     filteredPeerRecords.forEach((record) => {
-      const debtBurdenRatio_array = [
+       const debtBurdenRatio_array = [
         {
           key: "debtService_Peer",
           field: "r015_notes_payable",
@@ -239,7 +254,7 @@ const processDebtEndowmentContentData = (
           key: "operationalExpense_Peer",
           field: "r166_ctotal_natural_category_expenses",
         },
-      ];
+       ]
       debtBurdenRatio_array.forEach(({ key, field }) => {
         insertDataIntoObject(
           "peer",
@@ -249,8 +264,8 @@ const processDebtEndowmentContentData = (
           record,
           field,
           "Yes"
-        );
-      });
+        )
+      })
 
       const endowmentOperatingBudget_array = [
         {
@@ -271,9 +286,9 @@ const processDebtEndowmentContentData = (
           record,
           field,
           "Yes"
-        );
-      });
-    });
+        )
+      })
+    })
   });
 
   const dataKeys = [
@@ -1705,6 +1720,7 @@ const processFinancialAnalysisContentData = (
         "r030_revenue_endowment_spending_appropriation"
       );
 
+
       // ffa_changeInNetAssetsWithDR_Client
       insertDataIntoObject(
         "client",
@@ -1714,6 +1730,7 @@ const processFinancialAnalysisContentData = (
         record,
         "r059_cchange_in_net_assets_with_donor_restrictions"
       );
+
 
       // ffa_netChangeRestrictedInPerpetuity_Client
       insertDataIntoObject(
@@ -2321,8 +2338,8 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  // console.log({selectedYears});
-
+  console.log({selectedYears});
+  
   const cfiValue =
     object.cfiRatio_Client[selectedYears[selectedYears.length - 1]].value;
   updateCfiValue(cfiValue, selectedYears[selectedYears.length - 1]);
@@ -2333,16 +2350,21 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
       : "-";
 };
 
-// Helper functions   ----------------------------------------------->
+// Helper functions
 
 const countUniqueClients = (records) => {
-  uniqueClients = new Set();
+  const uniqueClients = new Set();
+  // console.log({ records });
+  
   try {
     records.forEach((record) => {
-      const mainRelatedClient =
-        record.querySelector("merged_client_name").textContent;
-      // console.log(mainRelatedClient);
-      uniqueClients.add(mainRelatedClient);
+      const fiscalYear = record.querySelector("year").textContent;
+      // console.log({ fiscalYear, selectedYears_Set, record });
+      
+      if (selectedYears_Set.has(Number(fiscalYear))) {
+        const mainRelatedClient = record.querySelector("merged_client_name").textContent;
+        uniqueClients.add(mainRelatedClient);
+      }
     });
 
     const count = uniqueClients.size;
@@ -2356,7 +2378,7 @@ const countUniqueClients = (records) => {
 
 const toggleButtonLoadingState = (btn) => {
   btn.innerHTML = `
-    <svg aria-hidden="true" role="status" class="inline w-6 h-6 me-3 text-xl colorGreen font-extrabold animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg aria-hidden=dtrue" role="status" class="inline w-6 h-6 me-3 text-xl colorGreen font-extrabold animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
       <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
     </svg>
@@ -2435,280 +2457,83 @@ const displayComponents = () => {
   displayDebtAndEndowmentComponent();
   displayReportComponent();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const recordClientHTMLArray = [];
-const recordPeerHTMLArray = [];
 
+// Run Api on Button Click
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
+  showApiLoadingFunction('open')
+  // uploadMainFile = ''
+  // document.getElementById('print_modal_footer').classList.add('hidden');
+  const recordsClient = await fetchClientData();
+  const recordsPeer = await fetchPeerData();
+  countUniqueClients(recordsPeer);
+  // console.log({ recordsClient, recordsPeer });
+
   try {
     toggleButtonLoadingState(run_btn);
-    showApiLoadingFunction("open");
-    // const selectedYears = processSelectedYears();
-    const selectedYears = getSelectedYearsFromLocalStorage();
-    const requiredYears = [2018, 2019, 2020, 2021, 2022];
-    const filteredYears = requiredYears.filter((year) =>
-      selectedYears.includes(year)
-    );
+    const selectedYears = processSelectedYears();
     saveSelectedYearsToLocalStorage(selectedYears);
-
-    const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
-    // countUniqueClients(recordsPeer);
-
-    // console.log({selectedYears, yearsData_Array})
-    const recordsClient = await getRecordsForClient(
-      yearsData_Array,
-      "<qdbapi>"
-    );
-
-    const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
-      ""
-    )}</qdbapi>`;
-    console.log("CLIENT", qdbapiElementClient);
-
-    const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
-      ""
-    )}</qdbapi>`;
-    if (recordPeerHTMLArray.length === 0) {
-      console.error("No Peer records found for the selected years");
-    } else {
-      console.log("PEER", qdbapiElementPeer);
-    }
-
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();
   } catch (err) {
     console.error(err);
   } finally {
     toggleButtonNormalState(run_btn);
+    showApiLoadingFunction('close')
   }
 });
 
+// Run Api on Initial Load
+// document.addEventListener("DOMContentLoaded", async () => {
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   console.log({'domLoad': yearsData_Array});
+  
+//   showApiLoadingFunction('open')
 
-const getParsedData = (xmlString) => {
-  const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(xmlString, "text/xml");
-  return xmlDoc.querySelectorAll("record");
-};
+//   const recordsClient = await fetchClientData();
+//   const recordsPeer = await fetchPeerData();
+//   countUniqueClients(recordsPeer)
 
-const getRecordsForPeer = async (years, dataStr) => {
-  if (years.length === 0) {
-    // Base case: return the final string when the array is empty
-    // if (dataStr === '<qdbapi>') console.error('No Peer records found for the selected years')
-    const parsedData = getParsedData(dataStr + "</qdbapi>");
-    return parsedData;
-  }
+//   findUniqueYears(recordsClient);
+//   const clientsArray = [...recordsPeer].map((record) => {
+//     return record.querySelector("merged_client_name").textContent;
+//   });
+//   const uniqueClients = [...new Set(clientsArray)];
 
-  const currentYear = years[0];
+//   // console.log(recordsClient[0]);
 
-  // console.log({ currentYear, sliderValue, sliderValue2, selectedTypes_Array})
+//   clientName = recordsClient[0]
+//     .querySelector("merged_client_name")
+//     .textContent.replace(/[^\w\s]/g, "")
+//     .trim();
 
-  // function getRegionQuery(selectedRegions) {
-  //   const regionConditions = [...selectedRegions]
-  //     .map((region) => `{536.EX.${region}}`)
-  //     .join(" OR ");
-  //   return `(${regionConditions})`;
-  // }
+//   document.getElementById("firmName").textContent = clientName;
 
-  // function getStateQuery(selectedStates) {
-  //   const stateConditions = [...selectedStates]
-  //     .map((state) => `{619.EX.${state}}`)
-  //     .join(" OR ");
-  //   // console.log({ stateConditions });
-  //   return `(${stateConditions})`;
-  // }
+//   try {
+//     const selectedYears = getSelectedYearsFromLocalStorage()
+//     const requiredYears = [2018, 2019, 2020, 2021, 2022, 2023, 2024];
+//     const filteredYears = requiredYears.filter(year => selectedYears.includes(year));
+  
+//     if (filteredYears.length > 0) {
+//       // console.log({filteredYears})
+//       saveSelectedYearsToLocalStorage(filteredYears);
+//       // console.log({selectedYears_Set})
 
-  // function getMembershipsQuery(selectedMemberships) {
-  //   const membershipsConditions = [...selectedMemberships]
-  //     .map((membership) => `{537.HAS.${membership}}`)
-  //     .join(" OR ");
-  //   // console.log({ membershipsConditions });
-  //   return `(${membershipsConditions})`;
-  // }
+//       processApiCalls(filteredYears, recordsPeer, recordsClient);
+//       displayComponents();
+//     } else {
+//       console.error('no Data')
+//     }
+  
+//     displayComponents();
+//   } catch (err) {
+//     console.error(err);
+//   } finally {
+//     // Any cleanup code if needed
+//     showApiLoadingFunction('close')
+//   }
 
-  // function getTrendlinesQuery(selectedTrendlines) {
-  //   const trendlinesConditions = [...selectedTrendlines]
-  //     .map((trendline) => `{536.EX.${trendline}}`)
-  //     .join(" OR ");
-  //   return `(${trendlinesConditions})`;
-  // }
+  
 
-  // function getAthleticsQuery(selectedAthletics) {
-  //   const athleticsConditions = [...selectedAthletics]
-  //     .map((athletic) => `{534.EX.${athletic}}`)
-  //     .join(" OR ");
-  //   // console.log({ athleticsConditions });
-  //   return `(${athleticsConditions})`;
-  // }
-
-  // function getTypeQuery(selectedTypes) {
-  //   const typeConditions = [...selectedTypes]
-  //     .map((type) => `{618.EX.${type}}`)
-  //     .join(" OR ");
-  //   // console.log({ typeConditions });
-  //   return `(${typeConditions})`;
-  // }
-
-  // function getClientQuery(selectedClients) {
-  //   // Check if the "select-all-checkbox-client" input is checked
-  //   const selectAllCheckbox = document.getElementById(
-  //     "select-all-checkbox-client"
-  //   );
-  //   if (selectAllCheckbox && selectAllCheckbox.checked) {
-  //     // If checked, return an empty string
-  //     return "";
-  //   }
-
-  //   // Otherwise, continue with the existing logic
-  //   const clientConditions = selectedClients
-  //     .map((client) => `{539.EX.${client}}`)
-  //     .join(" OR ");
-  //   // console.log({ clientConditions });
-  //   return `(${clientConditions})`;
-  // }
-
-  // (${getRegionQuery(selectedRegions_Array)}) AND
-  // (${getStateQuery(selectedStates_Array)}) AND
-  // (${getMembershipsQuery(selectedMemberships_Array)}) AND
-  // (${getTrendlinesQuery(selectedTrendlines_Array)}) AND
-  // (${getAthleticsQuery(selectedAthletics_Array)}) AND
-  // (${getTypeQuery(selectedTypes_Array)}) AND
-  // (${getClientQuery(selectedClients_Array)})
-
-  const apiCallPeerData = {
-    act: "API_DoQuery",
-    query: `
-      {7.EX.${currentYear}}
-    `,
-    clist:
-      "7.3.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557",
-  };
-
-  try {
-    const xml = await $.get(peerData, apiCallPeerData);
-
-    // console.log('PEER-XML', xml)
-
-    const recordsForPeer = $("record", xml).toArray();
-
-    // console.log("recordsForPeer", recordsForPeer);
-    // console.log("recordsForPeer", recordsForPeer[0].children);
-
-    // Update dataStr with the records from the current API call
-    // console.log(`year - ${currentYear}`)
-
-    recordsForPeer.forEach((record, index) => {
-      // if (index < 2) console.log(`Peer`, record);
-
-      // Create a new record element
-      const newRecord = document.createElement("record");
-
-      // Append each child element to the new record
-      Array.from(record.children).forEach((child) => {
-        newRecord.appendChild(child.cloneNode(true));
-      });
-
-      recordPeerHTMLArray.push(newRecord.outerHTML);
-
-      // Append the new record's outerHTML to dataStr
-      dataStr += newRecord.outerHTML;
-    });
-
-    // Recursive call with updated years and dataStr
-    return getRecordsForPeer(years.slice(1), dataStr);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    // Handle the error as needed
-    return dataStr; // Return the accumulated data so far even in case of an error
-  }
-};
-
-const getRecordsForUniqueClientsPeerNames = async () => {
-  const apiCallPeerData = {
-    act: "API_DoQuery",
-    clist:
-      "7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395",
-  };
-
-  try {
-    const xml = await $.get(peerData, apiCallPeerData);
-
-    const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
-
-    const uniquePeerClientNames = new Set();
-
-    recordsForPeerUniqueClientPeerNames.forEach((record, index) => {
-      const clientInformalName =
-        record.querySelector("merged_client_name").textContent;
-      uniquePeerClientNames.add(clientInformalName);
-    });
-
-    // console.log({ uniquePeerClientNames });
-
-    const sortedUniquePeerClientNames = Array.from(
-      uniquePeerClientNames
-    ).sort();
-
-    sortedUniquePeerClientNames.forEach((item) =>
-      selectedClients_Array.add(item)
-    );
-
-    addUniqueClientsToOptionsSelectClientsDropdown(sortedUniquePeerClientNames);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-};
-
-const getRecordsForClient = async (years, dataStr) => {
-  if (years.length === 0) {
-    // Base case: return the final string when the array is empty
-    const parsedData = getParsedData(dataStr + "</qdbapi>");
-    return parsedData;
-  }
-
-  const currentYear = years[0];
-  const apiCallClientData = {
-    act: "API_DoQuery",
-    query: `
-	    {7.EX.${currentYear}} AND {533.EX.${ClientRid}}`,
-    clist:
-      "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.420.421.422.423.424.425.426.427.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429.641.635.481.482.483.709.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.450.451.551.546.711.614.613.633.603.633.621.710.504.550.217",
-  };
-
-  try {
-    const xml = await $.get(clientData, apiCallClientData);
-    const recordsForClient = $("record", xml).toArray();
-
-    //console.log('recordsForClient', recordsForClient[0].children)
-    //console.log($('record', xml))
-    //console.log(`year - ${currentYear}`)
-
-    // Update dataStr with the records from the current API call
-    recordsForClient.forEach((record, index) => {
-      // if (index < 4) console.log(`Client`, record);
-
-      // Create a new record element
-      const newRecord = document.createElement("record");
-
-      // Append each child element to the new record
-      Array.from(record.children).forEach((child) => {
-        newRecord.appendChild(child.cloneNode(true));
-      });
-
-      recordClientHTMLArray.push(newRecord.outerHTML);
-
-      // Append the new record's outerHTML to dataStr
-      dataStr += newRecord.outerHTML;
-    });
-
-    // Recursive call with updated years and dataStr
-    return getRecordsForClient(years.slice(1), dataStr);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    // Handle the error as needed
-    return dataStr; // Return the accumulated data so far even in case of an error
-  }
-};
+// });
