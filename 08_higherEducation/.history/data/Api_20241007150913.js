@@ -42,7 +42,6 @@ const findUniqueYears = (data) => {
         }
       }
     });
-    
 
     yearsData_Array.sort();
 
@@ -1720,8 +1719,8 @@ const processFinancialAnalysisContentData = (
         "r030_revenue_endowment_spending_appropriation"
       );
 
-
-      // ffa_changeInNetAssetsWithDR_Client
+      
+      // ffa_revenueEndowmentSpendingAppropriation_Client
       insertDataIntoObject(
         "client",
         year,
@@ -1729,17 +1728,6 @@ const processFinancialAnalysisContentData = (
         "ffa_changeInNetAssetsWithDR_Client",
         record,
         "r059_cchange_in_net_assets_with_donor_restrictions"
-      );
-
-
-      // ffa_netChangeRestrictedInPerpetuity_Client
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "ffa_netChangeRestrictedInPerpetuity_Client",
-        record,
-        "r064_cnet_change_restricted_in_perpetuity"
       );
 
       // ffa_contributions_Client
@@ -2337,9 +2325,6 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("cfiData", JSON.stringify(object));
 
   const selectedYears = getSelectedYearsFromLocalStorage();
-
-  console.log({selectedYears});
-  
   const cfiValue =
     object.cfiRatio_Client[selectedYears[selectedYears.length - 1]].value;
   updateCfiValue(cfiValue, selectedYears[selectedYears.length - 1]);
@@ -2489,8 +2474,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   console.log({'domLoad': yearsData_Array});
   
-  showApiLoadingFunction('open')
-
+  
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
   countUniqueClients(recordsPeer)
@@ -2531,9 +2515,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error(err);
   } finally {
     // Any cleanup code if needed
-    showApiLoadingFunction('close')
   }
 
+  showApiLoadingFunction('close')
   
 
 });

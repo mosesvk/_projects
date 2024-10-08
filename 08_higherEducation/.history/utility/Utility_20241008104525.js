@@ -592,7 +592,7 @@ const resetSelectedYearsFromLocalStorage = () => {
   localStorage.setItem("selectedYears", JSON.stringify([]));
 };
 
-let selectedYears_Set = new Set([2019, 2020, 2021, 2022, 2023]);
+let selectedYears_Set = new Set([2018, 2019, 2020, 2021, 2022]);
 
 const changeListenerForInputYears = (input, year) => {
   if (input.checked) {
@@ -1286,7 +1286,7 @@ function showApiLoadingFunction(action) {
   if (action === "close") {
     setTimeout(() => {
       loadingDiv.classList.add("hidden");
-    }, 1500); 
+    }, 1500); // 2-second delay
   } else if (action === "open") {
     loadingDiv.classList.remove("hidden");
 

@@ -42,7 +42,6 @@ const findUniqueYears = (data) => {
         }
       }
     });
-    
 
     yearsData_Array.sort();
 

@@ -42,7 +42,6 @@ const findUniqueYears = (data) => {
         }
       }
     });
-    
 
     yearsData_Array.sort();
 
@@ -2337,9 +2336,6 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("cfiData", JSON.stringify(object));
 
   const selectedYears = getSelectedYearsFromLocalStorage();
-
-  console.log({selectedYears});
-  
   const cfiValue =
     object.cfiRatio_Client[selectedYears[selectedYears.length - 1]].value;
   updateCfiValue(cfiValue, selectedYears[selectedYears.length - 1]);
@@ -2489,8 +2485,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   console.log({'domLoad': yearsData_Array});
   
-  showApiLoadingFunction('open')
-
+  
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
   countUniqueClients(recordsPeer)
@@ -2531,9 +2526,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error(err);
   } finally {
     // Any cleanup code if needed
-    showApiLoadingFunction('close')
   }
 
+  showApiLoadingFunction('close')
   
 
 });

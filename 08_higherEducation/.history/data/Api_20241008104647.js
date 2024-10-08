@@ -42,7 +42,6 @@ const findUniqueYears = (data) => {
         }
       }
     });
-    
 
     yearsData_Array.sort();
 
@@ -2337,9 +2336,6 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("cfiData", JSON.stringify(object));
 
   const selectedYears = getSelectedYearsFromLocalStorage();
-
-  console.log({selectedYears});
-  
   const cfiValue =
     object.cfiRatio_Client[selectedYears[selectedYears.length - 1]].value;
   updateCfiValue(cfiValue, selectedYears[selectedYears.length - 1]);

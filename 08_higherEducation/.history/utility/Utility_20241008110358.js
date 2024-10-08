@@ -1286,7 +1286,7 @@ function showApiLoadingFunction(action) {
   if (action === "close") {
     setTimeout(() => {
       loadingDiv.classList.add("hidden");
-    }, 1500); 
+    }, 1500); // 2-second delay
   } else if (action === "open") {
     loadingDiv.classList.remove("hidden");
 

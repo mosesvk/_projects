@@ -76,12 +76,12 @@ const getMainChartOptions = (
 
   // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })\
 
-  let yaxisAnnotation;
+  let yaxisAnnotation
 
-  if (mainName == "cfiRatio") {
-    cfiRatio_annotation = [
+  if (mainName == 'cfiRatio') {
+    cfiRatio_annotation =  [
       {
-        id: "annotation",
+        id: 'annotation',
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
@@ -101,12 +101,12 @@ const getMainChartOptions = (
           },
         },
       },
-    ];
-    yaxisAnnotation = cfiRatio_annotation;
-  } else if (mainName == "cfi_primaryReserveRatio") {
-    cfi_primaryReserveRatio_annotation = [
+    ]
+    yaxisAnnotation = cfiRatio_annotation
+  } else if (mainName == 'cfi_primaryReserveRatio') {
+    cfi_primaryReserveRatio_annotation =  [
       {
-        id: "annotation",
+        id: 'annotation',
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
@@ -126,12 +126,12 @@ const getMainChartOptions = (
           },
         },
       },
-    ];
-    yaxisAnnotation = cfi_primaryReserveRatio_annotation;
-  } else if (mainName == "cfi_netIncomeOperationsRatio") {
-    cfi_netIncomeOperationsRatio_annotation = [
+    ]
+    yaxisAnnotation = cfi_primaryReserveRatio_annotation
+  } else if (mainName == 'cfi_netIncomeOperationsRatio') {
+    cfi_netIncomeOperationsRatio_annotation =  [
       {
-        id: "annotation",
+        id: 'annotation',
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
@@ -151,12 +151,12 @@ const getMainChartOptions = (
           },
         },
       },
-    ];
-    yaxisAnnotation = cfi_netIncomeOperationsRatio_annotation;
-  } else if (mainName == "cfi_returnOnNetAssets") {
-    cfi_returnOnNetAssets_annotation = [
+    ]
+    yaxisAnnotation = cfi_netIncomeOperationsRatio_annotation
+  } else if (mainName == 'cfi_returnOnNetAssets') {
+    cfi_returnOnNetAssets_annotation =  [
       {
-        id: "annotation",
+        id: 'annotation',
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
@@ -176,13 +176,12 @@ const getMainChartOptions = (
           },
         },
       },
-    ];
-    yaxisAnnotation = cfi_returnOnNetAssets_annotation;
-  } else {
-    // cfi_viabilityRatio
-    cfi_viabilityRatio_annotation = [
+    ]
+    yaxisAnnotation = cfi_returnOnNetAssets_annotation
+  } else { // cfi_viabilityRatio
+    cfi_viabilityRatio_annotation =  [
       {
-        id: "annotation",
+        id: 'annotation',
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
@@ -202,9 +201,10 @@ const getMainChartOptions = (
           },
         },
       },
-    ];
-    yaxisAnnotation = cfi_viabilityRatio_annotation;
+    ]
+    yaxisAnnotation = cfi_viabilityRatio_annotation
   }
+
 
   return {
     colors: [
@@ -336,7 +336,8 @@ const getFSchartOptions = (
   chartId,
   tableDataClass
 ) => {
-  console.log({ data, client, color, numType, title, chartId });
+  // if (chartId == "#assets_chart")
+  //   console.log({ data, client, color, numType, title, chartId });
 
   const clientString = client.replace("_Client", "");
 
@@ -1167,16 +1168,16 @@ const getFfaChartOptions = (data) => {
     revenueAuxiliaryActivitiesClient +
     revenueOtherClient;
 
-  const changeInNetAssetsWithDRClient = Number(
-    data["ffa_changeInNetAssetsWithDR_Client"][currentYear].value
+  const contributionsClient = Number(
+    data["ffa_contributions_Client"][currentYear].value
   );
-  const netChangeRestrictedInPerpetuityClient = Number(
-    data["ffa_netChangeRestrictedInPerpetuity_Client"][currentYear].value
+  const changeInPermanentClient = Number(
+    data["ffa_changeInPermanentlyRestrictedNA_Client"][currentYear].value
   );
 
   const restrictedGiftsClient =
-    auxiliaryAndOtherClient +
-    (changeInNetAssetsWithDRClient + netChangeRestrictedInPerpetuityClient);
+    auxiliaryAndOtherClient + (contributionsClient + changeInPermanentClient);
+
 
   const employeeBenefitsClient = Number(
     data["ffa_employeeBenefits_Client"][currentYear].value
@@ -1184,6 +1185,7 @@ const getFfaChartOptions = (data) => {
   const salariesAndWagesClient = Number(
     data["ffa_salariesAndWages_Client"][currentYear].value
   );
+
 
   const compensationAndBenefitsClient =
     restrictedGiftsClient - (salariesAndWagesClient + employeeBenefitsClient);
@@ -1194,8 +1196,8 @@ const getFfaChartOptions = (data) => {
 
   const generalExpenseClient =
     compensationAndBenefitsClient -
-    (totalFunctionalExpensesClient -
-      (employeeBenefitsClient + salariesAndWagesClient));
+    (totalFunctionalExpensesClient - (employeeBenefitsClient + salariesAndWagesClient));
+
 
   const surplusDefecitClient = 0 + generalExpenseClient;
 
@@ -1359,6 +1361,11 @@ const getFfaChartOptions = (data) => {
       position: "top",
       fontSize: "20px",
     },
+    dataLabels: {
+      enabled: true,
+      formatter: tooltipFormatter,
+      textAnchor: 'start',
+    }
   };
 };
 
@@ -1720,7 +1727,7 @@ const getCurrentRatioChartOptions = (data) => {
         // }
       },
       {
-        show: false,
+        show: false
         // opposite: true,
         // axisBorder: {
         //   show: false,
@@ -2323,7 +2330,9 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
 const getAdminCostsPerStudentChartOptions = (data) => {
   // console.log({ data });
 
-  const mostRecentYear = Math.max(...Object.keys(data["healthAdminAsst_Peer"]));
+  const mostRecentYear = Math.max(
+    ...Object.keys(data["healthAdminAsst_Peer"])
+  );
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   let clientArray = [];
@@ -3409,6 +3418,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
   };
 };
 
+
 // Linear Gauge Chart
 
 const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
@@ -3814,19 +3824,15 @@ const getDebtBurdenRatioChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    const debtServiceClientNum = Number(data.debtService_Client[year].value);
-    const operationalExpenseClientNum = Number(
-      data.operationalExpense_Client[year].value
-    );
-    const clientRatioNum = debtServiceClientNum / operationalExpenseClientNum;
+    const debtServiceClientNum = Number(data.debtService_Client[year].value)
+    const operationalExpenseClientNum = Number(data.operationalExpense_Client[year].value)
+    const clientRatioNum = debtServiceClientNum/operationalExpenseClientNum
 
-    const debtServicePeerNum = getSumOfArray(data.debtService_Peer[year]);
-    const operationalExpensePeerNum = getSumOfArray(
-      data.operationalExpense_Peer[year]
-    );
-    const peerRatioNum = debtServicePeerNum / operationalExpensePeerNum;
+    const debtServicePeerNum = getSumOfArray(data.debtService_Peer[year])
+    const operationalExpensePeerNum = getSumOfArray(data.operationalExpense_Peer[year])
+    const peerRatioNum = debtServicePeerNum/operationalExpensePeerNum
 
-    let num = Math.round(clientRatioNum * 100);
+    let num = Math.round(clientRatioNum * 100)
     clientRatioArray.push(num);
 
     num = Math.round(peerRatioNum * 100);
@@ -3835,7 +3841,9 @@ const getDebtBurdenRatioChartOptions = (data) => {
     num = Math.round(Number(data.debtService_Client[year].value));
     debtServiceArray.push(num);
 
-    num = Math.round(Number(data.operationalExpense_Client[year].value));
+    num = Math.round(
+      Number(data.operationalExpense_Client[year].value)
+    );
     operationalExpenseArray.push(num);
   });
 
@@ -4024,10 +4032,7 @@ const getEndowmentAssetsPerStudentMapOptions = (data) => {
   am4core.useTheme(am4themes_animated);
 
   // Create map instance
-  var chart = am4core.create(
-    "endowmentAssetsPerStudentMAP_chart",
-    am4maps.MapChart
-  );
+  var chart = am4core.create("endowmentAssetsPerStudentMAP_chart", am4maps.MapChart);
 
   // Set map definition
   chart.geodata = am4geodata_usaLow;
@@ -4304,7 +4309,9 @@ const getEndowmentAssetsPerStudentMapOptions = (data) => {
 const getEndowmentAssetsPerStudentChartOptions = (data) => {
   // console.log({ data });
 
-  const mostRecentYear = Math.max(...Object.keys(data["endowmentSize_Client"]));
+  const mostRecentYear = Math.max(
+    ...Object.keys(data["endowmentSize_Client"])
+  );
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   let clientArray = [];
@@ -4312,24 +4319,25 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
   selectedYearsArray.map((year) => {
     const endowmentSizeClient = Number(data.endowmentSize_Client[year].value);
-    const totalStudentFteClient = Number(
-      data.totalStudentFte_Client[year].value
-    );
+    const totalStudentFteClient = Number(data.totalStudentFte_Client[year].value);
     const clientRatio = endowmentSizeClient / totalStudentFteClient;
 
     const endowmentSizePeer = getSumOfArray(data.endowmentSize_Peer[year]);
     const totalStudentFtePeer = getSumOfArray(data.totalStudentFte_Peer[year]);
     // console.log({endowmentSizePeer, totalStudentFtePeer, endowmentSizeClient, totalStudentFteClient});
-
-    const peerRatio = endowmentSizePeer / totalStudentFtePeer;
+    
+    const peerRatio = endowmentSizePeer / totalStudentFtePeer
 
     // console.log({clientRatio, peerRatio});
+    
 
-    const clientData = isNaN(clientRatio) ? clientRatio * 100 : 0;
+    const clientData =
+      isNaN(clientRatio) ? clientRatio * 100 : 0;
     clientArray.push(clientData);
 
     const peerData = isNaN(peerRatio) ? peerRatio * 100 : 0;
     peerArray.push(peerData);
+
   });
 
   // console.log({

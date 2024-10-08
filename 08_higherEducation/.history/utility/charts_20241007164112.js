@@ -336,7 +336,8 @@ const getFSchartOptions = (
   chartId,
   tableDataClass
 ) => {
-  console.log({ data, client, color, numType, title, chartId });
+  // if (chartId == "#assets_chart")
+  //   console.log({ data, client, color, numType, title, chartId });
 
   const clientString = client.replace("_Client", "");
 
@@ -1170,13 +1171,12 @@ const getFfaChartOptions = (data) => {
   const changeInNetAssetsWithDRClient = Number(
     data["ffa_changeInNetAssetsWithDR_Client"][currentYear].value
   );
-  const netChangeRestrictedInPerpetuityClient = Number(
+  const changeInPermanentClient = Number(
     data["ffa_netChangeRestrictedInPerpetuity_Client"][currentYear].value
   );
 
   const restrictedGiftsClient =
-    auxiliaryAndOtherClient +
-    (changeInNetAssetsWithDRClient + netChangeRestrictedInPerpetuityClient);
+    auxiliaryAndOtherClient + (contributionsClient + changeInPermanentClient);
 
   const employeeBenefitsClient = Number(
     data["ffa_employeeBenefits_Client"][currentYear].value

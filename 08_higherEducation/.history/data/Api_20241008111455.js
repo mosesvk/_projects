@@ -42,12 +42,26 @@ const findUniqueYears = (data) => {
         }
       }
     });
-    
 
     yearsData_Array.sort();
 
     //nav-component
-    addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
+    addUniqueYearsToOptionsSelectDropdown([
+      "2010",
+      "2011",
+      "2012",
+      "2013",
+      "2014",
+      "2015",
+      "2016",
+      "2017",
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+    ]);
   }
 };
 
@@ -245,7 +259,7 @@ const processDebtEndowmentContentData = (
       return fiscalYear.includes(year.toString());
     });
     filteredPeerRecords.forEach((record) => {
-       const debtBurdenRatio_array = [
+      const debtBurdenRatio_array = [
         {
           key: "debtService_Peer",
           field: "r015_notes_payable",
@@ -254,7 +268,7 @@ const processDebtEndowmentContentData = (
           key: "operationalExpense_Peer",
           field: "r166_ctotal_natural_category_expenses",
         },
-       ]
+      ];
       debtBurdenRatio_array.forEach(({ key, field }) => {
         insertDataIntoObject(
           "peer",
@@ -264,8 +278,8 @@ const processDebtEndowmentContentData = (
           record,
           field,
           "Yes"
-        )
-      })
+        );
+      });
 
       const endowmentOperatingBudget_array = [
         {
@@ -286,9 +300,9 @@ const processDebtEndowmentContentData = (
           record,
           field,
           "Yes"
-        )
-      })
-    })
+        );
+      });
+    });
   });
 
   const dataKeys = [
@@ -1720,7 +1734,6 @@ const processFinancialAnalysisContentData = (
         "r030_revenue_endowment_spending_appropriation"
       );
 
-
       // ffa_changeInNetAssetsWithDR_Client
       insertDataIntoObject(
         "client",
@@ -1730,7 +1743,6 @@ const processFinancialAnalysisContentData = (
         record,
         "r059_cchange_in_net_assets_with_donor_restrictions"
       );
-
 
       // ffa_netChangeRestrictedInPerpetuity_Client
       insertDataIntoObject(
@@ -2338,8 +2350,8 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  console.log({selectedYears});
-  
+  console.log({ selectedYears });
+
   const cfiValue =
     object.cfiRatio_Client[selectedYears[selectedYears.length - 1]].value;
   updateCfiValue(cfiValue, selectedYears[selectedYears.length - 1]);
@@ -2355,14 +2367,15 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
 const countUniqueClients = (records) => {
   const uniqueClients = new Set();
   // console.log({ records });
-  
+
   try {
     records.forEach((record) => {
       const fiscalYear = record.querySelector("year").textContent;
       // console.log({ fiscalYear, selectedYears_Set, record });
-      
+
       if (selectedYears_Set.has(Number(fiscalYear))) {
-        const mainRelatedClient = record.querySelector("merged_client_name").textContent;
+        const mainRelatedClient =
+          record.querySelector("merged_client_name").textContent;
         uniqueClients.add(mainRelatedClient);
       }
     });
@@ -2458,11 +2471,10 @@ const displayComponents = () => {
   displayReportComponent();
 };
 
-
 // Run Api on Button Click
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
-  showApiLoadingFunction('open')
+  showApiLoadingFunction("open");
   // uploadMainFile = ''
   // document.getElementById('print_modal_footer').classList.add('hidden');
   const recordsClient = await fetchClientData();
@@ -2480,20 +2492,19 @@ run_btn.addEventListener("click", async () => {
     console.error(err);
   } finally {
     toggleButtonNormalState(run_btn);
-    showApiLoadingFunction('close')
+    showApiLoadingFunction("close");
   }
 });
 
 // Run Api on Initial Load
 document.addEventListener("DOMContentLoaded", async () => {
+  console.log({ domLoad: yearsData_Array });
 
-  console.log({'domLoad': yearsData_Array});
-  
-  showApiLoadingFunction('open')
+  showApiLoadingFunction("open");
 
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
-  countUniqueClients(recordsPeer)
+  countUniqueClients(recordsPeer);
 
   findUniqueYears(recordsClient);
   const clientsArray = [...recordsPeer].map((record) => {
@@ -2511,10 +2522,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("firmName").textContent = clientName;
 
   try {
-    const selectedYears = getSelectedYearsFromLocalStorage()
+    const selectedYears = getSelectedYearsFromLocalStorage();
     const requiredYears = [2018, 2019, 2020, 2021, 2022, 2023, 2024];
-    const filteredYears = requiredYears.filter(year => selectedYears.includes(year));
-  
+    const filteredYears = requiredYears.filter((year) =>
+      selectedYears.includes(year)
+    );
+
     if (filteredYears.length > 0) {
       // console.log({filteredYears})
       saveSelectedYearsToLocalStorage(filteredYears);
@@ -2523,17 +2536,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       processApiCalls(filteredYears, recordsPeer, recordsClient);
       displayComponents();
     } else {
-      console.error('no Data')
+      console.error("no Data");
     }
-  
+
     displayComponents();
   } catch (err) {
     console.error(err);
   } finally {
     // Any cleanup code if needed
-    showApiLoadingFunction('close')
+    showApiLoadingFunction("close");
   }
-
-  
-
 });
