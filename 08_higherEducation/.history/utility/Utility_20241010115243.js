@@ -635,7 +635,7 @@ const getPeerAndClientChartDataArrays = (
 
     benchmarkArray.push(benchmark);
 
-    if (dataPeer !== undefined && dataPeer !== null && dataClient !== undefined && dataClient !== null) {
+    if (dataPeer !== undefined && dataClient !== undefined) {
       console.log('---- hit if');
       
       const array = dataPeer[year];
@@ -658,7 +658,7 @@ const getPeerAndClientChartDataArrays = (
       const client = dataClient[year].value;
       const clientNum = styleNumber(client, type, fixedNum);
       clientArray.push(clientNum);
-    } else if (dataPeer === undefined && dataClient) {
+    } else if (dataPeer == undefined && dataClient) {
       console.log('---- hit ELSE if');
       
 

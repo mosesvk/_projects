@@ -24,10 +24,6 @@ async function svgToPngBase64(element, id) {
   }
 }
 
-function uploadSingleToFile(id, val) {
-  uploadMainFile += `<field fid='${id}'>${val}</field>`;
-}
-
 const getPngString = async (id, fieldId) => {
   try {
     const element = document.getElementById(id);
@@ -128,6 +124,8 @@ const mainPrint = async () => {
   showApiLoadingFunction("close", "print");
 };
 
-
+function uploadSingleToFile(id, val) {
+  uploadMainFile += `<field fid='${id}'>${val}</field>`;
+}
 
 printButton.addEventListener("click", mainPrint); //uploadToFile

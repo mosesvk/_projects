@@ -7,7 +7,7 @@ const getMainChartOptions = (
   benchmark,
   title
 ) => {
-  // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
+  console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   let leng = selectedYearsArray.length;

@@ -631,13 +631,11 @@ const getPeerAndClientChartDataArrays = (
   const benchmarkArray = [];
 
   years.forEach((year) => {
-    console.log({ year, peer: dataPeer[year], client: dataClient[year] });
+    // console.log({ year, peer: dataPeer[year], client: dataClient[year] });
 
     benchmarkArray.push(benchmark);
 
-    if (dataPeer !== undefined && dataPeer !== null && dataClient !== undefined && dataClient !== null) {
-      console.log('---- hit if');
-      
+    if (dataPeer != undefined && dataClient != undefined) {
       const array = dataPeer[year];
       // if (mainName == 'cfiRatio') console.log(array)
       const avg = getAverageOfArray(array, mainName);
@@ -658,8 +656,8 @@ const getPeerAndClientChartDataArrays = (
       const client = dataClient[year].value;
       const clientNum = styleNumber(client, type, fixedNum);
       clientArray.push(clientNum);
-    } else if (dataPeer === undefined && dataClient) {
-      console.log('---- hit ELSE if');
+    } else if (dataPeer == undefined && dataClient) {
+      console.log('hit else if');
       
 
       peerAvg.push(0);
