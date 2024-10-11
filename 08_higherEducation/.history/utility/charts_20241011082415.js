@@ -1382,19 +1382,28 @@ const getCashFlowTrendChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   const seriesData = selectedYearsArray.map((year) => {
-    const operatingVal = Number(operatingData[year]?.value) || 0;
-    const investingVal = Number(investingData[year]?.value) || 0;
-    const financeVal = Number(financeData[year]?.value) || 0;
-  
+    const operatingVal = operatingData[year]?.value || 0;
+    const investingVal = investingData[year]?.value || 0;
+    const financeVal = financeData[year]?.value || 0;
+
     const totalVal = operatingVal + investingVal + financeVal;
-  
+
     const data = [operatingVal, investingVal, financeVal, totalVal];
-  
+
     return {
       name: year.toString(),
       data: data,
     };
   });
+
+  // get the max number from the seriesData.data and divide that by 4
+  const maxNumber = Math.max(
+    ...seriesData.map((item) => Math.max(...item.data))
+  );
+  const yaxisTickStepSize = Math.round(maxNumber / 4);
+
+  console.log({ seriesData, maxNumber, yaxisTickStepSize });
+  
 
   // console.log(seriesData);
 
@@ -1477,8 +1486,7 @@ const getCashFlowTrendChartOptions = (data) => {
       position: "top",
     },
     yaxis: {
-      // stepSize: yaxisTickStepSize,
-      tickAmount: 6,
+      stepSize: yaxisTickStepSize,
       axisTicks: {
         show: true,
       },

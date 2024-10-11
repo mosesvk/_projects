@@ -1396,6 +1396,15 @@ const getCashFlowTrendChartOptions = (data) => {
     };
   });
 
+  // get the max number from the seriesData.data and divide that by 4
+  const maxNumber = Math.max(
+    ...seriesData.map((item) => Math.max(...item.data))
+  );
+  const yaxisTickStepSize = Math.round(maxNumber / 4);
+
+  console.log({ seriesData, maxNumber, yaxisTickStepSize });
+  
+
   // console.log(seriesData);
 
   const chartColors = document.documentElement.classList.contains("dark")
@@ -1477,8 +1486,7 @@ const getCashFlowTrendChartOptions = (data) => {
       position: "top",
     },
     yaxis: {
-      // stepSize: yaxisTickStepSize,
-      tickAmount: 6,
+      stepSize: yaxisTickStepSize,
       axisTicks: {
         show: true,
       },

@@ -1396,6 +1396,36 @@ const getCashFlowTrendChartOptions = (data) => {
     };
   });
 
+  // get the max number from the seriesData.data and divide that by 4
+  const maxNumber = Math.max(
+    ...seriesData.map((item) => Math.max(...item.data))
+  );
+  
+  // Determine the appropriate rounding factor based on the size of maxNumber
+  let roundingFactor;
+  
+  if (maxNumber > 10000000) {
+    roundingFactor = 10000000;
+  } else if (maxNumber > 1000000) {
+    roundingFactor = 1000000;
+  } else if (maxNumber > 100000) {
+    roundingFactor = 100000;
+  } else if (maxNumber > 10000) {
+    roundingFactor = 10000;
+  } else if (maxNumber > 1000) {
+    roundingFactor = 1000;
+  } else {
+    roundingFactor = 100;
+  }
+  
+  // Divide maxNumber by 4 and round to the nearest appropriate rounding factor
+  const yaxisTickStepSize = Math.round(maxNumber / 4 / roundingFactor) * roundingFactor;
+  
+  
+
+  console.log({ seriesData, maxNumber, yaxisTickStepSize });
+  
+
   // console.log(seriesData);
 
   const chartColors = document.documentElement.classList.contains("dark")
@@ -1477,8 +1507,7 @@ const getCashFlowTrendChartOptions = (data) => {
       position: "top",
     },
     yaxis: {
-      // stepSize: yaxisTickStepSize,
-      tickAmount: 6,
+      stepSize: yaxisTickStepSize,
       axisTicks: {
         show: true,
       },

@@ -1395,6 +1395,7 @@ const getCashFlowTrendChartOptions = (data) => {
       data: data,
     };
   });
+  
 
   // console.log(seriesData);
 

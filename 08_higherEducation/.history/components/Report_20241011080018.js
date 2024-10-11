@@ -1,4 +1,6 @@
 const displayReportComponent = () => {
+  // console.log('displayReportComponent()');
+  
   const cfiData = JSON.parse(localStorage.getItem("cfiData"));
   const financialAnalysisContentData = JSON.parse(
     localStorage.getItem("financialAnalysisContentData")
@@ -247,7 +249,7 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
     const peerName = `${variable[1]}_Peer`;
     const title = variable[0];
 
-    console.log({clientName, peerNa2me, title, data});
+    // console.log({clientName, peerName, title, data});
 
     const clientValue =
       Number(data[clientName][selectedYears[0]].value) > 0
@@ -282,16 +284,18 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
 };
 
 const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
-  // console.log({ data, selectedYears });
+  console.log({ data, selectedYears });
   const totalAssetsClient = data["totalAssets_Client"];
   const totalLiabilitiesClient = data["totalLiabilities_Client"];
   const tableBodyClient = document.getElementById(
     "assetToLiabilitiesClient_tbody"
   );
+  tableBodyClient.innerHTML = ''
 
   const totalAssetsPeer = data["totalAssets_Peer"];
   const totalLiabilitiesPeer = data["totalLiabilities_Peer"];
   const tableBodyPeer = document.getElementById("assetToLiabilitiesPeer_tbody");
+  tableBodyPeer.innerHTML = ''
 
   // console.log({ totalAssetsPeer, totalLiabilitiesPeer });
 

@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
 
+  addUniqueTrendlinesToOptionsSelectTrendlinesDropdown(trendlines_Array);
 });
 
 const findUniqueYears = (data) => {
