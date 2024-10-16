@@ -1629,7 +1629,6 @@ const getCurrentRatioChartOptions = (data) => {
   const postRetirementBenefitObligationsArray = Object.values(
     data["postRetirementHealthBenefits_Client"]
   ).map((item) => Number(item.value));
-
   const annuityObligationsArray = Object.values(
     data["annuityObligations_Client"]
   ).map((item) => Number(item.value));
@@ -1641,7 +1640,7 @@ const getCurrentRatioChartOptions = (data) => {
     (_, index) =>
       accountsPayableArray[index] +
       deferredRevenueArray[index] +
-      postRetirementBenefitObligationsArray[index] +
+      postRetirementArray[index] +
       annuityObligationsArray[index] +
       otherLiabilitiesArray[index]
   );
@@ -1704,19 +1703,19 @@ const getCurrentRatioChartOptions = (data) => {
 
   // Clear existing content before appending
   tableHeader.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide"></th>`;
-  ratioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Ratio</th>`;
-  currentAssetsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Assets</th>`;
-  cashCashEquivalentsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Cash and Cash Equivalents</th>`;
-  accountsReceivableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Receivable</th>`;
-  studentLoansRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Student Loans and Other Receivables</th>`;
-  contributionsReceivableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Contributions Receivable</th>`;
-  prepaidExpensesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Prepaid Expenses and Other Assets</th>`;
-  currentLiabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-2xl text-gray-900 whitespace-nowrap dark:text-white">Current Liabilities</th>`;
-  accountsPayableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Payable and Accrued Liabilities</th>`;
-  deferredRevenueRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Deferred Revenue</th>`;
-  postRetirementBenefitObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Post Retirement Benefit Obligations</th>`;
-  annuityObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Annuity Obligations</th>`;
-  otherLiabilitiesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Other Liabilities</th>`;
+  ratioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Current Ratio</th>`;
+  currentAssetsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Current Assets</th>`;
+  cashCashEquivalentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Cash and Cash Equivalents</th>`;
+  accountsReceivableRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Receivable</th>`;
+  studentLoansRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Student Loans and Other Receivables</th>`;
+  contributionsReceivableRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Contributions Receivable</th>`;
+  prepaidExpensesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Prepaid Expenses and Other Assets</th>`;
+  currentLiabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Current Liabilities</th>`;
+  accountsPayableRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Payable and Accrued Liabilities</th>`;
+  deferredRevenueRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Deferred Revenue</th>`;
+  postRetirementBenefitObligationsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Post Retirement Benefit Obligations</th>`;
+  annuityObligationsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Annuity Obligations</th>`;
+  otherLiabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Other Liabilities</th>`;
 
   // Loop through and populate data for each selected year
   selectedYearsArray.forEach((year, index) => {

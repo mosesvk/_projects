@@ -578,15 +578,6 @@ const getSumOfArray = (array) => {
   return filteredArray.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
 };
 
-const formatCurrency = (value) => {
-  if (value === undefined || value === null || value === 0) return '-'; // Fallback for missing data or zero
-  return `$${new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 2, // For 2 decimal places if needed
-    maximumFractionDigits: 2
-  }).format(value)}`;
-};
-
-
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
   // console.log({'getSelectedYearsFrmLS': storedSelectedYears});
@@ -640,12 +631,12 @@ const getPeerAndClientChartDataArrays = (
   const benchmarkArray = [];
 
   years.forEach((year) => {
-    // console.log({ year, peer: dataPeer[year], client: dataClient[year] });
+    console.log({ year, peer: dataPeer[year], client: dataClient[year] });
 
     benchmarkArray.push(benchmark);
 
-    if (dataPeer[year] !== undefined && dataClient[year] !== undefined ) {
-      // console.log('---- hit if');
+    if (dataPeer == undefined && dataClient !== undefined ) {
+      console.log('---- hit if');
       
       const array = dataPeer[year];
       // if (mainName == 'cfiRatio') console.log(array)
@@ -667,14 +658,14 @@ const getPeerAndClientChartDataArrays = (
       const client = dataClient[year].value;
       const clientNum = styleNumber(client, type, fixedNum);
       clientArray.push(clientNum);
-    } else if (dataPeer[year] === undefined && dataClient[year]) {
-      // console.log('---- hit ELSE if');
+    } else if (dataPeer === undefined && dataClient) {
+      console.log('---- hit ELSE if');
       
 
-      peerAvg.push(null);
-      peerMid.push(null);
-      peer25.push(null);
-      peer75.push(null);
+      peerAvg.push(0);
+      peerMid.push(0);
+      peer25.push(0);
+      peer75.push(0);
 
       const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
       clientArray.push(clientNum);

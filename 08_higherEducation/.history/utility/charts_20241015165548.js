@@ -1626,14 +1626,13 @@ const getCurrentRatioChartOptions = (data) => {
   const deferredRevenueArray = Object.values(
     data["deferredRevenue_Client"]
   ).map((item) => Number(item.value));
-  const postRetirementBenefitObligationsArray = Object.values(
-    data["postRetirementHealthBenefits_Client"]
+  const postRetirementArray = Object.values(
+    data["postRetirementBenefitObligations_Client"]
   ).map((item) => Number(item.value));
-
   const annuityObligationsArray = Object.values(
     data["annuityObligations_Client"]
   ).map((item) => Number(item.value));
-  const otherLiabilitiesArray = Object.values(data["deferredRevenue_Client"]).map(
+  const otherLiabilities = Object.values(data["deferredRevenue_Client"]).map(
     (item) => Number(item.value)
   );
 
@@ -1641,9 +1640,9 @@ const getCurrentRatioChartOptions = (data) => {
     (_, index) =>
       accountsPayableArray[index] +
       deferredRevenueArray[index] +
-      postRetirementBenefitObligationsArray[index] +
+      postRetirementArray[index] +
       annuityObligationsArray[index] +
-      otherLiabilitiesArray[index]
+      otherLiabilities[index]
   );
 
   const currentRatioArray = currentAssetsArray.map((asset, index) => {
@@ -1692,31 +1691,19 @@ const getCurrentRatioChartOptions = (data) => {
   const deferredRevenueRow = document.getElementById(
     "row_currentRatio_deferredRevenue"
   );
-  const postRetirementBenefitObligationsRow = document.getElementById(
-    "row_currentRatio_postRetirementBenefits"
-  );
-  const annuityObligationsRow = document.getElementById(
-    "row_currentRatio_AnnuityObligations"
-  );
-  const otherLiabilitiesRow = document.getElementById(
-    "row_currentRatio_otherLiabilities"
-  );
 
   // Clear existing content before appending
   tableHeader.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide"></th>`;
-  ratioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Ratio</th>`;
-  currentAssetsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Assets</th>`;
-  cashCashEquivalentsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Cash and Cash Equivalents</th>`;
-  accountsReceivableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Receivable</th>`;
-  studentLoansRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Student Loans and Other Receivables</th>`;
-  contributionsReceivableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Contributions Receivable</th>`;
-  prepaidExpensesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Prepaid Expenses and Other Assets</th>`;
-  currentLiabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-2xl text-gray-900 whitespace-nowrap dark:text-white">Current Liabilities</th>`;
-  accountsPayableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Payable and Accrued Liabilities</th>`;
-  deferredRevenueRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Deferred Revenue</th>`;
-  postRetirementBenefitObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Post Retirement Benefit Obligations</th>`;
-  annuityObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Annuity Obligations</th>`;
-  otherLiabilitiesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Other Liabilities</th>`;
+  ratioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Current Ratio</th>`;
+  currentAssetsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Current Assets</th>`;
+  cashCashEquivalentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Cash and Cash Equivalents</th>`;
+  accountsReceivableRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Receivable</th>`;
+  studentLoansRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Student Loans and Other Receivables</th>`;
+  contributionsReceivableRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Contributions Receivable</th>`;
+  prepaidExpensesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Prepaid Expenses and Other Assets</th>`;
+  currentLiabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Current Liabilities</th>`;
+  accountsPayableRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Payable and Accrued Liabilities</th>`;
+  deferredRevenueRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Deferred Revenue</th>`;
 
   // Loop through and populate data for each selected year
   selectedYearsArray.forEach((year, index) => {
@@ -1794,27 +1781,6 @@ const getCurrentRatioChartOptions = (data) => {
       ${formatCurrency(deferredRevenueArray[index])}
     </th>
   `;
-
-    // populate post retirement benefit obligations row
-    postRetirementBenefitObligationsRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(postRetirementBenefitObligationsArray[index])}
-    </th>
-    `;
-
-    // populate annuity obligations row
-    annuityObligationsRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(annuityObligationsArray[index])}
-    </th>
-    `;
-
-    // populate other liabilities row
-    otherLiabilitiesRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(otherLiabilitiesArray[index])}
-    </th>
-    `;
   });
 
   const formatNumber = (value) => value.toLocaleString();

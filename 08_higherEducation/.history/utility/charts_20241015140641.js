@@ -528,76 +528,72 @@ const getFpaChartOptions = (data) => {
     .reverse();
 
   // console.log({ totalAssetsArray, totalLiabilitiesArray, netPositionArray });
+  
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   const tableHeader = document.getElementById("row_fpa_tableHeader");
-  const assetsRow = document.getElementById("row_fpa_assets");
-  const liabilitiesRow = document.getElementById("row_fpa_liabilities");
-  const netPositionRow = document.getElementById("row_fpa_netPosition");
+const assetsRow = document.getElementById("row_fpa_assets");
+const liabilitiesRow = document.getElementById("row_fpa_liabilities");
+const netPositionRow = document.getElementById("row_fpa_netPosition");
 
-  // Clear existing table content before appending
-  tableHeader.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide"></th>`;
-  assetsRow.innerHTML = `<th scope="row" class="px-6 py-2 font-meddium text-gray-900 whitespace-nowrap dark:text-white">Assets</th>`;
-  liabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Liabilities</th>`;
-  netPositionRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Net Position</th>`;
+// Clear existing table content before appending
+tableHeader.innerHTML = "";
+assetsRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Assets</th>`;
+liabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Liabilities</th>`;
+netPositionRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Net Position</th>`;
 
-  // Loop through selected years and populate the table
-  selectedYearsArray.forEach((year, index) => {
-    const assetValue = `${formatCurrency(totalAssetsArray[index])}`;
-    const liabilitiesValue = `${formatCurrency(totalLiabilitiesArray[index])}`;
-    const netPositionValue = `${formatCurrency(netPositionArray[index])}`;
+// Loop through selected years and populate the table
+selectedYearsArray.forEach((year, index) => {
+  const assetValue = `$${totalAssetsArray[index].toLocaleString()}`;
+  const liabilitiesValue = `$${totalLiabilitiesArray[index].toLocaleString()}`;
+  const netPositionValue = `$${netPositionArray[index].toLocaleString()}`;
 
-    // Add year to table header
-    tableHeader.innerHTML += `
+  // Add year to table header
+  tableHeader.innerHTML += `
     <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
   `;
 
-    // Add corresponding asset data
-    assetsRow.innerHTML += `
+  // Add corresponding asset data
+  assetsRow.innerHTML += `
     <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      ${
-        totalAssetsArray[index] ? assetValue : "-"
-      } <!-- Fallback in case data is missing -->
+      ${totalAssetsArray[index] ? assetValue : '-'} <!-- Fallback in case data is missing -->
     </th>
   `;
 
-    // Add corresponding liabilities data
-    liabilitiesRow.innerHTML += `
+  // Add corresponding liabilities data
+  liabilitiesRow.innerHTML += `
     <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      ${
-        totalLiabilitiesArray[index] ? liabilitiesValue : "-"
-      } <!-- Fallback in case data is missing -->
+      ${totalLiabilitiesArray[index] ? liabilitiesValue : '-'} <!-- Fallback in case data is missing -->
     </th>
   `;
 
-    // Add corresponding net position data
-    netPositionRow.innerHTML += `
+  // Add corresponding net position data
+  netPositionRow.innerHTML += `
     <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      ${
-        netPositionArray[index] ? netPositionValue : "-"
-      } <!-- Fallback in case data is missing -->
+      ${netPositionArray[index] ? netPositionValue : '-'} <!-- Fallback in case data is missing -->
     </th>
   `;
-  });
+});
+
 
   const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#3A464F",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#6B7280",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
+  ? {
+      borderColor: "#374151",
+      labelColor: "#3A464F",
+      opacityFrom: 0,
+      opacityTo: 0.15,
+    }
+  : {
+      borderColor: "#F3F4F6",
+      labelColor: "#6B7280",
+      opacityFrom: 0.45,
+      opacityTo: 0,
+    };
 
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#3a464f";
+const chartColor = document.documentElement.classList.contains("dark")
+  ? "#e3f0fa"
+  : "#3a464f";
 
   const formatNumber = (value) => value.toLocaleString();
 
@@ -1245,18 +1241,18 @@ const getFfaChartOptions = (data) => {
   );
   const occupancyUtilitiesAndMaintenanceClient = Number(
     data["ffa_occupancyUtilitiesAndMaintenance_Client"][currentYear].value
-  );
+  ); 
   const incomeExpenseSurplusDefecitClient = Number(
     data["ffa_incomeExpenseSurplusDefecit_Client"][currentYear].value
   );
-  const interestClient = Number(data["ffa_interest_Client"][currentYear].value);
+  const interestClient = Number(
+    data["ffa_interest_Client"][currentYear].value
+  );
+
 
   const generalExpenseClient =
     compensationAndBenefitsClient -
-    (servicesSuppliesOtherClient +
-      occupancyUtilitiesAndMaintenanceClient +
-      incomeExpenseSurplusDefecitClient +
-      interestClient);
+    ( (servicesSuppliesOtherClient + occupancyUtilitiesAndMaintenanceClient + incomeExpenseSurplusDefecitClient + interestClient) );
 
   const surplusDefecitClient = 0 + generalExpenseClient;
 
@@ -1437,11 +1433,11 @@ const getCashFlowTrendChartOptions = (data) => {
     const operatingVal = Number(operatingData[year]?.value) || 0;
     const investingVal = Number(investingData[year]?.value) || 0;
     const financeVal = Number(financeData[year]?.value) || 0;
-
+  
     const totalVal = operatingVal + investingVal + financeVal;
-
+  
     const data = [operatingVal, investingVal, financeVal, totalVal];
-
+  
     return {
       name: year.toString(),
       data: data,
@@ -1626,24 +1622,9 @@ const getCurrentRatioChartOptions = (data) => {
   const deferredRevenueArray = Object.values(
     data["deferredRevenue_Client"]
   ).map((item) => Number(item.value));
-  const postRetirementBenefitObligationsArray = Object.values(
-    data["postRetirementHealthBenefits_Client"]
-  ).map((item) => Number(item.value));
-
-  const annuityObligationsArray = Object.values(
-    data["annuityObligations_Client"]
-  ).map((item) => Number(item.value));
-  const otherLiabilitiesArray = Object.values(data["deferredRevenue_Client"]).map(
-    (item) => Number(item.value)
-  );
 
   const currentLiabilitiesArray = accountsPayableArray.map(
-    (_, index) =>
-      accountsPayableArray[index] +
-      deferredRevenueArray[index] +
-      postRetirementBenefitObligationsArray[index] +
-      annuityObligationsArray[index] +
-      otherLiabilitiesArray[index]
+    (_, index) => accountsPayableArray[index] + deferredRevenueArray[index]
   );
 
   const currentRatioArray = currentAssetsArray.map((asset, index) => {
@@ -1653,6 +1634,8 @@ const getCurrentRatioChartOptions = (data) => {
     return liability !== 0 ? ratio.toFixed(1) : 0; // Avoid division by zero
   });
 
+  // getAverageOfArray
+
   const peerAvgArray = Object.keys(data.currentRatio_Peer).map((key) => {
     const values = data.currentRatio_Peer[key];
     const avg = getAverageOfArray(values);
@@ -1660,162 +1643,14 @@ const getCurrentRatioChartOptions = (data) => {
     return avg.toFixed(1);
   });
 
+  // console.log({
+  //   currentAssetsArray,
+  //   currentLiabilitiesArray,
+  //   currentRatioArray,
+  //   peerAvgArray,
+  // });
+
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
-
-  // Clear and populate the current ratio client table
-  const tableHeader = document.getElementById("row_currentRatio_tableHeader");
-  const ratioRow = document.getElementById("row_currentRatio_ratio");
-  const currentAssetsRow = document.getElementById(
-    "row_currentRatio_currentAssets"
-  );
-  const cashCashEquivalentsRow = document.getElementById(
-    "row_currentRatio_cashCashEquivalents"
-  );
-  const accountsReceivableRow = document.getElementById(
-    "row_currentRatio_accountsReceivable"
-  );
-  const studentLoansRow = document.getElementById(
-    "row_currentRatio_studentLoansAndOtherReceivables"
-  );
-  const contributionsReceivableRow = document.getElementById(
-    "row_currentRatio_contributionsReceivable"
-  );
-  const prepaidExpensesRow = document.getElementById(
-    "row_currentRatio_prepaidExpensesAndOtherAssets"
-  );
-  const currentLiabilitiesRow = document.getElementById(
-    "row_currentRatio_currentLiabilities"
-  );
-  const accountsPayableRow = document.getElementById(
-    "row_currentRatio_accountsPayableAndAccruedLiabilities"
-  );
-  const deferredRevenueRow = document.getElementById(
-    "row_currentRatio_deferredRevenue"
-  );
-  const postRetirementBenefitObligationsRow = document.getElementById(
-    "row_currentRatio_postRetirementBenefits"
-  );
-  const annuityObligationsRow = document.getElementById(
-    "row_currentRatio_AnnuityObligations"
-  );
-  const otherLiabilitiesRow = document.getElementById(
-    "row_currentRatio_otherLiabilities"
-  );
-
-  // Clear existing content before appending
-  tableHeader.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide"></th>`;
-  ratioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Ratio</th>`;
-  currentAssetsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Assets</th>`;
-  cashCashEquivalentsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Cash and Cash Equivalents</th>`;
-  accountsReceivableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Receivable</th>`;
-  studentLoansRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Student Loans and Other Receivables</th>`;
-  contributionsReceivableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Contributions Receivable</th>`;
-  prepaidExpensesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Prepaid Expenses and Other Assets</th>`;
-  currentLiabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-2xl text-gray-900 whitespace-nowrap dark:text-white">Current Liabilities</th>`;
-  accountsPayableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Payable and Accrued Liabilities</th>`;
-  deferredRevenueRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Deferred Revenue</th>`;
-  postRetirementBenefitObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Post Retirement Benefit Obligations</th>`;
-  annuityObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Annuity Obligations</th>`;
-  otherLiabilitiesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Other Liabilities</th>`;
-
-  // Loop through and populate data for each selected year
-  selectedYearsArray.forEach((year, index) => {
-    // Add year to table header
-    tableHeader.innerHTML += `
-    <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-  `;
-
-    // Populate ratio row
-    ratioRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${currentRatioArray[index] || "-"}
-    </th>
-  `;
-
-    // Populate current assets row
-    currentAssetsRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(currentAssetsArray[index])}
-    </th>
-  `;
-
-    // Populate cash and cash equivalents row
-    cashCashEquivalentsRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(cashAndCashEquivalentsArray[index])}
-    </th>
-  `;
-
-    // Populate accounts receivable row
-    accountsReceivableRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(accountsReceivableArray[index])}
-    </th>
-  `;
-
-    // Populate student loans and other receivables row
-    studentLoansRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(studentLoansAndOtherReceivablesArray[index])}
-    </th>
-  `;
-
-    // Populate contributions receivable row
-    contributionsReceivableRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(contributionsReceivableArray[index])}
-    </th>
-  `;
-
-    // Populate prepaid expenses row
-    prepaidExpensesRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(prepaidExpensesArray[index])}
-    </th>
-  `;
-
-    // Populate current liabilities row
-    currentLiabilitiesRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(currentLiabilitiesArray[index])}
-    </th>
-  `;
-
-    // Populate accounts payable row
-    accountsPayableRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(accountsPayableArray[index])}
-    </th>
-  `;
-
-    // Populate deferred revenue row
-    deferredRevenueRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(deferredRevenueArray[index])}
-    </th>
-  `;
-
-    // populate post retirement benefit obligations row
-    postRetirementBenefitObligationsRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(postRetirementBenefitObligationsArray[index])}
-    </th>
-    `;
-
-    // populate annuity obligations row
-    annuityObligationsRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(annuityObligationsArray[index])}
-    </th>
-    `;
-
-    // populate other liabilities row
-    otherLiabilitiesRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-      ${formatCurrency(otherLiabilitiesArray[index])}
-    </th>
-    `;
-  });
 
   const formatNumber = (value) => value.toLocaleString();
 

@@ -579,13 +579,12 @@ const getSumOfArray = (array) => {
 };
 
 const formatCurrency = (value) => {
-  if (value === undefined || value === null || value === 0) return '-'; // Fallback for missing data or zero
+  if (value === undefined || value === null) return '-'; // Fallback for missing data
   return `$${new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2, // For 2 decimal places if needed
     maximumFractionDigits: 2
   }).format(value)}`;
 };
-
 
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));

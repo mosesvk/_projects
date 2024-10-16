@@ -826,11 +826,7 @@ const processFinancialPositionContentData = (
           field: "r011_post_retirement_health_benefits",
         },
         {
-          key: "annuityObligations_Client",
-          field: "r012_annuity_obligations",
-        },
-        {
-          key: "otherLiabilities_Client",
+          key: "deferredRevenue_Client",
           field: "r013_other_liabilities",
         },
       ];
@@ -878,28 +874,6 @@ const processFinancialPositionContentData = (
         "currentRatio_Peer",
         record,
         "r258c_current_ratio",
-        "Yes"
-      );
-
-      // currentRatio
-      insertDataIntoObject(
-        "peer",
-        year,
-        currentRatio_obj,
-        "currentAssets_Peer",
-        record,
-        "r256c_current_assets",
-        "Yes"
-      );
-
-      // currentRatio
-      insertDataIntoObject(
-        "peer",
-        year,
-        currentRatio_obj,
-        "currentLiabilities_Peer",
-        record,
-        "r257c_current_liabilities",
         "Yes"
       );
 
@@ -1369,7 +1343,8 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
         },
         {
           key: "PurchaseOfPropertyAndEquipment_Client",
-          field: "d",
+          field:
+            "d",
         },
         {
           key: "studentLoanFund_Client",
@@ -1865,6 +1840,7 @@ const processFinancialAnalysisContentData = (
         record,
         "r165_interest"
       );
+
 
       // ffa_totalFunctionalExpenses_Client
       insertDataIntoObject(

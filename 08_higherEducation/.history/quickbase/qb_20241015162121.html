@@ -55,6 +55,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer="true"
@@ -80,6 +81,27 @@
       type="text/javascript"
       src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"
     ></script>
+
+    <script>
+      var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
+      $.ajaxSetup({ data: { apptoken: apptoken } });
+
+      //retrieve URL ID for record
+      function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split("=");
+          if (pair[0] == variable) {
+            return pair[1];
+          }
+        }
+        return false;
+      }
+      var ClientRid = getQueryVariable("clientrid");
+      const clientData = "bt3egnexu";
+      const peerData = "bt3mx3t3i";
+    </script>
 
     <script>
       chartColors = {
@@ -3631,7 +3653,7 @@
                           <tbody>
                             <tr
                               id="row_currentRatio_ratio"
-                              class="bg-white font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
@@ -3642,7 +3664,7 @@
                             </tr>
                             <tr
                               id="row_currentRatio_currentAssets"
-                              class="backgroundOffGreen font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="backgroundOffGreen font-bold border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
@@ -3657,7 +3679,7 @@
                             >
                               <th
                                 scope="row"
-                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
                               >
                               Cash and Cash Equivalents
                               </th>
@@ -3668,7 +3690,7 @@
                             >
                               <th
                                 scope="row"
-                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
                               >
                               Accounts Receivable
                               </th>
@@ -3679,7 +3701,7 @@
                             >
                               <th
                                 scope="row"
-                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
                               >
                               Student Loans and other Receivables
                               </th>
@@ -3690,58 +3712,58 @@
                             >
                               <th
                                 scope="row"
-                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
                               >
                               Contributions Receivable
                               </th>
                             </tr>
                             <tr
                               id="row_currentRatio_prepaidExpensesAndOtherAssets"
-                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
-                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
                               >
                               Prepaid Expenses and Other Assets
                               </th>
                             </tr>
                             <tr
                               id="row_currentRatio_currentLiabilities"
-                              class="backgroundOffGreen font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
-                                class="px-6 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
                               >
                                 Current Liabilities
                               </th>
                             </tr>
                             <tr
                               id="row_currentRatio_accountsPayableAndAccruedLiabilities"
-                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
-                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
                               >
                               Accounts Payable and Accrued Liabilities
                               </th>
                             </tr>
                             <tr
                               id="row_currentRatio_deferredRevenue"
-                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
-                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
                               >
                               Deferred Revenue
                               </th>
                             </tr>
                             <tr
                               id="row_currentRatio_postRetirementBenefits"
-                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
@@ -3752,7 +3774,7 @@
                             </tr>
                             <tr
                               id="row_currentRatio_AnnuityObligations"
-                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
@@ -3763,7 +3785,7 @@
                             </tr>
                             <tr
                               id="row_currentRatio_otherLiabilities"
-                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
@@ -4968,15 +4990,23 @@
       </div>
     </div>
 
-    <!-- import all the .js files from components, data, and utility folders-->
-    <script src="./utility/Utility.js"></script>
-    <script src="./utility/WeightedAverages.js"></script>
-    <script src="./utility/Print.js"></script>
-    <script src="./data/Api.js"></script>
-    <script src="./components/DisplayCharts.js"></script>
-    <script src="./components/Header.js"></script>
-    <script src="./components/Report.js"></script>
-    <script src="./utility/UiManagement.js"></script>
-    <script src="utility/charts.js"></script>
+    <!-- utility.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=185"></script>
+    <!-- utilityPrint.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=191"></script>
+    <!-- utilityWeightedAverage.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=192"></script>
+    <!-- api.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=184"></script>
+    <!-- Header.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=186"></script>
+    <!-- displayCharts.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=188"></script>
+    <!-- compReport.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=190"></script>
+    <!-- uiManagement.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=187"></script>
+    <!-- charts.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=189"></script>
   </body>
 </html>

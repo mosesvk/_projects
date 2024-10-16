@@ -881,28 +881,6 @@ const processFinancialPositionContentData = (
         "Yes"
       );
 
-      // currentRatio
-      insertDataIntoObject(
-        "peer",
-        year,
-        currentRatio_obj,
-        "currentAssets_Peer",
-        record,
-        "r256c_current_assets",
-        "Yes"
-      );
-
-      // currentRatio
-      insertDataIntoObject(
-        "peer",
-        year,
-        currentRatio_obj,
-        "currentLiabilities_Peer",
-        record,
-        "r257c_current_liabilities",
-        "Yes"
-      );
-
       // liquidity
       insertDataIntoObject(
         "peer",
@@ -1369,7 +1347,8 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
         },
         {
           key: "PurchaseOfPropertyAndEquipment_Client",
-          field: "d",
+          field:
+            "d",
         },
         {
           key: "studentLoanFund_Client",
@@ -1865,6 +1844,7 @@ const processFinancialAnalysisContentData = (
         record,
         "r165_interest"
       );
+
 
       // ffa_totalFunctionalExpenses_Client
       insertDataIntoObject(

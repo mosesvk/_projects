@@ -578,15 +578,6 @@ const getSumOfArray = (array) => {
   return filteredArray.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
 };
 
-const formatCurrency = (value) => {
-  if (value === undefined || value === null || value === 0) return '-'; // Fallback for missing data or zero
-  return `$${new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 2, // For 2 decimal places if needed
-    maximumFractionDigits: 2
-  }).format(value)}`;
-};
-
-
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
   // console.log({'getSelectedYearsFrmLS': storedSelectedYears});
