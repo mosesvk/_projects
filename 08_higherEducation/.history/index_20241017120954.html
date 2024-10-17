@@ -207,19 +207,44 @@
           <div class="flex ml-2">
             <img
               src="https://media.licdn.com/dms/image/C4D0BAQGjPsUWVmUauw/company-logo_200_200/0/1523879678231?e=2147483647&v=beta&t=f0iYTVCV56l8aRVGdR_8Ho0oPhCrb7_dtiVGBk-7Fm0"
-              class="h-12 mr-3"
+              class="h-10 mr-3"
               alt="Logo"
               1
             />
-            <span class="self-center text-4xl font-semibold whitespace-nowrap">
+            <span class="self-center text-3xl font-semibold whitespace-nowrap">
               Higher Education
             </span>
           </div>
-          <div class="fixed mt-8 left-1/2 -translate-y-1/2 -translate-x-1/2">
+          <div
+            class="flex flex-row items-center fixed mt-8 left-1/2 -translate-y-1/2 -translate-x-1/2"
+          >
             <h1
               class="text-2xl font-bold leading-snug tracking-wide"
               id="firmName"
             ></h1>
+            <svg
+              class="w-8 h-8 text-gray-800 dark:text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <g id="Interface / Line_Xl">
+                <path
+                  id="Vector"
+                  d="M12 21V3"
+                  stroke="#000000"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+            </svg>
+            <p class="font-bold">
+              Peer group size - <span id="uniqueClients"></span>
+            </p>
           </div>
         </div>
         <!-- LOWER HEADER -->
@@ -363,165 +388,28 @@
                 class="text-xl absolute left-0 top-8 z-10 mt-2 w-fit colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto h-96 py-4 invisible"
               ></div>
             </button>
-            <!-- membership  -->
+            <!-- other  -->
             <button
-              id="custom-select-membership"
-              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+              id="custom-select-other"
+              data-modal-target="otherOptions-modal"
+              data-modal-toggle="otherOptions-modal"
+              class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+              type="button"
             >
-              <div
-                class="flex items-center justify-between dark:text-white px-3"
+              <span class="mr-2">Options</span>
+              <svg
+                class="w-6 h-6 text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="currentColor"
+                viewBox="0 0 24 24"
               >
-                <div class="px-2">Memberships</div>
-                <svg
-                  class="w-6 h-6 text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m19 9-7 7-7-7"
-                  />
-                </svg>
-              </div>
-              <div
-                id="options-list-membership"
-                class="text-xl absolute left-0 top-8 z-10 mt-2 w-full colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto h-fit py-4 invisible"
-              ></div>
-            </button>
-            <!-- type -->
-            <button
-              id="custom-select-type"
-              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-            >
-              <div
-                class="flex items-center justify-between dark:text-white px-3"
-              >
-                <div class="px-2">Type</div>
-                <svg
-                  class="w-6 h-6 text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m19 9-7 7-7-7"
-                  />
-                </svg>
-              </div>
-              <div
-                id="options-list-type"
-                class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-80 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
-              ></div>
-            </button>
-            <!-- athletic -->
-            <button
-              id="custom-select-athletic"
-              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-            >
-              <div
-                class="flex items-center justify-between dark:text-white px-3"
-              >
-                <div class="px-2">Athletic</div>
-                <svg
-                  class="w-6 h-6 text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m19 9-7 7-7-7"
-                  />
-                </svg>
-              </div>
-              <div
-                id="options-list-athletic"
-                class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-72 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
-              ></div>
-            </button>
-            <!-- client  -->
-            <button
-              id="custom-select-client"
-              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-            >
-              <div
-                class="flex items-center justify-between dark:text-white px-3"
-              >
-                <div class="px-2">Client</div>
-                <svg
-                  class="w-6 h-6 text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m19 9-7 7-7-7"
-                  />
-                </svg>
-              </div>
-              <div
-                id="options-list-client"
-                class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-80 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
-              ></div>
-            </button>
-            <!-- trendline -->
-            <button
-              id="custom-select-trendline"
-              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-            >
-              <div
-                class="flex items-center justify-between dark:text-white px-3"
-              >
-                <div class="px-2">Trendline</div>
-                <svg
-                  class="w-6 h-6 text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m19 9-7 7-7-7"
-                  />
-                </svg>
-              </div>
-              <div
-                id="options-list-trendline"
-                class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-40 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-fit py-4 invisible whitespace-normal"
-              ></div>
+                <path
+                  d="M10.83 5a3.001 3.001 0 0 0-5.66 0H4a1 1 0 1 0 0 2h1.17a3.001 3.001 0 0 0 5.66 0H20a1 1 0 1 0 0-2h-9.17ZM4 11h9.17a3.001 3.001 0 0 1 5.66 0H20a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H4a1 1 0 1 1 0-2Zm1.17 6H4a1 1 0 1 0 0 2h1.17a3.001 3.001 0 0 0 5.66 0H20a1 1 0 1 0 0-2h-9.17a3.001 3.001 0 0 0-5.66 0Z"
+                />
+              </svg>
             </button>
             <!-- RUN -->
             <button
@@ -546,6 +434,7 @@
               </svg>
             </button>
           </div>
+          <!-- Middle Lower 2 (Financial Statement) -->
           <div
             id="optionsFinancialStatement"
             class="flex items-center justify-start hidden"
@@ -920,6 +809,56 @@
                 <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
                 <li>
                   <button
+                    id="debtEndowmentLink"
+                    data-popover-target="popoverDebtEndowment-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
+                    type="button"
+                    class="flex items-center w-full py-2 pl-1 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
+                  >
+                    <svg
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                      <path
+                        fill-rule="evenodd"
+                        d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+
+                    <span
+                      class="flex-1 ml-4 text-left text-lg font-semibold tracking-wide whitespace-nowrap"
+                      sidebar-toggle-item=""
+                    >
+                      Debt & Endowment
+                    </span>
+                  </button>
+                  <div
+                    data-popover
+                    id="popoverDebtEndowment-hover"
+                    role="tooltip"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
+                    >
+                      <h3 class="font-semibold text-white text-lg">
+                        Debt & Endowment
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
+                </li>
+                <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
+                <li>
+                  <button
                     id="printCharts"
                     data-popover-target="popoverPrint-hover"
                     data-popover-trigger="hover"
@@ -987,6 +926,117 @@
           <!-- CFI CONTENT -->
           <div id="CfiRatioContent" class="tab-content">
             <!-- CFI Ratio -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <p class="font-semibold text-xl italic">Trendline Options</p>
+              <div
+                id="options-list-trendline"
+                class="flex flex-row justify-center"
+              >
+                <label
+                  for="select-all-checkbox-trendline"
+                  class="flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+                >
+                  <input
+                    type="checkbox"
+                    checked=""
+                    id="select-all-checkbox-trendline"
+                    class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+                  />
+                  <span
+                    id="select-all-text"
+                    class="text-2xl font-semibold tracking-wide"
+                    >(select all)</span
+                  >
+                </label>
+                <label
+                  for="option-25"
+                  class="flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+                >
+                  <input
+                    type="checkbox"
+                    checked=""
+                    id="option-25"
+                    class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+                  />
+                  <span
+                    id="option-25-text"
+                    class="text-2xl font-semibold tracking-wide"
+                    >25</span
+                  >
+                </label>
+
+                <label
+                  for="option-50"
+                  class="flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+                >
+                  <input
+                    type="checkbox"
+                    checked=""
+                    id="option-50"
+                    class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+                  />
+                  <span
+                    id="option-50-text"
+                    class="text-2xl font-semibold tracking-wide"
+                    >50</span
+                  >
+                </label>
+
+                <label
+                  for="option-75"
+                  class="flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+                >
+                  <input
+                    type="checkbox"
+                    checked=""
+                    id="option-75"
+                    class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+                  />
+                  <span
+                    id="option-75-text"
+                    class="text-2xl font-semibold tracking-wide"
+                    >75</span
+                  >
+                </label>
+
+                <label
+                  for="option-avg"
+                  class="flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+                >
+                  <input
+                    type="checkbox"
+                    checked=""
+                    id="option-avg"
+                    class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+                  />
+                  <span
+                    id="option-avg-text"
+                    class="text-2xl font-semibold tracking-wide"
+                    >avg</span
+                  >
+                </label>
+
+                <label
+                  for="option-benchmark"
+                  class="flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+                >
+                  <input
+                    type="checkbox"
+                    checked=""
+                    id="option-benchmark"
+                    class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+                  />
+                  <span
+                    id="option-benchmark-text"
+                    class="text-2xl font-semibold tracking-wide"
+                    >benchmark</span
+                  >
+                </label>
+              </div>
+            </div>
+
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
@@ -3355,7 +3405,63 @@
                   foundation, allowing the organization to continue its
                   operations and meet its long-term goals.
                 </div>
+                <div id="fpa_clientTable" class="flex flex-col my-5">
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr id="row_fpa_tableHeader">
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_fpa_assets"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Assets
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_fpa_liabilities"
+                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Liabilities
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_fpa_netPosition"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Net Position
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+
             </div>
 
             <!-- Asset to Liabilities -->
@@ -3507,14 +3613,233 @@
                   liquidity and financial health. A ratio below 1 suggests
                   potential liquidity concerns that may need attention.
                 </div>
+                <div id="currentRatio_clientTable" class="flex flex-col my-5">
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr id="row_currentRatio_tableHeader">
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_currentRatio_ratio"
+                              class="bg-white font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Current Ratio
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_currentAssets"
+                              class="backgroundOffGreen font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Current Assets
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_cashCashEquivalents"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                              Cash and Cash Equivalents
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_accountsReceivable"
+                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                              Accounts Receivable
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_studentLoansAndOtherReceivables"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                              Student Loans and other Receivables
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_contributionsReceivable"
+                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                              Contributions Receivable
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_prepaidExpensesAndOtherAssets"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                              Prepaid Expenses and Other Assets
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_currentLiabilities"
+                              class="backgroundOffGreen font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Current Liabilities
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_accountsPayableAndAccruedLiabilities"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                              Accounts Payable and Accrued Liabilities
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_deferredRevenue"
+                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                              Deferred Revenue
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_postRetirementBenefits"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                              Post retirement health benefits
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_AnnuityObligations"
+                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                              Annuity obligations
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_otherLiabilities"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                              Other Liabilities
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="currentRatio_peerTable" class="flex flex-col my-5">
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundBlue opacity-75"
+                          >
+                            <tr id="row_currentRatioPeer_tableHeader">
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_currentRatioPeer_ratio"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Current Ratio
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatioPeer_currentAssets"
+                              class="backgroundOffBlue font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Current Assets
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatioPeer_currentLiabilities"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Current Liabilities
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             <!-- Liquidity -->
-            <div
+            <!-- <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <!-- CHART - ASSET TO LIABILITIES -->
               <div id="liquidity_chart" class="w-full"></div>
               <button
                 id="dropdown_liquidity"
@@ -3538,7 +3863,6 @@
                   />
                 </svg>
               </button>
-              <!-- DETAILS - liquidity -->
               <div id="details_liquidity" class="my-5 mx-2 hidden">
                 <hr
                   class="my-8 mx-40 border-1 border-black dark:border-white"
@@ -3558,7 +3882,7 @@
                   unforeseen expenses.
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Cash Flows Trend -->
             <div
@@ -3604,6 +3928,72 @@
                   section summarizes the overall net cash flow for each year,
                   giving a clear picture of the institution's cash position over
                   time.
+                </div>
+                <div id="cashFlowTrend_clientTable" class="flex flex-col my-5">
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr id="row_cashFlowTrend_tableHeader">
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_cashFlowTrend_operating"
+                              class="bg-white font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Operating
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_cashFlowTrend_investing"
+                              class="backgroundOffGreen font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Investing
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_cashFlowTrend_financing"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                              Financing
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_cashFlowTrend_total"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                              Total
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -3805,13 +4195,14 @@
 
           <!-- REVENUE & EXPENSE CONTENT -->
           <div id="RevenueAndExpenseContent" class="tab-content hidden">
+            <p class="text-center text-2xl font-bold mb-4">
+              Revenue and Expense Analysis
+            </p>
+
             <!-- Source of Income -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <p class="text-center text-2xl font-bold mb-4">
-                Revenue and Expense Analysis
-              </p>
               <div class="flex flex-row justify-center mb-10">
                 <div id="sourceOfIncomeClient_chart" class="w-1/2"></div>
                 <div id="sourceOfIncomePeer_chart" class="w-1/2"></div>
@@ -3948,11 +4339,11 @@
             </div>
 
             <!-- Average Employee Salary -->
-            <div
+            <!-- <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <div id="averageEmployeeSalary_chart" class=""></div>
-            </div>
+            </div> -->
 
             <!-- Salaries and Benefits per Net Tuition Revenue -->
             <div
@@ -3995,11 +4386,11 @@
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <div class="flex flex-row">
-                <div class="w-1/2 pr-2">
+              <div class="">
+                <!-- <div class="w-1/2 pr-2">
                   <div id="avgScoresUsMap_chart"></div>
-                </div>
-                <div class="w-1/2 px-4">
+                </div> -->
+                <div class="px-4">
                   <div id="netEducationalExpensePerStudent_chart"></div>
                 </div>
               </div>
@@ -4015,6 +4406,51 @@
                 id="annualTraditionalNetTuitionPerStudent_chart"
                 class="text-center"
               ></div>
+              <button
+                id="dropdown_annualTraditionalNetTuitionPerStudent"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+              >
+                Details
+                <svg
+                  class="w-3 h-3 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                  id="arrow_annualTraditionalNetTuitionPerStudent"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 1 4 4 1 7"
+                  />
+                </svg>
+              </button>
+              <!-- DETAILS - Annual Traditional Net Tuition per Student -->
+              <div
+                id="details_annualTraditionalNetTuitionPerStudent"
+                class="my-5 mx-2 hidden"
+              >
+                <hr
+                  class="my-8 mx-40 border-1 border-black dark:border-white"
+                />
+                <div class="flex flex-col">
+                  The Annual Traditional Net Tuition per Student metric
+                  represents the average amount of tuition revenue that the
+                  institution collects per student after accounting for
+                  financial aid, scholarships, and tuition discounts. This
+                  figure provides insight into the net revenue the institution
+                  earns from each student, which is crucial for understanding
+                  the financial contribution of the student body. Monitoring
+                  this metric helps institutions evaluate the effectiveness of
+                  their tuition pricing strategies and financial aid policies.
+                  It also provides a clear picture of how much students are
+                  paying out-of-pocket on average, which is important for
+                  assessing the institution's affordability and competitiveness.
+                </div>
+              </div>
             </div>
 
             <!-- Tuition Dependency -->
@@ -4022,6 +4458,49 @@
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <div id="tuitionDependency_chart" class="text-center"></div>
+              <button
+                id="dropdown_tuitionDependency"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+              >
+                Details
+                <svg
+                  class="w-3 h-3 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                  id="arrow_tuitionDependency"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 1 4 4 1 7"
+                  />
+                </svg>
+              </button>
+              <!-- DETAILS - Tuition Dependency -->
+              <div id="details_tuitionDependency" class="my-5 mx-2 hidden">
+                <hr
+                  class="my-8 mx-40 border-1 border-black dark:border-white"
+                />
+                <div class="flex flex-col">
+                  The Tuition Dependency Ratio measures the proportion of an
+                  institution's total revenue that comes from tuition and fees.
+                  This ratio provides insight into how reliant the institution
+                  is on tuition as a primary source of funding. A high tuition
+                  dependency ratio indicates that the institution is heavily
+                  dependent on student tuition for its operational budget, which
+                  can pose risks if enrollment declines or if there's increased
+                  pressure to provide financial aid. Conversely, a lower ratio
+                  suggests a more diversified revenue base, which can offer
+                  greater financial stability. Monitoring this ratio is
+                  essential for understanding the institution's financial
+                  resilience and for planning strategies to diversify revenue
+                  streams.
+                </div>
+              </div>
             </div>
 
             <!-- Tuition Discount Rate -->
@@ -4029,15 +4508,61 @@
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <div id="tuitionDiscountRate_chart" class="text-center"></div>
+              <button
+                id="dropdown_tuitionDiscountRate"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+              >
+                Details
+                <svg
+                  class="w-3 h-3 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                  id="arrow_tuitionDiscountRate"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 1 4 4 1 7"
+                  />
+                </svg>
+              </button>
+              <!-- DETAILS - Tuition Discount Rate -->
+              <div id="details_tuitionDiscountRate" class="my-5 mx-2 hidden">
+                <hr
+                  class="my-8 mx-40 border-1 border-black dark:border-white"
+                />
+                <div class="flex flex-col">
+                  The Tuition Discount Rate represents the percentage of gross
+                  tuition revenue that is given back to students in the form of
+                  scholarships, grants, or other financial aid. It is calculated
+                  by dividing the total amount of financial aid provided by the
+                  gross tuition revenue. A higher tuition discount rate means
+                  that a larger portion of tuition is being offset by financial
+                  aid, which can make the institution more affordable for
+                  students but also reduce the net tuition revenue the
+                  institution collects. Monitoring this rate is important for
+                  balancing the institution's financial sustainability with its
+                  goals of accessibility and competitiveness.
+                </div>
+              </div>
             </div>
           </div>
 
           <!-- DEBT & ENDOWMENT -->
           <div id="DebtAndEndowmentContent" class="tab-content hidden">
-            <!-- Salaries and Benefits to Total Expense -->
+            <p class="mb-4 text-2xl font-extrabold text-center">
+              Debt & Endowment
+            </p>
+
+            <!-- Long-Term Debt per Total Operating Revenue -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
+              <p class="m-4 text-xl font-bold">Debt & Liabilities</p>
               <div class="flex flex-row">
                 <div class="w-1/2 pr-2">
                   <div id="ltDebtPerTotalOperatingRevenue_chart"></div>
@@ -4065,8 +4590,447 @@
                 </div>
               </div>
             </div>
+
+            <!-- Debt Service Coverage Ratio -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div
+                id="debtServiceCoverageRatio_chart"
+                class="text-center"
+              ></div>
+              <button
+                id="dropdown_debtServiceCoverageRatio"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+              >
+                Details
+                <svg
+                  class="w-3 h-3 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                  id="arrow_debtServiceCoverageRatio"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 1 4 4 1 7"
+                  />
+                </svg>
+              </button>
+              <!-- DETAILS - Debt Service Coverage Ratio -->
+              <div
+                id="details_debtServiceCoverageRatio"
+                class="my-5 mx-2 hidden"
+              >
+                <hr
+                  class="my-8 mx-40 border-1 border-black dark:border-white"
+                />
+                <div class="flex flex-col">
+                  The Debt Service Coverage Ratio measures the institution's
+                  ability to cover its debt service obligations—such as interest
+                  and principal payments—with its operating income. A goal of
+                  keeping this ratio below 4% indicates that the institution
+                  aims to minimize the portion of its income that is dedicated
+                  to servicing debt. This conservative approach ensures that a
+                  greater share of revenue is available for other operational
+                  needs and reduces financial stress. Maintaining a DSCR below
+                  4% reflects prudent debt management and enhances the
+                  institution's financial flexibility and stability.
+                </div>
+              </div>
+            </div>
+
+            <!-- Debt Burden Ratio -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div id="debtBurdenRatio_chart" class="text-center"></div>
+              <button
+                id="dropdown_debtBurdenRatio"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+              >
+                Details
+                <svg
+                  class="w-3 h-3 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                  id="arrow_debtBurdenRatio"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 1 4 4 1 7"
+                  />
+                </svg>
+              </button>
+              <!-- DETAILS - Debt Burden Ratio -->
+              <div id="details_debtBurdenRatio" class="my-5 mx-2 hidden">
+                <hr
+                  class="my-8 mx-40 border-1 border-black dark:border-white"
+                />
+                <div class="flex flex-col">
+                  The Debt Burden Ratio measures the percentage of an
+                  institution's total annual operating expenses that go toward
+                  servicing its debt, including both principal and interest
+                  payments. A higher debt burden ratio indicates that a larger
+                  portion of the budget is consumed by debt obligations, which
+                  could limit the institution's ability to allocate funds to
+                  other essential areas such as academics, student services, or
+                  capital improvements. Conversely, a lower ratio suggests a
+                  more manageable debt load relative to the institution's
+                  overall expenses. The benchmark for this ratio is set at 7%,
+                  meaning the institution aims to keep the debt burden at or
+                  below this threshold. Staying within this benchmark indicates
+                  prudent financial management, ensuring that debt obligations
+                  do not excessively strain the institution's budget and
+                  allowing for greater financial flexibility.
+                </div>
+              </div>
+            </div>
+
+            <!-- Endowment to Operating Budget -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <p class="m-4 text-xl font-bold">
+                Endowment and Financial Sustainability
+              </p>
+
+              <div
+                id="endowmentOperatingBudget_chart"
+                class="text-center"
+              ></div>
+              <button
+                id="dropdown_endowmentOperatingBudget"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+              >
+                Details
+                <svg
+                  class="w-3 h-3 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                  id="arrow_endowmentOperatingBudget"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 1 4 4 1 7"
+                  />
+                </svg>
+              </button>
+              <!-- DETAILS - Endowment to Operating Budget -->
+              <div
+                id="details_endowmentOperatingBudget"
+                class="my-5 mx-2 hidden"
+              >
+                <hr
+                  class="my-8 mx-40 border-1 border-black dark:border-white"
+                />
+                <div class="flex flex-col">
+                  The endowment value is calculated by dividing the endowment by
+                  the total annual operating budget. When the endowment value is
+                  greater than 150% of the annual operating budget, it indicates
+                  a strong financial cushion. This ratio shows the
+                  organization's ability to sustain its operations even during
+                  periods of financial strain, providing long-term stability and
+                  support for ongoing programs and initiatives.
+                </div>
+              </div>
+            </div>
+
+            <!-- Endowment Assets per Student -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <p class="m-4 text-xl font-bold">Endowment Assets per Student</p>
+              <div class="">
+                <!-- <div class="flex flex-row"> -->
+                <!-- <div class="w-1/2 pr-2">
+                  <div id="endowmentAssetsPerStudentMAP_chart"></div>
+                </div> -->
+                <div class="px-4">
+                  <div id="endowmentAssetsPerStudent_chart"></div>
+                </div>
+              </div>
+              <button
+                id="dropdown_endowmentAssetsPerStudent"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+              >
+                Details
+                <svg
+                  class="w-3 h-3 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                  id="arrow_debtServiceCoverageRatio"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 1 4 4 1 7"
+                  />
+                </svg>
+              </button>
+              <!-- DETAILS - Debt Service Coverage Ratio -->
+              <div
+                id="details_debtServiceCoverageRatio"
+                class="my-5 mx-2 hidden"
+              >
+                <hr
+                  class="my-8 mx-40 border-1 border-black dark:border-white"
+                />
+                <div class="flex flex-col">
+                  Endowment assets per student measure the financial resources
+                  available from an institution's endowment on a per-student
+                  basis. This figure is calculated by dividing the total
+                  endowment assets by the number of enrolled students. A higher
+                  endowment per student indicates greater financial support
+                  available for student programs, scholarships, and overall
+                  institutional resources, reflecting the institution's ability
+                  to invest in the student experience and long-term educational
+                  quality.
+                </div>
+              </div>
+            </div>
           </div>
         </main>
+      </div>
+    </div>
+
+    <div
+      id="otherOptions-modal"
+      data-modal-placement="top-center"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <!-- Modal header -->
+          <div
+            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
+          >
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+              Options Modal
+            </h3>
+            <button
+              type="button"
+              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-hide="otherOptions-modal"
+            >
+              <svg
+                class="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="p-4 md:p-5 space-y-4">
+            <button
+              id="custom-select-membership"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            >
+              <div
+                class="flex items-center justify-between dark:text-white px-3"
+              >
+                <div class="px-2">Memberships</div>
+                <svg
+                  class="w-6 h-6 text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m19 9-7 7-7-7"
+                  />
+                </svg>
+              </div>
+              <div
+                id="options-list-membership"
+                class="text-xl absolute left-0 top-8 z-10 mt-2 w-full colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto h-fit py-4 invisible"
+              ></div>
+            </button>
+            <!-- type -->
+            <button
+              id="custom-select-type"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            >
+              <div
+                class="flex items-center justify-between dark:text-white px-3"
+              >
+                <div class="px-2">Type</div>
+                <svg
+                  class="w-6 h-6 text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m19 9-7 7-7-7"
+                  />
+                </svg>
+              </div>
+              <div
+                id="options-list-type"
+                class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-80 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
+              ></div>
+            </button>
+            <!-- athletic -->
+            <button
+              id="custom-select-athletic"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            >
+              <div
+                class="flex items-center justify-between dark:text-white px-3"
+              >
+                <div class="px-2">Athletic</div>
+                <svg
+                  class="w-6 h-6 text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m19 9-7 7-7-7"
+                  />
+                </svg>
+              </div>
+              <div
+                id="options-list-athletic"
+                class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-72 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
+              ></div>
+            </button>
+            <!-- client  -->
+            <button
+              id="custom-select-client"
+              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            >
+              <div
+                class="flex items-center justify-between dark:text-white px-3"
+              >
+                <div class="px-2">Client</div>
+                <svg
+                  class="w-6 h-6 text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m19 9-7 7-7-7"
+                  />
+                </svg>
+              </div>
+              <div
+                id="options-list-client"
+                class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-80 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
+              ></div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div
+      id="loadingApiDiv"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75"
+    >
+      <div class="text-center">
+        <div role="status">
+          <div
+            class="animate-pulse flex flex-col place-items-center px-5 py-5 font-semibold text-white leading-none tracking-wider text-center rounded-full dark:bg-blue-900 dark:text-blue-200"
+          >
+            <div id="loadingApiHeader" class="mb-4 text-6xl"></div>
+            <div
+              id="loadingApiYears"
+              class="px-3 py-1 text-4xl font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200"
+            >
+              <span id="apiYears">
+                <span id="firstApiYear" class="mx-2"></span> -
+                <span id="LastApiYear" class="mx-2"></span>
+              </span>
+              <span id="apiPrint" class="flex">
+                Chart
+                <svg
+                  class="mx-2 font-extrabold w-10 h-10 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 12H5m14 0-4 4m4-4-4-4"
+                  />
+                </svg>
+                Base64
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 

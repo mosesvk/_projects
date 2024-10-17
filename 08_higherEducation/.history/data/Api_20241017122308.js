@@ -28,40 +28,18 @@ const fetchPeerData = async () => {
     });
 };
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const recordsClient = await fetchClientData();
-  const recordsPeer = await fetchPeerData();
-  const clientsArray = [...recordsPeer].map((record) => {
-    return record.querySelector("merged_client_name").textContent;
-  });
-  const uniqueClients = [...new Set(clientsArray)];
-
-  // console.log(recordsClient[0]);
-
-  clientName = recordsClient[0]
-    .querySelector("merged_client_name")
-    .textContent.replace(/[^\w\s]/g, "")
-    .trim();
-
-  document.getElementById("firmName").textContent = clientName;
-
-  findUniqueYears(recordsClient);
-
-  addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
-
-  addUniqueStatesToOptionsSelectStatesDropdown(states_Array);
-
-  addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
-
-  addUniqueClientsToOptionsSelectClientsDropdown(uniqueClients);
-
-  addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
-
-  addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
-
-  addUniqueTrendlinesToOptionsSelectTrendlinesDropdown(trendlines_Array);
-
+document.addEventListener("DOMContentLoaded", async (event) => {
   localStorage.clear();
+
+  console.log("Document fully loaded and parsed");
+
+  const peerData = await fetchPeerData();
+  const clientData = await fetchClientData();
+
+  findUniqueYears(peerData);
+
+  clientName = clientData[0].querySelector("merged_client_name").textContent;
+  document.getElementById("firmName").textContent = clientName;
 });
 
 const findUniqueYears = (data) => {
@@ -160,8 +138,12 @@ const insertDataIntoObject = (
   }
 };
 
-const processDebtEndowmentContentData = () => {
-  const ltDebtPerTotalOperatingRevenue_obj = {}
+const processDebtEndowmentContentData = (
+  seletectedYears,
+  recordsPeer,
+  recordsClient
+) => {
+  const ltDebtPerTotalOperatingRevenue_obj = {};
   const debtServiceCoverageRatio_obj = {};
   const debtBurdenRatio_obj = {};
   const endowmentOperatingBudget_obj = {};
@@ -173,10 +155,174 @@ const processDebtEndowmentContentData = () => {
       const fiscalYear = record.querySelector("year").textContent;
       return fiscalYear.includes(year.toString());
     });
-    
-  })
+    filteredClientRecords.forEach((record) => {
+      const ltDebtPerTotalOperatingRevenue_array = [
+        {
+          key: "operatingRevenuesSupportAndReleases_Client",
+          field: "r036_coperating_revenues_support_and_releases",
+        },
+        {
+          key: "longTermDebtForLongTermPurpose_Client",
+          field: "z021_clong_term_debt_for_long_term_purposes",
+        },
+      ];
+      ltDebtPerTotalOperatingRevenue_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          ltDebtPerTotalOperatingRevenue_obj,
+          key,
+          record,
+          field
+        );
+      });
 
-}
+      const debtServiceCoverageRatio_array = [
+        {
+          key: "notesPayable_Client",
+          field: "r015_notes_payable",
+        },
+        {
+          key: "operatingRevenuesSupportAndRelease_Client",
+          field: "r036_coperating_revenues_support_and_releases",
+        },
+      ];
+      debtServiceCoverageRatio_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          debtServiceCoverageRatio_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const debtBurdenRatio_array = [
+        {
+          key: "debtService_Client",
+          field: "r015_notes_payable",
+        },
+        {
+          key: "operationalExpense_Client",
+          field: "r166_ctotal_natural_category_expenses",
+        },
+      ];
+      debtBurdenRatio_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          debtBurdenRatio_obj,
+          key,
+          record,
+          field
+        );
+      });
+
+      const endowmentOperatingBudget_array = [
+        {
+          key: "endowmentSize_Client",
+          field: "e001_endowment_size",
+        },
+        {
+          key: "totalStudentFte_Client",
+          field: "g025_ctotal_student_fte",
+        },
+      ];
+      endowmentOperatingBudget_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          endowmentOperatingBudget_obj,
+          key,
+          record,
+          field
+        );
+      });
+      endowmentOperatingBudget_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          endowmentAssetsPerStudent_obj,
+          key,
+          record,
+          field
+        );
+      });
+    });
+
+    // PEER
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+      const fiscalYear = record.querySelector("year").textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredPeerRecords.forEach((record) => {
+      const debtBurdenRatio_array = [
+        {
+          key: "debtService_Peer",
+          field: "r015_notes_payable",
+        },
+        {
+          key: "operationalExpense_Peer",
+          field: "r166_ctotal_natural_category_expenses",
+        },
+      ];
+      debtBurdenRatio_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "peer",
+          year,
+          debtBurdenRatio_obj,
+          key,
+          record,
+          field,
+          "Yes"
+        );
+      });
+
+      const endowmentOperatingBudget_array = [
+        {
+          key: "endowmentSize_Peer",
+          field: "e001_endowment_size",
+        },
+        {
+          key: "totalStudentFte_Peer",
+          field: "g025_ctotal_student_fte",
+        },
+      ];
+      endowmentOperatingBudget_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "peer",
+          year,
+          endowmentAssetsPerStudent_obj,
+          key,
+          record,
+          field,
+          "Yes"
+        );
+      });
+    });
+  });
+
+  const dataKeys = [
+    "ltDebtPerTotalOperatingRevenueData",
+    "debtServiceCoverageRatioData",
+    "debtBurdenRatioData",
+    "endowmentOperatingBudgetData",
+    "endowmentAssetsPerStudentData",
+  ];
+  const dataObjects = [
+    ltDebtPerTotalOperatingRevenue_obj,
+    debtServiceCoverageRatio_obj,
+    debtBurdenRatio_obj,
+    endowmentOperatingBudget_obj,
+    endowmentAssetsPerStudent_obj,
+  ];
+  dataKeys.forEach((key, index) => {
+    localStorage.removeItem(key);
+    localStorage.setItem(key, JSON.stringify(dataObjects[index]));
+  });
+};
 
 const processRevenueExpenseContentData = (
   seletectedYears,
@@ -353,9 +499,9 @@ const processRevenueExpenseContentData = (
         "client",
         year,
         adminCostsPerStudent_obj,
-        'adminCostsPerStudent_Client',
+        "adminCostsPerStudent_Client",
         record,
-        'r230_cadmin_costs_per_student'
+        "r230_cadmin_costs_per_student"
       );
 
       const netEducationalExpensePerStudent_array = [
@@ -407,7 +553,6 @@ const processRevenueExpenseContentData = (
           field
         );
       });
-
 
       const tuitionDiscountRate_array = [
         {
@@ -573,7 +718,7 @@ const processRevenueExpenseContentData = (
           key: "totalStudentUhc_Peer",
           field: "g035_ctotal_student_uhc",
         },
-      ]
+      ];
       adminCostsPerStudent_Array.forEach(({ key, field }) => {
         insertDataIntoObject(
           "peer",
@@ -582,7 +727,7 @@ const processRevenueExpenseContentData = (
           key,
           record,
           field,
-          'Yes'
+          "Yes"
         );
       });
 
@@ -590,20 +735,20 @@ const processRevenueExpenseContentData = (
         "peer",
         year,
         tuitionDependency_obj,
-        'ratio_Peer',
+        "ratio_Peer",
         record,
-        'r147_cnet_tuition_dependency_ratio',
-        'Yes'
+        "r147_cnet_tuition_dependency_ratio",
+        "Yes"
       );
 
       insertDataIntoObject(
         "peer",
         year,
         tuitionDiscountRate_obj,
-        'ratio_Peer',
+        "ratio_Peer",
         record,
-        'r229_ctuition_discount_rate',
-        'Yes'
+        "r229_ctuition_discount_rate",
+        "Yes"
       );
     });
   });
@@ -615,7 +760,7 @@ const processRevenueExpenseContentData = (
     "adminCostsPerStudentData",
     "netEducationalExpensePerStudentData",
     "tuitionDependencyData",
-    'tuitionDiscountRateData'
+    "tuitionDiscountRateData",
   ];
   const dataObjects = [
     salariesAndBenefitsToTotalExpense_obj,
@@ -624,7 +769,7 @@ const processRevenueExpenseContentData = (
     adminCostsPerStudent_obj,
     netEducationalExpensePerStudent_obj,
     tuitionDependency_obj,
-    tuitionDiscountRate_obj
+    tuitionDiscountRate_obj,
   ];
   dataKeys.forEach((key, index) => {
     localStorage.removeItem(key);
@@ -676,6 +821,18 @@ const processFinancialPositionContentData = (
           key: "deferredRevenue_Client",
           field: "r010_deferred_revenue",
         },
+        {
+          key: "postRetirementHealthBenefits_Client",
+          field: "r011_post_retirement_health_benefits",
+        },
+        {
+          key: "annuityObligations_Client",
+          field: "r012_annuity_obligations",
+        },
+        {
+          key: "otherLiabilities_Client",
+          field: "r013_other_liabilities",
+        },
       ];
       currentRatio_array.forEach(({ key, field }) => {
         insertDataIntoObject(
@@ -724,6 +881,28 @@ const processFinancialPositionContentData = (
         "Yes"
       );
 
+      // currentAssets
+      insertDataIntoObject(
+        "peer",
+        year,
+        currentRatio_obj,
+        "currentAssets_Peer",
+        record,
+        "r256c_current_assets",
+        "Yes"
+      );
+
+      // currentLiabilities
+      insertDataIntoObject(
+        "peer",
+        year,
+        currentRatio_obj,
+        "currentLiabilities_Peer",
+        record,
+        "r257c_current_liabilities",
+        "Yes"
+      );
+
       // liquidity
       insertDataIntoObject(
         "peer",
@@ -757,6 +936,7 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
   const cashFlowsOperating_obj = {};
   const cashFlowsInvesting_obj = {};
   const cashFlowsFinancing_obj = {};
+  const cashFlowsTotal_obj = {};
 
   const propertyAndEquipment_obj = {};
 
@@ -1190,8 +1370,7 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
         },
         {
           key: "PurchaseOfPropertyAndEquipment_Client",
-          field:
-            "r083_cash_flows_from_investing_activities_purchases_of_property_and_equipment",
+          field: "d",
         },
         {
           key: "studentLoanFund_Client",
@@ -1588,6 +1767,26 @@ const processFinancialAnalysisContentData = (
         "r030_revenue_endowment_spending_appropriation"
       );
 
+      // ffa_changeInNetAssetsWithDR_Client
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "ffa_changeInNetAssetsWithDR_Client",
+        record,
+        "r059_cchange_in_net_assets_with_donor_restrictions"
+      );
+
+      // ffa_netChangeRestrictedInPerpetuity_Client
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "ffa_netChangeRestrictedInPerpetuity_Client",
+        record,
+        "r064_cnet_change_restricted_in_perpetuity"
+      );
+
       // ffa_contributions_Client
       insertDataIntoObject(
         "client",
@@ -1607,7 +1806,6 @@ const processFinancialAnalysisContentData = (
         record,
         "r060_change_in_permanently_restricted_net_assets_contributions"
       );
-
 
       // ffa_salariesAndWages_Client
       insertDataIntoObject(
@@ -1629,6 +1827,45 @@ const processFinancialAnalysisContentData = (
         "r161_employee_benefits"
       );
 
+      // ffa_servicesSuppliesOther_Client
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "ffa_servicesSuppliesOther_Client",
+        record,
+        "r162_services_supplies_and_other"
+      );
+
+      // ffa_occupancyUtilitiesAndMaintenance_Client
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "ffa_occupancyUtilitiesAndMaintenance_Client",
+        record,
+        "r163_occupancy_utilities_and_maintenance"
+      );
+
+      // ffa_incomeExpenseSurplusDefecit_Client
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "ffa_incomeExpenseSurplusDefecit_Client",
+        record,
+        "dashboard_c001_income_expense_surplus_defecit"
+      );
+
+      // ffa_interest_Client
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "ffa_interest_Client",
+        record,
+        "r165_interest"
+      );
 
       // ffa_totalFunctionalExpenses_Client
       insertDataIntoObject(
@@ -1730,6 +1967,16 @@ const processFinancialAnalysisContentData = (
         "cft_FinancingActivities_Client",
         record,
         "r089_cnet_cash_used_in_financing_activities"
+      );
+
+      // cft_TotalActivities_Client
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "cft_TotalActivities_Client",
+        record,
+        "r283_ctotal_cash_flows"
       );
     });
   });
@@ -2185,6 +2432,9 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("cfiData", JSON.stringify(object));
 
   const selectedYears = getSelectedYearsFromLocalStorage();
+
+  // console.log({ selectedYears });
+
   const cfiValue =
     object.cfiRatio_Client[selectedYears[selectedYears.length - 1]].value;
   updateCfiValue(cfiValue, selectedYears[selectedYears.length - 1]);
@@ -2196,6 +2446,31 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
 };
 
 // Helper functions
+
+const countUniqueClients = (records) => {
+  const uniqueClients = new Set();
+  // console.log({ records });
+
+  try {
+    records.forEach((record) => {
+      const fiscalYear = record.querySelector("year").textContent;
+      // console.log({ fiscalYear, selectedYears_Set, record });
+
+      if (selectedYears_Set.has(Number(fiscalYear))) {
+        const mainRelatedClient =
+          record.querySelector("merged_client_name").textContent;
+        uniqueClients.add(mainRelatedClient);
+      }
+    });
+
+    const count = uniqueClients.size;
+    // console.log(count);
+    document.getElementById("uniqueClients").textContent = count;
+  } catch (error) {
+    console.error("Error counting unique clients:", error);
+    document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
+  }
+};
 
 const toggleButtonLoadingState = (btn) => {
   btn.innerHTML = `
@@ -2266,6 +2541,7 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
     recordsClient
   );
   processRevenueExpenseContentData(selectedYears, recordsPeer, recordsClient);
+  processDebtEndowmentContentData(selectedYears, recordsPeer, recordsClient);
 };
 
 const displayComponents = () => {
@@ -2274,16 +2550,19 @@ const displayComponents = () => {
   displayFinancialStatementComponent();
   displayFinancialPositionComponent();
   displayRevenueAndExpenseComponent();
+  displayDebtAndEndowmentComponent();
   displayReportComponent();
 };
 
+// Run Api on Button Click
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
+  showApiLoadingFunction("open");
   // uploadMainFile = ''
   // document.getElementById('print_modal_footer').classList.add('hidden');
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
-
+  countUniqueClients(recordsPeer);
   // console.log({ recordsClient, recordsPeer });
 
   try {
@@ -2296,5 +2575,6 @@ run_btn.addEventListener("click", async () => {
     console.error(err);
   } finally {
     toggleButtonNormalState(run_btn);
+    showApiLoadingFunction("close");
   }
 });

@@ -1430,7 +1430,6 @@ const getCashFlowTrendChartOptions = (data) => {
   const financeData = data["cft_FinancingActivities_Client"];
   const investingData = data["cft_InvestingActivities_Client"];
   const operatingData = data["cft_OperatingActivities_Client"];
-  const totalData = data["cft_TotalActivities_Client"];
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -1438,7 +1437,8 @@ const getCashFlowTrendChartOptions = (data) => {
     const operatingVal = Number(operatingData[year]?.value) || 0;
     const investingVal = Number(investingData[year]?.value) || 0;
     const financeVal = Number(financeData[year]?.value) || 0;
-    const totalVal = Number(totalData[year]?.value) || 0;
+
+    const totalVal = operatingVal + investingVal + financeVal;
 
     const chartData = [operatingVal, investingVal, financeVal, totalVal];
 
@@ -1467,7 +1467,7 @@ const getCashFlowTrendChartOptions = (data) => {
     const operatingValue = `${formatCurrency(operatingData[year]?.value)}`;
     const investingValue = `${formatCurrency(investingData[year]?.value)}`;
     const financingValue = `${formatCurrency(financeData[year]?.value)}`;
-    const totalValue = `${formatCurrency(totalData[year]?.value)}`;
+    const totalValue = `${formatCurrency(chartData[index])}`;
 
     // Add year to table header
     tableHeaderRow.innerHTML += `
@@ -1505,7 +1505,7 @@ const getCashFlowTrendChartOptions = (data) => {
     totalRow.innerHTML += `
     <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${
-        totalData[index] ? totalValue : "-"
+        chartData[index] ? totalValue : "-"
       } <!-- Fallback in case data is missing -->
     </th>
   `;

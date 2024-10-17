@@ -74,7 +74,137 @@ const getMainChartOptions = (
 
   // console.log({mainName, benchmark});
 
-  // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })
+  // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })\
+
+  let yaxisAnnotation;
+
+  if (mainName == "cfiRatio") {
+    cfiRatio_annotation = [
+      {
+        id: "annotation",
+        y: benchmark,
+        borderColor: chartColors.labelColor,
+        strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
+        label: {
+          text: "Benchmark",
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "top",
+          offsetX: -70,
+          style: {
+            background: "transparent",
+            color: chartColors.labelColor,
+            fontSize: "18px",
+            fontWeight: 600,
+          },
+        },
+      },
+    ];
+    yaxisAnnotation = cfiRatio_annotation;
+  } else if (mainName == "cfi_primaryReserveRatio") {
+    cfi_primaryReserveRatio_annotation = [
+      {
+        id: "annotation",
+        y: benchmark,
+        borderColor: chartColors.labelColor,
+        strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
+        label: {
+          text: "Benchmark",
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "top",
+          offsetX: -70,
+          style: {
+            background: "transparent",
+            color: chartColors.labelColor,
+            fontSize: "18px",
+            fontWeight: 600,
+          },
+        },
+      },
+    ];
+    yaxisAnnotation = cfi_primaryReserveRatio_annotation;
+  } else if (mainName == "cfi_netIncomeOperationsRatio") {
+    cfi_netIncomeOperationsRatio_annotation = [
+      {
+        id: "annotation",
+        y: benchmark,
+        borderColor: chartColors.labelColor,
+        strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
+        label: {
+          text: "Benchmark",
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "top",
+          offsetX: -70,
+          style: {
+            background: "transparent",
+            color: chartColors.labelColor,
+            fontSize: "18px",
+            fontWeight: 600,
+          },
+        },
+      },
+    ];
+    yaxisAnnotation = cfi_netIncomeOperationsRatio_annotation;
+  } else if (mainName == "cfi_returnOnNetAssets") {
+    cfi_returnOnNetAssets_annotation = [
+      {
+        id: "annotation",
+        y: benchmark,
+        borderColor: chartColors.labelColor,
+        strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
+        label: {
+          text: "Benchmark",
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "top",
+          offsetX: -70,
+          style: {
+            background: "transparent",
+            color: chartColors.labelColor,
+            fontSize: "18px",
+            fontWeight: 600,
+          },
+        },
+      },
+    ];
+    yaxisAnnotation = cfi_returnOnNetAssets_annotation;
+  } else {
+    // cfi_viabilityRatio
+    cfi_viabilityRatio_annotation = [
+      {
+        id: "annotation",
+        y: benchmark,
+        borderColor: chartColors.labelColor,
+        strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
+        label: {
+          text: "Benchmark",
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "top",
+          offsetX: -70,
+          style: {
+            background: "transparent",
+            color: chartColors.labelColor,
+            fontSize: "18px",
+            fontWeight: 600,
+          },
+        },
+      },
+    ];
+    yaxisAnnotation = cfi_viabilityRatio_annotation;
+  }
 
   return {
     colors: [
@@ -189,28 +319,7 @@ const getMainChartOptions = (
       offsetY: -5,
     },
     annotations: {
-      yaxis: [
-        {
-          y: benchmark,
-          borderColor: chartColors.labelColor,
-          strokeDashArray: 0,
-          width: "200%",
-          offsetX: -180,
-          label: {
-            text: "Benchmark",
-            borderColor: "transparent",
-            borderWidth: 0,
-            position: "top",
-            offsetX: -70,
-            style: {
-              background: "transparent",
-              color: chartColors.labelColor,
-              fontSize: "18px",
-              fontWeight: 600,
-            },
-          },
-        },
-      ],
+      yaxis: yaxisAnnotation,
     },
     markers: {
       size: 0,
@@ -227,8 +336,7 @@ const getFSchartOptions = (
   chartId,
   tableDataClass
 ) => {
-  // if (chartId == "#assets_chart")
-  //   console.log({ data, client, color, numType, title, chartId });
+  // console.log({ data, client, color, numType, title, chartId });
 
   const clientString = client.replace("_Client", "");
 
@@ -419,6 +527,60 @@ const getFpaChartOptions = (data) => {
     .map((item) => item.value)
     .reverse();
 
+  // console.log({ totalAssetsArray, totalLiabilitiesArray, netPositionArray });
+
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  const tableHeader = document.getElementById("row_fpa_tableHeader");
+  const assetsRow = document.getElementById("row_fpa_assets");
+  const liabilitiesRow = document.getElementById("row_fpa_liabilities");
+  const netPositionRow = document.getElementById("row_fpa_netPosition");
+
+  // Clear existing table content before appending
+  tableHeader.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide"></th>`;
+  assetsRow.innerHTML = `<th scope="row" class="px-6 py-2 font-meddium text-gray-900 whitespace-nowrap dark:text-white">Assets</th>`;
+  liabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Liabilities</th>`;
+  netPositionRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Net Position</th>`;
+
+  // Loop through selected years and populate the table
+  selectedYearsArray.forEach((year, index) => {
+    const assetValue = `${formatCurrency(totalAssetsArray[index])}`;
+    const liabilitiesValue = `${formatCurrency(totalLiabilitiesArray[index])}`;
+    const netPositionValue = `${formatCurrency(netPositionArray[index])}`;
+
+    // Add year to table header
+    tableHeader.innerHTML += `
+    <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+  `;
+
+    // Add corresponding asset data
+    assetsRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      ${
+        totalAssetsArray[index] ? assetValue : "-"
+      } <!-- Fallback in case data is missing -->
+    </th>
+  `;
+
+    // Add corresponding liabilities data
+    liabilitiesRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      ${
+        totalLiabilitiesArray[index] ? liabilitiesValue : "-"
+      } <!-- Fallback in case data is missing -->
+    </th>
+  `;
+
+    // Add corresponding net position data
+    netPositionRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      ${
+        netPositionArray[index] ? netPositionValue : "-"
+      } <!-- Fallback in case data is missing -->
+    </th>
+  `;
+  });
+
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
         borderColor: "#374151",
@@ -436,8 +598,6 @@ const getFpaChartOptions = (data) => {
   const chartColor = document.documentElement.classList.contains("dark")
     ? "#e3f0fa"
     : "#3a464f";
-
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   const formatNumber = (value) => value.toLocaleString();
 
@@ -1059,16 +1219,16 @@ const getFfaChartOptions = (data) => {
     revenueAuxiliaryActivitiesClient +
     revenueOtherClient;
 
-  const contributionsClient = Number(
-    data["ffa_contributions_Client"][currentYear].value
+  const changeInNetAssetsWithDRClient = Number(
+    data["ffa_changeInNetAssetsWithDR_Client"][currentYear].value
   );
-  const changeInPermanentClient = Number(
-    data["ffa_changeInPermanentlyRestrictedNA_Client"][currentYear].value
+  const netChangeRestrictedInPerpetuityClient = Number(
+    data["ffa_netChangeRestrictedInPerpetuity_Client"][currentYear].value
   );
 
   const restrictedGiftsClient =
-    auxiliaryAndOtherClient + (contributionsClient + changeInPermanentClient);
-
+    auxiliaryAndOtherClient +
+    (changeInNetAssetsWithDRClient + netChangeRestrictedInPerpetuityClient);
 
   const employeeBenefitsClient = Number(
     data["ffa_employeeBenefits_Client"][currentYear].value
@@ -1077,18 +1237,26 @@ const getFfaChartOptions = (data) => {
     data["ffa_salariesAndWages_Client"][currentYear].value
   );
 
-
   const compensationAndBenefitsClient =
     restrictedGiftsClient - (salariesAndWagesClient + employeeBenefitsClient);
 
-  const totalFunctionalExpensesClient = Number(
-    data["ffa_totalFunctionalExpenses_Client"][currentYear].value
+  const servicesSuppliesOtherClient = Number(
+    data["ffa_servicesSuppliesOther_Client"][currentYear].value
   );
+  const occupancyUtilitiesAndMaintenanceClient = Number(
+    data["ffa_occupancyUtilitiesAndMaintenance_Client"][currentYear].value
+  );
+  const incomeExpenseSurplusDefecitClient = Number(
+    data["ffa_incomeExpenseSurplusDefecit_Client"][currentYear].value
+  );
+  const interestClient = Number(data["ffa_interest_Client"][currentYear].value);
 
   const generalExpenseClient =
     compensationAndBenefitsClient -
-    (totalFunctionalExpensesClient - (employeeBenefitsClient + salariesAndWagesClient));
-
+    (servicesSuppliesOtherClient +
+      occupancyUtilitiesAndMaintenanceClient +
+      incomeExpenseSurplusDefecitClient +
+      interestClient);
 
   const surplusDefecitClient = 0 + generalExpenseClient;
 
@@ -1156,7 +1324,7 @@ const getFfaChartOptions = (data) => {
             fillColor: window.chartColors.teal,
           },
           {
-            x: "Restricted Gifts",
+            x: "Gifts & Other Restricted",
             y: [auxiliaryAndOtherClient, restrictedGiftsClient],
             fillColor: window.chartColors.teal,
           },
@@ -1179,6 +1347,7 @@ const getFfaChartOptions = (data) => {
       },
     ],
     chart: {
+      id: "FinancialPosition",
       toolbar: {
         tools: {
           download: false,
@@ -1207,7 +1376,7 @@ const getFfaChartOptions = (data) => {
       },
     },
     title: {
-      text: "Financial Functional Analysis: Overview of Income and Expenses",
+      text: "Financial Flow Analysis: Overview of Income and Expenses",
       position: "top",
       align: "center",
       style: {
@@ -1265,9 +1434,9 @@ const getCashFlowTrendChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   const seriesData = selectedYearsArray.map((year) => {
-    const operatingVal = operatingData[year]?.value || 0;
-    const investingVal = investingData[year]?.value || 0;
-    const financeVal = financeData[year]?.value || 0;
+    const operatingVal = Number(operatingData[year]?.value) || 0;
+    const investingVal = Number(investingData[year]?.value) || 0;
+    const financeVal = Number(financeData[year]?.value) || 0;
 
     const totalVal = operatingVal + investingVal + financeVal;
 
@@ -1360,6 +1529,8 @@ const getCashFlowTrendChartOptions = (data) => {
       position: "top",
     },
     yaxis: {
+      // stepSize: yaxisTickStepSize,
+      tickAmount: 6,
       axisTicks: {
         show: true,
       },
@@ -1377,7 +1548,6 @@ const getCashFlowTrendChartOptions = (data) => {
       tooltip: {
         enabled: true,
       },
-      stepSize: 5000000,
     },
     tooltip: {
       fixed: {
@@ -1440,7 +1610,6 @@ const getCurrentRatioChartOptions = (data) => {
   const prepaidExpensesArray = Object.values(
     data["prepaidExpensesAndOtherAssets_Client"]
   ).map((item) => Number(item.value));
-
   const currentAssetsArray = cashAndCashEquivalentsArray.map(
     (_, index) =>
       cashAndCashEquivalentsArray[index] +
@@ -1456,9 +1625,24 @@ const getCurrentRatioChartOptions = (data) => {
   const deferredRevenueArray = Object.values(
     data["deferredRevenue_Client"]
   ).map((item) => Number(item.value));
+  const postRetirementBenefitObligationsArray = Object.values(
+    data["postRetirementHealthBenefits_Client"]
+  ).map((item) => Number(item.value));
+
+  const annuityObligationsArray = Object.values(
+    data["annuityObligations_Client"]
+  ).map((item) => Number(item.value));
+  const otherLiabilitiesArray = Object.values(data["deferredRevenue_Client"]).map(
+    (item) => Number(item.value)
+  );
 
   const currentLiabilitiesArray = accountsPayableArray.map(
-    (_, index) => accountsPayableArray[index] + deferredRevenueArray[index]
+    (_, index) =>
+      accountsPayableArray[index] +
+      deferredRevenueArray[index] +
+      postRetirementBenefitObligationsArray[index] +
+      annuityObligationsArray[index] +
+      otherLiabilitiesArray[index]
   );
 
   const currentRatioArray = currentAssetsArray.map((asset, index) => {
@@ -1468,23 +1652,212 @@ const getCurrentRatioChartOptions = (data) => {
     return liability !== 0 ? ratio.toFixed(1) : 0; // Avoid division by zero
   });
 
-  // getAverageOfArray
-
-  const peerAvgArray = Object.keys(data.currentRatio_Peer).map((key) => {
+  const peerAvgCurrentRatioArray = Object.keys(data.currentRatio_Peer).map((key) => {
     const values = data.currentRatio_Peer[key];
     const avg = getAverageOfArray(values);
 
     return avg.toFixed(1);
   });
 
-  // console.log({
-  //   currentAssetsArray,
-  //   currentLiabilitiesArray,
-  //   currentRatioArray,
-  //   peerAvgArray,
-  // });
+  const peerAvgCurrentAssetsArray = Object.keys(data.currentAssets_Peer).map((key) => {
+    const values = data.currentAssets_Peer[key];
+    const avg = getAverageOfArray(values);
+
+    return avg.toFixed(1);
+  });
+
+  const peerAvgCurrentLiabilitiesArray = Object.keys(data.currentLiabilities_Peer).map((key) => {
+    const values = data.currentLiabilities_Peer[key];
+    const avg = getAverageOfArray(values);
+
+    return avg.toFixed(1);
+  });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  // Clear and populate the current ratio client table
+  const tableHeader = document.getElementById("row_currentRatio_tableHeader");
+  const ratioRow = document.getElementById("row_currentRatio_ratio");
+  const currentAssetsRow = document.getElementById(
+    "row_currentRatio_currentAssets"
+  );
+  const cashCashEquivalentsRow = document.getElementById(
+    "row_currentRatio_cashCashEquivalents"
+  );
+  const accountsReceivableRow = document.getElementById(
+    "row_currentRatio_accountsReceivable"
+  );
+  const studentLoansRow = document.getElementById(
+    "row_currentRatio_studentLoansAndOtherReceivables"
+  );
+  const contributionsReceivableRow = document.getElementById(
+    "row_currentRatio_contributionsReceivable"
+  );
+  const prepaidExpensesRow = document.getElementById(
+    "row_currentRatio_prepaidExpensesAndOtherAssets"
+  );
+  const currentLiabilitiesRow = document.getElementById(
+    "row_currentRatio_currentLiabilities"
+  );
+  const accountsPayableRow = document.getElementById(
+    "row_currentRatio_accountsPayableAndAccruedLiabilities"
+  );
+  const deferredRevenueRow = document.getElementById(
+    "row_currentRatio_deferredRevenue"
+  );
+  const postRetirementBenefitObligationsRow = document.getElementById(
+    "row_currentRatio_postRetirementBenefits"
+  );
+  const annuityObligationsRow = document.getElementById(
+    "row_currentRatio_AnnuityObligations"
+  );
+  const otherLiabilitiesRow = document.getElementById(
+    "row_currentRatio_otherLiabilities"
+  );
+
+  // Clear existing content before appending
+  tableHeader.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide"></th>`;
+  ratioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Ratio</th>`;
+  currentAssetsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Assets</th>`;
+  cashCashEquivalentsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Cash and Cash Equivalents</th>`;
+  accountsReceivableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Receivable</th>`;
+  studentLoansRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Student Loans and Other Receivables</th>`;
+  contributionsReceivableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Contributions Receivable</th>`;
+  prepaidExpensesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Prepaid Expenses and Other Assets</th>`;
+  currentLiabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-2xl text-gray-900 whitespace-nowrap dark:text-white">Current Liabilities</th>`;
+  accountsPayableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Payable and Accrued Liabilities</th>`;
+  deferredRevenueRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Deferred Revenue</th>`;
+  postRetirementBenefitObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Post Retirement Benefit Obligations</th>`;
+  annuityObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Annuity Obligations</th>`;
+  otherLiabilitiesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Other Liabilities</th>`;
+
+  // Loop through and populate data for each selected year
+  selectedYearsArray.forEach((year, index) => {
+    // Add year to table header
+    tableHeader.innerHTML += `
+    <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+  `;
+
+    // Populate ratio row
+    ratioRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${currentRatioArray[index] || "-"}
+    </th>
+  `;
+
+    // Populate current assets row
+    currentAssetsRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(currentAssetsArray[index])}
+    </th>
+  `;
+
+    // Populate cash and cash equivalents row
+    cashCashEquivalentsRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(cashAndCashEquivalentsArray[index])}
+    </th>
+  `;
+
+    // Populate accounts receivable row
+    accountsReceivableRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(accountsReceivableArray[index])}
+    </th>
+  `;
+
+    // Populate student loans and other receivables row
+    studentLoansRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(studentLoansAndOtherReceivablesArray[index])}
+    </th>
+  `;
+
+    // Populate contributions receivable row
+    contributionsReceivableRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(contributionsReceivableArray[index])}
+    </th>
+  `;
+
+    // Populate prepaid expenses row
+    prepaidExpensesRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(prepaidExpensesArray[index])}
+    </th>
+  `;
+
+    // Populate current liabilities row
+    currentLiabilitiesRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(currentLiabilitiesArray[index])}
+    </th>
+  `;
+
+    // Populate accounts payable row
+    accountsPayableRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(accountsPayableArray[index])}
+    </th>
+  `;
+
+    // Populate deferred revenue row
+    deferredRevenueRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(deferredRevenueArray[index])}
+    </th>
+  `;
+
+    // populate post retirement benefit obligations row
+    postRetirementBenefitObligationsRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(postRetirementBenefitObligationsArray[index])}
+    </th>
+    `;
+
+    // populate annuity obligations row
+    annuityObligationsRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(annuityObligationsArray[index])}
+    </th>
+    `;
+
+    // populate other liabilities row
+    otherLiabilitiesRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(otherLiabilitiesArray[index])}
+    </th>
+    `;
+
+    // Populate peer average client ratio row
+    const peerAvgRow = document.getElementById("row_currentRatio_peerAvg");
+    peerAvgRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${peerAvgCurrentRatioArray[index] || "-"}
+    </th>
+  `;
+
+    // Populate peer average current assets row
+    const peerAvgCurrentAssetsRow = document.getElementById(
+      "row_currentRatio_peerAvgCurrentAssets"
+    );
+    peerAvgCurrentAssetsRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(peerAvgCurrentAssetsArray[index])}
+      </th>
+    `;
+
+    // Populate peer average current liabilities row
+    const peerAvgCurrentLiabilitiesRow = document.getElementById(
+      "row_currentRatio_peerAvgCurrentLiabilities"
+    );
+    peerAvgCurrentLiabilitiesRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(peerAvgCurrentLiabilitiesArray[index])}
+      </th>
+    `;
+
+  });
 
   const formatNumber = (value) => value.toLocaleString();
 
@@ -1613,18 +1986,19 @@ const getCurrentRatioChartOptions = (data) => {
         // }
       },
       {
-        opposite: true,
-        axisBorder: {
-          show: false,
-          color: window.chartColors.red,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: window.chartColors.red,
-            fontSize: "1.25rem",
-          },
-        },
+        show: false,
+        // opposite: true,
+        // axisBorder: {
+        //   show: false,
+        //   color: window.chartColors.red,
+        // },
+        // labels: {
+        //   formatter: yaxisLabelFormatter,
+        //   style: {
+        //     colors: window.chartColors.red,
+        //     fontSize: "1.25rem",
+        //   },
+        // },
         // title: {
         //   text: "Liabilities",
         //   style: {
@@ -2213,11 +2587,9 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
 };
 
 const getAdminCostsPerStudentChartOptions = (data) => {
-  // console.log({ data });
+  console.log({ data });
 
-  const mostRecentYear = Math.max(
-    ...Object.keys(data["adminCostsPerStudent_Client"])
-  );
+  const mostRecentYear = Math.max(...Object.keys(data["healthAdminAsst_Peer"]));
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   let clientArray = [];
@@ -3021,7 +3393,7 @@ const getTuitionDependencyChartOptions = (data) => {
       },
     },
     title: {
-      text: "Tutiion Dependency",
+      text: "Tuition Dependency",
       align: "center",
       margin: 10,
       offsetY: 20,
@@ -3228,7 +3600,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
       },
     },
     title: {
-      text: "Tutiion Discount Rate",
+      text: "Tuition Discount Rate",
       align: "center",
       margin: 10,
       offsetY: 20,
@@ -3302,7 +3674,6 @@ const getTuitionDiscountRateChartOptions = (data) => {
     },
   };
 };
-
 
 // Linear Gauge Chart
 
@@ -3411,14 +3782,14 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
 };
 
 const getDebtServiceCoverageChartOptions = (data) => {
-  const value = 75;
-  const benchmark = 70;
+  const value = 8;
+  const benchmark = 4;
   const text =
-    value > 70
+    value > 4
       ? `Within Range of Benchmark: ${benchmark}%`
       : `Below Benchmark: ${benchmark}%`;
 
-  const backgroundColor = value > 70 ? "#54ba4a" : "#cf3636";
+  const backgroundColor = value > 4 ? "#54ba4a" : "#cf3636";
 
   var chartObj = new FusionCharts({
     type: "hlineargauge",
@@ -3432,7 +3803,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
         caption: "Debt Service Coverage Ratio",
         subcaption: "",
         lowerLimit: "0",
-        upperLimit: "100",
+        upperLimit: "10",
         numberSuffix: "",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
@@ -3443,17 +3814,17 @@ const getDebtServiceCoverageChartOptions = (data) => {
         color: [
           {
             minValue: "0",
-            maxValue: "35",
+            maxValue: "4",
             code: "#EF707E",
           },
           {
-            minValue: "35",
-            maxValue: "70",
+            minValue: "4",
+            maxValue: "8",
             code: "#FFE381",
           },
           {
-            minValue: "70",
-            maxValue: "100",
+            minValue: "8",
+            maxValue: "12",
             code: "#BBE97A",
           },
         ],
@@ -3515,10 +3886,10 @@ const getDebtServiceCoverageChartOptions = (data) => {
 };
 
 const getEndowmentOperatingChartOptions = (data) => {
-  const value = 75;
-  const benchmark = 70;
+  const value = 175;
+  const benchmark = 150;
   const text =
-    value > 70
+    value > 150
       ? `Within Range of Benchmark: ${benchmark}%`
       : `Below Benchmark: ${benchmark}%`;
 
@@ -3526,7 +3897,7 @@ const getEndowmentOperatingChartOptions = (data) => {
 
   var chartObj = new FusionCharts({
     type: "hlineargauge",
-    renderAt: "endowmentAssetsPerStudentMAP_chart",
+    renderAt: "endowmentOperatingBudget_chart",
     width: "800",
     height: "200",
     dataFormat: "json",
@@ -3536,7 +3907,7 @@ const getEndowmentOperatingChartOptions = (data) => {
         caption: clientName,
         subcaption: "Endowment Assets per Student",
         lowerLimit: "0",
-        upperLimit: "100",
+        upperLimit: "250",
         numberSuffix: "",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
@@ -3547,17 +3918,17 @@ const getEndowmentOperatingChartOptions = (data) => {
         color: [
           {
             minValue: "0",
-            maxValue: "35",
+            maxValue: "75",
             code: "#EF707E",
           },
           {
-            minValue: "35",
-            maxValue: "70",
+            minValue: "75",
+            maxValue: "150",
             code: "#FFE381",
           },
           {
-            minValue: "70",
-            maxValue: "100",
+            minValue: "150",
+            maxValue: "250",
             code: "#BBE97A",
           },
         ],
@@ -3616,4 +3987,769 @@ const getEndowmentOperatingChartOptions = (data) => {
   });
 
   chartObj.render();
+};
+
+// ltDebtPerTotalOperatingRevenue_chart
+
+const getLtDebtPerTotalOperatingRevenueChartOptions = (data) => {
+  // console.log({ data });
+
+  const mostRecentYear = Math.max(
+    ...Object.keys(data["longTermDebtForLongTermPurpose_Client"])
+  );
+
+  const num = Number(
+    data["longTermDebtForLongTermPurpose_Client"][mostRecentYear].value
+  );
+  const clientPercent = Math.round(num * 100);
+
+  // console.log({ clientPercent });
+
+  const chartColor =
+    clientPercent <= 60
+      ? window.chartColors.green
+      : clientPercent <= 80
+      ? window.chartColors.orange
+      : window.chartColors.red;
+
+  // console.log({ chartColor });
+
+  const textArray = [
+    "Current Ratio Exceeds Target Goal: Reduce to below 50%",
+    "Current Ratio Far Exceeds Target Goal: Reduce to below 50%",
+    "Current Ratio is within Target Goal: below 50%",
+  ];
+
+  const textLabel =
+    clientPercent <= 60
+      ? textArray[2]
+      : clientPercent <= 80
+      ? textArray[0]
+      : textArray[1];
+
+  return {
+    series: [clientPercent],
+    chart: {
+      height: 350,
+      type: "radialBar",
+      offsetY: -10,
+    },
+    plotOptions: {
+      radialBar: {
+        startAngle: -135,
+        endAngle: 135,
+        dataLabels: {
+          name: {
+            fontSize: "16px",
+            color: chartColor,
+            offsetY: 120,
+          },
+          value: {
+            fontSize: "100px",
+            fontWeight: "700",
+            color: chartColor,
+            formatter: function (val) {
+              return val + "%";
+            },
+            offsetY: -10,
+          },
+        },
+      },
+    },
+    fill: {
+      colors: [chartColor],
+    },
+    stroke: {
+      dashArray: 4,
+      style: {
+        color: chartColor,
+      },
+    },
+    labels: [textLabel],
+  };
+};
+
+const getDebtBurdenRatioChartOptions = (data) => {
+  // console.log({ data });
+
+  let clientRatioArray = [];
+  let peerRatioArray = [];
+  let debtServiceArray = [];
+  let operationalExpenseArray = [];
+
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  selectedYearsArray.map((year) => {
+    const debtServiceClientNum = Number(data.debtService_Client[year].value);
+    const operationalExpenseClientNum = Number(
+      data.operationalExpense_Client[year].value
+    );
+    const clientRatioNum = debtServiceClientNum / operationalExpenseClientNum;
+
+    const debtServicePeerNum = getSumOfArray(data.debtService_Peer[year]);
+    const operationalExpensePeerNum = getSumOfArray(
+      data.operationalExpense_Peer[year]
+    );
+    const peerRatioNum = debtServicePeerNum / operationalExpensePeerNum;
+
+    let num = Math.round(clientRatioNum * 100);
+    clientRatioArray.push(num);
+
+    num = Math.round(peerRatioNum * 100);
+    peerRatioArray.push(num);
+
+    num = Math.round(Number(data.debtService_Client[year].value));
+    debtServiceArray.push(num);
+
+    num = Math.round(Number(data.operationalExpense_Client[year].value));
+    operationalExpenseArray.push(num);
+  });
+
+  // console.log({
+  //   clientRatioArray,
+  //   peerRatioArray,
+  //   debtServiceArray,
+  //   operationalExpenseArray,
+  // });
+
+  const chartColors = document.documentElement.classList.contains("dark")
+    ? {
+        borderColor: "#374151",
+        labelColor: "#3A464F",
+        opacityFrom: 0,
+        opacityTo: 0.15,
+      }
+    : {
+        borderColor: "#F3F4F6",
+        labelColor: "#6B7280",
+        opacityFrom: 0.45,
+        opacityTo: 0,
+      };
+
+  const chartColor = document.documentElement.classList.contains("dark")
+    ? "#e3f0fa"
+    : "#3a464f";
+
+  const yaxisLabelFormatter = (val) => {
+    const num = parseInt(val, 10);
+    if (isNaN(num)) {
+      return "Invalid input";
+    }
+    if (num >= 1000) {
+      return `${Math.floor(num / 1000)}k`;
+    }
+    return val;
+  };
+  const yaxisLabelFormatter2 = (value) => {
+    return `${value}`;
+  };
+
+  const tooltipFormatter = (value) => {
+    if (!value) return;
+    let formattedValue = value.toLocaleString();
+    if (formattedValue.length === 1) formattedValue += ".0";
+
+    if (value < 10) {
+      return `${formattedValue}`;
+    } else {
+      return `$${formattedValue}`;
+    }
+  };
+
+  // console.log({mainName, benchmark});
+
+  return {
+    colors: [
+      window.chartColors.blue,
+      window.chartColors.teal,
+      window.chartColors.green,
+      window.chartColors.grey,
+    ],
+    series: [
+      {
+        name: "Debt Service",
+        type: "column",
+        data: debtServiceArray,
+      },
+      {
+        name: "Operating Expense",
+        type: "column",
+        data: operationalExpenseArray,
+      },
+      {
+        name: "Client Ratio",
+        type: "line",
+        data: clientRatioArray,
+      },
+      {
+        name: "Peer Ratio",
+        type: "line",
+        data: peerRatioArray,
+      },
+    ],
+    chart: {
+      height: 550,
+      type: "line",
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
+        },
+      },
+    },
+    title: {
+      text: "Debt Burden Ratio",
+      align: "center",
+      margin: 10,
+      offsetY: 20,
+      style: {
+        color: chartColor,
+        fontSize: "1.5rem",
+      },
+    },
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
+        },
+      },
+      {
+        show: false,
+      },
+      {
+        opposite: true,
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter2,
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
+        },
+      },
+    ],
+    xaxis: {
+      categories: selectedYearsArray,
+      labels: {
+        style: {
+          colors: chartColor,
+          fontSize: "1.5rem",
+        },
+      },
+    },
+    legend: {
+      position: "top",
+      fontSize: "20px",
+    },
+    grid: {
+      row: {
+        colors: ["transparent"],
+        opacity: 0.5,
+        thickness: 4,
+      },
+    },
+    plotOptions: {
+      bar: {
+        barHeight: "90%",
+      },
+    },
+  };
+};
+
+const getEndowmentAssetsPerStudentMapOptions = (data) => {
+  am4core.useTheme(am4themes_animated);
+
+  // Create map instance
+  var chart = am4core.create(
+    "endowmentAssetsPerStudentMAP_chart",
+    am4maps.MapChart
+  );
+
+  // Set map definition
+  chart.geodata = am4geodata_usaLow;
+
+  // Set projection
+  chart.projection = new am4maps.projections.AlbersUsa();
+
+  // Create map polygon series
+  var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+
+  //Set min/max fill color for each area
+  polygonSeries.heatRules.push({
+    property: "fill",
+    target: polygonSeries.mapPolygons.template,
+    min: chart.colors.getIndex(1).brighten(1),
+    max: chart.colors.getIndex(1).brighten(-0.3),
+    logarithmic: true,
+  });
+
+  // Make map load polygon data (state shapes and names) from GeoJSON
+  polygonSeries.useGeodata = true;
+
+  // Set heatmap values for each state
+  polygonSeries.data = [
+    {
+      id: "US-AL",
+      value: 444710,
+    },
+    {
+      id: "US-AK",
+      value: 626932,
+    },
+    {
+      id: "US-AZ",
+      value: 5130632,
+    },
+    {
+      id: "US-AR",
+      value: 2673400,
+    },
+    {
+      id: "US-CA",
+      value: 33871648,
+    },
+    {
+      id: "US-CO",
+      value: 4301261,
+    },
+    {
+      id: "US-CT",
+      value: 3405565,
+    },
+    {
+      id: "US-DE",
+      value: 783600,
+    },
+    {
+      id: "US-FL",
+      value: 15982378,
+    },
+    {
+      id: "US-GA",
+      value: 8186453,
+    },
+    {
+      id: "US-HI",
+      value: 1211537,
+    },
+    {
+      id: "US-ID",
+      value: 1293953,
+    },
+    {
+      id: "US-IL",
+      value: 12419293,
+    },
+    {
+      id: "US-IN",
+      value: 6080485,
+    },
+    {
+      id: "US-IA",
+      value: 2926324,
+    },
+    {
+      id: "US-KS",
+      value: 2688418,
+    },
+    {
+      id: "US-KY",
+      value: 4041769,
+    },
+    {
+      id: "US-LA",
+      value: 4468976,
+    },
+    {
+      id: "US-ME",
+      value: 1274923,
+    },
+    {
+      id: "US-MD",
+      value: 5296486,
+    },
+    {
+      id: "US-MA",
+      value: 6349097,
+    },
+    {
+      id: "US-MI",
+      value: 9938444,
+    },
+    {
+      id: "US-MN",
+      value: 4919479,
+    },
+    {
+      id: "US-MS",
+      value: 2844658,
+    },
+    {
+      id: "US-MO",
+      value: 5595211,
+    },
+    {
+      id: "US-MT",
+      value: 902195,
+    },
+    {
+      id: "US-NE",
+      value: 1711263,
+    },
+    {
+      id: "US-NV",
+      value: 1998257,
+    },
+    {
+      id: "US-NH",
+      value: 1235786,
+    },
+    {
+      id: "US-NJ",
+      value: 8414350,
+    },
+    {
+      id: "US-NM",
+      value: 1819046,
+    },
+    {
+      id: "US-NY",
+      value: 18976457,
+    },
+    {
+      id: "US-NC",
+      value: 8049313,
+    },
+    {
+      id: "US-ND",
+      value: 642200,
+    },
+    {
+      id: "US-OH",
+      value: 11353140,
+    },
+    {
+      id: "US-OK",
+      value: 3450654,
+    },
+    {
+      id: "US-OR",
+      value: 3421399,
+    },
+    {
+      id: "US-PA",
+      value: 12281054,
+    },
+    {
+      id: "US-RI",
+      value: 1048319,
+    },
+    {
+      id: "US-SC",
+      value: 4012012,
+    },
+    {
+      id: "US-SD",
+      value: 754844,
+    },
+    {
+      id: "US-TN",
+      value: 5689283,
+    },
+    {
+      id: "US-TX",
+      value: 20851820,
+    },
+    {
+      id: "US-UT",
+      value: 2233169,
+    },
+    {
+      id: "US-VT",
+      value: 608827,
+    },
+    {
+      id: "US-VA",
+      value: 7078515,
+    },
+    {
+      id: "US-WA",
+      value: 5894121,
+    },
+    {
+      id: "US-WV",
+      value: 1808344,
+    },
+    {
+      id: "US-WI",
+      value: 5363675,
+    },
+    {
+      id: "US-WY",
+      value: 493782,
+    },
+  ];
+
+  // Set up heat legend
+  let heatLegend = chart.createChild(am4maps.HeatLegend);
+  heatLegend.series = polygonSeries;
+  heatLegend.align = "right";
+  heatLegend.valign = "bottom";
+  heatLegend.height = am4core.percent(80);
+  heatLegend.orientation = "vertical";
+  heatLegend.valign = "middle";
+  heatLegend.marginRight = am4core.percent(4);
+  heatLegend.valueAxis.renderer.opposite = true;
+  heatLegend.valueAxis.renderer.dx = -25;
+  heatLegend.valueAxis.strictMinMax = false;
+  heatLegend.valueAxis.fontSize = 9;
+  heatLegend.valueAxis.logarithmic = true;
+
+  // Configure series tooltip
+  var polygonTemplate = polygonSeries.mapPolygons.template;
+  polygonTemplate.tooltipText = "{name}: {value}";
+  polygonTemplate.nonScalingStroke = true;
+  polygonTemplate.strokeWidth = 0.5;
+
+  // Create hover state and set alternative fill color
+  var hs = polygonTemplate.states.create("hover");
+  hs.properties.fill = am4core.color("#dc5c3c");
+
+  // heat legend behavior
+  polygonSeries.mapPolygons.template.events.on("over", function (event) {
+    handleHover(event.target);
+  });
+
+  polygonSeries.mapPolygons.template.events.on("hit", function (event) {
+    handleHover(event.target);
+  });
+
+  function handleHover(column) {
+    if (!isNaN(column.dataItem.value)) {
+      heatLegend.valueAxis.showTooltipAt(column.dataItem.value);
+    } else {
+      heatLegend.valueAxis.hideTooltip();
+    }
+  }
+
+  polygonSeries.mapPolygons.template.events.on("out", function (event) {
+    heatLegend.valueAxis.hideTooltip();
+  });
+};
+
+const getEndowmentAssetsPerStudentChartOptions = (data) => {
+  // console.log({ data });
+
+  const mostRecentYear = Math.max(...Object.keys(data["endowmentSize_Client"]));
+
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+  let clientArray = [];
+  let peerArray = [];
+
+  selectedYearsArray.map((year) => {
+    const endowmentSizeClient = Number(data.endowmentSize_Client[year].value);
+    const totalStudentFteClient = Number(
+      data.totalStudentFte_Client[year].value
+    );
+    const clientRatio = endowmentSizeClient / totalStudentFteClient;
+
+    const endowmentSizePeer = getSumOfArray(data.endowmentSize_Peer[year]);
+    const totalStudentFtePeer = getSumOfArray(data.totalStudentFte_Peer[year]);
+    // console.log({endowmentSizePeer, totalStudentFtePeer, endowmentSizeClient, totalStudentFteClient});
+
+    const peerRatio = endowmentSizePeer / totalStudentFtePeer;
+
+    // console.log({clientRatio, peerRatio});
+
+    const clientData = isNaN(clientRatio) ? clientRatio * 100 : 0;
+    clientArray.push(clientData);
+
+    const peerData = isNaN(peerRatio) ? peerRatio * 100 : 0;
+    peerArray.push(peerData);
+  });
+
+  // console.log({
+  //   clientArray,
+  //   peerArray,
+  // });
+
+  const chartColors = document.documentElement.classList.contains("dark")
+    ? {
+        borderColor: "#374151",
+        labelColor: "#ebedf0",
+        opacityFrom: 0,
+        opacityTo: 0.15,
+      }
+    : {
+        borderColor: "#F3F4F6",
+        labelColor: "#000000",
+        opacityFrom: 0.45,
+        opacityTo: 0,
+      };
+
+  const chartColor = document.documentElement.classList.contains("dark")
+    ? "#e3f0fa"
+    : "#000000";
+
+  const yaxisLabelFormatter = (val) => {
+    const num = parseInt(val, 10);
+    if (isNaN(num)) {
+      return "Invalid input";
+    }
+    return `${val}%`;
+  };
+
+  const tooltipFormatter = (value) => {
+    if (!value) return;
+    const formattedValue = value.toLocaleString();
+    return `${formattedValue}%`;
+  };
+
+  return {
+    colors: [
+      window.chartColors.blue,
+      window.chartColors.green,
+      window.chartColors.red,
+      window.chartColors.orange,
+      window.chartColors.purple,
+    ],
+    series: [
+      {
+        name: clientName,
+        type: "column",
+        data: clientArray,
+        style: {
+          colors: [chartColors.labelColor],
+        },
+      },
+      {
+        name: "Peer Ratio",
+        type: "line",
+        data: peerArray,
+      },
+    ],
+    chart: {
+      id: "adminCostsPerStudent",
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
+      height: 550,
+      type: "line",
+      stacked: false,
+    },
+    stroke: {
+      width: 4,
+    },
+    title: {
+      text: "Endowment Assets per Student",
+      position: "top",
+      align: "center",
+      margin: 10,
+      offsetY: 20,
+      style: {
+        color: chartColors.labelColor,
+        fontSize: "1.5rem",
+      },
+    },
+    xaxis: {
+      categories: selectedYearsArray,
+      labels: {
+        style: {
+          colors: chartColors.labelColor,
+          fontSize: "1rem",
+        },
+      },
+    },
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColors.labelColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColors.labelColor,
+            fontSize: "1rem",
+          },
+        },
+        tooltip: {
+          enabled: true,
+        },
+      },
+    ],
+    tooltip: {
+      fixed: {
+        enabled: true,
+        position: "topLeft",
+        offsetY: 30,
+        offsetX: 60,
+      },
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
+        },
+      },
+    },
+    legend: {
+      horizontalAlign: "center",
+      position: "top",
+      offsetX: 40,
+      fontSize: "20px",
+    },
+    grid: {
+      row: {
+        colors: ["transparent"],
+        opacity: 0.5,
+        thickness: 4,
+      },
+    },
+    plotOptions: {
+      bar: {
+        barHeight: "90%",
+      },
+    },
+  };
 };

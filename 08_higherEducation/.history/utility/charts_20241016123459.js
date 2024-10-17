@@ -1430,7 +1430,6 @@ const getCashFlowTrendChartOptions = (data) => {
   const financeData = data["cft_FinancingActivities_Client"];
   const investingData = data["cft_InvestingActivities_Client"];
   const operatingData = data["cft_OperatingActivities_Client"];
-  const totalData = data["cft_TotalActivities_Client"];
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -1438,77 +1437,15 @@ const getCashFlowTrendChartOptions = (data) => {
     const operatingVal = Number(operatingData[year]?.value) || 0;
     const investingVal = Number(investingData[year]?.value) || 0;
     const financeVal = Number(financeData[year]?.value) || 0;
-    const totalVal = Number(totalData[year]?.value) || 0;
 
-    const chartData = [operatingVal, investingVal, financeVal, totalVal];
+    const totalVal = operatingVal + investingVal + financeVal;
+
+    const data = [operatingVal, investingVal, financeVal, totalVal];
 
     return {
       name: year.toString(),
-      data: chartData,
+      data: data,
     };
-  });
-
-
-  const tableHeaderRow = document.getElementById("row_cashFlowTrend_tableHeader");
-  const operatingRow = document.getElementById("row_cashFlowTrend_operating");
-  const investingRow = document.getElementById("row_cashFlowTrend_investing");
-  const financingRow = document.getElementById("row_cashFlowTrend_financing");
-  const totalRow = document.getElementById("row_cashFlowTrend_total");
-
-  // Clear existing table content before appending
-  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
-  operatingRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Operating</th>`;
-  investingRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Investing</th>`;
-  financingRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Financing</th>`;
-  totalRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</th>`;
-
-  // Loop through selected years and populate the table
-  selectedYearsArray.forEach((year, index) => {
-    const operatingValue = `${formatCurrency(operatingData[year]?.value)}`;
-    const investingValue = `${formatCurrency(investingData[year]?.value)}`;
-    const financingValue = `${formatCurrency(financeData[year]?.value)}`;
-    const totalValue = `${formatCurrency(totalData[year]?.value)}`;
-
-    // Add year to table header
-    tableHeaderRow.innerHTML += `
-    <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-  `;
-
-    // Add corresponding operating data
-    operatingRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      ${
-        operatingData[year]?.value ? operatingValue : "-"
-      } <!-- Fallback in case data is missing -->
-    </th>
-  `;
-
-    // Add corresponding investing data
-    investingRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      ${
-        investingData[year]?.value ? investingValue : "-"
-      } <!-- Fallback in case data is missing -->
-    </th>
-  `;
-
-    // Add corresponding financing data
-    financingRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      ${
-        financeData[year]?.value ? financingValue : "-"
-      } <!-- Fallback in case data is missing -->
-    </th>
-  `;
-
-    // Add corresponding total data
-    totalRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      ${
-        totalData[index] ? totalValue : "-"
-      } <!-- Fallback in case data is missing -->
-    </th>
-  `;
   });
 
   // console.log(seriesData);
@@ -1695,9 +1632,9 @@ const getCurrentRatioChartOptions = (data) => {
   const annuityObligationsArray = Object.values(
     data["annuityObligations_Client"]
   ).map((item) => Number(item.value));
-  const otherLiabilitiesArray = Object.values(
-    data["deferredRevenue_Client"]
-  ).map((item) => Number(item.value));
+  const otherLiabilitiesArray = Object.values(data["deferredRevenue_Client"]).map(
+    (item) => Number(item.value)
+  );
 
   const currentLiabilitiesArray = accountsPayableArray.map(
     (_, index) =>
@@ -1715,27 +1652,21 @@ const getCurrentRatioChartOptions = (data) => {
     return liability !== 0 ? ratio.toFixed(1) : 0; // Avoid division by zero
   });
 
-  const peerAvgCurrentRatioArray = Object.keys(data.currentRatio_Peer).map(
-    (key) => {
-      const values = data.currentRatio_Peer[key];
-      const avg = getAverageOfArray(values);
+  const peerAvgCurrentRatioArray = Object.keys(data.currentRatio_Peer).map((key) => {
+    const values = data.currentRatio_Peer[key];
+    const avg = getAverageOfArray(values);
 
-      return avg.toFixed(1);
-    }
-  );
+    return avg.toFixed(1);
+  });
 
-  const peerAvgCurrentAssetsArray = Object.keys(data.currentAssets_Peer).map(
-    (key) => {
-      const values = data.currentAssets_Peer[key];
-      const avg = getAverageOfArray(values);
+  const peerAvgCurrentAssetsArray = Object.keys(data.currentAssets_Peer).map((key) => {
+    const values = data.currentAssets_Peer[key];
+    const avg = getAverageOfArray(values);
 
-      return avg.toFixed(1);
-    }
-  );
+    return avg.toFixed(1);
+  });
 
-  const peerAvgCurrentLiabilitiesArray = Object.keys(
-    data.currentLiabilities_Peer
-  ).map((key) => {
+  const peerAvgCurrentLiabilitiesArray = Object.keys(data.currentLiabilities_Peer).map((key) => {
     const values = data.currentLiabilities_Peer[key];
     const avg = getAverageOfArray(values);
 
@@ -1745,9 +1676,7 @@ const getCurrentRatioChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   // Clear and populate the current ratio client table
-  const tableHeaderClient = document.getElementById(
-    "row_currentRatio_tableHeader"
-  );
+  const tableHeader = document.getElementById("row_currentRatio_tableHeader");
   const ratioRow = document.getElementById("row_currentRatio_ratio");
   const currentAssetsRow = document.getElementById(
     "row_currentRatio_currentAssets"
@@ -1785,21 +1714,20 @@ const getCurrentRatioChartOptions = (data) => {
   const otherLiabilitiesRow = document.getElementById(
     "row_currentRatio_otherLiabilities"
   );
-  const tableHeaderPeer = document.getElementById(
-    "row_currentRatioPeer_tableHeader"
-  );
-  const peerAvgCurrentRatioRow = document.getElementById(
+  const peerAvgTableHeader = document.getElementById(
     "row_currentRatioPeer_ratio"
   );
-  const peerAvgCurrentAssetsRow = document.getElementById(
+  const peerAvgCurrentAssetsRow = document.getElementById( 
     "row_currentRatioPeer_currentAssets"
   );
   const peerAvgCurrentLiabilitiesRow = document.getElementById(
     "row_currentRatioPeer_currentLiabilities"
   );
 
+
+
   // Clear existing content before appending
-  tableHeaderClient.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  tableHeader.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide"></th>`;
   ratioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Ratio</th>`;
   currentAssetsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Assets</th>`;
   cashCashEquivalentsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Cash and Cash Equivalents</th>`;
@@ -1813,20 +1741,17 @@ const getCurrentRatioChartOptions = (data) => {
   postRetirementBenefitObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Post Retirement Benefit Obligations</th>`;
   annuityObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Annuity Obligations</th>`;
   otherLiabilitiesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Other Liabilities</th>`;
-  tableHeaderPeer.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Peer</th>`;
-  peerAvgCurrentRatioRow.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Ratio</th>`;
+  peerAvgTableHeader.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Ratio</th>`;
   peerAvgCurrentAssetsRow.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Assets</th>`;
   peerAvgCurrentLiabilitiesRow.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Liabilities</th>`;
+
 
   // Loop through and populate data for each selected year
   selectedYearsArray.forEach((year, index) => {
     // Add year to table header
-    tableHeaderClient.innerHTML += `
+    tableHeader.innerHTML += `
     <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-    `;
-    tableHeaderPeer.innerHTML += `
-    <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-    `;
+  `;
 
     // Populate ratio row
     ratioRow.innerHTML += `
@@ -1920,13 +1845,16 @@ const getCurrentRatioChartOptions = (data) => {
     `;
 
     // Populate peer average client ratio row
-    peerAvgCurrentRatioRow.innerHTML += `
+    peerAvgTableHeader.innerHTML += `
     <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
       ${peerAvgCurrentRatioArray[index] || "-"}
     </th>
   `;
 
     // Populate peer average current assets row
+    const peerAvgCurrentAssetsRow = document.getElementById(
+      "row_currentRatio_peerAvgCurrentAssets"
+    );
     peerAvgCurrentAssetsRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
         ${formatCurrency(peerAvgCurrentAssetsArray[index])}
@@ -1934,11 +1862,15 @@ const getCurrentRatioChartOptions = (data) => {
     `;
 
     // Populate peer average current liabilities row
+    const peerAvgCurrentLiabilitiesRow = document.getElementById(
+      "row_currentRatio_peerAvgCurrentLiabilities"
+    );
     peerAvgCurrentLiabilitiesRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
         ${formatCurrency(peerAvgCurrentLiabilitiesArray[index])}
       </th>
     `;
+
   });
 
   const formatNumber = (value) => value.toLocaleString();
@@ -2011,7 +1943,7 @@ const getCurrentRatioChartOptions = (data) => {
       {
         name: "Peer Avg",
         type: "line",
-        data: peerAvgCurrentRatioArray,
+        data: peerAvgArray,
       },
     ],
     chart: {

@@ -1430,7 +1430,6 @@ const getCashFlowTrendChartOptions = (data) => {
   const financeData = data["cft_FinancingActivities_Client"];
   const investingData = data["cft_InvestingActivities_Client"];
   const operatingData = data["cft_OperatingActivities_Client"];
-  const totalData = data["cft_TotalActivities_Client"];
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -1438,77 +1437,15 @@ const getCashFlowTrendChartOptions = (data) => {
     const operatingVal = Number(operatingData[year]?.value) || 0;
     const investingVal = Number(investingData[year]?.value) || 0;
     const financeVal = Number(financeData[year]?.value) || 0;
-    const totalVal = Number(totalData[year]?.value) || 0;
 
-    const chartData = [operatingVal, investingVal, financeVal, totalVal];
+    const totalVal = operatingVal + investingVal + financeVal;
+
+    const data = [operatingVal, investingVal, financeVal, totalVal];
 
     return {
       name: year.toString(),
-      data: chartData,
+      data: data,
     };
-  });
-
-
-  const tableHeaderRow = document.getElementById("row_cashFlowTrend_tableHeader");
-  const operatingRow = document.getElementById("row_cashFlowTrend_operating");
-  const investingRow = document.getElementById("row_cashFlowTrend_investing");
-  const financingRow = document.getElementById("row_cashFlowTrend_financing");
-  const totalRow = document.getElementById("row_cashFlowTrend_total");
-
-  // Clear existing table content before appending
-  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
-  operatingRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Operating</th>`;
-  investingRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Investing</th>`;
-  financingRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Financing</th>`;
-  totalRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</th>`;
-
-  // Loop through selected years and populate the table
-  selectedYearsArray.forEach((year, index) => {
-    const operatingValue = `${formatCurrency(operatingData[year]?.value)}`;
-    const investingValue = `${formatCurrency(investingData[year]?.value)}`;
-    const financingValue = `${formatCurrency(financeData[year]?.value)}`;
-    const totalValue = `${formatCurrency(totalData[year]?.value)}`;
-
-    // Add year to table header
-    tableHeaderRow.innerHTML += `
-    <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-  `;
-
-    // Add corresponding operating data
-    operatingRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      ${
-        operatingData[year]?.value ? operatingValue : "-"
-      } <!-- Fallback in case data is missing -->
-    </th>
-  `;
-
-    // Add corresponding investing data
-    investingRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      ${
-        investingData[year]?.value ? investingValue : "-"
-      } <!-- Fallback in case data is missing -->
-    </th>
-  `;
-
-    // Add corresponding financing data
-    financingRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      ${
-        financeData[year]?.value ? financingValue : "-"
-      } <!-- Fallback in case data is missing -->
-    </th>
-  `;
-
-    // Add corresponding total data
-    totalRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      ${
-        totalData[index] ? totalValue : "-"
-      } <!-- Fallback in case data is missing -->
-    </th>
-  `;
   });
 
   // console.log(seriesData);
@@ -1920,7 +1857,7 @@ const getCurrentRatioChartOptions = (data) => {
     `;
 
     // Populate peer average client ratio row
-    peerAvgCurrentRatioRow.innerHTML += `
+    tableHeaderPeer.innerHTML += `
     <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
       ${peerAvgCurrentRatioArray[index] || "-"}
     </th>
