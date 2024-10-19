@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Higher Ed</title>
+
+    <!-- Development -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+
+    <!-- Production -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.js"
+      integrity="sha512-SxopZNPB/jzFpgtGdR6lI7dK8EbbheOZVLNDI0FsMNM0NAqNkJyVoT83C72esOJCTdPVfDb8miZ3whsW4o/+fA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.css"
+      integrity="sha512-ZKliQ0+hD8CfDJ2v8kzEzNxT5Y4EnmG5cFV6oFvswCDyckUCRG+1p6nyMMlLgi1vM5srVpX+6YkxiUoF2tOfRw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.js"
+      integrity="sha512-nsQH9RD40r4g0C32+8AvcOqHtpotZ+7AI3LpKPbfTXgYWHhwbJ+20ATTkbUz+kO3ZeruAiaubTq97pD6sWSRbA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.css"
+      integrity="sha512-j5NOES5oZiza0awDPWoDCbU50obvmJUQobyAqYzhsXFxaXaxkcxB2WhnRcZa5wRGNyborruWuJaeg9J508HfQg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer="true"
+    ></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+      integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/maps.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/geodata/usaLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"
+    ></script>
+
+    <script>
+      var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
+      $.ajaxSetup({ data: { apptoken: apptoken } });
+
+      //retrieve URL ID for record
+      function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split("=");
+          if (pair[0] == variable) {
+            return pair[1];
+          }
+        }
+        return false;
+      }
+      var ClientRid = getQueryVariable("clientrid");
+      const clientData = "bt3egnexu";
+      const peerData = "bt3mx3t3i";
+    </script>
+
+    <script>
+      chartColors = {
+        green: "#83b240",
+        darkGreen: "#EDAB20",
+        blue: "#376eaa",
+        darkBlue: "#00588D",
+        grey: "#43505a",
+        red: "#ff6384",
+        orange: "#CD5A2C",
+        yellow: "#EDAB20",
+        purple: "#723682",
+        black: "#161F25",
+        teal: "#00808D",
+        hoverGreen: "#567529",
+        hoverBlue: "#1E3A59",
+        hoverYellow: "#B59B42",
+        tealRevenue: "#4EA79F",
+        tealRevenueHover: "#35706A",
+        orangeEducational: "#F4982D",
+        orangeEducationalHover: "#A9691F",
+        redNonoperating: "#EF707E",
+        redNonoperatingHover: "#A05059",
+        purpleChangeNetAssets: "#C57FD7",
+        purpleChangeNetAssetsHover: "#734C7D",
+        cfi25: "#EF707E",
+        cfi50: "#FFC700",
+        cfiAvg: "#007AFF",
+        cfi75: "#A970D6",
+        cfiClient: "#95BD5C",
+        blueNaturalExpense: "#4F76D9",
+        blueNaturalExpenseHover: "#385292",
+        blueOperating: "#70B5CC",
+        blueOperatingHover: "#3C616D",
+        orangeInvesting: "#FFA726",
+        orangeInvestingHover: "#A06A1A",
+        pinkFinancing: "#FFCDD2",
+        pinkFinancingHover: "#C69DA1",
+        greenPropertyEquipment: "#459B53",
+        greenPropertyEquipmentHover: "#2E6136",
+      };
+    </script>
+
+    <style>
+      .backgroundGreen {
+        background-color: #83b240;
+      }
+      .backgroundOffGreen {
+        background-color: #83b24045;
+      }
+      .borderGreen {
+        border-color: #83b240;
+      }
+      .backgroundTwoGreen {
+        background-color: #99d381;
+      }
+      .backgroundThreeGreen {
+        background-color: #9ece8c;
+      }
+      .backgroundYellow {
+        background-color: #ffcd56;
+      }
+      .backgroundOrange {
+        background-color: #ff9f40;
+      }
+      .backgroundRed {
+        background-color: #f1728d;
+      }
+      .backgroundBlue {
+        background-color: #326eaa;
+      }
+      .borderBlue {
+        border-color: #326eaa3b;
+      }
+      .backgroundOffBlue {
+        background-color: #326eaa45;
+      }
+      .backgroundGrey {
+        background-color: #c9cbcf;
+      }
+      .colorGreen {
+        color: #83b240;
+      }
+      .colorBlue {
+        color: #326eaa;
+      }
+      .colorGrey {
+        color: #c9cbcf;
+      }
+      .actionRequired {
+        background-color: #e68f96 !important;
+      }
+      .warning {
+        background-color: #e8d166d1 !important;
+      }
+      .good {
+        background-color: #74b574 !important;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        pointer-events: all;
+        width: 24px;
+        height: 24px;
+        -webkit-appearance: none;
+        /* @apply w-6 h-6 appearance-none pointer-events-auto; */
+      }
+
+      #avgScoresUsMap_chart {
+        width: 90%;
+        height: 500px;
+      }
+    </style>
+  </head>
+  Tuition and Fees
+
+    <!-- utility.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=185"></script>
+    <!-- utilityPrint.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=191"></script>
+    <!-- utilityWeightedAverage.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=192"></script>
+    <!-- api.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=184"></script>
+    <!-- Header.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=186"></script>
+    <!-- displayCharts.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=188"></script>
+    <!-- compReport.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=190"></script>
+    <!-- uiManagement.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=187"></script>
+    <!-- charts.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=189"></script>
+  </body>
+</html>
