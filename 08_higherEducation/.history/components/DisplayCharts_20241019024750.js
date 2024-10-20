@@ -540,5 +540,4 @@ const displayDebtAndEndowmentComponent = () => {
 toggleDetailsByIdentifier("ltDebtPerTotalOperatingRevenue");
 toggleDetailsByIdentifier("debtServiceCoverageRatio");
 toggleDetailsByIdentifier("debtBurdenRatio");
-toggleDetailsByIdentifier("endowmentOperatingBudget");
-toggleDetailsByIdentifier("endowmentAssetsPerStudent");
+toggleDetailsByIdentifier("debtBurdenRatio");

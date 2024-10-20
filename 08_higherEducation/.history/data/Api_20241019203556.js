@@ -268,16 +268,6 @@ const processDebtEndowmentContentData = (
           field
         );
       });
-      endowmentOperatingBudget_array.forEach(({ key, field }) => {
-        insertDataIntoObject(
-          "client",
-          year,
-          endowmentAssetsPerStudent_obj,
-          key,
-          record,
-          field
-        );
-      });
     });
 
     // PEER
@@ -328,6 +318,16 @@ const processDebtEndowmentContentData = (
           record,
           field,
           "Yes"
+        );
+      });
+      endowmentOperatingBudget_array.forEach(({ key, field }) => {
+        insertDataIntoObject(
+          "client",
+          year,
+          endowmentAssetsPerStudent_obj,
+          key,
+          record,
+          field
         );
       });
     });

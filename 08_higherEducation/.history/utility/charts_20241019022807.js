@@ -4209,8 +4209,8 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
   const benchmark = 1400;
   const text =
     value > benchmark
-      ? `Within Range of Benchmark: ${benchmark}$`
-      : `Below Benchmark: ${benchmark}$`;
+      ? `Within Range of Benchmark: ${benchmark}%`
+      : `Below Benchmark: ${benchmark}%`;
 
   const backgroundColor = value > benchmark ? "#54ba4a" : "#cf3636";
 
@@ -4227,7 +4227,7 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
         subcaption: "",
         lowerLimit: "0",
         upperLimit: value + 5000,
-        numberSuffix: "$",
+        numberSuffix: "",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
         valueFontSize: "14",
@@ -4237,17 +4237,17 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
         color: [
           {
             minValue: "0",
-            maxValue: "7000",
+            maxValue: "35",
             code: "#EF707E",
           },
           {
-            minValue: "7000",
-            maxValue: "14000",
+            minValue: "35",
+            maxValue: "70",
             code: "#FFE381",
           },
           {
-            minValue: "14000",
-            maxValue: "30000",
+            minValue: "70",
+            maxValue: "100",
             code: "#BBE97A",
           },
         ],
@@ -4309,86 +4309,14 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
 };
 
 const getDebtServiceCoverageChartOptions = (data) => {
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
-
-  const tableHeaderRow = document.getElementById(
-    "row_debtServiceCoverageRatio_tableHeader"
-  );
-  const debtServiceCoverageRatioRow = document.getElementById(
-    "row_debtServiceCoverageRatio_main"
-  );
-  const debtServiceRow = document.getElementById(
-    "row_debtServiceCoverageRatio_debtService"
-  );
-  const interestRow = document.getElementById(
-    "row_debtServiceCoverageRatio_interest"
-  );
-  const principalPaymentsRow = document.getElementById(
-    "row_debtServiceCoverageRatio_principalPayments"
-  );
-  const totalOperatingRevenueRow = document.getElementById(
-    "row_debtServiceCoverageRatio_totalOperatingRevenue"
-  );
-
-  // Clear existing content before appending
-  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
-  debtServiceCoverageRatioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Debt Service Coverage Ratio</th>`;
-  debtServiceRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Debt Service</th>`;
-  interestRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Interest</th>`;
-  principalPaymentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Principal Payments</th>`;
-  totalOperatingRevenueRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Operating Revenue</th>`;
-
-  const mostRecentYear = selectedYearsArray[selectedYearsArray.length - 1];
-  selectedYearsArray.map((year) => {
-    const clientData = Number(data.ratio_Client[year].value * 100).toFixed(1);
-    const debtService = Math.round(Number(data.debtService_Client[year].value));
-    const interest = Math.round(Number(data.interest_Client[year].value));
-    const principalPayments = Math.round(
-      Number(data.principalPayments_Client[year].value)
-    );
-    const totalOperatingRevenue = Math.round(
-      Number(data.totalOperatingRevenue_Client[year].value)
-    );
-
-    // Add year to table header
-    tableHeaderRow.innerHTML += `
-      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-    `;
-    debtServiceCoverageRatioRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${clientData}%
-      </th>
-    `;
-    debtServiceRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(debtService, true)}
-      </th>
-    `;
-    interestRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(interest, true)}
-      </th>
-    `;
-    principalPaymentsRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(principalPayments, true)}
-      </th>
-    `;
-    totalOperatingRevenueRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(totalOperatingRevenue, true)}
-      </th>
-    `;
-  });
-
-  const value = clientData;
+  const value = 8;
   const benchmark = 4;
   const text =
-    value > benchmark
-      ? `Above Benchmark: ${benchmark}%`
-      : `Within Range of Benchmark:: ${benchmark}%`;
+    value > 4
+      ? `Within Range of Benchmark: ${benchmark}%`
+      : `Below Benchmark: ${benchmark}%`;
 
-  const backgroundColor = value > 4 ? "#cf3636" : "#54ba4a";
+  const backgroundColor = value > 4 ? "#54ba4a" : "#cf3636";
 
   var chartObj = new FusionCharts({
     type: "hlineargauge",
@@ -4403,7 +4331,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
         subcaption: "",
         lowerLimit: "0",
         upperLimit: "10",
-        numberSuffix: "%",
+        numberSuffix: "",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
         valueFontSize: "14",
@@ -4414,7 +4342,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
           {
             minValue: "0",
             maxValue: "4",
-            code: "#BBE97A",
+            code: "#EF707E",
           },
           {
             minValue: "4",
@@ -4424,7 +4352,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
           {
             minValue: "8",
             maxValue: "12",
-            code: "#EF707E",
+            code: "#BBE97A",
           },
         ],
       },
@@ -4630,12 +4558,14 @@ const getLtDebtPerTotalOperatingRevenueChartOptions = (data) => {
   longTermDebtRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Long-Term Debt</th>`;
   totalOperatingRevenueRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Operating Revenue</th>`;
 
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
   tableHeaderRow.innerHTML += `
-      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${mostRecentYear}</th>
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
     `;
   ltDebtPerTotalOperatingRevenueRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${clientPercent}%
+        ${formatCurrency(clientData)}
       </th>
     `;
   longTermDebtRow.innerHTML += `
@@ -4721,90 +4651,31 @@ const getDebtBurdenRatioChartOptions = (data) => {
   let debtServiceArray = [];
   let operationalExpenseArray = [];
 
-  const tableHeaderRow = document.getElementById(
-    "row_debtBurdenRatio_tableHeader"
-  );
-  const clientRatioRow = document.getElementById("row_debtBurdenRatio_main");
-  const debtServiceRow = document.getElementById(
-    "row_debtBurdenRatio_debtService"
-  );
-  const interestRow = document.getElementById("row_debtBurdenRatio_interest");
-  const principalPaymentsRow = document.getElementById(
-    "row_debtBurdenRatio_principalPayments"
-  );
-  const operatingExpensesRow = document.getElementById(
-    "row_debtBurdenRatio_operatingExpenses"
-  );
-
-  // Clear existing content before appending
-  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
-  clientRatioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Debt Burden Ratio</th>`;
-  debtServiceRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Debt Service</th>`;
-  interestRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Interest</th>`;
-  principalPaymentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Principal Payments</th>`;
-  operatingExpensesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Operating Expenses</th>`;
-
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    const clientRatioNum = Math.abs(
-      (Number(data.ratio_Client[year].value) * 100).toFixed(1)
-    );
-    const debtServiceNum = Math.abs(
-      Number(data.debtService_Client[year].value)
-    );
-    const interestNum = Number(data.interest_Client[year].value);
-    const principalPaymentsNum = Number(
-      data.principalPayments_Client[year].value
-    );
-    const operatingExpensesNum = Number(
+    const debtServiceClientNum = Number(data.debtService_Client[year].value);
+    const operationalExpenseClientNum = Number(
       data.operationalExpense_Client[year].value
     );
+    const clientRatioNum = debtServiceClientNum / operationalExpenseClientNum;
 
-    // Add year to table header
-    tableHeaderRow.innerHTML += `
-      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-    `;
-    clientRatioRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${Math.round(clientRatioNum * 100)}%
-      </th>
-    `;
-    debtServiceRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(debtServiceNum, true)}
-      </th>
-    `;
-    interestRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(interestNum, true)}
-      </th>
-    `;
-    principalPaymentsRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(principalPaymentsNum, true)}
-      </th>
-    `;
-    operatingExpensesRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(operatingExpensesNum, true)}
-      </th>
-    `;
-
-    const peerRatioNum = Math.abs(
-      Number(getAverageOfArray(data.ratio_Peer[year])) * 100
-    ).toFixed(1);
+    const debtServicePeerNum = getSumOfArray(data.debtService_Peer[year]);
+    const operationalExpensePeerNum = getSumOfArray(
+      data.operationalExpense_Peer[year]
+    );
+    const peerRatioNum = debtServicePeerNum / operationalExpensePeerNum;
 
     let num = Math.round(clientRatioNum * 100);
     clientRatioArray.push(num);
 
-    num = Math.abs(peerRatioNum * 100).toFixed(1);
+    num = Math.round(peerRatioNum * 100);
     peerRatioArray.push(num);
 
-    num = debtServiceNum;
+    num = Math.round(Number(data.debtService_Client[year].value));
     debtServiceArray.push(num);
 
-    num = operatingExpensesNum;
+    num = Math.round(Number(data.operationalExpense_Client[year].value));
     operationalExpenseArray.push(num);
   });
 
@@ -4837,9 +4708,6 @@ const getDebtBurdenRatioChartOptions = (data) => {
     const num = parseInt(val, 10);
     if (isNaN(num)) {
       return "Invalid input";
-    }
-    if (num >= 1000000) {
-      return `${Math.floor(num / 1000000)}M`;
     }
     if (num >= 1000) {
       return `${Math.floor(num / 1000)}k`;

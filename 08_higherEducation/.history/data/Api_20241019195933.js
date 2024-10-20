@@ -218,7 +218,7 @@ const processDebtEndowmentContentData = (
       const debtBurdenRatio_array = [
         {
           key: "ratio_Client",
-          field: "r287_cdebt_burden_ratio",
+          field: "r288_cdebt_service_coverage_ratio",
         },
         {
           key: "debtService_Client",
@@ -289,8 +289,8 @@ const processDebtEndowmentContentData = (
     filteredPeerRecords.forEach((record) => {
       const debtBurdenRatio_array = [
         {
-          key: "ratio_Peer",
-          field: "r287_cdebt_burden_ratio",
+          key: "debtService_Peer",
+          field: "r288_cdebt_service_coverage_ratio",
         },
         {
           key: "operationalExpense_Peer",

@@ -55,6 +55,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer="true"
@@ -80,6 +81,27 @@
       type="text/javascript"
       src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"
     ></script>
+
+    <script>
+      var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
+      $.ajaxSetup({ data: { apptoken: apptoken } });
+
+      //retrieve URL ID for record
+      function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split("=");
+          if (pair[0] == variable) {
+            return pair[1];
+          }
+        }
+        return false;
+      }
+      var ClientRid = getQueryVariable("clientrid");
+      const clientData = "bt3egnexu";
+      const peerData = "bt3mx3t3i";
+    </script>
 
     <script>
       chartColors = {
@@ -5262,8 +5284,8 @@
                 />
                 <div class="flex flex-col">
                   The Debt Service Coverage Ratio measures the institution's
-                  ability to cover its debt service obligations such as interest
-                  and principal payments with its operating income. A goal of
+                  ability to cover its debt service obligations—such as interest
+                  and principal payments—with its operating income. A goal of
                   keeping this ratio below 4% indicates that the institution
                   aims to minimize the portion of its income that is dedicated
                   to servicing debt. This conservative approach ensures that a
@@ -5404,87 +5426,6 @@
                   prudent financial management, ensuring that debt obligations
                   do not excessively strain the institution's budget and
                   allowing for greater financial flexibility.
-                </div>
-                <div
-                  id="debtBurdenRatio_clientTable"
-                  class="flex flex-col my-5"
-                >
-                  <div class="overflow-x-auto rounded-lg">
-                    <div class="inline-block min-w-full align-middle">
-                      <div
-                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                      >
-                        <table
-                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                        >
-                          <thead
-                            class="text-xs text-white uppercase backgroundGreen opacity-75"
-                          >
-                            <tr
-                              id="row_debtBurdenRatio_tableHeader"
-                            ></tr>
-                          </thead>
-                          <tbody>
-                            <tr
-                              id="row_debtBurdenRatio_main"
-                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                              Debt Burden Ratio
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_debtBurdenRatio_debtService"
-                              class="backgroundOffGreen border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                              Debt Service
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_debtBurdenRatio_interest"
-                              class="bg-white border-b dark:bg-gray-700 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Interest
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_debtBurdenRatio_principalPayments"
-                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Principal Payments
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_debtBurdenRatio_operatingExpenses"
-                              class="bg-white border-b dark:bg-gray-700 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                              Operating Expenses
-                              </th>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -5827,15 +5768,23 @@
       </div>
     </div>
 
-    <!-- import all the .js files from components, data, and utility folders-->
-    <script src="./utility/Utility.js"></script>
-    <script src="./utility/WeightedAverages.js"></script>
-    <script src="./utility/Print.js"></script>
-    <script src="./data/Api.js"></script>
-    <script src="./components/DisplayCharts.js"></script>
-    <script src="./components/Header.js"></script>
-    <script src="./components/Report.js"></script>
-    <script src="./utility/UiManagement.js"></script>
-    <script src="utility/charts.js"></script>
+    <!-- utility.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=185"></script>
+    <!-- utilityPrint.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=191"></script>
+    <!-- utilityWeightedAverage.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=192"></script>
+    <!-- api.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=184"></script>
+    <!-- Header.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=186"></script>
+    <!-- displayCharts.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=188"></script>
+    <!-- compReport.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=190"></script>
+    <!-- uiManagement.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=187"></script>
+    <!-- charts.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=189"></script>
   </body>
 </html>

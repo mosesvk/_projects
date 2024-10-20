@@ -191,7 +191,7 @@ const processDebtEndowmentContentData = (
           field: "r286_cdebt_service",
         },
         {
-          key: "interest_Client",
+          key: "debtService_Client",
           field: "r165_interest",
         },
         {
@@ -217,24 +217,12 @@ const processDebtEndowmentContentData = (
 
       const debtBurdenRatio_array = [
         {
-          key: "ratio_Client",
-          field: "r287_cdebt_burden_ratio",
-        },
-        {
           key: "debtService_Client",
-          field: "r286_cdebt_service",
-        },
-        {
-          key: "interest_Client",
-          field: "r165_interest",
-        },
-        {
-          key: "principalPayments_Client",
-          field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable",
+          field: "r015_notes_payable",
         },
         {
           key: "operationalExpense_Client",
-          field: "r044_ctotal_functional_expenses",
+          field: "r166_ctotal_natural_category_expenses",
         },
       ];
       debtBurdenRatio_array.forEach(({ key, field }) => {
@@ -289,12 +277,12 @@ const processDebtEndowmentContentData = (
     filteredPeerRecords.forEach((record) => {
       const debtBurdenRatio_array = [
         {
-          key: "ratio_Peer",
-          field: "r287_cdebt_burden_ratio",
+          key: "debtService_Peer",
+          field: "r015_notes_payable",
         },
         {
           key: "operationalExpense_Peer",
-          field: "r044_ctotal_functional_expenses",
+          field: "r166_ctotal_natural_category_expenses",
         },
       ];
       debtBurdenRatio_array.forEach(({ key, field }) => {

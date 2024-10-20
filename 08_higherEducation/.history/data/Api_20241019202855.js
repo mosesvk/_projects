@@ -268,16 +268,6 @@ const processDebtEndowmentContentData = (
           field
         );
       });
-      endowmentOperatingBudget_array.forEach(({ key, field }) => {
-        insertDataIntoObject(
-          "client",
-          year,
-          endowmentAssetsPerStudent_obj,
-          key,
-          record,
-          field
-        );
-      });
     });
 
     // PEER

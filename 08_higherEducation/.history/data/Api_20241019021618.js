@@ -183,26 +183,13 @@ const processDebtEndowmentContentData = (
 
       const debtServiceCoverageRatio_array = [
         {
-          key: "ratio_Client",
-          field: "r288_cdebt_service_coverage_ratio",
+          key: "notesPayable_Client",
+          field: "r015_notes_payable",
         },
         {
-          key: "debtService_Client",
-          field: "r286_cdebt_service",
-        },
-        {
-          key: "interest_Client",
-          field: "r165_interest",
-        },
-        {
-          key: "principalPayments_Client",
-          field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable",
-        },
-        {
-          key: "totalOperatingRevenue_Client",
+          key: "operatingRevenuesSupportAndRelease_Client",
           field: "r036_coperating_revenues_support_and_releases",
         },
-        
       ];
       debtServiceCoverageRatio_array.forEach(({ key, field }) => {
         insertDataIntoObject(
@@ -217,24 +204,12 @@ const processDebtEndowmentContentData = (
 
       const debtBurdenRatio_array = [
         {
-          key: "ratio_Client",
-          field: "r287_cdebt_burden_ratio",
-        },
-        {
           key: "debtService_Client",
-          field: "r286_cdebt_service",
-        },
-        {
-          key: "interest_Client",
-          field: "r165_interest",
-        },
-        {
-          key: "principalPayments_Client",
-          field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable",
+          field: "r015_notes_payable",
         },
         {
           key: "operationalExpense_Client",
-          field: "r044_ctotal_functional_expenses",
+          field: "r166_ctotal_natural_category_expenses",
         },
       ];
       debtBurdenRatio_array.forEach(({ key, field }) => {
@@ -289,12 +264,12 @@ const processDebtEndowmentContentData = (
     filteredPeerRecords.forEach((record) => {
       const debtBurdenRatio_array = [
         {
-          key: "ratio_Peer",
-          field: "r287_cdebt_burden_ratio",
+          key: "debtService_Peer",
+          field: "r015_notes_payable",
         },
         {
           key: "operationalExpense_Peer",
-          field: "r044_ctotal_functional_expenses",
+          field: "r166_ctotal_natural_category_expenses",
         },
       ];
       debtBurdenRatio_array.forEach(({ key, field }) => {

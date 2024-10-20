@@ -499,7 +499,7 @@ const displayDebtAndEndowmentComponent = () => {
   });
 
   // debtServiceCoverageRatio
-  getDebtServiceCoverageChartOptions(parsedData["debtServiceCoverageRatioData"]);
+  getDebtServiceCoverageChartOptions();
 
   // debtBurdenRatio
   const debtBurdenRatio_chart = new ApexCharts(
@@ -540,5 +540,4 @@ const displayDebtAndEndowmentComponent = () => {
 toggleDetailsByIdentifier("ltDebtPerTotalOperatingRevenue");
 toggleDetailsByIdentifier("debtServiceCoverageRatio");
 toggleDetailsByIdentifier("debtBurdenRatio");
-toggleDetailsByIdentifier("endowmentOperatingBudget");
-toggleDetailsByIdentifier("endowmentAssetsPerStudent");
+toggleDetailsByIdentifier("debtBurdenRatio");

@@ -218,7 +218,7 @@ const processDebtEndowmentContentData = (
       const debtBurdenRatio_array = [
         {
           key: "ratio_Client",
-          field: "r287_cdebt_burden_ratio",
+          field: "r288_cdebt_service_coverage_ratio",
         },
         {
           key: "debtService_Client",
@@ -290,11 +290,11 @@ const processDebtEndowmentContentData = (
       const debtBurdenRatio_array = [
         {
           key: "ratio_Peer",
-          field: "r287_cdebt_burden_ratio",
+          field: "r288_cdebt_service_coverage_ratio",
         },
         {
           key: "operationalExpense_Peer",
-          field: "r044_ctotal_functional_expenses",
+          field: "r166_ctotal_natural_category_expenses",
         },
       ];
       debtBurdenRatio_array.forEach(({ key, field }) => {
