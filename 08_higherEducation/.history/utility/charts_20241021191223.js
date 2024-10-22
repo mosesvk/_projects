@@ -5364,7 +5364,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   clientRatioRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment Assets per Student</th>`;
   endowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
   totalStudentFteRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Total Student FTE</th>`;
-  tableHeaderPeerRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl whitespace-nowrap dark:text-white">Peer</th>`;
+  tableHeaderPeerRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Peer</th>`;
   peerRatioRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment Assets per Student</th>`;
   peerEndowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
   peerTotalStudentFteRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Total Student FTE</th>`;

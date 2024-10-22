@@ -250,16 +250,12 @@ const processDebtEndowmentContentData = (
 
       const endowmentOperatingBudget_array = [
         {
-          key: "ratio_Client",
-          field: "r153_cendowment_to_expenses_ratio",
-        },
-        {
-          key: "endowment_Client",
+          key: "endowmentSize_Client",
           field: "e001_endowment_size",
         },
         {
-          key: "annualOperatingBudget_Client",
-          field: "r044_ctotal_functional_expenses",
+          key: "totalStudentFte_Client",
+          field: "g025_ctotal_student_fte",
         },
       ];
       endowmentOperatingBudget_array.forEach(({ key, field }) => {
@@ -272,27 +268,11 @@ const processDebtEndowmentContentData = (
           field
         );
       });
-
-
-      const endowmentAssetsPerStudent_Array = [
-        {
-          key: "ratio_Client",
-          field: "r152_cendowment_assets_per_student",
-        },
-        {
-          key: "endowment_Client",
-          field: "e001_endowment_size",
-        },
-        {
-          key: "totalStudentFte_Client",
-          field: "g025_ctotal_student_fte",
-        },
-      ];
-      endowmentAssetsPerStudent_Array.forEach(({ key, field }) => {
+      endowmentOperatingBudget_array.forEach(({ key, field }) => {
         insertDataIntoObject(
           "client",
           year,
-          endowmentAssetsPerStudent_obj,
+          endowmentOperatingBudget_obj,
           key,
           record,
           field
@@ -329,13 +309,9 @@ const processDebtEndowmentContentData = (
         );
       });
 
-      const endowmentAssetsPerStudent_Array = [
+      const endowmentOperatingBudget_array = [
         {
-          key: "ratio_Peer",
-          field: "r152_cendowment_assets_per_student",
-        },
-        {
-          key: "endowment_Peer",
+          key: "endowmentSize_Peer",
           field: "e001_endowment_size",
         },
         {
@@ -343,7 +319,7 @@ const processDebtEndowmentContentData = (
           field: "g025_ctotal_student_fte",
         },
       ];
-      endowmentAssetsPerStudent_Array.forEach(({ key, field }) => {
+      endowmentOperatingBudget_array.forEach(({ key, field }) => {
         insertDataIntoObject(
           "peer",
           year,

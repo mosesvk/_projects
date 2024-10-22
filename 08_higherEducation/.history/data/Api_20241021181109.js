@@ -273,7 +273,6 @@ const processDebtEndowmentContentData = (
         );
       });
 
-
       const endowmentAssetsPerStudent_Array = [
         {
           key: "ratio_Client",
@@ -288,16 +287,7 @@ const processDebtEndowmentContentData = (
           field: "g025_ctotal_student_fte",
         },
       ];
-      endowmentAssetsPerStudent_Array.forEach(({ key, field }) => {
-        insertDataIntoObject(
-          "client",
-          year,
-          endowmentAssetsPerStudent_obj,
-          key,
-          record,
-          field
-        );
-      });
+
     });
 
     // PEER

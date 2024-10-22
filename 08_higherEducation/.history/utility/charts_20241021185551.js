@@ -5342,7 +5342,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     "row_endowmentAssetsPerStudent_tableHeader"
   );
   const clientRatioRow = document.getElementById(
-    "row_endowmentAssetsPerStudent_ratio"
+    "row_endowmentAssetsPerStudent_main"
   );
   const endowmentRow = document.getElementById(
     "row_endowmentAssetsPerStudent_endowment"
@@ -5364,10 +5364,11 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   clientRatioRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment Assets per Student</th>`;
   endowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
   totalStudentFteRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Total Student FTE</th>`;
-  tableHeaderPeerRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl whitespace-nowrap dark:text-white">Peer</th>`;
+  tableHeaderPeerRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Peer</th>`;
   peerRatioRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment Assets per Student</th>`;
   peerEndowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
   peerTotalStudentFteRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Total Student FTE</th>`;
+
 
 
   const mostRecentYear = Math.max(...Object.keys(data["endowment_Client"]));
@@ -5376,76 +5377,29 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   // sort years in descending order
   selectedYearsArray.sort((a, b) => b - a);
 
-  const clientArray = [];
-  const peerAvgArray = [];
-  const peer25Array = [];
-  const peer50Array = [];
-  const peer75Array = [];
-  
+  let clientArray = [];
+  let peerArray = [];
 
   selectedYearsArray.map((year) => {
-
-    const clientRatio = Number(data.ratio_Client[year].value * 100).toFixed(1);
-    
     const endowmentSizeClient = Number(data.endowment_Client[year].value);
-    const totalStudentFteClient = Number(data.totalStudentFte_Client[year].value);
+    const totalStudentFteClient = Number(
+      data.totalStudentFte_Client[year].value
+    );
+    const clientRatio = endowmentSizeClient / totalStudentFteClient;
 
-    const peerRatio = Number(getAverageOfArray(data.ratio_Peer[year]) * 100).toFixed(1);
     const endowmentSizePeer = getSumOfArray(data.endowment_Peer[year]);
     const totalStudentFtePeer = getSumOfArray(data.totalStudentFte_Peer[year]);
+    // console.log({endowmentSizePeer, totalStudentFtePeer, endowmentSizeClient, totalStudentFteClient});
 
-    // Add year to table header
-    tableHeaderClientRow.innerHTML += `
-      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-    `;
-    clientRatioRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${clientRatio}%
-      </th>
-    `;  
-    endowmentRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(endowmentSizeClient, true)}
-      </th>
-    `;
-    totalStudentFteRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${totalStudentFteClient}
-      </th> 
-    `;
-    tableHeaderPeerRow.innerHTML += `
-      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-    `;  
-    peerRatioRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${peerRatio}%
-      </th> 
-    `;
-    peerEndowmentRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(endowmentSizePeer, true)}
-      </th>
-    `;  
-    peerTotalStudentFteRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${totalStudentFtePeer}
-      </th> 
-    `;
-    
+    const peerRatio = endowmentSizePeer / totalStudentFtePeer;
 
     // console.log({clientRatio, peerRatio});
 
+    const clientData = isNaN(clientRatio) ? clientRatio * 100 : 0;
+    clientArray.push(clientData);
+
     const peerData = isNaN(peerRatio) ? peerRatio * 100 : 0;
-    peerAvgArray.push(peerData);
-
-    const peer25 = get25thPercentileOfArray(peerAvgArray);
-    peer25Array.push(Math.round(peer25));
-
-    const peer50 = getMidpointOfArray(peerAvgArray);
-    peer50Array.push(Math.round(peer50));
-
-    const peer75 = get75thPercentileOfArray(peerAvgArray);
-    peer75Array.push(Math.round(peer75));
+    peerArray.push(peerData);
   });
 
   // console.log({
@@ -5503,24 +5457,9 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
         },
       },
       {
-        name: "25th",
+        name: "Peer Ratio",
         type: "line",
-        data: peer25Array,
-      },
-      {
-        name: "50th",
-        type: "line",
-        data: peer50Array,
-      },
-      {
-        name: "Avg",
-        type: "line",
-        data: peerAvgArray,
-      },
-      {
-        name: "75th",
-        type: "line",
-        data: peer75Array,
+        data: peerArray,
       },
     ],
     chart: {

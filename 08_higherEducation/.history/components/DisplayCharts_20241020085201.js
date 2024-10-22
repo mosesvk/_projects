@@ -514,7 +514,7 @@ const displayDebtAndEndowmentComponent = () => {
   });
 
   // endowmentOperatingBudget
-  getEndowmentOperatingChartOptions(parsedData["endowmentOperatingBudgetData"]);
+  getEndowmentOperatingChartOptions();
 
 
   // endowmentAssetsPerStudentMap

@@ -4485,7 +4485,11 @@ const getDebtServiceCoverageChartOptions = (data) => {
 };
 
 const getEndowmentOperatingChartOptions = (data) => {
+
+  console.log({ data });
   
+
+
   const tableHeaderRow = document.getElementById(
     "row_endowmentOperatingBudget_tableHeader"
   );
@@ -4501,8 +4505,8 @@ const getEndowmentOperatingChartOptions = (data) => {
 
   // Clear existing content before appending
   tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
-  clientRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment to Operating Budget</th>`;
-  endowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
+  clientRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Endowment to Operating Budget</th>`;
+  endowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white"Endowment</th>`;
   annualOperatingBudgetRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Annual Operating Budget</th>`;
 
   const mostRecentYear = Math.max(
@@ -4554,7 +4558,7 @@ const getEndowmentOperatingChartOptions = (data) => {
       ? `Within Range of Benchmark: ${benchmark}%`
       : `Below Benchmark: ${benchmark}%`;
 
-  const backgroundColor = value > benchmark ? "#54ba4a" : "#cf3636";
+  const backgroundColor = value > 70 ? "#54ba4a" : "#cf3636";
 
   var chartObj = new FusionCharts({
     type: "hlineargauge",
@@ -4565,11 +4569,11 @@ const getEndowmentOperatingChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "Endowment to Operating Budget",
-        subcaption: clientName,
+        caption: clientName,
+        subcaption: "Endowment to Operating Budget",
         lowerLimit: "0",
         upperLimit: "250",
-        numberSuffix: "%",
+        numberSuffix: "",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
         valueFontSize: "14",
@@ -5054,398 +5058,316 @@ const getDebtBurdenRatioChartOptions = (data) => {
   };
 };
 
-// const getEndowmentAssetsPerStudentMapOptions = (data) => {
-//   am4core.useTheme(am4themes_animated);
+const getEndowmentAssetsPerStudentMapOptions = (data) => {
+  am4core.useTheme(am4themes_animated);
 
-//   // Create map instance
-//   var chart = am4core.create(
-//     "endowmentAssetsPerStudentMAP_chart",
-//     am4maps.MapChart
-//   );
+  // Create map instance
+  var chart = am4core.create(
+    "endowmentAssetsPerStudentMAP_chart",
+    am4maps.MapChart
+  );
 
-//   // Set map definition
-//   chart.geodata = am4geodata_usaLow;
+  // Set map definition
+  chart.geodata = am4geodata_usaLow;
 
-//   // Set projection
-//   chart.projection = new am4maps.projections.AlbersUsa();
+  // Set projection
+  chart.projection = new am4maps.projections.AlbersUsa();
 
-//   // Create map polygon series
-//   var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+  // Create map polygon series
+  var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
 
-//   //Set min/max fill color for each area
-//   polygonSeries.heatRules.push({
-//     property: "fill",
-//     target: polygonSeries.mapPolygons.template,
-//     min: chart.colors.getIndex(1).brighten(1),
-//     max: chart.colors.getIndex(1).brighten(-0.3),
-//     logarithmic: true,
-//   });
+  //Set min/max fill color for each area
+  polygonSeries.heatRules.push({
+    property: "fill",
+    target: polygonSeries.mapPolygons.template,
+    min: chart.colors.getIndex(1).brighten(1),
+    max: chart.colors.getIndex(1).brighten(-0.3),
+    logarithmic: true,
+  });
 
-//   // Make map load polygon data (state shapes and names) from GeoJSON
-//   polygonSeries.useGeodata = true;
+  // Make map load polygon data (state shapes and names) from GeoJSON
+  polygonSeries.useGeodata = true;
 
-//   // Set heatmap values for each state
-//   polygonSeries.data = [
-//     {
-//       id: "US-AL",
-//       value: 444710,
-//     },
-//     {
-//       id: "US-AK",
-//       value: 626932,
-//     },
-//     {
-//       id: "US-AZ",
-//       value: 5130632,
-//     },
-//     {
-//       id: "US-AR",
-//       value: 2673400,
-//     },
-//     {
-//       id: "US-CA",
-//       value: 33871648,
-//     },
-//     {
-//       id: "US-CO",
-//       value: 4301261,
-//     },
-//     {
-//       id: "US-CT",
-//       value: 3405565,
-//     },
-//     {
-//       id: "US-DE",
-//       value: 783600,
-//     },
-//     {
-//       id: "US-FL",
-//       value: 15982378,
-//     },
-//     {
-//       id: "US-GA",
-//       value: 8186453,
-//     },
-//     {
-//       id: "US-HI",
-//       value: 1211537,
-//     },
-//     {
-//       id: "US-ID",
-//       value: 1293953,
-//     },
-//     {
-//       id: "US-IL",
-//       value: 12419293,
-//     },
-//     {
-//       id: "US-IN",
-//       value: 6080485,
-//     },
-//     {
-//       id: "US-IA",
-//       value: 2926324,
-//     },
-//     {
-//       id: "US-KS",
-//       value: 2688418,
-//     },
-//     {
-//       id: "US-KY",
-//       value: 4041769,
-//     },
-//     {
-//       id: "US-LA",
-//       value: 4468976,
-//     },
-//     {
-//       id: "US-ME",
-//       value: 1274923,
-//     },
-//     {
-//       id: "US-MD",
-//       value: 5296486,
-//     },
-//     {
-//       id: "US-MA",
-//       value: 6349097,
-//     },
-//     {
-//       id: "US-MI",
-//       value: 9938444,
-//     },
-//     {
-//       id: "US-MN",
-//       value: 4919479,
-//     },
-//     {
-//       id: "US-MS",
-//       value: 2844658,
-//     },
-//     {
-//       id: "US-MO",
-//       value: 5595211,
-//     },
-//     {
-//       id: "US-MT",
-//       value: 902195,
-//     },
-//     {
-//       id: "US-NE",
-//       value: 1711263,
-//     },
-//     {
-//       id: "US-NV",
-//       value: 1998257,
-//     },
-//     {
-//       id: "US-NH",
-//       value: 1235786,
-//     },
-//     {
-//       id: "US-NJ",
-//       value: 8414350,
-//     },
-//     {
-//       id: "US-NM",
-//       value: 1819046,
-//     },
-//     {
-//       id: "US-NY",
-//       value: 18976457,
-//     },
-//     {
-//       id: "US-NC",
-//       value: 8049313,
-//     },
-//     {
-//       id: "US-ND",
-//       value: 642200,
-//     },
-//     {
-//       id: "US-OH",
-//       value: 11353140,
-//     },
-//     {
-//       id: "US-OK",
-//       value: 3450654,
-//     },
-//     {
-//       id: "US-OR",
-//       value: 3421399,
-//     },
-//     {
-//       id: "US-PA",
-//       value: 12281054,
-//     },
-//     {
-//       id: "US-RI",
-//       value: 1048319,
-//     },
-//     {
-//       id: "US-SC",
-//       value: 4012012,
-//     },
-//     {
-//       id: "US-SD",
-//       value: 754844,
-//     },
-//     {
-//       id: "US-TN",
-//       value: 5689283,
-//     },
-//     {
-//       id: "US-TX",
-//       value: 20851820,
-//     },
-//     {
-//       id: "US-UT",
-//       value: 2233169,
-//     },
-//     {
-//       id: "US-VT",
-//       value: 608827,
-//     },
-//     {
-//       id: "US-VA",
-//       value: 7078515,
-//     },
-//     {
-//       id: "US-WA",
-//       value: 5894121,
-//     },
-//     {
-//       id: "US-WV",
-//       value: 1808344,
-//     },
-//     {
-//       id: "US-WI",
-//       value: 5363675,
-//     },
-//     {
-//       id: "US-WY",
-//       value: 493782,
-//     },
-//   ];
+  // Set heatmap values for each state
+  polygonSeries.data = [
+    {
+      id: "US-AL",
+      value: 444710,
+    },
+    {
+      id: "US-AK",
+      value: 626932,
+    },
+    {
+      id: "US-AZ",
+      value: 5130632,
+    },
+    {
+      id: "US-AR",
+      value: 2673400,
+    },
+    {
+      id: "US-CA",
+      value: 33871648,
+    },
+    {
+      id: "US-CO",
+      value: 4301261,
+    },
+    {
+      id: "US-CT",
+      value: 3405565,
+    },
+    {
+      id: "US-DE",
+      value: 783600,
+    },
+    {
+      id: "US-FL",
+      value: 15982378,
+    },
+    {
+      id: "US-GA",
+      value: 8186453,
+    },
+    {
+      id: "US-HI",
+      value: 1211537,
+    },
+    {
+      id: "US-ID",
+      value: 1293953,
+    },
+    {
+      id: "US-IL",
+      value: 12419293,
+    },
+    {
+      id: "US-IN",
+      value: 6080485,
+    },
+    {
+      id: "US-IA",
+      value: 2926324,
+    },
+    {
+      id: "US-KS",
+      value: 2688418,
+    },
+    {
+      id: "US-KY",
+      value: 4041769,
+    },
+    {
+      id: "US-LA",
+      value: 4468976,
+    },
+    {
+      id: "US-ME",
+      value: 1274923,
+    },
+    {
+      id: "US-MD",
+      value: 5296486,
+    },
+    {
+      id: "US-MA",
+      value: 6349097,
+    },
+    {
+      id: "US-MI",
+      value: 9938444,
+    },
+    {
+      id: "US-MN",
+      value: 4919479,
+    },
+    {
+      id: "US-MS",
+      value: 2844658,
+    },
+    {
+      id: "US-MO",
+      value: 5595211,
+    },
+    {
+      id: "US-MT",
+      value: 902195,
+    },
+    {
+      id: "US-NE",
+      value: 1711263,
+    },
+    {
+      id: "US-NV",
+      value: 1998257,
+    },
+    {
+      id: "US-NH",
+      value: 1235786,
+    },
+    {
+      id: "US-NJ",
+      value: 8414350,
+    },
+    {
+      id: "US-NM",
+      value: 1819046,
+    },
+    {
+      id: "US-NY",
+      value: 18976457,
+    },
+    {
+      id: "US-NC",
+      value: 8049313,
+    },
+    {
+      id: "US-ND",
+      value: 642200,
+    },
+    {
+      id: "US-OH",
+      value: 11353140,
+    },
+    {
+      id: "US-OK",
+      value: 3450654,
+    },
+    {
+      id: "US-OR",
+      value: 3421399,
+    },
+    {
+      id: "US-PA",
+      value: 12281054,
+    },
+    {
+      id: "US-RI",
+      value: 1048319,
+    },
+    {
+      id: "US-SC",
+      value: 4012012,
+    },
+    {
+      id: "US-SD",
+      value: 754844,
+    },
+    {
+      id: "US-TN",
+      value: 5689283,
+    },
+    {
+      id: "US-TX",
+      value: 20851820,
+    },
+    {
+      id: "US-UT",
+      value: 2233169,
+    },
+    {
+      id: "US-VT",
+      value: 608827,
+    },
+    {
+      id: "US-VA",
+      value: 7078515,
+    },
+    {
+      id: "US-WA",
+      value: 5894121,
+    },
+    {
+      id: "US-WV",
+      value: 1808344,
+    },
+    {
+      id: "US-WI",
+      value: 5363675,
+    },
+    {
+      id: "US-WY",
+      value: 493782,
+    },
+  ];
 
-//   // Set up heat legend
-//   let heatLegend = chart.createChild(am4maps.HeatLegend);
-//   heatLegend.series = polygonSeries;
-//   heatLegend.align = "right";
-//   heatLegend.valign = "bottom";
-//   heatLegend.height = am4core.percent(80);
-//   heatLegend.orientation = "vertical";
-//   heatLegend.valign = "middle";
-//   heatLegend.marginRight = am4core.percent(4);
-//   heatLegend.valueAxis.renderer.opposite = true;
-//   heatLegend.valueAxis.renderer.dx = -25;
-//   heatLegend.valueAxis.strictMinMax = false;
-//   heatLegend.valueAxis.fontSize = 9;
-//   heatLegend.valueAxis.logarithmic = true;
+  // Set up heat legend
+  let heatLegend = chart.createChild(am4maps.HeatLegend);
+  heatLegend.series = polygonSeries;
+  heatLegend.align = "right";
+  heatLegend.valign = "bottom";
+  heatLegend.height = am4core.percent(80);
+  heatLegend.orientation = "vertical";
+  heatLegend.valign = "middle";
+  heatLegend.marginRight = am4core.percent(4);
+  heatLegend.valueAxis.renderer.opposite = true;
+  heatLegend.valueAxis.renderer.dx = -25;
+  heatLegend.valueAxis.strictMinMax = false;
+  heatLegend.valueAxis.fontSize = 9;
+  heatLegend.valueAxis.logarithmic = true;
 
-//   // Configure series tooltip
-//   var polygonTemplate = polygonSeries.mapPolygons.template;
-//   polygonTemplate.tooltipText = "{name}: {value}";
-//   polygonTemplate.nonScalingStroke = true;
-//   polygonTemplate.strokeWidth = 0.5;
+  // Configure series tooltip
+  var polygonTemplate = polygonSeries.mapPolygons.template;
+  polygonTemplate.tooltipText = "{name}: {value}";
+  polygonTemplate.nonScalingStroke = true;
+  polygonTemplate.strokeWidth = 0.5;
 
-//   // Create hover state and set alternative fill color
-//   var hs = polygonTemplate.states.create("hover");
-//   hs.properties.fill = am4core.color("#dc5c3c");
+  // Create hover state and set alternative fill color
+  var hs = polygonTemplate.states.create("hover");
+  hs.properties.fill = am4core.color("#dc5c3c");
 
-//   // heat legend behavior
-//   polygonSeries.mapPolygons.template.events.on("over", function (event) {
-//     handleHover(event.target);
-//   });
+  // heat legend behavior
+  polygonSeries.mapPolygons.template.events.on("over", function (event) {
+    handleHover(event.target);
+  });
 
-//   polygonSeries.mapPolygons.template.events.on("hit", function (event) {
-//     handleHover(event.target);
-//   });
+  polygonSeries.mapPolygons.template.events.on("hit", function (event) {
+    handleHover(event.target);
+  });
 
-//   function handleHover(column) {
-//     if (!isNaN(column.dataItem.value)) {
-//       heatLegend.valueAxis.showTooltipAt(column.dataItem.value);
-//     } else {
-//       heatLegend.valueAxis.hideTooltip();
-//     }
-//   }
+  function handleHover(column) {
+    if (!isNaN(column.dataItem.value)) {
+      heatLegend.valueAxis.showTooltipAt(column.dataItem.value);
+    } else {
+      heatLegend.valueAxis.hideTooltip();
+    }
+  }
 
-//   polygonSeries.mapPolygons.template.events.on("out", function (event) {
-//     heatLegend.valueAxis.hideTooltip();
-//   });
-// };
+  polygonSeries.mapPolygons.template.events.on("out", function (event) {
+    heatLegend.valueAxis.hideTooltip();
+  });
+};
 
 const getEndowmentAssetsPerStudentChartOptions = (data) => {
   // console.log({ data });
 
-  const tableHeaderClientRow = document.getElementById(
-    "row_endowmentAssetsPerStudent_tableHeader"
-  );
-  const clientRatioRow = document.getElementById(
-    "row_endowmentAssetsPerStudent_ratio"
-  );
-  const endowmentRow = document.getElementById(
-    "row_endowmentAssetsPerStudent_endowment"
-  );
-  const totalStudentFteRow = document.getElementById(
-    "row_endowmentAssetsPerStudent_totalStudentFte"
-  );
-
-  const tableHeaderPeerRow = document.getElementById(
-    "row_endowmentAssetsPerStudentPeer_tableHeader"  
-  )
-  const peerRatioRow = document.getElementById("row_endowmentAssetsPerStudentPeer_ratio");
-  const peerEndowmentRow = document.getElementById("row_endowmentAssetsPerStudentPeer_endowment");
-  const peerTotalStudentFteRow = document.getElementById("row_endowmentAssetsPerStudentPeer_totalStudentFte");
-
-
-  // Clear existing content before appending
-  tableHeaderClientRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
-  clientRatioRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment Assets per Student</th>`;
-  endowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
-  totalStudentFteRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Total Student FTE</th>`;
-  tableHeaderPeerRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl whitespace-nowrap dark:text-white">Peer</th>`;
-  peerRatioRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment Assets per Student</th>`;
-  peerEndowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
-  peerTotalStudentFteRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Total Student FTE</th>`;
-
-
   const mostRecentYear = Math.max(...Object.keys(data["endowment_Client"]));
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  // sort years in descending order
-  selectedYearsArray.sort((a, b) => b - a);
-
-  const clientArray = [];
-  const peerAvgArray = [];
-  const peer25Array = [];
-  const peer50Array = [];
-  const peer75Array = [];
-  
+  let clientArray = [];
+  let peerArray = [];
 
   selectedYearsArray.map((year) => {
-
-    const clientRatio = Number(data.ratio_Client[year].value * 100).toFixed(1);
-    
     const endowmentSizeClient = Number(data.endowment_Client[year].value);
-    const totalStudentFteClient = Number(data.totalStudentFte_Client[year].value);
+    const totalStudentFteClient = Number(
+      data.totalStudentFte_Client[year].value
+    );
+    const clientRatio = endowmentSizeClient / totalStudentFteClient;
 
-    const peerRatio = Number(getAverageOfArray(data.ratio_Peer[year]) * 100).toFixed(1);
     const endowmentSizePeer = getSumOfArray(data.endowment_Peer[year]);
     const totalStudentFtePeer = getSumOfArray(data.totalStudentFte_Peer[year]);
+    // console.log({endowmentSizePeer, totalStudentFtePeer, endowmentSizeClient, totalStudentFteClient});
 
-    // Add year to table header
-    tableHeaderClientRow.innerHTML += `
-      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-    `;
-    clientRatioRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${clientRatio}%
-      </th>
-    `;  
-    endowmentRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(endowmentSizeClient, true)}
-      </th>
-    `;
-    totalStudentFteRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${totalStudentFteClient}
-      </th> 
-    `;
-    tableHeaderPeerRow.innerHTML += `
-      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-    `;  
-    peerRatioRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${peerRatio}%
-      </th> 
-    `;
-    peerEndowmentRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(endowmentSizePeer, true)}
-      </th>
-    `;  
-    peerTotalStudentFteRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${totalStudentFtePeer}
-      </th> 
-    `;
-    
+    const peerRatio = endowmentSizePeer / totalStudentFtePeer;
 
     // console.log({clientRatio, peerRatio});
 
+    const clientData = isNaN(clientRatio) ? clientRatio * 100 : 0;
+    clientArray.push(clientData);
+
     const peerData = isNaN(peerRatio) ? peerRatio * 100 : 0;
-    peerAvgArray.push(peerData);
-
-    const peer25 = get25thPercentileOfArray(peerAvgArray);
-    peer25Array.push(Math.round(peer25));
-
-    const peer50 = getMidpointOfArray(peerAvgArray);
-    peer50Array.push(Math.round(peer50));
-
-    const peer75 = get75thPercentileOfArray(peerAvgArray);
-    peer75Array.push(Math.round(peer75));
+    peerArray.push(peerData);
   });
 
   // console.log({
@@ -5503,24 +5425,9 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
         },
       },
       {
-        name: "25th",
+        name: "Peer Ratio",
         type: "line",
-        data: peer25Array,
-      },
-      {
-        name: "50th",
-        type: "line",
-        data: peer50Array,
-      },
-      {
-        name: "Avg",
-        type: "line",
-        data: peerAvgArray,
-      },
-      {
-        name: "75th",
-        type: "line",
-        data: peer75Array,
+        data: peerArray,
       },
     ],
     chart: {
