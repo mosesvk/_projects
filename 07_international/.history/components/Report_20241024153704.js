@@ -72,7 +72,7 @@ const displayReportComponent = () => {
       [
         "financialAssetsAvailableFY",
         "dollar",
-        0,
+        2,
         "wa",
         null,
         [13, 51, 89, 127],
@@ -166,7 +166,7 @@ const displayReportComponent = () => {
     ]);
 
     insertDataToReport(incomeData, selectedYears, [
-      ["netIncomeRatio", "num", 1, "wa", null, [23, 61, 99, 137], null, null],
+      ["netIncomeRatio", "num", 2, "wa", null, [23, 61, 99, 137], null, null],
       [
         "contributionsTrend_basedOnNumberOfDonors",
         "percent",
@@ -413,9 +413,9 @@ const addToSingleRow = (
   begin,
   end
 ) => {
-  console.log({ selectedYears, name, client, peer, type, fixedNum });
+  // if (name == "percentWithoutDR_excludingPPE" || name == "percentWithoutDR") console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
-  console.log(`row_${name}`);
+  // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);
 
   while (tableReportRow.children.length > 1) {
@@ -581,13 +581,26 @@ const addPeerDataToRow = (
     avg = 0;
   }
 
+  if (name == "contributionsPerGivingUnit")
+    console.log(name, {
+      tableRow,
+      peerDataArray: peer[dataArray],
+      type,
+      fixedNum,
+      peer,
+      dataArray,
+      wa,
+      data,
+      avg,
+    });
+
   if (peer) {
+    const [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
 
+    // if (name == "fundraisingAsPercentOfContributions") {
+    //   console.log(name, { q1, median, q3 });
+    // }
   }
-
-  // console.log(name, { avg, peer, dataArray, type, fixedNum });
-
-  const [q1, median, q3] = calculatePercentiles(peer[dataArray], type);
 
   const textAvg = peer ? styleNumber(avg, type, fixedNum) : "";
   const dataPointMid = document.createElement("th");
@@ -596,7 +609,7 @@ const addPeerDataToRow = (
   const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement("th");
   let min;
-  if (name == "annualizedInvestmentReturn") {
+  if (name == "netIncomeRatio") {
     min = peer
       ? parseFloat(get25thPercentileOfArray(peer[dataArray], name))
       : "";
@@ -631,7 +644,7 @@ const addPeerDataToRow = (
   dataPointMax.textContent = textMax;
   tableRow.appendChild(dataPointMax);
 
-  // if (fIdArray) createFileForPrint(name, fIdArray, begin, end, avg, mid, min, max, peer, data);
+  if (fIdArray) createFileForPrint(name, fIdArray, begin, end, avg, mid, min, max, peer, data);
 };
 
 const addYearColumnsToReportTable = (years) => {

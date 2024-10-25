@@ -216,6 +216,9 @@ const printToExcel = (dataString) => {
 }; // printToExcel()
 
 const createPrintExcel = () => {
+  uploadSingleToFile(171, ClientRid);
+  uploadSingleToFile(170, firmName);
+  uploadSingleToFile(169, uniqueClients.size);
   uploadSingleToFile(163, sliderValue);
   uploadSingleToFile(164, sliderValue2);
   // uploadSingleToFile(164, sliderValue2);
