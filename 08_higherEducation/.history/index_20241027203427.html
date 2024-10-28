@@ -3405,6 +3405,60 @@
                   foundation, allowing the organization to continue its
                   operations and meet its long-term goals.
                 </div>
+                <div id="fpa_clientTable" class="flex flex-col my-5">
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr id="row_fpa_tableHeader"></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_fpa_assets"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Assets
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_fpa_liabilities"
+                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Liabilities
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_fpa_netPosition"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Net Position
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -3557,14 +3611,231 @@
                   liquidity and financial health. A ratio below 1 suggests
                   potential liquidity concerns that may need attention.
                 </div>
+                <div id="currentRatio_clientTable" class="flex flex-col my-5">
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr id="row_currentRatio_tableHeader"></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_currentRatio_ratio"
+                              class="bg-white font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Current Ratio
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_currentAssets"
+                              class="backgroundOffGreen font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Current Assets
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_cashCashEquivalents"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Cash and Cash Equivalents
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_accountsReceivable"
+                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Accounts Receivable
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_studentLoansAndOtherReceivables"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Student Loans and other Receivables
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_contributionsReceivable"
+                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Contributions Receivable
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_prepaidExpensesAndOtherAssets"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Prepaid Expenses and Other Assets
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_currentLiabilities"
+                              class="backgroundOffGreen font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Current Liabilities
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_accountsPayableAndAccruedLiabilities"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Accounts Payable and Accrued Liabilities
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_deferredRevenue"
+                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Deferred Revenue
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_postRetirementBenefits"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Post retirement health benefits
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_AnnuityObligations"
+                              class="backgroundOffGreen font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Annuity obligations
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatio_otherLiabilities"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Other Liabilities
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="currentRatio_peerTable" class="flex flex-col my-5">
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundBlue opacity-75"
+                          >
+                            <tr id="row_currentRatioPeer_tableHeader"></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_currentRatioPeer_ratio"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Current Ratio
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatioPeer_currentAssets"
+                              class="backgroundOffBlue font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Current Assets
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_currentRatioPeer_currentLiabilities"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Current Liabilities
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             <!-- Liquidity -->
-            <div
+            <!-- <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <!-- CHART - ASSET TO LIABILITIES -->
               <div id="liquidity_chart" class="w-full"></div>
               <button
                 id="dropdown_liquidity"
@@ -3588,7 +3859,6 @@
                   />
                 </svg>
               </button>
-              <!-- DETAILS - liquidity -->
               <div id="details_liquidity" class="my-5 mx-2 hidden">
                 <hr
                   class="my-8 mx-40 border-1 border-black dark:border-white"
@@ -3608,7 +3878,7 @@
                   unforeseen expenses.
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Cash Flows Trend -->
             <div
@@ -3654,6 +3924,71 @@
                   section summarizes the overall net cash flow for each year,
                   giving a clear picture of the institution's cash position over
                   time.
+                </div>
+                <div id="cashFlowTrend_clientTable" class="flex flex-col my-5">
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr id="row_cashFlowTrend_tableHeader"></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_cashFlowTrend_operating"
+                              class="bg-white font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Operating
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_cashFlowTrend_investing"
+                              class="backgroundOffGreen font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Investing
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_cashFlowTrend_financing"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Financing
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_cashFlowTrend_total"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Total
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -3996,14 +4331,101 @@
                   </p>
                 </div>
               </div>
+              <button
+                id="dropdown_salariesBenefitsToTotalExpense"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+              >
+                Details
+                <svg
+                  class="w-3 h-3 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                  id="arrow_salariesBenefitsToTotalExpense"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 1 4 4 1 7"
+                  />
+                </svg>
+              </button>
+              <!-- DETAILS - salariesBenefitsToTotalExpense -->
+              <div
+                id="details_salariesBenefitsToTotalExpense"
+                class="my-5 mx-2 hidden"
+              >
+                <div
+                  id="salariesBenefitsToTotalExpense_clientTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr
+                              id="row_salariesBenefitsToTotalExpense_tableHeader"
+                            ></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_salariesBenefitsToTotalExpense_main"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Salaries & Benefits to Total Expenses
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_salariesBenefitsToTotalExpense_salariesBenefits"
+                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Salaries & Benefits
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_salariesBenefitsToTotalExpense_totalExpenses"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Total Expenses
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Average Employee Salary -->
-            <div
+            <!-- <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <div id="averageEmployeeSalary_chart" class=""></div>
-            </div>
+            </div> -->
 
             <!-- Salaries and Benefits per Net Tuition Revenue -->
             <div
@@ -4033,25 +4455,199 @@
                   </p>
                 </div>
               </div>
+              <button
+                id="dropdown_salariesBenefitsPerNetTuition"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+              >
+                Details
+                <svg
+                  class="w-3 h-3 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                  id="arrow_salariesBenefitsPerNetTuition"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 1 4 4 1 7"
+                  />
+                </svg>
+              </button>
+              <!-- DETAILS - salariesBenefitsPerNetTuition -->
+              <div
+                id="details_salariesBenefitsPerNetTuition"
+                class="my-5 mx-2 hidden"
+              >
+                <div
+                  id="salariesBenefitsPerNetTuition_clientTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr
+                              id="row_salariesBenefitsPerNetTuition_tableHeader"
+                            ></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_salariesBenefitsPerNetTuition_main"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Salaries & Benefits to Total Expenses
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_salariesBenefitsPerNetTuition_salariesBenefits"
+                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Salaries & Benefits
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_salariesBenefitsPerNetTuition_netTuitionRevenue"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Net Tuition Revenue
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Admin Costs per Student -->
-            <div
+            <!-- <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <div id="adminCostsPerStudent_chart" class=""></div>
-            </div>
+            </div> -->
 
             <!-- Net Educational Expense per Student -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <div class="flex flex-row">
-                <div class="w-1/2 pr-2">
+              <div class="">
+                <!-- <div class="w-1/2 pr-2">
                   <div id="avgScoresUsMap_chart"></div>
-                </div>
-                <div class="w-1/2 px-4">
+                </div> -->
+                <div class="px-4">
                   <div id="netEducationalExpensePerStudent_chart"></div>
+                </div>
+              </div>
+              <button
+                id="dropdown_netEducationalExpensePerStudent"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+              >
+                Details
+                <svg
+                  class="w-3 h-3 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                  id="arrow_netEducationalExpensePerStudent"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 1 4 4 1 7"
+                  />
+                </svg>
+              </button>
+              <!-- DETAILS - netEducationalExpensePerStudent -->
+              <div
+                id="details_netEducationalExpensePerStudent"
+                class="my-5 mx-2 hidden"
+              >
+                <div
+                  id="netEducationalExpensePerStudent_clientTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr
+                              id="row_netEducationalExpensePerStudent_tableHeader"
+                            ></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_netEducationalExpensePerStudent_main"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Net Educational Expense per Student
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_netEducationalExpensePerStudent_netEducationalExpense"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Net Educational Expense
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_netEducationalExpensePerStudent_totalFullTimeStudents"
+                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Total Full Time Students
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -4110,6 +4706,66 @@
                   paying out-of-pocket on average, which is important for
                   assessing the institution's affordability and competitiveness.
                 </div>
+
+                <div
+                  id="annualTraditionalNetTuitionPerStudent_clientTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr
+                              id="row_annualTraditionalNetTuitionPerStudent_tableHeader"
+                            ></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_annualTraditionalNetTuitionPerStudent_main"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Net Tuition per Student
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_annualTraditionalNetTuitionPerStudent_netTuitionRevenue"
+                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Net Tuition and Fees
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_annualTraditionalNetTuitionPerStudent_totalFullTimeStudents"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Total Full Time Students
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -4160,6 +4816,120 @@
                   resilience and for planning strategies to diversify revenue
                   streams.
                 </div>
+                <div
+                  id="tuitionDependency_clientTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr id="row_tuitionDependency_tableHeader"></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_tuitionDependency_ratio"
+                              class="bg-white font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Tuition Dependency
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_tuitionDependency_netTuitionAndFees"
+                              class="backgroundOffGreen font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Net Tuition and Fees
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_tuitionDependency_operatingRevenue"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Operating Revenue
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  id="tuitionDependency_peerTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundBlue opacity-75"
+                          >
+                            <tr id="row_tuitionDependencyPeer_tableHeader"></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_tuitionDependencyPeer_ratio"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Tuition Dependency
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_tuitionDependencyPeer_netTuitionAndFees"
+                              class="backgroundOffBlue font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Net Tuition and Fees
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_tuitionDependencyPeer_operatingRevenue"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Operating Revenue
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -4208,6 +4978,122 @@
                   balancing the institution's financial sustainability with its
                   goals of accessibility and competitiveness.
                 </div>
+                <div
+                  id="tuitionDiscountRate_clientTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr id="row_tuitionDiscountRate_tableHeader"></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_tuitionDiscountRate_ratio"
+                              class="bg-white font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Tuition Discount Rate
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_tuitionDiscountRate_scholarshipsAndFinancialAid"
+                              class="backgroundOffGreen font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Scholarships and Financial Aid
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_tuitionDiscountRate_tuitionAndFees"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Tuition and Fees
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  id="tuitionDiscountRate_peerTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundBlue opacity-75"
+                          >
+                            <tr
+                              id="row_tuitionDiscountRatePeer_tableHeader"
+                            ></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_tuitionDiscountRatePeer_ratio"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Tuition Discount Rate
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_tuitionDiscountRatePeer_scholarshipsAndFinancialAid"
+                              class="backgroundOffBlue font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Scholarships and Financial Aid
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_tuitionDiscountRatePeer_tuitionAndFees"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Tuition and Fees
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -4247,6 +5133,93 @@
                     debt sustainability and for making informed decisions about
                     future borrowing and investment.
                   </p>
+                </div>
+              </div>
+              <button
+                id="dropdown_ltDebtPerTotalOperatingRevenue"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+              >
+                Details
+                <svg
+                  class="w-3 h-3 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                  id="arrow_ltDebtPerTotalOperatingRevenue"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 1 4 4 1 7"
+                  />
+                </svg>
+              </button>
+              <!-- DETAILS - Long-Term Debt per Total Operating Revenue -->
+              <div
+                id="details_ltDebtPerTotalOperatingRevenue"
+                class="my-5 mx-2 hidden"
+              >
+                <div
+                  id="ltDebtPerTotalOperatingRevenue_clientTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr
+                              id="row_ltDebtPerTotalOperatingRevenue_tableHeader"
+                            ></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_ltDebtPerTotalOperatingRevenue_main"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Long-Term Debt per Total Operating Revenue
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_ltDebtPerTotalOperatingRevenue_longTermDebt"
+                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Long-Term Debt
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_ltDebtPerTotalOperatingRevenue_totalOperatingRevenue"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Total Operating Revenue
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -4291,8 +5264,8 @@
                 />
                 <div class="flex flex-col">
                   The Debt Service Coverage Ratio measures the institution's
-                  ability to cover its debt service obligations—such as interest
-                  and principal payments—with its operating income. A goal of
+                  ability to cover its debt service obligations such as interest
+                  and principal payments with its operating income. A goal of
                   keeping this ratio below 4% indicates that the institution
                   aims to minimize the portion of its income that is dedicated
                   to servicing debt. This conservative approach ensures that a
@@ -4300,6 +5273,87 @@
                   needs and reduces financial stress. Maintaining a DSCR below
                   4% reflects prudent debt management and enhances the
                   institution's financial flexibility and stability.
+                </div>
+                <div
+                  id="debtServiceCoverageRatio_clientTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr
+                              id="row_debtServiceCoverageRatio_tableHeader"
+                            ></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_debtServiceCoverageRatio_main"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Debt Service Coverage Ratio
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_debtServiceCoverageRatio_debtService"
+                              class="backgroundOffGreen border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Debt Service
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_debtServiceCoverageRatio_interest"
+                              class="bg-white border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Interest
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_debtServiceCoverageRatio_principalPayments"
+                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Principal Payments
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_debtServiceCoverageRatio_totalOperatingRevenue"
+                              class="bg-white border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Total Operating Revenue
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -4353,17 +5407,96 @@
                   do not excessively strain the institution's budget and
                   allowing for greater financial flexibility.
                 </div>
+                <div
+                  id="debtBurdenRatio_clientTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr id="row_debtBurdenRatio_tableHeader"></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_debtBurdenRatio_main"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Debt Burden Ratio
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_debtBurdenRatio_debtService"
+                              class="backgroundOffGreen border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Debt Service
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_debtBurdenRatio_interest"
+                              class="bg-white border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Interest
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_debtBurdenRatio_principalPayments"
+                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Principal Payments
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_debtBurdenRatio_operatingExpenses"
+                              class="bg-white border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Operating Expenses
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+
+            <p class="m-4 text-xl font-bold">
+              Endowment and Financial Sustainability
+            </p>
 
             <!-- Endowment to Operating Budget -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <p class="m-4 text-xl font-bold">
-                Endowment and Financial Sustainability
-              </p>
-
               <div
                 id="endowmentOperatingBudget_chart"
                 class="text-center"
@@ -4407,6 +5540,65 @@
                   periods of financial strain, providing long-term stability and
                   support for ongoing programs and initiatives.
                 </div>
+                <div
+                  id="endowmentOperatingBudget_clientTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr
+                              id="row_endowmentOperatingBudget_tableHeader"
+                            ></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_endowmentOperatingBudget_main"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Endowment to Operating Budget
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_endowmentOperatingBudget_endowment"
+                              class="backgroundOffGreen border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Endowment
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_endowmentOperatingBudget_annualOperatingBudget"
+                              class="bg-white border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Annual Operating Budget
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -4415,11 +5607,12 @@
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <p class="m-4 text-xl font-bold">Endowment Assets per Student</p>
-              <div class="flex flex-row">
-                <div class="w-1/2 pr-2">
-                  <div id="endowmentAssetsPerStudentMAP_chart"></div>
-                </div>
-                <div class="w-1/2 px-4">
+              <div class="">
+                <!-- <div class="flex flex-row"> -->
+                <!-- <div class="w-1/2 pr-2">
+                  <div id="endowmentOperatingBudgetMAP_chart"></div>
+                </div> -->
+                <div class="px-4">
                   <div id="endowmentAssetsPerStudent_chart"></div>
                 </div>
               </div>
@@ -4445,9 +5638,9 @@
                   />
                 </svg>
               </button>
-              <!-- DETAILS - Debt Service Coverage Ratio -->
+              <!-- DETAILS - Endowment Assets per Student -->
               <div
-                id="details_debtServiceCoverageRatio"
+                id="details_endowmentAssetsPerStudent"
                 class="my-5 mx-2 hidden"
               >
                 <hr
@@ -4464,6 +5657,127 @@
                   to invest in the student experience and long-term educational
                   quality.
                 </div>
+                <!-- Client Table for Endowment Assets Per Student -->
+                <div
+                  id="endowmentAssetsPerStudent_clientTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundGreen opacity-75"
+                          >
+                            <tr
+                              id="row_endowmentAssetsPerStudent_tableHeader"
+                            ></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_endowmentAssetsPerStudent_ratio"
+                              class="bg-white font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Endowment Asset per Student
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_endowmentAssetsPerStudent_endowment"
+                              class="backgroundOffGreen font-extrabold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Endowment
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_endowmentAssetsPerStudent_totalStudentFte"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Total Full Time Students
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Peer Table for Endowment Assets Per Student -->
+                <div
+                  id="endowmentAssetsPerStudent_peerTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundBlue opacity-75"
+                          >
+                            <tr
+                              id="row_endowmentAssetsPerStudentPeer_tableHeader"
+                            ></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_endowmentAssetsPerStudentPeer_ratio"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Endowment Asset per Student
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_endowmentAssetsPerStudentPeer_endowment"
+                              class="backgroundOffBlue font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Endowment
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_endowmentAssetsPerStudentPeer_totalStudentFte"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Total Full Time Students
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -4471,7 +5785,8 @@
       </div>
     </div>
 
-    <div id="otherOptions-modal"
+    <div
+      id="otherOptions-modal"
       data-modal-placement="top-center"
       tabindex="-1"
       aria-hidden="true"
@@ -4643,13 +5958,52 @@
         </div>
       </div>
     </div>
-    <div id="loadingApiIcon"
-      class="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+
+    <!-- Loading Modal -->
+    <div
+      id="loadingApiDiv"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75"
     >
-      <div
-        class="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200"
-      >
-        Loading API ... 
+      <div class="text-center">
+        <div role="status">
+          <div
+            class="animate-pulse flex flex-col place-items-center px-5 py-5 font-semibold text-white leading-none tracking-wider text-center rounded-full dark:bg-blue-900 dark:text-blue-200"
+          >
+            <div id="loadingApiHeader" class="mb-4 text-6xl"></div>
+            <div
+              id="loadingApiYears"
+              class="px-3 py-1 text-4xl font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200"
+            >
+              <span id="apiYears">
+                <span id="firstApiYear" class="mx-2"></span> -
+                <span id="LastApiYear" class="mx-2"></span>
+              </span>
+              <span id="apiPrint" class="flex">
+                Chart
+                <svg
+                  class="mx-2 font-extrabold w-10 h-10 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 12H5m14 0-4 4m4-4-4-4"
+                  />
+                </svg>
+                Base64
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
