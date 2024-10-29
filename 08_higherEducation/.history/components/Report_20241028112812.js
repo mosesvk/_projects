@@ -219,7 +219,7 @@ const insertDataToFfaReport = (data, selectedYears) => {
 };
 
 const insertDataToSourceOfInomeReport = (data, selectedYears) => {
-  // console.log ({data, selectedYears});fd
+  // console.log ({data, selectedYears});
   const tableHeaderRow = document.getElementById(
     "row_sourceOfIncomeClient_tableHeader"
   );

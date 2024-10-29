@@ -314,20 +314,15 @@ const getMainChartOptions = (
     },
     legend: {
       horizontalAlign: "center",
-      position: "bottom",
+      position: "top",
       fontSize: "20px",
-      offsetY: 5,
+      offsetY: -5,
     },
     annotations: {
       yaxis: yaxisAnnotation,
     },
     markers: {
       size: 0,
-    },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [4],
-      offsety: -30
     },
   };
 };
@@ -995,9 +990,9 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
     colors: [
       "#88C428",
       "#83CCF5",
-      "#FBD75A",
-      "#F95787",
-      "#C57FD7",
+      window.chartColors.grey,
+      window.chartColors.red,
+      window.chartColors.orange,
     ],
     series: chartData,
     chart: {
@@ -1127,11 +1122,11 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
 
   return {
     colors: [
-      "#88C428",
-      "#83CCF5",
-      "#FBD75A",
-      "#F95787",
-      "#C57FD7",
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.grey,
+      window.chartColors.red,
+      window.chartColors.orange,
     ],
     series: chartData,
     chart: {

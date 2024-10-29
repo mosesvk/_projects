@@ -324,10 +324,17 @@ const getMainChartOptions = (
     markers: {
       size: 0,
     },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [4],
-      offsety: -30
+    plotOptions: {
+      bar: {
+        dataLabels: {
+          position: 'top'
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        enabledOnSeries: [0],
+        offsety: -30
+      },
     },
   };
 };

@@ -314,20 +314,15 @@ const getMainChartOptions = (
     },
     legend: {
       horizontalAlign: "center",
-      position: "bottom",
+      position: "top",
       fontSize: "20px",
-      offsetY: 5,
+      offsetY: -5,
     },
     annotations: {
       yaxis: yaxisAnnotation,
     },
     markers: {
       size: 0,
-    },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [4],
-      offsety: -30
     },
   };
 };
