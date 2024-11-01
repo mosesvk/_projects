@@ -538,21 +538,21 @@ const addPeerDataToReportRow = (
   selectedYears
 ) => {
   // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, name, data, fIdArray, begin, end, selectedYears })
-  // if (name == "cfiRatio_peerAverage_Peer")
-  //   console.log({
-  //     tableRow,
-  //     peer,
-  //     type,
-  //     fixedNum,
-  //     dataArray,
-  //     wa,
-  //     name,
-  //     data,
-  //     fIdArray,
-  //     begin,
-  //     end,
-  //     selectedYears,
-  //   });
+  if (name == "cfiRatio_peerAverage_Peer")
+    console.log({
+      tableRow,
+      peer,
+      type,
+      fixedNum,
+      dataArray,
+      wa,
+      name,
+      data,
+      fIdArray,
+      begin,
+      end,
+      selectedYears,
+    });
 
   const propClass =
     "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";

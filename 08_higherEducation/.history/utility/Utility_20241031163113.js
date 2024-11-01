@@ -1,6 +1,6 @@
 let cfiRatioChart, assetsChart;
 
-// console.log('utility.js----')
+console.log('utility.js')
 
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];

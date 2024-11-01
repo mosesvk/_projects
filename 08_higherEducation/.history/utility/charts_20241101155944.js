@@ -7,7 +7,7 @@ const getMainChartOptions = (
   benchmark,
   title
 ) => {
-  // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
+  console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   let leng = selectedYearsArray.length;
@@ -76,7 +76,6 @@ const getMainChartOptions = (
 
   let yaxisAnnotation;
   let yaxisMax;
-  let previousData = [];
 
   if (mainName == "cfiRatio") {
     cfiRatio_annotation = [
@@ -104,8 +103,6 @@ const getMainChartOptions = (
     ];
     yaxisAnnotation = cfiRatio_annotation;
     yaxisMax = Math.round(Math.max(...clientArray) + 2);
-    previousData = clientArray;
-
   } else if (mainName == "cfi_primaryReserveRatio") {
     cfi_primaryReserveRatio_annotation = [
       {
@@ -132,7 +129,6 @@ const getMainChartOptions = (
     ];
     yaxisAnnotation = cfi_primaryReserveRatio_annotation;
     yaxisMax = Math.round(Math.max(...clientArray) + 2);
-    previousData = clientArray;
   } else if (mainName == "cfi_netIncomeOperationsRatio") {
     cfi_netIncomeOperationsRatio_annotation = [
       {
@@ -159,7 +155,6 @@ const getMainChartOptions = (
     ];
     yaxisAnnotation = cfi_netIncomeOperationsRatio_annotation;
     yaxisMax = Math.round(Math.max(...clientArray) + 5);
-    previousData = clientArray;
   } else if (mainName == "cfi_returnOnNetAssets") {
     cfi_returnOnNetAssets_annotation = [
       {
@@ -186,7 +181,6 @@ const getMainChartOptions = (
     ];
     yaxisAnnotation = cfi_returnOnNetAssets_annotation;
     yaxisMax = Math.round(Math.max(...clientArray) + 5);
-    previousData = clientArray;
   } else if (mainName == "cfi_viabilityRatio") {
     // cfi_viabilityRatio
     cfi_viabilityRatio_annotation = [
@@ -214,7 +208,6 @@ const getMainChartOptions = (
     ];
     yaxisAnnotation = cfi_viabilityRatio_annotation;
     yaxisMax = Math.round(Math.max(...clientArray) + 2);
-    previousData = clientArray;
   } else {
     return;
   }
@@ -273,14 +266,10 @@ const getMainChartOptions = (
       },
       events: {
         updated: function(chartContext, config) {
-          console.log({previousData})
-          console.log('updated', mainName, {chartContext, config});
-          // console.log('config', config.config.series[4].data.length)
-          // console.log('selectedYears', selectedYearsArray.length)
-          if (config.config.series[4].data.length !== selectedYearsArray.length) {
-            config.config.series[4].data.splice(selectedYearsArray.length) // Update the previous data
-            chartContext.updateSeries(config.config.series);
-            console.log('fixed', mainName, {currentData: config.config.series[4].data, prevData: previousData});
+          // Check if the data has actually changed
+          if (config.series.data !== previousData) {
+            console.log('Chart updated:', mainName, {chartContext, config});
+            // previousData = config.series.data; // Update the previous data
           }
         }
       }

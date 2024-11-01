@@ -14,6 +14,8 @@ const getMainChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
+  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
+
   ({ clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray } =
     getPeerAndClientChartDataArrays(
       selectedYearsArray,
@@ -75,8 +77,6 @@ const getMainChartOptions = (
   // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })\
 
   let yaxisAnnotation;
-  let yaxisMax;
-  let previousData = [];
 
   if (mainName == "cfiRatio") {
     cfiRatio_annotation = [
@@ -103,9 +103,6 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfiRatio_annotation;
-    yaxisMax = Math.round(Math.max(...clientArray) + 2);
-    previousData = clientArray;
-
   } else if (mainName == "cfi_primaryReserveRatio") {
     cfi_primaryReserveRatio_annotation = [
       {
@@ -131,8 +128,6 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfi_primaryReserveRatio_annotation;
-    yaxisMax = Math.round(Math.max(...clientArray) + 2);
-    previousData = clientArray;
   } else if (mainName == "cfi_netIncomeOperationsRatio") {
     cfi_netIncomeOperationsRatio_annotation = [
       {
@@ -158,8 +153,6 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfi_netIncomeOperationsRatio_annotation;
-    yaxisMax = Math.round(Math.max(...clientArray) + 5);
-    previousData = clientArray;
   } else if (mainName == "cfi_returnOnNetAssets") {
     cfi_returnOnNetAssets_annotation = [
       {
@@ -185,9 +178,7 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfi_returnOnNetAssets_annotation;
-    yaxisMax = Math.round(Math.max(...clientArray) + 5);
-    previousData = clientArray;
-  } else if (mainName == "cfi_viabilityRatio") {
+  } else {
     // cfi_viabilityRatio
     cfi_viabilityRatio_annotation = [
       {
@@ -213,10 +204,6 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfi_viabilityRatio_annotation;
-    yaxisMax = Math.round(Math.max(...clientArray) + 2);
-    previousData = clientArray;
-  } else {
-    return;
   }
 
   return {
@@ -255,6 +242,7 @@ const getMainChartOptions = (
       },
     ],
     chart: {
+      id: mainName,
       toolbar: {
         tools: {
           download: false,
@@ -271,19 +259,6 @@ const getMainChartOptions = (
       zoom: {
         enabled: false,
       },
-      events: {
-        updated: function(chartContext, config) {
-          console.log({previousData})
-          console.log('updated', mainName, {chartContext, config});
-          // console.log('config', config.config.series[4].data.length)
-          // console.log('selectedYears', selectedYearsArray.length)
-          if (config.config.series[4].data.length !== selectedYearsArray.length) {
-            config.config.series[4].data.splice(selectedYearsArray.length) // Update the previous data
-            chartContext.updateSeries(config.config.series);
-            console.log('fixed', mainName, {currentData: config.config.series[4].data, prevData: previousData});
-          }
-        }
-      }
     },
     stroke: {
       // width: [5, 7, 5],
@@ -308,23 +283,24 @@ const getMainChartOptions = (
         },
       },
     },
-    yaxis: {
-      max: yaxisMax,
-      axisTicks: {
-        show: true,
-      },
-      axisBorder: {
-        show: true,
-        color: chartColors.labelColor,
-      },
-      labels: {
-        formatter: yaxisLabelFormatter,
-        style: {
-          colors: chartColors.labelColor,
-          fontSize: "1rem",
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColors.labelColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColors.labelColor,
+            fontSize: "1rem",
+          },
         },
       },
-    },
+    ],
     tooltip: {
       shared: true,
       intersect: false,
@@ -354,21 +330,21 @@ const getMainChartOptions = (
     dataLabels: {
       enabled: true,
       enabledOnSeries: [4],
-      offsetY: -20,
+      offsetY: -30,
       style: {
-        fontSize: "20px",
+        fontSize: "14px",
         fontFamily: "Helvetica, Arial, sans-serif",
         fontWeight: "bold",
-        colors: ["#ffffff"],
+        colors: undefined,
       },
       background: {
         enabled: true,
-        foreColor: window.chartColors.cfiClient,
+        foreColor: "#fff",
         padding: 4,
         borderRadius: 2,
         borderWidth: 1,
-        borderColor: "#ffffff",
-        opacity: .7,
+        borderColor: "#fff",
+        opacity: 0.9,
         dropShadow: {
           enabled: false,
           top: 1,
@@ -501,11 +477,7 @@ const getFSchartOptions = (
             clientString
           );
         },
-        updated: function(chartContext, config) {
-          console.log('updated', title, {chartContext, config});
-        }
       },
-      
     },
     stroke: {
       width: 4,

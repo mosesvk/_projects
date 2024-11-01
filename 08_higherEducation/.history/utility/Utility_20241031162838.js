@@ -1,7 +1,5 @@
 let cfiRatioChart, assetsChart;
 
-// console.log('utility.js----')
-
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const regions_Array = [

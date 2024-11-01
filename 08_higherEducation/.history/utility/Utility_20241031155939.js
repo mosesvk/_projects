@@ -1,7 +1,5 @@
 let cfiRatioChart, assetsChart;
 
-// console.log('utility.js----')
-
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const regions_Array = [
@@ -423,9 +421,9 @@ const createChart = (
 
       cfi_viabilityRatio_chart.render();
 
-      // document.addEventListener("dark-mode", function () {
-      //   cfi_viabilityRatio_chart.updateOptions(chartOptions);
-      // });
+      document.addEventListener("dark-mode", function () {
+        cfi_viabilityRatio_chart.updateOptions(chartOptions);
+      });
 
     }
   }
@@ -1151,6 +1149,14 @@ document.querySelector("#sidebar ul").addEventListener("click", function () {
   });
 });
 
+function toggleDetails(button, details, arrowIcon) {
+  button.addEventListener("click", () => {
+    // console.log('clicked');
+    details.classList.toggle("hidden");
+    arrowIcon.classList.toggle("rotate-90");
+  });
+}
+
 function getValuesInChronologicalOrder(data) {
   const years = Object.keys(data).sort(); // Get the years in chronological order
   const valuesArray = years.map((year) => data[year].value); // Map the values to an array
@@ -1246,15 +1252,6 @@ function processFinancialData(dataObject, tableDataClass, year, idString) {
   }
   // Call the createFSTable function with the tableId and arrayData
   createFSTable(tableDataClass, arrayData, idString, year);
-}
-
-function toggleDetails(button, details, arrowIcon) {
-  button.addEventListener("click", () => {
-    // console.log('clicked');
-    details.classList.toggle("hidden");
-    arrowIcon.classList.toggle("rotate-90");
-    console.log('toggleDetails() clicked');
-  });
 }
 
 function toggleDetailsByIdentifier(identifier) {

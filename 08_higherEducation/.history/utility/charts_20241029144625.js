@@ -14,6 +14,8 @@ const getMainChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
+  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
+
   ({ clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray } =
     getPeerAndClientChartDataArrays(
       selectedYearsArray,
@@ -75,8 +77,6 @@ const getMainChartOptions = (
   // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })\
 
   let yaxisAnnotation;
-  let yaxisMax;
-  let previousData = [];
 
   if (mainName == "cfiRatio") {
     cfiRatio_annotation = [
@@ -103,9 +103,6 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfiRatio_annotation;
-    yaxisMax = Math.round(Math.max(...clientArray) + 2);
-    previousData = clientArray;
-
   } else if (mainName == "cfi_primaryReserveRatio") {
     cfi_primaryReserveRatio_annotation = [
       {
@@ -131,8 +128,6 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfi_primaryReserveRatio_annotation;
-    yaxisMax = Math.round(Math.max(...clientArray) + 2);
-    previousData = clientArray;
   } else if (mainName == "cfi_netIncomeOperationsRatio") {
     cfi_netIncomeOperationsRatio_annotation = [
       {
@@ -158,8 +153,6 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfi_netIncomeOperationsRatio_annotation;
-    yaxisMax = Math.round(Math.max(...clientArray) + 5);
-    previousData = clientArray;
   } else if (mainName == "cfi_returnOnNetAssets") {
     cfi_returnOnNetAssets_annotation = [
       {
@@ -185,9 +178,7 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfi_returnOnNetAssets_annotation;
-    yaxisMax = Math.round(Math.max(...clientArray) + 5);
-    previousData = clientArray;
-  } else if (mainName == "cfi_viabilityRatio") {
+  } else {
     // cfi_viabilityRatio
     cfi_viabilityRatio_annotation = [
       {
@@ -213,10 +204,6 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfi_viabilityRatio_annotation;
-    yaxisMax = Math.round(Math.max(...clientArray) + 2);
-    previousData = clientArray;
-  } else {
-    return;
   }
 
   return {
@@ -255,6 +242,7 @@ const getMainChartOptions = (
       },
     ],
     chart: {
+      id: mainName,
       toolbar: {
         tools: {
           download: false,
@@ -268,22 +256,6 @@ const getMainChartOptions = (
       },
       height: 550,
       type: "line",
-      zoom: {
-        enabled: false,
-      },
-      events: {
-        updated: function(chartContext, config) {
-          console.log({previousData})
-          console.log('updated', mainName, {chartContext, config});
-          // console.log('config', config.config.series[4].data.length)
-          // console.log('selectedYears', selectedYearsArray.length)
-          if (config.config.series[4].data.length !== selectedYearsArray.length) {
-            config.config.series[4].data.splice(selectedYearsArray.length) // Update the previous data
-            chartContext.updateSeries(config.config.series);
-            console.log('fixed', mainName, {currentData: config.config.series[4].data, prevData: previousData});
-          }
-        }
-      }
     },
     stroke: {
       // width: [5, 7, 5],
@@ -308,23 +280,24 @@ const getMainChartOptions = (
         },
       },
     },
-    yaxis: {
-      max: yaxisMax,
-      axisTicks: {
-        show: true,
-      },
-      axisBorder: {
-        show: true,
-        color: chartColors.labelColor,
-      },
-      labels: {
-        formatter: yaxisLabelFormatter,
-        style: {
-          colors: chartColors.labelColor,
-          fontSize: "1rem",
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColors.labelColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColors.labelColor,
+            fontSize: "1rem",
+          },
         },
       },
-    },
+    ],
     tooltip: {
       shared: true,
       intersect: false,
@@ -354,30 +327,7 @@ const getMainChartOptions = (
     dataLabels: {
       enabled: true,
       enabledOnSeries: [4],
-      offsetY: -20,
-      style: {
-        fontSize: "20px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
-        colors: ["#ffffff"],
-      },
-      background: {
-        enabled: true,
-        foreColor: window.chartColors.cfiClient,
-        padding: 4,
-        borderRadius: 2,
-        borderWidth: 1,
-        borderColor: "#ffffff",
-        opacity: .7,
-        dropShadow: {
-          enabled: false,
-          top: 1,
-          left: 1,
-          blur: 1,
-          color: "#000",
-          opacity: 0.45,
-        },
-      },
+      offsety: -30
     },
   };
 };
@@ -501,11 +451,7 @@ const getFSchartOptions = (
             clientString
           );
         },
-        updated: function(chartContext, config) {
-          console.log('updated', title, {chartContext, config});
-        }
       },
-      
     },
     stroke: {
       width: 4,
@@ -1046,7 +992,13 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
   ];
 
   return {
-    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#C57FD7"],
+    colors: [
+      "#88C428",
+      "#83CCF5",
+      "#FBD75A",
+      "#F95787",
+      "#C57FD7",
+    ],
     series: chartData,
     chart: {
       toolbar: {
@@ -1174,7 +1126,13 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
   ];
 
   return {
-    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#C57FD7"],
+    colors: [
+      "#88C428",
+      "#83CCF5",
+      "#FBD75A",
+      "#F95787",
+      "#C57FD7",
+    ],
     series: chartData,
     chart: {
       toolbar: {
@@ -4532,6 +4490,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
 };
 
 const getEndowmentOperatingChartOptions = (data) => {
+  
   const tableHeaderRow = document.getElementById(
     "row_endowmentOperatingBudget_tableHeader"
   );
@@ -4551,12 +4510,15 @@ const getEndowmentOperatingChartOptions = (data) => {
   endowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
   annualOperatingBudgetRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Annual Operating Budget</th>`;
 
-  const mostRecentYear = Math.max(...Object.keys(data["ratio_Client"]));
+  const mostRecentYear = Math.max(
+    ...Object.keys(data["ratio_Client"])
+  );
 
   const clientValMostRecentYear = Number(
     data["ratio_Client"][mostRecentYear].value
   );
   const clientPercent = Math.round(clientValMostRecentYear * 100);
+
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   // sort years in descending order
@@ -4587,7 +4549,7 @@ const getEndowmentOperatingChartOptions = (data) => {
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
         ${formatCurrency(annualOperatingBudget, true)}
       </th> 
-    `;
+    `;  
   });
 
   const value = clientPercent;
@@ -5395,17 +5357,11 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   );
 
   const tableHeaderPeerRow = document.getElementById(
-    "row_endowmentAssetsPerStudentPeer_tableHeader"
-  );
-  const peerRatioRow = document.getElementById(
-    "row_endowmentAssetsPerStudentPeer_ratio"
-  );
-  const peerEndowmentRow = document.getElementById(
-    "row_endowmentAssetsPerStudentPeer_endowment"
-  );
-  const peerTotalStudentFteRow = document.getElementById(
-    "row_endowmentAssetsPerStudentPeer_totalStudentFte"
-  );
+    "row_endowmentAssetsPerStudentPeer_tableHeader"  
+  )
+  const peerRatioRow = document.getElementById("row_endowmentAssetsPerStudentPeer_ratio");
+  const peerEndowmentRow = document.getElementById("row_endowmentAssetsPerStudentPeer_endowment");
+  const peerTotalStudentFteRow = document.getElementById("row_endowmentAssetsPerStudentPeer_totalStudentFte");
 
   // Clear existing content bef ore appending
   tableHeaderClientRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
@@ -5416,6 +5372,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   peerRatioRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment Assets per Student</th>`;
   peerEndowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
   peerTotalStudentFteRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Total Student FTE</th>`;
+
 
   const mostRecentYear = Math.max(...Object.keys(data["endowment_Client"]));
 
@@ -5428,18 +5385,16 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   const peer25Array = [];
   const peer50Array = [];
   const peer75Array = [];
+  
 
   selectedYearsArray.map((year) => {
+
     const clientRatio = Number(data.ratio_Client[year].value * 100).toFixed(1);
-
+    
     const endowmentSizeClient = Number(data.endowment_Client[year].value);
-    const totalStudentFteClient = Number(
-      data.totalStudentFte_Client[year].value
-    );
+    const totalStudentFteClient = Number(data.totalStudentFte_Client[year].value);
 
-    const peerRatio = Number(
-      getAverageOfArray(data.ratio_Peer[year]) * 100
-    ).toFixed(1);
+    const peerRatio = Number(getAverageOfArray(data.ratio_Peer[year]) * 100).toFixed(1);
     const endowmentSizePeer = getSumOfArray(data.endowment_Peer[year]);
     const totalStudentFtePeer = getSumOfArray(data.totalStudentFte_Peer[year]);
 
@@ -5451,7 +5406,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
         ${clientRatio}%
       </th>
-    `;
+    `;  
     endowmentRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
         ${formatCurrency(endowmentSizeClient, true)}
@@ -5464,7 +5419,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     `;
     tableHeaderPeerRow.innerHTML += `
       <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-    `;
+    `;  
     peerRatioRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
         ${peerRatio}%
@@ -5474,12 +5429,13 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
         ${formatCurrency(endowmentSizePeer, true)}
       </th>
-    `;
+    `;  
     peerTotalStudentFteRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
         ${totalStudentFtePeer}
       </th> 
     `;
+    
 
     // console.log({clientRatio, peerRatio});
 

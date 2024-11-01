@@ -1,7 +1,5 @@
 let cfiRatioChart, assetsChart;
 
-// console.log('utility.js----')
-
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const regions_Array = [
@@ -347,6 +345,7 @@ const createChart = (
   benchmark,
   title
 ) => {
+  // if (chartId == 'cfi_viabilityRatio_chart') console.log('hit createChart')
   document.getElementById(chartId).innerHTML = "";
 
   dataUrLObj[mainName] = chartId;
@@ -377,7 +376,7 @@ const createChart = (
       );
       cfiRatio_chart.render();
       document.addEventListener("dark-mode", function () {
-        cfiRatio_chart.updateOptions(chartOptions);
+        chart.updateOptions(chartOptions);
       });
     } else if (chartId === "cfi_primaryReserveRatio_chart") {
       cfi_primaryReserveRatio_chart = new ApexCharts(
@@ -388,7 +387,7 @@ const createChart = (
       cfi_primaryReserveRatio_chart.render();
 
       document.addEventListener("dark-mode", function () {
-        cfi_primaryReserveRatio_chart.updateOptions(chartOptions);
+        chart.updateOptions(chartOptions);
       });
     } else if (chartId === "cfi_netIncomeOperationsRatio_chart") {
       cfi_netIncomeOperationsRatio_chart = new ApexCharts(
@@ -401,7 +400,7 @@ const createChart = (
       document.addEventListener(
         "dark-mode",
         function () {
-          cfi_netIncomeOperationsRatio_chart.updateOptions(chartOptions);
+          chart.updateOptions(chartOptions);
         }
       );
     } else if (chartId === "cfi_returnOnNetAssets_chart") {
@@ -413,7 +412,7 @@ const createChart = (
       cfi_returnOnNetAssets_chart.render();
 
       document.addEventListener("dark-mode", function () {
-        cfi_returnOnNetAssets_chart.updateOptions(chartOptions);
+        chart.updateOptions(chartOptions);
       });
     } else if (chartId === "cfi_viabilityRatio_chart") {
       cfi_viabilityRatio_chart = new ApexCharts(
@@ -423,10 +422,9 @@ const createChart = (
 
       cfi_viabilityRatio_chart.render();
 
-      // document.addEventListener("dark-mode", function () {
-      //   cfi_viabilityRatio_chart.updateOptions(chartOptions);
-      // });
-
+      document.addEventListener("dark-mode", function () {
+        chart.updateOptions(chartOptions);
+      });
     }
   }
 };
@@ -1151,6 +1149,14 @@ document.querySelector("#sidebar ul").addEventListener("click", function () {
   });
 });
 
+function toggleDetails(button, details, arrowIcon) {
+  button.addEventListener("click", () => {
+    // console.log('clicked');
+    details.classList.toggle("hidden");
+    arrowIcon.classList.toggle("rotate-90");
+  });
+}
+
 function getValuesInChronologicalOrder(data) {
   const years = Object.keys(data).sort(); // Get the years in chronological order
   const valuesArray = years.map((year) => data[year].value); // Map the values to an array
@@ -1246,15 +1252,6 @@ function processFinancialData(dataObject, tableDataClass, year, idString) {
   }
   // Call the createFSTable function with the tableId and arrayData
   createFSTable(tableDataClass, arrayData, idString, year);
-}
-
-function toggleDetails(button, details, arrowIcon) {
-  button.addEventListener("click", () => {
-    // console.log('clicked');
-    details.classList.toggle("hidden");
-    arrowIcon.classList.toggle("rotate-90");
-    console.log('toggleDetails() clicked');
-  });
 }
 
 function toggleDetailsByIdentifier(identifier) {

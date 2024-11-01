@@ -1,7 +1,5 @@
 let cfiRatioChart, assetsChart;
 
-// console.log('utility.js----')
-
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const regions_Array = [
@@ -423,9 +421,9 @@ const createChart = (
 
       cfi_viabilityRatio_chart.render();
 
-      // document.addEventListener("dark-mode", function () {
-      //   cfi_viabilityRatio_chart.updateOptions(chartOptions);
-      // });
+      document.addEventListener("dark-mode", function () {
+        cfi_viabilityRatio_chart.updateOptions(chartOptions);
+      });
 
     }
   }
@@ -1253,7 +1251,6 @@ function toggleDetails(button, details, arrowIcon) {
     // console.log('clicked');
     details.classList.toggle("hidden");
     arrowIcon.classList.toggle("rotate-90");
-    console.log('toggleDetails() clicked');
   });
 }
 

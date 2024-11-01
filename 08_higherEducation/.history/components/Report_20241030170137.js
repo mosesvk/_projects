@@ -1,6 +1,6 @@
 const displayReportComponent = () => {
   // console.log('displayReportComponent()');
-
+  
   const cfiData = JSON.parse(localStorage.getItem("cfiData"));
   const financialAnalysisContentData = JSON.parse(
     localStorage.getItem("financialAnalysisContentData")
@@ -291,12 +291,12 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
   const tableBodyClient = document.getElementById(
     "assetToLiabilitiesClient_tbody"
   );
-  tableBodyClient.innerHTML = "";
+  tableBodyClient.innerHTML = ''
 
   const totalAssetsPeer = data["totalAssets_Peer"];
   const totalLiabilitiesPeer = data["totalLiabilities_Peer"];
   const tableBodyPeer = document.getElementById("assetToLiabilitiesPeer_tbody");
-  tableBodyPeer.innerHTML = "";
+  tableBodyPeer.innerHTML = ''
 
   // console.log({ totalAssetsPeer, totalLiabilitiesPeer });
 
@@ -425,7 +425,7 @@ const addToSingleRow = (
   //   tableHeaderRow,
   //   rowName,
   // });
-  // console.log({name})
+  console.log({name})
   while (tableHeaderRow.children.length > 1) {
     tableHeaderRow.removeChild(tableHeaderRow.children[1]);
   }
@@ -537,33 +537,22 @@ const addPeerDataToReportRow = (
   end,
   selectedYears
 ) => {
+
   // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, name, data, fIdArray, begin, end, selectedYears })
-  // if (name == "cfiRatio_peerAverage_Peer")
-  //   console.log({
-  //     tableRow,
-  //     peer,
-  //     type,
-  //     fixedNum,
-  //     dataArray,
-  //     wa,
-  //     name,
-  //     data,
-  //     fIdArray,
-  //     begin,
-  //     end,
-  //     selectedYears,
-  //   });
+  if (name == 'cfiRatio_peerAverage_Peer') console.log({ tableRow, peer, type, fixedNum, dataArray, wa, name, data, fIdArray, begin, end, selectedYears });
+
 
   const propClass =
     "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
   const propScope = "row";
 
   selectedYears.forEach((year) => {
+
     let avg;
     if (peer && wa) {
       avg = parseFloat(getWeightedAverageOfArray(data, name));
     } else if (peer && !wa) {
-      avg = parseFloat(getAverageOfArray(peer[year]));
+      avg = parseFloat(getAverageOfArray(peer[year], name));
     } else {
       avg = 0;
     }

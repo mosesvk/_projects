@@ -7,7 +7,7 @@ const getMainChartOptions = (
   benchmark,
   title
 ) => {
-  // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
+  console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   let leng = selectedYearsArray.length;
@@ -273,13 +273,11 @@ const getMainChartOptions = (
       },
       events: {
         updated: function(chartContext, config) {
-          console.log({previousData})
           console.log('updated', mainName, {chartContext, config});
           // console.log('config', config.config.series[4].data.length)
           // console.log('selectedYears', selectedYearsArray.length)
           if (config.config.series[4].data.length !== selectedYearsArray.length) {
-            config.config.series[4].data.splice(selectedYearsArray.length) // Update the previous data
-            chartContext.updateSeries(config.config.series);
+            config.config.series[4].data = previousData // Update the previous data
             console.log('fixed', mainName, {currentData: config.config.series[4].data, prevData: previousData});
           }
         }
