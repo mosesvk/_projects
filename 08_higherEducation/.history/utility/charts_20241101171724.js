@@ -105,6 +105,7 @@ const getMainChartOptions = (
     yaxisAnnotation = cfiRatio_annotation;
     yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
+
   } else if (mainName == "cfi_primaryReserveRatio") {
     cfi_primaryReserveRatio_annotation = [
       {
@@ -271,23 +272,18 @@ const getMainChartOptions = (
         enabled: false,
       },
       events: {
-        updated: function (chartContext, config) {
-          console.log({ previousData });
-          console.log("updated", mainName, { chartContext, config });
+        updated: function(chartContext, config) {
+          console.log({previousData})
+          console.log('updated', mainName, {chartContext, config});
           // console.log('config', config.config.series[4].data.length)
           // console.log('selectedYears', selectedYearsArray.length)
-          if (
-            config.config.series[4].data.length !== selectedYearsArray.length
-          ) {
-            config.config.series[4].data.splice(selectedYearsArray.length); // Update the previous data
+          if (config.config.series[4].data.length !== selectedYearsArray.length) {
+            config.config.series[4].data.splice(selectedYearsArray.length) // Update the previous data
             chartContext.updateSeries(config.config.series);
-            console.log("fixed", mainName, {
-              currentData: config.config.series[4].data,
-              prevData: previousData,
-            });
+            console.log('fixed', mainName, {currentData: config.config.series[4].data, prevData: previousData});
           }
-        },
-      },
+        }
+      }
     },
     stroke: {
       // width: [5, 7, 5],
@@ -372,7 +368,7 @@ const getMainChartOptions = (
         borderRadius: 2,
         borderWidth: 1,
         borderColor: "#ffffff",
-        opacity: 0.7,
+        opacity: .7,
         dropShadow: {
           enabled: false,
           top: 1,
@@ -395,8 +391,7 @@ const getFSchartOptions = (
   chartId,
   tableDataClass
 ) => {
-  // if (chartId == "#assets_chart")
-  //   console.log({ data, client, color, numType, title, chartId });
+  // console.log({ data, client, color, numType, title, chartId });
 
   const clientString = client.replace("_Client", "");
 
@@ -510,6 +505,7 @@ const getFSchartOptions = (
           );
         },
       },
+      
     },
     stroke: {
       width: 4,
@@ -572,27 +568,6 @@ const getFSchartOptions = (
     plotOptions: {
       bar: {
         barHeight: "90%",
-      },
-    },
-    states: {
-      normal: {
-        filter: {
-          type: "none",
-          value: 0,
-        },
-      },
-      hover: {
-        filter: {
-          type: "lighten",
-          value: 0.15,
-        },
-      },
-      active: {
-        allowMultipleDataPointsSelection: false,
-        filter: {
-          type: "darken",
-          value: 0.35,
-        },
       },
     },
   };
@@ -738,9 +713,6 @@ const getFpaChartOptions = (data) => {
       },
     ],
     chart: {
-      zoom: {
-        enabled: false,
-      },
       height: 350,
       type: "bar",
       stacked: true,
@@ -926,9 +898,6 @@ const getAtlChartOptions = (data) => {
           reset: false,
         },
       },
-      zoom: {
-        enabled: false,
-      },
       height: 450,
       width: "100%",
       type: "line",
@@ -1091,9 +1060,6 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
           reset: false,
         },
       },
-      zoom: {
-        enabled: false,
-      },
       height: 450,
       type: "pie",
     },
@@ -1225,9 +1191,6 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
       height: 450,
       width: "100%",
       type: "pie",
-    },
-    zoom: {
-      enabled: false,
     },
     labels: ["Tuition", "Auxiliary", "Contributions", "Investments", "Other"],
     title: {
@@ -1447,9 +1410,6 @@ const getFfaChartOptions = (data) => {
       width: "100%",
       type: "rangeBar",
     },
-    zoom: {
-      enabled: false,
-    },
     stroke: {
       width: 5,
       colors: chartColors.labelColor,
@@ -1651,9 +1611,6 @@ const getCashFlowTrendChartOptions = (data) => {
       },
       type: "bar",
       height: 350,
-    },
-    zoom: {
-      enabled: false,
     },
     plotOptions: {
       bar: {
@@ -2119,9 +2076,6 @@ const getCurrentRatioChartOptions = (data) => {
           reset: false,
         },
       },
-      zoom: {
-        enabled: false,
-      },
     },
     tooltip: {
       y: {
@@ -2336,9 +2290,6 @@ const getLiquidityChartOptions = (data) => {
       type: "bar",
       stacked: true,
     },
-    zoom: {
-      enabled: false,
-    },
     dataLabels: {
       enabled: false,
     },
@@ -2518,9 +2469,6 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
   return {
     series: [clientPercent],
     chart: {
-      zoom: {
-        enabled: false,
-      },
       height: 350,
       type: "radialBar",
       offsetY: -10,
@@ -2677,9 +2625,6 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
       },
     ],
     chart: {
-      zoom: {
-        enabled: false,
-      },
       height: 750,
       width: "90%",
       type: "bar",
@@ -2842,9 +2787,6 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
   return {
     series: [clientPercent],
     chart: {
-      zoom: {
-        enabled: false,
-      },
       height: 350,
       type: "radialBar",
       offsetY: -10,
@@ -3569,9 +3511,6 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
           pan: false,
           reset: false,
         },
-      },
-      zoom: {
-        enabled: false,
       },
       height: 550,
       type: "line",

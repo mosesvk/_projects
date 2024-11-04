@@ -575,12 +575,6 @@ const getFSchartOptions = (
       },
     },
     states: {
-      normal: {
-        filter: {
-          type: "none",
-          value: 0,
-        },
-      },
       hover: {
         filter: {
           type: "lighten",

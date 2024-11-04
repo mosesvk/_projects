@@ -574,13 +574,7 @@ const getFSchartOptions = (
         barHeight: "90%",
       },
     },
-    states: {
-      normal: {
-        filter: {
-          type: "none",
-          value: 0,
-        },
-      },
+    state: {
       hover: {
         filter: {
           type: "lighten",
@@ -3569,9 +3563,6 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
           pan: false,
           reset: false,
         },
-      },
-      zoom: {
-        enabled: false,
       },
       height: 550,
       type: "line",

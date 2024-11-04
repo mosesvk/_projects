@@ -492,9 +492,6 @@ const getFSchartOptions = (
           reset: false,
         },
       },
-      zoom: {
-        enabled: false,
-      },
       height: 350,
       type: "line",
       stacked: false,
@@ -574,13 +571,7 @@ const getFSchartOptions = (
         barHeight: "90%",
       },
     },
-    states: {
-      normal: {
-        filter: {
-          type: "none",
-          value: 0,
-        },
-      },
+    state: {
       hover: {
         filter: {
           type: "lighten",
@@ -738,9 +729,6 @@ const getFpaChartOptions = (data) => {
       },
     ],
     chart: {
-      zoom: {
-        enabled: false,
-      },
       height: 350,
       type: "bar",
       stacked: true,
@@ -926,9 +914,6 @@ const getAtlChartOptions = (data) => {
           reset: false,
         },
       },
-      zoom: {
-        enabled: false,
-      },
       height: 450,
       width: "100%",
       type: "line",
@@ -1091,9 +1076,6 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
           reset: false,
         },
       },
-      zoom: {
-        enabled: false,
-      },
       height: 450,
       type: "pie",
     },
@@ -1225,9 +1207,6 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
       height: 450,
       width: "100%",
       type: "pie",
-    },
-    zoom: {
-      enabled: false,
     },
     labels: ["Tuition", "Auxiliary", "Contributions", "Investments", "Other"],
     title: {
@@ -1447,9 +1426,6 @@ const getFfaChartOptions = (data) => {
       width: "100%",
       type: "rangeBar",
     },
-    zoom: {
-      enabled: false,
-    },
     stroke: {
       width: 5,
       colors: chartColors.labelColor,
@@ -1651,9 +1627,6 @@ const getCashFlowTrendChartOptions = (data) => {
       },
       type: "bar",
       height: 350,
-    },
-    zoom: {
-      enabled: false,
     },
     plotOptions: {
       bar: {
@@ -2119,9 +2092,6 @@ const getCurrentRatioChartOptions = (data) => {
           reset: false,
         },
       },
-      zoom: {
-        enabled: false,
-      },
     },
     tooltip: {
       y: {
@@ -2336,9 +2306,6 @@ const getLiquidityChartOptions = (data) => {
       type: "bar",
       stacked: true,
     },
-    zoom: {
-      enabled: false,
-    },
     dataLabels: {
       enabled: false,
     },
@@ -2518,9 +2485,6 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
   return {
     series: [clientPercent],
     chart: {
-      zoom: {
-        enabled: false,
-      },
       height: 350,
       type: "radialBar",
       offsetY: -10,
@@ -2677,9 +2641,6 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
       },
     ],
     chart: {
-      zoom: {
-        enabled: false,
-      },
       height: 750,
       width: "90%",
       type: "bar",
@@ -2842,9 +2803,6 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
   return {
     series: [clientPercent],
     chart: {
-      zoom: {
-        enabled: false,
-      },
       height: 350,
       type: "radialBar",
       offsetY: -10,
@@ -3569,9 +3527,6 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
           pan: false,
           reset: false,
         },
-      },
-      zoom: {
-        enabled: false,
       },
       height: 550,
       type: "line",
