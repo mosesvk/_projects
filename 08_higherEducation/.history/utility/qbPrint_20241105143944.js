@@ -43,6 +43,7 @@ const getPngString = async (id, fieldId) => {
   }
 };
 
+
 const mainPrint = async () => {
   showApiLoadingFunction("open", "print");
   document.getElementById("FinancialPositionContent").classList.remove("hidden");

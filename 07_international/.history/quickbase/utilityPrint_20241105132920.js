@@ -2,7 +2,7 @@ const uploadFileBegin = `<qdbapi> <apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoke
 const uploadFileEnd = `</qdbapi>`;
 const uploadClist = `<clist>171</clist>`;
 const generateReportsBtn = document.getElementById("generateReports");
-let uploadMainFile = "";
+let uploadMainFidle = "";
 
 $("#downloadPdf").on("click", function () {
   let imagesArray = [];
@@ -216,9 +216,6 @@ const printToExcel = (dataString) => {
 }; // printToExcel()
 
 const createPrintExcel = () => {
-  uploadSingleToFile(171, ClientRid);
-  uploadSingleToFile(170, firmName);
-  uploadSingleToFile(169, uniqueClients.size);
   uploadSingleToFile(163, sliderValue);
   uploadSingleToFile(164, sliderValue2);
   // uploadSingleToFile(164, sliderValue2);
