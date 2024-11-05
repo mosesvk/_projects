@@ -3445,13 +3445,13 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     const peer75 = peerAvg !== 0 ? get75thPercentileOfArray(peerAvgArray) : 0
     peer75Array.push(Math.round(peer75));
 
-    // console.log('getNetEducationalExpensePerStudentChartOptions',{
-    //   clientData,
-    //   peerAvg,
-    //   peer25,
-    //   peer50,
-    //   peer75,
-    // })
+    console.log('getNetEducationalExpensePerStudentChartOptions',{
+      clientData,
+      peerAvg,
+      peer25,
+      peer50,
+      peer75,
+    })
 
     const netEducationalExpense = Number(
       data.netEducationalExpenses_Client[year].value
@@ -3582,24 +3582,6 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       },
       height: 550,
       type: "line",
-      events: {
-        updated: function (chartContext, config) {
-          // console.log({ previousData });
-          // console.log("updated", mainName, { chartContext, config });
-          // console.log('config', config.config.series[4].data.length)
-          // console.log('selectedYears', selectedYearsArray.length)
-          if (
-            config.config.series[0].data.length !== selectedYearsArray.length
-          ) {
-            config.config.series[0].data.splice(selectedYearsArray.length); // Update the previous data
-            chartContext.updateSeries(config.config.series);
-            // console.log("fixed", mainName, {
-            //   currentData: config.config.series[4].data,
-            //   prevData: previousData,
-            // });
-          }
-        },
-      },
     },
     stroke: {
       width: 4,

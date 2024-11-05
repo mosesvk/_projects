@@ -1253,7 +1253,7 @@ function toggleDetails(button, details, arrowIcon) {
     // console.log('clicked');
     details.classList.toggle("hidden");
     arrowIcon.classList.toggle("rotate-90");
-    console.log('toggleDetails() clicked');
+    // console.log('toggleDetails() clicked');
   });
 }
 

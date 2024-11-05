@@ -3436,22 +3436,22 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     const peerAvg = getAverageOfArray(data.ratio_Peer[year]);
     peerAvgArray.push(Math.round(peerAvg));
 
-    const peer25 = peerAvg !== 0 ? get25thPercentileOfArray(peerAvgArray) : 0
+    const peer25 = get25thPercentileOfArray(peerAvgArray);
     peer25Array.push(Math.round(peer25));
 
-    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerAvgArray) : 0
+    const peer50 = getMidpointOfArray(peerAvgArray);
     peer50Array.push(Math.round(peer50));
 
-    const peer75 = peerAvg !== 0 ? get75thPercentileOfArray(peerAvgArray) : 0
+    const peer75 = get75thPercentileOfArray(peerAvgArray);
     peer75Array.push(Math.round(peer75));
 
-    // console.log('getNetEducationalExpensePerStudentChartOptions',{
-    //   clientData,
-    //   peerAvg,
-    //   peer25,
-    //   peer50,
-    //   peer75,
-    // })
+    console.log('getNetEducationalExpensePerStudentChartOptions',{
+      clientData,
+      peerAvg,
+      peer25,
+      peer50,
+      peer75,
+    })
 
     const netEducationalExpense = Number(
       data.netEducationalExpenses_Client[year].value
@@ -3582,24 +3582,6 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       },
       height: 550,
       type: "line",
-      events: {
-        updated: function (chartContext, config) {
-          // console.log({ previousData });
-          // console.log("updated", mainName, { chartContext, config });
-          // console.log('config', config.config.series[4].data.length)
-          // console.log('selectedYears', selectedYearsArray.length)
-          if (
-            config.config.series[0].data.length !== selectedYearsArray.length
-          ) {
-            config.config.series[0].data.splice(selectedYearsArray.length); // Update the previous data
-            chartContext.updateSeries(config.config.series);
-            // console.log("fixed", mainName, {
-            //   currentData: config.config.series[4].data,
-            //   prevData: previousData,
-            // });
-          }
-        },
-      },
     },
     stroke: {
       width: 4,
