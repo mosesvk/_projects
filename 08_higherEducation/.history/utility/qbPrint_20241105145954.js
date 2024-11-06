@@ -43,7 +43,6 @@ const getPngString = async (id, fieldId) => {
   }
 };
 
-
 const mainPrint = async () => {
   showApiLoadingFunction("open", "print");
   document.getElementById("FinancialPositionContent").classList.remove("hidden");
@@ -127,6 +126,5 @@ const mainPrint = async () => {
   document.getElementById("DebtAndEndowmentContent").classList.add("hidden");
   showApiLoadingFunction("close", "print");
 };
-
 
 printButton.addEventListener("click", mainPrint); //uploadToFile

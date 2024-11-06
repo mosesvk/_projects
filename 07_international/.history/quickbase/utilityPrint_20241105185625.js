@@ -164,7 +164,7 @@ const printToExcel = (dataString) => {
   var urlUploadFile =
     "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord";
 
-  // console.log(dataString);
+  console.log(dataString);
 
   let newRecordID;
 
@@ -178,10 +178,10 @@ const printToExcel = (dataString) => {
     data: dataString,
     success: function (response) {
       var xmlUpload = $(response);
-      // console.log(response);
-      // console.log(xmlUpload);
+      console.log(response);
+      console.log(xmlUpload);
       newRecordID = xmlUpload[0].all[4].innerHTML;
-      console.log(newRecordID)
+      //console.log(newRecordID)
 
       if (xmlUpload.find("qdbapi").find("errcode").text() == "0") {
         newDownloadURL = xmlUpload
@@ -189,19 +189,17 @@ const printToExcel = (dataString) => {
           .find("record")
           .find("f")
           .text();
-        newDownloadURLFormatted = newDownloadURL.replace(/amp;/g, "");
-        newDownloadURLFormattedArray = newDownloadURLFormatted.split("---");
-        console.log({ newDownloadURLFormattedArray });
-        
-          document.getElementById('print_modal_footer').classList.remove('hidden');
-          document.getElementById("trendXLSFinal").href =
-            newDownloadURLFormattedArray[1];
-          document.getElementById("trendPDFFinal").href =
-            newDownloadURLFormattedArray[0];
-          document.getElementById("benchXLSFinal").href =
-            newDownloadURLFormattedArray[3];
-          document.getElementById("benchPDFFinal").href =
-            newDownloadURLFormattedArray[2];
+        // newDownloadURLFormatted = newDownloadURL.replace(/amp;/g, "");
+        // newDownloadURLFormattedArray = newDownloadURLFormatted.split("---");
+        //   document.getElementById('print_modal_footer').classList.remove('hidden');
+        //   document.getElementById("trendXLSFinal").href =
+        //     newDownloadURLFormattedArray[1];
+        //   document.getElementById("trendPDFFinal").href =
+        //     newDownloadURLFormattedArray[0];
+        //   document.getElementById("benchXLSFinal").href =
+        //     newDownloadURLFormattedArray[3];
+        //   document.getElementById("benchPDFFinal").href =
+        //     newDownloadURLFormattedArray[2];
       } else {
         console.log("Quickbase returned an error.");
         createToastWarning(

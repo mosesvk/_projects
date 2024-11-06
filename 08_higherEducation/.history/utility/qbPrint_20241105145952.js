@@ -9,7 +9,7 @@ async function svgToPngBase64(element, id) {
     const canvas = await html2canvas(element);
 
     // Get the base64 string from the canvas
-    const base64String = canvas.toDataURL("image/png").split(",")[1];
+    const base64String = canvas.toDataURL("image/png").split(",")[1];.
 
     console.log({ base64String });
     
@@ -42,7 +42,6 @@ const getPngString = async (id, fieldId) => {
     console.error("Error in getPngString:", error);
   }
 };
-
 
 const mainPrint = async () => {
   showApiLoadingFunction("open", "print");
@@ -127,6 +126,5 @@ const mainPrint = async () => {
   document.getElementById("DebtAndEndowmentContent").classList.add("hidden");
   showApiLoadingFunction("close", "print");
 };
-
 
 printButton.addEventListener("click", mainPrint); //uploadToFile

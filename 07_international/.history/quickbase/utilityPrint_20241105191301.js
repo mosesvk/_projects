@@ -181,7 +181,7 @@ const printToExcel = (dataString) => {
       // console.log(response);
       // console.log(xmlUpload);
       newRecordID = xmlUpload[0].all[4].innerHTML;
-      console.log(newRecordID)
+      //console.log(newRecordID)
 
       if (xmlUpload.find("qdbapi").find("errcode").text() == "0") {
         newDownloadURL = xmlUpload
