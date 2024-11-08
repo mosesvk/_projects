@@ -1,6 +1,6 @@
 const displayReportComponent = () => {
   // console.log('displayReportComponent()');
-  
+
   const cfiData = JSON.parse(localStorage.getItem("cfiData"));
   const financialAnalysisContentData = JSON.parse(
     localStorage.getItem("financialAnalysisContentData")
@@ -47,6 +47,7 @@ const displayReportComponent = () => {
         ["pr_totalFunctionalExpenses", "dollar", 0],
       ]
     );
+
     insertDataToReport(
       cfiData,
       selectedYears,
@@ -218,7 +219,7 @@ const insertDataToFfaReport = (data, selectedYears) => {
 };
 
 const insertDataToSourceOfInomeReport = (data, selectedYears) => {
-  // console.log ({data, selectedYears});
+  // console.log ({data, selectedYears});fd
   const tableHeaderRow = document.getElementById(
     "row_sourceOfIncomeClient_tableHeader"
   );
@@ -284,16 +285,18 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
 };
 
 const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
-  console.log({ data, selectedYears });
+  // console.log({ data, selectedYears });
   const totalAssetsClient = data["totalAssets_Client"];
   const totalLiabilitiesClient = data["totalLiabilities_Client"];
   const tableBodyClient = document.getElementById(
     "assetToLiabilitiesClient_tbody"
   );
+  tableBodyClient.innerHTML = "";
 
   const totalAssetsPeer = data["totalAssets_Peer"];
   const totalLiabilitiesPeer = data["totalLiabilities_Peer"];
   const tableBodyPeer = document.getElementById("assetToLiabilitiesPeer_tbody");
+  tableBodyPeer.innerHTML = "";
 
   // console.log({ totalAssetsPeer, totalLiabilitiesPeer });
 
@@ -332,11 +335,11 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
     tableBodyClient.appendChild(clientRow);
 
     const totalAssetsPeerValue =
-      Number(getSumOfArray(totalAssetsPeer[year])) > 0
+      totalAssetsPeer[year]
         ? styleNumber(getSumOfArray(totalAssetsPeer[year]), "dollar", 0)
         : "-";
     const totalLiabilitiesPeerValue =
-      Number(getSumOfArray(totalLiabilitiesPeer[year])) > 0
+      totalLiabilitiesPeer[year]
         ? styleNumber(getSumOfArray(totalLiabilitiesPeer[year]), "dollar", 0)
         : "-";
     const ratioPeer =
@@ -371,10 +374,9 @@ const insertDataToReport = (data, selectedYears, table, arrayOfNames) => {
 };
 
 const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames, table) => {
-  // console.log('data', data);
+  // console.log('data', data);d
 
   // console.log({ table, data, arrayOfNames });
-  
 
   for (let name of arrayOfNames) {
     // console.log('name', name);
@@ -423,6 +425,7 @@ const addToSingleRow = (
   //   tableHeaderRow,
   //   rowName,
   // });
+  // console.log({name})
   while (tableHeaderRow.children.length > 1) {
     tableHeaderRow.removeChild(tableHeaderRow.children[1]);
   }
@@ -534,17 +537,33 @@ const addPeerDataToReportRow = (
   end,
   selectedYears
 ) => {
+  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, name, data, fIdArray, begin, end, selectedYears })
+  // if (name == "cfiRatio_peerAverage_Peer")
+  //   console.log({
+  //     tableRow,
+  //     peer,
+  //     type,
+  //     fixedNum,
+  //     dataArray,
+  //     wa,
+  //     name,
+  //     data,
+  //     fIdArray,
+  //     begin,
+  //     end,
+  //     selectedYears,
+  //   });
+
   const propClass =
     "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
   const propScope = "row";
 
   selectedYears.forEach((year) => {
-
     let avg;
     if (peer && wa) {
       avg = parseFloat(getWeightedAverageOfArray(data, name));
     } else if (peer && !wa) {
-      avg = parseFloat(getAverageOfArray(peer[year], name));
+      avg = peer[year] ? parseFloat(getAverageOfArray(peer[year])) : 0
     } else {
       avg = 0;
     }

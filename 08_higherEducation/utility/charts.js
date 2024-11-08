@@ -313,7 +313,7 @@ const getMainChartOptions = (
       },
     },
     yaxis: {
-      max: yaxisMax,
+      // max: yaxisMax,
       axisTicks: {
         show: true,
       },
@@ -842,9 +842,9 @@ const getAtlChartOptions = (data) => {
       Number(totalLiabilitiesClient[year].value);
     clientArray.push(clientValue.toFixed(2));
 
-    peerValue =
+    peerValue = totalAssetsPeer[year] ? 
       getAverageOfArray(totalAssetsPeer[year]) /
-      getAverageOfArray(totalLiabilitiesPeer[year]);
+      getAverageOfArray(totalLiabilitiesPeer[year]) : 0
     peerArray.push(peerValue.toFixed(2));
     benchmarkArray.push(1);
   });
@@ -3433,7 +3433,7 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     const clientData = Number(data.ratio_Client[year].value);
     clientArray.push(clientData);
 
-    const peerAvg = getAverageOfArray(data.ratio_Peer[year]);
+    const peerAvg = data.ratio_Peer[year] ? getAverageOfArray(data.ratio_Peer[year]) : 0
     peerAvgArray.push(Math.round(peerAvg));
 
     const peer25 = peerAvg !== 0 ? get25thPercentileOfArray(peerAvgArray) : 0
@@ -3752,14 +3752,14 @@ const getTuitionDependencyChartOptions = (data) => {
     );
     operatingRevenueArray.push(operatingRevenuesSupportAndReleaseClient);
 
-    const ratioPeer = Math.round(getAverageOfArray(data.ratio_Peer[year], 100));
+    const ratioPeer = data.ratio_Peer[year] ? Math.round(getAverageOfArray(data.ratio_Peer[year], 100)) : 0;
     peerRatioArray.push(ratioPeer);
-    const netTuitionAndFeesPeer = Math.round(
+    const netTuitionAndFeesPeer = data.netTuitionAndFees_Peer[year] ? Math.round(
       getAverageOfArray(data.netTuitionAndFees_Peer[year])
-    );
-    const operatingRevenuesSupportAndReleasePeer = Math.round(
+    ): 0
+    const operatingRevenuesSupportAndReleasePeer = data.operatingRevenuesSupportAndRelease_Peer[year] ? Math.round(
       getAverageOfArray(data.operatingRevenuesSupportAndRelease_Peer[year])
-    );
+    ): 0
 
     // console.log({ratioPeer, netTuitionAndFeesPeer, operatingRevenuesSupportAndReleasePeer});
 
@@ -4056,18 +4056,18 @@ const getTuitionDiscountRateChartOptions = (data) => {
     );
     tuitionFeesArray.push(tuitionAndFeesClient);
 
-    const ratioPeer = Math.abs(
+    const ratioPeer = data.ratio_Peer[year] ? Math.abs(
       Math.round(getAverageOfArray(data.ratio_Peer[year], 100))
-    );
+    ) : 0;
     peerRatioArray.push(ratioPeer);
-    const scholarshipsAndFinancialAidPeer = Math.abs(
+    const scholarshipsAndFinancialAidPeer = data.revenueScholarshipsAndFinanancialAid_Peer[year] ? Math.abs(
       Math.round(
         getAverageOfArray(data.revenueScholarshipsAndFinanancialAid_Peer[year])
       )
-    );
-    const tuitionAndFeesPeer = Math.round(
+    ) : 0
+    const tuitionAndFeesPeer = data.revenueTuitionAndFees_Peer[year] ? Math.round(
       getAverageOfArray(data.revenueTuitionAndFees_Peer[year])
-    );
+    ) : 0
 
     // console.log({ratioPeer, netTuitionAndFeesPeer, tuitionAndFeesPeer});
 
@@ -5005,9 +5005,9 @@ const getDebtBurdenRatioChartOptions = (data) => {
       </th>
     `;
 
-    const peerRatioNum = Math.abs(
+    const peerRatioNum = data.ratio_Peer[year] ? Math.abs(
       Number(getAverageOfArray(data.ratio_Peer[year])) * 100
-    ).toFixed(1);
+    ).toFixed(1) : 0
 
     let num = Math.round(clientRatioNum * 100);
     clientRatioArray.push(num);
@@ -5546,11 +5546,11 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       data.totalStudentFte_Client[year].value
     );
 
-    const peerRatio = Number(
+    const peerRatio = data.ratio_Peer[year] ? Number(
       getAverageOfArray(data.ratio_Peer[year]) * 100
-    ).toFixed(1);
-    const endowmentSizePeer = getSumOfArray(data.endowment_Peer[year]);
-    const totalStudentFtePeer = getSumOfArray(data.totalStudentFte_Peer[year]);
+    ).toFixed(1) : 0 
+    const endowmentSizePeer = data.endowment_Peer[year] ? getSumOfArray(data.endowment_Peer[year]): 0
+    const totalStudentFtePeer = data.totalStudentFte_Peer[year] ? getSumOfArray(data.totalStudentFte_Peer[year]) : 0
 
     // Add year to table header
     tableHeaderClientRow.innerHTML += `

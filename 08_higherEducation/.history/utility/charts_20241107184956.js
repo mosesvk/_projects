@@ -14,8 +14,6 @@ const getMainChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
-  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
-
   ({ clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray } =
     getPeerAndClientChartDataArrays(
       selectedYearsArray,
@@ -76,12 +74,14 @@ const getMainChartOptions = (
 
   // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })\
 
-  let yaxisAnnotation
+  let yaxisAnnotation;
+  let yaxisMax;
+  let previousData = [];
 
-  if (mainName == 'cfiRatio') {
-    cfiRatio_annotation =  [
+  if (mainName == "cfiRatio") {
+    cfiRatio_annotation = [
       {
-        id: 'annotation',
+        id: "annotation",
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
@@ -101,12 +101,14 @@ const getMainChartOptions = (
           },
         },
       },
-    ]
-    yaxisAnnotation = cfiRatio_annotation
-  } else if (mainName == 'cfi_primaryReserveRatio') {
-    cfi_primaryReserveRatio_annotation =  [
+    ];
+    yaxisAnnotation = cfiRatio_annotation;
+    yaxisMax = Math.round(Math.max(...clientArray) + 2);
+    previousData = clientArray;
+  } else if (mainName == "cfi_primaryReserveRatio") {
+    cfi_primaryReserveRatio_annotation = [
       {
-        id: 'annotation',
+        id: "annotation",
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
@@ -126,12 +128,14 @@ const getMainChartOptions = (
           },
         },
       },
-    ]
-    yaxisAnnotation = cfi_primaryReserveRatio_annotation
-  } else if (mainName == 'cfi_netIncomeOperationsRatio') {
-    cfi_netIncomeOperationsRatio_annotation =  [
+    ];
+    yaxisAnnotation = cfi_primaryReserveRatio_annotation;
+    yaxisMax = Math.round(Math.max(...clientArray) + 2);
+    previousData = clientArray;
+  } else if (mainName == "cfi_netIncomeOperationsRatio") {
+    cfi_netIncomeOperationsRatio_annotation = [
       {
-        id: 'annotation',
+        id: "annotation",
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
@@ -151,12 +155,14 @@ const getMainChartOptions = (
           },
         },
       },
-    ]
-    yaxisAnnotation = cfi_netIncomeOperationsRatio_annotation
-  } else if (mainName == 'cfi_returnOnNetAssets') {
-    cfi_returnOnNetAssets_annotation =  [
+    ];
+    yaxisAnnotation = cfi_netIncomeOperationsRatio_annotation;
+    yaxisMax = Math.round(Math.max(...clientArray) + 5);
+    previousData = clientArray;
+  } else if (mainName == "cfi_returnOnNetAssets") {
+    cfi_returnOnNetAssets_annotation = [
       {
-        id: 'annotation',
+        id: "annotation",
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
@@ -176,12 +182,15 @@ const getMainChartOptions = (
           },
         },
       },
-    ]
-    yaxisAnnotation = cfi_returnOnNetAssets_annotation
-  } else { // cfi_viabilityRatio
-    cfi_viabilityRatio_annotation =  [
+    ];
+    yaxisAnnotation = cfi_returnOnNetAssets_annotation;
+    yaxisMax = Math.round(Math.max(...clientArray) + 5);
+    previousData = clientArray;
+  } else if (mainName == "cfi_viabilityRatio") {
+    // cfi_viabilityRatio
+    cfi_viabilityRatio_annotation = [
       {
-        id: 'annotation',
+        id: "annotation",
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
@@ -201,10 +210,13 @@ const getMainChartOptions = (
           },
         },
       },
-    ]
-    yaxisAnnotation = cfi_viabilityRatio_annotation
+    ];
+    yaxisAnnotation = cfi_viabilityRatio_annotation;
+    yaxisMax = Math.round(Math.max(...clientArray) + 2);
+    previousData = clientArray;
+  } else {
+    return;
   }
-
 
   return {
     colors: [
@@ -242,7 +254,6 @@ const getMainChartOptions = (
       },
     ],
     chart: {
-      id: mainName,
       toolbar: {
         tools: {
           download: false,
@@ -256,6 +267,27 @@ const getMainChartOptions = (
       },
       height: 550,
       type: "line",
+      zoom: {
+        enabled: false,
+      },
+      events: {
+        updated: function (chartContext, config) {
+          // console.log({ previousData });
+          // console.log("updated", mainName, { chartContext, config });
+          // console.log('config', config.config.series[4].data.length)
+          // console.log('selectedYears', selectedYearsArray.length)
+          if (
+            config.config.series[4].data.length !== selectedYearsArray.length
+          ) {
+            config.config.series[4].data.splice(selectedYearsArray.length); // Update the previous data
+            chartContext.updateSeries(config.config.series);
+            // console.log("fixed", mainName, {
+            //   currentData: config.config.series[4].data,
+            //   prevData: previousData,
+            // });
+          }
+        },
+      },
     },
     stroke: {
       // width: [5, 7, 5],
@@ -280,24 +312,23 @@ const getMainChartOptions = (
         },
       },
     },
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColors.labelColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColors.labelColor,
-            fontSize: "1rem",
-          },
+    yaxis: {
+      // max: yaxisMax,
+      axisTicks: {
+        show: true,
+      },
+      axisBorder: {
+        show: true,
+        color: chartColors.labelColor,
+      },
+      labels: {
+        formatter: yaxisLabelFormatter,
+        style: {
+          colors: chartColors.labelColor,
+          fontSize: "1rem",
         },
       },
-    ],
+    },
     tooltip: {
       shared: true,
       intersect: false,
@@ -314,15 +345,43 @@ const getMainChartOptions = (
     },
     legend: {
       horizontalAlign: "center",
-      position: "top",
+      position: "bottom",
       fontSize: "20px",
-      offsetY: -5,
+      offsetY: 5,
     },
     annotations: {
       yaxis: yaxisAnnotation,
     },
     markers: {
       size: 0,
+    },
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [4],
+      offsetY: -20,
+      style: {
+        fontSize: "20px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: "bold",
+        colors: ["#ffffff"],
+      },
+      background: {
+        enabled: true,
+        foreColor: window.chartColors.cfiClient,
+        padding: 4,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: "#ffffff",
+        opacity: 0.7,
+        dropShadow: {
+          enabled: false,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: "#000",
+          opacity: 0.45,
+        },
+      },
     },
   };
 };
@@ -433,6 +492,9 @@ const getFSchartOptions = (
           reset: false,
         },
       },
+      zoom: {
+        enabled: false,
+      },
       height: 350,
       type: "line",
       stacked: false,
@@ -512,6 +574,27 @@ const getFSchartOptions = (
         barHeight: "90%",
       },
     },
+    states: {
+      normal: {
+        filter: {
+          type: "none",
+          value: 0,
+        },
+      },
+      hover: {
+        filter: {
+          type: "lighten",
+          value: 0.15,
+        },
+      },
+      active: {
+        allowMultipleDataPointsSelection: false,
+        filter: {
+          type: "darken",
+          value: 0.35,
+        },
+      },
+    },
   };
 };
 
@@ -527,6 +610,60 @@ const getFpaChartOptions = (data) => {
   const netPositionArray = Object.values(data["netPosition_Client"])
     .map((item) => item.value)
     .reverse();
+
+  // console.log({ totalAssetsArray, totalLiabilitiesArray, netPositionArray });
+
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  const tableHeader = document.getElementById("row_fpa_tableHeader");
+  const assetsRow = document.getElementById("row_fpa_assets");
+  const liabilitiesRow = document.getElementById("row_fpa_liabilities");
+  const netPositionRow = document.getElementById("row_fpa_netPosition");
+
+  // Clear existing table content before appending
+  tableHeader.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide"></th>`;
+  assetsRow.innerHTML = `<th scope="row" class="px-6 py-2 font-meddium text-gray-900 whitespace-nowrap dark:text-white">Assets</th>`;
+  liabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Liabilities</th>`;
+  netPositionRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Net Position</th>`;
+
+  // Loop through selected years and populate the table
+  selectedYearsArray.forEach((year, index) => {
+    const assetValue = `${formatCurrency(totalAssetsArray[index])}`;
+    const liabilitiesValue = `${formatCurrency(totalLiabilitiesArray[index])}`;
+    const netPositionValue = `${formatCurrency(netPositionArray[index])}`;
+
+    // Add year to table header
+    tableHeader.innerHTML += `
+    <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+  `;
+
+    // Add corresponding asset data
+    assetsRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      ${
+        totalAssetsArray[index] ? assetValue : "-"
+      } <!-- Fallback in case data is missing -->
+    </th>
+  `;
+
+    // Add corresponding liabilities data
+    liabilitiesRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      ${
+        totalLiabilitiesArray[index] ? liabilitiesValue : "-"
+      } <!-- Fallback in case data is missing -->
+    </th>
+  `;
+
+    // Add corresponding net position data
+    netPositionRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      ${
+        netPositionArray[index] ? netPositionValue : "-"
+      } <!-- Fallback in case data is missing -->
+    </th>
+  `;
+  });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -545,8 +682,6 @@ const getFpaChartOptions = (data) => {
   const chartColor = document.documentElement.classList.contains("dark")
     ? "#e3f0fa"
     : "#3a464f";
-
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   const formatNumber = (value) => value.toLocaleString();
 
@@ -603,6 +738,9 @@ const getFpaChartOptions = (data) => {
       },
     ],
     chart: {
+      zoom: {
+        enabled: false,
+      },
       height: 350,
       type: "bar",
       stacked: true,
@@ -704,9 +842,9 @@ const getAtlChartOptions = (data) => {
       Number(totalLiabilitiesClient[year].value);
     clientArray.push(clientValue.toFixed(2));
 
-    peerValue =
+    peerValue = totalAssetsPeer[year] ? 
       getAverageOfArray(totalAssetsPeer[year]) /
-      getAverageOfArray(totalLiabilitiesPeer[year]);
+      getAverageOfArray(totalLiabilitiesPeer[year]) : 0
     peerArray.push(peerValue.toFixed(2));
     benchmarkArray.push(1);
   });
@@ -788,6 +926,9 @@ const getAtlChartOptions = (data) => {
           reset: false,
         },
       },
+      zoom: {
+        enabled: false,
+      },
       height: 450,
       width: "100%",
       type: "line",
@@ -858,7 +999,7 @@ const getAtlChartOptions = (data) => {
   };
 };
 
-const getSoiClientChartOptions = (data) => {
+const getSourcesOfIncomeClientChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   // console.log({ data });
@@ -936,13 +1077,7 @@ const getSoiClientChartOptions = (data) => {
   ];
 
   return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.blue,
-      window.chartColors.grey,
-      window.chartColors.red,
-      window.chartColors.orange,
-    ],
+    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#C57FD7"],
     series: chartData,
     chart: {
       toolbar: {
@@ -955,6 +1090,9 @@ const getSoiClientChartOptions = (data) => {
           pan: false,
           reset: false,
         },
+      },
+      zoom: {
+        enabled: false,
       },
       height: 450,
       type: "pie",
@@ -1002,7 +1140,7 @@ const getSoiClientChartOptions = (data) => {
   };
 };
 
-const getSoiPeerChartOptions = (data) => {
+const getSourcesOfIncomePeerChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   const tuitionValue = getAverageOfArray(
@@ -1070,13 +1208,7 @@ const getSoiPeerChartOptions = (data) => {
   ];
 
   return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.blue,
-      window.chartColors.grey,
-      window.chartColors.red,
-      window.chartColors.orange,
-    ],
+    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#C57FD7"],
     series: chartData,
     chart: {
       toolbar: {
@@ -1093,6 +1225,9 @@ const getSoiPeerChartOptions = (data) => {
       height: 450,
       width: "100%",
       type: "pie",
+    },
+    zoom: {
+      enabled: false,
     },
     labels: ["Tuition", "Auxiliary", "Contributions", "Investments", "Other"],
     title: {
@@ -1168,16 +1303,16 @@ const getFfaChartOptions = (data) => {
     revenueAuxiliaryActivitiesClient +
     revenueOtherClient;
 
-  const contributionsClient = Number(
-    data["ffa_contributions_Client"][currentYear].value
+  const changeInNetAssetsWithDRClient = Number(
+    data["ffa_changeInNetAssetsWithDR_Client"][currentYear].value
   );
-  const changeInPermanentClient = Number(
-    data["ffa_changeInPermanentlyRestrictedNA_Client"][currentYear].value
+  const netChangeRestrictedInPerpetuityClient = Number(
+    data["ffa_netChangeRestrictedInPerpetuity_Client"][currentYear].value
   );
 
   const restrictedGiftsClient =
-    auxiliaryAndOtherClient + (contributionsClient + changeInPermanentClient);
-
+    auxiliaryAndOtherClient +
+    (changeInNetAssetsWithDRClient + netChangeRestrictedInPerpetuityClient);
 
   const employeeBenefitsClient = Number(
     data["ffa_employeeBenefits_Client"][currentYear].value
@@ -1186,18 +1321,26 @@ const getFfaChartOptions = (data) => {
     data["ffa_salariesAndWages_Client"][currentYear].value
   );
 
-
   const compensationAndBenefitsClient =
     restrictedGiftsClient - (salariesAndWagesClient + employeeBenefitsClient);
 
-  const totalFunctionalExpensesClient = Number(
-    data["ffa_totalFunctionalExpenses_Client"][currentYear].value
+  const servicesSuppliesOtherClient = Number(
+    data["ffa_servicesSuppliesOther_Client"][currentYear].value
   );
+  const occupancyUtilitiesAndMaintenanceClient = Number(
+    data["ffa_occupancyUtilitiesAndMaintenance_Client"][currentYear].value
+  );
+  const incomeExpenseSurplusDefecitClient = Number(
+    data["ffa_incomeExpenseSurplusDefecit_Client"][currentYear].value
+  );
+  const interestClient = Number(data["ffa_interest_Client"][currentYear].value);
 
   const generalExpenseClient =
     compensationAndBenefitsClient -
-    (totalFunctionalExpensesClient - (employeeBenefitsClient + salariesAndWagesClient));
-
+    (servicesSuppliesOtherClient +
+      occupancyUtilitiesAndMaintenanceClient +
+      incomeExpenseSurplusDefecitClient +
+      interestClient);
 
   const surplusDefecitClient = 0 + generalExpenseClient;
 
@@ -1288,6 +1431,7 @@ const getFfaChartOptions = (data) => {
       },
     ],
     chart: {
+      id: "FinancialPosition",
       toolbar: {
         tools: {
           download: false,
@@ -1302,6 +1446,9 @@ const getFfaChartOptions = (data) => {
       height: 500,
       width: "100%",
       type: "rangeBar",
+    },
+    zoom: {
+      enabled: false,
     },
     stroke: {
       width: 5,
@@ -1370,22 +1517,86 @@ const getCashFlowTrendChartOptions = (data) => {
   const financeData = data["cft_FinancingActivities_Client"];
   const investingData = data["cft_InvestingActivities_Client"];
   const operatingData = data["cft_OperatingActivities_Client"];
+  const totalData = data["cft_TotalActivities_Client"];
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   const seriesData = selectedYearsArray.map((year) => {
-    const operatingVal = operatingData[year]?.value || 0;
-    const investingVal = investingData[year]?.value || 0;
-    const financeVal = financeData[year]?.value || 0;
+    const operatingVal = Number(operatingData[year]?.value) || 0;
+    const investingVal = Number(investingData[year]?.value) || 0;
+    const financeVal = Number(financeData[year]?.value) || 0;
+    const totalVal = Number(totalData[year]?.value) || 0;
 
-    const totalVal = operatingVal + investingVal + financeVal;
-
-    const data = [operatingVal, investingVal, financeVal, totalVal];
+    const chartData = [operatingVal, investingVal, financeVal, totalVal];
 
     return {
       name: year.toString(),
-      data: data,
+      data: chartData,
     };
+  });
+
+  const tableHeaderRow = document.getElementById(
+    "row_cashFlowTrend_tableHeader"
+  );
+  const operatingRow = document.getElementById("row_cashFlowTrend_operating");
+  const investingRow = document.getElementById("row_cashFlowTrend_investing");
+  const financingRow = document.getElementById("row_cashFlowTrend_financing");
+  const totalRow = document.getElementById("row_cashFlowTrend_total");
+
+  // Clear existing table content before appending
+  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  operatingRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Operating</th>`;
+  investingRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Investing</th>`;
+  financingRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Financing</th>`;
+  totalRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</th>`;
+
+  // Loop through selected years and populate the table
+  selectedYearsArray.forEach((year, index) => {
+    const operatingValue = `${formatCurrency(operatingData[year]?.value)}`;
+    const investingValue = `${formatCurrency(investingData[year]?.value)}`;
+    const financingValue = `${formatCurrency(financeData[year]?.value)}`;
+    const totalValue = `${formatCurrency(totalData[year]?.value)}`;
+
+    // Add year to table header
+    tableHeaderRow.innerHTML += `
+    <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+  `;
+
+    // Add corresponding operating data
+    operatingRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      ${
+        operatingData[year]?.value ? operatingValue : "-"
+      } <!-- Fallback in case data is missing -->
+    </th>
+  `;
+
+    // Add corresponding investing data
+    investingRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      ${
+        investingData[year]?.value ? investingValue : "-"
+      } <!-- Fallback in case data is missing -->
+    </th>
+  `;
+
+    // Add corresponding financing data
+    financingRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      ${
+        financeData[year]?.value ? financingValue : "-"
+      } <!-- Fallback in case data is missing -->
+    </th>
+  `;
+
+    // Add corresponding total data
+    totalRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      ${
+        totalData[index] ? totalValue : "-"
+      } <!-- Fallback in case data is missing -->
+    </th>
+  `;
   });
 
   // console.log(seriesData);
@@ -1441,6 +1652,9 @@ const getCashFlowTrendChartOptions = (data) => {
       type: "bar",
       height: 350,
     },
+    zoom: {
+      enabled: false,
+    },
     plotOptions: {
       bar: {
         horizontal: false,
@@ -1469,6 +1683,8 @@ const getCashFlowTrendChartOptions = (data) => {
       position: "top",
     },
     yaxis: {
+      // stepSize: yaxisTickStepSize,
+      tickAmount: 6,
       axisTicks: {
         show: true,
       },
@@ -1486,7 +1702,6 @@ const getCashFlowTrendChartOptions = (data) => {
       tooltip: {
         enabled: true,
       },
-      stepSize: 5000000,
     },
     tooltip: {
       fixed: {
@@ -1549,7 +1764,6 @@ const getCurrentRatioChartOptions = (data) => {
   const prepaidExpensesArray = Object.values(
     data["prepaidExpensesAndOtherAssets_Client"]
   ).map((item) => Number(item.value));
-
   const currentAssetsArray = cashAndCashEquivalentsArray.map(
     (_, index) =>
       cashAndCashEquivalentsArray[index] +
@@ -1565,9 +1779,24 @@ const getCurrentRatioChartOptions = (data) => {
   const deferredRevenueArray = Object.values(
     data["deferredRevenue_Client"]
   ).map((item) => Number(item.value));
+  const postRetirementBenefitObligationsArray = Object.values(
+    data["postRetirementHealthBenefits_Client"]
+  ).map((item) => Number(item.value));
+
+  const annuityObligationsArray = Object.values(
+    data["annuityObligations_Client"]
+  ).map((item) => Number(item.value));
+  const otherLiabilitiesArray = Object.values(
+    data["deferredRevenue_Client"]
+  ).map((item) => Number(item.value));
 
   const currentLiabilitiesArray = accountsPayableArray.map(
-    (_, index) => accountsPayableArray[index] + deferredRevenueArray[index]
+    (_, index) =>
+      accountsPayableArray[index] +
+      deferredRevenueArray[index] +
+      postRetirementBenefitObligationsArray[index] +
+      annuityObligationsArray[index] +
+      otherLiabilitiesArray[index]
   );
 
   const currentRatioArray = currentAssetsArray.map((asset, index) => {
@@ -1577,23 +1806,231 @@ const getCurrentRatioChartOptions = (data) => {
     return liability !== 0 ? ratio.toFixed(1) : 0; // Avoid division by zero
   });
 
-  // getAverageOfArray
+  const peerAvgCurrentRatioArray = Object.keys(data.currentRatio_Peer).map(
+    (key) => {
+      const values = data.currentRatio_Peer[key];
+      const avg = getAverageOfArray(values);
 
-  const peerAvgArray = Object.keys(data.currentRatio_Peer).map((key) => {
-    const values = data.currentRatio_Peer[key];
+      return avg.toFixed(1);
+    }
+  );
+
+  const peerAvgCurrentAssetsArray = Object.keys(data.currentAssets_Peer).map(
+    (key) => {
+      const values = data.currentAssets_Peer[key];
+      const avg = getAverageOfArray(values);
+
+      return avg.toFixed(1);
+    }
+  );
+
+  const peerAvgCurrentLiabilitiesArray = Object.keys(
+    data.currentLiabilities_Peer
+  ).map((key) => {
+    const values = data.currentLiabilities_Peer[key];
     const avg = getAverageOfArray(values);
 
     return avg.toFixed(1);
   });
 
-  // console.log({
-  //   currentAssetsArray,
-  //   currentLiabilitiesArray,
-  //   currentRatioArray,
-  //   peerAvgArray,
-  // });
-
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  // Clear and populate the current ratio client table
+  const tableHeaderClient = document.getElementById(
+    "row_currentRatio_tableHeader"
+  );
+  const ratioRow = document.getElementById("row_currentRatio_ratio");
+  const currentAssetsRow = document.getElementById(
+    "row_currentRatio_currentAssets"
+  );
+  const cashCashEquivalentsRow = document.getElementById(
+    "row_currentRatio_cashCashEquivalents"
+  );
+  const accountsReceivableRow = document.getElementById(
+    "row_currentRatio_accountsReceivable"
+  );
+  const studentLoansRow = document.getElementById(
+    "row_currentRatio_studentLoansAndOtherReceivables"
+  );
+  const contributionsReceivableRow = document.getElementById(
+    "row_currentRatio_contributionsReceivable"
+  );
+  const prepaidExpensesRow = document.getElementById(
+    "row_currentRatio_prepaidExpensesAndOtherAssets"
+  );
+  const currentLiabilitiesRow = document.getElementById(
+    "row_currentRatio_currentLiabilities"
+  );
+  const accountsPayableRow = document.getElementById(
+    "row_currentRatio_accountsPayableAndAccruedLiabilities"
+  );
+  const deferredRevenueRow = document.getElementById(
+    "row_currentRatio_deferredRevenue"
+  );
+  const postRetirementBenefitObligationsRow = document.getElementById(
+    "row_currentRatio_postRetirementBenefits"
+  );
+  const annuityObligationsRow = document.getElementById(
+    "row_currentRatio_AnnuityObligations"
+  );
+  const otherLiabilitiesRow = document.getElementById(
+    "row_currentRatio_otherLiabilities"
+  );
+  const tableHeaderPeer = document.getElementById(
+    "row_currentRatioPeer_tableHeader"
+  );
+  const peerAvgCurrentRatioRow = document.getElementById(
+    "row_currentRatioPeer_ratio"
+  );
+  const peerAvgCurrentAssetsRow = document.getElementById(
+    "row_currentRatioPeer_currentAssets"
+  );
+  const peerAvgCurrentLiabilitiesRow = document.getElementById(
+    "row_currentRatioPeer_currentLiabilities"
+  );
+
+  // Clear existing content before appending
+  tableHeaderClient.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  ratioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Ratio</th>`;
+  currentAssetsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Assets</th>`;
+  cashCashEquivalentsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Cash and Cash Equivalents</th>`;
+  accountsReceivableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Receivable</th>`;
+  studentLoansRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Student Loans and Other Receivables</th>`;
+  contributionsReceivableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Contributions Receivable</th>`;
+  prepaidExpensesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Prepaid Expenses and Other Assets</th>`;
+  currentLiabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Liabilities</th>`;
+  accountsPayableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Payable and Accrued Liabilities</th>`;
+  deferredRevenueRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Deferred Revenue</th>`;
+  postRetirementBenefitObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Post Retirement Benefit Obligations</th>`;
+  annuityObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Annuity Obligations</th>`;
+  otherLiabilitiesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Other Liabilities</th>`;
+  tableHeaderPeer.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Peer</th>`;
+  peerAvgCurrentRatioRow.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Ratio</th>`;
+  peerAvgCurrentAssetsRow.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Assets</th>`;
+  peerAvgCurrentLiabilitiesRow.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Liabilities</th>`;
+
+  // Loop through and populate data for each selected year
+  selectedYearsArray.forEach((year, index) => {
+    // Add year to table header
+    tableHeaderClient.innerHTML += `
+    <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+    tableHeaderPeer.innerHTML += `
+    <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+
+    // Populate ratio row
+    ratioRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${currentRatioArray[index] || "-"}
+    </th>
+  `;
+
+    // Populate current assets row
+    currentAssetsRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(currentAssetsArray[index])}
+    </th>
+  `;
+
+    // Populate cash and cash equivalents row
+    cashCashEquivalentsRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(cashAndCashEquivalentsArray[index])}
+    </th>
+  `;
+
+    // Populate accounts receivable row
+    accountsReceivableRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(accountsReceivableArray[index])}
+    </th>
+  `;
+
+    // Populate student loans and other receivables row
+    studentLoansRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(studentLoansAndOtherReceivablesArray[index])}
+    </th>
+  `;
+
+    // Populate contributions receivable row
+    contributionsReceivableRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(contributionsReceivableArray[index])}
+    </th>
+  `;
+
+    // Populate prepaid expenses row
+    prepaidExpensesRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(prepaidExpensesArray[index])}
+    </th>
+  `;
+
+    // Populate current liabilities row
+    currentLiabilitiesRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(currentLiabilitiesArray[index])}
+    </th>
+  `;
+
+    // Populate accounts payable row
+    accountsPayableRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(accountsPayableArray[index])}
+    </th>
+  `;
+
+    // Populate deferred revenue row
+    deferredRevenueRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(deferredRevenueArray[index])}
+    </th>
+  `;
+
+    // populate post retirement benefit obligations row
+    postRetirementBenefitObligationsRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(postRetirementBenefitObligationsArray[index])}
+    </th>
+    `;
+
+    // populate annuity obligations row
+    annuityObligationsRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(annuityObligationsArray[index])}
+    </th>
+    `;
+
+    // populate other liabilities row
+    otherLiabilitiesRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(otherLiabilitiesArray[index])}
+    </th>
+    `;
+
+    // Populate peer average client ratio row
+    peerAvgCurrentRatioRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${peerAvgCurrentRatioArray[index] || "-"}
+    </th>
+  `;
+
+    // Populate peer average current assets row
+    peerAvgCurrentAssetsRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(peerAvgCurrentAssetsArray[index])}
+      </th>
+    `;
+
+    // Populate peer average current liabilities row
+    peerAvgCurrentLiabilitiesRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(peerAvgCurrentLiabilitiesArray[index])}
+      </th>
+    `;
+  });
 
   const formatNumber = (value) => value.toLocaleString();
 
@@ -1665,7 +2102,7 @@ const getCurrentRatioChartOptions = (data) => {
       {
         name: "Peer Avg",
         type: "line",
-        data: peerAvgArray,
+        data: peerAvgCurrentRatioArray,
       },
     ],
     chart: {
@@ -1681,6 +2118,9 @@ const getCurrentRatioChartOptions = (data) => {
           pan: false,
           reset: false,
         },
+      },
+      zoom: {
+        enabled: false,
       },
     },
     tooltip: {
@@ -1722,7 +2162,7 @@ const getCurrentRatioChartOptions = (data) => {
         // }
       },
       {
-        show: false
+        show: false,
         // opposite: true,
         // axisBorder: {
         //   show: false,
@@ -1896,6 +2336,9 @@ const getLiquidityChartOptions = (data) => {
       type: "bar",
       stacked: true,
     },
+    zoom: {
+      enabled: false,
+    },
     dataLabels: {
       enabled: false,
     },
@@ -1981,14 +2424,72 @@ const getLiquidityChartOptions = (data) => {
 const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
   // console.log({ data });
 
+  // Get number for chart
   const mostRecentYear = Math.max(
     ...Object.keys(data["salariesAndBenefitsToTotalExpense_Client"])
   );
 
-  const num = Number(
+  const salariesAndBenefitsToTotalExpense = Number(
     data["salariesAndBenefitsToTotalExpense_Client"][mostRecentYear].value
   );
-  const clientPercent = Math.round(num * 100);
+  const clientPercent = Math.round(salariesAndBenefitsToTotalExpense * 100);
+
+  // Salaries and Benefits
+  const salariesAndWages = Number(
+    data["salariesAndWages_Client"][mostRecentYear].value
+  );
+  const employeeBenefits = Number(
+    data["employeeBenefits_Client"][mostRecentYear].value
+  );
+  const salariesAndBenefits = salariesAndWages + employeeBenefits;
+
+  // Total Expenses
+  const totalExpenses = Number(
+    data["totalFunctionalExpenses_Client"][mostRecentYear].value
+  );
+
+  // numbers for data table
+  const tableHeaderRow = document.getElementById(
+    "row_salariesBenefitsToTotalExpense_tableHeader"
+  );
+  const salariesBenefitsToTotalExpenseRow = document.getElementById(
+    "row_salariesBenefitsToTotalExpense_main"
+  );
+  const salariesAndBenefitsRow = document.getElementById(
+    "row_salariesBenefitsToTotalExpense_salariesBenefits"
+  );
+  const totalExpensesRow = document.getElementById(
+    "row_salariesBenefitsToTotalExpense_totalExpenses"
+  );
+
+  // Clear existing content before appending
+  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  salariesBenefitsToTotalExpenseRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Salaries & Benefits to Total Expense</th>`;
+  salariesAndBenefitsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Salaries & Benefits</th>`;
+  totalExpensesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Expenses</th>`;
+
+  // Add year to table header
+  tableHeaderRow.innerHTML += `
+    <th scope="col" class="px-6 py-3 text-lg tracking-wide">${mostRecentYear}</th>
+  `;
+  // Populate salaries and benefits to total expense row
+  salariesBenefitsToTotalExpenseRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${clientPercent}%
+    </th>
+  `;
+  // Populate salaries and benefits row
+  salariesAndBenefitsRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(salariesAndBenefits)}
+    </th>
+  `;
+  // Populate total expenses row
+  totalExpensesRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(totalExpenses)}
+    </th>
+  `;
 
   // console.log({ clientPercent });
 
@@ -2017,6 +2518,9 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
   return {
     series: [clientPercent],
     chart: {
+      zoom: {
+        enabled: false,
+      },
       height: 350,
       type: "radialBar",
       offsetY: -10,
@@ -2173,6 +2677,9 @@ const getAverageEmployeeSalaryChartOptions = (data) => {
       },
     ],
     chart: {
+      zoom: {
+        enabled: false,
+      },
       height: 750,
       width: "90%",
       type: "bar",
@@ -2246,15 +2753,67 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
     ...Object.keys(data["employeeBenefits_Client"])
   );
 
-  const numerator =
-    Number(data["salariesAndWages_Client"][mostRecentYear].value) +
-    Number(data["employeeBenefits_Client"][mostRecentYear].value);
+  const num = Number(
+    data["salariesAndBenefitsPerNetTuition_Client"][mostRecentYear].value
+  );
+  const clientPercent = Math.round(num * 100);
 
-  const denominator = Number(
+  // Salaries and Benefits
+  const salariesAndWages = Number(
+    data["salariesAndWages_Client"][mostRecentYear].value
+  );
+  const employeeBenefits = Number(
+    data["employeeBenefits_Client"][mostRecentYear].value
+  );
+  const salariesAndBenefits = salariesAndWages + employeeBenefits;
+
+  // Net Tuition
+  const netTuitionAndFees = Number(
     data["netTuitionAndFees_Client"][mostRecentYear].value
   );
 
-  const clientPercent = Math.round((numerator / denominator) * 100);
+  // numbers for data table
+  const tableHeaderRow = document.getElementById(
+    "row_salariesBenefitsPerNetTuition_tableHeader"
+  );
+  const salariesBenefitsPerNetTuitionRow = document.getElementById(
+    "row_salariesBenefitsPerNetTuition_main"
+  );
+  const salariesAndBenefitsRow = document.getElementById(
+    "row_salariesBenefitsPerNetTuition_salariesBenefits"
+  );
+  const netTuitionRow = document.getElementById(
+    "row_salariesBenefitsPerNetTuition_netTuitionRevenue"
+  );
+
+  // Clear existing content before appending
+  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  salariesBenefitsPerNetTuitionRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Salaries & Benefits to Total Expense</th>`;
+  salariesAndBenefitsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Salaries & Benefits</th>`;
+  netTuitionRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Net Tuition</th>`;
+
+  // Add year to table header
+  tableHeaderRow.innerHTML += `
+    <th scope="col" class="px-6 py-3 text-lg tracking-wide">${mostRecentYear}</th>
+  `;
+  // Populate salaries and benefits to total expense row
+  salariesBenefitsPerNetTuitionRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${clientPercent}%
+    </th>
+  `;
+  // Populate salaries and benefits row
+  salariesAndBenefitsRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(salariesAndBenefits)}
+    </th>
+  `;
+  // Populate total expenses row
+  netTuitionRow.innerHTML += `
+    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(netTuitionAndFees)}
+    </th>
+  `;
 
   // console.log({ mostRecentYear, numerator, denominator, clientPercent });
 
@@ -2283,6 +2842,9 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
   return {
     series: [clientPercent],
     chart: {
+      zoom: {
+        enabled: false,
+      },
       height: 350,
       type: "radialBar",
       offsetY: -10,
@@ -2323,11 +2885,9 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
 };
 
 const getAdminCostsPerStudentChartOptions = (data) => {
-  // console.log({ data });
+  console.log({ data });
 
-  const mostRecentYear = Math.max(
-    ...Object.keys(data["healthAdminAsst_Peer"])
-  );
+  const mostRecentYear = Math.max(...Object.keys(data["healthAdminAsst_Peer"]));
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   let clientArray = [];
@@ -2432,10 +2992,10 @@ const getAdminCostsPerStudentChartOptions = (data) => {
 
   return {
     colors: [
-      window.chartColors.blue,
       window.chartColors.green,
       window.chartColors.red,
-      window.chartColors.orange,
+      window.chartColors.yellow,
+      window.chartColors.blue,
       window.chartColors.purple,
     ],
     series: [
@@ -2448,11 +3008,6 @@ const getAdminCostsPerStudentChartOptions = (data) => {
         },
       },
       {
-        name: "Peer Avg",
-        type: "line",
-        data: peerAvgArray,
-      },
-      {
         name: "25th",
         type: "line",
         data: peer25Array,
@@ -2461,6 +3016,11 @@ const getAdminCostsPerStudentChartOptions = (data) => {
         name: "50th",
         type: "line",
         data: peer50Array,
+      },
+      {
+        name: "Avg",
+        type: "line",
+        data: peerAvgArray,
       },
       {
         name: "75th",
@@ -2843,9 +3403,84 @@ const getMapChartOptions = (data) => {
 };
 
 const getNetEducationalExpensePerStudentChartOptions = (data) => {
-  // console.log({ data });
-
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  let peerAvgArray = [];
+  let peer25Array = [];
+  let peer50Array = [];
+  let peer75Array = [];
+
+  const tableHeaderRow = document.getElementById(
+    "row_netEducationalExpensePerStudent_tableHeader"
+  );
+  const netEducationalExpensePerStudentRow = document.getElementById(
+    "row_netEducationalExpensePerStudent_main"
+  );
+  const netEducationalExpenseRow = document.getElementById(
+    "row_netEducationalExpensePerStudent_netEducationalExpense"
+  );
+  const totalFullTimeStudentsRow = document.getElementById(
+    "row_netEducationalExpensePerStudent_totalFullTimeStudents"
+  );
+
+  // Clear existing content before appending
+  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  netEducationalExpensePerStudentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Net Educational Expense Per Student</th>`;
+  netEducationalExpenseRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Net Educational Expense</th>`;
+  totalFullTimeStudentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Full-Time Students</th>`;
+
+  selectedYearsArray.map((year) => {
+    const clientData = Number(data.ratio_Client[year].value);
+    clientArray.push(clientData);
+
+    const peerAvg = data.ratio_Peer[year] ? getAverageOfArray(data.ratio_Peer[year]) : 0
+    peerAvgArray.push(Math.round(peerAvg));
+
+    const peer25 = peerAvg !== 0 ? get25thPercentileOfArray(peerAvgArray) : 0
+    peer25Array.push(Math.round(peer25));
+
+    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerAvgArray) : 0
+    peer50Array.push(Math.round(peer50));
+
+    const peer75 = peerAvg !== 0 ? get75thPercentileOfArray(peerAvgArray) : 0
+    peer75Array.push(Math.round(peer75));
+
+    // console.log('getNetEducationalExpensePerStudentChartOptions',{
+    //   clientData,
+    //   peerAvg,
+    //   peer25,
+    //   peer50,
+    //   peer75,
+    // })
+
+    const netEducationalExpense = Number(
+      data.netEducationalExpenses_Client[year].value
+    );
+    const totalStudents = Number(data.totalStudents_Client[year].value);
+
+    // Add year to table header
+    tableHeaderRow.innerHTML += `
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+    // Populate net educational expense per student row
+    netEducationalExpensePerStudentRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(clientData)}
+      </th>
+    `;
+    // Populate net educational expense row
+    netEducationalExpenseRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(netEducationalExpense)}
+      </th>
+    `;
+    // Populate total full-time students row
+    totalFullTimeStudentsRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${totalStudents}
+      </th>
+    `;
+  });
 
   let netEducationalExpensesArray = [];
   let totalStudentsArray = [];
@@ -2880,6 +3515,9 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     if (isNaN(num)) {
       return "Invalid input";
     }
+    if (num >= 1000000) {
+      return `${Math.floor(num / 1000000)}M`;
+    }
     if (num >= 1000) {
       return `${Math.floor(num / 1000)}k`;
     }
@@ -2893,21 +3531,41 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
   };
 
   return {
-    colors: [window.chartColors.blue, window.chartColors.green],
+    colors: [
+      window.chartColors.green,
+      window.chartColors.red,
+      window.chartColors.orange,
+      window.chartColors.blue,
+      window.chartColors.purple,
+    ],
     series: [
       {
-        name: "Net Educational Expenses",
+        name: clientName,
         type: "column",
-        data: netEducationalExpensesArray,
+        data: clientArray,
       },
       {
-        name: "Total Students",
+        name: "25th",
         type: "line",
-        data: totalStudentsArray,
+        data: peer25Array,
+      },
+      {
+        name: "50th",
+        type: "line",
+        data: peer50Array,
+      },
+      {
+        name: "Avg",
+        type: "line",
+        data: peerAvgArray,
+      },
+      {
+        name: "75th",
+        type: "line",
+        data: peer75Array,
       },
     ],
     chart: {
-      id: "netEducationalExpensePerStudent",
       toolbar: {
         tools: {
           download: false,
@@ -2919,29 +3577,41 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
           reset: false,
         },
       },
+      zoom: {
+        enabled: false,
+      },
       height: 550,
       type: "line",
+      events: {
+        updated: function (chartContext, config) {
+          // console.log({ previousData });
+          // console.log("updated", mainName, { chartContext, config });
+          // console.log('config', config.config.series[4].data.length)
+          // console.log('selectedYears', selectedYearsArray.length)
+          if (
+            config.config.series[0].data.length !== selectedYearsArray.length
+          ) {
+            config.config.series[0].data.splice(selectedYearsArray.length); // Update the previous data
+            chartContext.updateSeries(config.config.series);
+            // console.log("fixed", mainName, {
+            //   currentData: config.config.series[4].data,
+            //   prevData: previousData,
+            // });
+          }
+        },
+      },
     },
     stroke: {
       width: 4,
     },
     title: {
-      text: clientName,
+      text: "Net Educational Expense Per Student",
       position: "top",
       align: "center",
       offsetY: 20,
       style: {
         color: chartColors.labelColor,
         fontSize: "1.25rem",
-      },
-    },
-    subtitle: {
-      text: "Net Educational Expense Per Student",
-      align: "center",
-      offsetY: 45,
-      style: {
-        color: chartColors.labelColor,
-        fontSize: "1rem",
       },
     },
     xaxis: {
@@ -2954,6 +3624,7 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       },
     },
     yaxis: {
+      tickAmount: 5,
       axisTicks: {
         show: true,
       },
@@ -2989,11 +3660,35 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     legend: {
       horizontalAlign: "center",
       position: "bottom",
-      fontSize: "14px",
+      fontSize: "20px",
+      offsetY: 5,
     },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [0],
+      offsetY: -20,
+      style: {
+        fontSize: "20px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: "bold",
+        colors: ["#ffffff"],
+      },
+      background: {
+        enabled: true,
+        foreColor: window.chartColors.cfiClient,
+        padding: 4,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: "#ffffff",
+        opacity: 0.7,
+        dropShadow: {
+          enabled: false,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: "#000",
+          opacity: 0.45,
+        },
       },
     },
   };
@@ -3007,22 +3702,111 @@ const getTuitionDependencyChartOptions = (data) => {
   let netTuitionAndFeesArray = [];
   let operatingRevenueArray = [];
 
+  const tableHeaderRowClient = document.getElementById(
+    "row_tuitionDependency_tableHeader"
+  );
+  const ratioRowClient = document.getElementById("row_tuitionDependency_ratio");
+  const netTuitionAndFeesRowClient = document.getElementById(
+    "row_tuitionDependency_netTuitionAndFees"
+  );
+  const operatingRevenueRowClient = document.getElementById(
+    "row_tuitionDependency_operatingRevenue"
+  );
+  const tableHeaderRowPeer = document.getElementById(
+    "row_tuitionDependencyPeer_tableHeader"
+  );
+  const ratioRowPeer = document.getElementById(
+    "row_tuitionDependencyPeer_ratio"
+  );
+  const netTuitionAndFeesRowPeer = document.getElementById(
+    "row_tuitionDependencyPeer_netTuitionAndFees"
+  );
+  const operatingRevenueRowPeer = document.getElementById(
+    "row_tuitionDependencyPeer_operatingRevenue"
+  );
+
+  // Clear existing content before appending
+  tableHeaderRowClient.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  ratioRowClient.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Tuition Dependency</th>`;
+  netTuitionAndFeesRowClient.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Net Tuition and Fees</th>`;
+  operatingRevenueRowClient.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Operating Revenue</th>`;
+  tableHeaderRowPeer.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Peer</th>`;
+  ratioRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Tuition Dependency</th>`;
+  netTuitionAndFeesRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Net Tuition and Fees</th>`;
+  operatingRevenueRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Operating
+  Revenue</th>`;
+
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    let num = Math.round(Number(data.ratio_Client[year].value) * 100);
-    clientRatioArray.push(num);
+    const ratioClient = Math.round(Number(data.ratio_Client[year].value) * 100);
+    clientRatioArray.push(ratioClient);
 
-    num = Math.round(getAverageOfArray(data.ratio_Peer[year]) * 100);
-    peerRatioArray.push(num);
+    const netTuitionAndFeesClient = Math.round(
+      Number(data.netTuitionAndFees_Client[year].value)
+    );
+    netTuitionAndFeesArray.push(netTuitionAndFeesClient);
 
-    num = Math.round(Number(data.netTuitionAndFees_Client[year].value));
-    netTuitionAndFeesArray.push(num);
-
-    num = Math.round(
+    const operatingRevenuesSupportAndReleaseClient = Math.round(
       Number(data.operatingRevenuesSupportAndRelease_Client[year].value)
     );
-    operatingRevenueArray.push(num);
+    operatingRevenueArray.push(operatingRevenuesSupportAndReleaseClient);
+
+    const ratioPeer = data.ratio_Peer[year] ? Math.round(getAverageOfArray(data.ratio_Peer[year], 100)) : 0;
+    peerRatioArray.push(ratioPeer);
+    const netTuitionAndFeesPeer = data.netTuitionAndFees_Peer[year] ? Math.round(
+      getAverageOfArray(data.netTuitionAndFees_Peer[year])
+    ): 0
+    const operatingRevenuesSupportAndReleasePeer = data.operatingRevenuesSupportAndRelease_Peer[year] ? Math.round(
+      getAverageOfArray(data.operatingRevenuesSupportAndRelease_Peer[year])
+    ): 0
+
+    // console.log({ratioPeer, netTuitionAndFeesPeer, operatingRevenuesSupportAndReleasePeer});
+
+    // Add year to table header
+    tableHeaderRowClient.innerHTML += `
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+    // Populate ratio row
+    ratioRowClient.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${ratioClient}%
+      </th>
+    `;
+    // Populate net tuition and fees row
+    netTuitionAndFeesRowClient.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(netTuitionAndFeesClient)}
+      </th>
+    `;
+    // Populate operating revenue row
+    operatingRevenueRowClient.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(operatingRevenuesSupportAndReleaseClient)}
+      </th>
+    `;
+    // Add year to table header
+    tableHeaderRowPeer.innerHTML += `
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+    // Populate ratio row
+    ratioRowPeer.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${ratioPeer}%
+      </th>
+    `;
+    // Populate net tuition and fees row
+    netTuitionAndFeesRowPeer.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(netTuitionAndFeesPeer)}
+      </th>
+    `;
+    // Populate operating revenue row
+    operatingRevenueRowPeer.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(operatingRevenuesSupportAndReleasePeer)}
+      </th>
+    `;
   });
 
   // console.log({
@@ -3054,6 +3838,9 @@ const getTuitionDependencyChartOptions = (data) => {
     const num = parseInt(val, 10);
     if (isNaN(num)) {
       return "Invalid input";
+    }
+    if (num >= 1000000) {
+      return `${Math.floor(num / 1000000)}M`;
     }
     if (num >= 1000) {
       return `${Math.floor(num / 1000)}k`;
@@ -3214,22 +4001,120 @@ const getTuitionDiscountRateChartOptions = (data) => {
   let scholarshipArray = [];
   let tuitionFeesArray = [];
 
+  const tableHeaderRowClient = document.getElementById(
+    "row_tuitionDiscountRate_tableHeader"
+  );
+  const ratioRowClient = document.getElementById(
+    "row_tuitionDiscountRate_ratio"
+  );
+  const scholarshipsAndFinancialAidRowClient = document.getElementById(
+    "row_tuitionDiscountRate_scholarshipsAndFinancialAid"
+  );
+  const tuitionAndFeesRowClient = document.getElementById(
+    "row_tuitionDiscountRate_tuitionAndFees"
+  );
+  const tableHeaderRowPeer = document.getElementById(
+    "row_tuitionDiscountRatePeer_tableHeader"
+  );
+  const ratioRowPeer = document.getElementById(
+    "row_tuitionDiscountRatePeer_ratio"
+  );
+  const scholarshipsAndFinancialAidRowPeer = document.getElementById(
+    "row_tuitionDiscountRatePeer_scholarshipsAndFinancialAid"
+  );
+  const tuitionAndFeesRowPeer = document.getElementById(
+    "row_tuitionDiscountRatePeer_tuitionAndFees"
+  );
+
+  // Clear existing content before appending
+  tableHeaderRowClient.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  ratioRowClient.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Tuition Discount Rate</th>`;
+  scholarshipsAndFinancialAidRowClient.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Scholarships and Financial Aid</th>`;
+  tuitionAndFeesRowClient.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Tuition and Fees</th>`;
+  tableHeaderRowPeer.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Peer</th>`;
+  ratioRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Tuition Discount Rate</th>`;
+  scholarshipsAndFinancialAidRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Scholarships and Financial Aid</th>`;
+  tuitionAndFeesRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Tuition and Fees</th>`;
+
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    let num = Math.round(Number(data.ratio_Client[year].value) * 100);
-    clientRatioArray.push(num);
-
-    num = Math.round(getAverageOfArray(data.ratio_Peer[year]) * 100);
-    peerRatioArray.push(num);
-
-    num = Math.round(
-      Number(data.revenueScholarshipsAndFinanancialAid_Client[year].value)
+    const ratioClient = Math.abs(
+      Math.round(Number(data.ratio_Client[year].value) * 100)
     );
-    scholarshipArray.push(num);
+    clientRatioArray.push(ratioClient);
 
-    num = Math.round(Number(data.revenueTuitionAndFees_Client[year].value));
-    tuitionFeesArray.push(num);
+    const scholarshipsAndFinancialAidClient = Math.abs(
+      Math.round(
+        Number(data.revenueScholarshipsAndFinanancialAid_Client[year].value)
+      )
+    );
+    scholarshipArray.push(scholarshipsAndFinancialAidClient);
+
+    const tuitionAndFeesClient = Math.round(
+      Number(data.revenueTuitionAndFees_Client[year].value)
+    );
+    tuitionFeesArray.push(tuitionAndFeesClient);
+
+    const ratioPeer = data.ratio_Peer[year] ? Math.abs(
+      Math.round(getAverageOfArray(data.ratio_Peer[year], 100))
+    ) : 0;
+    peerRatioArray.push(ratioPeer);
+    const scholarshipsAndFinancialAidPeer = data.revenueScholarshipsAndFinanancialAid_Peer[year] ? Math.abs(
+      Math.round(
+        getAverageOfArray(data.revenueScholarshipsAndFinanancialAid_Peer[year])
+      )
+    ) : 0
+    const tuitionAndFeesPeer = data.revenueTuitionAndFees_Peer[year] ? Math.round(
+      getAverageOfArray(data.revenueTuitionAndFees_Peer[year])
+    ) : 0
+
+    // console.log({ratioPeer, netTuitionAndFeesPeer, tuitionAndFeesPeer});
+
+    // Add year to table header
+    tableHeaderRowClient.innerHTML += `
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+    // Populate ratio row
+    ratioRowClient.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${ratioClient}%
+      </th>
+    `;
+    // Populate net tuition and fees row
+    scholarshipsAndFinancialAidRowClient.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(scholarshipsAndFinancialAidClient)}
+      </th>
+    `;
+    // Populate operating revenue row
+    tuitionAndFeesRowClient.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(tuitionAndFeesClient)}
+      </th>
+    `;
+    // Add year to table header
+    tableHeaderRowPeer.innerHTML += `
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+    // Populate ratio row
+    ratioRowPeer.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${ratioPeer}%
+      </th>
+    `;
+    // Populate net tuition and fees row
+    scholarshipsAndFinancialAidRowPeer.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(scholarshipsAndFinancialAidPeer)}
+      </th>
+    `;
+    // Populate operating revenue row
+    tuitionAndFeesRowPeer.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(tuitionAndFeesPeer)}
+      </th>
+    `;
   });
 
   // console.log({
@@ -3261,6 +4146,9 @@ const getTuitionDiscountRateChartOptions = (data) => {
     const num = parseInt(val, 10);
     if (isNaN(num)) {
       return "Invalid input";
+    }
+    if (num >= 1000000) {
+      return `${Math.floor(num / 1000000)}M`;
     }
     if (num >= 1000) {
       return `${Math.floor(num / 1000)}k`;
@@ -3413,18 +4301,74 @@ const getTuitionDiscountRateChartOptions = (data) => {
   };
 };
 
-
 // Linear Gauge Chart
 
 const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
-  const value = 75;
-  const benchmark = 70;
-  const text =
-    value > 70
-      ? `Within Range of Benchmark: ${benchmark}%`
-      : `Below Benchmark: ${benchmark}%`;
+  // console.log({
+  //   name: "getAnualTraditionalNetTuitionPerStudentChartOptions()",
+  //   data,
+  // });
 
-  const backgroundColor = value > 70 ? "#54ba4a" : "#cf3636";
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  const tableHeaderRow = document.getElementById(
+    "row_annualTraditionalNetTuitionPerStudent_tableHeader"
+  );
+  const annualTraditionalNetTuitionPerStudentRow = document.getElementById(
+    "row_annualTraditionalNetTuitionPerStudent_main"
+  );
+  const netTuitionRevenueRow = document.getElementById(
+    "row_annualTraditionalNetTuitionPerStudent_netTuitionRevenue"
+  );
+  const totalFullTimeStudentsRow = document.getElementById(
+    "row_annualTraditionalNetTuitionPerStudent_totalFullTimeStudents"
+  );
+
+  // Clear existing content before appending
+  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  annualTraditionalNetTuitionPerStudentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Net Tuition per Student</th>`;
+  netTuitionRevenueRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Net Tuition and Fees</th>`;
+  totalFullTimeStudentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Full-Time Students</th>`;
+
+  selectedYearsArray.map((year) => {
+    const clientData = Number(data.ratio_Client[year].value);
+    const netTuitionAndFees = Number(data.netTuitionAndFees_Client[year].value);
+    const totalStudents = Number(data.totalStudents_Client[year].value);
+
+    // Add year to table header
+    tableHeaderRow.innerHTML += `
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+    // Populate salaries and benefits per net tuition revenue row
+    annualTraditionalNetTuitionPerStudentRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(clientData)}
+      </th>
+    `;
+
+    // Populate net tuition revenue row
+    netTuitionRevenueRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(netTuitionAndFees)}
+      </th>
+    `;
+
+    // Populate total full-time students row
+    totalFullTimeStudentsRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${totalStudents}
+      </th>
+    `;
+  });
+
+  const value = clientData;
+  const benchmark = 1400;
+  const text =
+    value > benchmark
+      ? `Within Range of Benchmark: ${benchmark}$`
+      : `Below Benchmark: ${benchmark}$`;
+
+  const backgroundColor = value > benchmark ? "#54ba4a" : "#cf3636";
 
   var chartObj = new FusionCharts({
     type: "hlineargauge",
@@ -3438,8 +4382,8 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
         caption: "Annual Traditional Net Tuition per Student",
         subcaption: "",
         lowerLimit: "0",
-        upperLimit: "100",
-        numberSuffix: "",
+        upperLimit: value + 5000,
+        numberSuffix: "$",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
         valueFontSize: "14",
@@ -3449,17 +4393,17 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
         color: [
           {
             minValue: "0",
-            maxValue: "35",
+            maxValue: "7000",
             code: "#EF707E",
           },
           {
-            minValue: "35",
-            maxValue: "70",
+            minValue: "7000",
+            maxValue: "14000",
             code: "#FFE381",
           },
           {
-            minValue: "70",
-            maxValue: "100",
+            minValue: "14000",
+            maxValue: "30000",
             code: "#BBE97A",
           },
         ],
@@ -3521,14 +4465,86 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
 };
 
 const getDebtServiceCoverageChartOptions = (data) => {
-  const value = 8;
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  const tableHeaderRow = document.getElementById(
+    "row_debtServiceCoverageRatio_tableHeader"
+  );
+  const debtServiceCoverageRatioRow = document.getElementById(
+    "row_debtServiceCoverageRatio_main"
+  );
+  const debtServiceRow = document.getElementById(
+    "row_debtServiceCoverageRatio_debtService"
+  );
+  const interestRow = document.getElementById(
+    "row_debtServiceCoverageRatio_interest"
+  );
+  const principalPaymentsRow = document.getElementById(
+    "row_debtServiceCoverageRatio_principalPayments"
+  );
+  const totalOperatingRevenueRow = document.getElementById(
+    "row_debtServiceCoverageRatio_totalOperatingRevenue"
+  );
+
+  // Clear existing content before appending
+  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  debtServiceCoverageRatioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Debt Service Coverage Ratio</th>`;
+  debtServiceRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Debt Service</th>`;
+  interestRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Interest</th>`;
+  principalPaymentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Principal Payments</th>`;
+  totalOperatingRevenueRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Operating Revenue</th>`;
+
+  const mostRecentYear = selectedYearsArray[selectedYearsArray.length - 1];
+  selectedYearsArray.map((year) => {
+    const clientData = Number(data.ratio_Client[year].value * 100).toFixed(1);
+    const debtService = Math.round(Number(data.debtService_Client[year].value));
+    const interest = Math.round(Number(data.interest_Client[year].value));
+    const principalPayments = Math.round(
+      Number(data.principalPayments_Client[year].value)
+    );
+    const totalOperatingRevenue = Math.round(
+      Number(data.totalOperatingRevenue_Client[year].value)
+    );
+
+    // Add year to table header
+    tableHeaderRow.innerHTML += `
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+    debtServiceCoverageRatioRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${clientData}%
+      </th>
+    `;
+    debtServiceRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(debtService, true)}
+      </th>
+    `;
+    interestRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(interest, true)}
+      </th>
+    `;
+    principalPaymentsRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(principalPayments, true)}
+      </th>
+    `;
+    totalOperatingRevenueRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(totalOperatingRevenue, true)}
+      </th>
+    `;
+  });
+
+  const value = clientData;
   const benchmark = 4;
   const text =
-    value > 4
-      ? `Within Range of Benchmark: ${benchmark}%`
-      : `Below Benchmark: ${benchmark}%`;
+    value > benchmark
+      ? `Above Benchmark: ${benchmark}%`
+      : `Within Range of Benchmark:: ${benchmark}%`;
 
-  const backgroundColor = value > 4 ? "#54ba4a" : "#cf3636";
+  const backgroundColor = value > 4 ? "#cf3636" : "#54ba4a";
 
   var chartObj = new FusionCharts({
     type: "hlineargauge",
@@ -3543,7 +4559,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
         subcaption: "",
         lowerLimit: "0",
         upperLimit: "10",
-        numberSuffix: "",
+        numberSuffix: "%",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
         valueFontSize: "14",
@@ -3554,7 +4570,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
           {
             minValue: "0",
             maxValue: "4",
-            code: "#EF707E",
+            code: "#BBE97A",
           },
           {
             minValue: "4",
@@ -3564,7 +4580,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
           {
             minValue: "8",
             maxValue: "12",
-            code: "#BBE97A",
+            code: "#EF707E",
           },
         ],
       },
@@ -3625,14 +4641,72 @@ const getDebtServiceCoverageChartOptions = (data) => {
 };
 
 const getEndowmentOperatingChartOptions = (data) => {
-  const value = 175;
+  const tableHeaderRow = document.getElementById(
+    "row_endowmentOperatingBudget_tableHeader"
+  );
+  const clientRow = document.getElementById(
+    "row_endowmentOperatingBudget_main"
+  );
+  const endowmentRow = document.getElementById(
+    "row_endowmentOperatingBudget_endowment"
+  );
+  const annualOperatingBudgetRow = document.getElementById(
+    "row_endowmentOperatingBudget_annualOperatingBudget"
+  );
+
+  // Clear existing content before appending
+  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  clientRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment to Operating Budget</th>`;
+  endowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
+  annualOperatingBudgetRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Annual Operating Budget</th>`;
+
+  const mostRecentYear = Math.max(...Object.keys(data["ratio_Client"]));
+
+  const clientValMostRecentYear = Number(
+    data["ratio_Client"][mostRecentYear].value
+  );
+  const clientPercent = Math.round(clientValMostRecentYear * 100);
+
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+  // sort years in descending order
+  selectedYearsArray.sort((a, b) => b - a);
+
+  selectedYearsArray.map((year) => {
+    const clientData = Number(data.ratio_Client[year].value * 100).toFixed(1);
+    const endowment = Number(data.endowment_Client[year].value);
+    const annualOperatingBudget = Number(
+      data.annualOperatingBudget_Client[year].value
+    );
+
+    // Add year to table header
+    tableHeaderRow.innerHTML += `
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+    clientRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${clientData}%
+      </th>
+    `;
+    endowmentRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(endowment, true)}
+      </th>
+    `;
+    annualOperatingBudgetRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(annualOperatingBudget, true)}
+      </th> 
+    `;
+  });
+
+  const value = clientPercent;
   const benchmark = 150;
   const text =
     value > 150
       ? `Within Range of Benchmark: ${benchmark}%`
       : `Below Benchmark: ${benchmark}%`;
 
-  const backgroundColor = value > 70 ? "#54ba4a" : "#cf3636";
+  const backgroundColor = value > benchmark ? "#54ba4a" : "#cf3636";
 
   var chartObj = new FusionCharts({
     type: "hlineargauge",
@@ -3643,11 +4717,11 @@ const getEndowmentOperatingChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: clientName,
-        subcaption: "Endowment Assets per Student",
+        caption: "Endowment to Operating Budget",
+        subcaption: clientName,
         lowerLimit: "0",
         upperLimit: "250",
-        numberSuffix: "",
+        numberSuffix: "%",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
         valueFontSize: "14",
@@ -3737,12 +4811,57 @@ const getLtDebtPerTotalOperatingRevenueChartOptions = (data) => {
     ...Object.keys(data["longTermDebtForLongTermPurpose_Client"])
   );
 
-  const num = Number(
+  const clientVal = Number(
     data["longTermDebtForLongTermPurpose_Client"][mostRecentYear].value
   );
-  const clientPercent = Math.round(num * 100);
+  const clientPercent = Math.round(clientVal * 100);
 
-  // console.log({ clientPercent });
+  // Salaries and Benefits
+  const longTermDebt = Number(
+    data["longTermDebt_Client"][mostRecentYear].value
+  );
+  const totalOperatingRevenue = Number(
+    data["totalOperatingRevenue_Client"][mostRecentYear].value
+  );
+
+  // numbers for data table
+  const tableHeaderRow = document.getElementById(
+    "row_ltDebtPerTotalOperatingRevenue_tableHeader"
+  );
+  const ltDebtPerTotalOperatingRevenueRow = document.getElementById(
+    "row_ltDebtPerTotalOperatingRevenue_main"
+  );
+  const longTermDebtRow = document.getElementById(
+    "row_ltDebtPerTotalOperatingRevenue_longTermDebt"
+  );
+  const totalOperatingRevenueRow = document.getElementById(
+    "row_ltDebtPerTotalOperatingRevenue_totalOperatingRevenue"
+  );
+
+  // Clear existing content before appending
+  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  ltDebtPerTotalOperatingRevenueRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Long-Term Debt per Total Operating Revenue</th>`;
+  longTermDebtRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Long-Term Debt</th>`;
+  totalOperatingRevenueRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Operating Revenue</th>`;
+
+  tableHeaderRow.innerHTML += `
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${mostRecentYear}</th>
+    `;
+  ltDebtPerTotalOperatingRevenueRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${clientPercent}%
+      </th>
+    `;
+  longTermDebtRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(longTermDebt)}
+      </th>
+    `;
+  totalOperatingRevenueRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(totalOperatingRevenue)}
+      </th>
+    `;
 
   const chartColor =
     clientPercent <= 60
@@ -3816,29 +4935,90 @@ const getDebtBurdenRatioChartOptions = (data) => {
   let debtServiceArray = [];
   let operationalExpenseArray = [];
 
+  const tableHeaderRow = document.getElementById(
+    "row_debtBurdenRatio_tableHeader"
+  );
+  const clientRatioRow = document.getElementById("row_debtBurdenRatio_main");
+  const debtServiceRow = document.getElementById(
+    "row_debtBurdenRatio_debtService"
+  );
+  const interestRow = document.getElementById("row_debtBurdenRatio_interest");
+  const principalPaymentsRow = document.getElementById(
+    "row_debtBurdenRatio_principalPayments"
+  );
+  const operatingExpensesRow = document.getElementById(
+    "row_debtBurdenRatio_operatingExpenses"
+  );
+
+  // Clear existing content before appending
+  tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  clientRatioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Debt Burden Ratio</th>`;
+  debtServiceRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Debt Service</th>`;
+  interestRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Interest</th>`;
+  principalPaymentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Principal Payments</th>`;
+  operatingExpensesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Operating Expenses</th>`;
+
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    const debtServiceClientNum = Number(data.debtService_Client[year].value)
-    const operationalExpenseClientNum = Number(data.operationalExpense_Client[year].value)
-    const clientRatioNum = debtServiceClientNum/operationalExpenseClientNum
+    const clientRatioNum = Math.abs(
+      (Number(data.ratio_Client[year].value) * 100).toFixed(1)
+    );
+    const debtServiceNum = Math.abs(
+      Number(data.debtService_Client[year].value)
+    );
+    const interestNum = Number(data.interest_Client[year].value);
+    const principalPaymentsNum = Number(
+      data.principalPayments_Client[year].value
+    );
+    const operatingExpensesNum = Number(
+      data.operationalExpense_Client[year].value
+    );
 
-    const debtServicePeerNum = getSumOfArray(data.debtService_Peer[year])
-    const operationalExpensePeerNum = getSumOfArray(data.operationalExpense_Peer[year])
-    const peerRatioNum = debtServicePeerNum/operationalExpensePeerNum
+    // Add year to table header
+    tableHeaderRow.innerHTML += `
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+    clientRatioRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${Math.round(clientRatioNum * 100)}%
+      </th>
+    `;
+    debtServiceRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(debtServiceNum, true)}
+      </th>
+    `;
+    interestRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(interestNum, true)}
+      </th>
+    `;
+    principalPaymentsRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(principalPaymentsNum, true)}
+      </th>
+    `;
+    operatingExpensesRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(operatingExpensesNum, true)}
+      </th>
+    `;
 
-    let num = Math.round(clientRatioNum * 100)
+    const peerRatioNum = data.ratio_Peer[year] ? Math.abs(
+      Number(getAverageOfArray(data.ratio_Peer[year])) * 100
+    ).toFixed(1) : 0
+
+    let num = Math.round(clientRatioNum * 100);
     clientRatioArray.push(num);
 
-    num = Math.round(peerRatioNum * 100);
+    num = Math.abs(peerRatioNum * 100).toFixed(1);
     peerRatioArray.push(num);
 
-    num = Math.round(Number(data.debtService_Client[year].value));
+    num = debtServiceNum;
     debtServiceArray.push(num);
 
-    num = Math.round(
-      Number(data.operationalExpense_Client[year].value)
-    );
+    num = operatingExpensesNum;
     operationalExpenseArray.push(num);
   });
 
@@ -3871,6 +5051,9 @@ const getDebtBurdenRatioChartOptions = (data) => {
     const num = parseInt(val, 10);
     if (isNaN(num)) {
       return "Invalid input";
+    }
+    if (num >= 1000000) {
+      return `${Math.floor(num / 1000000)}M`;
     }
     if (num >= 1000) {
       return `${Math.floor(num / 1000)}k`;
@@ -4023,316 +5206,403 @@ const getDebtBurdenRatioChartOptions = (data) => {
   };
 };
 
-const getEndowmentAssetsPerStudentMapOptions = (data) => {
-  am4core.useTheme(am4themes_animated);
+// const getEndowmentAssetsPerStudentMapOptions = (data) => {
+//   am4core.useTheme(am4themes_animated);
 
-  // Create map instance
-  var chart = am4core.create("endowmentAssetsPerStudentMAP_chart", am4maps.MapChart);
+//   // Create map instance
+//   var chart = am4core.create(
+//     "endowmentAssetsPerStudentMAP_chart",
+//     am4maps.MapChart
+//   );
 
-  // Set map definition
-  chart.geodata = am4geodata_usaLow;
+//   // Set map definition
+//   chart.geodata = am4geodata_usaLow;
 
-  // Set projection
-  chart.projection = new am4maps.projections.AlbersUsa();
+//   // Set projection
+//   chart.projection = new am4maps.projections.AlbersUsa();
 
-  // Create map polygon series
-  var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+//   // Create map polygon series
+//   var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
 
-  //Set min/max fill color for each area
-  polygonSeries.heatRules.push({
-    property: "fill",
-    target: polygonSeries.mapPolygons.template,
-    min: chart.colors.getIndex(1).brighten(1),
-    max: chart.colors.getIndex(1).brighten(-0.3),
-    logarithmic: true,
-  });
+//   //Set min/max fill color for each area
+//   polygonSeries.heatRules.push({
+//     property: "fill",
+//     target: polygonSeries.mapPolygons.template,
+//     min: chart.colors.getIndex(1).brighten(1),
+//     max: chart.colors.getIndex(1).brighten(-0.3),
+//     logarithmic: true,
+//   });
 
-  // Make map load polygon data (state shapes and names) from GeoJSON
-  polygonSeries.useGeodata = true;
+//   // Make map load polygon data (state shapes and names) from GeoJSON
+//   polygonSeries.useGeodata = true;
 
-  // Set heatmap values for each state
-  polygonSeries.data = [
-    {
-      id: "US-AL",
-      value: 444710,
-    },
-    {
-      id: "US-AK",
-      value: 626932,
-    },
-    {
-      id: "US-AZ",
-      value: 5130632,
-    },
-    {
-      id: "US-AR",
-      value: 2673400,
-    },
-    {
-      id: "US-CA",
-      value: 33871648,
-    },
-    {
-      id: "US-CO",
-      value: 4301261,
-    },
-    {
-      id: "US-CT",
-      value: 3405565,
-    },
-    {
-      id: "US-DE",
-      value: 783600,
-    },
-    {
-      id: "US-FL",
-      value: 15982378,
-    },
-    {
-      id: "US-GA",
-      value: 8186453,
-    },
-    {
-      id: "US-HI",
-      value: 1211537,
-    },
-    {
-      id: "US-ID",
-      value: 1293953,
-    },
-    {
-      id: "US-IL",
-      value: 12419293,
-    },
-    {
-      id: "US-IN",
-      value: 6080485,
-    },
-    {
-      id: "US-IA",
-      value: 2926324,
-    },
-    {
-      id: "US-KS",
-      value: 2688418,
-    },
-    {
-      id: "US-KY",
-      value: 4041769,
-    },
-    {
-      id: "US-LA",
-      value: 4468976,
-    },
-    {
-      id: "US-ME",
-      value: 1274923,
-    },
-    {
-      id: "US-MD",
-      value: 5296486,
-    },
-    {
-      id: "US-MA",
-      value: 6349097,
-    },
-    {
-      id: "US-MI",
-      value: 9938444,
-    },
-    {
-      id: "US-MN",
-      value: 4919479,
-    },
-    {
-      id: "US-MS",
-      value: 2844658,
-    },
-    {
-      id: "US-MO",
-      value: 5595211,
-    },
-    {
-      id: "US-MT",
-      value: 902195,
-    },
-    {
-      id: "US-NE",
-      value: 1711263,
-    },
-    {
-      id: "US-NV",
-      value: 1998257,
-    },
-    {
-      id: "US-NH",
-      value: 1235786,
-    },
-    {
-      id: "US-NJ",
-      value: 8414350,
-    },
-    {
-      id: "US-NM",
-      value: 1819046,
-    },
-    {
-      id: "US-NY",
-      value: 18976457,
-    },
-    {
-      id: "US-NC",
-      value: 8049313,
-    },
-    {
-      id: "US-ND",
-      value: 642200,
-    },
-    {
-      id: "US-OH",
-      value: 11353140,
-    },
-    {
-      id: "US-OK",
-      value: 3450654,
-    },
-    {
-      id: "US-OR",
-      value: 3421399,
-    },
-    {
-      id: "US-PA",
-      value: 12281054,
-    },
-    {
-      id: "US-RI",
-      value: 1048319,
-    },
-    {
-      id: "US-SC",
-      value: 4012012,
-    },
-    {
-      id: "US-SD",
-      value: 754844,
-    },
-    {
-      id: "US-TN",
-      value: 5689283,
-    },
-    {
-      id: "US-TX",
-      value: 20851820,
-    },
-    {
-      id: "US-UT",
-      value: 2233169,
-    },
-    {
-      id: "US-VT",
-      value: 608827,
-    },
-    {
-      id: "US-VA",
-      value: 7078515,
-    },
-    {
-      id: "US-WA",
-      value: 5894121,
-    },
-    {
-      id: "US-WV",
-      value: 1808344,
-    },
-    {
-      id: "US-WI",
-      value: 5363675,
-    },
-    {
-      id: "US-WY",
-      value: 493782,
-    },
-  ];
+//   // Set heatmap values for each state
+//   polygonSeries.data = [
+//     {
+//       id: "US-AL",
+//       value: 444710,
+//     },
+//     {
+//       id: "US-AK",
+//       value: 626932,
+//     },
+//     {
+//       id: "US-AZ",
+//       value: 5130632,
+//     },
+//     {
+//       id: "US-AR",
+//       value: 2673400,
+//     },
+//     {
+//       id: "US-CA",
+//       value: 33871648,
+//     },
+//     {
+//       id: "US-CO",
+//       value: 4301261,
+//     },
+//     {
+//       id: "US-CT",
+//       value: 3405565,
+//     },
+//     {
+//       id: "US-DE",
+//       value: 783600,
+//     },
+//     {
+//       id: "US-FL",
+//       value: 15982378,
+//     },
+//     {
+//       id: "US-GA",
+//       value: 8186453,
+//     },
+//     {
+//       id: "US-HI",
+//       value: 1211537,
+//     },
+//     {
+//       id: "US-ID",
+//       value: 1293953,
+//     },
+//     {
+//       id: "US-IL",
+//       value: 12419293,
+//     },
+//     {
+//       id: "US-IN",
+//       value: 6080485,
+//     },
+//     {
+//       id: "US-IA",
+//       value: 2926324,
+//     },
+//     {
+//       id: "US-KS",
+//       value: 2688418,
+//     },
+//     {
+//       id: "US-KY",
+//       value: 4041769,
+//     },
+//     {
+//       id: "US-LA",
+//       value: 4468976,
+//     },
+//     {
+//       id: "US-ME",
+//       value: 1274923,
+//     },
+//     {
+//       id: "US-MD",
+//       value: 5296486,
+//     },
+//     {
+//       id: "US-MA",
+//       value: 6349097,
+//     },
+//     {
+//       id: "US-MI",
+//       value: 9938444,
+//     },
+//     {
+//       id: "US-MN",
+//       value: 4919479,
+//     },
+//     {
+//       id: "US-MS",
+//       value: 2844658,
+//     },
+//     {
+//       id: "US-MO",
+//       value: 5595211,
+//     },
+//     {
+//       id: "US-MT",
+//       value: 902195,
+//     },
+//     {
+//       id: "US-NE",
+//       value: 1711263,
+//     },
+//     {
+//       id: "US-NV",
+//       value: 1998257,
+//     },
+//     {
+//       id: "US-NH",
+//       value: 1235786,
+//     },
+//     {
+//       id: "US-NJ",
+//       value: 8414350,
+//     },
+//     {
+//       id: "US-NM",
+//       value: 1819046,
+//     },
+//     {
+//       id: "US-NY",
+//       value: 18976457,
+//     },
+//     {
+//       id: "US-NC",
+//       value: 8049313,
+//     },
+//     {
+//       id: "US-ND",
+//       value: 642200,
+//     },
+//     {
+//       id: "US-OH",
+//       value: 11353140,
+//     },
+//     {
+//       id: "US-OK",
+//       value: 3450654,
+//     },
+//     {
+//       id: "US-OR",
+//       value: 3421399,
+//     },
+//     {
+//       id: "US-PA",
+//       value: 12281054,
+//     },
+//     {
+//       id: "US-RI",
+//       value: 1048319,
+//     },
+//     {
+//       id: "US-SC",
+//       value: 4012012,
+//     },
+//     {
+//       id: "US-SD",
+//       value: 754844,
+//     },
+//     {
+//       id: "US-TN",
+//       value: 5689283,
+//     },
+//     {
+//       id: "US-TX",
+//       value: 20851820,
+//     },
+//     {
+//       id: "US-UT",
+//       value: 2233169,
+//     },
+//     {
+//       id: "US-VT",
+//       value: 608827,
+//     },
+//     {
+//       id: "US-VA",
+//       value: 7078515,
+//     },
+//     {
+//       id: "US-WA",
+//       value: 5894121,
+//     },
+//     {
+//       id: "US-WV",
+//       value: 1808344,
+//     },
+//     {
+//       id: "US-WI",
+//       value: 5363675,
+//     },
+//     {
+//       id: "US-WY",
+//       value: 493782,
+//     },
+//   ];
 
-  // Set up heat legend
-  let heatLegend = chart.createChild(am4maps.HeatLegend);
-  heatLegend.series = polygonSeries;
-  heatLegend.align = "right";
-  heatLegend.valign = "bottom";
-  heatLegend.height = am4core.percent(80);
-  heatLegend.orientation = "vertical";
-  heatLegend.valign = "middle";
-  heatLegend.marginRight = am4core.percent(4);
-  heatLegend.valueAxis.renderer.opposite = true;
-  heatLegend.valueAxis.renderer.dx = -25;
-  heatLegend.valueAxis.strictMinMax = false;
-  heatLegend.valueAxis.fontSize = 9;
-  heatLegend.valueAxis.logarithmic = true;
+//   // Set up heat legend
+//   let heatLegend = chart.createChild(am4maps.HeatLegend);
+//   heatLegend.series = polygonSeries;
+//   heatLegend.align = "right";
+//   heatLegend.valign = "bottom";
+//   heatLegend.height = am4core.percent(80);
+//   heatLegend.orientation = "vertical";
+//   heatLegend.valign = "middle";
+//   heatLegend.marginRight = am4core.percent(4);
+//   heatLegend.valueAxis.renderer.opposite = true;
+//   heatLegend.valueAxis.renderer.dx = -25;
+//   heatLegend.valueAxis.strictMinMax = false;
+//   heatLegend.valueAxis.fontSize = 9;
+//   heatLegend.valueAxis.logarithmic = true;
 
-  // Configure series tooltip
-  var polygonTemplate = polygonSeries.mapPolygons.template;
-  polygonTemplate.tooltipText = "{name}: {value}";
-  polygonTemplate.nonScalingStroke = true;
-  polygonTemplate.strokeWidth = 0.5;
+//   // Configure series tooltip
+//   var polygonTemplate = polygonSeries.mapPolygons.template;
+//   polygonTemplate.tooltipText = "{name}: {value}";
+//   polygonTemplate.nonScalingStroke = true;
+//   polygonTemplate.strokeWidth = 0.5;
 
-  // Create hover state and set alternative fill color
-  var hs = polygonTemplate.states.create("hover");
-  hs.properties.fill = am4core.color("#dc5c3c");
+//   // Create hover state and set alternative fill color
+//   var hs = polygonTemplate.states.create("hover");
+//   hs.properties.fill = am4core.color("#dc5c3c");
 
-  // heat legend behavior
-  polygonSeries.mapPolygons.template.events.on("over", function (event) {
-    handleHover(event.target);
-  });
+//   // heat legend behavior
+//   polygonSeries.mapPolygons.template.events.on("over", function (event) {
+//     handleHover(event.target);
+//   });
 
-  polygonSeries.mapPolygons.template.events.on("hit", function (event) {
-    handleHover(event.target);
-  });
+//   polygonSeries.mapPolygons.template.events.on("hit", function (event) {
+//     handleHover(event.target);
+//   });
 
-  function handleHover(column) {
-    if (!isNaN(column.dataItem.value)) {
-      heatLegend.valueAxis.showTooltipAt(column.dataItem.value);
-    } else {
-      heatLegend.valueAxis.hideTooltip();
-    }
-  }
+//   function handleHover(column) {
+//     if (!isNaN(column.dataItem.value)) {
+//       heatLegend.valueAxis.showTooltipAt(column.dataItem.value);
+//     } else {
+//       heatLegend.valueAxis.hideTooltip();
+//     }
+//   }
 
-  polygonSeries.mapPolygons.template.events.on("out", function (event) {
-    heatLegend.valueAxis.hideTooltip();
-  });
-};
+//   polygonSeries.mapPolygons.template.events.on("out", function (event) {
+//     heatLegend.valueAxis.hideTooltip();
+//   });
+// };
 
 const getEndowmentAssetsPerStudentChartOptions = (data) => {
   // console.log({ data });
 
-  const mostRecentYear = Math.max(
-    ...Object.keys(data["endowmentSize_Client"])
+  const tableHeaderClientRow = document.getElementById(
+    "row_endowmentAssetsPerStudent_tableHeader"
+  );
+  const clientRatioRow = document.getElementById(
+    "row_endowmentAssetsPerStudent_ratio"
+  );
+  const endowmentRow = document.getElementById(
+    "row_endowmentAssetsPerStudent_endowment"
+  );
+  const totalStudentFteRow = document.getElementById(
+    "row_endowmentAssetsPerStudent_totalStudentFte"
   );
 
+  const tableHeaderPeerRow = document.getElementById(
+    "row_endowmentAssetsPerStudentPeer_tableHeader"
+  );
+  const peerRatioRow = document.getElementById(
+    "row_endowmentAssetsPerStudentPeer_ratio"
+  );
+  const peerEndowmentRow = document.getElementById(
+    "row_endowmentAssetsPerStudentPeer_endowment"
+  );
+  const peerTotalStudentFteRow = document.getElementById(
+    "row_endowmentAssetsPerStudentPeer_totalStudentFte"
+  );
+
+  // Clear existing content bef ore appending
+  tableHeaderClientRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
+  clientRatioRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment Assets per Student</th>`;
+  endowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
+  totalStudentFteRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Total Student FTE</th>`;
+  tableHeaderPeerRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl whitespace-nowrap dark:text-white">Peer</th>`;
+  peerRatioRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment Assets per Student</th>`;
+  peerEndowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
+  peerTotalStudentFteRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Total Student FTE</th>`;
+
+  const mostRecentYear = Math.max(...Object.keys(data["endowment_Client"]));
+
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  let clientArray = [];
-  let peerArray = [];
+  // sort years in descending order
+  selectedYearsArray.sort((a, b) => b - a);
+
+  const clientArray = [];
+  const peerAvgArray = [];
+  const peer25Array = [];
+  const peer50Array = [];
+  const peer75Array = [];
 
   selectedYearsArray.map((year) => {
-    const endowmentSizeClient = Number(data.endowmentSize_Client[year].value);
-    const totalStudentFteClient = Number(data.totalStudentFte_Client[year].value);
-    const clientRatio = endowmentSizeClient / totalStudentFteClient;
+    const clientRatio = Number(data.ratio_Client[year].value * 100).toFixed(1);
 
-    const endowmentSizePeer = getSumOfArray(data.endowmentSize_Peer[year]);
-    const totalStudentFtePeer = getSumOfArray(data.totalStudentFte_Peer[year]);
-    // console.log({endowmentSizePeer, totalStudentFtePeer, endowmentSizeClient, totalStudentFteClient});
-    
-    const peerRatio = endowmentSizePeer / totalStudentFtePeer
+    const endowmentSizeClient = Number(data.endowment_Client[year].value);
+    const totalStudentFteClient = Number(
+      data.totalStudentFte_Client[year].value
+    );
+
+    const peerRatio = data.ratio_Peer[year] ? Number(
+      getAverageOfArray(data.ratio_Peer[year]) * 100
+    ).toFixed(1) : 0 
+    const endowmentSizePeer = data.endowment_Peer[year] ? getSumOfArray(data.endowment_Peer[year]): 0
+    const totalStudentFtePeer = data.totalStudentFte_Peer[year] ? getSumOfArray(data.totalStudentFte_Peer[year]) : 0
+
+    // Add year to table header
+    tableHeaderClientRow.innerHTML += `
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+    clientRatioRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${clientRatio}%
+      </th>
+    `;
+    endowmentRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(endowmentSizeClient, true)}
+      </th>
+    `;
+    totalStudentFteRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${totalStudentFteClient}
+      </th> 
+    `;
+    tableHeaderPeerRow.innerHTML += `
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
+    peerRatioRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${peerRatio}%
+      </th> 
+    `;
+    peerEndowmentRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(endowmentSizePeer, true)}
+      </th>
+    `;
+    peerTotalStudentFteRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${totalStudentFtePeer}
+      </th> 
+    `;
 
     // console.log({clientRatio, peerRatio});
-    
-
-    const clientData =
-      isNaN(clientRatio) ? clientRatio * 100 : 0;
-    clientArray.push(clientData);
 
     const peerData = isNaN(peerRatio) ? peerRatio * 100 : 0;
-    peerArray.push(peerData);
+    peerAvgArray.push(peerData);
 
+    const peer25 = get25thPercentileOfArray(peerAvgArray);
+    peer25Array.push(Math.round(peer25));
+
+    const peer50 = getMidpointOfArray(peerAvgArray);
+    peer50Array.push(Math.round(peer50));
+
+    const peer75 = get75thPercentileOfArray(peerAvgArray);
+    peer75Array.push(Math.round(peer75));
   });
 
   // console.log({
@@ -4390,9 +5660,24 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
         },
       },
       {
-        name: "Peer Ratio",
+        name: "25th",
         type: "line",
-        data: peerArray,
+        data: peer25Array,
+      },
+      {
+        name: "50th",
+        type: "line",
+        data: peer50Array,
+      },
+      {
+        name: "Avg",
+        type: "line",
+        data: peerAvgArray,
+      },
+      {
+        name: "75th",
+        type: "line",
+        data: peer75Array,
       },
     ],
     chart: {

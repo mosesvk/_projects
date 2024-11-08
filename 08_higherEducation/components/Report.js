@@ -335,15 +335,15 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
     tableBodyClient.appendChild(clientRow);
 
     const totalAssetsPeerValue =
-      Number(getSumOfArray(totalAssetsPeer[year])) > 0
+      totalAssetsPeer[year]
         ? styleNumber(getSumOfArray(totalAssetsPeer[year]), "dollar", 0)
         : "-";
     const totalLiabilitiesPeerValue =
-      Number(getSumOfArray(totalLiabilitiesPeer[year])) > 0
+      totalLiabilitiesPeer[year]
         ? styleNumber(getSumOfArray(totalLiabilitiesPeer[year]), "dollar", 0)
         : "-";
     const ratioPeer =
-      Number(getSumOfArray(totalLiabilitiesPeer[year])) > 0
+      totalLiabilitiesPeer[year] > 0
         ? Number(getSumOfArray(totalAssetsPeer[year])) /
           Number(getSumOfArray(totalLiabilitiesPeer[year]))
         : 0;
@@ -563,7 +563,7 @@ const addPeerDataToReportRow = (
     if (peer && wa) {
       avg = parseFloat(getWeightedAverageOfArray(data, name));
     } else if (peer && !wa) {
-      avg = parseFloat(getAverageOfArray(peer[year]));
+      avg = peer[year] ? parseFloat(getAverageOfArray(peer[year])) : 0
     } else {
       avg = 0;
     }
