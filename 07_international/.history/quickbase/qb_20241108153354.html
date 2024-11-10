@@ -13,32 +13,6 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.js"
-      integrity="sha512-SxopZNPB/jzFpgtGdR6lI7dK8EbbheOZVLNDI0FsMNM0NAqNkJyVoT83C72esOJCTdPVfDb8miZ3whsW4o/+fA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.css"
-      integrity="sha512-ZKliQ0+hD8CfDJ2v8kzEzNxT5Y4EnmG5cFV6oFvswCDyckUCRG+1p6nyMMlLgi1vM5srVpX+6YkxiUoF2tOfRw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.js"
-      integrity="sha512-nsQH9RD40r4g0C32+8AvcOqHtpotZ+7AI3LpKPbfTXgYWHhwbJ+20ATTkbUz+kO3ZeruAiaubTq97pD6sWSRbA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.css"
-      integrity="sha512-j5NOES5oZiza0awDPWoDCbU50obvmJUQobyAqYzhsXFxaXaxkcxB2WhnRcZa5wRGNyborruWuJaeg9J508HfQg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
 
     <link
       rel="stylesheet"
@@ -57,8 +31,30 @@
 
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
-      defer="true"
+      defer
     ></script>
+
+    <script>
+			var apptoken = "bpat4pgu9t69yby5gbemdbej52j"; 
+			$.ajaxSetup({data: {apptoken: apptoken}});
+			
+			//retrieve URL ID for record
+				function getQueryVariable(variable) {  
+					var query = window.location.search.substring(1)
+ 					var vars = query.split("&");
+					for (var i=0;i<vars.length;i++) {
+						var pair = vars[i].split("=");
+						if(pair[0] == variable){return pair[1];}
+					}
+					return(false);
+				}
+				var ClientRid = getQueryVariable("clientrid");	
+				const clientData = 'bsz5d5eva';		 
+				const peerData = 'bs2bkir3i'; 
+
+				let clientName;
+    </script>
+
 
     <script>
       chartColors = {
@@ -110,7 +106,7 @@
       }
     </style>
   </head>
-  <body>
+<body>
     <nav
       id="nav"
       class="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
@@ -4363,6 +4359,14 @@
                       </button>
                     </div>
                   </div>
+                  <hr class="h-px my-4 mx-8 bg-gray-700 border-0 dark:bg-gray-500" />
+                  <button
+                    type="button"
+                    class="flex backgroundBlue text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    id="printBase64"
+                  >
+                    Print Base64
+                  </button>
                 </div>
               </div>
             </div>
@@ -4371,14 +4375,19 @@
       </div>
     </div>
 
-    <!-- import all the .js files from components, data, and utility folders-->
-    <script src="./utility/Utility.js"></script>
-    <script src="./utility/WeightedAverages.js"></script>
-    <script src="./data/Api.js"></script>
-    <script src="./components/DisplayCharts.js"></script>
-    <script src="./components/Header.js"></script>
-    <script src="./components/Report.js"></script>
-    <script src="./utility/UiManagement.js"></script>
-    <script src="utility/charts.js"></script>
+
+
+	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=164"></script> <!-- utility.js -->
+	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=168"></script> <!-- weightedAverage.js -->
+	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=182"></script> <!-- utilityPrint.js --> 
+	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=163"></script> <!-- api.js -->
+	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=165"></script> <!-- Header.js -->
+	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=170"></script> <!-- displayCharts.js -->
+	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=167"></script> <!-- report.js -->
+	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=166"></script> <!-- uiManagement.js -->
+ 	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=173"></script> <!-- charts.js -->
+
+
+
   </body>
 </html>

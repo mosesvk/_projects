@@ -4,7 +4,7 @@ const uploadClist = `<clist>171</clist>`;
 const generateReportsBtn = document.getElementById("generateReports");
 const base64Btn = docsument.getElementById("printBase64");
 let uploadMainFile = "";
-  
+
 $("#downloadPdf").on("click", function () {
   let imagesArray = [];
 

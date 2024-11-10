@@ -1,5 +1,7 @@
 let cfiRatioChart, assetsChart;
 
+// console.log('utility.js----')
+
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const regions_Array = [
@@ -374,8 +376,8 @@ const createChart = (
         chartOptions
       );
       cfiRatio_chart.render();
-      cfiRatio_chart.addEventListener("dark-mode", function () {
-        chart.updateOptions(chartOptions);
+      document.addEventListener("dark-mode", function () {
+        cfiRatio_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "cfi_primaryReserveRatio_chart") {
       cfi_primaryReserveRatio_chart = new ApexCharts(
@@ -385,8 +387,8 @@ const createChart = (
 
       cfi_primaryReserveRatio_chart.render();
 
-      cfi_primaryReserveRatio_chart.addEventListener("dark-mode", function () {
-        chart.updateOptions(chartOptions);
+      document.addEventListener("dark-mode", function () {
+        cfi_primaryReserveRatio_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "cfi_netIncomeOperationsRatio_chart") {
       cfi_netIncomeOperationsRatio_chart = new ApexCharts(
@@ -396,10 +398,10 @@ const createChart = (
 
       cfi_netIncomeOperationsRatio_chart.render();
 
-      cfi_netIncomeOperationsRatio_chart.addEventListener(
+      document.addEventListener(
         "dark-mode",
         function () {
-          chart.updateOptions(chartOptions);
+          cfi_netIncomeOperationsRatio_chart.updateOptions(chartOptions);
         }
       );
     } else if (chartId === "cfi_returnOnNetAssets_chart") {
@@ -410,8 +412,8 @@ const createChart = (
 
       cfi_returnOnNetAssets_chart.render();
 
-      cfi_returnOnNetAssets_chart.addEventListener("dark-mode", function () {
-        chart.updateOptions(chartOptions);
+      document.addEventListener("dark-mode", function () {
+        cfi_returnOnNetAssets_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "cfi_viabilityRatio_chart") {
       cfi_viabilityRatio_chart = new ApexCharts(
@@ -421,9 +423,10 @@ const createChart = (
 
       cfi_viabilityRatio_chart.render();
 
-      cfi_viabilityRatio_chart.addEventListener("dark-mode", function () {
-        chart.updateOptions(chartOptions);
-      });
+      // document.addEventListener("dark-mode", function () {
+      //   cfi_viabilityRatio_chart.updateOptions(chartOptions);
+      // });
+
     }
   }
 };
@@ -449,15 +452,15 @@ const closeSidebarAfterSelectingOption = (component) => {
   localStorage.setItem("lastRenderedComponent", component);
 };
 
-const getAverageOfArray = (array, mainName) => {
+const getAverageOfArray = (array, num = 1) => {
   const filteredArray = array
     .filter((value) => Number(value) !== 0)
-    .map((value) => Number(value));
+    .map((value) => Number(value) * num);
 
   if (filteredArray.length === 0) {
     return 0;
   }
-  const sum = filteredArray.reduce((acc, str) => acc + Number(str), 0);
+  const sum = filteredArray.reduce((acc, value) => acc + value, 0);
   const avg = sum / filteredArray.length;
 
   return avg;
@@ -578,6 +581,15 @@ const getSumOfArray = (array) => {
   return filteredArray.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
 };
 
+const formatCurrency = (value, round = false) => {
+  if (value === undefined || value === null || value === 0) return '-'; // Fallback for missing data or zero
+  return `$${new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: round ? 0 : 2, // For whole number if round is true
+    maximumFractionDigits: round ? 0 : 2
+  }).format(value)}`;
+};
+
+
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
   // console.log({'getSelectedYearsFrmLS': storedSelectedYears});
@@ -631,11 +643,13 @@ const getPeerAndClientChartDataArrays = (
   const benchmarkArray = [];
 
   years.forEach((year) => {
-    // console.log({ year, peer: dataPeer[year], client: dataClient[year] });
+    console.log({ year, peer: dataPeer[year], client: dataClient[year] });
 
     benchmarkArray.push(benchmark);
 
-    if (dataPeer != undefined && dataClient != undefined) {
+    if (dataPeer[year] !== undefined && dataClient[year] !== undefined ) {
+      // console.log('---- hit if');
+      
       const array = dataPeer[year];
       // if (mainName == 'cfiRatio') console.log(array)
       const avg = getAverageOfArray(array, mainName);
@@ -656,11 +670,13 @@ const getPeerAndClientChartDataArrays = (
       const client = dataClient[year].value;
       const clientNum = styleNumber(client, type, fixedNum);
       clientArray.push(clientNum);
-    } else if (dataPeer == undefined && dataClient) {
-      peerAvg.push(0);
-      peerMid.push(0);
-      peer25.push(0);
-      peer75.push(0);
+    } else if (dataPeer[year] === undefined && dataClient[year]) {
+      // console.log('---- hit ELSE if');
+
+      peerAvg.push(null);
+      peerMid.push(null);
+      peer25.push(null);
+      peer75.push(null);
 
       const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
       clientArray.push(clientNum);
@@ -924,6 +940,16 @@ const range = () => {
   };
 };
 
+const findMaxValueOfObject = (data) => {
+  let max = -Infinity;
+  for (let year in data) {
+      if (data[year].value > max) {
+          max = data[year].value;
+      }
+  }
+  return max;
+}
+
 function missionaryRange() {
   return {
     min: 0,
@@ -1124,14 +1150,6 @@ document.querySelector("#sidebar ul").addEventListener("click", function () {
   });
 });
 
-function toggleDetails(button, details, arrowIcon) {
-  button.addEventListener("click", () => {
-    // console.log('clicked');
-    details.classList.toggle("hidden");
-    arrowIcon.classList.toggle("rotate-90");
-  });
-}
-
 function getValuesInChronologicalOrder(data) {
   const years = Object.keys(data).sort(); // Get the years in chronological order
   const valuesArray = years.map((year) => data[year].value); // Map the values to an array
@@ -1229,6 +1247,15 @@ function processFinancialData(dataObject, tableDataClass, year, idString) {
   createFSTable(tableDataClass, arrayData, idString, year);
 }
 
+function toggleDetails(button, details, arrowIcon) {
+  button.addEventListener("click", () => {
+    // console.log('clicked');
+    details.classList.toggle("hidden");
+    arrowIcon.classList.toggle("rotate-90");
+    // console.log('toggleDetails() clicked');
+  });
+}
+
 function toggleDetailsByIdentifier(identifier) {
   const dropdownButton = document.getElementById(`dropdown_${identifier}`);
   const detailsDiv = document.getElementById(`details_${identifier}`);
@@ -1305,7 +1332,7 @@ function showApiLoadingFunction(action, mode) {
       apiPrint.classList.add("hidden");
 
       const selectedYears = getSelectedYearsFromLocalStorage();
-      console.log({ selectedYears });
+      // console.log({ selectedYears });
 
       if (selectedYears.length > 0) {
         firstApiYearSpan.textContent = selectedYears[0];

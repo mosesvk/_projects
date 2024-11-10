@@ -651,20 +651,20 @@ const getPeerAndClientChartDataArrays = (
       // console.log('---- hit if');
       
       const array = dataPeer[year];
-      // if (mainName == 'cfiRatio') console.log(array)
-      const avg = getAverageOfArray(array, mainName);
-      const mid = getMidpointOfArray(array, mainName);
-      const lower25 = get25thPercentileOfArray(array, mainName);
-      const higher75 = get75thPercentileOfArray(array, mainName);
+      if (mainName == 'cfiRatio') console.log(array)
+      const avg = getAverageOfArray(array);
+      const mid = getMidpointOfArray(array);
+      const lower25 = get25thPercentileOfArray(array);
+      const higher75 = get75thPercentileOfArray(array);
 
-      // if (mainName == 'cfiRatio') consolde.log({ avg, mid, lower25, higher75 });
+      if (mainName == 'cfiRatio') console.log({ avg, mid, lower25, higher75 });
 
       peerAvg.push(Number(styleNumber(avg, type, fixedNum)));
       peerMid.push(Number(styleNumber(mid, type, fixedNum)));
       peer25.push(Number(styleNumber(lower25, type, fixedNum)));
       peer75.push(Number(styleNumber(higher75, type, fixedNum)));
 
-      // if (mainName == "cfi_netIncomeOperationsRatio") console.log({peerAvg, peerMid, peer25, peer75});
+      if (mainName == "cfiRatio") console.log({peerAvg, peerMid, peer25, peer75});
 
       // const client = Number(dataClient[year].value).toFixed(fixedNum);
       const client = dataClient[year].value;
@@ -672,7 +672,6 @@ const getPeerAndClientChartDataArrays = (
       clientArray.push(clientNum);
     } else if (dataPeer[year] === undefined && dataClient[year]) {
       // console.log('---- hit ELSE if');
-      
 
       peerAvg.push(null);
       peerMid.push(null);
