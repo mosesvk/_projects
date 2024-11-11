@@ -3,7 +3,6 @@ const uploadFileEnd = `</qdbapi>`;
 const uploadClist = `<clist>171</clist>`;
 const generateReportsBtn = document.getElementById("generateReports");
 let uploadMainFile = "";
-let uploadpresentationFile = "";
   
 $("#downloadPdf").on("click", function () {
   let imagesArray = [];
@@ -25,6 +24,61 @@ $("#downloadPdf").on("click", function () {
     //document.body.removeChild(a)
   }
 });
+
+async function svgToPngBase64(element, id) {
+  try {
+    // Use html2canvas to render the element to a canvas
+    const canvas = await html2canvas(element);
+
+    // Get the base64 string from the canvas
+    const base64String = canvas.toDataURL("image/png").split(",")[1];
+
+    // console.log({ base64String });
+    
+
+    // Store the result in map_dataUri
+    // map_dataUri.set(id, base64String);
+
+    return base64String; // Return the base64 string
+  } catch (error) {
+    console.error("Error rendering the SVG to PNG:", error);
+    throw error; // In case of error, reject the promise
+  }
+}
+
+const getPngString = async (id, fieldId) => {
+  try {
+    const element = document.getElementById(id);
+    const idx = id.replace("_Chart", "");
+
+    // Await the base64 conversion
+    const base64String = await svgToPngBase64(element, idx);
+    console.log({ base64String });
+
+    // Upload the base64 string
+    uploadSingleToFile(fieldId, base64String);
+  } catch (error) {
+    console.error("Error in getPngString:", error);
+  }
+};
+
+const downloadImage = (elem) => {
+  // console.log(elem);
+  // console.log("hit before");
+  const element = document.getElementById(elem);
+  let image = element.toDataURL("image/png");
+  // console.log("hit after");
+
+  let a = document.createElement("a");
+  a.name = element.id;
+  a.href = image;
+  console.dir(element);
+  //a.download = image.toString();
+  a.download = element.id;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
 
 $("#printOptionsBtn").on("click", function () {
   let imagesArray = [];
@@ -199,7 +253,7 @@ const printToExcel = (dataString) => {
 };
 
 const createPrintExcel = async () => {
-  // console.log({ClientRid, firmName, uniqueClients, sliderValue, sliderValue2, selectedYears_Set});
+  console.log({ClientRid, firmName, uniqueClients, sliderValue, sliderValue2, selectedYears_Set});
   toggleButtonLoadingState(generateReportsBtn);
   document.getElementById("cashContent").classList.remove("hidden");
   document.getElementById("netAssetsContent").classList.remove("hidden");
@@ -280,124 +334,3 @@ document.getElementById("generateReports").addEventListener("click", () => {
 });
 
 
-
-// BASE64 STRING
-
-const printButton = document.getElementById("printBase64");
-
-async function svgToPngBase64(element, id) {
-  try {
-    // Use html2canvas to render the element to a canvas
-    const canvas = await html2canvas(element);
-
-    // Get the base64 string from the canvas
-    const base64String = canvas.toDataURL("image/png").split(",")[1];
-
-    console.log({ base64String });
-    
-
-    // Store the result in map_dataUri
-    map_dataUri.set(id, base64String);
-
-    return base64String; // Return the base64 string
-  } catch (error) {
-    console.error("Error rendering the SVG to PNG:", error);
-    throw error; // In case of error, reject the promise
-  }
-}
-
-function uploadSingleToFile(id, val) {
-  uploadpresentationFile += `<field fid='${id}' filename='image.png'>${val}</field>`;
-}
-
-const getPngString = async (id, fieldId) => {
-  try {
-    const element = document.getElementById(id);
-    const idx = id.replace("_Chart", "");
-
-    // Await the base64 conversion
-    const base64String = await svgToPngBase64(element, idx);
-
-    // Upload the base64 string
-    uploadSingleToFile(fieldId, base64String);
-  } catch (error) {
-    console.error("Error in getPngString:", error);
-  }
-};
-
-
-const mainPrint = async () => {
-  // console.log({ClientRid, firmName, uniqueClients, sliderValue, sliderValue2, selectedYears_Set});
-  toggleButtonLoadingState(printButton);
-  document.getElementById("cashContent").classList.remove("hidden");
-  document.getElementById("netAssetsContent").classList.remove("hidden");
-  document.getElementById("incomeContent").classList.remove("hidden");
-  document.getElementById("expenseContent").classList.remove("hidden");
-  uploadSingleToFile(171, ClientRid);
-  uploadSingleToFile(170, firmName);
-  uploadSingleToFile(169, uniqueClients.size);
-  uploadSingleToFile(163, sliderValue);
-  uploadSingleToFile(164, sliderValue2);
-  await getPngString("statementCashFlows_chart", 194);
-  await getPngString("daysCashOnHand_chart", 195);
-  await getPngString("daysExpensesInUnrestrictedNA_chart", 196);
-  await getPngString("daysExpensesInUnrestrictedNA_excludingPPE_chart", 197);
-  await getPngString("totalCoverageRatio_chart", 198);
-  await getPngString("contributionsTrend_chart", 199);
-  await getPngString("annualizedInvestmentReturn_chart", 200);
-  await getPngString("functionalExpensePercent_program_chart", 201);
-  await getPngString("functionalExpensePercent_administrative_chart", 202);
-  await getPngString("functionalExpensePercent_fundraising_chart", 203);
-  await getPngString("costOfContributions_chart", 204);
-
-  uploadpresentationFile += "</qdbapi>";
-
-  console.log({ uploadpresentationFile });
-
-  $.ajax({
-    type: "POST",
-    contentType: "text/xml",
-    async: true,
-    url: urlUploadFile,
-    dataType: "xml",
-    processData: false,
-    data: uploadpresentationFile,
-    success: function (response) {
-      var xmlUpload = $(response);
-      //   console.log(response);
-      //   console.log(xmlUpload);
-      newRecordID = xmlUpload[0].all[4].innerHTML;
-      //console.log(newRecordID)
-
-      if (xmlUpload.find("qdbapi").find("errcode").text() == "0") {
-        newDownloadURL = xmlUpload
-          .find("qdbapi")
-          .find("record")
-          .find("f")
-          .text();
-
-        createToastSuccess(
-          "Printed successfully uploaded to Quickbase."
-        );
-      } else {
-        console.log("Quickbase returned an error.");
-        createToastWarning(
-          `Quickbase returned an error: if (xmlUpload.find("qdbapi").find("errcode").text() == "0")`
-        );
-      }
-    },
-    error: function (err) {
-      // console.log("Quickbase returned an error: " + response);
-      showApiLoadingFunction("close", "print");
-      console.log(err);
-      createToastWarning(`Quickbase returned an error: ${err}`);
-    },
-  }); //end ajax call
-  document.getElementById("FinancialPositionContent").classList.add("hidden");
-  document.getElementById("RevenueAndExpenseContent").classList.add("hidden");
-  document.getElementById("DebtAndEndowmentContent").classList.add("hidden");
-  showApiLoadingFunction("close", "print");
-};
-
-
-printButton.addEventListener("click", mainPrint); //uploadToFile

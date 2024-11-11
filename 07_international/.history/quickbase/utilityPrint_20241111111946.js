@@ -3,7 +3,6 @@ const uploadFileEnd = `</qdbapi>`;
 const uploadClist = `<clist>171</clist>`;
 const generateReportsBtn = document.getElementById("generateReports");
 let uploadMainFile = "";
-let uploadpresentationFile = "";
   
 $("#downloadPdf").on("click", function () {
   let imagesArray = [];
@@ -283,7 +282,7 @@ document.getElementById("generateReports").addEventListener("click", () => {
 
 // BASE64 STRING
 
-const printButton = document.getElementById("printBase64");
+const printButton = document.getElementById("printCharts");
 
 async function svgToPngBase64(element, id) {
   try {
@@ -307,7 +306,7 @@ async function svgToPngBase64(element, id) {
 }
 
 function uploadSingleToFile(id, val) {
-  uploadpresentationFile += `<field fid='${id}' filename='image.png'>${val}</field>`;
+  uploadMainFile += `<field fid='${id}' filename='image.png'>${val}</field>`;
 }
 
 const getPngString = async (id, fieldId) => {
@@ -350,9 +349,9 @@ const mainPrint = async () => {
   await getPngString("functionalExpensePercent_fundraising_chart", 203);
   await getPngString("costOfContributions_chart", 204);
 
-  uploadpresentationFile += "</qdbapi>";
+  uploadMainFile += "</qdbapi>";
 
-  console.log({ uploadpresentationFile });
+  console.log({ uploadMainFile });
 
   $.ajax({
     type: "POST",
@@ -361,7 +360,7 @@ const mainPrint = async () => {
     url: urlUploadFile,
     dataType: "xml",
     processData: false,
-    data: uploadpresentationFile,
+    data: uploadMainFile,
     success: function (response) {
       var xmlUpload = $(response);
       //   console.log(response);

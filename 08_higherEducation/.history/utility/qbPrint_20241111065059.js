@@ -1,5 +1,5 @@
 const urlUploadFile =
-  "https://capincrouse.quickbase.com/db/bub5a8w2g?a=API_AddRecord";
+  "https://capincrouse.quickbase.com/db/buk93bd7x?a=API_AddRecord";
 let uploadMainFile = "";
 const printButton = document.getElementById("printCharts");
 
@@ -24,6 +24,10 @@ async function svgToPngBase64(element, id) {
   }
 }
 
+function uploadSingleToFile(id, val) {
+  uploadMainFile += `<field fid='${id}' filename='image.png'>${val}</field>`;
+}
+
 const getPngString = async (id, fieldId) => {
   try {
     const element = document.getElementById(id);
@@ -41,23 +45,40 @@ const getPngString = async (id, fieldId) => {
 
 
 const mainPrint = async () => {
+  const types = Array.from(selectedTypes_Array).join(';');
   showApiLoadingFunction("open", "print");
+  document.getElementById("FinancialPositionContent").classList.remove("hidden");
+  document.getElementById("RevenueAndExpenseContent").classList.remove("hidden");
+  document.getElementById("DebtAndEndowmentContent").classList.remove("hidden");
 
-  uploadMainFile += "<qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>";
+  uploadMainFile += "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
+  uploadSingleToFile(31, clientName);
+  uploadSingleToFile(32, uniqueClients.size);
 
   await getPngString("cfiRatio_chart", 6);
-  await getPngString("cfi_primaryReserveRatio_chart", 8);
-  await getPngString("cfi_netIncomeOperationsRatio_chart", 10);
-  await getPngString("cfi_returnOnNetAssets_chart", 16);
-  await getPngString("cfi_viabilityRatio_chart", 17);
-  await getPngString("FinancialPosition_chart", 18);
-  await getPngString("assetToLiabilities_chart", 19);
-  await getPngString("sourceOfIncomeClient_chart", 20);
-  await getPngString("sourceOfIncomePeer_chart", 21);
-  await getPngString("ffa_chart", 22);
-  await getPngString("cashFlowsTrend_chart", 23);
-  await getPngString("currentRatio_chart", 24);
-  await getPngString("salariesBenefitsToTotalExpense_chart", 25);
+  await getPngString("cfi_primaryReserveRatio_chart", 7);
+  await getPngString("cfi_netIncomeOperationsRatio_chart", 8);
+  await getPngString("cfi_returnOnNetAssets_chart", 10);
+  await getPngString("cfi_viabilityRatio_chart", 11);
+  await getPngString("FinancialPosition_chart", 12);
+  await getPngString("assetToLiabilities_chart", 13);
+  await getPngString("sourceOfIncomeClient_chart", 14);
+  await getPngString("sourceOfIncomePeer_chart", 15);
+  await getPngString("ffa_chart", 16);
+  await getPngString("cashFlowsTrend_chart",17);
+  await getPngString("currentRatio_chart", 18);
+  await getPngString("salariesBenefitsToTotalExpense_chart", 19);
+  await getPngString("salariesBenefitsPerNetTuition_chart", 20);
+  // await getPngString("adminCostsPerStudent_chart", 21);
+  await getPngString("netEducationalExpensePerStudent_chart", 22);
+  await getPngString("annualTraditionalNetTuitionPerStudent_chart", 23);
+  await getPngString("tuitionDependency_chart", 24);
+  await getPngString("tuitionDiscountRate_chart", 25);
+  await getPngString("ltDebtPerTotalOperatingRevenue_chart", 26);
+  await getPngString("debtServiceCoverageRatio_chart", 27);
+  await getPngString("debtBurdenRatio_chart", 28);
+  await getPngString("endowmentOperatingBudget_chart", 29);
+  await getPngString("endowmentAssetsPerStudent_chart", 30);
 
   uploadMainFile += "</qdbapi>";
 
@@ -102,11 +123,11 @@ const mainPrint = async () => {
       createToastWarning(`Quickbase returned an error: ${err}`);
     },
   }); //end ajax call
+  document.getElementById("FinancialPositionContent").classList.add("hidden");
+  document.getElementById("RevenueAndExpenseContent").classList.add("hidden");
+  document.getElementById("DebtAndEndowmentContent").classList.add("hidden");
   showApiLoadingFunction("close", "print");
 };
 
-function uploadSingleToFile(id, val) {
-  uploadMainFile += `<field fid='${id}'>${val}</field>`;
-}
 
 printButton.addEventListener("click", mainPrint); //uploadToFile
