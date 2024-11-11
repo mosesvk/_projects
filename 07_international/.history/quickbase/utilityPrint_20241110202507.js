@@ -53,7 +53,6 @@ const getPngString = async (id, fieldId) => {
 
     // Await the base64 conversion
     const base64String = await svgToPngBase64(element, idx);
-    console.log({ base64String });
 
     // Upload the base64 string
     uploadSingleToFile(fieldId, base64String);

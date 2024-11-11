@@ -4,7 +4,7 @@ displayGeneralComponent = (data) => {
   const parseData = parseStoredData(savedData);
 
   // cashFlowsTrend
-  statementCashFlows_chart = new ApexCharts(
+  const statementCashFlowsChart = new ApexCharts(
     document.getElementById("statementCashFlows_chart"),
     getCashFlowChartOptions(parseData, [
       "cashFlowsTrendFinancing",
@@ -14,7 +14,7 @@ displayGeneralComponent = (data) => {
     ])
   );
 
-  statementCashFlows_chart.render();
+  statementCashFlowsChart.render();
 
   updateCashFlowModal("cashFlowsTrend", parseData, [
     "cashFlowsTrendFinancing",
@@ -25,7 +25,7 @@ displayGeneralComponent = (data) => {
 
   // init again when toggling dark mode
   document.addEventListener("dark-mode", function () {
-    statementCashFlows_chart.updateOptions(
+    statementCashFlowsChart.updateOptions(
       getCashFlowChartOptions(parseData, [
         "cashFlowsTrendFinancing",
         "cashFlowsTrendInvesting",

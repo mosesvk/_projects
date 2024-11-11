@@ -33,11 +33,11 @@ async function svgToPngBase64(element, id) {
     // Get the base64 string from the canvas
     const base64String = canvas.toDataURL("image/png").split(",")[1];
 
-    // console.log({ base64String });
+    console.log({ base64String });
     
 
     // Store the result in map_dataUri
-    // map_dataUri.set(id, base64String);
+    map_dataUri.set(id, base64String);
 
     return base64String; // Return the base64 string
   } catch (error) {
@@ -53,7 +53,6 @@ const getPngString = async (id, fieldId) => {
 
     // Await the base64 conversion
     const base64String = await svgToPngBase64(element, idx);
-    console.log({ base64String });
 
     // Upload the base64 string
     uploadSingleToFile(fieldId, base64String);
@@ -194,6 +193,8 @@ function uploadSingleToFile(id, val, end) {
 }
 
 const printToExcel = (dataString) => {
+  toggleButtonLoadingState(generateReportsBtn);
+
   dataParseExcelString = dataString;
 
   var urlUploadFile =
@@ -253,12 +254,11 @@ const printToExcel = (dataString) => {
 };
 
 const createPrintExcel = async () => {
-  console.log({ClientRid, firmName, uniqueClients, sliderValue, sliderValue2, selectedYears_Set});
-  toggleButtonLoadingState(generateReportsBtn);
   document.getElementById("cashContent").classList.remove("hidden");
   document.getElementById("netAssetsContent").classList.remove("hidden");
   document.getElementById("incomeContent").classList.remove("hidden");
   document.getElementById("expenseContent").classList.remove("hidden");
+
   uploadSingleToFile(171, ClientRid);
   uploadSingleToFile(170, firmName);
   uploadSingleToFile(169, uniqueClients.size);
@@ -291,15 +291,11 @@ const createPrintExcel = async () => {
     index++;
   }
 
+  toggleButtonLoadingState(generateReportsBtn);
   setTimeout(() => {
     printToExcel(uploadMainFile); // Main Function
-    console.log({uploadMainFile})
     toggleGenerateReportButtonNormalState(generateReportsBtn);
-    document.getElementById("cashContent").classList.add("hidden");
-    document.getElementById("netAssetsContent").classList.add("hidden");
-    document.getElementById("incomeContent").classList.add("hidden");
-    document.getElementById("expenseContent").classList.add("hidden");
-    document.getElementById("print_modal_footer").classList.add("hidden");
+    document.getElementById("print_modal_footer").classList.remove("hidden");
   }, 1500); //setTimeout
 };
 

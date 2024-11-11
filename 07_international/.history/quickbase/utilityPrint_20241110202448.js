@@ -37,7 +37,7 @@ async function svgToPngBase64(element, id) {
     
 
     // Store the result in map_dataUri
-    // map_dataUri.set(id, base64String);
+    map_dataUri.set(id, base64String);
 
     return base64String; // Return the base64 string
   } catch (error) {
@@ -53,7 +53,6 @@ const getPngString = async (id, fieldId) => {
 
     // Await the base64 conversion
     const base64String = await svgToPngBase64(element, idx);
-    console.log({ base64String });
 
     // Upload the base64 string
     uploadSingleToFile(fieldId, base64String);

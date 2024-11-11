@@ -17,6 +17,20 @@ const regions_Array = [
     str: "MT",
   },
 ];
+const map_dataUri = new Map();
+
+// Charts 
+let statementCashFlows_chart
+let daysCashOnHand_chart
+let daysExpensesInUnrestrictedNA_chart
+let daysExpensesInUnrestrictedNA_excludingPPE_chart
+let totalCoverageRatio_chart
+let contributionsTrend_chart
+let annualizedInvestmentReturn_chart
+let functionalExpensePercent_program_chart
+let functionalExpensePercent_administrative_chart
+let functionalExpensePercent_fundraising_chart
+let costOfContributions_chart
 
 // Mission Sending
 // Relief Ops
@@ -607,7 +621,7 @@ function calculatePercentiles(arr, type, fixed) {
   // Sort the array in ascending order
   const sortedArr = numericArr.slice().sort((a, b) => a - b);
 
-  if (fixed == 2) console.log({sortedArr})
+  // if (fixed == 2) console.log({sortedArr})
 
   const getPercentile = (percentile) => {
     const index = (percentile / 100) * (sortedArr.length - 1);
@@ -1244,3 +1258,12 @@ const destroyAllCharts = () => {
   });
   charts_Array = []; // Clear the chart instances array
 };
+
+
+
+
+selectedYears_Set.add(2018)
+selectedYears_Set.add(2019)
+selectedYears_Set.add(2020)
+selectedYears_Set.add(2021)
+selectedYears_Set.add(2022)

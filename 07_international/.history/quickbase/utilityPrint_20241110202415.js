@@ -33,11 +33,11 @@ async function svgToPngBase64(element, id) {
     // Get the base64 string from the canvas
     const base64String = canvas.toDataURL("image/png").split(",")[1];
 
-    // console.log({ base64String });
+    console.log({ base64String });
     
 
     // Store the result in map_dataUri
-    // map_dataUri.set(id, base64String);
+    map_dataUri.set(id, base64String);
 
     return base64String; // Return the base64 string
   } catch (error) {
@@ -53,7 +53,6 @@ const getPngString = async (id, fieldId) => {
 
     // Await the base64 conversion
     const base64String = await svgToPngBase64(element, idx);
-    console.log({ base64String });
 
     // Upload the base64 string
     uploadSingleToFile(fieldId, base64String);
@@ -293,7 +292,7 @@ const createPrintExcel = async () => {
 
   setTimeout(() => {
     printToExcel(uploadMainFile); // Main Function
-    console.log({uploadMainFile})
+    
     toggleGenerateReportButtonNormalState(generateReportsBtn);
     document.getElementById("cashContent").classList.add("hidden");
     document.getElementById("netAssetsContent").classList.add("hidden");

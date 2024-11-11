@@ -17,6 +17,8 @@ const regions_Array = [
     str: "MT",
   },
 ];
+const map_dataUri = new Map();
+
 
 // Mission Sending
 // Relief Ops
@@ -593,24 +595,21 @@ const getSumOfArray = (array) => {
   return array.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
 };
 
-function calculatePercentiles(arr, type) {
+
+function calculatePercentiles(arr, type, fixed) {
   // Convert string values to numbers
   let numericArr = arr.map((value) => parseFloat(value));
 
-  // console.log(numericArr);
-
   if (type == "percent") {
-    numericArr = arr.map((value) => parseInt(value * 100));
+    numericArr = numericArr.map((value) => parseFloat(value * 100));
   } else {
-    numericArr = arr.map((value) => parseFloat(value));
+    numericArr = numericArr.map((value) => parseFloat(value));
   }
-
-  console.log(numericArr);
 
   // Sort the array in ascending order
   const sortedArr = numericArr.slice().sort((a, b) => a - b);
 
-  // console.log(sortedArr);
+  // if (fixed == 2) console.log({sortedArr})
 
   const getPercentile = (percentile) => {
     const index = (percentile / 100) * (sortedArr.length - 1);
@@ -618,14 +617,15 @@ function calculatePercentiles(arr, type) {
     const upperIndex = Math.ceil(index);
 
     if (lowerIndex === upperIndex) {
-      return sortedArr[lowerIndex];
+      return fixed !== undefined ? parseFloat(sortedArr[lowerIndex].toFixed(fixed)) : sortedArr[lowerIndex];
     }
 
     const lowerValue = sortedArr[lowerIndex];
     const upperValue = sortedArr[upperIndex];
     const fraction = index - lowerIndex;
 
-    return lowerValue + fraction * (upperValue - lowerValue);
+    const result = lowerValue + fraction * (upperValue - lowerValue);
+    return fixed !== undefined ? parseFloat(result.toFixed(fixed)) : result;
   };
 
   const q1 = getPercentile(25);
@@ -634,6 +634,7 @@ function calculatePercentiles(arr, type) {
 
   return [q1, median, q3];
 }
+
 
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
@@ -716,14 +717,14 @@ const getPeerAndClientChartDataArrays = (
   mainName,
   numType
 ) => {
-  console.log(mainName, {
-    years,
-    dataPeer,
-    dataClient,
-    fixedNum,
-    mainName,
-    numType,
-  });
+  // console.log(mainName, {
+  //   years,
+  //   dataPeer,
+  //   dataClient,
+  //   fixedNum,
+  //   mainName,
+  //   numType,
+  // });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
@@ -1245,3 +1246,12 @@ const destroyAllCharts = () => {
   });
   charts_Array = []; // Clear the chart instances array
 };
+
+
+
+
+selectedYears_Set.add(2018)
+selectedYears_Set.add(2019)
+selectedYears_Set.add(2020)
+selectedYears_Set.add(2021)
+selectedYears_Set.add(2022)
