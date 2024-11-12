@@ -3,7 +3,8 @@ const uploadFileEnd = `</qdbapi>`;
 const uploadClist = `<clist>171</clist>`;
 const generateReportsBtn = document.getElementById("generateReports");
 let uploadMainFile = "";
-
+let uploadpresentationFile = "";
+  
 $("#downloadPdf").on("click", function () {
   let imagesArray = [];
 
@@ -109,7 +110,7 @@ const dataArrayObjects = (
     min: minVal,
     max: maxVal,
   };
-};
+}; 
 
 function uploadToFile(avg, mid, min, max, fIdArray, begin, end) {
   // console.log({ avg, mid, min, max, num, begin, end });
@@ -128,19 +129,18 @@ function uploadToFile(avg, mid, min, max, fIdArray, begin, end) {
       "<qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>";
 
   uploadMainFile += `<field fid='${avgId}'>${avgVal}</field><field fid='${midId}'>${midVal}</field><field fid='${minId}'>${minVal}</field><field fid='${maxId}'>${maxVal}</field>`;
-}
+} 
 
-const uploadSingleToFile = (id, val, end) => {
-  // console.log({ id, val, end });
+function uploadSingleToFile(id, val, end) {
   uploadMainFile += `<field fid='${id}'>${val}</field>`;
 
   if (end) uploadMainFile += uploadClist;
 
   if (end) uploadMainFile += "</qdbapi>";
-};
+}
 
 const printToExcel = (dataString) => {
-  // console.log({ uploadMainFile: dataString });
+  console.log({uploadMainFile: dataString});
   var urlUploadFile =
     "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord";
 
@@ -156,33 +156,32 @@ const printToExcel = (dataString) => {
     dataType: "xml",
     processData: false,
     data: dataString,
-    success: async function (response) {
-      const xmlUpload = $(response);
+    success: function (response) {
+      var xmlUpload = $(response);
       console.log(response);
       // console.log(xmlUpload);
       newRecordID = xmlUpload[0].all[4].innerHTML;
-      console.log(newRecordID);
+      console.log(newRecordID)
 
       if (xmlUpload.find("qdbapi").find("errcode").text() == "0") {
-        const recordId = xmlUpload
+        newDownloadURL = xmlUpload
           .find("qdbapi")
-          .find("rid")
+          .find("record")
+          .find("f")
           .text();
-        console.log({
-          recordId
-        });
-
-        document
-          .getElementById("print_modal_footer")
-          .classList.remove("hidden");
-        document.getElementById("trendXLSFinal").href =
-          getUrlBasedOnYearCount("xls", recordId);
-        document.getElementById("trendPDFFinal").href =
-          getUrlBasedOnYearCount("pdf", recordId);
-        document.getElementById("benchXLSFinal").href =
-          getUrlBasedOnYearCount("xls", recordId);
-        document.getElementById("benchPDFFinal").href =
-          getUrlBasedOnYearCount("pdf", recordId);
+        newDownloadURLFormatted = newDownloadURL.replace(/amp;/g, "");
+        newDownloadURLFormattedArray = newDownloadURLFormatted.split("---");
+        console.log({ newDownloadURLFormattedArray });
+        
+          document.getElementById('print_modal_footer').classList.remove('hidden');
+          document.getElementById("trendXLSFinal").href =
+            newDownloadURLFormattedArray[1];
+          document.getElementById("trendPDFFinal").href =
+            newDownloadURLFormattedArray[0];
+          document.getElementById("benchXLSFinal").href =
+            newDownloadURLFormattedArray[3];
+          document.getElementById("benchPDFFinal").href =
+            newDownloadURLFormattedArray[2];
       } else {
         console.log("Quickbase returned an error.");
         createToastWarning(
@@ -216,21 +215,10 @@ const createFileForPrint = (
 };
 
 const createPrintExcel = async () => {
-  const types = Array.from(selectedTypes_Array).join(";");
-  const regions = Array.from(selectedRegions_Array).join(";");
-  console.log({
-    ClientRid,
-    firmName,
-    uniqueClients,
-    sliderValue,
-    sliderValue2,
-    selectedYears_Set,
-    missionValue,
-    missionValue2,
-    types,
-    regions,
-  });
-
+  const types = Array.from(selectedTypes_Array
+  ).join(';');
+  const regions = Array.from(selectedRegions_Array).join(';');
+  console.log({ClientRid, firmName, uniqueClients, sliderValue, sliderValue2, selectedYears_Set, missionValue, missionValue2, types, regions});
   uploadSingleToFile(171, ClientRid);
   uploadSingleToFile(170, firmName);
   uploadSingleToFile(169, uniqueClients.size);
@@ -239,12 +227,11 @@ const createPrintExcel = async () => {
   uploadSingleToFile(165, missionValue);
   uploadSingleToFile(166, missionValue2);
   uploadSingleToFile(167, regions);
-  uploadSingleToFile(168, types)
+  uploadSingleToFile(168, types);
+
 
   let yearLength = selectedYears_Set.size;
   let j = 158;
-
-  sortSet(selectedYears_Set);
 
   let index = 0;
   for (let year of selectedYears_Set) {
@@ -279,13 +266,6 @@ document.getElementById("generateReports").addEventListener("click", () => {
 
 
 
-
-
-
-
-
-
-
 // PRESENTATION [BASE64] -----------------------------------------------------------------------------
 
 const urlPresentationFile =
@@ -302,7 +282,8 @@ async function svgToPngBase64(element, id) {
     // Get the base64 string from the canvas
     const base64String = canvas.toDataURL("image/png").split(",")[1];
 
-    // console.log({ base64String });
+    console.log({ base64String });
+    
 
     // Store the result in map_dataUri
     map_dataUri.set(id, base64String);
@@ -314,7 +295,7 @@ async function svgToPngBase64(element, id) {
   }
 }
 
-function uploadSinglePresentationToFile(id, val) {
+function uploadSingleToFile(id, val) {
   uploadPresentationFile += `<field fid='${id}' filename='image.png'>${val}</field>`;
 }
 
@@ -327,25 +308,25 @@ const getPngString = async (id, fieldId) => {
     const base64String = await svgToPngBase64(element, idx);
 
     // Upload the base64 string
-    uploadSinglePresentationToFile(fieldId, base64String);
+    uploadSingleToFile(fieldId, base64String);
   } catch (error) {
     console.error("Error in getPngString:", error);
   }
 };
 
+
 const mainPrint = async () => {
+  // console.log({ClientRid, firmName, uniqueClients, sliderValue, sliderValue2, selectedYears_Set});
+  toggleButtonLoadingState(printButton);
   document.getElementById("cashContent").classList.remove("hidden");
   document.getElementById("netAssetsContent").classList.remove("hidden");
   document.getElementById("incomeContent").classList.remove("hidden");
   document.getElementById("expenseContent").classList.remove("hidden");
-
-  uploadPresentationFile += "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
-
-  uploadSinglePresentationToFile(171, ClientRid);
-  uploadSinglePresentationToFile(170, firmName);
-  uploadSinglePresentationToFile(169, uniqueClients.size);
-  uploadSinglePresentationToFile(163, sliderValue);
-  uploadSinglePresentationToFile(164, sliderValue2);
+  uploadSingleToFile(171, ClientRid);
+  uploadSingleToFile(170, firmName);
+  uploadSingleToFile(169, uniqueClients.size);
+  uploadSingleToFile(163, sliderValue);
+  uploadSingleToFile(164, sliderValue2);
   await getPngString("statementCashFlows_chart", 194);
   await getPngString("daysCashOnHand_chart", 195);
   await getPngString("daysExpensesInUnrestrictedNA_chart", 196);
@@ -360,7 +341,7 @@ const mainPrint = async () => {
 
   uploadPresentationFile += "</qdbapi>";
 
-  console.log({ uploadPresentationFile });
+  console.log({ uploadpresentationFile });
 
   $.ajax({
     type: "POST",
@@ -372,7 +353,7 @@ const mainPrint = async () => {
     data: uploadPresentationFile,
     success: function (response) {
       var xmlUpload = $(response);
-        console.log(response);
+      //   console.log(response);
       //   console.log(xmlUpload);
       newRecordID = xmlUpload[0].all[4].innerHTML;
       //console.log(newRecordID)
@@ -384,7 +365,9 @@ const mainPrint = async () => {
           .find("f")
           .text();
 
-        createToastSuccess("Printed successfully uploaded to Quickbase.");
+        createToastSuccess(
+          "Printed successfully uploaded to Quickbase."
+        );
       } else {
         console.log("Quickbase returned an error.");
         createToastWarning(
@@ -393,19 +376,17 @@ const mainPrint = async () => {
       }
     },
     error: function (err) {
+      // console.log("Quickbase returned an error: " + response);
+      showApiLoadingFunction("close", "print");
       console.log(err);
       createToastWarning(`Quickbase returned an error: ${err}`);
     },
   }); //end ajax call
-  document.getElementById("cashContent").classList.add("hidden");
-  document.getElementById("netAssetsContent").classList.add("hidden");
-  document.getElementById("incomeContent").classList.add("hidden");
-  document.getElementById("expenseContent").classList.add("hidden");
-  togglePrintPresentationButtonNormalState(printButton);
-
+  document.getElementById("FinancialPositionContent").classList.add("hidden");
+  document.getElementById("RevenueAndExpenseContent").classList.add("hidden");
+  document.getElementById("DebtAndEndowmentContent").classList.add("hidden");
+  showApiLoadingFunction("close", "print");
 };
 
-printButton.addEventListener("click", () => {
-  toggleButtonLoadingState(printButton);
-  mainPrint();
-}); //uploadToFile
+
+printButton.addEventListener("click", mainPrint); //uploadToFile

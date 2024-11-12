@@ -302,7 +302,7 @@ async function svgToPngBase64(element, id) {
     // Get the base64 string from the canvas
     const base64String = canvas.toDataURL("image/png").split(",")[1];
 
-    // console.log({ base64String });
+    console.log({ base64String });
 
     // Store the result in map_dataUri
     map_dataUri.set(id, base64String);

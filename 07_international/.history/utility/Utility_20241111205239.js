@@ -753,6 +753,7 @@ function calculatePercentiles(arr, type, fixed) {
 }
 
 function getUrlBasedOnYearCount(format, RecordId) {
+  const selectedYears_Set = new Set(JSON.parse(localStorage.getItem('selectedYears_Set')));
   const yearCount = selectedYears_Set.size;
   let url = "";
 

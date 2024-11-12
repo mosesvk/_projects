@@ -2118,12 +2118,6 @@ const toggleGenerateReportButtonNormalState = (btn) => {
 `;
 };
 
-const togglePrintPresentationButtonNormalState = (btn) => {
-  btn.innerHTML = `
-  Print Presentation
-`;
-};
-
 const processSelectedYears = () => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -2146,6 +2140,7 @@ const saveSelectedYearsToLocalStorage = (selectedYears_Set) => {
   const selectedYearsArray = Array.from(selectedYears_Set).sort(
     (a, b) => a - b
   );
+  getUrlBasedOnYearCount(selectedYears_Set)
   localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
 };
 

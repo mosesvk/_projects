@@ -71,7 +71,6 @@ let sliderValue2 = 25000;
 let missionValue = 0;
 let missionValue2 = 25000;
 let firmName = "";
-let urlToPrintXLS
 // let amount = null;
 
 let selectedRegion = "";
@@ -713,6 +712,7 @@ const getSumOfArray = (array) => {
   return array.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
 };
 
+
 function calculatePercentiles(arr, type, fixed) {
   // Convert string values to numbers
   let numericArr = arr.map((value) => parseFloat(value));
@@ -750,43 +750,6 @@ function calculatePercentiles(arr, type, fixed) {
   const q3 = getPercentile(75);
 
   return [q1, median, q3];
-}
-
-function getUrlBasedOnYearCount(format, RecordId) {
-  const yearCount = selectedYears_Set.size;
-  let url = "";
-
-  switch (yearCount) {
-    case 1:
-      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=42&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-      break;
-    case 2:
-      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=41&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-      break;
-    case 3:
-      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=40&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-      break;
-    case 4:
-      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=39&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-      break;
-    case 5:
-      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=38&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-      break;
-    case 6:
-      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=37&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-      break;
-    case 7:
-      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=36&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-      break;
-    case 8:
-      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=35&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-      break;
-    default:
-      console.error("Invalid year count");
-  }
-
-  console.log(`Generated URL for format ${format} and RecordId ${RecordId}: ${url}`); // Add this line to log the generated URL
-  return url;
 }
 
 function sortSet(set) {

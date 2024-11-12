@@ -302,7 +302,7 @@ async function svgToPngBase64(element, id) {
     // Get the base64 string from the canvas
     const base64String = canvas.toDataURL("image/png").split(",")[1];
 
-    // console.log({ base64String });
+    console.log({ base64String });
 
     // Store the result in map_dataUri
     map_dataUri.set(id, base64String);
@@ -372,7 +372,7 @@ const mainPrint = async () => {
     data: uploadPresentationFile,
     success: function (response) {
       var xmlUpload = $(response);
-        console.log(response);
+      //   console.log(response);
       //   console.log(xmlUpload);
       newRecordID = xmlUpload[0].all[4].innerHTML;
       //console.log(newRecordID)
@@ -401,7 +401,6 @@ const mainPrint = async () => {
   document.getElementById("netAssetsContent").classList.add("hidden");
   document.getElementById("incomeContent").classList.add("hidden");
   document.getElementById("expenseContent").classList.add("hidden");
-  togglePrintPresentationButtonNormalState(printButton);
 
 };
 

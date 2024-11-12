@@ -1105,7 +1105,6 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
   localStorage.setItem("assetData", JSON.stringify(object));
 };
 
-
 const processIncomeData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
@@ -2122,7 +2121,7 @@ const toggleGenerateReportButtonNormalState = (btn) => {
 const processSelectedYears = () => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  console.log({ selectedYears });
+  // console.log({ selectedYears });
 
   if (!selectedYears) {
     createToastWarning("Please select year(s) for data to appear");
@@ -2189,12 +2188,12 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
     )}</qdbapi>`;
-    console.log("CLIENT", qdbapiElementClient);
+    // console.log("CLIENT", qdbapiElementClient);
 
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
     )}</qdbapi>`;
-    console.log("PEER", qdbapiElementPeer);
+    // console.log("PEER", qdbapiElementPeer);
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();

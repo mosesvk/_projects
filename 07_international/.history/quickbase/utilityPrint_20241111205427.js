@@ -3,6 +3,7 @@ const uploadFileEnd = `</qdbapi>`;
 const uploadClist = `<clist>171</clist>`;
 const generateReportsBtn = document.getElementById("generateReports");
 let uploadMainFile = "";
+let uploadpresentationFile = "";
 
 $("#downloadPdf").on("click", function () {
   let imagesArray = [];
@@ -302,7 +303,7 @@ async function svgToPngBase64(element, id) {
     // Get the base64 string from the canvas
     const base64String = canvas.toDataURL("image/png").split(",")[1];
 
-    // console.log({ base64String });
+    console.log({ base64String });
 
     // Store the result in map_dataUri
     map_dataUri.set(id, base64String);
@@ -338,9 +339,6 @@ const mainPrint = async () => {
   document.getElementById("netAssetsContent").classList.remove("hidden");
   document.getElementById("incomeContent").classList.remove("hidden");
   document.getElementById("expenseContent").classList.remove("hidden");
-
-  uploadPresentationFile += "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
-
   uploadSinglePresentationToFile(171, ClientRid);
   uploadSinglePresentationToFile(170, firmName);
   uploadSinglePresentationToFile(169, uniqueClients.size);
@@ -360,7 +358,7 @@ const mainPrint = async () => {
 
   uploadPresentationFile += "</qdbapi>";
 
-  console.log({ uploadPresentationFile });
+  console.log({ uploadpresentationFile });
 
   $.ajax({
     type: "POST",
@@ -372,7 +370,7 @@ const mainPrint = async () => {
     data: uploadPresentationFile,
     success: function (response) {
       var xmlUpload = $(response);
-        console.log(response);
+      //   console.log(response);
       //   console.log(xmlUpload);
       newRecordID = xmlUpload[0].all[4].innerHTML;
       //console.log(newRecordID)
@@ -393,16 +391,16 @@ const mainPrint = async () => {
       }
     },
     error: function (err) {
+      // console.log("Quickbase returned an error: " + response);
+      showApiLoadingFunction("close", "print");
       console.log(err);
       createToastWarning(`Quickbase returned an error: ${err}`);
     },
   }); //end ajax call
-  document.getElementById("cashContent").classList.add("hidden");
-  document.getElementById("netAssetsContent").classList.add("hidden");
-  document.getElementById("incomeContent").classList.add("hidden");
-  document.getElementById("expenseContent").classList.add("hidden");
-  togglePrintPresentationButtonNormalState(printButton);
-
+  document.getElementById("FinancialPositionContent").classList.add("hidden");
+  document.getElementById("RevenueAndExpenseContent").classList.add("hidden");
+  document.getElementById("DebtAndEndowmentContent").classList.add("hidden");
+  showApiLoadingFunction("close", "print");
 };
 
 printButton.addEventListener("click", () => {

@@ -2121,7 +2121,7 @@ const toggleGenerateReportButtonNormalState = (btn) => {
 const processSelectedYears = () => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  console.log({ selectedYears });
+  // console.log({ selectedYears });
 
   if (!selectedYears) {
     createToastWarning("Please select year(s) for data to appear");
