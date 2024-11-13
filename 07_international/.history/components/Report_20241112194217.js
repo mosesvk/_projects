@@ -617,12 +617,11 @@ const addPeerDataToRow = (
   } else {
     min = peer ? parseFloat(get25thPercentileOfArray(peer[dataArray])) : "";
   }
+  // if (name == 'daysCashOnHand') console.log('daysCashOnHand', {min, peerArray: peer[dataArray], type, fixedNum})
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
   const max = peer ? parseFloat(get75thPercentileOfArray(peer[dataArray])) : "";
   const textMax = styleNumber(max, type, fixedNum);
-
-  if (name == 'percentWithoutDR_excludingPPE') console.log('percentWithoutDR_excludingPPE', {textAvg, mid, textMid, min, textMin, max, textMax, peerArray: peer[dataArray], type, fixedNum})
 
   // console.log(name, { tableRow, fixedNum, wa, avg, mid, min, textMin, max, textMax, peer, dataArray });
 

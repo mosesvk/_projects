@@ -653,7 +653,7 @@ const get25thPercentileOfArray = (array, name) => {
     );
   }
 
-  // if (name) console.log(name, sortedArray);
+  if (name) console.log(name, sortedArray);
   // Step 3: Calculate the index for the 25th percentile
   const index = (sortedArray.length + 1) * 0.25;
 

@@ -413,7 +413,7 @@ const addToSingleRow = (
   begin,
   end
 ) => {
-  // if (name == "percentWithoutDR_excludingPPE" || name == "netIncomeRatio") console.log({ selectedYears, name, client, peer, type, fixedNum });
+  if (name == "percentWithoutDR_excludingPPE" || name == "netIncomeRatio") console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log(`row_${name}`);
   // console.log("tableReportRow", tableReportRow);
@@ -581,19 +581,19 @@ const addPeerDataToRow = (
     avg = 0;
   }
 
-  // if (name == "netIncomeRatio")
-  //   console.log(name, {
-  //     tableRow,
-  //     fIdArray,
-  //     peerDataArray: peer[dataArray],
-  //     type,
-  //     fixedNum,
-  //     peer,
-  //     dataArray,
-  //     wa,
-  //     data,
-  //     avg,
-  //   });
+  if (name == "netIncomeRatio")
+    console.log(name, {
+      tableRow,
+      fIdArray,
+      peerDataArray: peer[dataArray],
+      type,
+      fixedNum,
+      peer,
+      dataArray,
+      wa,
+      data,
+      avg,
+    });
 
   if (peer) {
     const [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
@@ -617,12 +617,11 @@ const addPeerDataToRow = (
   } else {
     min = peer ? parseFloat(get25thPercentileOfArray(peer[dataArray])) : "";
   }
+  // if (name == 'daysCashOnHand') console.log('daysCashOnHand', {min, peerArray: peer[dataArray], type, fixedNum})
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
   const max = peer ? parseFloat(get75thPercentileOfArray(peer[dataArray])) : "";
   const textMax = styleNumber(max, type, fixedNum);
-
-  if (name == 'percentWithoutDR_excludingPPE') console.log('percentWithoutDR_excludingPPE', {textAvg, mid, textMid, min, textMin, max, textMax, peerArray: peer[dataArray], type, fixedNum})
 
   // console.log(name, { tableRow, fixedNum, wa, avg, mid, min, textMin, max, textMax, peer, dataArray });
 

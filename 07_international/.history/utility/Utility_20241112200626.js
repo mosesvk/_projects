@@ -20,18 +20,19 @@ const regions_Array = [
 const map_dataUri = new Map();
 const dataUrLObj = new Object();
 
-// Charts
-let statementCashFlows_chart;
-let daysCashOnHand_chart;
-let daysExpensesInUnrestrictedNA_chart;
-let daysExpensesInUnrestrictedNA_excludingPPE_chart;
-let totalCoverageRatio_chart;
-let contributionsTrend_chart;
-let annualizedInvestmentReturn_chart;
-let functionalExpensePercent_program_chart;
-let functionalExpensePercent_administrative_chart;
-let functionalExpensePercent_fundraising_chart;
-let costOfContributions_chart;
+
+// Charts 
+let statementCashFlows_chart
+let daysCashOnHand_chart
+let daysExpensesInUnrestrictedNA_chart
+let daysExpensesInUnrestrictedNA_excludingPPE_chart
+let totalCoverageRatio_chart
+let contributionsTrend_chart
+let annualizedInvestmentReturn_chart
+let functionalExpensePercent_program_chart
+let functionalExpensePercent_administrative_chart
+let functionalExpensePercent_fundraising_chart
+let costOfContributions_chart
 
 // Mission Sending
 // Relief Ops
@@ -70,7 +71,7 @@ let sliderValue2 = 25000;
 let missionValue = 0;
 let missionValue2 = 25000;
 let firmName = "";
-let urlToPrintXLS;
+let urlToPrintXLS
 // let amount = null;
 
 let selectedRegion = "";
@@ -260,116 +261,114 @@ const createChart = (
     mainName
   );
 
-  const chartIds = [
-    "daysCashOnHand_chart",
-    "daysExpensesInUnrestrictedNA_chart",
-    "daysExpensesInUnrestrictedNA_excludingPPE_chart",
-    "totalCoverageRatio_chart",
-    "contributionsTrend_chart",
-    "annualizedInvestmentReturn_chart",
-    "functionalExpensePercent_program_chart",
-    "functionalExpensePercent_administrative_chart",
-    "functionalExpensePercent_fundraising_chart",
-    "costOfContributions_chart",
-  ];
 
-  if (chartIds.includes(chartId)) {
-    if (chartId === "daysCashOnHand_chart") {
-      daysCashOnHand_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      daysCashOnHand_chart.render();
-      document.addEventListener("dark-mode", function () {
-        daysCashOnHand_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "daysExpensesInUnrestrictedNA_chart") {
-      daysExpensesInUnrestrictedNA_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      daysExpensesInUnrestrictedNA_chart.render();
-      document.addEventListener("dark-mode", function () {
-        daysExpensesInUnrestrictedNA_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "daysExpensesInUnrestrictedNA_excludingPPE_chart") {
-      daysExpensesInUnrestrictedNA_excludingPPE_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      daysExpensesInUnrestrictedNA_excludingPPE_chart.render();
-      document.addEventListener("dark-mode", function () {
-        daysExpensesInUnrestrictedNA_excludingPPE_chart.updateOptions(
-          chartOptions
-        );
-      });
-    } else if (chartId === "totalCoverageRatio_chart") {
-      totalCoverageRatio_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      totalCoverageRatio_chart.render();
-      document.addEventListener("dark-mode", function () {
-        totalCoverageRatio_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "contributionsTrend_chart") {
-      contributionsTrend_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      contributionsTrend_chart.render();
-      document.addEventListener("dark-mode", function () {
-        contributionsTrend_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "annualizedInvestmentReturn_chart") {
-      annualizedInvestmentReturn_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      annualizedInvestmentReturn_chart.render();
-      document.addEventListener("dark-mode", function () {
-        annualizedInvestmentReturn_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "functionalExpensePercent_program_chart") {
-      functionalExpensePercent_program_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      functionalExpensePercent_program_chart.render();
-      document.addEventListener("dark-mode", function () {
-        functionalExpensePercent_program_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "functionalExpensePercent_administrative_chart") {
-      functionalExpensePercent_administrative_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      functionalExpensePercent_administrative_chart.render();
-      document.addEventListener("dark-mode", function () {
-        functionalExpensePercent_administrative_chart.updateOptions(
-          chartOptions
-        );
-      });
-    } else if (chartId === "functionalExpensePercent_fundraising_chart") {
-      functionalExpensePercent_fundraising_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      functionalExpensePercent_fundraising_chart.render();
-      document.addEventListener("dark-mode", function () {
-        functionalExpensePercent_fundraising_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "costOfContributions_chart") {
-      costOfContributions_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      costOfContributions_chart.render();
-      document.addEventListener("dark-mode", function () {
-        costOfContributions_chart.updateOptions(chartOptions);
-      });
-    }
+const chartIds = [
+  "daysCashOnHand_chart",
+  "daysExpensesInUnrestrictedNA_chart",
+  "daysExpensesInUnrestrictedNA_excludingPPE_chart",
+  "totalCoverageRatio_chart",
+  "contributionsTrend_chart",
+  "annualizedInvestmentReturn_chart",
+  "functionalExpensePercent_program_chart",
+  "functionalExpensePercent_administrative_chart",
+  "functionalExpensePercent_fundraising_chart",
+  "costOfContributions_chart"
+];
+
+if (chartIds.includes(chartId)) {
+  if (chartId === "daysCashOnHand_chart") {
+    daysCashOnHand_chart = new ApexCharts(
+      document.getElementById(chartId),
+      chartOptions
+    );
+    daysCashOnHand_chart.render();
+    document.addEventListener("dark-mode", function () {
+      daysCashOnHand_chart.updateOptions(chartOptions);
+    });
+  } else if (chartId === "daysExpensesInUnrestrictedNA_chart") {
+    daysExpensesInUnrestrictedNA_chart = new ApexCharts(
+      document.getElementById(chartId),
+      chartOptions
+    );
+    daysExpensesInUnrestrictedNA_chart.render();
+    document.addEventListener("dark-mode", function () {
+      daysExpensesInUnrestrictedNA_chart.updateOptions(chartOptions);
+    });
+  } else if (chartId === "daysExpensesInUnrestrictedNA_excludingPPE_chart") {
+    daysExpensesInUnrestrictedNA_excludingPPE_chart = new ApexCharts(
+      document.getElementById(chartId),
+      chartOptions
+    );
+    daysExpensesInUnrestrictedNA_excludingPPE_chart.render();
+    document.addEventListener("dark-mode", function () {
+      daysExpensesInUnrestrictedNA_excludingPPE_chart.updateOptions(chartOptions);
+    });
+  } else if (chartId === "totalCoverageRatio_chart") {
+    totalCoverageRatio_chart = new ApexCharts(
+      document.getElementById(chartId),
+      chartOptions
+    );
+    totalCoverageRatio_chart.render();
+    document.addEventListener("dark-mode", function () {
+      totalCoverageRatio_chart.updateOptions(chartOptions);
+    });
+  } else if (chartId === "contributionsTrend_chart") {
+    contributionsTrend_chart = new ApexCharts(
+      document.getElementById(chartId),
+      chartOptions
+    );
+    contributionsTrend_chart.render();
+    document.addEventListener("dark-mode", function () {
+      contributionsTrend_chart.updateOptions(chartOptions);
+    });
+  } else if (chartId === "annualizedInvestmentReturn_chart") {
+    annualizedInvestmentReturn_chart = new ApexCharts(
+      document.getElementById(chartId),
+      chartOptions
+    );
+    annualizedInvestmentReturn_chart.render();
+    document.addEventListener("dark-mode", function () {
+      annualizedInvestmentReturn_chart.updateOptions(chartOptions);
+    });
+  } else if (chartId === "functionalExpensePercent_program_chart") {
+    functionalExpensePercent_program_chart = new ApexCharts(
+      document.getElementById(chartId),
+      chartOptions
+    );
+    functionalExpensePercent_program_chart.render();
+    document.addEventListener("dark-mode", function () {
+      functionalExpensePercent_program_chart.updateOptions(chartOptions);
+    });
+  } else if (chartId === "functionalExpensePercent_administrative_chart") {
+    functionalExpensePercent_administrative_chart = new ApexCharts(
+      document.getElementById(chartId),
+      chartOptions
+    );
+    functionalExpensePercent_administrative_chart.render();
+    document.addEventListener("dark-mode", function () {
+      functionalExpensePercent_administrative_chart.updateOptions(chartOptions);
+    });
+  } else if (chartId === "functionalExpensePercent_fundraising_chart") {
+    functionalExpensePercent_fundraising_chart = new ApexCharts(
+      document.getElementById(chartId),
+      chartOptions
+    );
+    functionalExpensePercent_fundraising_chart.render();
+    document.addEventListener("dark-mode", function () {
+      functionalExpensePercent_fundraising_chart.updateOptions(chartOptions);
+    });
+  } else if (chartId === "costOfContributions_chart") {
+    costOfContributions_chart = new ApexCharts(
+      document.getElementById(chartId),
+      chartOptions
+    );
+    costOfContributions_chart.render();
+    document.addEventListener("dark-mode", function () {
+      costOfContributions_chart.updateOptions(chartOptions);
+    });
   }
+}
+
 };
 
 const updateCashFlowModal = (
@@ -644,6 +643,7 @@ const get25thPercentileOfArray = (array, name) => {
   const sortedArray = array.sort((a, b) => a - b);
   // console.log(sortedArray);
 
+  
   // Step 2: Check if the array has less than or equal to 2 elements
   if (sortedArray.length <= 2) {
     // If array has 1 or 2 elements, return the average of the elements
@@ -652,8 +652,8 @@ const get25thPercentileOfArray = (array, name) => {
       sortedArray.length
     );
   }
-
-  // if (name) console.log(name, sortedArray);
+  
+  if (name) console.log(name, sortedArray);
   // Step 3: Calculate the index for the 25th percentile
   const index = (sortedArray.length + 1) * 0.25;
 
@@ -734,9 +734,7 @@ function calculatePercentiles(arr, type, fixed) {
     const upperIndex = Math.ceil(index);
 
     if (lowerIndex === upperIndex) {
-      return fixed !== undefined
-        ? parseFloat(sortedArr[lowerIndex].toFixed(fixed))
-        : sortedArr[lowerIndex];
+      return fixed !== undefined ? parseFloat(sortedArr[lowerIndex].toFixed(fixed)) : sortedArr[lowerIndex];
     }
 
     const lowerValue = sortedArr[lowerIndex];
@@ -787,17 +785,16 @@ function getUrlBasedOnYearCount(format, RecordId) {
       console.error("Invalid year count");
   }
 
-  console.log(
-    `Generated URL for format ${format} and RecordId ${RecordId}: ${url}`
-  ); // Add this line to log the generated URL
+  console.log(`Generated URL for format ${format} and RecordId ${RecordId}: ${url}`); // Add this line to log the generated URL
   return url;
 }
 
 function sortSet(set) {
   const sortedArray = Array.from(set).sort();
   set.clear();
-  sortedArray.forEach((item) => set.add(item));
+  sortedArray.forEach(item => set.add(item));
 }
+
 
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
@@ -958,10 +955,7 @@ const styleNumber = (num, type, fixed) => {
   if (!isNaN(text)) {
     if (type === "num" && text != 0) {
       textNum = Number(text).toFixed(fixed);
-      text = Number(textNum).toLocaleString(undefined, {
-        minimumFractionDigits: fixed,
-        maximumFractionDigits: fixed,
-      }); // Add commas for thousands and ensure fix
+      text = Number(textNum).toLocaleString(); // Add commas for thousands
     }
 
     if (type === "percent" && text != 0) {
@@ -1412,6 +1406,9 @@ const destroyAllCharts = () => {
   });
   charts_Array = []; // Clear the chart instances array
 };
+
+
+
 
 // selectedYears_Set.add(2018)
 // selectedYears_Set.add(2019)

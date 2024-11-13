@@ -622,7 +622,7 @@ const addPeerDataToRow = (
   const max = peer ? parseFloat(get75thPercentileOfArray(peer[dataArray])) : "";
   const textMax = styleNumber(max, type, fixedNum);
 
-  if (name == 'percentWithoutDR_excludingPPE') console.log('percentWithoutDR_excludingPPE', {textAvg, mid, textMid, min, textMin, max, textMax, peerArray: peer[dataArray], type, fixedNum})
+  if (name == 'fundraisingAsPercentOfContributions') console.log('fundraisingAsPercentOfContributions', {textAvg, mid, textMid, min, textMin, max, textMax, peerArray: peer[dataArray], type, fixedNum})
 
   // console.log(name, { tableRow, fixedNum, wa, avg, mid, min, textMin, max, textMax, peer, dataArray });
 

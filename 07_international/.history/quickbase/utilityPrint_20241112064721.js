@@ -18,6 +18,10 @@ $("#downloadPdf").on("click", function () {
     let doc = new jsPDF();
     doc.addImage(img, "png", 15, 40, 180, 160);
     doc.save();
+
+    //document.body.appendChild(doc);
+    //a.click()
+    //document.body.removeChild(a)
   }
 });
 
@@ -168,7 +172,7 @@ const printToExcel = (dataString) => {
           recordId
         });
 
-        createToastSuccess("Generated Reports successfully to Quickbase.");
+        createToastSuccess("Printed successfully uploaded to Quickbase.");
 
         document
           .getElementById("print_modal_footer")
@@ -288,7 +292,7 @@ document.getElementById("generateReports").addEventListener("click", () => {
 // PRESENTATION [BASE64] -----------------------------------------------------------------------------
 
 const urlPresentationFile =
-  "https://capincrouse.quickbase.com/db/bumq5qw5e?a=API_AddRecord";
+  "https://capincrouse.quickbase.com/db/buk93bd7x?a=API_AddRecord";
 let uploadPresentationFile = "";
 
 const printButton = document.getElementById("printBase64");
@@ -345,17 +349,17 @@ const mainPrint = async () => {
   uploadSinglePresentationToFile(169, uniqueClients.size);
   uploadSinglePresentationToFile(163, sliderValue);
   uploadSinglePresentationToFile(164, sliderValue2);
-  await getPngString("statementCashFlows_chart", 8);
-  await getPngString("daysCashOnHand_chart", 9);
-  await getPngString("daysExpensesInUnrestrictedNA_chart", 10);
-  await getPngString("daysExpensesInUnrestrictedNA_excludingPPE_chart", 11);
-  await getPngString("totalCoverageRatio_chart", 12);
-  await getPngString("contributionsTrend_chart", 13);
-  await getPngString("annualizedInvestmentReturn_chart", 14);
-  await getPngString("functionalExpensePercent_program_chart", 15);
-  await getPngString("functionalExpensePercent_administrative_chart", 16);
-  await getPngString("functionalExpensePercent_fundraising_chart", 17);
-  await getPngString("costOfContributions_chart", 18);
+  await getPngString("statementCashFlows_chart", 194);
+  await getPngString("daysCashOnHand_chart", 195);
+  await getPngString("daysExpensesInUnrestrictedNA_chart", 196);
+  await getPngString("daysExpensesInUnrestrictedNA_excludingPPE_chart", 197);
+  await getPngString("totalCoverageRatio_chart", 198);
+  await getPngString("contributionsTrend_chart", 199);
+  await getPngString("annualizedInvestmentReturn_chart", 200);
+  await getPngString("functionalExpensePercent_program_chart", 201);
+  await getPngString("functionalExpensePercent_administrative_chart", 202);
+  await getPngString("functionalExpensePercent_fundraising_chart", 203);
+  await getPngString("costOfContributions_chart", 204);
 
   uploadPresentationFile += "</qdbapi>";
 
@@ -383,7 +387,7 @@ const mainPrint = async () => {
           .find("f")
           .text();
 
-        createToastSuccess("Presentation Charts successfully uploaded to Quickbase.");
+        createToastSuccess("Printed successfully uploaded to Quickbase.");
       } else {
         console.log("Quickbase returned an error.");
         createToastWarning(

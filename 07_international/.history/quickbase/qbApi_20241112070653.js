@@ -981,7 +981,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "percentWithoutDR_excludingPPE_Peer",
+        "percentWithoutDR_Peer",
         record,
         "c03_02_ratio_percent_without_donor_restrictions_excluding_net_investment_in_ppe",
         "c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe"
@@ -1032,7 +1032,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "percentWithoutDR_Peer",
+        "percentWithoutDR_excludingPPE_Peer",
         record,
         "c03_03_ratio_percent_without_donor_restrictions",
         "c03_03_yes_no_percent_without_donor_restrictions"
@@ -2179,9 +2179,7 @@ const recordPeerHTMLArray = [];
 
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
-  // Reset client and peer records
-  recordClientHTMLArray.length = 0;
-  recordPeerHTMLArray.length = 0;
+  localStorage.clear();
   try {
     // uploadMainFile = "";
     // document.getElementById("print_modal_footer").classList.add("hidden");
