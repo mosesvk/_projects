@@ -1430,7 +1430,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "annualizedInvestmentReturn_Peer",
         record,
-        "c04_10_ratio_annualized_investment_return",
+        "__c04_10_ratio_annualized_investment_return",
         "c04_10_yes_no_annualized_investment_return"
       );
       insertDataIntoObject(

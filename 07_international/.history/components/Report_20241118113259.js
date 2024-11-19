@@ -1,3 +1,4 @@
+
 const displayReportComponent = () => {
   const generalData = JSON.parse(localStorage.getItem("generalData"));
   const cashData = JSON.parse(localStorage.getItem("cashData"));
@@ -413,13 +414,7 @@ const addToSingleRow = (
   begin,
   end
 ) => {
-  
-  // if (name == "percentWithoutDR_excludingPPE" || name == "netIncomeRatio") console.log({ selectedYears, name, client, peer, type, fixedNum });
-  const tableReportRow = document.getElementById(`row_${mainName}`);
-
-  while (tableReportRow.children.length > 1) {
-    tableReportRow.removeChild(tableReportRow.children[1]);
-  }
+ 
 
   addClientDataToReportRow(
     tableReportRow,
@@ -501,6 +496,7 @@ const addClientDataToReportRow = (
   }
 };
 
+
 const addPeerDataToReportRow = (
   tableRow,
   peer,
@@ -521,7 +517,7 @@ const addPeerDataToReportRow = (
   const dataPointAvg = document.createElement("th");
 
   let avg;
-  let testAvg;
+  let testAvg
   if (peer && wa) {
     avg = parseFloat(getWeightedAverageOfArray(data, name));
     testAvg = getWeightedAverageOfArray(data, name);
@@ -537,11 +533,7 @@ const addPeerDataToReportRow = (
   }
 
   if (peer) {
-    const [q1, median, q3] = calculatePercentiles(
-      peer[dataArray],
-      type,
-      fixedNum
-    );
+    const [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
 
     // if (name == "fundraisingAsPercentOfContributions") {
     //   console.log(name, { q1, median, q3 });
@@ -564,27 +556,24 @@ const addPeerDataToReportRow = (
   }
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
-  const max = peer
-    ? parseFloat(get75thPercentileOfArray(peer[dataArray], name))
-    : "";
+  const max = peer ? parseFloat(get75thPercentileOfArray(peer[dataArray], name)) : "";
   const textMax = styleNumber(max, type, fixedNum);
 
-  if (name == "daysCashOnHand")
-    console.log("daysCashOnHand", {
-      tableRow,
-      fixedNum,
-      wa,
-      testAvg,
-      avg,
-      textAvg,
-      mid,
-      min,
-      textMin,
-      max,
-      textMax,
-      peer,
-      dataArray,
-    });
+  if (name == 'daysCashOnHand') console.log('daysCashOnHand', {
+    tableRow,
+    fixedNum,
+    wa,
+    testAvg,
+    avg,
+    textAvg,
+    mid,
+    min,
+    textMin,
+    max,
+    textMax,
+    peer,
+    dataArray
+  })
 
   // console.log(name, { tableRow, fixedNum, wa, avg, mid, min, textMin, max, textMax, peer, dataArray });
 
@@ -608,20 +597,10 @@ const addPeerDataToReportRow = (
   dataPointMax.textContent = textMax;
   tableRow.appendChild(dataPointMax);
 
-  if (fIdArray)
-    createFileForPrint(
-      name,
-      fIdArray,
-      begin,
-      end,
-      avg,
-      mid,
-      min,
-      max,
-      peer,
-      data
-    );
+  if (fIdArray) createFileForPrint(name, fIdArray, begin, end, avg, mid, min, max, peer, data);
 };
+
+
 
 const addYearColumnsToReportTable = (years) => {
   const tables = document.querySelectorAll("table");

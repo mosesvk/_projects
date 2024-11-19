@@ -1182,7 +1182,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_basedOnNumberOfDonors_Peer",
         record,
-        "c04_02_ratio_contributions_trend_based_on_donor_count",
+        "__c04_02_ratio_contributions_trend_based_on_donor_count",
         "c04_02_yes_no_contributions_trend_based_on_donor_count"
       );
 
@@ -1193,7 +1193,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_Peer",
         record,
-        "c04_03_ratio_contributions_trend",
+        "__c04_03_ratio_contributions_trend",
         "c04_03_yes_no_contributions_trend"
       );
 
@@ -1430,7 +1430,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "annualizedInvestmentReturn_Peer",
         record,
-        "c04_10_ratio_annualized_investment_return",
+        "__c04_10_ratio_annualized_investment_return",
         "c04_10_yes_no_annualized_investment_return"
       );
       insertDataIntoObject(

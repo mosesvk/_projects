@@ -42,17 +42,27 @@ const getMainChartOptions = (
       numType
     ));
 
+    
+  // if (name == "percentWithoutDR_excludingPPE" || name == "netIncomeRatio") console.log({ selectedYears, name, client, peer, type, fixedNum });
+  const tableReportRow = document.getElementById(`row_${name}`);
+  // console.log(`row_${name}`);
+  // console.log("tableReportRow", tableReportRow);
 
-    selectedYearsArray.forEach((year) => {
-    const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
+  while (tableReportRow.children.length > 1) {
+    tableReportRow.removeChild(tableReportRow.children[1]);
+  }
+
+  selectedYears.forEach((year) => {
+    const tableModalRow = document.getElementById(`${name}_modal_${year}`);
 
     if (tableModalRow) {
       // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
 
       addClientDataToModalRow(
         tableModalRow,
-        clientArray[year],
-        numType,
+        year,
+        client,
+        type,
         fixedNum,
         mainName
       );
@@ -61,7 +71,7 @@ const getMainChartOptions = (
         peer,
         type,
         fixedNum,
-        year, 
+        year,
         wa,
         mainName,
         data

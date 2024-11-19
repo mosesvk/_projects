@@ -169,7 +169,7 @@ const printToExcel = (dataString) => {
         });
 
         createToastSuccess("Generated Reports successfully to Quickbase.");
- 
+
         document
           .getElementById("print_modal_footer")
           .classList.remove("hidden");

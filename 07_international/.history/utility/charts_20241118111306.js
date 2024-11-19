@@ -42,33 +42,6 @@ const getMainChartOptions = (
       numType
     ));
 
-
-    selectedYearsArray.forEach((year) => {
-    const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
-
-    if (tableModalRow) {
-      // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
-
-      addClientDataToModalRow(
-        tableModalRow,
-        clientArray[year],
-        numType,
-        fixedNum,
-        mainName
-      );
-      addPeerDataToModalRow(
-        tableModalRow,
-        peer,
-        type,
-        fixedNum,
-        year, 
-        wa,
-        mainName,
-        data
-      );
-    }
-  });
-
   console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const yaxisLabelFormatter = (value) => {

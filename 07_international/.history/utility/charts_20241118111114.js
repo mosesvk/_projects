@@ -42,34 +42,36 @@ const getMainChartOptions = (
       numType
     ));
 
+ // if (name == "percentWithoutDR_excludingPPE" || name == "netIncomeRatio") console.log({ selectedYears, name, client, peer, type, fixedNum });
+ const tableReportRow = document.getElementById(`row_${name}`);
+ // console.log(`row_${name}`);
+ // console.log("tableReportRow", tableReportRow);
 
-    selectedYearsArray.forEach((year) => {
-    const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
+ while (tableReportRow.children.length > 1) {
+   tableReportRow.removeChild(tableReportRow.children[1]);
+ }
 
-    if (tableModalRow) {
-      // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
+ selectedYears.forEach((year) => {
+   const tableModalRow = document.getElementById(`${name}_modal_${year}`);
 
-      addClientDataToModalRow(
-        tableModalRow,
-        clientArray[year],
-        numType,
-        fixedNum,
-        mainName
-      );
-      addPeerDataToModalRow(
-        tableModalRow,
-        peer,
-        type,
-        fixedNum,
-        year, 
-        wa,
-        mainName,
-        data
-      );
-    }
-  });
+   if (tableModalRow) {
+     // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
 
-  console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
+     addClientDataToModalRow(tableModalRow, year, client, type, fixedNum, name);
+     addPeerDataToModalRow(
+       tableModalRow,
+       peer,
+       type,
+       fixedNum,
+       year,
+       wa,
+       name,
+       data
+     );
+   }
+ });
+
+  console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 })
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {

@@ -1430,7 +1430,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "annualizedInvestmentReturn_Peer",
         record,
-        "c04_10_ratio_annualized_investment_return",
+        "__c04_10_ratio_annualized_investment_return",
         "c04_10_yes_no_annualized_investment_return"
       );
       insertDataIntoObject(
@@ -2209,7 +2209,7 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
     )}</qdbapi>`;
-    // console.log("PEER", qdbapiElementPeer);
+    console.log("PEER", qdbapiElementPeer);
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();

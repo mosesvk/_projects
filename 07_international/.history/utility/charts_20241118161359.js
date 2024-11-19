@@ -43,7 +43,7 @@ const getMainChartOptions = (
     ));
 
 
-    selectedYearsArray.forEach((year) => {
+  selectedYears.forEach((year) => {
     const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
 
     if (tableModalRow) {

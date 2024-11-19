@@ -708,7 +708,7 @@ const get75thPercentileOfArray = (array, name) => {
     const lowerValue = Number(sortedArray[lowerIndex - 1]);
     const upperValue = Number(sortedArray[upperIndex - 1]);
 
-    // if (name == "liquidityFundsAvailable") {
+    // if (name == "liquidityFundsAvailable") {  
     //   console.log({ sortedArray, lowerValue, upperValue, index });
     // }
 
@@ -885,82 +885,6 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   });
 };
 
-const addClientDataToModalRow = (
-  tableModalRow,
-  clientNum,
-  numType,
-  fixedNum,
-  mainName
-) => {
-  const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-  const propScope = "row";
-  const dataPoint = document.createElement("th");
-
-  dataPoint.className = propClass;
-  dataPoint.scope = propScope;
-
-  const text =
-    Number(clientNum) !== 0
-      ? styleNumber(clientNum, numType, fixedNum)
-      : "-";
-  dataPoint.textContent = text;
-
-  tableModalRow.appendChild(dataPoint);
-
-  if (name == "daysCashOnHand")
-    console.log({
-      tableModalRow,
-      year,
-      client,
-      type,
-      fixedNum,
-      dataPoint,
-      text,
-    });
-};
-
-const addPeerDataToModalRow = (
-  tableModalRow,
-  peerAvgArray,
-  peerMidArray,
-  peer25Array,
-  peer75Array,
-  numType,
-  fixedNum,
-  mainName
-) => {
-  const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-  const propScope = "row";
-
-  const dataPointAvg = document.createElement("th");
-  const dataPointMid = document.createElement("th");
-  const dataPointMin = document.createElement("th");
-  const dataPointMax = document.createElement("th");
-
-  peerAvgArray.forEach((peerAvgNum, index) => {
-    dataPointAvg.className = propClass;
-    dataPointAvg.scope = propScope;
-    dataPointAvg.textContent = peerAvgNum !== 0 ? peerAvgNum : "-";
-
-    dataPointMid.className = propClass;
-    dataPointMid.scope = propScope;
-    dataPointMid.textContent =
-      peerMidArray[index] !== 0 ? peerMidArray[index] : "-";
-
-    dataPointMin.className = propClass;
-    dataPointMin.scope = propScope;
-    dataPointMin.textContent =
-      peer25Array[index] !== 0 ? peer25Array[index] : "-";
-
-    dataPointMax.className = propClass;
-    dataPointMax.scope = propScope;
-    dataPointMax.textContent =
-      peer75Array[index] !== 0 ? peer75Array[index] : "-";
-  });
-};
-
 const getPeerAndClientChartDataArrays = (
   years,
   dataPeer,
@@ -986,6 +910,7 @@ const getPeerAndClientChartDataArrays = (
   years.forEach((year) => {
     // console.log(year, dataPeer)
     // check if dataPeer is undefined but dataClient is not
+
     if (dataPeer != undefined && dataClient != undefined) {
       const dataArray = dataPeer[year];
       const array = dataArray.map((item) => Number(item));
@@ -1058,8 +983,7 @@ const styleNumber = (num, type, fixed) => {
     }
 
     if (type === "percent" && text != 0) {
-      text =
-        (truncateNumber(parseFloat(text), fixed) * 100).toFixed(fixed) + "%";
+      text = (truncateNumber(parseFloat(text), fixed) * 100).toFixed(fixed) + "%";
     }
 
     if (type === "dollar" && text != 0) {
