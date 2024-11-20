@@ -42,9 +42,6 @@ const getMainChartOptions = (
       numType
     ));
 
-
-  console.log({ mainName, year, clientArray, peerAvg, peerMid, peer25, peer75 });
-
   selectedYearsArray.forEach((year) => {
     const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
 

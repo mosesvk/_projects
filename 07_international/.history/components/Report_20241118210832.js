@@ -569,22 +569,22 @@ const addPeerDataToReportRow = (
     : "";
   const textMax = styleNumber(max, type, fixedNum);
 
-  // if (name == "daysCashOnHand")
-  //   console.log("daysCashOnHand", {
-  //     tableRow,
-  //     fixedNum,
-  //     wa,
-  //     testAvg,
-  //     avg,
-  //     textAvg,
-  //     mid,
-  //     min,
-  //     textMin,
-  //     max,
-  //     textMax,
-  //     peer,
-  //     dataArray,
-  //   });
+  if (name == "daysCashOnHand")
+    console.log("daysCashOnHand", {
+      tableRow,
+      fixedNum,
+      wa,
+      testAvg,
+      avg,
+      textAvg,
+      mid,
+      min,
+      textMin,
+      max,
+      textMax,
+      peer,
+      dataArray,
+    });
 
   // console.log(name, { tableRow, fixedNum, wa, avg, mid, min, textMin, max, textMax, peer, dataArray });
 

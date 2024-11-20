@@ -42,14 +42,11 @@ const getMainChartOptions = (
       numType
     ));
 
-
-  console.log({ mainName, year, clientArray, peerAvg, peerMid, peer25, peer75 });
-
   selectedYearsArray.forEach((year) => {
     const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
 
     if (tableModalRow) {
-      // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
+      console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
 
       addClientDataToModalRow(
         tableModalRow,
@@ -71,7 +68,7 @@ const getMainChartOptions = (
     }
   });
 
-  // console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
+  console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {

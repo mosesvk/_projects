@@ -440,7 +440,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "netAssetsWithDRInPerpetuity",
+        "WithDRInPerpetuity",
         record,
         "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
         "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
