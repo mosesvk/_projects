@@ -3,8 +3,7 @@ const getMainChartOptions = (
   dataClient,
   numType,
   fixedNum = 0,
-  mainName, 
-  wa
+  mainName
 ) => {
   // console.log('-----')
   // console.log('getMainChartOptions()')
@@ -40,40 +39,34 @@ const getMainChartOptions = (
       dataClient,
       fixedNum,
       mainName,
-      numType,
-      wa
+      numType
     ));
 
-  console.log('CHARTS',{
-    mainName,
-    selectedYearsArray,
-    clientArray,
-    peerAvg,
-    peerMid,
-    peer25,
-    peer75,
-  });
-
-  selectedYearsArray.forEach((year, index) => {
-    const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
-    // console.log("tableModalRow", `${mainName}_modal_${year}`, tableModalRow);
-
+  
+    console.log({ mainName, seleactedYearsArray, clientArray, peerAvg, peerMid, peer25, peer75, tableModalRow });
+    
+    selectedYearsArray.forEach((year) => {
+      
+      const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
     if (tableModalRow) {
+      console.log('tableModalRow', `${mainName}_modal_${year}`, tableModalRow);
 
       addClientDataToModalRow(
         tableModalRow,
-        clientArray[index],
+        clientArray[year],
         numType,
         fixedNum,
         mainName
       );
       addPeerDataToModalRow(
         tableModalRow,
-        peerAvg[index],
-        peerMid[index],
-        peer25[index],
-        peer75[index],
-        mainName
+        peer,
+        type,
+        fixedNum,
+        year,
+        wa,
+        mainName,
+        data
       );
     }
   });

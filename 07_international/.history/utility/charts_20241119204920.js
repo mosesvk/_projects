@@ -73,6 +73,8 @@ const getMainChartOptions = (
         peerMid[index],
         peer25[index],
         peer75[index],
+        numType,
+        fixedNum,
         mainName
       );
     }

@@ -468,7 +468,7 @@ const addClientDataToReportRow = (
 
     const text =
       Number(client[year].value) !== 0
-        ? styleNumber(client[year].value, type, fixedNum, name)
+        ? styleNumber(client[year].value, type, fixedNum)
         : "-";
 
     // Create a new span element

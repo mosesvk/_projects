@@ -259,7 +259,7 @@ const createChart = (
     dataClient,
     type,
     fixedNum,
-    mainName,
+    mainName, 
     wa
   );
 
@@ -376,6 +376,7 @@ const createChart = (
 };
 
 function updateModal(mainName, peerData, clientData) {
+
   // console.log('updateModal',{ mainName, peerData, clientData });
   // Get the selected years from local storage
   const selectedYears = getSelectedYearsFromLocalStorage();
@@ -933,6 +934,8 @@ const addPeerDataToModalRow = (
   peerMidNum,
   peer25Num,
   peer75Num,
+  numType,
+  fixedNum,
   mainName
 ) => {
   const propClass =
@@ -944,25 +947,26 @@ const addPeerDataToModalRow = (
   const dataPointMin = document.createElement("th");
   const dataPointMax = document.createElement("th");
 
-  dataPointAvg.className = propClass;
-  dataPointAvg.scope = propScope;
-  dataPointAvg.textContent = peerAvgNum !== 0 ? peerAvgNum : "-";
-  tableModalRow.appendChild(dataPointAvg);
+  peerAvgArray.forEach((peerAvgNum, index) => {
+    dataPointAvg.className = propClass;
+    dataPointAvg.scope = propScope;
+    dataPointAvg.textContent = peerAvgNum !== 0 ? peerAvgNum : "-";
 
-  dataPointMid.className = propClass;
-  dataPointMid.scope = propScope;
-  dataPointMid.textContent = peerMidNum !== 0 ? peerMidNum : "-";
-  tableModalRow.appendChild(dataPointMid);
+    dataPointMid.className = propClass;
+    dataPointMid.scope = propScope;
+    dataPointMid.textContent =
+      peerMidArray[index] !== 0 ? peerMidArray[index] : "-";
 
-  dataPointMin.className = propClass;
-  dataPointMin.scope = propScope;
-  dataPointMin.textContent = peer25Num !== 0 ? peer25Num : "-";
-  tableModalRow.appendChild(dataPointMin);
+    dataPointMin.className = propClass;
+    dataPointMin.scope = propScope;
+    dataPointMin.textContent =
+      peer25Array[index] !== 0 ? peer25Array[index] : "-";
 
-  dataPointMax.className = propClass;
-  dataPointMax.scope = propScope;
-  dataPointMax.textContent = peer75Num !== 0 ? peer75Num : "-";
-  tableModalRow.appendChild(dataPointMax);  
+    dataPointMax.className = propClass;
+    dataPointMax.scope = propScope;
+    dataPointMax.textContent =
+      peer75Array[index] !== 0 ? peer75Array[index] : "-";
+  });
 };
 
 const getPeerAndClientChartDataArrays = (
@@ -974,14 +978,14 @@ const getPeerAndClientChartDataArrays = (
   numType,
   wa
 ) => {
-  console.log(mainName, {
-    years,
-    dataPeer,
-    dataClient,
-    fixedNum,
-    mainName,
-    numType,
-  });
+  // console.log(mainName, {
+  //   years,
+  //   dataPeer,
+  //   dataClient,
+  //   fixedNum,
+  //   mainName,
+  //   numType,
+  // });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
@@ -994,8 +998,9 @@ const getPeerAndClientChartDataArrays = (
     if (dataPeer != undefined && dataClient != undefined) {
       const dataArray = dataPeer[year];
       const array = dataArray.map((item) => Number(item));
-      console.log(array);
+      // console.log(array)
 
+      
       // let avg;
       // let testAvg;
       // if (peer && wa) {

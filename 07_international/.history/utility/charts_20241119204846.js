@@ -40,8 +40,7 @@ const getMainChartOptions = (
       dataClient,
       fixedNum,
       mainName,
-      numType,
-      wa
+      numType
     ));
 
   console.log('CHARTS',{
@@ -73,6 +72,8 @@ const getMainChartOptions = (
         peerMid[index],
         peer25[index],
         peer75[index],
+        numType,
+        fixedNum,
         mainName
       );
     }

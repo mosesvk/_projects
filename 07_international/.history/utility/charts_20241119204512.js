@@ -3,8 +3,7 @@ const getMainChartOptions = (
   dataClient,
   numType,
   fixedNum = 0,
-  mainName, 
-  wa
+  mainName
 ) => {
   // console.log('-----')
   // console.log('getMainChartOptions()')
@@ -40,8 +39,7 @@ const getMainChartOptions = (
       dataClient,
       fixedNum,
       mainName,
-      numType,
-      wa
+      numType
     ));
 
   console.log('CHARTS',{
@@ -56,7 +54,7 @@ const getMainChartOptions = (
 
   selectedYearsArray.forEach((year, index) => {
     const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
-    // console.log("tableModalRow", `${mainName}_modal_${year}`, tableModalRow);
+    console.log("tableModalRow", `${mainName}_modal_${year}`, tableModalRow);
 
     if (tableModalRow) {
 
@@ -73,6 +71,8 @@ const getMainChartOptions = (
         peerMid[index],
         peer25[index],
         peer75[index],
+        numType,
+        fixedNum,
         mainName
       );
     }

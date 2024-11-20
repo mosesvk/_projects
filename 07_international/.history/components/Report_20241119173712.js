@@ -416,7 +416,7 @@ const addToSingleRow = (
 
   // if (name == "percentWithoutDR_excludingPPE" || name == "netIncomeRatio") console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
-  // console.log({ selectedYears, name, client, peer, type, fixedNum, tableReportRow })
+  console.log({ selectedYears, name, client, peer, type, fixedNum, tableReportRow })
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);
@@ -428,8 +428,7 @@ const addToSingleRow = (
     client,
     type,
     fixedNum,
-    cb,
-    name
+    cb
   );
   addPeerDataToReportRow(
     tableReportRow,
@@ -452,14 +451,11 @@ const addClientDataToReportRow = (
   client,
   type,
   fixedNum,
-  cb,
-  name
+  cb
 ) => {
   const propClass =
     "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
   const propScope = "row";
-
-  // console.log(name, { client, tableRow, selectedYears, type, fixedNum, cb });
 
   selectedYears.forEach((year) => {
     const dataPoint = document.createElement("th");
@@ -468,7 +464,7 @@ const addClientDataToReportRow = (
 
     const text =
       Number(client[year].value) !== 0
-        ? styleNumber(client[year].value, type, fixedNum, name)
+        ? styleNumber(client[year].value, type, fixedNum)
         : "-";
 
     // Create a new span element
