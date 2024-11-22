@@ -974,14 +974,14 @@ const getPeerAndClientChartDataArrays = (
   numType,
   wa
 ) => {
-  // console.log(mainName, {
-  //   years,
-  //   dataPeer,
-  //   dataClient,
-  //   fixedNum,
-  //   mainName,
-  //   numType,
-  // });
+  console.log(mainName, {
+    years,
+    dataPeer,
+    dataClient,
+    fixedNum,
+    mainName,
+    numType,
+  });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
