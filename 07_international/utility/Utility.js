@@ -274,7 +274,7 @@ const createChart = (
     "functionalExpensePercent_administrative_chart",
     "functionalExpensePercent_fundraising_chart",
     "costOfContributions_chart",
-  ];
+  ]; 
 
   if (chartIds.includes(chartId)) {
     if (chartId === "daysCashOnHand_chart") {

@@ -28,7 +28,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer
@@ -106,7 +106,7 @@
       }
     </style>
   </head>
-<body>
+  <body>
     <nav
       id="nav"
       class="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
@@ -395,7 +395,7 @@
                     ></div>
                   </div>
                 </li>
-                <li>
+                <!-- <li>
                   <button
                     id="netAssetsLink"
                     data-popover-target="popoverAssets-hover"
@@ -442,7 +442,7 @@
                       class="bg-gray-700 dark:border-gray-600"
                     ></div>
                   </div>
-                </li>
+                </li> -->
                 <li>
                   <button
                     id="incomeLink"
@@ -875,9 +875,9 @@
           </div>
 
           <!-- NET ASSET TAB -->
-          <div id="netAssetsContent" class="tab-content hidden">
+          <!-- <div id="netAssetsContent" class="tab-content hidden">
             <h1>Net Assets</h1>
-          </div>
+          </div> -->
 
           <!-- INCOME TAB -->
           <div id="incomeContent" class="tab-content hidden">
@@ -1843,8 +1843,7 @@
     </div>
 
     <!-- GENERAL MODALS -->
-    <div
-      id="statementCashFlows_modal"
+    <div id="statementCashFlows_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -1983,7 +1982,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="statementCashFlows-heading-3">
+            <!-- <h2 id="statementCashFlows-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -2020,15 +2019,14 @@
               >
                 <p class="mb-2 text-gray-500 dark:text-gray-400"></p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
 
     <!-- CASH MODALS -->
-    <div
-      id="daysCashOnHand_modal"
+    <div id="daysCashOnHand_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -2189,7 +2187,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="daysCashOnHand-heading-3">
+            <!-- <h2 id="daysCashOnHand-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -2231,14 +2229,13 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
 
-    <div
-      id="daysExpensesInUnrestrictedNA_modal"
+    <div id="daysExpensesInUnrestrictedNA_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -2378,7 +2375,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="daysExpensesInUnrestrictedNA-heading-3">
+            <!-- <h2 id="daysExpensesInUnrestrictedNA-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -2420,7 +2417,7 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -2568,7 +2565,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="daysExpensesInUnrestrictedNA_excludingPPE-heading-3">
+            <!-- <h2 id="daysExpensesInUnrestrictedNA_excludingPPE-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -2610,7 +2607,7 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -2756,7 +2753,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="totalCoverageRatio-heading-3">
+            <!-- <h2 id="totalCoverageRatio-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -2798,7 +2795,7 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -2806,8 +2803,7 @@
 
     <!-- INCOME MODALS -->
 
-    <div
-      id="contributionsTrend_modal"
+    <div id="contributionsTrend_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -2945,7 +2941,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="contributionsTrend-heading-3">
+            <!-- <h2 id="contributionsTrend-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -2987,14 +2983,13 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
 
-    <div
-      id="annualizedInvestmentReturn_modal"
+    <div id="annualizedInvestmentReturn_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -3133,7 +3128,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="annualizedInvestmentReturn-heading-3">
+            <!-- <h2 id="annualizedInvestmentReturn-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -3175,7 +3170,7 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -3323,7 +3318,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="functionalExpensePercent_administrative-heading-3">
+            <!-- <h2 id="functionalExpensePercent_administrative-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -3365,14 +3360,13 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
 
-    <div
-      id="functionalExpensePercent_program_modal"
+    <div id="functionalExpensePercent_program_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -3512,7 +3506,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="functionalExpensePercent_program-heading-3">
+            <!-- <h2 id="functionalExpensePercent_program-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -3554,7 +3548,7 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -3701,7 +3695,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="functionalExpensePercent_fundraising-heading-3">
+            <!-- <h2 id="functionalExpensePercent_fundraising-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -3743,14 +3737,13 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
 
-    <div
-      id="costOfContributions_modal"
+    <div id="costOfContributions_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -3888,7 +3881,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="costOfContributions-heading-3">
+            <!-- <h2 id="costOfContributions-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -3930,15 +3923,14 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
 
     <!-- OPTIONS MODALS -->
-    <div
-      id="options_modal"
+    <div id="options_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -4325,46 +4317,31 @@
                     <div
                       class="flex justify-center flex-col md:flex-row grid-rows-4 grid-flow-col gap-4"
                     >
-                      <button
+                      <a
                         href=""
                         class="flex backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
                         id="trendXLSFinal"
                         target="_blank"
                       >
                         Trends XLS
-                      </button>
-                      <button
+                      </a>
+                      <a
                         href=""
                         class="flex backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
                         id="trendPDFFinal"
                         target="_blank"
                       >
                         Trends PDF
-                      </button>
-                      <button
-                        href=""
-                        class="flex backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-                        id="benchXLSFinal"
-                        target="_blank"
-                      >
-                        Benchmark XLS
-                      </button>
-                      <button
-                        href=""
-                        class="flex backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-                        id="benchPDFFinal"
-                        target="_blank"
-                      >
-                        Benchmark PDF
-                      </button>
+                      </a>
                     </div>
                   </div>
+                  <hr class="h-px my-4 mx-8 bg-gray-700 border-0 dark:bg-gray-500" />
                   <button
                     type="button"
-                    class="flex backgroundGreen text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    class="flex backgroundBlue text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
                     id="printBase64"
                   >
-                    Print Base64
+                    Print Presentation
                   </button>
                 </div>
               </div>

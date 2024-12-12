@@ -20,19 +20,18 @@ const regions_Array = [
 const map_dataUri = new Map();
 const dataUrLObj = new Object();
 
-
-// Charts 
-let statementCashFlows_chart
-let daysCashOnHand_chart
-let daysExpensesInUnrestrictedNA_chart
-let daysExpensesInUnrestrictedNA_excludingPPE_chart
-let totalCoverageRatio_chart
-let contributionsTrend_chart
-let annualizedInvestmentReturn_chart
-let functionalExpensePercent_program_chart
-let functionalExpensePercent_administrative_chart
-let functionalExpensePercent_fundraising_chart
-let costOfContributions_chart
+// Charts
+let statementCashFlows_chart;
+let daysCashOnHand_chart;
+let daysExpensesInUnrestrictedNA_chart;
+let daysExpensesInUnrestrictedNA_excludingPPE_chart;
+let totalCoverageRatio_chart;
+let contributionsTrend_chart;
+let annualizedInvestmentReturn_chart;
+let functionalExpensePercent_program_chart;
+let functionalExpensePercent_administrative_chart;
+let functionalExpensePercent_fundraising_chart;
+let costOfContributions_chart;
 
 // Mission Sending
 // Relief Ops
@@ -71,6 +70,7 @@ let sliderValue2 = 25000;
 let missionValue = 0;
 let missionValue2 = 25000;
 let firmName = "";
+let urlToPrintXLS;
 // let amount = null;
 
 let selectedRegion = "";
@@ -83,7 +83,6 @@ let selectedSchoolChurch_Selected;
 let charts_Array = [];
 
 // Utility Functions
-
 const createToastWarning = (textString) => {
   const toastWarningDiv = document.createElement("div");
   toastWarningDiv.id = "toast-warning";
@@ -223,19 +222,21 @@ const createChartFromParsedData = (
   client,
   type,
   fixedNum,
-  mainName
+  mainName,
+  wa
 ) => {
   if (parsedData) {
     // if (mainName == 'functionalExpensePercent_program') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
+    updateModal(mainName, parsedData[peer], parsedData[client]);
     createChart(
       chart,
       parsedData[peer],
       parsedData[client],
       type,
       fixedNum,
-      mainName
+      mainName,
+      wa
     );
-    updateModal(mainName, parsedData[peer], parsedData[client]);
   }
 };
 
@@ -245,7 +246,8 @@ const createChart = (
   dataClient,
   type,
   fixedNum,
-  mainName
+  mainName,
+  wa
 ) => {
   // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
@@ -258,119 +260,195 @@ const createChart = (
     type,
     fixedNum,
     mainName,
-    benchmark,
-    title
+    wa
   );
 
+  const chartIds = [
+    "daysCashOnHand_chart",
+    "daysExpensesInUnrestrictedNA_chart",
+    "daysExpensesInUnrestrictedNA_excludingPPE_chart",
+    "totalCoverageRatio_chart",
+    "contributionsTrend_chart",
+    "annualizedInvestmentReturn_chart",
+    "functionalExpensePercent_program_chart",
+    "functionalExpensePercent_administrative_chart",
+    "functionalExpensePercent_fundraising_chart",
+    "costOfContributions_chart",
+  ]; 
 
-const chartIds = [
-  "daysCashOnHand_chart",
-  "daysExpensesInUnrestrictedNA_chart",
-  "daysExpensesInUnrestrictedNA_excludingPPE_chart",
-  "totalCoverageRatio_chart",
-  "contributionsTrend_chart",
-  "annualizedInvestmentReturn_chart",
-  "functionalExpensePercent_program_chart",
-  "functionalExpensePercent_administrative_chart",
-  "functionalExpensePercent_fundraising_chart",
-  "costOfContributions_chart"
-];
+  if (chartIds.includes(chartId)) {
+    if (chartId === "daysCashOnHand_chart") {
+      daysCashOnHand_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      daysCashOnHand_chart.render();
+      document.addEventListener("dark-mode", function () {
+        daysCashOnHand_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "daysExpensesInUnrestrictedNA_chart") {
+      daysExpensesInUnrestrictedNA_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      daysExpensesInUnrestrictedNA_chart.render();
+      document.addEventListener("dark-mode", function () {
+        daysExpensesInUnrestrictedNA_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "daysExpensesInUnrestrictedNA_excludingPPE_chart") {
+      daysExpensesInUnrestrictedNA_excludingPPE_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      daysExpensesInUnrestrictedNA_excludingPPE_chart.render();
+      document.addEventListener("dark-mode", function () {
+        daysExpensesInUnrestrictedNA_excludingPPE_chart.updateOptions(
+          chartOptions
+        );
+      });
+    } else if (chartId === "totalCoverageRatio_chart") {
+      totalCoverageRatio_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      totalCoverageRatio_chart.render();
+      document.addEventListener("dark-mode", function () {
+        totalCoverageRatio_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "contributionsTrend_chart") {
+      contributionsTrend_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      contributionsTrend_chart.render();
+      document.addEventListener("dark-mode", function () {
+        contributionsTrend_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "annualizedInvestmentReturn_chart") {
+      annualizedInvestmentReturn_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      annualizedInvestmentReturn_chart.render();
+      document.addEventListener("dark-mode", function () {
+        annualizedInvestmentReturn_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "functionalExpensePercent_program_chart") {
+      functionalExpensePercent_program_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      functionalExpensePercent_program_chart.render();
+      document.addEventListener("dark-mode", function () {
+        functionalExpensePercent_program_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "functionalExpensePercent_administrative_chart") {
+      functionalExpensePercent_administrative_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      functionalExpensePercent_administrative_chart.render();
+      document.addEventListener("dark-mode", function () {
+        functionalExpensePercent_administrative_chart.updateOptions(
+          chartOptions
+        );
+      });
+    } else if (chartId === "functionalExpensePercent_fundraising_chart") {
+      functionalExpensePercent_fundraising_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      functionalExpensePercent_fundraising_chart.render();
+      document.addEventListener("dark-mode", function () {
+        functionalExpensePercent_fundraising_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "costOfContributions_chart") {
+      costOfContributions_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      costOfContributions_chart.render();
+      document.addEventListener("dark-mode", function () {
+        costOfContributions_chart.updateOptions(chartOptions);
+      });
+    }
+  }
+};
 
-if (chartIds.includes(chartId)) {
-  if (chartId === "daysCashOnHand_chart") {
-    daysCashOnHand_chart = new ApexCharts(
-      document.getElementById(chartId),
-      chartOptions
-    );
-    daysCashOnHand_chart.render();
-    document.addEventListener("dark-mode", function () {
-      daysCashOnHand_chart.updateOptions(chartOptions);
+function updateModal(mainName, peerData, clientData) {
+  // console.log('updateModal',{ mainName, peerData, clientData });
+  // Get the selected years from local storage
+  const selectedYears = getSelectedYearsFromLocalStorage();
+
+  // Find the modal element
+  const modal = document.getElementById(`${mainName}_modal`);
+
+  // Check if the modal element exists
+  if (modal) {
+    // Find the table header row
+    const headerRow = modal.querySelector(`#${mainName}_modal_row`);
+    // console.log({headerRow});
+    let tableHead = headerRow.parentElement;
+
+    // Clear existing rows after the headerRow
+    let nextRow = headerRow.nextSibling;
+    while (nextRow) {
+      tableHead.removeChild(nextRow);
+      nextRow = headerRow.nextSibling; // Get the next sibling again
+    }
+
+    // Clear existing header content
+    headerRow.innerHTML = "";
+
+    // Add the "year" column
+    const yearColumn = document.createElement("th");
+    yearColumn.className = "px-6 py-3";
+    yearColumn.textContent = "year";
+    headerRow.appendChild(yearColumn);
+
+    // Add the "Client" column
+    const clientColumn = document.createElement("th");
+    clientColumn.className = "px-6 py-3";
+    clientColumn.textContent = "client";
+    headerRow.appendChild(clientColumn);
+
+    // Add the "Avg" column
+    const avgColumn = document.createElement("th");
+    avgColumn.className = "px-6 py-3";
+    avgColumn.textContent = "Avg";
+    headerRow.appendChild(avgColumn);
+
+    // Add the remaining columns
+    const columns = ["25%", "50%", "75%"];
+    columns.forEach((column) => {
+      const col = document.createElement("th");
+      col.className = "px-6 py-3";
+      col.textContent = column;
+      headerRow.appendChild(col);
     });
-  } else if (chartId === "daysExpensesInUnrestrictedNA_chart") {
-    daysExpensesInUnrestrictedNA_chart = new ApexCharts(
-      document.getElementById(chartId),
-      chartOptions
-    );
-    daysExpensesInUnrestrictedNA_chart.render();
-    document.addEventListener("dark-mode", function () {
-      daysExpensesInUnrestrictedNA_chart.updateOptions(chartOptions);
-    });
-  } else if (chartId === "daysExpensesInUnrestrictedNA_excludingPPE_chart") {
-    daysExpensesInUnrestrictedNA_excludingPPE_chart = new ApexCharts(
-      document.getElementById(chartId),
-      chartOptions
-    );
-    daysExpensesInUnrestrictedNA_excludingPPE_chart.render();
-    document.addEventListener("dark-mode", function () {
-      daysExpensesInUnrestrictedNA_excludingPPE_chart.updateOptions(chartOptions);
-    });
-  } else if (chartId === "totalCoverageRatio_chart") {
-    totalCoverageRatio_chart = new ApexCharts(
-      document.getElementById(chartId),
-      chartOptions
-    );
-    totalCoverageRatio_chart.render();
-    document.addEventListener("dark-mode", function () {
-      totalCoverageRatio_chart.updateOptions(chartOptions);
-    });
-  } else if (chartId === "contributionsTrend_chart") {
-    contributionsTrend_chart = new ApexCharts(
-      document.getElementById(chartId),
-      chartOptions
-    );
-    contributionsTrend_chart.render();
-    document.addEventListener("dark-mode", function () {
-      contributionsTrend_chart.updateOptions(chartOptions);
-    });
-  } else if (chartId === "annualizedInvestmentReturn_chart") {
-    annualizedInvestmentReturn_chart = new ApexCharts(
-      document.getElementById(chartId),
-      chartOptions
-    );
-    annualizedInvestmentReturn_chart.render();
-    document.addEventListener("dark-mode", function () {
-      annualizedInvestmentReturn_chart.updateOptions(chartOptions);
-    });
-  } else if (chartId === "functionalExpensePercent_program_chart") {
-    functionalExpensePercent_program_chart = new ApexCharts(
-      document.getElementById(chartId),
-      chartOptions
-    );
-    functionalExpensePercent_program_chart.render();
-    document.addEventListener("dark-mode", function () {
-      functionalExpensePercent_program_chart.updateOptions(chartOptions);
-    });
-  } else if (chartId === "functionalExpensePercent_administrative_chart") {
-    functionalExpensePercent_administrative_chart = new ApexCharts(
-      document.getElementById(chartId),
-      chartOptions
-    );
-    functionalExpensePercent_administrative_chart.render();
-    document.addEventListener("dark-mode", function () {
-      functionalExpensePercent_administrative_chart.updateOptions(chartOptions);
-    });
-  } else if (chartId === "functionalExpensePercent_fundraising_chart") {
-    functionalExpensePercent_fundraising_chart = new ApexCharts(
-      document.getElementById(chartId),
-      chartOptions
-    );
-    functionalExpensePercent_fundraising_chart.render();
-    document.addEventListener("dark-mode", function () {
-      functionalExpensePercent_fundraising_chart.updateOptions(chartOptions);
-    });
-  } else if (chartId === "costOfContributions_chart") {
-    costOfContributions_chart = new ApexCharts(
-      document.getElementById(chartId),
-      chartOptions
-    );
-    costOfContributions_chart.render();
-    document.addEventListener("dark-mode", function () {
-      costOfContributions_chart.updateOptions(chartOptions);
+
+    // Add a row for each selected year
+    selectedYears.forEach((year) => {
+      const yearRow = document.createElement("tr");
+      yearRow.className =
+        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
+      yearRow.id = `${mainName}_modal_${year}`;
+
+      // Create a table header cell for the year
+      const yearCell = document.createElement("th");
+      yearCell.className =
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      yearCell.scope = "row";
+      yearCell.textContent = year;
+
+      // Append the year cell to the row
+      yearRow.appendChild(yearCell);
+
+      // Append the row to the header
+      tableHead.appendChild(yearRow);
     });
   }
 }
-
-};
 
 const updateCashFlowModal = (
   mainName,
@@ -495,80 +573,6 @@ const updateCashFlowModal = (
   }
 };
 
-function updateModal(mainName, avgData, clientData) {
-  // Get the selected years from local storage
-  const selectedYears = getSelectedYearsFromLocalStorage();
-
-  // Find the modal element
-  const modal = document.getElementById(`${mainName}_modal`);
-
-  // Check if the modal element exists
-  if (modal) {
-    // Find the table header row
-    const headerRow = modal.querySelector(`#${mainName}_modal_row`);
-    // console.log({headerRow});
-    let tableHead = headerRow.parentElement;
-
-    // Clear existing rows after the headerRow
-    let nextRow = headerRow.nextSibling;
-    while (nextRow) {
-      tableHead.removeChild(nextRow);
-      nextRow = headerRow.nextSibling; // Get the next sibling again
-    }
-
-    // Clear existing header content
-    headerRow.innerHTML = "";
-
-    // Add the "year" column
-    const yearColumn = document.createElement("th");
-    yearColumn.className = "px-6 py-3";
-    yearColumn.textContent = "year";
-    headerRow.appendChild(yearColumn);
-
-    // Add the "Client" column
-    const clientColumn = document.createElement("th");
-    clientColumn.className = "px-6 py-3";
-    clientColumn.textContent = "client";
-    headerRow.appendChild(clientColumn);
-
-    // Add the "Avg" column
-    const avgColumn = document.createElement("th");
-    avgColumn.className = "px-6 py-3";
-    avgColumn.textContent = "Avg";
-    headerRow.appendChild(avgColumn);
-
-    // Add the remaining columns
-    const columns = ["25%", "50%", "75%"];
-    columns.forEach((column) => {
-      const col = document.createElement("th");
-      col.className = "px-6 py-3";
-      col.textContent = column;
-      headerRow.appendChild(col);
-    });
-
-    // Add a row for each selected year
-    selectedYears.forEach((year) => {
-      const yearRow = document.createElement("tr");
-      yearRow.className =
-        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
-      yearRow.id = `${mainName}_modal_${year}`;
-
-      // Create a table header cell for the year
-      const yearCell = document.createElement("th");
-      yearCell.className =
-        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-      yearCell.scope = "row";
-      yearCell.textContent = year;
-
-      // Append the year cell to the row
-      yearRow.appendChild(yearCell);
-
-      // Append the row to the header
-      tableHead.appendChild(yearRow);
-    });
-  }
-}
-
 const getStoredData = (dataTable) => {
   return localStorage.getItem(dataTable) || null;
 };
@@ -606,16 +610,21 @@ const getAverageOfArray = (array) => {
   return avg;
 };
 
-const getMidpointOfArray = (array) => {
+const getMidpointOfArray = (array, name) => {
   // console.log(array);
   if (array.length === 0) {
     return 0;
   }
+
   array = array.map((val) => Number(val));
 
   array.sort((a, b) => a - b); // Sort the array
 
   const midpoint = Math.floor(array.length / 2); // Calculate the midpoint index
+
+  // if (name == 'liquidityFundsAvailable') {
+  //   console.log({ array, midpoint, num: Number(array[midpoint]), 'else': (Number(array[midpoint - 1]) + Number(array[midpoint])) / 2 });
+  // }
 
   if (array.length % 2 === 1) {
     // If odd length, return the value at the midpoint
@@ -626,14 +635,18 @@ const getMidpointOfArray = (array) => {
   }
 };
 
-const getMaxOfArray = (array) => {
+const getMaxOfArray = (array, name) => {
   const nonZeroArray = array.filter((num) => num !== 0);
 
   if (nonZeroArray.length === 0) {
     return 0;
   }
 
-  return Math.max(...nonZeroArray);
+  // if (name == "liquidityFundsAvailable") {
+  //   console.log({ nonZeroArray: Math.max(...nonZeroArray),  array: Math.max(...array) });
+  // }
+
+  return Math.max(...array);
 };
 
 const get25thPercentileOfArray = (array, name) => {
@@ -644,8 +657,6 @@ const get25thPercentileOfArray = (array, name) => {
   const sortedArray = array.sort((a, b) => a - b);
   // console.log(sortedArray);
 
-  // if (name) console.log(name, sortedArray);
-
   // Step 2: Check if the array has less than or equal to 2 elements
   if (sortedArray.length <= 2) {
     // If array has 1 or 2 elements, return the average of the elements
@@ -655,6 +666,7 @@ const get25thPercentileOfArray = (array, name) => {
     );
   }
 
+  // if (name) console.log(name, sortedArray);
   // Step 3: Calculate the index for the 25th percentile
   const index = (sortedArray.length + 1) * 0.25;
 
@@ -673,7 +685,7 @@ const get25thPercentileOfArray = (array, name) => {
   }
 };
 
-const get75thPercentileOfArray = (array) => {
+const get75thPercentileOfArray = (array, name) => {
   array = array.map((val) => Number(val));
   // Step 1: Sort the array in ascending order
   const sortedArray = array.sort((a, b) => a - b);
@@ -700,6 +712,11 @@ const get75thPercentileOfArray = (array) => {
     const upperIndex = Math.ceil(index);
     const lowerValue = Number(sortedArray[lowerIndex - 1]);
     const upperValue = Number(sortedArray[upperIndex - 1]);
+
+    // if (name == "liquidityFundsAvailable") {
+    //   console.log({ sortedArray, lowerValue, upperValue, index });
+    // }
+
     return (lowerValue + upperValue) / 2;
   }
 };
@@ -713,7 +730,6 @@ const getSumOfArray = (array) => {
 
   return array.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
 };
-
 
 function calculatePercentiles(arr, type, fixed) {
   // Convert string values to numbers
@@ -736,7 +752,9 @@ function calculatePercentiles(arr, type, fixed) {
     const upperIndex = Math.ceil(index);
 
     if (lowerIndex === upperIndex) {
-      return fixed !== undefined ? parseFloat(sortedArr[lowerIndex].toFixed(fixed)) : sortedArr[lowerIndex];
+      return fixed !== undefined
+        ? parseFloat(sortedArr[lowerIndex].toFixed(fixed))
+        : sortedArr[lowerIndex];
     }
 
     const lowerValue = sortedArr[lowerIndex];
@@ -754,6 +772,50 @@ function calculatePercentiles(arr, type, fixed) {
   return [q1, median, q3];
 }
 
+function getUrlBasedOnYearCount(format, RecordId) {
+  const yearCount = selectedYears_Set.size;
+  let url = "";
+
+  switch (yearCount) {
+    case 1:
+      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=42&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+      break;
+    case 2:
+      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=41&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+      break;
+    case 3:
+      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=40&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+      break;
+    case 4:
+      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=39&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+      break;
+    case 5:
+      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=38&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+      break;
+    case 6:
+      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=37&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+      break;
+    case 7:
+      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=36&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+      break;
+    case 8:
+      url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=35&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+      break;
+    default:
+      console.error("Invalid year count");
+  }
+
+  console.log(
+    `Generated URL for format ${format} and RecordId ${RecordId}: ${url}`
+  ); // Add this line to log the generated URL
+  return url;
+}
+
+function sortSet(set) {
+  const sortedArray = Array.from(set).sort();
+  set.clear();
+  sortedArray.forEach((item) => set.add(item));
+}
 
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
@@ -828,13 +890,89 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   });
 };
 
+const addClientDataToModalRow = (
+  tableModalRow,
+  clientNum,
+  numType,
+  fixedNum,
+  mainName
+) => {
+  const propClass =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  const propScope = "row";
+  const dataPoint = document.createElement("th");
+
+  dataPoint.className = propClass;
+  dataPoint.scope = propScope;
+
+  const text =
+    Number(clientNum) !== 0
+      ? styleNumber(clientNum, numType, fixedNum, name)
+      : "-";
+  dataPoint.textContent = text;
+
+  // console.log('addClientDataToModalRow', { tableModalRow, clientNum, numType, fixedNum, mainName });
+
+  tableModalRow.appendChild(dataPoint);
+
+  // if (name == "daysCashOnHand")
+  //   console.log({
+  //     tableModalRow,
+  //     year,
+  //     client,
+  //     type,
+  //     fixedNum,
+  //     dataPoint,
+  //     text,
+  //   });
+};
+
+const addPeerDataToModalRow = (
+  tableModalRow,
+  peerAvgNum,
+  peerMidNum,
+  peer25Num,
+  peer75Num,
+  mainName
+) => {
+  const propClass =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  const propScope = "row";
+
+  const dataPointAvg = document.createElement("th");
+  const dataPointMid = document.createElement("th");
+  const dataPointMin = document.createElement("th");
+  const dataPointMax = document.createElement("th");
+
+  dataPointAvg.className = propClass;
+  dataPointAvg.scope = propScope;
+  dataPointAvg.textContent = peerAvgNum !== 0 ? peerAvgNum : "-";
+  tableModalRow.appendChild(dataPointAvg);
+
+  dataPointMid.className = propClass;
+  dataPointMid.scope = propScope;
+  dataPointMid.textContent = peerMidNum !== 0 ? peerMidNum : "-";
+  tableModalRow.appendChild(dataPointMid);
+
+  dataPointMin.className = propClass;
+  dataPointMin.scope = propScope;
+  dataPointMin.textContent = peer25Num !== 0 ? peer25Num : "-";
+  tableModalRow.appendChild(dataPointMin);
+
+  dataPointMax.className = propClass;
+  dataPointMax.scope = propScope;
+  dataPointMax.textContent = peer75Num !== 0 ? peer75Num : "-";
+  tableModalRow.appendChild(dataPointMax);  
+};
+
 const getPeerAndClientChartDataArrays = (
   years,
   dataPeer,
   dataClient,
   fixedNum,
   mainName,
-  numType
+  numType,
+  wa
 ) => {
   // console.log(mainName, {
   //   years,
@@ -853,11 +991,21 @@ const getPeerAndClientChartDataArrays = (
   years.forEach((year) => {
     // console.log(year, dataPeer)
     // check if dataPeer is undefined but dataClient is not
-
     if (dataPeer != undefined && dataClient != undefined) {
       const dataArray = dataPeer[year];
       const array = dataArray.map((item) => Number(item));
-      // console.log(array)
+      // console.log(array);
+
+      // let avg;
+      // let testAvg;
+      // if (peer && wa) {
+      //   avg = parseFloat(getWeightedAverageOfArray(array));
+      //   testAvg = getWeightedAverageOfArray(data, name);
+      // } else if (peer && !wa) {
+      //   avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+      // } else {
+      //   avg = 0;
+      // }
       let avg = getAverageOfArray(array);
       let mid = getMidpointOfArray(array);
       let lower25 = get25thPercentileOfArray(array);
@@ -907,27 +1055,38 @@ const getPeerAndClientChartDataArrays = (
   return { clientArray, peerAvg, peerMid, peer25, peer75 };
 };
 
-const styleNumber = (num, type, fixed) => {
+const styleNumber = (num, type, fixed, name) => {
   let text = num;
   let textNum;
 
+  const truncateNumber = (number, decimals) => {
+    const factor = Math.pow(10, decimals);
+    return Math.floor(number * factor) / factor;
+  };
+
   if (!isNaN(text)) {
     if (type === "num" && text != 0) {
-      textNum = Number(text).toFixed(fixed);
-      text = Number(textNum).toLocaleString(); // Add commas for thousands
+      textNum = truncateNumber(parseFloat(text), fixed).toFixed(fixed);
+      text = parseFloat(textNum).toLocaleString(undefined, {
+        minimumFractionDigits: fixed,
+        maximumFractionDigits: fixed,
+      }); // Add commas for thousands and ensure fix
     }
 
     if (type === "percent" && text != 0) {
-      text = (parseFloat(text) * 100).toFixed(fixed) + "%";
+      const number = parseFloat(text);
+      text = (number * 100).toFixed(fixed) + "%";
     }
 
     if (type === "dollar" && text != 0) {
-      textNum = parseFloat(text).toFixed(fixed);
+      textNum = truncateNumber(parseFloat(text), fixed).toFixed(fixed);
       text = fixed
-        ? "$ " + Number(textNum).toFixed(fixed)
-        : "$ " + Number(textNum).toLocaleString(); // Add commas for thousands
+        ? "$ " + parseFloat(textNum).toFixed(fixed)
+        : "$ " + parseFloat(textNum).toLocaleString(); // Add commas for thousands
     }
   }
+
+  // if (name == 'percentWithDR') console.log("styleNumber()", { num, type, fixed, text, name });
 
   return text;
 };
@@ -1360,17 +1519,15 @@ document.querySelector("#sidebar ul").addEventListener("click", function () {
 // Function to destroy all existing charts
 const destroyAllCharts = () => {
   if (!charts_Array) return;
+  a;
   charts_Array.forEach((chart) => {
     chart.destroy();
   });
   charts_Array = []; // Clear the chart instances array
 };
 
-
-
-
-selectedYears_Set.add(2018)
-selectedYears_Set.add(2019)
-selectedYears_Set.add(2020)
-selectedYears_Set.add(2021)
-selectedYears_Set.add(2022)
+// selectedYears_Set.add(2018)
+// selectedYears_Set.add(2019)
+// selectedYears_Set.add(2020)
+// selectedYears_Set.add(2021)
+// selectedYears_Set.add(2022)
