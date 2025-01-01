@@ -12,7 +12,7 @@ async function svgToPngBase64(element, id) {
       let base64String = canvas.toDataURL("image/png");
       const exportString = base64String.slice("data:image/png;base64,".length);
       map_dataUri.set(id, exportString)
-      picture.remove();
+      picture.remove();d
     });
   }
 
