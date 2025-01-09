@@ -83,16 +83,16 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  // console.log ({
-  //   type,
-  //   year,
-  //   object,
-  //   dataKey,
-  //   record,
-  //   child,
-  //   dynamicValueClientPeer,
-  //   name,
-  // });
+  console.log ({
+    type,
+    year,
+    object,
+    dataKey,
+    record,
+    child,
+    dynamicValueClientPeer,
+    name,
+  });
 
   const innerData =
     child == 0
@@ -1021,7 +1021,7 @@ const processFinancialPositionContentData = (
         currentRatio_obj,
         "currentAssets_Peer",
         record,
-        "r256_ccurrent_assets",
+        "r256c_current_assets",
         "Yes"
       );
 
@@ -1032,7 +1032,7 @@ const processFinancialPositionContentData = (
         currentRatio_obj,
         "currentLiabilities_Peer",
         record,
-        "r257_ccurrent_liabilities",
+        "r257c_current_liabilities",
         "Yes"
       );
 
@@ -2870,7 +2870,6 @@ const getRecordsForPeer = async (years, dataStr) => {
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
-      (${getRegionQuery(selectedRegions_Array)}) AND
       {7.EX.${currentYear}}
     `,
     clist:

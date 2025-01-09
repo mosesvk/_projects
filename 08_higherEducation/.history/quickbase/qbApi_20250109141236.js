@@ -83,16 +83,16 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  // console.log ({
-  //   type,
-  //   year,
-  //   object,
-  //   dataKey,
-  //   record,
-  //   child,
-  //   dynamicValueClientPeer,
-  //   name,
-  // });
+  console.log ({
+    type,
+    year,
+    object,
+    dataKey,
+    record,
+    child,
+    dynamicValueClientPeer,
+    name,
+  });
 
   const innerData =
     child == 0
@@ -2870,7 +2870,6 @@ const getRecordsForPeer = async (years, dataStr) => {
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
-      (${getRegionQuery(selectedRegions_Array)}) AND
       {7.EX.${currentYear}}
     `,
     clist:

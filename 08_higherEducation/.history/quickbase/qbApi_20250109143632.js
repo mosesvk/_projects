@@ -2870,7 +2870,6 @@ const getRecordsForPeer = async (years, dataStr) => {
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
-      (${getRegionQuery(selectedRegions_Array)}) AND
       {7.EX.${currentYear}}
     `,
     clist:
