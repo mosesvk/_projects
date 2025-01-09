@@ -1010,7 +1010,7 @@ const processFinancialPositionContentData = (
         currentRatio_obj,
         "currentRatio_Peer",
         record,
-        "r258_ccurrent_ratio",
+        "r258c_current_ratio",
         "Yes"
       );
 
@@ -2760,7 +2760,7 @@ run_btn.addEventListener("click", async () => {
     if (recordPeerHTMLArray.length === 0) {
       console.error("No Peer records found for the selected years");
     } else {
-      // console.log("PEER", qdbapiElementPeer);
+      console.log("PEER", qdbapiElementPeer);
     }
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);

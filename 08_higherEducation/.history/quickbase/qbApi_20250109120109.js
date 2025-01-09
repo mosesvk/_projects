@@ -1010,7 +1010,7 @@ const processFinancialPositionContentData = (
         currentRatio_obj,
         "currentRatio_Peer",
         record,
-        "r258_ccurrent_ratio",
+        "r258c_current_ratio",
         "Yes"
       );
 

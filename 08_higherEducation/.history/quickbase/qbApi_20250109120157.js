@@ -83,16 +83,16 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  // console.log ({
-  //   type,
-  //   year,
-  //   object,
-  //   dataKey,
-  //   record,
-  //   child,
-  //   dynamicValueClientPeer,
-  //   name,
-  // });
+  console.log ({
+    type,
+    year,
+    object,
+    dataKey,
+    record,
+    child,
+    dynamicValueClientPeer,
+    name,
+  });
 
   const innerData =
     child == 0
@@ -1010,7 +1010,7 @@ const processFinancialPositionContentData = (
         currentRatio_obj,
         "currentRatio_Peer",
         record,
-        "r258_ccurrent_ratio",
+        "r258c_current_ratio",
         "Yes"
       );
 
