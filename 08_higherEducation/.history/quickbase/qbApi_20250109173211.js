@@ -2760,7 +2760,7 @@ run_btn.addEventListener("click", async () => {
     if (recordPeerHTMLArray.length === 0) {
       console.error("No Peer records found for the selected years");
     } else {
-      console.log("PEER", qdbapiElementPeer);
+      // console.log("PEER", qdbapiElementPeer);
     }
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
@@ -2844,13 +2844,13 @@ const getRecordsForPeer = async (years, dataStr) => {
       return "";
     }
 
-    // Otherwise, continue with the existing logic
-    const clientConditions = selectedClients
-      .map((client) => `{539.EX.${client}}`)
-      .join(" OR ");
-    // console.log({ clientConditions });
-    return `(${clientConditions})`;
-  }
+  //   // Otherwise, continue with the existing logic
+  //   const clientConditions = selectedClients
+  //     .map((client) => `{539.EX.${client}}`)
+  //     .join(" OR ");
+  //   // console.log({ clientConditions });
+  //   return `(${clientConditions})`;
+  // }
 
   const apiCallPeerData = {
     act: "API_DoQuery",
@@ -2899,7 +2899,6 @@ const getRecordsForPeer = async (years, dataStr) => {
 
     // Recursive call with updated years and dataStr
     return getRecordsForPeer(years.slice(1), dataStr);
-
   } catch (error) {
     console.error("Error fetching data:", error);
     // Handle the error as needed

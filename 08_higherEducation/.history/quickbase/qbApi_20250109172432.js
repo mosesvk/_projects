@@ -2760,7 +2760,7 @@ run_btn.addEventListener("click", async () => {
     if (recordPeerHTMLArray.length === 0) {
       console.error("No Peer records found for the selected years");
     } else {
-      console.log("PEER", qdbapiElementPeer);
+      // console.log("PEER", qdbapiElementPeer);
     }
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
@@ -2818,39 +2818,51 @@ const getRecordsForPeer = async (years, dataStr) => {
     return `(${membershipsConditions})`;
   }
 
-  function getAthleticsQuery(selectedAthletics) {
-    const athleticsConditions = [...selectedAthletics]
-      .map((athletic) => `{534.EX.${athletic}}`)
-      .join(" OR ");
-    // console.log({ athleticsConditions });
-    return `(${athleticsConditions})`;
-  }
+  // function getTrendlinesQuery(selectedTrendlines) {
+  //   const trendlinesConditions = [...selectedTrendlines]
+  //     .map((trendline) => `{536.EX.${trendline}}`)
+  //     .join(" OR ");
+  //   return `(${trendlinesConditions})`;
+  // }
 
-  function getTypeQuery(selectedTypes) {
-    const typeConditions = [...selectedTypes]
-      .map((type) => `{618.EX.${type}}`)
-      .join(" OR ");
-    // console.log({ typeConditions });
-    return `(${typeConditions})`;
-  }
+  // function getAthleticsQuery(selectedAthletics) {
+  //   const athleticsConditions = [...selectedAthletics]
+  //     .map((athletic) => `{534.EX.${athletic}}`)
+  //     .join(" OR ");
+  //   // console.log({ athleticsConditions });
+  //   return `(${athleticsConditions})`;
+  // }
 
-  function getClientQuery(selectedClients) {
-    // Check if the "select-all-checkbox-client" input is checked
-    const selectAllCheckbox = document.getElementById(
-      "select-all-checkbox-client"
-    );
-    if (selectAllCheckbox && selectAllCheckbox.checked) {
-      // If checked, return an empty string
-      return "";
-    }
+  // function getTypeQuery(selectedTypes) {
+  //   const typeConditions = [...selectedTypes]
+  //     .map((type) => `{618.EX.${type}}`)
+  //     .join(" OR ");
+  //   // console.log({ typeConditions });
+  //   return `(${typeConditions})`;
+  // }
 
-    // Otherwise, continue with the existing logic
-    const clientConditions = selectedClients
-      .map((client) => `{539.EX.${client}}`)
-      .join(" OR ");
-    // console.log({ clientConditions });
-    return `(${clientConditions})`;
-  }
+  // function getClientQuery(selectedClients) {
+  //   // Check if the "select-all-checkbox-client" input is checked
+  //   const selectAllCheckbox = document.getElementById(
+  //     "select-all-checkbox-client"
+  //   );
+  //   if (selectAllCheckbox && selectAllCheckbox.checked) {
+  //     // If checked, return an empty string
+  //     return "";
+  //   }
+
+  //   // Otherwise, continue with the existing logic
+  //   const clientConditions = selectedClients
+  //     .map((client) => `{539.EX.${client}}`)
+  //     .join(" OR ");
+  //   // console.log({ clientConditions });
+  //   return `(${clientConditions})`;
+  // }
+
+  // (${getTrendlinesQuery(selectedTrendlines_Array)}) AND
+  // (${getAthleticsQuery(selectedAthletics_Array)}) AND
+  // (${getTypeQuery(selectedTypes_Array)}) AND
+  // (${getClientQuery(selectedClients_Array)})
 
   const apiCallPeerData = {
     act: "API_DoQuery",
@@ -2858,9 +2870,7 @@ const getRecordsForPeer = async (years, dataStr) => {
       (${getRegionQuery(selectedRegions_Array)}) AND
       (${getStateQuery(selectedStates_Array)}) AND
       (${getMembershipsQuery(selectedMemberships_Array)}) AND
-      (${getAthleticsQuery(selectedAthletics_Array)}) AND
-      (${getTypeQuery(selectedTypes_Array)}) AND
-      (${getClientQuery(selectedClients_Array)}) AND
+      (${getTrendlinesQuery(selectedTrendlines_Array)}) AND
       {7.EX.${currentYear}}
     `,
     clist:
@@ -2899,7 +2909,6 @@ const getRecordsForPeer = async (years, dataStr) => {
 
     // Recursive call with updated years and dataStr
     return getRecordsForPeer(years.slice(1), dataStr);
-
   } catch (error) {
     console.error("Error fetching data:", error);
     // Handle the error as needed
