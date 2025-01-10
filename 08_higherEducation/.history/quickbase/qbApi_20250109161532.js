@@ -2802,21 +2802,21 @@ const getRecordsForPeer = async (years, dataStr) => {
     return `(${regionConditions})`;
   }
 
-  function getStateQuery(selectedStates) {
-    const stateConditions = [...selectedStates]
-      .map((state) => `{619.EX.${state}}`)
-      .join(" OR ");
-    // console.log({ stateConditions });
-    return `(${stateConditions})`;
-  }
+  // function getStateQuery(selectedStates) {
+  //   const stateConditions = [...selectedStates]
+  //     .map((state) => `{619.EX.${state}}`)
+  //     .join(" OR ");
+  //   // console.log({ stateConditions });
+  //   return `(${stateConditions})`;
+  // }
 
-  function getMembershipsQuery(selectedMemberships) {
-    const membershipsConditions = [...selectedMemberships]
-      .map((membership) => `{537.HAS.${membership}}`)
-      .join(" OR ");
-    // console.log({ membershipsConditions });
-    return `(${membershipsConditions})`;
-  }
+  // function getMembershipsQuery(selectedMemberships) {
+  //   const membershipsConditions = [...selectedMemberships]
+  //     .map((membership) => `{537.HAS.${membership}}`)
+  //     .join(" OR ");
+  //   // console.log({ membershipsConditions });
+  //   return `(${membershipsConditions})`;
+  // }
 
   // function getTrendlinesQuery(selectedTrendlines) {
   //   const trendlinesConditions = [...selectedTrendlines]
@@ -2859,6 +2859,9 @@ const getRecordsForPeer = async (years, dataStr) => {
   //   return `(${clientConditions})`;
   // }
 
+  // (${getRegionQuery(selectedRegions_Array)}) AND
+  // (${getStateQuery(selectedStates_Array)}) AND
+  // (${getMembershipsQuery(selectedMemberships_Array)}) AND
   // (${getTrendlinesQuery(selectedTrendlines_Array)}) AND
   // (${getAthleticsQuery(selectedAthletics_Array)}) AND
   // (${getTypeQuery(selectedTypes_Array)}) AND
@@ -2869,7 +2872,6 @@ const getRecordsForPeer = async (years, dataStr) => {
     query: `
       (${getRegionQuery(selectedRegions_Array)}) AND
       (${getStateQuery(selectedStates_Array)}) AND
-      (${getMembershipsQuery(selectedMemberships_Array)}) AND
       {7.EX.${currentYear}}
     `,
     clist:
