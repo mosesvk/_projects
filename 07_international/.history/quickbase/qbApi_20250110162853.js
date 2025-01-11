@@ -71,11 +71,11 @@ const insertDataIntoObject = (
   // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
 
   const innerData =
-    child == 0
-      ? 0
-      : record.querySelector(child).innerHTML.split("").length > 0
-      ? record.querySelector(child).innerHTML.trim()
-      : 0;
+  !child || child == 0
+    ? 0
+    : record.querySelector(child).innerHTML.split("").length > 0
+    ? record.querySelector(child).innerHTML.trim()
+    : 0;
 
   if (type === "client") {
     if (!object[dataKey]) {
@@ -113,9 +113,16 @@ const insertDataIntoObject = (
         object[dataKey]["total"].push(innerData);
       } else {
         if (!object[dataKey][name]) {
-          object[dataKey][name] = [];
+          object[dataKey][name] = {};
         }
-        object[dataKey][name].push(innerData);
+        if (!object[dataKey][name]["total"]) {
+          object[dataKey][name]["total"] = [];
+        }
+        if (!object[dataKey][name][year]) {
+          object[dataKey][name][year] = [];
+        }
+        object[dataKey][name]['total'].push(innerData) 
+        object[dataKey][name][year].push(innerData) 
       }
 
       object[dataKey][year].push(innerData);
@@ -981,7 +988,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "percentWithoutDR_Peer",
+        "percentWithoutDR_excludingPPE_Peer",
         record,
         "c03_02_ratio_percent_without_donor_restrictions_excluding_net_investment_in_ppe",
         "c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe"
@@ -1032,7 +1039,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "percentWithoutDR_excludingPPE_Peer",
+        "percentWithoutDR_Peer",
         record,
         "c03_03_ratio_percent_without_donor_restrictions",
         "c03_03_yes_no_percent_without_donor_restrictions"
@@ -1175,7 +1182,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_basedOnNumberOfDonors_Peer",
         record,
-        "__c04_02_ratio_contributions_trend_based_on_donor_count",
+        "c04_02_ratio_contributions_trend_based_on_donor_count",
         "c04_02_yes_no_contributions_trend_based_on_donor_count"
       );
 
@@ -1186,7 +1193,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_Peer",
         record,
-        "__c04_03_ratio_contributions_trend",
+        "c04_03_ratio_contributions_trend",
         "c04_03_yes_no_contributions_trend"
       );
 
@@ -1423,7 +1430,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "annualizedInvestmentReturn_Peer",
         record,
-        "__c04_10_ratio_annualized_investment_return",
+        "c04_10_ratio_annualized_investment_return",
         "c04_10_yes_no_annualized_investment_return"
       );
       insertDataIntoObject(
@@ -2118,6 +2125,12 @@ const toggleGenerateReportButtonNormalState = (btn) => {
 `;
 };
 
+const togglePrintPresentationButtonNormalState = (btn) => {
+  btn.innerHTML = `
+  Print Presentation
+`;
+};
+
 const processSelectedYears = () => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -2140,7 +2153,6 @@ const saveSelectedYearsToLocalStorage = (selectedYears_Set) => {
   const selectedYearsArray = Array.from(selectedYears_Set).sort(
     (a, b) => a - b
   );
-  urlToPrintXLS = getUrlBasedOnYearCount(selectedYears_Set)
   localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
 };
 
@@ -2174,6 +2186,9 @@ const recordPeerHTMLArray = [];
 
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
+  // Reset client and peer records
+  recordClientHTMLArray.length = 0;
+  recordPeerHTMLArray.length = 0;
   try {
     // uploadMainFile = "";
     // document.getElementById("print_modal_footer").classList.add("hidden");
@@ -2245,7 +2260,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     return `(${clientConditions})`;
   }
 
-  getClientQuery(selectedClients_Array);
+  // getClientQuery(selectedClients_Array);
   // AND
   // (${getClientQuery(selectedClients_Array)})
   // ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
@@ -2255,7 +2270,10 @@ const getRecordsForPeer = async (years, dataStr) => {
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
-      {301.EX.${currentYear}}
+      (${getClientQuery(selectedClients_Array)}) AND
+      (${getRegionQuery(selectedRegions_Array)}) AND
+      (${getTypeQuery(selectedTypes_Array)}) AND
+      ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
     `,
     clist:
       "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.208.196.228.220.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347.343.346.244.205.341.342.344.345.348",

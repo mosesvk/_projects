@@ -2260,7 +2260,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     return `(${clientConditions})`;
   }
 
-  getClientQuery(selectedClients_Array);
+  // getClientQuery(selectedClients_Array);
   // AND
   // (${getClientQuery(selectedClients_Array)})
   // ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND

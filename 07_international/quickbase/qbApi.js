@@ -2209,7 +2209,7 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
     )}</qdbapi>`;
-    // console.log("PEER", qdbapiElementPeer);
+    console.log("PEER", qdbapiElementPeer);
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();
@@ -2260,7 +2260,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     return `(${clientConditions})`;
   }
 
-  getClientQuery(selectedClients_Array);
+  // getClientQuery(selectedClients_Array);
   // AND
   // (${getClientQuery(selectedClients_Array)})
   // ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
@@ -2270,6 +2270,8 @@ const getRecordsForPeer = async (years, dataStr) => {
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
+      (${getRegionQuery(selectedRegions_Array)}) AND
+      (${getTypeQuery(selectedTypes_Array)}) AND
       {301.EX.${currentYear}}
     `,
     clist:

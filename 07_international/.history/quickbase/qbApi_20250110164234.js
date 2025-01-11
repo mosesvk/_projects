@@ -71,11 +71,11 @@ const insertDataIntoObject = (
   // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
 
   const innerData =
-    child == 0
-      ? 0
-      : record.querySelector(child).innerHTML.split("").length > 0
-      ? record.querySelector(child).innerHTML.trim()
-      : 0;
+  !child || child == 0
+    ? 0
+    : record.querySelector(child).innerHTML.split("").length > 0
+    ? record.querySelector(child).innerHTML.trim()
+    : 0;
 
   if (type === "client") {
     if (!object[dataKey]) {
@@ -113,9 +113,16 @@ const insertDataIntoObject = (
         object[dataKey]["total"].push(innerData);
       } else {
         if (!object[dataKey][name]) {
-          object[dataKey][name] = [];
+          object[dataKey][name] = {};
         }
-        object[dataKey][name].push(innerData);
+        if (!object[dataKey][name]["total"]) {
+          object[dataKey][name]["total"] = [];
+        }
+        if (!object[dataKey][name][year]) {
+          object[dataKey][name][year] = [];
+        }
+        object[dataKey][name]['total'].push(innerData) 
+        object[dataKey][name][year].push(innerData) 
       }
 
       object[dataKey][year].push(innerData);
@@ -981,7 +988,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "percentWithoutDR_Peer",
+        "percentWithoutDR_excludingPPE_Peer",
         record,
         "c03_02_ratio_percent_without_donor_restrictions_excluding_net_investment_in_ppe",
         "c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe"
@@ -1032,7 +1039,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "percentWithoutDR_excludingPPE_Peer",
+        "percentWithoutDR_Peer",
         record,
         "c03_03_ratio_percent_without_donor_restrictions",
         "c03_03_yes_no_percent_without_donor_restrictions"
@@ -1175,7 +1182,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_basedOnNumberOfDonors_Peer",
         record,
-        "__c04_02_ratio_contributions_trend_based_on_donor_count",
+        "c04_02_ratio_contributions_trend_based_on_donor_count",
         "c04_02_yes_no_contributions_trend_based_on_donor_count"
       );
 
@@ -1186,7 +1193,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_Peer",
         record,
-        "__c04_03_ratio_contributions_trend",
+        "c04_03_ratio_contributions_trend",
         "c04_03_yes_no_contributions_trend"
       );
 
@@ -1423,7 +1430,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "annualizedInvestmentReturn_Peer",
         record,
-        "__c04_10_ratio_annualized_investment_return",
+        "c04_10_ratio_annualized_investment_return",
         "c04_10_yes_no_annualized_investment_return"
       );
       insertDataIntoObject(
@@ -2174,12 +2181,14 @@ const displayComponents = () => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+const recordClientHTMLArray = [];
+const recordPeerHTMLArray = [];
 
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
-  const recordClientHTMLArray = [];
-  const recordPeerHTMLArray = [];
+  // Reset client and peer records
+  recordClientHTMLArray.length = 0;
+  recordPeerHTMLArray.length = 0;
   try {
     // uploadMainFile = "";
     // document.getElementById("print_modal_footer").classList.add("hidden");
@@ -2200,7 +2209,7 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
     )}</qdbapi>`;
-    // console.log("PEER", qdbapiElementPeer);
+    console.log("PEER", qdbapiElementPeer);
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();
@@ -2251,7 +2260,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     return `(${clientConditions})`;
   }
 
-  getClientQuery(selectedClients_Array);
+  // getClientQuery(selectedClients_Array);
   // AND
   // (${getClientQuery(selectedClients_Array)})
   // ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
@@ -2261,6 +2270,8 @@ const getRecordsForPeer = async (years, dataStr) => {
   const apiCallPeerData = {
     act: "API_DoQuery",
     query: `
+      (${getRegionQuery(selectedRegions_Array)}) AND
+      (${getTypeQuery(selectedTypes_Array)}) AND
       {301.EX.${currentYear}}
     `,
     clist:
