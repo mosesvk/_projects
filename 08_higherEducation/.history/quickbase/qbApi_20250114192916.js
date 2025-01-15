@@ -2752,7 +2752,7 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
     )}</qdbapi>`;
-    console.log("CLIENT", qdbapiElementClient);
+    // console.log("CLIENT", qdbapiElementClient);
 
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
@@ -2760,7 +2760,7 @@ run_btn.addEventListener("click", async () => {
     if (recordPeerHTMLArray.length === 0) {
       console.error("No Peer records found for the selected years");
     } else {
-      // console.log("PEER", qdbapiElementPeer);
+      console.log("PEER", qdbapiElementPeer);
     }
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);

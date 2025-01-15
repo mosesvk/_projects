@@ -194,7 +194,7 @@
     </style>
   </head>
   <body>
-    <!-- HEADER -->
+    <!-- HEADER -->d
     <nav
       id="nav"
       class="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
@@ -2287,13 +2287,13 @@
 
           <!-- DOE CONTENT -->
           <div id="DoeContent" class="tab-content hidden">
-            <!-- DOE Overall -->
+            <!-- CFI Ratio -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <div id="doeOverall_chart"></div>
+              <div id="cfiRatio_chart"></div>
               <button
-                id="dropdown_doeOverall"
+                id="dropdown_cfiRatio"
                 class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
               >
                 Details
@@ -2303,7 +2303,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 6 10"
-                  id="arrow_doeOverall "
+                  id="arrow_cfiRatio"
                 >
                   <path
                     stroke="currentColor"
@@ -2314,85 +2314,7 @@
                   />
                 </svg>
               </button>
-              <!-- DETAILS - DOE Overall -->
-              <div id="details_doeOverall" class="my-5 hidden">
-                <hr
-                  class="my-8 mx-40 border-1 border-black dark:border-white"
-                />
-                <!-- CLIENT TABLE - DOE Overall -->
-                <div id="doeOverall_clientTable" class="flex flex-col">
-                  <div class="overflow-x-auto rounded-lg">
-                    <div class="inline-block min-w-full align-middle">
-                      <div
-                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                      >
-                        <table
-                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                        >
-                          <thead
-                            class="text-xs text-white uppercase backgroundGreen opacity-75"
-                          >
-                            <tr id="row_doeOverall_tableHeader">
-                              <th
-                                scope="col"
-                                class="px-6 py-3 text-lg tracking-wide"
-                              >
-                                Data
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr
-                              id="row_doeOverall_peerAverage"
-                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Peer Average
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_doeOverall"
-                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                CFI Return on Net Assets
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_ro_changeInNetAssets"
-                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Change in Net Assets
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_ro_netAssetsBeginningOfYear"
-                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Net Assets Beginning of the Year
-                              </th>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
             </div>
           </div>
 
