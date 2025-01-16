@@ -1,4 +1,4 @@
-displayCfiComponent = () => {
+displayCfiComponent = (data) => {
   // console.log('displayCfiComponent()');
   const savedData = getStoredData("cfiData");
   const parseData = parseStoredData(savedData);
@@ -76,7 +76,7 @@ toggleDetailsByIdentifier("returnOnNetAssets");
 toggleDetailsByIdentifier("cfiViabilityRatio");
 
 // DOE 
-displayDoeComponent = () => {
+displayCfiComponent = (data) => {
   // console.log('displayCfiComponent()');
   const savedData = getStoredData("doeData");
   const parseData = parseStoredData(savedData);
@@ -84,14 +84,14 @@ displayDoeComponent = () => {
   // cfiRatio
   createChartFromParsedData(
     parseData,
-    "doeOverall_chart",
-    null,
-    "doeOverall_Client",
+    "cfiRatio_chart",
+    "cfiRatio_peerAverage_Peer",
+    "cfiRatio_Client",
     "num",
-    2,
-    "doeOverall",
-    1.5,
-    "US Department of Education Overall Composite Score"
+    1,
+    "cfiRatio",
+    3,
+    "CFI Ratio"
   );
 
 };

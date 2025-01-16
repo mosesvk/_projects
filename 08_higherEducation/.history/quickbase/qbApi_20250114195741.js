@@ -2191,10 +2191,21 @@ const processDoeData = (years, recordsPeer, recordsClient) => {
     });
   });
 
-  localStorage.removeItem("doeData");
-  localStorage.setItem("doeData", JSON.stringify(object));
+  localStorage.removeItem("cfiData");
+  localStorage.setItem("cfiData", JSON.stringify(object));
+
+  const selectedYears = getSelectedYearsFromLocalStorage();
 
   // console.log({ selectedYears });
+
+  const cfiValue =
+    object.cfiRatio_Client[selectedYears[selectedYears.length - 1]].value;
+  updateCfiValue(cfiValue, selectedYears[selectedYears.length - 1]);
+  const thCfiScoreElement = document.getElementById("th_cfiScore");
+  thCfiScoreElement.textContent =
+    cfiValue !== undefined && !isNaN(cfiValue) && cfiValue !== 0
+      ? cfiValue
+      : "-";
 };
 
 const processCfiData = (years, recordsPeer, recordsClient) => {
@@ -2735,7 +2746,6 @@ const resetSelectedYears = () => {
 
 const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
   processCfiData(selectedYears, recordsPeer, recordsClient);
-  processDoeData(selectedYears, recordsPeer, recordsClient);
   processFinancialAnalysisContentData(
     selectedYears,
     recordsPeer,
@@ -2753,7 +2763,6 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
 
 const displayComponents = () => {
   displayCfiComponent();
-  displayDoeComponent();
   displayFinancialAnalysisContentComponent();
   displayFinancialStatementComponent();
   displayFinancialPositionComponent();

@@ -88,9 +88,9 @@ displayDoeComponent = () => {
     null,
     "doeOverall_Client",
     "num",
-    2,
+    1,
     "doeOverall",
-    1.5,
+    3,
     "US Department of Education Overall Composite Score"
   );
 

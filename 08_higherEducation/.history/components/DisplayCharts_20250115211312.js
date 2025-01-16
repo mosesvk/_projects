@@ -88,10 +88,10 @@ displayDoeComponent = () => {
     null,
     "doeOverall_Client",
     "num",
-    2,
-    "doeOverall",
-    1.5,
-    "US Department of Education Overall Composite Score"
+    1,
+    "cfiRatio",
+    3,
+    "CFI Ratio"
   );
 
 };

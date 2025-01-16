@@ -2193,7 +2193,7 @@ const processDoeData = (years, recordsPeer, recordsClient) => {
 
   localStorage.removeItem("doeData");
   localStorage.setItem("doeData", JSON.stringify(object));
-
+  
   // console.log({ selectedYears });
 };
 
@@ -2735,7 +2735,6 @@ const resetSelectedYears = () => {
 
 const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
   processCfiData(selectedYears, recordsPeer, recordsClient);
-  processDoeData(selectedYears, recordsPeer, recordsClient);
   processFinancialAnalysisContentData(
     selectedYears,
     recordsPeer,
@@ -2753,7 +2752,6 @@ const processApiCalls = (selectedYears, recordsPeer, recordsClient) => {
 
 const displayComponents = () => {
   displayCfiComponent();
-  displayDoeComponent();
   displayFinancialAnalysisContentComponent();
   displayFinancialStatementComponent();
   displayFinancialPositionComponent();
