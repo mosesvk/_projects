@@ -7,7 +7,7 @@ const getMainChartOptions = (
   benchmark,
   title
 ) => {
-  console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
+  // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   let leng = selectedYearsArray.length;
@@ -25,7 +25,7 @@ const getMainChartOptions = (
       numType
     ));
 
-  // if (mainName == "cfiRatio")
+  if (mainName == "cfiRatio")
   // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const chartColors = document.documentElement.classList.contains("dark")

@@ -155,18 +155,19 @@ const dataUrLObj = new Object();
 
 // CHARTS
 let cfiRatio_chart;
-let doeOverall_chart;
+let doeOverall_chart
 let cfi_primaryReserveRatio_chart;
 let cfi_netIncomeOperationsRatio_chart;
 let cfi_returnOnNetAssets_chart;
 let cfi_viabilityRatio_chart;
-let FinancialPosition_chart;
-let assetToLiabilities_chart;
-let sourceOfIncomeClient_chart;
-let sourceOfIncomePeer_chart;
-let ffa_chart;
-let cashFlowsTrend_chart;
-let currentRatio_chart;
+let FinancialPosition_chart
+let assetToLiabilities_chart
+let sourceOfIncomeClient_chart
+let sourceOfIncomePeer_chart
+let ffa_chart
+let cashFlowsTrend_chart
+let currentRatio_chart
+
 
 // annotation
 let cfiRatio_annotation;
@@ -408,9 +409,12 @@ const createChart = (
 
       cfi_netIncomeOperationsRatio_chart.render();
 
-      document.addEventListener("dark-mode", function () {
-        cfi_netIncomeOperationsRatio_chart.updateOptions(chartOptions);
-      });
+      document.addEventListener(
+        "dark-mode",
+        function () {
+          cfi_netIncomeOperationsRatio_chart.updateOptions(chartOptions);
+        }
+      );
     } else if (chartId === "cfi_returnOnNetAssets_chart") {
       cfi_returnOnNetAssets_chart = new ApexCharts(
         document.getElementById(chartId),
@@ -433,6 +437,7 @@ const createChart = (
       // document.addEventListener("dark-mode", function () {
       //   cfi_viabilityRatio_chart.updateOptions(chartOptions);
       // });
+
     }
   }
 };
@@ -588,12 +593,13 @@ const getSumOfArray = (array) => {
 };
 
 const formatCurrency = (value, round = false) => {
-  if (value === undefined || value === null || value === 0) return "-"; // Fallback for missing data or zero
-  return `$${new Intl.NumberFormat("en-US", {
+  if (value === undefined || value === null || value === 0) return '-'; // Fallback for missing data or zero
+  return `$${new Intl.NumberFormat('en-US', {
     minimumFractionDigits: round ? 0 : 2, // For whole number if round is true
-    maximumFractionDigits: round ? 0 : 2,
+    maximumFractionDigits: round ? 0 : 2
   }).format(value)}`;
 };
+
 
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
@@ -652,9 +658,9 @@ const getPeerAndClientChartDataArrays = (
 
     benchmarkArray.push(benchmark);
 
-    if (dataPeer[year] !== undefined && dataClient[year] !== undefined) {
+    if (dataPeer[year] !== undefined && dataClient[year] !== undefined ) {
       // console.log('---- hit if');
-
+      
       const array = dataPeer[year];
       // if (mainName == 'cfiRatio') console.log(array)
       const avg = getAverageOfArray(array);
@@ -948,12 +954,12 @@ const range = () => {
 const findMaxValueOfObject = (data) => {
   let max = -Infinity;
   for (let year in data) {
-    if (data[year].value > max) {
-      max = data[year].value;
-    }
+      if (data[year].value > max) {
+          max = data[year].value;
+      }
   }
   return max;
-};
+}
 
 function missionaryRange() {
   return {
@@ -1351,6 +1357,7 @@ function showApiLoadingFunction(action, mode) {
   }
 }
 
+
 document
   .getElementById("option-25")
   .addEventListener("change", function (event) {
@@ -1463,8 +1470,8 @@ document
 document
   .getElementById("select-all-checkbox-trendline")
   .addEventListener("change", function (event) {
-    console.log("hi");
-
+    console.log('hi');
+    
     const allOptions = [
       { id: "25th", elementId: "option-25" },
       { id: "50th", elementId: "option-50" },
