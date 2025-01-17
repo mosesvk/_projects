@@ -652,16 +652,7 @@ const getPeerAndClientChartDataArrays = (
 
     benchmarkArray.push(benchmark);
 
-    if (!dataPeer && dataClient[year]) {
-      // console.log('---- hit ELSE if');
-
-      peerAvg.push(null);
-      peerMid.push(null);
-      peer25.push(null);
-      peer75.push(null);
-
-      const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
-      clientArray.push(clientNum);
+    if (!dataPeer) {
     } else if (dataPeer[year] !== undefined && dataClient[year] !== undefined) {
       // console.log('---- hit if');
 

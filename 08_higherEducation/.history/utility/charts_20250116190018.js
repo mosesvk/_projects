@@ -105,8 +105,8 @@ const getMainChartOptions = (
     yaxisAnnotation = cfiRatio_annotation;
     yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
-  } else if (mainName == "doeOverall") {
-    doeOverall_annotation = [
+  } else if (mainName == "doeOverall_chart") {
+    doeOverall_chart_annotation = [
       {
         id: "annotation",
         y: benchmark,
@@ -129,7 +129,7 @@ const getMainChartOptions = (
         },
       },
     ];
-    yaxisAnnotation = doeOverall_annotation;
+    yaxisAnnotation = doeOverall_chart_annotation;
     yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
   } else if (mainName == "cfi_primaryReserveRatio") {

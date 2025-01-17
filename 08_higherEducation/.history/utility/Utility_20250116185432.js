@@ -662,6 +662,7 @@ const getPeerAndClientChartDataArrays = (
 
       const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
       clientArray.push(clientNum);
+
     } else if (dataPeer[year] !== undefined && dataClient[year] !== undefined) {
       // console.log('---- hit if');
 
