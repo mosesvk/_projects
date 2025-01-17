@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
 
   addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
+
 });
 
 const findUniqueYears = (data) => {
@@ -204,13 +205,13 @@ const processDebtEndowmentContentData = (
         },
         {
           key: "principalPayments_Client",
-          field:
-            "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable",
+          field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable",
         },
         {
           key: "totalOperatingRevenue_Client",
           field: "r036_coperating_revenues_support_and_releases",
         },
+        
       ];
       debtServiceCoverageRatio_array.forEach(({ key, field }) => {
         insertDataIntoObject(
@@ -238,8 +239,7 @@ const processDebtEndowmentContentData = (
         },
         {
           key: "principalPayments_Client",
-          field:
-            "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable",
+          field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable",
         },
         {
           key: "operationalExpense_Client",
@@ -281,6 +281,7 @@ const processDebtEndowmentContentData = (
           field
         );
       });
+
 
       const endowmentAssetsPerStudent_Array = [
         {
@@ -818,6 +819,7 @@ const processRevenueExpenseContentData = (
         );
       });
 
+
       insertDataIntoObject(
         "peer",
         year,
@@ -849,7 +851,7 @@ const processRevenueExpenseContentData = (
           tuitionDependency_obj,
           key,
           record,
-          field,
+          field, 
           "Yes"
         );
       });
@@ -875,7 +877,7 @@ const processRevenueExpenseContentData = (
           tuitionDiscountRate_obj,
           key,
           record,
-          field,
+          field, 
           "Yes"
         );
       });
@@ -2167,103 +2169,16 @@ const processDoeData = (years, recordsPeer, recordsClient) => {
 
       return fiscalYear.includes(year.toString());
     });
-    filteredPeerRecords.forEach((record) => {});
+    filteredPeerRecords.forEach((record) => {
+
+    });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector("year").textContent;
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
-      // doePrimaryReserveRatio
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "doePrimaryReserveRatio_Client",
-        record,
-        "r232_cdoe_primary_reserve_ratio"
-      );
-
-      // doePrimaryReserveStrengthFactor
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "doePrimaryReserveStrengthFactor_Client",
-        record,
-        "r233_cdoe_primary_reserve_strength_factor"
-      );
-
-      // doePrimaryReserveRatioWeighted
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "doePrimaryReserveRatioWeighted_Client",
-        record,
-        "r234_cdoe_primary_reserve_ratio_weighted"
-      );
-
-      // doeEquityRatio
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "doeEquityRatio_Client",
-        record,
-        "r237_cdoe_equity_ratio"
-      );
-
-      // doeEquityStrengthFactor
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "doeEquityStrengthFactor_Client",
-        record,
-        "r238_cdoe_equity_strength_factor"
-      );
-
-      // doeEquityRatioWeighted
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "doeEquityRatioWeighted_Client",
-        record,
-        "r239_cdoe_equity_ratio_weighted"
-      );
-
-      // doeNetIncomeRatio
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "doeNetIncomeRatio_Client",
-        record,
-        "r242_cdoe_net_income_ratio"
-      );
-
-      // doeNetIncomeStrengthFactor
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "doeNetIncomeStrengthFactor_Client",
-        record,
-        "r243_cdoe_net_income_strength_factor"
-      );
-
-      // doeNetIncomeRatioWeighted
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "doeNetIncomeRatioWeighted_Client",
-        record,
-        "r244_cdoe_net_income_ratio_weighted"
-      );
-
+      
       // doeOverall
       insertDataIntoObject(
         "client",
@@ -2273,6 +2188,7 @@ const processDoeData = (years, recordsPeer, recordsClient) => {
         record,
         "r245_cdoe_overall__composite_score_"
       );
+
     });
   });
 
@@ -2855,7 +2771,7 @@ const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
   try {
     toggleButtonLoadingState(run_btn);
-    showApiLoadingFunction("open", "api");
+    showApiLoadingFunction("open", 'api');
     // const selectedYears = processSelectedYears();
     const selectedYears = getSelectedYearsFromLocalStorage();
     // const requiredYears = [2019, 2020, 2021, 2022, 2023, 2024];
@@ -2894,7 +2810,7 @@ run_btn.addEventListener("click", async () => {
   } finally {
     toggleButtonNormalState(run_btn);
   }
-  showApiLoadingFunction("close", "api");
+  showApiLoadingFunction("close", 'api');
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2907,7 +2823,7 @@ const getParsedData = (xmlString) => {
 
 const getRecordsForPeer = async (years, dataStr) => {
   // console.log({years});
-
+  
   if (years.length === 0) {
     // Base case: return the final string when the array is empty
     // if (dataStr === '<qdbapi>') console.error('No Peer records found for the selected years')
@@ -3023,6 +2939,7 @@ const getRecordsForPeer = async (years, dataStr) => {
 
     // Recursive call with updated years and dataStr
     return getRecordsForPeer(years.slice(1), dataStr);
+
   } catch (error) {
     console.error("Error fetching data:", error);
     // Handle the error as needed

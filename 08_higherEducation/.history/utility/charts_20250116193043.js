@@ -7,7 +7,7 @@ const getMainChartOptions = (
   benchmark,
   title
 ) => {
-  // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
+  console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   let leng = selectedYearsArray.length;
@@ -25,8 +25,8 @@ const getMainChartOptions = (
       numType
     ));
 
-  // if (mainName == "doeOverall")
-  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+  if (mainName == "doeOverall")
+  console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -133,7 +133,7 @@ const getMainChartOptions = (
     yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
 
-
+    
   } else if (mainName == "cfi_primaryReserveRatio") {
     cfi_primaryReserveRatio_annotation = [
       {
