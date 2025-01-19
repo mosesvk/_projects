@@ -1523,3 +1523,7 @@ document
     });
   });
 
+module.exports = {
+  getSumOfArray,
+  getAverageOfArray
+}
