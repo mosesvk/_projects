@@ -431,7 +431,8 @@ const getMainChartOptions = (
         color: chartColors.labelColor,
         fontSize: "1.5rem",
       },
-      margin: 50,
+      margin: 10,
+      floating: true,
       offsetY: 0,
     },
     xaxis: {

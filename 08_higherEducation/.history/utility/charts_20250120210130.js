@@ -432,6 +432,7 @@ const getMainChartOptions = (
         fontSize: "1.5rem",
       },
       margin: 50,
+      floating: true,
       offsetY: 0,
     },
     xaxis: {
