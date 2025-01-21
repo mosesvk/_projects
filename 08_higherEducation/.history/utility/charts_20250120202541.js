@@ -8,6 +8,7 @@ const getMainChartOptions = (
   title
 ) => {
   // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
+
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   const formatNumber = (value) => value.toLocaleString();
@@ -104,7 +105,7 @@ const getMainChartOptions = (
     yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
   } else if (mainName == "doeOverall") {
-    const data = JSON.parse(localStorage.doeData);
+    const data = JSON.parse(localStorage.doeData)
     doeOverall_annotation = [
       {
         id: "annotation",
@@ -134,107 +135,25 @@ const getMainChartOptions = (
 
     // console.log('doeOverall', data)
 
-    selectedYearsArray.sort((a, b) => b - a);
+    selectedYearsArray.forEach(year => {
+      const doeOverall_Client = data.doeOverall_Client[year].value
+      const doePrimaryReserveRatio_Client = data.doePrimaryReserveRatio_Client[year].value
+      const doePrimaryReserveStrengthFactor_Client = data.doePrimaryReserveStrengthFactor_Client[year].value
+      const doePrimaryReserveOverallWeight_Client = Number(doePrimaryReserveRatio_Client)/Number(doeOverall_Client)
+      const doePrimaryReserveRatioWeighted_Client = data.doePrimaryReserveRatioWeighted_Client[year].value
+      const doeEquityRatio_Client = data.doeEquityRatio_Client[year].value
+      const doeEquityStrengthFactor_Client = data.doeEquityStrengthFactor_Client[year].value
+      const doeEquityOverallWeight_Client = Number(doeEquityRatio_Client)/Number(doeOverall_Client)
+      const doeEquityRatioWeighted_Client = data.doeEquityRatioWeighted_Client[year].value
+      const doeNetIncomeRatio_Client = data.doeNetIncomeRatio_Client[year].value
+      const doeNetIncomeStrengthFactor_Client = data.doeNetIncomeStrengthFactor_Client[year].value
+      const doeNetIncomeOverallWeight_Client = Number(doeNetIncomeRatio_Client)/Number(doeOverall_Client)
+      const doeNetIncomeRatioWeighted_Client = data.doeNetIncomeRatioWeighted_Client[year].value
 
-    selectedYearsArray.forEach((year) => {
-      const doeOverall_Client = Number(
-        data.doeOverall_Client[year].value
-      ).toFixed(2);
-      const doePrimaryReserveRatio_Client = Number(
-        data.doePrimaryReserveRatio_Client[year].value
-      ).toFixed(2);
-      const doePrimaryReserveStrengthFactor_Client = Number(
-        data.doePrimaryReserveStrengthFactor_Client[year].value
-      ).toFixed(2);
-      const doePrimaryReserveOverallWeight_Client = (
-        Number(doePrimaryReserveRatio_Client) / Number(doeOverall_Client)
-      ).toFixed(2);
-      const doePrimaryReserveRatioWeighted_Client = Number(
-        data.doePrimaryReserveRatioWeighted_Client[year].value
-      ).toFixed(2);
-      const doeEquityRatio_Client = Number(
-        data.doeEquityRatio_Client[year].value
-      ).toFixed(2);
-      const doeEquityStrengthFactor_Client = Number(
-        data.doeEquityStrengthFactor_Client[year].value
-      ).toFixed(2);
-      const doeEquityOverallWeight_Client = (
-        Number(doeEquityRatio_Client) / Number(doeOverall_Client)
-      ).toFixed(2);
-      const doeEquityRatioWeighted_Client = Number(
-        data.doeEquityRatioWeighted_Client[year].value
-      ).toFixed(2);
-      const doeNetIncomeRatio_Client = Number(
-        data.doeNetIncomeRatio_Client[year].value
-      ).toFixed(2);
-      const doeNetIncomeStrengthFactor_Client = Number(
-        data.doeNetIncomeStrengthFactor_Client[year].value
-      ).toFixed(2);
-      const doeNetIncomeOverallWeight_Client = (
-        Number(doeNetIncomeRatio_Client) / Number(doeOverall_Client)
-      ).toFixed(2);
-      const doeNetIncomeRatioWeighted_Client = Number(
-        data.doeNetIncomeRatioWeighted_Client[year].value
-      ).toFixed(2);
 
-      const tableHTML = `
-        <div class="flex my-6">
-          <p class="text-2xl font-bold mr-4">${year}</p>
-          <div id="doeClientTable_${year}" class="flex flex-col my-6">
-            <div class="overflow-x-auto rounded-lg">
-              <div class="inline-block min-w-full align-middle">
-                <div class="relative overflow-x-auto shadow-md">
-                  <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-white uppercase backgroundGreen opacity-75">
-                      <tr id="row_doeOverall_tableHeader">
-                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Ratio</th>
-                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800"></th>
-                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Strength</th>
-                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Weight</th>
-                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Weighted</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr id="row_doeOverall_primaryReserveRatio" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">Primary Reserve Ratio</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doePrimaryReserveRatio_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doePrimaryReserveStrengthFactor_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doePrimaryReserveOverallWeight_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doePrimaryReserveRatioWeighted_Client}</th>
-                      </tr>
-                      <tr id="row_equityRatio" class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700">
-                        <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">Equity Ratio</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeEquityRatio_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeEquityStrengthFactor_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeEquityOverallWeight_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeEquityRatioWeighted_Client}</th>
-                      </tr>
-                      <tr id="row_doeOverall_netIncomeRatio" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">Net Income Ratio</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeNetIncomeRatio_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeNetIncomeStrengthFactor_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeNetIncomeOverallWeight_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeNetIncomeRatioWeighted_Client}</th>
-                      </tr>
-                    </tbody>
-                    <tfoot class="text-xs text-white uppercase backgroundGreen opacity-75">
-                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white dark:border-gray-800"></th>
-                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white dark:border-gray-800"></th>
-                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white dark:border-gray-800"></th>
-                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white dark:border-gray-800">Overall Composite Score</th>
-                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white dark:border-gray-800">${doeOverall_Client}</th>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
+    })
 
-      // Assuming you have a container element to append the generated HTML
-      document.getElementById("doeClientTable").innerHTML += tableHTML;
-    });
+
   } else if (mainName == "cfi_primaryReserveRatio") {
     cfi_primaryReserveRatio_annotation = [
       {
@@ -517,6 +436,7 @@ const getMainChartOptions = (
 };
 
 // DOE charts
+
 
 const getFSchartOptions = (
   data,
@@ -974,10 +894,9 @@ const getAtlChartOptions = (data) => {
       Number(totalLiabilitiesClient[year].value);
     clientArray.push(clientValue.toFixed(2));
 
-    peerValue = totalAssetsPeer[year]
-      ? getAverageOfArray(totalAssetsPeer[year]) /
-        getAverageOfArray(totalLiabilitiesPeer[year])
-      : 0;
+    peerValue = totalAssetsPeer[year] ? 
+      getAverageOfArray(totalAssetsPeer[year]) /
+      getAverageOfArray(totalLiabilitiesPeer[year]) : 0
     peerArray.push(peerValue.toFixed(2));
     benchmarkArray.push(1);
   });
@@ -3566,18 +3485,16 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     const clientData = Number(data.ratio_Client[year].value);
     clientArray.push(clientData);
 
-    const peerAvg = data.ratio_Peer[year]
-      ? getAverageOfArray(data.ratio_Peer[year])
-      : 0;
+    const peerAvg = data.ratio_Peer[year] ? getAverageOfArray(data.ratio_Peer[year]) : 0
     peerAvgArray.push(Math.round(peerAvg));
 
-    const peer25 = peerAvg !== 0 ? get25thPercentileOfArray(peerAvgArray) : 0;
+    const peer25 = peerAvg !== 0 ? get25thPercentileOfArray(peerAvgArray) : 0
     peer25Array.push(Math.round(peer25));
 
-    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerAvgArray) : 0;
+    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerAvgArray) : 0
     peer50Array.push(Math.round(peer50));
 
-    const peer75 = peerAvg !== 0 ? get75thPercentileOfArray(peerAvgArray) : 0;
+    const peer75 = peerAvg !== 0 ? get75thPercentileOfArray(peerAvgArray) : 0
     peer75Array.push(Math.round(peer75));
 
     // console.log('getNetEducationalExpensePerStudentChartOptions',{
@@ -3887,19 +3804,14 @@ const getTuitionDependencyChartOptions = (data) => {
     );
     operatingRevenueArray.push(operatingRevenuesSupportAndReleaseClient);
 
-    const ratioPeer = data.ratio_Peer[year]
-      ? Math.round(getAverageOfArray(data.ratio_Peer[year], 100))
-      : 0;
+    const ratioPeer = data.ratio_Peer[year] ? Math.round(getAverageOfArray(data.ratio_Peer[year], 100)) : 0;
     peerRatioArray.push(ratioPeer);
-    const netTuitionAndFeesPeer = data.netTuitionAndFees_Peer[year]
-      ? Math.round(getAverageOfArray(data.netTuitionAndFees_Peer[year]))
-      : 0;
-    const operatingRevenuesSupportAndReleasePeer = data
-      .operatingRevenuesSupportAndRelease_Peer[year]
-      ? Math.round(
-          getAverageOfArray(data.operatingRevenuesSupportAndRelease_Peer[year])
-        )
-      : 0;
+    const netTuitionAndFeesPeer = data.netTuitionAndFees_Peer[year] ? Math.round(
+      getAverageOfArray(data.netTuitionAndFees_Peer[year])
+    ): 0
+    const operatingRevenuesSupportAndReleasePeer = data.operatingRevenuesSupportAndRelease_Peer[year] ? Math.round(
+      getAverageOfArray(data.operatingRevenuesSupportAndRelease_Peer[year])
+    ): 0
 
     // console.log({ratioPeer, netTuitionAndFeesPeer, operatingRevenuesSupportAndReleasePeer});
 
@@ -4196,23 +4108,18 @@ const getTuitionDiscountRateChartOptions = (data) => {
     );
     tuitionFeesArray.push(tuitionAndFeesClient);
 
-    const ratioPeer = data.ratio_Peer[year]
-      ? Math.abs(Math.round(getAverageOfArray(data.ratio_Peer[year], 100)))
-      : 0;
+    const ratioPeer = data.ratio_Peer[year] ? Math.abs(
+      Math.round(getAverageOfArray(data.ratio_Peer[year], 100))
+    ) : 0;
     peerRatioArray.push(ratioPeer);
-    const scholarshipsAndFinancialAidPeer = data
-      .revenueScholarshipsAndFinanancialAid_Peer[year]
-      ? Math.abs(
-          Math.round(
-            getAverageOfArray(
-              data.revenueScholarshipsAndFinanancialAid_Peer[year]
-            )
-          )
-        )
-      : 0;
-    const tuitionAndFeesPeer = data.revenueTuitionAndFees_Peer[year]
-      ? Math.round(getAverageOfArray(data.revenueTuitionAndFees_Peer[year]))
-      : 0;
+    const scholarshipsAndFinancialAidPeer = data.revenueScholarshipsAndFinanancialAid_Peer[year] ? Math.abs(
+      Math.round(
+        getAverageOfArray(data.revenueScholarshipsAndFinanancialAid_Peer[year])
+      )
+    ) : 0
+    const tuitionAndFeesPeer = data.revenueTuitionAndFees_Peer[year] ? Math.round(
+      getAverageOfArray(data.revenueTuitionAndFees_Peer[year])
+    ) : 0
 
     // console.log({ratioPeer, netTuitionAndFeesPeer, tuitionAndFeesPeer});
 
@@ -5150,11 +5057,9 @@ const getDebtBurdenRatioChartOptions = (data) => {
       </th>
     `;
 
-    const peerRatioNum = data.ratio_Peer[year]
-      ? Math.abs(
-          Number(getAverageOfArray(data.ratio_Peer[year])) * 100
-        ).toFixed(1)
-      : 0;
+    const peerRatioNum = data.ratio_Peer[year] ? Math.abs(
+      Number(getAverageOfArray(data.ratio_Peer[year])) * 100
+    ).toFixed(1) : 0
 
     let num = Math.round(clientRatioNum * 100);
     clientRatioArray.push(num);
@@ -5693,15 +5598,11 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       data.totalStudentFte_Client[year].value
     );
 
-    const peerRatio = data.ratio_Peer[year]
-      ? Number(getAverageOfArray(data.ratio_Peer[year]) * 100).toFixed(1)
-      : 0;
-    const endowmentSizePeer = data.endowment_Peer[year]
-      ? getSumOfArray(data.endowment_Peer[year])
-      : 0;
-    const totalStudentFtePeer = data.totalStudentFte_Peer[year]
-      ? getSumOfArray(data.totalStudentFte_Peer[year])
-      : 0;
+    const peerRatio = data.ratio_Peer[year] ? Number(
+      getAverageOfArray(data.ratio_Peer[year]) * 100
+    ).toFixed(1) : 0 
+    const endowmentSizePeer = data.endowment_Peer[year] ? getSumOfArray(data.endowment_Peer[year]): 0
+    const totalStudentFtePeer = data.totalStudentFte_Peer[year] ? getSumOfArray(data.totalStudentFte_Peer[year]) : 0
 
     // Add year to table header
     tableHeaderClientRow.innerHTML += `

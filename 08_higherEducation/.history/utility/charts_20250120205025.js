@@ -187,42 +187,42 @@ const getMainChartOptions = (
                   <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-white uppercase backgroundGreen opacity-75">
                       <tr id="row_doeOverall_tableHeader">
-                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Ratio</th>
-                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800"></th>
-                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Strength</th>
-                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Weight</th>
-                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Weighted</th>
+                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white">Ratio</th>
+                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white"></th>
+                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white">Strength</th>
+                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white">Weight</th>
+                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white">Weighted</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr id="row_doeOverall_primaryReserveRatio" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">Primary Reserve Ratio</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doePrimaryReserveRatio_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doePrimaryReserveStrengthFactor_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doePrimaryReserveOverallWeight_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doePrimaryReserveRatioWeighted_Client}</th>
+                        <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">Primary Reserve Ratio</th>
+                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">${doePrimaryReserveRatio_Client}</th>
+                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">${doePrimaryReserveStrengthFactor_Client}</th>
+                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">${doePrimaryReserveOverallWeight_Client}</th>
+                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">${doePrimaryReserveRatioWeighted_Client}</th>
                       </tr>
                       <tr id="row_equityRatio" class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700">
-                        <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">Equity Ratio</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeEquityRatio_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeEquityStrengthFactor_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeEquityOverallWeight_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeEquityRatioWeighted_Client}</th>
+                        <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">Equity Ratio</th>
+                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">${doeEquityRatio_Client}</th>
+                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">${doeEquityStrengthFactor_Client}</th>
+                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">${doeEquityOverallWeight_Client}</th>
+                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">${doeEquityRatioWeighted_Client}</th>
                       </tr>
                       <tr id="row_doeOverall_netIncomeRatio" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">Net Income Ratio</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeNetIncomeRatio_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeNetIncomeStrengthFactor_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeNetIncomeOverallWeight_Client}</th>
-                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white dark:border-gray-800">${doeNetIncomeRatioWeighted_Client}</th>
+                        <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">Net Income Ratio</th>
+                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">${doeNetIncomeRatio_Client}</th>
+                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">${doeNetIncomeStrengthFactor_Client}</th>
+                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">${doeNetIncomeOverallWeight_Client}</th>
+                        <th class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">${doeNetIncomeRatioWeighted_Client}</th>
                       </tr>
                     </tbody>
                     <tfoot class="text-xs text-white uppercase backgroundGreen opacity-75">
-                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white dark:border-gray-800"></th>
-                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white dark:border-gray-800"></th>
-                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white dark:border-gray-800"></th>
-                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white dark:border-gray-800">Overall Composite Score</th>
-                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white dark:border-gray-800">${doeOverall_Client}</th>
+                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white"></th>
+                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white"></th>
+                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white"></th>
+                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white">Overall Composite Score</th>
+                      <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white">${doeOverall_Client}</th>
                     </tfoot>
                   </table>
                 </div>
