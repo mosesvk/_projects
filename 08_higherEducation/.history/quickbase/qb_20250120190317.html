@@ -2343,125 +2343,225 @@
                   class="my-8 mx-40 border-1 border-black dark:border-white"
                 />
                 <!-- CLIENT TABLE - DOE Overall -->
-                <div id="doeClientTable" class="mx-4">
-                  <div class="flex my-6">
-                    <p class="text-2xl font-bold mr-4">2024</p>
-                    <div id="doeClientTable_2024" class="flex flex-col my-6">
-                      <div class="overflow-x-auto rounded-lg">
-                        <div class="inline-block min-w-full align-middle">
-                          <div class="relative overflow-x-auto shadow-md">
-                            <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
-                              <thead class="text-xs text-white uppercase backgroundGreen opacity-75">
-                                <tr id="row_doeOverall_tableHeader">
-                                  <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white">
-                                    Ratio
-                                  </th>
-                                  <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white"></th>
-                                  <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white">
-                                    Strength
-                                  </th>
-                                  <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white">
-                                    Weight
-                                  </th>
-                                  <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white">
-                                    Weighted
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr id="row_doeOverall_primaryReserveRatio" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                  <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">
-                                    Primary Reserve Ratio
-                                  </th>
-                                </tr>
-                                <tr id="row_equityRatio" class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700">
-                                  <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">
-                                    Equity Ratio
-                                  </th>
-                                </tr>
-                                <tr id="row_doeOverall_netIncomeRatio" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                  <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">
-                                    Net Income Ratio
-                                  </th>
-                                </tr>
-                                <tr id="row_doeOverall_overallCompositeScore" class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700">
-                                  <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">
-                                    Overall Composite Score
-                                  </th>
-                                </tr>
-                              </tbody>
-                              <tfoot class="text-xs text-white uppercase backgroundGreen opacity-75">
-                                <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white"></th>
-                                <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white"></th>
-                                <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white"></th>
-                                <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white">
+                <div >
+                  <p>2024</p>
+                  <div id="doeClientTable_2024" class="flex flex-col">
+                    <div class="overflow-x-auto rounded-lg">
+                      <div class="inline-block min-w-full align-middle">
+                        <div
+                          class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                        >
+                          <table
+                            class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                          >
+                            <thead
+                              class="text-xs text-white uppercase backgroundGreen opacity-75"
+                            >
+                              <tr id="row_doeOverall_tableHeader">
+                                <th
+                                  scope="col"
+                                  class="px-6 py-3 text-lg tracking-wide"
+                                >
+                                  {insert year}
+                                </th>
+                                <th
+                                  scope="col"
+                                  class="px-6 py-3 text-lg tracking-wide"
+                                ></th>
+                                <th
+                                  scope="col"
+                                  class="px-6 py-3 text-lg tracking-wide"
+                                >
+                                  Strength
+                                </th>
+                                <th
+                                  scope="col"
+                                  class="px-6 py-3 text-lg tracking-wide"
+                                >
+                                  Weighted
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                id="row_doeOverall_primaryReserveRatio"
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                              >
+                                <th
+                                  scope="row"
+                                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
+                                  Primary Reserve Ratio
+                                </th>
+                              </tr>
+                              <tr
+                                id="row_equityRatio"
+                                class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                              >
+                                <th
+                                  scope="row"
+                                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
+                                  Equity Ratio
+                                </th>
+                              </tr>
+                              <tr
+                                id="row_doeOverall_netIncomeRatio"
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                              >
+                                <th
+                                  scope="row"
+                                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
+                                  Net Income Ratio
+                                </th>
+                              </tr>
+                              <tr
+                                id="row_doeOverall_overallCompositeScore"
+                                class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                              >
+                                <th
+                                  scope="row"
+                                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
                                   Overall Composite Score
                                 </th>
-                                <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white"></th>
-                              </tfoot>
-                            </table>
-                          </div>
+                              </tr>
+                            </tbody>
+                            <tfoot
+                              class="text-xs text-white uppercase backgroundGreen opacity-75"
+                            >
+                              <th
+                                scope="col"
+                                class="px-6 py-3 text-lg tracking-wide"
+                              ></th>
+                              <th
+                                scope="col"
+                                class="px-6 py-3 text-lg tracking-wide"
+                              ></th>
+                              <th
+                                scope="col"
+                                class="px-6 py-3 text-lg tracking-wide"
+                              >
+                                Overall Composite Score
+                              </th>
+                              <th
+                                scope="col"
+                                class="px-6 py-3 text-lg tracking-wide"
+                              ></th>
+                            </tfoot>
+                          </table>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="flex my-6">
-                    <p class="text-2xl font-bold mr-4">2023</p>
-                    <div id="doeClientTable_2023" class="flex flex-col my-6">
-                      <div class="overflow-x-auto rounded-lg">
-                        <div class="inline-block min-w-full align-middle">
-                          <div class="relative overflow-x-auto shadow-md">
-                            <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
-                              <thead class="text-xs text-white uppercase backgroundGreen opacity-75">
-                                <tr id="row_doeOverall_tableHeader">
-                                  <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white">
-                                    Ratio
-                                  </th>
-                                  <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white"></th>
-                                  <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white">
-                                    Strength
-                                  </th>
-                                  <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white">
-                                    Weight
-                                  </th>
-                                  <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white">
-                                    Weighted
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr id="row_doeOverall_primaryReserveRatio" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                  <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">
-                                    Primary Reserve Ratio
-                                  </th>
-                                </tr>
-                                <tr id="row_equityRatio" class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700">
-                                  <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">
-                                    Equity Ratio
-                                  </th>
-                                </tr>
-                                <tr id="row_doeOverall_netIncomeRatio" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                  <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">
-                                    Net Income Ratio
-                                  </th>
-                                </tr>
-                                <tr id="row_doeOverall_overallCompositeScore" class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700">
-                                  <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-white">
-                                    Overall Composite Score
-                                  </th>
-                                </tr>
-                              </tbody>
-                              <tfoot class="text-xs text-white uppercase backgroundGreen opacity-75">
-                                <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white"></th>
-                                <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white"></th>
-                                <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white"></th>
-                                <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white">
+                  <p>2023</p>
+                  <div id="doeClientTable_2023" class="flex flex-col">
+                    <div class="overflow-x-auto rounded-lg">
+                      <div class="inline-block min-w-full align-middle">
+                        <div
+                          class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                        >
+                          <table
+                            class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                          >
+                            <thead
+                              class="text-xs text-white uppercase backgroundGreen opacity-75"
+                            >
+                              <tr id="row_doeOverall_tableHeader">
+                                <th
+                                  scope="col"
+                                  class="px-6 py-3 text-lg tracking-wide"
+                                >
+                                  {insert year}
+                                </th>
+                                <th
+                                  scope="col"
+                                  class="px-6 py-3 text-lg tracking-wide"
+                                ></th>
+                                <th
+                                  scope="col"
+                                  class="px-6 py-3 text-lg tracking-wide"
+                                >
+                                  Strength
+                                </th>
+                                <th
+                                  scope="col"
+                                  class="px-6 py-3 text-lg tracking-wide"
+                                >
+                                  Weighted
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                id="row_doeOverall_primaryReserveRatio"
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                              >
+                                <th
+                                  scope="row"
+                                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
+                                  Primary Reserve Ratio
+                                </th>
+                              </tr>
+                              <tr
+                                id="row_equityRatio"
+                                class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                              >
+                                <th
+                                  scope="row"
+                                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
+                                  Equity Ratio
+                                </th>
+                              </tr>
+                              <tr
+                                id="row_doeOverall_netIncomeRatio"
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                              >
+                                <th
+                                  scope="row"
+                                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
+                                  Net Income Ratio
+                                </th>
+                              </tr>
+                              <tr
+                                id="row_doeOverall_overallCompositeScore"
+                                class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                              >
+                                <th
+                                  scope="row"
+                                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
                                   Overall Composite Score
                                 </th>
-                                <th scope="col" class="px-4 py-2 text-lg tracking-wide border-2 border-white"></th>
-                              </tfoot>
-                            </table>
-                          </div>
+                              </tr>
+                            </tbody>
+                            <tfoot
+                              class="text-xs text-white uppercase backgroundGreen opacity-75"
+                            >
+                              <th
+                                scope="col"
+                                class="px-6 py-3 text-lg tracking-wide"
+                              ></th>
+                              <th
+                                scope="col"
+                                class="px-6 py-3 text-lg tracking-wide"
+                              ></th>
+                              <th
+                                scope="col"
+                                class="px-6 py-3 text-lg tracking-wide"
+                              >
+                                Overall Composite Score
+                              </th>
+                              <th
+                                scope="col"
+                                class="px-6 py-3 text-lg tracking-wide"
+                              ></th>
+                            </tfoot>
+                          </table>
                         </div>
                       </div>
                     </div>
