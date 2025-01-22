@@ -68,7 +68,7 @@ const getMainChartOptions = (
     }
   });
 
-  // console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
+  console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {

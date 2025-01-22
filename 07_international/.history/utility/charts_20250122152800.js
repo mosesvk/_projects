@@ -44,8 +44,6 @@ const getMainChartOptions = (
       wa
     ));
 
-1
-
   selectedYearsArray.forEach((year, index) => {
     const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
     // console.log("tableModalRow", `${mainName}_modal_${year}`, tableModalRow);
@@ -70,7 +68,7 @@ const getMainChartOptions = (
     }
   });
 
-  // console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
+  console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {

@@ -222,19 +222,21 @@ const createChartFromParsedData = (
   client,
   type,
   fixedNum,
-  mainName
+  mainName,
+  wa
 ) => {
   if (parsedData) {
-    // if (mainName == 'functionalExpensePercent_program') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
+    if (mainName == 'functionalExpensePercent_program') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
+    updateModal(mainName, parsedData[peer], parsedData[client]);
     createChart(
       chart,
       parsedData[peer],
       parsedData[client],
       type,
       fixedNum,
-      mainName
+      mainName,
+      wa
     );
-    updateModal(mainName, parsedData[peer], parsedData[client]);
   }
 };
 
@@ -244,7 +246,8 @@ const createChart = (
   dataClient,
   type,
   fixedNum,
-  mainName
+  mainName,
+  wa
 ) => {
   // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
@@ -256,7 +259,8 @@ const createChart = (
     dataClient,
     type,
     fixedNum,
-    mainName
+    mainName,
+    wa
   );
 
   const chartIds = [
@@ -270,7 +274,7 @@ const createChart = (
     "functionalExpensePercent_administrative_chart",
     "functionalExpensePercent_fundraising_chart",
     "costOfContributions_chart",
-  ];
+  ]; 
 
   if (chartIds.includes(chartId)) {
     if (chartId === "daysCashOnHand_chart") {
@@ -370,6 +374,81 @@ const createChart = (
     }
   }
 };
+
+function updateModal(mainName, peerData, clientData) {
+  // console.log('updateModal',{ mainName, peerData, clientData });
+  // Get the selected years from local storage
+  const selectedYears = getSelectedYearsFromLocalStorage();
+
+  // Find the modal element
+  const modal = document.getElementById(`${mainName}_modal`);
+
+  // Check if the modal element exists
+  if (modal) {
+    // Find the table header row
+    const headerRow = modal.querySelector(`#${mainName}_modal_row`);
+    // console.log({headerRow});
+    let tableHead = headerRow.parentElement;
+
+    // Clear existing rows after the headerRow
+    let nextRow = headerRow.nextSibling;
+    while (nextRow) {
+      tableHead.removeChild(nextRow);
+      nextRow = headerRow.nextSibling; // Get the next sibling again
+    }
+
+    // Clear existing header content
+    headerRow.innerHTML = "";
+
+    // Add the "year" column
+    const yearColumn = document.createElement("th");
+    yearColumn.className = "px-6 py-3";
+    yearColumn.textContent = "year";
+    headerRow.appendChild(yearColumn);
+
+    // Add the "Client" column
+    const clientColumn = document.createElement("th");
+    clientColumn.className = "px-6 py-3";
+    clientColumn.textContent = "client";
+    headerRow.appendChild(clientColumn);
+
+    // Add the "Avg" column
+    const avgColumn = document.createElement("th");
+    avgColumn.className = "px-6 py-3";
+    avgColumn.textContent = "Avg";
+    headerRow.appendChild(avgColumn);
+
+    // Add the remaining columns
+    const columns = ["25%", "50%", "75%"];
+    columns.forEach((column) => {
+      const col = document.createElement("th");
+      col.className = "px-6 py-3";
+      col.textContent = column;
+      headerRow.appendChild(col);
+    });
+
+    // Add a row for each selected year
+    selectedYears.forEach((year) => {
+      const yearRow = document.createElement("tr");
+      yearRow.className =
+        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
+      yearRow.id = `${mainName}_modal_${year}`;
+
+      // Create a table header cell for the year
+      const yearCell = document.createElement("th");
+      yearCell.className =
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      yearCell.scope = "row";
+      yearCell.textContent = year;
+
+      // Append the year cell to the row
+      yearRow.appendChild(yearCell);
+
+      // Append the row to the header
+      tableHead.appendChild(yearRow);
+    });
+  }
+}
 
 const updateCashFlowModal = (
   mainName,
@@ -493,80 +572,6 @@ const updateCashFlowModal = (
     });
   }
 };
-
-function updateModal(mainName, avgData, clientData) {
-  // Get the selected years from local storage
-  const selectedYears = getSelectedYearsFromLocalStorage();
-
-  // Find the modal element
-  const modal = document.getElementById(`${mainName}_modal`);
-
-  // Check if the modal element exists
-  if (modal) {
-    // Find the table header row
-    const headerRow = modal.querySelector(`#${mainName}_modal_row`);
-    // console.log({headerRow});
-    let tableHead = headerRow.parentElement;
-
-    // Clear existing rows after the headerRow
-    let nextRow = headerRow.nextSibling;
-    while (nextRow) {
-      tableHead.removeChild(nextRow);
-      nextRow = headerRow.nextSibling; // Get the next sibling again
-    }
-
-    // Clear existing header content
-    headerRow.innerHTML = "";
-
-    // Add the "year" column
-    const yearColumn = document.createElement("th");
-    yearColumn.className = "px-6 py-3";
-    yearColumn.textContent = "year";
-    headerRow.appendChild(yearColumn);
-
-    // Add the "Client" column
-    const clientColumn = document.createElement("th");
-    clientColumn.className = "px-6 py-3";
-    clientColumn.textContent = "client";
-    headerRow.appendChild(clientColumn);
-
-    // Add the "Avg" column
-    const avgColumn = document.createElement("th");
-    avgColumn.className = "px-6 py-3";
-    avgColumn.textContent = "Avg";
-    headerRow.appendChild(avgColumn);
-
-    // Add the remaining columns
-    const columns = ["25%", "50%", "75%"];
-    columns.forEach((column) => {
-      const col = document.createElement("th");
-      col.className = "px-6 py-3";
-      col.textContent = column;
-      headerRow.appendChild(col);
-    });
-
-    // Add a row for each selected year
-    selectedYears.forEach((year) => {
-      const yearRow = document.createElement("tr");
-      yearRow.className =
-        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
-      yearRow.id = `${mainName}_modal_${year}`;
-
-      // Create a table header cell for the year
-      const yearCell = document.createElement("th");
-      yearCell.className =
-        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-      yearCell.scope = "row";
-      yearCell.textContent = year;
-
-      // Append the year cell to the row
-      yearRow.appendChild(yearCell);
-
-      // Append the row to the header
-      tableHead.appendChild(yearRow);
-    });
-  }
-}
 
 const getStoredData = (dataTable) => {
   return localStorage.getItem(dataTable) || null;
@@ -906,7 +911,7 @@ const addClientDataToModalRow = (
       : "-";
   dataPoint.textContent = text;
 
-  console.log({ tableModalRow, clientNum, numType, fixedNum, mainName });
+  // console.log('addClientDataToModalRow', { tableModalRow, clientNum, numType, fixedNum, mainName });
 
   tableModalRow.appendChild(dataPoint);
 
@@ -924,12 +929,10 @@ const addClientDataToModalRow = (
 
 const addPeerDataToModalRow = (
   tableModalRow,
-  peerAvgArray,
-  peerMidArray,
-  peer25Array,
-  peer75Array,
-  numType,
-  fixedNum,
+  peerAvgNum,
+  peerMidNum,
+  peer25Num,
+  peer75Num,
   mainName
 ) => {
   const propClass =
@@ -941,26 +944,25 @@ const addPeerDataToModalRow = (
   const dataPointMin = document.createElement("th");
   const dataPointMax = document.createElement("th");
 
-  peerAvgArray.forEach((peerAvgNum, index) => {
-    dataPointAvg.className = propClass;
-    dataPointAvg.scope = propScope;
-    dataPointAvg.textContent = peerAvgNum !== 0 ? peerAvgNum : "-";
+  dataPointAvg.className = propClass;
+  dataPointAvg.scope = propScope;
+  dataPointAvg.textContent = peerAvgNum !== 0 ? peerAvgNum : "-";
+  tableModalRow.appendChild(dataPointAvg);
 
-    dataPointMid.className = propClass;
-    dataPointMid.scope = propScope;
-    dataPointMid.textContent =
-      peerMidArray[index] !== 0 ? peerMidArray[index] : "-";
+  dataPointMid.className = propClass;
+  dataPointMid.scope = propScope;
+  dataPointMid.textContent = peerMidNum !== 0 ? peerMidNum : "-";
+  tableModalRow.appendChild(dataPointMid);
 
-    dataPointMin.className = propClass;
-    dataPointMin.scope = propScope;
-    dataPointMin.textContent =
-      peer25Array[index] !== 0 ? peer25Array[index] : "-";
+  dataPointMin.className = propClass;
+  dataPointMin.scope = propScope;
+  dataPointMin.textContent = peer25Num !== 0 ? peer25Num : "-";
+  tableModalRow.appendChild(dataPointMin);
 
-    dataPointMax.className = propClass;
-    dataPointMax.scope = propScope;
-    dataPointMax.textContent =
-      peer75Array[index] !== 0 ? peer75Array[index] : "-";
-  });
+  dataPointMax.className = propClass;
+  dataPointMax.scope = propScope;
+  dataPointMax.textContent = peer75Num !== 0 ? peer75Num : "-";
+  tableModalRow.appendChild(dataPointMax);  
 };
 
 const getPeerAndClientChartDataArrays = (
@@ -969,7 +971,8 @@ const getPeerAndClientChartDataArrays = (
   dataClient,
   fixedNum,
   mainName,
-  numType
+  numType,
+  wa
 ) => {
   // console.log(mainName, {
   //   years,
@@ -991,7 +994,18 @@ const getPeerAndClientChartDataArrays = (
     if (dataPeer != undefined && dataClient != undefined) {
       const dataArray = dataPeer[year];
       const array = dataArray.map((item) => Number(item));
-      // console.log(array)
+      // console.log(array);
+
+      // let avg;
+      // let testAvg;
+      // if (peer && wa) {
+      //   avg = parseFloat(getWeightedAverageOfArray(array));
+      //   testAvg = getWeightedAverageOfArray(data, name);
+      // } else if (peer && !wa) {
+      //   avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+      // } else {
+      //   avg = 0;
+      // }
       let avg = getAverageOfArray(array);
       let mid = getMidpointOfArray(array);
       let lower25 = get25thPercentileOfArray(array);

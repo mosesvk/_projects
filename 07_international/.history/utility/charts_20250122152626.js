@@ -3,7 +3,8 @@ const getMainChartOptions = (
   dataClient,
   numType,
   fixedNum = 0,
-  mainName
+  mainName, 
+  wa
 ) => {
   // console.log('-----')
   // console.log('getMainChartOptions()')
@@ -30,7 +31,7 @@ const getMainChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
-  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
+  console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
 
   ({ clientArray, peerAvg, peerMid, peer25, peer75 } =
     getPeerAndClientChartDataArrays(
@@ -39,10 +40,35 @@ const getMainChartOptions = (
       dataClient,
       fixedNum,
       mainName,
-      numType
+      numType,
+      wa
     ));
 
-  console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
+  selectedYearsArray.forEach((year, index) => {
+    const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
+    // console.log("tableModalRow", `${mainName}_modal_${year}`, tableModalRow);
+
+    if (tableModalRow) {
+
+      addClientDataToModalRow(
+        tableModalRow,
+        clientArray[index],
+        numType,
+        fixedNum,
+        mainName
+      );
+      addPeerDataToModalRow(
+        tableModalRow,
+        peerAvg[index],
+        peerMid[index],
+        peer25[index],
+        peer75[index],
+        mainName
+      );
+    }
+  });
+
+  // console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {
