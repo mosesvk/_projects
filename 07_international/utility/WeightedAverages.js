@@ -698,7 +698,7 @@ const liquidityFundsAvailable_weightedAverage = (data, name, year) => {
     : 0;
 };
 
-const daysExpensesInNAwithDR_excludingPPE_weightedAverage = (data, name, year) => {
+const daysExpensesInNAwithDR_excludingPPE_weightedAverage = (data, name, year) => {d
   // (
   //     [01. 03NA - 02 Net assets with donor restrictions by purpose or time] +
   //     [01. 03NA - 03 Net assets with donor restrictions in perpetuity] -
