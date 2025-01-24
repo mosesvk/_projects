@@ -235,8 +235,7 @@ const createChartFromParsedData = (
       type,
       fixedNum,
       mainName,
-      wa,
-      parsedData
+      wa
     );
   }
 };
@@ -248,8 +247,7 @@ const createChart = (
   type,
   fixedNum,
   mainName,
-  wa,
-  parsedData
+  wa
 ) => {
   // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
@@ -262,8 +260,7 @@ const createChart = (
     type,
     fixedNum,
     mainName,
-    wa,
-    parsedData
+    wa
   );
 
   const chartIds = [
@@ -378,7 +375,7 @@ const createChart = (
   }
 };
 
-function updateModal(mainName, peerData, clientData, parsedData) {
+function updateModal(mainName, peerData, clientData) {
   // console.log('updateModal',{ mainName, peerData, clientData });
   // Get the selected years from local storage
   const selectedYears = getSelectedYearsFromLocalStorage();
@@ -936,9 +933,7 @@ const addPeerDataToModalRow = (
   peerMidNum,
   peer25Num,
   peer75Num,
-  name,
-  data,
-  wa
+  mainName
 ) => {
   const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
@@ -949,15 +944,6 @@ const addPeerDataToModalRow = (
   const dataPointMin = document.createElement("th");
   const dataPointMax = document.createElement("th");
 
-
-  let avg 
-  if (wa) {
-    avg = parseFloat(getWeightedAverageOfArray(data, name));
-  // } else if (peer && !wa) {
-  //   avg = parseFloat(getAverageOfArray(peer[dataArray], name));
-  } else {
-    avg = 0;
-  }
   dataPointAvg.className = propClass;
   dataPointAvg.scope = propScope;
   dataPointAvg.textContent = peerAvgNum !== 0 ? peerAvgNum : "-";

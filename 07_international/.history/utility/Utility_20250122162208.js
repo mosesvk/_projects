@@ -936,9 +936,8 @@ const addPeerDataToModalRow = (
   peerMidNum,
   peer25Num,
   peer75Num,
-  name,
-  data,
-  wa
+  mainName,
+  parseData
 ) => {
   const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
@@ -949,15 +948,6 @@ const addPeerDataToModalRow = (
   const dataPointMin = document.createElement("th");
   const dataPointMax = document.createElement("th");
 
-
-  let avg 
-  if (wa) {
-    avg = parseFloat(getWeightedAverageOfArray(data, name));
-  // } else if (peer && !wa) {
-  //   avg = parseFloat(getAverageOfArray(peer[dataArray], name));
-  } else {
-    avg = 0;
-  }
   dataPointAvg.className = propClass;
   dataPointAvg.scope = propScope;
   dataPointAvg.textContent = peerAvgNum !== 0 ? peerAvgNum : "-";

@@ -65,8 +65,7 @@ const getMainChartOptions = (
         peer25[index],
         peer75[index],
         mainName,
-        parsedData,
-        wa
+        parsedData
       );
     }
   });

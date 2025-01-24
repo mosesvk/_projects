@@ -951,10 +951,11 @@ const addPeerDataToModalRow = (
 
 
   let avg 
-  if (wa) {
+  if (peer && wa) {
     avg = parseFloat(getWeightedAverageOfArray(data, name));
-  // } else if (peer && !wa) {
-  //   avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+    testAvg = getWeightedAverageOfArray(data, name);
+  } else if (peer && !wa) {
+    avg = parseFloat(getAverageOfArray(peer[dataArray], name));
   } else {
     avg = 0;
   }
