@@ -134,7 +134,7 @@ const getMainChartOptions = (
 
     // console.log('doeOverall', data)
 
-    // selectedYearsArray.sort((a, b) => b - a);
+    selectedYearsArray.sort((a, b) => b - a);
 
     selectedYearsArray.forEach((year) => {
       const doeOverall_Client = Number(
