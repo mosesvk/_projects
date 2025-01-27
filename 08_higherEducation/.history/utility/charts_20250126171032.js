@@ -4264,8 +4264,8 @@ const getTuitionDiscountRateChartOptions = (data) => {
   });
 
   const allData = [...scholarshipArray, ...tuitionFeesArray];
-  let minY = Math.min(...allData);
-  let maxY = Math.max(...allData);
+  const minY = Math.min(...allData);
+  const maxY = Math.max(...allData);
 
   if (maxY >= 1000000) {
     // Round to the nearest 5 million
@@ -4449,12 +4449,8 @@ const getTuitionDiscountRateChartOptions = (data) => {
       },
     },
     legend: {
-      horizontalAlign: "center",
       position: "top",
       fontSize: "20px",
-    },
-    itemMargin: {
-      horizontal: 0,
     },
     grid: {
       row: {

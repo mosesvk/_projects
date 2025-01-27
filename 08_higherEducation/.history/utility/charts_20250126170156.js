@@ -4264,20 +4264,8 @@ const getTuitionDiscountRateChartOptions = (data) => {
   });
 
   const allData = [...scholarshipArray, ...tuitionFeesArray];
-  let minY = Math.min(...allData);
-  let maxY = Math.max(...allData);
-
-  if (maxY >= 1000000) {
-    // Round to the nearest 5 million
-    maxY = Math.ceil(maxY / 5000000) * 5000000;
-    minY = Math.floor(minY / 5000000) * 5000000;
-  } else if (maxY >= 100000) {
-    maxY = Math.ceil(maxY / 10000) * 10000;
-    minY = Math.floor(minY / 10000) * 10000;
-  } else if (maxY >= 1000) {
-    maxY = Math.ceil(maxY / 5000) * 5000;
-    minY = Math.floor(minY / 5000) * 5000;
-  }
+  const minY = Math.min(...allData);
+  const maxY = Math.max(...allData);
 
   // console.log({
   //   clientRatioArray,
@@ -4414,12 +4402,10 @@ const getTuitionDiscountRateChartOptions = (data) => {
           },
         },
         min: minY,
-        max: maxY,
+        max: maxY
       },
       {
         show: false,
-        min: minY,
-        max: maxY,
       },
       {
         opposite: true,
@@ -4449,12 +4435,8 @@ const getTuitionDiscountRateChartOptions = (data) => {
       },
     },
     legend: {
-      horizontalAlign: "center",
       position: "top",
       fontSize: "20px",
-    },
-    itemMargin: {
-      horizontal: 0,
     },
     grid: {
       row: {

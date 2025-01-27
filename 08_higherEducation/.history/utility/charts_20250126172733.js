@@ -4417,7 +4417,6 @@ const getTuitionDiscountRateChartOptions = (data) => {
         max: maxY,
       },
       {
-        show: false,
         min: minY,
         max: maxY,
       },
@@ -4449,12 +4448,8 @@ const getTuitionDiscountRateChartOptions = (data) => {
       },
     },
     legend: {
-      horizontalAlign: "center",
       position: "top",
       fontSize: "20px",
-    },
-    itemMargin: {
-      horizontal: 0,
     },
     grid: {
       row: {

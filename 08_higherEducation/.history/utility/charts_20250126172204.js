@@ -4449,12 +4449,9 @@ const getTuitionDiscountRateChartOptions = (data) => {
       },
     },
     legend: {
-      horizontalAlign: "center",
       position: "top",
       fontSize: "20px",
-    },
-    itemMargin: {
-      horizontal: 0,
+      width: 40
     },
     grid: {
       row: {
