@@ -18,8 +18,8 @@ if (sidebar) {
 
   const sidebar = document.getElementById("sidebar");
   const sidebarBackdrop = document.getElementById("sidebarBackdrop");
-  const toggleSidebarMobileHamburger = document.getElementById(
-    "toggleSidebarMobileHamburger"
+  const toggleSidebarMobile = document.getElementById(
+    "toggleSidebarMobile"
   );
   const sidebarButtons = document.querySelectorAll("button[id$='Link']");
   const tabContents = document.querySelectorAll(".tab-content");
@@ -111,7 +111,7 @@ if (sidebar) {
     });
   });
 
-  toggleSidebarMobileHamburger.addEventListener(
+  toggleSidebarMobile.addEventListener(
     "click",
     handleSidebarButtonClick
   );
