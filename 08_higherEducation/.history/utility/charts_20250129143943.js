@@ -70,8 +70,8 @@ const getMainChartOptions = (
 
   // console.log({mainName, benchmark});
 
-  // if (mainName == "cfi_netIncomeOperationsRatio")
-  //   console.log({ dataClient, clientArray, fixedNum });
+  if (mainName == "cfi_netIncomeOperationsRatio")
+    console.log({ dataClient, clientArray, fixedNum });
 
   let yaxisAnnotation;
   let yaxisMax;

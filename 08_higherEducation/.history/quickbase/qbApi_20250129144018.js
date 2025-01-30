@@ -2872,7 +2872,7 @@ run_btn.addEventListener("click", async () => {
       yearsData_Array,
       "<qdbapi>"
     );
-
+d
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
     )}</qdbapi>`;

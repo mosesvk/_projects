@@ -27,8 +27,8 @@ const displayReportComponent = () => {
     );
     insertCalculatedDataToReport(cfiData, selectedYears, [
       ["primaryReserveRatio", "num", 2],
-      ["netIncomeOperationsRatio", "num", 1],
-      ["returnOnNetAssets", "num", 1],
+      ["netIncomeOperationsRatio", "num", 2],
+      ["returnOnNetAssets", "num", 2],
       ["viabilityRatio", "num", 2],
     ]);
 
@@ -603,7 +603,7 @@ const insertCalculatedDataToReport = (data, selectedYears, arrayOfNames) => {
   // console.log({ data, selectedYears, arrayOfNames });
   if (data && selectedYears) {
     // Get the value from data and set it to the element with id="th_cfiScore"
-    const year = selectedYears[0];
+    const year = selectedYears[selectedYears.length - 1];
     const ratioValue =
       data["row_cfiRatio_Client"] && data["row_cfiRatio_Client"][year]
         ? data["row_cfiRatio_Client"][year].value

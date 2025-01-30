@@ -694,8 +694,7 @@ const getPeerAndClientChartDataArrays = (
       peer25.push(null);
       peer75.push(null);
 
-      const client = dataClient[year].value;
-      const clientNum = styleNumber(client, type, fixedNum);
+      const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
       clientArray.push(clientNum);
     } else if (dataClient == undefined || dataPeer == undefined) {
       throw new Error(
@@ -707,8 +706,8 @@ const getPeerAndClientChartDataArrays = (
     }
   });
 
-  // if (mainName == "cfi_netIncomeOperationsRatio")
-  //   console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+  if (mainName == "cfi_netIncomeOperationsRatio")
+    console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
 };
