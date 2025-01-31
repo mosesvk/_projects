@@ -24,7 +24,7 @@ const displayReportComponent = () => {
         ["cfi_returnOnNetAssets", "percent", 1],
         ["cfi_viabilityRatio", "num", 2],
       ]
-    );
+    );d
     insertCalculatedDataToReport(cfiData, selectedYears, [
       ["primaryReserveRatio", "num", 2],
       ["netIncomeOperationsRatio", "num", 2],
@@ -57,6 +57,7 @@ const displayReportComponent = () => {
         ["netIncomeOperationsRatio", "percent", 1],
         ["ni_operatingRevenuesSupportAndReleases", "dollar", 0],
         ["ni_totalFunctionalExpenses", "dollar", 0],
+        ["ni_nonOperatingActivitiesInvestmentIncome", "dollar", 0],
       ]
     );
 
