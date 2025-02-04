@@ -136,17 +136,14 @@ const getMainChartOptions = (
     previousData = clientArray;
 
     // console.log('doeOverall', data)
-    console.log({ selectedYearsArray });
 
-    // Sort in ascending order
-    selectedYearsArray.sort((a, b) => a - b);
-    console.log({ selectedYearsArray });
+    console.log({selectedYearsArray, reverseYears})
 
-    
-    // Sort in descending order
-    const reverseYears = [...selectedYearsArray].sort((a, b) => b - a);
-    console.log({ reverseYears });
+    // selectedYearsArray.sort((a, b) => b - a);
+    selectedYearsArray.sort((a, b) => a - b)
+    const reverseYears = selectedYearsArray.sort((a, b) => b - a)
 
+    console.log({selectedYearsArray, reverseYears})
     reverseYears.forEach((year) => {
       const doeOverall_Client = Number(
         data.doeOverall_Client[year].value

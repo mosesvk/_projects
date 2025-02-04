@@ -10,7 +10,7 @@ const getMainChartOptions = (
   // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-  // console.log('MAIN', {selectedYearsArray})
+  console.log('MAIN', {selectedYearsArray})
 
   const formatNumber = (value) => value.toLocaleString();
 
@@ -136,17 +136,12 @@ const getMainChartOptions = (
     previousData = clientArray;
 
     // console.log('doeOverall', data)
-    console.log({ selectedYearsArray });
 
-    // Sort in ascending order
-    selectedYearsArray.sort((a, b) => a - b);
-    console.log({ selectedYearsArray });
+    // selectedYearsArray.sort((a, b) => b - a);
 
-    
-    // Sort in descending order
-    const reverseYears = [...selectedYearsArray].sort((a, b) => b - a);
-    console.log({ reverseYears });
+    const reverseYears = selectedYearsArray.sort((a, b) => b - a)
 
+    console.log('doe', {reverseYears, selectedYearsArray})
     reverseYears.forEach((year) => {
       const doeOverall_Client = Number(
         data.doeOverall_Client[year].value
@@ -247,7 +242,7 @@ const getMainChartOptions = (
       document.getElementById("doeClientTable").innerHTML += tableHTML;
     });
   } else if (mainName == "cfi_primaryReserveRatio") {
-    // console.log({'primaryReserve': selectedYearsArray})
+    console.log({'primaryReserve': selectedYearsArray})
     cfi_primaryReserveRatio_annotation = [
       {
         id: "annotation",

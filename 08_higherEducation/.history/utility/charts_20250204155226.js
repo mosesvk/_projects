@@ -140,8 +140,6 @@ const getMainChartOptions = (
 
     // Sort in ascending order
     selectedYearsArray.sort((a, b) => a - b);
-    console.log({ selectedYearsArray });
-
     
     // Sort in descending order
     const reverseYears = [...selectedYearsArray].sort((a, b) => b - a);
