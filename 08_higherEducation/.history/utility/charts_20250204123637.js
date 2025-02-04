@@ -530,8 +530,8 @@ const getFSchartOptions = (
   chartId,
   tableDataClass
 ) => {
-  if (chartId == "#revenueAndSupport_chart")
-    console.log({ data, client, color, numType, title, chartId });
+  // if (chartId == "#assets_chart")
+  //   console.log({ data, client, color, numType, title, chartId });
 
   const clientString = client.replace("_Client", "");
 
