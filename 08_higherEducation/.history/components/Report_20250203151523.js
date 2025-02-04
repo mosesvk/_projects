@@ -101,7 +101,7 @@ const displayReportComponent = () => {
 
     insertDataToFSReport(financialStatementContentData, selectedYears);
 
-    formatNegativeNumbers();
+    processTHElements()
   }
 };
 
@@ -335,12 +335,14 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
       `;
     tableBodyClient.appendChild(clientRow);
 
-    const totalAssetsPeerValue = totalAssetsPeer[year]
-      ? styleNumber(getSumOfArray(totalAssetsPeer[year]), "dollar", 0)
-      : "-";
-    const totalLiabilitiesPeerValue = totalLiabilitiesPeer[year]
-      ? styleNumber(getSumOfArray(totalLiabilitiesPeer[year]), "dollar", 0)
-      : "-";
+    const totalAssetsPeerValue =
+      totalAssetsPeer[year]
+        ? styleNumber(getSumOfArray(totalAssetsPeer[year]), "dollar", 0)
+        : "-";
+    const totalLiabilitiesPeerValue =
+      totalLiabilitiesPeer[year]
+        ? styleNumber(getSumOfArray(totalLiabilitiesPeer[year]), "dollar", 0)
+        : "-";
     const ratioPeer =
       totalLiabilitiesPeer[year] > 0
         ? Number(getSumOfArray(totalAssetsPeer[year])) /
@@ -562,7 +564,7 @@ const addPeerDataToReportRow = (
     if (peer && wa) {
       avg = parseFloat(getWeightedAverageOfArray(data, name));
     } else if (peer && !wa) {
-      avg = peer[year] ? parseFloat(getAverageOfArray(peer[year])) : 0;
+      avg = peer[year] ? parseFloat(getAverageOfArray(peer[year])) : 0
     } else {
       avg = 0;
     }
@@ -757,7 +759,8 @@ const clearColumnsFromOtherRowsInTable = (idName, columnsToPreserve) => {
   });
 };
 
-function formatNegativeNumbers() {
+
+function processTHElements() {
   // Select all <tr> elements with an id
   const rows = document.querySelectorAll("tr[id]");
 
@@ -777,7 +780,8 @@ function formatNegativeNumbers() {
           // Check if the text content contains numbers
           if (/\d/.test(textContent)) {
             if (textContent.includes("-")) {
-              // Apply classes
+              // Remove "-" and apply classes
+              textContent = `-${textContent.replace("-", "")}`;
               spanChild.textContent = textContent;
               th.classList.remove("text-gray-900", "dark:text-white");
               th.classList.add("text-red-500", "dark:text-red-400");
@@ -794,7 +798,8 @@ function formatNegativeNumbers() {
             // Check if the text content contains numbers
             if (/\d/.test(textContent)) {
               if (textContent.includes("-")) {
-                // Apply classes
+                // Remove "-" and apply classes
+                textContent = `-${textContent.replace("-", "")}`;
                 p.textContent = textContent;
                 p.classList.remove("text-gray-900", "dark:text-white");
                 p.classList.add("text-red-500", "dark:text-red-400");
@@ -807,70 +812,13 @@ function formatNegativeNumbers() {
           // Check if the text content contains numbers
           if (/\d/.test(textContent)) {
             if (textContent.includes("-")) {
-              // Apply classes
+              // Remove "-" and apply classes
+              textContent = `-${textContent.replace("-", "")}`;
               th.textContent = textContent;
               th.classList.remove("text-gray-900", "dark:text-white");
               th.classList.add("text-red-500", "dark:text-red-400");
             }
           }
-        }
-      }
-    });
-  });
-
-  // Select all <td> elements with a class that ends with "_dataPoint"
-  const tdElements = document.querySelectorAll("td[class$='_dataPoint']");
-  tdElements.forEach((td) => {
-    let textContent = td.textContent.trim();
-    // Check if the text content contains numbers
-    if (/\d/.test(textContent)) {
-      if (textContent.includes("-")) {
-        // Apply classes
-        td.textContent = textContent;
-        td.classList.remove("text-gray-900", "dark:text-white");
-        td.classList.add("text-red-500", "dark:text-red-400");
-      }
-    }
-  });
-
-  // Select all <p> elements with an id that ends with "_yearSelectData"
-  const pElements = document.querySelectorAll("p[id$='_yearSelectData']");
-  pElements.forEach((p) => {
-    let textContent = p.textContent.trim();
-    // Check if the text content contains numbers
-    if (/\d/.test(textContent)) {
-      if (textContent.includes("-")) {
-        // Apply classes
-        p.textContent = textContent;
-        p.classList.remove("text-black", "dark:text-white");
-        p.classList.add("text-red-500", "dark:text-red-400");
-      }
-    }
-  });
-
-  // Select all <div> elements with an id that ends with "_summary"
-  const divs = document.querySelectorAll("div[id$='_summary']");
-  divs.forEach((div) => {
-    // Change the class of the table child
-    const tds = div.querySelectorAll("td");
-    tds.forEach(td => {
-      let textContent = td.textContent.trim();
-      if (textContent.includes("-")) {
-        td.classList.add("text-red-500", "dark:text-red-400");
-      }
-    })
-
-    // Process the text content of <td> elements inside the table
-    const tdElements = div.querySelectorAll("td");
-    tdElements.forEach((td) => {
-      let textContent = td.textContent.trim();
-      // Check if the text content contains numbers
-      if (/\d/.test(textContent)) {
-        if (textContent.includes("-")) {
-          // Apply classes
-          td.textContent = textContent;
-          td.classList.remove("text-gray-900", "dark:text-white");
-          td.classList.add("text-red-500", "dark:text-red-400");
         }
       }
     });

@@ -667,9 +667,8 @@ const getFSchartOptions = (
           color: chartColor,
         },
         labels: {
-          formatter: yaxisLabelFormatter
+          show: false,
         },
-        tickAmount: 5,
         tooltip: {
           enabled: true,
         },

@@ -714,13 +714,7 @@ const getPeerAndClientChartDataArrays = (
 };
 
 function styleNumber(num, type, fixed) {
-  // Convert num to a number if it's a string
-  num = typeof num === 'string' ? parseFloat(num) : num;
-
-  if (isNaN(num)) {
-    return 'Invalid number';
-  }
-
+  console.log({num, type, fixed})
   if (type === "num") {
     // If fixed is 1 and the number has a decimal part of 0, return with one decimal place
     if (fixed === 1 && Number.isInteger(num)) {

@@ -852,13 +852,10 @@ function formatNegativeNumbers() {
   const divs = document.querySelectorAll("div[id$='_summary']");
   divs.forEach((div) => {
     // Change the class of the table child
-    const tds = div.querySelectorAll("td");
-    tds.forEach(td => {
-      let textContent = td.textContent.trim();
-      if (textContent.includes("-")) {
-        td.classList.add("text-red-500", "dark:text-red-400");
-      }
-    })
+    const td = div.querySelector("td");
+    if (td) {
+      td.classList.add("text-red-500", "dark:text-red-400");
+    }
 
     // Process the text content of <td> elements inside the table
     const tdElements = div.querySelectorAll("td");

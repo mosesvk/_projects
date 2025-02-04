@@ -842,37 +842,9 @@ function formatNegativeNumbers() {
       if (textContent.includes("-")) {
         // Apply classes
         p.textContent = textContent;
-        p.classList.remove("text-black", "dark:text-white");
+        p.classList.remove("text-gray-900", "dark:text-white");
         p.classList.add("text-red-500", "dark:text-red-400");
       }
     }
-  });
-
-  // Select all <div> elements with an id that ends with "_summary"
-  const divs = document.querySelectorAll("div[id$='_summary']");
-  divs.forEach((div) => {
-    // Change the class of the table child
-    const tds = div.querySelectorAll("td");
-    tds.forEach(td => {
-      let textContent = td.textContent.trim();
-      if (textContent.includes("-")) {
-        td.classList.add("text-red-500", "dark:text-red-400");
-      }
-    })
-
-    // Process the text content of <td> elements inside the table
-    const tdElements = div.querySelectorAll("td");
-    tdElements.forEach((td) => {
-      let textContent = td.textContent.trim();
-      // Check if the text content contains numbers
-      if (/\d/.test(textContent)) {
-        if (textContent.includes("-")) {
-          // Apply classes
-          td.textContent = textContent;
-          td.classList.remove("text-gray-900", "dark:text-white");
-          td.classList.add("text-red-500", "dark:text-red-400");
-        }
-      }
-    });
   });
 }
