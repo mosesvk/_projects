@@ -502,7 +502,6 @@ const getMainChartOptions = (
       enabled: true,
       enabledOnSeries: [4],
       offsetY: -20,
-      formatter: (val) => formatDecimal(val, fixedNum),
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",

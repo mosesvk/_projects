@@ -502,7 +502,13 @@ const getMainChartOptions = (
       enabled: true,
       enabledOnSeries: [4],
       offsetY: -20,
-      formatter: (val) => formatDecimal(val, fixedNum),
+      formatter: function (val, opts) {
+        if (val) {
+          const hasDecimalZero = val.toString().includes('.0')
+          if (mainName == 'netIncomeOperationsRatio') console.log({val, numType, fixedNum})
+          return styleNumber(val, numType, fixedNum)
+        }
+      },
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",

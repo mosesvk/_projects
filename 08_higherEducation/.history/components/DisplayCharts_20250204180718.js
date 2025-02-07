@@ -251,7 +251,7 @@ const displayFinancialStatementComponent = () => {
     "nonOperatingActivities_Client",
     window.chartColors.red,
     "dollar",
-    "nonOperatingActivities_dataPoint"
+    "Non-Operating Activities"
   );
 
   createAndRenderFSChart(

@@ -722,7 +722,7 @@ const getPeerAndClientChartDataArrays = (
   return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
 };
 
-const formatDecimal = (val, fixedNum) => {
+const formatDecimal = (val, opts) => {
   // Check if val is null or undefined
   if (val == null) {
     return "";

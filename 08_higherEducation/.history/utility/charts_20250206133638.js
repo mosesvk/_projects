@@ -10,7 +10,7 @@ const getMainChartOptions = (
   // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
   // if (mainName == "doeOverall")
   //   console.log({ dataClient, numType });
-
+  
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   // console.log('MAIN', {selectedYearsArray})
@@ -243,7 +243,7 @@ const getMainChartOptions = (
       document.getElementById("doeClientTable").innerHTML += tableHTML;
     });
 
-    console.log(mainName, { clientArray });
+    console.log(mainName, {clientArray})
   } else if (mainName == "cfi_primaryReserveRatio") {
     // console.log({'primaryReserve': selectedYearsArray})
     cfi_primaryReserveRatio_annotation = [
@@ -502,7 +502,6 @@ const getMainChartOptions = (
       enabled: true,
       enabledOnSeries: [4],
       offsetY: -20,
-      formatter: (val) => formatDecimal(val, fixedNum),
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",
@@ -1289,7 +1288,7 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
 const getSourcesOfIncomePeerChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-  selectedYearsArray.sort((a, b) => a - b);
+  selectedYearsArray.sort((a, b) => a - b)
 
   const tuitionValue = getAverageOfArray(
     data["revenueTuitionAndFees_Peer"][selectedYearsArray[0]]

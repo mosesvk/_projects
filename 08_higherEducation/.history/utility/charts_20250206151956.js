@@ -243,7 +243,7 @@ const getMainChartOptions = (
       document.getElementById("doeClientTable").innerHTML += tableHTML;
     });
 
-    console.log(mainName, { clientArray });
+    // console.log(mainName, { clientArray });
   } else if (mainName == "cfi_primaryReserveRatio") {
     // console.log({'primaryReserve': selectedYearsArray})
     cfi_primaryReserveRatio_annotation = [
@@ -502,7 +502,17 @@ const getMainChartOptions = (
       enabled: true,
       enabledOnSeries: [4],
       offsetY: -20,
-      formatter: (val) => formatDecimal(val, fixedNum),
+      formatter: function (val, opts) {
+        if (val) {
+          // const hasDecimalZero = val.toString().includes('.0')
+          // if (mainName == 'netIncomeOperationsRatio') console.log({val, numType, fixedNum})
+          // return styleNumber(val, numType, fixedNum)
+
+          return Number.isInteger(val) && fixedNum === 1
+          ? val.toFixed(1)
+          : val.toFixed(fixed);
+        }
+      },
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",

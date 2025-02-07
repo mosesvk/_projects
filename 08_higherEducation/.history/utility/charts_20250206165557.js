@@ -502,7 +502,10 @@ const getMainChartOptions = (
       enabled: true,
       enabledOnSeries: [4],
       offsetY: -20,
-      formatter: (val) => formatDecimal(val, fixedNum),
+      formatter: (val, opts) => {
+        if (val > 2.9 && val < 3.1) console.log({mainName, val, opts, fixedNum});
+        return val
+      },
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",

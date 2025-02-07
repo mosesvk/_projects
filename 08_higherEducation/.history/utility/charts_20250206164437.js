@@ -243,7 +243,7 @@ const getMainChartOptions = (
       document.getElementById("doeClientTable").innerHTML += tableHTML;
     });
 
-    console.log(mainName, { clientArray });
+    // console.log(mainName, { clientArray });
   } else if (mainName == "cfi_primaryReserveRatio") {
     // console.log({'primaryReserve': selectedYearsArray})
     cfi_primaryReserveRatio_annotation = [
@@ -502,7 +502,6 @@ const getMainChartOptions = (
       enabled: true,
       enabledOnSeries: [4],
       offsetY: -20,
-      formatter: (val) => formatDecimal(val, fixedNum),
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",

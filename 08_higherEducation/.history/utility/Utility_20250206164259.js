@@ -661,11 +661,10 @@ const getPeerAndClientChartDataArrays = (
       peer25.push(null);
       peer75.push(null);
 
-      const clientNum = styleNumber(dataClient[year].value, type, fixedNum)
+      const clientNum = styleNumber(dataClient[year].value, type, fixedNum);
       // if (mainName === "doeOverall") console.log(clientNum);
-      
-      clientArray.push(clientNum); 
 
+      clientArray.push(clientNum);
     } else if (dataPeer[year] !== undefined && dataClient[year] !== undefined) {
       // console.log('---- hit if');
 
@@ -691,7 +690,7 @@ const getPeerAndClientChartDataArrays = (
       // // if (mainName == 'doeOverall') debugger
       // clientArray.push(clientNum);
 
-      const clientNum = styleNumber(dataClient[year].value, type, fixedNum)
+      const clientNum = styleNumber(dataClient[year].value, type, fixedNum);
       clientArray.push(clientNum);
     } else if (dataPeer[year] === undefined && dataClient[year]) {
       // console.log('---- hit ELSE if');
@@ -701,7 +700,7 @@ const getPeerAndClientChartDataArrays = (
       peer25.push(null);
       peer75.push(null);
 
-      const clientNum = styleNumber(dataClient[year].value, type, fixedNum)
+      const clientNum = styleNumber(dataClient[year].value, type, fixedNum);
       clientArray.push(clientNum);
     } else if (dataClient == undefined || dataPeer == undefined) {
       throw new Error(
@@ -713,7 +712,6 @@ const getPeerAndClientChartDataArrays = (
     }
 
     // if (mainName == "doeOverall") console.log({clientArray, dataClient});
-    ;
   });
 
   // if (mainName == "cfi_netIncomeOperationsRatio")
@@ -722,33 +720,11 @@ const getPeerAndClientChartDataArrays = (
   return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
 };
 
-const formatDecimal = (val, fixedNum) => {
-  // Check if val is null or undefined
-  if (val == null) {
-    return "";
-  }
-
-  // Convert val to a string
-  let valStr = val.toString();
-
-  // Add ".0" if fixedNum is 1 and val does not have a decimal point
-  if (fixedNum === 1 && !valStr.includes(".")) {
-    return valStr + ".0";
-  }
-
-  // Add ".00" if fixedNum is 2 and val does not have a decimal point
-  if (fixedNum === 2 && !valStr.includes(".")) {
-    return valStr + ".00";
-  }
-
-  // If val already has a decimal point, ensure it has the correct number of decimal places
-  if (fixedNum === 2 && valStr.split(".")[1].length === 1) {
-    return valStr + "0";
-  }
-
-  // Default return value
-  return valStr;
-}
+const formatWithFixed = (number, fixed) => {
+  return Number.isInteger(number) && fixed === 1
+    ? number.toFixed(1)
+    : number.toFixed(fixed);
+};
 
 function styleNumber(num, type, fixed) {
   // Convert num to a number if it's a string
@@ -757,12 +733,6 @@ function styleNumber(num, type, fixed) {
   if (isNaN(num)) {
     return "Invalid number";
   }
-
-  const formatWithFixed = (number) => {
-    return Number.isInteger(number) && fixed === 1
-      ? number.toFixed(1)
-      : number.toFixed(fixed);
-  };
 
   if (type === "num") {
     if (Math.abs(num) < 1000) {

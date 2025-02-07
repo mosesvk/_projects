@@ -502,7 +502,24 @@ const getMainChartOptions = (
       enabled: true,
       enabledOnSeries: [4],
       offsetY: -20,
-      formatter: (val) => formatDecimal(val, fixedNum),
+      formatter: (val, opts) => {
+        // Check the number of decimal places required
+        if (fixedNum === 1) {
+          // If fixedNum is 1 and val does not have one decimal, add ".0"
+          if (!val.toString().includes(".")) {
+            return val.toFixed(1);
+          }
+        } else if (fixedNum === 2) {
+          // If fixedNum is 2 and val does not have two decimals, add ".00"
+          if (!val.toString().includes(".")) {
+            return val.toFixed(2);
+          } else if (val.toString().split(".")[1].length === 1) {
+            return val.toFixed(2);
+          }
+        }
+        
+        return val
+      },
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",

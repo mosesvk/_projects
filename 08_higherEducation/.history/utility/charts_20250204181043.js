@@ -8,9 +8,6 @@ const getMainChartOptions = (
   title
 ) => {
   // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
-  // if (mainName == "doeOverall")
-  //   console.log({ dataClient, numType });
-
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   // console.log('MAIN', {selectedYearsArray})
@@ -145,6 +142,7 @@ const getMainChartOptions = (
     selectedYearsArray.sort((a, b) => a - b);
     // console.log({ selectedYearsArray });
 
+    
     // Sort in descending order
     const reverseYears = [...selectedYearsArray].sort((a, b) => b - a);
     // console.log({ reverseYears });
@@ -159,7 +157,7 @@ const getMainChartOptions = (
       const doePrimaryReserveStrengthFactor_Client = Number(
         data.doePrimaryReserveStrengthFactor_Client[year].value
       ).toFixed(2);
-      const doePrimaryReserveOverallWeight_Client = 0.4;
+      const doePrimaryReserveOverallWeight_Client = .4
       const doePrimaryReserveRatioWeighted_Client = Number(
         data.doePrimaryReserveRatioWeighted_Client[year].value
       ).toFixed(2);
@@ -169,7 +167,7 @@ const getMainChartOptions = (
       const doeEquityStrengthFactor_Client = Number(
         data.doeEquityStrengthFactor_Client[year].value
       ).toFixed(2);
-      const doeEquityOverallWeight_Client = 0.4;
+      const doeEquityOverallWeight_Client = .2
       const doeEquityRatioWeighted_Client = Number(
         data.doeEquityRatioWeighted_Client[year].value
       ).toFixed(2);
@@ -179,7 +177,7 @@ const getMainChartOptions = (
       const doeNetIncomeStrengthFactor_Client = Number(
         data.doeNetIncomeStrengthFactor_Client[year].value
       ).toFixed(2);
-      const doeNetIncomeOverallWeight_Client = 0.2;
+      const doeNetIncomeOverallWeight_Client = .4
       const doeNetIncomeRatioWeighted_Client = Number(
         data.doeNetIncomeRatioWeighted_Client[year].value
       ).toFixed(2);
@@ -242,8 +240,6 @@ const getMainChartOptions = (
       // Assuming you have a container element to append the generated HTML
       document.getElementById("doeClientTable").innerHTML += tableHTML;
     });
-
-    console.log(mainName, { clientArray });
   } else if (mainName == "cfi_primaryReserveRatio") {
     // console.log({'primaryReserve': selectedYearsArray})
     cfi_primaryReserveRatio_annotation = [
@@ -489,8 +485,6 @@ const getMainChartOptions = (
       position: "bottom",
       fontSize: "20px",
       offsetY: 5,
-      showForNullSeries: false,
-      showForZeroSeries: false,
     },
     annotations: {
       yaxis: yaxisAnnotation,
@@ -502,7 +496,6 @@ const getMainChartOptions = (
       enabled: true,
       enabledOnSeries: [4],
       offsetY: -20,
-      formatter: (val) => formatDecimal(val, fixedNum),
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",
@@ -530,6 +523,7 @@ const getMainChartOptions = (
   };
 };
 
+
 const getFSchartOptions = (
   data,
   client,
@@ -539,9 +533,9 @@ const getFSchartOptions = (
   chartId,
   tableDataClass
 ) => {
-  // if (chartId == "#nonOperatingActivities_chart")
-  //   console.log({ data, client, color, numType, title, chartId });
-  // console.log({ data, client, 'data[client]': data[client]});
+  if (chartId == "#nonOperatingActivities_chart")
+    console.log({ data, client, color, numType, title, chartId });
+    // console.log({ data, client, 'data[client]': data[client]});
 
   const clientString = client.replace("_Client", "");
 
@@ -680,7 +674,7 @@ const getFSchartOptions = (
           color: chartColor,
         },
         labels: {
-          formatter: yaxisLabelFormatter,
+          formatter: yaxisLabelFormatter
         },
         tickAmount: 5,
         tooltip: {
@@ -1288,8 +1282,6 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
 
 const getSourcesOfIncomePeerChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
-
-  selectedYearsArray.sort((a, b) => a - b);
 
   const tuitionValue = getAverageOfArray(
     data["revenueTuitionAndFees_Peer"][selectedYearsArray[0]]

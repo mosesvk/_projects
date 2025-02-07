@@ -1471,10 +1471,6 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
           key: "otherLiabilities_Client",
           field: "r079_adjustments_other_liabilities",
         },
-        {
-          key: "cashFlowsOperatingActivities_Client",
-          field: "r080_cnet_cash_provided_by_operating_activities",
-        },
       ];
       cashFlowsOperating_array.forEach(({ key, field }) => {
         insertDataIntoObject(
