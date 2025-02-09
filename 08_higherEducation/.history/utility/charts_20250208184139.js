@@ -744,7 +744,19 @@ const getFSchartOptions = (
 };
 
 const getFpaChartOptions = (data) => {
-  // console.log('getFPA', {data});
+  // console.log(data);
+
+  const totalAssetsArray = Object.values(data["totalAssets_Client"])
+    .map((item) => item.value)
+    .reverse();
+  const totalLiabilitiesArray = Object.values(data["totalLiabilities_Client"])
+    .map((item) => item.value)
+    .reverse();
+  const netPositionArray = Object.values(data["netPosition_Client"])
+    .map((item) => item.value)
+    .reverse();
+
+  console.log({ totalAssetsArray, totalLiabilitiesArray, netPositionArray });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -760,17 +772,6 @@ const getFpaChartOptions = (data) => {
   netPositionRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Net Position</th>`;
 
   // Loop through selected years and populate the table
-
-  const totalAssetsArray = [];
-  const totalLiabilitiesArray = [];
-  const netPositionArray = [];
-  
-  for (const year of selectedYearsArray) {
-      totalAssetsArray.push(data["totalAssets_Client"][year].value);
-      totalLiabilitiesArray.push(data["totalLiabilities_Client"][year].value);
-      netPositionArray.push(data["netPosition_Client"][year].value);
-  }
-
   selectedYearsArray.forEach((year, index) => {
     const assetValue = `${formatCurrency(totalAssetsArray[index])}`;
     const liabilitiesValue = `${formatCurrency(totalLiabilitiesArray[index])}`;
