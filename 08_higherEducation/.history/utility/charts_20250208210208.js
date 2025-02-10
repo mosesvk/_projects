@@ -1079,8 +1079,7 @@ const getAtlChartOptions = (data) => {
       type: "line",
     },
     dataLabels: {
-      enabled: true,
-      enabledOnSeries: [0, 1]
+      enabled: false,
     },
     stroke: {
       width: 5,
@@ -1088,10 +1087,8 @@ const getAtlChartOptions = (data) => {
     },
     title: {
       text: "Asset to Liability Ratio",
-      position: "top",
-      align: "center",
+      align: "top",
       style: {
-        fontSize: "20px",
         color: chartColor,
       },
     },

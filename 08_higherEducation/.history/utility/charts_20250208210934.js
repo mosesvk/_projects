@@ -1088,10 +1088,8 @@ const getAtlChartOptions = (data) => {
     },
     title: {
       text: "Asset to Liability Ratio",
-      position: "top",
-      align: "center",
+      align: "top",
       style: {
-        fontSize: "20px",
         color: chartColor,
       },
     },
@@ -2571,7 +2569,7 @@ const getLiquidityChartOptions = (data) => {
   };
 };
 
-const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
+const getSalariesAndBeddnefitsToTotalExpenseChartOptions = (data) => {
   // console.log({ data });
 
   // Get number for chart
