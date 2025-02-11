@@ -2094,91 +2094,91 @@ const getCurrentRatioChartOptions = (data) => {
 
     // Populate accounts receivable row
     accountsReceivableRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(accountsReceivableArray[index])}
     </th>
   `;
 
     // Populate student loans and other receivables row
     studentLoansRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(studentLoansAndOtherReceivablesArray[index])}
     </th>
   `;
 
     // Populate contributions receivable row
     contributionsReceivableRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(contributionsReceivableArray[index])}
     </th>
   `;
 
     // Populate prepaid expenses row
     prepaidExpensesRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(prepaidExpensesArray[index])}
     </th>
   `;
 
     // Populate current liabilities row
     currentLiabilitiesRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-6 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(currentLiabilitiesArray[index])}
     </th>
   `;
 
     // Populate accounts payable row
     accountsPayableRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(accountsPayableArray[index])}
     </th>
   `;
 
     // Populate deferred revenue row
     deferredRevenueRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(deferredRevenueArray[index])}
     </th>
   `;
 
     // populate post retirement benefit obligations row
     postRetirementBenefitObligationsRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(postRetirementBenefitObligationsArray[index])}
     </th>
     `;
 
     // populate annuity obligations row
     annuityObligationsRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(annuityObligationsArray[index])}
     </th>
     `;
 
     // populate other liabilities row
     otherLiabilitiesRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(otherLiabilitiesArray[index])}
     </th>
     `;
 
     // Populate peer average client ratio row
     peerAvgCurrentRatioRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
       ${peerAvgCurrentRatioArray[index] || "-"}
     </th>
   `;
 
     // Populate peer average current assets row
     peerAvgCurrentAssetsRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
         ${formatCurrency(peerAvgCurrentAssetsArray[index])}
       </th>
     `;
 
     // Populate peer average current liabilities row
     peerAvgCurrentLiabilitiesRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
         ${formatCurrency(peerAvgCurrentLiabilitiesArray[index])}
       </th>
     `;
