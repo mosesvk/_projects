@@ -577,7 +577,7 @@ const get75thPercentileOfArray = (array, mainName) => {
 };
 
 const getSumOfArray = (array) => {
-  if (array === null || array === undefined) return 0
+  if (array === null || array === undefined) return null
   const filteredArray = array.filter((value) => Number(value) !== 0);
 
   // console.log(array);

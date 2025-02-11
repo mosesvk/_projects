@@ -299,9 +299,13 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
   const tableBodyPeer = document.getElementById("assetToLiabilitiesPeer_tbody");
   tableBodyPeer.innerHTML = "";
 
-  // console.log({ totalAssetsPeer, totalLiabilitiesPeer });
+  console.log({ totalAssetsPeer, totalLiabilitiesPeer });
 
   selectedYears.forEach((year, index) => {
+    console.log({
+      totalAssetsPeer: getSumOfArray(totalAssetsPeer[year]),
+      totalLiabilitiesPeer: getSumOfArray(totalLiabilitiesPeer[year]),
+    });
 
     const totalAssetsClientValue =
       Number(totalAssetsClient[year].value) > 0
@@ -343,7 +347,7 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
       ? styleNumber(getSumOfArray(totalLiabilitiesPeer[year]), "dollar", 0)
       : "-";
     const ratioPeer =
-      totalLiabilitiesPeer[year]
+      totalLiabilitiesPeer[year] > 0
         ? Number(getSumOfArray(totalAssetsPeer[year])) /
           Number(getSumOfArray(totalLiabilitiesPeer[year]))
         : 0;

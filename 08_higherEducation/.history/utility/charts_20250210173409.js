@@ -243,7 +243,7 @@ const getMainChartOptions = (
       document.getElementById("doeClientTable").innerHTML += tableHTML;
     });
 
-    // console.log(mainName, { clientArray });
+    console.log(mainName, { clientArray });
   } else if (mainName == "cfi_primaryReserveRatio") {
     // console.log({'primaryReserve': selectedYearsArray})
     cfi_primaryReserveRatio_annotation = [
@@ -990,7 +990,7 @@ const getAtlChartOptions = (data) => {
       ? getAverageOfArray(totalAssetsPeer[year]) /
         getAverageOfArray(totalLiabilitiesPeer[year])
       : 0;
-    peerArray.push(peerValue == 0 ? null : peerValue.toFixed(2));
+    peerArray.push(peerValue.toFixed(2));
     benchmarkArray.push(1);
   });
 

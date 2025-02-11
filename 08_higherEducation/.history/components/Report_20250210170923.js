@@ -299,7 +299,7 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
   const tableBodyPeer = document.getElementById("assetToLiabilitiesPeer_tbody");
   tableBodyPeer.innerHTML = "";
 
-  // console.log({ totalAssetsPeer, totalLiabilitiesPeer });
+  console.log({ totalAssetsPeer, totalLiabilitiesPeer });
 
   selectedYears.forEach((year, index) => {
 

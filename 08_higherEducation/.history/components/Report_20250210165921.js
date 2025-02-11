@@ -299,10 +299,11 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
   const tableBodyPeer = document.getElementById("assetToLiabilitiesPeer_tbody");
   tableBodyPeer.innerHTML = "";
 
-  // console.log({ totalAssetsPeer, totalLiabilitiesPeer });
+  console.log({ totalAssetsPeer, totalLiabilitiesPeer });
 
   selectedYears.forEach((year, index) => {
-
+    console.log({'totalAssetsPeer': getSumOfArray(totalAssetsPeer[year]), 'totalLiabilitiesPeer': getSumOfArray(totalLiabilitiesPeer[year])});
+    
     const totalAssetsClientValue =
       Number(totalAssetsClient[year].value) > 0
         ? styleNumber(totalAssetsClient[year].value, "dollar", 0)
@@ -343,7 +344,7 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
       ? styleNumber(getSumOfArray(totalLiabilitiesPeer[year]), "dollar", 0)
       : "-";
     const ratioPeer =
-      totalLiabilitiesPeer[year]
+      totalLiabilitiesPeer[year] > 0
         ? Number(getSumOfArray(totalAssetsPeer[year])) /
           Number(getSumOfArray(totalLiabilitiesPeer[year]))
         : 0;
@@ -854,12 +855,12 @@ function formatNegativeNumbers() {
   divs.forEach((div) => {
     // Change the class of the table child
     const tds = div.querySelectorAll("td");
-    tds.forEach((td) => {
+    tds.forEach(td => {
       let textContent = td.textContent.trim();
       if (textContent.includes("-")) {
         td.classList.add("text-red-500", "dark:text-red-400");
       }
-    });
+    })
 
     // Process the text content of <td> elements inside the table
     const tdElements = div.querySelectorAll("td");

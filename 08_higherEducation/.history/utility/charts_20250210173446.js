@@ -990,7 +990,7 @@ const getAtlChartOptions = (data) => {
       ? getAverageOfArray(totalAssetsPeer[year]) /
         getAverageOfArray(totalLiabilitiesPeer[year])
       : 0;
-    peerArray.push(peerValue == 0 ? null : peerValue.toFixed(2));
+    peerArray.push(peerValue.toFixed(2));
     benchmarkArray.push(1);
   });
 
