@@ -2051,9 +2051,9 @@ const getCurrentRatioChartOptions = (data) => {
   annuityObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Annuity Obligations</th>`;
   otherLiabilitiesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Other Liabilities</th>`;
   tableHeaderPeer.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Peer</th>`;
-  peerAvgCurrentRatioRow.innerHTML = `<th scope="col" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Current Ratio</th>`;
-  peerAvgCurrentAssetsRow.innerHTML = `<th scope="col" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Current Assets</th>`;
-  peerAvgCurrentLiabilitiesRow.innerHTML = `<th scope="col" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Current Liabilities</th>`;
+  peerAvgCurrentRatioRow.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Ratio</th>`;
+  peerAvgCurrentAssetsRow.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Assets</th>`;
+  peerAvgCurrentLiabilitiesRow.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Liabilities</th>`;
 
   // Loop through and populate data for each selected year
   selectedYearsArray.forEach((year, index) => {
