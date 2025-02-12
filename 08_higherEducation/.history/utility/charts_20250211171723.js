@@ -2280,9 +2280,6 @@ const getCurrentRatioChartOptions = (data) => {
     dataLabels: {
       enabled: true,
       enabledOnSeries: [2, 3],
-      style: {
-        fontSize: '18px'
-      }
     },
     title: {
       text: "Current Ratio",
@@ -2303,6 +2300,7 @@ const getCurrentRatioChartOptions = (data) => {
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
+            colors: window.chartColors.green,
             fontSize: "1.25rem",
           },
         },

@@ -1081,6 +1081,12 @@ const getAtlChartOptions = (data) => {
     dataLabels: {
       enabled: true,
       enabledOnSeries: [0, 1],
+      formatter: function (val, chart) {
+        // console.log({val, chart});
+        if (val == null || val == undefined) return ''
+        
+        return val
+    },
     },
     stroke: {
       width: 5,
@@ -2277,13 +2283,6 @@ const getCurrentRatioChartOptions = (data) => {
         },
       },
     },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [2, 3],
-      style: {
-        fontSize: '18px'
-      }
-    },
     title: {
       text: "Current Ratio",
       align: "center",
@@ -2303,6 +2302,7 @@ const getCurrentRatioChartOptions = (data) => {
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
+            colors: window.chartColors.green,
             fontSize: "1.25rem",
           },
         },

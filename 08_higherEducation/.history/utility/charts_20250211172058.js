@@ -2303,6 +2303,7 @@ const getCurrentRatioChartOptions = (data) => {
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
+            colors: window.chartColors.green,
             fontSize: "1.25rem",
           },
         },
