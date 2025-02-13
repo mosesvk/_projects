@@ -118,7 +118,7 @@ const insertDataToFfaReport = (data, selectedYears) => {
     data["ffa_revenueTuitionAndFees_Client"][currentYear].value
   );
   document.getElementById("ffa_tuitionFees").textContent =
-    revenueTuitionAndFeesClient != 0
+    revenueTuitionAndFeesClient > 0
       ? styleNumber(revenueTuitionAndFeesClient, "dollar", 0)
       : "-";
 
@@ -126,7 +126,7 @@ const insertDataToFfaReport = (data, selectedYears) => {
     data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value
   );
   document.getElementById("ffa_scholarshipsFinancial").textContent =
-    revenueSchoolServicesClient != 0
+    revenueSchoolServicesClient > 0
       ? styleNumber(revenueSchoolServicesClient, "dollar", 0)
       : "-";
 
@@ -134,7 +134,7 @@ const insertDataToFfaReport = (data, selectedYears) => {
     data["ffa_totalRevenueContributions_Client"][currentYear].value
   );
   document.getElementById("ffa_unrestrictedGifts").textContent =
-    totalRevenueContributionsClient != 0
+    totalRevenueContributionsClient > 0
       ? styleNumber(totalRevenueContributionsClient, "dollar", 0)
       : "-";
 
@@ -156,7 +156,7 @@ const insertDataToFfaReport = (data, selectedYears) => {
     revenueInvestmentIncomeClient +
     revenueEndowmentSpendingAppropriationClient;
   document.getElementById("ffa_auxiliaryOther").textContent =
-    auxiliaryAndOtherClient != 0
+    auxiliaryAndOtherClient > 0
       ? styleNumber(auxiliaryAndOtherClient, "dollar", 0)
       : "-";
 
@@ -164,7 +164,7 @@ const insertDataToFfaReport = (data, selectedYears) => {
     data["ffa_contributions_Client"][currentYear].value
   );
   document.getElementById("ffa_restrictedGifts").textContent =
-    contributionsClient != 0
+    contributionsClient > 0
       ? styleNumber(contributionsClient, "dollar", 0)
       : "-";
 
@@ -177,7 +177,7 @@ const insertDataToFfaReport = (data, selectedYears) => {
   const compensationAndBenefitsClient =
     salariesAndWagesClient + employeeBenefitsClient;
   document.getElementById("ffa_compensationBenefits").textContent =
-    compensationAndBenefitsClient != 0
+    compensationAndBenefitsClient > 0
       ? styleNumber(compensationAndBenefitsClient, "dollar", 0)
       : "-";
 
@@ -201,7 +201,7 @@ const insertDataToFfaReport = (data, selectedYears) => {
     interestClient +
     incomeExpenseSurplusDefecitClient;
   document.getElementById("ffa_generalExpense").textContent =
-    generalExpenseClient != 0
+    generalExpenseClient > 0
       ? styleNumber(generalExpenseClient, "dollar", 0)
       : "-";
 
@@ -216,9 +216,9 @@ const insertDataToFfaReport = (data, selectedYears) => {
     generalExpenseClient;
 
   document.getElementById("ffa_totalRevenues").textContent =
-    totalRevenues != 0 ? styleNumber(totalRevenues, "dollar", 0) : "-";
+    totalRevenues > 0 ? styleNumber(totalRevenues, "dollar", 0) : "-";
   document.getElementById("ffa_totalExpenses").textContent =
-    totalExpenses != 0 ? styleNumber(totalExpenses, "dollar", 0) : "-";
+    totalExpenses > 0 ? styleNumber(totalExpenses, "dollar", 0) : "-";
 };
 
 const insertDataToSourceOfInomeReport = (data, selectedYears) => {
@@ -835,21 +835,6 @@ function formatNegativeNumbers() {
       }
     }
   });
-
-  // Select all <th> elements with an id attribute
-const thElements = document.querySelectorAll("th[id]");
-thElements.forEach((th) => {
-  let textContent = th.textContent.trim();
-  // Check if the text content contains numbers
-  if (/\d/.test(textContent)) {
-    if (textContent.includes("-")) {
-      // Apply classes
-      th.textContent = textContent;
-      th.classList.remove("text-gray-900", "dark:text-white");
-      th.classList.add("text-red-500", "dark:text-red-400");
-    }
-  }
-});
 
   // Select all <p> elements with an id that ends with "_yearSelectData"
   const pElements = document.querySelectorAll("p[id$='_yearSelectData']");

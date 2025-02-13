@@ -1028,7 +1028,7 @@ const getAtlChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
-  // console.log({ clientArray, peerArray, benchmarkArray });
+  console.log({ clientArray, peerArray, benchmarkArray });
 
   return {
     colors: [

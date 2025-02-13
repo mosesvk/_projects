@@ -1028,7 +1028,7 @@ const getAtlChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
-  // console.log({ clientArray, peerArray, benchmarkArray });
+  console.log({ clientArray, peerArray, benchmarkArray });
 
   return {
     colors: [
@@ -1605,26 +1605,17 @@ const getFfaChartOptions = (data) => {
       },
       textAnchor: "end",
       style: {
-        colors: [
-          '#00808D',
-          '#EDAB20',
-          '#00808D',
-          '#00808D',
-          '#00808D',
-          '#EDAB20',
-          '#EDAB20',
-          surplusDefecitColor
-        ],
+        colors: ["#000"],
       },
       background: {
         enabled: true,
-        foreColor: "#ffffff",
+        foreColor: "#fff",
         padding: 4,
         borderRadius: 2,
         borderWidth: 1,
-        borderColor: "#ffffff",
+        borderColor: "#fff",
       },
-      offsetX: 40,
+      offsetX: 20,
       offsetY: 20,
     },
     zoom: {

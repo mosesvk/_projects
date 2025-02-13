@@ -764,11 +764,11 @@ const getFpaChartOptions = (data) => {
   const totalAssetsArray = [];
   const totalLiabilitiesArray = [];
   const netPositionArray = [];
-
+  
   for (const year of selectedYearsArray) {
-    totalAssetsArray.push(data["totalAssets_Client"][year].value);
-    totalLiabilitiesArray.push(data["totalLiabilities_Client"][year].value);
-    netPositionArray.push(data["netPosition_Client"][year].value);
+      totalAssetsArray.push(data["totalAssets_Client"][year].value);
+      totalLiabilitiesArray.push(data["totalLiabilities_Client"][year].value);
+      netPositionArray.push(data["netPosition_Client"][year].value);
   }
 
   selectedYearsArray.forEach((year, index) => {
@@ -1028,7 +1028,7 @@ const getAtlChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
-  // console.log({ clientArray, peerArray, benchmarkArray });
+  console.log ({clientArray, peerArray, benchmarkArray});
 
   return {
     colors: [
@@ -1119,7 +1119,7 @@ const getAtlChartOptions = (data) => {
         },
       },
       stepSize: 5,
-      tickAmount: 5,
+      tickAmount: 5
     },
     tooltip: {
       y: {
@@ -1517,13 +1517,8 @@ const getFfaChartOptions = (data) => {
   const formatNumber = (value) => value.toLocaleString();
 
   const yaxisLabelFormatter = (value) => {
-    if (value >= 1000000) {
-      return `$${value / 1000000}M`;
-    } else if (value >= 1000) {
-      return `$${value / 1000}K`;
-    } else {
-      return `$${value}`;
-    }
+    // return `$${formatNumber(value)}`;
+    return `$${value / 1000000}`;
   };
 
   const tooltipFormatter = (value) => {
@@ -1597,35 +1592,6 @@ const getFfaChartOptions = (data) => {
       height: 500,
       width: "100%",
       type: "rangeBar",
-    },
-    dataLabels: {
-      enabled: true,
-      formatter: function (val, opts) {
-        return `$${val.toLocaleString()}`;
-      },
-      textAnchor: "end",
-      style: {
-        colors: [
-          '#00808D',
-          '#EDAB20',
-          '#00808D',
-          '#00808D',
-          '#00808D',
-          '#EDAB20',
-          '#EDAB20',
-          surplusDefecitColor
-        ],
-      },
-      background: {
-        enabled: true,
-        foreColor: "#ffffff",
-        padding: 4,
-        borderRadius: 2,
-        borderWidth: 1,
-        borderColor: "#ffffff",
-      },
-      offsetX: 40,
-      offsetY: 20,
     },
     zoom: {
       enabled: false,
@@ -2315,8 +2281,8 @@ const getCurrentRatioChartOptions = (data) => {
       enabled: true,
       enabledOnSeries: [2, 3],
       style: {
-        fontSize: "18px",
-      },
+        fontSize: '18px'
+      }
     },
     title: {
       text: "Current Ratio",

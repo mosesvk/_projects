@@ -836,21 +836,6 @@ function formatNegativeNumbers() {
     }
   });
 
-  // Select all <th> elements with an id attribute
-const thElements = document.querySelectorAll("th[id]");
-thElements.forEach((th) => {
-  let textContent = th.textContent.trim();
-  // Check if the text content contains numbers
-  if (/\d/.test(textContent)) {
-    if (textContent.includes("-")) {
-      // Apply classes
-      th.textContent = textContent;
-      th.classList.remove("text-gray-900", "dark:text-white");
-      th.classList.add("text-red-500", "dark:text-red-400");
-    }
-  }
-});
-
   // Select all <p> elements with an id that ends with "_yearSelectData"
   const pElements = document.querySelectorAll("p[id$='_yearSelectData']");
   pElements.forEach((p) => {
