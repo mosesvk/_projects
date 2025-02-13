@@ -1281,14 +1281,6 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
           key: "educationalProgramExpenses_Client",
           field: "r044_ctotal_functional_expenses",
         },
-        {
-          key: "fundraisingExpenses_Client",
-          field: "r280_fundraising_expenses",
-        },
-        {
-          key: "otherExpenses_Client",
-          field: "r281_other_expenses",
-        },
       ];
       educationalProgramExpenses_array.forEach(({ key, field }) => {
         insertDataIntoObject(
@@ -2888,7 +2880,7 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
     )}</qdbapi>`;
-    // console.log("CLIENT", qdbapiElementClient);
+    console.log("CLIENT", qdbapiElementClient);
 
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
