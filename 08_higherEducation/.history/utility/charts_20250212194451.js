@@ -1120,8 +1120,6 @@ const getAtlChartOptions = (data) => {
       },
     },
     yaxis: {
-      max: roundedMaxValue,
-      min: roundedMinValue,
       axisTicks: {
         show: true,
       },
