@@ -1,0 +1,1 @@
+1. Check the CFI charts as to why they are not sending the base64URI code to Quickbase
