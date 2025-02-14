@@ -1184,9 +1184,8 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
   const investmentsValue = Number(
     data["si_revenueInvestmentIncome_Client"][selectedYearsArray[0]].value
   );
-  const netAssetsReleasedValue = Number(
-    data["si_netAssetsReleased_Client"][selectedYearsArray[0]].value
-  );
+
+  const netAssetsReleasedValue = Number(data['si_netAssetsReleased_Client'][selectedYearsArray[0]].value)
   const otherValue =
     Number(data["si_revenueOther_Client"][selectedYearsArray[0]].value) +
     Number(
@@ -1238,12 +1237,11 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
     auxiliaryValue,
     contributionsValue,
     investmentsValue,
-    netAssetsReleasedValue,
     otherValue,
   ];
 
   return {
-    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#6bc7c4", "#C57FD7"],
+    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#C57FD7"],
     series: chartData,
     chart: {
       toolbar: {

@@ -1243,7 +1243,7 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
   ];
 
   return {
-    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#6bc7c4", "#C57FD7"],
+    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#C57FD7"],
     series: chartData,
     chart: {
       toolbar: {

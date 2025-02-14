@@ -1837,7 +1837,7 @@ const processFinancialAnalysisContentData = (
         record,
         "r031_revenue_other"
       );
-      // si_netAssetsReleased_Client
+      // si_revenueOther_Client
       insertDataIntoObject(
         "client",
         year,

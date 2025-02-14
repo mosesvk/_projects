@@ -1837,15 +1837,6 @@ const processFinancialAnalysisContentData = (
         record,
         "r031_revenue_other"
       );
-      // si_netAssetsReleased_Client
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "si_netAssetsReleased_Client",
-        record,
-        "r034_revenue_net_assets_released_from_restriction"
-      );
 
       // Financial Flow Analysis ---------------------------------->
 
