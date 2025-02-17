@@ -590,8 +590,8 @@ const getFSchartOptions = (
     }
     return `$${formatNumber(value)}`;
   };
-
   const tooltipFormatter = (value) => {
+
     if (!value) return;
     const formattedValue = value.toLocaleString();
     if (numType === "dollar") {
