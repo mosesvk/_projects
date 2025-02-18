@@ -1908,17 +1908,6 @@
                                 Total Functional Expenses
                               </th>
                             </tr>
-                            <tr
-                              id="row_ni_nonOperatingActivitiesInvestmentIncome"
-                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Non-Operating Activities (Investment Income)
-                              </th>
-                            </tr>
                           </tbody>
                         </table>
                       </div>
@@ -2343,125 +2332,7 @@
                   class="my-8 mx-40 border-1 border-black dark:border-white"
                 />
                 <!-- CLIENT TABLE - DOE Overall -->
-                <div id="doeOverall_clientTable" class="flex flex-col">
-                  <div class="overflow-x-auto rounded-lg">
-                    <div class="inline-block min-w-full align-middle">
-                      <div
-                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                      >
-                        <table
-                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                        >
-                          <thead
-                            class="text-xs text-white uppercase backgroundGreen opacity-75"
-                          >
-                            <tr id="row_doeOverall_tableHeader">
-                              <th
-                                scope="col"
-                                class="px-6 py-3 text-lg tracking-wide"
-                              >
-                                {insert year}
-                              </th>
-                              <th
-                                scope="col"
-                                class="px-6 py-3 text-lg tracking-wide"
-                              ></th>
-                              <th
-                                scope="col"
-                                class="px-6 py-3 text-lg tracking-wide"
-                              >
-                                Strength
-                              </th>
-                              <th
-                                scope="col"
-                                class="px-6 py-3 text-lg tracking-wide"
-                              >
-                                Weight
-                              </th>
-                              <th
-                                scope="col"
-                                class="px-6 py-3 text-lg tracking-wide"
-                              >
-                                Weighted
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr
-                              id="row_doeOverall_primaryReserveRatio"
-                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Primary Reserve Ratio
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_equityRatio"
-                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Equity Ratio
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_doeOverall_netIncomeRatio"
-                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Net Income Ratio
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_doeOverall_overallCompositeScore"
-                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Overall Composite Score
-                              </th>
-                            </tr>
-                          </tbody>
-                          <tfoot
-                            class="text-xs text-white uppercase backgroundGreen opacity-75"
-                          >
-                            <th
-                              scope="col"
-                              class="px-6 py-3 text-lg tracking-wide"
-                            >
-                            </th>
-                            <th
-                              scope="col"
-                              class="px-6 py-3 text-lg tracking-wide"
-                            >
-                            </th>
-                            <th
-                              scope="col"
-                              class="px-6 py-3 text-lg tracking-wide"
-                            >
-                            </th>
-                            <th
-                              scope="col"
-                              class="px-6 py-3 text-lg tracking-wide"
-                            >
-                              Overall Composite Score
-                            </th>
-                          </tfoot>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <div id="doeClientTable" class="mx-4"></div>
               </div>
             </div>
           </div>
@@ -2491,7 +2362,7 @@
                     </div>
                     <div id="assets_chart"></div>
                   </div>
-                  <div id="assets_summary">
+                  <div id="assets_summary" class="w-1/2">
                     <table
                       id="assets_table"
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -2575,7 +2446,7 @@
                     </div>
                     <div id="liabilities_chart"></div>
                   </div>
-                  <div id="liabilities_summary">
+                  <div id="liabilities_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -2660,7 +2531,7 @@
                     </div>
                     <div id="netAssets_chart"></div>
                   </div>
-                  <div id="netAssets_summary">
+                  <div id="netAssets_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -2722,7 +2593,7 @@
                     </div>
                     <div id="revenueAndSupport_chart"></div>
                   </div>
-                  <div id="revenueAndSupport_summary">
+                  <div id="revenueAndSupport_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -2739,14 +2610,6 @@
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Scholarships and Financial Aid
-                          </th>
-                          <td class="revenueAndSupport_dataPoint"></td>
-                        </tr>
-
-                        <!-- Net Tuition and Fees -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Net Tuition and Fees
                           </th>
                           <td class="revenueAndSupport_dataPoint"></td>
                         </tr>
@@ -2783,22 +2646,6 @@
                           <td class="revenueAndSupport_dataPoint"></td>
                         </tr>
 
-                        <!-- Non-Contribution Revenue -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Non-Contribution Revenue
-                          </th>
-                          <td class="revenueAndSupport_dataPoint"></td>
-                        </tr>
-
-                        <!-- Contributions -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Contributions
-                          </th>
-                          <td class="revenueAndSupport_dataPoint"></td>
-                        </tr>
-
                         <!-- Large One-Time Gifts -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
@@ -2822,20 +2669,15 @@
                           </th>
                           <td class="revenueAndSupport_dataPoint"></td>
                         </tr>
-
-                        <!-- Operating Revenues, Support, and Releases -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium"></th>
-                          <td class="revenueAndSupport_dataPoint"></td>
-                        </tr>
                       </tbody>
 
                       <tfoot>
+                        <!-- Total Revenue & Support -->
                         <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">Total Assets</th>
-                          <td
-                            class="px-6 py-3 revenueAndSupport_dataPoint"
-                          ></td>
+                          <th scope="row" class="px-6 py-3">
+                            Total Revenue & Support
+                          </th>
+                          <td class="revenueAndSupport_dataPoint"></td>
                         </tr>
                       </tfoot>
                     </table>
@@ -2865,7 +2707,7 @@
                     </div>
                     <div id="educationalProgramExpenses_chart"></div>
                   </div>
-                  <div id="educationalProgramExpenses_summary">
+                  <div id="educationalProgramExpenses_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -2925,6 +2767,26 @@
                           </th>
                           <td class="educationalProgramExpenses_dataPoint"></td>
                         </tr>
+
+                        <!-- Fundraising Expenses -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Fundraising Expenses
+                          </th>
+                          <td class="educationalProgramExpenses_dataPoint"></td>
+                        </tr>
+
+                        <!-- Other Expenses -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Other Expenses
+                          </th>
+                          <td class="educationalProgramExpenses_dataPoint"></td>
+                        </tr>
+
+                        <!-- r280-->
+
+                        <!-- r281-->
                       </tbody>
 
                       <tfoot>
@@ -2960,7 +2822,7 @@
                     </div>
                     <div id="nonOperatingActivities_chart"></div>
                   </div>
-                  <div id="nonOperatingActivities_summary">
+                  <div id="nonOperatingActivities_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -2970,7 +2832,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Investment income
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonOperatingActivities_dataPoint"></td>
                         </tr>
 
                         <!-- Endowment spending policy appropriation -->
@@ -2978,7 +2840,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Endowment spending policy appropriation
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonOperatingActivities_dataPoint"></td>
                         </tr>
 
                         <!-- Change in value of interest rate swap -->
@@ -2986,7 +2848,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Change in value of interest rate swap
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonOperatingActivities_dataPoint"></td>
                         </tr>
 
                         <!-- Adjustment to PRBO -->
@@ -2994,7 +2856,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Adjustment to PRBO
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonOperatingActivities_dataPoint"></td>
                         </tr>
 
                         <!-- Contributions and other -->
@@ -3002,7 +2864,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Contributions and other
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonOperatingActivities_dataPoint"></td>
                         </tr>
                       </tbody>
 
@@ -3011,7 +2873,7 @@
                           <th scope="row" class="px-6 py-3">
                             Total Non Operating Activities
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonOperatingActivities_dataPoint"></td>
                         </tr>
                       </tfoot>
                     </table>
@@ -3041,7 +2903,7 @@
                     </div>
                     <div id="changesInNetAssetsWithDR_chart"></div>
                   </div>
-                  <div id="changesInNetAssetsWithDR_summary">
+                  <div id="changesInNetAssetsWithDR_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -3072,10 +2934,12 @@
                           <td class="changesInNetAssetsWithDR_dataPoint"></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
+                          <th scope="row" class="pl-6 py-1 font-bold text-xl">
                             Temporarily Restricted Net Change
                           </th>
-                          <td class="changesInNetAssetsWithDR_dataPoint"></td>
+                          <td
+                            class="changesInNetAssetsWithDR_dataPoint pl-3 font-semibold"
+                          ></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
@@ -3096,10 +2960,15 @@
                           <td class="changesInNetAssetsWithDR_dataPoint"></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
+                          <th
+                            scope="row"
+                            class="pl-6 py-1 font-bold text-xl font-semibold"
+                          >
                             Permanently Restricted Net Change
                           </th>
-                          <td class="changesInNetAssetsWithDR_dataPoint"></td>
+                          <td
+                            class="changesInNetAssetsWithDR_dataPoint pl-3"
+                          ></td>
                         </tr>
                       </tbody>
 
@@ -3138,7 +3007,7 @@
                     </div>
                     <div id="naturalExpenseCategories_chart"></div>
                   </div>
-                  <div id="naturalExpenseCategories_summary">
+                  <div id="naturalExpenseCategories_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -3225,60 +3094,105 @@
                     </div>
                     <div id="cashFlowsOperatingActivities_chart"></div>
                   </div>
-                  <div id="cashFlowsOperatingActivities_summary">
+                  <div id="cashFlowsOperatingActivities_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
                       <tbody class="text-xl dark:text-white">
-                        <!-- Salaries and Wages -->
+                        <!-- Depreciation -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Salaries and Wages
+                            Depreciation
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
                           ></td>
                         </tr>
-                        <!-- Employee Benefits -->
+
+                        <!-- Gifts and Grants Restricted in Perpetuity -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Employee Benefits
+                            Gifts and Grants Restricted in Perpetuity
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
                           ></td>
                         </tr>
-                        <!-- Service, Supplies and Other -->
+
+                        <!-- Gain on Investment -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Service, Supplies and Other
+                            Gain on Investment
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
                           ></td>
                         </tr>
-                        <!-- Occupancy, Utilities and Maintenance -->
+
+                        <!-- Derivative CSLVI Amort Bond Costs -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Occupancy, Utilities and Maintenance
+                            Derivative CSLVI Amort Bond Costs
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
                           ></td>
                         </tr>
-                        <!-- Depreciation and Amortization -->
+
+                        <!-- Accounts Receivable -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Depreciation and Amortization
+                            Accounts Receivable
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
                           ></td>
                         </tr>
-                        <!-- Interest -->
+
+                        <!-- Inventory -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Interest
+                            Inventory
+                          </th>
+                          <td
+                            class="cashFlowsOperatingActivities_dataPoint"
+                          ></td>
+                        </tr>
+
+                        <!-- Prepaids and Other Assets -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Prepaids and Other Assets
+                          </th>
+                          <td
+                            class="cashFlowsOperatingActivities_dataPoint"
+                          ></td>
+                        </tr>
+
+                        <!-- Accounts Payable and Accrued Expenses -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Accounts Payable and Accrued Expenses
+                          </th>
+                          <td
+                            class="cashFlowsOperatingActivities_dataPoint"
+                          ></td>
+                        </tr>
+
+                        <!-- Deferred Revenue -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Deferred Revenue
+                          </th>
+                          <td
+                            class="cashFlowsOperatingActivities_dataPoint"
+                          ></td>
+                        </tr>
+
+                        <!-- Other Liabilities -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Other Liabilities
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
@@ -3289,7 +3203,7 @@
                       <tfoot>
                         <tr class="font-semibold dark:text-white text-2xl">
                           <th scope="row" class="px-6 py-3">
-                            Total Natural Category Expenses
+                            Net Cash used in Operating activities
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
@@ -3323,7 +3237,7 @@
                     </div>
                     <div id="cashFlowsInvestingActivities_chart"></div>
                   </div>
-                  <div id="cashFlowsInvestingActivities_summary">
+                  <div id="cashFlowsInvestingActivities_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -3364,6 +3278,13 @@
                             class="cashFlowsInvestingActivities_dataPoint"
                           ></td>
                         </tr>
+                        <!-- Other Investing Activity -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Other Investing Activity
+                          </th>
+                          <td class="cashFlowsInvestingActivity_dataPoint"></td>
+                        </tr>
                       </tbody>
 
                       <tfoot>
@@ -3403,7 +3324,7 @@
                     </div>
                     <div id="cashFlowsFinancingActivities_chart"></div>
                   </div>
-                  <div id="cashFlowsFinancingActivities_summary">
+                  <div id="cashFlowsFinancingActivities_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -3477,7 +3398,7 @@
                     </div>
                     <div id="propertyAndEquipment_chart"></div>
                   </div>
-                  <div id="propertyAndEquipment_summary">
+                  <div id="propertyAndEquipment_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -3510,7 +3431,7 @@
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Total Property and Equipment at Cost
+                            Total Property and Equipment
                           </th>
                           <td class="propertyAndEquipment_dataPoint"></td>
                         </tr>
@@ -3971,7 +3892,7 @@
                           <tbody>
                             <tr
                               id="row_currentRatioPeer_ratio"
-                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
@@ -3982,7 +3903,7 @@
                             </tr>
                             <tr
                               id="row_currentRatioPeer_currentAssets"
-                              class="backgroundOffBlue font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="backgroundOffBlue font-medium border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
@@ -3993,7 +3914,7 @@
                             </tr>
                             <tr
                               id="row_currentRatioPeer_currentLiabilities"
-                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
@@ -4461,12 +4382,6 @@
                                   >
                                     Client
                                   </th>
-                                  <th
-                                    scope="col"
-                                    class="px-6 py-3 text-lg tracking-wide backgroundBlue"
-                                  >
-                                    Peer
-                                  </th>
                                 </tr>
                               </thead>
                               <tbody id="sourceOfIncomeClient_tbody"></tbody>
@@ -4627,7 +4542,7 @@
                     its payroll costs relative to the tuition revenue it
                     generates. Keeping this ratio below 70% ensures that a
                     significant portion of net tuition revenue is available for
-                    other essential expenses, supporting the institution’s
+                    other essential expenses, supporting the institution&#39;s
                     overall financial health and enabling investment in
                     strategic priorities. Maintaining this threshold reflects
                     prudent financial management and sustainability.
@@ -5964,6 +5879,7 @@
       </div>
     </div>
 
+    <!-- Other Options Modal -->
     <div
       id="otherOptions-modal"
       data-modal-placement="top-center"

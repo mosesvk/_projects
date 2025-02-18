@@ -46,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
   addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
 
   addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
-
 });
 
 const findUniqueYears = (data) => {
@@ -83,16 +82,16 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  console.log ({
-    type,
-    year,
-    object,
-    dataKey,
-    record,
-    child,
-    dynamicValueClientPeer,
-    name,
-  });
+  // console.log ({
+  //   type,
+  //   year,
+  //   object,
+  //   dataKey,
+  //   record,
+  //   child,
+  //   dynamicValueClientPeer,
+  //   name,
+  // });
 
   const innerData =
     child == 0
@@ -205,13 +204,13 @@ const processDebtEndowmentContentData = (
         },
         {
           key: "principalPayments_Client",
-          field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable",
+          field:
+            "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable",
         },
         {
           key: "totalOperatingRevenue_Client",
           field: "r036_coperating_revenues_support_and_releases",
         },
-        
       ];
       debtServiceCoverageRatio_array.forEach(({ key, field }) => {
         insertDataIntoObject(
@@ -239,7 +238,8 @@ const processDebtEndowmentContentData = (
         },
         {
           key: "principalPayments_Client",
-          field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable",
+          field:
+            "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable",
         },
         {
           key: "operationalExpense_Client",
@@ -281,7 +281,6 @@ const processDebtEndowmentContentData = (
           field
         );
       });
-
 
       const endowmentAssetsPerStudent_Array = [
         {
@@ -819,7 +818,6 @@ const processRevenueExpenseContentData = (
         );
       });
 
-
       insertDataIntoObject(
         "peer",
         year,
@@ -851,7 +849,7 @@ const processRevenueExpenseContentData = (
           tuitionDependency_obj,
           key,
           record,
-          field, 
+          field,
           "Yes"
         );
       });
@@ -877,7 +875,7 @@ const processRevenueExpenseContentData = (
           tuitionDiscountRate_obj,
           key,
           record,
-          field, 
+          field,
           "Yes"
         );
       });
@@ -1186,7 +1184,7 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
         },
         {
           key: "netChangeInNetAssetsRestrictedInPerpetuity_Client",
-          field: "r064_cnet_change_restricted_in_perpetuity",
+          field: "r019_net_assets_restricted_in_perpetuity",
         },
         {
           key: "netAssets_Client",
@@ -1207,10 +1205,6 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
           field: "r024_revenue_scholarships_and_financial_aid",
         },
         {
-          key: "netTuitionAndFees_Client",
-          field: "r026_cnet_tuition_and_fees",
-        },
-        {
           key: "auxiliaryActivities_Client",
           field: "r028_revenue_auxiliary_activities",
         },
@@ -1227,14 +1221,6 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
           field: "r031_revenue_other",
         },
         {
-          key: "nonContributionRevenue_Client",
-          field: "r032_cnon_contribution_revenue",
-        },
-        {
-          key: "contributions_Client",
-          field: "r054_contributions",
-        },
-        {
           key: "contributionsLargeOneTimeGifts_Client",
           field: "r033a_revenue_contributions_large_one_time_gifts",
         },
@@ -1247,12 +1233,8 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
           field: "r035_ctotal_revenue_from_contributions",
         },
         {
-          key: "operatingRevenuesSupportAndReleases_Client",
-          field: "r036_coperating_revenues_support_and_releases",
-        },
-        {
           key: "revenueAndSupport_Client",
-          field: "r008_ctotal_assets",
+          field: "r036_coperating_revenues_support_and_releases",
         },
       ];
       revenueAndSupport_array.forEach(({ key, field }) => {
@@ -1299,6 +1281,14 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
           key: "educationalProgramExpenses_Client",
           field: "r044_ctotal_functional_expenses",
         },
+        {
+          key: "fundraisingExpenses_Client",
+          field: "r280_fundraising_expenses",
+        },
+        {
+          key: "otherExpenses_Client",
+          field: "r281_other_expenses",
+        },
       ];
       educationalProgramExpenses_array.forEach(({ key, field }) => {
         insertDataIntoObject(
@@ -1310,7 +1300,6 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
           field
         );
       });
-
       const nonOperatingActivities_array = [
         {
           key: "investmentIncome_Client",
@@ -1450,32 +1439,48 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
 
       const cashFlowsOperating_array = [
         {
-          key: "salariesAndWages_Client",
-          field: "r160_salaries_and_wages",
+          key: "depreciation_Client",
+          field: "r070_adjustments_depreciation",
         },
         {
-          key: "employeeBenefits_Client",
-          field: "r161_employee_benefits",
+          key: "giftsAndGrantsRestrictedInPerpetuity_Client",
+          field: "r071_adjustments_gifts_and_grants_restricted_in_perpetuity",
         },
         {
-          key: "serviceSuppliesOther_Client",
-          field: "r162_services_supplies_and_other",
+          key: "gainOnInvestment_Client",
+          field: "r072_adjustments_gain_on_investments",
         },
         {
-          key: "occupancyUtilitiesMaintenance_Client",
-          field: "r163_occupancy_utilities_and_maintenance",
+          key: "derivativeCSLVIAmortBondCosts_Client",
+          field: "r073_adjustments_derivative_cslvi_amort_bond_costs",
         },
         {
-          key: "depreciationAndAmortization_Client",
-          field: "r164_depreciation_and_amortization",
+          key: "accountsReceivable_Client",
+          field: "r074_adjustments_accounts_receivable",
         },
         {
-          key: "interest_Client",
-          field: "r165_interest",
+          key: "inventory_Client",
+          field: "r075_adjustments_inventory",
+        },
+        {
+          key: "prepaidsAndOtherAssets_Client",
+          field: "r076_adjustments_prepaids_and_other_assets",
+        },
+        {
+          key: "accountsPayableAndAccruedExpenses_Client",
+          field: "r077_adjustments_accounts_payable_and_accrued_expenses",
+        },
+        {
+          key: "deferredRevenue_Client",
+          field: "r078_adjustments_deferred_revenue",
+        },
+        {
+          key: "otherLiabilities_Client",
+          field: "r079_adjustments_other_liabilities",
         },
         {
           key: "cashFlowsOperatingActivities_Client",
-          field: "r166_ctotal_natural_category_expenses",
+          field: "r080_cnet_cash_provided_by_operating_activities",
         },
       ];
       cashFlowsOperating_array.forEach(({ key, field }) => {
@@ -1512,6 +1517,10 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
         {
           key: "cashFlowsInvestingActivities_Client",
           field: "r085_cnet_cash_used_in_investing_activities",
+        },
+        {
+          key: "otherInvestingActivity_Client",
+          field: "r282_other_investing_activity",
         },
       ];
       cashFlowsInvesting_array.forEach(({ key, field }) => {
@@ -1720,6 +1729,16 @@ const processFinancialAnalysisContentData = (
         "peer",
         year,
         object,
+        "releasedGifts_Peer",
+        record,
+        "dashboard_c002f_income_____released_gifts",
+        "Yes"
+      );
+      // revenueOther
+      insertDataIntoObject(
+        "peer",
+        year,
+        object,
         "revenueOther_Peer",
         record,
         "dashboard_c002e_income_____other_sources",
@@ -1771,7 +1790,7 @@ const processFinancialAnalysisContentData = (
         object,
         "si_revenueTuitionAndFees_Client",
         record,
-        "r023_revenue_tuition_and_fees"
+        "r026_cnet_tuition_and_fees"
       );
       // si_revenueAuxiliaryActivities_Client
       insertDataIntoObject(
@@ -1826,6 +1845,15 @@ const processFinancialAnalysisContentData = (
         "si_revenueOther_Client",
         record,
         "r031_revenue_other"
+      );
+      // si_netAssetsReleased_Client
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "si_netAssetsReleased_Client",
+        record,
+        "r034_revenue_net_assets_released_from_restriction"
       );
 
       // Financial Flow Analysis ---------------------------------->
@@ -2169,15 +2197,103 @@ const processDoeData = (years, recordsPeer, recordsClient) => {
 
       return fiscalYear.includes(year.toString());
     });
-    filteredPeerRecords.forEach((record) => {
-
-    });
+    filteredPeerRecords.forEach((record) => {});
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector("year").textContent;
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
+      // doePrimaryReserveRatio
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "doePrimaryReserveRatio_Client",
+        record,
+        "r232_cdoe_primary_reserve_ratio"
+      );
+
+      // doePrimaryReserveStrengthFactor
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "doePrimaryReserveStrengthFactor_Client",
+        record,
+        "r233_cdoe_primary_reserve_strength_factor"
+      );
+
+      // doePrimaryReserveRatioWeighted
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "doePrimaryReserveRatioWeighted_Client",
+        record,
+        "r234_cdoe_primary_reserve_ratio_weighted"
+      );
+
+      // doeEquityRatio
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "doeEquityRatio_Client",
+        record,
+        "r237_cdoe_equity_ratio"
+      );
+
+      // doeEquityStrengthFactor
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "doeEquityStrengthFactor_Client",
+        record,
+        "r238_cdoe_equity_strength_factor"
+      );
+
+      // doeEquityRatioWeighted
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "doeEquityRatioWeighted_Client",
+        record,
+        "r239_cdoe_equity_ratio_weighted"
+      );
+
+      // doeNetIncomeRatio
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "doeNetIncomeRatio_Client",
+        record,
+        "r242_cdoe_net_income_ratio"
+      );
+
+      // doeNetIncomeStrengthFactor
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "doeNetIncomeStrengthFactor_Client",
+        record,
+        "r243_cdoe_net_income_strength_factor"
+      );
+
+      // doeNetIncomeRatioWeighted
+      insertDataIntoObject(
+        "client",
+        year,
+        object,
+        "doeNetIncomeRatioWeighted_Client",
+        record,
+        "r244_cdoe_net_income_ratio_weighted"
+      );
+
       // doeOverall
       insertDataIntoObject(
         "client",
@@ -2187,7 +2303,6 @@ const processDoeData = (years, recordsPeer, recordsClient) => {
         record,
         "r245_cdoe_overall__composite_score_"
       );
-
     });
   });
 
@@ -2770,7 +2885,7 @@ const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
   try {
     toggleButtonLoadingState(run_btn);
-    showApiLoadingFunction("open", 'api');
+    showApiLoadingFunction("open", "api");
     // const selectedYears = processSelectedYears();
     const selectedYears = getSelectedYearsFromLocalStorage();
     // const requiredYears = [2019, 2020, 2021, 2022, 2023, 2024];
@@ -2809,7 +2924,7 @@ run_btn.addEventListener("click", async () => {
   } finally {
     toggleButtonNormalState(run_btn);
   }
-  showApiLoadingFunction("close", 'api');
+  showApiLoadingFunction("close", "api");
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2822,7 +2937,7 @@ const getParsedData = (xmlString) => {
 
 const getRecordsForPeer = async (years, dataStr) => {
   // console.log({years});
-  
+
   if (years.length === 0) {
     // Base case: return the final string when the array is empty
     // if (dataStr === '<qdbapi>') console.error('No Peer records found for the selected years')
@@ -2938,7 +3053,6 @@ const getRecordsForPeer = async (years, dataStr) => {
 
     // Recursive call with updated years and dataStr
     return getRecordsForPeer(years.slice(1), dataStr);
-
   } catch (error) {
     console.error("Error fetching data:", error);
     // Handle the error as needed
@@ -2995,7 +3109,7 @@ const getRecordsForClient = async (years, dataStr) => {
     query: `
 	    {7.EX.${currentYear}} AND {533.EX.${ClientRid}}`,
     clist:
-      "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.420.421.422.423.424.425.426.427.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429.641.635.481.482.483.709.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.450.451.551.546.711.614.613.633.603.633.621.710.504.550.217.980.981.982.985.983.984.609.608.581.582.583.584.585.586.587.588.589.590.591.592.593.594.595.596",
+      "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.419.420.421.422.423.424.425.426.427.428.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429.641.635.481.482.483.709.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.450.451.551.546.711.614.613.633.603.633.621.710.504.550.217.980.981.982.985.983.984.609.608.581.582.583.584.585.586.587.588.589.590.591.592.593.594.595.596.971.972.973",
   };
 
   try {

@@ -1320,9 +1320,6 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
   const contributionsValue = getAverageOfArray(
     data["revenueContributions_Peer"][selectedYearsArray[0]]
   );
-  const releasedGiftsValue = getAverageOfArray(
-    data["releasedGifts_Peer"][selectedYearsArray[0]]
-  );
   const investmentsValue = getAverageOfArray(
     data["revenueInvestmentIncome_Peer"][selectedYearsArray[0]]
   );
@@ -1367,18 +1364,19 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
     const formattedValue = value.toLocaleString();
     return `$${formattedValue}`;
   };
+
   // console.log ({clientArray, peerArray, benchmarkArray});
+
   const chartData = [
     tuitionValue,
     auxiliaryValue,
     contributionsValue,
     investmentsValue,
-    releasedGiftsValue,
     otherValue,
   ];
 
   return {
-    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#6bc7c4", "#C57FD7"],
+    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#C57FD7"],
     series: chartData,
     chart: {
       toolbar: {
@@ -1399,7 +1397,7 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
     zoom: {
       enabled: false,
     },
-    labels: ["Tuition", "Auxiliary", "Contributions", "Investments", "Net Assets Released", "Other"],
+    labels: ["Tuition", "Auxiliary", "Contributions", "Investments", "Other"],
     title: {
       text: "Peer Average Sources of Income",
       align: "top",
@@ -3613,11 +3611,8 @@ const getMapChartOptions = (data) => {
 };
 
 const getNetEducationalExpensePerStudentChartOptions = (data) => {
-  console.log('getNetEducational()', {data});
-  
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-  let clientArray = []
   let peerAvgArray = [];
   let peer25Array = [];
   let peer50Array = [];
@@ -3648,16 +3643,16 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
 
     const peerAvg = data.ratio_Peer[year]
       ? getAverageOfArray(data.ratio_Peer[year])
-      : null;
+      : 0;
     peerAvgArray.push(Math.round(peerAvg));
 
-    const peer25 = peerAvg !== 0 ? get25thPercentileOfArray(peerAvgArray) : null;
+    const peer25 = peerAvg !== 0 ? get25thPercentileOfArray(peerAvgArray) : 0;
     peer25Array.push(Math.round(peer25));
 
-    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerAvgArray) : null;
+    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerAvgArray) : 0;
     peer50Array.push(Math.round(peer50));
 
-    const peer75 = peerAvg !== 0 ? get75thPercentileOfArray(peerAvgArray) : null;
+    const peer75 = peerAvg !== 0 ? get75thPercentileOfArray(peerAvgArray) : 0;
     peer75Array.push(Math.round(peer75));
 
     // console.log('getNetEducationalExpensePerStudentChartOptions',{
@@ -3706,14 +3701,6 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     );
     totalStudentsArray.push(Number(data.totalStudents_Client[year].value));
   });
-
-  console.log('getNetEducationalExpensePerStudentChartOptions',{
-    clientArray,
-    peerAvgArray,
-    peer25Array,
-    peer50Array,
-    peer75Array,
-  })
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -3890,10 +3877,6 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       enabled: true,
       enabledOnSeries: [0],
       offsetY: -20,
-      formatter: function (val, opts) {
-        const num = Math.round(val)
-        return `$${num.toLocaleString()}`;
-      },
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",

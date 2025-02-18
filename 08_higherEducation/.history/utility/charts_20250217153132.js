@@ -3617,7 +3617,6 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
   
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-  let clientArray = []
   let peerAvgArray = [];
   let peer25Array = [];
   let peer50Array = [];
@@ -3648,25 +3647,25 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
 
     const peerAvg = data.ratio_Peer[year]
       ? getAverageOfArray(data.ratio_Peer[year])
-      : null;
+      : 0;
     peerAvgArray.push(Math.round(peerAvg));
 
-    const peer25 = peerAvg !== 0 ? get25thPercentileOfArray(peerAvgArray) : null;
+    const peer25 = peerAvg !== 0 ? get25thPercentileOfArray(peerAvgArray) : 0;
     peer25Array.push(Math.round(peer25));
 
-    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerAvgArray) : null;
+    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerAvgArray) : 0;
     peer50Array.push(Math.round(peer50));
 
-    const peer75 = peerAvg !== 0 ? get75thPercentileOfArray(peerAvgArray) : null;
+    const peer75 = peerAvg !== 0 ? get75thPercentileOfArray(peerAvgArray) : 0;
     peer75Array.push(Math.round(peer75));
 
-    // console.log('getNetEducationalExpensePerStudentChartOptions',{
-    //   clientData,
-    //   peerAvg,
-    //   peer25,
-    //   peer50,
-    //   peer75,
-    // })
+    console.log('getNetEducationalExpensePerStudentChartOptions',{
+      clientData,
+      peerAvg,
+      peer25,
+      peer50,
+      peer75,
+    })
 
     const netEducationalExpense = Number(
       data.netEducationalExpenses_Client[year].value
@@ -3706,14 +3705,6 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     );
     totalStudentsArray.push(Number(data.totalStudents_Client[year].value));
   });
-
-  console.log('getNetEducationalExpensePerStudentChartOptions',{
-    clientArray,
-    peerAvgArray,
-    peer25Array,
-    peer50Array,
-    peer75Array,
-  })
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -3890,10 +3881,6 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       enabled: true,
       enabledOnSeries: [0],
       offsetY: -20,
-      formatter: function (val, opts) {
-        const num = Math.round(val)
-        return `$${num.toLocaleString()}`;
-      },
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",

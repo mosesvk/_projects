@@ -111,7 +111,7 @@ const insertDataToFSReport = (data, selectedYears) => {
 
 const insertDataToFfaReport = (data, selectedYears) => {
   // console.log('ffa', {data, selectedYears});
-
+  
   const currentYear = selectedYears[selectedYears.length - 1];
 
   const revenueTuitionAndFeesClient = Number(
@@ -260,6 +260,7 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
         ? styleNumber(data[clientName][selectedYears[0]].value, "dollar", 0)
         : "-";
 
+
     const classTrEven =
       "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
     const classTrOdd =
@@ -294,6 +295,7 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
   // console.log({ totalAssetsPeer, totalLiabilitiesPeer });
 
   selectedYears.forEach((year, index) => {
+
     const totalAssetsClientValue =
       Number(totalAssetsClient[year].value) > 0
         ? styleNumber(totalAssetsClient[year].value, "dollar", 0)
@@ -333,10 +335,11 @@ const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
     const totalLiabilitiesPeerValue = totalLiabilitiesPeer[year]
       ? styleNumber(getSumOfArray(totalLiabilitiesPeer[year]), "dollar", 0)
       : "-";
-    const ratioPeer = totalLiabilitiesPeer[year]
-      ? Number(getSumOfArray(totalAssetsPeer[year])) /
-        Number(getSumOfArray(totalLiabilitiesPeer[year]))
-      : 0;
+    const ratioPeer =
+      totalLiabilitiesPeer[year]
+        ? Number(getSumOfArray(totalAssetsPeer[year])) /
+          Number(getSumOfArray(totalLiabilitiesPeer[year]))
+        : 0;
     const totalAssetToLiabilitysPeerValue =
       ratioPeer > 0 ? styleNumber(ratioPeer, "num", 2) : "-";
 
@@ -825,19 +828,19 @@ function formatNegativeNumbers() {
   });
 
   // Select all <th> elements with an id attribute
-  const thElements = document.querySelectorAll("th[id]");
-  thElements.forEach((th) => {
-    let textContent = th.textContent.trim();
-    // Check if the text content contains numbers
-    if (/\d/.test(textContent)) {
-      if (textContent.includes("-")) {
-        // Apply classes
-        th.textContent = textContent;
-        th.classList.remove("text-gray-900", "dark:text-white");
-        th.classList.add("text-red-500", "dark:text-red-400");
-      }
+const thElements = document.querySelectorAll("th[id]");
+thElements.forEach((th) => {
+  let textContent = th.textContent.trim();
+  // Check if the text content contains numbers
+  if (/\d/.test(textContent)) {
+    if (textContent.includes("-")) {
+      // Apply classes
+      th.textContent = textContent;
+      th.classList.remove("text-gray-900", "dark:text-white");
+      th.classList.add("text-red-500", "dark:text-red-400");
     }
-  });
+  }
+});
 
   // Select all <p> elements with an id that ends with "_yearSelectData"
   const pElements = document.querySelectorAll("p[id$='_yearSelectData']");
