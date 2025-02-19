@@ -601,7 +601,7 @@ const processRevenueExpenseContentData = (
           field: "r026_cnet_tuition_and_fees",
         },
         {
-          key: "totalStudents_Client",
+          key: "totalStudents_Client ",
           field: "g025_ctotal_student_fte",
         },
       ];
@@ -1300,7 +1300,6 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
           field
         );
       });
-
       const nonOperatingActivities_array = [
         {
           key: "investmentIncome_Client",
@@ -1725,7 +1724,7 @@ const processFinancialAnalysisContentData = (
         "Yes"
       );
 
-      // revenueGifts
+      // revenueOther
       insertDataIntoObject(
         "peer",
         year,

@@ -4209,13 +4209,6 @@ const getTuitionDependencyChartOptions = (data) => {
       position: "top",
       fontSize: "20px",
     },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [2, 3],
-      style: {
-        fontSize: "18px",
-      },
-    },
     grid: {
       row: {
         colors: ["transparent"],
@@ -4462,13 +4455,6 @@ const getTuitionDiscountRateChartOptions = (data) => {
         title: {
           formatter: (seriesName) => `${seriesName}:`,
         },
-      },
-    },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [2, 3],
-      style: {
-        fontSize: "18px",
       },
     },
     title: {

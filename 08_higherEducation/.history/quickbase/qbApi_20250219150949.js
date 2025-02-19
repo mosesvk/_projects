@@ -1300,7 +1300,6 @@ const processFinancialStatementContentData = (recordsPeer, recordsClient) => {
           field
         );
       });
-
       const nonOperatingActivities_array = [
         {
           key: "investmentIncome_Client",
@@ -1725,7 +1724,7 @@ const processFinancialAnalysisContentData = (
         "Yes"
       );
 
-      // revenueGifts
+      // revenueOther
       insertDataIntoObject(
         "peer",
         year,

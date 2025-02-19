@@ -4209,13 +4209,6 @@ const getTuitionDependencyChartOptions = (data) => {
       position: "top",
       fontSize: "20px",
     },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [2, 3],
-      style: {
-        fontSize: "18px",
-      },
-    },
     grid: {
       row: {
         colors: ["transparent"],
@@ -4257,6 +4250,12 @@ const getTuitionDiscountRateChartOptions = (data) => {
   const ratioRowPeer = document.getElementById(
     "row_tuitionDiscountRatePeer_ratio"
   );
+  const scholarshipsAndFinancialAidRowPeer = document.getElementById(
+    "row_tuitionDiscountRatePeer_scholarshipsAndFinancialAid"
+  );
+  const tuitionAndFeesRowPeer = document.getElementById(
+    "row_tuitionDiscountRatePeer_tuitionAndFees"
+  );
 
   // Clear existing content before appending
   tableHeaderRowClient.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
@@ -4265,6 +4264,8 @@ const getTuitionDiscountRateChartOptions = (data) => {
   tuitionAndFeesRowClient.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Tuition and Fees</th>`;
   tableHeaderRowPeer.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Peer</th>`;
   ratioRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Tuition Discount Rate</th>`;
+  scholarshipsAndFinancialAidRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Scholarships and Financial Aid</th>`;
+  tuitionAndFeesRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Tuition and Fees</th>`;
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -4336,6 +4337,18 @@ const getTuitionDiscountRateChartOptions = (data) => {
     ratioRowPeer.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
         ${ratioPeer}%
+      </th>
+    `;
+    // Populate net tuition and fees row
+    scholarshipsAndFinancialAidRowPeer.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(scholarshipsAndFinancialAidPeer)}
+      </th>
+    `;
+    // Populate operating revenue row
+    tuitionAndFeesRowPeer.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formatCurrency(tuitionAndFeesPeer)}
       </th>
     `;
   });
@@ -4462,13 +4475,6 @@ const getTuitionDiscountRateChartOptions = (data) => {
         title: {
           formatter: (seriesName) => `${seriesName}:`,
         },
-      },
-    },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [2, 3],
-      style: {
-        fontSize: "18px",
       },
     },
     title: {
