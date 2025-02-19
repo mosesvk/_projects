@@ -75,7 +75,7 @@ toggleDetailsByIdentifier("cfiNetIncomeOperationsRatio");
 toggleDetailsByIdentifier("returnOnNetAssets");
 toggleDetailsByIdentifier("cfiViabilityRatio");
 
-// DOE 
+// DOE
 displayDoeComponent = () => {
   // console.log('displayCfiComponent()');
   const savedData = getStoredData("doeData");
@@ -88,13 +88,14 @@ displayDoeComponent = () => {
     null,
     "doeOverall_Client",
     "num",
-    1,
-    "cfiRatio",
-    3,
-    "CFI Ratio"
+    2,
+    "doeOverall",
+    1.5,
+    "US Department of Education Overall Composite Score"
   );
-
 };
+
+toggleDetailsByIdentifier("doeOverall");
 
 // Financial ANALYSIS
 const displayFinancialAnalysisContentComponent = async () => {
@@ -107,9 +108,7 @@ const displayFinancialAnalysisContentComponent = async () => {
   );
   FinancialPosition_chart.render();
   document.addEventListener("dark-mode", function () {
-    FinancialPosition_chart.updateOptions(
-      getFpaChartOptions(parseData)
-    );
+    FinancialPosition_chart.updateOptions(getFpaChartOptions(parseData));
   });
 
   assetToLiabilities_chart = new ApexCharts(
@@ -128,7 +127,9 @@ const displayFinancialAnalysisContentComponent = async () => {
   sourceOfIncomeClient_chart.render();
   // console.log({soiClientChart});
   document.addEventListener("dark-mode", function () {
-    sourceOfIncomeClient_chart.updateOptions(getSourcesOfIncomeClientChartOptions(parseData));
+    sourceOfIncomeClient_chart.updateOptions(
+      getSourcesOfIncomeClientChartOptions(parseData)
+    );
   });
 
   sourceOfIncomePeer_chart = new ApexCharts(
@@ -137,7 +138,9 @@ const displayFinancialAnalysisContentComponent = async () => {
   );
   sourceOfIncomePeer_chart.render();
   document.addEventListener("dark-mode", function () {
-    sourceOfIncomePeer_chart.updateOptions(getSourcesOfIncomePeerChartOptions(parseData));
+    sourceOfIncomePeer_chart.updateOptions(
+      getSourcesOfIncomePeerChartOptions(parseData)
+    );
   });
 
   ffa_chart = new ApexCharts(
@@ -165,8 +168,6 @@ toggleDetailsByIdentifier("currentRatio");
 // toggleDetailsByIdentifier("d");
 toggleDetailsByIdentifier("cashFlowsTrend");
 toggleDetailsByIdentifier("ffa");
-
-
 
 // Financial STATEMENT
 const displayFinancialStatementComponent = () => {
@@ -250,7 +251,8 @@ const displayFinancialStatementComponent = () => {
     "nonOperatingActivities_Client",
     window.chartColors.red,
     "dollar",
-    "Non-Operating Activities"
+    "Non Operating Activities",
+    "nonOperatingActivities_dataPoint"
   );
 
   createAndRenderFSChart(
@@ -327,7 +329,6 @@ const displayFinancialPositionComponent = () => {
 
   // console.log(parsedData);
 
-
   // getCurrentRatioChartOptions(parsedData["currentRatioData"])
 
   currentRatio_chart = new ApexCharts(
@@ -342,16 +343,16 @@ const displayFinancialPositionComponent = () => {
   });
 
   // getLiquidityChartOptions
-//   const liquidityChart = new ApexCharts(
-//     document.querySelector("#liquidity_chart"),
-//     getLiquidityChartOptions(parsedData["liquidityData"])
-//   );
-//   liquidityChart.render();
-//   document.addEventListener("dark-mode", function () {
-//     liquidityChart.updateOptions(
-//       getLiquidityChartOptions(parsedData["liquidityData"])
-//     );
-//   });
+  //   const liquidityChart = new ApexCharts(
+  //     document.querySelector("#liquidity_chart"),
+  //     getLiquidityChartOptions(parsedData["liquidityData"])
+  //   );
+  //   liquidityChart.render();
+  //   document.addEventListener("dark-mode", function () {
+  //     liquidityChart.updateOptions(
+  //       getLiquidityChartOptions(parsedData["liquidityData"])
+  //     );
+  //   });
 };
 
 // Revenue and Expense
@@ -454,7 +455,9 @@ const displayRevenueAndExpenseComponent = () => {
     );
   });
 
-  getAnualTraditionalNetTuitionPerStudentChartOptions(parsedData["annualTraditionalNetTuitionPerStudentData"]);
+  getAnualTraditionalNetTuitionPerStudentChartOptions(
+    parsedData["annualTraditionalNetTuitionPerStudentData"]
+  );
 
   getTuitionDependencyChartOptions(parsedData["tuitionDependencyData"]);
   const tuitionDependency_chart = new ApexCharts(
@@ -484,7 +487,6 @@ const displayRevenueAndExpenseComponent = () => {
 toggleDetailsByIdentifier("salariesBenefitsToTotalExpense");
 toggleDetailsByIdentifier("salariesBenefitsPerNetTuition");
 toggleDetailsByIdentifier("netEducationalExpensePerStudent");
-toggleDetailsByIdentifier("annualTraditionalNetTuitionPerStudent");
 toggleDetailsByIdentifier("tuitionDependency");
 toggleDetailsByIdentifier("tuitionDiscountRate");
 
@@ -521,7 +523,9 @@ const displayDebtAndEndowmentComponent = () => {
   });
 
   // debtServiceCoverageRatio
-  getDebtServiceCoverageChartOptions(parsedData["debtServiceCoverageRatioData"]);
+  getDebtServiceCoverageChartOptions(
+    parsedData["debtServiceCoverageRatioData"]
+  );
 
   // debtBurdenRatio
   const debtBurdenRatio_chart = new ApexCharts(
@@ -537,7 +541,6 @@ const displayDebtAndEndowmentComponent = () => {
 
   // endowmentOperatingBudget
   getEndowmentOperatingChartOptions(parsedData["endowmentOperatingBudgetData"]);
-
 
   // endowmentAssetsPerStudentMap
   // getEndowmentAssetsPerStudentMapOptions();

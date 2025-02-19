@@ -487,7 +487,6 @@ const displayRevenueAndExpenseComponent = () => {
 toggleDetailsByIdentifier("salariesBenefitsToTotalExpense");
 toggleDetailsByIdentifier("salariesBenefitsPerNetTuition");
 toggleDetailsByIdentifier("netEducationalExpensePerStudent");
-toggleDetailsByIdentifier("annualTraditionalNetTuitionPerStudent");
 toggleDetailsByIdentifier("tuitionDependency");
 toggleDetailsByIdentifier("tuitionDiscountRate");
 
