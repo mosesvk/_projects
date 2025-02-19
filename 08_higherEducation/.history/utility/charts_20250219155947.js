@@ -4232,7 +4232,7 @@ const getTuitionDependencyChartOptions = (data) => {
 };
 
 const getTuitionDiscountRateChartOptions = (data) => {
-  // console.log('tuitionDiscount', { data });
+  // console.log({ data });
 
   let clientRatioArray = [];
   let peerRatioArray = [];
@@ -4270,7 +4270,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
 
   selectedYearsArray.map((year) => {
     const ratioClient = Math.abs(
-      Math.round(Number(data.ratio_Client[year].value))
+      Math.round(Number(data.ratio_Client[year].value) * 100)
     );
     clientRatioArray.push(ratioClient);
 
