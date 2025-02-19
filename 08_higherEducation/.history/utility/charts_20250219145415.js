@@ -4374,7 +4374,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
     `;
   });
 
-  const allData = [...scholarshipArray, ...tuitionFeesArray];
+  const allData = [...scholarshipArray, ...operatingRevenueArray];
   let minY = Math.min(...allData);
   let maxY = Math.max(...allData);
 

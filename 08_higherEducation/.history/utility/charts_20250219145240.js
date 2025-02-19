@@ -4041,7 +4041,7 @@ const getTuitionDependencyChartOptions = (data) => {
     `;
   });
 
-  const allData = [...netTuitionAndFeesArray, ...operatingRevenueArray];
+  const allData = [...netTuitionAndFeesArray, ...tuitionFeesArray];
   let minY = Math.min(...allData);
   let maxY = Math.max(...allData);
 
@@ -4374,7 +4374,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
     `;
   });
 
-  const allData = [...scholarshipArray, ...tuitionFeesArray];
+  const allData = [...scholarshipArray, ...operatingRevenueArray];
   let minY = Math.min(...allData);
   let maxY = Math.max(...allData);
 
