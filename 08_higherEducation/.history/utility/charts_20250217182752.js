@@ -3613,7 +3613,7 @@ const getMapChartOptions = (data) => {
 };
 
 const getNetEducationalExpensePerStudentChartOptions = (data) => {
-  // console.log('getNetEducational()', {data});
+  console.log('getNetEducational()', {data});
   
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -3707,13 +3707,13 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     totalStudentsArray.push(Number(data.totalStudents_Client[year].value));
   });
 
-  // console.log('getNetEducationalExpensePerStudentChartOptions',{
-  //   clientArray,
-  //   peerAvgArray,
-  //   peer25Array,
-  //   peer50Array,
-  //   peer75Array,
-  // })
+  console.log('getNetEducationalExpensePerStudentChartOptions',{
+    clientArray,
+    peerAvgArray,
+    peer25Array,
+    peer50Array,
+    peer75Array,
+  })
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {

@@ -3613,7 +3613,7 @@ const getMapChartOptions = (data) => {
 };
 
 const getNetEducationalExpensePerStudentChartOptions = (data) => {
-  // console.log('getNetEducational()', {data});
+  console.log('getNetEducational()', {data});
   
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -3707,13 +3707,13 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     totalStudentsArray.push(Number(data.totalStudents_Client[year].value));
   });
 
-  // console.log('getNetEducationalExpensePerStudentChartOptions',{
-  //   clientArray,
-  //   peerAvgArray,
-  //   peer25Array,
-  //   peer50Array,
-  //   peer75Array,
-  // })
+  console.log('getNetEducationalExpensePerStudentChartOptions',{
+    clientArray,
+    peerAvgArray,
+    peer25Array,
+    peer50Array,
+    peer75Array,
+  })
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -3755,11 +3755,11 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
 
   return {
     colors: [
-      window.chartColors.cfiClient,
-      window.chartColors.cfi25,
-      window.chartColors.cfi50,
-      window.chartColors.cfiAvg,
-      window.chartColors.cfi75,
+      window.chartColors.green,
+      window.chartColors.red,
+      window.chartColors.orange,
+      window.chartColors.blue,
+      window.chartColors.purple,
     ],
     series: [
       {
