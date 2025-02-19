@@ -3957,7 +3957,7 @@ const getTuitionDependencyChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    const ratioClient = Number(data.ratio_Client[year].value).toFixed(2)
+    const ratioClient = (data.ratio_Client[year].value).toFixed(2)
     clientRatioArray.push(ratioClient);
 
     const netTuitionAndFeesClient = Math.round(
@@ -3971,7 +3971,7 @@ const getTuitionDependencyChartOptions = (data) => {
     operatingRevenueArray.push(operatingRevenuesSupportAndReleaseClient);
 
     const ratioPeer = data.ratio_Peer[year]
-      ? Number(getAverageOfArray(data.ratio_Peer[year])).toFixed(2)
+      ? getAverageOfArray(data.ratio_Peer[year])
       : 0;
     peerRatioArray.push(ratioPeer);
 
@@ -4260,7 +4260,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    const ratioClient = Number(
+    const ratioClient = Math.abs(
       data.ratio_Client[year].value
     ).toFixed(2);
     clientRatioArray.push(ratioClient);
@@ -4277,9 +4277,8 @@ const getTuitionDiscountRateChartOptions = (data) => {
     );
     tuitionFeesArray.push(tuitionAndFeesClient);
 
-
     const ratioPeer = data.ratio_Peer[year]
-      ? Number(getAverageOfArray(data.ratio_Peer[year])).toFixed(2)
+      ? getAverageOfArray(data.ratio_Peer[year])
       : null;
     peerRatioArray.push(ratioPeer);
 

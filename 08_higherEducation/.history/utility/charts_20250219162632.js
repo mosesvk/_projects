@@ -3957,7 +3957,7 @@ const getTuitionDependencyChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    const ratioClient = Number(data.ratio_Client[year].value).toFixed(2)
+    const ratioClient = data.ratio_Client[year].value
     clientRatioArray.push(ratioClient);
 
     const netTuitionAndFeesClient = Math.round(
@@ -3971,7 +3971,7 @@ const getTuitionDependencyChartOptions = (data) => {
     operatingRevenueArray.push(operatingRevenuesSupportAndReleaseClient);
 
     const ratioPeer = data.ratio_Peer[year]
-      ? Number(getAverageOfArray(data.ratio_Peer[year])).toFixed(2)
+      ? getAverageOfArray(data.ratio_Peer[year])
       : 0;
     peerRatioArray.push(ratioPeer);
 
@@ -4260,9 +4260,9 @@ const getTuitionDiscountRateChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    const ratioClient = Number(
-      data.ratio_Client[year].value
-    ).toFixed(2);
+    const ratioClient = Math.abs(
+      Math.round(Number(data.ratio_Client[year].value))
+    );
     clientRatioArray.push(ratioClient);
 
     const scholarshipsAndFinancialAidClient = Math.abs(
@@ -4277,11 +4277,23 @@ const getTuitionDiscountRateChartOptions = (data) => {
     );
     tuitionFeesArray.push(tuitionAndFeesClient);
 
-
     const ratioPeer = data.ratio_Peer[year]
-      ? Number(getAverageOfArray(data.ratio_Peer[year])).toFixed(2)
-      : null;
+      ? Math.abs(Math.round(getAverageOfArray(data.ratio_Peer[year], 100)))
+      : 0;
     peerRatioArray.push(ratioPeer);
+    const scholarshipsAndFinancialAidPeer = data
+      .revenueScholarshipsAndFinanancialAid_Peer[year]
+      ? Math.abs(
+          Math.round(
+            getAverageOfArray(
+              data.revenueScholarshipsAndFinanancialAid_Peer[year]
+            )
+          )
+        )
+      : 0;
+    const tuitionAndFeesPeer = data.revenueTuitionAndFees_Peer[year]
+      ? Math.round(getAverageOfArray(data.revenueTuitionAndFees_Peer[year]))
+      : 0;
 
     // console.log({ratioPeer, netTuitionAndFeesPeer, tuitionAndFeesPeer});
 

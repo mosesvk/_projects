@@ -3971,7 +3971,7 @@ const getTuitionDependencyChartOptions = (data) => {
     operatingRevenueArray.push(operatingRevenuesSupportAndReleaseClient);
 
     const ratioPeer = data.ratio_Peer[year]
-      ? Number(getAverageOfArray(data.ratio_Peer[year])).toFixed(2)
+      ? getAverageOfArray(data.ratio_Peer[year])
       : 0;
     peerRatioArray.push(ratioPeer);
 
@@ -4277,9 +4277,8 @@ const getTuitionDiscountRateChartOptions = (data) => {
     );
     tuitionFeesArray.push(tuitionAndFeesClient);
 
-
     const ratioPeer = data.ratio_Peer[year]
-      ? Number(getAverageOfArray(data.ratio_Peer[year])).toFixed(2)
+      ? getAverageOfArray(data.ratio_Peer[year])
       : null;
     peerRatioArray.push(ratioPeer);
 
