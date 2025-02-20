@@ -5789,7 +5789,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     clientArray.push(clientRatio)
     const formattedClientRatio = Number(clientRatio).toLocaleString();
 
-    console.log({clientRatio, formattedClientRatio})
+    // console.log({clientRatio, formattedClientRatio})
 
 
     clientRatioRow.innerHTML += `
@@ -5806,7 +5806,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
     endowmentRow.innerHTML += `
 <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-  $${formattedEndowmentSizeClient}$
+  $${formattedEndowmentSizeClient}
 </th>
 `;
 

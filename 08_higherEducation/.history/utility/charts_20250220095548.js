@@ -8,7 +8,12 @@ const getMainChartOptions = (
   title
 ) => {
   // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
+  // if (mainName == "doeOverall")
+  //   console.log({ dataClient, numType });
+
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  // console.log('MAIN', {selectedYearsArray})
 
   const formatNumber = (value) => value.toLocaleString();
 
@@ -70,7 +75,8 @@ const getMainChartOptions = (
 
   // console.log({mainName, benchmark});
 
-  // if (mainName == 'cfi_primaryReserveRatio') console.log({ series })\
+  // if (mainName == "cfi_netIncomeOperationsRatio")
+  //   console.log({ dataClient, clientArray, fixedNum });
 
   let yaxisAnnotation;
   let yaxisMax;
@@ -133,10 +139,17 @@ const getMainChartOptions = (
     previousData = clientArray;
 
     // console.log('doeOverall', data)
+    // console.log({ selectedYearsArray });
 
-    selectedYearsArray.sort((a, b) => b - a);
+    // Sort in ascending order
+    selectedYearsArray.sort((a, b) => a - b);
+    // console.log({ selectedYearsArray });
 
-    selectedYearsArray.forEach((year) => {
+    // Sort in descending order
+    const reverseYears = [...selectedYearsArray].sort((a, b) => b - a);
+    // console.log({ reverseYears });
+
+    reverseYears.forEach((year) => {
       const doeOverall_Client = Number(
         data.doeOverall_Client[year].value
       ).toFixed(2);
@@ -146,9 +159,7 @@ const getMainChartOptions = (
       const doePrimaryReserveStrengthFactor_Client = Number(
         data.doePrimaryReserveStrengthFactor_Client[year].value
       ).toFixed(2);
-      const doePrimaryReserveOverallWeight_Client = (
-        Number(doePrimaryReserveRatio_Client) / Number(doeOverall_Client)
-      ).toFixed(2);
+      const doePrimaryReserveOverallWeight_Client = 0.4;
       const doePrimaryReserveRatioWeighted_Client = Number(
         data.doePrimaryReserveRatioWeighted_Client[year].value
       ).toFixed(2);
@@ -158,9 +169,7 @@ const getMainChartOptions = (
       const doeEquityStrengthFactor_Client = Number(
         data.doeEquityStrengthFactor_Client[year].value
       ).toFixed(2);
-      const doeEquityOverallWeight_Client = (
-        Number(doeEquityRatio_Client) / Number(doeOverall_Client)
-      ).toFixed(2);
+      const doeEquityOverallWeight_Client = 0.4;
       const doeEquityRatioWeighted_Client = Number(
         data.doeEquityRatioWeighted_Client[year].value
       ).toFixed(2);
@@ -170,9 +179,7 @@ const getMainChartOptions = (
       const doeNetIncomeStrengthFactor_Client = Number(
         data.doeNetIncomeStrengthFactor_Client[year].value
       ).toFixed(2);
-      const doeNetIncomeOverallWeight_Client = (
-        Number(doeNetIncomeRatio_Client) / Number(doeOverall_Client)
-      ).toFixed(2);
+      const doeNetIncomeOverallWeight_Client = 0.2;
       const doeNetIncomeRatioWeighted_Client = Number(
         data.doeNetIncomeRatioWeighted_Client[year].value
       ).toFixed(2);
@@ -235,7 +242,10 @@ const getMainChartOptions = (
       // Assuming you have a container element to append the generated HTML
       document.getElementById("doeClientTable").innerHTML += tableHTML;
     });
+
+    // console.log(mainName, { clientArray });
   } else if (mainName == "cfi_primaryReserveRatio") {
+    // console.log({'primaryReserve': selectedYearsArray})
     cfi_primaryReserveRatio_annotation = [
       {
         id: "annotation",
@@ -431,7 +441,7 @@ const getMainChartOptions = (
         color: chartColors.labelColor,
         fontSize: "1.5rem",
       },
-      margin: 10,
+      margin: 50,
       offsetY: 0,
     },
     xaxis: {
@@ -479,6 +489,8 @@ const getMainChartOptions = (
       position: "bottom",
       fontSize: "20px",
       offsetY: 5,
+      showForNullSeries: false,
+      showForZeroSeries: false,
     },
     annotations: {
       yaxis: yaxisAnnotation,
@@ -490,6 +502,7 @@ const getMainChartOptions = (
       enabled: true,
       enabledOnSeries: [4],
       offsetY: -20,
+      formatter: (val) => formatDecimal(val, fixedNum),
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",
@@ -517,8 +530,6 @@ const getMainChartOptions = (
   };
 };
 
-// DOE charts
-
 const getFSchartOptions = (
   data,
   client,
@@ -528,8 +539,9 @@ const getFSchartOptions = (
   chartId,
   tableDataClass
 ) => {
-  // if (chartId == "#assets_chart")
+  // if (chartId == "#nonOperatingActivities_chart")
   //   console.log({ data, client, color, numType, title, chartId });
+  // console.log({ data, client, 'data[client]': data[client]});
 
   const clientString = client.replace("_Client", "");
 
@@ -571,15 +583,13 @@ const getFSchartOptions = (
   const formatNumber = (value) => value.toLocaleString();
 
   const yaxisLabelFormatter = (value) => {
-    if (numType === "dollar") {
-      return `$${formatNumber(value)}`;
-    } else if (numType === "percent") {
-      return `${formatNumber(value)}%`;
-    } else {
-      return formatNumber(value);
+    if (Math.abs(value) >= 1000000) {
+      return `$${Math.round(value / 1000000)}M`;
+    } else if (Math.abs(value) >= 1000) {
+      return `$${Math.round(value / 1000)}K`;
     }
+    return `$${formatNumber(value)}`;
   };
-
   const tooltipFormatter = (value) => {
     if (!value) return;
     const formattedValue = value.toLocaleString();
@@ -669,8 +679,9 @@ const getFSchartOptions = (
           color: chartColor,
         },
         labels: {
-          show: false,
+          formatter: yaxisLabelFormatter,
         },
+        tickAmount: 5,
         tooltip: {
           enabled: true,
         },
@@ -732,19 +743,7 @@ const getFSchartOptions = (
 };
 
 const getFpaChartOptions = (data) => {
-  // console.log(data);
-
-  const totalAssetsArray = Object.values(data["totalAssets_Client"])
-    .map((item) => item.value)
-    .reverse();
-  const totalLiabilitiesArray = Object.values(data["totalLiabilities_Client"])
-    .map((item) => item.value)
-    .reverse();
-  const netPositionArray = Object.values(data["netPosition_Client"])
-    .map((item) => item.value)
-    .reverse();
-
-  // console.log({ totalAssetsArray, totalLiabilitiesArray, netPositionArray });
+  // console.log('getFPA', {data});
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -760,6 +759,17 @@ const getFpaChartOptions = (data) => {
   netPositionRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Net Position</th>`;
 
   // Loop through selected years and populate the table
+
+  const totalAssetsArray = [];
+  const totalLiabilitiesArray = [];
+  const netPositionArray = [];
+
+  for (const year of selectedYearsArray) {
+    totalAssetsArray.push(data["totalAssets_Client"][year].value);
+    totalLiabilitiesArray.push(data["totalLiabilities_Client"][year].value);
+    netPositionArray.push(data["netPosition_Client"][year].value);
+  }
+
   selectedYearsArray.forEach((year, index) => {
     const assetValue = `${formatCurrency(totalAssetsArray[index])}`;
     const liabilitiesValue = `${formatCurrency(totalLiabilitiesArray[index])}`;
@@ -979,7 +989,7 @@ const getAtlChartOptions = (data) => {
       ? getAverageOfArray(totalAssetsPeer[year]) /
         getAverageOfArray(totalLiabilitiesPeer[year])
       : 0;
-    peerArray.push(peerValue.toFixed(2));
+    peerArray.push(peerValue == 0 ? null : peerValue.toFixed(2));
     benchmarkArray.push(1);
   });
 
@@ -1017,7 +1027,22 @@ const getAtlChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
-  // console.log ({clientArray, peerArray, benchmarkArray});
+  // console.log({ clientArray, peerArray, benchmarkArray });
+
+  // Combine all arrays into one
+  const combinedArray = [...benchmarkArray, ...peerArray, ...clientArray];
+
+  // Find the maximum value
+  const maxValue = Math.max(...combinedArray);
+
+  // Round up the maximum value to the nearest 5
+  const roundedMaxValue = Math.ceil(maxValue / 5) * 5;
+
+  // Find the minimum value
+  const minValue = Math.min(...combinedArray);
+
+  // Round down the minimum value to the nearest 5
+  const roundedMinValue = Math.floor(minValue / 5) * 5;
 
   return {
     colors: [
@@ -1068,7 +1093,8 @@ const getAtlChartOptions = (data) => {
       type: "line",
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
+      enabledOnSeries: [0, 1],
     },
     stroke: {
       width: 5,
@@ -1076,8 +1102,10 @@ const getAtlChartOptions = (data) => {
     },
     title: {
       text: "Asset to Liability Ratio",
-      align: "top",
+      position: "top",
+      align: "center",
       style: {
+        fontSize: "20px",
         color: chartColor,
       },
     },
@@ -1091,6 +1119,8 @@ const getAtlChartOptions = (data) => {
       },
     },
     yaxis: {
+      max: roundedMaxValue,
+      min: roundedMinValue,
       axisTicks: {
         show: true,
       },
@@ -1099,20 +1129,17 @@ const getAtlChartOptions = (data) => {
         color: chartColor,
       },
       labels: {
-        formatter: (value) => Math.round(value),
         style: {
           colors: chartColor,
           fontSize: "1.25rem",
         },
       },
-      tooltip: {
-        enabled: true,
-      },
+
       stepSize: 5,
+      tickAmount: 5,
     },
     tooltip: {
       y: {
-        formatter: tooltipFormatter,
         title: {
           formatter: (seriesName) => `${seriesName}:`,
         },
@@ -1155,6 +1182,9 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
     );
   const investmentsValue = Number(
     data["si_revenueInvestmentIncome_Client"][selectedYearsArray[0]].value
+  );
+  const netAssetsReleasedValue = Number(
+    data["si_netAssetsReleased_Client"][selectedYearsArray[0]].value
   );
   const otherValue =
     Number(data["si_revenueOther_Client"][selectedYearsArray[0]].value) +
@@ -1207,11 +1237,12 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
     auxiliaryValue,
     contributionsValue,
     investmentsValue,
+    netAssetsReleasedValue,
     otherValue,
   ];
 
   return {
-    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#C57FD7"],
+    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#6bc7c4", "#C57FD7"],
     series: chartData,
     chart: {
       toolbar: {
@@ -1231,7 +1262,14 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
       height: 450,
       type: "pie",
     },
-    labels: ["Tuition", "Auxiliary", "Contributions", "Investments", "Other"],
+    labels: [
+      "Tuition",
+      "Auxiliary",
+      "Contributions",
+      "Investments",
+      "Net Assets Released",
+      "Other",
+    ],
     title: {
       text: "Sources of Income",
       align: "top",
@@ -1277,6 +1315,8 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
 const getSourcesOfIncomePeerChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
+  selectedYearsArray.sort((a, b) => a - b);
+
   const tuitionValue = getAverageOfArray(
     data["revenueTuitionAndFees_Peer"][selectedYearsArray[0]]
   );
@@ -1285,6 +1325,9 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
   );
   const contributionsValue = getAverageOfArray(
     data["revenueContributions_Peer"][selectedYearsArray[0]]
+  );
+  const releasedGiftsValue = getAverageOfArray(
+    data["releasedGifts_Peer"][selectedYearsArray[0]]
   );
   const investmentsValue = getAverageOfArray(
     data["revenueInvestmentIncome_Peer"][selectedYearsArray[0]]
@@ -1330,19 +1373,18 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
     const formattedValue = value.toLocaleString();
     return `$${formattedValue}`;
   };
-
   // console.log ({clientArray, peerArray, benchmarkArray});
-
   const chartData = [
     tuitionValue,
     auxiliaryValue,
     contributionsValue,
     investmentsValue,
+    releasedGiftsValue,
     otherValue,
   ];
 
   return {
-    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#C57FD7"],
+    colors: ["#88C428", "#83CCF5", "#FBD75A", "#F95787", "#6bc7c4", "#C57FD7"],
     series: chartData,
     chart: {
       toolbar: {
@@ -1363,7 +1405,14 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
     zoom: {
       enabled: false,
     },
-    labels: ["Tuition", "Auxiliary", "Contributions", "Investments", "Other"],
+    labels: [
+      "Tuition",
+      "Auxiliary",
+      "Contributions",
+      "Investments",
+      "Net Assets Released",
+      "Other",
+    ],
     title: {
       text: "Peer Average Sources of Income",
       align: "top",
@@ -1505,8 +1554,13 @@ const getFfaChartOptions = (data) => {
   const formatNumber = (value) => value.toLocaleString();
 
   const yaxisLabelFormatter = (value) => {
-    // return `$${formatNumber(value)}`;
-    return `${value / 1000000}`;
+    if (value >= 1000000) {
+      return `$${value / 1000000}M`;
+    } else if (value >= 1000) {
+      return `$${value / 1000}K`;
+    } else {
+      return `$${value}`;
+    }
   };
 
   const tooltipFormatter = (value) => {
@@ -1580,6 +1634,35 @@ const getFfaChartOptions = (data) => {
       height: 500,
       width: "100%",
       type: "rangeBar",
+    },
+    dataLabels: {
+      enabled: true,
+      formatter: function (val, opts) {
+        return `$${val.toLocaleString()}`;
+      },
+      textAnchor: "end",
+      style: {
+        colors: [
+          "#00808D",
+          "#EDAB20",
+          "#00808D",
+          "#00808D",
+          "#00808D",
+          "#EDAB20",
+          "#EDAB20",
+          surplusDefecitColor,
+        ],
+      },
+      background: {
+        enabled: true,
+        foreColor: "#ffffff",
+        padding: 4,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: "#ffffff",
+      },
+      offsetX: 40,
+      offsetY: 20,
     },
     zoom: {
       enabled: false,
@@ -1679,10 +1762,10 @@ const getCashFlowTrendChartOptions = (data) => {
 
   // Clear existing table content before appending
   tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
-  operatingRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Operating</th>`;
-  investingRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Investing</th>`;
-  financingRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Financing</th>`;
-  totalRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</th>`;
+  operatingRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Operating</th>`;
+  investingRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Investing</th>`;
+  financingRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Financing</th>`;
+  totalRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total</th>`;
 
   // Loop through selected years and populate the table
   selectedYearsArray.forEach((year, index) => {
@@ -1921,7 +2004,7 @@ const getCurrentRatioChartOptions = (data) => {
     data["annuityObligations_Client"]
   ).map((item) => Number(item.value));
   const otherLiabilitiesArray = Object.values(
-    data["deferredRevenue_Client"]
+    data["otherLiabilities_Client"]
   ).map((item) => Number(item.value));
 
   const currentLiabilitiesArray = accountsPayableArray.map(
@@ -1945,7 +2028,7 @@ const getCurrentRatioChartOptions = (data) => {
       const values = data.currentRatio_Peer[key];
       const avg = getAverageOfArray(values);
 
-      return avg.toFixed(1);
+      return avg;
     }
   );
 
@@ -1954,7 +2037,7 @@ const getCurrentRatioChartOptions = (data) => {
       const values = data.currentAssets_Peer[key];
       const avg = getAverageOfArray(values);
 
-      return avg.toFixed(1);
+      return avg;
     }
   );
 
@@ -1964,7 +2047,7 @@ const getCurrentRatioChartOptions = (data) => {
     const values = data.currentLiabilities_Peer[key];
     const avg = getAverageOfArray(values);
 
-    return avg.toFixed(1);
+    return avg;
   });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
@@ -2039,9 +2122,9 @@ const getCurrentRatioChartOptions = (data) => {
   annuityObligationsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Annuity Obligations</th>`;
   otherLiabilitiesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Other Liabilities</th>`;
   tableHeaderPeer.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Peer</th>`;
-  peerAvgCurrentRatioRow.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Ratio</th>`;
-  peerAvgCurrentAssetsRow.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Assets</th>`;
-  peerAvgCurrentLiabilitiesRow.innerHTML = `<th scope="col" class="px-6 py-3 text-lg tracking-wide">Current Liabilities</th>`;
+  peerAvgCurrentRatioRow.innerHTML = `<th scope="col" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Current Ratio</th>`;
+  peerAvgCurrentAssetsRow.innerHTML = `<th scope="col" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Current Assets</th>`;
+  peerAvgCurrentLiabilitiesRow.innerHTML = `<th scope="col" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Current Liabilities</th>`;
 
   // Loop through and populate data for each selected year
   selectedYearsArray.forEach((year, index) => {
@@ -2062,105 +2145,105 @@ const getCurrentRatioChartOptions = (data) => {
 
     // Populate current assets row
     currentAssetsRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(currentAssetsArray[index])}
     </th>
   `;
 
     // Populate cash and cash equivalents row
     cashCashEquivalentsRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(cashAndCashEquivalentsArray[index])}
     </th>
   `;
 
     // Populate accounts receivable row
     accountsReceivableRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(accountsReceivableArray[index])}
     </th>
   `;
 
     // Populate student loans and other receivables row
     studentLoansRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(studentLoansAndOtherReceivablesArray[index])}
     </th>
   `;
 
     // Populate contributions receivable row
     contributionsReceivableRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(contributionsReceivableArray[index])}
     </th>
   `;
 
     // Populate prepaid expenses row
     prepaidExpensesRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(prepaidExpensesArray[index])}
     </th>
   `;
 
     // Populate current liabilities row
     currentLiabilitiesRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 font-extrabold text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(currentLiabilitiesArray[index])}
     </th>
   `;
 
     // Populate accounts payable row
     accountsPayableRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(accountsPayableArray[index])}
     </th>
   `;
 
     // Populate deferred revenue row
     deferredRevenueRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(deferredRevenueArray[index])}
     </th>
   `;
 
     // populate post retirement benefit obligations row
     postRetirementBenefitObligationsRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(postRetirementBenefitObligationsArray[index])}
     </th>
     `;
 
     // populate annuity obligations row
     annuityObligationsRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(annuityObligationsArray[index])}
     </th>
     `;
 
     // populate other liabilities row
     otherLiabilitiesRow.innerHTML += `
-    <th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(otherLiabilitiesArray[index])}
     </th>
     `;
 
     // Populate peer average client ratio row
     peerAvgCurrentRatioRow.innerHTML += `
-    <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${peerAvgCurrentRatioArray[index] || "-"}
     </th>
   `;
 
     // Populate peer average current assets row
     peerAvgCurrentAssetsRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
         ${formatCurrency(peerAvgCurrentAssetsArray[index])}
       </th>
     `;
 
     // Populate peer average current liabilities row
     peerAvgCurrentLiabilitiesRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+      <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
         ${formatCurrency(peerAvgCurrentLiabilitiesArray[index])}
       </th>
     `;
@@ -2265,6 +2348,13 @@ const getCurrentRatioChartOptions = (data) => {
         },
       },
     },
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [2, 3],
+      style: {
+        fontSize: "18px",
+      },
+    },
     title: {
       text: "Current Ratio",
       align: "center",
@@ -2284,7 +2374,6 @@ const getCurrentRatioChartOptions = (data) => {
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
-            colors: window.chartColors.green,
             fontSize: "1.25rem",
           },
         },
@@ -2637,9 +2726,9 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
   // console.log({ chartColor });
 
   const textArray = [
-    "Current Ratio Exceeds Target Goal: Reduce to below 70%",
-    "Current Ratio Far Exceeds Target Goal: Reduce to below 70%",
-    "Current Ratio is within Target Goal: below 70%",
+    "Exceeds Target Goal: Reduce to below 70%",
+    "Far Exceeds Target Goal: Reduce to below 70%",
+    "Within Target Goal: below 70%",
   ];
 
   const textLabel =
@@ -3537,8 +3626,11 @@ const getMapChartOptions = (data) => {
 };
 
 const getNetEducationalExpensePerStudentChartOptions = (data) => {
+  // console.log('getNetEducational()', {data});
+
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
+  let clientArray = [];
   let peerAvgArray = [];
   let peer25Array = [];
   let peer50Array = [];
@@ -3569,16 +3661,18 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
 
     const peerAvg = data.ratio_Peer[year]
       ? getAverageOfArray(data.ratio_Peer[year])
-      : 0;
+      : null;
     peerAvgArray.push(Math.round(peerAvg));
 
-    const peer25 = peerAvg !== 0 ? get25thPercentileOfArray(peerAvgArray) : 0;
+    const peer25 =
+      peerAvg !== 0 ? get25thPercentileOfArray(peerAvgArray) : null;
     peer25Array.push(Math.round(peer25));
 
-    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerAvgArray) : 0;
+    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerAvgArray) : null;
     peer50Array.push(Math.round(peer50));
 
-    const peer75 = peerAvg !== 0 ? get75thPercentileOfArray(peerAvgArray) : 0;
+    const peer75 =
+      peerAvg !== 0 ? get75thPercentileOfArray(peerAvgArray) : null;
     peer75Array.push(Math.round(peer75));
 
     // console.log('getNetEducationalExpensePerStudentChartOptions',{
@@ -3592,7 +3686,9 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     const netEducationalExpense = Number(
       data.netEducationalExpenses_Client[year].value
     );
-    const totalStudents = Number(data.totalStudents_Client[year].value);
+    const totalStudents = Number(
+      data.totalStudents_Client[year].value
+    ).toLocaleString();
 
     // Add year to table header
     tableHeaderRow.innerHTML += `
@@ -3627,6 +3723,14 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     );
     totalStudentsArray.push(Number(data.totalStudents_Client[year].value));
   });
+
+  // console.log('getNetEducationalExpensePerStudentChartOptions',{
+  //   clientArray,
+  //   peerAvgArray,
+  //   peer25Array,
+  //   peer50Array,
+  //   peer75Array,
+  // })
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -3668,11 +3772,11 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
 
   return {
     colors: [
-      window.chartColors.green,
-      window.chartColors.red,
-      window.chartColors.orange,
-      window.chartColors.blue,
-      window.chartColors.purple,
+      window.chartColors.cfiClient,
+      window.chartColors.cfi25,
+      window.chartColors.cfi50,
+      window.chartColors.cfiAvg,
+      window.chartColors.cfi75,
     ],
     series: [
       {
@@ -3803,6 +3907,10 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       enabled: true,
       enabledOnSeries: [0],
       offsetY: -20,
+      formatter: function (val, opts) {
+        const num = Math.round(val);
+        return `$${num.toLocaleString()}`;
+      },
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",
@@ -3854,12 +3962,6 @@ const getTuitionDependencyChartOptions = (data) => {
   const ratioRowPeer = document.getElementById(
     "row_tuitionDependencyPeer_ratio"
   );
-  const netTuitionAndFeesRowPeer = document.getElementById(
-    "row_tuitionDependencyPeer_netTuitionAndFees"
-  );
-  const operatingRevenueRowPeer = document.getElementById(
-    "row_tuitionDependencyPeer_operatingRevenue"
-  );
 
   // Clear existing content before appending
   tableHeaderRowClient.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
@@ -3868,14 +3970,11 @@ const getTuitionDependencyChartOptions = (data) => {
   operatingRevenueRowClient.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Operating Revenue</th>`;
   tableHeaderRowPeer.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Peer</th>`;
   ratioRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Tuition Dependency</th>`;
-  netTuitionAndFeesRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Net Tuition and Fees</th>`;
-  operatingRevenueRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Operating
-  Revenue</th>`;
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    const ratioClient = Math.round(Number(data.ratio_Client[year].value) * 100);
+    const ratioClient = Number(data.ratio_Client[year].value).toFixed(2);
     clientRatioArray.push(ratioClient);
 
     const netTuitionAndFeesClient = Math.round(
@@ -3889,18 +3988,9 @@ const getTuitionDependencyChartOptions = (data) => {
     operatingRevenueArray.push(operatingRevenuesSupportAndReleaseClient);
 
     const ratioPeer = data.ratio_Peer[year]
-      ? Math.round(getAverageOfArray(data.ratio_Peer[year], 100))
+      ? Number(getAverageOfArray(data.ratio_Peer[year])).toFixed(2)
       : 0;
     peerRatioArray.push(ratioPeer);
-    const netTuitionAndFeesPeer = data.netTuitionAndFees_Peer[year]
-      ? Math.round(getAverageOfArray(data.netTuitionAndFees_Peer[year]))
-      : 0;
-    const operatingRevenuesSupportAndReleasePeer = data
-      .operatingRevenuesSupportAndRelease_Peer[year]
-      ? Math.round(
-          getAverageOfArray(data.operatingRevenuesSupportAndRelease_Peer[year])
-        )
-      : 0;
 
     // console.log({ratioPeer, netTuitionAndFeesPeer, operatingRevenuesSupportAndReleasePeer});
 
@@ -3936,19 +4026,23 @@ const getTuitionDependencyChartOptions = (data) => {
         ${ratioPeer}%
       </th>
     `;
-    // Populate net tuition and fees row
-    netTuitionAndFeesRowPeer.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(netTuitionAndFeesPeer)}
-      </th>
-    `;
-    // Populate operating revenue row
-    operatingRevenueRowPeer.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(operatingRevenuesSupportAndReleasePeer)}
-      </th>
-    `;
   });
+
+  const allData = [...netTuitionAndFeesArray, ...operatingRevenueArray];
+  let minY = Math.min(...allData);
+  let maxY = Math.max(...allData);
+
+  if (maxY >= 1000000) {
+    // Round to the nearest 5 million
+    maxY = Math.ceil(maxY / 5000000) * 5000000;
+    minY = Math.floor(minY / 5000000) * 5000000;
+  } else if (maxY >= 100000) {
+    maxY = Math.ceil(maxY / 10000) * 10000;
+    minY = Math.floor(minY / 10000) * 10000;
+  } else if (maxY >= 1000) {
+    maxY = Math.ceil(maxY / 5000) * 5000;
+    minY = Math.floor(minY / 5000) * 5000;
+  }
 
   // console.log({
   //   clientRatioArray,
@@ -4084,9 +4178,13 @@ const getTuitionDependencyChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
+        min: minY,
+        max: maxY,
       },
       {
         show: false,
+        min: minY,
+        max: maxY,
       },
       {
         opposite: true,
@@ -4119,6 +4217,13 @@ const getTuitionDependencyChartOptions = (data) => {
       position: "top",
       fontSize: "20px",
     },
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [2, 3],
+      style: {
+        fontSize: "18px",
+      },
+    },
     grid: {
       row: {
         colors: ["transparent"],
@@ -4135,7 +4240,7 @@ const getTuitionDependencyChartOptions = (data) => {
 };
 
 const getTuitionDiscountRateChartOptions = (data) => {
-  // console.log({ data });
+  // console.log('tuitionDiscount', { data });
 
   let clientRatioArray = [];
   let peerRatioArray = [];
@@ -4160,12 +4265,6 @@ const getTuitionDiscountRateChartOptions = (data) => {
   const ratioRowPeer = document.getElementById(
     "row_tuitionDiscountRatePeer_ratio"
   );
-  const scholarshipsAndFinancialAidRowPeer = document.getElementById(
-    "row_tuitionDiscountRatePeer_scholarshipsAndFinancialAid"
-  );
-  const tuitionAndFeesRowPeer = document.getElementById(
-    "row_tuitionDiscountRatePeer_tuitionAndFees"
-  );
 
   // Clear existing content before appending
   tableHeaderRowClient.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
@@ -4174,15 +4273,11 @@ const getTuitionDiscountRateChartOptions = (data) => {
   tuitionAndFeesRowClient.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Tuition and Fees</th>`;
   tableHeaderRowPeer.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Peer</th>`;
   ratioRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Tuition Discount Rate</th>`;
-  scholarshipsAndFinancialAidRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Scholarships and Financial Aid</th>`;
-  tuitionAndFeesRowPeer.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Tuition and Fees</th>`;
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    const ratioClient = Math.abs(
-      Math.round(Number(data.ratio_Client[year].value) * 100)
-    );
+    const ratioClient = Number(data.ratio_Client[year].value).toFixed(2);
     clientRatioArray.push(ratioClient);
 
     const scholarshipsAndFinancialAidClient = Math.abs(
@@ -4198,22 +4293,9 @@ const getTuitionDiscountRateChartOptions = (data) => {
     tuitionFeesArray.push(tuitionAndFeesClient);
 
     const ratioPeer = data.ratio_Peer[year]
-      ? Math.abs(Math.round(getAverageOfArray(data.ratio_Peer[year], 100)))
-      : 0;
+      ? Number(getAverageOfArray(data.ratio_Peer[year])).toFixed(2)
+      : null;
     peerRatioArray.push(ratioPeer);
-    const scholarshipsAndFinancialAidPeer = data
-      .revenueScholarshipsAndFinanancialAid_Peer[year]
-      ? Math.abs(
-          Math.round(
-            getAverageOfArray(
-              data.revenueScholarshipsAndFinanancialAid_Peer[year]
-            )
-          )
-        )
-      : 0;
-    const tuitionAndFeesPeer = data.revenueTuitionAndFees_Peer[year]
-      ? Math.round(getAverageOfArray(data.revenueTuitionAndFees_Peer[year]))
-      : 0;
 
     // console.log({ratioPeer, netTuitionAndFeesPeer, tuitionAndFeesPeer});
 
@@ -4249,19 +4331,23 @@ const getTuitionDiscountRateChartOptions = (data) => {
         ${ratioPeer}%
       </th>
     `;
-    // Populate net tuition and fees row
-    scholarshipsAndFinancialAidRowPeer.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(scholarshipsAndFinancialAidPeer)}
-      </th>
-    `;
-    // Populate operating revenue row
-    tuitionAndFeesRowPeer.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(tuitionAndFeesPeer)}
-      </th>
-    `;
   });
+
+  const allData = [...scholarshipArray, ...tuitionFeesArray];
+  let minY = Math.min(...allData);
+  let maxY = Math.max(...allData);
+
+  if (maxY >= 1000000) {
+    // Round to the nearest 5 million
+    maxY = Math.ceil(maxY / 5000000) * 5000000;
+    minY = Math.floor(minY / 5000000) * 5000000;
+  } else if (maxY >= 100000) {
+    maxY = Math.ceil(maxY / 10000) * 10000;
+    minY = Math.floor(minY / 10000) * 10000;
+  } else if (maxY >= 1000) {
+    maxY = Math.ceil(maxY / 5000) * 5000;
+    minY = Math.floor(minY / 5000) * 5000;
+  }
 
   // console.log({
   //   clientRatioArray,
@@ -4371,6 +4457,13 @@ const getTuitionDiscountRateChartOptions = (data) => {
         },
       },
     },
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [2, 3],
+      style: {
+        fontSize: "18px",
+      },
+    },
     title: {
       text: "Tuition Discount Rate",
       align: "center",
@@ -4397,9 +4490,13 @@ const getTuitionDiscountRateChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
+        min: minY,
+        max: maxY,
       },
       {
         show: false,
+        min: minY,
+        max: maxY,
       },
       {
         opposite: true,
@@ -4429,8 +4526,12 @@ const getTuitionDiscountRateChartOptions = (data) => {
       },
     },
     legend: {
+      horizontalAlign: "center",
       position: "top",
       fontSize: "20px",
+    },
+    itemMargin: {
+      horizontal: 0,
     },
     grid: {
       row: {
@@ -4529,7 +4630,7 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
         subcaption: "",
         lowerLimit: "0",
         upperLimit: value + 5000,
-        numberSuffix: "$",
+        numberSuffix: "",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
         valueFontSize: "14",
@@ -4642,7 +4743,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
 
   const mostRecentYear = selectedYearsArray[selectedYearsArray.length - 1];
   selectedYearsArray.map((year) => {
-    const clientData = Number(data.ratio_Client[year].value * 100).toFixed(1);
+    const clientData = Number(data.ratio_Client[year].value).toFixed(1);
     const debtService = Math.round(Number(data.debtService_Client[year].value));
     const interest = Math.round(Number(data.interest_Client[year].value));
     const principalPayments = Math.round(
@@ -4658,7 +4759,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
     `;
     debtServiceCoverageRatioRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${clientData}%
+        ${clientData}
       </th>
     `;
     debtServiceRow.innerHTML += `
@@ -4818,7 +4919,7 @@ const getEndowmentOperatingChartOptions = (data) => {
   selectedYearsArray.sort((a, b) => b - a);
 
   selectedYearsArray.map((year) => {
-    const clientData = Number(data.ratio_Client[year].value * 100).toFixed(1);
+    const clientData = Number(data.ratio_Client[year].value).toFixed(1);
     const endowment = Number(data.endowment_Client[year].value);
     const annualOperatingBudget = Number(
       data.annualOperatingBudget_Client[year].value
@@ -4830,7 +4931,7 @@ const getEndowmentOperatingChartOptions = (data) => {
     `;
     clientRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${clientData}%
+        ${clientData}
       </th>
     `;
     endowmentRow.innerHTML += `
@@ -5636,7 +5737,7 @@ const getDebtBurdenRatioChartOptions = (data) => {
 // };
 
 const getEndowmentAssetsPerStudentChartOptions = (data) => {
-  // console.log({ data });
+  // console.log("endowmentAssets", { data });
 
   const tableHeaderClientRow = document.getElementById(
     "row_endowmentAssetsPerStudent_tableHeader"
@@ -5657,12 +5758,6 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   const peerRatioRow = document.getElementById(
     "row_endowmentAssetsPerStudentPeer_ratio"
   );
-  const peerEndowmentRow = document.getElementById(
-    "row_endowmentAssetsPerStudentPeer_endowment"
-  );
-  const peerTotalStudentFteRow = document.getElementById(
-    "row_endowmentAssetsPerStudentPeer_totalStudentFte"
-  );
 
   // Clear existing content bef ore appending
   tableHeaderClientRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
@@ -5671,8 +5766,6 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   totalStudentFteRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Total Student FTE</th>`;
   tableHeaderPeerRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl whitespace-nowrap dark:text-white">Peer</th>`;
   peerRatioRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment Assets per Student</th>`;
-  peerEndowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
-  peerTotalStudentFteRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Total Student FTE</th>`;
 
   const mostRecentYear = Math.max(...Object.keys(data["endowment_Client"]));
 
@@ -5687,64 +5780,67 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   const peer75Array = [];
 
   selectedYearsArray.map((year) => {
-    const clientRatio = Number(data.ratio_Client[year].value * 100).toFixed(1);
-
-    const endowmentSizeClient = Number(data.endowment_Client[year].value);
-    const totalStudentFteClient = Number(
-      data.totalStudentFte_Client[year].value
-    );
-
-    const peerRatio = data.ratio_Peer[year]
-      ? Number(getAverageOfArray(data.ratio_Peer[year]) * 100).toFixed(1)
-      : 0;
-    const endowmentSizePeer = data.endowment_Peer[year]
-      ? getSumOfArray(data.endowment_Peer[year])
-      : 0;
-    const totalStudentFtePeer = data.totalStudentFte_Peer[year]
-      ? getSumOfArray(data.totalStudentFte_Peer[year])
-      : 0;
-
     // Add year to table header
     tableHeaderClientRow.innerHTML += `
-      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-    `;
+<th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+`;
+
+    const clientRatio = Number(data.ratio_Client[year].value)
+    clientArray.push(clientRatio)
+    const formattedClientRatio = Number(clientRatio).toLocaleString();
+
+    // console.log({clientRatio, formattedClientRatio})
+
+
     clientRatioRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${clientRatio}%
-      </th>
-    `;
+<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+  ${formattedClientRatio}
+</th>
+`;
+
+    const endowmentSizeClient = Number(
+      data.endowment_Client[year].value
+    )
+    const formattedEndowmentSizeClient =
+      Number(endowmentSizeClient).toLocaleString();
+
     endowmentRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(endowmentSizeClient, true)}
-      </th>
-    `;
+<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+  $${formattedEndowmentSizeClient}
+</th>
+`;
+
+    const totalStudentFteClient = Number(
+      data.totalStudentFte_Client[year].value
+    ).toFixed(1);
+    const formattedTotalStudentFteClient = Number(
+      totalStudentFteClient
+    ).toLocaleString();
+
     totalStudentFteRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${totalStudentFteClient}
-      </th> 
-    `;
+<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+  ${formattedTotalStudentFteClient}
+</th> 
+`;
+
     tableHeaderPeerRow.innerHTML += `
-      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-    `;
+<th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+`;
+
+    const peerRatio = data.ratio_Peer[year]
+      ? Number(getAverageOfArray(data.ratio_Peer[year]))
+      : 0;
+    const formattedPeerRatio = Number(peerRatio).toLocaleString();
+
     peerRatioRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${peerRatio}%
-      </th> 
-    `;
-    peerEndowmentRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(endowmentSizePeer, true)}
-      </th>
-    `;
-    peerTotalStudentFteRow.innerHTML += `
-      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${totalStudentFtePeer}
-      </th> 
-    `;
+<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+  ${formattedPeerRatio}
+</th>
+`;
 
     // console.log({clientRatio, peerRatio});
 
-    const peerData = isNaN(peerRatio) ? peerRatio * 100 : 0;
+    const peerData = isNaN(peerRatio) ? null : peerRatio;
     peerAvgArray.push(peerData);
 
     const peer25 = get25thPercentileOfArray(peerAvgArray);
@@ -5755,12 +5851,17 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
     const peer75 = get75thPercentileOfArray(peerAvgArray);
     peer75Array.push(Math.round(peer75));
+
+
   });
 
-  // console.log({
-  //   clientArray,
-  //   peerArray,
-  // });
+  console.log({
+    clientArray,
+    peerAvgArray,
+    peer25Array, 
+    peer50Array,
+    peer75Array
+  });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -5780,18 +5881,20 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     ? "#e3f0fa"
     : "#000000";
 
-  const yaxisLabelFormatter = (val) => {
-    const num = parseInt(val, 10);
-    if (isNaN(num)) {
-      return "Invalid input";
+  const yaxisLabelFormatter = (value) => {
+    if (value >= 1000000) {
+      return `$${value / 1000000}M`;
+    } else if (value >= 1000) {
+      return `$${value / 1000}K`;
+    } else {
+      return `$${value}`;
     }
-    return `${val}%`;
   };
 
   const tooltipFormatter = (value) => {
     if (!value) return;
     const formattedValue = value.toLocaleString();
-    return `${formattedValue}%`;
+    return `${formattedValue}`;
   };
 
   return {
