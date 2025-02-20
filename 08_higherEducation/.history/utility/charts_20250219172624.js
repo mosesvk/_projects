@@ -5789,9 +5789,6 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     clientArray.push(clientRatio)
     const formattedClientRatio = Number(clientRatio).toLocaleString();
 
-    console.log({clientRatio, formattedClientRatio})
-
-
     clientRatioRow.innerHTML += `
 <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
   ${formattedClientRatio}
@@ -5851,8 +5848,6 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
     const peer75 = get75thPercentileOfArray(peerAvgArray);
     peer75Array.push(Math.round(peer75));
-
-
   });
 
   console.log({

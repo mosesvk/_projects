@@ -4551,10 +4551,10 @@ const getTuitionDiscountRateChartOptions = (data) => {
 // Linear Gauge Chart
 
 const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
-  // console.log({
-  //   name: "getAnualTraditionalNetTuitionPerStudentChartOptions()",
-  //   data,
-  // });
+  console.log({
+    name: "getAnualTraditionalNetTuitionPerStudentChartOptions()",
+    data,
+  });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -5786,11 +5786,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 `;
 
     const clientRatio = Number(data.ratio_Client[year].value)
-    clientArray.push(clientRatio)
     const formattedClientRatio = Number(clientRatio).toLocaleString();
-
-    console.log({clientRatio, formattedClientRatio})
-
 
     clientRatioRow.innerHTML += `
 <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
@@ -5840,7 +5836,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
     // console.log({clientRatio, peerRatio});
 
-    const peerData = isNaN(peerRatio) ? null : peerRatio;
+    const peerData = isNaN(peerRatio) ? peerRatio : 0;
     peerAvgArray.push(peerData);
 
     const peer25 = get25thPercentileOfArray(peerAvgArray);
@@ -5851,8 +5847,6 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
     const peer75 = get75thPercentileOfArray(peerAvgArray);
     peer75Array.push(Math.round(peer75));
-
-
   });
 
   console.log({
@@ -5881,20 +5875,18 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     ? "#e3f0fa"
     : "#000000";
 
-  const yaxisLabelFormatter = (value) => {
-    if (value >= 1000000) {
-      return `$${value / 1000000}M`;
-    } else if (value >= 1000) {
-      return `$${value / 1000}K`;
-    } else {
-      return `$${value}`;
+  const yaxisLabelFormatter = (val) => {
+    const num = parseInt(val, 10);
+    if (isNaN(num)) {
+      return "Invalid input";
     }
+    return `${val}%`;
   };
 
   const tooltipFormatter = (value) => {
     if (!value) return;
     const formattedValue = value.toLocaleString();
-    return `${formattedValue}`;
+    return `${formattedValue}%`;
   };
 
   return {
