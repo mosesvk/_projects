@@ -5,14 +5,25 @@ const printButton = document.getElementById("printCharts");
 
 async function svgToPngBase64(element, id) {
   try {
+    if (!element) {
+      throw new Error("Element is null or undefined");
+    }
+
     // Use html2canvas to render the element to a canvas
     const canvas = await html2canvas(element);
+
+    if (!canvas) {
+      throw new Error("Canvas rendering failed");
+    }
 
     // Get the base64 string from the canvas
     const base64String = canvas.toDataURL("image/png").split(",")[1];
 
+    if (!base64String) {
+      throw new Error("Failed to generate base64 string from canvas");
+    }
+
     console.log({ base64String });
-    
 
     // Store the result in map_dataUri
     map_dataUri.set(id, base64String);
@@ -20,6 +31,8 @@ async function svgToPngBase64(element, id) {
     return base64String; // Return the base64 string
   } catch (error) {
     console.error("Error rendering the SVG to PNG:", error);
+    console.error("Element:", element);
+    console.error("ID:", id);
     throw error; // In case of error, reject the promise
   }
 }
@@ -45,8 +58,12 @@ const getPngString = async (id, fieldId) => {
 
 const mainPrint = async () => {
   showApiLoadingFunction("open", "print");
-  document.getElementById("FinancialPositionContent").classList.remove("hidden");
-  document.getElementById("RevenueAndExpenseContent").classList.remove("hidden");
+  document
+    .getElementById("FinancialPositionContent")
+    .classList.remove("hidden");
+  document
+    .getElementById("RevenueAndExpenseContent")
+    .classList.remove("hidden");
   document.getElementById("DebtAndEndowmentContent").classList.remove("hidden");
 
   uploadMainFile += "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
@@ -63,7 +80,7 @@ const mainPrint = async () => {
   await getPngString("sourceOfIncomeClient_chart", 14);
   await getPngString("sourceOfIncomePeer_chart", 15);
   await getPngString("ffa_chart", 16);
-  await getPngString("cashFlowsTrend_chart",17);
+  await getPngString("cashFlowsTrend_chart", 17);
   await getPngString("currentRatio_chart", 18);
   await getPngString("salariesBenefitsToTotalExpense_chart", 19);
   await getPngString("salariesBenefitsPerNetTuition_chart", 20);
@@ -104,9 +121,7 @@ const mainPrint = async () => {
           .find("f")
           .text();
 
-        createToastSuccess(
-          "Printed successfully uploaded to Quickbase."
-        );
+        createToastSuccess("Printed successfully uploaded to Quickbase.");
       } else {
         console.log("Quickbase returned an error.");
         createToastWarning(
