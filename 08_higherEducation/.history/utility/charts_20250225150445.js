@@ -1162,7 +1162,7 @@ const getAtlChartOptions = (data) => {
 
 const getSourcesOfIncomeClientChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  selectedYearsArray.sort((a, b) => b - a)
+  selectedYearsArray.sort((a, b) => b - a);
 
   console.log({ data, selectedYearsArray });
 

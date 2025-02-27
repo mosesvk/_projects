@@ -1162,9 +1162,8 @@ const getAtlChartOptions = (data) => {
 
 const getSourcesOfIncomeClientChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  selectedYearsArray.sort((a, b) => b - a)
 
-  console.log({ data, selectedYearsArray });
+  // console.log({ data });
 
   const tuitionValue = Number(
     data["si_revenueTuitionAndFees_Client"][selectedYearsArray[0]].value
@@ -1957,7 +1956,7 @@ const getCashFlowTrendChartOptions = (data) => {
 };
 
 const getCurrentRatioChartOptions = (data) => {
-  // console.log('currentRatio', { chartData: data });
+  console.log({ 'currentRatio', chartData: data });
 
   const firstKey = Object.keys(data)[0];
   const yearsDataCurrentRatio_Array = Object.keys(data[firstKey]);
@@ -2030,7 +2029,7 @@ const getCurrentRatioChartOptions = (data) => {
       const values = data.currentRatio_Peer[key];
       const avg = getAverageOfArray(values);
 
-      return avg.toFixed(1);
+      return avg;
     }
   );
 
