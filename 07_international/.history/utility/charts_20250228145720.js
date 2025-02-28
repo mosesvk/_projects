@@ -4,7 +4,8 @@ const getMainChartOptions = (
   numType,
   fixedNum = 0,
   mainName, 
-  wa
+  wa,
+  parsedData
 ) => {
   // console.log('-----')
   // console.log('getMainChartOptions()')
@@ -63,7 +64,9 @@ const getMainChartOptions = (
         peerMid[index],
         peer25[index],
         peer75[index],
-        mainName
+        mainName,
+        parsedData,
+        wa
       );
     }
   });

@@ -4,7 +4,8 @@ const getMainChartOptions = (
   numType,
   fixedNum = 0,
   mainName, 
-  wa
+  wa,
+  parsedData
 ) => {
   // console.log('-----')
   // console.log('getMainChartOptions()')
@@ -31,7 +32,7 @@ const getMainChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
-  console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
+  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
 
   ({ clientArray, peerAvg, peerMid, peer25, peer75 } =
     getPeerAndClientChartDataArrays(
@@ -63,7 +64,9 @@ const getMainChartOptions = (
         peerMid[index],
         peer25[index],
         peer75[index],
-        mainName
+        mainName,
+        parsedData,
+        wa
       );
     }
   });
@@ -239,6 +242,9 @@ const getCashFlowChartOptions = (
   const investingData = data[`${investing}_Client`];
   const operatingData = data[`${operating}_Client`];
   const totalData = data[`${total}_Client`];
+
+  console.log({data, financeData, investingData, operatingData, totalData});
+  
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 

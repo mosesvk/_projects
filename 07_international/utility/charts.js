@@ -3,7 +3,7 @@ const getMainChartOptions = (
   dataClient,
   numType,
   fixedNum = 0,
-  mainName, 
+  mainName,
   wa,
   parsedData
 ) => {
@@ -50,7 +50,6 @@ const getMainChartOptions = (
     // console.log("tableModalRow", `${mainName}_modal_${year}`, tableModalRow);
 
     if (tableModalRow) {
-
       addClientDataToModalRow(
         tableModalRow,
         clientArray[index],
@@ -71,7 +70,7 @@ const getMainChartOptions = (
     }
   });
 
-  console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
+  // console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {
@@ -242,6 +241,8 @@ const getCashFlowChartOptions = (
   const investingData = data[`${investing}_Client`];
   const operatingData = data[`${operating}_Client`];
   const totalData = data[`${total}_Client`];
+
+  console.log({ data, financeData, investingData, operatingData, totalData });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
