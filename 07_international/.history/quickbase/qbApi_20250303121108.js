@@ -1,68 +1,62 @@
-const fetchClientData = async () => {
-  return fetch("./data/clientData.xml")
-    .then((response) => response.text())
-    .then((xmlString) => {
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
-      return xmlDoc.querySelectorAll("record");
-    })
-    .catch((error) => {
-      console.error("Error fetching XML file (fetchClientData):", error);
-      return []; // Return an empty array in case of error
-    });
+let apiCallClientDataForUniqueYears = {
+  act: "API_DoQuery",
+  query: `{29.EX.${ClientRid}}`,
+  clist: "29.191.31",
 };
 
-const fetchPeerData = async () => {
-  return fetch("./data/peerData.xml")
-    .then((response) => response.text())
-    .then((xmlString) => {
-      // console.log(xmlString);
-      const parser = new DOMParser();
-      // changes
-      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
-      return xmlDoc.querySelectorAll("record");
-    })
-    .catch((error) => {
-      console.error("Error fetching XML file (fetchPeerData):", error);
-      return []; // Return an empty array in case of error
-    });
-};
+$.get(clientData, apiCallClientDataForUniqueYears)
+  .then(async (xml) => {
+    recordsClient = await $("record", xml).toArray();
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const recordsClient = await fetchClientData();
+    firmName = recordsClient[0].children[2].innerHTML;
+    document.querySelector("#firmName").textContent = firmName;
 
-  document.getElementById("firmName").textContent =
-    recordsClient[0].querySelector("pe___client_legal_name").textContent;
+    // console.log(recordsClient[0].children)
 
-  findUniqueYears(recordsClient);
+    if (recordsClient.length > 0) {
+      findUniqueYears(recordsClient);
+      dataClient = recordsClient[0].children;
+    } else {
+      console.error(
+        "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
+      );
+    }
+  })
+  .catch((err) => console.error(err));
 
-  addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
-  addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
-
-  resetSelectedYears()
+window.addEventListener("beforeunload", () => {
   localStorage.clear();
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  getRecordsForUniqueClientPeerNames();
+
+  addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
+  addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
+});
+
 const findUniqueYears = (data) => {
-  data.forEach((item) => {
-    const yearElement = item.querySelector(
-      "fiscal_ye_date_formatted_year_text"
-    );
-    if (yearElement) {
-      const year = yearElement.textContent;
+  if (data) {
+    data.forEach((item) => {
+      const yearElement = item.querySelector("fiscal_ye_date_formatted_year");
+      if (yearElement) {
+        const year = yearElement.textContent;
 
-      // Check if the year is not already in yearsData_Array to ensure uniqueness
-      if (!yearsData_Array.includes(year)) {
-        yearsData_Array.push(year);
+        // Check if the year is not already in yearsData_Array to ensure uniqueness
+        if (!yearsData_Array.includes(year)) {
+          yearsData_Array.push(year);
+        }
       }
-    }
-  });
+    });
 
-  yearsData_Array.sort();
+    yearsData_Array.sort();
 
-  //nav-component
-  addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
+    //nav-component
+    addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
+  }
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 const insertDataIntoObject = (
   type,
@@ -77,7 +71,7 @@ const insertDataIntoObject = (
   // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
 
   const innerData =
-    child == 0
+    !child || child == 0
       ? 0
       : record.querySelector(child).innerHTML.split("").length > 0
       ? record.querySelector(child).innerHTML.trim()
@@ -119,9 +113,16 @@ const insertDataIntoObject = (
         object[dataKey]["total"].push(innerData);
       } else {
         if (!object[dataKey][name]) {
-          object[dataKey][name] = [];
+          object[dataKey][name] = {};
         }
-        object[dataKey][name].push(innerData);
+        if (!object[dataKey][name]["total"]) {
+          object[dataKey][name]["total"] = [];
+        }
+        if (!object[dataKey][name][year]) {
+          object[dataKey][name][year] = [];
+        }
+        object[dataKey][name]["total"].push(innerData);
+        object[dataKey][name][year].push(innerData);
       }
 
       object[dataKey][year].push(innerData);
@@ -351,7 +352,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         record,
         "_01__01ass___09_property__plant_and_equipment",
         "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
-        "daysExpensesInUnrestrictedNA_excludingPPE" 
+        "daysExpensesInUnrestrictedNA_excludingPPE"
       );
       insertDataIntoObject(
         "peer",
@@ -887,7 +888,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "cashFlowsTrendFinancing_Client",
         record,
-        "c02_10a_ratio_cash_flows_trend___financing"
+        "_03_01cashflow___03_financing"
       );
 
       // cashFlowsTrendInvesting
@@ -897,7 +898,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "cashFlowsTrendInvesting_Client",
         record,
-        "c02_10b_ratio_cash_flows_trend___investing"
+        "_03_01cashflow___02_investing"
       );
 
       // cashFlowsTrendOperating
@@ -907,7 +908,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "cashFlowsTrendOperating_Client",
         record,
-        "c02_10c_ratio_cash_flows_trend___operating"
+        "_03_01cashflow___01_operating"
       );
 
       // cashFlowsTrendTotal
@@ -987,7 +988,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "percentWithoutDR_Peer",
+        "percentWithoutDR_excludingPPE_Peer",
         record,
         "c03_02_ratio_percent_without_donor_restrictions_excluding_net_investment_in_ppe",
         "c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe"
@@ -1038,7 +1039,7 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "percentWithoutDR_excludingPPE_Peer",
+        "percentWithoutDR_Peer",
         record,
         "c03_03_ratio_percent_without_donor_restrictions",
         "c03_03_yes_no_percent_without_donor_restrictions"
@@ -1181,7 +1182,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_basedOnNumberOfDonors_Peer",
         record,
-        "__c04_02_ratio_contributions_trend_based_on_donor_count",
+        "c04_02_ratio_contributions_trend_based_on_donor_count",
         "c04_02_yes_no_contributions_trend_based_on_donor_count"
       );
 
@@ -1192,7 +1193,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsTrend_Peer",
         record,
-        "__c04_03_ratio_contributions_trend",
+        "c04_03_ratio_contributions_trend",
         "c04_03_yes_no_contributions_trend"
       );
 
@@ -1429,7 +1430,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "annualizedInvestmentReturn_Peer",
         record,
-        "__c04_10_ratio_annualized_investment_return",
+        "c04_10_ratio_annualized_investment_return",
         "c04_10_yes_no_annualized_investment_return"
       );
       insertDataIntoObject(
@@ -2080,17 +2081,16 @@ const processMiscData = (years, recordsPeer, recordsClient) => {
 // Helper functions
 
 const countUniqueClients = (records) => {
-  const uniqueClients = new Set();
+  uniqueClients = new Set();
   try {
     records.forEach((record) => {
-      const fiscalYear = record.querySelector("fiscal_ye_date_formatted_year_text").textContent;
-      if (selectedYears_Set.has(fiscalYear)) {
-        const mainRelatedClient = record.querySelector("pe___client_legal_name").textContent;
-        uniqueClients.add(mainRelatedClient);
-      }
+      const mainRelatedClient = record.querySelector(
+        "pe___client_legal_name"
+      ).textContent;
+      // console.log(mainRelatedClient);
+      uniqueClients.add(mainRelatedClient);
     });
 
-    // console.log(uniqueClients);
     const count = uniqueClients.size;
     // console.log(count);
     document.getElementById("uniqueClients").textContent = count;
@@ -2099,7 +2099,6 @@ const countUniqueClients = (records) => {
     document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
   }
 };
-
 
 const toggleButtonLoadingState = (btn) => {
   btn.innerHTML = `
@@ -2126,10 +2125,16 @@ const toggleGenerateReportButtonNormalState = (btn) => {
 `;
 };
 
+const togglePrintPresentationButtonNormalState = (btn) => {
+  btn.innerHTML = `
+  Print Presentation
+`;
+};
+
 const processSelectedYears = () => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  // console.log(selectedYears);
+  // console.log({ selectedYears });
 
   if (!selectedYears) {
     createToastWarning("Please select year(s) for data to appear");
@@ -2174,20 +2179,38 @@ const displayComponents = () => {
   displayReportComponent();
 };
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const recordClientHTMLArray = [];
+const recordPeerHTMLArray = [];
+
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
-  // destroyAllCharts()
-  // uploadMainFile = ''
-  // document.getElementById('print_modal_footer').classList.add('hidden');
-  const recordsClient = await fetchClientData();
-  const recordsPeer = await fetchPeerData();
-  countUniqueClients(recordsPeer);
-
+  // Reset client and peer records
+  recordClientHTMLArray.length = 0;
+  recordPeerHTMLArray.length = 0;
   try {
+    // uploadMainFile = "";
+    // document.getElementById("print_modal_footer").classList.add("hidden");
     toggleButtonLoadingState(run_btn);
-    // const selectedYears = processSelectedYears();
-    const selectedYears = [2022, 2021, 2020, 2019, 2018];
+    const selectedYears = processSelectedYears();
     saveSelectedYearsToLocalStorage(selectedYears);
+
+    const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
+    countUniqueClients(recordsPeer);
+
+    const recordsClient = await getRecordsForClient(selectedYears, "<qdbapi>");
+
+    const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
+      ""
+    )}</qdbapi>`;
+    console.log("CLIENT", qdbapiElementClient);
+
+    const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
+      ""
+    )}</qdbapi>`;
+    console.log("PEER", qdbapiElementPeer);
+
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();
   } catch (err) {
@@ -2196,3 +2219,188 @@ run_btn.addEventListener("click", async () => {
     toggleButtonNormalState(run_btn);
   }
 });
+
+const getParsedData = (xmlString) => {
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+  return xmlDoc.querySelectorAll("record");
+};
+
+const getRecordsForPeer = async (years, dataStr) => {
+  if (years.length === 0) {
+    // Base case: return the final string when the array is empty
+    const parsedData = getParsedData(dataStr + "</qdbapi>");
+    return parsedData;
+  }
+
+  const currentYear = years[0];
+
+  // console.log({ currentYear, sliderValue, sliderValue2, selectedTypes_Array})
+  // ({334.EX.${selectedTypes_Array[0]}} OR {334.EX.${selectedTypes_Array[1]}} OR {334.EX.${selectedTypes_Array[2]}}  OR {334.EX.${selectedTypes_Array[3]}}  OR {334.EX.${selectedTypes_Array[4]}}  OR {334.EX.${selectedTypes_Array[5]}}  OR {334.EX.${selectedTypes_Array[6]}})
+
+  function getRegionQuery(selectedRegions) {
+    const regionConditions = [...selectedRegions]
+      .map((region) => `{122.EX.${region}}`)
+      .join(" OR ");
+    return `(${regionConditions})`;
+  }
+
+  function getTypeQuery(selectedTypes) {
+    const typeConditions = [...selectedTypes]
+      .map((type) => `{334.EX.${type}}`)
+      .join(" OR ");
+    return `(${typeConditions})`;
+  }
+
+  function getClientQuery(selectedClients) {
+    const clientConditions = [...selectedClients]
+      .map((client) => `{59.EX.'${client}'}`)
+      .join(" OR ");
+    // console.log(`(${clientConditions})`);
+    return `(${clientConditions})`;
+  }
+
+  // getClientQuery(selectedClients_Array);
+  // AND
+  // (${getClientQuery(selectedClients_Array)})
+  // ({239.GTE.${sliderValue}} OR {239.LTE.${sliderValue2}} OR {239.EX.''}) AND
+  // (${getTypeQuery(selectedTypes_Array)}) AND
+  // (${getRegionQuery(selectedRegions_Array)})
+
+  const apiCallPeerData = {
+    act: "API_DoQuery",
+    query: `
+      (${getRegionQuery(selectedRegions_Array)}) AND
+      (${getTypeQuery(selectedTypes_Array)}) AND
+      {301.EX.${currentYear}}
+    `,
+    clist:
+      "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.228.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347.343.346.244.205.341.342.344.345.348.315.352.256.353.354.",
+  };
+
+  try {
+    const xml = await $.get(peerData, apiCallPeerData);
+
+    // console.log('PEER-XML', xml)
+
+    const recordsForPeer = $("record", xml).toArray();
+
+    // console.log("recordsForPeer", recordsForPeer);
+    // console.log("recordsForPeer", recordsForPeer[0].children);
+
+    // Update dataStr with the records from the current API call
+    // console.log(`year - ${currentYear}`)
+
+    recordsForPeer.forEach((record, index) => {
+      // if (index < 2) console.log(`Peer`, record);
+
+      // Create a new record element
+      const newRecord = document.createElement("record");
+
+      // Append each child element to the new record
+      Array.from(record.children).forEach((child) => {
+        newRecord.appendChild(child.cloneNode(true));
+      });
+
+      recordPeerHTMLArray.push(newRecord.outerHTML);
+
+      // Append the new record's outerHTML to dataStr
+      dataStr += newRecord.outerHTML;
+    });
+
+    // Recursive call with updated years and dataStr
+    return getRecordsForPeer(years.slice(1), dataStr);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    // Handle the error as needed
+    return dataStr; // Return the accumulated data so far even in case of an error
+  }
+};
+
+const getRecordsForUniqueClientPeerNames = async () => {
+  const apiCallPeerData = {
+    act: "API_DoQuery",
+    clist: "301.59",
+  };
+
+  try {
+    const xml = await $.get(peerData, apiCallPeerData);
+
+    const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
+
+    const uniquePeerClientNames = new Set();
+
+    recordsForPeerUniqueClientPeerNames.forEach((record, index) => {
+      const clientInformalName = record.querySelector(
+        "pe___client_informal_name"
+      ).textContent;
+      uniquePeerClientNames.add(clientInformalName);
+    });
+
+    // console.log({ uniquePeerClientNames });
+
+    const sortedUniquePeerClientNames = Array.from(
+      uniquePeerClientNames
+    ).sort();
+
+    sortedUniquePeerClientNames.forEach((item) =>
+      selectedClients_Array.add(item)
+    );
+
+    addUniqueClientsToOptionsSelectClientDropdown(sortedUniquePeerClientNames);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+const getRecordsForClient = async (years, dataStr) => {
+  if (years.length === 0) {
+    // Base case: return the final string when the array is empty
+    const parsedData = getParsedData(dataStr + "</qdbapi>");
+    return parsedData;
+  }
+
+  const currentYear = years[0];
+  const apiCallClientData = {
+    act: "API_DoQuery",
+    query: `
+	{192.EX.${currentYear}} AND
+	{29.EX.${ClientRid}}`,
+    clist:
+      "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221",
+  };
+
+  try {
+    const xml = await $.get(clientData, apiCallClientData);
+    const recordsForClient = $("record", xml).toArray();
+
+    //console.log('recordsForClient', recordsForClient[0].children)
+    //console.log($('record', xml))
+    //console.log(`year - ${currentYear}`)
+
+    // Update dataStr with the records from the current API call
+    recordsForClient.forEach((record, index) => {
+      // if (index < 4) console.log(`Client`, record);
+
+      // Create a new record element
+      const newRecord = document.createElement("record");
+
+      // Append each child element to the new record
+      Array.from(record.children).forEach((child) => {
+        newRecord.appendChild(child.cloneNode(true));
+      });
+
+      recordClientHTMLArray.push(newRecord.outerHTML);
+
+      // Append the new record's outerHTML to dataStr
+      dataStr += newRecord.outerHTML;
+    });
+
+    // Recursive call with updated years and dataStr
+    return getRecordsForClient(years.slice(1), dataStr);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    // Handle the error as needed
+    return dataStr; // Return the accumulated data so far even in case of an error
+  }
+};
