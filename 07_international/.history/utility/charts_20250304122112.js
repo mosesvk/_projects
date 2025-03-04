@@ -408,7 +408,6 @@ const getLineChartOptions = (
     xaxis: {
       type: category,
       categories: selectedYearsArray,
-      tickPlacement: "between",
       labels: {
         style: {
           colors: chartColors.labelColor,

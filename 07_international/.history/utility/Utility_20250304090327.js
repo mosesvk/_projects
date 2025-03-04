@@ -225,8 +225,7 @@ const createChartFromParsedData = (
   fixedNum,
   mainName,
   wa, 
-  benchmark, 
-  title
+  clientChartType
 ) => {
   if (parsedData) {
     // if (mainName == 'functionalExpensePercent_program') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
@@ -240,8 +239,7 @@ const createChartFromParsedData = (
       mainName,
       wa,
       parsedData, 
-      benchmark,
-      title
+      clientChartType
     );
   }
 };
@@ -255,8 +253,7 @@ const createChart = (
   mainName,
   wa,
   parsedData,
-  benchmark, 
-  title
+  clientChartType
 ) => {
   // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
@@ -274,8 +271,6 @@ const createChart = (
       mainName,
       wa,
       parsedData, 
-      benchmark, 
-      title
     );
   } else {
     chartOptions = getMainChartOptions(
@@ -286,8 +281,6 @@ const createChart = (
       mainName,
       wa,
       parsedData, 
-      benchmark, 
-      title
     );
   }
  

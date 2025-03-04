@@ -94,6 +94,7 @@ const getMainChartOptions = (
     }
   };
 
+
   return {
     colors: [
       window.chartColors.green,
@@ -105,7 +106,7 @@ const getMainChartOptions = (
     series: [
       {
         name: "Client",
-        type: "column",
+        type: 'column',
         data: clientArray,
         style: {
           colors: [chartColors.labelColor],
@@ -239,12 +240,10 @@ const getLineChartOptions = (
   mainName,
   wa,
   parsedData, 
-  benchmark, 
-  title
 ) => {
   // console.log('-----')
-  console.log("getLineChartOptions()");
-  console.log({ mainName });
+  console.log('getLineChartOptions()')
+  console.log({mainName})
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -330,40 +329,6 @@ const getLineChartOptions = (
     }
   };
 
-  let yaxisAnnotation;
-  let yaxisMax;
-  let previousData = [];
-
-  if (mainName == "assetsWithoutPpeToLiabilitiesWithoutDebt") {
-    assetsWithoutPpeToLiabilitiesWithoutDebt_annotation = [
-      {
-        id: "annotation",
-        y: benchmark,
-        borderColor: chartColors.labelColor,
-        strokeDashArray: 0,
-        width: "200%",
-        offsetX: -180,
-        label: {
-          text: "Benchmark",
-          borderColor: "transparent",
-          borderWidth: 0,
-          position: "top",
-          offsetX: -70,
-          style: {
-            background: "transparent",
-            color: chartColors.labelColor,
-            fontSize: "18px",
-            fontWeight: 600,
-          },
-        },
-      },
-    ];
-    yaxisAnnotation = assetsWithoutPpeToLiabilitiesWithoutDebt_annotation;
-    yaxisMax = Math.round(Math.max(...clientArray) + 2);
-    previousData = clientArray;
-  } else {
-    return;
-  }
 
   return {
     colors: [
@@ -374,8 +339,8 @@ const getLineChartOptions = (
     series: [
       {
         name: "Client",
-        type: "line",
-        data: clientArray,
+        type: 'line',
+        data: clientArray, 
         style: {
           colors: [chartColors.labelColor],
         },
@@ -386,7 +351,7 @@ const getLineChartOptions = (
         stacked: false,
         data: peerAvg,
         yaxis: 0,
-      },
+      }
     ],
     chart: {
       height: 350,
@@ -408,7 +373,6 @@ const getLineChartOptions = (
     xaxis: {
       type: category,
       categories: selectedYearsArray,
-      tickPlacement: "between",
       labels: {
         style: {
           colors: chartColors.labelColor,
@@ -468,14 +432,6 @@ const getLineChartOptions = (
         barHeight: "90%",
       },
     },
-    title: {
-      text: title,
-      align: "top",
-      style: {
-        color: chartColor,
-        fontSize: "20px",
-      },
-    },
     toolbar: {
       show: false,
       tools: {
@@ -486,9 +442,6 @@ const getLineChartOptions = (
         zoomout: false,
         pan: false,
       },
-    },
-    dataLabels: {
-      enabled: true,
     },
   };
 };

@@ -335,7 +335,7 @@ const getLineChartOptions = (
   let previousData = [];
 
   if (mainName == "assetsWithoutPpeToLiabilitiesWithoutDebt") {
-    assetsWithoutPpeToLiabilitiesWithoutDebt_annotation = [
+    cfiRatio_annotation = [
       {
         id: "annotation",
         y: benchmark,
@@ -358,7 +358,7 @@ const getLineChartOptions = (
         },
       },
     ];
-    yaxisAnnotation = assetsWithoutPpeToLiabilitiesWithoutDebt_annotation;
+    yaxisAnnotation = cfiRatio_annotation;
     yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
   } else {
@@ -408,7 +408,6 @@ const getLineChartOptions = (
     xaxis: {
       type: category,
       categories: selectedYearsArray,
-      tickPlacement: "between",
       labels: {
         style: {
           colors: chartColors.labelColor,
