@@ -26,6 +26,7 @@ let daysCashOnHand_chart;
 let daysExpensesInUnrestrictedNA_chart;
 let daysExpensesInUnrestrictedNA_excludingPPE_chart;
 let totalCoverageRatio_chart;
+let assetsWithoutPpeToLiabilitiesWithoutDebt_chart;
 let contributionsTrend_chart;
 let annualizedInvestmentReturn_chart;
 let functionalExpensePercent_program_chart;
@@ -271,13 +272,14 @@ const createChart = (
     "daysExpensesInUnrestrictedNA_chart",
     "daysExpensesInUnrestrictedNA_excludingPPE_chart",
     "totalCoverageRatio_chart",
+    "assetsWithoutPpeToLiabilitiesWithoutDebt_chart",
     "contributionsTrend_chart",
     "annualizedInvestmentReturn_chart",
     "functionalExpensePercent_program_chart",
     "functionalExpensePercent_administrative_chart",
     "functionalExpensePercent_fundraising_chart",
     "costOfContributions_chart",
-  ]; 
+  ];
 
   if (chartIds.includes(chartId)) {
     if (chartId === "daysCashOnHand_chart") {
@@ -317,6 +319,15 @@ const createChart = (
       totalCoverageRatio_chart.render();
       document.addEventListener("dark-mode", function () {
         totalCoverageRatio_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "assetsWithoutPpeToLiabilitiesWithoutDebt_chart") {
+      assetsWithoutPpeToLiabilitiesWithoutDebt_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      assetsWithoutPpeToLiabilitiesWithoutDebt_chart.render();
+      document.addEventListener("dark-mode", function () {
+        assetsWithoutPpeToLiabilitiesWithoutDebt_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "contributionsTrend_chart") {
       contributionsTrend_chart = new ApexCharts(
@@ -937,7 +948,7 @@ const addPeerDataToModalRow = (
   peer25Num,
   peer75Num,
   name,
-  parseData,
+  data,
   wa
 ) => {
   const propClass =
@@ -949,13 +960,11 @@ const addPeerDataToModalRow = (
   const dataPointMin = document.createElement("th");
   const dataPointMax = document.createElement("th");
 
-
-  let avg 
-  if (peer && wa) {
+  let avg;
+  if (wa) {
     avg = parseFloat(getWeightedAverageOfArray(data, name));
-    testAvg = getWeightedAverageOfArray(data, name);
-  } else if (peer && !wa) {
-    avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+    // } else if (peer && !wa) {
+    //   avg = parseFloat(getAverageOfArray(peer[dataArray], name));
   } else {
     avg = 0;
   }
@@ -977,7 +986,7 @@ const addPeerDataToModalRow = (
   dataPointMax.className = propClass;
   dataPointMax.scope = propScope;
   dataPointMax.textContent = peer75Num !== 0 ? peer75Num : "-";
-  tableModalRow.appendChild(dataPointMax);  
+  tableModalRow.appendChild(dataPointMax);
 };
 
 const getPeerAndClientChartDataArrays = (

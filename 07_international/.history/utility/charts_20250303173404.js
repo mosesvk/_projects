@@ -5,7 +5,8 @@ const getMainChartOptions = (
   fixedNum = 0,
   mainName,
   wa,
-  parsedData
+  parsedData, 
+  clientChartType
 ) => {
   // console.log('-----')
   // console.log('getMainChartOptions()')
@@ -94,6 +95,7 @@ const getMainChartOptions = (
     }
   };
 
+  if (!clientChartType) clientChartType = 'column'
 
   return {
     colors: [
@@ -106,7 +108,7 @@ const getMainChartOptions = (
     series: [
       {
         name: "Client",
-        type: 'column',
+        type: clientChartType,
         data: clientArray,
         style: {
           colors: [chartColors.labelColor],
@@ -240,6 +242,7 @@ const getLineChartOptions = (
   mainName,
   wa,
   parsedData, 
+  clientChartType
 ) => {
   // console.log('-----')
   // console.log('getMainChartOptions()')
@@ -353,7 +356,25 @@ const getLineChartOptions = (
         stacked: false,
         data: peerAvg,
         yaxis: 0,
-      }
+      },
+      {
+        name: "25%",
+        type: "line",
+        data: peer25,
+        visible: false,
+      },
+      {
+        name: "50%",
+        type: "line",
+        data: peerMid,
+        visible: false,
+      },
+      {
+        name: "75%",
+        type: "line",
+        data: peer75,
+        visible: false,
+      },
     ],
     chart: {
       height: 350,

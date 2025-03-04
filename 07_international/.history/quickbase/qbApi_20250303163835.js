@@ -724,55 +724,15 @@ const processCashData = (years, recordsPeer, recordsClient) => {
       );
 
       // assetsWithoutPpeToLiabilitiesWithoutDebt
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "assetsWithoutPpeToLiabilitiesWithoutDebt_Peer",
-        record,
-        "c02_09a_ratio_coverage_ratio_wo_ppe_and_debt",
-        "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "totalAssets",
-        record,
-        "_01__01ass___10_total_assets",
-        "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
-        "assetsWithoutPpeToLiabilitiesWithoutDebt"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "propertyPlantAndEquipment",
-        record,
-        "_01__01ass___09_property__plant_and_equipment",
-        "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
-        "assetsWithoutPpeToLiabilitiesWithoutDebt"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "TotalLiabilities",
-        record,
-        "_01__02liab___05_total_liabilities",
-        "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
-        "assetsWithoutPpeToLiabilitiesWithoutDebt"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "notesPayable",
-        record,
-        "_01__02liab___02_notes_payable",
-        "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
-        "assetsWithoutPpeToLiabilitiesWithoutDebt"
-      );
+      // insertDataIntoObject(
+      //   "peer",
+      //   year,
+      //   object,
+      //   "assetsWithoutPpeToLiabilitiesWithoutDebt_Peer",
+      //   record,
+      //   "c02_09_ratio_total_coverage_ratio",
+      //   "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt"
+      // );
 
       // cashFlowsTrendFinancing
       insertDataIntoObject(
@@ -930,16 +890,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalCoverageRatio_Client",
         record,
         "c02_09_ratio_total_coverage_ratio"
-      );
-
-      // assetsWithoutPpeToLiabilitiesWithoutDebt
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "assetsWithoutPpeToLiabilitiesWithoutDebt_Client",
-        record,
-        "c02_09a_ratio_coverage_ratio_wo_ppe_and_debt"
       );
 
       // cashFlowsTrendFinancing
@@ -2265,12 +2215,12 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
     )}</qdbapi>`;
-    // console.log("CLIENT", qdbapiElementClient);
+    console.log("CLIENT", qdbapiElementClient);
 
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
     )}</qdbapi>`;
-    // console.log("PEER", qdbapiElementPeer);
+    console.log("PEER", qdbapiElementPeer);
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();

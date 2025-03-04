@@ -5,241 +5,8 @@ const getMainChartOptions = (
   fixedNum = 0,
   mainName,
   wa,
-  parsedData
-) => {
-  // console.log('-----')
-  // console.log('getMainChartOptions()')
-
-  const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#ebedf0",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#6B7280",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
-
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#3a464f";
-
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
-
-  const formatNumber = (value) => value.toLocaleString();
-
-  // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
-
-  ({ clientArray, peerAvg, peerMid, peer25, peer75 } =
-    getPeerAndClientChartDataArrays(
-      selectedYearsArray,
-      dataPeer,
-      dataClient,
-      fixedNum,
-      mainName,
-      numType,
-      wa
-    ));
-
-  selectedYearsArray.forEach((year, index) => {
-    const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
-    // console.log("tableModalRow", `${mainName}_modal_${year}`, tableModalRow);
-
-    if (tableModalRow) {
-      addClientDataToModalRow(
-        tableModalRow,
-        clientArray[index],
-        numType,
-        fixedNum,
-        mainName
-      );
-      addPeerDataToModalRow(
-        tableModalRow,
-        peerAvg[index],
-        peerMid[index],
-        peer25[index],
-        peer75[index],
-        mainName,
-        parsedData,
-        wa
-      );
-    }
-  });
-
-  // console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75 });
-
-  const yaxisLabelFormatter = (value) => {
-    if (numType === "dollar") {
-      return `$${formatNumber(value)}`;
-    } else if (numType === "percent") {
-      return `${formatNumber(value)}%`;
-    } else {
-      return formatNumber(value);
-    }
-  };
-
-  const tooltipFormatter = (value) => {
-    if (!value) return;
-    const formattedValue = value.toLocaleString();
-    if (numType === "dollar") {
-      return `$${formattedValue}`;
-    } else if (numType === "percent") {
-      return `${formattedValue}%`;
-    } else {
-      return formattedValue;
-    }
-  };
-
-
-  return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.blue,
-      window.chartColors.red,
-      window.chartColors.orange,
-      window.chartColors.grey,
-    ],
-    series: [
-      {
-        name: "Client",
-        type: 'column',
-        data: clientArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
-      },
-      {
-        name: "Avg",
-        type: "line",
-        stacked: false,
-        data: peerAvg,
-        yaxis: 0,
-      },
-      {
-        name: "25%",
-        type: "line",
-        data: peer25,
-        visible: false,
-      },
-      {
-        name: "50%",
-        type: "line",
-        data: peerMid,
-        visible: false,
-      },
-      {
-        name: "75%",
-        type: "line",
-        data: peer75,
-        visible: false,
-      },
-    ],
-    chart: {
-      height: 350,
-      type: "line",
-      stacked: false,
-      toolbar: {
-        show: false, // Hide the toolbar
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      width: [2, 6, 4, 4, 4],
-    },
-    title: {
-      text: "",
-      align: "left",
-      offsetX: 110,
-    },
-    xaxis: {
-      categories: selectedYearsArray,
-      labels: {
-        style: {
-          colors: chartColors.labelColor,
-          fontSize: "1rem",
-        },
-      },
-    },
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        },
-        tooltip: {
-          enabled: true,
-        },
-      },
-    ],
-    tooltip: {
-      fixed: {
-        enabled: true,
-        position: "topLeft",
-        offsetY: 30,
-        offsetX: 60,
-      },
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    legend: {
-      horizontalAlign: "center",
-      offsetX: 40,
-      fontSize: "20px",
-    },
-    grid: {
-      row: {
-        colors: ["transparent"],
-        opacity: 0.5,
-        thickness: 4,
-      },
-    },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
-      },
-    },
-    toolbar: {
-      show: false,
-      tools: {
-        download: true,
-        selection: false,
-        zoom: false,
-        zoomin: false,
-        zoomout: false,
-        pan: false,
-      },
-    },
-  };
-};
-
-const getLineChartOptions = (
-  dataPeer,
-  dataClient,
-  numType,
-  fixedNum = 0,
-  mainName,
-  wa,
   parsedData, 
+  clientChartType
 ) => {
   // console.log('-----')
   // console.log('getMainChartOptions()')
@@ -353,7 +120,25 @@ const getLineChartOptions = (
         stacked: false,
         data: peerAvg,
         yaxis: 0,
-      }
+      },
+      {
+        name: "25%",
+        type: "line",
+        data: peer25,
+        visible: false,
+      },
+      {
+        name: "50%",
+        type: "line",
+        data: peerMid,
+        visible: false,
+      },
+      {
+        name: "75%",
+        type: "line",
+        data: peer75,
+        visible: false,
+      },
     ],
     chart: {
       height: 350,

@@ -93,9 +93,7 @@ displayCashComponent = (data) => {
     "assetsWithoutPpeToLiabilitiesWithoutDebt_Client",
     "number",
     0,
-    "assetsWithoutPpeToLiabilitiesWithoutDebt", 
-    false, 
-    'line'
+    "assetsWithoutPpeToLiabilitiesWithoutDebt"
   );
 };
 

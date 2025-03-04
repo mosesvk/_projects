@@ -353,7 +353,25 @@ const getLineChartOptions = (
         stacked: false,
         data: peerAvg,
         yaxis: 0,
-      }
+      },
+      {
+        name: "25%",
+        type: "line",
+        data: peer25,
+        visible: false,
+      },
+      {
+        name: "50%",
+        type: "line",
+        data: peerMid,
+        visible: false,
+      },
+      {
+        name: "75%",
+        type: "line",
+        data: peer75,
+        visible: false,
+      },
     ],
     chart: {
       height: 350,

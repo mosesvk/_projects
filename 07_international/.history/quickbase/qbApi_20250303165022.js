@@ -932,16 +932,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "c02_09_ratio_total_coverage_ratio"
       );
 
-      // assetsWithoutPpeToLiabilitiesWithoutDebt
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "assetsWithoutPpeToLiabilitiesWithoutDebt_Client",
-        record,
-        "c02_09a_ratio_coverage_ratio_wo_ppe_and_debt"
-      );
-
       // cashFlowsTrendFinancing
       insertDataIntoObject(
         "client",
@@ -2265,12 +2255,12 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
     )}</qdbapi>`;
-    // console.log("CLIENT", qdbapiElementClient);
+    console.log("CLIENT", qdbapiElementClient);
 
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
     )}</qdbapi>`;
-    // console.log("PEER", qdbapiElementPeer);
+    console.log("PEER", qdbapiElementPeer);
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();

@@ -26,6 +26,7 @@ let daysCashOnHand_chart;
 let daysExpensesInUnrestrictedNA_chart;
 let daysExpensesInUnrestrictedNA_excludingPPE_chart;
 let totalCoverageRatio_chart;
+let assetsWithoutPpeToLiabilitiesWithoutDebt_chart;
 let contributionsTrend_chart;
 let annualizedInvestmentReturn_chart;
 let functionalExpensePercent_program_chart;
@@ -223,7 +224,8 @@ const createChartFromParsedData = (
   type,
   fixedNum,
   mainName,
-  wa
+  wa, 
+  clientChartType
 ) => {
   if (parsedData) {
     // if (mainName == 'functionalExpensePercent_program') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
@@ -236,7 +238,8 @@ const createChartFromParsedData = (
       fixedNum,
       mainName,
       wa,
-      parsedData
+      parsedData, 
+      clientChartType
     );
   }
 };
@@ -249,7 +252,8 @@ const createChart = (
   fixedNum,
   mainName,
   wa,
-  parsedData
+  parsedData,
+  clientChartType
 ) => {
   // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
@@ -263,7 +267,8 @@ const createChart = (
     fixedNum,
     mainName,
     wa,
-    parsedData
+    parsedData, 
+    clientChartType
   );
 
   const chartIds = [
@@ -271,13 +276,14 @@ const createChart = (
     "daysExpensesInUnrestrictedNA_chart",
     "daysExpensesInUnrestrictedNA_excludingPPE_chart",
     "totalCoverageRatio_chart",
+    "assetsWithoutPpeToLiabilitiesWithoutDebt_chart",
     "contributionsTrend_chart",
     "annualizedInvestmentReturn_chart",
     "functionalExpensePercent_program_chart",
     "functionalExpensePercent_administrative_chart",
     "functionalExpensePercent_fundraising_chart",
     "costOfContributions_chart",
-  ]; 
+  ];
 
   if (chartIds.includes(chartId)) {
     if (chartId === "daysCashOnHand_chart") {
@@ -317,6 +323,15 @@ const createChart = (
       totalCoverageRatio_chart.render();
       document.addEventListener("dark-mode", function () {
         totalCoverageRatio_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "assetsWithoutPpeToLiabilitiesWithoutDebt_chart") {
+      assetsWithoutPpeToLiabilitiesWithoutDebt_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      assetsWithoutPpeToLiabilitiesWithoutDebt_chart.render();
+      document.addEventListener("dark-mode", function () {
+        assetsWithoutPpeToLiabilitiesWithoutDebt_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "contributionsTrend_chart") {
       contributionsTrend_chart = new ApexCharts(
@@ -936,7 +951,9 @@ const addPeerDataToModalRow = (
   peerMidNum,
   peer25Num,
   peer75Num,
-  mainName
+  name,
+  data,
+  wa
 ) => {
   const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
@@ -947,6 +964,14 @@ const addPeerDataToModalRow = (
   const dataPointMin = document.createElement("th");
   const dataPointMax = document.createElement("th");
 
+  let avg;
+  if (wa) {
+    avg = parseFloat(getWeightedAverageOfArray(data, name));
+    // } else if (peer && !wa) {
+    //   avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+  } else {
+    avg = 0;
+  }
   dataPointAvg.className = propClass;
   dataPointAvg.scope = propScope;
   dataPointAvg.textContent = peerAvgNum !== 0 ? peerAvgNum : "-";
@@ -965,7 +990,7 @@ const addPeerDataToModalRow = (
   dataPointMax.className = propClass;
   dataPointMax.scope = propScope;
   dataPointMax.textContent = peer75Num !== 0 ? peer75Num : "-";
-  tableModalRow.appendChild(dataPointMax);  
+  tableModalRow.appendChild(dataPointMax);
 };
 
 const getPeerAndClientChartDataArrays = (
