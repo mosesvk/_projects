@@ -330,6 +330,17 @@ const getLineChartOptions = (
     }
   };
 
+  const dataLabelFormatter = (value) => {
+    console.log(value)
+    if (!value) return 
+    const formattedValue = value.toLocaleString();
+    if (numType == 'dollar') {
+      return `$${formattedValue}`
+    } else {
+      return `${Number(value).toFixed(2)}`
+    }
+  }
+
   // let yaxisAnnotation;
   // let yaxisMax;
   // let previousData = [];
@@ -363,19 +374,6 @@ const getLineChartOptions = (
   //   previousData = clientArray;
   // } 
 
-  const dataLabelFormatter = (value) => {
-    // 2. Handle zero values properly
-    if (value === 0 || value) {
-      const formattedValue = value.toLocaleString();
-      if (numType === 'dollar') {
-        return `$${formattedValue}`;
-      } else {
-        return `${Number(value).toFixed(2)}`;
-      }
-    }
-    return ''; // Return empty string for null/undefined
-  }
-  
   return {
     colors: [
       window.chartColors.green,
@@ -384,7 +382,7 @@ const getLineChartOptions = (
     ],
     series: [
       {
-        name: firmName,
+        name: "Client",
         type: "line",
         data: clientArray,
         style: {
@@ -392,7 +390,7 @@ const getLineChartOptions = (
         },
       },
       {
-        name: "Peer Avg",
+        name: "Avg",
         type: "line",
         stacked: false,
         data: peerAvg,
@@ -402,35 +400,21 @@ const getLineChartOptions = (
     chart: {
       height: 350,
       toolbar: {
-        show: false,
-        tools: {
-          download: true,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-        },
-      },
-      // 3. Move title here to avoid duplication
-      title: {
-        text: title,
-        align: "top",
-        style: {
-          color: chartColor,
-          fontSize: "20px",
-        },
+        show: false, // Hide the toolbar
       },
     },
     dataLabels: {
-      // 4. Add enabled:true
-      enabled: true,
       formatter: dataLabelFormatter,
       textAnchor: "end",
-      offsetY: -10,
+      offsetY: 20,
     },
     stroke: {
       width: [2, 6, 4, 4, 4],
+    },
+    title: {
+      text: "",
+      align: "left",
+      offsetX: 110,
     },
     xaxis: {
       type: 'category',
@@ -495,8 +479,26 @@ const getLineChartOptions = (
         barHeight: "90%",
       },
     },
-    // 5. Remove duplicate toolbar and title
-  }
+    title: {
+      text: title,
+      align: "top",
+      style: {
+        color: chartColor,
+        fontSize: "20px",
+      },
+    },
+    toolbar: {
+      show: false,
+      tools: {
+        download: true,
+        selection: false,
+        zoom: false,
+        zoomin: false,
+        zoomout: false,
+        pan: false,
+      },
+    }
+  };
 };
 
 const getCashFlowChartOptions = (

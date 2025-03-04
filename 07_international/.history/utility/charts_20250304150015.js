@@ -330,52 +330,52 @@ const getLineChartOptions = (
     }
   };
 
-  // let yaxisAnnotation;
-  // let yaxisMax;
-  // let previousData = [];
-
-  // if (mainName == "assetsWithoutPpeToLiabilitiesWithoutDebt") {
-  //   assetsWithoutPpeToLiabilitiesWithoutDebt_annotation = [
-  //     {
-  //       id: "annotation",
-  //       y: benchmark,
-  //       borderColor: chartColors.labelColor,
-  //       strokeDashArray: 0,
-  //       width: "200%",
-  //       offsetX: -180,
-  //       label: {
-  //         text: "Benchmark",
-  //         borderColor: "transparent",
-  //         borderWidth: 0,
-  //         position: "top",
-  //         offsetX: -70,
-  //         style: {
-  //           background: "transparent",
-  //           color: chartColors.labelColor,
-  //           fontSize: "18px",
-  //           fontWeight: 600,
-  //         },
-  //       },
-  //     },
-  //   ];
-  //   yaxisAnnotation = assetsWithoutPpeToLiabilitiesWithoutDebt_annotation;
-  //   yaxisMax = Math.round(Math.max(...clientArray) + 2);
-  //   previousData = clientArray;
-  // } 
-
   const dataLabelFormatter = (value) => {
-    // 2. Handle zero values properly
-    if (value === 0 || value) {
-      const formattedValue = value.toLocaleString();
-      if (numType === 'dollar') {
-        return `$${formattedValue}`;
-      } else {
-        return `${Number(value).toFixed(2)}`;
-      }
+    console.log(value)
+    if (!value) return 
+    const formattedValue = value.toLocaleString();
+    if (numType == 'dollar') {
+      return `$${formattedValue}`
+    } else {
+      return `${Number(value).toFixed(2)}`
     }
-    return ''; // Return empty string for null/undefined
   }
-  
+
+  let yaxisAnnotation;
+  let yaxisMax;
+  let previousData = [];
+
+  if (mainName == "assetsWithoutPpeToLiabilitiesWithoutDebt") {
+    assetsWithoutPpeToLiabilitiesWithoutDebt_annotation = [
+      {
+        id: "annotation",
+        y: benchmark,
+        borderColor: chartColors.labelColor,
+        strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
+        label: {
+          text: "Benchmark",
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "top",
+          offsetX: -70,
+          style: {
+            background: "transparent",
+            color: chartColors.labelColor,
+            fontSize: "18px",
+            fontWeight: 600,
+          },
+        },
+      },
+    ];
+    yaxisAnnotation = assetsWithoutPpeToLiabilitiesWithoutDebt_annotation;
+    yaxisMax = Math.round(Math.max(...clientArray) + 2);
+    previousData = clientArray;
+  } else {
+    return;
+  }
+
   return {
     colors: [
       window.chartColors.green,
@@ -384,7 +384,7 @@ const getLineChartOptions = (
     ],
     series: [
       {
-        name: firmName,
+        name: "Client",
         type: "line",
         data: clientArray,
         style: {
@@ -392,7 +392,7 @@ const getLineChartOptions = (
         },
       },
       {
-        name: "Peer Avg",
+        name: "Avg",
         type: "line",
         stacked: false,
         data: peerAvg,
@@ -402,35 +402,21 @@ const getLineChartOptions = (
     chart: {
       height: 350,
       toolbar: {
-        show: false,
-        tools: {
-          download: true,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-        },
-      },
-      // 3. Move title here to avoid duplication
-      title: {
-        text: title,
-        align: "top",
-        style: {
-          color: chartColor,
-          fontSize: "20px",
-        },
+        show: false, // Hide the toolbar
       },
     },
     dataLabels: {
-      // 4. Add enabled:true
-      enabled: true,
       formatter: dataLabelFormatter,
       textAnchor: "end",
-      offsetY: -10,
+      offsetY: 20,
     },
     stroke: {
       width: [2, 6, 4, 4, 4],
+    },
+    title: {
+      text: "",
+      align: "left",
+      offsetX: 110,
     },
     xaxis: {
       type: 'category',
@@ -495,8 +481,26 @@ const getLineChartOptions = (
         barHeight: "90%",
       },
     },
-    // 5. Remove duplicate toolbar and title
-  }
+    title: {
+      text: title,
+      align: "top",
+      style: {
+        color: chartColor,
+        fontSize: "20px",
+      },
+    },
+    toolbar: {
+      show: false,
+      tools: {
+        download: true,
+        selection: false,
+        zoom: false,
+        zoomin: false,
+        zoomout: false,
+        pan: false,
+      },
+    },
+  };
 };
 
 const getCashFlowChartOptions = (

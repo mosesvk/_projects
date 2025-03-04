@@ -392,7 +392,7 @@ const getLineChartOptions = (
         },
       },
       {
-        name: "Peer Avg",
+        name: "Avg",
         type: "line",
         stacked: false,
         data: peerAvg,

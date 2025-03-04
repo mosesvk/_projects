@@ -384,7 +384,7 @@ const getLineChartOptions = (
     ],
     series: [
       {
-        name: firmName,
+        name: "Client",
         type: "line",
         data: clientArray,
         style: {
@@ -392,7 +392,7 @@ const getLineChartOptions = (
         },
       },
       {
-        name: "Peer Avg",
+        name: "Avg",
         type: "line",
         stacked: false,
         data: peerAvg,
@@ -427,7 +427,7 @@ const getLineChartOptions = (
       enabled: true,
       formatter: dataLabelFormatter,
       textAnchor: "end",
-      offsetY: -10,
+      offsetY: 20,
     },
     stroke: {
       width: [2, 6, 4, 4, 4],

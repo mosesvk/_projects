@@ -92,7 +92,7 @@ displayCashComponent = (data) => {
     "assetsWithoutPpeToLiabilitiesWithoutDebt_Peer",
     "assetsWithoutPpeToLiabilitiesWithoutDebt_Client",
     "number",
-    2,
+    0,
     "assetsWithoutPpeToLiabilitiesWithoutDebt", 
     false, 
     1,

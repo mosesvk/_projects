@@ -384,7 +384,7 @@ const getLineChartOptions = (
     ],
     series: [
       {
-        name: firmName,
+        name: "Client",
         type: "line",
         data: clientArray,
         style: {
@@ -392,7 +392,7 @@ const getLineChartOptions = (
         },
       },
       {
-        name: "Peer Avg",
+        name: "Avg",
         type: "line",
         stacked: false,
         data: peerAvg,
