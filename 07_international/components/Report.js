@@ -101,6 +101,16 @@ const displayReportComponent = () => {
         null,
       ],
       [
+        "assetsWithoutPpeToLiabilitiesWithoutDebt",
+        "num",
+        2,
+        "wa",
+        null,
+        null,
+        null,
+        null,
+      ],
+      [
         "cashFlowsTrendFinancing",
         "dollar",
         0,

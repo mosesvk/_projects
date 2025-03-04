@@ -25,6 +25,8 @@ const getWeightedAverageOfArray = (data, name, year) => {
       return currentRatio_weightedAverage(data, name, year);
     case "totalCoverageRatio":
       return totalCoverageRatio_weightedAverage(data, name, year);
+    case "assetsWithoutPpeToLiabilitiesWithoutDebt":
+      return assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage(data, name, year);
     case "percentWithDR":
       return percentWithDR_weightedAverage(data, name, year);
     case "percentWithoutDR_excludingPPE":
@@ -578,6 +580,31 @@ const totalCoverageRatio_weightedAverage = (data, name, year) => {
     : getSumOfArray(data.totalLiabilities[name]['total']);
 
   return totalLiabilities > 0 ? totalAssets / totalLiabilities : 0;
+};
+
+const assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage = (data, name, year) => {
+  // [01. 01Ass - 10 Total Assets] - [01. 01Ass - 09 Property, plant and equipment]
+  // /
+  // [01. 02Liab - 05 Total Liabilities] - [01. 02Liab - 02 Notes Payable]
+
+  const totalAssets = year
+    ? getSumOfArray(data.totalAssets[name][year])
+    : getSumOfArray(data.totalAssets[name]['total']);
+  const propertyPlantAndEquipment = year
+    ? getSumOfArray(data.totalAssets[name][year])
+    : getSumOfArray(data.totalAssets[name]['total']);
+
+  const totalLiabilities = year
+    ? getSumOfArray(data.totalLiabilities[name][year])
+    : getSumOfArray(data.totalLiabilities[name]['total']);
+
+  const notesPayable = year
+    ? getSumOfArray(data.totalLiabilities[name][year])
+    : getSumOfArray(data.totalLiabilities[name]['total']);
+
+  
+
+  return totalLiabilities > 0 ? (totalAssets - propertyPlantAndEquipment) / (totalLiabilities - notesPayable) : 0;
 };
 
 const currentRatio_weightedAverage = (data, name, year) => {

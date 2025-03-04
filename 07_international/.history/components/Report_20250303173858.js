@@ -1,4 +1,3 @@
-
 const displayReportComponent = () => {
   const generalData = JSON.parse(localStorage.getItem("generalData"));
   const cashData = JSON.parse(localStorage.getItem("cashData"));
@@ -98,6 +97,16 @@ const displayReportComponent = () => {
         "wa",
         null,
         [16, 54, 92, 130],
+        null,
+        null,
+      ],
+      [
+        "assetsWithoutPpeToLiabilitiesWithoutDebt",
+        "num",
+        2,
+        "wa",
+        null,
+        null,
         null,
         null,
       ],
@@ -241,7 +250,7 @@ const displayReportComponent = () => {
       [
         "fundraisingAsPercentOfContributions",
         "percent",
-        0,
+        1,
         "wa",
         null,
         [31, 69, 107, 145],
@@ -414,34 +423,14 @@ const addToSingleRow = (
   begin,
   end
 ) => {
+
   // if (name == "percentWithoutDR_excludingPPE" || name == "netIncomeRatio") console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
-  // console.log(`row_${name}`);
-  // console.log("tableReportRow", tableReportRow);
+  // console.log({ selectedYears, name, client, peer, type, fixedNum, tableReportRow })
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);
   }
-
-  selectedYears.forEach((year) => {
-    const tableModalRow = document.getElementById(`${name}_modal_${year}`);
-
-    if (tableModalRow) {
-      // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
-
-      addClientDataToModalRow(tableModalRow, year, client, type, fixedNum, name);
-      addPeerDataToRow(
-        tableModalRow,
-        peer,
-        type,
-        fixedNum,
-        year,
-        wa,
-        name,
-        data
-      );
-    }
-  });
 
   addClientDataToReportRow(
     tableReportRow,
@@ -449,9 +438,10 @@ const addToSingleRow = (
     client,
     type,
     fixedNum,
-    cb
+    cb,
+    name
   );
-  addPeerDataToRow(
+  addPeerDataToReportRow(
     tableReportRow,
     peer,
     type,
@@ -472,11 +462,14 @@ const addClientDataToReportRow = (
   client,
   type,
   fixedNum,
-  cb
+  cb,
+  name
 ) => {
   const propClass =
     "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
   const propScope = "row";
+
+  // console.log(name, { client, tableRow, selectedYears, type, fixedNum, cb });
 
   selectedYears.forEach((year) => {
     const dataPoint = document.createElement("th");
@@ -485,7 +478,7 @@ const addClientDataToReportRow = (
 
     const text =
       Number(client[year].value) !== 0
-        ? styleNumber(client[year].value, type, fixedNum)
+        ? styleNumber(client[year].value, type, fixedNum, name)
         : "-";
 
     // Create a new span element
@@ -523,34 +516,7 @@ const addClientDataToReportRow = (
   }
 };
 
-const addClientDataToModalRow = (
-  tableModalRow,
-  year,
-  client,
-  type,
-  fixedNum,
-  name
-) => {
-  const propClass =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-  const propScope = "row";
-
-  const dataPoint = document.createElement("th");
-  const text =
-    Number(client[year].value) !== 0
-      ? styleNumber(client[year].value, type, fixedNum)
-      : "-";
-
-  // if (name == 'daysCashOnHand') console.log({ tableModalRow, year, client, type, fixedNum, dataPoint, text });
-
-  dataPoint.className = propClass;
-  dataPoint.scope = propScope;
-  dataPoint.textContent = text;
-
-  tableModalRow.appendChild(dataPoint);
-};
-
-const addPeerDataToRow = (
+const addPeerDataToReportRow = (
   tableRow,
   peer,
   type,
@@ -570,7 +536,7 @@ const addPeerDataToRow = (
   const dataPointAvg = document.createElement("th");
 
   let avg;
-  let testAvg
+  let testAvg;
   if (peer && wa) {
     avg = parseFloat(getWeightedAverageOfArray(data, name));
     testAvg = getWeightedAverageOfArray(data, name);
@@ -586,7 +552,11 @@ const addPeerDataToRow = (
   }
 
   if (peer) {
-    const [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
+    const [q1, median, q3] = calculatePercentiles(
+      peer[dataArray],
+      type,
+      fixedNum
+    );
 
     // if (name == "fundraisingAsPercentOfContributions") {
     //   console.log(name, { q1, median, q3 });
@@ -609,12 +579,27 @@ const addPeerDataToRow = (
   }
   const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
-  const max = peer ? parseFloat(get75thPercentileOfArray(peer[dataArray], name)) : "";
+  const max = peer
+    ? parseFloat(get75thPercentileOfArray(peer[dataArray], name))
+    : "";
   const textMax = styleNumber(max, type, fixedNum);
 
-  if (name == 'daysCashOnHand') console.log('daysCashOnHand', {
-
-  })
+  // if (name == "daysCashOnHand")
+  //   console.log("daysCashOnHand", {
+  //     tableRow,
+  //     fixedNum,
+  //     wa,
+  //     testAvg,
+  //     avg,
+  //     textAvg,
+  //     mid,
+  //     min,
+  //     textMin,
+  //     max,
+  //     textMax,
+  //     peer,
+  //     dataArray,
+  //   });
 
   // console.log(name, { tableRow, fixedNum, wa, avg, mid, min, textMin, max, textMax, peer, dataArray });
 
@@ -638,7 +623,19 @@ const addPeerDataToRow = (
   dataPointMax.textContent = textMax;
   tableRow.appendChild(dataPointMax);
 
-  if (fIdArray) createFileForPrint(name, fIdArray, begin, end, avg, mid, min, max, peer, data);
+  if (fIdArray)
+    createFileForPrint(
+      name,
+      fIdArray,
+      begin,
+      end,
+      avg,
+      mid,
+      min,
+      max,
+      peer,
+      data
+    );
 };
 
 const addYearColumnsToReportTable = (years) => {
