@@ -973,16 +973,6 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "c02_08_ratio_current_ratio"
       );
 
-      // liquidityAssetsAvailableCover
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "liquidityAssetsAvailableCover_Client",
-        record,
-        "c02_05a_ratio_liquidity___assets_available_to_cover_liab_and_restricted_na"
-      );
-
       // totalCoverageRatio
       insertDataIntoObject(
         "client",

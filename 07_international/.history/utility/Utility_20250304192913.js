@@ -341,15 +341,6 @@ const createChart = (
           chartOptions
         );
       });
-    } else if (chartId === "liquidityAssetsAvailableCover_chart") {
-      liquidityAssetsAvailableCover_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      liquidityAssetsAvailableCover_chart.render();
-      document.addEventListener("dark-mode", function () {
-        liquidityAssetsAvailableCover_chart.updateOptions(chartOptions);
-      });
     } else if (chartId === "totalCoverageRatio_chart") {
       totalCoverageRatio_chart = new ApexCharts(
         document.getElementById(chartId),
