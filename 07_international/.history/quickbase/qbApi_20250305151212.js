@@ -757,7 +757,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalLiabilities",
+        "TotalLiabilities",
         record,
         "_01__02liab___05_total_liabilities",
         "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
@@ -980,7 +980,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         object,
         "liquidityAssetsAvailableCover_Client",
         record,
-        "c02_05a_ratio_liquidity___assets_available_to_cover_liab_and_restricted_na"
+        "c02_08_ratio_current_ratio"
       );
 
       // totalCoverageRatio

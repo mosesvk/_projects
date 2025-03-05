@@ -68,7 +68,7 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
+  console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
 
   const innerData =
     !child || child == 0
@@ -757,7 +757,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalLiabilities",
+        "TotalLiabilities",
         record,
         "_01__02liab___05_total_liabilities",
         "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
@@ -818,9 +818,9 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "netAssetsWithDonorRestrictionsSum",
+        "netAssetsWithDonorRestrictions",
         record,
-        "c02_04_ratio_days_expenses_in_net_assets_with_dr_excluding_ppe",
+        "_01__03na___03a_net_assets_with_donor_restrictions_sum",
         "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
         "liquidityAssetsAvailableCover"
       );
@@ -2326,7 +2326,7 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
     )}</qdbapi>`;
-    console.log("CLIENT", qdbapiElementClient);
+    // console.log("CLIENT", qdbapiElementClient);
 
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
@@ -2489,7 +2489,7 @@ const getRecordsForClient = async (years, dataStr) => {
 	{192.EX.${currentYear}} AND
 	{29.EX.${ClientRid}}`,
     clist:
-      "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221.218",
+      "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221",
   };
 
   try {

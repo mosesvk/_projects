@@ -803,7 +803,7 @@ const liquidityAssetsAvailableCover_weightedAverage = (data, name, year) => {
     ? getSumOfArray(data.netAssetsWithDonorRestrictionsSum[name][year])
     : getSumOfArray(data.netAssetsWithDonorRestrictionsSum[name]["total"]);
 
-  const denominator = totalLiabilities + netAssetsWithDonorRestrictionsSum;
+  const denominator = totalLiabilities + netAssetsWithDonorRestrictions;
 
   return denominator > 0
     ? (totalAssets - propertyPlantAndEquipment) / denominator

@@ -68,7 +68,7 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
+  console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
 
   const innerData =
     !child || child == 0
@@ -757,7 +757,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "totalLiabilities",
+        "TotalLiabilities",
         record,
         "_01__02liab___05_total_liabilities",
         "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
@@ -2326,7 +2326,7 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
     )}</qdbapi>`;
-    console.log("CLIENT", qdbapiElementClient);
+    // console.log("CLIENT", qdbapiElementClient);
 
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
