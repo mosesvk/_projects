@@ -281,16 +281,6 @@ const createChart = (
       wa,
       parsedData
     );
-  } else if (mainName === "costOfContributionsDetailView") {
-    chartOptions = getCostOfContributionsDetailViewOptions(
-      dataPeer,
-      dataClient,
-      type,
-      fixedNum,
-      mainName,
-      wa,
-      parsedData
-    );
   } else if (chartType == "line") {
     chartOptions = getLineChartOptions(
       dataPeer,
@@ -329,7 +319,6 @@ const createChart = (
     "functionalExpensePercent_program_chart",
     "functionalExpensePercent_administrative_chart",
     "functionalExpensePercent_fundraising_chart",
-    "costOfContributionsDetailView_chart",
     "costOfContributions_chart",
     "functionalAllocation_chart",
   ];
@@ -439,15 +428,6 @@ const createChart = (
       functionalExpensePercent_fundraising_chart.render();
       document.addEventListener("dark-mode", function () {
         functionalExpensePercent_fundraising_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "costOfContributionsDetailView_chart") {
-      costOfContributionsDetailView_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      costOfContributionsDetailView_chart.render();
-      document.addEventListener("dark-mode", function () {
-        costOfContributionsDetailView_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "costOfContributions_chart") {
       costOfContributions_chart = new ApexCharts(

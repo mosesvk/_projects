@@ -342,6 +342,7 @@ const getLineChartOptions = (
     }
     return ""; // Return empty string for null/undefined
   };
+  
 
   return {
     colors: [
@@ -477,7 +478,7 @@ const getCashFlowChartOptions = (
   const operatingData = data[`${operating}_Client`];
   const totalData = data[`${total}_Client`];
 
-  // console.log({ data, financeData, investingData, operatingData, totalData });
+  console.log({ data, financeData, investingData, operatingData, totalData });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -934,19 +935,12 @@ const getCostOfContributionsDetailViewOptions = (
 
   // Get fundraising expenses data
   const fundraisingExpensesData = [];
-  selectedYearsArray.forEach((year) => {
-    if (
-      parsedData["fundraisingExpenses"] &&
-      parsedData["fundraisingExpenses"]["costOfContributions"] &&
-      parsedData["fundraisingExpenses"]["costOfContributions"][year]
-    ) {
+  selectedYearsArray.forEach(year => {
+    if (parsedData["fundraisingExpenses"] && 
+        parsedData["fundraisingExpenses"]["costOfContributions"] && 
+        parsedData["fundraisingExpenses"]["costOfContributions"][year]) {
       fundraisingExpensesData.push(
-        Number(
-          parsedData["fundraisingExpenses"]["costOfContributions"][year].reduce(
-            (a, b) => Number(a) + Number(b),
-            0
-          )
-        )
+        Number(parsedData["fundraisingExpenses"]["costOfContributions"][year].reduce((a, b) => Number(a) + Number(b), 0))
       );
     } else {
       fundraisingExpensesData.push(0);
@@ -955,19 +949,11 @@ const getCostOfContributionsDetailViewOptions = (
 
   // Get total contributions data
   const totalContributionsData = [];
-  selectedYearsArray.forEach((year) => {
-    if (
-      parsedData["_02_01sr___00_contributions_with_and_without_sum_Client"] &&
-      parsedData["_02_01sr___00_contributions_with_and_without_sum_Client"][
-        year
-      ]
-    ) {
+  selectedYearsArray.forEach(year => {
+    if (parsedData["_02_01sr___00_contributions_with_and_without_sum_Client"] && 
+        parsedData["_02_01sr___00_contributions_with_and_without_sum_Client"][year]) {
       totalContributionsData.push(
-        Number(
-          parsedData["_02_01sr___00_contributions_with_and_without_sum_Client"][
-            year
-          ].value
-        )
+        Number(parsedData["_02_01sr___00_contributions_with_and_without_sum_Client"][year].value)
       );
     } else {
       totalContributionsData.push(0);
@@ -975,16 +961,15 @@ const getCostOfContributionsDetailViewOptions = (
   });
 
   // Get client cost of contributions ratio
-  const { clientArray: costOfContributionsClient } =
-    getPeerAndClientChartDataArrays(
-      selectedYearsArray,
-      dataPeer,
-      dataClient,
-      fixedNum,
-      "costOfContributions",
-      "dollar",
-      wa
-    );
+  const { clientArray: costOfContributionsClient } = getPeerAndClientChartDataArrays(
+    selectedYearsArray,
+    dataPeer,
+    dataClient,
+    fixedNum,
+    "costOfContributions",
+    "dollar",
+    wa
+  );
 
   // Get peer cost of contributions ratio
   const { peerAvg: costOfContributionsPeer } = getPeerAndClientChartDataArrays(
@@ -1023,7 +1008,7 @@ const getCostOfContributionsDetailViewOptions = (
         0,
         "Fundraising Expenses"
       );
-
+      
       // Add total contributions data
       addClientDataToModalRow(
         tableModalRow,
@@ -1032,7 +1017,7 @@ const getCostOfContributionsDetailViewOptions = (
         0,
         "Total Contributions"
       );
-
+      
       // Add client cost ratio
       addClientDataToModalRow(
         tableModalRow,
@@ -1041,7 +1026,7 @@ const getCostOfContributionsDetailViewOptions = (
         2,
         firmName
       );
-
+      
       // Add peer average cost ratio
       addPeerDataToModalRow(
         tableModalRow,
@@ -1056,61 +1041,50 @@ const getCostOfContributionsDetailViewOptions = (
     }
   });
 
-  console.log({
-    mainName,
-    fundraisingExpensesData,
-    totalContributionsData,
-    costOfContributionsClient,
-    costOfContributionsPeer,
-    parsedData,
-    dataClient,
-    dataPeer
-  });
-
   return {
     colors: [
-      window.chartColors.blue, // Fundraising expenses
+      window.chartColors.blue,  // Fundraising expenses
       window.chartColors.green, // Total contributions
-      window.chartColors.red, // Client cost ratio
-      window.chartColors.grey, // Peer average ratio
+      window.chartColors.red,   // Client cost ratio
+      window.chartColors.grey   // Peer average ratio
     ],
     series: [
       {
         name: "Fundraising Expenses",
         type: "column",
         data: fundraisingExpensesData,
-        yaxis: 0,
+        yaxis: 0
       },
       {
         name: "Total Contributions",
         type: "column",
         data: totalContributionsData,
-        yaxis: 0,
+        yaxis: 0
       },
       {
         name: firmName,
         type: "line",
         data: costOfContributionsClient,
-        yaxis: 1,
+        yaxis: 1
       },
       {
         name: "Peer Average",
         type: "line",
         data: costOfContributionsPeer,
-        yaxis: 1,
-      },
+        yaxis: 1
+      }
     ],
     chart: {
       height: 350,
       type: "line",
       stacked: false,
       toolbar: {
-        show: false,
-      },
+        show: false
+      }
     },
     dataLabels: {
       enabled: true,
-      formatter: function (val, opt) {
+      formatter: function(val, opt) {
         const seriesIndex = opt.seriesIndex;
         if (seriesIndex <= 1) {
           // Format for bar charts (dollar values)
@@ -1121,32 +1095,32 @@ const getCostOfContributionsDetailViewOptions = (
         }
       },
       style: {
-        fontSize: "12px",
-        colors: ["#fff", "#fff", "#000", "#000"], // Colors for each series
+        fontSize: '12px',
+        colors: ['#fff', '#fff', '#000', '#000'] // Colors for each series
       },
       offsetY: 0,
     },
     stroke: {
       width: [0, 0, 3, 3], // Width for each series
-      curve: "smooth",
+      curve: 'smooth'
     },
     markers: {
       size: [0, 0, 4, 4], // Size for each series
       colors: [null, null, window.chartColors.red, window.chartColors.grey],
-      strokeWidth: 2,
+      strokeWidth: 2
     },
     title: {
       text: "Cost of Contributions (Raise $1) - Detailed View",
-      align: "left",
+      align: "left"
     },
     xaxis: {
       categories: selectedYearsArray,
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: "1rem",
-        },
-      },
+          fontSize: "1rem"
+        }
+      }
     },
     yaxis: [
       {
@@ -1154,45 +1128,45 @@ const getCostOfContributionsDetailViewOptions = (
         title: {
           text: "Amount in Dollars",
           style: {
-            color: chartColor,
-          },
+            color: chartColor
+          }
         },
         labels: {
-          formatter: function (value) {
+          formatter: function(value) {
             return formatLargeNumber(value);
           },
           style: {
-            colors: chartColor,
-          },
+            colors: chartColor
+          }
         },
-        seriesName: "Fundraising Expenses",
+        seriesName: "Fundraising Expenses"
       },
       {
         // Right y-axis for ratio values (line charts)
         title: {
           text: "Cost to Raise $1",
           style: {
-            color: chartColor,
-          },
+            color: chartColor
+          }
         },
         labels: {
-          formatter: function (value) {
+          formatter: function(value) {
             return formatRatio(value);
           },
           style: {
-            colors: chartColor,
-          },
+            colors: chartColor
+          }
         },
         seriesName: firmName,
         opposite: true,
-        min: 0,
-      },
+        min: 0
+      }
     ],
     tooltip: {
       shared: true,
       intersect: false,
       y: {
-        formatter: function (value, { seriesIndex }) {
+        formatter: function(value, { seriesIndex }) {
           if (seriesIndex <= 1) {
             // Format for bar charts (dollar values)
             return `$${value.toLocaleString()}`;
@@ -1200,17 +1174,17 @@ const getCostOfContributionsDetailViewOptions = (
             // Format for line charts (ratios)
             return `$${value.toFixed(2)}`;
           }
-        },
-      },
+        }
+      }
     },
     legend: {
       horizontalAlign: "center",
       offsetX: 40,
-      fontSize: "20px",
+      fontSize: "20px"
     },
     grid: {
-      borderColor: chartColors.ddborderColor,
-    },
+      borderColor: chartColors.ddborderColor
+    }
   };
 };
 

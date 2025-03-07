@@ -440,15 +440,6 @@ const createChart = (
       document.addEventListener("dark-mode", function () {
         functionalExpensePercent_fundraising_chart.updateOptions(chartOptions);
       });
-    } else if (chartId === "costOfContributionsDetailView_chart") {
-      costOfContributionsDetailView_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      costOfContributionsDetailView_chart.render();
-      document.addEventListener("dark-mode", function () {
-        costOfContributionsDetailView_chart.updateOptions(chartOptions);
-      });
     } else if (chartId === "costOfContributions_chart") {
       costOfContributions_chart = new ApexCharts(
         document.getElementById(chartId),

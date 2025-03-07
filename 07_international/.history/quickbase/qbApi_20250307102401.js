@@ -2041,12 +2041,11 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
       return fiscalYear.includes(year.toString());
     });
     filteredClientRecords.forEach((record) => {
-      // costOfContributionsDetailView
       insertDataIntoObject(
         "client",
         year,
         object,
-        "costOfContributionsDetailView_Client",
+        "_02_01sr___00_contributions_with_and_without_sum_Client",
         record,
         "_02_01sr___00_contributions_with_and_without_sum"
       );

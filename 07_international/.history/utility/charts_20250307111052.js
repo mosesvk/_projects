@@ -477,7 +477,7 @@ const getCashFlowChartOptions = (
   const operatingData = data[`${operating}_Client`];
   const totalData = data[`${total}_Client`];
 
-  // console.log({ data, financeData, investingData, operatingData, totalData });
+  console.log({ data, financeData, investingData, operatingData, totalData });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
