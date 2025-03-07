@@ -934,15 +934,12 @@ const getCostOfContributionsDetailViewOptions = (
 
   // Safely get fundraising expenses data with null checks
   const fundraisingExpensesData = [];
-  selectedYearsArray.forEach((year) => {
-    // Use direct client data instead of trying to access nested arrays
-    if (
-      parsedData["fundraisingExpense_Client"] &&
-      parsedData["fundraisingExpense_Client"][year] &&
-      parsedData["fundraisingExpense_Client"][year].value
-    ) {
+  selectedYearsArray.forEach(year => {
+    if (parsedData["_02_03exp___03_fundraising_expenses_Client"] && 
+        parsedData["_02_03exp___03_fundraising_expenses_Client"][year] &&
+        parsedData["_02_03exp___03_fundraising_expenses_Client"][year].value) {
       fundraisingExpensesData.push(
-        Number(parsedData["fundraisingExpense_Client"][year].value)
+        Number(parsedData["_02_03exp___03_fundraising_expenses_Client"][year].value)
       );
     } else {
       fundraisingExpensesData.push(0);
@@ -951,14 +948,12 @@ const getCostOfContributionsDetailViewOptions = (
 
   // Get total contributions data with proper null checks
   const totalContributionsData = [];
-  selectedYearsArray.forEach((year) => {
-    if (
-      parsedData["contributionsWithAndWithoutSum_Client"] &&
-      parsedData["contributionsWithAndWithoutSum_Client"][year] &&
-      parsedData["contributionsWithAndWithoutSum_Client"][year].value
-    ) {
+  selectedYearsArray.forEach(year => {
+    if (parsedData["_02_01sr___00_contributions_with_and_without_sum_Client"] && 
+        parsedData["_02_01sr___00_contributions_with_and_without_sum_Client"][year] &&
+        parsedData["_02_01sr___00_contributions_with_and_without_sum_Client"][year].value) {
       totalContributionsData.push(
-        Number(parsedData["contributionsWithAndWithoutSum_Client"][year].value)
+        Number(parsedData["_02_01sr___00_contributions_with_and_without_sum_Client"][year].value)
       );
     } else {
       totalContributionsData.push(0);
@@ -968,7 +963,7 @@ const getCostOfContributionsDetailViewOptions = (
   // Get client and peer cost of contributions ratio with null checking
   let costOfContributionsClient = [];
   let costOfContributionsPeer = [];
-
+  
   try {
     const result = getPeerAndClientChartDataArrays(
       selectedYearsArray,
@@ -979,7 +974,7 @@ const getCostOfContributionsDetailViewOptions = (
       "dollar",
       wa
     );
-
+    
     costOfContributionsClient = result.clientArray || [];
     costOfContributionsPeer = result.peerAvg || [];
   } catch (error) {
@@ -988,6 +983,22 @@ const getCostOfContributionsDetailViewOptions = (
     costOfContributionsClient = selectedYearsArray.map(() => 0);
     costOfContributionsPeer = selectedYearsArray.map(() => 0);
   }
+
+  // Calculate dynamic min and max for dollar values (left y-axis)
+  const allDollarValues = [...fundraisingExpensesData, ...totalContributionsData].filter(v => !isNaN(v) && v !== null);
+  const minDollarValue = Math.min(...allDollarValues) * 0.9; // 10% padding below min
+  const maxDollarValue = Math.max(...allDollarValues) * 1.1; // 10% padding above max
+  
+  // Calculate dynamic min and max for ratio values (right y-axis)
+  const allRatioValues = [...costOfContributionsClient, ...costOfContributionsPeer].filter(v => !isNaN(v) && v !== null);
+  const minRatioValue = Math.min(...allRatioValues) * 0.9; // 10% padding below min
+  const maxRatioValue = Math.max(...allRatioValues) * 1.2; // 20% padding above max
+
+  // Ensure we have valid min/max values with fallbacks
+  const safeMinDollarValue = !isFinite(minDollarValue) || minDollarValue < 0 ? 0 : minDollarValue;
+  const safeMaxDollarValue = !isFinite(maxDollarValue) || maxDollarValue <= 0 ? 1000000 : maxDollarValue;
+  const safeMinRatioValue = !isFinite(minRatioValue) || minRatioValue < 0 ? 0 : minRatioValue;
+  const safeMaxRatioValue = !isFinite(maxRatioValue) || maxRatioValue <= 0 ? 0.3 : maxRatioValue;
 
   // Format numbers for display
   const formatLargeNumber = (value) => {
@@ -1017,7 +1028,7 @@ const getCostOfContributionsDetailViewOptions = (
         0,
         "Fundraising Expenses"
       );
-
+      
       // Add total contributions data
       addClientDataToModalRow(
         tableModalRow,
@@ -1026,7 +1037,7 @@ const getCostOfContributionsDetailViewOptions = (
         0,
         "Total Contributions"
       );
-
+      
       // Add client cost ratio
       addClientDataToModalRow(
         tableModalRow,
@@ -1035,7 +1046,7 @@ const getCostOfContributionsDetailViewOptions = (
         2,
         firmName || "Client"
       );
-
+      
       // Add peer average cost ratio
       addPeerDataToModalRow(
         tableModalRow,
@@ -1050,87 +1061,53 @@ const getCostOfContributionsDetailViewOptions = (
     }
   });
 
-  console.log({
-    mainName,
-    fundraisingExpensesData,
-    totalContributionsData,
-    costOfContributionsClient,
-    costOfContributionsPeer,
-    dataPeer,
-    dataClient,
-  });
-
-  // Calculate dynamic min and max for dollar values (left y-axis)
-  const allDollarValues = [
-    ...fundraisingExpensesData,
-    ...totalContributionsData,
-  ].filter((v) => !isNaN(v) && v !== null);
-  const minDollarValue = Math.min(...allDollarValues) * 0.9; // 10% padding below min
-  const maxDollarValue = Math.max(...allDollarValues) * 1.1; // 10% padding above max
-
-  // Calculate dynamic min and max for ratio values (right y-axis)
-  const allRatioValues = [
-    ...costOfContributionsClient,
-    ...costOfContributionsPeer,
-  ].filter((v) => !isNaN(v) && v !== null);
-  const minRatioValue = Math.min(...allRatioValues) * 0.9; // 10% padding below min
-  const maxRatioValue = Math.max(...allRatioValues) * 1.2; // 20% padding above max
-
-  // Ensure we have valid min/max values with fallbacks
-  const safeMinDollarValue =
-    !isFinite(minDollarValue) || minDollarValue < 0 ? 0 : minDollarValue;
-  const safeMaxDollarValue =
-    !isFinite(maxDollarValue) || maxDollarValue <= 0 ? 1000000 : maxDollarValue;
-  const safeMinRatioValue =
-    !isFinite(minRatioValue) || minRatioValue < 0 ? 0 : minRatioValue;
-  const safeMaxRatioValue =
-    !isFinite(maxRatioValue) || maxRatioValue <= 0 ? 0.3 : maxRatioValue;
+  // Define colors for each series
+  const seriesColors = [
+    window.chartColors.blue,   // Fundraising expenses
+    window.chartColors.green,  // Total contributions
+    window.chartColors.red,    // Client cost ratio
+    window.chartColors.grey    // Peer average ratio
+  ];
 
   return {
-    colors: [
-      window.chartColors.blue, // Fundraising expenses
-      window.chartColors.green, // Total contributions
-      window.chartColors.red, // Client cost ratio
-      window.chartColors.grey, // Peer average ratio
-    ],
+    colors: seriesColors,
     series: [
       {
         name: "Fundraising Expenses",
         type: "column",
         data: fundraisingExpensesData,
-        yaxis: 0,
+        yaxis: 0
       },
       {
         name: "Total Contributions",
         type: "column",
         data: totalContributionsData,
-        yaxis: 0,
+        yaxis: 0
       },
       {
         name: firmName || "Client",
         type: "line",
         data: costOfContributionsClient,
-        yaxis: 1,
+        yaxis: 1
       },
       {
         name: "Peer Average",
         type: "line",
         data: costOfContributionsPeer,
-        yaxis: 1,
-      },
+        yaxis: 1
+      }
     ],
     chart: {
       height: 350,
       type: "line",
       stacked: false,
       toolbar: {
-        show: false,
-      },
+        show: false
+      }
     },
     dataLabels: {
       enabled: true,
-      enabledOnSeries: [0, 1, 2, 3],
-      formatter: function (val, opt) {
+      formatter: function(val, opt) {
         if (val === null || val === undefined) return "";
         const seriesIndex = opt.seriesIndex;
         if (seriesIndex <= 1) {
@@ -1142,28 +1119,50 @@ const getCostOfContributionsDetailViewOptions = (
         }
       },
       style: {
-        fontSize: "12px",
-        colors: ["#fff", "#fff", "#000", "#000"], // Colors for each series
+        fontSize: '12px',
+        colors: ['#fff', '#fff', '#fff', '#fff'] // White text for all labels
+      },
+      background: {
+        enabled: true,
+        foreColor: '#fff',
+        borderRadius: 2,
+        padding: 4,
+        opacity: 0.9,
+        borderWidth: 1,
+        borderColor: '#fff',
+        dropShadow: {
+          enabled: false
+        },
+        formatter: function(val, opt) {
+          return {
+            backgroundColor: seriesColors[opt.seriesIndex],
+            borderColor: seriesColors[opt.seriesIndex]
+          };
+        }
       },
       offsetY: 0,
     },
     stroke: {
       width: [0, 0, 3, 3], // Width for each series
-      curve: "smooth",
+      curve: 'smooth'
     },
     markers: {
       size: [0, 0, 4, 4], // Size for each series
-      colors: [null, null, window.chartColors.red, window.chartColors.grey],
-      strokeWidth: 2,
+      colors: [null, null, seriesColors[2], seriesColors[3]],
+      strokeWidth: 2
+    },
+    title: {
+      text: "Cost of Contributions (Raise $1) - Detailed View",
+      align: "left"
     },
     xaxis: {
       categories: selectedYearsArray,
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: "1rem",
-        },
-      },
+          fontSize: "1rem"
+        }
+      }
     },
     yaxis: [
       {
@@ -1171,50 +1170,50 @@ const getCostOfContributionsDetailViewOptions = (
         title: {
           text: "Amount in Dollars",
           style: {
-            color: chartColor,
-          },
+            color: chartColor
+          }
         },
         labels: {
-          formatter: function (value) {
+          formatter: function(value) {
             return formatLargeNumber(value);
           },
           style: {
-            colors: chartColor,
-          },
+            colors: chartColor
+          }
         },
         min: safeMinDollarValue,
         max: safeMaxDollarValue,
         forceNiceScale: true,
-        tickAmount: 5,
+        tickAmount: 5
       },
       {
         // Right y-axis for ratio values (line charts)
         title: {
           text: "Cost to Raise $1",
           style: {
-            color: chartColor,
-          },
+            color: chartColor
+          }
         },
         labels: {
-          formatter: function (value) {
+          formatter: function(value) {
             return formatRatio(value);
           },
           style: {
-            colors: chartColor,
-          },
+            colors: chartColor
+          }
         },
         opposite: true,
         min: safeMinRatioValue,
         max: safeMaxRatioValue,
         forceNiceScale: true,
-        tickAmount: 5,
-      },
+        tickAmount: 5
+      }
     ],
     tooltip: {
       shared: true,
       intersect: false,
       y: {
-        formatter: function (value, { seriesIndex }) {
+        formatter: function(value, { seriesIndex }) {
           if (value === null || value === undefined) return "";
           if (seriesIndex <= 1) {
             // Format for bar charts (dollar values)
@@ -1223,17 +1222,17 @@ const getCostOfContributionsDetailViewOptions = (
             // Format for line charts (ratios)
             return `$${value.toFixed(2)}`;
           }
-        },
-      },
+        }
+      }
     },
     legend: {
       horizontalAlign: "center",
       offsetX: 40,
-      fontSize: "20px",
+      fontSize: "20px"
     },
     grid: {
-      borderColor: chartColors.borderColor,
-    },
+      borderColor: chartColors.borderColor
+    }
   };
 };
 

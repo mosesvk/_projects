@@ -2086,7 +2086,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "c05_04_ratio_functional_expense_percentage___other"
       );
-      // fundraisingExpense_Client
+      // costOfContributions
       insertDataIntoObject(
         "client",
         year,
@@ -2095,7 +2095,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "_02_03exp___03_fundraising_expenses"
       );
-      // contributionsWithAndWithoutSum_Client
+      // costOfContributions
       insertDataIntoObject(
         "client",
         year,
@@ -2364,7 +2364,7 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
     )}</qdbapi>`;
-    console.log("CLIENT", qdbapiElementClient);
+    // console.log("CLIENT", qdbapiElementClient);
 
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
