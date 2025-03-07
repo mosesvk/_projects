@@ -715,16 +715,15 @@ const getFunctionalAllocationChartOptions = (
   );
 
   // Get data for fundraising expenses
-  const { clientArray: fundraisingClientArray } =
-    getPeerAndClientChartDataArrays(
-      selectedYearsArray,
-      parsedData["functionalExpensePercent_fundraising_Peer"],
-      parsedData["functionalExpensePercent_fundraising_Client"],
-      fixedNum,
-      "functionalExpensePercent_fundraising",
-      numType,
-      wa
-    );
+  const { clientArray: fundraisingClientArray } = getPeerAndClientChartDataArrays(
+    selectedYearsArray,
+    parsedData["functionalExpensePercent_fundraising_Peer"],
+    parsedData["functionalExpensePercent_fundraising_Client"],
+    fixedNum,
+    "functionalExpensePercent_fundraising",
+    numType,
+    wa
+  );
 
   // Update modal with data
   selectedYearsArray.forEach((year, index) => {
@@ -738,7 +737,7 @@ const getFunctionalAllocationChartOptions = (
         fixedNum,
         "Program"
       );
-
+      
       // Add data for administrative expenses
       addClientDataToModalRow(
         tableModalRow,
@@ -747,7 +746,7 @@ const getFunctionalAllocationChartOptions = (
         fixedNum,
         "Administrative"
       );
-
+      
       // Add data for fundraising expenses
       addClientDataToModalRow(
         tableModalRow,
@@ -756,7 +755,7 @@ const getFunctionalAllocationChartOptions = (
         fixedNum,
         "Fundraising"
       );
-
+      
       // Add peer average for program expenses
       addPeerDataToModalRow(
         tableModalRow,
@@ -837,25 +836,25 @@ const getFunctionalAllocationChartOptions = (
         return val > 5 ? val.toFixed(0) + "%" : "";
       },
       style: {
-        fontSize: "12px",
-        colors: ["#fff", "#fff", "#fff", "#000"], // Colors for each series, last one for the line
+        fontSize: '12px',
+        colors: ['#fff', '#fff', '#fff', '#000']  // Colors for each series, last one for the line
       },
       offsetY: 0,
       // Custom settings for each series type
       distributed: false,
     },
     stroke: {
-      width: [0, 0, 0, 4], // Width for each series, last one is the line
-      curve: "smooth",
+      width: [0, 0, 0, 4],  // Width for each series, last one is the line
+      curve: 'smooth'
     },
     // Add separate data labels config for the line series
     markers: {
-      size: [0, 0, 0, 5], // Size for each series, only show for line
+      size: [0, 0, 0, 5],  // Size for each series, only show for line
       colors: window.chartColors.orange,
       strokeWidth: 2,
       hover: {
         size: 7,
-      },
+      }
     },
     title: {
       text: "Functional Expense Allocation",
@@ -920,19 +919,19 @@ const getFunctionalAllocationChartOptions = (
     annotations: {
       yaxis: [
         {
-          y: 80, // Recommended benchmark for program expenses (80%)
+          y: 80,  // Recommended benchmark for program expenses (80%)
           borderColor: "#00E396",
           label: {
             borderColor: "#00E396",
             style: {
               color: "#fff",
-              background: "#00E396",
+              background: "#00E396"
             },
-            text: "Recommended Program %",
-          },
-        },
-      ],
-    },
+            text: "Recommended Program %"
+          }
+        }
+      ]
+    }
   };
 };
 

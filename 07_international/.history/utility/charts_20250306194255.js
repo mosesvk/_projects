@@ -828,34 +828,17 @@ const getFunctionalAllocationChartOptions = (
     },
     dataLabels: {
       enabled: true,
-      formatter: function (val, opt) {
-        // Check if this is a line series (the 4th one in our case)
-        if (opt.seriesIndex === 3) {
-          return val.toFixed(0) + "%";
-        }
-        // For stacked columns, only show value if it's significant (> 5%)
-        return val > 5 ? val.toFixed(0) + "%" : "";
+      formatter: function (val) {
+        return val.toFixed(0) + "%";
       },
       style: {
         fontSize: "12px",
-        colors: ["#fff", "#fff", "#fff", "#000"], // Colors for each series, last one for the line
+        colors: ["#fff"],
       },
-      offsetY: 0,
-      // Custom settings for each series type
-      distributed: false,
     },
     stroke: {
-      width: [0, 0, 0, 4], // Width for each series, last one is the line
+      width: [0, 0, 0, 4],
       curve: "smooth",
-    },
-    // Add separate data labels config for the line series
-    markers: {
-      size: [0, 0, 0, 5], // Size for each series, only show for line
-      colors: window.chartColors.orange,
-      strokeWidth: 2,
-      hover: {
-        size: 7,
-      },
     },
     title: {
       text: "Functional Expense Allocation",
@@ -890,8 +873,6 @@ const getFunctionalAllocationChartOptions = (
       },
     },
     tooltip: {
-      shared: true,
-      intersect: false,
       fixed: {
         enabled: true,
         position: "topLeft",
@@ -916,22 +897,6 @@ const getFunctionalAllocationChartOptions = (
         opacity: 0.5,
         thickness: 4,
       },
-    },
-    annotations: {
-      yaxis: [
-        {
-          y: 80, // Recommended benchmark for program expenses (80%)
-          borderColor: "#00E396",
-          label: {
-            borderColor: "#00E396",
-            style: {
-              color: "#fff",
-              background: "#00E396",
-            },
-            text: "Recommended Program %",
-          },
-        },
-      ],
     },
   };
 };

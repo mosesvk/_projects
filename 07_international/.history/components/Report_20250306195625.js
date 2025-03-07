@@ -59,7 +59,16 @@ const displayReportComponent = () => {
         null,
         null,
       ],
-      ["liquidityAssetsAvailableCover", "num", 2, "wa", null, null, null, null],
+      [
+        "liquidityAssetsAvailableCover",
+        "num",
+        2,
+        "wa",
+        null,
+        null,
+        null,
+        null,
+      ],
       [
         "liquidityFundsAvailable",
         "num",
@@ -271,6 +280,7 @@ const displayReportComponent = () => {
     ]);
 
     insertDataToReport(expenseData, selectedYears, [
+
       [
         "functionalExpensePercent_program",
         "percent",
@@ -424,6 +434,7 @@ const addToSingleRow = (
   begin,
   end
 ) => {
+
   // if (name == "percentWithoutDR_excludingPPE" || name == "netIncomeRatio") console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
   // console.log({ selectedYears, name, client, peer, type, fixedNum, tableReportRow })

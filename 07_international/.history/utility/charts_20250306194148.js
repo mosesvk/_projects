@@ -828,34 +828,17 @@ const getFunctionalAllocationChartOptions = (
     },
     dataLabels: {
       enabled: true,
-      formatter: function (val, opt) {
-        // Check if this is a line series (the 4th one in our case)
-        if (opt.seriesIndex === 3) {
-          return val.toFixed(0) + "%";
-        }
-        // For stacked columns, only show value if it's significant (> 5%)
-        return val > 5 ? val.toFixed(0) + "%" : "";
+      formatter: function (val) {
+        return val.toFixed(0) + "%";
       },
       style: {
         fontSize: "12px",
-        colors: ["#fff", "#fff", "#fff", "#000"], // Colors for each series, last one for the line
+        colors: ["#fff"],
       },
-      offsetY: 0,
-      // Custom settings for each series type
-      distributed: false,
     },
     stroke: {
-      width: [0, 0, 0, 4], // Width for each series, last one is the line
+      width: [0, 0, 0, 4],
       curve: "smooth",
-    },
-    // Add separate data labels config for the line series
-    markers: {
-      size: [0, 0, 0, 5], // Size for each series, only show for line
-      colors: window.chartColors.orange,
-      strokeWidth: 2,
-      hover: {
-        size: 7,
-      },
     },
     title: {
       text: "Functional Expense Allocation",
@@ -890,8 +873,6 @@ const getFunctionalAllocationChartOptions = (
       },
     },
     tooltip: {
-      shared: true,
-      intersect: false,
       fixed: {
         enabled: true,
         position: "topLeft",
@@ -917,23 +898,180 @@ const getFunctionalAllocationChartOptions = (
         thickness: 4,
       },
     },
-    annotations: {
-      yaxis: [
-        {
-          y: 80, // Recommended benchmark for program expenses (80%)
-          borderColor: "#00E396",
-          label: {
-            borderColor: "#00E396",
-            style: {
-              color: "#fff",
-              background: "#00E396",
-            },
-            text: "Recommended Program %",
+  };
+};
+
+const createFunctionalAllocationChart = (parseData) => {
+  if (!parseData) return;
+
+  // Get selected years
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  // Prepare data arrays
+  const programData = [];
+  const adminData = [];
+  const fundraisingData = [];
+  const peerProgramAvg = [];
+
+  // For each year, get the client data for each category and peer avg for program
+  selectedYearsArray.forEach((year) => {
+    // Program data
+    programData.push(
+      parseData.functionalExpensePercent_program_Client[year]
+        ? parseData.functionalExpensePercent_program_Client[year].value * 100
+        : 0
+    );
+
+    // Admin data
+    adminData.push(
+      parseData.functionalExpensePercent_administrative_Client[year]
+        ? parseData.functionalExpensePercent_administrative_Client[year].value *
+            100
+        : 0
+    );
+
+    // Fundraising data
+    fundraisingData.push(
+      parseData.functionalExpensePercent_fundraising_Client[year]
+        ? parseData.functionalExpensePercent_fundraising_Client[year].value *
+            100
+        : 0
+    );
+
+    // Peer program average - from existing peer data
+    if (
+      parseData.functionalExpensePercent_program_Peer &&
+      parseData.functionalExpensePercent_program_Peer[year]
+    ) {
+      const peerArray = parseData.functionalExpensePercent_program_Peer[year];
+      const avg = getAverageOfArray(peerArray);
+      peerProgramAvg.push(avg * 100);
+    } else {
+      peerProgramAvg.push(0);
+    }
+  });
+
+  // Update the modal with data
+  updateModal("functionalAllocation", null, null, parseData);
+
+  // Chart options for a mixed bar/line chart showing all three types
+  const chartOptions = {
+    colors: [
+      window.chartColors.green, // Program
+      window.chartColors.blue, // Admin
+      window.chartColors.red, // Fundraising
+      window.chartColors.orange, // Peer avg
+    ],
+    series: [
+      {
+        name: "Program",
+        type: "column",
+        data: programData,
+      },
+      {
+        name: "Administrative",
+        type: "column",
+        data: adminData,
+      },
+      {
+        name: "Fundraising",
+        type: "column",
+        data: fundraisingData,
+      },
+      {
+        name: "Peer Program Avg",
+        type: "line",
+        data: peerProgramAvg,
+      },
+    ],
+    chart: {
+      height: 350,
+      type: "line",
+      stacked: false,
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      width: [1, 1, 1, 4],
+    },
+    title: {
+      text: "",
+      align: "left",
+    },
+    xaxis: {
+      categories: selectedYearsArray,
+      labels: {
+        style: {
+          colors: document.documentElement.classList.contains("dark")
+            ? "#ebedf0"
+            : "#6B7280",
+          fontSize: "1rem",
+        },
+      },
+    },
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: document.documentElement.classList.contains("dark")
+            ? "#e3f0fa"
+            : "#3a464f",
+        },
+        labels: {
+          formatter: (value) => `${value.toFixed(0)}%`,
+          style: {
+            colors: document.documentElement.classList.contains("dark")
+              ? "#e3f0fa"
+              : "#3a464f",
+            fontSize: "1.25rem",
           },
         },
-      ],
+        tooltip: {
+          enabled: true,
+        },
+      },
+    ],
+    tooltip: {
+      fixed: {
+        enabled: true,
+        position: "topLeft",
+        offsetY: 30,
+        offsetX: 60,
+      },
+      y: {
+        formatter: (value) => `${value.toFixed(1)}%`,
+      },
+    },
+    legend: {
+      horizontalAlign: "center",
+      offsetX: 40,
+      fontSize: "20px",
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: "60%",
+      },
     },
   };
+
+  // Render chart
+  functionalAllocation_chart = new ApexCharts(
+    document.getElementById("functionalAllocation_chart"),
+    chartOptions
+  );
+  functionalAllocation_chart.render();
+
+  // Update on dark mode toggle
+  document.addEventListener("dark-mode", function () {
+    functionalAllocation_chart.updateOptions(chartOptions);
+  });
 };
 
 function getSeriesData(

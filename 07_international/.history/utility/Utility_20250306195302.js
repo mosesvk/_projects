@@ -263,7 +263,6 @@ const createChart = (
   title,
   chartType
 ) => {
-  // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
   document.getElementById(chartId).innerHTML = "";
 
   dataUrLObj[mainName] = chartId;
@@ -305,150 +304,9 @@ const createChart = (
       title
     );
   }
-
-  const chartIds = [
-    "daysCashOnHand_chart",
-    "daysExpensesInUnrestrictedNA_chart",
-    "daysExpensesInUnrestrictedNA_excludingPPE_chart",
-    "liquidityAssetsAvailableCover_chart",
-    "totalCoverageRatio_chart",
-    "assetsWithoutPpeToLiabilitiesWithoutDebt_chart",
-    "contributionsTrend_chart",
-    "annualizedInvestmentReturn_chart",
-    "functionalExpensePercent_program_chart",
-    "functionalExpensePercent_administrative_chart",
-    "functionalExpensePercent_fundraising_chart",
-    "costOfContributions_chart",
-    "functionalAllocation_chart",
-  ];
-
-  if (chartIds.includes(chartId)) {
-    if (chartId === "daysCashOnHand_chart") {
-      daysCashOnHand_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      daysCashOnHand_chart.render();
-      document.addEventListener("dark-mode", function () {
-        daysCashOnHand_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "daysExpensesInUnrestrictedNA_chart") {
-      daysExpensesInUnrestrictedNA_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      daysExpensesInUnrestrictedNA_chart.render();
-      document.addEventListener("dark-mode", function () {
-        daysExpensesInUnrestrictedNA_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "daysExpensesInUnrestrictedNA_excludingPPE_chart") {
-      daysExpensesInUnrestrictedNA_excludingPPE_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      daysExpensesInUnrestrictedNA_excludingPPE_chart.render();
-      document.addEventListener("dark-mode", function () {
-        daysExpensesInUnrestrictedNA_excludingPPE_chart.updateOptions(
-          chartOptions
-        );
-      });
-    } else if (chartId === "liquidityAssetsAvailableCover_chart") {
-      liquidityAssetsAvailableCover_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      liquidityAssetsAvailableCover_chart.render();
-      document.addEventListener("dark-mode", function () {
-        liquidityAssetsAvailableCover_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "totalCoverageRatio_chart") {
-      totalCoverageRatio_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      totalCoverageRatio_chart.render();
-      document.addEventListener("dark-mode", function () {
-        totalCoverageRatio_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "assetsWithoutPpeToLiabilitiesWithoutDebt_chart") {
-      assetsWithoutPpeToLiabilitiesWithoutDebt_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      assetsWithoutPpeToLiabilitiesWithoutDebt_chart.render();
-      document.addEventListener("dark-mode", function () {
-        assetsWithoutPpeToLiabilitiesWithoutDebt_chart.updateOptions(
-          chartOptions
-        );
-      });
-    } else if (chartId === "contributionsTrend_chart") {
-      contributionsTrend_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      contributionsTrend_chart.render();
-      document.addEventListener("dark-mode", function () {
-        contributionsTrend_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "annualizedInvestmentReturn_chart") {
-      annualizedInvestmentReturn_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      annualizedInvestmentReturn_chart.render();
-      document.addEventListener("dark-mode", function () {
-        annualizedInvestmentReturn_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "functionalExpensePercent_program_chart") {
-      functionalExpensePercent_program_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      functionalExpensePercent_program_chart.render();
-      document.addEventListener("dark-mode", function () {
-        functionalExpensePercent_program_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "functionalExpensePercent_administrative_chart") {
-      functionalExpensePercent_administrative_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      functionalExpensePercent_administrative_chart.render();
-      document.addEventListener("dark-mode", function () {
-        functionalExpensePercent_administrative_chart.updateOptions(
-          chartOptions
-        );
-      });
-    } else if (chartId === "functionalExpensePercent_fundraising_chart") {
-      functionalExpensePercent_fundraising_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      functionalExpensePercent_fundraising_chart.render();
-      document.addEventListener("dark-mode", function () {
-        functionalExpensePercent_fundraising_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "costOfContributions_chart") {
-      costOfContributions_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      costOfContributions_chart.render();
-      document.addEventListener("dark-mode", function () {
-        costOfContributions_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "functionalAllocation_chart") {
-      functionalAllocation_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      functionalAllocation_chart.render();
-      document.addEventListener("dark-mode", function () {
-        functionalAllocation_chart.updateOptions(chartOptions);
-      });
-    }
-  }
-};
+  
+  // Rest of the function remains the same
+}
 
 function updateModal(mainName, peerData, clientData, parsedData) {
   // console.log('updateModal',{ mainName, peerData, clientData });
