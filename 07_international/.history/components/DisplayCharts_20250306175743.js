@@ -146,17 +146,6 @@ displayExpenseComponent = (data) => {
   const savedData = getStoredData("expenseData");
   const parseData = parseStoredData(savedData);
 
-  // functionalAllocation - add this first
-  createChartFromParsedData(
-    parseData,
-    "functionalAllocation_chart",
-    "functionalExpensePercent_program_Peer",
-    "functionalExpensePercent_program_Client",
-    "percent",
-    0,
-    "functionalAllocation"
-  );
-
   // functionalExpensePercent_program
   createChartFromParsedData(
     parseData,
@@ -199,4 +188,5 @@ displayExpenseComponent = (data) => {
   );
 
   createFunctionalAllocationChart(parseData);
+
 };

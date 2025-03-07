@@ -715,16 +715,15 @@ const getFunctionalAllocationChartOptions = (
   );
 
   // Get data for fundraising expenses
-  const { clientArray: fundraisingClientArray } =
-    getPeerAndClientChartDataArrays(
-      selectedYearsArray,
-      parsedData["functionalExpensePercent_fundraising_Peer"],
-      parsedData["functionalExpensePercent_fundraising_Client"],
-      fixedNum,
-      "functionalExpensePercent_fundraising",
-      numType,
-      wa
-    );
+  const { clientArray: fundraisingClientArray } = getPeerAndClientChartDataArrays(
+    selectedYearsArray,
+    parsedData["functionalExpensePercent_fundraising_Peer"],
+    parsedData["functionalExpensePercent_fundraising_Client"],
+    fixedNum,
+    "functionalExpensePercent_fundraising",
+    numType,
+    wa
+  );
 
   // Update modal with data
   selectedYearsArray.forEach((year, index) => {
@@ -738,7 +737,7 @@ const getFunctionalAllocationChartOptions = (
         fixedNum,
         "Program"
       );
-
+      
       // Add data for administrative expenses
       addClientDataToModalRow(
         tableModalRow,
@@ -747,7 +746,7 @@ const getFunctionalAllocationChartOptions = (
         fixedNum,
         "Administrative"
       );
-
+      
       // Add data for fundraising expenses
       addClientDataToModalRow(
         tableModalRow,
@@ -756,7 +755,7 @@ const getFunctionalAllocationChartOptions = (
         fixedNum,
         "Fundraising"
       );
-
+      
       // Add peer average for program expenses
       addPeerDataToModalRow(
         tableModalRow,
@@ -832,13 +831,13 @@ const getFunctionalAllocationChartOptions = (
         return val.toFixed(0) + "%";
       },
       style: {
-        fontSize: "12px",
-        colors: ["#fff"],
+        fontSize: '12px',
+        colors: ['#fff']
       },
     },
     stroke: {
       width: [0, 0, 0, 4],
-      curve: "smooth",
+      curve: 'smooth'
     },
     title: {
       text: "Functional Expense Allocation",

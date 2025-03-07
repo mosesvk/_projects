@@ -427,7 +427,7 @@ const createChart = (
       document.addEventListener("dark-mode", function () {
         costOfContributions_chart.updateOptions(chartOptions);
       });
-    } else if (chartId === "functionalAllocation_chart") {
+    }   else if (chartId === "functionalAllocation_chart") {
       functionalAllocation_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions

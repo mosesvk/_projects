@@ -36,6 +36,7 @@ let functionalExpensePercent_fundraising_chart;
 let costOfContributions_chart;
 let functionalAllocation_chart;
 
+
 // Mission Sending
 // Relief Ops
 // Healthcare
@@ -226,8 +227,8 @@ const createChartFromParsedData = (
   type,
   fixedNum,
   mainName,
-  wa,
-  benchmark,
+  wa, 
+  benchmark, 
   title,
   chartType
 ) => {
@@ -242,7 +243,7 @@ const createChartFromParsedData = (
       fixedNum,
       mainName,
       wa,
-      parsedData,
+      parsedData, 
       benchmark,
       title,
       chartType
@@ -259,8 +260,8 @@ const createChart = (
   mainName,
   wa,
   parsedData,
-  benchmark,
-  title,
+  benchmark, 
+  title, 
   chartType
 ) => {
   // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
@@ -268,9 +269,9 @@ const createChart = (
 
   dataUrLObj[mainName] = chartId;
 
-  let chartOptions;
+  let chartOptions
 
-  if (chartType == "line") {
+  if (chartType == 'line') {
     chartOptions = getLineChartOptions(
       dataPeer,
       dataClient,
@@ -278,8 +279,8 @@ const createChart = (
       fixedNum,
       mainName,
       wa,
-      parsedData,
-      benchmark,
+      parsedData, 
+      benchmark, 
       title
     );
   } else {
@@ -290,11 +291,12 @@ const createChart = (
       fixedNum,
       mainName,
       wa,
-      parsedData,
-      benchmark,
+      parsedData, 
+      benchmark, 
       title
     );
   }
+ 
 
   const chartIds = [
     "daysCashOnHand_chart",
@@ -309,7 +311,7 @@ const createChart = (
     "functionalExpensePercent_administrative_chart",
     "functionalExpensePercent_fundraising_chart",
     "costOfContributions_chart",
-    "functionalAllocation_chart",
+    "functionalAllocation_chart"
   ];
 
   if (chartIds.includes(chartId)) {
@@ -367,9 +369,7 @@ const createChart = (
       );
       assetsWithoutPpeToLiabilitiesWithoutDebt_chart.render();
       document.addEventListener("dark-mode", function () {
-        assetsWithoutPpeToLiabilitiesWithoutDebt_chart.updateOptions(
-          chartOptions
-        );
+        assetsWithoutPpeToLiabilitiesWithoutDebt_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "contributionsTrend_chart") {
       contributionsTrend_chart = new ApexCharts(
@@ -426,15 +426,6 @@ const createChart = (
       costOfContributions_chart.render();
       document.addEventListener("dark-mode", function () {
         costOfContributions_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "functionalAllocation_chart") {
-      functionalAllocation_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      functionalAllocation_chart.render();
-      document.addEventListener("dark-mode", function () {
-        functionalAllocation_chart.updateOptions(chartOptions);
       });
     }
   }
