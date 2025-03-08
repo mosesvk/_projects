@@ -369,7 +369,7 @@ const getLineChartOptions = (
   const series = [];
   
   // Only add client data if it has valid values
-  if (clientArray.length > 0 && clientArray.some(val => val !== null && val !== 0)) {
+  if (clientArray.length > 0 && clientArray.some(val => val !== null)) {
     series.push({
       name: firmName || 'Client',
       type: "line",
@@ -380,9 +380,8 @@ const getLineChartOptions = (
     });
   }
   
-  // Only add peer average data if it has valid values and is not all zeros
-  const hasPeerData = peerAvg.length > 0 && peerAvg.some(val => val !== null && val !== 0);
-  if (hasPeerData) {
+  // Only add peer average data if it has valid values
+  if (peerAvg.length > 0 && peerAvg.some(val => val !== null)) {
     series.push({
       name: "Peer Avg",
       type: "line",

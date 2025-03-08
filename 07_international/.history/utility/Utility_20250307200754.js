@@ -39,6 +39,7 @@ let functionalAllocation_chart;
 let netAssetBreakdown_chart;
 let changeInNetAssets_chart;
 
+
 // Mission Sending
 // Relief Ops
 // Healthcare
@@ -345,7 +346,6 @@ const createChart = (
     "costOfContributions_chart",
     "functionalAllocation_chart",
     "netAssetBreakdown_chart",
-    "changeInNetAssets_chart",
   ];
 
   if (chartIds.includes(chartId)) {
@@ -489,15 +489,6 @@ const createChart = (
       netAssetBreakdown_chart.render();
       document.addEventListener("dark-mode", function () {
         netAssetBreakdown_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "changeInNetAssets_chart") {
-      changeInNetAssets_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      changeInNetAssets_chart.render();
-      document.addEventListener("dark-mode", function () {
-        changeInNetAssets_chart.updateOptions(chartOptions);
       });
     }
   }
