@@ -756,15 +756,13 @@ const getFunctionalAllocationChartOptions = (
     return `${formattedValue}%`;
   };
 
-  const seriesColors = [
-    window.chartColors.green,
-    window.chartColors.blue,
-    window.chartColors.red,
-    window.chartColors.orange,
-  ]
-
   return {
-    colors: seriesColors,
+    colors: [
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.red,
+      window.chartColors.orange,
+    ],
     series: [
       {
         name: "Program Expenses",
@@ -1100,15 +1098,13 @@ const getCostOfContributionsDetailViewOptions = (
   const safeMaxRatioValue =
     !isFinite(maxRatioValue) || maxRatioValue <= 0 ? 0.3 : maxRatioValue;
 
-    const seriesColors = [
+  return {
+    colors: [
       window.chartColors.blue, // Fundraising expenses
       window.chartColors.green, // Total contributions
       window.chartColors.red, // Client cost ratio
       window.chartColors.grey, // Peer average ratio
-    ];
-
-  return {
-    colors: seriesColors,
+    ],
     series: [
       {
         name: "Fundraising Expenses",

@@ -231,26 +231,26 @@ const processGeneralData = (years, recordsPeer, recordsClient) => {
         "c01_04_ratio_it_expenses"
       );
 
-      // netAssetsWithoutDonorRestrictions_Client
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "netAssetsWithoutDonorRestrictions_Client",
-        record,
-        "_01__03na___01_net_assets_without_donor_restrictions"
-      );
+    //   // netAssetsWithoutDonorRestrictions_Client
+    //   insertDataIntoObject(
+    //     "client",
+    //     year,
+    //     object,
+    //     "netAssetsWithoutDonorRestrictions_Client",
+    //     record,
+    //     "_01__03na___01_net_assets_without_donor_restrictions"
+    //   );
 
-      // netAssetsWithDonorRestrictionsSum_Client
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "netAssetsWithDonorRestrictionsSum_Client",
-        record,
-        "_01__03na___03a_net_assets_with_donor_restrictions_sum"
-      );
-    });
+    //   // netAssetsWithDonorRestrictionsSum_Client
+    //   insertDataIntoObject(
+    //     "client",
+    //     year,
+    //     object,
+    //     "netAssetsWithDonorRestrictionsSum_Client",
+    //     record,
+    //     "_01__03na___03a_net_assets_with_donor_restrictions_sum"
+    //   );
+    // });
 
     localStorage.removeItem("generalData");
     localStorage.setItem("generalData", JSON.stringify(object));

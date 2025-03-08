@@ -390,6 +390,7 @@ const getLineChartOptions = (
       },
     },
     dataLabels: {
+      // 4. Add enabled:true
       enabled: true,
       formatter: dataLabelFormatter,
       textAnchor: "end",
@@ -461,6 +462,7 @@ const getLineChartOptions = (
         barHeight: "90%",
       },
     },
+    // 5. Remove duplicate toolbar and title
   };
 };
 
@@ -656,16 +658,6 @@ const getFunctionalAllocationChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
-  const formatLargeNumber = (value) => {
-    if (!value && value !== 0) return "$0";
-    if (value >= 1000000) {
-      return `$${(value / 1000000).toFixed(1)}M`;
-    } else if (value >= 1000) {
-      return `$${(value / 1000).toFixed(0)}K`;
-    }
-    return `$${value.toFixed(0)}`;
-  };
-
   // Get data for program expenses
   const { clientArray: programClientArray, peerAvg: programPeerAvg } =
     getPeerAndClientChartDataArrays(
@@ -756,15 +748,13 @@ const getFunctionalAllocationChartOptions = (
     return `${formattedValue}%`;
   };
 
-  const seriesColors = [
-    window.chartColors.green,
-    window.chartColors.blue,
-    window.chartColors.red,
-    window.chartColors.orange,
-  ]
-
   return {
-    colors: seriesColors,
+    colors: [
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.red,
+      window.chartColors.orange,
+    ],
     series: [
       {
         name: "Program Expenses",
@@ -805,29 +795,21 @@ const getFunctionalAllocationChartOptions = (
     },
     dataLabels: {
       enabled: true,
-      offsetY: -20,
-      formatter: formatLargeNumber,
+      formatter: function (val, opt) {
+        // Check if this is a line series (the 4th one in our case)
+        if (opt.seriesIndex === 3) {
+          return val.toFixed(0) + "%";
+        }
+        // For stacked columns, only show value if it's significant (> 5%)
+        return val > 5 ? val.toFixed(0) + "%" : "";
+      },
       style: {
-        fontSize: "14px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
-        colors: seriesColors,
+        fontSize: "12px",
+        colors: ["#fff", "#fff", "#fff", "#000"], // Colors for each series, last one for the line
       },
-      background: {
-        padding: 4,
-        borderRadius: 2,
-        borderWidth: 1,
-        borderColor: "#ffffff",
-        opacity: 0.7,
-        dropShadow: {
-          enabled: false,
-          top: 1,
-          left: 1,
-          blur: 1,
-          color: "#000",
-          opacity: 0.45,
-        },
-      },
+      offsetY: 0,
+      // Custom settings for each series type
+      distributed: false,
     },
     stroke: {
       width: [0, 0, 0, 4], // Width for each series, last one is the line
@@ -841,6 +823,10 @@ const getFunctionalAllocationChartOptions = (
       hover: {
         size: 7,
       },
+    },
+    title: {
+      text: "Functional Expense Allocation",
+      align: "left",
     },
     xaxis: {
       categories: selectedYearsArray,
@@ -1100,15 +1086,13 @@ const getCostOfContributionsDetailViewOptions = (
   const safeMaxRatioValue =
     !isFinite(maxRatioValue) || maxRatioValue <= 0 ? 0.3 : maxRatioValue;
 
-    const seriesColors = [
+  return {
+    colors: [
       window.chartColors.blue, // Fundraising expenses
       window.chartColors.green, // Total contributions
       window.chartColors.red, // Client cost ratio
       window.chartColors.grey, // Peer average ratio
-    ];
-
-  return {
-    colors: seriesColors,
+    ],
     series: [
       {
         name: "Fundraising Expenses",
@@ -1145,29 +1129,23 @@ const getCostOfContributionsDetailViewOptions = (
     },
     dataLabels: {
       enabled: true,
-      offsetY: -20,
-      formatter: formatLargeNumber,
+      enabledOnSeries: [0, 1, 2, 3],
+      formatter: function (val, opt) {
+        if (val === null || val === undefined) return "";
+        const seriesIndex = opt.seriesIndex;
+        if (seriesIndex <= 1) {
+          // Format for bar charts (dollar values)
+          return formatLargeNumber(val);
+        } else {
+          // Format for line charts (ratios)
+          return formatRatio(val);
+        }
+      },
       style: {
-        fontSize: "14px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
-        colors: seriesColors,
+        fontSize: "12px",
+        colors: ["#fff", "#fff", "#000", "#000"], // Colors for each series
       },
-      background: {
-        padding: 4,
-        borderRadius: 2,
-        borderWidth: 1,
-        borderColor: "#ffffff",
-        opacity: 0.7,
-        dropShadow: {
-          enabled: false,
-          top: 1,
-          left: 1,
-          blur: 1,
-          color: "#000",
-          opacity: 0.45,
-        },
-      },
+      offsetY: 0,
     },
     stroke: {
       width: [0, 0, 3, 3], // Width for each series
@@ -1189,6 +1167,13 @@ const getCostOfContributionsDetailViewOptions = (
     },
     yaxis: [
       {
+        // Left y-axis for dollar values (bar charts)
+        title: {
+          text: "Amount in Dollars",
+          style: {
+            color: chartColor,
+          },
+        },
         labels: {
           formatter: function (value) {
             return formatLargeNumber(value);
@@ -1203,6 +1188,13 @@ const getCostOfContributionsDetailViewOptions = (
         tickAmount: 5,
       },
       {
+        // Right y-axis for ratio values (line charts)
+        title: {
+          text: "Cost to Raise $1",
+          style: {
+            color: chartColor,
+          },
+        },
         labels: {
           formatter: function (value) {
             return formatRatio(value);
@@ -1351,19 +1343,6 @@ const getNetAssetBreakdownOptions = (
     return `$${value.toFixed(0)}`;
   };
 
-  const dataLabelFormatter = (value) => {
-    // 2. Handle zero values properly
-    if (value === 0 || value) {
-      const formattedValue = value.toLocaleString();
-      if (numType === "dollar") {
-        return `$${formattedValue}`;
-      } else {
-        return `${Number(value).toFixed(2)}`;
-      }
-    }
-    return ""; // Return empty string for null/undefined
-  };
-
   // Update modal with data
   selectedYearsArray.forEach((year, index) => {
     const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
@@ -1403,7 +1382,8 @@ const getNetAssetBreakdownOptions = (
     window.chartColors.green, // With donor restrictions
   ];
 
-  // console.log({mainName, netAssetsWithoutDRData, netAssetsWithDRData, dataPeer, dataClient, parsedData});
+  console.log({mainName, netAssetsWithoutDRData, netAssetsWithDRData, dataPeer, dataClient, parsedData});
+  
 
   return {
     colors: seriesColors,
@@ -1415,94 +1395,112 @@ const getNetAssetBreakdownOptions = (
       {
         name: "With Donor Restrictions",
         data: netAssetsWithDRData,
-      }
+      },
     ],
     chart: {
-      type: 'bar',
+      type: "bar",
       height: 350,
-      stacked: false, // Explicitly set to false to ensure bars are not stacked
+      stacked: true,
       toolbar: {
-        show: false
-      }
+        show: false,
+      },
     },
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: '40%', // Slightly narrower columns to avoid overlap
-        endingShape: 'rounded',
+        columnWidth: "55%",
+        endingShape: "rounded",
         dataLabels: {
-          position: 'top', // Position labels at the top of bars
-        }
+          position: "center",
+        },
       },
     },
     dataLabels: {
       enabled: true,
-      offsetY: -20,
-      formatter: formatLargeNumber,
+      formatter: function (val, opt) {
+        // Show dollar amount and percentage
+        const percentage =
+          opt.seriesIndex === 0
+            ? netAssetsWithoutDRPercentage[opt.dataPointIndex]
+            : netAssetsWithDRPercentage[opt.dataPointIndex];
+
+        return formatLargeNumber(val) + ` (${percentage}%)`;
+      },
       style: {
-        fontSize: "14px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
-        colors: seriesColors,
+        fontSize: "12px",
+        colors: ["#fff"],
       },
       background: {
-        padding: 4,
+        enabled: true,
+        foreColor: "#fff",
         borderRadius: 2,
+        padding: 4,
+        opacity: 0.9,
         borderWidth: 1,
-        borderColor: "#ffffff",
-        opacity: 0.7,
-        dropShadow: {
-          enabled: false,
-          top: 1,
-          left: 1,
-          blur: 1,
-          color: "#000",
-          opacity: 0.45,
+        borderColor: "#fff",
+        formatter: function (val, opt) {
+          return {
+            backgroundColor: seriesColors[opt.seriesIndex],
+            borderColor: seriesColors[opt.seriesIndex],
+          };
         },
       },
     },
     stroke: {
       width: 2,
-      colors: ['#fff'] // White border for better visual separation
+      colors: ["#fff"],
+    },
+    title: {
+      text: "Net Asset Breakdown",
+      align: "left",
+      style: {
+        fontSize: "18px",
+        color: chartColor,
+      },
     },
     xaxis: {
       categories: selectedYearsArray,
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: '14px'
-        }
-      }
+          fontSize: "14px",
+        },
+      },
     },
     yaxis: {
+      title: {
+        style: {
+          color: chartColor,
+        },
+      },
       labels: {
-        formatter: function(value) {
+        formatter: function (value) {
           return formatLargeNumber(value);
         },
         style: {
           colors: chartColor,
-          fontSize: '14px'
-        }
-      }
+          fontSize: "14px",
+        },
+      },
     },
     tooltip: {
       y: {
-        formatter: function(value) {
+        formatter: function (value) {
           return `${formatLargeNumber(value)}`;
-        }
-      }
+        },
+      },
     },
     fill: {
-      opacity: 1
+      opacity: 1,
     },
     legend: {
-      position: 'top',
-      horizontalAlign: 'center',
-      fontSize: '16px'
+      position: "top",
+      horizontalAlign: "center",
+      fontSize: "16px",
     },
     grid: {
-      borderColor: chartColors.borderColor
-    }
+      borderColor: chartColors.borderColor,
+    },
   };
 };
 

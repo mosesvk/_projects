@@ -391,9 +391,31 @@ const getLineChartOptions = (
     },
     dataLabels: {
       enabled: true,
+      offsetY: -20,
       formatter: dataLabelFormatter,
-      textAnchor: "end",
-      offsetY: -10,
+      style: {
+        fontSize: "20px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: "bold",
+        colors: ["#ffffff"],
+      },
+      background: {
+        enabled: true,
+        foreColor: window.chartColors.cfiClient,
+        padding: 4,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: "#ffffff",
+        opacity: 0.7,
+        dropShadow: {
+          enabled: false,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: "#000",
+          opacity: 0.45,
+        },
+      },
     },
     stroke: {
       width: [2, 6, 4, 4, 4],
@@ -656,16 +678,6 @@ const getFunctionalAllocationChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
-  const formatLargeNumber = (value) => {
-    if (!value && value !== 0) return "$0";
-    if (value >= 1000000) {
-      return `$${(value / 1000000).toFixed(1)}M`;
-    } else if (value >= 1000) {
-      return `$${(value / 1000).toFixed(0)}K`;
-    }
-    return `$${value.toFixed(0)}`;
-  };
-
   // Get data for program expenses
   const { clientArray: programClientArray, peerAvg: programPeerAvg } =
     getPeerAndClientChartDataArrays(
@@ -756,15 +768,13 @@ const getFunctionalAllocationChartOptions = (
     return `${formattedValue}%`;
   };
 
-  const seriesColors = [
-    window.chartColors.green,
-    window.chartColors.blue,
-    window.chartColors.red,
-    window.chartColors.orange,
-  ]
-
   return {
-    colors: seriesColors,
+    colors: [
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.red,
+      window.chartColors.orange,
+    ],
     series: [
       {
         name: "Program Expenses",
@@ -805,29 +815,21 @@ const getFunctionalAllocationChartOptions = (
     },
     dataLabels: {
       enabled: true,
-      offsetY: -20,
-      formatter: formatLargeNumber,
+      formatter: function (val, opt) {
+        // Check if this is a line series (the 4th one in our case)
+        if (opt.seriesIndex === 3) {
+          return val.toFixed(0) + "%";
+        }
+        // For stacked columns, only show value if it's significant (> 5%)
+        return val > 5 ? val.toFixed(0) + "%" : "";
+      },
       style: {
-        fontSize: "14px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
-        colors: seriesColors,
+        fontSize: "12px",
+        colors: ["#fff", "#fff", "#fff", "#000"], // Colors for each series, last one for the line
       },
-      background: {
-        padding: 4,
-        borderRadius: 2,
-        borderWidth: 1,
-        borderColor: "#ffffff",
-        opacity: 0.7,
-        dropShadow: {
-          enabled: false,
-          top: 1,
-          left: 1,
-          blur: 1,
-          color: "#000",
-          opacity: 0.45,
-        },
-      },
+      offsetY: 0,
+      // Custom settings for each series type
+      distributed: false,
     },
     stroke: {
       width: [0, 0, 0, 4], // Width for each series, last one is the line
@@ -841,6 +843,10 @@ const getFunctionalAllocationChartOptions = (
       hover: {
         size: 7,
       },
+    },
+    title: {
+      text: "Functional Expense Allocation",
+      align: "left",
     },
     xaxis: {
       categories: selectedYearsArray,
@@ -1100,15 +1106,13 @@ const getCostOfContributionsDetailViewOptions = (
   const safeMaxRatioValue =
     !isFinite(maxRatioValue) || maxRatioValue <= 0 ? 0.3 : maxRatioValue;
 
-    const seriesColors = [
+  return {
+    colors: [
       window.chartColors.blue, // Fundraising expenses
       window.chartColors.green, // Total contributions
       window.chartColors.red, // Client cost ratio
       window.chartColors.grey, // Peer average ratio
-    ];
-
-  return {
-    colors: seriesColors,
+    ],
     series: [
       {
         name: "Fundraising Expenses",
@@ -1145,29 +1149,23 @@ const getCostOfContributionsDetailViewOptions = (
     },
     dataLabels: {
       enabled: true,
-      offsetY: -20,
-      formatter: formatLargeNumber,
+      enabledOnSeries: [0, 1, 2, 3],
+      formatter: function (val, opt) {
+        if (val === null || val === undefined) return "";
+        const seriesIndex = opt.seriesIndex;
+        if (seriesIndex <= 1) {
+          // Format for bar charts (dollar values)
+          return formatLargeNumber(val);
+        } else {
+          // Format for line charts (ratios)
+          return formatRatio(val);
+        }
+      },
       style: {
-        fontSize: "14px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
-        colors: seriesColors,
+        fontSize: "12px",
+        colors: ["#fff", "#fff", "#000", "#000"], // Colors for each series
       },
-      background: {
-        padding: 4,
-        borderRadius: 2,
-        borderWidth: 1,
-        borderColor: "#ffffff",
-        opacity: 0.7,
-        dropShadow: {
-          enabled: false,
-          top: 1,
-          left: 1,
-          blur: 1,
-          color: "#000",
-          opacity: 0.45,
-        },
-      },
+      offsetY: 0,
     },
     stroke: {
       width: [0, 0, 3, 3], // Width for each series
@@ -1189,6 +1187,13 @@ const getCostOfContributionsDetailViewOptions = (
     },
     yaxis: [
       {
+        // Left y-axis for dollar values (bar charts)
+        title: {
+          text: "Amount in Dollars",
+          style: {
+            color: chartColor,
+          },
+        },
         labels: {
           formatter: function (value) {
             return formatLargeNumber(value);
@@ -1203,6 +1208,13 @@ const getCostOfContributionsDetailViewOptions = (
         tickAmount: 5,
       },
       {
+        // Right y-axis for ratio values (line charts)
+        title: {
+          text: "Cost to Raise $1",
+          style: {
+            color: chartColor,
+          },
+        },
         labels: {
           formatter: function (value) {
             return formatRatio(value);
@@ -1403,7 +1415,7 @@ const getNetAssetBreakdownOptions = (
     window.chartColors.green, // With donor restrictions
   ];
 
-  // console.log({mainName, netAssetsWithoutDRData, netAssetsWithDRData, dataPeer, dataClient, parsedData});
+  console.log({mainName, netAssetsWithoutDRData, netAssetsWithDRData, dataPeer, dataClient, parsedData});
 
   return {
     colors: seriesColors,
@@ -1411,10 +1423,16 @@ const getNetAssetBreakdownOptions = (
       {
         name: "Without Donor Restrictions",
         data: netAssetsWithoutDRData,
+        style: {
+          colors: [chartColors.labelColor],
+        },
       },
       {
         name: "With Donor Restrictions",
         data: netAssetsWithDRData,
+        style: {
+          colors: [chartColors.labelColor],
+        },
       }
     ],
     chart: {
@@ -1437,33 +1455,21 @@ const getNetAssetBreakdownOptions = (
     },
     dataLabels: {
       enabled: true,
-      offsetY: -20,
-      formatter: formatLargeNumber,
-      style: {
-        fontSize: "14px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
-        colors: seriesColors,
-      },
-      background: {
-        padding: 4,
-        borderRadius: 2,
-        borderWidth: 1,
-        borderColor: "#ffffff",
-        opacity: 0.7,
-        dropShadow: {
-          enabled: false,
-          top: 1,
-          left: 1,
-          blur: 1,
-          color: "#000",
-          opacity: 0.45,
-        },
-      },
+      formatter: dataLabelFormatter,
+      textAnchor: "end",
+      offsetY: -10,
     },
     stroke: {
       width: 2,
       colors: ['#fff'] // White border for better visual separation
+    },
+    title: {
+      text: 'Net Asset Breakdown',
+      align: 'left',
+      style: {
+        fontSize: '18px',
+        color: chartColor
+      }
     },
     xaxis: {
       categories: selectedYearsArray,
@@ -1475,6 +1481,12 @@ const getNetAssetBreakdownOptions = (
       }
     },
     yaxis: {
+      title: {
+        text: 'Amount in Dollars',
+        style: {
+          color: chartColor
+        }
+      },
       labels: {
         formatter: function(value) {
           return formatLargeNumber(value);

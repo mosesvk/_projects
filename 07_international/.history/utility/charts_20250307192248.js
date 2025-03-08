@@ -656,16 +656,6 @@ const getFunctionalAllocationChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
-  const formatLargeNumber = (value) => {
-    if (!value && value !== 0) return "$0";
-    if (value >= 1000000) {
-      return `$${(value / 1000000).toFixed(1)}M`;
-    } else if (value >= 1000) {
-      return `$${(value / 1000).toFixed(0)}K`;
-    }
-    return `$${value.toFixed(0)}`;
-  };
-
   // Get data for program expenses
   const { clientArray: programClientArray, peerAvg: programPeerAvg } =
     getPeerAndClientChartDataArrays(
@@ -756,15 +746,13 @@ const getFunctionalAllocationChartOptions = (
     return `${formattedValue}%`;
   };
 
-  const seriesColors = [
-    window.chartColors.green,
-    window.chartColors.blue,
-    window.chartColors.red,
-    window.chartColors.orange,
-  ]
-
   return {
-    colors: seriesColors,
+    colors: [
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.red,
+      window.chartColors.orange,
+    ],
     series: [
       {
         name: "Program Expenses",
@@ -1100,15 +1088,13 @@ const getCostOfContributionsDetailViewOptions = (
   const safeMaxRatioValue =
     !isFinite(maxRatioValue) || maxRatioValue <= 0 ? 0.3 : maxRatioValue;
 
-    const seriesColors = [
+  return {
+    colors: [
       window.chartColors.blue, // Fundraising expenses
       window.chartColors.green, // Total contributions
       window.chartColors.red, // Client cost ratio
       window.chartColors.grey, // Peer average ratio
-    ];
-
-  return {
-    colors: seriesColors,
+    ],
     series: [
       {
         name: "Fundraising Expenses",

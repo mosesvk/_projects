@@ -1,8 +1,6 @@
 displayGeneralComponent = (data) => {
   const savedData = getStoredData("cashData");
-  const generalData = getStoredData('generalData')
   const parseData = parseStoredData(savedData);
-  const generalParseData = parseStoredData(generalData)
 
   // cashFlowsTrend
   statementCashFlows_chart = new ApexCharts(
@@ -17,7 +15,7 @@ displayGeneralComponent = (data) => {
 
   // netAssetBreakdown
   createChartFromParsedData(
-    generalParseData,
+    parseData,
     "netAssetBreakdown_chart",
     null,
     null,

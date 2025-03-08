@@ -230,26 +230,6 @@ const processGeneralData = (years, recordsPeer, recordsClient) => {
         record,
         "c01_04_ratio_it_expenses"
       );
-
-      // netAssetsWithoutDonorRestrictions_Client
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "netAssetsWithoutDonorRestrictions_Client",
-        record,
-        "_01__03na___01_net_assets_without_donor_restrictions"
-      );
-
-      // netAssetsWithDonorRestrictionsSum_Client
-      insertDataIntoObject(
-        "client",
-        year,
-        object,
-        "netAssetsWithDonorRestrictionsSum_Client",
-        record,
-        "_01__03na___03a_net_assets_with_donor_restrictions_sum"
-      );
     });
 
     localStorage.removeItem("generalData");
@@ -2547,7 +2527,7 @@ const getRecordsForClient = async (years, dataStr) => {
 	{192.EX.${currentYear}} AND
 	{29.EX.${ClientRid}}`,
     clist:
-      "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221.218.15",
+      "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221.218",
   };
 
   try {
