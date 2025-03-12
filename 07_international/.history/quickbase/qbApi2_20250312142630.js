@@ -274,14 +274,6 @@ class DataProcessor {
           record,
           "_01__03na___01_net_assets_without_donor_restrictions"
         );
-        this.dataStore.insertData(
-          "general",
-          "client",
-          year,
-          "netAssetsWithDonorRestrictionsSum_Client",
-          record,
-          "_01__03na___03a_net_assets_with_donor_restrictions_sum"
-        );
 
 
         this.dataStore.insertData(

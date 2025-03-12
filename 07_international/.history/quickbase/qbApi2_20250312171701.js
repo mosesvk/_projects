@@ -278,7 +278,7 @@ class DataProcessor {
           "general",
           "client",
           year,
-          "netAssetsWithDonorRestrictionsSum_Client",
+          "netAssetsWithoutDonorRestrictions_Client",
           record,
           "_01__03na___03a_net_assets_with_donor_restrictions_sum"
         );

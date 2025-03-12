@@ -1413,7 +1413,7 @@ const getNetAssetBreakdownOptions = (
         "netAssetsWithDonorRestrictionsSum_Client"
       ] &&
       parsedData[
-        "netAssetsWithDonorRestrdictionsSum_Client"
+        "netAssetsWithDonorRestrictionsSum_Client"
       ][year] &&
       parsedData[
         "netAssetsWithDonorRestrictionsSum_Client"
