@@ -274,15 +274,13 @@ class DataProcessor {
           record,
           "_01__03na___01_net_assets_without_donor_restrictions"
         );
-
-
         this.dataStore.insertData(
           "general",
           "client",
           year,
-          "changeInNetAssets_Client",
+          "netAssetsWithDonorRestrictionsSum_Client",
           record,
-          "_02_04change___03_change_in_net_assets_with_and_wo_donor_restriction_sum"
+          "_01__03na___03a_net_assets_with_donor_restrictions_sum"
         );
       });
     });
