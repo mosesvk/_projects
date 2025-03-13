@@ -1401,7 +1401,7 @@ const getNetAssetBreakdownOptions = (
   selectedYearsArray.forEach((year) => {
     if (
       parsedData["netAssetsWithDonorRestrictionsSum_Client"] &&
-      parsedData["netAssetsWithDonorRestrictionsSum_Client"][year] &&
+      parsedData["netAssetsWithDonorRestrdictionsSum_Client"][year] &&
       parsedData["netAssetsWithDonorRestrictionsSum_Client"][year].value
     ) {
       netAssetsWithDRData.push(

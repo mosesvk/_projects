@@ -266,12 +266,8 @@ const getLineChartOptions = (
   const formatNumber = (value) => value.toLocaleString();
 
   // Get data arrays for client and peer groups
-  let clientArray = [],
-    peerAvg = [],
-    peerMid = [],
-    peer25 = [],
-    peer75 = [];
-
+  let clientArray = [], peerAvg = [], peerMid = [], peer25 = [], peer75 = [];
+  
   try {
     // Safely get chart data arrays, handling potential data gaps
     const result = getPeerAndClientChartDataArrays(
@@ -283,7 +279,7 @@ const getLineChartOptions = (
       numType,
       wa
     );
-
+    
     clientArray = result.clientArray || [];
     peerAvg = result.peerAvg || [];
     peerMid = result.peerMid || [];
@@ -302,7 +298,7 @@ const getLineChartOptions = (
   // Update modal with data if available
   selectedYearsArray.forEach((year, index) => {
     const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
-
+    
     if (tableModalRow) {
       // Only add data to modal row if it exists
       if (clientArray.length > index) {
@@ -314,7 +310,7 @@ const getLineChartOptions = (
           mainName
         );
       }
-
+      
       if (peerAvg.length > index) {
         addPeerDataToModalRow(
           tableModalRow,
@@ -332,8 +328,8 @@ const getLineChartOptions = (
 
   // Formatters for different number types
   const yaxisLabelFormatter = (value) => {
-    if (value === null || value === undefined) return "";
-
+    if (value === null || value === undefined) return '';
+    
     if (numType === "dollar") {
       return `$${formatNumber(value)}`;
     } else if (numType === "percent") {
@@ -344,8 +340,8 @@ const getLineChartOptions = (
   };
 
   const tooltipFormatter = (value) => {
-    if (value === null || value === undefined) return "";
-
+    if (value === null || value === undefined) return '';
+    
     const formattedValue = value.toLocaleString();
     if (numType === "dollar") {
       return `$${formattedValue}`;
@@ -357,8 +353,8 @@ const getLineChartOptions = (
   };
 
   const dataLabelFormatter = (value) => {
-    if (value === null || value === undefined) return "";
-
+    if (value === null || value === undefined) return '';
+    
     const formattedValue = value.toLocaleString();
     if (numType === "dollar") {
       return `$${formattedValue}`;
@@ -371,25 +367,21 @@ const getLineChartOptions = (
 
   // Build series array dynamically based on available data
   const series = [];
-
+  
   // Only add client data if it has valid values
-  if (
-    clientArray.length > 0 &&
-    clientArray.some((val) => val !== null && val !== 0)
-  ) {
+  if (clientArray.length > 0 && clientArray.some(val => val !== null && val !== 0)) {
     series.push({
-      name: firmName || "Client",
+      name: firmName || 'Client',
       type: "line",
       data: clientArray,
       style: {
         colors: [chartColors.labelColor],
-      },
+      }
     });
   }
-
+  
   // Only add peer average data if it has valid values and is not all zeros
-  const hasPeerData =
-    peerAvg.length > 0 && peerAvg.some((val) => val !== null && val !== 0);
+  const hasPeerData = peerAvg.length > 0 && peerAvg.some(val => val !== null && val !== 0);
   if (hasPeerData) {
     series.push({
       name: "Peer Avg",
@@ -400,9 +392,7 @@ const getLineChartOptions = (
   }
 
   // Calculate yaxis min/max dynamically based on data
-  const allValues = [...clientArray, ...peerAvg].filter(
-    (val) => val !== null && val !== undefined
-  );
+  const allValues = [...clientArray, ...peerAvg].filter(val => val !== null && val !== undefined);
   const minValue = allValues.length > 0 ? Math.min(...allValues) * 0.9 : 0; // 10% below min
   const maxValue = allValues.length > 0 ? Math.max(...allValues) * 1.1 : 100; // 10% above max
 
@@ -416,7 +406,7 @@ const getLineChartOptions = (
     series: series,
     chart: {
       height: 350,
-      type: "line",
+      type: 'line',
       toolbar: {
         show: false,
       },
@@ -429,13 +419,13 @@ const getLineChartOptions = (
         },
       },
       zoom: {
-        enabled: false,
+        enabled: false
       },
       animations: {
         enabled: true,
-        easing: "easeinout",
+        easing: 'easeinout',
         speed: 800,
-      },
+      }
     },
     dataLabels: {
       enabled: series.length > 0,
@@ -443,30 +433,30 @@ const getLineChartOptions = (
       textAnchor: "middle",
       offsetY: -10,
       style: {
-        fontSize: "12px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
+        fontSize: '12px',
+        fontFamily: 'Helvetica, Arial, sans-serif',
+        fontWeight: 'bold'
       },
       background: {
         enabled: true,
-        foreColor: "#fff",
+        foreColor: '#fff',
         padding: 4,
         borderRadius: 2,
         borderWidth: 1,
         borderColor: chartColors.borderColor,
         opacity: 0.9,
-      },
+      }
     },
     stroke: {
       width: series.map(() => 3), // Equal width for all series
-      curve: "smooth",
-      dashArray: series.map((s, i) => (i === 1 ? 5 : 0)), // Dash the peer average line
+      curve: 'smooth',
+      dashArray: series.map((s, i) => i === 1 ? 5 : 0) // Dash the peer average line
     },
     markers: {
       size: 5,
       hover: {
-        size: 7,
-      },
+        size: 7
+      }
     },
     xaxis: {
       type: "category",
@@ -480,11 +470,11 @@ const getLineChartOptions = (
       },
       axisBorder: {
         show: true,
-        color: chartColors.borderColor,
+        color: chartColors.borderColor
       },
       crosshairs: {
         show: true,
-        position: "back",
+        position: 'back',
         stroke: {
           color: chartColors.borderColor,
           width: 1,
@@ -534,7 +524,7 @@ const getLineChartOptions = (
     },
     legend: {
       show: series.length > 1,
-      position: "top",
+      position: 'top',
       horizontalAlign: "center",
       offsetX: 40,
       fontSize: "16px",
@@ -544,7 +534,7 @@ const getLineChartOptions = (
         strokeWidth: 0,
         radius: 12,
         offsetX: 0,
-        offsetY: 0,
+        offsetY: 0
       },
     },
     grid: {
@@ -555,27 +545,27 @@ const getLineChartOptions = (
       },
       xaxis: {
         lines: {
-          show: true,
-        },
+          show: true
+        }
       },
       yaxis: {
         lines: {
-          show: true,
-        },
+          show: true
+        }
       },
     },
     noData: {
       text: "No data available",
-      align: "center",
-      verticalAlign: "middle",
+      align: 'center',
+      verticalAlign: 'middle',
       offsetX: 0,
       offsetY: 0,
       style: {
         color: chartColor,
-        fontSize: "16px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-      },
-    },
+        fontSize: '16px',
+        fontFamily: 'Helvetica, Arial, sans-serif'
+      }
+    }
   };
 };
 
@@ -852,7 +842,7 @@ const getFunctionalAllocationChartOptions = (
   });
 
   const yaxisLabelFormatter = (value) => {
-    return `${value}%`;
+    return `${formatNumber(value)}%`;
   };
 
   const tooltipFormatter = (value) => {
@@ -866,7 +856,7 @@ const getFunctionalAllocationChartOptions = (
     window.chartColors.blue,
     window.chartColors.red,
     window.chartColors.orange,
-  ];
+  ]
 
   return {
     colors: seriesColors,
@@ -1204,12 +1194,12 @@ const getCostOfContributionsDetailViewOptions = (
   const safeMaxRatioValue =
     !isFinite(maxRatioValue) || maxRatioValue <= 0 ? 0.3 : maxRatioValue;
 
-  const seriesColors = [
-    window.chartColors.blue, // Fundraising expenses
-    window.chartColors.green, // Total contributions
-    window.chartColors.red, // Client cost ratio
-    window.chartColors.grey, // Peer average ratio
-  ];
+    const seriesColors = [
+      window.chartColors.blue, // Fundraising expenses
+      window.chartColors.green, // Total contributions
+      window.chartColors.red, // Client cost ratio
+      window.chartColors.grey, // Peer average ratio
+    ];
 
   return {
     colors: seriesColors,
@@ -1382,13 +1372,21 @@ const getNetAssetBreakdownOptions = (
   const netAssetsWithoutDRData = [];
   selectedYearsArray.forEach((year) => {
     if (
-      parsedData["netAssetsWithoutDonorRestrictions_Client"] &&
-      parsedData["netAssetsWithoutDonorRestrictions_Client"][year] &&
-      parsedData["netAssetsWithoutDonorRestrictions_Client"][year].value
+      parsedData[
+        "netAssetsWithoutDonorRestrictions_Client"
+      ] &&
+      parsedData["netAssetsWithoutDonorRestrictions_Client"][
+        year
+      ] &&
+      parsedData["netAssetsWithoutDonorRestrictions_Client"][
+        year
+      ].value
     ) {
       netAssetsWithoutDRData.push(
         Number(
-          parsedData["netAssetsWithoutDonorRestrictions_Client"][year].value
+          parsedData[
+            "netAssetsWithoutDonorRestrictions_Client"
+          ][year].value
         )
       );
     } else {
@@ -1400,13 +1398,21 @@ const getNetAssetBreakdownOptions = (
   const netAssetsWithDRData = [];
   selectedYearsArray.forEach((year) => {
     if (
-      parsedData["netAssetsWithDonorRestrictionsSum_Client"] &&
-      parsedData["netAssetsWithDonorRestrictionsSum_Client"][year] &&
-      parsedData["netAssetsWithDonorRestrictionsSum_Client"][year].value
+      parsedData[
+        "netAssetsWithDonorRestrictionsSum_Client"
+      ] &&
+      parsedData[
+        "netAssetsWithDonorRestrdictionsSum_Client"
+      ][year] &&
+      parsedData[
+        "netAssetsWithDonorRestrictionsSum_Client"
+      ][year].value
     ) {
       netAssetsWithDRData.push(
         Number(
-          parsedData["netAssetsWithDonorRestrictionsSum_Client"][year].value
+          parsedData[
+            "netAssetsWithDonorRestrictionsSum_Client"
+          ][year].value
         )
       );
     } else {
@@ -1503,24 +1509,24 @@ const getNetAssetBreakdownOptions = (
       {
         name: "With Donor Restrictions",
         data: netAssetsWithDRData,
-      },
+      }
     ],
     chart: {
-      type: "bar",
+      type: 'bar',
       height: 350,
       stacked: false, // Explicitly set to false to ensure bars are not stacked
       toolbar: {
-        show: false,
-      },
+        show: false
+      }
     },
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "40%", // Slightly narrower columns to avoid overlap
-        endingShape: "rounded",
+        columnWidth: '40%', // Slightly narrower columns to avoid overlap
+        endingShape: 'rounded',
         dataLabels: {
-          position: "top", // Position labels at the top of bars
-        },
+          position: 'top', // Position labels at the top of bars
+        }
       },
     },
     dataLabels: {
@@ -1551,46 +1557,46 @@ const getNetAssetBreakdownOptions = (
     },
     stroke: {
       width: 2,
-      colors: ["#fff"], // White border for better visual separation
+      colors: ['#fff'] // White border for better visual separation
     },
     xaxis: {
       categories: selectedYearsArray,
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: "14px",
-        },
-      },
+          fontSize: '14px'
+        }
+      }
     },
     yaxis: {
       labels: {
-        formatter: function (value) {
+        formatter: function(value) {
           return formatLargeNumber(value);
         },
         style: {
           colors: chartColor,
-          fontSize: "14px",
-        },
-      },
+          fontSize: '14px'
+        }
+      }
     },
     tooltip: {
       y: {
-        formatter: function (value) {
+        formatter: function(value) {
           return `${formatLargeNumber(value)}`;
-        },
-      },
+        }
+      }
     },
     fill: {
-      opacity: 1,
+      opacity: 1
     },
     legend: {
-      position: "top",
-      horizontalAlign: "center",
-      fontSize: "16px",
+      position: 'top',
+      horizontalAlign: 'center',
+      fontSize: '16px'
     },
     grid: {
-      borderColor: chartColors.borderColor,
-    },
+      borderColor: chartColors.borderColor
+    }
   };
 };
 
