@@ -632,24 +632,13 @@ const getCashFlowChartOptions = (
   const formatNumber = (value) => value.toLocaleString();
 
   const formatLargeNumber = (value) => {
-    if (value === null || value === undefined) return "$0";
-    
-    // Store if the value is negative
-    const isNegative = value < 0;
-    // Work with absolute value for formatting
-    const absValue = Math.abs(value);
-    
-    let formattedValue;
-    if (absValue >= 1000000) {
-      formattedValue = `$${(absValue / 1000000).toFixed(1)}M`;
-    } else if (absValue >= 1000) {
-      formattedValue = `$${(absValue / 1000).toFixed(0)}K`;
-    } else {
-      formattedValue = `$${absValue.toFixed(0)}`;
+    if (!value && value !== 0) return "$0";
+    if (value >= 1000000) {
+      return `$${(value / 1000000).toFixed(1)}M`;
+    } else if (value >= 1000) {
+      return `$${(value / 1000).toFixed(0)}K`;
     }
-    
-    // Add the negative sign back if the original value was negative
-    return isNegative ? `-${formattedValue}` : formattedValue;
+    return `$${value.toFixed(0)}`;
   };
 
   const yaxisLabelFormatter = (value) => {

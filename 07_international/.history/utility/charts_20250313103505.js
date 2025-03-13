@@ -349,19 +349,6 @@ const getLineChartOptions = (
     }
   };
 
-  const formatLargeNumber = (value) => {
-    if (!value && value !== 0) return "$0";
-    if (value >= 1000000) {
-      return `$${(value / 1000000).toFixed(0)}M`;
-    } else if (value >= 1000) {
-      return `$${(value / 1000).toFixed(0)}K`;
-    }
-
-    return `$${value.toFixed(2)}`;
-  };
-
-  
-
   const tooltipFormatter = (value) => {
     if (value === null || value === undefined) return "";
 
@@ -493,7 +480,7 @@ const getLineChartOptions = (
       tickPlacement: "between",
       labels: {
         style: {
-          colors: chartColor,
+          colors: chartColors.labelColor,
           fontSize: "1rem",
         },
       },
@@ -523,10 +510,10 @@ const getLineChartOptions = (
         color: chartColor,
       },
       labels: {
-        formatter: dataLabelFormatter,
+        formatter: yaxisLabelFormatter,
         style: {
           colors: chartColor,
-          fontSize: "1.25rem",
+          fontSize: "1rem",
         },
       },
       tooltip: {
@@ -552,9 +539,19 @@ const getLineChartOptions = (
       },
     },
     legend: {
-      position: "bottom",
+      show: series.length > 1,
+      position: "top",
       horizontalAlign: "center",
+      offsetX: 40,
       fontSize: "16px",
+      markers: {
+        width: 12,
+        height: 12,
+        strokeWidth: 0,
+        radius: 12,
+        offsetX: 0,
+        offsetY: 0,
+      },
     },
     grid: {
       borderColor: chartColors.borderColor,
@@ -631,27 +628,6 @@ const getCashFlowChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
-  const formatLargeNumber = (value) => {
-    if (value === null || value === undefined) return "$0";
-    
-    // Store if the value is negative
-    const isNegative = value < 0;
-    // Work with absolute value for formatting
-    const absValue = Math.abs(value);
-    
-    let formattedValue;
-    if (absValue >= 1000000) {
-      formattedValue = `$${(absValue / 1000000).toFixed(1)}M`;
-    } else if (absValue >= 1000) {
-      formattedValue = `$${(absValue / 1000).toFixed(0)}K`;
-    } else {
-      formattedValue = `$${absValue.toFixed(0)}`;
-    }
-    
-    // Add the negative sign back if the original value was negative
-    return isNegative ? `-${formattedValue}` : formattedValue;
-  };
-
   const yaxisLabelFormatter = (value) => {
     return `$${formatNumber(value)}`;
   };
@@ -714,7 +690,7 @@ const getCashFlowChartOptions = (
           color: chartColor,
         },
         labels: {
-          formatter: formatLargeNumber,
+          formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
             fontSize: "1.25rem",
@@ -800,196 +776,170 @@ const getFunctionalAllocationChartOptions = (
 
   // Get selected years and ensure it's an array
   const selectedYearsArray = getSelectedYearsFromLocalStorage() || [];
-  if (!Array.isArray(selectedYearsArray) || selectedYearsArray.length === 0) {
-    console.error("Selected years is not a valid array:", selectedYearsArray);
-    return { noData: { text: "No years selected" } };
+  if (!Array.isArray(selectedYearsArray)) {
+    console.error("Selected years is not an array:", selectedYearsArray);
+    return {}; // Return empty options to prevent chart rendering
   }
 
+  const formatNumber = (value) => `${Math.round(value)}%`;
+
   try {
-    // Ensure parsedData exists
+    // Validate parsedData exists
     if (!parsedData) {
-      throw new Error("No data available");
+      throw new Error("Parsed data is undefined or null");
     }
 
-    // Initialize arrays with the correct size
-    const years = selectedYearsArray.length;
-    let programClientArray = new Array(years).fill(null);
-    let adminClientArray = new Array(years).fill(null);
-    let fundraisingClientArray = new Array(years).fill(null);
-    let programPeerAvg = new Array(years).fill(null);
+    // Get data for program expenses with error handling
+    const programData = getPeerAndClientChartDataArrays(
+      selectedYearsArray,
+      parsedData["functionalExpensePercent_program_Peer"],
+      parsedData["functionalExpensePercent_program_Client"],
+      fixedNum,
+      "functionalExpensePercent_program",
+      numType,
+      wa
+    );
 
-    // Direct data extraction without using helper functions that might be causing issues
-    try {
-      // Get program expenses data
-      if (parsedData["functionalExpensePercent_program_Client"]) {
-        selectedYearsArray.forEach((year, index) => {
-          if (parsedData["functionalExpensePercent_program_Client"][year]) {
-            const value = parseFloat(
-              parsedData["functionalExpensePercent_program_Client"][year]
-                .value * 100
-            );
-            programClientArray[index] = isNaN(value) ? null : value;
-          }
-        });
-      }
-
-      // Get admin expenses data
-      if (parsedData["functionalExpensePercent_administrative_Client"]) {
-        selectedYearsArray.forEach((year, index) => {
-          if (
-            parsedData["functionalExpensePercent_administrative_Client"][year]
-          ) {
-            const value = parseFloat(
-              parsedData["functionalExpensePercent_administrative_Client"][year]
-                .value * 100
-            );
-            adminClientArray[index] = isNaN(value) ? null : value;
-          }
-        });
-      }
-
-      // Get fundraising expenses data
-      if (parsedData["functionalExpensePercent_fundraising_Client"]) {
-        selectedYearsArray.forEach((year, index) => {
-          if (parsedData["functionalExpensePercent_fundraising_Client"][year]) {
-            const value = parseFloat(
-              parsedData["functionalExpensePercent_fundraising_Client"][year]
-                .value * 100
-            );
-            fundraisingClientArray[index] = isNaN(value) ? null : value;
-          }
-        });
-      }
-
-      // Get peer average program expenses
-      if (parsedData["functionalExpensePercent_program_Peer"]) {
-        selectedYearsArray.forEach((year, index) => {
-          if (
-            parsedData["functionalExpensePercent_program_Peer"][year] &&
-            Array.isArray(
-              parsedData["functionalExpensePercent_program_Peer"][year]
-            )
-          ) {
-            // Calculate average
-            let sum = 0;
-            let count = 0;
-            parsedData["functionalExpensePercent_program_Peer"][year].forEach(
-              (value) => {
-                const numValue = parseFloat(value);
-                if (!isNaN(numValue)) {
-                  sum += numValue;
-                  count++;
-                }
-              }
-            );
-            const val = (sum / count) * 100;
-            programPeerAvg[index] = count > 0 ? Math.round(val) : null;
-          }
-        });
-      }
-    } catch (dataError) {
-      console.error("Error parsing data:", dataError);
-      // Continue with whatever data we have
+    // Validate returned data is as expected
+    if (!programData || !Array.isArray(programData.clientArray) || !Array.isArray(programData.peerAvg)) {
+      throw new Error("Program expense data is invalid or missing");
     }
 
-    // Update modal with data if needed
-    try {
-      selectedYearsArray.forEach((year, index) => {
-        const tableModalRow = document.getElementById(
-          `${mainName}_modal_${year}`
-        );
-        if (tableModalRow) {
+    const { clientArray: programClientArray, peerAvg: programPeerAvg } = programData;
+
+    // Get data for administrative expenses
+    const adminData = getPeerAndClientChartDataArrays(
+      selectedYearsArray,
+      parsedData["functionalExpensePercent_administrative_Peer"],
+      parsedData["functionalExpensePercent_administrative_Client"],
+      fixedNum,
+      "functionalExpensePercent_administrative",
+      numType,
+      wa
+    );
+
+    if (!adminData || !Array.isArray(adminData.clientArray)) {
+      throw new Error("Administrative expense data is invalid or missing");
+    }
+
+    const { clientArray: adminClientArray } = adminData;
+
+    // Get data for fundraising expenses
+    const fundraisingData = getPeerAndClientChartDataArrays(
+      selectedYearsArray,
+      parsedData["functionalExpensePercent_fundraising_Peer"],
+      parsedData["functionalExpensePercent_fundraising_Client"],
+      fixedNum,
+      "functionalExpensePercent_fundraising",
+      numType,
+      wa
+    );
+
+    if (!fundraisingData || !Array.isArray(fundraisingData.clientArray)) {
+      throw new Error("Fundraising expense data is invalid or missing");
+    }
+
+    const { clientArray: fundraisingClientArray } = fundraisingData;
+
+    // Update modal with data
+    selectedYearsArray.forEach((year, index) => {
+      const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
+      if (tableModalRow) {
+        try {
           // Add data for program expenses
-          if (programClientArray[index] !== null) {
-            addClientDataToModalRow(
-              tableModalRow,
-              programClientArray[index],
-              numType,
-              fixedNum,
-              "Program"
-            );
-          }
+          addClientDataToModalRow(
+            tableModalRow,
+            programClientArray[index],
+            numType,
+            fixedNum,
+            "Program"
+          );
 
           // Add data for administrative expenses
-          if (adminClientArray[index] !== null) {
-            addClientDataToModalRow(
-              tableModalRow,
-              adminClientArray[index],
-              numType,
-              fixedNum,
-              "Administrative"
-            );
-          }
+          addClientDataToModalRow(
+            tableModalRow,
+            adminClientArray[index],
+            numType,
+            fixedNum,
+            "Administrative"
+          );
 
           // Add data for fundraising expenses
-          if (fundraisingClientArray[index] !== null) {
-            addClientDataToModalRow(
-              tableModalRow,
-              fundraisingClientArray[index],
-              numType,
-              fixedNum,
-              "Fundraising"
-            );
-          }
+          addClientDataToModalRow(
+            tableModalRow,
+            fundraisingClientArray[index],
+            numType,
+            fixedNum,
+            "Fundraising"
+          );
 
           // Add peer average for program expenses
-          if (programPeerAvg[index] !== null) {
-            addPeerDataToModalRow(
-              tableModalRow,
-              programPeerAvg[index],
-              0,
-              0,
-              0,
-              "Program Peer Avg",
-              parsedData,
-              wa
-            );
-          }
+          addPeerDataToModalRow(
+            tableModalRow,
+            programPeerAvg[index],
+            0,
+            0,
+            0,
+            "Program Peer Avg",
+            parsedData,
+            wa
+          );
+        } catch (modalError) {
+          console.error(`Error updating modal row for year ${year}:`, modalError);
+          // Continue with other years instead of blocking chart creation
         }
-      });
-    } catch (modalError) {
-      console.error("Error updating modal:", modalError);
-    }
-
-    // Log data for debugging
-    console.log("Chart data arrays:", {
-      years: selectedYearsArray,
-      program: programClientArray,
-      admin: adminClientArray,
-      fundraising: fundraisingClientArray,
-      peerAvg: programPeerAvg,
+      }
     });
 
+    // Format functions for chart
+    const yaxisLabelFormatter = (value) => {
+      return `${value}%`;
+    };
+
+    const tooltipFormatter = (value) => {
+      if (value === null || value === undefined) return "N/A";
+      const formattedValue = value.toLocaleString();
+      return `${formattedValue}%`;
+    };
+
     const seriesColors = [
-      window.chartColors.blue, // Fundraising expenses
-      window.chartColors.orange, // Total contributions
-      window.chartColors.red, // Client cost ratio
-      window.chartColors.black, // Peer average ratio
+      window.chartColors?.green || "#00E396",
+      window.chartColors?.blue || "#008FFB", 
+      window.chartColors?.red || "#FF4560",
+      window.chartColors?.orange || "#FEB019"
     ];
 
-    // Using primitive chart configuration to minimize potential issues
+    // Ensure all data arrays are valid
+    const validateSeries = (dataArray, name) => {
+      if (!Array.isArray(dataArray)) {
+        console.error(`${name} is not an array:`, dataArray);
+        return Array(selectedYearsArray.length).fill(null);
+      }
+      return dataArray;
+    };
+
     return {
       colors: seriesColors,
       series: [
         {
           name: "Program Expenses",
           type: "column",
-          data: programClientArray,
+          data: validateSeries(programClientArray, "Program Client Array")
         },
         {
           name: "Administrative Expenses",
           type: "column",
-          data: adminClientArray,
+          data: validateSeries(adminClientArray, "Admin Client Array")
         },
         {
           name: "Fundraising Expenses",
           type: "column",
-          data: fundraisingClientArray,
+          data: validateSeries(fundraisingClientArray, "Fundraising Client Array")
         },
         {
           name: "Peer Average Program Expense",
           type: "line",
-          data: programPeerAvg,
+          data: validateSeries(programPeerAvg, "Program Peer Average")
         },
       ],
       chart: {
@@ -999,28 +949,22 @@ const getFunctionalAllocationChartOptions = (
         toolbar: {
           show: false,
         },
+        events: {
+          beforeMount: function(chart) {
+            // Check for data validity before mounting
+            chart.series.forEach(series => {
+              if (!Array.isArray(series.data)) {
+                console.error(`Chart series "${series.name}" has invalid data:`, series.data);
+              }
+            });
+          }
+        }
       },
       plotOptions: {
         bar: {
           horizontal: false,
-        },
-      },
-      xaxis: {
-        categories: selectedYearsArray,
-        labels: {
-          style: {
-            colors: chartColors.labdelColor,
-            fontSize: "1rem",
-          },
-        },
-      },
-      yaxis: {
-        max: 100,
-        labels: {
-          formatter: (value) => `${value}%`,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
+          dataLabels: {
+            position: "center",
           },
         },
       },
@@ -1028,55 +972,134 @@ const getFunctionalAllocationChartOptions = (
         enabled: true,
         enabledOnSeries: [3],
         offsetY: -20,
-        formatter: (value) => `${Math.round(value)}%`,
+        formatter: formatNumber,
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
           fontWeight: "bold",
-          colors: seriesColors,
-        },
-        background: {
-          padding: 4,
-          borderRadius: 2,
-          borderWidth: 1,
-          borderColor: "#ffffff",
-          opacity: 0.7,
-          dropShadow: {
-            enabled: false,
-            top: 1,
-            left: 1,
-            blur: 1,
-            color: "#000",
-            opacity: 0.45,
-          },
+          colors: "#000000",
         },
       },
       stroke: {
-        width: [0, 0, 0, 4],
+        width: [0, 0, 0, 4], // Width for each series, last one is the line
+        curve: "smooth",
       },
       markers: {
-        size: [0, 0, 0, 5],
+        size: [0, 0, 0, 5], // Size for each series, only show for line
+        colors: window.chartColors?.orange || "#FEB019",
+        strokeWidth: 2,
+        hover: {
+          size: 7,
+        },
+      },
+      xaxis: {
+        categories: selectedYearsArray,
+        labels: {
+          style: {
+            colors: chartColors.labelColor,
+            fontSize: "1rem",
+          },
+        },
+        tickAmount: 5,
+      },
+      yaxis: {
+        min: 0,
+        max: 100,
+        tickAmount: 5,
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
+        },
       },
       tooltip: {
         shared: true,
         intersect: false,
+        fixed: {
+          enabled: true,
+          position: "topLeft",
+          offsetY: 30,
+          offsetX: 60,
+        },
         y: {
-          formatter: (value) => (value ? `${value.toLocaleString()}%` : "N/A"),
+          formatter: tooltipFormatter,
+          title: {
+            formatter: (seriesName) => `${seriesName}:`,
+          },
         },
       },
+      legend: {
+        horizontalAlign: "center",
+        offsetX: 40,
+        fontSize: "20px",
+      },
+      grid: {
+        row: {
+          colors: ["transparent"],
+          opacity: 0.5,
+          thickness: 4,
+        },
+        padding: {
+          top: 10,
+        },
+      },
+      annotations: {
+        yaxis: [
+          {
+            y: 80, // Recommended benchmark for program expenses (80%)
+            borderColor: "#00E396",
+            label: {
+              borderColor: "#00E396",
+              style: {
+                color: "#fff",
+                background: "#00E396",
+              },
+            },
+          },
+        ],
+      },
+      noData: {
+        text: "No data available",
+        align: "center",
+        verticalAlign: "middle",
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+          color: "#000000",
+          fontSize: "16px"
+        }
+      }
     };
   } catch (error) {
     console.error("Error generating chart options:", error);
-    // Return minimal chart configuration
+    // Return minimal chart configuration to prevent rendering errors
     return {
-      series: [],
+      series: [{ name: "No Data", data: [] }],
       chart: {
         height: 350,
         type: "bar",
+        toolbar: {
+          show: false,
+        }
       },
       noData: {
         text: "Error loading chart data",
-      },
+        align: "center",
+        verticalAlign: "middle",
+        style: {
+          color: "#FF4560",
+          fontSize: "16px"
+        }
+      }
     };
   }
 };
@@ -1527,7 +1550,7 @@ const getNetAssetBreakdownOptions = (
   const dataLabelFormatter = (value) => {
     // 2. Handle zero values properly
     if (value === 0 || value) {
-      let formattedValue = value.toLocaleString();
+      const formattedValue = value.toLocaleString();
       if (numType === "dollar") {
         return `$${formattedValue}`;
       } else {
@@ -1643,7 +1666,7 @@ const getNetAssetBreakdownOptions = (
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: "1rem",
+          fontSize: "14px",
         },
       },
     },
@@ -1654,7 +1677,7 @@ const getNetAssetBreakdownOptions = (
         },
         style: {
           colors: chartColor,
-          fontSize: "1.25rem",
+          fontSize: "14px",
         },
       },
     },
@@ -1669,7 +1692,7 @@ const getNetAssetBreakdownOptions = (
       opacity: 1,
     },
     legend: {
-      position: "bottom",
+      position: "top",
       horizontalAlign: "center",
       fontSize: "16px",
     },

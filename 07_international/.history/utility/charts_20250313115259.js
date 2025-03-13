@@ -349,19 +349,6 @@ const getLineChartOptions = (
     }
   };
 
-  const formatLargeNumber = (value) => {
-    if (!value && value !== 0) return "$0";
-    if (value >= 1000000) {
-      return `$${(value / 1000000).toFixed(0)}M`;
-    } else if (value >= 1000) {
-      return `$${(value / 1000).toFixed(0)}K`;
-    }
-
-    return `$${value.toFixed(2)}`;
-  };
-
-  
-
   const tooltipFormatter = (value) => {
     if (value === null || value === undefined) return "";
 
@@ -523,7 +510,7 @@ const getLineChartOptions = (
         color: chartColor,
       },
       labels: {
-        formatter: dataLabelFormatter,
+        formatter: yaxisLabelFormatter,
         style: {
           colors: chartColor,
           fontSize: "1.25rem",
@@ -552,9 +539,19 @@ const getLineChartOptions = (
       },
     },
     legend: {
-      position: "bottom",
+      show: series.length > 1,
+      position: "top",
       horizontalAlign: "center",
+      offsetX: 40,
       fontSize: "16px",
+      markers: {
+        width: 12,
+        height: 12,
+        strokeWidth: 0,
+        radius: 12,
+        offsetX: 0,
+        offsetY: 0,
+      },
     },
     grid: {
       borderColor: chartColors.borderColor,
@@ -631,27 +628,6 @@ const getCashFlowChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
-  const formatLargeNumber = (value) => {
-    if (value === null || value === undefined) return "$0";
-    
-    // Store if the value is negative
-    const isNegative = value < 0;
-    // Work with absolute value for formatting
-    const absValue = Math.abs(value);
-    
-    let formattedValue;
-    if (absValue >= 1000000) {
-      formattedValue = `$${(absValue / 1000000).toFixed(1)}M`;
-    } else if (absValue >= 1000) {
-      formattedValue = `$${(absValue / 1000).toFixed(0)}K`;
-    } else {
-      formattedValue = `$${absValue.toFixed(0)}`;
-    }
-    
-    // Add the negative sign back if the original value was negative
-    return isNegative ? `-${formattedValue}` : formattedValue;
-  };
-
   const yaxisLabelFormatter = (value) => {
     return `$${formatNumber(value)}`;
   };
@@ -714,7 +690,7 @@ const getCashFlowChartOptions = (
           color: chartColor,
         },
         labels: {
-          formatter: formatLargeNumber,
+          formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
             fontSize: "1.25rem",
@@ -1527,7 +1503,7 @@ const getNetAssetBreakdownOptions = (
   const dataLabelFormatter = (value) => {
     // 2. Handle zero values properly
     if (value === 0 || value) {
-      let formattedValue = value.toLocaleString();
+      const formattedValue = value.toLocaleString();
       if (numType === "dollar") {
         return `$${formattedValue}`;
       } else {
@@ -1669,7 +1645,7 @@ const getNetAssetBreakdownOptions = (
       opacity: 1,
     },
     legend: {
-      position: "bottom",
+      position: "top",
       horizontalAlign: "center",
       fontSize: "16px",
     },

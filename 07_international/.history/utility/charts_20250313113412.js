@@ -349,19 +349,6 @@ const getLineChartOptions = (
     }
   };
 
-  const formatLargeNumber = (value) => {
-    if (!value && value !== 0) return "$0";
-    if (value >= 1000000) {
-      return `$${(value / 1000000).toFixed(0)}M`;
-    } else if (value >= 1000) {
-      return `$${(value / 1000).toFixed(0)}K`;
-    }
-
-    return `$${value.toFixed(2)}`;
-  };
-
-  
-
   const tooltipFormatter = (value) => {
     if (value === null || value === undefined) return "";
 
@@ -493,7 +480,7 @@ const getLineChartOptions = (
       tickPlacement: "between",
       labels: {
         style: {
-          colors: chartColor,
+          colors: chartColors.labelColor,
           fontSize: "1rem",
         },
       },
@@ -523,10 +510,10 @@ const getLineChartOptions = (
         color: chartColor,
       },
       labels: {
-        formatter: dataLabelFormatter,
+        formatter: yaxisLabelFormatter,
         style: {
           colors: chartColor,
-          fontSize: "1.25rem",
+          fontSize: "1rem",
         },
       },
       tooltip: {
@@ -552,9 +539,19 @@ const getLineChartOptions = (
       },
     },
     legend: {
-      position: "bottom",
+      show: series.length > 1,
+      position: "top",
       horizontalAlign: "center",
+      offsetX: 40,
       fontSize: "16px",
+      markers: {
+        width: 12,
+        height: 12,
+        strokeWidth: 0,
+        radius: 12,
+        offsetX: 0,
+        offsetY: 0,
+      },
     },
     grid: {
       borderColor: chartColors.borderColor,
@@ -631,27 +628,6 @@ const getCashFlowChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
-  const formatLargeNumber = (value) => {
-    if (value === null || value === undefined) return "$0";
-    
-    // Store if the value is negative
-    const isNegative = value < 0;
-    // Work with absolute value for formatting
-    const absValue = Math.abs(value);
-    
-    let formattedValue;
-    if (absValue >= 1000000) {
-      formattedValue = `$${(absValue / 1000000).toFixed(1)}M`;
-    } else if (absValue >= 1000) {
-      formattedValue = `$${(absValue / 1000).toFixed(0)}K`;
-    } else {
-      formattedValue = `$${absValue.toFixed(0)}`;
-    }
-    
-    // Add the negative sign back if the original value was negative
-    return isNegative ? `-${formattedValue}` : formattedValue;
-  };
-
   const yaxisLabelFormatter = (value) => {
     return `$${formatNumber(value)}`;
   };
@@ -714,7 +690,7 @@ const getCashFlowChartOptions = (
           color: chartColor,
         },
         labels: {
-          formatter: formatLargeNumber,
+          formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
             fontSize: "1.25rem",
@@ -824,10 +800,7 @@ const getFunctionalAllocationChartOptions = (
       if (parsedData["functionalExpensePercent_program_Client"]) {
         selectedYearsArray.forEach((year, index) => {
           if (parsedData["functionalExpensePercent_program_Client"][year]) {
-            const value = parseFloat(
-              parsedData["functionalExpensePercent_program_Client"][year]
-                .value * 100
-            );
+            const value = parseFloat(parsedData["functionalExpensePercent_program_Client"][year].value * 100);
             programClientArray[index] = isNaN(value) ? null : value;
           }
         });
@@ -836,13 +809,8 @@ const getFunctionalAllocationChartOptions = (
       // Get admin expenses data
       if (parsedData["functionalExpensePercent_administrative_Client"]) {
         selectedYearsArray.forEach((year, index) => {
-          if (
-            parsedData["functionalExpensePercent_administrative_Client"][year]
-          ) {
-            const value = parseFloat(
-              parsedData["functionalExpensePercent_administrative_Client"][year]
-                .value * 100
-            );
+          if (parsedData["functionalExpensePercent_administrative_Client"][year]) {
+            const value = parseFloat(parsedData["functionalExpensePercent_administrative_Client"][year].value * 100);
             adminClientArray[index] = isNaN(value) ? null : value;
           }
         });
@@ -852,10 +820,7 @@ const getFunctionalAllocationChartOptions = (
       if (parsedData["functionalExpensePercent_fundraising_Client"]) {
         selectedYearsArray.forEach((year, index) => {
           if (parsedData["functionalExpensePercent_fundraising_Client"][year]) {
-            const value = parseFloat(
-              parsedData["functionalExpensePercent_fundraising_Client"][year]
-                .value * 100
-            );
+            const value = parseFloat(parsedData["functionalExpensePercent_fundraising_Client"][year].value * 100);
             fundraisingClientArray[index] = isNaN(value) ? null : value;
           }
         });
@@ -864,25 +829,20 @@ const getFunctionalAllocationChartOptions = (
       // Get peer average program expenses
       if (parsedData["functionalExpensePercent_program_Peer"]) {
         selectedYearsArray.forEach((year, index) => {
-          if (
-            parsedData["functionalExpensePercent_program_Peer"][year] &&
-            Array.isArray(
-              parsedData["functionalExpensePercent_program_Peer"][year]
-            )
-          ) {
+          if (parsedData["functionalExpensePercent_program_Peer"][year] && 
+              Array.isArray(parsedData["functionalExpensePercent_program_Peer"][year])) {
+            
             // Calculate average
             let sum = 0;
             let count = 0;
-            parsedData["functionalExpensePercent_program_Peer"][year].forEach(
-              (value) => {
-                const numValue = parseFloat(value);
-                if (!isNaN(numValue)) {
-                  sum += numValue;
-                  count++;
-                }
+            parsedData["functionalExpensePercent_program_Peer"][year].forEach(value => {
+              const numValue = parseFloat(value);
+              if (!isNaN(numValue)) {
+                sum += numValue;
+                count++;
               }
-            );
-            const val = (sum / count) * 100;
+            });
+            const val = (sum / count) * 100
             programPeerAvg[index] = count > 0 ? Math.round(val) : null;
           }
         });
@@ -895,9 +855,7 @@ const getFunctionalAllocationChartOptions = (
     // Update modal with data if needed
     try {
       selectedYearsArray.forEach((year, index) => {
-        const tableModalRow = document.getElementById(
-          `${mainName}_modal_${year}`
-        );
+        const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
         if (tableModalRow) {
           // Add data for program expenses
           if (programClientArray[index] !== null) {
@@ -955,9 +913,9 @@ const getFunctionalAllocationChartOptions = (
     console.log("Chart data arrays:", {
       years: selectedYearsArray,
       program: programClientArray,
-      admin: adminClientArray,
+      admin: adminClientArray, 
       fundraising: fundraisingClientArray,
-      peerAvg: programPeerAvg,
+      peerAvg: programPeerAvg
     });
 
     const seriesColors = [
@@ -974,96 +932,63 @@ const getFunctionalAllocationChartOptions = (
         {
           name: "Program Expenses",
           type: "column",
-          data: programClientArray,
+          data: programClientArray
         },
         {
           name: "Administrative Expenses",
           type: "column",
-          data: adminClientArray,
+          data: adminClientArray
         },
         {
           name: "Fundraising Expenses",
           type: "column",
-          data: fundraisingClientArray,
+          data: fundraisingClientArray
         },
         {
           name: "Peer Average Program Expense",
           type: "line",
-          data: programPeerAvg,
-        },
+          data: programPeerAvg
+        }
       ],
       chart: {
         height: 350,
         type: "bar",
         stacked: true,
         toolbar: {
-          show: false,
-        },
+          show: false
+        }
       },
       plotOptions: {
         bar: {
-          horizontal: false,
-        },
+          horizontal: false
+        }
       },
       xaxis: {
-        categories: selectedYearsArray,
-        labels: {
-          style: {
-            colors: chartColors.labdelColor,
-            fontSize: "1rem",
-          },
-        },
+        categories: selectedYearsArray
       },
       yaxis: {
         max: 100,
         labels: {
-          formatter: (value) => `${value}%`,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        },
+          formatter: (value) => `${value}%`
+        }
       },
       dataLabels: {
         enabled: true,
         enabledOnSeries: [3],
         offsetY: -20,
-        formatter: (value) => `${Math.round(value)}%`,
-        style: {
-          fontSize: "14px",
-          fontFamily: "Helvetica, Arial, sans-serif",
-          fontWeight: "bold",
-          colors: seriesColors,
-        },
-        background: {
-          padding: 4,
-          borderRadius: 2,
-          borderWidth: 1,
-          borderColor: "#ffffff",
-          opacity: 0.7,
-          dropShadow: {
-            enabled: false,
-            top: 1,
-            left: 1,
-            blur: 1,
-            color: "#000",
-            opacity: 0.45,
-          },
-        },
+        formatter: (value) => `${Math.round(value)}%`
       },
       stroke: {
-        width: [0, 0, 0, 4],
+        width: [0, 0, 0, 4]
       },
       markers: {
-        size: [0, 0, 0, 5],
+        size: [0, 0, 0, 5]
       },
       tooltip: {
-        shared: true,
-        intersect: false,
         y: {
-          formatter: (value) => (value ? `${value.toLocaleString()}%` : "N/A"),
-        },
-      },
+          formatter: (value) => value ? `${value.toLocaleString()}%` : "N/A"
+        }
+      }
     };
   } catch (error) {
     console.error("Error generating chart options:", error);
@@ -1072,11 +997,11 @@ const getFunctionalAllocationChartOptions = (
       series: [],
       chart: {
         height: 350,
-        type: "bar",
+        type: "bar"
       },
       noData: {
-        text: "Error loading chart data",
-      },
+        text: "Error loading chart data"
+      }
     };
   }
 };
@@ -1527,7 +1452,7 @@ const getNetAssetBreakdownOptions = (
   const dataLabelFormatter = (value) => {
     // 2. Handle zero values properly
     if (value === 0 || value) {
-      let formattedValue = value.toLocaleString();
+      const formattedValue = value.toLocaleString();
       if (numType === "dollar") {
         return `$${formattedValue}`;
       } else {
@@ -1643,7 +1568,7 @@ const getNetAssetBreakdownOptions = (
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: "1rem",
+          fontSize: "14px",
         },
       },
     },
@@ -1654,7 +1579,7 @@ const getNetAssetBreakdownOptions = (
         },
         style: {
           colors: chartColor,
-          fontSize: "1.25rem",
+          fontSize: "14px",
         },
       },
     },
@@ -1669,7 +1594,7 @@ const getNetAssetBreakdownOptions = (
       opacity: 1,
     },
     legend: {
-      position: "bottom",
+      position: "top",
       horizontalAlign: "center",
       fontSize: "16px",
     },

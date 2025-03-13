@@ -81,6 +81,7 @@ const getMainChartOptions = (
       } else if (value >= 1000) {
         return `$${(value / 1000).toFixed(0)}K`;
       }
+  
     } else if (numType === "percent") {
       return `${formatNumber(value)}%`;
     } else {
@@ -349,19 +350,6 @@ const getLineChartOptions = (
     }
   };
 
-  const formatLargeNumber = (value) => {
-    if (!value && value !== 0) return "$0";
-    if (value >= 1000000) {
-      return `$${(value / 1000000).toFixed(0)}M`;
-    } else if (value >= 1000) {
-      return `$${(value / 1000).toFixed(0)}K`;
-    }
-
-    return `$${value.toFixed(2)}`;
-  };
-
-  
-
   const tooltipFormatter = (value) => {
     if (value === null || value === undefined) return "";
 
@@ -493,7 +481,7 @@ const getLineChartOptions = (
       tickPlacement: "between",
       labels: {
         style: {
-          colors: chartColor,
+          colors: chartColors.labelColor,
           fontSize: "1rem",
         },
       },
@@ -523,10 +511,10 @@ const getLineChartOptions = (
         color: chartColor,
       },
       labels: {
-        formatter: dataLabelFormatter,
+        formatter: yaxisLabelFormatter,
         style: {
           colors: chartColor,
-          fontSize: "1.25rem",
+          fontSize: "1rem",
         },
       },
       tooltip: {
@@ -552,9 +540,19 @@ const getLineChartOptions = (
       },
     },
     legend: {
-      position: "bottom",
+      show: series.length > 1,
+      position: "top",
       horizontalAlign: "center",
+      offsetX: 40,
       fontSize: "16px",
+      markers: {
+        width: 12,
+        height: 12,
+        strokeWidth: 0,
+        radius: 12,
+        offsetX: 0,
+        offsetY: 0,
+      },
     },
     grid: {
       borderColor: chartColors.borderColor,
@@ -631,27 +629,6 @@ const getCashFlowChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
-  const formatLargeNumber = (value) => {
-    if (value === null || value === undefined) return "$0";
-    
-    // Store if the value is negative
-    const isNegative = value < 0;
-    // Work with absolute value for formatting
-    const absValue = Math.abs(value);
-    
-    let formattedValue;
-    if (absValue >= 1000000) {
-      formattedValue = `$${(absValue / 1000000).toFixed(1)}M`;
-    } else if (absValue >= 1000) {
-      formattedValue = `$${(absValue / 1000).toFixed(0)}K`;
-    } else {
-      formattedValue = `$${absValue.toFixed(0)}`;
-    }
-    
-    // Add the negative sign back if the original value was negative
-    return isNegative ? `-${formattedValue}` : formattedValue;
-  };
-
   const yaxisLabelFormatter = (value) => {
     return `$${formatNumber(value)}`;
   };
@@ -714,7 +691,7 @@ const getCashFlowChartOptions = (
           color: chartColor,
         },
         labels: {
-          formatter: formatLargeNumber,
+          formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
             fontSize: "1.25rem",
@@ -779,7 +756,6 @@ const getFunctionalAllocationChartOptions = (
   wa,
   parsedData
 ) => {
-  // Set up chart colors based on theme
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
         borderColor: "#374151",
@@ -798,287 +774,247 @@ const getFunctionalAllocationChartOptions = (
     ? "#e3f0fa"
     : "#3a464f";
 
-  // Get selected years and ensure it's an array
-  const selectedYearsArray = getSelectedYearsFromLocalStorage() || [];
-  if (!Array.isArray(selectedYearsArray) || selectedYearsArray.length === 0) {
-    console.error("Selected years is not a valid array:", selectedYearsArray);
-    return { noData: { text: "No years selected" } };
-  }
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-  try {
-    // Ensure parsedData exists
-    if (!parsedData) {
-      throw new Error("No data available");
+  const formatNumber = (value) => `${Math.round(value)}%`;
+
+  // Get data for program expenses
+  const { clientArray: programClientArray, peerAvg: programPeerAvg } =
+    getPeerAndClientChartDataArrays(
+      selectedYearsArray,
+      parsedData["functionalExpensePercent_program_Peer"],
+      parsedData["functionalExpensePercent_program_Client"],
+      fixedNum,
+      "functionalExpensePercent_program",
+      numType,
+      wa
+    );
+
+  // Get data for administrative expenses
+  const { clientArray: adminClientArray } = getPeerAndClientChartDataArrays(
+    selectedYearsArray,
+    parsedData["functionalExpensePercent_administrative_Peer"],
+    parsedData["functionalExpensePercent_administrative_Client"],
+    fixedNum,
+    "functionalExpensePercent_administrative",
+    numType,
+    wa
+  );
+
+  // Get data for fundraising expenses
+  const { clientArray: fundraisingClientArray } =
+    getPeerAndClientChartDataArrays(
+      selectedYearsArray,
+      parsedData["functionalExpensePercent_fundraising_Peer"],
+      parsedData["functionalExpensePercent_fundraising_Client"],
+      fixedNum,
+      "functionalExpensePercent_fundraising",
+      numType,
+      wa
+    );
+
+  // Update modal with data
+  selectedYearsArray.forEach((year, index) => {
+    const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
+    if (tableModalRow) {
+      // Add data for program expenses
+      addClientDataToModalRow(
+        tableModalRow,
+        programClientArray[index],
+        numType,
+        fixedNum,
+        "Program"
+      );
+
+      // Add data for administrative expenses
+      addClientDataToModalRow(
+        tableModalRow,
+        adminClientArray[index],
+        numType,
+        fixedNum,
+        "Administrative"
+      );
+
+      // Add data for fundraising expenses
+      addClientDataToModalRow(
+        tableModalRow,
+        fundraisingClientArray[index],
+        numType,
+        fixedNum,
+        "Fundraising"
+      );
+
+      // Add peer average for program expenses
+      addPeerDataToModalRow(
+        tableModalRow,
+        programPeerAvg[index],
+        0,
+        0,
+        0,
+        "Program Peer Avg",
+        parsedData,
+        wa
+      );
     }
+  });
 
-    // Initialize arrays with the correct size
-    const years = selectedYearsArray.length;
-    let programClientArray = new Array(years).fill(null);
-    let adminClientArray = new Array(years).fill(null);
-    let fundraisingClientArray = new Array(years).fill(null);
-    let programPeerAvg = new Array(years).fill(null);
+  const yaxisLabelFormatter = (value) => {
+    return `${value}%`;
+  };
 
-    // Direct data extraction without using helper functions that might be causing issues
-    try {
-      // Get program expenses data
-      if (parsedData["functionalExpensePercent_program_Client"]) {
-        selectedYearsArray.forEach((year, index) => {
-          if (parsedData["functionalExpensePercent_program_Client"][year]) {
-            const value = parseFloat(
-              parsedData["functionalExpensePercent_program_Client"][year]
-                .value * 100
-            );
-            programClientArray[index] = isNaN(value) ? null : value;
-          }
-        });
-      }
+  const tooltipFormatter = (value) => {
+    if (!value && value !== 0) return;
+    const formattedValue = value.toLocaleString();
+    return `${formattedValue}%`;
+  };
 
-      // Get admin expenses data
-      if (parsedData["functionalExpensePercent_administrative_Client"]) {
-        selectedYearsArray.forEach((year, index) => {
-          if (
-            parsedData["functionalExpensePercent_administrative_Client"][year]
-          ) {
-            const value = parseFloat(
-              parsedData["functionalExpensePercent_administrative_Client"][year]
-                .value * 100
-            );
-            adminClientArray[index] = isNaN(value) ? null : value;
-          }
-        });
-      }
+  const seriesColors = [
+    window.chartColors.green,
+    window.chartColors.blue,
+    window.chartColors.red,
+    window.chartColors.orange,
+  ];
 
-      // Get fundraising expenses data
-      if (parsedData["functionalExpensePercent_fundraising_Client"]) {
-        selectedYearsArray.forEach((year, index) => {
-          if (parsedData["functionalExpensePercent_fundraising_Client"][year]) {
-            const value = parseFloat(
-              parsedData["functionalExpensePercent_fundraising_Client"][year]
-                .value * 100
-            );
-            fundraisingClientArray[index] = isNaN(value) ? null : value;
-          }
-        });
-      }
-
-      // Get peer average program expenses
-      if (parsedData["functionalExpensePercent_program_Peer"]) {
-        selectedYearsArray.forEach((year, index) => {
-          if (
-            parsedData["functionalExpensePercent_program_Peer"][year] &&
-            Array.isArray(
-              parsedData["functionalExpensePercent_program_Peer"][year]
-            )
-          ) {
-            // Calculate average
-            let sum = 0;
-            let count = 0;
-            parsedData["functionalExpensePercent_program_Peer"][year].forEach(
-              (value) => {
-                const numValue = parseFloat(value);
-                if (!isNaN(numValue)) {
-                  sum += numValue;
-                  count++;
-                }
-              }
-            );
-            const val = (sum / count) * 100;
-            programPeerAvg[index] = count > 0 ? Math.round(val) : null;
-          }
-        });
-      }
-    } catch (dataError) {
-      console.error("Error parsing data:", dataError);
-      // Continue with whatever data we have
-    }
-
-    // Update modal with data if needed
-    try {
-      selectedYearsArray.forEach((year, index) => {
-        const tableModalRow = document.getElementById(
-          `${mainName}_modal_${year}`
-        );
-        if (tableModalRow) {
-          // Add data for program expenses
-          if (programClientArray[index] !== null) {
-            addClientDataToModalRow(
-              tableModalRow,
-              programClientArray[index],
-              numType,
-              fixedNum,
-              "Program"
-            );
-          }
-
-          // Add data for administrative expenses
-          if (adminClientArray[index] !== null) {
-            addClientDataToModalRow(
-              tableModalRow,
-              adminClientArray[index],
-              numType,
-              fixedNum,
-              "Administrative"
-            );
-          }
-
-          // Add data for fundraising expenses
-          if (fundraisingClientArray[index] !== null) {
-            addClientDataToModalRow(
-              tableModalRow,
-              fundraisingClientArray[index],
-              numType,
-              fixedNum,
-              "Fundraising"
-            );
-          }
-
-          // Add peer average for program expenses
-          if (programPeerAvg[index] !== null) {
-            addPeerDataToModalRow(
-              tableModalRow,
-              programPeerAvg[index],
-              0,
-              0,
-              0,
-              "Program Peer Avg",
-              parsedData,
-              wa
-            );
-          }
-        }
-      });
-    } catch (modalError) {
-      console.error("Error updating modal:", modalError);
-    }
-
-    // Log data for debugging
-    console.log("Chart data arrays:", {
-      years: selectedYearsArray,
-      program: programClientArray,
-      admin: adminClientArray,
-      fundraising: fundraisingClientArray,
-      peerAvg: programPeerAvg,
-    });
-
-    const seriesColors = [
-      window.chartColors.blue, // Fundraising expenses
-      window.chartColors.orange, // Total contributions
-      window.chartColors.red, // Client cost ratio
-      window.chartColors.black, // Peer average ratio
-    ];
-
-    // Using primitive chart configuration to minimize potential issues
-    return {
-      colors: seriesColors,
-      series: [
-        {
-          name: "Program Expenses",
-          type: "column",
-          data: programClientArray,
+  return {
+    colors: seriesColors,
+    series: [
+      {
+        name: "Program Expenses",
+        type: "column",
+        data: programClientArray,
+      },
+      {
+        name: "Administrative Expenses",
+        type: "column",
+        data: adminClientArray,
+      },
+      {
+        name: "Fundraising Expenses",
+        type: "column",
+        data: fundraisingClientArray,
+      },
+      {
+        name: "Peer Average Program Expense",
+        type: "line",
+        data: programPeerAvg,
+      },
+    ],
+    chart: {
+      height: 350,
+      type: "bar",
+      stacked: true,
+      toolbar: {
+        show: false,
+      },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        dataLabels: {
+          position: "center",
         },
-        {
-          name: "Administrative Expenses",
-          type: "column",
-          data: adminClientArray,
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [3],
+      offsetY: -20,
+      formatter: formatNumber,
+      style: {
+        fontSize: "14px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: "bold",
+        colors: "#000000",
+      },
+    },
+    stroke: {
+      width: [0, 0, 0, 4], // Width for each series, last one is the line
+      curve: "smooth",
+    },
+    markers: {
+      size: [0, 0, 0, 5], // Size for each series, only show for line
+      colors: window.chartColors.orange,
+      strokeWidth: 2,
+      hover: {
+        size: 7,
+      },
+    },
+    xaxis: {
+      categories: selectedYearsArray,
+      labels: {
+        style: {
+          colors: chartColors.labelColor,
+          fontSize: "1rem",
         },
-        {
-          name: "Fundraising Expenses",
-          type: "column",
-          data: fundraisingClientArray,
+      },
+      tickAmount: 5,
+    },
+    yaxis: {
+      min: 0,
+      max: 100,
+      tickAmount: 5,
+      axisTicks: {
+        show: true,
+      },
+      axisBorder: {
+        show: true,
+        color: chartColor,
+      },
+      labels: {
+        formatter: yaxisLabelFormatter,
+        style: {
+          colors: chartColor,
+          fontSize: "1.25rem",
         },
+      },
+    },
+    tooltip: {
+      shared: true,
+      intersect: false,
+      fixed: {
+        enabled: true,
+        position: "topLeft",
+        offsetY: 30,
+        offsetX: 60,
+      },
+      y: {
+        formatter: tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
+        },
+      },
+    },
+    legend: {
+      horizontalAlign: "center",
+      offsetX: 40,
+      fontSize: "20px",
+    },
+    grid: {
+      row: {
+        colors: ["transparent"],
+        opacity: 0.5,
+        thickness: 4,
+      },
+      padding: {
+        top: 10,
+      },
+    },
+    annotations: {
+      yaxis: [
         {
-          name: "Peer Average Program Expense",
-          type: "line",
-          data: programPeerAvg,
+          y: 80, // Recommended benchmark for program expenses (80%)
+          borderColor: "#00E396",
+          label: {
+            borderColor: "#00E396",
+            style: {
+              color: "#fff",
+              background: "#00E396",
+            },
+          },
         },
       ],
-      chart: {
-        height: 350,
-        type: "bar",
-        stacked: true,
-        toolbar: {
-          show: false,
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-        },
-      },
-      xaxis: {
-        categories: selectedYearsArray,
-        labels: {
-          style: {
-            colors: chartColors.labdelColor,
-            fontSize: "1rem",
-          },
-        },
-      },
-      yaxis: {
-        max: 100,
-        labels: {
-          formatter: (value) => `${value}%`,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        enabledOnSeries: [3],
-        offsetY: -20,
-        formatter: (value) => `${Math.round(value)}%`,
-        style: {
-          fontSize: "14px",
-          fontFamily: "Helvetica, Arial, sans-serif",
-          fontWeight: "bold",
-          colors: seriesColors,
-        },
-        background: {
-          padding: 4,
-          borderRadius: 2,
-          borderWidth: 1,
-          borderColor: "#ffffff",
-          opacity: 0.7,
-          dropShadow: {
-            enabled: false,
-            top: 1,
-            left: 1,
-            blur: 1,
-            color: "#000",
-            opacity: 0.45,
-          },
-        },
-      },
-      stroke: {
-        width: [0, 0, 0, 4],
-      },
-      markers: {
-        size: [0, 0, 0, 5],
-      },
-      tooltip: {
-        shared: true,
-        intersect: false,
-        y: {
-          formatter: (value) => (value ? `${value.toLocaleString()}%` : "N/A"),
-        },
-      },
-    };
-  } catch (error) {
-    console.error("Error generating chart options:", error);
-    // Return minimal chart configuration
-    return {
-      series: [],
-      chart: {
-        height: 350,
-        type: "bar",
-      },
-      noData: {
-        text: "Error loading chart data",
-      },
-    };
-  }
+    },
+  };
 };
 
 const getCostOfContributionsDetailViewOptions = (
@@ -1527,7 +1463,7 @@ const getNetAssetBreakdownOptions = (
   const dataLabelFormatter = (value) => {
     // 2. Handle zero values properly
     if (value === 0 || value) {
-      let formattedValue = value.toLocaleString();
+      const formattedValue = value.toLocaleString();
       if (numType === "dollar") {
         return `$${formattedValue}`;
       } else {
@@ -1643,7 +1579,7 @@ const getNetAssetBreakdownOptions = (
       labels: {
         style: {
           colors: chartColors.labelColor,
-          fontSize: "1rem",
+          fontSize: "14px",
         },
       },
     },
@@ -1654,7 +1590,7 @@ const getNetAssetBreakdownOptions = (
         },
         style: {
           colors: chartColor,
-          fontSize: "1.25rem",
+          fontSize: "14px",
         },
       },
     },
@@ -1669,7 +1605,7 @@ const getNetAssetBreakdownOptions = (
       opacity: 1,
     },
     legend: {
-      position: "bottom",
+      position: "top",
       horizontalAlign: "center",
       fontSize: "16px",
     },
