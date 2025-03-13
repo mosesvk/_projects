@@ -1178,53 +1178,30 @@ const getCostOfContributionsDetailViewOptions = (
   //   dataPeer,
   //   dataClient,
   // });
+// Calculate dynamic min and max for ratio values (right y-axis)
+const allRatioValues = [
+  ...costOfContributionsClient,
+  ...costOfContributionsPeer,
+].filter((v) => !isNaN(v) && v !== null);
 
-  // Calculate dynamic min and max for dollar values (left y-axis)
-  const allDollarValues = [
-    ...fundraisingExpensesData,
-    ...totalContributionsData,
-  ].filter((v) => !isNaN(v) && v !== null);
+// Apply at least 30% padding to ratio values
+const minRatioValue = Math.floor(Math.min(...allRatioValues) * 0.7); // 30% padding below min
+const maxRatioValue = Math.ceil(Math.max(...allRatioValues) * 1.3); // 30% padding above max
 
-  const minDollarValue = Math.min(...allDollarValues);
-  const maxDollarValue = Math.max(...allDollarValues);
+// Calculate dynamic min and max for dollar values (left y-axis)
+// Apply at least 30% padding to dollar values
+const minDollarValue = Math.floor(Math.min(...allDollarValues) * 0.7); // 30% padding below min
+const maxDollarValue = Math.ceil(Math.max(...allDollarValues) * 1.3); // 30% padding above max
 
-  // Round max dollar value to nearest million or 100k depending on size
-  let roundedMaxDollar;
-  if (maxDollarValue >= 1000000) {
-    // If over 1M, round to nearest million
-    roundedMaxDollar = Math.ceil(maxDollarValue / 1000000) * 1000000;
-  } else {
-    // If under 1M, round to nearest 100k
-    roundedMaxDollar = Math.ceil(maxDollarValue / 100000) * 100000;
-  }
-
-  // For min dollar value, typically we want to start from 0 for financial charts
-  const roundedMinDollar = 0;
-
-  // Calculate dynamic min and max for ratio values (right y-axis)
-  const allRatioValues = [
-    ...costOfContributionsClient,
-    ...costOfContributionsPeer,
-  ].filter((v) => !isNaN(v) && v !== null);
-
-  const minRatioValue = Math.min(...allRatioValues);
-  const maxRatioValue = Math.max(...allRatioValues);
-
-  // Round min ratio to nearest 0.5 (downward)
-  const roundedMinRatio = Math.floor(minRatioValue * 2) / 2;
-
-  // Round max ratio to nearest 0.5 (upward)
-  const roundedMaxRatio = Math.ceil(maxRatioValue * 2) / 2;
-  // Ensure we have valid min/max values with fallbacks
-  const safeMinDollarValue =
-    !isFinite(minDollarValue) || minDollarValue < 0 ? 0 : minDollarValue;
-  const safeMaxDollarValue =
-    !isFinite(maxDollarValue) || maxDollarValue <= 0 ? 1000000 : maxDollarValue;
-  const safeMinRatioValue =
-    !isFinite(minRatioValue) || minRatioValue < 0 ? 0 : minRatioValue;
-  const safeMaxRatioValue =
-    !isFinite(maxRatioValue) || maxRatioValue <= 0 ? 0.3 : maxRatioValue;
-
+// Ensure we have valid min/max values with fallbacks
+const safeMinDollarValue =
+  !isFinite(minDollarValue) || minDollarValue < 0 ? 0 : minDollarValue;
+const safeMaxDollarValue =
+  !isFinite(maxDollarValue) || maxDollarValue <= 0 ? 1000000 : maxDollarValue;
+const safeMinRatioValue =
+  !isFinite(minRatioValue) || minRatioValue < 0 ? 0 : minRatioValue;
+const safeMaxRatioValue =
+  !isFinite(maxRatioValue) || maxRatioValue <= 0 ? 0.3 : maxRatioValue;
   const seriesColors = [
     window.chartColors.blue, // Fundraising expenses
     window.chartColors.green, // Total contributions
@@ -1320,11 +1297,11 @@ const getCostOfContributionsDetailViewOptions = (
           },
           style: {
             colors: chartColor,
-            fontSize: "1.25rem",
           },
         },
         min: safeMinDollarValue,
         max: safeMaxDollarValue,
+        forceNiceScale: true,
         tickAmount: 5,
       },
       {
@@ -1340,6 +1317,7 @@ const getCostOfContributionsDetailViewOptions = (
         opposite: true,
         min: safeMinRatioValue,
         max: safeMaxRatioValue,
+        forceNiceScale: true,
         tickAmount: 5,
       },
     ],
