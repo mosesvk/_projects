@@ -110,16 +110,14 @@ const getMainChartOptions = (
     return `$${value.toFixed(0)}`;
   };
 
-  const seriesColors = [
-    window.chartColors.green,
-    window.chartColors.blue,
-    window.chartColors.red,
-    window.chartColors.orange,
-    window.chartColors.grey,
-  ];
-
   return {
-    colors: seriesColors,
+    colors: [
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.red,
+      window.chartColors.orange,
+      window.chartColors.grey,
+    ],
     series: [
       {
         name: "Client",

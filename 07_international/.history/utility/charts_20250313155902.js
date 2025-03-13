@@ -111,15 +111,18 @@ const getMainChartOptions = (
   };
 
   const seriesColors = [
-    window.chartColors.green,
-    window.chartColors.blue,
-    window.chartColors.red,
-    window.chartColors.orange,
-    window.chartColors.grey,
+    window.chartColors.blue, // Without donor restrictions
+    window.chartColors.green, // With donor restrictions
   ];
 
   return {
-    colors: seriesColors,
+    colors: [
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.red,
+      window.chartColors.orange,
+      window.chartColors.grey,
+    ],
     series: [
       {
         name: "Client",
