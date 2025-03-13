@@ -1599,22 +1599,10 @@ class DataProcessor {
           "income",
           "peer",
           year,
-          "totalContributions_Peer",
+          "annualizedInvestmentReturn_Peer",
           record,
           "_02_01sr___00_contributions_with_and_without_sum",
-          "Yes"
-        );
-
-
-        // Contributions without DR 
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithoutDR_Peer",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions",
-          "Yes"
+          "c04_10_yes_no_annualized_investment_return"
         );
       });
 
@@ -1725,19 +1713,9 @@ class DataProcessor {
           "income",
           "client",
           year,
-          "totalContributions_Client",
+          "annualizedInvestmentReturn_Client",
           record,
           "_02_01sr___00_contributions_with_and_without_sum"
-        );
-
-        // Contributions Without DR
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsWithoutDR_Client",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions"
         );
       });
     });
@@ -2361,7 +2339,7 @@ class ApiService {
           {192.EX.${currentYear}} AND
           {29.EX.${ClientRid}}`,
       clist:
-        "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221.218.15.21",
+        "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221.218.15",
     };
 
     try {

@@ -153,7 +153,7 @@ displayIncomeComponent = (data) => {
     "totalContributions_chart",
     "totalContributions_Peer",
     "totalContributions_Client",
-    "dollar",
+    "percent",
     0,
     "totalContributions"
   );
@@ -164,7 +164,7 @@ displayIncomeComponent = (data) => {
     "contributionsWithoutDR_chart",
     "contributionsWithoutDR_Peer",
     "contributionsWithoutDR_Client",
-    "dollar",
+    "percent",
     0,
     "contributionsWithoutDR"
   );

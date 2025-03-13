@@ -1730,14 +1730,14 @@ class DataProcessor {
           "_02_01sr___00_contributions_with_and_without_sum"
         );
 
-        // Contributions Without DR
+        // Total Contributions
         this.dataStore.insertData(
           "income",
           "client",
           year,
-          "contributionsWithoutDR_Client",
+          "totalContributions_Client",
           record,
-          "_02_01sr___01_contributions_without_donor_restrictions"
+          "_02_01sr___00_contributions_with_and_without_sum"
         );
       });
     });

@@ -1604,18 +1604,6 @@ class DataProcessor {
           "_02_01sr___00_contributions_with_and_without_sum",
           "Yes"
         );
-
-
-        // Contributions without DR 
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithoutDR_Peer",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions",
-          "Yes"
-        );
       });
 
       // Process client records for income metrics
@@ -1730,14 +1718,14 @@ class DataProcessor {
           "_02_01sr___00_contributions_with_and_without_sum"
         );
 
-        // Contributions Without DR
+        // Total Contributions
         this.dataStore.insertData(
           "income",
           "client",
           year,
-          "contributionsWithoutDR_Client",
+          "totalContributions_Client",
           record,
-          "_02_01sr___01_contributions_without_donor_restrictions"
+          "_02_01sr___00_contributions_with_and_without_sum"
         );
       });
     });

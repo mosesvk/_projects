@@ -283,6 +283,7 @@ class DataProcessor {
           "_01__03na___03a_net_assets_with_donor_restrictions_sum"
         );
 
+
         this.dataStore.insertData(
           "general",
           "client",
@@ -1593,29 +1594,6 @@ class DataProcessor {
           "c04_10_yes_no_annualized_investment_return",
           "annualizedInvestmentReturn"
         );
-
-        // Total Contributions
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "totalContributions_Peer",
-          record,
-          "_02_01sr___00_contributions_with_and_without_sum",
-          "Yes"
-        );
-
-
-        // Contributions without DR 
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithoutDR_Peer",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions",
-          "Yes"
-        );
       });
 
       // Process client records for income metrics
@@ -1722,23 +1700,13 @@ class DataProcessor {
 
         // Total Contributions
         this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "totalContributions_Client",
-          record,
-          "_02_01sr___00_contributions_with_and_without_sum"
-        );
-
-        // Contributions Without DR
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsWithoutDR_Client",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions"
-        );
+            "income",
+            "client",
+            year,
+            "annualizedInvestmentReturn_Client",
+            record,
+            "_02_01sr___00_contributions_with_and_without_sum"
+          );
       });
     });
   }
@@ -2331,6 +2299,8 @@ class ApiService {
           ""
         )}</qdbapi>`;
         // console.log("PEER", qdbapiElementPeer);
+        
+
 
         // Append the new record's outerHTML to dataStr
         dataStr += newRecord.outerHTML;
@@ -2361,7 +2331,7 @@ class ApiService {
           {192.EX.${currentYear}} AND
           {29.EX.${ClientRid}}`,
       clist:
-        "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221.218.15.21",
+        "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221.218.15",
     };
 
     try {
@@ -2490,6 +2460,7 @@ class AppController {
     this.apiService.getRecordsForUniqueClientPeerNames();
     addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
     addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
+
 
     if (this.runButton) {
       this.runButton.addEventListener("click", () =>

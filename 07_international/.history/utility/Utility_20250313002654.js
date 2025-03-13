@@ -348,8 +348,6 @@ const createChart = (
     "functionalAllocation_chart",
     "netAssetBreakdown_chart",
     "changeInNetAssets_chart",
-    'totalContributions_chart',
-    'contributionsWithoutDR_chart'
   ];
 
   if (chartIds.includes(chartId)) {
@@ -502,24 +500,6 @@ const createChart = (
       changeInNetAssets_chart.render();
       document.addEventListener("dark-mode", function () {
         changeInNetAssets_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "totalContributions_chart") {
-      totalContributions_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      totalContributions_chart.render();
-      document.addEventListener("dark-mode", function () {
-        totalContributions_chart.updateOptions(chartOptions);
-      });
-    } else if (chartId === "contributionsWithoutDR_chart") {
-      contributionsWithoutDR_chart = new ApexCharts(
-        document.getElementById(chartId),
-        chartOptions
-      );
-      contributionsWithoutDR_chart.render();
-      document.addEventListener("dark-mode", function () {
-        contributionsWithoutDR_chart.updateOptions(chartOptions);
       });
     }
   }
