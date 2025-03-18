@@ -2,9 +2,8 @@ const uploadFileBegin = `<qdbapi> <apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoke
 const uploadFileEnd = `</qdbapi>`;
 const uploadClist = `<clist>171</clist>`;
 const generateReportsBtn = document.getElementById("generateReports");
-const base64Btn = docsument.getElementById("printBase64");
 let uploadMainFile = "";
-  
+
 $("#downloadPdf").on("click", function () {
   let imagesArray = [];
 
@@ -19,30 +18,8 @@ $("#downloadPdf").on("click", function () {
     let doc = new jsPDF();
     doc.addImage(img, "png", 15, 40, 180, 160);
     doc.save();
-
-    //document.body.appendChild(doc);
-    //a.click()
-    //document.body.removeChild(a)
   }
 });
-
-const downloadImage = (elem) => {
-  // console.log(elem);
-  // console.log("hit before");
-  const element = document.getElementById(elem);
-  let image = element.toDataURL("image/png");
-  // console.log("hit after");
-
-  let a = document.createElement("a");
-  a.name = element.id;
-  a.href = image;
-  console.dir(element);
-  //a.download = image.toString();
-  a.download = element.id;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-};
 
 $("#printOptionsBtn").on("click", function () {
   let imagesArray = [];
@@ -128,7 +105,7 @@ const dataArrayObjects = (
     min: minVal,
     max: maxVal,
   };
-}; 
+};
 
 function uploadToFile(avg, mid, min, max, fIdArray, begin, end) {
   // console.log({ avg, mid, min, max, num, begin, end });
@@ -147,21 +124,19 @@ function uploadToFile(avg, mid, min, max, fIdArray, begin, end) {
       "<qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>";
 
   uploadMainFile += `<field fid='${avgId}'>${avgVal}</field><field fid='${midId}'>${midVal}</field><field fid='${minId}'>${minVal}</field><field fid='${maxId}'>${maxVal}</field>`;
-} 
+}
 
-function uploadSingleToFile(id, val, end) {
+const uploadSingleToFile = (id, val, end) => {
+  // console.log({ id, val, end });
   uploadMainFile += `<field fid='${id}'>${val}</field>`;
 
   if (end) uploadMainFile += uploadClist;
 
   if (end) uploadMainFile += "</qdbapi>";
-}
+};
 
 const printToExcel = (dataString) => {
-  toggleButtonLoadingState(generateReportsBtn);
-
-  dataParseExcelString = dataString;
-
+  // console.log({ uploadMainFile: dataString });
   var urlUploadFile =
     "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord";
 
@@ -177,32 +152,32 @@ const printToExcel = (dataString) => {
     dataType: "xml",
     processData: false,
     data: dataString,
-    success: function (response) {
-      var xmlUpload = $(response);
-      // console.log(response);
+    success: async function (response) {
+      const xmlUpload = $(response);
+      console.log(response);
       // console.log(xmlUpload);
       newRecordID = xmlUpload[0].all[4].innerHTML;
-      console.log(newRecordID)
+      console.log(newRecordID);
 
       if (xmlUpload.find("qdbapi").find("errcode").text() == "0") {
-        newDownloadURL = xmlUpload
+        const recordId = xmlUpload
           .find("qdbapi")
-          .find("record")
-          .find("f")
+          .find("rid")
           .text();
-        newDownloadURLFormatted = newDownloadURL.replace(/amp;/g, "");
-        newDownloadURLFormattedArray = newDownloadURLFormatted.split("---");
-        console.log({ newDownloadURLFormattedArray });
-        
-          document.getElementById('print_modal_footer').classList.remove('hidden');
-          document.getElementById("trendXLSFinal").href =
-            newDownloadURLFormattedArray[1];
-          document.getElementById("trendPDFFinal").href =
-            newDownloadURLFormattedArray[0];
-          document.getElementById("benchXLSFinal").href =
-            newDownloadURLFormattedArray[3];
-          document.getElementById("benchPDFFinal").href =
-            newDownloadURLFormattedArray[2];
+        console.log({
+          recordId
+        });
+
+        createToastSuccess("Generated Reports successfully to Quickbase.");
+ 
+        document
+          .getElementById("print_modal_footer")
+          .classList.remove("hidden");
+        document.getElementById("trendXLSFinal").href =
+          getUrlBasedOnYearCount("xls", recordId);
+        document.getElementById("trendPDFFinal").href =
+          getUrlBasedOnYearCount("pdf", recordId);
+
       } else {
         console.log("Quickbase returned an error.");
         createToastWarning(
@@ -216,36 +191,6 @@ const printToExcel = (dataString) => {
       createToastWarning(`Quickbase returned an error: ${err}`);
     },
   }); //end ajax call
-};
-
-const createPrintExcel = () => {
-  uploadSingleToFile(171, ClientRid);
-  uploadSingleToFile(170, firmName);
-  uploadSingleToFile(169, uniqueClients.size);
-  uploadSingleToFile(163, sliderValue);
-  uploadSingleToFile(164, sliderValue2);
-  // uploadSingleToFile(164, sliderValue2);
-
-  let yearLength = selectedYears_Set.size;
-  let j = 158;
-
-  let index = 0;
-  for (let year of selectedYears_Set) {
-    if (index === yearLength - 1) {
-      uploadSingleToFile(j, year, "end");
-    } else {
-      uploadSingleToFile(j, year);
-    }
-    j++;
-    index++;
-  }
-
-  toggleButtonLoadingState(generateReportsBtn);
-  setTimeout(() => {
-    printToExcel(uploadMainFile); // Main Function
-    toggleGenerateReportButtonNormalState(generateReportsBtn);
-    document.getElementById("print_modal_footer").classList.remove("hidden");
-  }, 1500); //setTimeout
 };
 
 const createFileForPrint = (
@@ -265,7 +210,56 @@ const createFileForPrint = (
   uploadToFile(avg, mid, min, max, fIdArray, begin, end);
 };
 
+const createPrintExcel = async () => {
+  const types = Array.from(selectedTypes_Array).join(";");
+  const regions = Array.from(selectedRegions_Array).join(";");
+  console.log({
+    ClientRid,
+    firmName,
+    uniqueClients,
+    sliderValue,
+    sliderValue2,
+    selectedYears_Set,
+    missionValue,
+    missionValue2,
+    types,
+    regions,
+  });
+
+  uploadSingleToFile(171, ClientRid);
+  uploadSingleToFile(170, firmName);
+  uploadSingleToFile(169, uniqueClients.size);
+  uploadSingleToFile(163, sliderValue);
+  uploadSingleToFile(164, sliderValue2);
+  uploadSingleToFile(165, missionValue);
+  uploadSingleToFile(166, missionValue2);
+  uploadSingleToFile(167, regions);
+  uploadSingleToFile(168, types)
+
+  let yearLength = selectedYears_Set.size;
+  let j = 158;
+
+  sortSet(selectedYears_Set);
+
+  let index = 0;
+  for (let year of selectedYears_Set) {
+    if (index === yearLength - 1) {
+      uploadSingleToFile(j, year, "end");
+    } else {
+      uploadSingleToFile(j, year);
+    }
+    j++;
+    index++;
+  }
+
+  setTimeout(() => {
+    printToExcel(uploadMainFile); // Main Function
+    toggleGenerateReportButtonNormalState(generateReportsBtn);
+  }, 1500); //setTimeout
+};
+
 document.getElementById("generateReports").addEventListener("click", () => {
+  toggleButtonLoadingState(generateReportsBtn);
   // extract data from the table
 
   if (!localStorage.generalData) {
@@ -279,7 +273,15 @@ document.getElementById("generateReports").addEventListener("click", () => {
 });
 
 
-// base64 code -------------------------------------------------------------------------------------------
+
+
+// PRESENTATION [BASE64] -----------------------------------------------------------------------------
+
+const urlPresentationFile =
+  "https://capincrouse.quickbase.com/db/bumq5qw5e?a=API_AddRecord";
+let uploadPresentationFile = "";
+
+const printButton = document.getElementById("printBase64");
 
 async function svgToPngBase64(element, id) {
   try {
@@ -289,8 +291,7 @@ async function svgToPngBase64(element, id) {
     // Get the base64 string from the canvas
     const base64String = canvas.toDataURL("image/png").split(",")[1];
 
-    console.log({ base64String });
-    
+    // console.log({ base64String });
 
     // Store the result in map_dataUri
     map_dataUri.set(id, base64String);
@@ -302,6 +303,10 @@ async function svgToPngBase64(element, id) {
   }
 }
 
+function uploadSinglePresentationToFile(id, val) {
+  uploadPresentationFile += `<field fid='${id}' filename='image.png'>${val}</field>`;
+}
+
 const getPngString = async (id, fieldId) => {
   try {
     const element = document.getElementById(id);
@@ -311,62 +316,60 @@ const getPngString = async (id, fieldId) => {
     const base64String = await svgToPngBase64(element, idx);
 
     // Upload the base64 string
-    uploadSingleToFile(fieldId, base64String);
+    uploadSinglePresentationToFile(fieldId, base64String);
   } catch (error) {
     console.error("Error in getPngString:", error);
   }
 };
 
 const mainPrint = async () => {
-  showApiLoadingFunction("open", "print");
-  document.getElementById("FinancialPositionContent").classList.remove("hidden");
-  document.getElementById("RevenueAndExpenseContent").classList.remove("hidden");
-  document.getElementById("DebtAndEndowmentContent").classList.remove("hidden");
+  document.getElementById("cashContent").classList.remove("hidden");
+  document.getElementById("netAssetsContent").classList.remove("hidden");
+  document.getElementById("incomeContent").classList.remove("hidden");
+  document.getElementById("expenseContent").classList.remove("hidden");
 
-  uploadMainFile += "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
-  uploadSingleToFile(31, clientName);
-  uploadSingleToFile(32, uniqueClients.size);
+  uploadPresentationFile += "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
 
-  await getPngString("cfiRatio_chart", 6);
-  await getPngString("cfi_primaryReserveRatio_chart", 7);
-  await getPngString("cfi_netIncomeOperationsRatio_chart", 8);
-  await getPngString("cfi_returnOnNetAssets_chart", 10);
-  await getPngString("cfi_viabilityRatio_chart", 11);
-  await getPngString("FinancialPosition_chart", 12);
-  await getPngString("assetToLiabilities_chart", 13);
-  await getPngString("sourceOfIncomeClient_chart", 14);
-  await getPngString("sourceOfIncomePeer_chart", 15);
-  await getPngString("ffa_chart", 16);
-  await getPngString("cashFlowsTrend_chart",17);
-  await getPngString("currentRatio_chart", 18);
-  await getPngString("salariesBenefitsToTotalExpense_chart", 19);
-  await getPngString("salariesBenefitsPerNetTuition_chart", 20);
-  // await getPngString("adminCostsPerStudent_chart", 21);
-  await getPngString("netEducationalExpensePerStudent_chart", 22);
-  await getPngString("annualTraditionalNetTuitionPerStudent_chart", 23);
-  await getPngString("tuitionDependency_chart", 24);
-  await getPngString("tuitionDiscountRate_chart", 25);
-  await getPngString("ltDebtPerTotalOperatingRevenue_chart", 26);
-  await getPngString("debtServiceCoverageRatio_chart", 27);
-  await getPngString("debtBurdenRatio_chart", 28);
-  await getPngString("endowmentOperatingBudget_chart", 29);
-  await getPngString("endowmentAssetsPerStudent_chart", 30);
+  uploadSinglePresentationToFile(171, ClientRid);
+  uploadSinglePresentationToFile(170, firmName);
+  uploadSinglePresentationToFile(169, uniqueClients.size);
+  uploadSinglePresentationToFile(163, sliderValue);
+  uploadSinglePresentationToFile(164, sliderValue2);
+  await getPngString("statementCashFlows_chart", 8);
+  await getPngString("daysCashOnHand_chart", 9);
+  await getPngString("daysExpensesInUnrestrictedNA_chart", 10);
+  await getPngString("daysExpensesInUnrestrictedNA_excludingPPE_chart", 11);
+  await getPngString("totalCoverageRatio_chart", 12);
+  await getPngString("contributionsTrend_chart", 13);
+  await getPngString("annualizedInvestmentReturn_chart", 14);
+  await getPngString("functionalExpensePercent_program_chart", 15);
+  await getPngString("functionalExpensePercent_administrative_chart", 16);
+  await getPngString("functionalExpensePercent_fundraising_chart", 17);
+  await getPngString("costOfContributions_chart", 18);
+  await getPngString("netAssetBreakdown_chart", 25);
+  await getPngString("changeInNetAssets_chart", 25);
+  await getPngString("liquidityAssetsAvailableCover_chart", 27);
+  await getPngString("assetsWithoutPpeToLiabilitiesWithoutDebt_chart", 28);
+  await getPngString("totalContributions_chart", 29);
+  await getPngString("contributionsWithoutDR_chart", 30);
+  await getPngString("functionalAllocation_chart", 31);
+  await getPngString("costOfContributionsDetailView_chart", 32);
 
-  uploadMainFile += "</qdbapi>";
+  uploadPresentationFile += "</qdbapi>";
 
-  console.log({ uploadMainFile });
+  console.log({ uploadPresentationFile });
 
   $.ajax({
     type: "POST",
     contentType: "text/xml",
     async: true,
-    url: urlUploadFile,
+    url: urlPresentationFile,
     dataType: "xml",
     processData: false,
-    data: uploadMainFile,
+    data: uploadPresentationFile,
     success: function (response) {
       var xmlUpload = $(response);
-      //   console.log(response);
+        console.log(response);
       //   console.log(xmlUpload);
       newRecordID = xmlUpload[0].all[4].innerHTML;
       //console.log(newRecordID)
@@ -378,9 +381,7 @@ const mainPrint = async () => {
           .find("f")
           .text();
 
-        createToastSuccess(
-          "Printed successfully uploaded to Quickbase."
-        );
+        createToastSuccess("Presentation Charts successfully uploaded to Quickbase.");
       } else {
         console.log("Quickbase returned an error.");
         createToastWarning(
@@ -389,17 +390,19 @@ const mainPrint = async () => {
       }
     },
     error: function (err) {
-      // console.log("Quickbase returned an error: " + response);
-      showApiLoadingFunction("close", "print");
       console.log(err);
       createToastWarning(`Quickbase returned an error: ${err}`);
     },
   }); //end ajax call
-  document.getElementById("FinancialPositionContent").classList.add("hidden");
-  document.getElementById("RevenueAndExpenseContent").classList.add("hidden");
-  document.getElementById("DebtAndEndowmentContent").classList.add("hidden");
-  showApiLoadingFunction("close", "print");
+  document.getElementById("cashContent").classList.add("hidden");
+  document.getElementById("netAssetsContent").classList.add("hidden");
+  document.getElementById("incomeContent").classList.add("hidden");
+  document.getElementById("expenseContent").classList.add("hidden");
+  togglePrintPresentationButtonNormalState(printButton);
+
 };
 
-
-printButton.addEventListener("click", mainPrint); //uploadToFile
+printButton.addEventListener("click", () => {
+  toggleButtonLoadingState(printButton);
+  mainPrint();
+}); //uploadToFile

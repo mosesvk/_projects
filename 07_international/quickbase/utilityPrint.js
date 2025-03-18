@@ -275,12 +275,6 @@ document.getElementById("generateReports").addEventListener("click", () => {
 
 
 
-
-
-
-
-
-
 // PRESENTATION [BASE64] -----------------------------------------------------------------------------
 
 const urlPresentationFile =
@@ -352,6 +346,14 @@ const mainPrint = async () => {
   await getPngString("functionalExpensePercent_administrative_chart", 16);
   await getPngString("functionalExpensePercent_fundraising_chart", 17);
   await getPngString("costOfContributions_chart", 18);
+  await getPngString("netAssetBreakdown_chart", 25);
+  await getPngString("changeInNetAssets_chart", 25);
+  await getPngString("liquidityAssetsAvailableCover_chart", 27);
+  await getPngString("assetsWithoutPpeToLiabilitiesWithoutDebt_chart", 28);
+  await getPngString("totalContributions_chart", 29);
+  await getPngString("contributionsWithoutDR_chart", 30);
+  await getPngString("functionalAllocation_chart", 31);
+  await getPngString("costOfContributionsDetailView_chart", 32);
 
   uploadPresentationFile += "</qdbapi>";
 
