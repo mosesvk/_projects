@@ -240,7 +240,6 @@ generateReportsBtn.addEventListener("click", () => {
   }
 });
 
-
 /**
  * Converts an SVG chart element to a PNG Base64 string
  * @param {HTMLElement} element - The DOM element containing the chart
@@ -255,8 +254,8 @@ async function svgToPngBase64(element, id) {
 
   try {
     // Let the UI update before capturing
-    await new Promise(resolve => setTimeout(resolve, 10));
-    
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
     // Use html2canvas with optimized settings
     const canvas = await html2canvas(element, {
       allowTaint: true,
@@ -264,7 +263,7 @@ async function svgToPngBase64(element, id) {
       logging: false,
       scale: 2, // Higher quality
       backgroundColor: null, // Transparent background
-      ignoreElements: (el) => el.classList.contains('no-export') // Skip elements with 'no-export' class
+      ignoreElements: (el) => el.classList.contains("no-export"), // Skip elements with 'no-export' class
     });
 
     // Validate canvas was created
@@ -299,14 +298,14 @@ async function svgToPngBase64(element, id) {
 function createFieldXml(id, val) {
   if (val === null || val === undefined) {
     console.warn(`Skipping upload for field ${id} due to null/undefined value`);
-    return '';
+    return "";
   }
-  
-  if (typeof val === 'object') {
+
+  if (typeof val === "object") {
     console.warn(`Invalid value type for field ${id}:`, typeof val);
-    return '';
+    return "";
   }
-  
+
   return `<field fid='${id}'>${val}</field>`;
 }
 
@@ -319,7 +318,7 @@ function createFieldXml(id, val) {
 function createImageFieldXml(id, val) {
   if (!val) {
     console.warn(`Skipping image upload for field ${id} - missing data`);
-    return '';
+    return "";
   }
   return `<field fid='${id}' filename='chart.png'>${val}</field>`;
 }
@@ -338,10 +337,14 @@ async function sendToQuickbase(xml) {
       dataType: "xml",
       processData: false,
       data: xml,
-      timeout: 30000 // 30-second timeout
+      timeout: 30000, // 30-second timeout
     });
   } catch (error) {
-    const errorMessage = error.responseText || error.statusText || error.message || "Unknown error";
+    const errorMessage =
+      error.responseText ||
+      error.statusText ||
+      error.message ||
+      "Unknown error";
     console.error("Quickbase API error:", errorMessage);
     throw new Error(`Quickbase API error: ${errorMessage}`);
   }
@@ -355,13 +358,13 @@ async function sendToQuickbase(xml) {
  */
 async function processChartBatches(chartMappings, batchSize = 3) {
   const results = [];
-  
+
   for (let i = 0; i < chartMappings.length; i += batchSize) {
     // Breathe between batches
     if (i > 0) {
-      await new Promise(resolve => setTimeout(resolve, 20));
+      await new Promise((resolve) => setTimeout(resolve, 20));
     }
-    
+
     const batch = chartMappings.slice(i, i + batchSize);
     const batchPromises = batch.map(async ({ chartId, fieldId }) => {
       try {
@@ -370,7 +373,7 @@ async function processChartBatches(chartMappings, batchSize = 3) {
           console.warn(`Chart element '${chartId}' not found`);
           return { fieldId, base64String: null };
         }
-        
+
         const idx = chartId.replace("_chart", "");
         const base64String = await svgToPngBase64(element, idx);
         return { fieldId, base64String };
@@ -379,97 +382,72 @@ async function processChartBatches(chartMappings, batchSize = 3) {
         return { fieldId, base64String: null };
       }
     });
-    
+
     const batchResults = await Promise.all(batchPromises);
     results.push(...batchResults);
-    
+
     // Update progress indicator if available
-    const progressElement = document.getElementById('uploadProgress');
+    const progressElement = document.getElementById("uploadProgress");
     if (progressElement) {
-      const progress = Math.min(100, Math.round((i + batchSize) / chartMappings.length * 100));
+      const progress = Math.min(
+        100,
+        Math.round(((i + batchSize) / chartMappings.length) * 100)
+      );
       progressElement.style.width = `${progress}%`;
-      progressElement.setAttribute('aria-valuenow', progress);
+      progressElement.setAttribute("aria-valuenow", progress);
     }
   }
-  
+
   return results;
 }
 
 /**
- * Sets button to loading state with spinner
- * @param {HTMLElement} btn - Button element to modify
+ * Main function to print/upload charts to Quickbase
  */
-function setButtonLoading(btn) {
-  // Store original button content if not already stored
-  if (!btn.dataset.originalContent) {
-    btn.dataset.originalContent = btn.innerHTML;
-  }
-  
-  // Set loading state with spinner
-  btn.innerHTML = `
-    <div class="flex items-center justify-center">
-      <svg aria-hidden="true" role="status" class="inline w-6 h-6 me-3 text-xl colorGreen font-extrabold animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
-        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
-      </svg>
-      <span class="font-medium">Loading...</span>
-    </div>`;
-  btn.disabled = true;
-  
-  // Add a CSS class to prevent interactions
-  btn.classList.add('pointer-events-none', 'opacity-75');
-}
-
-/**
- * Restores button to normal state
- * @param {HTMLElement} btn - Button element to restore
- */
-function restoreButton(btn) {
-  // Only restore if we have the original content
-  if (btn.dataset.originalContent) {
-    btn.innerHTML = btn.dataset.originalContent;
-    btn.disabled = false;
-    btn.classList.remove('pointer-events-none', 'opacity-75');
-  }
-}
 async function mainPrint() {
-  showApiLoadingFunction("open", "print");
-
-  const printButton = document.getElementById('printBase64');
+  const printButton = document.getElementById("printBase64");
   if (!printButton) {
     console.error("Print button not found");
     return;
   }
-  
+
   // Store original button innerHTML to restore later
   const originalButtonContent = printButton.innerHTML;
-  
+
   // Show content sections
-  const sections = ['cashContent', 'netAssetsContent', 'incomeContent', 'expenseContent'];
+  const sections = [
+    "cashContent",
+    "netAssetsContent",
+    "incomeContent",
+    "expenseContent",
+  ];
   const hiddenSections = [];
-  
+
   try {
     // Start the loading spinner
-    // toggleButtonLoadingState(printButton);
-    
+    toggleButtonLoadingState(printButton);
+
     // Show all content sections for rendering
-    sections.forEach(id => {
+    sections.forEach((id) => {
       const element = document.getElementById(id);
-      if (element && element.classList.contains('hidden')) {
-        element.classList.remove('hidden');
+      if (element && element.classList.contains("hidden")) {
+        element.classList.remove("hidden");
         hiddenSections.push(element); // Track which ones we unhid
       }
     });
 
     // Wait for DOM to update
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Define all chart IDs and their corresponding field IDs
     const chartMappings = [
       { chartId: "statementCashFlows_chart", fieldId: 8 },
       { chartId: "daysCashOnHand_chart", fieldId: 9 },
       { chartId: "daysExpensesInUnrestrictedNA_chart", fieldId: 10 },
-      { chartId: "daysExpensesInUnrestrictedNA_excludingPPE_chart", fieldId: 11 },
+      {
+        chartId: "daysExpensesInUnrestrictedNA_excludingPPE_chart",
+        fieldId: 11,
+      },
       { chartId: "totalCoverageRatio_chart", fieldId: 12 },
       { chartId: "contributionsTrend_chart", fieldId: 13 },
       { chartId: "annualizedInvestmentReturn_chart", fieldId: 14 },
@@ -480,95 +458,98 @@ async function mainPrint() {
       { chartId: "netAssetBreakdown_chart", fieldId: 25 },
       { chartId: "changeInNetAssets_chart", fieldId: 26 },
       { chartId: "liquidityAssetsAvailableCover_chart", fieldId: 27 },
-      { chartId: "assetsWithoutPpeToLiabilitiesWithoutDebt_chart", fieldId: 28 },
+      {
+        chartId: "assetsWithoutPpeToLiabilitiesWithoutDebt_chart",
+        fieldId: 28,
+      },
       { chartId: "totalContributions_chart", fieldId: 29 },
       { chartId: "contributionsWithoutDR_chart", fieldId: 30 },
       { chartId: "functionalAllocation_chart", fieldId: 31 },
-      { chartId: "costOfContributionsDetailView_chart", fieldId: 32 }
+      { chartId: "costOfContributionsDetailView_chart", fieldId: 32 },
     ];
 
     // Filter out any charts that don't exist in the DOM
-    const validChartMappings = chartMappings.filter(({ chartId }) => 
-      document.getElementById(chartId) !== null
+    const validChartMappings = chartMappings.filter(
+      ({ chartId }) => document.getElementById(chartId) !== null
     );
-    
+
     if (validChartMappings.length === 0) {
       throw new Error("No valid charts found to upload");
     }
-    
+
     // Process charts in batches
     const results = await processChartBatches(validChartMappings, 3);
-    
+
     // Build XML request with metadata and chart images
     let uploadXml = "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
-    
+
     // Add metadata first
-    uploadXml += createFieldXml(171, ClientRid || '');
-    uploadXml += createFieldXml(170, firmName || '');
+    uploadXml += createFieldXml(171, ClientRid || "");
+    uploadXml += createFieldXml(170, firmName || "");
     uploadXml += createFieldXml(169, uniqueClients?.size || 0);
     uploadXml += createFieldXml(163, sliderValue || 0);
     uploadXml += createFieldXml(164, sliderValue2 || 25000);
-    
+
     // Add base64 images for charts
-    results.forEach(result => {
+    results.forEach((result) => {
       if (result && result.base64String) {
         uploadXml += createImageFieldXml(result.fieldId, result.base64String);
       }
     });
-    
+
     uploadXml += "</qdbapi>";
-    
+
     // Send to Quickbase
     const response = await sendToQuickbase(uploadXml);
-    
+
     // Process response
     const xmlResponse = $(response);
     const errorCode = xmlResponse.find("qdbapi").find("errcode").text();
 
-    showApiLoadingFunction("close", "print");
-
-    
     if (errorCode === "0") {
       const recordId = xmlResponse.find("qdbapi").find("rid").text();
-      createToastSuccess(`Charts successfully uploaded to Quickbase. Record ID: ${recordId}`);
+      createToastSuccess(
+        `Charts successfully uploaded to Quickbase. Record ID: ${recordId}`
+      );
     } else {
-      const errorText = xmlResponse.find("qdbapi").find("errtext").text() || 'Unknown error';
+      const errorText =
+        xmlResponse.find("qdbapi").find("errtext").text() || "Unknown error";
       throw new Error(`Quickbase returned error ${errorCode}: ${errorText}`);
     }
-
-
   } catch (error) {
-    showApiLoadingFunction("close", "print");
     console.error("Error in mainPrint:", error);
-    createToastWarning(`Error creating presentation: ${error.message || "Unknown error"}`);
+    createToastWarning(
+      `Error creating presentation: ${error.message || "Unknown error"}`
+    );
   } finally {
     // Hide the sections we unhid
-    hiddenSections.forEach(element => {
-      element.classList.add('hidden');
+    hiddenSections.forEach((element) => {
+      element.classList.add("hidden");
     });
-    
+
     // Restore button state
-    // restoreButton(printButton);
+    printButton.innerHTML = originalButtonContent;
+    printButton.disabled = false;
   }
 }
 
 // Print button event listener setup
 function initPrintButton() {
-  const printButton = document.getElementById('printBase64');
+  const printButton = document.getElementById("printBase64");
   if (!printButton) {
     console.error("Print button not found");
     return;
   }
-  
+
   // Remove any existing event listeners (optional)
   printButton.replaceWith(printButton.cloneNode(true));
-  
+
   // Get the fresh reference and add the listener
-  const freshPrintButton = document.getElementById('printBase64');
+  const freshPrintButton = document.getElementById("printBase64");
   freshPrintButton.addEventListener("click", () => {
     mainPrint();
   });
 }
 
 // Initialize on document load
-document.addEventListener('DOMContentLoaded', initPrintButton);
+document.addEventListener("DOMContentLoaded", initPrintButton);

@@ -70,15 +70,7 @@ const getMainChartOptions = (
     }
   });
 
-  // if (mainName == "contributionsWithoutDR_chart")
-  //   console.log(mainName, {
-  //     clientArray,
-  //     peerAvg,
-  //     peerMid,
-  //     peer25,
-  //     peer75,
-  //     dataPeer,
-  //   });
+  // console.log(mainName, { clientArray, peerAvg, peerMid, peer25, peer75, dataPeer });
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {
@@ -404,6 +396,8 @@ const getLineChartOptions = (
     return `$${value.toFixed(2)}`;
   };
 
+  
+
   const tooltipFormatter = (value) => {
     if (value === null || value === undefined) return "";
 
@@ -675,12 +669,12 @@ const getCashFlowChartOptions = (
 
   const formatLargeNumber = (value) => {
     if (value === null || value === undefined) return "$0";
-
+    
     // Store if the value is negative
     const isNegative = value < 0;
     // Work with absolute value for formatting
     const absValue = Math.abs(value);
-
+    
     let formattedValue;
     if (absValue >= 1000000) {
       formattedValue = `$${(absValue / 1000000).toFixed(1)}M`;
@@ -689,7 +683,7 @@ const getCashFlowChartOptions = (
     } else {
       formattedValue = `$${absValue.toFixed(0)}`;
     }
-
+    
     // Add the negative sign back if the original value was negative
     return isNegative ? `-${formattedValue}` : formattedValue;
   };

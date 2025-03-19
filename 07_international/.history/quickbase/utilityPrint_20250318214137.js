@@ -240,7 +240,6 @@ generateReportsBtn.addEventListener("click", () => {
   }
 });
 
-
 /**
  * Converts an SVG chart element to a PNG Base64 string
  * @param {HTMLElement} element - The DOM element containing the chart
@@ -355,6 +354,13 @@ async function sendToQuickbase(xml) {
  */
 async function processChartBatches(chartMappings, batchSize = 3) {
   const results = [];
+  const totalCharts = chartMappings.length;
+  
+  // Update the loading indicator with progress info if possible
+  const loadingHeader = document.getElementById('loadingApiHeader');
+  if (loadingHeader) {
+    loadingHeader.textContent = "Uploading Charts (0%)";
+  }
   
   for (let i = 0; i < chartMappings.length; i += batchSize) {
     // Breathe between batches
@@ -383,58 +389,62 @@ async function processChartBatches(chartMappings, batchSize = 3) {
     const batchResults = await Promise.all(batchPromises);
     results.push(...batchResults);
     
-    // Update progress indicator if available
-    const progressElement = document.getElementById('uploadProgress');
-    if (progressElement) {
-      const progress = Math.min(100, Math.round((i + batchSize) / chartMappings.length * 100));
-      progressElement.style.width = `${progress}%`;
-      progressElement.setAttribute('aria-valuenow', progress);
+    // Update the progress indicator
+    const progress = Math.min(100, Math.round((i + batch.length) / totalCharts * 100));
+    if (loadingHeader) {
+      loadingHeader.textContent = `Uploading Charts (${progress}%)`;
     }
+  }
+  
+  // Set to 100% when done
+  if (loadingHeader) {
+    loadingHeader.textContent = "Uploading Charts (100%)";
   }
   
   return results;
 }
 
 /**
- * Sets button to loading state with spinner
- * @param {HTMLElement} btn - Button element to modify
+ * Shows or hides the API loading modal
+ * @param {string} action - "open" or "close"
+ * @param {string} type - Type of operation (e.g., "print")
  */
-function setButtonLoading(btn) {
-  // Store original button content if not already stored
-  if (!btn.dataset.originalContent) {
-    btn.dataset.originalContent = btn.innerHTML;
+function showApiLoadingFunction(action, type) {
+  const loadingModal = document.getElementById('loadingApiDiv');
+  const loadingHeader = document.getElementById('loadingApiHeader');
+  const apiYearsSection = document.getElementById('apiYears');
+  const apiPrintSection = document.getElementById('apiPrint');
+  
+  if (!loadingModal) {
+    console.error("Loading modal not found");
+    return;
   }
   
-  // Set loading state with spinner
-  btn.innerHTML = `
-    <div class="flex items-center justify-center">
-      <svg aria-hidden="true" role="status" class="inline w-6 h-6 me-3 text-xl colorGreen font-extrabold animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
-        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
-      </svg>
-      <span class="font-medium">Loading...</span>
-    </div>`;
-  btn.disabled = true;
-  
-  // Add a CSS class to prevent interactions
-  btn.classList.add('pointer-events-none', 'opacity-75');
-}
-
-/**
- * Restores button to normal state
- * @param {HTMLElement} btn - Button element to restore
- */
-function restoreButton(btn) {
-  // Only restore if we have the original content
-  if (btn.dataset.originalContent) {
-    btn.innerHTML = btn.dataset.originalContent;
-    btn.disabled = false;
-    btn.classList.remove('pointer-events-none', 'opacity-75');
+  if (action === "open") {
+    // Update modal content based on type
+    if (type === "print") {
+      loadingHeader.textContent = "Uploading Charts";
+      
+      // Show/hide appropriate sections
+      if (apiYearsSection) apiYearsSection.classList.add('hidden');
+      if (apiPrintSection) apiPrintSection.classList.remove('hidden');
+      
+      // Get the selected years if needed
+      const selectedYears = getSelectedYearsFromLocalStorage() || [];
+      if (selectedYears.length > 0 && document.getElementById('firstApiYear') && document.getElementById('LastApiYear')) {
+        document.getElementById('firstApiYear').textContent = Math.min(...selectedYears);
+        document.getElementById('LastApiYear').textContent = Math.max(...selectedYears);
+      }
+    }
+    
+    // Show modal
+    loadingModal.classList.remove('hidden');
+  } else if (action === "close") {
+    // Hide modal
+    loadingModal.classList.add('hidden');
   }
 }
 async function mainPrint() {
-  showApiLoadingFunction("open", "print");
-
   const printButton = document.getElementById('printBase64');
   if (!printButton) {
     console.error("Print button not found");
@@ -450,7 +460,7 @@ async function mainPrint() {
   
   try {
     // Start the loading spinner
-    // toggleButtonLoadingState(printButton);
+    toggleButtonLoadingState(printButton);
     
     // Show all content sections for rendering
     sections.forEach(id => {
@@ -524,21 +534,20 @@ async function mainPrint() {
     // Process response
     const xmlResponse = $(response);
     const errorCode = xmlResponse.find("qdbapi").find("errcode").text();
-
-    showApiLoadingFunction("close", "print");
-
     
     if (errorCode === "0") {
       const recordId = xmlResponse.find("qdbapi").find("rid").text();
+      
+      // Hide loading modal before showing success toast
+      showApiLoadingFunction("close", "print");
+      
+      // Show success message
       createToastSuccess(`Charts successfully uploaded to Quickbase. Record ID: ${recordId}`);
     } else {
       const errorText = xmlResponse.find("qdbapi").find("errtext").text() || 'Unknown error';
       throw new Error(`Quickbase returned error ${errorCode}: ${errorText}`);
     }
-
-
   } catch (error) {
-    showApiLoadingFunction("close", "print");
     console.error("Error in mainPrint:", error);
     createToastWarning(`Error creating presentation: ${error.message || "Unknown error"}`);
   } finally {
@@ -547,8 +556,9 @@ async function mainPrint() {
       element.classList.add('hidden');
     });
     
-    // Restore button state
-    // restoreButton(printButton);
+    // Hide loading modal and re-enable button
+    showApiLoadingFunction("close", "print");
+    printButton.disabled = false;
   }
 }
 

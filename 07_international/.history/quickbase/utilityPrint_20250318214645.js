@@ -450,7 +450,7 @@ async function mainPrint() {
   
   try {
     // Start the loading spinner
-    // toggleButtonLoadingState(printButton);
+    toggleButtonLoadingState(printButton);
     
     // Show all content sections for rendering
     sections.forEach(id => {
@@ -548,7 +548,7 @@ async function mainPrint() {
     });
     
     // Restore button state
-    // restoreButton(printButton);
+    restoreButton(printButton);
   }
 }
 

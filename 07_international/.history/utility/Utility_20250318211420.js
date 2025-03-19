@@ -1694,8 +1694,6 @@ const destroyAllCharts = () => {
 
 
 function showApiLoadingFunction(action, mode) {
-  console.log('hit showLoading()');
-  
   const loadingDiv = document.getElementById("loadingApiDiv");
   const loadingApiHeader = document.getElementById("loadingApiHeader");
   const apiPrint = document.getElementById("apiPrint");

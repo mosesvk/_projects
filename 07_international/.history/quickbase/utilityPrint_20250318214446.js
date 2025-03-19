@@ -450,7 +450,7 @@ async function mainPrint() {
   
   try {
     // Start the loading spinner
-    // toggleButtonLoadingState(printButton);
+    toggleButtonLoadingState(printButton);
     
     // Show all content sections for rendering
     sections.forEach(id => {
@@ -524,9 +524,6 @@ async function mainPrint() {
     // Process response
     const xmlResponse = $(response);
     const errorCode = xmlResponse.find("qdbapi").find("errcode").text();
-
-    showApiLoadingFunction("close", "print");
-
     
     if (errorCode === "0") {
       const recordId = xmlResponse.find("qdbapi").find("rid").text();
@@ -535,10 +532,7 @@ async function mainPrint() {
       const errorText = xmlResponse.find("qdbapi").find("errtext").text() || 'Unknown error';
       throw new Error(`Quickbase returned error ${errorCode}: ${errorText}`);
     }
-
-
   } catch (error) {
-    showApiLoadingFunction("close", "print");
     console.error("Error in mainPrint:", error);
     createToastWarning(`Error creating presentation: ${error.message || "Unknown error"}`);
   } finally {
@@ -548,7 +542,7 @@ async function mainPrint() {
     });
     
     // Restore button state
-    // restoreButton(printButton);
+    restoreButton(printButton);
   }
 }
 
