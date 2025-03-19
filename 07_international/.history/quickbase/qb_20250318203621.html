@@ -4583,7 +4583,172 @@
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
     >
       <div class="relative p-4 w-full max-w-4xl max-h-full">
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class=
+        // PRESENTATION [BASE64] -----------------------------------------------------------------------------
+        
+        // Convert SVG to PNG Base64
+        async function svgToPngBase64(element, id) {
+          try {
+            if (!element) {
+              throw new Error("Element is null or undefined");
+            }
+        
+            // Use html2canvas to render the element to a canvas
+            const canvas = await html2canvas(element);
+        
+            if (!canvas) {
+              throw new Error("Canvas rendering failed");
+            }
+        
+            // Get the base64 string from the canvas
+            const base64String = canvas.toDataURL("image/png").split(",")[1];
+        
+            if (!base64String) {
+              throw new Error("Failed to generate base64 string from canvas");
+            }
+        
+            // Store the result in map_dataUri
+            map_dataUri.set(id, base64String);
+        
+            return base64String;
+          } catch (error) {
+            console.error("Error rendering the SVG to PNG:", error);
+            console.error("Element:", element);
+            console.error("ID:", id);
+            throw error;
+          }
+        }
+        
+        // Upload single presentation to file
+        function uploadSinglePresentationToFile(id, val) {
+          uploadPresentationFile += `<field fid='${id}' filename='image.png'>${val}</field>`;
+        }
+        
+        // Get PNG string
+        const getPngString = async (id, fieldId) => {
+          try {
+            const element = document.getElementById(id);
+            
+            if (!element) {
+              console.error(`Element with ID ${id} not found`);
+              return;
+            }
+            
+            const idx = id.replace("_chart", "");
+        
+            // Await the base64 conversion
+            const base64String = await svgToPngBase64(element, idx);
+        
+            // Upload the base64 string
+            uploadSinglePresentationToFile(fieldId, base64String);
+          } catch (error) {
+            console.error(`Error in getPngString for ${id}:`, error);
+          }
+        };
+        
+        // Main print function
+        const mainPrint = async () => {
+          try {
+            toggleButtonLoadingState(printButton);
+            
+            // Show all content sections for printing - check if elements exist first
+            const cashContent = document.getElementById("cashContent");
+            if (cashContent) cashContent.classList.remove("hidden");
+            
+            const netAssetsContent = document.getElementById("netAssetsContent");
+            if (netAssetsContent) netAssetsContent.classList.remove("hidden");
+            
+            const incomeContent = document.getElementById("incomeContent");
+            if (incomeContent) incomeContent.classList.remove("hidden");
+            
+            const expenseContent = document.getElementById("expenseContent");
+            if (expenseContent) expenseContent.classList.remove("hidden");
+        
+            uploadPresentationFile = "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
+        
+            // Upload metadata
+            uploadSinglePresentationToFile(171, ClientRid);
+            uploadSinglePresentationToFile(170, firmName);
+            uploadSinglePresentationToFile(169, uniqueClients.size);
+            uploadSinglePresentationToFile(163, sliderValue);
+            uploadSinglePresentationToFile(164, sliderValue2);
+            
+            // Upload charts as PNG base64
+            await getPngString("statementCashFlows_chart", 8);
+            await getPngString("daysCashOnHand_chart", 9);
+            await getPngString("daysExpensesInUnrestrictedNA_chart", 10);
+            await getPngString("daysExpensesInUnrestrictedNA_excludingPPE_chart", 11);
+            await getPngString("totalCoverageRatio_chart", 12);
+            await getPngString("contributionsTrend_chart", 13);
+            await getPngString("annualizedInvestmentReturn_chart", 14);
+            await getPngString("functionalExpensePercent_program_chart", 15);
+            await getPngString("functionalExpensePercent_administrative_chart", 16);
+            await getPngString("functionalExpensePercent_fundraising_chart", 17);
+            await getPngString("costOfContributions_chart", 18);
+            await getPngString("netAssetBreakdown_chart", 25);
+            await getPngString("changeInNetAssets_chart", 26);
+            await getPngString("liquidityAssetsAvailableCover_chart", 27);
+            await getPngString("assetsWithoutPpeToLiabilitiesWithoutDebt_chart", 28);
+            await getPngString("totalContributions_chart", 29);
+            await getPngString("contributionsWithoutDR_chart", 30);
+            await getPngString("functionalAllocation_chart", 31);
+            await getPngString("costOfContributionsDetailView_chart", 32);
+        
+            uploadPresentationFile += "</qdbapi>";
+        
+            // Send the data to the server
+            $.ajax({
+              type: "POST",
+              contentType: "text/xml",
+              async: true,
+              url: "https://capincrouse.quickbase.com/db/bumq5qw5e?a=API_AddRecord",
+              dataType: "xml",
+              processData: false,
+              data: uploadPresentationFile,
+              success: function(response) {
+                const xmlUpload = $(response);
+                
+                if (xmlUpload.find("qdbapi").find("errcode").text() == "0") {
+                  createToastSuccess("Presentation Charts successfully uploaded to Quickbase.");
+                } else {
+                  console.log("Quickbase returned an error.");
+                  createToastWarning(`Quickbase returned an error: if (xmlUpload.find("qdbapi").find("errcode").text() == "0")`);
+                }
+              },
+              error: function(err) {
+                console.log(err);
+                createToastWarning(`Quickbase returned an error: ${err}`);
+              },
+              complete: function() {
+                // Hide content sections after printing - check if elements exist first
+                if (cashContent) cashContent.classList.add("hidden");
+                if (netAssetsContent) netAssetsContent.classList.add("hidden");
+                if (incomeContent) incomeContent.classList.add("hidden");
+                if (expenseContent) expenseContent.classList.add("hidden");
+                
+                togglePrintPresentationButtonNormalState(printButton);
+              }
+            });
+          } catch (error) {
+            console.error("Error in mainPrint:", error);
+            createToastWarning("Error creating presentation: " + error.message);
+            
+            // Ensure content is hidden and button is reset even if there's an error
+            const cashContent = document.getElementById("cashContent");
+            if (cashContent) cashContent.classList.add("hidden");
+            
+            const netAssetsContent = document.getElementById("netAssetsContent");
+            if (netAssetsContent) netAssetsContent.classList.add("hidden");
+            
+            const incomeContent = document.getElementById("incomeContent");
+            if (incomeContent) incomeContent.classList.add("hidden");
+            
+            const expenseContent = document.getElementById("expenseContent");
+            if (expenseContent) expenseContent.classList.add("hidden");
+            
+            togglePrintPresentationButtonNormalState(printButton);
+          }
+        };"relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div
             id="options_modal"
             data-accordion="collapse"

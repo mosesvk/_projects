@@ -9,7 +9,7 @@ let uploadMainFile = "";
 let uploadPresentationFile = "";
 
 // PDF download functionality
-$("#downloadPdf").on("click", function () {
+$("#downloadPdf").on("click", function() {
   const imagesArray = [];
 
   for (let i = 0; i < selectedImagesArray.length; i++) {
@@ -22,7 +22,7 @@ $("#downloadPdf").on("click", function () {
 });
 
 // Print options functionality
-$("#printOptionsBtn").on("click", function () {
+$("#printOptionsBtn").on("click", function() {
   const reportTables = [
     "data-tableDemo",
     "data-tableCash",
@@ -33,7 +33,7 @@ $("#printOptionsBtn").on("click", function () {
 
   for (let i = 0; i < selectedImagesArray.length; i++) {
     const selectImg = selectedImagesArray[i];
-
+    
     if (reportTables.includes(selectImg)) {
       $(`#${selectImg} .google-visualization-table`).printThis({
         importCSS: true,
@@ -130,8 +130,7 @@ const uploadSingleToFile = (id, val, end = false) => {
 
 // Print to Excel functionality
 const printToExcel = (dataString) => {
-  const urlUploadFile =
-    "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord";
+  const urlUploadFile = "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord";
 
   $.ajax({
     type: "POST",
@@ -141,37 +140,35 @@ const printToExcel = (dataString) => {
     dataType: "xml",
     processData: false,
     data: dataString,
-    success: function (response) {
+    success: function(response) {
       const xmlUpload = $(response);
       const newRecordID = xmlUpload[0].all[4].innerHTML;
-
+      
       if (xmlUpload.find("qdbapi").find("errcode").text() == "0") {
         const recordId = xmlUpload.find("qdbapi").find("rid").text();
-
+        
         createToastSuccess("Generated Reports successfully to Quickbase.");
-
+        
         const printModalFooter = document.getElementById("print_modal_footer");
         if (printModalFooter) {
           printModalFooter.classList.remove("hidden");
         }
-
+        
         const trendXLSFinal = document.getElementById("trendXLSFinal");
         if (trendXLSFinal) {
           trendXLSFinal.href = getUrlBasedOnYearCount("xls", recordId);
         }
-
+        
         const trendPDFFinal = document.getElementById("trendPDFFinal");
         if (trendPDFFinal) {
           trendPDFFinal.href = getUrlBasedOnYearCount("pdf", recordId);
         }
       } else {
         console.log("Quickbase returned an error.");
-        createToastWarning(
-          `Quickbase returned an error: if (xmlUpload.find("qdbapi").find("errcode").text() == "0")`
-        );
+        createToastWarning(`Quickbase returned an error: if (xmlUpload.find("qdbapi").find("errcode").text() == "0")`);
       }
     },
-    error: function (err) {
+    error: function(err) {
       console.log(err);
       createToastWarning(`Quickbase returned an error: ${err}`);
     },
@@ -198,7 +195,7 @@ const createFileForPrint = (
 const createPrintExcel = async () => {
   const types = Array.from(selectedTypes_Array).join(";");
   const regions = Array.from(selectedRegions_Array).join(";");
-
+  
   uploadSingleToFile(171, ClientRid);
   uploadSingleToFile(170, firmName);
   uploadSingleToFile(169, uniqueClients.size);
@@ -234,11 +231,9 @@ const createPrintExcel = async () => {
 // Generate reports event listener
 generateReportsBtn.addEventListener("click", () => {
   toggleButtonLoadingState(generateReportsBtn);
-
+  
   if (!localStorage.generalData) {
-    createToastWarning(
-      "No Data Retrieved. Make sure to select years and run the report"
-    );
+    createToastWarning("No Data Retrieved. Make sure to select years and run the report");
     throw new Error("No Data Retrieved.");
   } else {
     createPrintExcel();
@@ -251,20 +246,11 @@ generateReportsBtn.addEventListener("click", () => {
 async function svgToPngBase64(element, id) {
   try {
     if (!element) {
-      console.error(`Element for ${id} is null or undefined`);
-      return null;
+      throw new Error("Element is null or undefined");
     }
 
-    // Add a small timeout to let the UI thread breathe
-    await new Promise((resolve) => setTimeout(resolve, 0));
-
-    // Use html2canvas with improved options
-    const canvas = await html2canvas(element, {
-      allowTaint: true,
-      useCORS: true,
-      logging: false,
-      scale: 2, // Higher quality
-    });
+    // Use html2canvas to render the element to a canvas
+    const canvas = await html2canvas(element);
 
     if (!canvas) {
       throw new Error("Canvas rendering failed");
@@ -282,175 +268,140 @@ async function svgToPngBase64(element, id) {
 
     return base64String;
   } catch (error) {
-    console.error(`Error rendering element with ID ${id} to PNG:`, error);
-    return null;
+    console.error("Error rendering the SVG to PNG:", error);
+    console.error("Element:", element);
+    console.error("ID:", id);
+    throw error;
   }
 }
 
 // Upload single presentation to file
 function uploadSinglePresentationToFile(id, val) {
-  if (val === null || val === undefined) {
-    console.warn(`Skipping upload for field ${id} due to null/undefined value`);
-    return "";
-  }
-  return `<field fid='${id}' filename='image.png'>${val}</field>`;
+  uploadPresentationFile += `<field fid='${id}' filename='image.png'>${val}</field>`;
 }
+
+// Get PNG string
+const getPngString = async (id, fieldId) => {
+  try {
+    const element = document.getElementById(id);
+    
+    if (!element) {
+      console.error(`Element with ID ${id} not found`);
+      return;
+    }
+    
+    const idx = id.replace("_chart", "");
+
+    // Await the base64 conversion
+    const base64String = await svgToPngBase64(element, idx);
+
+    // Upload the base64 string
+    uploadSinglePresentationToFile(fieldId, base64String);
+  } catch (error) {
+    console.error(`Error in getPngString for ${id}:`, error);
+  }
+};
 
 // Main print function
 const mainPrint = async () => {
-  let uploadPresentationFile = "";
-
   try {
-    // Start the loading spinner
     toggleButtonLoadingState(printButton);
+    
+    // Show all content sections for printing - check if elements exist first
+    const cashContent = document.getElementById("cashContent");
+    if (cashContent) cashContent.classList.remove("hidden");
+    
+    const netAssetsContent = document.getElementById("netAssetsContent");
+    if (netAssetsContent) netAssetsContent.classList.remove("hidden");
+    
+    const incomeContent = document.getElementById("incomeContent");
+    if (incomeContent) incomeContent.classList.remove("hidden");
+    
+    const expenseContent = document.getElementById("expenseContent");
+    if (expenseContent) expenseContent.classList.remove("hidden");
 
-    // Show all content sections for printing at once (reduces reflows)
-    const sections = [
-      "cashContent",
-      "netAssetsContent",
-      "incomeContent",
-      "expenseContent",
-    ];
-    sections.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) element.classList.remove("hidden");
-    });
+    uploadPresentationFile = "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
 
-    // Wait a moment for DOM to update
-    await new Promise((resolve) => setTimeout(resolve, 50));
-
-    // Initialize the XML request
-    uploadPresentationFile =
-      "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
-
-    // Upload metadata first (simple operations)
-    uploadPresentationFile += uploadSinglePresentationToFile(171, ClientRid);
-    uploadPresentationFile += uploadSinglePresentationToFile(170, firmName);
-    uploadPresentationFile += uploadSinglePresentationToFile(
-      169,
-      uniqueClients.size
-    );
-    uploadPresentationFile += uploadSinglePresentationToFile(163, sliderValue);
-    uploadPresentationFile += uploadSinglePresentationToFile(164, sliderValue2);
-
-    // Define all chart IDs and their corresponding field IDs
-    const chartMappings = [
-      { chartId: "statementCashFlows_chart", fieldId: 8 },
-      { chartId: "daysCashOnHand_chart", fieldId: 9 },
-      { chartId: "daysExpensesInUnrestrictedNA_chart", fieldId: 10 },
-      {
-        chartId: "daysExpensesInUnrestrictedNA_excludingPPE_chart",
-        fieldId: 11,
-      },
-      { chartId: "totalCoverageRatio_chart", fieldId: 12 },
-      { chartId: "contributionsTrend_chart", fieldId: 13 },
-      { chartId: "annualizedInvestmentReturn_chart", fieldId: 14 },
-      { chartId: "functionalExpensePercent_program_chart", fieldId: 15 },
-      { chartId: "functionalExpensePercent_administrative_chart", fieldId: 16 },
-      { chartId: "functionalExpensePercent_fundraising_chart", fieldId: 17 },
-      { chartId: "costOfContributions_chart", fieldId: 18 },
-      { chartId: "netAssetBreakdown_chart", fieldId: 25 },
-      { chartId: "changeInNetAssets_chart", fieldId: 26 },
-      { chartId: "liquidityAssetsAvailableCover_chart", fieldId: 27 },
-      {
-        chartId: "assetsWithoutPpeToLiabilitiesWithoutDebt_chart",
-        fieldId: 28,
-      },
-      { chartId: "totalContributions_chart", fieldId: 29 },
-      { chartId: "contributionsWithoutDR_chart", fieldId: 30 },
-      { chartId: "functionalAllocation_chart", fieldId: 31 },
-      { chartId: "costOfContributionsDetailView_chart", fieldId: 32 },
-    ];
-
-    // Process charts in batches to prevent UI blocking
-    const batchSize = 3; // Process 3 charts at a time
-    for (let i = 0; i < chartMappings.length; i += batchSize) {
-      // Give the UI thread a chance to breathe between batches
-      if (i > 0) {
-        await new Promise((resolve) => setTimeout(resolve, 20));
-      }
-
-      // Process a batch of charts in parallel
-      const batch = chartMappings.slice(i, i + batchSize);
-      const batchResults = await Promise.all(
-        batch.map(async ({ chartId, fieldId }) => {
-          try {
-            const element = document.getElementById(chartId);
-            if (!element) {
-              console.warn(`Element with ID ${chartId} not found`);
-              return { fieldId, base64String: null };
-            }
-
-            const idx = chartId.replace("_chart", "");
-            const base64String = await svgToPngBase64(element, idx);
-            return { fieldId, base64String };
-          } catch (error) {
-            console.error(`Error processing chart ${chartId}:`, error);
-            return { fieldId, base64String: null };
-          }
-        })
-      );
-
-      // Add successful results to the upload file
-      batchResults.forEach((result) => {
-        if (result && result.base64String) {
-          uploadPresentationFile += uploadSinglePresentationToFile(
-            result.fieldId,
-            result.base64String
-          );
-        }
-      });
-    }
+    // Upload metadata
+    uploadSinglePresentationToFile(171, ClientRid);
+    uploadSinglePresentationToFile(170, firmName);
+    uploadSinglePresentationToFile(169, uniqueClients.size);
+    uploadSinglePresentationToFile(163, sliderValue);
+    uploadSinglePresentationToFile(164, sliderValue2);
+    
+    // Upload charts as PNG base64
+    await getPngString("statementCashFlows_chart", 8);
+    await getPngString("daysCashOnHand_chart", 9);
+    await getPngString("daysExpensesInUnrestrictedNA_chart", 10);
+    await getPngString("daysExpensesInUnrestrictedNA_excludingPPE_chart", 11);
+    await getPngString("totalCoverageRatio_chart", 12);
+    await getPngString("contributionsTrend_chart", 13);
+    await getPngString("annualizedInvestmentReturn_chart", 14);
+    await getPngString("functionalExpensePercent_program_chart", 15);
+    await getPngString("functionalExpensePercent_administrative_chart", 16);
+    await getPngString("functionalExpensePercent_fundraising_chart", 17);
+    await getPngString("costOfContributions_chart", 18);
+    await getPngString("netAssetBreakdown_chart", 25);
+    await getPngString("changeInNetAssets_chart", 26);
+    await getPngString("liquidityAssetsAvailableCover_chart", 27);
+    await getPngString("assetsWithoutPpeToLiabilitiesWithoutDebt_chart", 28);
+    await getPngString("totalContributions_chart", 29);
+    await getPngString("contributionsWithoutDR_chart", 30);
+    await getPngString("functionalAllocation_chart", 31);
+    await getPngString("costOfContributionsDetailView_chart", 32);
 
     uploadPresentationFile += "</qdbapi>";
 
-    // Final API request
-    const response = await new Promise((resolve, reject) => {
-      $.ajax({
-        type: "POST",
-        contentType: "text/xml",
-        async: true,
-        url: "https://capincrouse.quickbase.com/db/bumq5qw5e?a=API_AddRecord",
-        dataType: "xml",
-        processData: false,
-        data: uploadPresentationFile,
-        success: resolve,
-        error: reject,
-      });
+    // Send the data to the server
+    $.ajax({
+      type: "POST",
+      contentType: "text/xml",
+      async: true,
+      url: "https://capincrouse.quickbase.com/db/bumq5qw5e?a=API_AddRecord",
+      dataType: "xml",
+      processData: false,
+      data: uploadPresentationFile,
+      success: function(response) {
+        const xmlUpload = $(response);
+        
+        if (xmlUpload.find("qdbapi").find("errcode").text() == "0") {
+          createToastSuccess("Presentation Charts successfully uploaded to Quickbase.");
+        } else {
+          console.log("Quickbase returned an error.");
+          createToastWarning(`Quickbase returned an error: if (xmlUpload.find("qdbapi").find("errcode").text() == "0")`);
+        }
+      },
+      error: function(err) {
+        console.log(err);
+        createToastWarning(`Quickbase returned an error: ${err}`);
+      },
+      complete: function() {
+        // Hide content sections after printing - check if elements exist first
+        if (cashContent) cashContent.classList.add("hidden");
+        if (netAssetsContent) netAssetsContent.classList.add("hidden");
+        if (incomeContent) incomeContent.classList.add("hidden");
+        if (expenseContent) expenseContent.classList.add("hidden");
+        
+        togglePrintPresentationButtonNormalState(printButton);
+      }
     });
-
-    // Process response
-    const xmlUpload = $(response);
-    if (xmlUpload.find("qdbapi").find("errcode").text() == "0") {
-      createToastSuccess(
-        "Presentation Charts successfully uploaded to Quickbase."
-      );
-    } else {
-      createToastWarning(
-        `Quickbase returned an error: ${
-          xmlUpload.find("qdbapi").find("errtext").text() || "Unknown error"
-        }`
-      );
-    }
   } catch (error) {
     console.error("Error in mainPrint:", error);
-    createToastWarning(
-      "Error creating presentation: " +
-        (error.statusText || error.message || "Unknown error")
-    );
-  } finally {
-    // Always hide sections and reset button state
-    const sections = [
-      "cashContent",
-      "netAssetsContent",
-      "incomeContent",
-      "expenseContent",
-    ];
-    sections.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) element.classList.add("hidden");
-    });
-
+    createToastWarning("Error creating presentation: " + error.message);
+    
+    // Ensure content is hidden and button is reset even if there's an error
+    const cashContent = document.getElementById("cashContent");
+    if (cashContent) cashContent.classList.add("hidden");
+    
+    const netAssetsContent = document.getElementById("netAssetsContent");
+    if (netAssetsContent) netAssetsContent.classList.add("hidden");
+    
+    const incomeContent = document.getElementById("incomeContent");
+    if (incomeContent) incomeContent.classList.add("hidden");
+    
+    const expenseContent = document.getElementById("expenseContent");
+    if (expenseContent) expenseContent.classList.add("hidden");
+    
     togglePrintPresentationButtonNormalState(printButton);
   }
 };

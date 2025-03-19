@@ -1,5 +1,4 @@
-// This is the file that is working. 
-// It is connecting to a Quickbase api table and sending base64 data of each chart to certain fields
+// This is the file that is working. It is connecting to a Quickbase api table and sending base64 data of each chart to certain fields
 
 const urlUploadFile =
   "https://capincrouse.quickbase.com/db/buk93bd7x?a=API_AddRecord";
