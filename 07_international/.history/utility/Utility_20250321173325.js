@@ -538,7 +538,7 @@ function updateModal(mainName, peerData, clientData, parsedData) {
   // Find the modal element
   const modalSelector = `#${mainName}_modal`;
   const modal = document.querySelector(modalSelector);
-
+  
   if (!modal) {
     console.warn(`Modal element with selector "${modalSelector}" not found`);
     return;
@@ -547,17 +547,13 @@ function updateModal(mainName, peerData, clientData, parsedData) {
   // Find the table header row with more flexible selector
   const rowSelector = `#${mainName}_modal_row`;
   let headerRow = modal.querySelector(rowSelector);
-
+  
   if (!headerRow) {
-    console.warn(
-      `Header row with selector "${rowSelector}" not found in modal ${modalSelector}`
-    );
+    console.warn(`Header row with selector "${rowSelector}" not found in modal ${modalSelector}`);
     // Try a more generic approach to find the table row
     headerRow = modal.querySelector('tr[id$="_modal_row"]');
     if (!headerRow) {
-      console.error(
-        `Could not find any appropriate row in modal ${modalSelector}`
-      );
+      console.error(`Could not find any appropriate row in modal ${modalSelector}`);
       return;
     }
   }
@@ -612,59 +608,6 @@ function populateModalContent(headerRow, selectedYears, clientData, peerData) {
       addPeerDataToModalRow(yearRow, peerAvg, peerMid, peer25, peer75);
     }
   });
-}
-
-function addModalColumns(headerRow) {
-  // Clear existing header content
-  headerRow.innerHTML = "";
-
-  // Add the "Year" column
-  const yearColumn = document.createElement("th");
-  yearColumn.className = "px-6 py-3";
-  yearColumn.textContent = "Year";
-  headerRow.appendChild(yearColumn);
-
-  // Add the "Client" column
-  const clientColumn = document.createElement("th");
-  clientColumn.className = "px-6 py-3";
-  clientColumn.textContent = "Client";
-  headerRow.appendChild(clientColumn);
-
-  // Add peer data columns
-  const avgColumn = document.createElement("th");
-  avgColumn.className = "px-6 py-3";
-  avgColumn.textContent = "Avg";
-  headerRow.appendChild(avgColumn);
-
-  const p25Column = document.createElement("th");
-  p25Column.className = "px-6 py-3";
-  p25Column.textContent = "25%";
-  headerRow.appendChild(p25Column);
-
-  const midColumn = document.createElement("th");
-  midColumn.className = "px-6 py-3";
-  midColumn.textContent = "50%";
-  headerRow.appendChild(midColumn);
-
-  const p75Column = document.createElement("th");
-  p75Column.className = "px-6 py-3";
-  p75Column.textContent = "75%";
-  headerRow.appendChild(p75Column);
-}
-
-function createYearRow(modalId, year) {
-  const row = document.createElement("tr");
-  row.id = `${modalId}_${year}`;
-  row.className =
-    "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
-
-  const yearCell = document.createElement("td");
-  yearCell.className =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
-  yearCell.textContent = year;
-  row.appendChild(yearCell);
-
-  return row;
 }
 
 const updateCashFlowModal = (
@@ -1785,7 +1728,7 @@ window.registerChartEventListeners = function () {
 /**
  * Extracts peer and client data arrays from the parsed data
  * This function is used by multiple chart configuration components
- *
+ * 
  * @param {Array} years - Array of selected years
  * @param {Object} dataPeer - Peer data object
  * @param {Object} dataClient - Client data object
@@ -1816,40 +1759,36 @@ function getPeerAndClientChartDataArrays(
     if (dataPeer !== undefined && dataClient !== undefined) {
       // Get peer data array for the year
       const dataArray = dataPeer[year];
-
+      
       // Handle missing data case
       if (!dataArray) {
         peerAvg.push(0);
         peerMid.push(0);
         peer25.push(0);
         peer75.push(0);
-
+        
         // Get client data for this year or default to 0
-        let clientNum =
-          dataClient[year] && dataClient[year].value
-            ? Number(dataClient[year].value)
-            : 0;
-
+        let clientNum = dataClient[year] && dataClient[year].value ? 
+            Number(dataClient[year].value) : 0;
+        
         // Convert to percentage if needed
         if (numType === "percent") clientNum *= 100;
         clientArray.push(clientNum);
         return; // Skip to next iteration
       }
-
+      
       // Convert data array to numbers, handling any null/undefined values
       const array = dataArray.map((item) => Number(item || 0));
-
+      
       // Calculate statistics
       let avg = getAverageOfArray(array);
       let mid = getMidpointOfArray(array, mainName);
       let lower25 = get25thPercentileOfArray(array, mainName);
       let higher75 = get75thPercentileOfArray(array, mainName);
-
+      
       // Get client value for this year or default to 0
-      let clientNum =
-        dataClient[year] && dataClient[year].value
-          ? Number(dataClient[year].value)
-          : 0;
+      let clientNum = dataClient[year] && dataClient[year].value ? 
+          Number(dataClient[year].value) : 0;
 
       // Convert to percentage values if needed
       if (numType === "percent") {
@@ -1873,11 +1812,9 @@ function getPeerAndClientChartDataArrays(
       peer25.push(0);
       peer75.push(0);
 
-      let clientNum =
-        dataClient[year] && dataClient[year].value
-          ? Number(dataClient[year].value)
-          : 0;
-
+      let clientNum = dataClient[year] && dataClient[year].value ? 
+          Number(dataClient[year].value) : 0;
+      
       if (numType === "percent") clientNum *= 100;
       clientArray.push(clientNum);
     } else {
@@ -1898,7 +1835,7 @@ window.getPeerAndClientChartDataArrays = getPeerAndClientChartDataArrays;
 
 /**
  * Create series data for cash flow charts
- *
+ * 
  * @param {Array} years - Array of selected years
  * @param {Object} operatingData - Object containing operating cash flow data by year
  * @param {Object} investingData - Object containing investing cash flow data by year
@@ -1906,13 +1843,7 @@ window.getPeerAndClientChartDataArrays = getPeerAndClientChartDataArrays;
  * @param {Object} totalData - Object containing total cash flow data by year
  * @returns {Array} Array of series data for the chart
  */
-function getSeriesData(
-  years,
-  operatingData,
-  investingData,
-  financingData,
-  totalData
-) {
+function getSeriesData(years, operatingData, investingData, financingData, totalData) {
   // Initialize empty data arrays for each series
   const operatingValues = [];
   const investingValues = [];
@@ -1920,25 +1851,19 @@ function getSeriesData(
   const totalValues = [];
 
   // Collect data for each year
-  years.forEach((year) => {
+  years.forEach(year => {
     // Get data for each category, defaulting to 0 if undefined
-    const operating =
-      operatingData && operatingData[year]
-        ? Number(operatingData[year].value)
-        : 0;
-
-    const investing =
-      investingData && investingData[year]
-        ? Number(investingData[year].value)
-        : 0;
-
-    const financing =
-      financingData && financingData[year]
-        ? Number(financingData[year].value)
-        : 0;
-
-    const total =
-      totalData && totalData[year] ? Number(totalData[year].value) : 0;
+    const operating = operatingData && operatingData[year] ? 
+      Number(operatingData[year].value) : 0;
+    
+    const investing = investingData && investingData[year] ? 
+      Number(investingData[year].value) : 0;
+    
+    const financing = financingData && financingData[year] ? 
+      Number(financingData[year].value) : 0;
+    
+    const total = totalData && totalData[year] ? 
+      Number(totalData[year].value) : 0;
 
     // Add values to respective arrays
     operatingValues.push(operating);
@@ -1950,77 +1875,24 @@ function getSeriesData(
   // Create series array
   return [
     {
-      name: "Operating",
-      data: operatingValues,
+      name: 'Operating',
+      data: operatingValues
     },
     {
-      name: "Investing",
-      data: investingValues,
+      name: 'Investing',
+      data: investingValues
     },
     {
-      name: "Financing",
-      data: financingValues,
+      name: 'Financing',
+      data: financingValues
     },
     {
-      name: "Total",
-      data: totalValues,
-    },
+      name: 'Total',
+      data: totalValues
+    }
   ];
 }
 
 // Ensure functions are available globally
 window.getPeerAndClientChartDataArrays = getPeerAndClientChartDataArrays;
 window.getSeriesData = getSeriesData;
-
-function ensureModalsHaveRows() {
-  // List of all expected modals
-  const modalIds = [
-    "daysCashOnHand",
-    "daysExpensesInUnrestrictedNA",
-    "daysExpensesInUnrestrictedNA_excludingPPE",
-    "liquidityAssetsAvailableCover",
-    "totalCoverageRatio",
-    "totalContributions",
-    "contributionsWithoutDR",
-    "contributionsTrend",
-    "annualizedInvestmentReturn",
-    "functionalExpensePercent_program",
-    "functionalExpensePercent_administrative",
-    "functionalExpensePercent_fundraising",
-    "costOfContributions"
-  ];
-  
-  modalIds.forEach(id => {
-    const modalSelector = `#${id}_modal`;
-    const modal = document.querySelector(modalSelector);
-    
-    if (modal) {
-      // Check if row exists
-      const rowId = `${id}_modal_row`;
-      let row = modal.querySelector(`#${rowId}`);
-      
-      // If row doesn't exist, find the table and create it
-      if (!row) {
-        const table = modal.querySelector('table');
-        if (table) {
-          const thead = table.querySelector('thead');
-          if (thead) {
-            // Check if there's any row we can use
-            const existingRow = thead.querySelector('tr');
-            if (existingRow) {
-              // Set the ID on the existing row
-              existingRow.id = rowId;
-            } else {
-              // Create a new row with proper ID
-              row = document.createElement('tr');
-              row.id = rowId;
-              thead.appendChild(row);
-            }
-          }
-        }
-      }
-    }
-  });
-}
-
-document.addEventListener('DOMContentLoaded', ensureModalsHaveRows);

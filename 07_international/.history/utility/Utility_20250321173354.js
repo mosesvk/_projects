@@ -617,54 +617,39 @@ function populateModalContent(headerRow, selectedYears, clientData, peerData) {
 function addModalColumns(headerRow) {
   // Clear existing header content
   headerRow.innerHTML = "";
-
+  
   // Add the "Year" column
   const yearColumn = document.createElement("th");
   yearColumn.className = "px-6 py-3";
   yearColumn.textContent = "Year";
   headerRow.appendChild(yearColumn);
-
+  
   // Add the "Client" column
   const clientColumn = document.createElement("th");
   clientColumn.className = "px-6 py-3";
   clientColumn.textContent = "Client";
   headerRow.appendChild(clientColumn);
-
+  
   // Add peer data columns
   const avgColumn = document.createElement("th");
   avgColumn.className = "px-6 py-3";
   avgColumn.textContent = "Avg";
   headerRow.appendChild(avgColumn);
-
+  
   const p25Column = document.createElement("th");
   p25Column.className = "px-6 py-3";
   p25Column.textContent = "25%";
   headerRow.appendChild(p25Column);
-
+  
   const midColumn = document.createElement("th");
   midColumn.className = "px-6 py-3";
   midColumn.textContent = "50%";
   headerRow.appendChild(midColumn);
-
+  
   const p75Column = document.createElement("th");
   p75Column.className = "px-6 py-3";
   p75Column.textContent = "75%";
   headerRow.appendChild(p75Column);
-}
-
-function createYearRow(modalId, year) {
-  const row = document.createElement("tr");
-  row.id = `${modalId}_${year}`;
-  row.className =
-    "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
-
-  const yearCell = document.createElement("td");
-  yearCell.className =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
-  yearCell.textContent = year;
-  row.appendChild(yearCell);
-
-  return row;
 }
 
 const updateCashFlowModal = (
@@ -1971,56 +1956,3 @@ function getSeriesData(
 // Ensure functions are available globally
 window.getPeerAndClientChartDataArrays = getPeerAndClientChartDataArrays;
 window.getSeriesData = getSeriesData;
-
-function ensureModalsHaveRows() {
-  // List of all expected modals
-  const modalIds = [
-    "daysCashOnHand",
-    "daysExpensesInUnrestrictedNA",
-    "daysExpensesInUnrestrictedNA_excludingPPE",
-    "liquidityAssetsAvailableCover",
-    "totalCoverageRatio",
-    "totalContributions",
-    "contributionsWithoutDR",
-    "contributionsTrend",
-    "annualizedInvestmentReturn",
-    "functionalExpensePercent_program",
-    "functionalExpensePercent_administrative",
-    "functionalExpensePercent_fundraising",
-    "costOfContributions"
-  ];
-  
-  modalIds.forEach(id => {
-    const modalSelector = `#${id}_modal`;
-    const modal = document.querySelector(modalSelector);
-    
-    if (modal) {
-      // Check if row exists
-      const rowId = `${id}_modal_row`;
-      let row = modal.querySelector(`#${rowId}`);
-      
-      // If row doesn't exist, find the table and create it
-      if (!row) {
-        const table = modal.querySelector('table');
-        if (table) {
-          const thead = table.querySelector('thead');
-          if (thead) {
-            // Check if there's any row we can use
-            const existingRow = thead.querySelector('tr');
-            if (existingRow) {
-              // Set the ID on the existing row
-              existingRow.id = rowId;
-            } else {
-              // Create a new row with proper ID
-              row = document.createElement('tr');
-              row.id = rowId;
-              thead.appendChild(row);
-            }
-          }
-        }
-      }
-    }
-  });
-}
-
-document.addEventListener('DOMContentLoaded', ensureModalsHaveRows);
