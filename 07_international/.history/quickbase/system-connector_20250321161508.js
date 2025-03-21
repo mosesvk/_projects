@@ -1,4 +1,4 @@
-// system-connector.js - Updated to work with existing qbApi.js
+// Enhanced SystemConnector for the International dashboard
 class SystemConnector {
   constructor() {
     this.initialized = false;
@@ -24,6 +24,15 @@ class SystemConnector {
       
       // Add the unified listener
       newRunButton.addEventListener('click', () => this.handleRunButtonClick());
+    }
+    
+    // Initialize the DataProcessor and DataStore if they don't exist
+    if (!window.dataStore) {
+      window.dataStore = new DataStore();
+    }
+    
+    if (!window.dataProcessor && window.DataProcessor) {
+      window.dataProcessor = new DataProcessor(window.dataStore);
     }
     
     this.initialized = true;
@@ -52,20 +61,11 @@ class SystemConnector {
       const selectedYears = this.getSelectedYears();
       this.saveSelectedYearsToLocalStorage(selectedYears);
       
-      // Clear existing charts
-      if (window.chartManager && typeof chartManager.destroyAllCharts === 'function') {
-        chartManager.destroyAllCharts();
-      }
+      // Clear existing records and charts
+      this.clearExistingData();
       
-      // Use existing ApiService if available, or try to create a new one
-      const apiService = window.apiService || (window.ApiService ? new ApiService() : null);
-      
-      if (!apiService) {
-        throw new Error("ApiService not available");
-      }
-      
-      // Clear any existing record data
-      apiService.clearRecords();
+      // Create ApiService if it doesn't exist
+      const apiService = new ApiService();
       
       // Fetch data from API
       const recordsPeer = await apiService.getRecordsForPeer(selectedYears);
@@ -75,12 +75,11 @@ class SystemConnector {
       
       const recordsClient = await apiService.getRecordsForClient(selectedYears);
       
-      // Process data using the processApiCalls function
-      if (typeof window.processApiCalls !== 'function') {
-        throw new Error("processApiCalls function not available");
+      // Process data 
+      const result = this.processData(selectedYears, recordsPeer, recordsClient);
+      if (!result) {
+        throw new Error("Data processing failed");
       }
-      
-      window.processApiCalls(selectedYears, recordsPeer, recordsClient);
       
       // Display charts
       this.displayCharts();
@@ -112,7 +111,7 @@ class SystemConnector {
       
       // Display error message to user
       if (typeof createToastWarning === 'function') {
-        createToastWarning('Error processing data: ' + error.message);
+        createToastWarning('Error processing data. Please try again.');
       }
     } finally {
       this.isLoading = false;
@@ -141,17 +140,53 @@ class SystemConnector {
     }
   }
   
+  // Clear existing data
+  clearExistingData() {
+    // Clear chart instances if chartManager exists
+    if (window.chartManager && typeof chartManager.destroyAllCharts === 'function') {
+      chartManager.destroyAllCharts();
+    }
+    
+    // Clear data store if it exists
+    if (window.dataStore && typeof window.dataStore.clear === 'function') {
+      window.dataStore.clear();
+    }
+  }
+  
+  // Process data using the appropriate function
+  processData(years, recordsPeer, recordsClient) {
+    // Check if processApiCalls exists in window scope
+    if (typeof window.processApiCalls === 'function') {
+      return window.processApiCalls(years, recordsPeer, recordsClient);
+    } 
+    // Fallback to dataProcessor if it exists
+    else if (window.dataProcessor && typeof window.dataProcessor.processAllData === 'function') {
+      window.dataProcessor.processAllData(years, recordsPeer, recordsClient);
+      return true;
+    }
+    // Last resort, try to use DataProcessor class directly
+    else if (typeof DataProcessor === 'function' && window.dataStore) {
+      const processor = new DataProcessor(window.dataStore);
+      processor.processAllData(years, recordsPeer, recordsClient);
+      return true;
+    }
+    
+    // If we get here, we couldn't find any way to process the data
+    console.error("No data processing method found");
+    return false;
+  }
+  
   // Display charts
   displayCharts() {
-    // First try to use the displayComponents from chartDisplayComponents.js
+    // First, try to use chart display functions from chartDisplayComponents.js
     if (window.displayComponents && typeof displayComponents.displayAllComponents === 'function') {
       displayComponents.displayAllComponents();
     } 
-    // Then try the individual display functions from your utility.js
+    // Then try the individual component display functions
     else if (typeof displayGeneralComponent === 'function' &&
-             typeof displayCashComponent === 'function' &&
-             typeof displayIncomeComponent === 'function' &&
-             typeof displayExpenseComponent === 'function') {
+        typeof displayCashComponent === 'function' &&
+        typeof displayIncomeComponent === 'function' &&
+        typeof displayExpenseComponent === 'function') {
       
       displayGeneralComponent();
       displayCashComponent();
@@ -161,8 +196,15 @@ class SystemConnector {
       if (typeof displayReportComponent === 'function') {
         displayReportComponent();
       }
+    }
+    // If direct chartManager access is available
+    else if (window.chartManager) {
+      console.log("Using chartManager directly to initialize display");
+      if (typeof initializeChartDisplay === 'function') {
+        initializeChartDisplay();
+      }
     } else {
-      console.error("Chart display functions not found");
+      console.error("No chart display functions found");
     }
   }
 }
