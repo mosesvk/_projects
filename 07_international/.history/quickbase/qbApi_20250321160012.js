@@ -1605,7 +1605,8 @@ class DataProcessor {
           "Yes"
         );
 
-        // Contributions without DR
+
+        // Contributions without DR 
         this.dataStore.insertData(
           "income",
           "peer",
@@ -2502,33 +2503,25 @@ class AppController {
       // Clear existing data first
       this.dataStore.clear();
       this.apiService.clear();
-
+      
       // Show loading indicator at the start
       showApiLoadingFunction("open", "api");
 
       // Process data and update UI
       const selectedYears = this.processSelectedYears();
       this.saveSelectedYearsToLocalStorage(selectedYears);
-
+      
       // Fetch and process data
-      const recordsPeer = await this.apiService.getRecordsForPeer(
-        selectedYears
-      );
+      const recordsPeer = await this.apiService.getRecordsForPeer(selectedYears);
       countUniqueClients(recordsPeer);
-
-      const recordsClient = await this.apiService.getRecordsForClient(
-        selectedYears
-      );
-
-      this.dataProcessor.processAllData(
-        selectedYears,
-        recordsPeer,
-        recordsClient
-      );
-
+      
+      const recordsClient = await this.apiService.getRecordsForClient(selectedYears);
+      
+      this.dataProcessor.processAllData(selectedYears, recordsPeer, recordsClient);
+      
       // Display charts only after data is fully processed
       this.displayAllComponents();
-
+      
       // Hide loading indicator when everything is complete
       showApiLoadingFunction("close");
     } catch (err) {

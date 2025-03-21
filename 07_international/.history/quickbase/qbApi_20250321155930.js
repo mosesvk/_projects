@@ -1605,7 +1605,8 @@ class DataProcessor {
           "Yes"
         );
 
-        // Contributions without DR
+
+        // Contributions without DR 
         this.dataStore.insertData(
           "income",
           "peer",
@@ -2476,6 +2477,7 @@ class AppController {
     this.dataStore = new DataStore();
     this.dataProcessor = new DataProcessor(this.dataStore);
     this.apiService = new ApiService();
+    this.runButton = document.querySelector("#run"); // Store as instance variable
     this.initializeEventListeners();
   }
 
@@ -2499,18 +2501,17 @@ class AppController {
   // Handle the run button click
   async handleRunButtonClick() {
     try {
-      // Clear existing data first
-      this.dataStore.clear();
-      this.apiService.clear();
+      // Clear existing records
+      this.apiService.clearRecords();
 
-      // Show loading indicator at the start
-      showApiLoadingFunction("open", "api");
+      // Show loading state
+      toggleButtonLoadingState(this.runButton);
 
-      // Process data and update UI
+      // Get and validate selected years
       const selectedYears = this.processSelectedYears();
       this.saveSelectedYearsToLocalStorage(selectedYears);
 
-      // Fetch and process data
+      // Fetch peer and client records
       const recordsPeer = await this.apiService.getRecordsForPeer(
         selectedYears
       );
@@ -2520,21 +2521,17 @@ class AppController {
         selectedYears
       );
 
+      // Process data and update UI
       this.dataProcessor.processAllData(
         selectedYears,
         recordsPeer,
         recordsClient
       );
-
-      // Display charts only after data is fully processed
       this.displayAllComponents();
-
-      // Hide loading indicator when everything is complete
-      showApiLoadingFunction("close");
     } catch (err) {
       console.error(err);
-      // Make sure loading indicator is hidden even on error
-      showApiLoadingFunction("close");
+    } finally {
+      toggleButtonNormalState(this.runButton);
     }
   }
 

@@ -5049,7 +5049,6 @@
       </div>
     </div>
 
-    <!-- Base utilities -->
     <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=164"></script>
     <!-- utility.js -->
     <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=168"></script>
@@ -5058,10 +5057,6 @@
     <!-- utilityPrint.js -->
     <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=165"></script>
     <!-- Header.js -->
-
-    <!-- Load qbApi.js early since other components depend on it -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=163"></script>
-    <!-- qbApi.js -->
 
     <!-- New chart system modules (in dependency order) -->
     <!-- Core chart system (base functionality) -->
@@ -5084,14 +5079,17 @@
     <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=198"></script>
     <!-- intl_chartIndex.js -->
 
+    <!-- System connector (load this last) -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=199"></script>
+
     <!-- Remaining original scripts -->
     <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=167"></script>
     <!-- report.js -->
     <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=166"></script>
     <!-- uiManagement.js -->
 
-    <!-- System connector (load this last to ensure it can connect all components) -->
-    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=199"></script>
-    <!-- system-connector.js -->
+    <!-- Load the API script last (since it calls run functions) -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=163"></script>
+    <!-- qbApi.js -->
   </body>
 </html>
