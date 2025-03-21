@@ -1909,6 +1909,11 @@ function getSeriesData(years, operatingData, investingData, financingData, total
   ];
 }
 
-// Ensure functions are available globally
-window.getPeerAndClientChartDataArrays = getPeerAndClientChartDataArrays;
+// Ensure function is available globally
 window.getSeriesData = getSeriesData;
+
+// Export functions for module usage
+export {
+  getPeerAndClientChartDataArrays,
+  getSeriesData
+};
