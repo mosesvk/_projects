@@ -1,6 +1,7 @@
 // ChartConfigFactory.js
 // Factory for creating chart configurations
 
+// Define chart colors (previously in charts.js)
 window.chartColors = {
   red: "#dc3545",
   orange: "#fd7e14",

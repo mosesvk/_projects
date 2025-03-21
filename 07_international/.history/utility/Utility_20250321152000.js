@@ -1782,6 +1782,57 @@ function getSeriesData(years, operatingData, investingData, financingData, total
   ];
 }
 
+// Define getSeriesData function for chart system
+window.getSeriesData = function(years, operatingData, investingData, financingData, totalData) {
+  // Initialize empty data arrays for each series
+  const operatingValues = [];
+  const investingValues = [];
+  const financingValues = [];
+  const totalValues = [];
+
+  // Collect data for each year
+  years.forEach(year => {
+    // Get data for each category, defaulting to 0 if undefined
+    const operating = operatingData && operatingData[year] ? 
+      Number(operatingData[year].value) : 0;
+    
+    const investing = investingData && investingData[year] ? 
+      Number(investingData[year].value) : 0;
+    
+    const financing = financingData && financingData[year] ? 
+      Number(financingData[year].value) : 0;
+    
+    const total = totalData && totalData[year] ? 
+      Number(totalData[year].value) : 0;
+
+    // Add values to respective arrays
+    operatingValues.push(operating);
+    investingValues.push(investing);
+    financingValues.push(financing);
+    totalValues.push(total);
+  });
+
+  // Create series array
+  return [
+    {
+      name: 'Operating',
+      data: operatingValues
+    },
+    {
+      name: 'Investing',
+      data: investingValues
+    },
+    {
+      name: 'Financing',
+      data: financingValues
+    },
+    {
+      name: 'Total',
+      data: totalValues
+    }
+  ];
+};
+
 // Preserve the original registerChartEventListeners function
 const originalRegisterChartEventListeners = window.registerChartEventListeners;
 

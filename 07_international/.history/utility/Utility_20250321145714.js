@@ -1781,20 +1781,3 @@ function getSeriesData(years, operatingData, investingData, financingData, total
     }
   ];
 }
-
-// Preserve the original registerChartEventListeners function
-const originalRegisterChartEventListeners = window.registerChartEventListeners;
-
-// Override it to avoid duplicate run button listeners
-window.registerChartEventListeners = function() {
-  console.log('Using primary event listener from qbApi.js');
-  
-  // Only keep the dark mode toggle if it exists
-  const darkModeToggle = document.querySelector('#dark-mode-toggle');
-  if (darkModeToggle) {
-    darkModeToggle.addEventListener('click', () => {
-      const darkModeEvent = new Event('dark-mode');
-      document.dispatchEvent(darkModeEvent);
-    });
-  }
-};
