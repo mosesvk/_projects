@@ -32,6 +32,8 @@ const getMainChartOptions = (
 
   const formatNumber = (value) => value.toLocaleString();
 
+  console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
+
   ({ clientArray, peerAvg, peerMid, peer25, peer75 } =
     getPeerAndClientChartDataArrays(
       selectedYearsArray,
@@ -42,13 +44,6 @@ const getMainChartOptions = (
       numType,
       wa
     ));
-
-  // if (mainName == "daysExpensesInUnrestrictedNA_excludingPPE")
-  //   console.log(
-  //     dataPeer,
-  //     dataClient,
-  //     fixedNum
-  //   );
 
   selectedYearsArray.forEach((year, index) => {
     const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);

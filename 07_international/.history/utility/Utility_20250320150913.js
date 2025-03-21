@@ -1134,6 +1134,15 @@ const getPeerAndClientChartDataArrays = (
   numType,
   wa
 ) => {
+  console.log(mainName, {
+    years,
+    dataPeer,
+    dataClient,
+    fixedNum,
+    mainName,
+    numType,
+  });
+
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
@@ -1141,33 +1150,28 @@ const getPeerAndClientChartDataArrays = (
   const clientArray = [];
 
   years.forEach((year) => {
-    if (dataPeer !== undefined && dataClient !== undefined) {
+    // console.log(year, dataPeer)
+    // check if dataPeer is undefined but dataClient is not
+    if (dataPeer != undefined && dataClient != undefined) {
       const dataArray = dataPeer[year];
-      
-      // Check if dataArray exists before processing
-      if (!dataArray) {
-        peerAvg.push(0);
-        peerMid.push(0);
-        peer25.push(0);
-        peer75.push(0);
-        
-        // Check if client data for this year exists
-        let clientNum = dataClient[year] && dataClient[year].value ? 
-            Number(dataClient[year].value) : 0;
-        
-        if (numType === "percent") clientNum *= 100;
-        clientArray.push(clientNum);
-        return; // Skip to next iteration
-      }
-      
-      const array = dataArray.map((item) => Number(item || 0)); // Handle null/undefined items
-      
+      const array = dataArray.map((item) => Number(item));
+      // console.log(array);
+
+      // let avg;
+      // let testAvg;
+      // if (peer && wa) {
+      //   avg = parseFloat(getWeightedAverageOfArray(array));
+      //   testAvg = getWeightedAverageOfArray(data, name);
+      // } else if (peer && !wa) {
+      //   avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+      // } else {
+      //   avg = 0;
+      // }
       let avg = getAverageOfArray(array);
       let mid = getMidpointOfArray(array);
       let lower25 = get25thPercentileOfArray(array);
       let higher75 = get75thPercentileOfArray(array);
-      let clientNum = dataClient[year] && dataClient[year].value ? 
-          Number(dataClient[year].value) : 0;
+      let clientNum = Number(dataClient[year].value);
 
       if (numType === "percent") {
         avg *= 100;
@@ -1177,32 +1181,37 @@ const getPeerAndClientChartDataArrays = (
         clientNum *= 100;
       }
 
+      clientNum.toFixed(fixedNum);
+
+      // console.log(mainName,{ avg, mid, lower25, higher75, fixedNum, numType});
+
       peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
       peerMid.push(parseFloat(mid.toFixed(fixedNum)));
       peer25.push(parseFloat(lower25.toFixed(fixedNum)));
       peer75.push(parseFloat(higher75.toFixed(fixedNum)));
 
       clientArray.push(clientNum);
-    } else if (dataPeer === undefined && dataClient) {
+    } else if (dataPeer == undefined && dataClient) {
       peerAvg.push(0);
       peerMid.push(0);
       peer25.push(0);
       peer75.push(0);
 
-      let clientNum = dataClient[year] && dataClient[year].value ? 
-          Number(dataClient[year].value) : 0;
-      
+      let clientNum = Number(dataClient[year].value);
       if (numType === "percent") clientNum *= 100;
+      clientNum.toFixed(fixedNum);
       clientArray.push(clientNum);
-    } else {
-      // If both are undefined, push zeros to all arrays
-      peerAvg.push(0);
-      peerMid.push(0);
-      peer25.push(0);
-      peer75.push(0);
-      clientArray.push(0);
+    } else if (dataClient == undefined || dataPeer == undefined) {
+      throw new Error(
+        `No Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
+      );
+      createToastWarning(
+        `check Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
+      );
     }
   });
+
+  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   return { clientArray, peerAvg, peerMid, peer25, peer75 };
 };

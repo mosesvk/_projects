@@ -43,12 +43,12 @@ const getMainChartOptions = (
       wa
     ));
 
-  // if (mainName == "daysExpensesInUnrestrictedNA_excludingPPE")
-  //   console.log(
-  //     dataPeer,
-  //     dataClient,
-  //     fixedNum
-  //   );
+  if (mainName == "daysExpensesInUnrestrictedNA_excludingPPE")
+    console.log(
+      dataPeer,
+      dataClient,
+      fixedNum
+    );
 
   selectedYearsArray.forEach((year, index) => {
     const tableModalRow = document.getElementById(`${mainName}_modal_${year}`);
