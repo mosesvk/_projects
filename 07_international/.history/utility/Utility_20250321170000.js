@@ -627,6 +627,7 @@ function populateModalContent(headerRow, selectedYears, clientData, peerData) {
   });
 }
 
+
 const updateCashFlowModal = (
   mainName,
   data,
@@ -1067,77 +1068,178 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   });
 };
 
-// Enhanced addClientDataToModalRow function
-function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
-  console.log(`Adding client data to row: ${yearRow.id}`, {
-    clientValue,
-    type,
-    fixedNum,
-  });
-
-  const cell = document.createElement("td");
-  cell.className =
+const addClientDataToModalRow = (
+  tableModalRow,
+  clientNum,
+  numType,
+  fixedNum,
+  mainName
+) => {
+  const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  const propScope = "row";
+  const dataPoint = document.createElement("th");
 
-  // Format the value
-  const formattedValue =
-    clientValue !== undefined && clientValue !== null
-      ? styleNumber(clientValue, type, fixedNum)
+  dataPoint.className = propClass;
+  dataPoint.scope = propScope;
+
+  const text =
+    Number(clientNum) !== 0
+      ? styleNumber(clientNum, numType, fixedNum, name)
       : "-";
+  dataPoint.textContent = text;
 
-  cell.textContent = formattedValue;
-  yearRow.appendChild(cell);
+  // console.log('addClientDataToModalRow', { tableModalRow, clientNum, numType, fixedNum, mainName });
 
-  return cell;
-}
+  tableModalRow.appendChild(dataPoint);
 
-// Enhanced addPeerDataToModalRow function
-function addPeerDataToModalRow(
-  yearRow,
-  avgValue,
-  midValue,
-  p25Value,
-  p75Value
-) {
-  console.log(`Adding peer data to row: ${yearRow.id}`, {
-    avgValue,
-    midValue,
-    p25Value,
-    p75Value,
+  // if (name == "daysCashOnHand")
+  //   console.log({
+  //     tableModalRow,
+  //     year,
+  //     client,
+  //     type,
+  //     fixedNum,
+  //     dataPoint,
+  //     text,
+  //   });
+};
+
+const addPeerDataToModalRow = (
+  tableModalRow,
+  peerAvgNum,
+  peerMidNum,
+  peer25Num,
+  peer75Num,
+  name,
+  data,
+  wa
+) => {
+  const propClass =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  const propScope = "row";
+
+  const dataPointAvg = document.createElement("th");
+  const dataPointMid = document.createElement("th");
+  const dataPointMin = document.createElement("th");
+  const dataPointMax = document.createElement("th");
+
+  let avg;
+  if (wa) {
+    avg = parseFloat(getWeightedAverageOfArray(data, name));
+    // } else if (peer && !wa) {
+    //   avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+  } else {
+    avg = 0;
+  }
+  dataPointAvg.className = propClass;
+  dataPointAvg.scope = propScope;
+  dataPointAvg.textContent = peerAvgNum !== 0 ? peerAvgNum : "-";
+  tableModalRow.appendChild(dataPointAvg);
+
+  dataPointMid.className = propClass;
+  dataPointMid.scope = propScope;
+  dataPointMid.textContent = peerMidNum !== 0 ? peerMidNum : "-";
+  tableModalRow.appendChild(dataPointMid);
+
+  dataPointMin.className = propClass;
+  dataPointMin.scope = propScope;
+  dataPointMin.textContent = peer25Num !== 0 ? peer25Num : "-";
+  tableModalRow.appendChild(dataPointMin);
+
+  dataPointMax.className = propClass;
+  dataPointMax.scope = propScope;
+  dataPointMax.textContent = peer75Num !== 0 ? peer75Num : "-";
+  tableModalRow.appendChild(dataPointMax);
+};
+
+const getPeerAndClientChartDataArrays = (
+  years,
+  dataPeer,
+  dataClient,
+  fixedNum,
+  mainName,
+  numType,
+  wa
+) => {
+  const peerAvg = [];
+  const peerMid = [];
+  const peer25 = [];
+  const peer75 = [];
+  const clientArray = [];
+
+  years.forEach((year) => {
+    if (dataPeer !== undefined && dataClient !== undefined) {
+      const dataArray = dataPeer[year];
+
+      // Check if dataArray exists before processing
+      if (!dataArray) {
+        peerAvg.push(0);
+        peerMid.push(0);
+        peer25.push(0);
+        peer75.push(0);
+
+        // Check if client data for this year exists
+        let clientNum =
+          dataClient[year] && dataClient[year].value
+            ? Number(dataClient[year].value)
+            : 0;
+
+        if (numType === "percent") clientNum *= 100;
+        clientArray.push(clientNum);
+        return; // Skip to next iteration
+      }
+
+      const array = dataArray.map((item) => Number(item || 0)); // Handle null/undefined items
+
+      let avg = getAverageOfArray(array);
+      let mid = getMidpointOfArray(array);
+      let lower25 = get25thPercentileOfArray(array);
+      let higher75 = get75thPercentileOfArray(array);
+      let clientNum =
+        dataClient[year] && dataClient[year].value
+          ? Number(dataClient[year].value)
+          : 0;
+
+      if (numType === "percent") {
+        avg *= 100;
+        mid *= 100;
+        lower25 *= 100;
+        higher75 *= 100;
+        clientNum *= 100;
+      }
+
+      peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
+      peerMid.push(parseFloat(mid.toFixed(fixedNum)));
+      peer25.push(parseFloat(lower25.toFixed(fixedNum)));
+      peer75.push(parseFloat(higher75.toFixed(fixedNum)));
+
+      clientArray.push(clientNum);
+    } else if (dataPeer === undefined && dataClient) {
+      peerAvg.push(0);
+      peerMid.push(0);
+      peer25.push(0);
+      peer75.push(0);
+
+      let clientNum =
+        dataClient[year] && dataClient[year].value
+          ? Number(dataClient[year].value)
+          : 0;
+
+      if (numType === "percent") clientNum *= 100;
+      clientArray.push(clientNum);
+    } else {
+      // If both are undefined, push zeros to all arrays
+      peerAvg.push(0);
+      peerMid.push(0);
+      peer25.push(0);
+      peer75.push(0);
+      clientArray.push(0);
+    }
   });
 
-  // Add average value cell
-  const avgCell = document.createElement("td");
-  avgCell.className =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-  avgCell.textContent =
-    avgValue !== undefined && avgValue !== null ? avgValue.toFixed(2) : "-";
-  yearRow.appendChild(avgCell);
-
-  // Add 25th percentile cell
-  const p25Cell = document.createElement("td");
-  p25Cell.className =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-  p25Cell.textContent =
-    p25Value !== undefined && p25Value !== null ? p25Value.toFixed(2) : "-";
-  yearRow.appendChild(p25Cell);
-
-  // Add median cell
-  const midCell = document.createElement("td");
-  midCell.className =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-  midCell.textContent =
-    midValue !== undefined && midValue !== null ? midValue.toFixed(2) : "-";
-  yearRow.appendChild(midCell);
-
-  // Add 75th percentile cell
-  const p75Cell = document.createElement("td");
-  p75Cell.className =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-  p75Cell.textContent =
-    p75Value !== undefined && p75Value !== null ? p75Value.toFixed(2) : "-";
-  yearRow.appendChild(p75Cell);
-}
+  return { clientArray, peerAvg, peerMid, peer25, peer75 };
+};
 
 const styleNumber = (num, type, fixed, name) => {
   let text = num;

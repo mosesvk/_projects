@@ -12,7 +12,7 @@ const regions_Array = [
   },
   { arr: ["South America"], str: "MW" },
   { arr: ["North America"], str: "PL" },
-  {
+  { 
     arr: ["Australia"],
     str: "MT",
   },
@@ -348,8 +348,8 @@ const createChart = (
     "functionalAllocation_chart",
     "netAssetBreakdown_chart",
     "changeInNetAssets_chart",
-    "totalContributions_chart",
-    "contributionsWithoutDR_chart",
+    'totalContributions_chart',
+    'contributionsWithoutDR_chart'
   ];
 
   if (chartIds.includes(chartId)) {
@@ -525,106 +525,79 @@ const createChart = (
   }
 };
 
-// Enhanced updateModal function to ensure it properly updates modal content
 function updateModal(mainName, peerData, clientData, parsedData) {
-  console.log(`Updating modal for ${mainName}`, { peerData, clientData });
-
+  // console.log('updateModal',{ mainName, peerData, clientData });
   // Get the selected years from local storage
   const selectedYears = getSelectedYearsFromLocalStorage();
-  if (!selectedYears || !selectedYears.length) {
-    console.warn(`No selected years found for modal ${mainName}`);
-    return;
-  }
 
-  // Find the modal element - this is critical
-  const modalSelector = `#${mainName}_modal`;
-  const modal = document.querySelector(modalSelector);
+  // Find the modal element
+  const modal = document.getElementById(`${mainName}_modal`);
 
-  if (!modal) {
-    console.warn(`Modal element with selector "${modalSelector}" not found`);
-    // Try to detect if the modal might exist with a different ID format
-    const possibleModals = document.querySelectorAll('[id$="_modal"]');
-    console.log(
-      "Possible modals found:",
-      Array.from(possibleModals).map((m) => m.id)
-    );
-    return;
-  }
+  // Check if the modal element exists
+  if (modal) {
+    // Find the table header row
+    const headerRow = modal.querySelector(`#${mainName}_modal_row`);
+    // console.log({headerRow});
+    let tableHead = headerRow.parentElement;
 
-  // Find the table header row
-  const headerRowSelector = `#${mainName}_modal_row`;
-  const headerRow = modal.querySelector(headerRowSelector);
-
-  if (!headerRow) {
-    console.warn(
-      `Header row with selector "${headerRowSelector}" not found in modal ${modalSelector}`
-    );
-    // Try a more generic selector as fallback
-    const fallbackHeaderRow = modal.querySelector('tr[id$="_modal_row"]');
-    if (fallbackHeaderRow) {
-      console.log(`Found fallback header row: ${fallbackHeaderRow.id}`);
-      // Continue with the fallback row
-      populateModalContent(
-        fallbackHeaderRow,
-        selectedYears,
-        clientData,
-        peerData
-      );
-      return;
-    }
-    return;
-  }
-
-  // If we got here, both modal and header row were found
-  populateModalContent(headerRow, selectedYears, clientData, peerData);
-}
-
-function populateModalContent(headerRow, selectedYears, clientData, peerData) {
-  let tableHead = headerRow.parentElement;
-
-  // Clear existing rows after the headerRow
-  let nextRow = headerRow.nextSibling;
-  while (nextRow) {
-    tableHead.removeChild(nextRow);
-    nextRow = headerRow.nextSibling;
-  }
-
-  // Clear existing header content
-  headerRow.innerHTML = "";
-
-  // Add columns (year, client, avg, 25%, 50%, 75%)
-  addModalColumns(headerRow);
-
-  // Add data rows for each year
-  selectedYears.forEach((year) => {
-    const yearRow = createYearRow(headerRow.id.replace("_row", ""), year);
-    tableHead.appendChild(yearRow);
-
-    // Now add client data to this row if available
-    if (clientData && clientData[year]) {
-      addClientDataToModalRow(yearRow, clientData[year].value, "number", 2);
+    // Clear existing rows after the headerRow
+    let nextRow = headerRow.nextSibling;
+    while (nextRow) {
+      tableHead.removeChild(nextRow);
+      nextRow = headerRow.nextSibling; // Get the next sibling again
     }
 
-    // Add peer data if available
-    if (peerData && peerData[year]) {
-      const peerValues = peerData[year];
-      // Calculate peer stats
-      const peerAvg = Array.isArray(peerValues)
-        ? getAverageOfArray(peerValues)
-        : 0;
-      const peerMid = Array.isArray(peerValues)
-        ? getMidpointOfArray(peerValues)
-        : 0;
-      const peer25 = Array.isArray(peerValues)
-        ? get25thPercentileOfArray(peerValues)
-        : 0;
-      const peer75 = Array.isArray(peerValues)
-        ? get75thPercentileOfArray(peerValues)
-        : 0;
+    // Clear existing header content
+    headerRow.innerHTML = "";
 
-      addPeerDataToModalRow(yearRow, peerAvg, peerMid, peer25, peer75);
-    }
-  });
+    // Add the "year" column
+    const yearColumn = document.createElement("th");
+    yearColumn.className = "px-6 py-3";
+    yearColumn.textContent = "year";
+    headerRow.appendChild(yearColumn);
+
+    // Add the "Client" column
+    const clientColumn = document.createElement("th");
+    clientColumn.className = "px-6 py-3";
+    clientColumn.textContent = "client";
+    headerRow.appendChild(clientColumn);
+
+    // Add the "Avg" column
+    const avgColumn = document.createElement("th");
+    avgColumn.className = "px-6 py-3";
+    avgColumn.textContent = "Avg";
+    headerRow.appendChild(avgColumn);
+
+    // Add the remaining columns
+    const columns = ["25%", "50%", "75%"];
+    columns.forEach((column) => {
+      const col = document.createElement("th");
+      col.className = "px-6 py-3";
+      col.textContent = column;
+      headerRow.appendChild(col);
+    });
+
+    // Add a row for each selected year
+    selectedYears.forEach((year) => {
+      const yearRow = document.createElement("tr");
+      yearRow.className =
+        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
+      yearRow.id = `${mainName}_modal_${year}`;
+
+      // Create a table header cell for the year
+      const yearCell = document.createElement("th");
+      yearCell.className =
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      yearCell.scope = "row";
+      yearCell.textContent = year;
+
+      // Append the year cell to the row
+      yearRow.appendChild(yearCell);
+
+      // Append the row to the header
+      tableHead.appendChild(yearRow);
+    });
+  }
 }
 
 const updateCashFlowModal = (
@@ -1067,77 +1040,172 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   });
 };
 
-// Enhanced addClientDataToModalRow function
-function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
-  console.log(`Adding client data to row: ${yearRow.id}`, {
-    clientValue,
-    type,
-    fixedNum,
-  });
-
-  const cell = document.createElement("td");
-  cell.className =
+const addClientDataToModalRow = (
+  tableModalRow,
+  clientNum,
+  numType,
+  fixedNum,
+  mainName
+) => {
+  const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  const propScope = "row";
+  const dataPoint = document.createElement("th");
 
-  // Format the value
-  const formattedValue =
-    clientValue !== undefined && clientValue !== null
-      ? styleNumber(clientValue, type, fixedNum)
+  dataPoint.className = propClass;
+  dataPoint.scope = propScope;
+
+  const text =
+    Number(clientNum) !== 0
+      ? styleNumber(clientNum, numType, fixedNum, name)
       : "-";
+  dataPoint.textContent = text;
 
-  cell.textContent = formattedValue;
-  yearRow.appendChild(cell);
+  // console.log('addClientDataToModalRow', { tableModalRow, clientNum, numType, fixedNum, mainName });
 
-  return cell;
-}
+  tableModalRow.appendChild(dataPoint);
 
-// Enhanced addPeerDataToModalRow function
-function addPeerDataToModalRow(
-  yearRow,
-  avgValue,
-  midValue,
-  p25Value,
-  p75Value
-) {
-  console.log(`Adding peer data to row: ${yearRow.id}`, {
-    avgValue,
-    midValue,
-    p25Value,
-    p75Value,
+  // if (name == "daysCashOnHand")
+  //   console.log({
+  //     tableModalRow,
+  //     year,
+  //     client,
+  //     type,
+  //     fixedNum,
+  //     dataPoint,
+  //     text,
+  //   });
+};
+
+const addPeerDataToModalRow = (
+  tableModalRow,
+  peerAvgNum,
+  peerMidNum,
+  peer25Num,
+  peer75Num,
+  name,
+  data,
+  wa
+) => {
+  const propClass =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  const propScope = "row";
+
+  const dataPointAvg = document.createElement("th");
+  const dataPointMid = document.createElement("th");
+  const dataPointMin = document.createElement("th");
+  const dataPointMax = document.createElement("th");
+
+  let avg;
+  if (wa) {
+    avg = parseFloat(getWeightedAverageOfArray(data, name));
+    // } else if (peer && !wa) {
+    //   avg = parseFloat(getAverageOfArray(peer[dataArray], name));
+  } else {
+    avg = 0;
+  }
+  dataPointAvg.className = propClass;
+  dataPointAvg.scope = propScope;
+  dataPointAvg.textContent = peerAvgNum !== 0 ? peerAvgNum : "-";
+  tableModalRow.appendChild(dataPointAvg);
+
+  dataPointMid.className = propClass;
+  dataPointMid.scope = propScope;
+  dataPointMid.textContent = peerMidNum !== 0 ? peerMidNum : "-";
+  tableModalRow.appendChild(dataPointMid);
+
+  dataPointMin.className = propClass;
+  dataPointMin.scope = propScope;
+  dataPointMin.textContent = peer25Num !== 0 ? peer25Num : "-";
+  tableModalRow.appendChild(dataPointMin);
+
+  dataPointMax.className = propClass;
+  dataPointMax.scope = propScope;
+  dataPointMax.textContent = peer75Num !== 0 ? peer75Num : "-";
+  tableModalRow.appendChild(dataPointMax);
+};
+
+const getPeerAndClientChartDataArrays = (
+  years,
+  dataPeer,
+  dataClient,
+  fixedNum,
+  mainName,
+  numType,
+  wa
+) => {
+  const peerAvg = [];
+  const peerMid = [];
+  const peer25 = [];
+  const peer75 = [];
+  const clientArray = [];
+
+  years.forEach((year) => {
+    if (dataPeer !== undefined && dataClient !== undefined) {
+      const dataArray = dataPeer[year];
+      
+      // Check if dataArray exists before processing
+      if (!dataArray) {
+        peerAvg.push(0);
+        peerMid.push(0);
+        peer25.push(0);
+        peer75.push(0);
+        
+        // Check if client data for this year exists
+        let clientNum = dataClient[year] && dataClient[year].value ? 
+            Number(dataClient[year].value) : 0;
+        
+        if (numType === "percent") clientNum *= 100;
+        clientArray.push(clientNum);
+        return; // Skip to next iteration
+      }
+      
+      const array = dataArray.map((item) => Number(item || 0)); // Handle null/undefined items
+      
+      let avg = getAverageOfArray(array);
+      let mid = getMidpointOfArray(array);
+      let lower25 = get25thPercentileOfArray(array);
+      let higher75 = get75thPercentileOfArray(array);
+      let clientNum = dataClient[year] && dataClient[year].value ? 
+          Number(dataClient[year].value) : 0;
+
+      if (numType === "percent") {
+        avg *= 100;
+        mid *= 100;
+        lower25 *= 100;
+        higher75 *= 100;
+        clientNum *= 100;
+      }
+
+      peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
+      peerMid.push(parseFloat(mid.toFixed(fixedNum)));
+      peer25.push(parseFloat(lower25.toFixed(fixedNum)));
+      peer75.push(parseFloat(higher75.toFixed(fixedNum)));
+
+      clientArray.push(clientNum);
+    } else if (dataPeer === undefined && dataClient) {
+      peerAvg.push(0);
+      peerMid.push(0);
+      peer25.push(0);
+      peer75.push(0);
+
+      let clientNum = dataClient[year] && dataClient[year].value ? 
+          Number(dataClient[year].value) : 0;
+      
+      if (numType === "percent") clientNum *= 100;
+      clientArray.push(clientNum);
+    } else {
+      // If both are undefined, push zeros to all arrays
+      peerAvg.push(0);
+      peerMid.push(0);
+      peer25.push(0);
+      peer75.push(0);
+      clientArray.push(0);
+    }
   });
 
-  // Add average value cell
-  const avgCell = document.createElement("td");
-  avgCell.className =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-  avgCell.textContent =
-    avgValue !== undefined && avgValue !== null ? avgValue.toFixed(2) : "-";
-  yearRow.appendChild(avgCell);
-
-  // Add 25th percentile cell
-  const p25Cell = document.createElement("td");
-  p25Cell.className =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-  p25Cell.textContent =
-    p25Value !== undefined && p25Value !== null ? p25Value.toFixed(2) : "-";
-  yearRow.appendChild(p25Cell);
-
-  // Add median cell
-  const midCell = document.createElement("td");
-  midCell.className =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-  midCell.textContent =
-    midValue !== undefined && midValue !== null ? midValue.toFixed(2) : "-";
-  yearRow.appendChild(midCell);
-
-  // Add 75th percentile cell
-  const p75Cell = document.createElement("td");
-  p75Cell.className =
-    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-  p75Cell.textContent =
-    p75Value !== undefined && p75Value !== null ? p75Value.toFixed(2) : "-";
-  yearRow.appendChild(p75Cell);
-}
+  return { clientArray, peerAvg, peerMid, peer25, peer75 };
+};
 
 const styleNumber = (num, type, fixed, name) => {
   let text = num;
@@ -1616,9 +1684,10 @@ const destroyAllCharts = () => {
 // selectedYears_Set.add(2021)
 // selectedYears_Set.add(2022)
 
-function showApiLoadingFunction(action, mode) {
-  console.log("hit showLoading()");
 
+function showApiLoadingFunction(action, mode) {
+  console.log('hit showLoading()');
+  
   const loadingDiv = document.getElementById("loadingApiDiv");
   const loadingApiHeader = document.getElementById("loadingApiHeader");
   const apiPrint = document.getElementById("apiPrint");
@@ -1655,7 +1724,7 @@ function showApiLoadingFunction(action, mode) {
 
 /**
  * Generates series data for cash flow charts
- *
+ * 
  * @param {Array} years - Array of selected years
  * @param {Object} operatingData - Object containing operating cash flow data by year
  * @param {Object} investingData - Object containing investing cash flow data by year
@@ -1663,13 +1732,7 @@ function showApiLoadingFunction(action, mode) {
  * @param {Object} totalData - Object containing total cash flow data by year
  * @returns {Array} Array of series data for the chart
  */
-function getSeriesData(
-  years,
-  operatingData,
-  investingData,
-  financingData,
-  totalData
-) {
+function getSeriesData(years, operatingData, investingData, financingData, totalData) {
   // Initialize empty data arrays for each series
   const operatingValues = [];
   const investingValues = [];
@@ -1677,25 +1740,19 @@ function getSeriesData(
   const totalValues = [];
 
   // Collect data for each year
-  years.forEach((year) => {
+  years.forEach(year => {
     // Get data for each category, defaulting to 0 if undefined
-    const operating =
-      operatingData && operatingData[year]
-        ? Number(operatingData[year].value)
-        : 0;
-
-    const investing =
-      investingData && investingData[year]
-        ? Number(investingData[year].value)
-        : 0;
-
-    const financing =
-      financingData && financingData[year]
-        ? Number(financingData[year].value)
-        : 0;
-
-    const total =
-      totalData && totalData[year] ? Number(totalData[year].value) : 0;
+    const operating = operatingData && operatingData[year] ? 
+      Number(operatingData[year].value) : 0;
+    
+    const investing = investingData && investingData[year] ? 
+      Number(investingData[year].value) : 0;
+    
+    const financing = financingData && financingData[year] ? 
+      Number(financingData[year].value) : 0;
+    
+    const total = totalData && totalData[year] ? 
+      Number(totalData[year].value) : 0;
 
     // Add values to respective arrays
     operatingValues.push(operating);
@@ -1707,21 +1764,21 @@ function getSeriesData(
   // Create series array
   return [
     {
-      name: "Operating",
-      data: operatingValues,
+      name: 'Operating',
+      data: operatingValues
     },
     {
-      name: "Investing",
-      data: investingValues,
+      name: 'Investing',
+      data: investingValues
     },
     {
-      name: "Financing",
-      data: financingValues,
+      name: 'Financing',
+      data: financingValues
     },
     {
-      name: "Total",
-      data: totalValues,
-    },
+      name: 'Total',
+      data: totalValues
+    }
   ];
 }
 
@@ -1729,14 +1786,14 @@ function getSeriesData(
 const originalRegisterChartEventListeners = window.registerChartEventListeners;
 
 // Override it to avoid duplicate run button listeners
-window.registerChartEventListeners = function () {
-  console.log("Using primary event listener from qbApi.js");
-
+window.registerChartEventListeners = function() {
+  console.log('Using primary event listener from qbApi.js');
+  
   // Only keep the dark mode toggle if it exists
-  const darkModeToggle = document.querySelector("#dark-mode-toggle");
+  const darkModeToggle = document.querySelector('#dark-mode-toggle');
   if (darkModeToggle) {
-    darkModeToggle.addEventListener("click", () => {
-      const darkModeEvent = new Event("dark-mode");
+    darkModeToggle.addEventListener('click', () => {
+      const darkModeEvent = new Event('dark-mode');
       document.dispatchEvent(darkModeEvent);
     });
   }

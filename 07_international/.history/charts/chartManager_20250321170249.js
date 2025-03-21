@@ -171,51 +171,6 @@ class ChartManager {
     return chart;
   }
 
-  ensureModalExists(mainName) {
-    const modalId = `${mainName}_modal`;
-    let modal = document.getElementById(modalId);
-
-    if (!modal) {
-      console.log(`Creating missing modal for ${mainName}`);
-
-      // Create modal container
-      modal = document.createElement("div");
-      modal.id = modalId;
-      modal.className = "modal";
-
-      // Create table structure
-      const table = document.createElement("table");
-      table.className =
-        "w-full text-sm text-left text-gray-500 dark:text-gray-400";
-
-      // Create thead and the header row
-      const thead = document.createElement("thead");
-      thead.className =
-        "text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400";
-
-      const headerRow = document.createElement("tr");
-      headerRow.id = `${mainName}_modal_row`;
-
-      thead.appendChild(headerRow);
-      table.appendChild(thead);
-
-      // Create tbody
-      const tbody = document.createElement("tbody");
-      table.appendChild(tbody);
-
-      modal.appendChild(table);
-
-      // Add to document - try to find a dedicated modal container, or append to body
-      const modalContainer =
-        document.querySelector("#modalContainer") ||
-        document.querySelector(".modal-container") ||
-        document.body;
-      modalContainer.appendChild(modal);
-    }
-
-    return modal;
-  }
-
   // Create a cash flow chart
   createCashFlowChart(chartId, data, cashFlowKeys) {
     const [financing, investing, operating, total] = cashFlowKeys;
