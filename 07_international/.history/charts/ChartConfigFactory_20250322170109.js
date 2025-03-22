@@ -400,13 +400,13 @@ class ChartConfigFactory {
         enabled: series.length > 0,
         formatter: function (value) {
           if (value === null || value === undefined) return "";
-
+    
           // Special handling for annualizedInvestmentReturn
           if (mainName === "annualizedInvestmentReturn") {
             // Return value directly with % sign - it's already the correct percentage
             return `${value.toFixed(fixedNum)}%`;
           }
-
+    
           // Format the value based on data type with exact decimal places
           if (numType === "dollar") {
             // For dollar type, add $ prefix and format with fixedNum decimal places
@@ -580,11 +580,6 @@ class ChartConfigFactory {
         y: {
           formatter: function (value) {
             if (value === null || value === undefined) return "";
-
-            // Special handling for annualizedInvestmentReturn
-            if (mainName === "annualizedInvestmentReturn") {
-              return `${value.toFixed(fixedNum)}%`;
-            }
 
             // Format the value based on data type with exact decimal places
             if (numType === "dollar") {

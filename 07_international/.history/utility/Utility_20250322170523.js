@@ -1932,7 +1932,7 @@ function getPeerAndClientChartDataArrays(
         }
         
         clientArray.push(clientNum);
-      } else {d
+      } else {
         clientArray.push(0);
       }
     }

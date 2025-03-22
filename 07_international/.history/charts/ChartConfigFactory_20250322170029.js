@@ -288,12 +288,11 @@ class ChartConfigFactory {
       peerMid = [],
       peer25 = [],
       peer75 = [];
-
+  
     try {
       // Special case for annualizedInvestmentReturn chart
-      const dataProcessingType =
-        mainName === "annualizedInvestmentReturn" ? "number" : numType;
-
+      const dataProcessingType = mainName === "annualizedInvestmentReturn" ? "number" : numType;
+      
       // Use the modified data type for data processing
       const result = getPeerAndClientChartDataArrays(
         selectedYearsArray,
@@ -304,18 +303,18 @@ class ChartConfigFactory {
         dataProcessingType, // Use special handling for annualizedInvestmentReturn
         wa
       );
-
+  
       clientArray = result.clientArray || [];
       peerAvg = result.peerAvg || [];
       peerMid = result.peerMid || [];
       peer25 = result.peer25 || [];
       peer75 = result.peer75 || [];
-
+      
       // For annualizedInvestmentReturn, we need to ensure client data is properly displayed as percentages
       if (mainName === "annualizedInvestmentReturn" && numType === "percent") {
-        // For client data in the chart, we might need to multiply by 100
+        // For client data in the chart, we might need to multiply by 100 
         // if the original data is in decimal form (like 0.05 for 5%)
-        clientArray = clientArray.map((val) => val * 100);
+        clientArray = clientArray.map(val => val * 100);
       }
     } catch (error) {
       console.error(`Error getting chart data for ${mainName}:`, error);
@@ -327,7 +326,9 @@ class ChartConfigFactory {
     }
 
     // Create formatters based on number type but with special case for annualizedInvestmentReturn
-    const formatters = this._createFormatters(numType);
+    const formatters = this._createFormatters(
+      numType
+    );
 
     // Build series array based on available data
     const series = [];
@@ -402,8 +403,8 @@ class ChartConfigFactory {
           if (value === null || value === undefined) return "";
 
           // Special handling for annualizedInvestmentReturn
-          if (mainName === "annualizedInvestmentReturn") {
-            // Return value directly with % sign - it's already the correct percentage
+          if (numType === "percent") {
+            // Return the value directly with % sign without multiplying by 100
             return `${value.toFixed(fixedNum)}%`;
           }
 
@@ -498,7 +499,7 @@ class ChartConfigFactory {
               return numType === "dollar" ? "$0" : "0";
             }
 
-            if (numType === "percent") {
+            if ( numType === "percent") {
               // Return the value directly with % sign without multiplying by 100
               return `${value.toFixed(1)}%`;
             }
@@ -580,11 +581,6 @@ class ChartConfigFactory {
         y: {
           formatter: function (value) {
             if (value === null || value === undefined) return "";
-
-            // Special handling for annualizedInvestmentReturn
-            if (mainName === "annualizedInvestmentReturn") {
-              return `${value.toFixed(fixedNum)}%`;
-            }
 
             // Format the value based on data type with exact decimal places
             if (numType === "dollar") {

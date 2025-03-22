@@ -397,12 +397,13 @@ class ChartManager {
     dataType,
     fixedNum
   ) {
+
     // if (metricName == 'annualizedInvestmentReturn') {
     //   console.log({
     //     weightedAverage,
     //     parsedData,
     //     year,
-    //     peerData,
+    //     peerData, 
     //     dataType
     //   });
     // }
@@ -461,18 +462,28 @@ class ChartManager {
       }
     }
 
+    // Convert to percentage if needed
+    if (dataType === "percent") {
+      // console.log({metricName, peer25, peerMid, peer75});
+      
+      peerAvg *= 100;
+      peerMid *= 100;
+      peer25 *= 100;
+      peer75 *= 100;
+    }
+
     // Create and append the cells with the calculated values
-    this._createPeerDataCell(row, peerAvg, dataType, fixedNum, metricName);
-    this._createPeerDataCell(row, peer25, dataType, fixedNum, metricName);
-    this._createPeerDataCell(row, peerMid, dataType, fixedNum, metricName);
-    this._createPeerDataCell(row, peer75, dataType, fixedNum, metricName);
+    this._createPeerDataCell(row, peerAvg, dataType, fixedNum);
+    this._createPeerDataCell(row, peer25, dataType, fixedNum);
+    this._createPeerDataCell(row, peerMid, dataType, fixedNum);
+    this._createPeerDataCell(row, peer75, dataType, fixedNum);
   }
 
   // Helper to create a data cell for peer data
-  _createPeerDataCell(row, value, dataType, fixedNum, metricName) {
-    if (metricName == "annualizedInvestmentReturn") {
-      console.log({ row, value, dataType, fixedNum });
-    }
+  // Fix for the _createPeerDataCell method in ChartManager.js
+  // Replace this method with the following implementation:
+
+  _createPeerDataCell(row, value, dataType, fixedNum) {
     const cell = document.createElement("td");
     cell.className =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
@@ -495,10 +506,6 @@ class ChartManager {
       }
 
       cell.textContent = formattedValue;
-
-      if (metricName == "annualizedInvestmentReturn") {
-        console.log("END", { formattedValue });
-      }
 
       // Apply color formatting for negative values
       if (numValue < 0) {

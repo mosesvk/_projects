@@ -28,28 +28,35 @@ class ChartManager {
       console.error("No data provided for chart creation");
       return;
     }
-
+  
+    // Special handling for annualizedInvestmentReturn chart
+    let actualDataType = dataType;
+    if (mainName === "annualizedInvestmentReturn") {
+      // Use "number" instead of "percent" for the chart to avoid double multiplication
+      actualDataType = "number";
+    }
+  
     if (mainName) {
       this.ensureModalExists(mainName);
     }
-
+  
     // Update modal with chart data - pass weighted average parameter
     this.updateModal(
       mainName,
       parsedData[peerDataKey],
       parsedData[clientDataKey],
       parsedData,
-      dataType,
+      dataType, // Use original dataType for modal
       fixedNum,
-      weightedAverage // Pass the weightedAverage parameter
+      weightedAverage
     );
-
+  
     // Create the chart
     this.createChart(
       chartId,
       parsedData[peerDataKey],
       parsedData[clientDataKey],
-      dataType,
+      actualDataType, // Use actualDataType here, which might be different for annualizedInvestmentReturn
       fixedNum,
       mainName,
       weightedAverage,
@@ -59,7 +66,6 @@ class ChartManager {
       chartType
     );
   }
-
   ensureModalExists(mainName) {
     const modalId = `${mainName}_modal`;
     const modal = document.getElementById(modalId);
@@ -397,15 +403,12 @@ class ChartManager {
     dataType,
     fixedNum
   ) {
-    // if (metricName == 'annualizedInvestmentReturn') {
-    //   console.log({
-    //     weightedAverage,
-    //     parsedData,
-    //     year,
-    //     peerData,
-    //     dataType
-    //   });
-    // }
+    // console.log({
+    //   metricName,
+    //   weightedAverage,
+    //   parsedData,
+    //   year,
+    // });
 
     // Initialize values
     let peerAvg = 0,
@@ -461,18 +464,26 @@ class ChartManager {
       }
     }
 
+    // Convert to percentage if needed
+    if (dataType === "percent") {
+      peerAvg *= 100;
+      peerMid *= 100;
+      peer25 *= 100;
+      peer75 *= 100;
+    }
+
     // Create and append the cells with the calculated values
-    this._createPeerDataCell(row, peerAvg, dataType, fixedNum, metricName);
-    this._createPeerDataCell(row, peer25, dataType, fixedNum, metricName);
-    this._createPeerDataCell(row, peerMid, dataType, fixedNum, metricName);
-    this._createPeerDataCell(row, peer75, dataType, fixedNum, metricName);
+    this._createPeerDataCell(row, peerAvg, dataType, fixedNum);
+    this._createPeerDataCell(row, peer25, dataType, fixedNum);
+    this._createPeerDataCell(row, peerMid, dataType, fixedNum);
+    this._createPeerDataCell(row, peer75, dataType, fixedNum);
   }
 
   // Helper to create a data cell for peer data
-  _createPeerDataCell(row, value, dataType, fixedNum, metricName) {
-    if (metricName == "annualizedInvestmentReturn") {
-      console.log({ row, value, dataType, fixedNum });
-    }
+  // Fix for the _createPeerDataCell method in ChartManager.js
+  // Replace this method with the following implementation:
+
+  _createPeerDataCell(row, value, dataType, fixedNum) {
     const cell = document.createElement("td");
     cell.className =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
@@ -495,10 +506,6 @@ class ChartManager {
       }
 
       cell.textContent = formattedValue;
-
-      if (metricName == "annualizedInvestmentReturn") {
-        console.log("END", { formattedValue });
-      }
 
       // Apply color formatting for negative values
       if (numValue < 0) {
