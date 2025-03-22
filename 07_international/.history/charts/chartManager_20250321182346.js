@@ -61,35 +61,43 @@ class ChartManager {
 
   ensureModalExists(mainName) {
     const modalId = `${mainName}_modal`;
-    const modal = document.getElementById(modalId);
-  
-    // If the modal doesn't exist, just log a warning and return
+    let modal = document.getElementById(modalId);
+
     if (!modal) {
-      console.log(`Modal for ${mainName} does not exist and won't be created`);
-      return;
+      console.log(`Creating missing modal for ${mainName}`);
+
+      // Create modal container
+      modal = document.createElement("div");
+      modal.id = modalId;
+      modal.className = "modal";
+
+      // Create table structure
+      const table = document.createElement("table");
+      table.className =
+        "w-full text-sm text-left text-gray-500 dark:text-gray-400";
+
+      // Create thead and the header row
+      const thead = document.createElement("thead");
+      thead.className =
+        "text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400";
+
+      const headerRow = document.createElement("tr");
+      headerRow.id = `${mainName}_modal_row`;
+
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      // Create tbody
+      const tbody = document.createElement("tbody");
+      table.appendChild(tbody);
+
+      modal.appendChild(table);
+
+      // Add to document - adjust selector as needed for your app structure
+      const modalContainer =
+        document.querySelector("#modalContainer") || document.body;
+      modalContainer.appendChild(modal);
     }
-  
-    // Modal exists, check if it has the table and header row structure
-    let table = modal.querySelector('table');
-    if (!table) {
-      console.log(`Modal for ${mainName} exists but has no table - skipping updates`);
-      return;
-    }
-  
-    let thead = table.querySelector('thead');
-    if (!thead) {
-      console.log(`Modal for ${mainName} exists but has no thead - skipping updates`);
-      return;
-    }
-  
-    let headerRow = thead.querySelector(`#${mainName}_modal_row`);
-    if (!headerRow) {
-      console.log(`Modal for ${mainName} exists but has no header row - skipping updates`);
-      return;
-    }
-  
-    // Modal exists and has proper structure, no action needed
-    console.log(`Modal for ${mainName} exists with proper structure`);
   }
 
   // Create and configure a chart

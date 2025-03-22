@@ -61,35 +61,43 @@ class ChartManager {
 
   ensureModalExists(mainName) {
     const modalId = `${mainName}_modal`;
-    const modal = document.getElementById(modalId);
-  
-    // If the modal doesn't exist, just log a warning and return
+    let modal = document.getElementById(modalId);
+
     if (!modal) {
-      console.log(`Modal for ${mainName} does not exist and won't be created`);
-      return;
+      console.log(`Creating missing modal for ${mainName}`);
+
+      // Create modal container
+      modal = document.createElement("div");
+      modal.id = modalId;
+      modal.className = "modal";
+
+      // Create table structure
+      const table = document.createElement("table");
+      table.className =
+        "w-full text-sm text-left text-gray-500 dark:text-gray-400";
+
+      // Create thead and the header row
+      const thead = document.createElement("thead");
+      thead.className =
+        "text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400";
+
+      const headerRow = document.createElement("tr");
+      headerRow.id = `${mainName}_modal_row`;
+
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      // Create tbody
+      const tbody = document.createElement("tbody");
+      table.appendChild(tbody);
+
+      modal.appendChild(table);
+
+      // Add to document - adjust selector as needed for your app structure
+      const modalContainer =
+        document.querySelector("#modalContainer") || document.body;
+      modalContainer.appendChild(modal);
     }
-  
-    // Modal exists, check if it has the table and header row structure
-    let table = modal.querySelector('table');
-    if (!table) {
-      console.log(`Modal for ${mainName} exists but has no table - skipping updates`);
-      return;
-    }
-  
-    let thead = table.querySelector('thead');
-    if (!thead) {
-      console.log(`Modal for ${mainName} exists but has no thead - skipping updates`);
-      return;
-    }
-  
-    let headerRow = thead.querySelector(`#${mainName}_modal_row`);
-    if (!headerRow) {
-      console.log(`Modal for ${mainName} exists but has no header row - skipping updates`);
-      return;
-    }
-  
-    // Modal exists and has proper structure, no action needed
-    console.log(`Modal for ${mainName} exists with proper structure`);
   }
 
   // Create and configure a chart
@@ -222,30 +230,52 @@ class ChartManager {
       return;
     }
 
-    // Find the modal element - if it doesn't exist, just return (don't create it)
+    // Find the modal element
     const modal = document.getElementById(`${mainName}_modal`);
     if (!modal) {
-      // Skip modals that don't exist already
-      console.log(`Skipping modal update for ${mainName} as it doesn't exist`);
+      console.warn(
+        `Modal element with ID "${mainName}_modal" not found - trying to create it`
+      );
+      this.ensureModalExists(mainName);
       return;
     }
 
     // Find the table header row
     let headerRow = modal.querySelector(`#${mainName}_modal_row`);
-    if (!headerRow) {
-      console.log(
-        `Skipping modal update for ${mainName} as it doesn't have a header row`
+
+    // Check if the modal has the necessary structure before updating
+    if (
+      modal &&
+      (!modal.querySelector("table") ||
+        !modal.querySelector("thead") ||
+        !headerRow)
+    ) {
+      console.warn(
+        `Modal ${mainName}_modal has incomplete structure - recreating it`
       );
-      return;
+      // Remove the incomplete modal
+      modal.parentNode.removeChild(modal);
+
+      // Recreate the modal with proper structure
+      this.ensureModalExists(mainName);
+
+      // Try to find the header row again
+      const newModal = document.getElementById(`${mainName}_modal`);
+      if (!newModal) {
+        console.error(`Failed to recreate modal for ${mainName}`);
+        return;
+      }
+
+      headerRow = newModal.querySelector(`#${mainName}_modal_row`);
+      if (!headerRow) {
+        console.error(
+          `Failed to find header row in recreated modal for ${mainName}`
+        );
+        return;
+      }
     }
 
     let tableHead = headerRow.parentElement;
-    if (!tableHead) {
-      console.log(
-        `Skipping modal update for ${mainName} as header row doesn't have a parent`
-      );
-      return;
-    }
 
     // Clear existing rows after the headerRow
     let nextRow = headerRow.nextSibling;
@@ -398,6 +428,7 @@ class ChartManager {
       }
     });
   }
+
   // Handle specialized modal updates for cash flow charts
   updateCashFlowModal(
     mainName,

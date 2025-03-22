@@ -1,9 +1,6 @@
 const displayReportComponent = () => {
   console.log("Starting report component display");
 
-  ensureReportStructureExists();
-
-
   // Retrieve all data from localStorage
   const generalData = JSON.parse(localStorage.getItem("generalData"));
   const cashData = JSON.parse(localStorage.getItem("cashData"));
@@ -479,82 +476,3 @@ const showReportsTab = () => {
     reportsLink.classList.add('active', 'bg-gray-300', 'dark:bg-gray-700');
   }
 };
-
-// This function checks if all needed report rows exist
-function ensureReportStructureExists() {
-  // Define containers for different data types
-  const dataContainers = {
-    general: document.getElementById('generalDataTable')?.querySelector('tbody'),
-    cash: document.getElementById('cashDataTable')?.querySelector('tbody'),
-    asset: document.getElementById('assetDataTable')?.querySelector('tbody'),
-    income: document.getElementById('incomeDataTable')?.querySelector('tbody'),
-    expense: document.getElementById('expenseDataTable')?.querySelector('tbody'),
-    misc: document.getElementById('miscDataTable')?.querySelector('tbody')
-  };
-
-  // Report rows that should exist by category
-  const expectedRows = {
-    general: ['givingUnits', 'missionaryUnit', 'numberOfEmployeesFTE', 'itExpenses'],
-    cash: [
-      'daysCashOnHand', 'daysExpensesInUnrestrictedNA', 'daysExpensesInUnrestrictedNA_excludingPPE',
-      'daysExpensesInNAwithDR', 'daysExpensesInNAwithDR_excludingPPE', 'liquidityAssetsAvailableCover',
-      'liquidityFundsAvailable', 'financialAssetsAvailableFY', 'daysFinancialAssetsOnHand',
-      'currentRatio', 'totalCoverageRatio', 'assetsWithoutPpeToLiabilitiesWithoutDebt',
-      'cashFlowsTrendFinancing', 'cashFlowsTrendInvesting', 'cashFlowsTrendOperating'
-    ],
-    asset: ['percentWithDR', 'percentWithoutDR_excludingPPE', 'percentWithoutDR'],
-    income: [
-      'netIncomeRatio', 'contributionsTrend_basedOnNumberOfDonors', 'contributionsTrend',
-      'contributionsPercentWithoutDR', 'contributionsPercentWithDR', 'contributionsPerGivingUnit',
-      'contributionsPerMissionaryUnit', 'contributionsPerFullTimeEquivalent',
-      'fundraisingAsPercentOfContributions', 'annualizedInvestmentReturn'
-    ],
-    expense: [
-      'functionalExpensePercent_program', 'functionalExpensePercent_administrative',
-      'functionalExpensePercent_fundraising', 'costOfContributions', 'expensesPerGivingUnit',
-      'expensesPerMissionaryUnit', 'expensesPerFullTimeEquivalent',
-      'salariesAndBenefitsAsPercentOfTotalExpenses', 'salariesAndBenefitsPerFTE'
-    ],
-    misc: ['percentageAssessmentOnRestrictedGifts']
-  };
-
-  // Check each container and create missing rows
-  Object.entries(expectedRows).forEach(([category, rows]) => {
-    const container = dataContainers[category];
-    if (!container) {
-      console.warn(`Container for ${category} data not found`);
-      return;
-    }
-    
-    rows.forEach(rowName => {
-      const rowId = `row_${rowName}`;
-      if (!document.getElementById(rowId)) {
-        console.log(`Creating missing report row: ${rowId}`);
-        
-        // Create row
-        const row = document.createElement('tr');
-        row.id = rowId;
-        row.className = 'bg-white border-b dark:bg-gray-800 dark:border-gray-700';
-        
-        // Create first cell with metric name
-        const nameCell = document.createElement('th');
-        nameCell.scope = 'row';
-        nameCell.className = 'px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white';
-        
-        // Format the display name (convert camelCase to Title Case with spaces)
-        const displayName = rowName
-          .replace(/([A-Z])/g, ' $1') // Add space before capital letters
-          .replace(/^./, str => str.toUpperCase()) // Capitalize first letter
-          .replace(/_/g, ' '); // Replace underscores with spaces
-        
-        nameCell.textContent = displayName;
-        
-        // Add cell to row
-        row.appendChild(nameCell);
-        
-        // Add row to container
-        container.appendChild(row);
-      }
-    });
-  });
-}

@@ -1,9 +1,6 @@
 const displayReportComponent = () => {
   console.log("Starting report component display");
 
-  ensureReportStructureExists();
-
-
   // Retrieve all data from localStorage
   const generalData = JSON.parse(localStorage.getItem("generalData"));
   const cashData = JSON.parse(localStorage.getItem("cashData"));

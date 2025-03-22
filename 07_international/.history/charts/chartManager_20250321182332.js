@@ -61,35 +61,43 @@ class ChartManager {
 
   ensureModalExists(mainName) {
     const modalId = `${mainName}_modal`;
-    const modal = document.getElementById(modalId);
-  
-    // If the modal doesn't exist, just log a warning and return
+    let modal = document.getElementById(modalId);
+
     if (!modal) {
-      console.log(`Modal for ${mainName} does not exist and won't be created`);
-      return;
+      console.log(`Creating missing modal for ${mainName}`);
+
+      // Create modal container
+      modal = document.createElement("div");
+      modal.id = modalId;
+      modal.className = "modal";
+
+      // Create table structure
+      const table = document.createElement("table");
+      table.className =
+        "w-full text-sm text-left text-gray-500 dark:text-gray-400";
+
+      // Create thead and the header row
+      const thead = document.createElement("thead");
+      thead.className =
+        "text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400";
+
+      const headerRow = document.createElement("tr");
+      headerRow.id = `${mainName}_modal_row`;
+
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      // Create tbody
+      const tbody = document.createElement("tbody");
+      table.appendChild(tbody);
+
+      modal.appendChild(table);
+
+      // Add to document - adjust selector as needed for your app structure
+      const modalContainer =
+        document.querySelector("#modalContainer") || document.body;
+      modalContainer.appendChild(modal);
     }
-  
-    // Modal exists, check if it has the table and header row structure
-    let table = modal.querySelector('table');
-    if (!table) {
-      console.log(`Modal for ${mainName} exists but has no table - skipping updates`);
-      return;
-    }
-  
-    let thead = table.querySelector('thead');
-    if (!thead) {
-      console.log(`Modal for ${mainName} exists but has no thead - skipping updates`);
-      return;
-    }
-  
-    let headerRow = thead.querySelector(`#${mainName}_modal_row`);
-    if (!headerRow) {
-      console.log(`Modal for ${mainName} exists but has no header row - skipping updates`);
-      return;
-    }
-  
-    // Modal exists and has proper structure, no action needed
-    console.log(`Modal for ${mainName} exists with proper structure`);
   }
 
   // Create and configure a chart
@@ -210,18 +218,18 @@ class ChartManager {
   }
 
   updateModal(mainName, peerData, clientData, parsedData, dataType, fixedNum) {
-    console.log(`Updating modal for ${mainName}`, {
-      peerData: peerData ? "Found" : "Not found",
-      clientData: clientData ? "Found" : "Not found",
+    console.log(`Updating modal for ${mainName}`, { 
+      peerData: peerData ? "Found" : "Not found", 
+      clientData: clientData ? "Found" : "Not found" 
     });
-
+    
     // Get the selected years from local storage
     const selectedYears = getSelectedYearsFromLocalStorage();
     if (!selectedYears || !selectedYears.length) {
       console.warn(`No selected years found for modal ${mainName}`);
       return;
     }
-
+  
     // Find the modal element - if it doesn't exist, just return (don't create it)
     const modal = document.getElementById(`${mainName}_modal`);
     if (!modal) {
@@ -229,55 +237,47 @@ class ChartManager {
       console.log(`Skipping modal update for ${mainName} as it doesn't exist`);
       return;
     }
-
+  
     // Find the table header row
     let headerRow = modal.querySelector(`#${mainName}_modal_row`);
     if (!headerRow) {
-      console.log(
-        `Skipping modal update for ${mainName} as it doesn't have a header row`
-      );
+      console.log(`Skipping modal update for ${mainName} as it doesn't have a header row`);
       return;
     }
-
+  
     let tableHead = headerRow.parentElement;
     if (!tableHead) {
-      console.log(
-        `Skipping modal update for ${mainName} as header row doesn't have a parent`
-      );
+      console.log(`Skipping modal update for ${mainName} as header row doesn't have a parent`);
       return;
     }
-
+  
     // Clear existing rows after the headerRow
     let nextRow = headerRow.nextSibling;
     while (nextRow) {
       tableHead.removeChild(nextRow);
       nextRow = headerRow.nextSibling;
     }
-
+  
     // Clear existing header content
     headerRow.innerHTML = "";
-
+  
     // Add column headers
     this._addStandardModalColumns(headerRow);
-
+  
     // Add a row for each selected year
     selectedYears.forEach((year) => {
       const yearRow = this._createYearRow(mainName, year);
       tableHead.appendChild(yearRow);
-
+  
       // Add client data for this year
       if (clientData && clientData[year]) {
         const clientValue = clientData[year].value;
         const clientCell = document.createElement("td");
         clientCell.className =
           "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-
-        if (typeof styleNumber === "function") {
-          clientCell.textContent = styleNumber(
-            clientValue,
-            dataType || "number",
-            fixedNum || 0
-          );
+        
+        if (typeof styleNumber === 'function') {
+          clientCell.textContent = styleNumber(clientValue, dataType || "number", fixedNum || 0);
         } else {
           // Fallback if styleNumber is unavailable
           clientCell.textContent = clientValue;
@@ -291,87 +291,59 @@ class ChartManager {
         emptyCell.textContent = "-";
         yearRow.appendChild(emptyCell);
       }
-
+  
       // Add peer data for this year
       if (peerData && peerData[year]) {
         const peerArray = peerData[year];
         if (Array.isArray(peerArray)) {
-          const avg =
-            typeof getAverageOfArray === "function"
-              ? getAverageOfArray(peerArray)
-              : 0;
-          const median =
-            typeof getMidpointOfArray === "function"
-              ? getMidpointOfArray(peerArray)
-              : 0;
-          const q25 =
-            typeof get25thPercentileOfArray === "function"
-              ? get25thPercentileOfArray(peerArray)
-              : 0;
-          const q75 =
-            typeof get75thPercentileOfArray === "function"
-              ? get75thPercentileOfArray(peerArray)
-              : 0;
-
+          const avg = typeof getAverageOfArray === 'function' ? getAverageOfArray(peerArray) : 0;
+          const median = typeof getMidpointOfArray === 'function' ? getMidpointOfArray(peerArray) : 0;
+          const q25 = typeof get25thPercentileOfArray === 'function' ? get25thPercentileOfArray(peerArray) : 0;
+          const q75 = typeof get75thPercentileOfArray === 'function' ? get75thPercentileOfArray(peerArray) : 0;
+  
           // Add avg cell
           const avgCell = document.createElement("td");
           avgCell.className =
             "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-
-          if (typeof styleNumber === "function") {
-            avgCell.textContent = styleNumber(
-              avg,
-              dataType || "number",
-              fixedNum || 0
-            );
+          
+          if (typeof styleNumber === 'function') {
+            avgCell.textContent = styleNumber(avg, dataType || "number", fixedNum || 0);
           } else {
             avgCell.textContent = avg;
           }
           yearRow.appendChild(avgCell);
-
+  
           // Add 25th percentile cell
           const q25Cell = document.createElement("td");
           q25Cell.className =
             "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-
-          if (typeof styleNumber === "function") {
-            q25Cell.textContent = styleNumber(
-              q25,
-              dataType || "number",
-              fixedNum || 0
-            );
+          
+          if (typeof styleNumber === 'function') {
+            q25Cell.textContent = styleNumber(q25, dataType || "number", fixedNum || 0);
           } else {
             q25Cell.textContent = q25;
           }
           yearRow.appendChild(q25Cell);
-
+  
           // Add median cell
           const medianCell = document.createElement("td");
           medianCell.className =
             "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-
-          if (typeof styleNumber === "function") {
-            medianCell.textContent = styleNumber(
-              median,
-              dataType || "number",
-              fixedNum || 0
-            );
+          
+          if (typeof styleNumber === 'function') {
+            medianCell.textContent = styleNumber(median, dataType || "number", fixedNum || 0);
           } else {
             medianCell.textContent = median;
           }
           yearRow.appendChild(medianCell);
-
+  
           // Add 75th percentile cell
           const q75Cell = document.createElement("td");
           q75Cell.className =
             "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-
-          if (typeof styleNumber === "function") {
-            q75Cell.textContent = styleNumber(
-              q75,
-              dataType || "number",
-              fixedNum || 0
-            );
+          
+          if (typeof styleNumber === 'function') {
+            q75Cell.textContent = styleNumber(q75, dataType || "number", fixedNum || 0);
           } else {
             q75Cell.textContent = q75;
           }

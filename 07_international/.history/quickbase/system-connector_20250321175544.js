@@ -15,11 +15,6 @@ class SystemConnector {
   initialize() {
     if (this.initialized) return;
     
-    // Wait a moment to ensure Flowbite is fully loaded before checking modals
-    setTimeout(() => {
-      ensureAllModalsExist();
-    }, 500);
-    
     // Set up a single run button listener to prevent duplicates
     const runButton = document.querySelector('#run');
     if (runButton) {
@@ -258,9 +253,6 @@ class SystemConnector {
             console.log("Calling displayReportComponent after delay");
             displayReportComponent();
           }
-          
-          // Re-initialize modals after charts have been displayed
-          ensureAllModalsExist();
         }, 500);
       } else {
         console.error("Chart display functions not found");
@@ -272,79 +264,6 @@ class SystemConnector {
       }
     }
   }
-}
-
-// Function to ensure existing modals are properly initialized
-function ensureAllModalsExist() {
-  console.log("Checking for existing modals to initialize");
-  
-  // Get all elements that could be modals (divs with IDs ending in _modal)
-  const potentialModals = document.querySelectorAll('div[id$="_modal"]');
-  
-  potentialModals.forEach(modal => {
-    const modalId = modal.id;
-    
-    // Check if this modal has the required Flowbite attributes
-    if (!modal.hasAttribute('data-modal-initialized')) {
-      console.log(`Initializing existing modal: ${modalId}`);
-      
-      // Find any buttons that should toggle this modal
-      const toggleButtons = document.querySelectorAll(`[data-modal-toggle="${modalId}"]`);
-      
-      if (toggleButtons.length === 0) {
-        console.log(`Warning: No toggle buttons found for modal ${modalId}`);
-      }
-      
-      // Try to initialize the modal using Flowbite's modal API
-      if (window.Flowbite && typeof window.Flowbite.initModals === 'function') {
-        try {
-          window.Flowbite.initModals();
-          console.log(`Successfully initialized modal ${modalId} via Flowbite.initModals`);
-        } catch (error) {
-          console.error(`Error initializing modal ${modalId}:`, error);
-        }
-      } else if (typeof initFlowbite === 'function') {
-        try {
-          initFlowbite();
-          console.log(`Successfully initialized all modals via initFlowbite`);
-        } catch (error) {
-          console.error(`Error initializing modals via initFlowbite:`, error);
-        }
-      } else if (window.flowbite && typeof window.flowbite.initModals === 'function') {
-        try {
-          window.flowbite.initModals();
-          console.log(`Successfully initialized modal ${modalId} via flowbite.initModals`);
-        } catch (error) {
-          console.error(`Error initializing modal ${modalId}:`, error);
-        }
-      } else {
-        console.warn(`Unable to initialize modal ${modalId} - Flowbite API not found`);
-        
-        // Apply basic modal behavior as fallback
-        toggleButtons.forEach(button => {
-          button.addEventListener('click', () => {
-            const isHidden = modal.classList.contains('hidden');
-            if (isHidden) {
-              modal.classList.remove('hidden');
-              modal.classList.add('flex');
-            } else {
-              modal.classList.add('hidden');
-              modal.classList.remove('flex');
-            }
-          });
-          
-          // Find close buttons within the modal
-          const closeButtons = modal.querySelectorAll('[data-modal-hide]');
-          closeButtons.forEach(closeBtn => {
-            closeBtn.addEventListener('click', () => {
-              modal.classList.add('hidden');
-              modal.classList.remove('flex');
-            });
-          });
-        });
-      }
-    }
-  });
 }
 
 // Create a singleton instance

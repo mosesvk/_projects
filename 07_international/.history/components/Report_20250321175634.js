@@ -1,9 +1,6 @@
 const displayReportComponent = () => {
   console.log("Starting report component display");
 
-  ensureReportStructureExists();
-
-
   // Retrieve all data from localStorage
   const generalData = JSON.parse(localStorage.getItem("generalData"));
   const cashData = JSON.parse(localStorage.getItem("cashData"));
@@ -324,13 +321,10 @@ const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray, wa, name, d
   
   // Calculate average
   let avg = 0;
-  
-  if (peer && wa === "wa" && typeof getWeightedAverageOfArray === 'function') {
-    // Use the existing getWeightedAverageOfArray function
-    avg = parseFloat(getWeightedAverageOfArray(data, name) || 0);
+  if (peer && wa) {
+    avg = parseFloat(getWeightedAverageOfArray(data, name));
   } else if (peer && peer[dataArray] && Array.isArray(peer[dataArray])) {
-    // Use the average of the array
-    avg = parseFloat(getAverageOfArray(peer[dataArray], name) || 0);
+    avg = parseFloat(getAverageOfArray(peer[dataArray], name));
   }
   
   // Ensure avg is not NaN
@@ -340,14 +334,7 @@ const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray, wa, name, d
   let q1 = 0, median = 0, q3 = 0;
   if (peer && peer[dataArray] && Array.isArray(peer[dataArray])) {
     try {
-      if (typeof calculatePercentiles === 'function') {
-        [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
-      } else {
-        // Fallback if calculatePercentiles doesn't exist
-        q1 = get25thPercentileOfArray(peer[dataArray], name);
-        median = getMidpointOfArray(peer[dataArray], name);
-        q3 = get75thPercentileOfArray(peer[dataArray], name);
-      }
+      [q1, median, q3] = calculatePercentiles(peer[dataArray], type, fixedNum);
     } catch (error) {
       console.warn(`Error calculating percentiles for ${name}:`, error);
     }
@@ -391,6 +378,21 @@ const addPeerDataToRow = (tableRow, peer, type, fixedNum, dataArray, wa, name, d
   if (fIdArray && typeof createFileForPrint === 'function') {
     createFileForPrint(name, fIdArray, begin, end, avg, median, q1, q3, peer, data);
   }
+};
+
+// Fixed function to calculate weighted average
+const getWeightedAverageOfArray = (data, name) => {
+  if (!data || !name) return 0;
+
+  const key = `${name}_Peer`;
+  const peerData = data[key];
+  if (!peerData || !peerData.total || !Array.isArray(peerData.total)) return 0;
+  
+  const values = peerData.total.map(val => parseFloat(val));
+  if (values.length === 0) return 0;
+  
+  const sum = values.reduce((acc, val) => acc + (isNaN(val) ? 0 : val), 0);
+  return (sum / values.length) || 0;
 };
 
 // Process all TH elements to format negative values
@@ -480,81 +482,68 @@ const showReportsTab = () => {
   }
 };
 
-// This function checks if all needed report rows exist
 function ensureReportStructureExists() {
-  // Define containers for different data types
-  const dataContainers = {
-    general: document.getElementById('generalDataTable')?.querySelector('tbody'),
-    cash: document.getElementById('cashDataTable')?.querySelector('tbody'),
-    asset: document.getElementById('assetDataTable')?.querySelector('tbody'),
-    income: document.getElementById('incomeDataTable')?.querySelector('tbody'),
-    expense: document.getElementById('expenseDataTable')?.querySelector('tbody'),
-    misc: document.getElementById('miscDataTable')?.querySelector('tbody')
-  };
-
-  // Report rows that should exist by category
-  const expectedRows = {
-    general: ['givingUnits', 'missionaryUnit', 'numberOfEmployeesFTE', 'itExpenses'],
-    cash: [
-      'daysCashOnHand', 'daysExpensesInUnrestrictedNA', 'daysExpensesInUnrestrictedNA_excludingPPE',
-      'daysExpensesInNAwithDR', 'daysExpensesInNAwithDR_excludingPPE', 'liquidityAssetsAvailableCover',
-      'liquidityFundsAvailable', 'financialAssetsAvailableFY', 'daysFinancialAssetsOnHand',
-      'currentRatio', 'totalCoverageRatio', 'assetsWithoutPpeToLiabilitiesWithoutDebt',
-      'cashFlowsTrendFinancing', 'cashFlowsTrendInvesting', 'cashFlowsTrendOperating'
-    ],
-    asset: ['percentWithDR', 'percentWithoutDR_excludingPPE', 'percentWithoutDR'],
-    income: [
-      'netIncomeRatio', 'contributionsTrend_basedOnNumberOfDonors', 'contributionsTrend',
-      'contributionsPercentWithoutDR', 'contributionsPercentWithDR', 'contributionsPerGivingUnit',
-      'contributionsPerMissionaryUnit', 'contributionsPerFullTimeEquivalent',
-      'fundraisingAsPercentOfContributions', 'annualizedInvestmentReturn'
-    ],
-    expense: [
-      'functionalExpensePercent_program', 'functionalExpensePercent_administrative',
-      'functionalExpensePercent_fundraising', 'costOfContributions', 'expensesPerGivingUnit',
-      'expensesPerMissionaryUnit', 'expensesPerFullTimeEquivalent',
-      'salariesAndBenefitsAsPercentOfTotalExpenses', 'salariesAndBenefitsPerFTE'
-    ],
-    misc: ['percentageAssessmentOnRestrictedGifts']
-  };
-
-  // Check each container and create missing rows
-  Object.entries(expectedRows).forEach(([category, rows]) => {
-    const container = dataContainers[category];
-    if (!container) {
-      console.warn(`Container for ${category} data not found`);
-      return;
-    }
+  // Verify that all required report rows exist
+  const requiredRows = [
+    // General data
+    "row_givingUnits", 
+    "row_missionaryUnit", 
+    "row_numberOfEmployeesFTE", 
+    "row_itExpenses",
     
-    rows.forEach(rowName => {
-      const rowId = `row_${rowName}`;
-      if (!document.getElementById(rowId)) {
-        console.log(`Creating missing report row: ${rowId}`);
-        
-        // Create row
-        const row = document.createElement('tr');
-        row.id = rowId;
-        row.className = 'bg-white border-b dark:bg-gray-800 dark:border-gray-700';
-        
-        // Create first cell with metric name
-        const nameCell = document.createElement('th');
-        nameCell.scope = 'row';
-        nameCell.className = 'px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white';
-        
-        // Format the display name (convert camelCase to Title Case with spaces)
-        const displayName = rowName
-          .replace(/([A-Z])/g, ' $1') // Add space before capital letters
-          .replace(/^./, str => str.toUpperCase()) // Capitalize first letter
-          .replace(/_/g, ' '); // Replace underscores with spaces
-        
-        nameCell.textContent = displayName;
-        
-        // Add cell to row
-        row.appendChild(nameCell);
-        
-        // Add row to container
-        container.appendChild(row);
-      }
-    });
+    // Cash data
+    "row_daysCashOnHand", 
+    "row_daysExpensesInUnrestrictedNA", 
+    "row_daysExpensesInUnrestrictedNA_excludingPPE",
+    "row_daysExpensesInNAwithDR", 
+    "row_daysExpensesInNAwithDR_excludingPPE",
+    "row_liquidityAssetsAvailableCover", 
+    "row_liquidityFundsAvailable",
+    "row_financialAssetsAvailableFY", 
+    "row_daysFinancialAssetsOnHand",
+    "row_currentRatio", 
+    "row_totalCoverageRatio",
+    "row_assetsWithoutPpeToLiabilitiesWithoutDebt",
+    "row_cashFlowsTrendFinancing", 
+    "row_cashFlowsTrendInvesting", 
+    "row_cashFlowsTrendOperating",
+    
+    // Asset data
+    "row_percentWithDR", 
+    "row_percentWithoutDR_excludingPPE", 
+    "row_percentWithoutDR",
+    
+    // Income data
+    "row_netIncomeRatio", 
+    "row_contributionsTrend_basedOnNumberOfDonors", 
+    "row_contributionsTrend",
+    "row_contributionsPercentWithoutDR", 
+    "row_contributionsPercentWithDR",
+    "row_contributionsPerGivingUnit", 
+    "row_contributionsPerMissionaryUnit",
+    "row_contributionsPerFullTimeEquivalent", 
+    "row_fundraisingAsPercentOfContributions",
+    "row_annualizedInvestmentReturn",
+    
+    // Expense data
+    "row_functionalExpensePercent_program", 
+    "row_functionalExpensePercent_administrative", 
+    "row_functionalExpensePercent_fundraising",
+    "row_costOfContributions", 
+    "row_expensesPerGivingUnit",
+    "row_expensesPerMissionaryUnit", 
+    "row_expensesPerFullTimeEquivalent",
+    "row_salariesAndBenefitsAsPercentOfTotalExpenses", 
+    "row_salariesAndBenefitsPerFTE",
+    
+    // Misc data
+    "row_percentageAssessmentOnRestrictedGifts"
+  ];
+  
+  // Log missing rows
+  requiredRows.forEach(rowId => {
+    if (!document.getElementById(rowId)) {
+      console.warn(`Missing report row: ${rowId}`);
+    }
   });
 }
