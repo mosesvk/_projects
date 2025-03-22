@@ -568,16 +568,10 @@ const showReportsTab = () => {
   }
 };
 
-// Make the function globally available
-window.displayReportComponent = displayReportComponent;
-
-// Listen for chartsRendered event
 document.addEventListener('chartsRendered', function() {
   console.log('Charts rendered event received - displaying report');
-  setTimeout(() => {
-    displayReportComponent();
-  }, 300);
+  displayReportComponent();
 });
 
-// Add a direct console log to verify script loading
-console.log('Report.js fully loaded - displayReportComponent available in global scope');
+window.displayReportComponent = displayReportComponent;
+

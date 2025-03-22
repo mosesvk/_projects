@@ -567,17 +567,3 @@ const showReportsTab = () => {
     reportsLink.classList.add('active', 'bg-gray-300', 'dark:bg-gray-700');
   }
 };
-
-// Make the function globally available
-window.displayReportComponent = displayReportComponent;
-
-// Listen for chartsRendered event
-document.addEventListener('chartsRendered', function() {
-  console.log('Charts rendered event received - displaying report');
-  setTimeout(() => {
-    displayReportComponent();
-  }, 300);
-});
-
-// Add a direct console log to verify script loading
-console.log('Report.js fully loaded - displayReportComponent available in global scope');

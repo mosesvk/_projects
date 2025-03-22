@@ -576,7 +576,7 @@ document.addEventListener('chartsRendered', function() {
   console.log('Charts rendered event received - displaying report');
   setTimeout(() => {
     displayReportComponent();
-  }, 300);
+  }, 300);a
 });
 
 // Add a direct console log to verify script loading
