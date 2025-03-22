@@ -2300,12 +2300,11 @@ class ApiService {
     const regionQuery = this.getRegionQuery(selectedRegions_Array);
     const typeQuery = this.getTypeQuery(selectedTypes_Array);
 
-    // (${regionQuery}) AND
-    // (${typeQuery}) AND
-
     const apiCallPeerData = {
       act: "API_DoQuery",
       query: `
+          (${regionQuery}) AND
+          (${typeQuery}) AND
           {301.EX.${currentYear}}
         `,
       clist:

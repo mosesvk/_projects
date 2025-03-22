@@ -33,15 +33,14 @@ class ChartManager {
       this.ensureModalExists(mainName);
     }
 
-    // Update modal with chart data - pass weighted average parameter
+    // Update modal with chart data
     this.updateModal(
       mainName,
       parsedData[peerDataKey],
       parsedData[clientDataKey],
       parsedData,
       dataType,
-      fixedNum,
-      weightedAverage // Pass the weightedAverage parameter
+      fixedNum
     );
 
     // Create the chart
@@ -66,36 +65,35 @@ class ChartManager {
 
     // If the modal doesn't exist, just log a warning and return
     if (!modal) {
-      // console.log(`Modal for ${mainName} does not exist and won't be created`);
+      console.log(`Modal for ${mainName} does not exist and won't be created`);
       return;
     }
 
     // Modal exists, check if it has the table and header row structure
     let table = modal.querySelector("table");
     if (!table) {
-      // console.log(
-      //   `Modal for ${mainName} exists but has no table - skipping updates`
-      // );
+      console.log(
+        `Modal for ${mainName} exists but has no table - skipping updates`
+      );
       return;
     }
 
     let thead = table.querySelector("thead");
     if (!thead) {
-      // console.log(
-      //   `Modal for ${mainName} exists but has no thead - skipping updates`
-      // );
+      console.log(
+        `Modal for ${mainName} exists but has no thead - skipping updates`
+      );
       return;
     }
 
     let headerRow = thead.querySelector(`#${mainName}_modal_row`);
     if (!headerRow) {
-      // console.log(
-      //   `Modal for ${mainName} exists but has no header row - creating one`
-      // );
-      headerRow = document.createElement("tr");
-      headerRow.id = `${mainName}_modal_row`;
-      thead.appendChild(headerRow);
+      // console.log(`Modal for ${mainName} exists but has no header row - skipping updates`);
+      return;
     }
+
+    // Modal exists and has proper structure, no action needed
+    // console.log(`Modal for ${mainName} exists with proper structure`);
   }
 
   // Create and configure a chart
@@ -121,16 +119,9 @@ class ChartManager {
     chartElement.innerHTML = "";
 
     // Store chart ID for url mapping
-    if (typeof dataUrLObj !== "undefined") {
+    if (dataUrLObj) {
       dataUrLObj[mainName] = chartId;
     }
-
-    // Log the chart creation with weighted average info
-    // console.log(`Creating chart ${chartId} for ${mainName}`, {
-    //   weightedAverage,
-    //   chartType,
-    //   dataType,
-    // });
 
     // Determine chart configuration type
     let configType;
@@ -173,7 +164,6 @@ class ChartManager {
       config: chartConfig,
       type: configType,
       name: mainName,
-      weightedAverage, // Store weighted average setting
     };
 
     return chart;
@@ -223,7 +213,6 @@ class ChartManager {
     return chart;
   }
 
-  // Enhanced modal update method with weighted average support
   updateModal(
     mainName,
     peerData,
@@ -233,67 +222,44 @@ class ChartManager {
     fixedNum,
     weightedAverage
   ) {
-    // console.log(`Updating modal for ${mainName}`, {
-    //   peerDataExists: !!peerData,
-    //   clientDataExists: !!clientData,
-    //   useWeightedAvg: weightedAverage === "wa",
-    // });
+    console.log(`Updating modal for ${mainName}`);
 
-    // Get the selected years from local storage
+    // Get selected years
     const selectedYears = getSelectedYearsFromLocalStorage();
     if (!selectedYears || !selectedYears.length) {
       console.warn(`No selected years found for modal ${mainName}`);
       return;
     }
 
-    // Find the modal element
-    const modalSelector = `#${mainName}_modal`;
-    const modal = document.querySelector(modalSelector);
+    // Find modal element
+    const modal = document.getElementById(`${mainName}_modal`);
+    if (!modal) return;
 
-    if (!modal) {
-      console.warn(`Modal element with selector "${modalSelector}" not found`);
-      return;
-    }
-
-    // Find the table header row
-    const rowSelector = `#${mainName}_modal_row`;
-    let headerRow = modal.querySelector(rowSelector);
-
-    if (!headerRow) {
-      console.warn(
-        `Header row with selector "${rowSelector}" not found in modal ${modalSelector}`
-      );
-      // Try a more generic approach to find the table row
-      headerRow = modal.querySelector('tr[id$="_modal_row"]');
-      if (!headerRow) {
-        console.error(
-          `Could not find any appropriate row in modal ${modalSelector}`
-        );
-        return;
-      }
-    }
+    // Find header row
+    const headerRow = modal.querySelector(`#${mainName}_modal_row`);
+    if (!headerRow) return;
 
     let tableHead = headerRow.parentElement;
 
-    // Clear existing rows after the headerRow
+    // Clear existing rows
     let nextRow = headerRow.nextSibling;
     while (nextRow) {
       tableHead.removeChild(nextRow);
       nextRow = headerRow.nextSibling;
     }
 
-    // Clear existing header content
+    // Clear header content
     headerRow.innerHTML = "";
 
-    // Add columns (year, client, avg, 25%, 50%, 75%)
-    this._addModalColumns(headerRow);
+    // Add standard columns
+    this._addStandardModalColumns(headerRow);
 
     // Add data rows for each year
     selectedYears.forEach((year) => {
       const yearRow = this._createYearRow(mainName, year);
       tableHead.appendChild(yearRow);
 
-      // Now add client data to this row if available
+      // Add client data
       if (clientData && clientData[year]) {
         this._addClientDataToRow(
           yearRow,
@@ -302,16 +268,14 @@ class ChartManager {
           fixedNum
         );
       } else {
-        // Add empty cell if no client data
         this._addEmptyCell(yearRow);
       }
 
-      // Add peer data for this year if available
-      if (peerData && peerData[year]) {
+      // Add peer data with weighted average support
+      if (peerData) {
         this._addPeerDataToRow(
           yearRow,
           peerData,
-          parsedData,
           mainName,
           year,
           weightedAverage,
@@ -327,83 +291,15 @@ class ChartManager {
     });
   }
 
-  // Helper method to add columns to modal
-  _addModalColumns(headerRow) {
-    const columns = [
-      { text: "Year", className: "px-6 py-3" },
-      { text: "Client", className: "px-6 py-3" },
-      { text: "Avg", className: "px-6 py-3" },
-      { text: "25%", className: "px-6 py-3" },
-      { text: "50%", className: "px-6 py-3" },
-      { text: "75%", className: "px-6 py-3" },
-    ];
-
-    columns.forEach((column) => {
-      const th = document.createElement("th");
-      th.className = column.className;
-      th.textContent = column.text;
-      headerRow.appendChild(th);
-    });
-  }
-
-  // Helper method to create a year row for modal
-  _createYearRow(mainName, year) {
-    const yearRow = document.createElement("tr");
-    yearRow.className =
-      "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
-    yearRow.id = `${mainName}_modal_${year}`;
-
-    // Create year cell
-    const yearCell = document.createElement("td");
-    yearCell.className =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-    yearCell.textContent = year;
-
-    // Append the year cell to the row
-    yearRow.appendChild(yearCell);
-
-    return yearRow;
-  }
-
-  // Helper method to add client data to row
-  _addClientDataToRow(row, value, dataType, fixedNum) {
-    const cell = document.createElement("td");
-    cell.className =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-
-    if (value !== undefined && value !== null) {
-      // Format the value based on type
-      const formattedValue =
-        typeof styleNumber === "function"
-          ? styleNumber(value, dataType, fixedNum)
-          : value;
-
-      cell.textContent = formattedValue;
-    } else {
-      cell.textContent = "-";
-    }
-
-    row.appendChild(cell);
-  }
-
-  // Helper method to add peer data to row with weighted average support
   _addPeerDataToRow(
     row,
     peerData,
-    parsedData,
     metricName,
     year,
     weightedAverage,
     dataType,
     fixedNum
   ) {
-    // console.log({
-    //   metricName,
-    //   weightedAverage,
-    //   parsedData,
-    //   year,
-    // });
-
     // Initialize values
     let peerAvg = 0,
       peerMid = 0,
@@ -413,17 +309,22 @@ class ChartManager {
     // Process peer data for this year
     const yearData = peerData[year];
 
-    // Calculate weighted average if requested and function is available
+    // Calculate weighted average if requested
     if (
       weightedAverage === "wa" &&
-      typeof getWeightedAverageOfArray === "function" && yearData
+      typeof window.getWeightedAverageOfArray === "function"
     ) {
       try {
         // Use weighted average calculation with year parameter
-        peerAvg = getWeightedAverageOfArray(parsedData, metricName, year);
-        // console.log(
-        //   `Using weighted average for ${metricName} (year: ${year}): ${peerAvg}`
-        // );
+        peerAvg = window.getWeightedAverageOfArray(peerData, metricName, year);
+        console.log(
+          `Using weighted average for ${metricName} (year: ${year}): ${peerAvg}`
+        );
+
+        // Convert to percentage if needed
+        if (dataType === "percent") {
+          peerAvg *= 100;
+        }
       } catch (error) {
         console.error(
           `Error calculating weighted average for ${metricName}:`,
@@ -434,35 +335,20 @@ class ChartManager {
           ? this._calculateAverage(yearData)
           : 0;
       }
-    } else if (yearData ?? Array.isArray(yearData)) {
+    } else if (Array.isArray(yearData)) {
       // Use regular statistics
       peerAvg = this._calculateAverage(yearData);
-    } else {
-      peerAvg = 0 
-    }
+      peer25 = get25thPercentileOfArray(yearData);
+      peerMid = getMidpointOfArray(yearData);
+      peer75 = get75thPercentileOfArray(yearData);
 
-    // Always calculate percentiles using array data regardless of weighted average
-    if (Array.isArray(yearData)) {
-      // Use percentile functions if available
-      if (typeof get25thPercentileOfArray === "function") {
-        peer25 = get25thPercentileOfArray(yearData, metricName);
+      // Convert to percentage if needed
+      if (dataType === "percent") {
+        peerAvg *= 100;
+        peerMid *= 100;
+        peer25 *= 100;
+        peer75 *= 100;
       }
-
-      if (typeof getMidpointOfArray === "function") {
-        peerMid = getMidpointOfArray(yearData, metricName);
-      }
-
-      if (typeof get75thPercentileOfArray === "function") {
-        peer75 = get75thPercentileOfArray(yearData, metricName);
-      }
-    }
-
-    // Convert to percentage if needed
-    if (dataType === "percent") {
-      peerAvg *= 100;
-      peerMid *= 100;
-      peer25 *= 100;
-      peer75 *= 100;
     }
 
     // Create and append the cells with the calculated values
@@ -470,50 +356,6 @@ class ChartManager {
     this._createPeerDataCell(row, peer25, dataType, fixedNum);
     this._createPeerDataCell(row, peerMid, dataType, fixedNum);
     this._createPeerDataCell(row, peer75, dataType, fixedNum);
-  }
-
-  // Helper to create a data cell for peer data
-  _createPeerDataCell(row, value, dataType, fixedNum) {
-    const cell = document.createElement("td");
-    cell.className =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-
-    if (value !== undefined && value !== null) {
-      // Format the value based on type
-      const formattedValue =
-        typeof styleNumber === "function"
-          ? styleNumber(value, dataType, fixedNum)
-          : value.toFixed(fixedNum || 2);
-
-      cell.textContent = formattedValue;
-    } else {
-      cell.textContent = "-";
-    }
-
-    row.appendChild(cell);
-  }
-
-  // Add an empty cell to a row
-  _addEmptyCell(row) {
-    const cell = document.createElement("td");
-    cell.className =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-    cell.textContent = "-";
-    row.appendChild(cell);
-  }
-
-  // Helper to calculate average from an array
-  _calculateAverage(array) {
-    if (!array || array.length === 0) return 0;
-
-    // Convert all values to numbers
-    const numbers = array.map((val) => Number(val) || 0);
-
-    // Calculate sum
-    const sum = numbers.reduce((acc, val) => acc + val, 0);
-
-    // Return average
-    return sum / numbers.length;
   }
 
   // Handle specialized modal updates for cash flow charts
@@ -566,6 +408,25 @@ class ChartManager {
     });
   }
 
+  // Helper method to add standard modal columns
+  _addStandardModalColumns(headerRow) {
+    const columns = [
+      { text: "Year", className: "px-6 py-3" },
+      { text: "Client", className: "px-6 py-3" },
+      { text: "Avg", className: "px-6 py-3" },
+      { text: "25%", className: "px-6 py-3" },
+      { text: "50%", className: "px-6 py-3" },
+      { text: "75%", className: "px-6 py-3" },
+    ];
+
+    columns.forEach((column) => {
+      const th = document.createElement("th");
+      th.className = column.className;
+      th.textContent = column.text;
+      headerRow.appendChild(th);
+    });
+  }
+
   // Helper method to add cash flow specific modal columns
   _addCashFlowModalColumns(headerRow) {
     const columns = [
@@ -582,6 +443,25 @@ class ChartManager {
       th.textContent = column.text;
       headerRow.appendChild(th);
     });
+  }
+
+  // Helper method to create a year row for standard modals
+  _createYearRow(mainName, year) {
+    const yearRow = document.createElement("tr");
+    yearRow.className =
+      "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
+    yearRow.id = `${mainName}_modal_${year}`;
+
+    // Create year cell
+    const yearCell = document.createElement("td");
+    yearCell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+    yearCell.textContent = year;
+
+    // Append the year cell to the row
+    yearRow.appendChild(yearCell);
+
+    return yearRow;
   }
 
   // Helper method to create a cash flow data row

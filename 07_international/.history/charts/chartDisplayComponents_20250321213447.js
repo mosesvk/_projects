@@ -4,7 +4,7 @@
 // Components module for chart display
 const ChartDisplayComponents = {
   // Display general component charts
-  displayGeneralComponent: function () {
+  displayGeneralComponent: function() {
     try {
       const cashData = getStoredData("cashData");
       const generalData = getStoredData("generalData");
@@ -24,7 +24,7 @@ const ChartDisplayComponents = {
           "cashFlowsTrendFinancing",
           "cashFlowsTrendInvesting",
           "cashFlowsTrendOperating",
-          "cashFlowsTrendTotal",
+          "cashFlowsTrendTotal"
         ]
       );
 
@@ -54,7 +54,7 @@ const ChartDisplayComponents = {
         "Change in Net Assets",
         "line"
       );
-
+      
       console.log("General component displayed successfully");
     } catch (error) {
       console.error("Error displaying general component:", error);
@@ -62,7 +62,7 @@ const ChartDisplayComponents = {
   },
 
   // Display cash component charts
-  displayCashComponent: function () {
+  displayCashComponent: function() {
     try {
       const savedData = getStoredData("cashData");
       const parsedData = parseStoredData(savedData);
@@ -149,7 +149,7 @@ const ChartDisplayComponents = {
         "Assets Without PPE to Liabilities Without Debt",
         "line"
       );
-
+      
       console.log("Cash component displayed successfully");
     } catch (error) {
       console.error("Error displaying cash component:", error);
@@ -157,7 +157,7 @@ const ChartDisplayComponents = {
   },
 
   // Display income component charts
-  displayIncomeComponent: function () {
+  displayIncomeComponent: function() {
     try {
       const savedData = getStoredData("incomeData");
       const parsedData = parseStoredData(savedData);
@@ -214,7 +214,7 @@ const ChartDisplayComponents = {
         "annualizedInvestmentReturn",
         "wa" // Add weighted average
       );
-
+      
       console.log("Income component displayed successfully");
     } catch (error) {
       console.error("Error displaying income component:", error);
@@ -222,7 +222,7 @@ const ChartDisplayComponents = {
   },
 
   // Display expense component charts
-  displayExpenseComponent: function () {
+  displayExpenseComponent: function() {
     try {
       const savedData = getStoredData("expenseData");
       const parsedData = parseStoredData(savedData);
@@ -303,7 +303,7 @@ const ChartDisplayComponents = {
         "costOfContributions",
         "wa" // Add weighted average
       );
-
+      
       console.log("Expense component displayed successfully");
     } catch (error) {
       console.error("Error displaying expense component:", error);
@@ -311,7 +311,7 @@ const ChartDisplayComponents = {
   },
 
   // Display all components
-  displayAllComponents: function () {
+  displayAllComponents: function() {
     try {
       this.displayGeneralComponent();
       this.displayCashComponent();
@@ -322,29 +322,29 @@ const ChartDisplayComponents = {
       console.error("Error displaying all components:", error);
     }
   },
-
+  
   // Display specific component by name
-  displayComponent: function (componentName) {
-    switch (componentName.toLowerCase()) {
-      case "general":
+  displayComponent: function(componentName) {
+    switch(componentName.toLowerCase()) {
+      case 'general':
         this.displayGeneralComponent();
         break;
-      case "cash":
+      case 'cash':
         this.displayCashComponent();
         break;
-      case "income":
+      case 'income':
         this.displayIncomeComponent();
         break;
-      case "expense":
+      case 'expense':
         this.displayExpenseComponent();
         break;
-      case "all":
+      case 'all':
         this.displayAllComponents();
         break;
       default:
         console.error(`Unknown component: ${componentName}`);
     }
-  },
+  }
 };
 
 // Export the component
@@ -352,35 +352,35 @@ const displayComponents = ChartDisplayComponents;
 
 // Create global functions for backward compatibility
 // These will allow the existing code to call our new module's functions
-window.displayGeneralComponent = function (data) {
+window.displayGeneralComponent = function(data) {
   console.log("Legacy displayGeneralComponent called");
   displayComponents.displayGeneralComponent(data);
 };
 
-window.displayCashComponent = function (data) {
+window.displayCashComponent = function(data) {
   console.log("Legacy displayCashComponent called");
   displayComponents.displayCashComponent(data);
 };
 
-window.displayIncomeComponent = function (data) {
+window.displayIncomeComponent = function(data) {
   console.log("Legacy displayIncomeComponent called");
   displayComponents.displayIncomeComponent(data);
 };
 
-window.displayExpenseComponent = function (data) {
+window.displayExpenseComponent = function(data) {
   console.log("Legacy displayExpenseComponent called");
   displayComponents.displayExpenseComponent(data);
 };
 
-window.displayReportComponent = function (data) {
+window.displayReportComponent = function(data) {
   // This is likely handled by another script but we provide a stub for compatibility
   console.log("Legacy displayReportComponent called");
-  if (typeof originalDisplayReportComponent === "function") {
+  if (typeof originalDisplayReportComponent === 'function') {
     originalDisplayReportComponent(data);
   }
 };
 
-window.displayComponents = function (componentName) {
+window.displayComponents = function(componentName) {
   console.log("Legacy displayComponents called with:", componentName);
   if (componentName) {
     displayComponents.displayComponent(componentName);
@@ -417,28 +417,28 @@ window.statementCashFlows_chart = null;
 function updateGlobalChartReferences() {
   // This function updates the global variables to point to actual chart instances
   const chartIds = [
-    "daysCashOnHand_chart",
-    "daysExpensesInUnrestrictedNA_chart",
-    "daysExpensesInUnrestrictedNA_excludingPPE_chart",
-    "liquidityAssetsAvailableCover_chart",
-    "totalCoverageRatio_chart",
-    "assetsWithoutPpeToLiabilitiesWithoutDebt_chart",
-    "contributionsTrend_chart",
-    "annualizedInvestmentReturn_chart",
-    "functionalExpensePercent_program_chart",
-    "functionalExpensePercent_administrative_chart",
-    "functionalExpensePercent_fundraising_chart",
-    "costOfContributionsDetailView_chart",
-    "costOfContributions_chart",
-    "functionalAllocation_chart",
-    "netAssetBreakdown_chart",
-    "changeInNetAssets_chart",
-    "totalContributions_chart",
-    "contributionsWithoutDR_chart",
-    "statementCashFlows_chart",
+    'daysCashOnHand_chart',
+    'daysExpensesInUnrestrictedNA_chart',
+    'daysExpensesInUnrestrictedNA_excludingPPE_chart',
+    'liquidityAssetsAvailableCover_chart',
+    'totalCoverageRatio_chart',
+    'assetsWithoutPpeToLiabilitiesWithoutDebt_chart',
+    'contributionsTrend_chart',
+    'annualizedInvestmentReturn_chart',
+    'functionalExpensePercent_program_chart',
+    'functionalExpensePercent_administrative_chart',
+    'functionalExpensePercent_fundraising_chart',
+    'costOfContributionsDetailView_chart',
+    'costOfContributions_chart',
+    'functionalAllocation_chart',
+    'netAssetBreakdown_chart',
+    'changeInNetAssets_chart',
+    'totalContributions_chart',
+    'contributionsWithoutDR_chart',
+    'statementCashFlows_chart'
   ];
-
-  chartIds.forEach((id) => {
+  
+  chartIds.forEach(id => {
     const chart = chartManager.getChart(id);
     if (chart) {
       window[id] = chart;
@@ -447,10 +447,10 @@ function updateGlobalChartReferences() {
 }
 
 // Call this function after charts are rendered
-document.addEventListener("chartsRendered", updateGlobalChartReferences);
+document.addEventListener('chartsRendered', updateGlobalChartReferences);
 
 // Also call it after the window loads
-window.addEventListener("load", () => {
+window.addEventListener('load', () => {
   // Give some time for charts to render
   setTimeout(updateGlobalChartReferences, 1000);
 });

@@ -365,7 +365,7 @@ const fundraisingAsPercentOfContributions_weightedAverage = (
 };
 
 const annualizedInvestmentReturn_weightedAverage = (data, name, year) => {
-  // console.log('annualizedInvestmentReturn_weightedAverage', {data, name, year});
+  console.log('annualizedInvestmentReturn_weightedAverage', {data, name, year});
   
   // [02.01SR - 03 Investment Income]
   // /
@@ -915,7 +915,7 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
   name,
   year
 ) => {
-  // console.log('daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage',{data, name, year});
+  console.log({data, name, year});
   // (
   //     [01. 03NA - 01 Net assets without donor restrictions] -
   //     [01. 01Ass - 09 Property, plant and equipment] -
@@ -942,13 +942,6 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
     ? getSumOfArray(data.totalExpenses[name][year])
     : getSumOfArray(data.totalExpenses[name]["total"]);
 
-
-  // console.log({
-  //   netAssetsWithoutDR,
-  //   propertyPlantAndEquipment,
-  //   notesPayable,
-  //   totalExpenses
-  // })
   const denominator = totalExpenses / 365;
 
   return denominator > 0

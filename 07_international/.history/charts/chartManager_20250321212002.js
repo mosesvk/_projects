@@ -41,7 +41,7 @@ class ChartManager {
       parsedData,
       dataType,
       fixedNum,
-      weightedAverage // Pass the weightedAverage parameter
+      weightedAverage  // Pass the weightedAverage parameter
     );
 
     // Create the chart
@@ -63,36 +63,30 @@ class ChartManager {
   ensureModalExists(mainName) {
     const modalId = `${mainName}_modal`;
     const modal = document.getElementById(modalId);
-
+  
     // If the modal doesn't exist, just log a warning and return
     if (!modal) {
-      // console.log(`Modal for ${mainName} does not exist and won't be created`);
+      console.log(`Modal for ${mainName} does not exist and won't be created`);
       return;
     }
-
+  
     // Modal exists, check if it has the table and header row structure
-    let table = modal.querySelector("table");
+    let table = modal.querySelector('table');
     if (!table) {
-      // console.log(
-      //   `Modal for ${mainName} exists but has no table - skipping updates`
-      // );
+      console.log(`Modal for ${mainName} exists but has no table - skipping updates`);
       return;
     }
-
-    let thead = table.querySelector("thead");
+  
+    let thead = table.querySelector('thead');
     if (!thead) {
-      // console.log(
-      //   `Modal for ${mainName} exists but has no thead - skipping updates`
-      // );
+      console.log(`Modal for ${mainName} exists but has no thead - skipping updates`);
       return;
     }
-
+  
     let headerRow = thead.querySelector(`#${mainName}_modal_row`);
     if (!headerRow) {
-      // console.log(
-      //   `Modal for ${mainName} exists but has no header row - creating one`
-      // );
-      headerRow = document.createElement("tr");
+      console.log(`Modal for ${mainName} exists but has no header row - creating one`);
+      headerRow = document.createElement('tr');
       headerRow.id = `${mainName}_modal_row`;
       thead.appendChild(headerRow);
     }
@@ -121,16 +115,16 @@ class ChartManager {
     chartElement.innerHTML = "";
 
     // Store chart ID for url mapping
-    if (typeof dataUrLObj !== "undefined") {
+    if (typeof dataUrLObj !== 'undefined') {
       dataUrLObj[mainName] = chartId;
     }
 
     // Log the chart creation with weighted average info
-    // console.log(`Creating chart ${chartId} for ${mainName}`, {
-    //   weightedAverage,
-    //   chartType,
-    //   dataType,
-    // });
+    console.log(`Creating chart ${chartId} for ${mainName}`, { 
+      weightedAverage, 
+      chartType,
+      dataType
+    });
 
     // Determine chart configuration type
     let configType;
@@ -173,7 +167,7 @@ class ChartManager {
       config: chartConfig,
       type: configType,
       name: mainName,
-      weightedAverage, // Store weighted average setting
+      weightedAverage // Store weighted average setting
     };
 
     return chart;
@@ -224,20 +218,12 @@ class ChartManager {
   }
 
   // Enhanced modal update method with weighted average support
-  updateModal(
-    mainName,
-    peerData,
-    clientData,
-    parsedData,
-    dataType,
-    fixedNum,
-    weightedAverage
-  ) {
-    // console.log(`Updating modal for ${mainName}`, {
-    //   peerDataExists: !!peerData,
-    //   clientDataExists: !!clientData,
-    //   useWeightedAvg: weightedAverage === "wa",
-    // });
+  updateModal(mainName, peerData, clientData, parsedData, dataType, fixedNum, weightedAverage) {
+    console.log(`Updating modal for ${mainName}`, { 
+      peerDataExists: !!peerData, 
+      clientDataExists: !!clientData,
+      useWeightedAvg: weightedAverage === 'wa'
+    });
 
     // Get the selected years from local storage
     const selectedYears = getSelectedYearsFromLocalStorage();
@@ -260,15 +246,11 @@ class ChartManager {
     let headerRow = modal.querySelector(rowSelector);
 
     if (!headerRow) {
-      console.warn(
-        `Header row with selector "${rowSelector}" not found in modal ${modalSelector}`
-      );
+      console.warn(`Header row with selector "${rowSelector}" not found in modal ${modalSelector}`);
       // Try a more generic approach to find the table row
       headerRow = modal.querySelector('tr[id$="_modal_row"]');
       if (!headerRow) {
-        console.error(
-          `Could not find any appropriate row in modal ${modalSelector}`
-        );
+        console.error(`Could not find any appropriate row in modal ${modalSelector}`);
         return;
       }
     }
@@ -295,12 +277,7 @@ class ChartManager {
 
       // Now add client data to this row if available
       if (clientData && clientData[year]) {
-        this._addClientDataToRow(
-          yearRow,
-          clientData[year].value,
-          dataType,
-          fixedNum
-        );
+        this._addClientDataToRow(yearRow, clientData[year].value, dataType, fixedNum);
       } else {
         // Add empty cell if no client data
         this._addEmptyCell(yearRow);
@@ -308,16 +285,7 @@ class ChartManager {
 
       // Add peer data for this year if available
       if (peerData && peerData[year]) {
-        this._addPeerDataToRow(
-          yearRow,
-          peerData,
-          parsedData,
-          mainName,
-          year,
-          weightedAverage,
-          dataType,
-          fixedNum
-        );
+        this._addPeerDataToRow(yearRow, peerData, parsedData, mainName, year, weightedAverage, dataType, fixedNum);
       } else {
         // Add empty cells for peer data
         for (let i = 0; i < 4; i++) {
@@ -368,97 +336,64 @@ class ChartManager {
   // Helper method to add client data to row
   _addClientDataToRow(row, value, dataType, fixedNum) {
     const cell = document.createElement("td");
-    cell.className =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-
+    cell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+    
     if (value !== undefined && value !== null) {
       // Format the value based on type
-      const formattedValue =
-        typeof styleNumber === "function"
-          ? styleNumber(value, dataType, fixedNum)
-          : value;
-
+      const formattedValue = typeof styleNumber === 'function' 
+        ? styleNumber(value, dataType, fixedNum)
+        : value;
+        
       cell.textContent = formattedValue;
     } else {
       cell.textContent = "-";
     }
-
+    
     row.appendChild(cell);
   }
 
   // Helper method to add peer data to row with weighted average support
-  _addPeerDataToRow(
-    row,
-    peerData,
-    parsedData,
-    metricName,
-    year,
-    weightedAverage,
-    dataType,
-    fixedNum
-  ) {
-    // console.log({
-    //   metricName,
-    //   weightedAverage,
-    //   parsedData,
-    //   year,
-    // });
-
+  _addPeerDataToRow(row, peerData, parsedData, metricName, year, weightedAverage, dataType, fixedNum) {
     // Initialize values
-    let peerAvg = 0,
-      peerMid = 0,
-      peer25 = 0,
-      peer75 = 0;
+    let peerAvg = 0, peerMid = 0, peer25 = 0, peer75 = 0;
 
     // Process peer data for this year
     const yearData = peerData[year];
-
+    
     // Calculate weighted average if requested and function is available
-    if (
-      weightedAverage === "wa" &&
-      typeof getWeightedAverageOfArray === "function" && yearData
-    ) {
+    if (weightedAverage === 'wa' && typeof getWeightedAverageOfArray === 'function') {
       try {
         // Use weighted average calculation with year parameter
         peerAvg = getWeightedAverageOfArray(parsedData, metricName, year);
-        // console.log(
-        //   `Using weighted average for ${metricName} (year: ${year}): ${peerAvg}`
-        // );
+        console.log(`Using weighted average for ${metricName} (year: ${year}): ${peerAvg}`);
       } catch (error) {
-        console.error(
-          `Error calculating weighted average for ${metricName}:`,
-          error
-        );
+        console.error(`Error calculating weighted average for ${metricName}:`, error);
         // Fall back to regular average
-        peerAvg = Array.isArray(yearData)
-          ? this._calculateAverage(yearData)
-          : 0;
+        peerAvg = Array.isArray(yearData) ? this._calculateAverage(yearData) : 0;
       }
-    } else if (yearData ?? Array.isArray(yearData)) {
+    } else if (Array.isArray(yearData)) {
       // Use regular statistics
       peerAvg = this._calculateAverage(yearData);
-    } else {
-      peerAvg = 0 
     }
-
+    
     // Always calculate percentiles using array data regardless of weighted average
     if (Array.isArray(yearData)) {
       // Use percentile functions if available
-      if (typeof get25thPercentileOfArray === "function") {
+      if (typeof get25thPercentileOfArray === 'function') {
         peer25 = get25thPercentileOfArray(yearData, metricName);
       }
-
-      if (typeof getMidpointOfArray === "function") {
+      
+      if (typeof getMidpointOfArray === 'function') {
         peerMid = getMidpointOfArray(yearData, metricName);
       }
-
-      if (typeof get75thPercentileOfArray === "function") {
+      
+      if (typeof get75thPercentileOfArray === 'function') {
         peer75 = get75thPercentileOfArray(yearData, metricName);
       }
     }
-
+    
     // Convert to percentage if needed
-    if (dataType === "percent") {
+    if (dataType === 'percent') {
       peerAvg *= 100;
       peerMid *= 100;
       peer25 *= 100;
@@ -475,29 +410,26 @@ class ChartManager {
   // Helper to create a data cell for peer data
   _createPeerDataCell(row, value, dataType, fixedNum) {
     const cell = document.createElement("td");
-    cell.className =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-
+    cell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+    
     if (value !== undefined && value !== null) {
       // Format the value based on type
-      const formattedValue =
-        typeof styleNumber === "function"
-          ? styleNumber(value, dataType, fixedNum)
-          : value.toFixed(fixedNum || 2);
-
+      const formattedValue = typeof styleNumber === 'function' 
+        ? styleNumber(value, dataType, fixedNum)
+        : value.toFixed(fixedNum || 2);
+        
       cell.textContent = formattedValue;
     } else {
       cell.textContent = "-";
     }
-
+    
     row.appendChild(cell);
   }
 
   // Add an empty cell to a row
   _addEmptyCell(row) {
     const cell = document.createElement("td");
-    cell.className =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+    cell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
     cell.textContent = "-";
     row.appendChild(cell);
   }
@@ -505,13 +437,13 @@ class ChartManager {
   // Helper to calculate average from an array
   _calculateAverage(array) {
     if (!array || array.length === 0) return 0;
-
+    
     // Convert all values to numbers
-    const numbers = array.map((val) => Number(val) || 0);
-
+    const numbers = array.map(val => Number(val) || 0);
+    
     // Calculate sum
     const sum = numbers.reduce((acc, val) => acc + val, 0);
-
+    
     // Return average
     return sum / numbers.length;
   }

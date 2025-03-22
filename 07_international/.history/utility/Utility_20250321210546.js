@@ -1825,9 +1825,7 @@ function getPeerAndClientChartDataArrays(
         peer75.push(0);
 
         // Get client data
-        let clientNum = dataClient[year]?.value
-          ? Number(dataClient[year].value)
-          : 0;
+        let clientNum = dataClient[year]?.value ? Number(dataClient[year].value) : 0;
         if (numType === "percent") clientNum *= 100;
         clientArray.push(clientNum);
         return;
@@ -1835,26 +1833,20 @@ function getPeerAndClientChartDataArrays(
 
       // Calculate statistics
       let avg, mid, lower25, higher75;
-
+      
       // Use weighted average if requested
-      if (
-        wa === "wa" &&
-        typeof window.getWeightedAverageOfArray === "function"
-      ) {
+      if (wa === 'wa' && typeof window.getWeightedAverageOfArray === 'function') {
         try {
           // Calculate weighted average with year parameter
           avg = window.getWeightedAverageOfArray(dataPeer, mainName, year);
-
+          
           // For other percentiles, use regular calculations
           const array = dataArray.map((item) => Number(item || 0));
           mid = getMidpointOfArray(array, mainName);
           lower25 = get25thPercentileOfArray(array, mainName);
           higher75 = get75thPercentileOfArray(array, mainName);
         } catch (error) {
-          console.error(
-            `Error calculating weighted average for ${mainName}:`,
-            error
-          );
+          console.error(`Error calculating weighted average for ${mainName}:`, error);
           // Fall back to regular statistics
           const array = dataArray.map((item) => Number(item || 0));
           avg = getAverageOfArray(array);
@@ -1872,9 +1864,7 @@ function getPeerAndClientChartDataArrays(
       }
 
       // Get client value
-      let clientNum = dataClient[year]?.value
-        ? Number(dataClient[year].value)
-        : 0;
+      let clientNum = dataClient[year]?.value ? Number(dataClient[year].value) : 0;
 
       // Convert to percentage if needed
       if (numType === "percent") {
@@ -1897,11 +1887,9 @@ function getPeerAndClientChartDataArrays(
       peerMid.push(0);
       peer25.push(0);
       peer75.push(0);
-
+      
       if (dataPeer === undefined && dataClient) {
-        let clientNum = dataClient[year]?.value
-          ? Number(dataClient[year].value)
-          : 0;
+        let clientNum = dataClient[year]?.value ? Number(dataClient[year].value) : 0;
         if (numType === "percent") clientNum *= 100;
         clientArray.push(clientNum);
       } else {
@@ -2007,32 +1995,32 @@ function ensureModalsHaveRows() {
     "functionalExpensePercent_program",
     "functionalExpensePercent_administrative",
     "functionalExpensePercent_fundraising",
-    "costOfContributions",
+    "costOfContributions"
   ];
-
-  modalIds.forEach((id) => {
+  
+  modalIds.forEach(id => {
     const modalSelector = `#${id}_modal`;
     const modal = document.querySelector(modalSelector);
-
+    
     if (modal) {
       // Check if row exists
       const rowId = `${id}_modal_row`;
       let row = modal.querySelector(`#${rowId}`);
-
+      
       // If row doesn't exist, find the table and create it
       if (!row) {
-        const table = modal.querySelector("table");
+        const table = modal.querySelector('table');
         if (table) {
-          const thead = table.querySelector("thead");
+          const thead = table.querySelector('thead');
           if (thead) {
             // Check if there's any row we can use
-            const existingRow = thead.querySelector("tr");
+            const existingRow = thead.querySelector('tr');
             if (existingRow) {
               // Set the ID on the existing row
               existingRow.id = rowId;
             } else {
               // Create a new row with proper ID
-              row = document.createElement("tr");
+              row = document.createElement('tr');
               row.id = rowId;
               thead.appendChild(row);
             }
@@ -2043,4 +2031,4 @@ function ensureModalsHaveRows() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", ensureModalsHaveRows);
+document.addEventListener('DOMContentLoaded', ensureModalsHaveRows);

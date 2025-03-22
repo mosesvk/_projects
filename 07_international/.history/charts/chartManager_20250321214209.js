@@ -416,7 +416,7 @@ class ChartManager {
     // Calculate weighted average if requested and function is available
     if (
       weightedAverage === "wa" &&
-      typeof getWeightedAverageOfArray === "function" && yearData
+      typeof getWeightedAverageOfArray === "function"
     ) {
       try {
         // Use weighted average calculation with year parameter
@@ -434,11 +434,9 @@ class ChartManager {
           ? this._calculateAverage(yearData)
           : 0;
       }
-    } else if (yearData ?? Array.isArray(yearData)) {
+    } else if (Array.isArray(yearData)) {
       // Use regular statistics
       peerAvg = this._calculateAverage(yearData);
-    } else {
-      peerAvg = 0 
     }
 
     // Always calculate percentiles using array data regardless of weighted average

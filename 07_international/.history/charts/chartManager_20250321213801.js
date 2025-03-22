@@ -126,11 +126,11 @@ class ChartManager {
     }
 
     // Log the chart creation with weighted average info
-    // console.log(`Creating chart ${chartId} for ${mainName}`, {
-    //   weightedAverage,
-    //   chartType,
-    //   dataType,
-    // });
+    console.log(`Creating chart ${chartId} for ${mainName}`, {
+      weightedAverage,
+      chartType,
+      dataType,
+    });
 
     // Determine chart configuration type
     let configType;
@@ -233,11 +233,11 @@ class ChartManager {
     fixedNum,
     weightedAverage
   ) {
-    // console.log(`Updating modal for ${mainName}`, {
-    //   peerDataExists: !!peerData,
-    //   clientDataExists: !!clientData,
-    //   useWeightedAvg: weightedAverage === "wa",
-    // });
+    console.log(`Updating modal for ${mainName}`, {
+      peerDataExists: !!peerData,
+      clientDataExists: !!clientData,
+      useWeightedAvg: weightedAverage === "wa",
+    });
 
     // Get the selected years from local storage
     const selectedYears = getSelectedYearsFromLocalStorage();
@@ -397,12 +397,12 @@ class ChartManager {
     dataType,
     fixedNum
   ) {
-    // console.log({
-    //   metricName,
-    //   weightedAverage,
-    //   parsedData,
-    //   year,
-    // });
+    console.log({
+      metricName,
+      weightedAverage,
+      parsedData,
+      year,
+    });
 
     // Initialize values
     let peerAvg = 0,
@@ -416,7 +416,7 @@ class ChartManager {
     // Calculate weighted average if requested and function is available
     if (
       weightedAverage === "wa" &&
-      typeof getWeightedAverageOfArray === "function" && yearData
+      typeof getWeightedAverageOfArray === "function"
     ) {
       try {
         // Use weighted average calculation with year parameter
@@ -434,11 +434,9 @@ class ChartManager {
           ? this._calculateAverage(yearData)
           : 0;
       }
-    } else if (yearData ?? Array.isArray(yearData)) {
+    } else if (Array.isArray(yearData)) {
       // Use regular statistics
       peerAvg = this._calculateAverage(yearData);
-    } else {
-      peerAvg = 0 
     }
 
     // Always calculate percentiles using array data regardless of weighted average
