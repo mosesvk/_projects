@@ -83,24 +83,10 @@ class ChartConfigFactory {
     wa,
     parsedData,
   }) {
-    // Special case flag for annualizedInvestmentReturn chart
-    const isAnnualizedInvestmentReturn =
-      mainName === "annualizedInvestmentReturn";
-
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-    const { clientArray } = getPeerAndClientChartDataArrays(
-      selectedYearsArray,
-      dataPeer,
-      dataClient,
-      fixedNum,
-      mainName,
-      isAnnualizedInvestmentReturn ? "number" : numType,
-      wa
-    );
-
     // Get chart data
-    const { peerAvg, peerMid, peer25, peer75 } =
+    const { clientArray, peerAvg, peerMid, peer25, peer75 } =
       getPeerAndClientChartDataArrays(
         selectedYearsArray,
         dataPeer,
@@ -296,7 +282,7 @@ class ChartConfigFactory {
         dataClient,
         fixedNum,
         mainName,
-        "percent", // Use "number" instead of "percent" to avoid multiplication by 100
+        numType,
         wa
       );
 
@@ -305,8 +291,6 @@ class ChartConfigFactory {
       peerMid = result.peerMid || [];
       peer25 = result.peer25 || [];
       peer75 = result.peer75 || [];
-
-      console.log("annualized", clientArray);
     } catch (error) {
       console.error(`Error getting chart data for ${mainName}:`, error);
       clientArray = selectedYearsArray.map(() => null);
@@ -316,10 +300,8 @@ class ChartConfigFactory {
       peer75 = selectedYearsArray.map(() => null);
     }
 
-    // Create formatters based on number type but with special case for annualizedInvestmentReturn
-    const formatters = this._createFormatters(
-      numType
-    );
+    // Create formatters based on number type
+    const formatters = this._createFormatters(numType);
 
     // Build series array based on available data
     const series = [];
@@ -390,15 +372,9 @@ class ChartConfigFactory {
       },
       dataLabels: {
         enabled: series.length > 0,
-        formatter: function (value) {
+        formatter: function(value) {
           if (value === null || value === undefined) return "";
-
-          // Special handling for annualizedInvestmentReturn
-          if (numType === "percent") {
-            // Return the value directly with % sign without multiplying by 100
-            return `${value.toFixed(fixedNum)}%`;
-          }
-
+          
           // Format the value based on data type with exact decimal places
           if (numType === "dollar") {
             // For dollar type, add $ prefix and format with fixedNum decimal places
@@ -486,13 +462,9 @@ class ChartConfigFactory {
         },
         labels: {
           formatter: function (value) {
-            if (value === null || value === undefined || value === 0) {
-              return numType === "dollar" ? "$0" : "0";
-            }
-
-            if ( numType === "percent") {
-              // Return the value directly with % sign without multiplying by 100
-              return `${value.toFixed(1)}%`;
+            // Skip formatting for zero or null values
+            if (value === 0 || value === null || value === undefined) {
+              return "0";
             }
 
             // Handle negative values
@@ -527,24 +499,24 @@ class ChartConfigFactory {
               roundedValue = Math.round(absValue / 10000000) * 10000000;
             }
 
-            // Apply sign and format
-            roundedValue = isNegative ? -roundedValue : roundedValue;
-
-            // Format based on data type
+            // Format the value based on data type
             if (numType === "dollar") {
-              if (Math.abs(roundedValue) >= 1000000) {
-                return `$${(roundedValue / 1000000).toFixed(1)}M`;
-              } else if (Math.abs(roundedValue) >= 1000) {
-                return `$${(roundedValue / 1000).toFixed(0)}K`;
+              // Format as currency
+              if (roundedValue >= 1000000) {
+                return "$" + (roundedValue / 1000000).toFixed(1) + "M";
+              } else if (roundedValue >= 1000) {
+                return "$" + (roundedValue / 1000).toFixed(0) + "K";
               }
-              return `$${roundedValue}`;
+              return "$" + roundedValue.toString();
             } else if (numType === "percent") {
-              return `${roundedValue}%`;
+              // Format as percentage
+              return roundedValue + "%";
             } else {
-              if (Math.abs(roundedValue) >= 1000000) {
-                return `${(roundedValue / 1000000).toFixed(1)}M`;
-              } else if (Math.abs(roundedValue) >= 1000) {
-                return `${(roundedValue / 1000).toFixed(0)}K`;
+              // Format as number
+              if (roundedValue >= 1000000) {
+                return (roundedValue / 1000000).toFixed(1) + "M";
+              } else if (roundedValue >= 1000) {
+                return (roundedValue / 1000).toFixed(0) + "K";
               }
               return roundedValue.toString();
             }
@@ -573,26 +545,44 @@ class ChartConfigFactory {
           formatter: function (value) {
             if (value === null || value === undefined) return "";
 
-            // Format the value based on data type with exact decimal places
-            if (numType === "dollar") {
-              // For dollar type, add $ prefix and format with fixedNum decimal places
-              if (Math.abs(value) >= 1000000) {
-                return `$${(value / 1000000).toFixed(fixedNum)}M`;
-              } else if (Math.abs(value) >= 1000) {
-                return `$${(value / 1000).toFixed(fixedNum)}K`;
-              }
-              return `$${value.toFixed(fixedNum)}`;
-            } else if (numType === "percent") {
-              // For percent type, format with fixedNum decimal places and add % suffix
-              return `${value.toFixed(fixedNum)}%`;
+            // Handle negative values
+            const isNegative = value < 0;
+            const absValue = Math.abs(value);
+
+            // Apply custom rounding based on magnitude
+            let roundedValue;
+            if (absValue < 100) {
+              // Round to nearest whole number
+              roundedValue = Math.round(absValue);
+            } else if (absValue < 1000) {
+              // Round to nearest 10
+              roundedValue = Math.round(absValue / 10) * 10;
+            } else if (absValue < 10000) {
+              // Round to nearest 100
+              roundedValue = Math.round(absValue / 100) * 100;
+            } else if (absValue < 100000) {
+              // Round to nearest 1,000
+              roundedValue = Math.round(absValue / 1000) * 1000;
+            } else if (absValue < 1000000) {
+              // Round to nearest 10,000
+              roundedValue = Math.round(absValue / 10000) * 10000;
             } else {
-              // For regular numbers, just format with fixedNum decimal places
-              if (Math.abs(value) >= 1000000) {
-                return `${(value / 1000000).toFixed(fixedNum)}M`;
-              } else if (Math.abs(value) >= 1000) {
-                return `${(value / 1000).toFixed(fixedNum)}K`;
-              }
-              return value.toFixed(fixedNum);
+              // For larger values, round to nearest appropriate magnitude
+              const magnitude = Math.floor(Math.log10(absValue));
+              const factor = Math.pow(10, magnitude - 1);
+              roundedValue = Math.round(absValue / factor) * factor;
+            }
+
+            // Apply sign if needed
+            roundedValue = isNegative ? -roundedValue : roundedValue;
+
+            // Format the value based on data type
+            if (numType === "dollar") {
+              return `$${roundedValue.toLocaleString()}`;
+            } else if (numType === "percent") {
+              return `${roundedValue}%`;
+            } else {
+              return roundedValue.toLocaleString();
             }
           },
           title: {
@@ -1378,36 +1368,36 @@ class ChartConfigFactory {
   // Helper to create formatters based on number type
   _createFormatters(numType) {
     const self = this; // Capture 'this' reference to use inside formatters
-
+    
     return {
       yaxisLabelFormatter: (value) => {
         if (value === null || value === undefined || value === 0) {
           return numType === "dollar" ? "$0" : "0";
         }
-
+        
         // Use the custom rounding helper
         return self._roundValueByMagnitude(value, numType);
       },
-
+  
       tooltipFormatter: (value) => {
         if (value === null || value === undefined) return "";
-
+        
         // Use the custom rounding helper
         return self._roundValueByMagnitude(value, numType);
       },
-
+  
       formatLargeNumber: (value) => {
         if (value === null || value === undefined || value === 0) {
           return numType === "dollar" ? "$0" : "0";
         }
-
+        
         // Use the custom rounding helper
         return self._roundValueByMagnitude(value, numType);
       },
-
+  
       dataLabelFormatter: (value) => {
         if (value === null || value === undefined) return "";
-
+        
         // Use the custom rounding helper
         return self._roundValueByMagnitude(value, numType);
       },

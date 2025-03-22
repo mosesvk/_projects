@@ -84,7 +84,7 @@ class ChartManager {
   
     let headerRow = thead.querySelector(`#${mainName}_modal_row`);
     if (!headerRow) {
-      // console.log(`Modal for ${mainName} exists but has no header row - skipping updates`);
+      console.log(`Modal for ${mainName} exists but has no header row - skipping updates`);
       return;
     }
   
@@ -210,10 +210,10 @@ class ChartManager {
   }
 
   updateModal(mainName, peerData, clientData, parsedData, dataType, fixedNum) {
-    // console.log(`Updating modal for ${mainName}`, {
-    //   peerData: peerData ? "Found" : "Not found",
-    //   clientData: clientData ? "Found" : "Not found",
-    // });
+    console.log(`Updating modal for ${mainName}`, {
+      peerData: peerData ? "Found" : "Not found",
+      clientData: clientData ? "Found" : "Not found",
+    });
 
     // Get the selected years from local storage
     const selectedYears = getSelectedYearsFromLocalStorage();
@@ -226,24 +226,24 @@ class ChartManager {
     const modal = document.getElementById(`${mainName}_modal`);
     if (!modal) {
       // Skip modals that don't exist already
-      // console.log(`Skipping modal update for ${mainName} as it doesn't exist`);
+      console.log(`Skipping modal update for ${mainName} as it doesn't exist`);
       return;
     }
 
     // Find the table header row
     let headerRow = modal.querySelector(`#${mainName}_modal_row`);
     if (!headerRow) {
-      // console.log(
-      //   `Skipping modal update for ${mainName} as it doesn't have a header row`
-      // );
+      console.log(
+        `Skipping modal update for ${mainName} as it doesn't have a header row`
+      );
       return;
     }
 
     let tableHead = headerRow.parentElement;
     if (!tableHead) {
-      // console.log(
-      //   `Skipping modal update for ${mainName} as header row doesn't have a parent`
-      // );
+      console.log(
+        `Skipping modal update for ${mainName} as header row doesn't have a parent`
+      );
       return;
     }
 

@@ -83,24 +83,10 @@ class ChartConfigFactory {
     wa,
     parsedData,
   }) {
-    // Special case flag for annualizedInvestmentReturn chart
-    const isAnnualizedInvestmentReturn =
-      mainName === "annualizedInvestmentReturn";
-
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-    const { clientArray } = getPeerAndClientChartDataArrays(
-      selectedYearsArray,
-      dataPeer,
-      dataClient,
-      fixedNum,
-      mainName,
-      isAnnualizedInvestmentReturn ? "number" : numType,
-      wa
-    );
-
     // Get chart data
-    const { peerAvg, peerMid, peer25, peer75 } =
+    const { clientArray, peerAvg, peerMid, peer25, peer75 } =
       getPeerAndClientChartDataArrays(
         selectedYearsArray,
         dataPeer,
@@ -282,6 +268,10 @@ class ChartConfigFactory {
     benchmark,
     title,
   }) {
+    // Special case flag for annualizedInvestmentReturn chart
+    const isAnnualizedInvestmentReturn =
+      mainName === "annualizedInvestmentReturn";
+
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
     let clientArray = [],
       peerAvg = [],
@@ -290,23 +280,43 @@ class ChartConfigFactory {
       peer75 = [];
 
     try {
-      const result = getPeerAndClientChartDataArrays(
-        selectedYearsArray,
-        dataPeer,
-        dataClient,
-        fixedNum,
-        mainName,
-        "percent", // Use "number" instead of "percent" to avoid multiplication by 100
-        wa
-      );
+      // For annualizedInvestmentReturn chart, we need to avoid multiplying by 100
+      // in the getPeerAndClientChartDataArrays function
+      if (isAnnualizedInvestmentReturn) {
+        // Get raw data without percentage multiplication
+        const result = getPeerAndClientChartDataArrays(
+          selectedYearsArray,
+          dataPeer,
+          dataClient,
+          fixedNum,
+          mainName,
+          "number", // Use "number" instead of "percent" to avoid multiplication by 100
+          wa
+        );
 
-      clientArray = result.clientArray || [];
-      peerAvg = result.peerAvg || [];
-      peerMid = result.peerMid || [];
-      peer25 = result.peer25 || [];
-      peer75 = result.peer75 || [];
+        clientArray = result.clientArray || [];
+        peerAvg = result.peerAvg || [];
+        peerMid = result.peerMid || [];
+        peer25 = result.peer25 || [];
+        peer75 = result.peer75 || [];
+      } else {
+        // Normal processing for other charts
+        const result = getPeerAndClientChartDataArrays(
+          selectedYearsArray,
+          dataPeer,
+          dataClient,
+          fixedNum,
+          mainName,
+          numType,
+          wa
+        );
 
-      console.log("annualized", clientArray);
+        clientArray = result.clientArray || [];
+        peerAvg = result.peerAvg || [];
+        peerMid = result.peerMid || [];
+        peer25 = result.peer25 || [];
+        peer75 = result.peer75 || [];
+      }
     } catch (error) {
       console.error(`Error getting chart data for ${mainName}:`, error);
       clientArray = selectedYearsArray.map(() => null);
@@ -318,7 +328,8 @@ class ChartConfigFactory {
 
     // Create formatters based on number type but with special case for annualizedInvestmentReturn
     const formatters = this._createFormatters(
-      numType
+      numType,
+      isAnnualizedInvestmentReturn
     );
 
     // Build series array based on available data
@@ -392,12 +403,6 @@ class ChartConfigFactory {
         enabled: series.length > 0,
         formatter: function (value) {
           if (value === null || value === undefined) return "";
-
-          // Special handling for annualizedInvestmentReturn
-          if (numType === "percent") {
-            // Return the value directly with % sign without multiplying by 100
-            return `${value.toFixed(fixedNum)}%`;
-          }
 
           // Format the value based on data type with exact decimal places
           if (numType === "dollar") {
@@ -486,13 +491,9 @@ class ChartConfigFactory {
         },
         labels: {
           formatter: function (value) {
-            if (value === null || value === undefined || value === 0) {
-              return numType === "dollar" ? "$0" : "0";
-            }
-
-            if ( numType === "percent") {
-              // Return the value directly with % sign without multiplying by 100
-              return `${value.toFixed(1)}%`;
+            // Skip formatting for zero or null values
+            if (value === 0 || value === null || value === undefined) {
+              return "0";
             }
 
             // Handle negative values
@@ -527,24 +528,24 @@ class ChartConfigFactory {
               roundedValue = Math.round(absValue / 10000000) * 10000000;
             }
 
-            // Apply sign and format
-            roundedValue = isNegative ? -roundedValue : roundedValue;
-
-            // Format based on data type
+            // Format the value based on data type
             if (numType === "dollar") {
-              if (Math.abs(roundedValue) >= 1000000) {
-                return `$${(roundedValue / 1000000).toFixed(1)}M`;
-              } else if (Math.abs(roundedValue) >= 1000) {
-                return `$${(roundedValue / 1000).toFixed(0)}K`;
+              // Format as currency
+              if (roundedValue >= 1000000) {
+                return "$" + (roundedValue / 1000000).toFixed(1) + "M";
+              } else if (roundedValue >= 1000) {
+                return "$" + (roundedValue / 1000).toFixed(0) + "K";
               }
-              return `$${roundedValue}`;
+              return "$" + roundedValue.toString();
             } else if (numType === "percent") {
-              return `${roundedValue}%`;
+              // Format as percentage
+              return roundedValue + "%";
             } else {
-              if (Math.abs(roundedValue) >= 1000000) {
-                return `${(roundedValue / 1000000).toFixed(1)}M`;
-              } else if (Math.abs(roundedValue) >= 1000) {
-                return `${(roundedValue / 1000).toFixed(0)}K`;
+              // Format as number
+              if (roundedValue >= 1000000) {
+                return (roundedValue / 1000000).toFixed(1) + "M";
+              } else if (roundedValue >= 1000) {
+                return (roundedValue / 1000).toFixed(0) + "K";
               }
               return roundedValue.toString();
             }

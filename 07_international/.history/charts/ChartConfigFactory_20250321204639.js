@@ -89,18 +89,8 @@ class ChartConfigFactory {
 
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-    const { clientArray } = getPeerAndClientChartDataArrays(
-      selectedYearsArray,
-      dataPeer,
-      dataClient,
-      fixedNum,
-      mainName,
-      isAnnualizedInvestmentReturn ? "number" : numType,
-      wa
-    );
-
     // Get chart data
-    const { peerAvg, peerMid, peer25, peer75 } =
+    const { clientArray, peerAvg, peerMid, peer25, peer75 } =
       getPeerAndClientChartDataArrays(
         selectedYearsArray,
         dataPeer,
@@ -318,7 +308,8 @@ class ChartConfigFactory {
 
     // Create formatters based on number type but with special case for annualizedInvestmentReturn
     const formatters = this._createFormatters(
-      numType
+      numType,
+      isAnnualizedInvestmentReturn
     );
 
     // Build series array based on available data
@@ -394,7 +385,7 @@ class ChartConfigFactory {
           if (value === null || value === undefined) return "";
 
           // Special handling for annualizedInvestmentReturn
-          if (numType === "percent") {
+          if (isAnnualizedInvestmentReturn && numType === "percent") {
             // Return the value directly with % sign without multiplying by 100
             return `${value.toFixed(fixedNum)}%`;
           }
@@ -490,7 +481,8 @@ class ChartConfigFactory {
               return numType === "dollar" ? "$0" : "0";
             }
 
-            if ( numType === "percent") {
+            // Special handling for annualizedInvestmentReturn
+            if (isAnnualizedInvestmentReturn && numType === "percent") {
               // Return the value directly with % sign without multiplying by 100
               return `${value.toFixed(1)}%`;
             }

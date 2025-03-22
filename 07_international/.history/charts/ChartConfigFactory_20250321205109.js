@@ -394,7 +394,7 @@ class ChartConfigFactory {
           if (value === null || value === undefined) return "";
 
           // Special handling for annualizedInvestmentReturn
-          if (numType === "percent") {
+          if (isAnnualizedInvestmentReturn && numType === "percent") {
             // Return the value directly with % sign without multiplying by 100
             return `${value.toFixed(fixedNum)}%`;
           }

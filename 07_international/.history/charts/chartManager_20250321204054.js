@@ -229,7 +229,7 @@ class ChartManager {
       // console.log(`Skipping modal update for ${mainName} as it doesn't exist`);
       return;
     }
-
+a
     // Find the table header row
     let headerRow = modal.querySelector(`#${mainName}_modal_row`);
     if (!headerRow) {

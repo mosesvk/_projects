@@ -47,7 +47,7 @@ class SystemConnector {
     this.checkRequiredFunctions();
 
     this.initialized = true;
-    // console.log("System Connector initialized");
+    console.log("System Connector initialized");
   }
 
   // Check and create any required global functions that might be missing
