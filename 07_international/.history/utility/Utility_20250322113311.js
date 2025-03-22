@@ -1193,7 +1193,7 @@ const styleNumber = (num, type, fixed, name) => {
       text = parseFloat(textNum).toLocaleString(undefined, {
         minimumFractionDigits: fixed,
         maximumFractionDigits: fixed,
-      });
+      }); // Add commas for thousands and ensure fix
     }
 
     if (type === "percent" && text != 0) {
@@ -1205,9 +1205,11 @@ const styleNumber = (num, type, fixed, name) => {
       textNum = truncateNumber(parseFloat(text), fixed).toFixed(fixed);
       text = fixed
         ? "$ " + parseFloat(textNum).toFixed(fixed)
-        : "$ " + parseFloat(textNum).toLocaleString();
+        : "$ " + parseFloat(textNum).toLocaleString(); // Add commas for thousands
     }
   }
+
+  // if (name == 'percentWithDR') console.log("styleNumber()", { num, type, fixed, text, name });
 
   return text;
 };

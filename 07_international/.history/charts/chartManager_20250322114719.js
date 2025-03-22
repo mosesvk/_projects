@@ -416,8 +416,7 @@ class ChartManager {
     // Calculate weighted average if requested and function is available
     if (
       weightedAverage === "wa" &&
-      typeof getWeightedAverageOfArray === "function" &&
-      yearData
+      typeof getWeightedAverageOfArray === "function" && yearData
     ) {
       try {
         // Use weighted average calculation with year parameter
@@ -439,7 +438,7 @@ class ChartManager {
       // Use regular statistics
       peerAvg = this._calculateAverage(yearData);
     } else {
-      peerAvg = 0;
+      peerAvg = 0 
     }
 
     // Always calculate percentiles using array data regardless of weighted average
@@ -474,44 +473,23 @@ class ChartManager {
   }
 
   // Helper to create a data cell for peer data
-  // Fix for the _createPeerDataCell method in ChartManager.js
-  // Replace this method with the following implementation:
-
   _createPeerDataCell(row, value, dataType, fixedNum) {
     const cell = document.createElement("td");
-    cell.className =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-
+    cell.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  
     if (value !== undefined && value !== null) {
-      // Make sure value is a number before formatting
-      const numValue = parseFloat(value);
-
-      // Format the value based on type using styleNumber
-      let formattedValue;
-      if (!isNaN(numValue) && typeof styleNumber === "function") {
-        // Force the type parameter to match expected format in styleNumber
-        let typeParam = dataType;
-        if (dataType === "number") typeParam = "num"; // Convert "number" to "num" for styleNumber
-
-        formattedValue = styleNumber(numValue, typeParam, fixedNum);
-      } else {
-        // Fallback if value is not a number or styleNumber is not available
-        formattedValue = value.toFixed(fixedNum || 2);
-      }
-
+      // Format the value based on type
+      const formattedValue =
+        typeof styleNumber === "function"
+          ? styleNumber(value, dataType, fixedNum)
+          : value.toFixed(fixedNum || 2);
+  
       cell.textContent = formattedValue;
-
-      // Apply color formatting for negative values
-      if (numValue < 0) {
-        cell.classList.remove("text-gray-900", "dark:text-white");
-        cell.classList.add("text-red-500", "dark:text-red-400");
-      }
     } else {
       cell.textContent = "-";
     }
-
+  
     row.appendChild(cell);
-    return cell;
   }
 
   // Add an empty cell to a row
