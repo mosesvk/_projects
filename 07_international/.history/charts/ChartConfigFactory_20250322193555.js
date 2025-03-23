@@ -762,22 +762,6 @@ class ChartConfigFactory {
       return { noData: { text: "No years selected" } };
     }
 
-    const functionalExpensePercent_program_weightedAverage = (data, name, year) => {
-      // [02.03Exp - 01 Program Expenses]
-      // /
-      // [02.03Exp - 05 Total Expenses]
-    
-      const programExpenses = year
-        ? getSumOfArray(data.programExpenses[name][year])
-        : getSumOfArray(data.programExpenses[name]["total"]);
-    
-      const totalExpenses = year
-        ? getSumOfArray(data.totalExpenses[name][year])
-        : getSumOfArray(data.totalExpenses[name]["total"]);
-    
-      return totalExpenses > 0 ? programExpenses / totalExpenses : 0;
-    };
-
     try {
       if (!parsedData) {
         throw new Error("No data available");
@@ -837,7 +821,7 @@ class ChartConfigFactory {
       selectedYearsArray.forEach((year, index) => {
         try {
           // Calculate weighted average for the specific year
-          let weightedAvg = functionalExpensePercent_program_weightedAverage(
+          let weightedAvg = weightedAvgFunction(
             parsedData, 
             "functionalExpensePercent_program", 
             year

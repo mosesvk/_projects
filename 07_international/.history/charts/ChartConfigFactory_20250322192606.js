@@ -762,22 +762,6 @@ class ChartConfigFactory {
       return { noData: { text: "No years selected" } };
     }
 
-    const functionalExpensePercent_program_weightedAverage = (data, name, year) => {
-      // [02.03Exp - 01 Program Expenses]
-      // /
-      // [02.03Exp - 05 Total Expenses]
-    
-      const programExpenses = year
-        ? getSumOfArray(data.programExpenses[name][year])
-        : getSumOfArray(data.programExpenses[name]["total"]);
-    
-      const totalExpenses = year
-        ? getSumOfArray(data.totalExpenses[name][year])
-        : getSumOfArray(data.totalExpenses[name]["total"]);
-    
-      return totalExpenses > 0 ? programExpenses / totalExpenses : 0;
-    };
-
     try {
       if (!parsedData) {
         throw new Error("No data available");
@@ -837,21 +821,47 @@ class ChartConfigFactory {
       selectedYearsArray.forEach((year, index) => {
         try {
           // Calculate weighted average for the specific year
-          let weightedAvg = functionalExpensePercent_program_weightedAverage(
-            parsedData, 
-            "functionalExpensePercent_program", 
+          let weightedAvg = window.getWeightedAverageOfArray(
+            parsedData,
+            "functionalExpensePercent_program",
             year
           );
-          
+
           // Convert to percentage and format
           weightedAvg *= 100;
-          programPeerAvg[index] = isNaN(weightedAvg) ? null : parseFloat(weightedAvg.toFixed(2));
-          
-          console.log(`Using weighted average for ${year}: ${programPeerAvg[index]}%`);
+          programPeerAvg[index] = isNaN(weightedAvg)
+            ? null
+            : parseFloat(weightedAvg.toFixed(2));
+
+          console.log(
+            `Using weighted average for ${year}: ${programPeerAvg[index]}%`
+          );
         } catch (error) {
-          // Instead of falling back to regular average, propagate the error
-          console.error(`Error calculating weighted average for ${year}:`, error);
-          throw new Error(`Failed to calculate weighted average for year ${year}: ${error.message}`);
+          console.error(
+            `Error calculating weighted average for ${year}:`,
+            error
+          );
+
+          // Fall back to regular average if weighted average fails
+          if (
+            parsedData["functionalExpensePercent_program_Peer"] &&
+            parsedData["functionalExpensePercent_program_Peer"][year] &&
+            Array.isArray(
+              parsedData["functionalExpensePercent_program_Peer"][year]
+            )
+          ) {
+            let rawAvg = getAverageOfArray(
+              parsedData["functionalExpensePercent_program_Peer"][year]
+            );
+            rawAvg *= 100;
+            programPeerAvg[index] = isNaN(rawAvg)
+              ? null
+              : parseFloat(rawAvg.toFixed(2));
+
+            console.log(
+              `Fallback to regular average for ${year}: ${programPeerAvg[index]}%`
+            );
+          }
         }
       });
 
