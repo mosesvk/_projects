@@ -87,9 +87,6 @@ class ChartConfigFactory {
     const isAnnualizedInvestmentReturn =
       mainName === "annualizedInvestmentReturn";
 
-    // NEW: Special case flag for costOfContributions chart
-    const isCostOfContributions = mainName === "costOfContributions";
-
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
     let { clientArray } = getPeerAndClientChartDataArrays(
@@ -104,7 +101,7 @@ class ChartConfigFactory {
 
     if (isAnnualizedInvestmentReturn)
       clientArray = clientArray.map((val) => val * 100);
-    if (isAnnualizedInvestmentReturn) console.log("ANNUALIZED--", clientArray);
+    // if (isAnnualizedInvestmentReturn) console.log("ANNUALIZED--", clientArray);
 
     // Get chart data
     const { peerAvg, peerMid, peer25, peer75 } =
@@ -119,42 +116,7 @@ class ChartConfigFactory {
       );
 
     // Create formatters based on number type
-    const formatters = this._createFormatters(numType, mainName); // Pass mainName to formatters
-
-    // NEW: For costOfContributions, ensure we have appropriate Y-axis min/max
-    let yaxisConfig = {
-      axisTicks: { show: true },
-      axisBorder: { show: true, color: this.themeColors.chartColor },
-      labels: {
-        formatter: formatters.yaxisLabelFormatter,
-        style: {
-          colors: this.themeColors.chartColor,
-          fontSize: "1.25rem",
-        },
-      },
-      tooltip: { enabled: true },
-    };
-
-    // NEW: Add special yaxis configuration for costOfContributions
-    if (isCostOfContributions) {
-      // Calculate appropriate max value for costOfContributions
-      // Collect all values to find max
-      const allValues = [...clientArray, ...peerAvg].filter(
-        (val) => val !== null && val !== undefined
-      );
-
-      const maxValue = allValues.length > 0 ? Math.max(...allValues) : 0.2;
-      // Set a minimum max value of 0.2 for better visibility of small values
-      const adjustedMaxValue = Math.max(maxValue * 1.2, 0.2);
-
-      // Apply specific yaxis configuration for costOfContributions
-      yaxisConfig = {
-        ...yaxisConfig,
-        min: 0,
-        max: adjustedMaxValue,
-        tickAmount: 5,
-      };
-    }
+    const formatters = this._createFormatters(numType);
 
     // Return complete chart configuration
     return {
@@ -206,13 +168,7 @@ class ChartConfigFactory {
         enabled: true,
         enabledOnSeries: [0],
         offsetY: -20,
-        formatter: function (value) {
-          // NEW: Special formatting for costOfContributions
-          if (isCostOfContributions) {
-            return `$${value.toFixed(2)}`;
-          }
-          return formatters.formatLargeNumber(value);
-        },
+        formatter: formatters.formatLargeNumber,
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
@@ -252,7 +208,27 @@ class ChartConfigFactory {
           },
         },
       },
-      yaxis: [yaxisConfig], // NEW: Use our configurable yaxis
+      yaxis: [
+        {
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: this.themeColors.chartColor,
+          },
+          labels: {
+            formatter: formatters.yaxisLabelFormatter,
+            style: {
+              colors: this.themeColors.chartColor,
+              fontSize: "1.25rem",
+            },
+          },
+          tooltip: {
+            enabled: true,
+          },
+        },
+      ],
       tooltip: {
         fixed: {
           enabled: true,
@@ -261,13 +237,7 @@ class ChartConfigFactory {
           offsetX: 60,
         },
         y: {
-          formatter: function (value, { seriesIndex }) {
-            // NEW: Special tooltip formatting for costOfContributions
-            if (isCostOfContributions) {
-              return `$${value.toFixed(2)}`;
-            }
-            return formatters.tooltipFormatter(value);
-          },
+          formatter: formatters.tooltipFormatter,
           title: {
             formatter: (seriesName) => `${seriesName}:`,
           },
@@ -275,7 +245,6 @@ class ChartConfigFactory {
       },
       legend: {
         horizontalAlign: "center",
-        offsetX: 40,
         fontSize: "20px",
       },
       grid: {
@@ -491,7 +460,7 @@ class ChartConfigFactory {
         labels: {
           style: {
             colors: this.themeColors.chartColor,
-            fontSize: "20px",
+            fontSize: "1rem",
           },
         },
         axisBorder: {
@@ -717,6 +686,10 @@ class ChartConfigFactory {
         width: 2,
         colors: ["transparent"],
       },
+      title: {
+        text: "Cash Flow Statement",
+        align: "left",
+      },
       xaxis: {
         categories: selectedYearsArray,
         labels: {
@@ -879,9 +852,9 @@ class ChartConfigFactory {
             ? null
             : parseFloat(weightedAvg.toFixed(2));
 
-          // console.log(
-          //   `Using weighted average for ${year}: ${programPeerAvg[index]}%`
-          // );
+          console.log(
+            `Using weighted average for ${year}: ${programPeerAvg[index]}%`
+          );
         } catch (error) {
           // Instead of falling back to regular average, propagate the error
           console.error(
@@ -894,12 +867,12 @@ class ChartConfigFactory {
         }
       });
 
-      // console.log({
-      //   programClientArray,
-      //   adminClientArray,
-      //   fundraisingClientArray,
-      //   programPeerAvg,
-      // });
+      console.log({
+        programClientArray,
+        adminClientArray,
+        fundraisingClientArray,
+        programPeerAvg,
+      });
 
       // Define series colors
       const seriesColors = [
@@ -1102,9 +1075,10 @@ class ChartConfigFactory {
       return `${value.toFixed(2)}`;
     };
 
+    // Special formatter for small ratio values (cost of contributions)
     const formatRatio = (value) => {
       if (!value && value !== 0) return "$0.00";
-      return `${value.toFixed(2)}`;
+      return `$${value.toFixed(2)}`;
     };
 
     // Calculate dynamic axis limits
@@ -1123,8 +1097,12 @@ class ChartConfigFactory {
     ].filter((v) => !isNaN(v) && v !== null);
 
     const safeMinRatioValue = 0;
-    const safeMaxRatioValue =
-      allRatioValues.length > 0 ? Math.max(...allRatioValues) * 1.2 : 0.3;
+
+    // MODIFIED: Ensure a minimum maximum value for the ratio axis to properly display small values
+    const safeMaxRatioValue = Math.max(
+      allRatioValues.length > 0 ? Math.max(...allRatioValues) * 1.2 : 0.3,
+      0.2 // Set a minimum max value of 0.2 to ensure better visibility of small values
+    );
 
     const seriesColors = [
       window.chartColors.blue, // Fundraising expenses
@@ -1162,7 +1140,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 380,
+        height: 350,
         type: "line",
         stacked: false,
         toolbar: {
@@ -1172,7 +1150,16 @@ class ChartConfigFactory {
       dataLabels: {
         enabled: true,
         offsetY: -20,
-        formatter: formatLargeNumber,
+        formatter: function (value, { seriesIndex }) {
+          // Different formatting based on series type
+          if (seriesIndex <= 1) {
+            // For bar charts (Dollar values - fundraising and contributions)
+            return formatLargeNumber(value);
+          } else {
+            // For line charts (Ratios - cost of contributions)
+            return formatRatio(value);
+          }
+        },
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
@@ -1215,6 +1202,7 @@ class ChartConfigFactory {
       },
       yaxis: [
         {
+          // Left y-axis for dollar amounts (fundraising expenses and contributions)
           labels: {
             formatter: function (value) {
               return formatLargeNumber(value);
@@ -1229,9 +1217,12 @@ class ChartConfigFactory {
           tickAmount: 5,
         },
         {
+          // Right y-axis for ratio values (cost of contributions)
           labels: {
             formatter: function (value) {
-              return formatRatio(value);
+              // MODIFIED: Improved formatter for small decimal values
+              // Ensure consistent display of small values
+              return `${value.toFixed(2)}`;
             },
             style: {
               colors: this.themeColors.chartColor,
@@ -1240,7 +1231,7 @@ class ChartConfigFactory {
           },
           opposite: true,
           min: safeMinRatioValue,
-          max: safeMaxRatioValue,
+          max: safeMaxRatioValue, // Using our improved max value
           tickAmount: 5,
         },
       ],
@@ -1254,21 +1245,16 @@ class ChartConfigFactory {
               // Format for bar charts (dollar values)
               return `${value.toLocaleString()}`;
             } else {
-              // Format for line charts (ratios)
-              return `${value.toFixed(2)}`;
+              // Format for line charts (ratios) - MODIFIED to clearly show small values
+              return `${value.toFixed(2)} per dollar raised`;
             }
           },
         },
       },
       legend: {
-        position: "bottom",          // Position at the bottom for more horizontal space
-        horizontalAlign: "center",   // Center align the legend items
-        fontSize: "20px",           // Smaller font size for better fit
-        offsetY: 10,                // Add some space below the chart
-        itemMargin: {
-          horizontal: 10,           // Add horizontal spacing between items
-          vertical: 0
-        },
+        horizontalAlign: "center",
+        offsetX: 40,
+        fontSize: "20px",
       },
       grid: {
         padding: {
@@ -1452,20 +1438,13 @@ class ChartConfigFactory {
   }
 
   // Helper to create formatters based on number type
-  _createFormatters(numType, mainName) {
+  _createFormatters(numType) {
     const self = this; // Capture 'this' reference to use inside formatters
-    const isCostOfContributions = mainName === "costOfContributions";
 
     return {
       yaxisLabelFormatter: (value) => {
         if (value === null || value === undefined || value === 0) {
           return numType === "dollar" ? "$0" : "0";
-        }
-
-        // Special handling for costOfContributions
-        if (isCostOfContributions) {
-          // For cost of contributions, always show 2 decimal places for small values
-          return `$${value.toFixed(2)}`;
         }
 
         // Use the custom rounding helper with isYAxis=true
@@ -1474,12 +1453,6 @@ class ChartConfigFactory {
 
       tooltipFormatter: (value) => {
         if (value === null || value === undefined) return "";
-
-        // Special handling for costOfContributions
-        if (isCostOfContributions) {
-          // For cost of contributions, show as "$ per dollar raised"
-          return `$${value.toFixed(2)} per dollar raised`;
-        }
 
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);
@@ -1490,24 +1463,12 @@ class ChartConfigFactory {
           return numType === "dollar" ? "$0" : "0";
         }
 
-        // Special handling for costOfContributions
-        if (isCostOfContributions) {
-          // For cost of contributions, always show 2 decimal places
-          return `$${value.toFixed(2)}`;
-        }
-
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);
       },
 
       dataLabelFormatter: (value) => {
         if (value === null || value === undefined) return "";
-
-        // Special handling for costOfContributions
-        if (isCostOfContributions) {
-          // For cost of contributions, always show 2 decimal places
-          return `$${value.toFixed(2)}`;
-        }
 
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);

@@ -879,9 +879,9 @@ class ChartConfigFactory {
             ? null
             : parseFloat(weightedAvg.toFixed(2));
 
-          // console.log(
-          //   `Using weighted average for ${year}: ${programPeerAvg[index]}%`
-          // );
+          console.log(
+            `Using weighted average for ${year}: ${programPeerAvg[index]}%`
+          );
         } catch (error) {
           // Instead of falling back to regular average, propagate the error
           console.error(
@@ -894,12 +894,12 @@ class ChartConfigFactory {
         }
       });
 
-      // console.log({
-      //   programClientArray,
-      //   adminClientArray,
-      //   fundraisingClientArray,
-      //   programPeerAvg,
-      // });
+      console.log({
+        programClientArray,
+        adminClientArray,
+        fundraisingClientArray,
+        programPeerAvg,
+      });
 
       // Define series colors
       const seriesColors = [

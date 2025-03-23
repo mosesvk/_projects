@@ -717,6 +717,10 @@ class ChartConfigFactory {
         width: 2,
         colors: ["transparent"],
       },
+      title: {
+        text: "Cash Flow Statement",
+        align: "left",
+      },
       xaxis: {
         categories: selectedYearsArray,
         labels: {
@@ -879,9 +883,9 @@ class ChartConfigFactory {
             ? null
             : parseFloat(weightedAvg.toFixed(2));
 
-          // console.log(
-          //   `Using weighted average for ${year}: ${programPeerAvg[index]}%`
-          // );
+          console.log(
+            `Using weighted average for ${year}: ${programPeerAvg[index]}%`
+          );
         } catch (error) {
           // Instead of falling back to regular average, propagate the error
           console.error(
@@ -894,12 +898,12 @@ class ChartConfigFactory {
         }
       });
 
-      // console.log({
-      //   programClientArray,
-      //   adminClientArray,
-      //   fundraisingClientArray,
-      //   programPeerAvg,
-      // });
+      console.log({
+        programClientArray,
+        adminClientArray,
+        fundraisingClientArray,
+        programPeerAvg,
+      });
 
       // Define series colors
       const seriesColors = [
@@ -1162,7 +1166,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 380,
+        height: 350,
         type: "line",
         stacked: false,
         toolbar: {
@@ -1263,12 +1267,20 @@ class ChartConfigFactory {
       legend: {
         position: "bottom",          // Position at the bottom for more horizontal space
         horizontalAlign: "center",   // Center align the legend items
-        fontSize: "20px",           // Smaller font size for better fit
+        fontSize: "14px",           // Smaller font size for better fit
         offsetY: 10,                // Add some space below the chart
         itemMargin: {
           horizontal: 10,           // Add horizontal spacing between items
           vertical: 0
         },
+        width: "100%",              // Use full available width
+        height: 50,                 // Provide adequate height
+        formatter: function(seriesName, opts) {
+          // Optional: Condense long names if needed
+          if (seriesName === "Fundraising Expenses") return "Fundraising";
+          if (seriesName === "Total Contributions") return "Contributions";
+          return seriesName;
+        }
       },
       grid: {
         padding: {

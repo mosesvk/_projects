@@ -264,7 +264,7 @@ class ChartConfigFactory {
           formatter: function (value, { seriesIndex }) {
             // NEW: Special tooltip formatting for costOfContributions
             if (isCostOfContributions) {
-              return `$${value.toFixed(2)}`;
+              return `$${value.toFixed(2)} per dollar raised`;
             }
             return formatters.tooltipFormatter(value);
           },
@@ -491,7 +491,7 @@ class ChartConfigFactory {
         labels: {
           style: {
             colors: this.themeColors.chartColor,
-            fontSize: "20px",
+            fontSize: "1rem",
           },
         },
         axisBorder: {
@@ -717,6 +717,10 @@ class ChartConfigFactory {
         width: 2,
         colors: ["transparent"],
       },
+      title: {
+        text: "Cash Flow Statement",
+        align: "left",
+      },
       xaxis: {
         categories: selectedYearsArray,
         labels: {
@@ -879,9 +883,9 @@ class ChartConfigFactory {
             ? null
             : parseFloat(weightedAvg.toFixed(2));
 
-          // console.log(
-          //   `Using weighted average for ${year}: ${programPeerAvg[index]}%`
-          // );
+          console.log(
+            `Using weighted average for ${year}: ${programPeerAvg[index]}%`
+          );
         } catch (error) {
           // Instead of falling back to regular average, propagate the error
           console.error(
@@ -894,12 +898,12 @@ class ChartConfigFactory {
         }
       });
 
-      // console.log({
-      //   programClientArray,
-      //   adminClientArray,
-      //   fundraisingClientArray,
-      //   programPeerAvg,
-      // });
+      console.log({
+        programClientArray,
+        adminClientArray,
+        fundraisingClientArray,
+        programPeerAvg,
+      });
 
       // Define series colors
       const seriesColors = [
@@ -1162,7 +1166,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 380,
+        height: 350,
         type: "line",
         stacked: false,
         toolbar: {
@@ -1261,14 +1265,9 @@ class ChartConfigFactory {
         },
       },
       legend: {
-        position: "bottom",          // Position at the bottom for more horizontal space
-        horizontalAlign: "center",   // Center align the legend items
-        fontSize: "20px",           // Smaller font size for better fit
-        offsetY: 10,                // Add some space below the chart
-        itemMargin: {
-          horizontal: 10,           // Add horizontal spacing between items
-          vertical: 0
-        },
+        horizontalAlign: "center",
+        offsetX: 40,
+        fontSize: "20px",
       },
       grid: {
         padding: {
@@ -1452,20 +1451,13 @@ class ChartConfigFactory {
   }
 
   // Helper to create formatters based on number type
-  _createFormatters(numType, mainName) {
+  _createFormatters(numType) {
     const self = this; // Capture 'this' reference to use inside formatters
-    const isCostOfContributions = mainName === "costOfContributions";
 
     return {
       yaxisLabelFormatter: (value) => {
         if (value === null || value === undefined || value === 0) {
           return numType === "dollar" ? "$0" : "0";
-        }
-
-        // Special handling for costOfContributions
-        if (isCostOfContributions) {
-          // For cost of contributions, always show 2 decimal places for small values
-          return `$${value.toFixed(2)}`;
         }
 
         // Use the custom rounding helper with isYAxis=true
@@ -1474,12 +1466,6 @@ class ChartConfigFactory {
 
       tooltipFormatter: (value) => {
         if (value === null || value === undefined) return "";
-
-        // Special handling for costOfContributions
-        if (isCostOfContributions) {
-          // For cost of contributions, show as "$ per dollar raised"
-          return `$${value.toFixed(2)} per dollar raised`;
-        }
 
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);
@@ -1490,24 +1476,12 @@ class ChartConfigFactory {
           return numType === "dollar" ? "$0" : "0";
         }
 
-        // Special handling for costOfContributions
-        if (isCostOfContributions) {
-          // For cost of contributions, always show 2 decimal places
-          return `$${value.toFixed(2)}`;
-        }
-
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);
       },
 
       dataLabelFormatter: (value) => {
         if (value === null || value === undefined) return "";
-
-        // Special handling for costOfContributions
-        if (isCostOfContributions) {
-          // For cost of contributions, always show 2 decimal places
-          return `$${value.toFixed(2)}`;
-        }
 
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);

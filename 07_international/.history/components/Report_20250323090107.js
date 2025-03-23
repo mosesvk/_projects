@@ -1,8 +1,8 @@
 const displayReportComponent = () => {
-  // console.log("Starting report component display");
+  console.log("Starting report component display");
 
   // Add debug logging to see what's happening
-  // console.log("Report tab display requested");
+  console.log("Report tab display requested");
 
   // First make sure the report tab is visible
   showReportsTab();
@@ -15,22 +15,22 @@ const displayReportComponent = () => {
   const expenseData = JSON.parse(localStorage.getItem("expenseData"));
   const miscData = JSON.parse(localStorage.getItem("miscData"));
 
-  // console.log("Data loaded from localStorage:", {
-  //   generalData: generalData
-  //     ? Object.keys(generalData).length + " keys"
-  //     : "Not found",
-  //   cashData: cashData ? Object.keys(cashData).length + " keys" : "Not found",
-  //   assetData: assetData
-  //     ? Object.keys(assetData).length + " keys"
-  //     : "Not found",
-  //   incomeData: incomeData
-  //     ? Object.keys(incomeData).length + " keys"
-  //     : "Not found",
-  //   expenseData: expenseData
-  //     ? Object.keys(expenseData).length + " keys"
-  //     : "Not found",
-  //   miscData: miscData ? Object.keys(miscData).length + " keys" : "Not found",
-  // });
+  console.log("Data loaded from localStorage:", {
+    generalData: generalData
+      ? Object.keys(generalData).length + " keys"
+      : "Not found",
+    cashData: cashData ? Object.keys(cashData).length + " keys" : "Not found",
+    assetData: assetData
+      ? Object.keys(assetData).length + " keys"
+      : "Not found",
+    incomeData: incomeData
+      ? Object.keys(incomeData).length + " keys"
+      : "Not found",
+    expenseData: expenseData
+      ? Object.keys(expenseData).length + " keys"
+      : "Not found",
+    miscData: miscData ? Object.keys(miscData).length + " keys" : "Not found",
+  });
 
   // Get the selected years from localStorage
   const selectedYears = getSelectedYearsFromLocalStorage();
@@ -39,7 +39,7 @@ const displayReportComponent = () => {
     createToastWarning("Please select years to display the report");
     return;
   }
-  // console.log("Selected years for report:", selectedYears);
+  console.log("Selected years for report:", selectedYears);
 
   try {
     // First check if all report tables exist and log their status
@@ -52,12 +52,12 @@ const displayReportComponent = () => {
       miscTable: document.getElementById("miscDataTable"),
     };
 
-    // console.log(
-    //   "Report tables found:",
-    //   Object.entries(reportTables)
-    //     .map(([name, el]) => `${name}: ${el ? "Found" : "Missing"}`)
-    //     .join(", ")
-    // );
+    console.log(
+      "Report tables found:",
+      Object.entries(reportTables)
+        .map(([name, el]) => `${name}: ${el ? "Found" : "Missing"}`)
+        .join(", ")
+    );
 
     // Ensure report structure exists (create missing rows)
     validateReportStructure();
@@ -468,7 +468,7 @@ const displayReportComponent = () => {
     // Format the table cells (negative values, etc.)
     processTHElements();
 
-    console.log("✅ Report display completed successfully");
+    console.log("Report display completed successfully");
   } catch (error) {
     console.error("Error displaying report component:", error);
     createToastWarning("Error displaying report: " + error.message);
@@ -480,7 +480,7 @@ const displayReportComponent = () => {
 
 // Ensure all report structures exist by creating missing rows
 function validateReportStructure() {
-  // console.log("Validating report structure...");
+  console.log("Validating report structure...");
 
   // Define the expected tables and their rows
   const reportStructure = {
@@ -597,12 +597,12 @@ function validateReportStructure() {
     });
   });
 
-  console.log("✅ Report structure validation complete");
+  console.log("Report structure validation complete");
 }
 
 // Clear all tables in the report section
 const clearReportTables = () => {
-  // console.log("Clearing report tables");
+  console.log("Clearing report tables");
 
   // Get all report table headers
   const tableHeaders = document.querySelectorAll('[id$="_tableHeader"]');
@@ -631,7 +631,7 @@ const clearReportTables = () => {
 
 // Add year columns to all report tables
 const addYearColumnsToAllReportTables = (years) => {
-  // console.log("Adding year columns to all report tables");
+  console.log("Adding year columns to all report tables");
 
   const tables = document.querySelectorAll("table");
 
@@ -693,7 +693,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
     return;
   }
   
-  // console.log(`Inserting data for ${arrayOfNames.length} metrics`);
+  console.log(`Inserting data for ${arrayOfNames.length} metrics`);
   
   // Process each metric in the array
   for (let metricConfig of arrayOfNames) {
@@ -846,7 +846,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
 
 // Process all TH elements to format negative values
 const processTHElements = () => {
-  // console.log("Processing TH elements (formatting negative values)");
+  console.log("Processing TH elements (formatting negative values)");
 
   // Select all TR elements with an ID
   const rows = document.querySelectorAll("tr[id]");
@@ -908,7 +908,7 @@ const processTHElements = () => {
 
 // Show the reports tab
 const showReportsTab = () => {
-  // console.log("Showing reports tab");
+  console.log("Showing reports tab");
 
   // Hide all content tabs
   document.querySelectorAll(".tab-content").forEach((tab) => {
@@ -941,7 +941,7 @@ window.displayReportComponent = displayReportComponent;
 
 // Listen for chartsRendered event
 document.addEventListener("chartsRendered", function () {
-  // console.log("Charts rendered event received - displaying report");
+  console.log("Charts rendered event received - displaying report");
   setTimeout(() => {
     displayReportComponent();
   }, 300);

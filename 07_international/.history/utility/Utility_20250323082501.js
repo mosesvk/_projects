@@ -949,64 +949,44 @@ const getSumOfArray = (array) => {
 };
 
 function calculatePercentiles(arr, type, fixed) {
-  // Handle empty or invalid arrays
-  if (!arr || !Array.isArray(arr) || arr.length === 0) {
-    return [0, 0, 0]; // Return default values if array is empty or invalid
-  }
+  // Convert string values to numbers
+  let numericArr = arr.map((value) => parseFloat(value));
 
-  // Convert string values to numbers, filtering out non-numeric values
-  let numericArr = arr.map(value => {
-    // Handle null, undefined or empty strings
-    if (value === null || value === undefined || value === '') {
-      return 0;
-    }
-    
-    // Simply convert to number, preserve exact value
-    return parseFloat(value);
-  }).filter(value => !isNaN(value)); // Filter out any NaN values
-  
-  // Handle empty result after filtering
-  if (numericArr.length === 0) {
-    return [0, 0, 0];
-  }
+  // if (type == "percent") {
+  //   numericArr = numericArr.map((value) => parseFloat(value * 100));
+  // } else {
+    numericArr = numericArr.map((value) => parseFloat(value));
+  // }
 
   // Sort the array in ascending order
   const sortedArr = numericArr.slice().sort((a, b) => a - b);
+
+  // if (fixed == 2) console.log({sortedArr})
 
   const getPercentile = (percentile) => {
     const index = (percentile / 100) * (sortedArr.length - 1);
     const lowerIndex = Math.floor(index);
     const upperIndex = Math.ceil(index);
 
-    // Handle edge cases
-    if (lowerIndex < 0) return sortedArr[0];
-    if (upperIndex >= sortedArr.length) return sortedArr[sortedArr.length - 1];
-    
-    // If indices are the same, return that exact value
     if (lowerIndex === upperIndex) {
-      return sortedArr[lowerIndex];
+      return fixed !== undefined
+        ? parseFloat(sortedArr[lowerIndex].toFixed(fixed))
+        : sortedArr[lowerIndex];
     }
 
-    // Calculate interpolated value
     const lowerValue = sortedArr[lowerIndex];
     const upperValue = sortedArr[upperIndex];
     const fraction = index - lowerIndex;
 
-    // Return exact calculated value without any rounding
-    return lowerValue + fraction * (upperValue - lowerValue);
+    const result = lowerValue + fraction * (upperValue - lowerValue);
+    return fixed !== undefined ? parseFloat(result.toFixed(fixed)) : result;
   };
 
-  // Calculate the 25th, 50th, and 75th percentiles
-  try {
-    const q1 = getPercentile(25);
-    const median = getPercentile(50);
-    const q3 = getPercentile(75);
-    
-    return [q1, median, q3];
-  } catch (error) {
-    console.error(`Error calculating percentiles: ${error.message}`);
-    return [0, 0, 0]; // Return default values if calculation fails
-  }
+  const q1 = getPercentile(25);
+  const median = getPercentile(50);
+  const q3 = getPercentile(75);
+
+  return [q1, median, q3];
 }
 
 function getUrlBasedOnYearCount(format, RecordId) {
@@ -1674,7 +1654,7 @@ const destroyAllCharts = () => {
 // selectedYears_Set.add(2022)
 
 function showApiLoadingFunction(action, mode) {
-  // console.log("hit showLoading()");
+  console.log("hit showLoading()");
 
   const loadingDiv = document.getElementById("loadingApiDiv");
   const loadingApiHeader = document.getElementById("loadingApiHeader");
@@ -1832,8 +1812,7 @@ function getPeerAndClientChartDataArrays(
   const clientArray = [];
 
   // Special flag for annualizedInvestmentReturn to avoid double percentage conversion
-  const isAnnualizedInvestmentReturn =
-    mainName === "annualizedInvestmentReturn";
+  const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
 
   // Process each year
   years.forEach((year) => {
@@ -1852,13 +1831,13 @@ function getPeerAndClientChartDataArrays(
         let clientNum = dataClient[year]?.value
           ? Number(dataClient[year].value)
           : 0;
-
+          
         // Convert to percentage if needed, but not for annualizedInvestmentReturn in the chart
         // (we'll handle that separately)
         if (numType === "percent" && !isAnnualizedInvestmentReturn) {
           clientNum *= 100;
         }
-
+        
         clientArray.push(clientNum);
         return;
       }
@@ -1914,7 +1893,7 @@ function getPeerAndClientChartDataArrays(
         higher75 *= 100;
         clientNum *= 100;
       }
-
+      
       // For annualizedInvestmentReturn specifically in the chart, we need to
       // handle the client data specially to ensure it shows as a percentage
       if (isAnnualizedInvestmentReturn && numType === "percent") {
@@ -1940,7 +1919,7 @@ function getPeerAndClientChartDataArrays(
         let clientNum = dataClient[year]?.value
           ? Number(dataClient[year].value)
           : 0;
-
+          
         // Convert to percentage if needed, but handle annualizedInvestmentReturn specially
         if (numType === "percent") {
           if (isAnnualizedInvestmentReturn) {
@@ -1951,7 +1930,7 @@ function getPeerAndClientChartDataArrays(
             clientNum *= 100;
           }
         }
-
+        
         clientArray.push(clientNum);
       } else {
         clientArray.push(0);

@@ -366,7 +366,7 @@ const fundraisingAsPercentOfContributions_weightedAverage = (
 
 const annualizedInvestmentReturn_weightedAverage = (data, name, year) => {
   // console.log('annualizedInvestmentReturn_weightedAverage', {data, name, year});
-
+  
   // [02.01SR - 03 Investment Income]
   // /
   // (
@@ -639,8 +639,8 @@ const assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage = (
   name,
   year
 ) => {
-  // if (!year) console.log('!!!!!!', {data, name});
-
+  if (!year) console.log('!!!!!!', {data, name});
+  
   // [01. 01Ass - 10 Total Assets] - [01. 01Ass - 09 Property, plant and equipment]
   // /
   // [01. 02Liab - 05 Total Liabilities] - [01. 02Liab - 02 Notes Payable]
@@ -649,28 +649,16 @@ const assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage = (
     ? getSumOfArray(data.totalAssets[name][year])
     : getSumOfArray(data.totalAssets[name]["total"]);
   const propertyPlantAndEquipment = year
-    ? getSumOfArray(data.propertyPlantAndEquipment[name][year])
-    : getSumOfArray(data.propertyPlantAndEquipment[name]["total"]);
+    ? getSumOfArray(data.totalAssets[name][year])
+    : getSumOfArray(data.totalAssets[name]["total"]);
 
   const totalLiabilities = year
     ? getSumOfArray(data.totalLiabilities[name][year])
     : getSumOfArray(data.totalLiabilities[name]["total"]);
 
   const notesPayable = year
-    ? getSumOfArray(data.notesPayable[name][year])
-    : getSumOfArray(data.notesPayable[name]["total"]);
-
-  let above = totalAssets - propertyPlantAndEquipment;
-  let below = totalLiabilities - notesPayable;
-  // if (!year)
-  //   console.log("!!!!!!", {
-  //     totalAssets,
-  //     propertyPlantAndEquipment,
-  //     above,
-  //     totalLiabilities,
-  //     notesPayable,
-  //     below,
-  //   });
+    ? getSumOfArray(data.totalLiabilities[name][year])
+    : getSumOfArray(data.totalLiabilities[name]["total"]);
 
   return totalLiabilities > 0
     ? (totalAssets - propertyPlantAndEquipment) /
@@ -798,7 +786,7 @@ const liquidityFundsAvailable_weightedAverage = (data, name, year) => {
 
 const liquidityAssetsAvailableCover_weightedAverage = (data, name, year) => {
   // console.log({data, name});
-
+  
   // ([01. 01Ass - 10 Total Assets] - [1. 01Ass - 09 Property, plant and equipment])
   // /
   // ([01. 02Liab - 05 Total Liabilities] + [01. 03NA - 03a Net assets with donor restrictions SUM])
@@ -904,6 +892,7 @@ const daysExpensesInNAwithDR_weightedAverage = (data, name, year) => {
 };
 
 const daysExpensesInUnrestrictedNA_weightedAverage = (data, name, year) => {
+  
   // [01. 03NA - 01 Net assets without donor restrictions]
   // /
   // (
@@ -954,6 +943,7 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
     : getSumOfArray(data.totalExpenses[name]["total"]);
+
 
   // console.log({
   //   netAssetsWithoutDR,

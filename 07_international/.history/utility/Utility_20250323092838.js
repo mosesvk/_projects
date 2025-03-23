@@ -961,8 +961,10 @@ function calculatePercentiles(arr, type, fixed) {
       return 0;
     }
     
-    // Simply convert to number, preserve exact value
-    return parseFloat(value);
+    // Convert to number
+    const num = parseFloat(value);
+    
+    return num;
   }).filter(value => !isNaN(value)); // Filter out any NaN values
   
   // Handle empty result after filtering
@@ -982,9 +984,13 @@ function calculatePercentiles(arr, type, fixed) {
     if (lowerIndex < 0) return sortedArr[0];
     if (upperIndex >= sortedArr.length) return sortedArr[sortedArr.length - 1];
     
-    // If indices are the same, return that exact value
+    // If indices are the same, return that value
     if (lowerIndex === upperIndex) {
-      return sortedArr[lowerIndex];
+      const value = sortedArr[lowerIndex];
+      // Ensure value is a number before using toFixed
+      return fixed !== undefined && typeof value === 'number'
+        ? parseFloat(value.toFixed(fixed))
+        : value;
     }
 
     // Calculate interpolated value
@@ -992,8 +998,14 @@ function calculatePercentiles(arr, type, fixed) {
     const upperValue = sortedArr[upperIndex];
     const fraction = index - lowerIndex;
 
-    // Return exact calculated value without any rounding
-    return lowerValue + fraction * (upperValue - lowerValue);
+    const result = lowerValue + fraction * (upperValue - lowerValue);
+    
+    // Ensure result is a number before using toFixed
+    if (fixed !== undefined && typeof result === 'number' && !isNaN(result)) {
+      return parseFloat(result.toFixed(fixed));
+    }
+    
+    return result;
   };
 
   // Calculate the 25th, 50th, and 75th percentiles

@@ -662,15 +662,15 @@ const assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage = (
 
   let above = totalAssets - propertyPlantAndEquipment;
   let below = totalLiabilities - notesPayable;
-  // if (!year)
-  //   console.log("!!!!!!", {
-  //     totalAssets,
-  //     propertyPlantAndEquipment,
-  //     above,
-  //     totalLiabilities,
-  //     notesPayable,
-  //     below,
-  //   });
+  if (!year)
+    console.log("!!!!!!", {
+      totalAssets,
+      propertyPlantAndEquipment,
+      above,
+      totalLiabilities,
+      notesPayable,
+      below,
+    });
 
   return totalLiabilities > 0
     ? (totalAssets - propertyPlantAndEquipment) /

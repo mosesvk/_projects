@@ -643,7 +643,17 @@ class ChartConfigFactory {
       legend: {
         position: "bottom",
         horizontalAlign: "center",
-        fontSize: "16px",
+        fontSize: "14px", // Smaller font size
+        itemMargin: {
+          horizontal: 10,  // Add horizontal spacing between items
+          vertical: 0
+        },
+        width: "100%",     // Use full width
+        height: 50,        // Increase height to accommodate all items
+        formatter: function(seriesName, opts) {
+          // Optional: Shorten very long names
+          return seriesName.length > 20 ? seriesName.substring(0, 18) + '...' : seriesName;
+        }
       },
       grid: {
         borderColor: this.themeColors.chartColors.borderColor,
@@ -716,6 +726,10 @@ class ChartConfigFactory {
         show: true,
         width: 2,
         colors: ["transparent"],
+      },
+      title: {
+        text: "Cash Flow Statement",
+        align: "left",
       },
       xaxis: {
         categories: selectedYearsArray,
@@ -879,9 +893,9 @@ class ChartConfigFactory {
             ? null
             : parseFloat(weightedAvg.toFixed(2));
 
-          // console.log(
-          //   `Using weighted average for ${year}: ${programPeerAvg[index]}%`
-          // );
+          console.log(
+            `Using weighted average for ${year}: ${programPeerAvg[index]}%`
+          );
         } catch (error) {
           // Instead of falling back to regular average, propagate the error
           console.error(
@@ -894,12 +908,12 @@ class ChartConfigFactory {
         }
       });
 
-      // console.log({
-      //   programClientArray,
-      //   adminClientArray,
-      //   fundraisingClientArray,
-      //   programPeerAvg,
-      // });
+      console.log({
+        programClientArray,
+        adminClientArray,
+        fundraisingClientArray,
+        programPeerAvg,
+      });
 
       // Define series colors
       const seriesColors = [
@@ -1162,7 +1176,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 380,
+        height: 350,
         type: "line",
         stacked: false,
         toolbar: {
@@ -1261,14 +1275,9 @@ class ChartConfigFactory {
         },
       },
       legend: {
-        position: "bottom",          // Position at the bottom for more horizontal space
-        horizontalAlign: "center",   // Center align the legend items
-        fontSize: "20px",           // Smaller font size for better fit
-        offsetY: 10,                // Add some space below the chart
-        itemMargin: {
-          horizontal: 10,           // Add horizontal spacing between items
-          vertical: 0
-        },
+        horizontalAlign: "center",
+        offsetX: 40,
+        fontSize: "20px",
       },
       grid: {
         padding: {

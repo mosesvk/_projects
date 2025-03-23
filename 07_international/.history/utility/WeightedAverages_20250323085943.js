@@ -649,8 +649,8 @@ const assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage = (
     ? getSumOfArray(data.totalAssets[name][year])
     : getSumOfArray(data.totalAssets[name]["total"]);
   const propertyPlantAndEquipment = year
-    ? getSumOfArray(data.propertyPlantAndEquipment[name][year])
-    : getSumOfArray(data.propertyPlantAndEquipment[name]["total"]);
+    ? getSumOfArray(data.totalAssets[name][year])
+    : getSumOfArray(data.totalAssets[name]["total"]);
 
   const totalLiabilities = year
     ? getSumOfArray(data.totalLiabilities[name][year])
@@ -660,17 +660,9 @@ const assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage = (
     ? getSumOfArray(data.notesPayable[name][year])
     : getSumOfArray(data.notesPayable[name]["total"]);
 
-  let above = totalAssets - propertyPlantAndEquipment;
-  let below = totalLiabilities - notesPayable;
-  // if (!year)
-  //   console.log("!!!!!!", {
-  //     totalAssets,
-  //     propertyPlantAndEquipment,
-  //     above,
-  //     totalLiabilities,
-  //     notesPayable,
-  //     below,
-  //   });
+  // let above = totalAssets - propertyPlantAndEquipment
+  // let below = totalLiabilities - notesPayable
+  // if (!year) console.log('!!!!!!', {totalAssets, propertyPlantAndEquipment, above, totalLiabilities, , name});
 
   return totalLiabilities > 0
     ? (totalAssets - propertyPlantAndEquipment) /
