@@ -1286,8 +1286,6 @@ class ChartConfigFactory {
       return `${value.toFixed(0)}`;
     };
 
-    const formatters = this._createFormatters(numType);
-
     // Define series colors
     const seriesColors = [
       window.chartColors.blue, // Without donor restrictions

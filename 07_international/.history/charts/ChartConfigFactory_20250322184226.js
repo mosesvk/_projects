@@ -1286,8 +1286,6 @@ class ChartConfigFactory {
       return `${value.toFixed(0)}`;
     };
 
-    const formatters = this._createFormatters(numType);
-
     // Define series colors
     const seriesColors = [
       window.chartColors.blue, // Without donor restrictions
@@ -1365,7 +1363,9 @@ class ChartConfigFactory {
       },
       yaxis: {
         labels: {
-          formatter: formatters.yaxisLabelFormatter,
+          formatter: function (value) {
+            return formatLargeNumber(value);
+          },
           style: {
             colors: this.themeColors.chartColor,
             fontSize: "1.25rem",

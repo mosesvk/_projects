@@ -655,103 +655,104 @@ class ChartConfigFactory {
   }
 
   // Configuration for cash flow charts
-  createCashFlowChartConfig({
-    data,
-    financing,
-    investing,
-    operating,
-    total,
-    seriesData, // Accept seriesData parameter
-  }) {
-    // If seriesData is not provided, we'll use empty series
-    const chartSeries = seriesData || [];
+// Configuration for cash flow charts
+createCashFlowChartConfig({
+  data,
+  financing,
+  investing,
+  operating,
+  total,
+  seriesData, // Accept seriesData parameter
+}) {
+  // If seriesData is not provided, we'll use empty series
+  const chartSeries = seriesData || [];
 
-    // Get selected years array for categories
-    const selectedYearsArray = getSelectedYearsFromLocalStorage();
+  // Get selected years array for categories
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-    // Create formatters for cash flow
-    const formatters = this._createCashFlowFormatters();
+  // Create formatters for cash flow
+  const formatters = this._createCashFlowFormatters();
 
-    return {
-      colors: this.themeColors.seriesColors,
-      series: chartSeries,
-      chart: {
-        type: "bar",
-        height: 350,
+  return {
+    colors: this.themeColors.seriesColors,
+    series: chartSeries,
+    chart: {
+      type: "bar",
+      height: 350,
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: "55%",
+        endingShape: "rounded",
       },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: "55%",
-          endingShape: "rounded",
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ["transparent"],
+    },
+    title: {
+      text: "Cash Flow Statement",
+      align: "left",
+    },
+    xaxis: {
+      categories: ["Operating", "Investing", "Financing", "Total"],
+      labels: {
+        style: {
+          colors: this.themeColors.chartColors.labelColor,
+          fontSize: "1rem",
         },
       },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ["transparent"],
-      },
-      title: {
-        text: "Cash Flow Statement",
-        align: "left",
-      },
-      xaxis: {
-        categories: ["Operating", "Investing", "Financing", "Total"],
+    },
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: this.themeColors.chartColor,
+        },
         labels: {
+          // Use yaxis formatter instead of regular formatter
+          formatter: formatters.yaxisFormatter, 
           style: {
-            colors: this.themeColors.chartColors.labelColor,
-            fontSize: "1rem",
+            colors: this.themeColors.chartColor,
+            fontSize: "1.25rem",
           },
         },
-      },
-      yaxis: [
-        {
-          axisTicks: {
-            show: true,
-          },
-          axisBorder: {
-            show: true,
-            color: this.themeColors.chartColor,
-          },
-          labels: {
-            // Use yaxis formatter instead of regular formatter
-            formatter: formatters.yaxisFormatter,
-            style: {
-              colors: this.themeColors.chartColor,
-              fontSize: "1.25rem",
-            },
-          },
-          tooltip: {
-            enabled: true,
-          },
-        },
-      ],
-      tooltip: {
-        y: {
-          formatter: formatters.tooltipFormatter,
-          title: {
-            formatter: (seriesName) => `${seriesName}:`,
-          },
+        tooltip: {
+          enabled: true,
         },
       },
-      legend: {
-        horizontalAlign: "center",
-        fontSize: "16px",
-      },
-      grid: {
-        row: {
-          colors: ["transparent"],
-          opacity: 0.5,
+    ],
+    tooltip: {
+      y: {
+        formatter: formatters.tooltipFormatter,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
         },
       },
-      toolbar: {
-        show: false,
+    },
+    legend: {
+      horizontalAlign: "center",
+      fontSize: "16px",
+    },
+    grid: {
+      row: {
+        colors: ["transparent"],
+        opacity: 0.5,
       },
-    };
-  }
+    },
+    toolbar: {
+      show: false,
+    },
+  };
+}
 
   // Configuration for functional allocation charts
   createFunctionalAllocationConfig({
@@ -1286,8 +1287,6 @@ class ChartConfigFactory {
       return `${value.toFixed(0)}`;
     };
 
-    const formatters = this._createFormatters(numType);
-
     // Define series colors
     const seriesColors = [
       window.chartColors.blue, // Without donor restrictions
@@ -1365,7 +1364,9 @@ class ChartConfigFactory {
       },
       yaxis: {
         labels: {
-          formatter: formatters.yaxisLabelFormatter,
+          formatter: function (value) {
+            return formatLargeNumber(value);
+          },
           style: {
             colors: this.themeColors.chartColor,
             fontSize: "1.25rem",

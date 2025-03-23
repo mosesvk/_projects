@@ -99,9 +99,9 @@ class ChartConfigFactory {
       wa
     );
 
-    if (isAnnualizedInvestmentReturn)
-      clientArray = clientArray.map((val) => val * 100);
-    if (isAnnualizedInvestmentReturn) console.log("ANNUALIZED--", clientArray);
+    if (isAnnualizedInvestmentReturn) clientArray = clientArray.map(val => val * 100)
+    if (isAnnualizedInvestmentReturn) console.log('ANNUALIZED--', clientArray);
+    
 
     // Get chart data
     const { peerAvg, peerMid, peer25, peer75 } =
@@ -717,8 +717,7 @@ class ChartConfigFactory {
             color: this.themeColors.chartColor,
           },
           labels: {
-            // Use yaxis formatter instead of regular formatter
-            formatter: formatters.yaxisFormatter,
+            formatter: formatters.formatLargeNumber,
             style: {
               colors: this.themeColors.chartColor,
               fontSize: "1.25rem",
@@ -1286,8 +1285,6 @@ class ChartConfigFactory {
       return `${value.toFixed(0)}`;
     };
 
-    const formatters = this._createFormatters(numType);
-
     // Define series colors
     const seriesColors = [
       window.chartColors.blue, // Without donor restrictions
@@ -1365,7 +1362,9 @@ class ChartConfigFactory {
       },
       yaxis: {
         labels: {
-          formatter: formatters.yaxisLabelFormatter,
+          formatter: function (value) {
+            return formatLargeNumber(value);
+          },
           style: {
             colors: this.themeColors.chartColor,
             fontSize: "1.25rem",
@@ -1396,36 +1395,36 @@ class ChartConfigFactory {
   // Helper to create formatters based on number type
   _createFormatters(numType) {
     const self = this; // Capture 'this' reference to use inside formatters
-
+  
     return {
       yaxisLabelFormatter: (value) => {
         if (value === null || value === undefined || value === 0) {
           return numType === "dollar" ? "$0" : "0";
         }
-
+  
         // Use the custom rounding helper with isYAxis=true
         return self._roundValueByMagnitude(value, numType, true);
       },
-
+  
       tooltipFormatter: (value) => {
         if (value === null || value === undefined) return "";
-
+  
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);
       },
-
+  
       formatLargeNumber: (value) => {
         if (value === null || value === undefined || value === 0) {
           return numType === "dollar" ? "$0" : "0";
         }
-
+  
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);
       },
-
+  
       dataLabelFormatter: (value) => {
         if (value === null || value === undefined) return "";
-
+  
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);
       },
@@ -1434,8 +1433,6 @@ class ChartConfigFactory {
 
   // Helper to create cash flow specific formatters
   _createCashFlowFormatters() {
-    const self = this; // Capture 'this' to use inside formatters
-
     return {
       formatLargeNumber: (value) => {
         if (value === null || value === undefined) return "$0";
@@ -1456,32 +1453,6 @@ class ChartConfigFactory {
         return isNegative ? `-${formattedValue}` : formattedValue;
       },
 
-      // Y-axis formatter version (without toFixed for numbers > 1)
-      yaxisFormatter: (value) => {
-        if (value === null || value === undefined) return "$0";
-
-        // Handle negative values
-        const isNegative = value < 0;
-        const absValue = Math.abs(value);
-
-        let formattedValue;
-        if (absValue >= 1000000) {
-          formattedValue =
-            absValue > 1
-              ? `$${absValue / 1000000}M`
-              : `$${(absValue / 1000000).toFixed(1)}M`;
-        } else if (absValue >= 1000) {
-          formattedValue =
-            absValue > 1
-              ? `$${absValue / 1000}K`
-              : `$${(absValue / 1000).toFixed(0)}K`;
-        } else {
-          formattedValue = `$${absValue.toFixed(0)}`;
-        }
-
-        return isNegative ? `-${formattedValue}` : formattedValue;
-      },
-
       tooltipFormatter: (value) => {
         if (!value) return;
         const formattedValue = value.toLocaleString();
@@ -1495,11 +1466,11 @@ class ChartConfigFactory {
     if (value === null || value === undefined || value === 0) {
       return numType === "dollar" ? "$0" : "0";
     }
-
+  
     // Handle negative values
     const isNegative = value < 0;
     const absValue = Math.abs(value);
-
+  
     // Apply custom rounding based on magnitude
     let roundedValue;
     if (absValue < 100) {
@@ -1527,21 +1498,21 @@ class ChartConfigFactory {
       // For larger values, round to nearest 10,000,000
       roundedValue = Math.round(absValue / 10000000) * 10000000;
     }
-
+  
     // Apply sign
     roundedValue = isNegative ? -roundedValue : roundedValue;
-
+  
     // Format based on data type
     if (numType === "dollar") {
       if (Math.abs(roundedValue) >= 1000000) {
         // Don't apply toFixed for yaxis labels when number > 1
-        return isYAxis && Math.abs(roundedValue) > 1
-          ? `$${roundedValue / 1000000}M`
+        return isYAxis && Math.abs(roundedValue) > 1 
+          ? `$${(roundedValue / 1000000)}M` 
           : `$${(roundedValue / 1000000).toFixed(1)}M`;
       } else if (Math.abs(roundedValue) >= 1000) {
         // Don't apply toFixed for yaxis labels when number > 1
-        return isYAxis && Math.abs(roundedValue) > 1
-          ? `$${roundedValue / 1000}K`
+        return isYAxis && Math.abs(roundedValue) > 1 
+          ? `$${(roundedValue / 1000)}K` 
           : `$${(roundedValue / 1000).toFixed(0)}K`;
       }
       return `$${roundedValue}`;
@@ -1550,13 +1521,13 @@ class ChartConfigFactory {
     } else {
       if (Math.abs(roundedValue) >= 1000000) {
         // Don't apply toFixed for yaxis labels when number > 1
-        return isYAxis && Math.abs(roundedValue) > 1
-          ? `${roundedValue / 1000000}M`
+        return isYAxis && Math.abs(roundedValue) > 1 
+          ? `${(roundedValue / 1000000)}M` 
           : `${(roundedValue / 1000000).toFixed(1)}M`;
       } else if (Math.abs(roundedValue) >= 1000) {
         // Don't apply toFixed for yaxis labels when number > 1
-        return isYAxis && Math.abs(roundedValue) > 1
-          ? `${roundedValue / 1000}K`
+        return isYAxis && Math.abs(roundedValue) > 1 
+          ? `${(roundedValue / 1000)}K` 
           : `${(roundedValue / 1000).toFixed(0)}K`;
       }
       return roundedValue.toString();

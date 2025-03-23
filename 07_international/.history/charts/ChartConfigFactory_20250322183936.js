@@ -717,8 +717,7 @@ class ChartConfigFactory {
             color: this.themeColors.chartColor,
           },
           labels: {
-            // Use yaxis formatter instead of regular formatter
-            formatter: formatters.yaxisFormatter,
+            formatter: formatters.formatLargeNumber,
             style: {
               colors: this.themeColors.chartColor,
               fontSize: "1.25rem",
@@ -1286,8 +1285,6 @@ class ChartConfigFactory {
       return `${value.toFixed(0)}`;
     };
 
-    const formatters = this._createFormatters(numType);
-
     // Define series colors
     const seriesColors = [
       window.chartColors.blue, // Without donor restrictions
@@ -1365,7 +1362,9 @@ class ChartConfigFactory {
       },
       yaxis: {
         labels: {
-          formatter: formatters.yaxisLabelFormatter,
+          formatter: function (value) {
+            return formatLargeNumber(value);
+          },
           style: {
             colors: this.themeColors.chartColor,
             fontSize: "1.25rem",
