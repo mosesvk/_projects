@@ -2381,7 +2381,7 @@ class ApiService {
         const qdbapiElementClient = `<qdbapi>${this.recordClientHTMLArray.join(
           ""
         )}</qdbapi>`;
-        // console.log("CLIENT", qdbapiElementClient);
+        console.log("CLIENT", qdbapiElementClient);
 
         // Append the new record's outerHTML to dataStr
         dataStr += newRecord.outerHTML;

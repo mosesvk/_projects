@@ -92,7 +92,7 @@ class ChartConfigFactory {
 
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-    // if (isAnnualizedInvestmentReturn) console.log('chartConfigFactory()', {dataClient});
+    if (isAnnualizedInvestmentReturn) console.log('chartConfigFactory()', {dataClient});
     
 
     let { clientArray } = getPeerAndClientChartDataArrays(

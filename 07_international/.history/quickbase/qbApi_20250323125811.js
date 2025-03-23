@@ -2330,7 +2330,7 @@ class ApiService {
         const qdbapiElementPeer = `<qdbapi>${this.recordPeerHTMLArray.join(
           ""
         )}</qdbapi>`;
-        // console.log("PEER", qdbapiElementPeer);
+        console.log("PEER", qdbapiElementPeer);
 
         // Append the new record's outerHTML to dataStr
         dataStr += newRecord.outerHTML;
@@ -2378,10 +2378,6 @@ class ApiService {
         });
 
         this.recordClientHTMLArray.push(newRecord.outerHTML);
-        const qdbapiElementClient = `<qdbapi>${this.recordClientHTMLArray.join(
-          ""
-        )}</qdbapi>`;
-        // console.log("CLIENT", qdbapiElementClient);
 
         // Append the new record's outerHTML to dataStr
         dataStr += newRecord.outerHTML;

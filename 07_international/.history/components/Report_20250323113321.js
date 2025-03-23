@@ -803,9 +803,9 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
             q3 = get75thPercentileOfArray(peerData["total"], metricName) || 0;
           }
 
-          // if (metricName == 'annualizedInvestmentReturn') {
-          //   console.log('!!!!', {avg, q1, median, q3, fixedDecimals, peer: peerData['total']})
-          // }
+          if (metricName == 'contributionsTrend') {
+            console.log('!!!!', {avg, q1, median, q3, fixedDecimals, peer: peerData['total']})
+          }
         } else {
           // Fallback without calculatePercentiles function
           q1 = get25thPercentileOfArray(peerData["total"], metricName) || 0;

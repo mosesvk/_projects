@@ -955,18 +955,16 @@ function calculatePercentiles(arr, type, fixed) {
   }
 
   // Convert string values to numbers, filtering out non-numeric values
-  let numericArr = arr
-    .map((value) => {
-      // Handle null, undefined or empty strings
-      if (value === null || value === undefined || value === "") {
-        return 0;
-      }
-
-      // Simply convert to number, preserve exact value
-      return parseFloat(value);
-    })
-    .filter((value) => !isNaN(value)); // Filter out any NaN values
-
+  let numericArr = arr.map(value => {
+    // Handle null, undefined or empty strings
+    if (value === null || value === undefined || value === '') {
+      return 0;
+    }
+    
+    // Simply convert to number, preserve exact value
+    return parseFloat(value);
+  }).filter(value => !isNaN(value)); // Filter out any NaN values
+  
   // Handle empty result after filtering
   if (numericArr.length === 0) {
     return [0, 0, 0];
@@ -983,7 +981,7 @@ function calculatePercentiles(arr, type, fixed) {
     // Handle edge cases
     if (lowerIndex < 0) return sortedArr[0];
     if (upperIndex >= sortedArr.length) return sortedArr[sortedArr.length - 1];
-
+    
     // If indices are the same, return that exact value
     if (lowerIndex === upperIndex) {
       return sortedArr[lowerIndex];
@@ -1003,7 +1001,7 @@ function calculatePercentiles(arr, type, fixed) {
     const q1 = getPercentile(25);
     const median = getPercentile(50);
     const q3 = getPercentile(75);
-
+    
     return [q1, median, q3];
   } catch (error) {
     console.error(`Error calculating percentiles: ${error.message}`);
@@ -1904,10 +1902,6 @@ function getPeerAndClientChartDataArrays(
       let clientNum = dataClient[year]?.value
         ? Number(dataClient[year].value)
         : 0;
-
-      if (isAnnualizedInvestmentReturn) {
-        console.log({ clientNum });
-      }
 
       // Convert to percentage if needed, but not for annualizedInvestmentReturn in the chart
       if (numType === "percent") {
