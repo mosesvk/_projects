@@ -89,7 +89,7 @@ class ChartConfigFactory {
 
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-    let { clientArray } = getPeerAndClientChartDataArrays(
+    const { clientArray } = getPeerAndClientChartDataArrays(
       selectedYearsArray,
       dataPeer,
       dataClient,
@@ -99,9 +99,7 @@ class ChartConfigFactory {
       wa
     );
 
-    if (isAnnualizedInvestmentReturn) clientArray = clientArray.map(val => val * 100)
-    if (isAnnualizedInvestmentReturn) console.log('ANNUALIZED--', clientArray);
-    
+    if (isAnnualizedInvestmentReturn) clientArray.forEach(val => val * 100)
 
     // Get chart data
     const { peerAvg, peerMid, peer25, peer75 } =

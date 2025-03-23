@@ -89,7 +89,7 @@ class ChartConfigFactory {
 
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-    let { clientArray } = getPeerAndClientChartDataArrays(
+    const { clientArray } = getPeerAndClientChartDataArrays(
       selectedYearsArray,
       dataPeer,
       dataClient,
@@ -98,10 +98,6 @@ class ChartConfigFactory {
       isAnnualizedInvestmentReturn ? "number" : numType,
       wa
     );
-
-    if (isAnnualizedInvestmentReturn) clientArray = clientArray.map(val => val * 100)
-    if (isAnnualizedInvestmentReturn) console.log('ANNUALIZED--', clientArray);
-    
 
     // Get chart data
     const { peerAvg, peerMid, peer25, peer75 } =
@@ -114,6 +110,8 @@ class ChartConfigFactory {
         numType,
         wa
       );
+
+    if (isAnnualizedInvestmentReturn) console.log('annualized', clientArray)
 
     // Create formatters based on number type
     const formatters = this._createFormatters(numType);

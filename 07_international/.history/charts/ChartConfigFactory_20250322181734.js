@@ -89,7 +89,7 @@ class ChartConfigFactory {
 
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-    let { clientArray } = getPeerAndClientChartDataArrays(
+    const { clientArray } = getPeerAndClientChartDataArrays(
       selectedYearsArray,
       dataPeer,
       dataClient,
