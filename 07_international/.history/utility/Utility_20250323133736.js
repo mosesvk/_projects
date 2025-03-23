@@ -2093,11 +2093,3 @@ function ensureModalsHaveRows() {
 }
 
 document.addEventListener("DOMContentLoaded", ensureModalsHaveRows);
-document.addEventListener("DOMContentLoaded", function() {
-  // Reset selected years on initial page load
-  resetSelectedYearsFromLocalStorage();
-  if (selectedYears_Set) {
-    selectedYears_Set.clear();
-  }
-  window.yearSelectionsInitialized = false;
-});
