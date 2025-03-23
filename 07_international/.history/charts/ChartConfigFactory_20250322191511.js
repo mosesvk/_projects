@@ -782,7 +782,7 @@ class ChartConfigFactory {
               parsedData["functionalExpensePercent_program_Client"][year]
                 .value * 100
             );
-            programClientArray[index] = isNaN(value) ? null : Math.round(value);
+            programClientArray[index] = isNaN(value) ? null : value;
           }
         });
       }
@@ -797,7 +797,7 @@ class ChartConfigFactory {
               parsedData["functionalExpensePercent_administrative_Client"][year]
                 .value * 100
             );
-            adminClientArray[index] = isNaN(value) ? null : Math.round(value);
+            adminClientArray[index] = isNaN(value) ? null : value;
           }
         });
       }
@@ -810,9 +810,7 @@ class ChartConfigFactory {
               parsedData["functionalExpensePercent_fundraising_Client"][year]
                 .value * 100
             );
-            fundraisingClientArray[index] = isNaN(value)
-              ? null
-              : Math.round(value);
+            fundraisingClientArray[index] = isNaN(value) ? null : value;
           }
         });
       }
@@ -826,13 +824,13 @@ class ChartConfigFactory {
               parsedData["functionalExpensePercent_program_Peer"][year]
             )
           ) {
-            let rawAvg = getAverageOfArray(
+            const rawAvg = getAverageOfArray(
               parsedData["functionalExpensePercent_program_Peer"][year]
             );
 
-            rawAvg *= 100;
+            const styleAvg = styleNumber(rawAvg, numType, 2);
 
-            programPeerAvg[index] = isNaN(rawAvg) ? null : rawAvg.toFixed(2);
+            console.log("FUNCTIONALALLOCATION", { rawAvg, styleAvg });
           }
         });
       }

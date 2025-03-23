@@ -810,9 +810,7 @@ class ChartConfigFactory {
               parsedData["functionalExpensePercent_fundraising_Client"][year]
                 .value * 100
             );
-            fundraisingClientArray[index] = isNaN(value)
-              ? null
-              : Math.round(value);
+            fundraisingClientArray[index] = isNaN(value) ? null : Math.round(value);
           }
         });
       }
@@ -830,9 +828,9 @@ class ChartConfigFactory {
               parsedData["functionalExpensePercent_program_Peer"][year]
             );
 
-            rawAvg *= 100;
+            rawAvg *= 100
 
-            programPeerAvg[index] = isNaN(rawAvg) ? null : rawAvg.toFixed(2);
+            fundraisingClientArray[index] = isNaN(rawAvg) ? null : rawAvg.toFixed(2);
           }
         });
       }
