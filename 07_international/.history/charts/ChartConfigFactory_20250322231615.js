@@ -168,7 +168,6 @@ class ChartConfigFactory {
         enabled: true,
         enabledOnSeries: [0],
         offsetY: -20,
-        formatter: formatters.formatLargeNumber,
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
@@ -218,7 +217,6 @@ class ChartConfigFactory {
             color: this.themeColors.chartColor,
           },
           labels: {
-            formatter: formatters.yaxisLabelFormatter,
             style: {
               colors: this.themeColors.chartColor,
               fontSize: "1.25rem",
@@ -245,6 +243,7 @@ class ChartConfigFactory {
       },
       legend: {
         horizontalAlign: "center",
+        offsetX: 40,
         fontSize: "20px",
       },
       grid: {
@@ -731,7 +730,7 @@ class ChartConfigFactory {
       },
       legend: {
         horizontalAlign: "center",
-        fontSize: "20px",
+        fontSize: "16px",
       },
       grid: {
         row: {
@@ -1398,7 +1397,7 @@ class ChartConfigFactory {
       legend: {
         position: "bottom",
         horizontalAlign: "center",
-        fontSize: "20px",
+        fontSize: "16px",
       },
       grid: {
         borderColor: this.themeColors.chartColors.borderColor,

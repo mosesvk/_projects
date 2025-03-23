@@ -101,7 +101,7 @@ class ChartConfigFactory {
 
     if (isAnnualizedInvestmentReturn)
       clientArray = clientArray.map((val) => val * 100);
-    // if (isAnnualizedInvestmentReturn) console.log("ANNUALIZED--", clientArray);
+    if (isAnnualizedInvestmentReturn) console.log("ANNUALIZED--", clientArray);
 
     // Get chart data
     const { peerAvg, peerMid, peer25, peer75 } =
@@ -245,6 +245,7 @@ class ChartConfigFactory {
       },
       legend: {
         horizontalAlign: "center",
+        offsetX: 40,
         fontSize: "20px",
       },
       grid: {
@@ -731,7 +732,7 @@ class ChartConfigFactory {
       },
       legend: {
         horizontalAlign: "center",
-        fontSize: "20px",
+        fontSize: "16px",
       },
       grid: {
         row: {
@@ -1398,7 +1399,7 @@ class ChartConfigFactory {
       legend: {
         position: "bottom",
         horizontalAlign: "center",
-        fontSize: "20px",
+        fontSize: "16px",
       },
       grid: {
         borderColor: this.themeColors.chartColors.borderColor,
