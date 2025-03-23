@@ -1904,7 +1904,7 @@ function getPeerAndClientChartDataArrays(
         : 0;
 
       // Convert to percentage if needed, but not for annualizedInvestmentReturn in the chart
-      if (numType === "percent") {
+      if (numType === "percent" && !isAnnualizedInvestmentReturn) {
         avg *= 100;
         mid *= 100;
         lower25 *= 100;
@@ -1914,11 +1914,11 @@ function getPeerAndClientChartDataArrays(
 
       // For annualizedInvestmentReturn specifically in the chart, we need to
       // handle the client data specially to ensure it shows as a percentage
-      // if (isAnnualizedInvestmentReturn && numType === "percent") {
-      //   // For the chart, we want to make sure the data is properly displayed as percentages
-      //   // Make sure client data is showing as a percentage (this is for the chart)
-      //   clientNum *= 100;
-      // }
+      if (isAnnualizedInvestmentReturn && numType === "percent") {
+        // For the chart, we want to make sure the data is properly displayed as percentages
+        // Make sure client data is showing as a percentage (this is for the chart)
+        clientNum *= 100;
+      }
 
       // Format values and add to result arrays
       peerAvg.push(parseFloat(avg.toFixed(fixedNum)));

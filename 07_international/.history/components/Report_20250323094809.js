@@ -468,7 +468,7 @@ const displayReportComponent = () => {
     // Format the table cells (negative values, etc.)
     processTHElements();
 
-    // console.log("✅ Report display completed successfully");
+    console.log("✅ Report display completed successfully");
   } catch (error) {
     console.error("Error displaying report component:", error);
     createToastWarning("Error displaying report: " + error.message);
@@ -597,7 +597,7 @@ function validateReportStructure() {
     });
   });
 
-  // console.log("✅ Report structure validation complete");
+  console.log("✅ Report structure validation complete");
 }
 
 // Clear all tables in the report section
@@ -766,7 +766,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
     // Add peer data cells (average, percentiles)
     const peerData = data[`${metricName}_Peer`];
     if (peerData) {
-      // console.log(`Found peer data for ${metricName}`);
+      console.log(`Found peer data for ${metricName}`);
       
       // Calculate statistics
       let avg = 0;
@@ -804,7 +804,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
           }
 
           if (metricName == 'liquidityAssetsAvailableCover') {
-            console.log('!!!!', {q1, median, q3, fixedDecimals, peer: peerData['total']})
+            
           }
         } else {
           // Fallback without calculatePercentiles function

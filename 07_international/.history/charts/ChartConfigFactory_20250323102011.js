@@ -119,15 +119,12 @@ class ChartConfigFactory {
 
     if (isAnnualizedInvestmentReturn)
       console.log(
-        mainName,
+        "ANNUALIZED--",
         clientArray,
         peerAvg,
         peerMid,
         peer25,
-        peer75, 
-        dataPeer,
-        fixedNum,
-        numType
+        peer75
       );
 
     // Create formatters based on number type

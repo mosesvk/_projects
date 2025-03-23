@@ -125,9 +125,7 @@ class ChartConfigFactory {
         peerMid,
         peer25,
         peer75, 
-        dataPeer,
-        fixedNum,
-        numType
+        dataPeer
       );
 
     // Create formatters based on number type

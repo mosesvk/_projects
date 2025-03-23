@@ -804,7 +804,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
           }
 
           if (metricName == 'liquidityAssetsAvailableCover') {
-            console.log('!!!!', {q1, median, q3, fixedDecimals, peer: peerData['total']})
+            console.log('!!!!', {q1, median, q3})
           }
         } else {
           // Fallback without calculatePercentiles function
