@@ -856,7 +856,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
         }
 
         if (metricName == 'netIncomeRatio') {
-          console.log('!!!!', {data, avg, q1, median, q3, fixedDecimals, peer: peerData['total'], weightedAvg, clientData})
+          console.log('!!!!', {data, avg, q1, median, q3, fixedDecimals, peer: peerData['total'], weightedAvg})
         }
       }
 
