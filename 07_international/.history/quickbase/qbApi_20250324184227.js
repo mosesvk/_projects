@@ -869,7 +869,7 @@ class DataProcessor {
           "liquidityAssetsAvailableCover"
         );
         this.dataStore.insertData(
-          "cash",
+          "asset",
           "peer",
           year,
           "netAssetsWithDRByPurposeOrTime",
@@ -879,7 +879,7 @@ class DataProcessor {
           "liquidityAssetsAvailableCover"
         );
         this.dataStore.insertData(
-          "cash",
+          "asset",
           "peer",
           year,
           "netAssetsWithDRInPerpetuity",

@@ -15,42 +15,22 @@ const displayReportComponent = () => {
   const expenseData = JSON.parse(localStorage.getItem("expenseData"));
   const miscData = JSON.parse(localStorage.getItem("miscData"));
 
-
-  if (window.processedData) {
-    if (!generalData && window.processedData.generalData) {
-      generalData = window.processedData.generalData;
-      localStorage.setItem("generalData", JSON.stringify(generalData));
-    }
-    if (!cashData && window.processedData.cashData) {
-      cashData = window.processedData.cashData;
-      localStorage.setItem("cashData", JSON.stringify(cashData));
-    }
-    if (!assetData && window.processedData.assetData) {
-      assetData = window.processedData.assetData;
-      localStorage.setItem("assetData", JSON.stringify(assetData));
-    }
-    if (!incomeData && window.processedData.incomeData) {
-      incomeData = window.processedData.incomeData;
-      localStorage.setItem("incomeData", JSON.stringify(incomeData));
-    }
-    if (!expenseData && window.processedData.expenseData) {
-      expenseData = window.processedData.expenseData;
-      localStorage.setItem("expenseData", JSON.stringify(expenseData));
-    }
-    if (!miscData && window.processedData.miscData) {
-      miscData = window.processedData.miscData;
-      localStorage.setItem("miscData", JSON.stringify(miscData));
-    }
-  }
-
-  console.log("Data loaded for report:", {
-    generalData: generalData ? Object.keys(generalData).length + " keys" : "Not found",
-    cashData: cashData ? Object.keys(cashData).length + " keys" : "Not found",
-    assetData: assetData ? Object.keys(assetData).length + " keys" : "Not found",
-    incomeData: incomeData ? Object.keys(incomeData).length + " keys" : "Not found",
-    expenseData: expenseData ? Object.keys(expenseData).length + " keys" : "Not found",
-    miscData: miscData ? Object.keys(miscData).length + " keys" : "Not found",
-  });
+  // console.log("Data loaded from localStorage:", {
+  //   generalData: generalData
+  //     ? Object.keys(generalData).length + " keys"
+  //     : "Not found",
+  //   cashData: cashData ? Object.keys(cashData).length + " keys" : "Not found",
+  //   assetData: assetData
+  //     ? Object.keys(assetData).length + " keys"
+  //     : "Not found",
+  //   incomeData: incomeData
+  //     ? Object.keys(incomeData).length + " keys"
+  //     : "Not found",
+  //   expenseData: expenseData
+  //     ? Object.keys(expenseData).length + " keys"
+  //     : "Not found",
+  //   miscData: miscData ? Object.keys(miscData).length + " keys" : "Not found",
+  // });
 
   // Get the selected years from localStorage
   const selectedYears = getSelectedYearsFromLocalStorage();
@@ -813,7 +793,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
         try {
           // For report, use weighted average across all years (pass null for year parameter)
           avg = getWeightedAverageOfArray(data, metricName, null);
-          console.log(`Using weighted average for ${metricName} in report: ${avg}`);
+          // console.log(`Using weighted average for ${metricName} in report: ${avg}`);
         } catch (error) {
           console.error(
             `Error calculating weighted average for ${metricName}:`,
@@ -856,7 +836,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
         }
 
         if (metricName == 'liquidityAssetsAvailableCover') {
-          console.log('!!!!', {data, avg, q1, median, q3, fixedDecimals, peer: peerData['total'], weightedAvg})
+          console.log('!!!!', {avg, q1, median, q3, fixedDecimals, peer: peerData['total']})
         }
       }
 

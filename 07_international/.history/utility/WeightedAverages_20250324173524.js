@@ -803,12 +803,6 @@ const liquidityAssetsAvailableCover_weightedAverage = (data, name, year) => {
   // /
   // ([01. 02Liab - 05 Total Liabilities] + [01. 03NA - 03a Net assets with donor restrictions SUM])
 
-  //   ([01. 01Ass - 10 Total Assets]-[01. 01Ass - 09 Property, plant and equipment])
-  // /
-  // ([01. 02Liab - 05 Total Liabilities]+
-  // [01. 03NA - 02 Net assets with donor restrictions by purpose or time]+
-  // [01. 03NA - 03 Net assets with donor restrictions in perpetuity])
-
   const totalAssets = year
     ? getSumOfArray(data.totalAssets[name][year])
     : getSumOfArray(data.totalAssets[name]["total"]);
@@ -836,7 +830,7 @@ const liquidityAssetsAvailableCover_weightedAverage = (data, name, year) => {
   const denominator =
     totalLiabilities +
     netAssetsWithDRByPurposeOrTime +
-    netAssetsWithDRInPerpetuity;
+    netAssetsWithDonorRestrictionsSum;
 
   return denominator > 0
     ? (totalAssets - propertyPlantAndEquipment) / denominator

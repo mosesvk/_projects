@@ -803,12 +803,6 @@ const liquidityAssetsAvailableCover_weightedAverage = (data, name, year) => {
   // /
   // ([01. 02Liab - 05 Total Liabilities] + [01. 03NA - 03a Net assets with donor restrictions SUM])
 
-  //   ([01. 01Ass - 10 Total Assets]-[01. 01Ass - 09 Property, plant and equipment])
-  // /
-  // ([01. 02Liab - 05 Total Liabilities]+
-  // [01. 03NA - 02 Net assets with donor restrictions by purpose or time]+
-  // [01. 03NA - 03 Net assets with donor restrictions in perpetuity])
-
   const totalAssets = year
     ? getSumOfArray(data.totalAssets[name][year])
     : getSumOfArray(data.totalAssets[name]["total"]);
@@ -821,22 +815,19 @@ const liquidityAssetsAvailableCover_weightedAverage = (data, name, year) => {
     ? getSumOfArray(data.totalLiabilities[name][year])
     : getSumOfArray(data.totalLiabilities[name]["total"]);
 
-  const netAssetsWithDRByPurposeOrTime = year
-    ? getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name][year])
-    : getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name]["total"]);
-
-  const netAssetsWithDRInPerpetuity = year
-    ? getSumOfArray(data.netAssetsWithDRInPerpetuity[name][year])
-    : getSumOfArray(data.netAssetsWithDRInPerpetuity[name]["total"]);
-
   const netAssetsWithDonorRestrictionsSum = year
     ? getSumOfArray(data.netAssetsWithDonorRestrictionsSum[name][year])
     : getSumOfArray(data.netAssetsWithDonorRestrictionsSum[name]["total"]);
 
-  const denominator =
-    totalLiabilities +
-    netAssetsWithDRByPurposeOrTime +
-    netAssetsWithDRInPerpetuity;
+  const netAssetsWithDonorRestrictionsSum = year
+    ? getSumOfArray(data.netAssetsWithDonorRestrictionsSum[name][year])
+    : getSumOfArray(data.netAssetsWithDonorRestrictionsSum[name]["total"]);
+    
+  const netAssetsWithDonorRestrictionsSum = year
+    ? getSumOfArray(data.netAssetsWithDonorRestrictionsSum[name][year])
+    : getSumOfArray(data.netAssetsWithDonorRestrictionsSum[name]["total"]);
+
+  const denominator = totalLiabilities + netAssetsWithDonorRestrictionsSum;
 
   return denominator > 0
     ? (totalAssets - propertyPlantAndEquipment) / denominator
