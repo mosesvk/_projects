@@ -215,7 +215,7 @@ const ChartDisplayComponents = {
         "wa" // Add weighted average
       );
 
-      // console.log("Income component displayed successfully");
+      console.log("Income component displayed successfully");
     } catch (error) {
       console.error("Error displaying income component:", error);
     }

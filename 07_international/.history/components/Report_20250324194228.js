@@ -561,10 +561,10 @@ function validateReportStructure() {
   // Check each table and create any missing rows
   Object.entries(reportStructure).forEach(([tableId, rowNames]) => {
     const table = document.getElementById(tableId);
-    if (!table) {
-      // console.error(`Table with ID ${tableId} not found`);
-      return;
-    }
+    // if (!table) {
+    //   console.error(`Table with ID ${tableId} not found`);
+    //   return;
+    // }
 
     const tbody = table.querySelector("tbody");
     if (!tbody) {

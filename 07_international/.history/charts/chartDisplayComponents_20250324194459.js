@@ -55,7 +55,7 @@ const ChartDisplayComponents = {
         "line"
       );
 
-      // console.log("General component displayed successfully");
+      console.log("General component displayed successfully");
     } catch (error) {
       console.error("Error displaying general component:", error);
     }
@@ -150,7 +150,7 @@ const ChartDisplayComponents = {
         "line"
       );
 
-      // console.log("Cash component displayed successfully");
+      console.log("Cash component displayed successfully");
     } catch (error) {
       console.error("Error displaying cash component:", error);
     }
@@ -215,7 +215,7 @@ const ChartDisplayComponents = {
         "wa" // Add weighted average
       );
 
-      // console.log("Income component displayed successfully");
+      console.log("Income component displayed successfully");
     } catch (error) {
       console.error("Error displaying income component:", error);
     }

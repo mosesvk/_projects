@@ -254,7 +254,7 @@ class SystemConnector {
     
     // Define the unified data processing function
     window.processApiData = (years, recordsPeer, recordsClient) => {
-      // console.log("Processing API data with unified function");
+      console.log("Processing API data with unified function");
       
       // Clear existing data store or create a new one
       if (!window.dataStore) {
@@ -285,7 +285,7 @@ class SystemConnector {
         miscData: JSON.parse(localStorage.getItem("miscData"))
       };
       
-      // console.log("Data processing complete and available globally");
+      console.log("Data processing complete and available globally");
       
       // Signal that data is ready
       document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
@@ -361,7 +361,7 @@ class SystemConnector {
         showApiLoadingFunction("close");
       }
 
-      // console.log("Data processing and chart rendering complete");
+      console.log("Data processing and chart rendering complete");
     } catch (error) {
       console.error("Error in run button handler:", error);
 

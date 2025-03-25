@@ -799,7 +799,7 @@ const liquidityFundsAvailable_weightedAverage = (data, name, year) => {
 };
 
 const liquidityAssetsAvailableCover_weightedAverage = (data, name, year) => {
-  // console.log({ data, name, year });
+  console.log({ data, name, year });
 
   // ([01. 01Ass - 10 Total Assets] - [1. 01Ass - 09 Property, plant and equipment])
   // /

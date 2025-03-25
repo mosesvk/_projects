@@ -562,7 +562,7 @@ function validateReportStructure() {
   Object.entries(reportStructure).forEach(([tableId, rowNames]) => {
     const table = document.getElementById(tableId);
     if (!table) {
-      // console.error(`Table with ID ${tableId} not found`);
+      console.error(`Table with ID ${tableId} not found`);
       return;
     }
 
@@ -813,7 +813,7 @@ const insertDataToReport = (data, selectedYears, arrayOfNames) => {
         try {
           // For report, use weighted average across all years (pass null for year parameter)
           avg = getWeightedAverageOfArray(data, metricName, null);
-          // console.log(`Using weighted average for ${metricName} in report: ${avg}`);
+          console.log(`Using weighted average for ${metricName} in report: ${avg}`);
         } catch (error) {
           console.error(
             `Error calculating weighted average for ${metricName}:`,
