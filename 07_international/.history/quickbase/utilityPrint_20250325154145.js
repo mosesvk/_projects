@@ -247,39 +247,19 @@ generateReportsBtn.addEventListener("click", () => {
 
 /**
  * Converts an SVG chart element to a PNG Base64 string
- * Includes fixes for height capture and ensures all content is included
  * @param {HTMLElement} element - The DOM element containing the chart
  * @param {string} id - Identifier for the chart
- * @param {number} retryCount - Number of retries attempted (for internal use)
  * @returns {Promise<string|null>} - Base64 encoded PNG or null if conversion fails
  */
-async function svgToPngBase64(element, id, retryCount = 0) {
+async function svgToPngBase64(element, id) {
   if (!element) {
     console.error(`Element for ${id} is null or undefined`);
     return null;
   }
 
-  console.log(`Starting capture for chart: ${id}`);
-
   try {
     // Let the UI update before capturing
     await new Promise((resolve) => setTimeout(resolve, 50));
-
-    // Get element dimensions to ensure proper capture
-    const rect = element.getBoundingClientRect();
-    console.log(`Chart ${id} dimensions: ${rect.width}x${rect.height}`);
-
-    if (rect.height < 20 || rect.width < 20) {
-      console.warn(
-        `Chart ${id} has suspicious dimensions, might not be visible`
-      );
-      // If chart has near-zero size, it's probably hidden
-      if (retryCount < 3) {
-        console.log(`Waiting longer and retrying for ${id}`);
-        await new Promise((resolve) => setTimeout(resolve, 100));
-        return svgToPngBase64(element, id, retryCount + 1);
-      }
-    }
 
     // Use html2canvas with optimized settings
     const canvas = await html2canvas(element, {
@@ -288,14 +268,7 @@ async function svgToPngBase64(element, id, retryCount = 0) {
       logging: false,
       scale: 2, // Higher quality
       backgroundColor: null, // Transparent background
-      height: Math.ceil(rect.height) + 20, // Add extra padding at bottom
-      windowHeight: Math.ceil(rect.height) + 40, // Ensure window height is sufficient
       ignoreElements: (el) => el.classList.contains("no-export"), // Skip elements with 'no-export' class
-      onclone: (clonedDoc, clonedElement) => {
-        // Ensure the cloned element has proper height set
-        clonedElement.style.height = `${rect.height + 20}px`;
-        clonedElement.style.marginBottom = "20px";
-      },
     });
 
     // Validate canvas was created
@@ -311,43 +284,12 @@ async function svgToPngBase64(element, id, retryCount = 0) {
       throw new Error(`Failed to generate base64 string for ${id}`);
     }
 
-    console.log(`Successfully captured chart: ${id}`);
-
     // Store the result in map_dataUri
     map_dataUri.set(id, base64String);
     return base64String;
   } catch (error) {
     console.error(`Error rendering chart ${id} to PNG:`, error);
-
-    // Retry with different settings if we haven't tried too many times
-    if (retryCount < 2) {
-      console.log(
-        `Retrying with different settings for ${id}, attempt ${retryCount + 1}`
-      );
-      await new Promise((resolve) => setTimeout(resolve, 200));
-
-      try {
-        // Try alternative method for problematic charts
-        const chartInstance = window[id.replace(/_chart$/, "_chart")];
-        if (chartInstance && typeof chartInstance.dataURI === "function") {
-          console.log(`Trying ApexCharts dataURI method for ${id}`);
-          const result = await chartInstance.dataURI();
-          const altBase64 = result.imgURI.split(",")[1];
-          if (altBase64) {
-            console.log(`Successfully captured ${id} using alternative method`);
-            map_dataUri.set(id, altBase64);
-            return altBase64;
-          }
-        }
-      } catch (innerError) {
-        console.error(`Alternative method failed for ${id}:`, innerError);
-      }
-
-      // Fall back to standard retry
-      return svgToPngBase64(element, id, retryCount + 1);
-    }
-
-    // Return null after all retries fail
+    // Return null to indicate failure but allow process to continue
     return null;
   }
 }
@@ -383,8 +325,7 @@ function createImageFieldXml(id, val) {
     console.warn(`Skipping image upload for field ${id} - missing data`);
     return "";
   }
-  // Add filename and mimetype for better Quickbase handling
-  return `<field fid='${id}' filename='chart_${id}.png' mimetype='image/png'>${val}</field>`;
+  return `<field fid='${id}' filename='chart.png'>${val}</field>`;
 }
 
 /**
@@ -416,64 +357,45 @@ async function sendToQuickbase(xml) {
 
 /**
  * Process charts in batches to prevent UI blocking
- * Handle problematic charts differently with extra care
  * @param {Array} chartMappings - Array of chart ID to field ID mappings
+ * @param {number} batchSize - Number of charts to process in each batch
  * @returns {Promise<Array>} - Array of processed results
  */
-async function processChartBatches(chartMappings) {
+async function processChartBatches(chartMappings, batchSize = 2) {
   const results = [];
-  const progressElement = document.getElementById("uploadProgress");
-
-  // Define known problematic chart IDs - these need special handling
   const problematicChartIds = [
     "daysCashOnHand_chart",
     "daysExpensesInUnrestrictedNA_chart",
   ];
 
-  // Separate problematic charts from regular charts
+  // Process problematic charts first, with special handling
   const problematicCharts = chartMappings.filter((mapping) =>
     problematicChartIds.includes(mapping.chartId)
   );
 
-  const regularCharts = chartMappings.filter(
+  const otherCharts = chartMappings.filter(
     (mapping) => !problematicChartIds.includes(mapping.chartId)
   );
 
-  // Process problematic charts first, with special handling
-  console.log(
-    `Processing ${problematicCharts.length} problematic charts with extra care`
-  );
-
+  // Process problematic charts with extra delay
   for (const chartMapping of problematicCharts) {
     try {
       console.log(`Processing problematic chart: ${chartMapping.chartId}`);
       const element = document.getElementById(chartMapping.chartId);
 
-      if (!element) {
-        console.warn(`Chart element ${chartMapping.chartId} not found in DOM`);
-        results.push({ fieldId: chartMapping.fieldId, base64String: null });
-        continue;
-      }
-
       // Force chart redraw if possible
       const chartInstance = window[chartMapping.chartId];
       if (chartInstance && typeof chartInstance.render === "function") {
-        console.log(`Forcing redraw of ${chartMapping.chartId}`);
         chartInstance.render();
       }
 
       // Wait longer for these charts
       await new Promise((resolve) => setTimeout(resolve, 200));
 
-      const base64String = await svgToPngBase64(
-        element,
-        chartMapping.chartId.replace("_chart", "")
-      );
+      const base64String = await svgToPngBase64(element, chartMapping.chartId);
       results.push({ fieldId: chartMapping.fieldId, base64String });
 
-      console.log(
-        `Completed processing problematic chart: ${chartMapping.chartId}`
-      );
+      console.log(`Completed processing chart: ${chartMapping.chartId}`);
     } catch (error) {
       console.error(
         `Error with problematic chart ${chartMapping.chartId}:`,
@@ -483,45 +405,14 @@ async function processChartBatches(chartMappings) {
     }
   }
 
-  // Process regular charts in small batches
-  const batchSize = 2; // Process just 2 charts at a time
-
-  for (let i = 0; i < regularCharts.length; i += batchSize) {
-    // Breathe between batches
+  // Now process the rest in batches as before
+  for (let i = 0; i < otherCharts.length; i += batchSize) {
     if (i > 0) {
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 50));
     }
 
-    const batch = regularCharts.slice(i, i + batchSize);
-    const batchPromises = batch.map(async ({ chartId, fieldId }) => {
-      try {
-        const element = document.getElementById(chartId);
-        if (!element) {
-          console.warn(`Chart element '${chartId}' not found`);
-          return { fieldId, base64String: null };
-        }
-
-        const idx = chartId.replace("_chart", "");
-        const base64String = await svgToPngBase64(element, idx);
-        return { fieldId, base64String };
-      } catch (error) {
-        console.error(`Error processing chart '${chartId}':`, error);
-        return { fieldId, base64String: null };
-      }
-    });
-
-    const batchResults = await Promise.all(batchPromises);
-    results.push(...batchResults);
-
-    // Update progress indicator if available
-    if (progressElement) {
-      const progress = Math.min(
-        100,
-        Math.round(((i + batchSize) / regularCharts.length) * 100)
-      );
-      progressElement.style.width = `${progress}%`;
-      progressElement.setAttribute("aria-valuenow", progress);
-    }
+    const batch = otherCharts.slice(i, i + batchSize);
+    // Process batch as before...
   }
 
   return results;
@@ -564,11 +455,6 @@ function restoreButton(btn) {
     btn.classList.remove("pointer-events-none", "opacity-75");
   }
 }
-
-/**
- * Main function to handle the print process
- * Captures charts as PNGs and uploads them to Quickbase
- */
 async function mainPrint() {
   showApiLoadingFunction("open", "print");
 
@@ -578,7 +464,10 @@ async function mainPrint() {
     return;
   }
 
-  // Show content sections that might be hidden
+  // Store original button innerHTML to restore later
+  const originalButtonContent = printButton.innerHTML;
+
+  // Show content sections
   const sections = [
     "cashContent",
     "netAssetsContent",
@@ -588,23 +477,22 @@ async function mainPrint() {
   const hiddenSections = [];
 
   try {
-    // Store original button state
-    setButtonLoading(printButton);
-
-    console.log("Starting chart capture process");
+    // Start the loading spinner
+    // toggleButtonLoadingState(printButton);
 
     // Show all content sections for rendering
     sections.forEach((id) => {
       const element = document.getElementById(id);
       if (element && element.classList.contains("hidden")) {
-        console.log(`Temporarily making visible: ${id}`);
         element.classList.remove("hidden");
         hiddenSections.push(element); // Track which ones we unhid
       }
     });
 
+    console.log(hiddenSections);
+
     // Wait for DOM to update
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Define all chart IDs and their corresponding field IDs
     const chartMappings = [
@@ -636,29 +524,16 @@ async function mainPrint() {
     ];
 
     // Filter out any charts that don't exist in the DOM
-    const validChartMappings = chartMappings.filter(({ chartId }) => {
-      const element = document.getElementById(chartId);
-      if (!element) {
-        console.warn(`Chart element '${chartId}' not found in DOM`);
-        return false;
-      }
-      return true;
-    });
+    const validChartMappings = chartMappings.filter(
+      ({ chartId }) => document.getElementById(chartId) !== null
+    );
 
     if (validChartMappings.length === 0) {
       throw new Error("No valid charts found to upload");
     }
 
-    console.log(`Found ${validChartMappings.length} valid charts to process`);
-
     // Process charts in batches
-    const results = await processChartBatches(validChartMappings);
-
-    // Count successful conversions
-    const successCount = results.filter((r) => r && r.base64String).length;
-    console.log(
-      `Successfully converted ${successCount} out of ${results.length} charts`
-    );
+    const results = await processChartBatches(validChartMappings, 3);
 
     // Build XML request with metadata and chart images
     let uploadXml = "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
@@ -678,8 +553,6 @@ async function mainPrint() {
     });
 
     uploadXml += "</qdbapi>";
-
-    console.log("Sending data to Quickbase");
 
     // Send to Quickbase
     const response = await sendToQuickbase(uploadXml);
@@ -713,7 +586,7 @@ async function mainPrint() {
     });
 
     // Restore button state
-    restoreButton(printButton);
+    // restoreButton(printButton);
   }
 }
 
