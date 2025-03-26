@@ -443,13 +443,13 @@ async function processChartBatches(chartMappings) {
   );
 
   // Process problematic charts first, with special handling
-  // console.log(
-  //   `Processing ${problematicCharts.length} problematic charts with extra care`
-  // );
+  console.log(
+    `Processing ${problematicCharts.length} problematic charts with extra care`
+  );
 
   for (const chartMapping of problematicCharts) {
     try {
-      // console.log(`Processing problematic chart: ${chartMapping.chartId}`);
+      console.log(`Processing problematic chart: ${chartMapping.chartId}`);
       const element = document.getElementById(chartMapping.chartId);
 
       if (!element) {
@@ -461,7 +461,7 @@ async function processChartBatches(chartMappings) {
       // Force chart redraw if possible
       const chartInstance = window[chartMapping.chartId];
       if (chartInstance && typeof chartInstance.render === "function") {
-        // console.log(`Forcing redraw of ${chartMapping.chartId}`);
+        console.log(`Forcing redraw of ${chartMapping.chartId}`);
         chartInstance.render();
       }
 
@@ -474,9 +474,9 @@ async function processChartBatches(chartMappings) {
       );
       results.push({ fieldId: chartMapping.fieldId, base64String });
 
-      // console.log(
-      //   `Completed processing problematic chart: ${chartMapping.chartId}`
-      // );
+      console.log(
+        `Completed processing problematic chart: ${chartMapping.chartId}`
+      );
     } catch (error) {
       console.error(
         `Error with problematic chart ${chartMapping.chartId}:`,

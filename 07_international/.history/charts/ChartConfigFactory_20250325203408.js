@@ -1277,7 +1277,13 @@ class ChartConfigFactory {
       },
       legend: {
         position: "bottom", // Position at the bottom for more horizontal space
+        horizontalAlign: "center", // Center align the legend items
         fontSize: "20px", // Smaller font size for better fit
+        offsetY: 10, // Add some space below the chart
+        itemMargin: {
+          horizontal: 10, // Add horizontal spacing between items
+          vertical: 0,
+        },
       },
       grid: {
         padding: {

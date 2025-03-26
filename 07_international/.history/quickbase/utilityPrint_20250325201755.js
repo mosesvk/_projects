@@ -172,7 +172,7 @@ const printToExcel = (dataString) => {
       }
     },
     error: function (err) {
-      console.error(err);
+      console.log(err);
       createToastWarning(`Quickbase returned an error: ${err}`);
     },
   });
@@ -259,15 +259,15 @@ async function svgToPngBase64(element, id, retryCount = 0) {
     return null;
   }
 
-  // console.log(`Starting capture for chart: ${id}`);
+  console.log(`Starting capture for chart: ${id}`);
 
   try {
     // Let the UI update before capturing
-    await new Promise((resolve) => setTimeout(resolve, 20));
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
     // Get element dimensions to ensure proper capture
     const rect = element.getBoundingClientRect();
-    // console.log(`Chart ${id} dimensions: ${rect.width}x${rect.height}`);
+    console.log(`Chart ${id} dimensions: ${rect.width}x${rect.height}`);
 
     // Calculate padding - add more for taller charts
     const heightPadding = Math.max(40, rect.height * 0.15); // Either 40px or 15% of height, whichever is greater
@@ -311,10 +311,7 @@ async function svgToPngBase64(element, id, retryCount = 0) {
       throw new Error(`Failed to generate base64 string for ${id}`);
     }
 
-    // console.log(element, base64String);
-    
-
-    // console.log(`Successfully captured chart: ${id}`);
+    console.log(`Successfully captured chart: ${id}`);
 
     // Store the result in map_dataUri
     map_dataUri.set(id, base64String);
@@ -443,13 +440,13 @@ async function processChartBatches(chartMappings) {
   );
 
   // Process problematic charts first, with special handling
-  // console.log(
-  //   `Processing ${problematicCharts.length} problematic charts with extra care`
-  // );
+  console.log(
+    `Processing ${problematicCharts.length} problematic charts with extra care`
+  );
 
   for (const chartMapping of problematicCharts) {
     try {
-      // console.log(`Processing problematic chart: ${chartMapping.chartId}`);
+      console.log(`Processing problematic chart: ${chartMapping.chartId}`);
       const element = document.getElementById(chartMapping.chartId);
 
       if (!element) {
@@ -461,7 +458,7 @@ async function processChartBatches(chartMappings) {
       // Force chart redraw if possible
       const chartInstance = window[chartMapping.chartId];
       if (chartInstance && typeof chartInstance.render === "function") {
-        // console.log(`Forcing redraw of ${chartMapping.chartId}`);
+        console.log(`Forcing redraw of ${chartMapping.chartId}`);
         chartInstance.render();
       }
 
@@ -474,9 +471,9 @@ async function processChartBatches(chartMappings) {
       );
       results.push({ fieldId: chartMapping.fieldId, base64String });
 
-      // console.log(
-      //   `Completed processing problematic chart: ${chartMapping.chartId}`
-      // );
+      console.log(
+        `Completed processing problematic chart: ${chartMapping.chartId}`
+      );
     } catch (error) {
       console.error(
         `Error with problematic chart ${chartMapping.chartId}:`,
@@ -594,13 +591,13 @@ async function mainPrint() {
     // Store original button state
     setButtonLoading(printButton);
 
-    // console.log("Starting chart capture process");
+    console.log("Starting chart capture process");
 
     // Show all content sections for rendering
     sections.forEach((id) => {
       const element = document.getElementById(id);
       if (element && element.classList.contains("hidden")) {
-        // console.log(`Temporarily making visible: ${id}`);
+        console.log(`Temporarily making visible: ${id}`);
         element.classList.remove("hidden");
         hiddenSections.push(element); // Track which ones we unhid
       }
@@ -652,16 +649,16 @@ async function mainPrint() {
       throw new Error("No valid charts found to upload");
     }
 
-    // console.log(`Found ${validChartMappings.length} valid charts to process`);
+    console.log(`Found ${validChartMappings.length} valid charts to process`);
 
     // Process charts in batches
     const results = await processChartBatches(validChartMappings);
 
     // Count successful conversions
     const successCount = results.filter((r) => r && r.base64String).length;
-    // console.log(
-    //   `Successfully converted ${successCount} out of ${results.length} charts`
-    // );
+    console.log(
+      `Successfully converted ${successCount} out of ${results.length} charts`
+    );
 
     // Build XML request with metadata and chart images
     let uploadXml = "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
