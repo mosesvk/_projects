@@ -245,9 +245,12 @@ generateReportsBtn.addEventListener("click", () => {
   }
 });
 
+
+
+
 /**
  * Enhanced print functionality using ApexCharts direct export capabilities
- * with improved delays, error handling, and performance timing
+ * with improved delays and error handling
  */
 
 /**
@@ -257,59 +260,54 @@ generateReportsBtn.addEventListener("click", () => {
  * @returns {Promise<string|null>} - Base64 encoded PNG
  */
 async function getApexChartBase64(chartId, retries = 3) {
-  const startTime = performance.now();
-
   // Add delay function for better reliability
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  
   // Try export with multiple attempts
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      // console.log(`Export attempt ${attempt} for chart ${chartId}`);
-
+      console.log(`Export attempt ${attempt} for chart ${chartId}`);
+      
       // Wait longer for each retry
-      await delay(attempt + 100);
-
+      await delay(attempt * 100);
+      
       // Get the chart instance
       let chartInstance;
-
+      
       // First check if it's in the charts registry
-      if (window.chartManager && typeof chartManager.getChart === "function") {
+      if (window.chartManager && typeof chartManager.getChart === 'function') {
         chartInstance = chartManager.getChart(chartId);
       }
-
+      
       // If not found in registry, check if it's a global variable
       if (!chartInstance && window[chartId]) {
         chartInstance = window[chartId];
       }
-
+      
       // If still not found, try to find it through other methods
       if (!chartInstance) {
         // Try to find the ApexCharts instance through the DOM
         const chartElement = document.getElementById(chartId);
         if (chartElement) {
-          const apexChartsElement =
-            chartElement.querySelector(".apexcharts-canvas");
+          const apexChartsElement = chartElement.querySelector('.apexcharts-canvas');
           if (apexChartsElement && apexChartsElement.id) {
             // Get chart ID from canvas ID (format: apexcharts-{chartID})
-            const apexChartId = apexChartsElement.id.replace("apexcharts-", "");
+            const apexChartId = apexChartsElement.id.replace('apexcharts-', '');
             if (window.ApexCharts && window.ApexCharts.getChartByID) {
               chartInstance = window.ApexCharts.getChartByID(apexChartId);
             }
           }
         }
       }
-
+      
       if (!chartInstance) {
-        console.warn(
-          `ApexCharts instance for "${chartId}" not found in attempt ${attempt}`
-        );
+        console.warn(`ApexCharts instance for "${chartId}" not found in attempt ${attempt}`);
         continue; // Try again if we have more retries
       }
-
+      
       // Try the primary export method
       await delay(100); // Wait for chart to be ready
-
+      
       // First try to trigger a chart refresh to ensure it's fully rendered
       if (chartInstance.updateOptions) {
         try {
@@ -318,67 +316,44 @@ async function getApexChartBase64(chartId, retries = 3) {
           console.warn(`Could not refresh chart ${chartId}:`, refreshError);
         }
       }
-
+      
       // Try the dataURI method
       try {
-        await delay(200); // Wait after refresh
-
+        await delay(100); // Wait after refresh
+        
         // Get dataURI from ApexCharts
         const result = await chartInstance.dataURI({
-          scale: 2, // Higher resolution
-          background: "#ffffff", // White background
+          scale: 2, // Higher resolution 
+          background: '#ffffff' // White background
         });
-
+        
         // Extract the base64 part
         if (result && result.imgURI) {
-          const base64Data = result.imgURI.split(",")[1];
-          const endTime = performance.now();
-          // console.log(
-          //   `Chart ${chartId} export took ${(endTime - startTime).toFixed(2)}ms`
-          // );
+          const base64Data = result.imgURI.split(',')[1];
           return base64Data;
         }
       } catch (primaryError) {
-        console.warn(
-          `Primary export method failed for ${chartId} on attempt ${attempt}:`,
-          primaryError
-        );
-
+        console.warn(`Primary export method failed for ${chartId} on attempt ${attempt}:`, primaryError);
+        
         // Wait before trying fallback
         await delay(100);
-
+        
         // Try fallback methods
-        const fallbackResult = await fallbackChartExport(
-          chartId,
-          chartInstance
-        );
+        const fallbackResult = await fallbackChartExport(chartId, chartInstance);
         if (fallbackResult) {
-          const endTime = performance.now();
-          console.log(
-            `Chart ${chartId} export (fallback) took ${(
-              endTime - startTime
-            ).toFixed(2)}ms`
-          );
           return fallbackResult;
         }
       }
+      
     } catch (error) {
-      console.error(
-        `Error in attempt ${attempt} for chart "${chartId}":`,
-        error
-      );
-
+      console.error(`Error in attempt ${attempt} for chart "${chartId}":`, error);
+      
       // Wait before retrying
       await delay(100);
     }
   }
-
-  const endTime = performance.now();
-  console.error(
-    `All export attempts failed for chart "${chartId}" after ${(
-      endTime - startTime
-    ).toFixed(2)}ms`
-  );
+  
+  console.error(`All export attempts failed for chart "${chartId}"`);
   return null;
 }
 
@@ -389,133 +364,161 @@ async function getApexChartBase64(chartId, retries = 3) {
  * @returns {Promise<string|null>} - Base64 encoded PNG
  */
 async function fallbackChartExport(chartId, chartInstance) {
-  const startTime = performance.now();
   console.log(`Attempting fallback export for chart ${chartId}`);
-
+  
   // Add delay function
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  
   try {
     // Get the chart element
     const chartElement = document.getElementById(chartId);
     if (!chartElement) return null;
-
+    
     // If no chart instance provided, try to get it
     if (!chartInstance) {
-      if (window.chartManager && typeof chartManager.getChart === "function") {
+      if (window.chartManager && typeof chartManager.getChart === 'function') {
         chartInstance = chartManager.getChart(chartId);
       } else if (window[chartId]) {
         chartInstance = window[chartId];
       }
-
+      
       if (!chartInstance) return null;
     }
-
+    
     // METHOD 1: Try to export as SVG first then convert to PNG
     try {
       // Wait for chart to be ready
       await delay(100);
-
+      
       // Get SVG string from ApexCharts
       let svgString = null;
-
+      
       // Try different methods to get SVG
       if (chartInstance.w && chartInstance.w.globals.dom.Paper) {
         svgString = chartInstance.w.globals.dom.Paper.svg();
       } else if (chartInstance.getSvgString) {
         svgString = chartInstance.getSvgString();
-      }
-
+      } 
+      
       if (!svgString) {
         // Try to get SVG directly from DOM
-        const svgElement = chartElement.querySelector("svg");
+        const svgElement = chartElement.querySelector('svg');
         if (svgElement) {
           svgString = new XMLSerializer().serializeToString(svgElement);
         }
       }
-
+      
       if (!svgString) throw new Error("Failed to get SVG");
-
+      
       // Clean the SVG to ensure proper rendering
       svgString = svgString
-        .replace(/&nbsp;/g, " ")
-        .replace(/&amp;/g, "&")
-        .replace(/<br>/g, "<br/>");
-
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/<br>/g, '<br/>');
+      
       // Create a canvas element
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      
       // Set canvas dimensions to chart dimensions with extra padding
       const chartRect = chartElement.getBoundingClientRect();
       canvas.width = chartRect.width * 2; // Double for better quality
       canvas.height = chartRect.height * 2;
       context.scale(2, 2);
-
+      
       // Fill with white background
       context.fillStyle = "#ffffff";
       context.fillRect(0, 0, canvas.width, canvas.height);
-
+      
       // Create image from SVG
       const image = new Image();
-      image.src =
-        "data:image/svg+xml;base64," +
-        btoa(unescape(encodeURIComponent(svgString)));
-
+      image.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString)));
+      
       // Convert to PNG when image loads
       return new Promise((resolve) => {
-        image.onload = function () {
+        image.onload = function() {
           try {
             context.drawImage(image, 0, 0);
-            const pngBase64 = canvas.toDataURL("image/png").split(",")[1];
-            const endTime = performance.now();
-            console.log(
-              `Fallback method 1 for chart ${chartId} took ${(
-                endTime - startTime
-              ).toFixed(2)}ms`
-            );
+            const pngBase64 = canvas.toDataURL('image/png').split(',')[1];
             resolve(pngBase64);
           } catch (drawError) {
             console.error("Error drawing image to canvas:", drawError);
             resolve(null);
           }
         };
-        image.onerror = function (err) {
+        image.onerror = function(err) {
           console.error("Failed to load SVG as image:", err);
           resolve(null);
         };
       });
     } catch (svgError) {
       console.error("SVG export failed:", svgError);
-
+      
       // METHOD 2: Try to use ApexCharts' exportToSVG method if available
       if (chartInstance.exportToSVG) {
         try {
           await delay(100);
-          const method2StartTime = performance.now();
           const result = await chartInstance.exportToSVG();
           if (result && result.imgURI) {
-            const endTime = performance.now();
-            console.log(
-              `Fallback method 2 for chart ${chartId} took ${(
-                endTime - method2StartTime
-              ).toFixed(2)}ms`
-            );
-            return result.imgURI.split(",")[1];
+            return result.imgURI.split(',')[1];
           }
         } catch (exportError) {
           console.error("exportToSVG failed:", exportError);
         }
       }
+      
+      // METHOD 3: Last resort - try a screenshot approach with html2canvas
+      try {
+        await delay(100);
+        
+        // Ensure chart is visible for capturing
+        const originalDisplay = chartElement.style.display;
+        const originalHeight = chartElement.style.height;
+        const originalWidth = chartElement.style.width;
+        const originalPosition = chartElement.style.position;
+        
+        chartElement.style.display = 'block';
+        chartElement.style.position = 'relative';
+        chartElement.style.height = 'auto';
+        chartElement.style.width = '100%';
+        
+        // Force reflow
+        chartElement.offsetHeight;
+        
+        await delay(100);
+        
+        // Use html2canvas with optimal settings
+        const canvas = await html2canvas(chartElement, {
+          scale: 2,
+          backgroundColor: '#ffffff',
+          allowTaint: true,
+          useCORS: true,
+          logging: false,
+          onclone: (documentClone, clone) => {
+            // Make chart fully visible in clone
+            const clonedChart = clone.querySelector('.apexcharts-canvas');
+            if (clonedChart) {
+              clonedChart.style.height = 'auto';
+              clonedChart.style.maxHeight = 'none';
+              clonedChart.style.overflow = 'visible';
+            }
+          }
+        });
+        
+        // Restore original styles
+        chartElement.style.display = originalDisplay;
+        chartElement.style.height = originalHeight;
+        chartElement.style.width = originalWidth;
+        chartElement.style.position = originalPosition;
+        
+        return canvas.toDataURL('image/png').split(',')[1];
+      } catch (canvasError) {
+        console.error("html2canvas fallback failed:", canvasError);
+        return null;
+      }
     }
   } catch (error) {
-    const endTime = performance.now();
-    console.error(
-      `All fallback methods failed for ${chartId} after ${(
-        endTime - startTime
-      ).toFixed(2)}ms:`,
-      error
-    );
+    console.error(`All fallback methods failed for ${chartId}:`, error);
     return null;
   }
 }
@@ -526,51 +529,36 @@ async function fallbackChartExport(chartId, chartInstance) {
  * @returns {Promise<Array>} - Array of processed results
  */
 async function processChartsWithSpacing(chartMappings) {
-  const startTime = performance.now();
   const results = [];
   let successCount = 0;
   let failCount = 0;
-
+  
   // Helper delay function
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  
   // Create a status indicator if it doesn't exist
-  let statusElement = document.getElementById("exportStatus");
+  let statusElement = document.getElementById('exportStatus');
   if (!statusElement) {
-    statusElement = document.createElement("div");
-    statusElement.id = "exportStatus";
-    statusElement.className =
-      "fixed bottom-4 right-4 bg-white p-4 rounded shadow-lg z-50 dark:bg-gray-800 dark:text-white";
+    statusElement = document.createElement('div');
+    statusElement.id = 'exportStatus';
+    statusElement.className = 'fixed bottom-4 right-4 bg-white p-4 rounded shadow-lg z-50 dark:bg-gray-800 dark:text-white';
     document.body.appendChild(statusElement);
   }
-
+  
   for (let i = 0; i < chartMappings.length; i++) {
     try {
       const { chartId, fieldId } = chartMappings[i];
-
+      
       // Update status
-      statusElement.textContent = `Processing chart ${i + 1}/${
-        chartMappings.length
-      }: ${chartId}`;
-      console.log(
-        `Processing chart ${i + 1}/${chartMappings.length}: ${chartId}`
-      );
-
+      statusElement.textContent = `Processing chart ${i+1}/${chartMappings.length}: ${chartId}`;
+      console.log(`Processing chart ${i+1}/${chartMappings.length}: ${chartId}`);
+      
       // Wait between each chart
       await delay(100);
-
-      const chartStartTime = performance.now();
-
+      
       // Get base64 data directly from ApexCharts
       const base64String = await getApexChartBase64(chartId);
-
-      const chartEndTime = performance.now();
-      console.log(
-        `Chart ${chartId} total processing time: ${(
-          chartEndTime - chartStartTime
-        ).toFixed(2)}ms`
-      );
-
+      
       // If successful, add to results
       if (base64String) {
         results.push({ fieldId, base64String });
@@ -582,34 +570,23 @@ async function processChartsWithSpacing(chartMappings) {
         failCount++;
         console.error(`Failed to export chart ${chartId}`);
       }
-
+      
       // Give more space between exports
       await delay(100);
+      
     } catch (error) {
-      console.error(
-        `Error processing chart ${chartMappings[i].chartId}:`,
-        error
-      );
+      console.error(`Error processing chart ${chartMappings[i].chartId}:`, error);
       results.push({ fieldId: chartMappings[i].fieldId, base64String: null });
       failCount++;
     }
   }
-
-  const endTime = performance.now();
-  console.log(
-    `Total chart processing time: ${(endTime - startTime).toFixed(2)}ms for ${
-      chartMappings.length
-    } charts`
-  );
-
+  
   // Update final status
-  statusElement.textContent = `Export complete: ${successCount} successful, ${failCount} failed in ${(
-    endTime - startTime
-  ).toFixed(0)}ms`;
+  statusElement.textContent = `Export complete: ${successCount} successful, ${failCount} failed`;
   setTimeout(() => {
     statusElement.remove();
-  }, 300);
-
+  }, 500);
+  
   return results;
 }
 
@@ -617,17 +594,14 @@ async function processChartsWithSpacing(chartMappings) {
  * Enhanced version of mainPrint using ApexCharts dataURI with better spacing
  */
 async function apexChartsExportPrint() {
-  const totalStartTime = performance.now();
-  console.log("Starting chart export process...");
-
   showApiLoadingFunction("open", "print");
 
-  const printButton = document.getElementById("printBase64");
+  const printButton = document.getElementById('printBase64');
   if (!printButton) {
     console.error("Print button not found");
     return;
   }
-
+  
   // Store original button state to restore later
   const originalButtonContent = printButton.innerHTML;
   printButton.disabled = true;
@@ -639,45 +613,29 @@ async function apexChartsExportPrint() {
       </svg>
       <span class="font-medium">Exporting Charts...</span>
     </div>`;
-
+  
   try {
     // Show all sections for rendering, if needed
-    const showSectionsStartTime = performance.now();
-    const sections = [
-      "cashContent",
-      "netAssetsContent",
-      "incomeContent",
-      "expenseContent",
-    ];
+    const sections = ['cashContent', 'netAssetsContent', 'incomeContent', 'expenseContent'];
     const hiddenSections = [];
-
-    sections.forEach((id) => {
+    
+    sections.forEach(id => {
       const element = document.getElementById(id);
-      if (element && element.classList.contains("hidden")) {
-        element.classList.remove("hidden");
+      if (element && element.classList.contains('hidden')) {
+        element.classList.remove('hidden');
         hiddenSections.push(element); // Track which ones we unhid
       }
     });
-
+    
     // Wait for DOM to update
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    const showSectionsEndTime = performance.now();
-    console.log(
-      `Showing sections took ${(
-        showSectionsEndTime - showSectionsStartTime
-      ).toFixed(2)}ms`
-    );
-
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
     // Define all chart IDs and their corresponding field IDs
     const chartMappings = [
       { chartId: "statementCashFlows_chart", fieldId: 8 },
       { chartId: "daysCashOnHand_chart", fieldId: 9 },
       { chartId: "daysExpensesInUnrestrictedNA_chart", fieldId: 10 },
-      {
-        chartId: "daysExpensesInUnrestrictedNA_excludingPPE_chart",
-        fieldId: 11,
-      },
+      { chartId: "daysExpensesInUnrestrictedNA_excludingPPE_chart", fieldId: 11 },
       { chartId: "totalCoverageRatio_chart", fieldId: 12 },
       { chartId: "contributionsTrend_chart", fieldId: 13 },
       { chartId: "annualizedInvestmentReturn_chart", fieldId: 14 },
@@ -688,158 +646,84 @@ async function apexChartsExportPrint() {
       { chartId: "netAssetBreakdown_chart", fieldId: 25 },
       { chartId: "changeInNetAssets_chart", fieldId: 26 },
       { chartId: "liquidityAssetsAvailableCover_chart", fieldId: 27 },
-      {
-        chartId: "assetsWithoutPpeToLiabilitiesWithoutDebt_chart",
-        fieldId: 28,
-      },
+      { chartId: "assetsWithoutPpeToLiabilitiesWithoutDebt_chart", fieldId: 28 },
       { chartId: "totalContributions_chart", fieldId: 29 },
       { chartId: "contributionsWithoutDR_chart", fieldId: 30 },
       { chartId: "functionalAllocation_chart", fieldId: 31 },
-      { chartId: "costOfContributionsDetailView_chart", fieldId: 32 },
+      { chartId: "costOfContributionsDetailView_chart", fieldId: 32 }
     ];
 
     // Filter out any charts that don't exist in the DOM
-    const filterStartTime = performance.now();
-    const validChartMappings = chartMappings.filter(
-      ({ chartId }) => document.getElementById(chartId) !== null
+    const validChartMappings = chartMappings.filter(({ chartId }) => 
+      document.getElementById(chartId) !== null
     );
-    const filterEndTime = performance.now();
-    console.log(
-      `Filtering chart mappings took ${(
-        filterEndTime - filterStartTime
-      ).toFixed(2)}ms`
-    );
-
+    
     if (validChartMappings.length === 0) {
       throw new Error("No valid charts found to upload");
     }
-
+    
     console.log(`Found ${validChartMappings.length} valid charts to export`);
-
+    
     // Process charts with improved spacing
-    const processingStartTime = performance.now();
     const results = await processChartsWithSpacing(validChartMappings);
-    const processingEndTime = performance.now();
-    console.log(
-      `Processing all charts took ${(
-        processingEndTime - processingStartTime
-      ).toFixed(2)}ms`
-    );
-
+    
     // Count successful exports
-    const successfulExports = results.filter(
-      (r) => r.base64String !== null
-    ).length;
-    console.log(
-      `Successfully exported ${successfulExports} of ${validChartMappings.length} charts`
-    );
-
+    const successfulExports = results.filter(r => r.base64String !== null).length;
+    console.log(`Successfully exported ${successfulExports} of ${validChartMappings.length} charts`);
+    
     if (successfulExports === 0) {
       throw new Error("No charts were successfully exported");
     }
-
+    
     // Hide sections that were previously hidden
-    hiddenSections.forEach((element) => {
-      element.classList.add("hidden");
+    hiddenSections.forEach(element => {
+      element.classList.add('hidden');
     });
-
+    
     // Build XML request with metadata and chart images
-    const xmlBuildStartTime = performance.now();
     let uploadXml = "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
-
+    
     // Add metadata first
-    uploadXml += createFieldXml(171, ClientRid || "");
-    uploadXml += createFieldXml(170, firmName || "");
+    uploadXml += createFieldXml(171, ClientRid || '');
+    uploadXml += createFieldXml(170, firmName || '');
     uploadXml += createFieldXml(169, uniqueClients?.size || 0);
     uploadXml += createFieldXml(163, sliderValue || 0);
     uploadXml += createFieldXml(164, sliderValue2 || 25000);
-
+    
     // Add base64 images for charts
-    results.forEach((result) => {
+    results.forEach(result => {
       if (result && result.base64String) {
         uploadXml += createImageFieldXml(result.fieldId, result.base64String);
       }
     });
-
+    
     uploadXml += "</qdbapi>";
-    const xmlBuildEndTime = performance.now();
-    console.log(
-      `Building XML payload took ${(
-        xmlBuildEndTime - xmlBuildStartTime
-      ).toFixed(2)}ms, size: ${uploadXml.length} bytes`
-    );
-
+    
     // Send to Quickbase
     console.log("Sending data to Quickbase...");
-    const sendStartTime = performance.now();
     const response = await sendToQuickbase(uploadXml);
-    const sendEndTime = performance.now();
-    console.log(
-      `Sending data to Quickbase took ${(sendEndTime - sendStartTime).toFixed(
-        2
-      )}ms`
-    );
-
+    
     // Process response
-    const responseStartTime = performance.now();
     const xmlResponse = $(response);
     const errorCode = xmlResponse.find("qdbapi").find("errcode").text();
-    const responseEndTime = performance.now();
-    console.log(
-      `Processing Quickbase response took ${(
-        responseEndTime - responseStartTime
-      ).toFixed(2)}ms`
-    );
 
     showApiLoadingFunction("close", "print");
-
+    
     if (errorCode === "0") {
       const recordId = xmlResponse.find("qdbapi").find("rid").text();
-      createToastSuccess(
-        `Charts successfully uploaded to Quickbase. Record ID: ${recordId}`
-      );
+      createToastSuccess(`Charts successfully uploaded to Quickbase. Record ID: ${recordId}`);
     } else {
-      const errorText =
-        xmlResponse.find("qdbapi").find("errtext").text() || "Unknown error";
+      const errorText = xmlResponse.find("qdbapi").find("errtext").text() || 'Unknown error';
       throw new Error(`Quickbase returned error ${errorCode}: ${errorText}`);
     }
   } catch (error) {
     showApiLoadingFunction("close", "print");
     console.error("Error in apexChartsExportPrint:", error);
-    createToastWarning(
-      `Error creating presentation: ${error.message || "Unknown error"}`
-    );
+    createToastWarning(`Error creating presentation: ${error.message || "Unknown error"}`);
   } finally {
     // Restore button state
     printButton.disabled = false;
     printButton.innerHTML = originalButtonContent;
-
-    const totalEndTime = performance.now();
-    const totalTime = totalEndTime - totalStartTime;
-    const totalTimeFormatted = new Date(totalTime)
-      .toISOString()
-      .substring(14, 23); // Format as MM:SS.sss
-
-    console.log(`===============================================`);
-    console.log(
-      `TOTAL EXPORT PROCESS TIME: ${totalTimeFormatted} (${totalTime.toFixed(
-        2
-      )}ms)`
-    );
-    console.log(`===============================================`);
-
-    // Add a visual indicator on the page
-    const timeIndicator = document.createElement("div");
-    timeIndicator.className =
-      "fixed top-4 right-4 bg-green-700 text-white p-2 rounded shadow-lg z-50";
-    timeIndicator.style.fontSize = "14px";
-    timeIndicator.innerHTML = `Export completed in: ${totalTimeFormatted}`;
-    document.body.appendChild(timeIndicator);
-
-    // Remove the indicator after 5 seconds
-    setTimeout(() => {
-      timeIndicator.remove();
-    }, 5000);
   }
 }
 
@@ -852,14 +736,14 @@ async function apexChartsExportPrint() {
 function createFieldXml(id, val) {
   if (val === null || val === undefined) {
     console.warn(`Skipping upload for field ${id} due to null/undefined value`);
-    return "";
+    return '';
   }
-
-  if (typeof val === "object") {
+  
+  if (typeof val === 'object') {
     console.warn(`Invalid value type for field ${id}:`, typeof val);
-    return "";
+    return '';
   }
-
+  
   return `<field fid='${id}'>${val}</field>`;
 }
 
@@ -872,7 +756,7 @@ function createFieldXml(id, val) {
 function createImageFieldXml(id, val) {
   if (!val) {
     console.warn(`Skipping image upload for field ${id} - missing data`);
-    return "";
+    return '';
   }
   return `<field fid='${id}' filename='chart.png'>${val}</field>`;
 }
@@ -883,36 +767,19 @@ function createImageFieldXml(id, val) {
  * @returns {Promise<object>} - Response data
  */
 async function sendToQuickbase(xml) {
-  const startTime = performance.now();
   try {
-    const response = await $.ajax({
+    return await $.ajax({
       type: "POST",
       contentType: "text/xml",
       url: "https://capincrouse.quickbase.com/db/bumq5qw5e?a=API_AddRecord",
       dataType: "xml",
       processData: false,
       data: xml,
-      timeout: 60000, // 60-second timeout (increased from 30)
+      timeout: 60000 // 60-second timeout (increased from 30)
     });
-
-    const endTime = performance.now();
-    console.log(
-      `Quickbase API call completed successfully in ${(
-        endTime - startTime
-      ).toFixed(2)}ms`
-    );
-    return response;
   } catch (error) {
-    const endTime = performance.now();
-    const errorMessage =
-      error.responseText ||
-      error.statusText ||
-      error.message ||
-      "Unknown error";
-    console.error(
-      `Quickbase API error after ${(endTime - startTime).toFixed(2)}ms:`,
-      errorMessage
-    );
+    const errorMessage = error.responseText || error.statusText || error.message || "Unknown error";
+    console.error("Quickbase API error:", errorMessage);
     throw new Error(`Quickbase API error: ${errorMessage}`);
   }
 }
@@ -921,23 +788,21 @@ async function sendToQuickbase(xml) {
  * Initialize the ApexCharts export print functionality
  */
 function initApexChartsPrintFunction() {
-  const printButton = document.getElementById("printBase64");
+  const printButton = document.getElementById('printBase64');
   if (!printButton) {
-    console.error(
-      "Print button not found for ApexCharts export print functionality"
-    );
+    console.error("Print button not found for ApexCharts export print functionality");
     return;
   }
-
+  
   // Remove existing event listeners
   const newPrintButton = printButton.cloneNode(true);
   printButton.parentNode.replaceChild(newPrintButton, printButton);
-
+  
   // Add ApexCharts export print function
   newPrintButton.addEventListener("click", () => {
     apexChartsExportPrint();
   });
-
+  
   console.log("ApexCharts export print functionality initialized");
 }
 

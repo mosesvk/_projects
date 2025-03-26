@@ -355,7 +355,7 @@ const displayReportComponent = () => {
         [
           "fundraisingAsPercentOfContributions",
           "percent",
-          0,
+          1,
           "wa",
           null,
           [31, 69, 107, 145],

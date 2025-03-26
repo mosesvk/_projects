@@ -469,8 +469,6 @@ const contributionsPerGivingUnit_weightedAverage = (data, name, year) => {
 };
 
 const contributionsPercentWithDR_weightedAverage = (data, name, year) => {
-  console.log({ data, name, year });
-
   // [02.01SR - 02 Contributions with donor restrictions]
   // /
   // (
@@ -492,6 +490,7 @@ const contributionsPercentWithDR_weightedAverage = (data, name, year) => {
 };
 
 const contributionsPercentWithoutDR_weightedAverage = (data, name, year) => {
+
   // [02.01SR - 01 Contributions without donor restrictions]
   // /
   // (
@@ -506,8 +505,6 @@ const contributionsPercentWithoutDR_weightedAverage = (data, name, year) => {
   const contributionsWithDR = year
     ? getSumOfArray(data.contributionsWithDR[name][year])
     : getSumOfArray(data.contributionsWithDR[name]["total"]);
-
-  console.log({ data, name, year, contributionsWithoutDR, contributionsWithDR});
 
   const denominator = contributionsWithoutDR + contributionsWithDR;
 
@@ -683,8 +680,8 @@ const assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage = (
 };
 
 const currentRatio_weightedAverage = (data, name, year) => {
-  // console.log({data, name, year});
-
+  console.log({data, name, year});
+  
   // (
   //     [01. 01Ass - 10 Total Assets] -
   //     [01. 01Ass - 02 Cash & Cash Equivalents held for Long Term] -

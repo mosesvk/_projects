@@ -1,0 +1,659 @@
+// Clean implementation of the presentation functionality
+
+const uploadFileBegin = `<qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>`;
+const uploadFileEnd = `</qdbapi>`;
+const uploadClist = `<clist>171</clist>`;
+const generateReportsBtn = document.getElementById("generateReports");
+const printButton = document.getElementById("printBase64");
+let uploadMainFile = "";
+let uploadPresentationFile = "";
+
+// PDF download functionality
+$("#downloadPdf").on("click", function () {
+  const imagesArray = [];
+
+  for (let i = 0; i < selectedImagesArray.length; i++) {
+    const element = document.getElementById(selectedImagesArray[i].toString());
+    const img = element.toDataURL("image/pdf");
+    const doc = new jsPDF();
+    doc.addImage(img, "png", 15, 40, 180, 160);
+    doc.save();
+  }
+});
+
+// Print options functionality
+$("#printOptionsBtn").on("click", function () {
+  const reportTables = [
+    "data-tableDemo",
+    "data-tableCash",
+    "data-tableDebt",
+    "data-tableIncome",
+    "data-tableExpense",
+  ];
+
+  for (let i = 0; i < selectedImagesArray.length; i++) {
+    const selectImg = selectedImagesArray[i];
+
+    if (reportTables.includes(selectImg)) {
+      $(`#${selectImg} .google-visualization-table`).printThis({
+        importCSS: true,
+      });
+    } else {
+      downloadImage(selectedImagesArray[i]);
+    }
+  }
+});
+
+// Data processing utility function
+const dataArrayObjects = (
+  avgArray,
+  midArray,
+  minArray,
+  MaxArray,
+  weighted,
+  percent,
+  fixed,
+  num
+) => {
+  if (percent) {
+    avgArray = avgArray.map((item) => item / 100);
+    midArray = midArray.map((item) => item / 100);
+    minArray = minArray.map((item) => item / 100);
+    MaxArray = MaxArray.map((item) => item / 100);
+  }
+
+  let avgVal, midVal, minVal, maxVal;
+
+  if (fixed) {
+    if (weighted) {
+      let i = 0;
+      let str = "";
+      let arr = String(avgArray[0]);
+      while (i <= num + 1) {
+        str += arr[i];
+        i++;
+      }
+      avgVal = str;
+    } else {
+      let i = 0;
+      let str = "";
+      let arr = String(average(avgArray));
+      while (i <= num + 1) {
+        str += arr[i];
+        i++;
+      }
+      avgVal = str;
+    }
+  } else {
+    avgVal = weighted ? avgArray[0] : Math.round(average(avgArray));
+  }
+
+  midVal = fixed ? median(midArray, "fixed", num) : median(midArray);
+  minVal = fixed
+    ? Math.min.apply(Math, minArray).toFixed(num)
+    : Math.min.apply(Math, minArray);
+  maxVal = fixed
+    ? Math.max.apply(Math, MaxArray).toFixed(num)
+    : Math.max.apply(Math, MaxArray);
+
+  return {
+    avg: avgVal,
+    mid: midVal,
+    min: minVal,
+    max: maxVal,
+  };
+};
+
+// Upload data to file
+function uploadToFile(avg, mid, min, max, fIdArray, begin, end) {
+  const avgId = fIdArray[0];
+  const midId = fIdArray[2];
+  const minId = fIdArray[1];
+  const maxId = fIdArray[3];
+
+  if (begin) {
+    uploadMainFile += uploadFileBegin;
+  }
+
+  uploadMainFile += `<field fid='${avgId}'>${avg}</field><field fid='${midId}'>${mid}</field><field fid='${minId}'>${min}</field><field fid='${maxId}'>${max}</field>`;
+}
+
+// Upload single field to file
+const uploadSingleToFile = (id, val, end = false) => {
+  uploadMainFile += `<field fid='${id}'>${val}</field>`;
+
+  if (end) {
+    uploadMainFile += uploadClist;
+    uploadMainFile += uploadFileEnd;
+  }
+};
+
+// Print to Excel functionality
+const printToExcel = (dataString) => {
+  const urlUploadFile =
+    "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord";
+
+  $.ajax({
+    type: "POST",
+    contentType: "text/xml",
+    async: true,
+    url: urlUploadFile,
+    dataType: "xml",
+    processData: false,
+    data: dataString,
+    success: function (response) {
+      const xmlUpload = $(response);
+      const newRecordID = xmlUpload[0].all[4].innerHTML;
+
+      if (xmlUpload.find("qdbapi").find("errcode").text() == "0") {
+        const recordId = xmlUpload.find("qdbapi").find("rid").text();
+
+        createToastSuccess("Generated Reports successfully to Quickbase.");
+
+        const printModalFooter = document.getElementById("print_modal_footer");
+        if (printModalFooter) {
+          printModalFooter.classList.remove("hidden");
+        }
+
+        const trendXLSFinal = document.getElementById("trendXLSFinal");
+        if (trendXLSFinal) {
+          trendXLSFinal.href = getUrlBasedOnYearCount("xls", recordId);
+        }
+
+        const trendPDFFinal = document.getElementById("trendPDFFinal");
+        if (trendPDFFinal) {
+          trendPDFFinal.href = getUrlBasedOnYearCount("pdf", recordId);
+        }
+      } else {
+        console.log("Quickbase returned an error.");
+        createToastWarning(
+          `Quickbase returned an error: if (xmlUpload.find("qdbapi").find("errcode").text() == "0")`
+        );
+      }
+    },
+    error: function (err) {
+      console.error(err);
+      createToastWarning(`Quickbase returned an error: ${err}`);
+    },
+  });
+};
+
+// Create file for print
+const createFileForPrint = (
+  name,
+  fIdArray,
+  begin,
+  end,
+  avg,
+  mid,
+  min,
+  max,
+  peer,
+  data
+) => {
+  uploadToFile(avg, mid, min, max, fIdArray, begin, end);
+};
+
+// Create Excel print
+const createPrintExcel = async () => {
+  const types = Array.from(selectedTypes_Array).join(";");
+  const regions = Array.from(selectedRegions_Array).join(";");
+
+  uploadSingleToFile(171, ClientRid);
+  uploadSingleToFile(170, firmName);
+  uploadSingleToFile(169, uniqueClients.size);
+  uploadSingleToFile(163, sliderValue);
+  uploadSingleToFile(164, sliderValue2);
+  uploadSingleToFile(165, missionValue);
+  uploadSingleToFile(166, missionValue2);
+  uploadSingleToFile(167, regions);
+  uploadSingleToFile(168, types);
+
+  const yearLength = selectedYears_Set.size;
+  let j = 158;
+
+  sortSet(selectedYears_Set);
+
+  let index = 0;
+  for (const year of selectedYears_Set) {
+    if (index === yearLength - 1) {
+      uploadSingleToFile(j, year, true);
+    } else {
+      uploadSingleToFile(j, year);
+    }
+    j++;
+    index++;
+  }
+
+  setTimeout(() => {
+    printToExcel(uploadMainFile);
+    toggleGenerateReportButtonNormalState(generateReportsBtn);
+  }, 1500);
+};
+
+// Generate reports event listener
+generateReportsBtn.addEventListener("click", () => {
+  toggleButtonLoadingState(generateReportsBtn);
+
+  if (!localStorage.generalData) {
+    createToastWarning(
+      "No Data Retrieved. Make sure to select years and run the report"
+    );
+    throw new Error("No Data Retrieved.");
+  } else {
+    createPrintExcel();
+  }
+});
+
+
+/**
+ * Enhanced print functionality using ApexCharts direct export capabilities
+ * This avoids html2canvas issues by getting images directly from ApexCharts
+ */
+
+/**
+ * Gets base64 data directly from ApexCharts instance
+ * @param {string} chartId - ID of the chart element
+ * @returns {Promise<string|null>} - Base64 encoded PNG
+ */
+async function getApexChartBase64(chartId) {
+  try {
+    // Get the chart instance
+    let chartInstance;
+    
+    // First check if it's in the charts registry
+    if (window.chartManager && typeof chartManager.getChart === 'function') {
+      chartInstance = chartManager.getChart(chartId);
+    }
+    
+    // If not found in registry, check if it's a global variable
+    if (!chartInstance && window[chartId]) {
+      chartInstance = window[chartId];
+    }
+    
+    if (!chartInstance) {
+      console.error(`ApexCharts instance for "${chartId}" not found`);
+      return null;
+    }
+    
+    // Try the primary method first
+    try {
+      // Get dataURI from ApexCharts
+      const result = await chartInstance.dataURI({
+        scale: 2, // Higher resolution
+        background: '#ffffff' // White background
+      });
+      
+      // Extract the base64 part (remove data:image/png;base64, prefix)
+      if (result && result.imgURI) {
+        const base64Data = result.imgURI.split(',')[1];
+        return base64Data;
+      }
+    } catch (primaryError) {
+      console.warn(`Primary export method failed for ${chartId}, trying fallback:`, primaryError);
+    }
+    
+    // If primary method fails, try the fallback
+    return await fallbackChartExport(chartId);
+    
+  } catch (error) {
+    console.error(`Error getting base64 for chart "${chartId}":`, error);
+    return null;
+  }
+}
+
+/**
+ * Process charts using native ApexCharts export functionality
+ * @param {Array} chartMappings - Array of chart ID to field ID mappings
+ * @returns {Promise<Array>} - Array of processed results
+ */
+async function processChartsWithApexExport(chartMappings) {
+  const results = [];
+  let successCount = 0;
+  let failCount = 0;
+  
+  // Create a status indicator if it doesn't exist
+  let statusElement = document.getElementById('exportStatus');
+  if (!statusElement) {
+    statusElement = document.createElement('div');
+    statusElement.id = 'exportStatus';
+    statusElement.className = 'fixed bottom-4 right-4 bg-white p-4 rounded shadow-lg z-50 dark:bg-gray-800 dark:text-white';
+    document.body.appendChild(statusElement);
+  }
+  
+  for (let i = 0; i < chartMappings.length; i++) {
+    try {
+      const { chartId, fieldId } = chartMappings[i];
+      
+      // Update status
+      statusElement.textContent = `Processing chart ${i+1}/${chartMappings.length}: ${chartId}`;
+      
+      // Get base64 data directly from ApexCharts
+      const base64String = await getApexChartBase64(chartId);
+      
+      // If successful, add to results
+      if (base64String) {
+        results.push({ fieldId, base64String });
+        successCount++;
+        console.log(`Successfully exported chart ${chartId}`);
+      } else {
+        // If failed, add null result
+        results.push({ fieldId, base64String: null });
+        failCount++;
+        console.error(`Failed to export chart ${chartId}`);
+      }
+      
+      // Give the UI a breath between charts
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+    } catch (error) {
+      console.error(`Error processing chart ${chartMappings[i].chartId}:`, error);
+      results.push({ fieldId: chartMappings[i].fieldId, base64String: null });
+      failCount++;
+    }
+  }
+  
+  // Update final status
+  statusElement.textContent = `Export complete: ${successCount} successful, ${failCount} failed`;
+  setTimeout(() => {
+    statusElement.remove();
+  }, 3000);
+  
+  return results;
+}
+
+/**
+ * Enhanced version of mainPrint using ApexCharts dataURI
+ */
+async function apexChartsExportPrint() {
+  showApiLoadingFunction("open", "print");
+
+  const printButton = document.getElementById('printBase64');
+  if (!printButton) {
+    console.error("Print button not found");
+    return;
+  }
+  
+  // Store original button state to restore later
+  const originalButtonContent = printButton.innerHTML;
+  printButton.disabled = true;
+  printButton.innerHTML = `
+    <div class="flex items-center justify-center">
+      <svg aria-hidden="true" role="status" class="inline w-6 h-6 me-3 text-xl colorGreen font-extrabold animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
+      </svg>
+      <span class="font-medium">Exporting Charts...</span>
+    </div>`;
+  
+  try {
+    // Define all chart IDs and their corresponding field IDs
+    const chartMappings = [
+      { chartId: "statementCashFlows_chart", fieldId: 8 },
+      { chartId: "daysCashOnHand_chart", fieldId: 9 },
+      { chartId: "daysExpensesInUnrestrictedNA_chart", fieldId: 10 },
+      { chartId: "daysExpensesInUnrestrictedNA_excludingPPE_chart", fieldId: 11 },
+      { chartId: "totalCoverageRatio_chart", fieldId: 12 },
+      { chartId: "contributionsTrend_chart", fieldId: 13 },
+      { chartId: "annualizedInvestmentReturn_chart", fieldId: 14 },
+      { chartId: "functionalExpensePercent_program_chart", fieldId: 15 },
+      { chartId: "functionalExpensePercent_administrative_chart", fieldId: 16 },
+      { chartId: "functionalExpensePercent_fundraising_chart", fieldId: 17 },
+      { chartId: "costOfContributions_chart", fieldId: 18 },
+      { chartId: "netAssetBreakdown_chart", fieldId: 25 },
+      { chartId: "changeInNetAssets_chart", fieldId: 26 },
+      { chartId: "liquidityAssetsAvailableCover_chart", fieldId: 27 },
+      { chartId: "assetsWithoutPpeToLiabilitiesWithoutDebt_chart", fieldId: 28 },
+      { chartId: "totalContributions_chart", fieldId: 29 },
+      { chartId: "contributionsWithoutDR_chart", fieldId: 30 },
+      { chartId: "functionalAllocation_chart", fieldId: 31 },
+      { chartId: "costOfContributionsDetailView_chart", fieldId: 32 }
+    ];
+
+    // Filter out any charts that don't exist in the DOM
+    const validChartMappings = chartMappings.filter(({ chartId }) => 
+      document.getElementById(chartId) !== null
+    );
+    
+    if (validChartMappings.length === 0) {
+      throw new Error("No valid charts found to upload");
+    }
+    
+    console.log(`Found ${validChartMappings.length} valid charts to export`);
+    
+    // Process charts with ApexCharts dataURI export
+    const results = await processChartsWithApexExport(validChartMappings);
+    
+    // Count successful exports
+    const successfulExports = results.filter(r => r.base64String !== null).length;
+    console.log(`Successfully exported ${successfulExports} of ${validChartMappings.length} charts`);
+    
+    if (successfulExports === 0) {
+      throw new Error("No charts were successfully exported");
+    }
+    
+    // Build XML request with metadata and chart images
+    let uploadXml = "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
+    
+    // Add metadata first
+    uploadXml += createFieldXml(171, ClientRid || '');
+    uploadXml += createFieldXml(170, firmName || '');
+    uploadXml += createFieldXml(169, uniqueClients?.size || 0);
+    uploadXml += createFieldXml(163, sliderValue || 0);
+    uploadXml += createFieldXml(164, sliderValue2 || 25000);
+    
+    // Add base64 images for charts
+    results.forEach(result => {
+      if (result && result.base64String) {
+        uploadXml += createImageFieldXml(result.fieldId, result.base64String);
+      }
+    });
+    
+    uploadXml += "</qdbapi>";
+    
+    // Send to Quickbase
+    console.log("Sending data to Quickbase...");
+    const response = await sendToQuickbase(uploadXml);
+    
+    // Process response
+    const xmlResponse = $(response);
+    const errorCode = xmlResponse.find("qdbapi").find("errcode").text();
+
+    showApiLoadingFunction("close", "print");
+    
+    if (errorCode === "0") {
+      const recordId = xmlResponse.find("qdbapi").find("rid").text();
+      createToastSuccess(`Charts successfully uploaded to Quickbase. Record ID: ${recordId}`);
+    } else {
+      const errorText = xmlResponse.find("qdbapi").find("errtext").text() || 'Unknown error';
+      throw new Error(`Quickbase returned error ${errorCode}: ${errorText}`);
+    }
+  } catch (error) {
+    showApiLoadingFunction("close", "print");
+    console.error("Error in apexChartsExportPrint:", error);
+    createToastWarning(`Error creating presentation: ${error.message || "Unknown error"}`);
+  } finally {
+    // Restore button state
+    printButton.disabled = false;
+    printButton.innerHTML = originalButtonContent;
+  }
+}
+
+/**
+ * Create XML field entry for a value
+ * @param {string|number} id - Field ID
+ * @param {string|number} val - Value to upload
+ * @returns {string} - XML field entry
+ */
+function createFieldXml(id, val) {
+  if (val === null || val === undefined) {
+    console.warn(`Skipping upload for field ${id} due to null/undefined value`);
+    return '';
+  }
+  
+  if (typeof val === 'object') {
+    console.warn(`Invalid value type for field ${id}:`, typeof val);
+    return '';
+  }
+  
+  return `<field fid='${id}'>${val}</field>`;
+}
+
+/**
+ * Create XML field entry for an image
+ * @param {string|number} id - Field ID
+ * @param {string} val - Base64 image data
+ * @returns {string} - XML field entry for image
+ */
+function createImageFieldXml(id, val) {
+  if (!val) {
+    console.warn(`Skipping image upload for field ${id} - missing data`);
+    return '';
+  }
+  return `<field fid='${id}' filename='chart.png'>${val}</field>`;
+}
+
+/**
+ * Send record to Quickbase
+ * @param {string} xml - XML payload to send
+ * @returns {Promise<object>} - Response data
+ */
+async function sendToQuickbase(xml) {
+  try {
+    return await $.ajax({
+      type: "POST",
+      contentType: "text/xml",
+      url: "https://capincrouse.quickbase.com/db/bumq5qw5e?a=API_AddRecord",
+      dataType: "xml",
+      processData: false,
+      data: xml,
+      timeout: 30000 // 30-second timeout
+    });
+  } catch (error) {
+    const errorMessage = error.responseText || error.statusText || error.message || "Unknown error";
+    console.error("Quickbase API error:", errorMessage);
+    throw new Error(`Quickbase API error: ${errorMessage}`);
+  }
+}
+
+/**
+ * Initialize the ApexCharts export print functionality
+ */
+function initApexChartsPrintFunction() {
+  const printButton = document.getElementById('printBase64');
+  if (!printButton) {
+    console.error("Print button not found for ApexCharts export print functionality");
+    return;
+  }
+  
+  // Remove existing event listeners
+  const newPrintButton = printButton.cloneNode(true);
+  printButton.parentNode.replaceChild(newPrintButton, printButton);
+  
+  // Add ApexCharts export print function
+  newPrintButton.addEventListener("click", () => {
+    apexChartsExportPrint();
+  });
+  
+  console.log("ApexCharts export print functionality initialized");
+}
+
+// Initialize when document is loaded
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initApexChartsPrintFunction);
+} else {
+  initApexChartsPrintFunction();
+}
+
+/**
+ * Fallback function that attempts alternative export methods if the primary method fails
+ * This provides a backup in case the ApexCharts dataURI method doesn't work
+ * @param {string} chartId - ID of the chart element
+ * @returns {Promise<string|null>} - Base64 encoded PNG
+ */
+async function fallbackChartExport(chartId) {
+  console.log(`Attempting fallback export for chart ${chartId}`);
+  
+  try {
+    // Get the chart element
+    const chartElement = document.getElementById(chartId);
+    if (!chartElement) return null;
+    
+    // Get chart instance
+    let chartInstance;
+    if (window.chartManager && typeof chartManager.getChart === 'function') {
+      chartInstance = chartManager.getChart(chartId);
+    } else if (window[chartId]) {
+      chartInstance = window[chartId];
+    }
+    
+    if (!chartInstance) return null;
+    
+    // Method 1: Try to export as SVG first then convert to PNG
+    try {
+      // Get SVG string from ApexCharts
+      const svgString = chartInstance.w.globals.dom.Paper.svg();
+      if (!svgString) throw new Error("Failed to get SVG");
+      
+      // Create a canvas element
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      
+      // Set canvas dimensions to chart dimensions with extra padding
+      const chartRect = chartElement.getBoundingClientRect();
+      canvas.width = chartRect.width * 2; // Double for better quality
+      canvas.height = chartRect.height * 2;
+      context.scale(2, 2);
+      
+      // Create image from SVG
+      const image = new Image();
+      image.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString)));
+      
+      // Convert to PNG when image loads
+      return new Promise((resolve) => {
+        image.onload = function() {
+          context.drawImage(image, 0, 0);
+          const pngBase64 = canvas.toDataURL('image/png').split(',')[1];
+          resolve(pngBase64);
+        };
+        image.onerror = function() {
+          console.error("Failed to load SVG as image");
+          resolve(null);
+        };
+      });
+    } catch (svgError) {
+      console.error("SVG export failed:", svgError);
+      
+      // Method 2: Try to use ApexCharts' exportToSVG method if available
+      if (chartInstance.exportToSVG) {
+        try {
+          const result = await chartInstance.exportToSVG();
+          if (result && result.imgURI) {
+            return result.imgURI.split(',')[1];
+          }
+        } catch (exportError) {
+          console.error("exportToSVG failed:", exportError);
+        }
+      }
+      
+      // Method 3: Last resort - try to use a simplified html2canvas approach
+      try {
+        const canvas = await html2canvas(chartElement, {
+          scale: 2,
+          backgroundColor: '#ffffff',
+          allowTaint: true,
+          useCORS: true,
+          logging: false
+        });
+        
+        return canvas.toDataURL('image/png').split(',')[1];
+      } catch (canvasError) {
+        console.error("html2canvas fallback failed:", canvasError);
+        return null;
+      }
+    }
+  } catch (error) {
+    console.error(`All fallback methods failed for ${chartId}:`, error);
+    return null;
+  }
+}

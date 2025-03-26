@@ -265,7 +265,7 @@ async function getApexChartBase64(chartId, retries = 3) {
   // Try export with multiple attempts
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      // console.log(`Export attempt ${attempt} for chart ${chartId}`);
+      console.log(`Export attempt ${attempt} for chart ${chartId}`);
 
       // Wait longer for each retry
       await delay(attempt + 100);
@@ -321,7 +321,7 @@ async function getApexChartBase64(chartId, retries = 3) {
 
       // Try the dataURI method
       try {
-        await delay(200); // Wait after refresh
+        await delay(100); // Wait after refresh
 
         // Get dataURI from ApexCharts
         const result = await chartInstance.dataURI({
@@ -333,9 +333,9 @@ async function getApexChartBase64(chartId, retries = 3) {
         if (result && result.imgURI) {
           const base64Data = result.imgURI.split(",")[1];
           const endTime = performance.now();
-          // console.log(
-          //   `Chart ${chartId} export took ${(endTime - startTime).toFixed(2)}ms`
-          // );
+          console.log(
+            `Chart ${chartId} export took ${(endTime - startTime).toFixed(2)}ms`
+          );
           return base64Data;
         }
       } catch (primaryError) {
@@ -608,7 +608,7 @@ async function processChartsWithSpacing(chartMappings) {
   ).toFixed(0)}ms`;
   setTimeout(() => {
     statusElement.remove();
-  }, 300);
+  }, 200);
 
   return results;
 }
