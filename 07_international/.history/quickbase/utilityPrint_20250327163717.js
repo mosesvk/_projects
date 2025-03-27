@@ -307,31 +307,13 @@ async function getApexChartBase64(chartId, retries = 3) {
         continue; // Try again if we have more retries
       }
 
-      // Store original chart options to restore later
-      let originalOptions = null;
-      if (chartInstance.w && chartInstance.w.config) {
-        originalOptions = {
-          chart: {
-            height: chartInstance.w.config.chart.height
-          }
-        };
-      }
-
       // Try the primary export method
       await delay(200); // Wait for chart to be ready
 
-      // First try to trigger a chart refresh with increased height to ensure it's fully rendered
+      // First try to trigger a chart refresh to ensure it's fully rendered
       if (chartInstance.updateOptions) {
         try {
-          // Update the chart height to 600px
-          chartInstance.updateOptions({
-            chart: {
-              height: 600
-            }
-          }, false, true);
-          
-          // Give the chart time to resize
-          await delay(300);
+          chartInstance.updateOptions({}, false, false);
         } catch (refreshError) {
           console.warn(`Could not refresh chart ${chartId}:`, refreshError);
         }
@@ -346,16 +328,6 @@ async function getApexChartBase64(chartId, retries = 3) {
           scale: 2, // Higher resolution
           background: "#ffffff", // White background
         });
-        
-        // Restore original chart height
-        if (originalOptions && chartInstance.updateOptions) {
-          try {
-            await delay(100);
-            chartInstance.updateOptions(originalOptions, false, true);
-          } catch (restoreError) {
-            console.warn(`Could not restore chart ${chartId} to original height:`, restoreError);
-          }
-        }
 
         // Extract the base64 part
         if (result && result.imgURI) {
@@ -372,16 +344,6 @@ async function getApexChartBase64(chartId, retries = 3) {
           primaryError
         );
 
-        // Restore original chart height even if export failed
-        if (originalOptions && chartInstance.updateOptions) {
-          try {
-            await delay(100);
-            chartInstance.updateOptions(originalOptions, false, true);
-          } catch (restoreError) {
-            console.warn(`Could not restore chart ${chartId} to original height:`, restoreError);
-          }
-        }
-
         // Wait before trying fallback
         await delay(100);
 
@@ -392,11 +354,11 @@ async function getApexChartBase64(chartId, retries = 3) {
         );
         if (fallbackResult) {
           const endTime = performance.now();
-          // console.log(
-          //   `Chart ${chartId} export (fallback) took ${(
-          //     endTime - startTime
-          //   ).toFixed(2)}ms`
-          // );
+          console.log(
+            `Chart ${chartId} export (fallback) took ${(
+              endTime - startTime
+            ).toFixed(2)}ms`
+          );
           return fallbackResult;
         }
       }
@@ -452,7 +414,7 @@ async function fallbackChartExport(chartId, chartInstance) {
     // METHOD 1: Try to export as SVG first then convert to PNG
     try {
       // Wait for chart to be ready
-      await delay(100);
+      await delay(200);
 
       // Get SVG string from ApexCharts
       let svgString = null;
@@ -507,11 +469,11 @@ async function fallbackChartExport(chartId, chartInstance) {
             context.drawImage(image, 0, 0);
             const pngBase64 = canvas.toDataURL("image/png").split(",")[1];
             const endTime = performance.now();
-            // console.log(
-            //   `Fallback method 1 for chart ${chartId} took ${(
-            //     endTime - startTime
-            //   ).toFixed(2)}ms`
-            // );
+            console.log(
+              `Fallback method 1 for chart ${chartId} took ${(
+                endTime - startTime
+              ).toFixed(2)}ms`
+            );
             resolve(pngBase64);
           } catch (drawError) {
             console.error("Error drawing image to canvas:", drawError);
@@ -534,11 +496,11 @@ async function fallbackChartExport(chartId, chartInstance) {
           const result = await chartInstance.exportToSVG();
           if (result && result.imgURI) {
             const endTime = performance.now();
-            // console.log(
-            //   `Fallback method 2 for chart ${chartId} took ${(
-            //     endTime - method2StartTime
-            //   ).toFixed(2)}ms`
-            // );
+            console.log(
+              `Fallback method 2 for chart ${chartId} took ${(
+                endTime - method2StartTime
+              ).toFixed(2)}ms`
+            );
             return result.imgURI.split(",")[1];
           }
         } catch (exportError) {
@@ -590,30 +552,30 @@ async function processChartsWithSpacing(chartMappings) {
       statusElement.textContent = `Processing chart ${i + 1}/${
         chartMappings.length
       }: ${chartId}`;
-      // console.log(
-      //   `Processing chart ${i + 1}/${chartMappings.length}: ${chartId}`
-      // );
+      console.log(
+        `Processing chart ${i + 1}/${chartMappings.length}: ${chartId}`
+      );
 
       // Wait between each chart
       await delay(100);
 
-      // const chartStartTime = performance.now();
+      const chartStartTime = performance.now();
 
       // Get base64 data directly from ApexCharts
       const base64String = await getApexChartBase64(chartId);
 
-      // const chartEndTime = performance.now();
-      // console.log(
-      //   `Chart ${chartId} total processing time: ${(
-      //     chartEndTime - chartStartTime
-      //   ).toFixed(2)}ms`
-      // );
+      const chartEndTime = performance.now();
+      console.log(
+        `Chart ${chartId} total processing time: ${(
+          chartEndTime - chartStartTime
+        ).toFixed(2)}ms`
+      );
 
       // If successful, add to results
       if (base64String) {
         results.push({ fieldId, base64String });
         successCount++;
-        // console.log(`Successfully exported chart ${chartId}`);
+        console.log(`Successfully exported chart ${chartId}`);
       } else {
         // If failed, add null result
         results.push({ fieldId, base64String: null });
@@ -646,7 +608,7 @@ async function processChartsWithSpacing(chartMappings) {
   ).toFixed(0)}ms`;
   setTimeout(() => {
     statusElement.remove();
-  }, 200);
+  }, 300);
 
   return results;
 }
@@ -682,7 +644,7 @@ async function apexChartsExportPrint() {
     // Show all sections for rendering, if needed
     const showSectionsStartTime = performance.now();
     const sections = [
-      "GeneralContent",
+      "generalContent",
       "cashContent",
       "netAssetsContent",
       "incomeContent",

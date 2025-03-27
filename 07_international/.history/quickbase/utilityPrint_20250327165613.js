@@ -268,7 +268,7 @@ async function getApexChartBase64(chartId, retries = 3) {
       // console.log(`Export attempt ${attempt} for chart ${chartId}`);
 
       // Wait longer for each retry
-      await delay(attempt + 200);
+      await delay(attempt + 100);
 
       // Get the chart instance
       let chartInstance;
@@ -307,18 +307,8 @@ async function getApexChartBase64(chartId, retries = 3) {
         continue; // Try again if we have more retries
       }
 
-      // Store original chart options to restore later
-      let originalOptions = null;
-      if (chartInstance.w && chartInstance.w.config) {
-        originalOptions = {
-          chart: {
-            height: chartInstance.w.config.chart.height
-          }
-        };
-      }
-
       // Try the primary export method
-      await delay(200); // Wait for chart to be ready
+      await delay(100); // Wait for chart to be ready
 
       // First try to trigger a chart refresh with increased height to ensure it's fully rendered
       if (chartInstance.updateOptions) {
@@ -331,7 +321,7 @@ async function getApexChartBase64(chartId, retries = 3) {
           }, false, true);
           
           // Give the chart time to resize
-          await delay(300);
+          await delay(200);
         } catch (refreshError) {
           console.warn(`Could not refresh chart ${chartId}:`, refreshError);
         }
@@ -339,23 +329,13 @@ async function getApexChartBase64(chartId, retries = 3) {
 
       // Try the dataURI method
       try {
-        await delay(300); // Wait after refresh
+        await delay(200); // Wait after refresh
 
         // Get dataURI from ApexCharts
         const result = await chartInstance.dataURI({
           scale: 2, // Higher resolution
           background: "#ffffff", // White background
         });
-        
-        // Restore original chart height
-        if (originalOptions && chartInstance.updateOptions) {
-          try {
-            await delay(100);
-            chartInstance.updateOptions(originalOptions, false, true);
-          } catch (restoreError) {
-            console.warn(`Could not restore chart ${chartId} to original height:`, restoreError);
-          }
-        }
 
         // Extract the base64 part
         if (result && result.imgURI) {
@@ -371,16 +351,6 @@ async function getApexChartBase64(chartId, retries = 3) {
           `Primary export method failed for ${chartId} on attempt ${attempt}:`,
           primaryError
         );
-
-        // Restore original chart height even if export failed
-        if (originalOptions && chartInstance.updateOptions) {
-          try {
-            await delay(100);
-            chartInstance.updateOptions(originalOptions, false, true);
-          } catch (restoreError) {
-            console.warn(`Could not restore chart ${chartId} to original height:`, restoreError);
-          }
-        }
 
         // Wait before trying fallback
         await delay(100);

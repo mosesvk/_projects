@@ -93,6 +93,7 @@ class ChartConfigFactory {
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
     // if (isAnnualizedInvestmentReturn) console.log('chartConfigFactory()', {dataClient});
+    
 
     let { clientArray } = getPeerAndClientChartDataArrays(
       selectedYearsArray,
@@ -126,7 +127,7 @@ class ChartConfigFactory {
     //     peerAvg,
     //     peerMid,
     //     peer25,
-    //     peer75,
+    //     peer75, 
     //     dataPeer,
     //     fixedNum,
     //     numType
@@ -170,46 +171,44 @@ class ChartConfigFactory {
       };
     }
 
-    const series = [
-      {
-        name: "Client",
-        type: "column",
-        data: clientArray,
-        style: {
-          colors: [this.themeColors.chartColors.labelColor],
-        },
-      },
-      {
-        name: "Avg",
-        type: "line",
-        stacked: false,
-        data: peerAvg,
-        yaxis: 0,
-      },
-      {
-        name: "25%",
-        type: "line",
-        data: peer25,
-        visible: false,
-      },
-      {
-        name: "50%",
-        type: "line",
-        data: peerMid,
-        visible: false,
-      },
-      {
-        name: "75%",
-        type: "line",
-        data: peer75,
-        visible: false,
-      },
-    ]
-
     // Return complete chart configuration
     return {
       colors: this.themeColors.seriesColors,
-      series: series,
+      series: [
+        {
+          name: "Client",
+          type: "column",
+          data: clientArray,
+          style: {
+            colors: [this.themeColors.chartColors.labelColor],
+          },
+        },
+        {
+          name: "Avg",
+          type: "line",
+          stacked: false,
+          data: peerAvg,
+          yaxis: 0,
+        },
+        {
+          name: "25%",
+          type: "line",
+          data: peer25,
+          visible: false,
+        },
+        {
+          name: "50%",
+          type: "line",
+          data: peerMid,
+          visible: false,
+        },
+        {
+          name: "75%",
+          type: "line",
+          data: peer75,
+          visible: false,
+        },
+      ],
       chart: {
         height: 400,
         type: "line",
@@ -252,8 +251,7 @@ class ChartConfigFactory {
         },
       },
       stroke: {
-        width: [2, 3, 4, 4, 4],
-        dashArray: series.map((s, i) => (i === 1 ? 4 : 0)),
+        width: [2, 6, 4, 4, 4],
       },
       title: {
         text: "",

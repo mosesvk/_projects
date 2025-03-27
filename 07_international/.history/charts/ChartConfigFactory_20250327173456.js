@@ -253,7 +253,7 @@ class ChartConfigFactory {
       },
       stroke: {
         width: [2, 3, 4, 4, 4],
-        dashArray: series.map((s, i) => (i === 1 ? 4 : 0)),
+        dashArray: series.map((s, i) => (i === 1 ? 2 : 0)),
       },
       title: {
         text: "",

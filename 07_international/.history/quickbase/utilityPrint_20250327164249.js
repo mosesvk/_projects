@@ -307,31 +307,13 @@ async function getApexChartBase64(chartId, retries = 3) {
         continue; // Try again if we have more retries
       }
 
-      // Store original chart options to restore later
-      let originalOptions = null;
-      if (chartInstance.w && chartInstance.w.config) {
-        originalOptions = {
-          chart: {
-            height: chartInstance.w.config.chart.height
-          }
-        };
-      }
-
       // Try the primary export method
       await delay(200); // Wait for chart to be ready
 
-      // First try to trigger a chart refresh with increased height to ensure it's fully rendered
+      // First try to trigger a chart refresh to ensure it's fully rendered
       if (chartInstance.updateOptions) {
         try {
-          // Update the chart height to 600px
-          chartInstance.updateOptions({
-            chart: {
-              height: 600
-            }
-          }, false, true);
-          
-          // Give the chart time to resize
-          await delay(300);
+          chartInstance.updateOptions({}, false, false);
         } catch (refreshError) {
           console.warn(`Could not refresh chart ${chartId}:`, refreshError);
         }
@@ -346,16 +328,6 @@ async function getApexChartBase64(chartId, retries = 3) {
           scale: 2, // Higher resolution
           background: "#ffffff", // White background
         });
-        
-        // Restore original chart height
-        if (originalOptions && chartInstance.updateOptions) {
-          try {
-            await delay(100);
-            chartInstance.updateOptions(originalOptions, false, true);
-          } catch (restoreError) {
-            console.warn(`Could not restore chart ${chartId} to original height:`, restoreError);
-          }
-        }
 
         // Extract the base64 part
         if (result && result.imgURI) {
@@ -371,16 +343,6 @@ async function getApexChartBase64(chartId, retries = 3) {
           `Primary export method failed for ${chartId} on attempt ${attempt}:`,
           primaryError
         );
-
-        // Restore original chart height even if export failed
-        if (originalOptions && chartInstance.updateOptions) {
-          try {
-            await delay(100);
-            chartInstance.updateOptions(originalOptions, false, true);
-          } catch (restoreError) {
-            console.warn(`Could not restore chart ${chartId} to original height:`, restoreError);
-          }
-        }
 
         // Wait before trying fallback
         await delay(100);
@@ -452,7 +414,7 @@ async function fallbackChartExport(chartId, chartInstance) {
     // METHOD 1: Try to export as SVG first then convert to PNG
     try {
       // Wait for chart to be ready
-      await delay(100);
+      await delay(200);
 
       // Get SVG string from ApexCharts
       let svgString = null;
@@ -646,7 +608,7 @@ async function processChartsWithSpacing(chartMappings) {
   ).toFixed(0)}ms`;
   setTimeout(() => {
     statusElement.remove();
-  }, 200);
+  }, 300);
 
   return results;
 }
