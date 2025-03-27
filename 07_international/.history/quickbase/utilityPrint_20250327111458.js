@@ -828,13 +828,13 @@ async function apexChartsExportPrint() {
     );
     console.log(`===============================================`);
 
-    // // Add a visual indicator on the page
-    // const timeIndicator = document.createElement("div");
-    // timeIndicator.className =
-    //   "fixed top-4 right-4 bg-green-700 text-white p-2 rounded shadow-lg z-50";
-    // timeIndicator.style.fontSize = "14px";
-    // timeIndicator.innerHTML = `Export completed in: ${totalTimeFormatted}`;
-    // document.body.appendChild(timeIndicator);
+    // Add a visual indicator on the page
+    const timeIndicator = document.createElement("div");
+    timeIndicator.className =
+      "fixed top-4 right-4 bg-green-700 text-white p-2 rounded shadow-lg z-50";
+    timeIndicator.style.fontSize = "14px";
+    timeIndicator.innerHTML = `Export completed in: ${totalTimeFormatted}`;
+    document.body.appendChild(timeIndicator);
 
     // Remove the indicator after 5 seconds
     setTimeout(() => {

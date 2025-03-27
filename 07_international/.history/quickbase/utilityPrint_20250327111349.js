@@ -268,7 +268,7 @@ async function getApexChartBase64(chartId, retries = 3) {
       // console.log(`Export attempt ${attempt} for chart ${chartId}`);
 
       // Wait longer for each retry
-      await delay(attempt + 200);
+      await delay(attempt + 100);
 
       // Get the chart instance
       let chartInstance;
@@ -308,7 +308,7 @@ async function getApexChartBase64(chartId, retries = 3) {
       }
 
       // Try the primary export method
-      await delay(200); // Wait for chart to be ready
+      await delay(100); // Wait for chart to be ready
 
       // First try to trigger a chart refresh to ensure it's fully rendered
       if (chartInstance.updateOptions) {
@@ -321,7 +321,7 @@ async function getApexChartBase64(chartId, retries = 3) {
 
       // Try the dataURI method
       try {
-        await delay(300); // Wait after refresh
+        await delay(200); // Wait after refresh
 
         // Get dataURI from ApexCharts
         const result = await chartInstance.dataURI({
@@ -414,7 +414,7 @@ async function fallbackChartExport(chartId, chartInstance) {
     // METHOD 1: Try to export as SVG first then convert to PNG
     try {
       // Wait for chart to be ready
-      await delay(200);
+      await delay(100);
 
       // Get SVG string from ApexCharts
       let svgString = null;
@@ -608,7 +608,7 @@ async function processChartsWithSpacing(chartMappings) {
   ).toFixed(0)}ms`;
   setTimeout(() => {
     statusElement.remove();
-  }, 300);
+  }, 500);
 
   return results;
 }
@@ -660,7 +660,7 @@ async function apexChartsExportPrint() {
     });
 
     // Wait for DOM to update
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     const showSectionsEndTime = performance.now();
     console.log(
@@ -828,13 +828,13 @@ async function apexChartsExportPrint() {
     );
     console.log(`===============================================`);
 
-    // // Add a visual indicator on the page
-    // const timeIndicator = document.createElement("div");
-    // timeIndicator.className =
-    //   "fixed top-4 right-4 bg-green-700 text-white p-2 rounded shadow-lg z-50";
-    // timeIndicator.style.fontSize = "14px";
-    // timeIndicator.innerHTML = `Export completed in: ${totalTimeFormatted}`;
-    // document.body.appendChild(timeIndicator);
+    // Add a visual indicator on the page
+    const timeIndicator = document.createElement("div");
+    timeIndicator.className =
+      "fixed top-4 right-4 bg-green-700 text-white p-2 rounded shadow-lg z-50";
+    timeIndicator.style.fontSize = "14px";
+    timeIndicator.innerHTML = `Export completed in: ${totalTimeFormatted}`;
+    document.body.appendChild(timeIndicator);
 
     // Remove the indicator after 5 seconds
     setTimeout(() => {
