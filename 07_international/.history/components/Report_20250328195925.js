@@ -7,7 +7,7 @@ const ReportComponent = (() => {
   let excelMetricsProcessed = 0;
   let totalExcelMetrics = 0;
   let hasSentInitialBegin = false;
-  
+
   /**
    * Displays report component with all metrics and data
    */
@@ -16,7 +16,7 @@ const ReportComponent = (() => {
     excelMetricsProcessed = 0;
     totalExcelMetrics = 0;
     hasSentInitialBegin = false;
-    
+
     // Make sure the report tab is visible
     showReportsTab();
 
@@ -100,24 +100,23 @@ const ReportComponent = (() => {
       clearReportTables();
       addYearColumnsToAllReportTables(selectedYears);
 
-      // Get metric definitions for all categories
-      const metricDefs = getMetricDefinitions();
-      
       // Count total metrics for Excel report (all metrics with fileIdArray)
+      const metricDefs = getMetricDefinitions();
       totalExcelMetrics = metricDefs.reduce((count, category) => {
-        return count + category.reduce((subCount, metric) => {
-          return subCount + (metric[5] ? 1 : 0); // Count metrics with fileIdArray
-        }, 0);
+        return (
+          count +
+          category.reduce((subCount, metric) => {
+            return subCount + (metric[5] ? 1 : 0); // Count metrics with fileIdArray
+          }, 0)
+        );
       }, 0);
-      
+
       console.log(`Total metrics for Excel report: ${totalExcelMetrics}`);
 
-      // Fix firmName if it's an HTML element
-      if (typeof window.firmName === 'object' && window.firmName instanceof HTMLElement) {
-        window.firmName = window.firmName.textContent || '';
-        console.log("Fixed firmName:", window.firmName);
-      }
-      
+      // Insert data for each category
+      // THIS IS THE CRITICAL PART - These arrays contain peer data field IDs
+      // Each array item is: [metricName, dataType, decimals, weightedAvg, callback, fieldIds, begin, end]
+
       // Process each data category
       if (generalData && Object.keys(generalData).length > 0) {
         insertDataToReport(generalData, selectedYears, metricDefs[0]);
@@ -145,18 +144,26 @@ const ReportComponent = (() => {
 
       // Format the table cells
       processTHElements();
-      
+
       // If no metrics were processed, we need to finish the XML structure
-      if (hasSentInitialBegin && excelMetricsProcessed === 0 && 
-          typeof ExcelReportGenerator !== 'undefined' && 
-          typeof ExcelReportGenerator.createFileForPrint === 'function') {
+      if (
+        hasSentInitialBegin &&
+        excelMetricsProcessed === 0 &&
+        typeof ExcelReportGenerator !== "undefined" &&
+        typeof ExcelReportGenerator.createFileForPrint === "function"
+      ) {
         // Send an empty metric with the end flag
         ExcelReportGenerator.createFileForPrint(
           "empty",
           [999, 999, 999, 999], // Dummy field IDs
           false, // Not begin
-          true,  // Is end
-          0, 0, 0, 0, null, null
+          true, // Is end
+          0,
+          0,
+          0,
+          0,
+          null,
+          null
         );
       }
     } catch (error) {
@@ -190,19 +197,10 @@ const ReportComponent = (() => {
           null,
         ],
       ],
-      
+
       // Cash data
       [
-        [
-          "daysCashOnHand",
-          "num",
-          0,
-          "wa",
-          null,
-          [7, 45, 83, 121],
-          null,
-          null,
-        ],
+        ["daysCashOnHand", "num", 0, "wa", null, [7, 45, 83, 121], null, null],
         [
           "daysExpensesInUnrestrictedNA",
           "num",
@@ -335,7 +333,7 @@ const ReportComponent = (() => {
           null,
         ],
       ],
-      
+
       // Asset data
       [
         [
@@ -369,19 +367,10 @@ const ReportComponent = (() => {
           null,
         ],
       ],
-      
+
       // Income data
       [
-        [
-          "netIncomeRatio",
-          "num",
-          2,
-          "wa",
-          null,
-          [23, 61, 99, 137],
-          null,
-          null,
-        ],
+        ["netIncomeRatio", "num", 2, "wa", null, [23, 61, 99, 137], null, null],
         [
           "contributionsTrend_basedOnNumberOfDonors",
           "percent",
@@ -473,7 +462,7 @@ const ReportComponent = (() => {
           null,
         ],
       ],
-      
+
       // Expense data
       [
         [
@@ -567,7 +556,7 @@ const ReportComponent = (() => {
           "end",
         ],
       ],
-      
+
       // Misc data
       [
         [
@@ -580,7 +569,7 @@ const ReportComponent = (() => {
           null,
           null,
         ],
-      ]
+      ],
     ];
   }
 
@@ -782,22 +771,27 @@ const ReportComponent = (() => {
           fileIdArray &&
           Array.isArray(fileIdArray) &&
           fileIdArray.length === 4 &&
-          typeof ExcelReportGenerator !== 'undefined' &&
-          typeof ExcelReportGenerator.createFileForPrint === 'function'
+          typeof ExcelReportGenerator !== "undefined" &&
+          typeof ExcelReportGenerator.createFileForPrint === "function"
         ) {
           // Track metrics with fileIdArray
           excelMetricsProcessed++;
-          console.log(`Processing Excel metric ${excelMetricsProcessed}/${totalExcelMetrics}: ${metricName}`);
-          
+          console.log(
+            `Processing Excel metric ${excelMetricsProcessed}/${totalExcelMetrics}: ${metricName}`
+          );
+
           // Handle begin/end flags
-          let isBegin = begin === "begin" || (!hasSentInitialBegin && excelMetricsProcessed === 1);
-          let isEnd = end === "end" || (excelMetricsProcessed === totalExcelMetrics);
-          
+          let isBegin =
+            begin === "begin" ||
+            (!hasSentInitialBegin && excelMetricsProcessed === 1);
+          let isEnd =
+            end === "end" || excelMetricsProcessed === totalExcelMetrics;
+
           // Update the flag so we know we've sent begin
           if (isBegin) {
             hasSentInitialBegin = true;
           }
-          
+
           // Create file data
           ExcelReportGenerator.createFileForPrint(
             metricName,
@@ -811,8 +805,10 @@ const ReportComponent = (() => {
             peerData,
             data
           );
-          
-          console.log(`Sent ${metricName} data to QuickBase (begin: ${isBegin}, end: ${isEnd})`);
+
+          console.log(
+            `Sent ${metricName} data to QuickBase (begin: ${isBegin}, end: ${isEnd})`
+          );
         }
       } else {
         // Add empty cells if no peer data
@@ -1121,173 +1117,6 @@ const ReportComponent = (() => {
     }
   }
 
-  /**
-   * Function to directly fix QuickBase report generation issues
-   * Use this as a backup when normal QuickBase integration fails
-   */
-  function fixAndGenerateQuickBaseReport() {
-    console.log("Starting direct QuickBase report generation...");
-    
-    // 1. Fix the firmName issue
-    if (typeof firmName === 'object' && firmName instanceof HTMLElement) {
-      window.firmName = firmName.textContent || '';
-      console.log("Fixed firmName:", window.firmName);
-    }
-    
-    // 2. Get the data from localStorage
-    const generalData = JSON.parse(localStorage.getItem("generalData") || "{}");
-    const cashData = JSON.parse(localStorage.getItem("cashData") || "{}");
-    const assetData = JSON.parse(localStorage.getItem("assetData") || "{}");
-    const incomeData = JSON.parse(localStorage.getItem("incomeData") || "{}");
-    const expenseData = JSON.parse(localStorage.getItem("expenseData") || "{}");
-    const miscData = JSON.parse(localStorage.getItem("miscData") || "{}");
-    
-    // 3. Reset the XML payload in ExcelReportGenerator
-    if (ExcelReportGenerator && ExcelReportGenerator.uploadToFile) {
-      // Start with a new XML document using a dummy metric
-      ExcelReportGenerator.uploadToFile(
-        0, 0, 0, 0, 
-        [6, 44, 82, 120], // Using itExpenses field IDs
-        true, // BEGIN flag - start a new XML document
-        false // Not END yet
-      );
-      
-      console.log("Started new XML document");
-    }
-    
-    // 4. Process metrics with peer data using a helper function
-    processPeerDataForExcel(generalData, "itExpenses", [6, 44, 82, 120], false);
-    processPeerDataForExcel(cashData, "daysCashOnHand", [7, 45, 83, 121], false);
-    processPeerDataForExcel(cashData, "daysExpensesInUnrestrictedNA", [8, 46, 84, 122], false);
-    processPeerDataForExcel(cashData, "daysExpensesInUnrestrictedNA_excludingPPE", [9, 47, 85, 123], false);
-    processPeerDataForExcel(cashData, "daysExpensesInNAwithDR", [10, 48, 86, 124], false);
-    processPeerDataForExcel(cashData, "daysExpensesInNAwithDR_excludingPPE", [11, 49, 87, 125], false);
-    processPeerDataForExcel(cashData, "liquidityFundsAvailable", [12, 50, 88, 126], false);
-    processPeerDataForExcel(cashData, "financialAssetsAvailableFY", [13, 51, 89, 127], false);
-    processPeerDataForExcel(cashData, "daysFinancialAssetsOnHand", [14, 52, 90, 128], false);
-    processPeerDataForExcel(cashData, "currentRatio", [15, 53, 91, 129], false);
-    processPeerDataForExcel(cashData, "totalCoverageRatio", [16, 54, 92, 130], false);
-    processPeerDataForExcel(cashData, "cashFlowsTrendFinancing", [17, 55, 93, 131], false);
-    processPeerDataForExcel(cashData, "cashFlowsTrendInvesting", [18, 56, 94, 132], false);
-    processPeerDataForExcel(cashData, "cashFlowsTrendOperating", [19, 57, 95, 133], false);
-    
-    processPeerDataForExcel(assetData, "percentWithDR", [20, 58, 96, 134], false);
-    processPeerDataForExcel(assetData, "percentWithoutDR_excludingPPE", [21, 59, 97, 135], false);
-    processPeerDataForExcel(assetData, "percentWithoutDR", [22, 60, 98, 136], false);
-    
-    processPeerDataForExcel(incomeData, "netIncomeRatio", [23, 61, 99, 137], false);
-    processPeerDataForExcel(incomeData, "contributionsTrend_basedOnNumberOfDonors", [24, 62, 100, 138], false);
-    processPeerDataForExcel(incomeData, "contributionsTrend", [25, 63, 101, 139], false);
-    processPeerDataForExcel(incomeData, "contributionsPercentWithoutDR", [26, 64, 102, 140], false);
-    processPeerDataForExcel(incomeData, "contributionsPercentWithDR", [27, 65, 103, 141], false);
-    processPeerDataForExcel(incomeData, "contributionsPerGivingUnit", [28, 66, 104, 142], false);
-    processPeerDataForExcel(incomeData, "contributionsPerMissionaryUnit", [29, 67, 105, 143], false);
-    processPeerDataForExcel(incomeData, "contributionsPerFullTimeEquivalent", [30, 68, 106, 144], false);
-    processPeerDataForExcel(incomeData, "fundraisingAsPercentOfContributions", [31, 69, 107, 145], false);
-    processPeerDataForExcel(incomeData, "annualizedInvestmentReturn", [32, 70, 108, 146], false);
-
-    processPeerDataForExcel(expenseData, "functionalExpensePercent_program", [33, 71, 109, 147], false);
-    processPeerDataForExcel(expenseData, "functionalExpensePercent_administrative", [34, 72, 110, 148], false);
-    processPeerDataForExcel(expenseData, "functionalExpensePercent_fundraising", [35, 73, 111, 149], false);
-    processPeerDataForExcel(expenseData, "costOfContributions", [37, 75, 113, 151], false);
-    processPeerDataForExcel(expenseData, "expensesPerGivingUnit", [38, 76, 114, 152], false);
-    processPeerDataForExcel(expenseData, "expensesPerMissionaryUnit", [39, 77, 115, 153], false);
-    processPeerDataForExcel(expenseData, "expensesPerFullTimeEquivalent", [40, 78, 116, 154], false);
-    processPeerDataForExcel(expenseData, "salariesAndBenefitsAsPercentOfTotalExpenses", [41, 79, 117, 155], false);
-    
-    // Last metric sets the END flag to true
-    processPeerDataForExcel(expenseData, "salariesAndBenefitsPerFTE", [42, 80, 118, 156], true);
-    
-    console.log("Successfully processed all metrics with peer data");
-    console.log("QuickBase report generation complete!");
-  }
-
-  /**
-   * Helper function to process peer data for QuickBase Excel report
-   * @param {Object} data - Data category (generalData, cashData, etc.)
-   * @param {string} metricName - Metric name
-   * @param {Array} fileIdArray - Array of field IDs for QuickBase
-   * @param {boolean} isEnd - Whether this is the last metric (END flag)
-   */
-  function processPeerDataForExcel(data, metricName, fileIdArray, isEnd) {
-    if (!data || !metricName || !fileIdArray || !ExcelReportGenerator || !ExcelReportGenerator.uploadToFile) {
-      console.warn(`Skipping ${metricName} - missing dependencies`);
-      return;
-    }
-    
-    try {
-      // Get peer data
-      const peerData = data[`${metricName}_Peer`];
-      
-      if (!peerData) {
-        console.warn(`No peer data found for ${metricName}`);
-        return;
-      }
-      
-      // Calculate statistics
-      let avg = 0, q1 = 0, median = 0, q3 = 0;
-      
-      // Try to use weighted average if available
-      if (typeof getWeightedAverageOfArray === 'function') {
-        try {
-          avg = getWeightedAverageOfArray(data, metricName, null);
-        } catch (error) {
-          console.warn(`Error calculating weighted average for ${metricName}:`, error);
-          // Fallback to simple average
-          if (peerData["total"] && Array.isArray(peerData["total"])) {
-            avg = peerData["total"].reduce((sum, val) => sum + Number(val), 0) / peerData["total"].length;
-          }
-        }
-      } else if (peerData["total"] && Array.isArray(peerData["total"])) {
-        // Simple average fallback
-        avg = peerData["total"].reduce((sum, val) => sum + Number(val), 0) / peerData["total"].length;
-      }
-      
-      // Calculate percentiles if functions are available
-      if (peerData["total"] && Array.isArray(peerData["total"])) {
-        if (typeof get25thPercentileOfArray === 'function') {
-          q1 = get25thPercentileOfArray(peerData["total"], metricName) || 0;
-        } else {
-          // Simple percentile calculation
-          const sorted = [...peerData["total"]].sort((a, b) => Number(a) - Number(b));
-          const q1Index = Math.floor(sorted.length * 0.25);
-          q1 = sorted[q1Index] || 0;
-        }
-        
-        if (typeof getMidpointOfArray === 'function') {
-          median = getMidpointOfArray(peerData["total"], metricName) || 0;
-        } else {
-          // Simple median calculation
-          const sorted = [...peerData["total"]].sort((a, b) => Number(a) - Number(b));
-          const midIndex = Math.floor(sorted.length * 0.5);
-          median = sorted[midIndex] || 0;
-        }
-        
-        if (typeof get75thPercentileOfArray === 'function') {
-          q3 = get75thPercentileOfArray(peerData["total"], metricName) || 0;
-        } else {
-          // Simple q3 calculation
-          const sorted = [...peerData["total"]].sort((a, b) => Number(a) - Number(b));
-          const q3Index = Math.floor(sorted.length * 0.75);
-          q3 = sorted[q3Index] || 0;
-        }
-      }
-      
-      // Add to the XML
-      ExcelReportGenerator.uploadToFile(
-        avg, median, q1, q3,
-        fileIdArray,
-        false, // Not BEGIN
-        isEnd  // END flag passed from parameter
-      );
-      
-      console.log(`Successfully added ${metricName} to the report (end: ${isEnd})`);
-      
-    } catch (error) {
-      console.error(`Error processing ${metricName}:`, error);
-    }
-  }
-
   // Public API
   return {
     displayReportComponent,
@@ -1297,14 +1126,11 @@ const ReportComponent = (() => {
     addYearColumnsToAllReportTables,
     processTHElements,
     showReportsTab,
-    fixAndGenerateQuickBaseReport,
-    processPeerDataForExcel
   };
 })();
 
 // Make the function globally available
 window.displayReportComponent = ReportComponent.displayReportComponent;
-window.fixAndGenerateQuickBaseReport = ReportComponent.fixAndGenerateQuickBaseReport;
 
 // Listen for chartsRendered event
 document.addEventListener("chartsRendered", function () {
@@ -1312,3 +1138,320 @@ document.addEventListener("chartsRendered", function () {
     ReportComponent.displayReportComponent();
   }, 300);
 });
+
+/**
+ * Debug function to check QuickBase integration
+ * Add this to your ReportComponent code to troubleshoot the issue
+ */
+function debugQuickBaseIntegration() {
+  console.log("=== QuickBase Integration Debugger ===");
+  
+  // 1. Check if ExcelReportGenerator is available
+  if (typeof ExcelReportGenerator === 'undefined') {
+    console.error("❌ ExcelReportGenerator is not defined");
+  } else {
+    console.log("✅ ExcelReportGenerator is defined");
+    
+    // Check for specific functions
+    if (typeof ExcelReportGenerator.createFileForPrint === 'function') {
+      console.log("✅ ExcelReportGenerator.createFileForPrint function exists");
+    } else {
+      console.error("❌ ExcelReportGenerator.createFileForPrint function is missing");
+    }
+  }
+  
+  // 2. Inspect the metric definitions with field IDs
+  console.log("Checking metric definitions with fileIdArrays:");
+  
+  // This should match your getMetricDefinitions structure
+  const metricDefs = getMetricDefinitions();
+  let metricsWithFieldIds = [];
+  
+  metricDefs.forEach((category, categoryIndex) => {
+    category.forEach((metric) => {
+      const metricName = metric[0];
+      const fileIdArray = metric[5];
+      const begin = metric[6];
+      const end = metric[7];
+      
+      if (fileIdArray && Array.isArray(fileIdArray)) {
+        metricsWithFieldIds.push({
+          metricName,
+          fileIdArray,
+          begin,
+          end
+        });
+      }
+    });
+  });
+  
+  if (metricsWithFieldIds.length > 0) {
+    console.log(`✅ Found ${metricsWithFieldIds.length} metrics with fileIdArrays`);
+    console.log("First 3 metrics with fileIdArrays:", metricsWithFieldIds.slice(0, 3));
+  } else {
+    console.error("❌ No metrics with fileIdArrays found");
+  }
+  
+  // 3. Check for one specific metric to test data access
+  const testMetricName = "itExpenses"; // This should have a fileIdArray
+  console.log(`Testing data access for metric: ${testMetricName}`);
+  
+  // Try to get the data for this metric
+  const generalData = JSON.parse(localStorage.getItem("generalData") || "{}");
+  const clientData = generalData[`${testMetricName}_Client`];
+  const peerData = generalData[`${testMetricName}_Peer`];
+  
+  if (clientData) {
+    console.log("✅ Client data found for test metric");
+    console.log("Sample client data:", Object.keys(clientData).slice(0, 3));
+  } else {
+    console.error("❌ No client data found for test metric");
+  }
+  
+  if (peerData) {
+    console.log("✅ Peer data found for test metric");
+    console.log("Sample peer data:", Object.keys(peerData).slice(0, 3));
+  } else {
+    console.error("❌ No peer data found for test metric");
+  }
+  
+  // 4. Check for metric display in the DOM
+  const rowId = `row_${testMetricName}`;
+  const row = document.getElementById(rowId);
+  if (row) {
+    console.log(`✅ DOM element found for test metric (${rowId})`);
+  } else {
+    console.error(`❌ DOM element not found for test metric (${rowId})`);
+  }
+  
+  // 5. Attempt to manually call the specific code path
+  console.log("Attempting to manually create file for print...");
+  
+  try {
+    // Find the fileIdArray for the test metric
+    const testMetricDef = metricsWithFieldIds.find(m => m.metricName === testMetricName);
+    
+    if (testMetricDef && typeof ExcelReportGenerator !== 'undefined' && 
+        typeof ExcelReportGenerator.createFileForPrint === 'function') {
+      
+      // Calculate some values for testing
+      const avg = 100; // Sample value
+      const median = 90; // Sample value 
+      const q1 = 80; // Sample value
+      const q3 = 110; // Sample value
+      
+      // Try to call the function
+      console.log("Calling createFileForPrint with test data...");
+      ExcelReportGenerator.createFileForPrint(
+        testMetricName,
+        testMetricDef.fileIdArray,
+        true, // isBegin
+        false, // isEnd
+        avg,
+        median,
+        q1,
+        q3,
+        peerData,
+        generalData
+      );
+      console.log("✅ Successfully called createFileForPrint with test data");
+    } else {
+      console.error("❌ Cannot call createFileForPrint - missing dependencies");
+    }
+  } catch (error) {
+    console.error("❌ Error when trying to manually call createFileForPrint:", error);
+  }
+  
+  console.log("=== QuickBase Integration Debug Complete ===");
+}
+
+/**
+ * Patched version of insertDataToReport with extra debugging
+ * This shows exactly where execution stops
+ */
+function debugInsertDataToReport(data, selectedYears, arrayOfNames) {
+  console.log("=== DEBUG: insertDataToReport started ===");
+  
+  if (!data || !selectedYears || !arrayOfNames) {
+    console.warn("Missing data for report:", {
+      data: !!data,
+      years: !!selectedYears,
+      names: !!arrayOfNames,
+    });
+    return;
+  }
+
+  // Process each metric in the array
+  for (let metricConfig of arrayOfNames) {
+    const metricName = metricConfig[0];
+    console.log(`DEBUG: Processing metric ${metricName}`);
+    
+    const dataType = metricConfig[1]; // 'num', 'percent', 'dollar'
+    const fixedDecimals = metricConfig[2]; // number of decimal places
+    const weightedAvg = metricConfig[3]; // 'wa' if weighted average
+    const callback = metricConfig[4]; // callback function
+    const fileIdArray = metricConfig[5]; // array of file IDs for peer stats
+    const begin = metricConfig[6]; // begin position
+    const end = metricConfig[7]; // end position
+
+    // Just check the fileIdArray right away
+    console.log(`DEBUG: fileIdArray for ${metricName}:`, fileIdArray);
+    
+    // Find the row element for this metric
+    const rowId = `row_${metricName}`;
+    const row = document.getElementById(rowId);
+    if (!row) {
+      console.warn(`Row not found for metric: ${metricName} (ID: ${rowId})`);
+      continue;
+    }
+
+    // Skip ahead to the peer data part
+    console.log(`DEBUG: Getting peer data for ${metricName}`);
+    
+    // Add peer data cells (average, percentiles)
+    const peerData = data[`${metricName}_Peer`];
+    if (peerData) {
+      console.log(`DEBUG: Found peer data for ${metricName}`);
+      
+      // Calculate statistics
+      let avg = 0;
+      let q1 = 0, median = 0, q3 = 0;
+      
+      // Use weighted average if requested and function is available
+      if (weightedAvg === "wa" && typeof getWeightedAverageOfArray === "function") {
+        try {
+          avg = getWeightedAverageOfArray(data, metricName, null);
+          console.log(`DEBUG: Calculated weighted average for ${metricName}: ${avg}`);
+        } catch (error) {
+          console.error(`Error calculating weighted average for ${metricName}:`, error);
+          if (peerData["total"] && Array.isArray(peerData["total"])) {
+            avg = getAverageOfArray(peerData["total"], metricName) || 0;
+          }
+        }
+      } else if (peerData["total"] && Array.isArray(peerData["total"])) {
+        avg = getAverageOfArray(peerData["total"], metricName) || 0;
+        console.log(`DEBUG: Calculated regular average for ${metricName}: ${avg}`);
+      }
+
+      // Calculate percentiles
+      if (peerData["total"] && Array.isArray(peerData["total"])) {
+        if (typeof calculatePercentiles === "function") {
+          try {
+            [q1, median, q3] = calculatePercentiles(peerData["total"], dataType, fixedDecimals);
+            console.log(`DEBUG: Calculated percentiles for ${metricName}`);
+          } catch (error) {
+            console.warn(`Error calculating percentiles for ${metricName}:`, error);
+            q1 = get25thPercentileOfArray(peerData["total"], metricName) || 0;
+            median = getMidpointOfArray(peerData["total"], metricName) || 0;
+            q3 = get75thPercentileOfArray(peerData["total"], metricName) || 0;
+          }
+        } else {
+          q1 = get25thPercentileOfArray(peerData["total"], metricName) || 0;
+          median = getMidpointOfArray(peerData["total"], metricName) || 0;
+          q3 = get75thPercentileOfArray(peerData["total"], metricName) || 0;
+        }
+      }
+      
+      console.log(`DEBUG: Ready to check fileIdArray condition for ${metricName}`);
+      
+      // CRITICAL PART: Send peer data to QuickBase if field IDs are provided
+      console.log(`DEBUG: fileIdArray check:`, {
+        fileIdArray: fileIdArray,
+        isArray: Array.isArray(fileIdArray),
+        length: fileIdArray ? fileIdArray.length : 0,
+        ExcelReportGenerator: typeof ExcelReportGenerator,
+        createFileForPrint: typeof ExcelReportGenerator?.createFileForPrint
+      });
+      
+      if (
+        fileIdArray &&
+        Array.isArray(fileIdArray) &&
+        fileIdArray.length === 4 &&
+        typeof ExcelReportGenerator !== 'undefined' &&
+        typeof ExcelReportGenerator.createFileForPrint === 'function'
+      ) {
+        console.log(`DEBUG: About to call createFileForPrint for ${metricName}`);
+        
+        // Handle begin/end flags
+        let isBegin = begin === "begin";
+        let isEnd = end === "end";
+        
+        console.log(`DEBUG: Will send ${metricName} with begin=${isBegin}, end=${isEnd}`);
+        
+        try {
+          // Create file data
+          ExcelReportGenerator.createFileForPrint(
+            metricName,
+            fileIdArray,
+            isBegin,
+            isEnd,
+            avg,
+            median,
+            q1,
+            q3,
+            peerData,
+            data
+          );
+          
+          console.log(`SUCCESS: Sent ${metricName} data to QuickBase (begin: ${isBegin}, end: ${isEnd})`);
+        } catch (error) {
+          console.error(`ERROR: Failed to send ${metricName} data to QuickBase:`, error);
+        }
+      } else {
+        console.log(`DEBUG: Skipped sending ${metricName} - condition not met`);
+      }
+    } else {
+      console.log(`DEBUG: No peer data found for ${metricName}`);
+    }
+  }
+  
+  console.log("=== DEBUG: insertDataToReport completed ===");
+}
+
+/**
+ * Add this to the bottom of your page to run the debug
+ */
+function runDebugFunctions() {
+  console.log("Running QuickBase integration debug...");
+  
+  // First check the integration points
+  debugQuickBaseIntegration();
+  
+  // Test the insertDataToReport function with the first category
+  const generalData = JSON.parse(localStorage.getItem("generalData") || "{}");
+  const selectedYears = getSelectedYearsFromLocalStorage() || [];
+  const metricDefs = getMetricDefinitions();
+  
+  if (generalData && selectedYears.length > 0 && metricDefs.length > 0) {
+    debugInsertDataToReport(generalData, selectedYears, metricDefs[0]);
+  } else {
+    console.error("Cannot run debugInsertDataToReport: missing data");
+  }
+  
+  console.log("Debug complete - check console output for details");
+}
+
+// Create a function to verify it works
+function verifyQuickbaseXML() {
+  // Create a simple XML payload for testing
+  const testXML = `<?xml version="1.0" ?><qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken><field fid='171'>2605</field><field fid='6'>100</field><field fid='44'>90</field><field fid='82'>80</field><field fid='120'>110</field><clist>171</clist></qdbapi>`;
+  
+  console.log("Testing QuickBase API with simple XML...");
+  
+  if (typeof printToExcel === 'function') {
+    printToExcel(testXML)
+      .then(result => {
+        console.log("QuickBase API test success:", result);
+      })
+      .catch(error => {
+        console.error("QuickBase API test failed:", error);
+      });
+  } else {
+    console.error("printToExcel function not found");
+  }
+}
+
+/**
+ * Add this code to your page and call runDebugFunctions() from the console
+ * You can also call verifyQuickbaseXML() to test basic API connectivity
+ */
