@@ -503,36 +503,36 @@ class ExcelReportGenerator {
 
       // IMPORTANT: Direct access to global variables for filters
       const sliderValue =
-        document.getElementById("givingUnitsMin")?.value || 0;
+        window.sliderValue !== undefined ? window.sliderValue : 0;
       const sliderValue2 =
-        document.getElementById("givingUnitsMax")?.value || 0;
+        window.sliderValue2 !== undefined ? window.sliderValue2 : 0;
       const missionValue =
-        document.getElementById("missionUnitsMin")?.value || 0;
+        window.missionValue !== undefined ? window.missionValue : 0;
       const missionValue2 =
-        document.getElementById("missionUnitsMax")?.value || 0;
+        window.missionValue2 !== undefined ? window.missionValue2 : 0;
 
       // Get types and regions from global arrays
       let types = "";
-      if (selectedTypes_Array) {
+      if (window.selectedTypes_Array) {
         // Check if it's a Set
-        if (selectedTypes_Array instanceof Set) {
-          types = Array.from(selectedTypes_Array).join(";");
+        if (window.selectedTypes_Array instanceof Set) {
+          types = Array.from(window.selectedTypes_Array).join(";");
         }
         // Check if it's an Array
-        else if (Array.isArray(selectedTypes_Array)) {
-          types = selectedTypes_Array.join(";");
+        else if (Array.isArray(window.selectedTypes_Array)) {
+          types = window.selectedTypes_Array.join(";");
         }
       }
 
       let regions = "";
-      if (selectedRegions_Array) {
+      if (window.selectedRegions_Array) {
         // Check if it's a Set
-        if (selectedRegions_Array instanceof Set) {
-          regions = Array.from(selectedRegions_Array).join(";");
+        if (window.selectedRegions_Array instanceof Set) {
+          regions = Array.from(window.selectedRegions_Array).join(";");
         }
         // Check if it's an Array
-        else if (Array.isArray(selectedRegions_Array)) {
-          regions = selectedRegions_Array.join(";");
+        else if (Array.isArray(window.selectedRegions_Array)) {
+          regions = window.selectedRegions_Array.join(";");
         }
       }
 
@@ -585,7 +585,7 @@ class ExcelReportGenerator {
       const selectedYears = getSelectedYearsFromLocalStorage() || [];
       for (let i = 0; i < selectedYears.length; i++) {
         const year = selectedYears[i];
-        const fieldId = Number(this.FIELD_IDS.YEARS_START) + i;
+        const fieldId = this.FIELD_IDS.YEARS_START + i;
         this.xmlPayload += `<field fid='${fieldId}'>${this.escapeXml(
           year
         )}</field>`;

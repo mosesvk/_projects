@@ -503,19 +503,19 @@ class ExcelReportGenerator {
 
       // IMPORTANT: Direct access to global variables for filters
       const sliderValue =
-        document.getElementById("givingUnitsMin")?.value || 0;
+        document.getElementById("givingUnitsMin")?.textContent || 0;
       const sliderValue2 =
-        document.getElementById("givingUnitsMax")?.value || 0;
+        document.getElementById("givingUnitsMax")?.textContent || 0;
       const missionValue =
-        document.getElementById("missionUnitsMin")?.value || 0;
+        document.getElementById("missionUnitsMin")?.textContent || 0;
       const missionValue2 =
-        document.getElementById("missionUnitsMax")?.value || 0;
+        document.getElementById("missionUnitsMax")?.textContent || 0;
 
       // Get types and regions from global arrays
       let types = "";
-      if (selectedTypes_Array) {
+      if (window.selectedTypes_Array) {
         // Check if it's a Set
-        if (selectedTypes_Array instanceof Set) {
+        if (window.selectedTypes_Array instanceof Set) {
           types = Array.from(selectedTypes_Array).join(";");
         }
         // Check if it's an Array
@@ -585,7 +585,7 @@ class ExcelReportGenerator {
       const selectedYears = getSelectedYearsFromLocalStorage() || [];
       for (let i = 0; i < selectedYears.length; i++) {
         const year = selectedYears[i];
-        const fieldId = Number(this.FIELD_IDS.YEARS_START) + i;
+        const fieldId = this.FIELD_IDS.YEARS_START + i;
         this.xmlPayload += `<field fid='${fieldId}'>${this.escapeXml(
           year
         )}</field>`;

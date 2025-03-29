@@ -585,7 +585,7 @@ class ExcelReportGenerator {
       const selectedYears = getSelectedYearsFromLocalStorage() || [];
       for (let i = 0; i < selectedYears.length; i++) {
         const year = selectedYears[i];
-        const fieldId = Number(this.FIELD_IDS.YEARS_START) + i;
+        const fieldId = this.FIELD_IDS.YEARS_START;
         this.xmlPayload += `<field fid='${fieldId}'>${this.escapeXml(
           year
         )}</field>`;

@@ -483,59 +483,52 @@ class ExcelReportGenerator {
   async createPrintExcel() {
     // Reset XML payload
     this.xmlPayload = "";
-
+  
     try {
       // Get client data with direct access to global variables
       const ClientRid = window.ClientRid || "";
-
+      
       // Handle firmName
       let firmName = "";
       if (window.firmName) {
-        firmName =
-          window.firmName instanceof HTMLElement
-            ? window.firmName.textContent || ""
-            : window.firmName;
+        firmName = window.firmName instanceof HTMLElement ? 
+          window.firmName.textContent || "" : window.firmName;
       }
-
+  
       // Get uniqueClients
-      let uniqueClientsSize =
-        document.getElementById("uniqueClients")?.textContent || 0;
-
+      let uniqueClientsSize = document.getElementById("uniqueClients")?.textContent || 0;
+  
       // IMPORTANT: Direct access to global variables for filters
-      const sliderValue =
-        document.getElementById("givingUnitsMin")?.value || 0;
-      const sliderValue2 =
-        document.getElementById("givingUnitsMax")?.value || 0;
-      const missionValue =
-        document.getElementById("missionUnitsMin")?.value || 0;
-      const missionValue2 =
-        document.getElementById("missionUnitsMax")?.value || 0;
-
+      const sliderValue = window.sliderValue !== undefined ? window.sliderValue : 0;
+      const sliderValue2 = window.sliderValue2 !== undefined ? window.sliderValue2 : 0;
+      const missionValue = window.missionValue !== undefined ? window.missionValue : 0;
+      const missionValue2 = window.missionValue2 !== undefined ? window.missionValue2 : 0;
+      
       // Get types and regions from global arrays
       let types = "";
-      if (selectedTypes_Array) {
+      if (window.selectedTypes_Array) {
         // Check if it's a Set
-        if (selectedTypes_Array instanceof Set) {
-          types = Array.from(selectedTypes_Array).join(";");
-        }
+        if (window.selectedTypes_Array instanceof Set) {
+          types = Array.from(window.selectedTypes_Array).join(";");
+        } 
         // Check if it's an Array
-        else if (Array.isArray(selectedTypes_Array)) {
-          types = selectedTypes_Array.join(";");
+        else if (Array.isArray(window.selectedTypes_Array)) {
+          types = window.selectedTypes_Array.join(";");
         }
       }
-
+      
       let regions = "";
-      if (selectedRegions_Array) {
+      if (window.selectedRegions_Array) {
         // Check if it's a Set
-        if (selectedRegions_Array instanceof Set) {
-          regions = Array.from(selectedRegions_Array).join(";");
-        }
+        if (window.selectedRegions_Array instanceof Set) {
+          regions = Array.from(window.selectedRegions_Array).join(";");
+        } 
         // Check if it's an Array
-        else if (Array.isArray(selectedRegions_Array)) {
-          regions = selectedRegions_Array.join(";");
+        else if (Array.isArray(window.selectedRegions_Array)) {
+          regions = window.selectedRegions_Array.join(";");
         }
       }
-
+  
       // Debug log values
       console.log("Client data values:", {
         ClientRid,
@@ -546,73 +539,47 @@ class ExcelReportGenerator {
         missionValue,
         missionValue2,
         types,
-        regions,
+        regions
       });
-
+  
       // Start the XML with the XML header
       this.xmlPayload = this.XML.HEADER;
-
+      
       // Add client data with direct field additions
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.CLIENT_RID
-      }'>${this.escapeXml(ClientRid)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.FIRM_NAME
-      }'>${this.escapeXml(firmName)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.UNIQUE_CLIENTS
-      }'>${this.escapeXml(uniqueClientsSize)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.SLIDER_MIN
-      }'>${this.escapeXml(sliderValue)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.SLIDER_MAX
-      }'>${this.escapeXml(sliderValue2)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.MISSION_MIN
-      }'>${this.escapeXml(missionValue)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.MISSION_MAX
-      }'>${this.escapeXml(missionValue2)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.REGIONS
-      }'>${this.escapeXml(regions)}</field>`;
-      this.xmlPayload += `<field fid='${this.FIELD_IDS.TYPES}'>${this.escapeXml(
-        types
-      )}</field>`;
-
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.CLIENT_RID}'>${this.escapeXml(ClientRid)}</field>`;
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.FIRM_NAME}'>${this.escapeXml(firmName)}</field>`;
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.UNIQUE_CLIENTS}'>${this.escapeXml(uniqueClientsSize)}</field>`;
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.SLIDER_MIN}'>${this.escapeXml(sliderValue)}</field>`;
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.SLIDER_MAX}'>${this.escapeXml(sliderValue2)}</field>`;
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.MISSION_MIN}'>${this.escapeXml(missionValue)}</field>`;
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.MISSION_MAX}'>${this.escapeXml(missionValue2)}</field>`;
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.REGIONS}'>${this.escapeXml(regions)}</field>`;
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.TYPES}'>${this.escapeXml(types)}</field>`;
+  
       // Add years
       const selectedYears = getSelectedYearsFromLocalStorage() || [];
       for (let i = 0; i < selectedYears.length; i++) {
         const year = selectedYears[i];
-        const fieldId = Number(this.FIELD_IDS.YEARS_START) + i;
-        this.xmlPayload += `<field fid='${fieldId}'>${this.escapeXml(
-          year
-        )}</field>`;
+        const fieldId = this.FIELD_IDS.YEARS_START + i;
+        this.xmlPayload += `<field fid='${fieldId}'>${this.escapeXml(year)}</field>`;
       }
-
+  
       // Debug log client data XML
       console.log("XML with client data:", this.xmlPayload);
-
+  
       // Process metrics data
       const metricsXml = this.generateMetricsXml();
-
+      
       // Add metrics XML to the existing XML payload
       this.xmlPayload += metricsXml;
-
+      
       // Close the XML
       this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
-
+  
       // Debug: Log final XML
-      console.log(
-        "Final XML payload (first 500 chars):",
-        this.xmlPayload.substring(0, 500)
-      );
-      console.log(
-        "Final XML payload (last 50 chars):",
-        this.xmlPayload.substring(this.xmlPayload.length - 50)
-      );
-
+      console.log("Final XML payload (first 500 chars):", this.xmlPayload.substring(0, 500));
+      console.log("Final XML payload (last 50 chars):", this.xmlPayload.substring(this.xmlPayload.length - 50));
+  
       // Send to QuickBase
       const result = await this.printToExcel(this.xmlPayload);
       return result;
@@ -622,93 +589,75 @@ class ExcelReportGenerator {
     }
   }
 
-  /*
-   * Generate XML for metrics data
-   * @returns {string} XML string with metric data
-   */
-  generateMetricsXml() {
-    let metricsXml = "";
-
-    try {
-      // Get all data from localStorage
-      const generalData = JSON.parse(
-        localStorage.getItem("generalData") || "{}"
-      );
-      const cashData = JSON.parse(localStorage.getItem("cashData") || "{}");
-      const assetData = JSON.parse(localStorage.getItem("assetData") || "{}");
-      const incomeData = JSON.parse(localStorage.getItem("incomeData") || "{}");
-      const expenseData = JSON.parse(
-        localStorage.getItem("expenseData") || "{}"
-      );
-      const miscData = JSON.parse(localStorage.getItem("miscData") || "{}");
-
-      // Process each field mapping
-      this.fieldMappings.forEach((mapping, index) => {
-        const [metricName, fieldIds, begin, end, category] = mapping;
-
-        // Find which data object contains this metric based on category
-        let dataObject;
-        switch (category) {
-          case "general":
-            dataObject = generalData;
-            break;
-          case "cash":
-            dataObject = cashData;
-            break;
-          case "asset":
-            dataObject = assetData;
-            break;
-          case "income":
-            dataObject = incomeData;
-            break;
-          case "expense":
-            dataObject = expenseData;
-            break;
-          case "misc":
-            dataObject = miscData;
-            break;
-          default:
-            return; // Skip if no valid category
-        }
-
-        // Check if data exists for this metric
-        if (!dataObject || !dataObject[`${metricName}_Peer`]) {
-          return; // Skip if no data found
-        }
-
-        // Get peer data
-        const peerData = dataObject[`${metricName}_Peer`];
-
-        // Calculate statistics
-        const stats = this.calculateStatistics(dataObject, metricName);
-
-        // Add to metrics XML
-        if (fieldIds && fieldIds.length >= 4) {
-          const avgId = fieldIds[0];
-          const midId = fieldIds[2];
-          const minId = fieldIds[1];
-          const maxId = fieldIds[3];
-
-          // Format values
-          const safeAvg = this.escapeXml(stats.avg);
-          const safeMid = this.escapeXml(stats.mid);
-          const safeMin = this.escapeXml(stats.min);
-          const safeMax = this.escapeXml(stats.max);
-
-          // Add fields to metrics XML
-          metricsXml +=
-            `<field fid='${avgId}'>${safeAvg}</field>` +
-            `<field fid='${midId}'>${safeMid}</field>` +
-            `<field fid='${minId}'>${safeMin}</field>` +
-            `<field fid='${maxId}'>${safeMax}</field>`;
-        }
-      });
-    } catch (error) {
-      console.error("Error generating metrics XML:", error);
-    }
-
-    return metricsXml;
+  * Generate XML for metrics data
+ * @returns {string} XML string with metric data
+ */
+generateMetricsXml() {
+  let metricsXml = "";
+  
+  try {
+    // Get all data from localStorage
+    const generalData = JSON.parse(localStorage.getItem("generalData") || "{}");
+    const cashData = JSON.parse(localStorage.getItem("cashData") || "{}");
+    const assetData = JSON.parse(localStorage.getItem("assetData") || "{}");
+    const incomeData = JSON.parse(localStorage.getItem("incomeData") || "{}");
+    const expenseData = JSON.parse(localStorage.getItem("expenseData") || "{}");
+    const miscData = JSON.parse(localStorage.getItem("miscData") || "{}");
+    
+    // Process each field mapping
+    this.fieldMappings.forEach((mapping, index) => {
+      const [metricName, fieldIds, begin, end, category] = mapping;
+      
+      // Find which data object contains this metric based on category
+      let dataObject;
+      switch(category) {
+        case "general": dataObject = generalData; break;
+        case "cash": dataObject = cashData; break;
+        case "asset": dataObject = assetData; break;
+        case "income": dataObject = incomeData; break;
+        case "expense": dataObject = expenseData; break;
+        case "misc": dataObject = miscData; break;
+        default: return; // Skip if no valid category
+      }
+      
+      // Check if data exists for this metric
+      if (!dataObject || !dataObject[`${metricName}_Peer`]) {
+        return; // Skip if no data found
+      }
+      
+      // Get peer data
+      const peerData = dataObject[`${metricName}_Peer`];
+      
+      // Calculate statistics
+      const stats = this.calculateStatistics(dataObject, metricName);
+      
+      // Add to metrics XML
+      if (fieldIds && fieldIds.length >= 4) {
+        const avgId = fieldIds[0];
+        const midId = fieldIds[2];
+        const minId = fieldIds[1];
+        const maxId = fieldIds[3];
+        
+        // Format values
+        const safeAvg = this.escapeXml(stats.avg);
+        const safeMid = this.escapeXml(stats.mid);
+        const safeMin = this.escapeXml(stats.min);
+        const safeMax = this.escapeXml(stats.max);
+        
+        // Add fields to metrics XML
+        metricsXml +=
+          `<field fid='${avgId}'>${safeAvg}</field>` +
+          `<field fid='${midId}'>${safeMid}</field>` +
+          `<field fid='${minId}'>${safeMin}</field>` +
+          `<field fid='${maxId}'>${safeMax}</field>`;
+      }
+    });
+  } catch (error) {
+    console.error("Error generating metrics XML:", error);
   }
+  
+  return metricsXml;
+}
 
   /**
    * Send XML data to QuickBase
