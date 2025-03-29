@@ -2351,7 +2351,7 @@ class ApiService {
         const qdbapiElementPeer = `<qdbapi>${this.recordPeerHTMLArray.join(
           ""
         )}</qdbapi>`;
-        console.log("PEER", qdbapiElementPeer);
+        // console.log("PEER", qdbapiElementPeer);
 
         // Append the new record's outerHTML to dataStr
         dataStr += newRecord.outerHTML;
@@ -2461,9 +2461,6 @@ class ApiService {
     const regionConditions = [...selectedRegions]
       .map((region) => `{122.EX.${region}}`)
       .join(" OR ");
-
-    console.log('selectedRegions', {regionConditions, selectedRegions});
-    
     return regionConditions ? `(${regionConditions})` : '({122.EX.""})'; // Default empty condition
   }
 

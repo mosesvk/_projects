@@ -2326,9 +2326,11 @@ class ApiService {
 
     const apiCallPeerData = {
       act: "API_DoQuery",
-      query: `(${regionQuery}) AND
-             (${typeQuery}) AND
-             {301.EX.${currentYear}}`,
+      query: `
+          {(${regionQuery}) AND
+          (${typeQuery}) AND
+          {301.EX.${currentYear}}}
+        `,
       clist:
         "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.228.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347.343.346.244.205.341.342.344.345.348.351.352.256.353.354.",
     };
@@ -2351,7 +2353,7 @@ class ApiService {
         const qdbapiElementPeer = `<qdbapi>${this.recordPeerHTMLArray.join(
           ""
         )}</qdbapi>`;
-        console.log("PEER", qdbapiElementPeer);
+        // console.log("PEER", qdbapiElementPeer);
 
         // Append the new record's outerHTML to dataStr
         dataStr += newRecord.outerHTML;
@@ -2461,9 +2463,6 @@ class ApiService {
     const regionConditions = [...selectedRegions]
       .map((region) => `{122.EX.${region}}`)
       .join(" OR ");
-
-    console.log('selectedRegions', {regionConditions, selectedRegions});
-    
     return regionConditions ? `(${regionConditions})` : '({122.EX.""})'; // Default empty condition
   }
 

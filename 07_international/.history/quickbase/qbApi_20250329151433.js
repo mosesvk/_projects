@@ -2351,7 +2351,7 @@ class ApiService {
         const qdbapiElementPeer = `<qdbapi>${this.recordPeerHTMLArray.join(
           ""
         )}</qdbapi>`;
-        console.log("PEER", qdbapiElementPeer);
+        // console.log("PEER", qdbapiElementPeer);
 
         // Append the new record's outerHTML to dataStr
         dataStr += newRecord.outerHTML;
