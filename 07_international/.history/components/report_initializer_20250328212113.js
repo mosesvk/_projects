@@ -38,35 +38,46 @@
    * Initialize all QuickBase report components
    */
   function initialize() {
-    log('Initializing QuickBase Report integration');
-    
-    // Ensure DOM is ready before proceeding with initialization
-    if (document.readyState !== 'complete' && document.readyState !== 'interactive') {
-      log('DOM not ready, waiting...');
-      document.addEventListener('DOMContentLoaded', initialize);
-      return;
+    log("Initializing QuickBase Report integration");
+
+    // Add a function to check for required functions
+    function checkRequiredFunctions() {
+      if (typeof window.createPrintExcel === "function") {
+        log("All required functions are available");
+        completeInitialization();
+      } else {
+        // Try again after a short delay
+        log("Waiting for createPrintExcel to become available...");
+        setTimeout(checkRequiredFunctions, 100);
+      }
     }
-    
-    // Apply patches to report component to prevent automatic triggering
-    if (CONFIG.patchAutoReport) {
-      patchAutomaticReportTrigger();
+
+    // Move the initialization logic to this function
+    function completeInitialization() {
+      // Apply patches to report component to prevent automatic triggering
+      if (CONFIG.patchAutoReport) {
+        patchAutomaticReportTrigger();
+      }
+
+      // Initialize validator if needed
+      if (CONFIG.useValidator) {
+        initializeValidator();
+      }
+
+      // Modify the report link handler
+      patchReportLinkHandler();
+
+      // Enhance the QuickBase integration
+      enhanceQuickBaseIntegration();
+
+      // Attach event listeners
+      attachEventListeners();
+
+      log("QuickBase Report integration initialized successfully");
     }
-    
-    // Initialize validator if needed
-    if (CONFIG.useValidator) {
-      initializeValidator();
-    }
-    
-    // Modify the report link handler
-    patchReportLinkHandler();
-    
-    // Enhance the QuickBase integration - with a small delay to ensure functions are ready
-    setTimeout(enhanceQuickBaseIntegration, 300);
-    
-    // Attach event listeners
-    attachEventListeners();
-    
-    log('QuickBase Report integration initialized successfully');
+
+    // Start checking for required functions
+    checkRequiredFunctions();
   }
 
   /**

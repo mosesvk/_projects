@@ -7,8 +7,7 @@ class ExcelReportGenerator {
     // API Constants
     this.API = {
       APP_TOKEN: "bpat4pgu9t69yby5gbemdbej52j",
-      UPLOAD_URL:
-        "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord",
+      UPLOAD_URL: "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord",
     };
 
     // XML Template Strings
@@ -34,21 +33,16 @@ class ExcelReportGenerator {
 
     // XML payload storage
     this.xmlPayload = "";
-
+    
     // Field metric mappings
     this.fieldMappings = [
       // General data
       ["itExpenses", [6, 44, 82, 120], true, false],
-
+      
       // Cash data
       ["daysCashOnHand", [7, 45, 83, 121], false, false],
       ["daysExpensesInUnrestrictedNA", [8, 46, 84, 122], false, false],
-      [
-        "daysExpensesInUnrestrictedNA_excludingPPE",
-        [9, 47, 85, 123],
-        false,
-        false,
-      ],
+      ["daysExpensesInUnrestrictedNA_excludingPPE", [9, 47, 85, 123], false, false],
       ["daysExpensesInNAwithDR", [10, 48, 86, 124], false, false],
       ["daysExpensesInNAwithDR_excludingPPE", [11, 49, 87, 125], false, false],
       ["liquidityFundsAvailable", [12, 50, 88, 126], false, false],
@@ -59,20 +53,15 @@ class ExcelReportGenerator {
       ["cashFlowsTrendFinancing", [17, 55, 93, 131], false, false],
       ["cashFlowsTrendInvesting", [18, 56, 94, 132], false, false],
       ["cashFlowsTrendOperating", [19, 57, 95, 133], false, false],
-
+      
       // Asset data
       ["percentWithDR", [20, 58, 96, 134], false, false],
       ["percentWithoutDR_excludingPPE", [21, 59, 97, 135], false, false],
       ["percentWithoutDR", [22, 60, 98, 136], false, false],
-
+      
       // Income data
       ["netIncomeRatio", [23, 61, 99, 137], false, false],
-      [
-        "contributionsTrend_basedOnNumberOfDonors",
-        [24, 62, 100, 138],
-        false,
-        false,
-      ],
+      ["contributionsTrend_basedOnNumberOfDonors", [24, 62, 100, 138], false, false],
       ["contributionsTrend", [25, 63, 101, 139], false, false],
       ["contributionsPercentWithoutDR", [26, 64, 102, 140], false, false],
       ["contributionsPercentWithDR", [27, 65, 103, 141], false, false],
@@ -81,42 +70,22 @@ class ExcelReportGenerator {
       ["contributionsPerFullTimeEquivalent", [30, 68, 106, 144], false, false],
       ["fundraisingAsPercentOfContributions", [31, 69, 107, 145], false, false],
       ["annualizedInvestmentReturn", [32, 70, 108, 146], false, false],
-
+      
       // Expense data
       ["functionalExpensePercent_program", [33, 71, 109, 147], false, false],
-      [
-        "functionalExpensePercent_administrative",
-        [34, 72, 110, 148],
-        false,
-        false,
-      ],
-      [
-        "functionalExpensePercent_fundraising",
-        [35, 73, 111, 149],
-        false,
-        false,
-      ],
+      ["functionalExpensePercent_administrative", [34, 72, 110, 148], false, false],
+      ["functionalExpensePercent_fundraising", [35, 73, 111, 149], false, false],
       ["costOfContributions", [37, 75, 113, 151], false, false],
       ["expensesPerGivingUnit", [38, 76, 114, 152], false, false],
       ["expensesPerMissionaryUnit", [39, 77, 115, 153], false, false],
       ["expensesPerFullTimeEquivalent", [40, 78, 116, 154], false, false],
-      [
-        "salariesAndBenefitsAsPercentOfTotalExpenses",
-        [41, 79, 117, 155],
-        false,
-        false,
-      ],
+      ["salariesAndBenefitsAsPercentOfTotalExpenses", [41, 79, 117, 155], false, false],
       ["salariesAndBenefitsPerFTE", [42, 80, 118, 156], false, false],
-
+      
       // Misc data
-      [
-        "percentageAssessmentOnRestrictedGifts",
-        [43, 81, 119, 157],
-        false,
-        true,
-      ],
+      ["percentageAssessmentOnRestrictedGifts", [43, 81, 119, 157], false, true]
     ];
-
+    
     this.init();
   }
 
@@ -126,10 +95,7 @@ class ExcelReportGenerator {
   init() {
     const generateReportsBtn = document.getElementById("generateReports");
     if (generateReportsBtn) {
-      generateReportsBtn.addEventListener(
-        "click",
-        this.handleGenerateReport.bind(this)
-      );
+      generateReportsBtn.addEventListener("click", this.handleGenerateReport.bind(this));
     }
   }
 
@@ -138,27 +104,25 @@ class ExcelReportGenerator {
    */
   handleGenerateReport() {
     const button = document.getElementById("generateReports");
-
-    if (typeof toggleButtonLoadingState === "function") {
+    
+    if (typeof toggleButtonLoadingState === 'function') {
       toggleButtonLoadingState(button);
     } else {
       button.disabled = true;
-      button.textContent = "Generating...";
+      button.textContent = 'Generating...';
     }
 
     // Validate data is available
     if (!localStorage.generalData) {
-      if (typeof createToastWarning === "function") {
-        createToastWarning(
-          "No data available. Please select years and run the report first."
-        );
+      if (typeof createToastWarning === 'function') {
+        createToastWarning("No data available. Please select years and run the report first.");
       }
-
-      if (typeof toggleGenerateReportButtonNormalState === "function") {
+      
+      if (typeof toggleGenerateReportButtonNormalState === 'function') {
         toggleGenerateReportButtonNormalState(button);
       } else {
         button.disabled = false;
-        button.textContent = "Generate Reports";
+        button.textContent = 'Generate Reports';
       }
       return;
     }
@@ -167,27 +131,25 @@ class ExcelReportGenerator {
     setTimeout(() => {
       this.createPrintExcel()
         .then(() => {
-          if (typeof toggleGenerateReportButtonNormalState === "function") {
+          if (typeof toggleGenerateReportButtonNormalState === 'function') {
             toggleGenerateReportButtonNormalState(button);
           } else {
             button.disabled = false;
-            button.textContent = "Generate Reports";
+            button.textContent = 'Generate Reports';
           }
         })
         .catch((error) => {
           console.error("Report generation failed:", error);
-
-          if (typeof createToastWarning === "function") {
-            createToastWarning(
-              `Report generation failed: ${error.message || "Unknown error"}`
-            );
+          
+          if (typeof createToastWarning === 'function') {
+            createToastWarning(`Report generation failed: ${error.message || "Unknown error"}`);
           }
-
-          if (typeof toggleGenerateReportButtonNormalState === "function") {
+          
+          if (typeof toggleGenerateReportButtonNormalState === 'function') {
             toggleGenerateReportButtonNormalState(button);
           } else {
             button.disabled = false;
-            button.textContent = "Generate Reports";
+            button.textContent = 'Generate Reports';
           }
         });
     }, 100);
@@ -218,25 +180,23 @@ class ExcelReportGenerator {
     if (!peerData || !peerData.total || !Array.isArray(peerData.total)) {
       return { avg: 0, mid: 0, min: 0, max: 0 };
     }
-
-    const values = peerData.total.filter((v) => !isNaN(parseFloat(v)));
-
+    
+    const values = peerData.total.filter(v => !isNaN(parseFloat(v)));
+    
     // Calculate statistics
     let avg, mid, min, max;
-
+    
     // Average
-    if (typeof getWeightedAverageOfArray === "function") {
+    if (typeof getWeightedAverageOfArray === 'function') {
       avg = getWeightedAverageOfArray(data, metricName, null);
     } else {
       avg = values.reduce((sum, val) => sum + Number(val), 0) / values.length;
     }
-
+    
     // Percentiles
-    if (
-      typeof get25thPercentileOfArray === "function" &&
-      typeof getMidpointOfArray === "function" &&
-      typeof get75thPercentileOfArray === "function"
-    ) {
+    if (typeof get25thPercentileOfArray === 'function' && 
+        typeof getMidpointOfArray === 'function' && 
+        typeof get75thPercentileOfArray === 'function') {
       min = get25thPercentileOfArray(values, metricName);
       mid = getMidpointOfArray(values, metricName);
       max = get75thPercentileOfArray(values, metricName);
@@ -247,7 +207,7 @@ class ExcelReportGenerator {
       mid = sorted[Math.floor(sorted.length * 0.5)] || 0;
       max = sorted[Math.floor(sorted.length * 0.75)] || 0;
     }
-
+    
     return { avg, mid, min, max };
   }
 
@@ -310,24 +270,20 @@ class ExcelReportGenerator {
   prepareAllFieldData() {
     try {
       // Get all data from localStorage
-      const generalData = JSON.parse(
-        localStorage.getItem("generalData") || "{}"
-      );
+      const generalData = JSON.parse(localStorage.getItem("generalData") || "{}");
       const cashData = JSON.parse(localStorage.getItem("cashData") || "{}");
       const assetData = JSON.parse(localStorage.getItem("assetData") || "{}");
       const incomeData = JSON.parse(localStorage.getItem("incomeData") || "{}");
-      const expenseData = JSON.parse(
-        localStorage.getItem("expenseData") || "{}"
-      );
+      const expenseData = JSON.parse(localStorage.getItem("expenseData") || "{}");
       const miscData = JSON.parse(localStorage.getItem("miscData") || "{}");
-
+      
       // Process each field mapping
-      this.fieldMappings.forEach((mapping) => {
+      this.fieldMappings.forEach(mapping => {
         const [metricName, fieldIds, begin, end] = mapping;
-
+        
         // Find which data object contains this metric
         let dataObject = null;
-
+        
         if (generalData[`${metricName}_Peer`]) {
           dataObject = generalData;
         } else if (cashData[`${metricName}_Peer`]) {
@@ -341,14 +297,14 @@ class ExcelReportGenerator {
         } else if (miscData[`${metricName}_Peer`]) {
           dataObject = miscData;
         }
-
+        
         if (!dataObject) {
           return; // Skip if no data found
         }
-
+        
         // Calculate statistics
         const stats = this.calculateStatistics(dataObject, metricName);
-
+        
         // Add to XML
         this.uploadToFile(
           stats.avg,
@@ -360,6 +316,7 @@ class ExcelReportGenerator {
           end
         );
       });
+      
     } catch (error) {
       console.error("Error preparing field data:", error);
     }
@@ -379,12 +336,11 @@ class ExcelReportGenerator {
       // Add client information
       const ClientRid = window.ClientRid || "";
       let firmName = window.firmName || "";
-
+      
       // Handle HTML element case
-      firmName =
-        typeof firmName === "object" && firmName instanceof HTMLElement
-          ? firmName.textContent || ""
-          : firmName;
+      firmName = typeof firmName === "object" && firmName instanceof HTMLElement
+        ? firmName.textContent || ""
+        : firmName;
 
       // Handle uniqueClients properly - it might be a Set or not defined
       let uniqueClientsSize = 0;
@@ -409,19 +365,17 @@ class ExcelReportGenerator {
       const selectedRegions_Array = window.selectedRegions_Array || new Set();
 
       // Format arrays as strings
-      const types =
-        selectedTypes_Array instanceof Set
-          ? Array.from(selectedTypes_Array).join(";")
-          : Array.isArray(selectedTypes_Array)
-          ? selectedTypes_Array.join(";")
-          : "";
+      const types = selectedTypes_Array instanceof Set
+        ? Array.from(selectedTypes_Array).join(";")
+        : Array.isArray(selectedTypes_Array)
+        ? selectedTypes_Array.join(";")
+        : "";
 
-      const regions =
-        selectedRegions_Array instanceof Set
-          ? Array.from(selectedRegions_Array).join(";")
-          : Array.isArray(selectedRegions_Array)
-          ? selectedRegions_Array.join(";")
-          : "";
+      const regions = selectedRegions_Array instanceof Set
+        ? Array.from(selectedRegions_Array).join(";")
+        : Array.isArray(selectedRegions_Array)
+        ? selectedRegions_Array.join(";")
+        : "";
 
       // Add client and filter data
       this.uploadSingleToFile(this.FIELD_IDS.CLIENT_RID, ClientRid);
@@ -483,65 +437,46 @@ class ExcelReportGenerator {
             if (errorCode === "0") {
               const recordId = xmlUpload.find("qdbapi").find("rid").text();
 
-              if (typeof createToastSuccess === "function") {
-                createToastSuccess(
-                  "Generated Reports successfully to Quickbase."
-                );
+              if (typeof createToastSuccess === 'function') {
+                createToastSuccess("Generated Reports successfully to Quickbase.");
               }
 
-              const printModalFooter =
-                document.getElementById("print_modal_footer");
+              const printModalFooter = document.getElementById("print_modal_footer");
               if (printModalFooter) {
                 printModalFooter.classList.remove("hidden");
               }
 
               // Update download links if they exist
               const trendXLSFinal = document.getElementById("trendXLSFinal");
-              if (
-                trendXLSFinal &&
-                typeof getUrlBasedOnYearCount === "function"
-              ) {
+              if (trendXLSFinal && typeof getUrlBasedOnYearCount === 'function') {
                 trendXLSFinal.href = getUrlBasedOnYearCount("xls", recordId);
               }
 
               const trendPDFFinal = document.getElementById("trendPDFFinal");
-              if (
-                trendPDFFinal &&
-                typeof getUrlBasedOnYearCount === "function"
-              ) {
+              if (trendPDFFinal && typeof getUrlBasedOnYearCount === 'function') {
                 trendPDFFinal.href = getUrlBasedOnYearCount("pdf", recordId);
               }
 
               resolve({ recordId });
             } else {
-              const errorText =
-                xmlUpload.find("qdbapi").find("errtext").text() ||
-                "Unknown QuickBase error";
-              const error = new Error(
-                `QuickBase error (${errorCode}): ${errorText}`
-              );
+              const errorText = xmlUpload.find("qdbapi").find("errtext").text() || "Unknown QuickBase error";
+              const error = new Error(`QuickBase error (${errorCode}): ${errorText}`);
               console.error(error);
-
-              if (typeof createToastWarning === "function") {
+              
+              if (typeof createToastWarning === 'function') {
                 createToastWarning(error.message);
               }
-
+              
               reject(error);
             }
           } catch (parseError) {
             console.error("Error parsing QuickBase response:", parseError);
-
-            if (typeof createToastWarning === "function") {
-              createToastWarning(
-                `Failed to parse QuickBase response: ${parseError.message}`
-              );
+            
+            if (typeof createToastWarning === 'function') {
+              createToastWarning(`Failed to parse QuickBase response: ${parseError.message}`);
             }
-
-            reject(
-              new Error(
-                `Failed to parse QuickBase response: ${parseError.message}`
-              )
-            );
+            
+            reject(new Error(`Failed to parse QuickBase response: ${parseError.message}`));
           }
         },
         error: function (xhr, status, error) {
@@ -552,8 +487,7 @@ class ExcelReportGenerator {
             try {
               // Try to parse XML response
               const $errorXml = $(xhr.responseText);
-              errorMessage =
-                $errorXml.find("errtext").text() || error || status;
+              errorMessage = $errorXml.find("errtext").text() || error || status;
             } catch (e) {
               // If we can't parse XML, use the raw responseText or status
               errorMessage = xhr.responseText || error || status;
@@ -568,10 +502,10 @@ class ExcelReportGenerator {
             message: errorMessage,
           });
 
-          if (typeof createToastWarning === "function") {
+          if (typeof createToastWarning === 'function') {
             createToastWarning(`QuickBase API error: ${errorMessage}`);
           }
-
+          
           reject(new Error(`QuickBase API error: ${errorMessage}`));
         },
       });
@@ -583,15 +517,11 @@ class ExcelReportGenerator {
 document.addEventListener("DOMContentLoaded", () => {
   // Create an instance
   const excelReportGenerator = new ExcelReportGenerator();
-
+  
   // Expose functions globally for backward compatibility
   window.excelReportGenerator = excelReportGenerator;
-  window.createPrintExcel =
-    excelReportGenerator.createPrintExcel.bind(excelReportGenerator);
-  window.uploadToFile =
-    excelReportGenerator.uploadToFile.bind(excelReportGenerator);
-  window.uploadSingleToFile =
-    excelReportGenerator.uploadSingleToFile.bind(excelReportGenerator);
-  window.printToExcel =
-    excelReportGenerator.printToExcel.bind(excelReportGenerator);
+  window.createPrintExcel = excelReportGenerator.createPrintExcel.bind(excelReportGenerator);
+  window.uploadToFile = excelReportGenerator.uploadToFile.bind(excelReportGenerator);
+  window.uploadSingleToFile = excelReportGenerator.uploadSingleToFile.bind(excelReportGenerator);
+  window.printToExcel = excelReportGenerator.printToExcel.bind(excelReportGenerator);
 });

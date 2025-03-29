@@ -16,11 +16,11 @@ const QuickBaseReportIntegration = (() => {
     // Add a function to check for required functions
     function checkRequiredFunctions() {
       if (typeof window.createPrintExcel === 'function') {
-        console.log('All required functions are available');
+        log('All required functions are available');
         completeInitialization();
       } else {
         // Try again after a short delay
-        console.log('Waiting for createPrintExcel to become available...');
+        log('Waiting for createPrintExcel to become available...');
         setTimeout(checkRequiredFunctions, 100);
       }
     }
@@ -46,7 +46,7 @@ const QuickBaseReportIntegration = (() => {
       // Attach event listeners
       attachEventListeners();
       
-      console.log('QuickBase Report integration initialized successfully');
+      log('QuickBase Report integration initialized successfully');
     }
     
     // Start checking for required functions
