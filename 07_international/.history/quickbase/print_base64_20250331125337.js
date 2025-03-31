@@ -1,147 +1,10 @@
 // print_base64.js
-
-/**
- * Process charts with improved spacing for export
- * This function fixes the ReferenceError in apexChartsExportPrint
- *
- * @param {Array} chartMappings - Array of chart ID and field ID mappings
- * @returns {Promise<Array>} - Results of chart processing
- */
-async function processChartsWithSpacing(chartMappings) {
-  // console.log(`Processing ${chartMappings.length} charts for export`);
-
-  const results = [];
-
-  // Get the existing loading modal
-  const loadingModal = document.getElementById("loadingApiDiv");
-  if (loadingModal) {
-    // Add progress tracking elements to the existing modal
-    const loadingApiYears = document.getElementById("loadingApiYears");
-    if (loadingApiYears) {
-      // Create progress tracking elements
-      const progressTracker = document.createElement("div");
-      const progressChartLoading = document.createElement("div");
-      progressTracker.className =
-        "mt-6 px-3 py-1 text-4xl font-medium leading-none text-white w-full";
-      progressChartLoading.className =
-        "mt-6 px-3 py-1 text-md font-medium leading-none text-white";
-      progressTracker.innerHTML = `
-        <div class="w-full">
-          <div class="flex justify-between mb-1 text-white">
-            <span id="chart-progress-text">Processing charts</span>
-            <span id="chart-progress-count">0/${chartMappings.length}</span>
-          </div>
-          <div class="w-full bg-gray-700 rounded-full h-2.5 mt-2">
-            <div id="chart-progress-bar" class="backgroundGreen h-2.5 rounded-full" style="width: 0%"></div>
-          </div>
-        </div>
-      `;
-      progressChartLoading.innerHTML = `
-        <div class="mt-3 text-md text-gray-200" style="width: 100%; table-layout: fixed;">
-          <p id="chart-current-name" class="break-words overflow-hidden text-ellipsis" style="max-width: 100%;">Initializing...</p>
-        </div>
-      `;
-
-      // Insert after loadingApiYears
-      loadingApiYears.parentNode.insertBefore(
-        progressTracker,
-        loadingApiYears.nextSibling
-      );
-      // loadingApiYears.parentNode.insertBefore(
-      //   progressChartLoading,
-      //   progressTracker.nextSibling
-      // );
-    }
-  }
-
-  // Process charts sequentially to avoid overwhelming the browser
-  for (let i = 0; i < chartMappings.length; i++) {
-    const { chartId, fieldId } = chartMappings[i];
-    try {
-      console.log(`Processing chart: ${chartId}...`);
-
-      // Update progress UI if elements exist
-      const progressBar = document.getElementById("chart-progress-bar");
-      const progressCount = document.getElementById("chart-progress-count");
-      const currentChartName = document.getElementById("chart-current-name");
-      const progressText = document.getElementById("chart-progress-text");
-
-      if (progressBar) {
-        const progressPercent = Math.floor((i / chartMappings.length) * 100);
-        progressBar.style.width = `${progressPercent}%`;
-      }
-
-      if (progressCount) {
-        progressCount.textContent = `${i}/${chartMappings.length}`;
-      }
-
-      if (currentChartName) {
-        currentChartName.textContent = `${chartId}`;
-      }
-
-      if (progressText) {
-        progressText.textContent = `Processing charts...`;
-      }
-
-      const chartElement = document.getElementById(chartId);
-      if (!chartElement) {
-        console.warn(`Chart element not found: ${chartId}`);
-        results.push({ chartId, fieldId, base64String: null });
-        continue;
-      }
-
-      // Use html2canvas to capture the chart
-      const canvas = await html2canvas(chartElement, {
-        scale: 2, // Higher scale for better quality
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor:
-          getComputedStyle(document.documentElement).getPropertyValue(
-            "--chart-bg-color"
-          ) || "#ffffff",
-      });
-
-      // Convert canvas to base64 PNG
-      const base64String = canvas.toDataURL("image/png").split(",")[1];
-      results.push({ chartId, fieldId, base64String });
-
-      // Small timeout to prevent UI freezing
-      await new Promise((resolve) => setTimeout(resolve, 50));
-    } catch (error) {
-      console.error(`Error processing chart ${chartId}:`, error);
-      results.push({ chartId, fieldId, base64String: null });
-    }
-  }
-
-  // Final progress update
-  const progressBar = document.getElementById("chart-progress-bar");
-  const progressCount = document.getElementById("chart-progress-count");
-  const progressText = document.getElementById("chart-progress-text");
-  const currentChartName = document.getElementById("chart-current-name");
-
-  if (progressBar) {
-    progressBar.style.width = "100%";
-  }
-
-  if (progressCount) {
-    progressCount.textContent = `${chartMappings.length}/${chartMappings.length}`;
-  }
-
-  if (progressText) {
-    progressText.textContent = "Processing complete!";
-  }
-
-  if (currentChartName) {
-    currentChartName.textContent = "All charts processed";
-  }
-
-  return results;
-}
-
 /**
  * Enhanced version of mainPrint using ApexCharts dataURI with better spacing
  */
 async function apexChartsExportPrint() {
+  const totalStartTime = performance.now();
+  console.log("Starting chart export process...");
 
   showApiLoadingFunction("open", "print");
 
@@ -164,7 +27,8 @@ async function apexChartsExportPrint() {
     </div>`;
 
   try {
-
+    // Show all sections for rendering, if needed
+    const showSectionsStartTime = performance.now();
     const sections = [
       "GeneralContent",
       "cashContent",
@@ -183,7 +47,14 @@ async function apexChartsExportPrint() {
     });
 
     // Wait for DOM to update
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    const showSectionsEndTime = performance.now();
+    console.log(
+      `Showing sections took ${(
+        showSectionsEndTime - showSectionsStartTime
+      ).toFixed(2)}ms`
+    );
 
     // Define all chart IDs and their corresponding field IDs
     const chartMappings = [
@@ -215,24 +86,40 @@ async function apexChartsExportPrint() {
     ];
 
     // Filter out any charts that don't exist in the DOM
+    const filterStartTime = performance.now();
     const validChartMappings = chartMappings.filter(
       ({ chartId }) => document.getElementById(chartId) !== null
+    );
+    const filterEndTime = performance.now();
+    console.log(
+      `Filtering chart mappings took ${(
+        filterEndTime - filterStartTime
+      ).toFixed(2)}ms`
     );
 
     if (validChartMappings.length === 0) {
       throw new Error("No valid charts found to upload");
     }
 
+    // console.log(`Found ${validChartMappings.length} valid charts to export`);
+
     // Process charts with improved spacing
+    const processingStartTime = performance.now();
     const results = await processChartsWithSpacing(validChartMappings);
+    const processingEndTime = performance.now();
+    console.log(
+      `Processing all charts took ${(
+        processingEndTime - processingStartTime
+      ).toFixed(2)}ms`
+    );
 
     // Count successful exports
     const successfulExports = results.filter(
       (r) => r.base64String !== null
     ).length;
-    // console.log(
-    //   `Successfully exported ${successfulExports} of ${validChartMappings.length} charts`
-    // );
+    console.log(
+      `Successfully exported ${successfulExports} of ${validChartMappings.length} charts`
+    );
 
     if (successfulExports === 0) {
       throw new Error("No charts were successfully exported");
@@ -243,11 +130,13 @@ async function apexChartsExportPrint() {
       element.classList.add("hidden");
     });
 
+    // Build XML request with metadata and chart images
+    const xmlBuildStartTime = performance.now();
     let uploadXml = "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
 
     // Add metadata first
-    const selectedYears = getSelectedYearsFromLocalStorage();
-    const uniqueClients = document.getElementById("uniqueClients").innerHTML;
+    const selectedYears = getSelectedYearsFromLocalStorage()
+    const uniqueClients = document.getElementById('uniqueClients').innerHTML
 
     uploadXml += createFieldXml(171, ClientRid);
     uploadXml += createFieldXml(7, firmName);
@@ -263,9 +152,35 @@ async function apexChartsExportPrint() {
     });
 
     uploadXml += "</qdbapi>";
-    
+    const xmlBuildEndTime = performance.now();
+    console.log(
+      `Building XML payload took ${(
+        xmlBuildEndTime - xmlBuildStartTime
+      ).toFixed(2)}ms, size: ${uploadXml.length} bytes`
+    );
+
+    // Send to Quickbase
+    console.log("Sending data to Quickbase...");
+    const sendStartTime = performance.now();
+    const response = await sendToQuickbase(uploadXml);
+    const sendEndTime = performance.now();
+    console.log(
+      `Sending data to Quickbase took ${(sendEndTime - sendStartTime).toFixed(
+        2
+      )}ms`
+    );
+
+    // Process response
+    const responseStartTime = performance.now();
     const xmlResponse = $(response);
     const errorCode = xmlResponse.find("qdbapi").find("errcode").text();
+    const responseEndTime = performance.now();
+    console.log(
+      `Processing Quickbase response took ${(
+        responseEndTime - responseStartTime
+      ).toFixed(2)}ms`
+    );
+
     showApiLoadingFunction("close", "print");
 
     if (errorCode === "0") {
@@ -289,22 +204,32 @@ async function apexChartsExportPrint() {
     printButton.disabled = false;
     printButton.innerHTML = originalButtonContent;
 
-    // Remove progress tracking elements after delay
-    setTimeout(() => {
-      // Find and remove the progress tracker we added
-      const progressElements = document.querySelectorAll(
-        "#chart-progress-bar, #chart-progress-count, #chart-progress-text, #chart-current-name"
-      );
-      progressElements.forEach((el) => {
-        if (el && el.parentNode && el.parentNode.parentNode) {
-          const progressTracker = el.parentNode.parentNode;
-          if (progressTracker.parentNode) {
-            progressTracker.parentNode.removeChild(progressTracker);
-          }
-        }
-      });
-    }, 500);
+    const totalEndTime = performance.now();
+    const totalTime = totalEndTime - totalStartTime;
+    const totalTimeFormatted = new Date(totalTime)
+      .toISOString()
+      .substring(14, 23); // Format as MM:SS.sss
 
+    console.log(`===============================================`);
+    console.log(
+      `TOTAL EXPORT PROCESS TIME: ${totalTimeFormatted} (${totalTime.toFixed(
+        2
+      )}ms)`
+    );
+    console.log(`===============================================`);
+
+    // // Add a visual indicator on the page
+    // const timeIndicator = document.createElement("div");
+    // timeIndicator.className =
+    //   "fixed top-4 right-4 bg-green-700 text-white p-2 rounded shadow-lg z-50";
+    // timeIndicator.style.fontSize = "14px";
+    // timeIndicator.innerHTML = `Export completed in: ${totalTimeFormatted}`;
+    // document.body.appendChild(timeIndicator);
+
+    // Remove the indicator after 5 seconds
+    // setTimeout(() => {
+    //   timeIndicator.remove();
+    // }, 5000);
   }
 }
 
@@ -348,6 +273,7 @@ function createImageFieldXml(id, val) {
  * @returns {Promise<object>} - Response data
  */
 async function sendToQuickbase(xml) {
+  const startTime = performance.now();
   try {
     const response = await $.ajax({
       type: "POST",
@@ -359,13 +285,24 @@ async function sendToQuickbase(xml) {
       timeout: 60000, // 60-second timeout (increased from 30)
     });
 
+    const endTime = performance.now();
+    console.log(
+      `Quickbase API call completed successfully in ${(
+        endTime - startTime
+      ).toFixed(2)}ms`
+    );
     return response;
   } catch (error) {
+    const endTime = performance.now();
     const errorMessage =
       error.responseText ||
       error.statusText ||
       error.message ||
       "Unknown error";
+    console.error(
+      `Quickbase API error after ${(endTime - startTime).toFixed(2)}ms:`,
+      errorMessage
+    );
     throw new Error(`Quickbase API error: ${errorMessage}`);
   }
 }

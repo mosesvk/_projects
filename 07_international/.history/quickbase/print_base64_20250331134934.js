@@ -8,9 +8,10 @@
  * @returns {Promise<Array>} - Results of chart processing
  */
 async function processChartsWithSpacing(chartMappings) {
-  // console.log(`Processing ${chartMappings.length} charts for export`);
+  console.log(`Processing ${chartMappings.length} charts for export`);
 
   const results = [];
+  const startTime = performance.now();
 
   // Get the existing loading modal
   const loadingModal = document.getElementById("loadingApiDiv");
@@ -22,12 +23,12 @@ async function processChartsWithSpacing(chartMappings) {
       const progressTracker = document.createElement("div");
       const progressChartLoading = document.createElement("div");
       progressTracker.className =
-        "mt-6 px-3 py-1 text-4xl font-medium leading-none text-white w-full";
+        "mt-6 px-3 py-1 text-xl font-medium text-white w-full";
       progressChartLoading.className =
-        "mt-6 px-3 py-1 text-md font-medium leading-none text-white";
+        "mt-6 px-3 py-1 text-xl font-medium text-white";
       progressTracker.innerHTML = `
         <div class="w-full">
-          <div class="flex justify-between mb-1 text-white">
+          <div class="flex justify-between mb-1 text-sm font-medium text-white">
             <span id="chart-progress-text">Processing charts</span>
             <span id="chart-progress-count">0/${chartMappings.length}</span>
           </div>
@@ -37,7 +38,7 @@ async function processChartsWithSpacing(chartMappings) {
         </div>
       `;
       progressChartLoading.innerHTML = `
-        <div class="mt-3 text-md text-gray-200" style="width: 100%; table-layout: fixed;">
+        <div class="mt-3 text-sm text-gray-200" style="width: 100%; table-layout: fixed;">
           <p id="chart-current-name" class="break-words overflow-hidden text-ellipsis" style="max-width: 100%;">Initializing...</p>
         </div>
       `;
@@ -47,10 +48,10 @@ async function processChartsWithSpacing(chartMappings) {
         progressTracker,
         loadingApiYears.nextSibling
       );
-      // loadingApiYears.parentNode.insertBefore(
-      //   progressChartLoading,
-      //   progressTracker.nextSibling
-      // );
+      loadingApiYears.parentNode.insertBefore(
+        progressChartLoading,
+        progressTracker.nextSibling
+      );
     }
   }
 
@@ -58,6 +59,7 @@ async function processChartsWithSpacing(chartMappings) {
   for (let i = 0; i < chartMappings.length; i++) {
     const { chartId, fieldId } = chartMappings[i];
     try {
+      const chartStartTime = performance.now();
       console.log(`Processing chart: ${chartId}...`);
 
       // Update progress UI if elements exist
@@ -76,11 +78,11 @@ async function processChartsWithSpacing(chartMappings) {
       }
 
       if (currentChartName) {
-        currentChartName.textContent = `${chartId}`;
+        currentChartName.textContent = `Processing: ${chartId}`;
       }
 
       if (progressText) {
-        progressText.textContent = `Processing charts...`;
+        progressText.textContent = `Processing chart...`;
       }
 
       const chartElement = document.getElementById(chartId);
@@ -104,6 +106,13 @@ async function processChartsWithSpacing(chartMappings) {
       // Convert canvas to base64 PNG
       const base64String = canvas.toDataURL("image/png").split(",")[1];
       results.push({ chartId, fieldId, base64String });
+
+      const chartEndTime = performance.now();
+      console.log(
+        `Chart ${chartId} processed in ${(
+          chartEndTime - chartStartTime
+        ).toFixed(2)}ms`
+      );
 
       // Small timeout to prevent UI freezing
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -135,6 +144,9 @@ async function processChartsWithSpacing(chartMappings) {
     currentChartName.textContent = "All charts processed";
   }
 
+  const endTime = performance.now();
+  console.log(`All charts processed in ${(endTime - startTime).toFixed(2)}ms`);
+
   return results;
 }
 
@@ -142,6 +154,8 @@ async function processChartsWithSpacing(chartMappings) {
  * Enhanced version of mainPrint using ApexCharts dataURI with better spacing
  */
 async function apexChartsExportPrint() {
+  const totalStartTime = performance.now();
+  console.log("Starting chart export process...");
 
   showApiLoadingFunction("open", "print");
 
@@ -164,7 +178,8 @@ async function apexChartsExportPrint() {
     </div>`;
 
   try {
-
+    // Show all sections for rendering, if needed
+    const showSectionsStartTime = performance.now();
     const sections = [
       "GeneralContent",
       "cashContent",
@@ -183,7 +198,14 @@ async function apexChartsExportPrint() {
     });
 
     // Wait for DOM to update
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    const showSectionsEndTime = performance.now();
+    console.log(
+      `Showing sections took ${(
+        showSectionsEndTime - showSectionsStartTime
+      ).toFixed(2)}ms`
+    );
 
     // Define all chart IDs and their corresponding field IDs
     const chartMappings = [
@@ -215,8 +237,15 @@ async function apexChartsExportPrint() {
     ];
 
     // Filter out any charts that don't exist in the DOM
+    const filterStartTime = performance.now();
     const validChartMappings = chartMappings.filter(
       ({ chartId }) => document.getElementById(chartId) !== null
+    );
+    const filterEndTime = performance.now();
+    console.log(
+      `Filtering chart mappings took ${(
+        filterEndTime - filterStartTime
+      ).toFixed(2)}ms`
     );
 
     if (validChartMappings.length === 0) {
@@ -224,15 +253,22 @@ async function apexChartsExportPrint() {
     }
 
     // Process charts with improved spacing
+    const processingStartTime = performance.now();
     const results = await processChartsWithSpacing(validChartMappings);
+    const processingEndTime = performance.now();
+    console.log(
+      `Processing all charts took ${(
+        processingEndTime - processingStartTime
+      ).toFixed(2)}ms`
+    );
 
     // Count successful exports
     const successfulExports = results.filter(
       (r) => r.base64String !== null
     ).length;
-    // console.log(
-    //   `Successfully exported ${successfulExports} of ${validChartMappings.length} charts`
-    // );
+    console.log(
+      `Successfully exported ${successfulExports} of ${validChartMappings.length} charts`
+    );
 
     if (successfulExports === 0) {
       throw new Error("No charts were successfully exported");
@@ -243,6 +279,8 @@ async function apexChartsExportPrint() {
       element.classList.add("hidden");
     });
 
+    // Build XML request with metadata and chart images
+    const xmlBuildStartTime = performance.now();
     let uploadXml = "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
 
     // Add metadata first
@@ -263,9 +301,35 @@ async function apexChartsExportPrint() {
     });
 
     uploadXml += "</qdbapi>";
-    
+    const xmlBuildEndTime = performance.now();
+    console.log(
+      `Building XML payload took ${(
+        xmlBuildEndTime - xmlBuildStartTime
+      ).toFixed(2)}ms, size: ${uploadXml.length} bytes`
+    );
+
+    // Send to Quickbase
+    console.log("Sending data to Quickbase...");
+    const sendStartTime = performance.now();
+    const response = await sendToQuickbase(uploadXml);
+    const sendEndTime = performance.now();
+    console.log(
+      `Sending data to Quickbase took ${(sendEndTime - sendStartTime).toFixed(
+        2
+      )}ms`
+    );
+
+    // Process response
+    const responseStartTime = performance.now();
     const xmlResponse = $(response);
     const errorCode = xmlResponse.find("qdbapi").find("errcode").text();
+    const responseEndTime = performance.now();
+    console.log(
+      `Processing Quickbase response took ${(
+        responseEndTime - responseStartTime
+      ).toFixed(2)}ms`
+    );
+
     showApiLoadingFunction("close", "print");
 
     if (errorCode === "0") {
@@ -303,8 +367,21 @@ async function apexChartsExportPrint() {
           }
         }
       });
-    }, 500);
+    }, 3000);
 
+    const totalEndTime = performance.now();
+    const totalTime = totalEndTime - totalStartTime;
+    const totalTimeFormatted = new Date(totalTime)
+      .toISOString()
+      .substring(14, 23); // Format as MM:SS.sss
+
+    console.log(`===============================================`);
+    console.log(
+      `TOTAL EXPORT PROCESS TIME: ${totalTimeFormatted} (${totalTime.toFixed(
+        2
+      )}ms)`
+    );
+    console.log(`===============================================`);
   }
 }
 
@@ -348,6 +425,7 @@ function createImageFieldXml(id, val) {
  * @returns {Promise<object>} - Response data
  */
 async function sendToQuickbase(xml) {
+  const startTime = performance.now();
   try {
     const response = await $.ajax({
       type: "POST",
@@ -359,13 +437,24 @@ async function sendToQuickbase(xml) {
       timeout: 60000, // 60-second timeout (increased from 30)
     });
 
+    const endTime = performance.now();
+    console.log(
+      `Quickbase API call completed successfully in ${(
+        endTime - startTime
+      ).toFixed(2)}ms`
+    );
     return response;
   } catch (error) {
+    const endTime = performance.now();
     const errorMessage =
       error.responseText ||
       error.statusText ||
       error.message ||
       "Unknown error";
+    console.error(
+      `Quickbase API error after ${(endTime - startTime).toFixed(2)}ms:`,
+      errorMessage
+    );
     throw new Error(`Quickbase API error: ${errorMessage}`);
   }
 }

@@ -2462,7 +2462,7 @@ class ApiService {
       .map((region) => `{122.EX.${region}}`)
       .join(" OR ");
 
-    // console.log('selectedRegions', {regionConditions, selectedRegions});
+    console.log('selectedRegions', {regionConditions, selectedRegions});
     
     return regionConditions ? `(${regionConditions})` : '({122.EX.""})'; // Default empty condition
   }
