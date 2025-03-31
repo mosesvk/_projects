@@ -418,7 +418,7 @@ class ChartConfigFactory {
       ],
       series: series,
       chart: {
-        height: 350,
+        height: 450,
         type: "line",
         toolbar: {
           show: false,
@@ -717,7 +717,7 @@ class ChartConfigFactory {
       series: chartSeries,
       chart: {
         type: "bar",
-        height: 350,
+        height: 450,
       },
       plotOptions: {
         bar: {
@@ -1179,7 +1179,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 350,
+        height: 380,
         type: "line",
         stacked: false,
         toolbar: {
