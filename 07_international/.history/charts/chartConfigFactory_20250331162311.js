@@ -1466,11 +1466,7 @@ class ChartConfigFactory {
         fontSize: "20px",
       },
       grid: {
-        padding: {
-          top: 5,
-          right: 5,
-          left: 5,
-        },
+        borderColor: this.themeColors.chartColors.borderColor,
       },
     };
   }

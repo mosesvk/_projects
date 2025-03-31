@@ -1132,7 +1132,7 @@ class ChartConfigFactory {
 
     const safeMinDollarValue = 0;
     const safeMaxDollarValue =
-      allDollarValues.length > 0 ? Math.max(...allDollarValues) * 1.5 : 1000000;
+      allDollarValues.length > 0 ? Math.max(...allDollarValues) * 1.1 : 1000000;
 
     const allRatioValues = [
       ...costOfContributionsClient,
@@ -1141,7 +1141,7 @@ class ChartConfigFactory {
 
     const safeMinRatioValue = 0;
     const safeMaxRatioValue =
-      allRatioValues.length > 0 ? Math.max(...allRatioValues) * 1.5 : 0.3;
+      allRatioValues.length > 0 ? Math.max(...allRatioValues) * 1.2 : 0.3;
 
     const seriesColors = [
       window.chartColors.blue, // Fundraising expenses
@@ -1154,28 +1154,24 @@ class ChartConfigFactory {
       colors: seriesColors,
       series: [
         {
-          name: "Fundr. Exp.",
+          name: "Fundraising Exp.",
           type: "column",
           data: fundraisingExpensesData,
-          yAxisIndex: 0,
         },
         {
           name: "Total Contr.",
           type: "column",
           data: totalContributionsData,
-          yAxisIndex: 0,
         },
         {
           name: "Client",
           type: "line",
           data: costOfContributionsClient,
-          yAxisIndex: 1,
         },
         {
           name: "Peer Avg",
           type: "line",
           data: costOfContributionsPeer,
-          yAxisIndex: 1,
         },
       ],
       chart: {
@@ -1204,11 +1200,6 @@ class ChartConfigFactory {
           opacity: 0.7,
           dropShadow: {
             enabled: false,
-            top: 1,
-            left: 1,
-            blur: 1,
-            color: "#000",
-            opacity: 0.45,
           },
         },
       },
@@ -1232,12 +1223,20 @@ class ChartConfigFactory {
       },
       yaxis: [
         {
+          seriesName: "Fundraising Exp.", // Match with first two series
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: seriesColors[0],
+          },
           labels: {
             formatter: function (value) {
               return formatLargeNumber(value);
             },
             style: {
-              colors: this.themeColors.chartColor,
+              colors: seriesColors[0],
               fontSize: "1.25rem",
             },
           },
@@ -1246,16 +1245,24 @@ class ChartConfigFactory {
           tickAmount: 5,
         },
         {
+          seriesName: "Client", // Match with second two series
+          opposite: true,
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: seriesColors[2],
+          },
           labels: {
             formatter: function (value) {
               return formatRatio(value);
             },
             style: {
-              colors: this.themeColors.chartColor,
+              colors: seriesColors[2],
               fontSize: "1.25rem",
             },
           },
-          opposite: true,
           min: safeMinRatioValue,
           max: safeMaxRatioValue,
           tickAmount: 5,
@@ -1385,8 +1392,8 @@ class ChartConfigFactory {
         },
       ],
       chart: {
+        type: "bar",
         height: 350,
-        type: "line",
         stacked: false,
         toolbar: {
           show: false,
@@ -1466,11 +1473,7 @@ class ChartConfigFactory {
         fontSize: "20px",
       },
       grid: {
-        padding: {
-          top: 5,
-          right: 5,
-          left: 5,
-        },
+        borderColor: this.themeColors.chartColors.borderColor,
       },
     };
   }

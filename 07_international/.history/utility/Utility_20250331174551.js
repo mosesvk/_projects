@@ -1149,7 +1149,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
 const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
   const optionsListClient = document.getElementById("options-list-client");
   const searchInput = document.getElementById("input-group-search");
-  
+
   if (!optionsListClient) {
     console.error("Client options list element not found");
     return;
@@ -1158,7 +1158,7 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
   // Function to filter clients based on search input
   const filterClients = () => {
     if (!searchInput) return;
-    
+
     const searchValue = searchInput.value.toLowerCase();
     const clients = optionsListClient.querySelectorAll("label[for^='client_']");
     clients.forEach((client) => {
@@ -1179,82 +1179,61 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
     searchInput.addEventListener("input", filterClients);
   }
 
-  // Check if "Select All" checkbox already exists
-  const existingSelectAll = document.getElementById("select-all-checkbox-client");
-  
-  if (!existingSelectAll) {
-    // Create "Select All" checkbox and label
-    const selectAllLabel = document.createElement("label");
-    selectAllLabel.setAttribute("for", "select-all-checkbox-client");
-    selectAllLabel.setAttribute(
-      "class",
-      "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
-    );
+  // Create "Select All" checkbox and label
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-client");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+  );
 
-    const selectAllInput = document.createElement("input");
-    selectAllInput.setAttribute("type", "checkbox");
-    selectAllInput.setAttribute("id", "select-all-checkbox-client");
-    selectAllInput.setAttribute(
-      "class",
-      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
-    );
-    selectAllInput.checked = true; // Check "Select All" by default
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-client");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
 
-    const selectAllSpan = document.createElement("span");
-    selectAllSpan.setAttribute("id", "select-all-text-client");
-    selectAllSpan.innerText = "(select all)";
-    selectAllSpan.setAttribute("class", "text-lg font-semibold");
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-client");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
 
-    selectAllLabel.appendChild(selectAllInput);
-    selectAllLabel.appendChild(selectAllSpan);
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
 
-    // Insert after search input if it exists
-    const insertPoint = optionsListClient.children[1] || optionsListClient.firstChild;
-    if (insertPoint) {
-      optionsListClient.insertBefore(selectAllLabel, insertPoint);
-    } else {
-      optionsListClient.appendChild(selectAllLabel);
-    }
-
-    // "Select All" checkbox behavior
-    selectAllInput.addEventListener("change", function () {
-      const isChecked = selectAllInput.checked;
-      const clientCheckboxes = document.querySelectorAll(
-        "#options-list-client input[type='checkbox']"
-      );
-      clientCheckboxes.forEach((checkbox) => {
-        if (checkbox.id !== "select-all-checkbox-client") {
-          checkbox.checked = isChecked;
-          const clientString = checkbox.value;
-          if (isChecked) {
-            selectedClients_Array.add(clientString);
-          } else {
-            selectedClients_Array.delete(clientString);
-          }
-        }
-      });
-    });
+  // Insert after search input if it exists
+  const insertPoint =
+    optionsListClient.children[1] || optionsListClient.firstChild;
+  if (insertPoint) {
+    optionsListClient.insertBefore(selectAllLabel, insertPoint);
+  } else {
+    optionsListClient.appendChild(selectAllLabel);
   }
 
-  // Generate client checkboxes - clear existing first
-  // Get all existing client elements
-  const existingClients = optionsListClient.querySelectorAll("li");
-  
-  // Remove existing client elements except for any search input
-  existingClients.forEach(client => {
-    const checkbox = client.querySelector("input[id^='client_']");
-    if (checkbox) {
-      client.remove();
-    }
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = selectAllInput.checked;
+    const clientCheckboxes = document.querySelectorAll(
+      "#options-list-client input[type='checkbox']"
+    );
+    clientCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-client") {
+        checkbox.checked = isChecked;
+        const clientString = checkbox.value;
+        if (isChecked) {
+          selectedClients_Array.add(clientString);
+        } else {
+          selectedClients_Array.delete(clientString);
+        }
+      }
+    });
   });
 
   // Generate client checkboxes
   clientArray.forEach((clientString) => {
-    // Skip if this client already has a checkbox
-    if (document.getElementById(`client_${clientString}`)) {
-      return;
-    }
-    
     const newListItem = document.createElement("li");
     newListItem.style.listStyleType = "none";
 
@@ -1289,24 +1268,21 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
     newInput.checked = true;
 
     // Add change event listener to update selectedClients_Array
-    newInput.addEventListener("change", function() {
+    newInput.addEventListener("change", function () {
       if (newInput.checked) {
         selectedClients_Array.add(clientString);
       } else {
         selectedClients_Array.delete(clientString);
       }
-      
+
       // Update "Select All" checkbox based on individual checkboxes
-      const selectAllInput = document.getElementById("select-all-checkbox-client");
-      if (selectAllInput) {
-        const allChecked = Array.from(
-          document.querySelectorAll("#options-list-client input[type='checkbox']")
-        )
-          .filter(input => input.id !== "select-all-checkbox-client")
-          .every(input => input.checked);
-          
-        selectAllInput.checked = allChecked;
-      }
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-client input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-client")
+        .every((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
     });
   });
 };

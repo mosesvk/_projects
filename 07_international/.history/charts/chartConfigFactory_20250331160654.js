@@ -204,7 +204,7 @@ class ChartConfigFactory {
         data: peer75,
         visible: false,
       },
-    ];
+    ]
 
     // Return complete chart configuration
     return {
@@ -1132,7 +1132,7 @@ class ChartConfigFactory {
 
     const safeMinDollarValue = 0;
     const safeMaxDollarValue =
-      allDollarValues.length > 0 ? Math.max(...allDollarValues) * 1.5 : 1000000;
+      allDollarValues.length > 0 ? Math.max(...allDollarValues) * 1.1 : 1000000;
 
     const allRatioValues = [
       ...costOfContributionsClient,
@@ -1141,7 +1141,7 @@ class ChartConfigFactory {
 
     const safeMinRatioValue = 0;
     const safeMaxRatioValue =
-      allRatioValues.length > 0 ? Math.max(...allRatioValues) * 1.5 : 0.3;
+      allRatioValues.length > 0 ? Math.max(...allRatioValues) * 1.2 : 0.3;
 
     const seriesColors = [
       window.chartColors.blue, // Fundraising expenses
@@ -1157,25 +1157,25 @@ class ChartConfigFactory {
           name: "Fundr. Exp.",
           type: "column",
           data: fundraisingExpensesData,
-          yAxisIndex: 0,
+          yaxis: 0,
         },
         {
           name: "Total Contr.",
           type: "column",
           data: totalContributionsData,
-          yAxisIndex: 0,
+          yaxis: 0,
         },
         {
           name: "Client",
           type: "line",
           data: costOfContributionsClient,
-          yAxisIndex: 1,
+          yaxis: 1,
         },
         {
           name: "Peer Avg",
           type: "line",
           data: costOfContributionsPeer,
-          yAxisIndex: 1,
+          yaxis: 1,
         },
       ],
       chart: {
@@ -1280,15 +1280,12 @@ class ChartConfigFactory {
       legend: {
         position: "bottom",
         fontSize: "20px",
-        horizontalAlign: "center", // Ensures horizontal alignment
+        horizontalAlign: "center", // Add this
         itemMargin: {
-          horizontal: 15, // Add horizontal spacing between items
-          vertical: 5, // Reduce vertical spacing
+          horizontal: 12, // Add spacing between items
+          vertical: 3     // Minimize vertical spacing
         },
-        formatter: function (seriesName, opts) {
-          // Optionally use shorter names if needed
-          return seriesName;
-        },
+        // width: 500 - Remove this property
       },
       grid: {
         padding: {
@@ -1385,8 +1382,8 @@ class ChartConfigFactory {
         },
       ],
       chart: {
+        type: "bar",
         height: 350,
-        type: "line",
         stacked: false,
         toolbar: {
           show: false,
@@ -1466,11 +1463,7 @@ class ChartConfigFactory {
         fontSize: "20px",
       },
       grid: {
-        padding: {
-          top: 5,
-          right: 5,
-          left: 5,
-        },
+        borderColor: this.themeColors.chartColors.borderColor,
       },
     };
   }

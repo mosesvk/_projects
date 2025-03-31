@@ -2323,10 +2323,10 @@ class ApiService {
 
     // (${regionQuery}) AND
     // (${typeQuery}) AND
-
-    //   query: `{301.EX.${currentYear}}
-    //   AND {59.EX.${}}
-    // `,
+    
+  //   query: `{301.EX.${currentYear}}
+  //   AND {59.EX.${}}
+  // `,
 
     const apiCallPeerData = {
       act: "API_DoQuery",
@@ -2420,7 +2420,7 @@ class ApiService {
     }
   }
 
-  // Get records for unique client peer name
+  // Get records for unique client peer names
   async getRecordsForUniqueClientPeerNames() {
     const apiCallPeerData = {
       act: "API_DoQuery",
@@ -2446,65 +2446,29 @@ class ApiService {
       ).sort();
 
       // Add to global selected clients array
-      if (typeof selectedClients_Array !== "undefined") {
-        sortedUniquePeerClientNames.forEach((item) =>
-          selectedClients_Array.add(item)
-        );
-      }
+      sortedUniquePeerClientNames.forEach((item) =>
+        selectedClients_Array.add(item)
+      );
 
-      // Check if the function exists before calling it
-      if (typeof addUniqueClientsToOptionsSelectClientDropdown === "function") {
-        addUniqueClientsToOptionsSelectClientDropdown(
-          sortedUniquePeerClientNames
-        );
-      } else {
-        console.error(
-          "addUniqueClientsToOptionsSelectClientDropdown function is not defined"
-        );
-
-        // Provide a simple fallback for populating clients if needed
-        this._populateClientsDropdownFallback(sortedUniquePeerClientNames);
-      }
-
-      return sortedUniquePeerClientNames;
+      // Update UI dropdown
+      addUniqueClientsToOptionsSelectClientDropdown(
+        sortedUniquePeerClientNames
+      );
     } catch (error) {
       console.error("Error fetching unique client names:", error);
-      return [];
     }
-  }
-
-  // Fallback method for populating clients dropdown
-  _populateClientsDropdownFallback(clientArray) {
-    const optionsListClient = document.getElementById("options-list-client");
-    if (!optionsListClient) return;
-
-    // Clear existing content
-    optionsListClient.innerHTML = "";
-
-    // Just add simple options without the complex Select All behavior
-    clientArray.forEach((clientName) => {
-      const listItem = document.createElement("li");
-      listItem.textContent = clientName;
-      listItem.className = "px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700";
-      optionsListClient.appendChild(listItem);
-
-      // Add to global Set if it exists
-      if (typeof selectedClients_Array !== "undefined") {
-        selectedClients_Array.add(clientName);
-      }
-    });
   }
 
   // Build a query condition for regions
   getRegionQuery(selectedRegionsSet) {
-    // Convert Set to Array for iteration
-    const selectedRegions = Array.from(selectedRegionsSet);
-
-    const regionConditions = selectedRegions
-      .map((region) => `{122.EX.${region}}`)
-      .join(" OR ");
-
-    return regionConditions ? `(${regionConditions})` : '({122.EX.""})';
+     // Convert Set to Array for iteration
+  const selectedRegions = Array.from(selectedRegionsSet);
+  
+  const regionConditions = selectedRegions
+    .map((region) => `{122.EX.${region}}`)
+    .join(" OR ");
+  
+  return regionConditions ? `(${regionConditions})` : '({122.EX.""})';
   }
 
   // Build a query condition for types
@@ -2545,10 +2509,10 @@ class AppController {
     this.dataStore = new DataStore();
     this.dataProcessor = new DataProcessor(this.dataStore);
     this.apiService = new ApiService();
-
+    
     // Add initialization flag
     this._initialized = false;
-
+    
     this.initializeEventListeners();
   }
 
@@ -2556,24 +2520,24 @@ class AppController {
   initializeEventListeners() {
     // Prevent duplicate initialization
     if (this._initialized) {
-      console.log("AppController already initialized");
+      console.log('AppController already initialized');
       return;
     }
-
+    
     // Clear localStorage but preserve any existing selections
-    const preservedKeys = ["selectedYears"];
+    const preservedKeys = ['selectedYears'];
     const savedValues = {};
-
+    
     // Save values we want to keep
-    preservedKeys.forEach((key) => {
+    preservedKeys.forEach(key => {
       savedValues[key] = localStorage.getItem(key);
     });
-
+    
     // Clear localStorage
     localStorage.clear();
-
+    
     // Restore preserved values
-    Object.keys(savedValues).forEach((key) => {
+    Object.keys(savedValues).forEach(key => {
       if (savedValues[key]) {
         localStorage.setItem(key, savedValues[key]);
       }
@@ -2581,24 +2545,16 @@ class AppController {
 
     // Load client names before initializing dropdowns
     this.apiService.getRecordsForUniqueClientPeerNames();
-
+    
     // Initialize dropdowns only if they aren't already populated
     const regionsListElement = document.getElementById("options-list-region");
-    if (
-      regionsListElement &&
-      (!regionsListElement.children.length ||
-        regionsListElement.children.length <= 1)
-    ) {
+    if (regionsListElement && (!regionsListElement.children.length || regionsListElement.children.length <= 1)) {
       console.log("Initializing regions dropdown");
       addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
     }
-
+    
     const typesListElement = document.getElementById("options-list-type");
-    if (
-      typesListElement &&
-      (!typesListElement.children.length ||
-        typesListElement.children.length <= 1)
-    ) {
+    if (typesListElement && (!typesListElement.children.length || typesListElement.children.length <= 1)) {
       console.log("Initializing types dropdown");
       addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
     }
@@ -2607,19 +2563,16 @@ class AppController {
     const runButton = document.getElementById("runButton"); // Make sure to use correct ID
     if (runButton) {
       this.runButton = runButton;
-
+      
       // Remove any existing listeners to prevent duplicates
       const newRunButton = runButton.cloneNode(true);
       runButton.parentNode.replaceChild(newRunButton, runButton);
       this.runButton = newRunButton;
-
+      
       // Add click listener
-      this.runButton.addEventListener(
-        "click",
-        this.handleRunButtonClick.bind(this)
-      );
+      this.runButton.addEventListener("click", this.handleRunButtonClick.bind(this));
     }
-
+    
     // Mark as initialized
     this._initialized = true;
   }
@@ -2628,14 +2581,11 @@ class AppController {
   async handleRunButtonClick() {
     try {
       // Clear existing data first
-      if (this.dataStore && typeof this.dataStore.clear === "function") {
+      if (this.dataStore && typeof this.dataStore.clear === 'function') {
         this.dataStore.clear();
       }
-
-      if (
-        this.apiService &&
-        typeof this.apiService.clearRecords === "function"
-      ) {
+      
+      if (this.apiService && typeof this.apiService.clearRecords === 'function') {
         this.apiService.clearRecords();
       }
 
@@ -2651,7 +2601,7 @@ class AppController {
         showApiLoadingFunction("close");
         return;
       }
-
+      
       this.saveSelectedYearsToLocalStorage(selectedYears);
 
       // Fetch peer data with error handling
@@ -2669,9 +2619,7 @@ class AppController {
       // Fetch client data with error handling
       let recordsClient;
       try {
-        recordsClient = await this.apiService.getRecordsForClient(
-          selectedYears
-        );
+        recordsClient = await this.apiService.getRecordsForClient(selectedYears);
       } catch (error) {
         console.error("Error fetching client data:", error);
         createToastWarning("Error fetching client data. Please try again.");
@@ -2698,9 +2646,7 @@ class AppController {
         this.displayAllComponents();
       } catch (error) {
         console.error("Error displaying components:", error);
-        createToastWarning(
-          "Error displaying charts. Please check console for details."
-        );
+        createToastWarning("Error displaying charts. Please check console for details.");
       } finally {
         // Always hide loading indicator
         showApiLoadingFunction("close");
@@ -2717,9 +2663,7 @@ class AppController {
     const selectedYears = getSelectedYearsFromLocalStorage();
 
     if (!selectedYears) {
-      createToastWarning(
-        "Error retrieving selected years. Please reload the page and try again."
-      );
+      createToastWarning("Error retrieving selected years. Please reload the page and try again.");
       throw new Error("Failed to retrieve selected years from localStorage");
     }
 
@@ -2734,7 +2678,7 @@ class AppController {
   // Save selected years to localStorage - improved for Sets
   saveSelectedYearsToLocalStorage(selectedYearsData) {
     let selectedYearsArray;
-
+    
     if (selectedYearsData instanceof Set) {
       // Convert Set to Array
       selectedYearsArray = Array.from(selectedYearsData);
@@ -2742,16 +2686,13 @@ class AppController {
       // Already an array
       selectedYearsArray = selectedYearsData;
     } else {
-      console.error(
-        "Invalid selected years data type:",
-        typeof selectedYearsData
-      );
+      console.error("Invalid selected years data type:", typeof selectedYearsData);
       return;
     }
-
+    
     // Sort years
     selectedYearsArray.sort((a, b) => a - b);
-
+    
     // Save to localStorage
     localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
   }
@@ -2759,31 +2700,31 @@ class AppController {
   // Display all UI components with error handling
   displayAllComponents() {
     try {
-      if (typeof displayGeneralComponent === "function") {
+      if (typeof displayGeneralComponent === 'function') {
         displayGeneralComponent();
       } else {
         console.warn("displayGeneralComponent function not found");
       }
-
-      if (typeof displayCashComponent === "function") {
+      
+      if (typeof displayCashComponent === 'function') {
         displayCashComponent();
       } else {
         console.warn("displayCashComponent function not found");
       }
-
-      if (typeof displayIncomeComponent === "function") {
+      
+      if (typeof displayIncomeComponent === 'function') {
         displayIncomeComponent();
       } else {
         console.warn("displayIncomeComponent function not found");
       }
-
-      if (typeof displayExpenseComponent === "function") {
+      
+      if (typeof displayExpenseComponent === 'function') {
         displayExpenseComponent();
       } else {
         console.warn("displayExpenseComponent function not found");
       }
-
-      if (typeof displayReportComponent === "function") {
+      
+      if (typeof displayReportComponent === 'function') {
         displayReportComponent();
       } else {
         console.warn("displayReportComponent function not found");

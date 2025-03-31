@@ -2323,10 +2323,10 @@ class ApiService {
 
     // (${regionQuery}) AND
     // (${typeQuery}) AND
-
-    //   query: `{301.EX.${currentYear}}
-    //   AND {59.EX.${}}
-    // `,
+    
+  //   query: `{301.EX.${currentYear}}
+  //   AND {59.EX.${}}
+  // `,
 
     const apiCallPeerData = {
       act: "API_DoQuery",
@@ -2420,7 +2420,7 @@ class ApiService {
     }
   }
 
-  // Get records for unique client peer name
+  // Get records for unique client peer names
   async getRecordsForUniqueClientPeerNames() {
     const apiCallPeerData = {
       act: "API_DoQuery",
@@ -2446,65 +2446,29 @@ class ApiService {
       ).sort();
 
       // Add to global selected clients array
-      if (typeof selectedClients_Array !== "undefined") {
-        sortedUniquePeerClientNames.forEach((item) =>
-          selectedClients_Array.add(item)
-        );
-      }
+      sortedUniquePeerClientNames.forEach((item) =>
+        selectedClients_Array.add(item)
+      );
 
-      // Check if the function exists before calling it
-      if (typeof addUniqueClientsToOptionsSelectClientDropdown === "function") {
-        addUniqueClientsToOptionsSelectClientDropdown(
-          sortedUniquePeerClientNames
-        );
-      } else {
-        console.error(
-          "addUniqueClientsToOptionsSelectClientDropdown function is not defined"
-        );
-
-        // Provide a simple fallback for populating clients if needed
-        this._populateClientsDropdownFallback(sortedUniquePeerClientNames);
-      }
-
-      return sortedUniquePeerClientNames;
+      // Update UI dropdown
+      addUniqueClientsToOptionsSelectClientDropdown(
+        sortedUniquePeerClientNames
+      );
     } catch (error) {
       console.error("Error fetching unique client names:", error);
-      return [];
     }
-  }
-
-  // Fallback method for populating clients dropdown
-  _populateClientsDropdownFallback(clientArray) {
-    const optionsListClient = document.getElementById("options-list-client");
-    if (!optionsListClient) return;
-
-    // Clear existing content
-    optionsListClient.innerHTML = "";
-
-    // Just add simple options without the complex Select All behavior
-    clientArray.forEach((clientName) => {
-      const listItem = document.createElement("li");
-      listItem.textContent = clientName;
-      listItem.className = "px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700";
-      optionsListClient.appendChild(listItem);
-
-      // Add to global Set if it exists
-      if (typeof selectedClients_Array !== "undefined") {
-        selectedClients_Array.add(clientName);
-      }
-    });
   }
 
   // Build a query condition for regions
   getRegionQuery(selectedRegionsSet) {
-    // Convert Set to Array for iteration
-    const selectedRegions = Array.from(selectedRegionsSet);
-
-    const regionConditions = selectedRegions
-      .map((region) => `{122.EX.${region}}`)
-      .join(" OR ");
-
-    return regionConditions ? `(${regionConditions})` : '({122.EX.""})';
+     // Convert Set to Array for iteration
+  const selectedRegions = Array.from(selectedRegionsSet);
+  
+  const regionConditions = selectedRegions
+    .map((region) => `{122.EX.${region}}`)
+    .join(" OR ");
+  
+  return regionConditions ? `(${regionConditions})` : '({122.EX.""})';
   }
 
   // Build a query condition for types
@@ -2545,81 +2509,53 @@ class AppController {
     this.dataStore = new DataStore();
     this.dataProcessor = new DataProcessor(this.dataStore);
     this.apiService = new ApiService();
-
-    // Add initialization flag
+    
+    // Add initialization flag to track if we've already initialized
     this._initialized = false;
-
+    
     this.initializeEventListeners();
   }
 
   // Initialize event listeners
   initializeEventListeners() {
-    // Prevent duplicate initialization
+    // Skip if already initialized
     if (this._initialized) {
-      console.log("AppController already initialized");
+      console.log('AppController already initialized');
       return;
     }
-
-    // Clear localStorage but preserve any existing selections
-    const preservedKeys = ["selectedYears"];
-    const savedValues = {};
-
-    // Save values we want to keep
-    preservedKeys.forEach((key) => {
-      savedValues[key] = localStorage.getItem(key);
-    });
-
-    // Clear localStorage
+    
+    // console.log('initializeEventListeners()', {types_Array, regions_Array});
+    
     localStorage.clear();
 
-    // Restore preserved values
-    Object.keys(savedValues).forEach((key) => {
-      if (savedValues[key]) {
-        localStorage.setItem(key, savedValues[key]);
-      }
-    });
-
-    // Load client names before initializing dropdowns
+    // Make sure these functions check for existing elements and don't duplicate
     this.apiService.getRecordsForUniqueClientPeerNames();
-
-    // Initialize dropdowns only if they aren't already populated
-    const regionsListElement = document.getElementById("options-list-region");
-    if (
-      regionsListElement &&
-      (!regionsListElement.children.length ||
-        regionsListElement.children.length <= 1)
-    ) {
-      console.log("Initializing regions dropdown");
+    
+    // Only initialize if the elements don't already have options
+    const regionsList = document.getElementById("options-list-region");
+    if (regionsList && regionsList.children.length <= 1) { // 1 for the search element or 0 if none
       addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
     }
-
-    const typesListElement = document.getElementById("options-list-type");
-    if (
-      typesListElement &&
-      (!typesListElement.children.length ||
-        typesListElement.children.length <= 1)
-    ) {
-      console.log("Initializing types dropdown");
+    
+    const typesList = document.getElementById("options-list-type");
+    if (typesList && typesList.children.length <= 1) {
       addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
     }
-
-    // Set up run button event listener
-    const runButton = document.getElementById("runButton"); // Make sure to use correct ID
+    
+    const runButton = document.getElementById("runButton"); // Make sure to use the correct ID
     if (runButton) {
-      this.runButton = runButton;
-
-      // Remove any existing listeners to prevent duplicates
-      const newRunButton = runButton.cloneNode(true);
-      runButton.parentNode.replaceChild(newRunButton, runButton);
-      this.runButton = newRunButton;
-
+      // Remove any existing click listeners to prevent duplicates
+      runButton.replaceWith(runButton.cloneNode(true));
+      
+      // Get the new button reference after replacement
+      this.runButton = document.getElementById("runButton");
+      
       // Add click listener
-      this.runButton.addEventListener(
-        "click",
-        this.handleRunButtonClick.bind(this)
+      this.runButton.addEventListener("click", () => 
+        this.handleRunButtonClick()
       );
     }
-
+    
     // Mark as initialized
     this._initialized = true;
   }
@@ -2628,170 +2564,77 @@ class AppController {
   async handleRunButtonClick() {
     try {
       // Clear existing data first
-      if (this.dataStore && typeof this.dataStore.clear === "function") {
-        this.dataStore.clear();
-      }
+      this.dataStore.clear();
+      this.apiService.clear();
 
-      if (
-        this.apiService &&
-        typeof this.apiService.clearRecords === "function"
-      ) {
-        this.apiService.clearRecords();
-      }
-
-      // Show loading indicator
+      // Show loading indicator at the start
       showApiLoadingFunction("open", "api");
 
-      // Process selected years
-      let selectedYears;
-      try {
-        selectedYears = this.processSelectedYears();
-      } catch (error) {
-        console.error("Error processing selected years:", error);
-        showApiLoadingFunction("close");
-        return;
-      }
-
+      // Process data and update UI
+      const selectedYears = this.processSelectedYears();
       this.saveSelectedYearsToLocalStorage(selectedYears);
 
-      // Fetch peer data with error handling
-      let recordsPeer;
-      try {
-        recordsPeer = await this.apiService.getRecordsForPeer(selectedYears);
-        countUniqueClients(recordsPeer);
-      } catch (error) {
-        console.error("Error fetching peer data:", error);
-        createToastWarning("Error fetching peer data. Please try again.");
-        showApiLoadingFunction("close");
-        return;
-      }
+      // Fetch and process data
+      const recordsPeer = await this.apiService.getRecordsForPeer(
+        selectedYears
+      );
+      countUniqueClients(recordsPeer);
 
-      // Fetch client data with error handling
-      let recordsClient;
-      try {
-        recordsClient = await this.apiService.getRecordsForClient(
-          selectedYears
-        );
-      } catch (error) {
-        console.error("Error fetching client data:", error);
-        createToastWarning("Error fetching client data. Please try again.");
-        showApiLoadingFunction("close");
-        return;
-      }
+      const recordsClient = await this.apiService.getRecordsForClient(
+        selectedYears
+      );
 
-      // Process the data
-      try {
-        this.dataProcessor.processAllData(
-          selectedYears,
-          recordsPeer,
-          recordsClient
-        );
-      } catch (error) {
-        console.error("Error processing data:", error);
-        createToastWarning("Error processing data. Please try again.");
-        showApiLoadingFunction("close");
-        return;
-      }
+      this.dataProcessor.processAllData(
+        selectedYears,
+        recordsPeer,
+        recordsClient
+      );
 
-      // Display charts
-      try {
-        this.displayAllComponents();
-      } catch (error) {
-        console.error("Error displaying components:", error);
-        createToastWarning(
-          "Error displaying charts. Please check console for details."
-        );
-      } finally {
-        // Always hide loading indicator
-        showApiLoadingFunction("close");
-      }
+      // Display charts only after data is fully processed
+      this.displayAllComponents();
+
+      // Explicitly update report component after data is processed
+      // if (typeof displayReportComponent === "function") {
+      //   console.log("Updating report component with processed data");
+      //   displayReportComponent();
+      // }
+
+      // Hide loading indicator when everything is complete
+      showApiLoadingFunction("close");
     } catch (err) {
-      console.error("Unexpected error in handleRunButtonClick:", err);
-      createToastWarning("An unexpected error occurred. Please try again.");
+      console.error(err);
+      // Make sure loading indicator is hidden even on error
       showApiLoadingFunction("close");
     }
   }
 
-  // Process selected years - with better error handling
+  // Process selected years
   processSelectedYears() {
     const selectedYears = getSelectedYearsFromLocalStorage();
 
-    if (!selectedYears) {
-      createToastWarning(
-        "Error retrieving selected years. Please reload the page and try again."
-      );
-      throw new Error("Failed to retrieve selected years from localStorage");
-    }
-
-    if (!selectedYears.length) {
-      createToastWarning("Please select at least one year for data to appear");
-      throw new Error("No years selected");
+    if (!selectedYears || !selectedYears.length) {
+      createToastWarning("Please select year(s) for data to appear");
+      throw new Error("No years selected.");
     }
 
     return selectedYears;
   }
 
-  // Save selected years to localStorage - improved for Sets
-  saveSelectedYearsToLocalStorage(selectedYearsData) {
-    let selectedYearsArray;
-
-    if (selectedYearsData instanceof Set) {
-      // Convert Set to Array
-      selectedYearsArray = Array.from(selectedYearsData);
-    } else if (Array.isArray(selectedYearsData)) {
-      // Already an array
-      selectedYearsArray = selectedYearsData;
-    } else {
-      console.error(
-        "Invalid selected years data type:",
-        typeof selectedYearsData
-      );
-      return;
-    }
-
-    // Sort years
-    selectedYearsArray.sort((a, b) => a - b);
-
-    // Save to localStorage
+  // Save selected years to localStorage
+  saveSelectedYearsToLocalStorage(selectedYears_Set) {
+    const selectedYearsArray = Array.from(selectedYears_Set).sort(
+      (a, b) => a - b
+    );
     localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
   }
 
-  // Display all UI components with error handling
+  // Display all UI components
   displayAllComponents() {
-    try {
-      if (typeof displayGeneralComponent === "function") {
-        displayGeneralComponent();
-      } else {
-        console.warn("displayGeneralComponent function not found");
-      }
-
-      if (typeof displayCashComponent === "function") {
-        displayCashComponent();
-      } else {
-        console.warn("displayCashComponent function not found");
-      }
-
-      if (typeof displayIncomeComponent === "function") {
-        displayIncomeComponent();
-      } else {
-        console.warn("displayIncomeComponent function not found");
-      }
-
-      if (typeof displayExpenseComponent === "function") {
-        displayExpenseComponent();
-      } else {
-        console.warn("displayExpenseComponent function not found");
-      }
-
-      if (typeof displayReportComponent === "function") {
-        displayReportComponent();
-      } else {
-        console.warn("displayReportComponent function not found");
-      }
-    } catch (error) {
-      console.error("Error in displayAllComponents:", error);
-      throw error;
-    }
+    displayGeneralComponent();
+    displayCashComponent();
+    displayIncomeComponent();
+    displayExpenseComponent();
+    displayReportComponent();
   }
 }
 

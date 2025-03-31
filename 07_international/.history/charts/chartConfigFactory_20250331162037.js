@@ -1141,7 +1141,7 @@ class ChartConfigFactory {
 
     const safeMinRatioValue = 0;
     const safeMaxRatioValue =
-      allRatioValues.length > 0 ? Math.max(...allRatioValues) * 1.5 : 0.3;
+      allRatioValues.length > 0 ? Math.max(...allRatioValues) * 1.2 : 0.3;
 
     const seriesColors = [
       window.chartColors.blue, // Fundraising expenses
@@ -1385,8 +1385,8 @@ class ChartConfigFactory {
         },
       ],
       chart: {
+        type: "bar",
         height: 350,
-        type: "line",
         stacked: false,
         toolbar: {
           show: false,
@@ -1466,11 +1466,7 @@ class ChartConfigFactory {
         fontSize: "20px",
       },
       grid: {
-        padding: {
-          top: 5,
-          right: 5,
-          left: 5,
-        },
+        borderColor: this.themeColors.chartColors.borderColor,
       },
     };
   }
