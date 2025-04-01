@@ -3000,6 +3000,15 @@ ApiService.prototype.getRecordsForUniqueClientPeerNames = async function () {
   return originalResult;
 };
 
+// Initialize on window load to ensure DOM is ready
+window.addEventListener("load", async () => {
+  // Create client manager if it doesn't exist
+  if (!window.clientManager) {
+    window.clientManager = new ClientManager();
+    await window.clientManager.initialize();
+  }
+});
+
 // Utility to count unique clients in the records
 function countUniqueClients(records) {
   const uniqueClients = new Set();

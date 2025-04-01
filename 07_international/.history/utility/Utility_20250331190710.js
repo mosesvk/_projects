@@ -1158,7 +1158,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
 const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
   const optionsListClient = document.getElementById("options-list-client");
   const searchInput = document.getElementById("input-group-search");
-
+  
   if (!optionsListClient) {
     console.error("Client options list element not found");
     return;
@@ -1167,7 +1167,7 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
   // Function to filter clients based on search input
   const filterClients = () => {
     if (!searchInput) return;
-
+    
     const searchValue = searchInput.value.toLowerCase();
     const clients = optionsListClient.querySelectorAll("label[for^='client_']");
     clients.forEach((client) => {
@@ -1189,10 +1189,8 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
   }
 
   // Check if "Select All" checkbox already exists
-  const existingSelectAll = document.getElementById(
-    "select-all-checkbox-client"
-  );
-
+  const existingSelectAll = document.getElementById("select-all-checkbox-client");
+  
   if (!existingSelectAll) {
     // Create "Select All" checkbox and label
     const selectAllLabel = document.createElement("label");
@@ -1220,8 +1218,7 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
     selectAllLabel.appendChild(selectAllSpan);
 
     // Insert after search input if it exists
-    const insertPoint =
-      optionsListClient.children[1] || optionsListClient.firstChild;
+    const insertPoint = optionsListClient.children[1] || optionsListClient.firstChild;
     if (insertPoint) {
       optionsListClient.insertBefore(selectAllLabel, insertPoint);
     } else {
@@ -1251,9 +1248,9 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
   // Generate client checkboxes - clear existing first
   // Get all existing client elements
   const existingClients = optionsListClient.querySelectorAll("li");
-
+  
   // Remove existing client elements except for any search input
-  existingClients.forEach((client) => {
+  existingClients.forEach(client => {
     const checkbox = client.querySelector("input[id^='client_']");
     if (checkbox) {
       client.remove();
@@ -1266,7 +1263,7 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
     if (document.getElementById(`client_${clientString}`)) {
       return;
     }
-
+    
     const newListItem = document.createElement("li");
     newListItem.style.listStyleType = "none";
 
@@ -1286,8 +1283,8 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
       const clientData = window.clientDataStore[clientString];
       newInput.setAttribute("data-mission-unit", clientData.missionUnit);
       newInput.setAttribute("data-giving-unit", clientData.givingUnit);
-      newInput.setAttribute("data-area-query", clientData.areaQuery.join(";"));
-      newInput.setAttribute("data-type-query", clientData.typeQuery.join(";"));
+      newInput.setAttribute("data-area-query", clientData.areaQuery.join(';'));
+      newInput.setAttribute("data-type-query", clientData.typeQuery.join(';'));
     }
 
     const newLabel = document.createElement("label");
@@ -1310,26 +1307,22 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
     newInput.checked = true;
 
     // Add change event listener to update selectedClients_Array
-    newInput.addEventListener("change", function () {
+    newInput.addEventListener("change", function() {
       if (newInput.checked) {
         selectedClients_Array.add(clientString);
       } else {
         selectedClients_Array.delete(clientString);
       }
-
+      
       // Update "Select All" checkbox based on individual checkboxes
-      const selectAllInput = document.getElementById(
-        "select-all-checkbox-client"
-      );
+      const selectAllInput = document.getElementById("select-all-checkbox-client");
       if (selectAllInput) {
         const allChecked = Array.from(
-          document.querySelectorAll(
-            "#options-list-client input[type='checkbox']"
-          )
+          document.querySelectorAll("#options-list-client input[type='checkbox']")
         )
-          .filter((input) => input.id !== "select-all-checkbox-client")
-          .every((input) => input.checked);
-
+          .filter(input => input.id !== "select-all-checkbox-client")
+          .every(input => input.checked);
+          
         selectAllInput.checked = allChecked;
       }
     });
@@ -1359,121 +1352,6 @@ function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
 
   return cell;
 }
-
-function clientMatchesFilters(
-  clientData,
-  selectedTypes,
-  selectedRegions,
-  minGiving,
-  maxGiving,
-  minMission,
-  maxMission
-) {
-  if (!clientData) return false;
-
-  // Check giving unit range
-  const givingUnitMatch =
-    clientData.givingUnit >= minGiving && clientData.givingUnit <= maxGiving;
-
-  // Check mission unit range
-  const missionUnitMatch =
-    clientData.missionUnit >= minMission &&
-    clientData.missionUnit <= maxMission;
-
-  // Check if client has at least one selected region
-  const regionMatch =
-    selectedRegions.length === 0 ||
-    selectedRegions.some((region) => clientData.areaQuery.includes(region));
-
-  // Check if client has at least one selected type
-  const typeMatch =
-    selectedTypes.length === 0 ||
-    selectedTypes.some((type) => clientData.typeQuery.includes(type));
-
-  return givingUnitMatch && missionUnitMatch && regionMatch && typeMatch;
-}
-
-// Function to update client selection based on filters
-function updateClientSelectionBasedOnFilters() {
-  if (!window.clientDataStore) return;
-
-  // Get current filter values
-  const selectedTypes = Array.from(selectedTypes_Array);
-  const selectedRegions = Array.from(selectedRegions_Array);
-  const minGiving = sliderValue;
-  const maxGiving = sliderValue2;
-  const minMission = missionValue;
-  const maxMission = missionValue2;
-
-  // Get all client checkboxes
-  const clientCheckboxes = document.querySelectorAll(
-    '#options-list-client input[type="checkbox"]'
-  );
-
-  // Skip the first one (select all)
-  for (let i = 1; i < clientCheckboxes.length; i++) {
-    const checkbox = clientCheckboxes[i];
-    const clientName = checkbox.value;
-    const clientData = window.clientDataStore[clientName];
-
-    // Update checkbox based on filter match
-    if (clientData) {
-      const shouldBeChecked = clientMatchesFilters(
-        clientData,
-        selectedTypes,
-        selectedRegions,
-        minGiving,
-        maxGiving,
-        minMission,
-        maxMission
-      );
-
-      // Only change if different from current state
-      if (checkbox.checked !== shouldBeChecked) {
-        checkbox.checked = shouldBeChecked;
-
-        // Update the selected clients array
-        if (shouldBeChecked) {
-          selectedClients_Array.add(clientName);
-        } else {
-          selectedClients_Array.delete(clientName);
-        }
-      }
-    }
-  }
-
-  // Update select all checkbox
-  updateSelectAllCheckboxState();
-}
-
-// Function to update the "select all" checkbox state
-function updateSelectAllCheckboxState() {
-  const selectAllCheckbox = document.getElementById(
-    "select-all-checkbox-client"
-  );
-  if (!selectAllCheckbox) return;
-
-  const clientCheckboxes = document.querySelectorAll(
-    '#options-list-client input[type="checkbox"]'
-  );
-  const clientOnlyCheckboxes = Array.from(clientCheckboxes).filter(
-    (checkbox) => checkbox.id !== "select-all-checkbox-client"
-  );
-
-  const allChecked = clientOnlyCheckboxes.every((checkbox) => checkbox.checked);
-  const noneChecked = clientOnlyCheckboxes.every(
-    (checkbox) => !checkbox.checked
-  );
-
-  selectAllCheckbox.checked = allChecked;
-  selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
-}
-
-// Listen for filter changes
-document.addEventListener(
-  "filtersChanged",
-  updateClientSelectionBasedOnFilters
-);
 
 function addPeerDataToModalRow(
   yearRow,

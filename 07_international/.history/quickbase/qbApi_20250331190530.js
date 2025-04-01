@@ -2984,6 +2984,7 @@ class AppController {
 }
 
 // Create global instance
+window.clientManager = new ClientManager();
 
 // Extend the existing ApiService.getRecordsForUniqueClientPeerNames method
 const originalGetRecordsForUniqueClientPeerNames =
@@ -2996,9 +2997,21 @@ ApiService.prototype.getRecordsForUniqueClientPeerNames = async function () {
   );
 
   // Initialize the client manager
+  if (window.clientManager) {
+    await window.clientManager.initialize();
+  }
 
   return originalResult;
 };
+
+// Initialize on window load to ensure DOM is ready
+window.addEventListener("load", async () => {
+  // Create client manager if it doesn't exist
+  if (!window.clientManager) {
+    window.clientManager = new ClientManager();
+    await window.clientManager.initialize();
+  }
+});
 
 // Utility to count unique clients in the records
 function countUniqueClients(records) {

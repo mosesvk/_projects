@@ -2420,11 +2420,11 @@ class ApiService {
     }
   }
 
-  // Get records for unique client peer name with additional data
+  // Get records for unique client peer name
   async getRecordsForUniqueClientPeerNames() {
     const apiCallPeerData = {
       act: "API_DoQuery",
-      clist: "301.59.238.239.359.358", // Added mission unit, giving unit, area query, type query
+      clist: "301.59",
     };
 
     try {
@@ -2432,58 +2432,12 @@ class ApiService {
       const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
       const uniquePeerClientNames = new Set();
 
-      // Create a global client data storage if it doesn't exist
-      if (!window.clientDataStore) {
-        window.clientDataStore = {};
-      }
-
       recordsForPeerUniqueClientPeerNames.forEach((record) => {
         const clientInformalName = record.querySelector(
           "pe___client_informal_name"
         )?.textContent;
-
         if (clientInformalName) {
           uniquePeerClientNames.add(clientInformalName);
-
-          // Store client data with all required fields
-          if (!window.clientDataStore[clientInformalName]) {
-            // Get fiscal year
-            const year = record.querySelector(
-              "fiscal_ye_date_formatted_year_text"
-            )?.textContent;
-
-            // Get mission unit value
-            const missionUnitVal =
-              record.querySelector("missionary_unit")?.textContent || "0";
-
-            // Get giving unit value
-            const givingUnitVal =
-              record.querySelector("giving_unit")?.textContent || "0";
-
-            // Get area query - parse from string to array
-            const areaQueryText =
-              record.querySelector("area_query")?.textContent || "";
-            const areaQuery = areaQueryText
-              ? areaQueryText.split(";").filter(Boolean)
-              : [];
-
-            // Get type query - parse from string to array
-            const typeQueryText =
-              record.querySelector("type_query")?.textContent || "";
-            const typeQuery = typeQueryText
-              ? typeQueryText.split(";").filter(Boolean)
-              : [];
-
-            // Store all client data
-            window.clientDataStore[clientInformalName] = {
-              name: clientInformalName,
-              year: year,
-              missionUnit: parseFloat(missionUnitVal) || 0,
-              givingUnit: parseFloat(givingUnitVal) || 0,
-              areaQuery: areaQuery,
-              typeQuery: typeQuery,
-            };
-          }
         }
       });
 
@@ -2512,153 +2466,11 @@ class ApiService {
         this._populateClientsDropdownFallback(sortedUniquePeerClientNames);
       }
 
-      // Initialize filter handlers after client data is loaded
-      this._initializeFilterHandlers();
-
       return sortedUniquePeerClientNames;
     } catch (error) {
       console.error("Error fetching unique client names:", error);
       return [];
     }
-  }
-
-  // Add a method to initialize filter handlers
-  _initializeFilterHandlers() {
-    // Set up event listeners for filter changes
-    // These will be triggered when types, regions or sliders change
-    document.addEventListener("filtersChanged", this._handleFiltersChanged);
-
-    // Initialize sliders if they exist
-    const givingMinSlider = document.getElementById("giving-min-slider");
-    const givingMaxSlider = document.getElementById("giving-max-slider");
-    const missionMinSlider = document.getElementById("mission-min-slider");
-    const missionMaxSlider = document.getElementById("mission-max-slider");
-
-    if (givingMinSlider) {
-      givingMinSlider.addEventListener("input", () => {
-        window.sliderValue = parseInt(givingMinSlider.value);
-        this._triggerFiltersChanged();
-      });
-    }
-
-    if (givingMaxSlider) {
-      givingMaxSlider.addEventListener("input", () => {
-        window.sliderValue2 = parseInt(givingMaxSlider.value);
-        this._triggerFiltersChanged();
-      });
-    }
-
-    if (missionMinSlider) {
-      missionMinSlider.addEventListener("input", () => {
-        window.missionValue = parseInt(missionMinSlider.value);
-        this._triggerFiltersChanged();
-      });
-    }
-
-    if (missionMaxSlider) {
-      missionMaxSlider.addEventListener("input", () => {
-        window.missionValue2 = parseInt(missionMaxSlider.value);
-        this._triggerFiltersChanged();
-      });
-    }
-
-    // Initial filter application
-    this._triggerFiltersChanged();
-  }
-
-  // Method to handle filter changes
-  _handleFiltersChanged() {
-    if (!window.clientDataStore) return;
-
-    // Get current filter values
-    const selectedTypes = Array.from(window.selectedTypes_Array || []);
-    const selectedRegions = Array.from(window.selectedRegions_Array || []);
-    const minGivingUnits = window.sliderValue || 0;
-    const maxGivingUnits = window.sliderValue2 || 25000;
-    const minMissionUnits = window.missionValue || 0;
-    const maxMissionUnits = window.missionValue2 || 10000;
-
-    // Checkbox elements in the client list
-    const clientCheckboxes = document.querySelectorAll(
-      '#options-list-client input[type="checkbox"]'
-    );
-    if (!clientCheckboxes.length) return;
-
-    // Update the select all checkbox
-    const selectAllCheckbox = document.getElementById(
-      "select-all-checkbox-client"
-    );
-
-    // Process each client based on filters
-    clientCheckboxes.forEach((checkbox) => {
-      // Skip the "select all" checkbox
-      if (checkbox.id === "select-all-checkbox-client") return;
-
-      const clientName = checkbox.value;
-      const clientData = window.clientDataStore[clientName];
-
-      if (!clientData) return;
-
-      // Check if client meets all filter criteria
-      const meetsMissionUnitCriteria =
-        clientData.missionUnit >= minMissionUnits &&
-        clientData.missionUnit <= maxMissionUnits;
-
-      const meetsGivingUnitCriteria =
-        clientData.givingUnit >= minGivingUnits &&
-        clientData.givingUnit <= maxGivingUnits;
-
-      // Check if client has at least one of the selected regions
-      const meetsRegionCriteria =
-        selectedRegions.length === 0 ||
-        selectedRegions.some((region) => clientData.areaQuery.includes(region));
-
-      // Check if client has at least one of the selected types
-      const meetsTypeCriteria =
-        selectedTypes.length === 0 ||
-        selectedTypes.some((type) => clientData.typeQuery.includes(type));
-
-      // Update checkbox state based on all criteria
-      const shouldBeSelected =
-        meetsMissionUnitCriteria &&
-        meetsGivingUnitCriteria &&
-        meetsRegionCriteria &&
-        meetsTypeCriteria;
-
-      // Only change the checkbox if it doesn't match the desired state
-      if (checkbox.checked !== shouldBeSelected) {
-        checkbox.checked = shouldBeSelected;
-
-        // Update global selected clients set
-        if (shouldBeSelected) {
-          window.selectedClients_Array.add(clientName);
-        } else {
-          window.selectedClients_Array.delete(clientName);
-        }
-      }
-    });
-
-    // Update the "select all" checkbox state
-    if (selectAllCheckbox) {
-      const allClientCheckboxes = Array.from(clientCheckboxes).filter(
-        (checkbox) => checkbox.id !== "select-all-checkbox-client"
-      );
-      const allChecked = allClientCheckboxes.every(
-        (checkbox) => checkbox.checked
-      );
-      const noneChecked = allClientCheckboxes.every(
-        (checkbox) => !checkbox.checked
-      );
-
-      selectAllCheckbox.checked = allChecked;
-      selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
-    }
-  }
-
-  // Method to trigger filter changed event
-  _triggerFiltersChanged() {
-    const event = new CustomEvent("filtersChanged");
-    document.dispatchEvent(event);
   }
 
   // Fallback method for populating clients dropdown
@@ -2983,7 +2795,421 @@ class AppController {
   }
 }
 
+/**
+ * ClientManager class - Manages client data and filtering operations
+ * This class handles fetching client data with metadata, storing client objects,
+ * and implementing filtering logic based on user selections.
+ */
+class ClientManager {
+  constructor() {
+    // Store client data with metadata
+    this.clients = [];
+    // Track if initialization has completed
+    this.initialized = false;
+    // Track whether we're currently applying filters
+    this.isApplyingFilters = false;
+
+    // Initialize event listeners for filters
+    this.initializeEventListeners();
+  }
+
+  /**
+   * Initialize event listeners for filter controls
+   */
+  initializeEventListeners() {
+    // Listen for changes to the mission unit and giving unit sliders
+    this.initializeSliderListeners();
+
+    // Listen for changes to region and type selections
+    this.initializeFilterListeners();
+  }
+
+  /**
+   * Initialize event listeners for the sliders
+   */
+  initializeSliderListeners() {
+    // Wait for DOM to be ready
+    const checkElements = () => {
+      // Find slider elements
+      const givingMinSlider = document.getElementById("sliderAmount");
+      const givingMaxSlider = document.getElementById("sliderRange");
+      const missionMinSlider = document.getElementById("missionSliderAmount");
+      const missionMaxSlider = document.getElementById("missionSliderRange");
+
+      if (
+        givingMinSlider &&
+        givingMaxSlider &&
+        missionMinSlider &&
+        missionMaxSlider
+      ) {
+        // Watch for input events on the sliders
+        givingMinSlider.addEventListener("input", () => {
+          sliderValue = parseInt(givingMinSlider.value);
+          this.applyFilters();
+        });
+
+        givingMaxSlider.addEventListener("input", () => {
+          sliderValue2 = parseInt(givingMaxSlider.value);
+          this.applyFilters();
+        });
+
+        missionMinSlider.addEventListener("input", () => {
+          missionValue = parseInt(missionMinSlider.value);
+          this.applyFilters();
+        });
+
+        missionMaxSlider.addEventListener("input", () => {
+          missionValue2 = parseInt(missionMaxSlider.value);
+          this.applyFilters();
+        });
+      } else {
+        // If elements aren't found, try again after a short delay
+        setTimeout(checkElements, 500);
+      }
+    };
+
+    // Start checking for slider elements
+    checkElements();
+  }
+
+  /**
+   * Initialize event listeners for region and type filters
+   */
+  initializeFilterListeners() {
+    // Watch for changes to the regions filter
+    document.addEventListener("click", (e) => {
+      const target = e.target;
+      if (target.closest('#options-list-region input[type="checkbox"]')) {
+        // Give the browser time to update the Set
+        setTimeout(() => this.applyFilters(), 50);
+      }
+
+      if (target.closest('#options-list-type input[type="checkbox"]')) {
+        // Give the browser time to update the Set
+        setTimeout(() => this.applyFilters(), 50);
+      }
+    });
+  }
+
+  /**
+   * Fetch client data with metadata
+   * Extends getRecordsForUniqueClientPeerNames to include additional fields
+   * @returns {Promise<Array>} Array of client objects
+   */
+  async fetchClientData() {
+    console.log("Fetching enhanced client data...");
+
+    try {
+      // Create API query to get client details
+      const apiCallForClientDetails = {
+        act: "API_DoQuery",
+        clist: "301.59.238.239.359.358", // Include all required fields
+      };
+
+      // Make API call
+      const xml = await $.get(peerData, apiCallForClientDetails);
+      const records = $("record", xml).toArray();
+
+      // Parse the records into client objects
+      const clients = this.parseClientRecords(records);
+
+      // Update our clients array
+      this.clients = clients;
+
+      // Make clients available globally
+      window.clientsWithMetadata = clients;
+
+      console.log(`Loaded ${clients.length} clients with metadata`);
+
+      // Mark as initialized
+      this.initialized = true;
+
+      return clients;
+    } catch (error) {
+      console.error("Error fetching client data:", error);
+      return [];
+    }
+  }
+
+  /**
+   * Parse XML records into client objects
+   * @param {Array} records - XML records from API
+   * @returns {Array} Array of client objects
+   */
+  parseClientRecords(records) {
+    const clients = [];
+
+    records.forEach((record) => {
+      // Extract client name
+      const clientName =
+        record.querySelector("pe___client_informal_name")?.textContent || "";
+
+      if (!clientName) return; // Skip records without a name
+
+      // Extract metadata
+      const missionUnitValue =
+        record.querySelector("c01_02_ratio_missionary_unit")?.textContent ||
+        "0";
+      const givingUnitValue =
+        record.querySelector("c01_01_ratio_giving_units")?.textContent || "0";
+      const areaQueryValue =
+        record.querySelector("c06_02_area_query")?.textContent || "";
+      const typeQueryValue =
+        record.querySelector("c06_03_type_query")?.textContent || "";
+      const fiscalYear =
+        record.querySelector("fiscal_ye_date_formatted_year_text")
+          ?.textContent || "";
+
+      // Parse numeric values
+      const missionUnit = parseFloat(missionUnitValue) || 0;
+      const givingUnit = parseFloat(givingUnitValue) || 0;
+
+      // Parse area and type queries into arrays
+      const areas = areaQueryValue
+        .split(";")
+        .filter((area) => area.trim() !== "");
+      const types = typeQueryValue
+        .split(";")
+        .filter((type) => type.trim() !== "");
+
+      // Create client object
+      const client = {
+        name: clientName,
+        missionUnit,
+        givingUnit,
+        areas,
+        types,
+        fiscalYear,
+      };
+
+      // Only add if we don't already have a client with this name
+      // or if this record has a more recent fiscal year
+      const existingClientIndex = clients.findIndex(
+        (c) => c.name === clientName
+      );
+
+      if (existingClientIndex === -1) {
+        // New client
+        clients.push(client);
+      } else if (fiscalYear > clients[existingClientIndex].fiscalYear) {
+        // More recent data for existing client
+        clients[existingClientIndex] = client;
+      }
+    });
+
+    return clients;
+  }
+
+  /**
+   * Apply all filters to determine which clients should be selected
+   */
+  applyFilters() {
+    // Prevent recursive calls
+    if (this.isApplyingFilters || !this.initialized) return;
+
+    this.isApplyingFilters = true;
+    console.log("Applying filters to clients...");
+
+    try {
+      // Get current filter values
+      const selectedRegions = Array.from(selectedRegions_Array);
+      const selectedTypes = Array.from(selectedTypes_Array);
+
+      // Get current slider values
+      const givingUnitMin = sliderValue;
+      const givingUnitMax = sliderValue2;
+      const missionUnitMin = missionValue;
+      const missionUnitMax = missionValue2;
+
+      console.log("Filter criteria:", {
+        regions: selectedRegions,
+        types: selectedTypes,
+        givingUnit: [givingUnitMin, givingUnitMax],
+        missionUnit: [missionUnitMin, missionUnitMax],
+      });
+
+      // Clear current selections
+      selectedClients_Array.clear();
+
+      // Apply filters to each client
+      this.clients.forEach((client) => {
+        const matchesRegions = this.matchesRegions(client, selectedRegions);
+        const matchesTypes = this.matchesTypes(client, selectedTypes);
+        const matchesGivingUnit = this.matchesGivingUnit(
+          client,
+          givingUnitMin,
+          givingUnitMax
+        );
+        const matchesMissionUnit = this.matchesMissionUnit(
+          client,
+          missionUnitMin,
+          missionUnitMax
+        );
+
+        // Client is selected if it matches all criteria
+        if (
+          matchesRegions &&
+          matchesTypes &&
+          matchesGivingUnit &&
+          matchesMissionUnit
+        ) {
+          selectedClients_Array.add(client.name);
+        }
+      });
+
+      // Update the UI checkboxes
+      this.updateClientCheckboxes();
+
+      console.log(
+        `Selected ${selectedClients_Array.size} clients after filtering`
+      );
+    } catch (error) {
+      console.error("Error applying filters:", error);
+    } finally {
+      this.isApplyingFilters = false;
+    }
+  }
+
+  /**
+   * Check if client matches region filter criteria
+   * @param {Object} client - Client object
+   * @param {Array} selectedRegions - Array of selected regions
+   * @returns {Boolean} True if client matches region criteria
+   */
+  matchesRegions(client, selectedRegions) {
+    // If no regions are selected, treat as "match all"
+    if (selectedRegions.length === 0) return true;
+
+    // If client has no areas, it doesn't match
+    if (!client.areas || client.areas.length === 0) return false;
+
+    // Check if any of the client's areas are in the selected regions
+    return client.areas.some((area) => selectedRegions.includes(area));
+  }
+
+  /**
+   * Check if client matches type filter criteria
+   * @param {Object} client - Client object
+   * @param {Array} selectedTypes - Array of selected types
+   * @returns {Boolean} True if client matches type criteria
+   */
+  matchesTypes(client, selectedTypes) {
+    // If no types are selected, treat as "match all"
+    if (selectedTypes.length === 0) return true;
+
+    // If client has no types, it doesn't match
+    if (!client.types || client.types.length === 0) return false;
+
+    // Check if any of the client's types are in the selected types
+    return client.types.some((type) => selectedTypes.includes(type));
+  }
+
+  /**
+   * Check if client matches giving unit filter criteria
+   * @param {Object} client - Client object
+   * @param {Number} min - Minimum giving unit value
+   * @param {Number} max - Maximum giving unit value
+   * @returns {Boolean} True if client matches giving unit criteria
+   */
+  matchesGivingUnit(client, min, max) {
+    // If client has no giving unit value, treat as 0
+    const value = client.givingUnit || 0;
+
+    // Check if value is within range
+    return value >= min && value <= max;
+  }
+
+  /**
+   * Check if client matches mission unit filter criteria
+   * @param {Object} client - Client object
+   * @param {Number} min - Minimum mission unit value
+   * @param {Number} max - Maximum mission unit value
+   * @returns {Boolean} True if client matches mission unit criteria
+   */
+  matchesMissionUnit(client, min, max) {
+    // If client has no mission unit value, treat as 0
+    const value = client.missionUnit || 0;
+
+    // Check if value is within range
+    return value >= min && value <= max;
+  }
+
+  /**
+   * Update client checkboxes in the UI based on filtered selections
+   */
+  updateClientCheckboxes() {
+    // Get all client checkboxes in the dropdown
+    const clientCheckboxes = document.querySelectorAll(
+      '#options-list-client input[type="checkbox"]'
+    );
+
+    // Skip the "Select All" checkbox if present
+    clientCheckboxes.forEach((checkbox) => {
+      if (checkbox.id === "select-all-checkbox-client") return;
+
+      const clientName = checkbox.value;
+
+      // Set checkbox state based on whether the client is selected
+      checkbox.checked = selectedClients_Array.has(clientName);
+    });
+
+    // Update "Select All" checkbox state
+    const selectAllCheckbox = document.getElementById(
+      "select-all-checkbox-client"
+    );
+    if (selectAllCheckbox) {
+      const allClientsSelected = this.areAllClientsSelected();
+      selectAllCheckbox.checked = allClientsSelected;
+    }
+  }
+
+  /**
+   * Check if all available clients are selected
+   * @returns {Boolean} True if all clients are selected
+   */
+  areAllClientsSelected() {
+    // If no clients loaded yet, return false
+    if (this.clients.length === 0) return false;
+
+    // Check if the number of selected clients matches the total number
+    return selectedClients_Array.size === this.clients.length;
+  }
+
+  /**
+   * Initialize the client manager by fetching data and applying initial filters
+   */
+  async initialize() {
+    // Fetch client data with metadata
+    await this.fetchClientData();
+
+    // Apply initial filters (selects all clients by default)
+    this.applyFilters();
+
+    // Initialize the dropdown with the enhanced client data
+    this.updateClientDropdown();
+  }
+
+  /**
+   * Update the client dropdown with enhanced client data
+   */
+  updateClientDropdown() {
+    // If no clients, exit early
+    if (this.clients.length === 0) return;
+
+    // Get sorted client names for the dropdown
+    const clientNames = this.clients.map((client) => client.name).sort();
+
+    // Call the existing dropdown population function
+    if (typeof addUniqueClientsToOptionsSelectClientDropdown === "function") {
+      addUniqueClientsToOptionsSelectClientDropdown(clientNames);
+    } else {
+      console.error("Client dropdown population function not found");
+    }
+  }
+}
+
 // Create global instance
+window.clientManager = new ClientManager();
 
 // Extend the existing ApiService.getRecordsForUniqueClientPeerNames method
 const originalGetRecordsForUniqueClientPeerNames =
@@ -2996,9 +3222,21 @@ ApiService.prototype.getRecordsForUniqueClientPeerNames = async function () {
   );
 
   // Initialize the client manager
+  if (window.clientManager) {
+    await window.clientManager.initialize();
+  }
 
   return originalResult;
 };
+
+// Initialize on window load to ensure DOM is ready
+window.addEventListener("load", async () => {
+  // Create client manager if it doesn't exist
+  if (!window.clientManager) {
+    window.clientManager = new ClientManager();
+    await window.clientManager.initialize();
+  }
+});
 
 // Utility to count unique clients in the records
 function countUniqueClients(records) {
