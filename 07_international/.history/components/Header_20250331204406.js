@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Call this at the end of the DOMContentLoaded event
   initializeFilterTriggers();
 
-  document.addEventListener('filtersChanged', function() {
+  document.addEventListener("filtersChanged", function () {
     console.log("Global Variables State:", {
       sliderValue: window.sliderValue,
       sliderValue2: window.sliderValue2,
@@ -399,18 +399,28 @@ document.addEventListener("DOMContentLoaded", function () {
       missionValue2: window.missionValue2,
       selectedRegions: {
         set: window.selectedRegions_Array,
-        size: window.selectedRegions_Array ? window.selectedRegions_Array.size : 'N/A',
-        array: window.selectedRegions_Array ? Array.from(window.selectedRegions_Array) : []
+        size: window.selectedRegions_Array
+          ? window.selectedRegions_Array.size
+          : "N/A",
+        array: window.selectedRegions_Array
+          ? Array.from(window.selectedRegions_Array)
+          : [],
       },
       selectedTypes: {
         set: window.selectedTypes_Array,
-        size: window.selectedTypes_Array ? window.selectedTypes_Array.size : 'N/A',
-        array: window.selectedTypes_Array ? Array.from(window.selectedTypes_Array) : []
+        size: window.selectedTypes_Array
+          ? window.selectedTypes_Array.size
+          : "N/A",
+        array: window.selectedTypes_Array
+          ? Array.from(window.selectedTypes_Array)
+          : [],
       },
       selectedClients: {
         set: window.selectedClients_Array,
-        size: window.selectedClients_Array ? window.selectedClients_Array.size : 'N/A'
-      }
+        size: window.selectedClients_Array
+          ? window.selectedClients_Array.size
+          : "N/A",
+      },
     });
   });
 });

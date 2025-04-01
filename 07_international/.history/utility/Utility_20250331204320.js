@@ -2645,6 +2645,142 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
   });
 }
 
+/**
+ * Add unique types to the options select dropdown
+ * Prevents duplicate options by clearing existing content
+ * @param {Array} typeArray - Array of type objects
+ */
+function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
+  const optionsListType = document.getElementById("options-list-type");
+  if (!optionsListType) {
+    console.error("Type options list element not found");
+    return;
+  }
+
+  // Clear existing content
+  optionsListType.innerHTML = "";
+
+  // Create "Select All" checkbox and label
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-type");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-type");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-type");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListType.appendChild(selectAllLabel);
+
+  // Handle "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = selectAllInput.checked;
+    const typeCheckboxes = document.querySelectorAll(
+      "#options-list-type input[type='checkbox']"
+    );
+
+    typeCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-type") {
+        checkbox.checked = isChecked;
+        const typeString = checkbox.value;
+
+        if (isChecked) {
+          selectedTypes_Array.add(typeString);
+        } else {
+          selectedTypes_Array.delete(typeString);
+        }
+      }
+    });
+
+    // Log change
+    console.log("All types selected:", isChecked, {
+      types: Array.from(selectedTypes_Array),
+    });
+
+    // Trigger filter changed event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  });
+
+  // Add type options
+  typeArray.forEach((typeObject) => {
+    const typeName = typeObject.arr[0];
+    const typeString = typeObject.str;
+    const uniqueId = `type-option-${typeString}`;
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", uniqueId);
+    newLabel.setAttribute(
+      "class",
+      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+    );
+
+    const typeInput = document.createElement("input");
+    typeInput.setAttribute("type", "checkbox");
+    typeInput.setAttribute("id", uniqueId);
+    typeInput.setAttribute(
+      "class",
+      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+    typeInput.setAttribute("value", typeString);
+
+    // Add the value to selectedTypes_Array and check the input by default
+    selectedTypes_Array.add(typeString);
+    typeInput.checked = true;
+
+    const newSpan = document.createElement("span");
+    newSpan.innerText = typeName;
+
+    newLabel.appendChild(typeInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListType.appendChild(newLabel);
+
+    // Add change event listener to update selectedTypes_Array
+    typeInput.addEventListener("change", function () {
+      if (typeInput.checked) {
+        selectedTypes_Array.add(typeString);
+      } else {
+        selectedTypes_Array.delete(typeString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-type input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-type")
+        .every((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+
+      // Log change
+      console.log("Type selection changed:", {
+        type: typeString,
+        selected: typeInput.checked,
+        allTypes: Array.from(selectedTypes_Array),
+      });
+
+      // Trigger filter changed event
+      const event = new CustomEvent("filtersChanged");
+      document.dispatchEvent(event);
+    });
+  });
+}
 
 /**
  * Utility function to convert Set to Array

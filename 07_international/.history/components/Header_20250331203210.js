@@ -3,60 +3,6 @@ window.selectedRegions_Array = window.selectedRegions_Array || new Set();
 window.selectedTypes_Array = window.selectedTypes_Array || new Set();
 window.selectedClients_Array = window.selectedClients_Array || new Set();
 
-window.sliderValue = 0;
-window.sliderValue2 = 25000;
-window.missionValue = 0;
-window.missionValue2 = 10000;
-
-document.addEventListener("DOMContentLoaded", function() {
-  const givingMinInput = document.getElementById('givingUnitsMin');
-  const givingMaxInput = document.getElementById('givingUnitsMax');
-  const missionMinInput = document.getElementById('missionUnitsMin');
-  const missionMaxInput = document.getElementById('missionUnitsMax');
-
-  // Set initial values
-  if (givingMinInput) {
-    givingMinInput.value = window.sliderValue;
-    givingMinInput.addEventListener('input', function() {
-      window.sliderValue = parseInt(this.value) || 0;
-      
-      const event = new CustomEvent('filtersChanged');
-      document.dispatchEvent(event);
-    });
-  }
-
-  if (givingMaxInput) {
-    givingMaxInput.value = window.sliderValue2;
-    givingMaxInput.addEventListener('input', function() {
-      window.sliderValue2 = parseInt(this.value) || 25000;
-      
-      const event = new CustomEvent('filtersChanged');
-      document.dispatchEvent(event);
-    });
-  }
-
-  if (missionMinInput) {
-    missionMinInput.value = window.missionValue;
-    missionMinInput.addEventListener('input', function() {
-      window.missionValue = parseInt(this.value) || 0;
-      
-      const event = new CustomEvent('filtersChanged');
-      document.dispatchEvent(event);
-    });
-  }
-
-  if (missionMaxInput) {
-    missionMaxInput.value = window.missionValue2;
-    missionMaxInput.addEventListener('input', function() {
-      window.missionValue2 = parseInt(this.value) || 10000;
-      
-      const event = new CustomEvent('filtersChanged');
-      document.dispatchEvent(event);
-    });
-  }
-});
-
-
 /**
  * Initialize custom dropdowns with event listeners
  * Prevents duplicate event binding by checking if already initialized
@@ -348,35 +294,35 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
+    // Connect sliders to filter triggers
     const sliders = [
-      document.getElementById("givingUnitsMin"),
-      document.getElementById("givingUnitsMax"),
-      document.getElementById("missionUnitsMin"),
-      document.getElementById("missionUnitsMax"),
+      document.getElementById("giving-min-slider"),
+      document.getElementById("giving-max-slider"),
+      document.getElementById("mission-min-slider"),
+      document.getElementById("mission-max-slider"),
     ];
 
     sliders.forEach((slider) => {
       if (slider) {
-        // Set initial slider values to match global variables
         slider.value = parseInt(
-          slider.id === "givingUnitsMin"
+          slider.id === "giving-min-slider"
             ? window.sliderValue
-            : slider.id === "givingUnitsMax"
+            : slider.id === "giving-max-slider"
             ? window.sliderValue2
-            : slider.id === "missionUnitsMin"
+            : slider.id === "mission-min-slider"
             ? window.missionValue
             : window.missionValue2
         );
 
         slider.addEventListener("input", () => {
           // Update corresponding value
-          if (slider.id === "givingUnitsMin") {
+          if (slider.id === "giving-min-slider") {
             window.sliderValue = parseInt(slider.value);
-          } else if (slider.id === "givingUnitsMax") {
+          } else if (slider.id === "giving-max-slider") {
             window.sliderValue2 = parseInt(slider.value);
-          } else if (slider.id === "missionUnitsMin") {
+          } else if (slider.id === "mission-min-slider") {
             window.missionValue = parseInt(slider.value);
-          } else if (slider.id === "missionUnitsMax") {
+          } else if (slider.id === "mission-max-slider") {
             window.missionValue2 = parseInt(slider.value);
           }
 
@@ -391,7 +337,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Call this at the end of the DOMContentLoaded event
   initializeFilterTriggers();
 
-  document.addEventListener('filtersChanged', function() {
+  document.addEventListener("filtersChanged", function () {
     console.log("Global Variables State:", {
       sliderValue: window.sliderValue,
       sliderValue2: window.sliderValue2,
@@ -399,18 +345,28 @@ document.addEventListener("DOMContentLoaded", function () {
       missionValue2: window.missionValue2,
       selectedRegions: {
         set: window.selectedRegions_Array,
-        size: window.selectedRegions_Array ? window.selectedRegions_Array.size : 'N/A',
-        array: window.selectedRegions_Array ? Array.from(window.selectedRegions_Array) : []
+        size: window.selectedRegions_Array
+          ? window.selectedRegions_Array.size
+          : "N/A",
+        array: window.selectedRegions_Array
+          ? Array.from(window.selectedRegions_Array)
+          : [],
       },
       selectedTypes: {
         set: window.selectedTypes_Array,
-        size: window.selectedTypes_Array ? window.selectedTypes_Array.size : 'N/A',
-        array: window.selectedTypes_Array ? Array.from(window.selectedTypes_Array) : []
+        size: window.selectedTypes_Array
+          ? window.selectedTypes_Array.size
+          : "N/A",
+        array: window.selectedTypes_Array
+          ? Array.from(window.selectedTypes_Array)
+          : [],
       },
       selectedClients: {
         set: window.selectedClients_Array,
-        size: window.selectedClients_Array ? window.selectedClients_Array.size : 'N/A'
-      }
+        size: window.selectedClients_Array
+          ? window.selectedClients_Array.size
+          : "N/A",
+      },
     });
   });
 });

@@ -2580,8 +2580,6 @@ class ApiService {
 
   // Method to handle filter changes
   _handleFiltersChanged() {
-    if (!window.clientDataStore) return;
-
     // Get current filter values
     const selectedTypes = Array.from(window.selectedTypes_Array || []);
     const selectedRegions = Array.from(window.selectedRegions_Array || []);
@@ -2589,82 +2587,6 @@ class ApiService {
     const maxGivingUnits = window.sliderValue2 || 25000;
     const minMissionUnits = window.missionValue || 0;
     const maxMissionUnits = window.missionValue2 || 25000;
-
-    // Checkbox elements in the client list
-    const clientCheckboxes = document.querySelectorAll(
-      '#options-list-client input[type="checkbox"]'
-    );
-    if (!clientCheckboxes.length) return;
-
-    // Update the select all checkbox
-    const selectAllCheckbox = document.getElementById(
-      "select-all-checkbox-client"
-    );
-
-    // Process each client based on filters
-    clientCheckboxes.forEach((checkbox) => {
-      // Skip the "select all" checkbox
-      if (checkbox.id === "select-all-checkbox-client") return;
-
-      const clientName = checkbox.value;
-      const clientData = window.clientDataStore[clientName];
-
-      if (!clientData) return;
-
-      // Check if client meets all filter criteria
-      const meetsMissionUnitCriteria =
-        clientData.missionUnit >= minMissionUnits &&
-        clientData.missionUnit <= maxMissionUnits;
-
-      const meetsGivingUnitCriteria =
-        clientData.givingUnit >= minGivingUnits &&
-        clientData.givingUnit <= maxGivingUnits;
-
-      // Check if client has at least one of the selected regions
-      const meetsRegionCriteria =
-        selectedRegions.length === 0 ||
-        selectedRegions.some((region) => clientData.areaQuery.includes(region));
-
-      // Check if client has at least one of the selected types
-      const meetsTypeCriteria =
-        selectedTypes.length === 0 ||
-        selectedTypes.some((type) => clientData.typeQuery.includes(type));
-
-      // Update checkbox state based on all criteria
-      const shouldBeSelected =
-        meetsMissionUnitCriteria &&
-        meetsGivingUnitCriteria &&
-        meetsRegionCriteria &&
-        meetsTypeCriteria;
-
-      // Only change the checkbox if it doesn't match the desired state
-      if (checkbox.checked !== shouldBeSelected) {
-        checkbox.checked = shouldBeSelected;
-
-        // Update global selected clients set
-        if (shouldBeSelected) {
-          window.selectedClients_Array.add(clientName);
-        } else {
-          window.selectedClients_Array.delete(clientName);
-        }
-      }
-    });
-
-    // Update the "select all" checkbox state
-    if (selectAllCheckbox) {
-      const allClientCheckboxes = Array.from(clientCheckboxes).filter(
-        (checkbox) => checkbox.id !== "select-all-checkbox-client"
-      );
-      const allChecked = allClientCheckboxes.every(
-        (checkbox) => checkbox.checked
-      );
-      const noneChecked = allClientCheckboxes.every(
-        (checkbox) => !checkbox.checked
-      );
-
-      selectAllCheckbox.checked = allChecked;
-      selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
-    }
   }
 
   // Method to trigger filter changed event
