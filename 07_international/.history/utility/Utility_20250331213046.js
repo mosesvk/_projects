@@ -1095,6 +1095,7 @@ const changeListenerForInputYears = (input, year) => {
 const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   // Get the options list element correctly
   const optionsListElement = document.getElementById("options-list");
+  const customSelectElement = document.getElementById("custom-select");
 
   if (!optionsListElement) {
     console.error("Options list element not found for years dropdown");
@@ -1118,38 +1119,25 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   // Clear existing content
   optionsListElement.innerHTML = "";
 
-  // Create "Select All" checkbox
-  const selectAllLabel = document.createElement("label");
-  selectAllLabel.setAttribute("for", "select-all-checkbox-years");
-  selectAllLabel.setAttribute(
-    "class",
-    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
-  );
-
-  const selectAllInput = document.createElement("input");
-  selectAllInput.setAttribute("type", "checkbox");
-  selectAllInput.setAttribute("id", "select-all-checkbox-years");
-  selectAllInput.setAttribute(
-    "class",
-    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
-  );
-  selectAllInput.checked = true; // Check "Select All" by default
-
-  const selectAllSpan = document.createElement("span");
-  selectAllSpan.setAttribute("id", "select-all-text-years");
-  selectAllSpan.innerText = "(select all)";
-  selectAllSpan.setAttribute("class", "text-lg font-semibold");
-
-  selectAllLabel.appendChild(selectAllInput);
-  selectAllLabel.appendChild(selectAllSpan);
-
-  optionsListElement.appendChild(selectAllLabel);
-
   // Sort years in descending order
-  const sortedYears = yearsArray.sort((a, b) => b - a);
+  yearsArray.sort((a, b) => b - a);
+
+  // Update custom select text based on selected years
+  const updateCustomSelectText = () => {
+    if (customSelectElement) {
+      const selectedYearsArray = Array.from(selectedYears_Set);
+      if (selectedYearsArray.length === 0) {
+        customSelectElement.textContent = "Select Years";
+      } else if (selectedYearsArray.length === 1) {
+        customSelectElement.textContent = `Year: ${selectedYearsArray[0]}`;
+      } else {
+        customSelectElement.textContent = `Years: ${selectedYearsArray.join(', ')}`;
+      }
+    }
+  };
 
   // Add year options
-  sortedYears.forEach((year) => {
+  yearsArray.forEach((year) => {
     const newLabel = document.createElement("label");
     newLabel.setAttribute("for", `option-${year}`);
     newLabel.setAttribute(
@@ -1168,33 +1156,21 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     newInput.checked = selectedYears_Set.has(year);
 
     newInput.addEventListener("change", (e) => {
-      const isChecked = e.target.checked;
+      const checkbox = e.target;
+      const year = checkbox.value;
 
-      if (isChecked) {
+      if (checkbox.checked) {
         selectedYears_Set.add(year);
       } else {
         selectedYears_Set.delete(year);
       }
 
-      // Update "Select All" checkbox state
-      const yearCheckboxes = document.querySelectorAll(
-        "#options-list input[type='checkbox']"
-      );
-      const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
-        (cb) => cb.id !== "select-all-checkbox-years"
-      );
-
-      const allChecked = nonSelectAllCheckboxes.every((cb) => cb.checked);
-      const noneChecked = nonSelectAllCheckboxes.every((cb) => !cb.checked);
-
-      selectAllInput.checked = allChecked;
-      selectAllInput.indeterminate = !allChecked && !noneChecked;
-
-      // Save to local storage
-      const selectedYearsArray = Array.from(selectedYears_Set).sort(
-        (a, b) => a - b
-      );
+      // Update local storage
+      const selectedYearsArray = Array.from(selectedYears_Set).sort((a, b) => a - b);
       localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+
+      // Update custom select text
+      updateCustomSelectText();
     });
 
     const newSpan = document.createElement("span");
@@ -1206,105 +1182,9 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     optionsListElement.appendChild(newLabel);
   });
 
-  // "Select All" checkbox behavior
-  selectAllInput.addEventListener("change", function () {
-    const isChecked = selectAllInput.checked;
-    const yearCheckboxes = document.querySelectorAll(
-      "#options-list input[type='checkbox']"
-    );
-
-    yearCheckboxes.forEach((checkbox) => {
-      if (checkbox.id !== "select-all-checkbox-years") {
-        checkbox.checked = isChecked;
-        const year = parseInt(checkbox.value);
-
-        if (isChecked) {
-          selectedYears_Set.add(year);
-        } else {
-          selectedYears_Set.delete(year);
-        }
-      }
-    });
-
-    // Save to local storage
-    const selectedYearsArray = Array.from(selectedYears_Set).sort(
-      (a, b) => a - b
-    );
-    localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
-  });
+  // Initial update of custom select text
+  updateCustomSelectText();
 };
-
-// Modify the dropdown toggle function to close other dropdowns
-function setupDropdownToggle(selectElementId, optionsListId) {
-  const selectElement = document.getElementById(selectElementId);
-  const optionsListElement = document.getElementById(optionsListId);
-
-  if (!selectElement || !optionsListElement) {
-    console.warn(
-      `Dropdown elements not found: ${selectElementId}, ${optionsListId}`
-    );
-    return;
-  }
-
-  // Function to close all other dropdowns
-  function closeOtherDropdowns(currentOptionsListId) {
-    const dropdownConfigs = [
-      { selectId: "custom-select", optionsId: "options-list" },
-      { selectId: "custom-select-region", optionsId: "options-list-region" },
-      { selectId: "custom-select-type", optionsId: "options-list-type" },
-      { selectId: "custom-select-client", optionsId: "options-list-client" },
-    ];
-
-    dropdownConfigs.forEach((config) => {
-      if (config.optionsId !== currentOptionsListId) {
-        const otherOptionsListElement = document.getElementById(
-          config.optionsId
-        );
-        if (otherOptionsListElement) {
-          otherOptionsListElement.classList.add("invisible");
-        }
-      }
-    });
-  }
-
-  // Function to toggle dropdown visibility
-  function toggleDropdown(event) {
-    // Prevent event propagation to avoid immediate closing
-    event.stopPropagation();
-
-    // Check if click is on checkbox or label to prevent unnecessary toggling
-    if (
-      event.target.closest(".form-checkbox") ||
-      event.target.closest("label")
-    ) {
-      return;
-    }
-
-    // Close other dropdowns first
-    closeOtherDropdowns(optionsListId);
-
-    // Toggle visibility of current dropdown
-    optionsListElement.classList.toggle("invisible");
-  }
-
-  // Function to close dropdown when clicking outside
-  function closeDropdownOutsideClick(event) {
-    if (
-      !selectElement.contains(event.target) &&
-      !optionsListElement.contains(event.target)
-    ) {
-      optionsListElement.classList.add("invisible");
-    }
-  }
-
-  // Remove any existing listeners to prevent duplicate attachments
-  selectElement.removeEventListener("click", toggleDropdown);
-  document.removeEventListener("click", closeDropdownOutsideClick);
-
-  // Add new event listeners
-  selectElement.addEventListener("click", toggleDropdown);
-  document.addEventListener("click", closeDropdownOutsideClick);
-}
 
 const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
   const optionsListClient = document.getElementById("options-list-client");
@@ -1319,7 +1199,7 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
   // Clear existing content
   optionsListClient.innerHTML = "";
 
-  // Create "Select All" checkbox
+  // Create "Select All" checkbox 
   const selectAllLabel = document.createElement("label");
   selectAllLabel.setAttribute("for", "select-all-checkbox-client");
   selectAllLabel.setAttribute(
@@ -1401,9 +1281,9 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
         .every((input) => input.checked);
 
       selectAllInput.checked = allChecked;
-
+      
       // Trigger filter changed event
-      const event = new CustomEvent("filtersChanged");
+      const event = new CustomEvent('filtersChanged');
       document.dispatchEvent(event);
     });
   });
@@ -2680,7 +2560,7 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
   // Clear existing content
   optionsListType.innerHTML = "";
 
-  // Create "Select All" checkbox
+  // Create "Select All" checkbox 
   const selectAllLabel = document.createElement("label");
   selectAllLabel.setAttribute("for", "select-all-checkbox-type");
   selectAllLabel.setAttribute(
@@ -2764,9 +2644,9 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
         .every((input) => input.checked);
 
       selectAllInput.checked = allChecked;
-
+      
       // Trigger filter changed event
-      const event = new CustomEvent("filtersChanged");
+      const event = new CustomEvent('filtersChanged');
       document.dispatchEvent(event);
     });
   });
@@ -2792,10 +2672,11 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
     });
 
     // Trigger filter changed event
-    const event = new CustomEvent("filtersChanged");
+    const event = new CustomEvent('filtersChanged');
     document.dispatchEvent(event);
   });
 }
+
 
 /**
  * Utility function to convert Set to Array

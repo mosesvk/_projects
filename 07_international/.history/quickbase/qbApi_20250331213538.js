@@ -3110,7 +3110,7 @@ const findUniqueYears = (data) => {
     });
 
     yearsData_Array.sort();
-    // console.log({yearsData_Array});
+    console.log({yearsData_Array});
     
 
     // Add years to options dropdown

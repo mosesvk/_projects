@@ -3094,7 +3094,7 @@ $.get(clientData, apiCallClientDataForUniqueYears)
 
 // Find and add unique years from data
 const findUniqueYears = (data) => {
-  // console.log({data});
+  console.log({data});
   
   if (data) {
     data.forEach((item) => {
@@ -3110,8 +3110,6 @@ const findUniqueYears = (data) => {
     });
 
     yearsData_Array.sort();
-    // console.log({yearsData_Array});
-    
 
     // Add years to options dropdown
     addUniqueYearsToOptionsSelectDropdown(yearsData_Array);

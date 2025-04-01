@@ -1118,7 +1118,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   // Clear existing content
   optionsListElement.innerHTML = "";
 
-  // Create "Select All" checkbox
+  // Create "Select All" checkbox 
   const selectAllLabel = document.createElement("label");
   selectAllLabel.setAttribute("for", "select-all-checkbox-years");
   selectAllLabel.setAttribute(
@@ -1169,7 +1169,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
 
     newInput.addEventListener("change", (e) => {
       const isChecked = e.target.checked;
-
+      
       if (isChecked) {
         selectedYears_Set.add(year);
       } else {
@@ -1240,28 +1240,24 @@ function setupDropdownToggle(selectElementId, optionsListId) {
   const optionsListElement = document.getElementById(optionsListId);
 
   if (!selectElement || !optionsListElement) {
-    console.warn(
-      `Dropdown elements not found: ${selectElementId}, ${optionsListId}`
-    );
+    console.warn(`Dropdown elements not found: ${selectElementId}, ${optionsListId}`);
     return;
   }
 
   // Function to close all other dropdowns
   function closeOtherDropdowns(currentOptionsListId) {
     const dropdownConfigs = [
-      { selectId: "custom-select", optionsId: "options-list" },
-      { selectId: "custom-select-region", optionsId: "options-list-region" },
-      { selectId: "custom-select-type", optionsId: "options-list-type" },
-      { selectId: "custom-select-client", optionsId: "options-list-client" },
+      { selectId: 'custom-select', optionsId: 'options-list' },
+      { selectId: 'custom-select-region', optionsId: 'options-list-region' },
+      { selectId: 'custom-select-type', optionsId: 'options-list-type' },
+      { selectId: 'custom-select-client', optionsId: 'options-list-client' }
     ];
 
-    dropdownConfigs.forEach((config) => {
+    dropdownConfigs.forEach(config => {
       if (config.optionsId !== currentOptionsListId) {
-        const otherOptionsListElement = document.getElementById(
-          config.optionsId
-        );
+        const otherOptionsListElement = document.getElementById(config.optionsId);
         if (otherOptionsListElement) {
-          otherOptionsListElement.classList.add("invisible");
+          otherOptionsListElement.classList.add('invisible');
         }
       }
     });
@@ -1274,8 +1270,8 @@ function setupDropdownToggle(selectElementId, optionsListId) {
 
     // Check if click is on checkbox or label to prevent unnecessary toggling
     if (
-      event.target.closest(".form-checkbox") ||
-      event.target.closest("label")
+      event.target.closest('.form-checkbox') || 
+      event.target.closest('label')
     ) {
       return;
     }
@@ -1284,28 +1280,26 @@ function setupDropdownToggle(selectElementId, optionsListId) {
     closeOtherDropdowns(optionsListId);
 
     // Toggle visibility of current dropdown
-    optionsListElement.classList.toggle("invisible");
+    optionsListElement.classList.toggle('invisible');
   }
 
   // Function to close dropdown when clicking outside
   function closeDropdownOutsideClick(event) {
     if (
-      !selectElement.contains(event.target) &&
+      !selectElement.contains(event.target) && 
       !optionsListElement.contains(event.target)
     ) {
-      optionsListElement.classList.add("invisible");
+      optionsListElement.classList.add('invisible');
     }
   }
 
   // Remove any existing listeners to prevent duplicate attachments
-  selectElement.removeEventListener("click", toggleDropdown);
-  document.removeEventListener("click", closeDropdownOutsideClick);
+  selectElement.removeEventListener('click', toggleDropdown);
+  document.removeEventListener('click', closeDropdownOutsideClick);
 
   // Add new event listeners
-  selectElement.addEventListener("click", toggleDropdown);
-  document.addEventListener("click", closeDropdownOutsideClick);
-}
-
+  selectElement.addEventListener('click', toggleDropdown);
+  document.addEventListener('click', closeDropdownOutsideClick);
 const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
   const optionsListClient = document.getElementById("options-list-client");
   if (!optionsListClient) {
@@ -1319,7 +1313,7 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
   // Clear existing content
   optionsListClient.innerHTML = "";
 
-  // Create "Select All" checkbox
+  // Create "Select All" checkbox 
   const selectAllLabel = document.createElement("label");
   selectAllLabel.setAttribute("for", "select-all-checkbox-client");
   selectAllLabel.setAttribute(
@@ -1401,9 +1395,9 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
         .every((input) => input.checked);
 
       selectAllInput.checked = allChecked;
-
+      
       // Trigger filter changed event
-      const event = new CustomEvent("filtersChanged");
+      const event = new CustomEvent('filtersChanged');
       document.dispatchEvent(event);
     });
   });
@@ -2680,7 +2674,7 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
   // Clear existing content
   optionsListType.innerHTML = "";
 
-  // Create "Select All" checkbox
+  // Create "Select All" checkbox 
   const selectAllLabel = document.createElement("label");
   selectAllLabel.setAttribute("for", "select-all-checkbox-type");
   selectAllLabel.setAttribute(
@@ -2764,9 +2758,9 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
         .every((input) => input.checked);
 
       selectAllInput.checked = allChecked;
-
+      
       // Trigger filter changed event
-      const event = new CustomEvent("filtersChanged");
+      const event = new CustomEvent('filtersChanged');
       document.dispatchEvent(event);
     });
   });
@@ -2792,10 +2786,11 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
     });
 
     // Trigger filter changed event
-    const event = new CustomEvent("filtersChanged");
+    const event = new CustomEvent('filtersChanged');
     document.dispatchEvent(event);
   });
 }
+
 
 /**
  * Utility function to convert Set to Array
