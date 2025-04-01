@@ -1319,7 +1319,7 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
   // Clear existing content
   optionsListClient.innerHTML = "";
 
-  // Create "Select All" checkbox
+  // Create "Select All" checkbox 
   const selectAllLabel = document.createElement("label");
   selectAllLabel.setAttribute("for", "select-all-checkbox-client");
   selectAllLabel.setAttribute(
@@ -1404,15 +1404,12 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
         .every((input) => input.checked);
 
       selectAllInput.checked = allChecked;
-      selectAllInput.indeterminate =
-        !allChecked &&
+      selectAllInput.indeterminate = !allChecked && 
         Array.from(
-          document.querySelectorAll(
-            "#options-list-client input[type='checkbox']"
-          )
+          document.querySelectorAll("#options-list-client input[type='checkbox']")
         )
-          .filter((input) => input.id !== "select-all-checkbox-client")
-          .some((input) => input.checked);
+        .filter((input) => input.id !== "select-all-checkbox-client")
+        .some((input) => input.checked);
     });
   });
 
@@ -1488,11 +1485,11 @@ function clientMatchesFilters(
   // Convert region codes to region names for comparison
   const regionMatch =
     selectedRegions.length === 0 ||
-    clientData.areaQuery.some((areaName) => {
+    clientData.areaQuery.some(areaName => {
       // Find if any selected region code maps to this area name
-      return selectedRegions.some((regionCode) => {
+      return selectedRegions.some(regionCode => {
         // Find the region mapping object
-        const regionObj = regions_Array.find((r) => r.str === regionCode);
+        const regionObj = regions_Array.find(r => r.str === regionCode);
         // Check if this region object's array contains the area name
         return regionObj && regionObj.arr.includes(areaName);
       });
@@ -1502,116 +1499,62 @@ function clientMatchesFilters(
   // Types are already stored as full names in both arrays
   const typeMatch =
     selectedTypes.length === 0 ||
-    selectedTypes.some((type) => clientData.typeQuery.includes(type));
+    selectedTypes.some(type => clientData.typeQuery.includes(type));
 
   return givingUnitMatch && missionUnitMatch && regionMatch && typeMatch;
 }
 
 // Function to update client selection based on filters
 function updateClientSelectionBasedOnFilters() {
-  // Ensure client data store exists
-  if (!window.clientDataStore) {
-    console.warn("Client data store not initialized");
-    return;
-  }
+  if (!window.clientDataStore) return;
 
   // Get current filter values
-  const selectedTypes = Array.from(window.selectedTypes_Array || []);
-  const selectedRegionCodes = Array.from(window.selectedRegions_Array || []);
-  const minGiving = window.sliderValue || 0;
-  const maxGiving = window.sliderValue2 || 25000;
-  const minMission = window.missionValue || 0;
-  const maxMission = window.missionValue2 || 10000;
-
-  // Convert region codes to corresponding region names for comparison
-  const selectedRegionNames = [];
-  selectedRegionCodes.forEach((code) => {
-    const regionObject = regions_Array.find((region) => region.str === code);
-    if (regionObject && regionObject.arr && regionObject.arr.length > 0) {
-      selectedRegionNames.push(...regionObject.arr);
-    }
-  });
-
-  console.log("Selected Region Names for comparison:", selectedRegionNames);
+  const selectedTypes = Array.from(selectedTypes_Array);
+  const selectedRegions = Array.from(selectedRegions_Array);
+  const minGiving = sliderValue;
+  const maxGiving = sliderValue2;
+  const minMission = missionValue;
+  const maxMission = missionValue2;
 
   // Get all client checkboxes
   const clientCheckboxes = document.querySelectorAll(
     '#options-list-client input[type="checkbox"]'
   );
 
-  // Get the select all checkbox
-  const selectAllCheckbox = document.getElementById(
-    "select-all-checkbox-client"
-  );
-
-  // Clear the current selection
-  window.selectedClients_Array.clear();
-
-  // Track how many clients match
-  let matchCount = 0;
-  let totalClients = 0;
-
-  // Check each client checkbox
-  clientCheckboxes.forEach((checkbox) => {
-    // Skip the select all checkbox
-    if (checkbox.id === "select-all-checkbox-client") return;
-
-    totalClients++;
+  // Skip the first one (select all)
+  for (let i = 1; i < clientCheckboxes.length; i++) {
+    const checkbox = clientCheckboxes[i];
     const clientName = checkbox.value;
     const clientData = window.clientDataStore[clientName];
 
-    if (!clientData) return;
+    // Update checkbox based on filter match
+    if (clientData) {
+      const shouldBeChecked = clientMatchesFilters(
+        clientData,
+        selectedTypes,
+        selectedRegions,
+        minGiving,
+        maxGiving,
+        minMission,
+        maxMission
+      );
 
-    // Check giving units range
-    const givingUnitMatch =
-      clientData.givingUnit >= minGiving && clientData.givingUnit <= maxGiving;
+      // Only change if different from current state
+      if (checkbox.checked !== shouldBeChecked) {
+        checkbox.checked = shouldBeChecked;
 
-    // Check mission units range
-    const missionUnitMatch =
-      clientData.missionUnit >= minMission &&
-      clientData.missionUnit <= maxMission;
-
-    // Check region match using converted names
-    const regionMatch =
-      selectedRegionCodes.length === 0 ||
-      clientData.areaQuery.some((area) => selectedRegionNames.includes(area));
-
-    // Check type match
-    const typeMatch =
-      selectedTypes.length === 0 ||
-      clientData.typeQuery.some((type) => selectedTypes.includes(type));
-
-    // Special case: If no regions or no types selected, nothing should match
-    if (selectedRegionCodes.length === 0 || selectedTypes.length === 0) {
-      checkbox.checked = false;
-      return;
+        // Update the selected clients array
+        if (shouldBeChecked) {
+          selectedClients_Array.add(clientName);
+        } else {
+          selectedClients_Array.delete(clientName);
+        }
+      }
     }
-
-    // A client matches if it passes all filter criteria
-    const matches =
-      givingUnitMatch && missionUnitMatch && regionMatch && typeMatch;
-
-    // Update checkbox and selection array
-    checkbox.checked = matches;
-
-    if (matches) {
-      window.selectedClients_Array.add(clientName);
-      matchCount++;
-    }
-  });
-
-  // Update select all checkbox state
-  if (selectAllCheckbox) {
-    const allSelected = matchCount === totalClients && totalClients > 0;
-    const noneSelected = matchCount === 0;
-
-    selectAllCheckbox.checked = allSelected;
-    selectAllCheckbox.indeterminate = !allSelected && !noneSelected;
   }
 
-  console.log(
-    `Filter results: ${matchCount}/${totalClients} clients match current filters`
-  );
+  // Update select all checkbox
+  updateSelectAllCheckboxState();
 }
 
 // Function to update the "select all" checkbox state
