@@ -74,13 +74,11 @@ document.addEventListener("DOMContentLoaded", function () {
       element: document.getElementById("missionUnitsMin"),
       globalVar: "missionValue",
       defaultValue: 0,
-      sliderDivs: document.querySelectorAll(".missionUnitSlider"),
     },
     {
       element: document.getElementById("missionUnitsMax"),
       globalVar: "missionValue2",
       defaultValue: 10000,
-      sliderDivs: document.querySelectorAll(".missionUnitSlider"),
     },
   ];
 

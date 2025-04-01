@@ -62,81 +62,44 @@ document.addEventListener("DOMContentLoaded", function () {
       element: document.getElementById("givingUnitsMin"),
       globalVar: "sliderValue",
       defaultValue: 0,
-      sliderDivs: document.querySelectorAll(".givingUnitSlider"),
     },
     {
       element: document.getElementById("givingUnitsMax"),
       globalVar: "sliderValue2",
       defaultValue: 25000,
-      sliderDivs: document.querySelectorAll(".givingUnitSlider"),
     },
     {
       element: document.getElementById("missionUnitsMin"),
       globalVar: "missionValue",
       defaultValue: 0,
-      sliderDivs: document.querySelectorAll(".missionUnitSlider"),
     },
     {
       element: document.getElementById("missionUnitsMax"),
       globalVar: "missionValue2",
       defaultValue: 10000,
-      sliderDivs: document.querySelectorAll(".missionUnitSlider"),
     },
   ];
-
-  function triggerFiltersChanged(sliderInfo) {
-    console.log(
-      `${sliderInfo.globalVar} changed:`,
-      window[sliderInfo.globalVar]
-    );
-    const event = new CustomEvent("filtersChanged");
-    document.dispatchEvent(event);
-  }
 
   sliderInputs.forEach((slider) => {
     if (slider.element) {
       // Set initial value
       slider.element.value = window[slider.globalVar];
 
-      // If slider has specific slider divs (for giving units)
-      if (slider.sliderDivs && slider.sliderDivs.length) {
-        slider.sliderDivs.forEach((sliderDiv) => {
-          // Set up MutationObserver to detect style changes
-          const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-              if (
-                mutation.type === "attributes" &&
-                mutation.attributeName === "style"
-              ) {
-                // Update global variable from the input element
-                window[slider.globalVar] =
-                  parseInt(slider.element.value) || slider.defaultValue;
-                triggerFiltersChanged(slider);
-              }
-            });
-          });
-
-          // Configure the observer
-          observer.observe(sliderDiv, {
-            attributes: true,
-            attributeFilter: ["style"],
-          });
-        });
-      }
-
-      // Standard event listeners as a fallback
+      // Add input event listener
       slider.element.addEventListener("input", function () {
+        // Update global variable, use default if parsing fails
         window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        triggerFiltersChanged(slider);
-      });
 
-      slider.element.addEventListener("change", function () {
-        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        triggerFiltersChanged(slider);
+        console.log(`${slider.globalVar} changed:`, window[slider.globalVar]);
+
+        // Trigger filters changed event
+        const event = new CustomEvent("filtersChanged");
+        document.dispatchEvent(event);
       });
     }
   });
 
+  
   // Dropdown configurations
   const dropdownConfigs = [
     { selectId: "custom-select", optionsId: "options-list" },
@@ -268,3 +231,53 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+// Connect to the range slider elements directly
+const givingMinInput = document.getElementById("givingUnitsMin");
+const givingMaxInput = document.getElementById("givingUnitsMax");
+const missionMinInput = document.getElementById("missionUnitsMin");
+const missionMaxInput = document.getElementById("missionUnitsMax");
+
+if (givingMinInput) {
+  givingMinInput.addEventListener("input", function () {
+    console.log("Giving min input changed:", this.value);
+    window.sliderValue = parseInt(this.value) || 0;
+
+    // Trigger the filtersChanged event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  });
+}
+
+if (givingMaxInput) {
+  givingMaxInput.addEventListener("input", function () {
+    console.log("Giving max input changed:", this.value);
+    window.sliderValue2 = parseInt(this.value) || 25000;
+
+    // Trigger the filtersChanged event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  });
+}
+
+if (missionMinInput) {
+  missionMinInput.addEventListener("input", function () {
+    console.log("Mission min input changed:", this.value);
+    window.missionValue = parseInt(this.value) || 0;
+
+    // Trigger the filtersChanged event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  });
+}
+
+if (missionMaxInput) {
+  missionMaxInput.addEventListener("input", function () {
+    console.log("Mission max input changed:", this.value);
+    window.missionValue2 = parseInt(this.value) || 10000;
+
+    // Trigger the filtersChanged event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  });
+}

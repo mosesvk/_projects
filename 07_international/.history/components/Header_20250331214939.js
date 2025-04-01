@@ -62,80 +62,43 @@ document.addEventListener("DOMContentLoaded", function () {
       element: document.getElementById("givingUnitsMin"),
       globalVar: "sliderValue",
       defaultValue: 0,
-      sliderDivs: document.querySelectorAll(".givingUnitSlider"),
     },
     {
       element: document.getElementById("givingUnitsMax"),
       globalVar: "sliderValue2",
       defaultValue: 25000,
-      sliderDivs: document.querySelectorAll(".givingUnitSlider"),
     },
     {
       element: document.getElementById("missionUnitsMin"),
       globalVar: "missionValue",
       defaultValue: 0,
-      sliderDivs: document.querySelectorAll(".missionUnitSlider"),
     },
     {
       element: document.getElementById("missionUnitsMax"),
       globalVar: "missionValue2",
       defaultValue: 10000,
-      sliderDivs: document.querySelectorAll(".missionUnitSlider"),
     },
   ];
-
-  function triggerFiltersChanged(sliderInfo) {
-    console.log(
-      `${sliderInfo.globalVar} changed:`,
-      window[sliderInfo.globalVar]
-    );
-    const event = new CustomEvent("filtersChanged");
-    document.dispatchEvent(event);
-  }
 
   sliderInputs.forEach((slider) => {
     if (slider.element) {
       // Set initial value
       slider.element.value = window[slider.globalVar];
 
-      // If slider has specific slider divs (for giving units)
-      if (slider.sliderDivs && slider.sliderDivs.length) {
-        slider.sliderDivs.forEach((sliderDiv) => {
-          // Set up MutationObserver to detect style changes
-          const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-              if (
-                mutation.type === "attributes" &&
-                mutation.attributeName === "style"
-              ) {
-                // Update global variable from the input element
-                window[slider.globalVar] =
-                  parseInt(slider.element.value) || slider.defaultValue;
-                triggerFiltersChanged(slider);
-              }
-            });
-          });
-
-          // Configure the observer
-          observer.observe(sliderDiv, {
-            attributes: true,
-            attributeFilter: ["style"],
-          });
-        });
-      }
-
-      // Standard event listeners as a fallback
+      // Add input event listener
       slider.element.addEventListener("input", function () {
+        // Update global variable, use default if parsing fails
         window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        triggerFiltersChanged(slider);
-      });
 
-      slider.element.addEventListener("change", function () {
-        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        triggerFiltersChanged(slider);
+        console.log(`${slider.globalVar} changed:`, window[slider.globalVar]);
+
+        // Trigger filters changed event
+        const event = new CustomEvent("filtersChanged");
+        document.dispatchEvent(event);
       });
     }
   });
+
 
   // Dropdown configurations
   const dropdownConfigs = [
@@ -268,3 +231,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
