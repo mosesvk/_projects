@@ -2755,15 +2755,6 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
         }
       }
     });
-    
-    // Log change
-    console.log("All types selected:", isChecked, {
-      types: Array.from(selectedTypes_Array)
-    });
-    
-    // Trigger filter changed event
-    const event = new CustomEvent('filtersChanged');
-    document.dispatchEvent(event);
   });
 
   // Add type options
@@ -2779,30 +2770,30 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
       "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
     );
 
-    const typeInput = document.createElement("input");
-    typeInput.setAttribute("type", "checkbox");
-    typeInput.setAttribute("id", uniqueId);
-    typeInput.setAttribute(
+    const newInput = document.createElement("input");
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("id", uniqueId);
+    newInput.setAttribute(
       "class",
       "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
     );
-    typeInput.setAttribute("value", typeString);
+    newInput.setAttribute("value", typeString);
 
     // Add the value to selectedTypes_Array and check the input by default
     selectedTypes_Array.add(typeString);
-    typeInput.checked = true;
+    newInput.checked = true;
 
     const newSpan = document.createElement("span");
     newSpan.innerText = typeName;
 
-    newLabel.appendChild(typeInput);
+    newLabel.appendChild(newInput);
     newLabel.appendChild(newSpan);
 
     optionsListType.appendChild(newLabel);
 
     // Add change event listener to update selectedTypes_Array
-    typeInput.addEventListener("change", function () {
-      if (typeInput.checked) {
+    newInput.addEventListener("change", function () {
+      if (newInput.checked) {
         selectedTypes_Array.add(typeString);
       } else {
         selectedTypes_Array.delete(typeString);
@@ -2812,15 +2803,38 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
       const allChecked = Array.from(
         document.querySelectorAll("#options-list-type input[type='checkbox']")
       )
-        .filter((input) => input.id !== "select-all-checkbox-type")
+        .slice(1) // Exclude the "Select All" checkbox
+        .every((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+    });
+  });
+
+  // Add type options
+  typeArray.forEach((typeObject) => {
+    // ...existing code...
+
+    // Add change event listener to update selectedTypes_Array
+    newInput.addEventListener("change", function () {
+      if (newInput.checked) {
+        selectedTypes_Array.add(typeString);
+      } else {
+        selectedTypes_Array.delete(typeString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-type input[type='checkbox']")
+      )
+        .slice(1) // Exclude the "Select All" checkbox
         .every((input) => input.checked);
 
       selectAllInput.checked = allChecked;
       
-      // Log change
+      // Log change and trigger filter update
       console.log("Type selection changed:", {
         type: typeString,
-        selected: typeInput.checked,
+        selected: newInput.checked,
         allTypes: Array.from(selectedTypes_Array)
       });
       

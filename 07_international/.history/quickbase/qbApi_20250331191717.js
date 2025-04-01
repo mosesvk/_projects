@@ -2437,9 +2437,6 @@ class ApiService {
         window.clientDataStore = {};
       }
 
-      // Create a string to hold the XML data
-      let xmlString = "<qdbapi>";
-
       recordsForPeerUniqueClientPeerNames.forEach((record) => {
         const clientInformalName = record.querySelector(
           "pe___client_informal_name"
@@ -2487,17 +2484,8 @@ class ApiService {
               typeQuery: typeQuery,
             };
           }
-
-          // Add record's outerHTML to the XML string
-          xmlString += record.outerHTML;
         }
       });
-
-      // Close the XML string
-      xmlString += "</qdbapi>";
-
-      // Print the XML string to console
-      console.log("Client Data XML:", xmlString);
 
       const sortedUniquePeerClientNames = Array.from(
         uniquePeerClientNames
