@@ -3103,38 +3103,35 @@ function updateClientDropdownBasedOnFilters() {
   const minMission = window.missionValue || 0;
   const maxMission = window.missionValue2 || 10000;
 
+  // Clear selected clients
+  window.selectedClients_Array.clear();
+
   // Get the select all checkbox
   const selectAllCheckbox = document.getElementById('select-all-checkbox-client');
   
   // Flag to track if all clients match
   let allClientsMatch = true;
-  let matchedClientsCount = 0;
 
-  // Clear previous selections
-  window.selectedClients_Array.clear();
+  // Iterate through client checkboxes
+  const clientCheckboxes = document.querySelectorAll(
+    '#options-list-client input[type="checkbox"]'
+  );
 
-  // Temporary set to store matched clients
-  const matchedClients = new Set();
+  clientCheckboxes.forEach(checkbox => {
+    // Skip the select all checkbox
+    if (checkbox.id === 'select-all-checkbox-client') return;
 
-  // CRITICAL: If NO types OR regions are selected, NO clients should match
-  const noFiltersSelected = selectedTypes.length === 0 || selectedRegions.length === 0;
-
-  // Iterate through all clients in the data store
-  Object.entries(window.clientDataStore).forEach(([clientName, clientData]) => {
-    // Skip matching if no filters are selected
-    if (noFiltersSelected) {
-      allClientsMatch = false;
-      return; // Skip to next iteration
-    }
+    const clientName = checkbox.value;
+    const clientData = window.clientDataStore[clientName];
 
     // Check if client matches current filters
     const matchesTypes = 
       selectedTypes.length === 0 || 
-      (clientData.typeQuery && clientData.typeQuery.some(type => selectedTypes.includes(type)));
+      clientData.typeQuery.some(type => selectedTypes.includes(type));
     
     const matchesRegions = 
       selectedRegions.length === 0 || 
-      (clientData.areaQuery && clientData.areaQuery.some(region => selectedRegions.includes(region)));
+      clientData.areaQuery.some(region => selectedRegions.includes(region));
     
     const matchesGivingUnits = 
       clientData.givingUnit >= minGiving && 
@@ -3151,95 +3148,26 @@ function updateClientDropdownBasedOnFilters() {
       matchesGivingUnits && 
       matchesMissionUnits;
 
+    // Update checkbox and selected clients
+    checkbox.checked = matches;
+    
     if (matches) {
-      matchedClients.add(clientName);
       window.selectedClients_Array.add(clientName);
-      matchedClientsCount++;
     } else {
       allClientsMatch = false;
     }
   });
 
-  // Get all client checkboxes
-  const clientCheckboxes = document.querySelectorAll(
-    '#options-list-client input[type="checkbox"]'
-  );
-
-  // Update checkboxes based on matched clients
-  clientCheckboxes.forEach(checkbox => {
-    // Skip the select all checkbox
-    if (checkbox.id === 'select-all-checkbox-client') return;
-
-    const clientName = checkbox.value;
-    
-    // Check the checkbox if it's in matched clients
-    checkbox.checked = matchedClients.has(clientName);
-  });
-
   // Update select all checkbox
   if (selectAllCheckbox) {
-    selectAllCheckbox.checked = 
-      !noFiltersSelected && 
-      allClientsMatch;
-    
-    selectAllCheckbox.indeterminate = 
-      !noFiltersSelected && 
-      !allClientsMatch && 
-      matchedClientsCount > 0;
-  }
-
-  console.log('Current Filter State:', {
-    types: selectedTypes,
-    regions: selectedRegions,
-    givingRange: [minGiving, maxGiving],
-    missionRange: [minMission, maxMission]
-  });
-  console.log('Matched Clients:', Array.from(matchedClients));
-  console.log('Selected Clients:', Array.from(window.selectedClients_Array));
-}
-
-// Function to restore initial client selection
-function restoreInitialClientSelection() {
-  if (!window.clientDataStore) {
-    console.warn('Client data store not initialized');
-    return;
-  }
-
-  // Get all client checkboxes
-  const clientCheckboxes = document.querySelectorAll(
-    '#options-list-client input[type="checkbox"]'
-  );
-
-  // Get the select all checkbox
-  const selectAllCheckbox = document.getElementById('select-all-checkbox-client');
-
-  // Clear previous selections
-  window.selectedClients_Array.clear();
-
-  // Iterate through all clients and check them
-  clientCheckboxes.forEach(checkbox => {
-    // Skip the select all checkbox
-    if (checkbox.id === 'select-all-checkbox-client') return;
-
-    const clientName = checkbox.value;
-    
-    // Always check the checkbox
-    checkbox.checked = true;
-    window.selectedClients_Array.add(clientName);
-  });
-
-  // Ensure select all checkbox is checked
-  if (selectAllCheckbox) {
-    selectAllCheckbox.checked = true;
-    selectAllCheckbox.indeterminate = false;
+    selectAllCheckbox.checked = allClientsMatch;
+    selectAllCheckbox.indeterminate = !allClientsMatch && 
+      window.selectedClients_Array.size > 0;
   }
 }
 
 // Add event listener for filters changed
 document.addEventListener('filtersChanged', updateClientDropdownBasedOnFilters);
-
-// Add event listener for client data loaded to restore initial selection
-document.addEventListener('clientDataLoaded', restoreInitialClientSelection);
 
 // Initialize client dropdown when client data is loaded
 document.addEventListener('clientDataLoaded', function(event) {

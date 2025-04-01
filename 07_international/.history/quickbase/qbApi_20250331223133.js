@@ -2999,255 +2999,85 @@ class AppController {
 const originalGetRecordsForUniqueClientPeerNames =
   ApiService.prototype.getRecordsForUniqueClientPeerNames;
 
-ApiService.prototype.getRecordsForUniqueClientPeerNames = async function () {
-  const apiCallPeerData = {
-    act: "API_DoQuery",
-    clist: "301.59.238.239.359.358.122.334.187", // Added more fields for comprehensive data
-  };
-
-  try {
-    const xml = await $.get(peerData, apiCallPeerData);
-    const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
-    const uniquePeerClientNames = new Set();
-
-    // Create a global client data storage
-    if (!window.clientDataStore) {
-      window.clientDataStore = {};
-    }
-
-    // Clear existing data store
-    window.clientDataStore = {};
-
-    // Populate client data store
-    recordsForPeerUniqueClientPeerNames.forEach((record) => {
-      const clientInformalName = record.querySelector(
-        "pe___client_informal_name"
-      )?.textContent;
-
-      if (clientInformalName) {
-        uniquePeerClientNames.add(clientInformalName);
-
-        // Extract comprehensive client data
-        const clientData = {
-          name: clientInformalName,
-
-          // Missionary Unit
-          missionUnit: parseFloat(
-            record.querySelector("_06_01nonfin___01_missionary_unit")
-              ?.textContent || 0
-          ),
-
-          // Giving Unit
-          givingUnit: parseFloat(
-            record.querySelector("_06_01nonfin___02_giving_unit")
-              ?.textContent || 0
-          ),
-
-          // Areas Served (convert to array)
-          areaQuery:
-            record
-              .querySelector("client___international_areasservedquery")
-              ?.textContent.split(";")
-              .filter((area) => area.trim() !== "") || [],
-
-          // Types (convert to array)
-          typeQuery: record
-            .querySelector("client___international_subcategoryquery")
-            ?.textContent.split(";")
-            .filter((type) => type.trim() !== "") || ["Unspecified"],
-
-          // Fiscal Year (if needed)
-          year: record.querySelector("fiscal_ye_date_formatted_year_text")
-            ?.textContent,
-        };
-
-        // Store client data
-        window.clientDataStore[clientInformalName] = clientData;
-      }
-    });
-
-    // Sort and convert to array
-    const sortedUniquePeerClientNames = Array.from(
-      uniquePeerClientNames
-    ).sort();
-
-    // Trigger client data loaded event
-    const event = new CustomEvent("clientDataLoaded", {
-      detail: {
-        clients: sortedUniquePeerClientNames,
-        dataStore: window.clientDataStore,
-      },
-    });
-    document.dispatchEvent(event);
-
-    return sortedUniquePeerClientNames;
-  } catch (error) {
-    console.error("Error fetching unique client names:", error);
-    return [];
-  }
-};
-
-// Function to update client dropdown based on current filters
-function updateClientDropdownBasedOnFilters() {
-  // Ensure client data store exists
-  if (!window.clientDataStore) {
-    console.warn('Client data store not initialized');
-    return;
-  }
-
-  // Get current filter values
-  const selectedTypes = Array.from(window.selectedTypes_Array || []);
-  const selectedRegions = Array.from(window.selectedRegions_Array || []);
-  const minGiving = window.sliderValue || 0;
-  const maxGiving = window.sliderValue2 || 25000;
-  const minMission = window.missionValue || 0;
-  const maxMission = window.missionValue2 || 10000;
-
-  // Get the select all checkbox
-  const selectAllCheckbox = document.getElementById('select-all-checkbox-client');
+  ApiService.prototype.getRecordsForUniqueClientPeerNames = async function () {
+    const apiCallPeerData = {
+      act: "API_DoQuery",
+      clist: "301.59.238.239.359.358.122.334.187", // Added more fields for comprehensive data
+    };
   
-  // Flag to track if all clients match
-  let allClientsMatch = true;
-  let matchedClientsCount = 0;
-
-  // Clear previous selections
-  window.selectedClients_Array.clear();
-
-  // Temporary set to store matched clients
-  const matchedClients = new Set();
-
-  // CRITICAL: If NO types OR regions are selected, NO clients should match
-  const noFiltersSelected = selectedTypes.length === 0 || selectedRegions.length === 0;
-
-  // Iterate through all clients in the data store
-  Object.entries(window.clientDataStore).forEach(([clientName, clientData]) => {
-    // Skip matching if no filters are selected
-    if (noFiltersSelected) {
-      allClientsMatch = false;
-      return; // Skip to next iteration
+    try {
+      const xml = await $.get(peerData, apiCallPeerData);
+      const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
+      const uniquePeerClientNames = new Set();
+  
+      // Create a global client data storage
+      if (!window.clientDataStore) {
+        window.clientDataStore = {};
+      }
+  
+      // Clear existing data store
+      window.clientDataStore = {};
+  
+      // Populate client data store
+      recordsForPeerUniqueClientPeerNames.forEach((record) => {
+        const clientInformalName = record.querySelector(
+          "pe___client_informal_name"
+        )?.textContent;
+  
+        if (clientInformalName) {
+          uniquePeerClientNames.add(clientInformalName);
+  
+          // Extract comprehensive client data
+          const clientData = {
+            name: clientInformalName,
+            
+            // Missionary Unit
+            missionUnit: parseFloat(
+              record.querySelector("_06_01nonfin___01_missionary_unit")?.textContent || 0
+            ),
+            
+            // Giving Unit
+            givingUnit: parseFloat(
+              record.querySelector("_06_01nonfin___02_giving_unit")?.textContent || 0
+            ),
+            
+            // Areas Served (convert to array)
+            areaQuery: record.querySelector("client___international_areasservedquery")
+              ?.textContent.split(";")
+              .filter(area => area.trim() !== "") || [],
+            
+            // Types (convert to array)
+            typeQuery: record.querySelector("client___international_subcategoryquery")
+              ?.textContent.split(";")
+              .filter(type => type.trim() !== "") || ['Unspecified'],
+            
+            // Fiscal Year (if needed)
+            year: record.querySelector("fiscal_ye_date_formatted_year_text")?.textContent
+          };
+  
+          // Store client data
+          window.clientDataStore[clientInformalName] = clientData;
+        }
+      });
+  
+      // Sort and convert to array
+      const sortedUniquePeerClientNames = Array.from(uniquePeerClientNames).sort();
+  
+      // Trigger client data loaded event
+      const event = new CustomEvent('clientDataLoaded', { 
+        detail: { 
+          clients: sortedUniquePeerClientNames,
+          dataStore: window.clientDataStore 
+        } 
+      });
+      document.dispatchEvent(event);
+  
+      return sortedUniquePeerClientNames;
+    } catch (error) {
+      console.error("Error fetching unique client names:", error);
+      return [];
     }
-
-    // Check if client matches current filters
-    const matchesTypes = 
-      selectedTypes.length === 0 || 
-      (clientData.typeQuery && clientData.typeQuery.some(type => selectedTypes.includes(type)));
-    
-    const matchesRegions = 
-      selectedRegions.length === 0 || 
-      (clientData.areaQuery && clientData.areaQuery.some(region => selectedRegions.includes(region)));
-    
-    const matchesGivingUnits = 
-      clientData.givingUnit >= minGiving && 
-      clientData.givingUnit <= maxGiving;
-    
-    const matchesMissionUnits = 
-      clientData.missionUnit >= minMission && 
-      clientData.missionUnit <= maxMission;
-
-    // Determine if client matches all filters
-    const matches = 
-      matchesTypes && 
-      matchesRegions && 
-      matchesGivingUnits && 
-      matchesMissionUnits;
-
-    if (matches) {
-      matchedClients.add(clientName);
-      window.selectedClients_Array.add(clientName);
-      matchedClientsCount++;
-    } else {
-      allClientsMatch = false;
-    }
-  });
-
-  // Get all client checkboxes
-  const clientCheckboxes = document.querySelectorAll(
-    '#options-list-client input[type="checkbox"]'
-  );
-
-  // Update checkboxes based on matched clients
-  clientCheckboxes.forEach(checkbox => {
-    // Skip the select all checkbox
-    if (checkbox.id === 'select-all-checkbox-client') return;
-
-    const clientName = checkbox.value;
-    
-    // Check the checkbox if it's in matched clients
-    checkbox.checked = matchedClients.has(clientName);
-  });
-
-  // Update select all checkbox
-  if (selectAllCheckbox) {
-    selectAllCheckbox.checked = 
-      !noFiltersSelected && 
-      allClientsMatch;
-    
-    selectAllCheckbox.indeterminate = 
-      !noFiltersSelected && 
-      !allClientsMatch && 
-      matchedClientsCount > 0;
-  }
-
-  console.log('Current Filter State:', {
-    types: selectedTypes,
-    regions: selectedRegions,
-    givingRange: [minGiving, maxGiving],
-    missionRange: [minMission, maxMission]
-  });
-  console.log('Matched Clients:', Array.from(matchedClients));
-  console.log('Selected Clients:', Array.from(window.selectedClients_Array));
-}
-
-// Function to restore initial client selection
-function restoreInitialClientSelection() {
-  if (!window.clientDataStore) {
-    console.warn('Client data store not initialized');
-    return;
-  }
-
-  // Get all client checkboxes
-  const clientCheckboxes = document.querySelectorAll(
-    '#options-list-client input[type="checkbox"]'
-  );
-
-  // Get the select all checkbox
-  const selectAllCheckbox = document.getElementById('select-all-checkbox-client');
-
-  // Clear previous selections
-  window.selectedClients_Array.clear();
-
-  // Iterate through all clients and check them
-  clientCheckboxes.forEach(checkbox => {
-    // Skip the select all checkbox
-    if (checkbox.id === 'select-all-checkbox-client') return;
-
-    const clientName = checkbox.value;
-    
-    // Always check the checkbox
-    checkbox.checked = true;
-    window.selectedClients_Array.add(clientName);
-  });
-
-  // Ensure select all checkbox is checked
-  if (selectAllCheckbox) {
-    selectAllCheckbox.checked = true;
-    selectAllCheckbox.indeterminate = false;
-  }
-}
-
-// Add event listener for filters changed
-document.addEventListener('filtersChanged', updateClientDropdownBasedOnFilters);
-
-// Add event listener for client data loaded to restore initial selection
-document.addEventListener('clientDataLoaded', restoreInitialClientSelection);
-
-// Initialize client dropdown when client data is loaded
-document.addEventListener('clientDataLoaded', function(event) {
-  // Call the existing function to add clients to dropdown
-  addUniqueClientsToOptionsSelectClientDropdown(
-    Object.keys(window.clientDataStore)
-  );
-});
+  };
 
 // Utility to count unique clients in the records
 function countUniqueClients(records) {
@@ -3334,7 +3164,7 @@ $.get(clientData, apiCallClientDataForUniqueYears)
 // Find and add unique years from data
 const findUniqueYears = (data) => {
   // console.log({data});
-
+  
   if (data) {
     data.forEach((item) => {
       const yearElement = item.querySelector("fiscal_ye_date_formatted_year");
@@ -3350,6 +3180,7 @@ const findUniqueYears = (data) => {
 
     yearsData_Array.sort();
     // console.log({yearsData_Array});
+    
 
     // Add years to options dropdown
     addUniqueYearsToOptionsSelectDropdown(yearsData_Array);

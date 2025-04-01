@@ -1404,12 +1404,10 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
         .every((input) => input.checked);
 
       selectAllInput.checked = allChecked;
-      selectAllInput.indeterminate = !allChecked && 
-        Array.from(
-          document.querySelectorAll("#options-list-client input[type='checkbox']")
-        )
-        .filter((input) => input.id !== "select-all-checkbox-client")
-        .some((input) => input.checked);
+      
+      // Trigger filter changed event
+      const event = new CustomEvent('filtersChanged');
+      document.dispatchEvent(event);
     });
   });
 
@@ -1433,10 +1431,12 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
       }
     });
 
-    // Reset indeterminate state
-    selectAllInput.indeterminate = false;
+    // Trigger filter changed event
+    const event = new CustomEvent('filtersChanged');
+    document.dispatchEvent(event);
   });
 };
+
 // Enhanced addClientDataToModalRow function
 function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
   console.log(`Adding client data to row: ${yearRow.id}`, {

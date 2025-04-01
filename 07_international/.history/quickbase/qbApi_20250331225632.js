@@ -3087,7 +3087,6 @@ ApiService.prototype.getRecordsForUniqueClientPeerNames = async function () {
   }
 };
 
-// Function to update client dropdown based on current filters
 function updateClientDropdownBasedOnFilters() {
   // Ensure client data store exists
   if (!window.clientDataStore) {
@@ -3115,17 +3114,26 @@ function updateClientDropdownBasedOnFilters() {
 
   // Temporary set to store matched clients
   const matchedClients = new Set();
+  const unmatchedClients = new Set();
 
-  // CRITICAL: If NO types OR regions are selected, NO clients should match
-  const noFiltersSelected = selectedTypes.length === 0 || selectedRegions.length === 0;
+  // Detailed debug logging
+  console.log('Current Filter State:', {
+    types: selectedTypes,
+    regions: selectedRegions,
+    givingRange: [minGiving, maxGiving],
+    missionRange: [minMission, maxMission]
+  });
 
   // Iterate through all clients in the data store
   Object.entries(window.clientDataStore).forEach(([clientName, clientData]) => {
-    // Skip matching if no filters are selected
-    if (noFiltersSelected) {
-      allClientsMatch = false;
-      return; // Skip to next iteration
-    }
+    // Debug client data
+    const clientMatchDetails = {
+      name: clientName,
+      typeQuery: clientData.typeQuery,
+      areaQuery: clientData.areaQuery,
+      givingUnit: clientData.givingUnit,
+      missionUnit: clientData.missionUnit
+    };
 
     // Check if client matches current filters
     const matchesTypes = 
@@ -3151,12 +3159,23 @@ function updateClientDropdownBasedOnFilters() {
       matchesGivingUnits && 
       matchesMissionUnits;
 
+    // Add detailed match information to client match details
+    clientMatchDetails.matchesTypes = matchesTypes;
+    clientMatchDetails.matchesRegions = matchesRegions;
+    clientMatchDetails.matchesGivingUnits = matchesGivingUnits;
+    clientMatchDetails.matchesMissionUnits = matchesMissionUnits;
+    clientMatchDetails.overallMatch = matches;
+
     if (matches) {
       matchedClients.add(clientName);
       window.selectedClients_Array.add(clientName);
       matchedClientsCount++;
     } else {
+      unmatchedClients.add(clientName);
       allClientsMatch = false;
+      
+      // Log detailed reason for unmatched clients
+      console.log(`Client not matched:`, clientMatchDetails);
     }
   });
 
@@ -3172,29 +3191,19 @@ function updateClientDropdownBasedOnFilters() {
 
     const clientName = checkbox.value;
     
-    // Check the checkbox if it's in matched clients
-    checkbox.checked = matchedClients.has(clientName);
+    // Always check the checkbox
+    checkbox.checked = true;
+    window.selectedClients_Array.add(clientName);
   });
 
   // Update select all checkbox
   if (selectAllCheckbox) {
-    selectAllCheckbox.checked = 
-      !noFiltersSelected && 
-      allClientsMatch;
-    
-    selectAllCheckbox.indeterminate = 
-      !noFiltersSelected && 
-      !allClientsMatch && 
-      matchedClientsCount > 0;
+    selectAllCheckbox.checked = true;
+    selectAllCheckbox.indeterminate = false;
   }
 
-  console.log('Current Filter State:', {
-    types: selectedTypes,
-    regions: selectedRegions,
-    givingRange: [minGiving, maxGiving],
-    missionRange: [minMission, maxMission]
-  });
   console.log('Matched Clients:', Array.from(matchedClients));
+  console.log('Unmatched Clients:', Array.from(unmatchedClients));
   console.log('Selected Clients:', Array.from(window.selectedClients_Array));
 }
 
@@ -3241,13 +3250,6 @@ document.addEventListener('filtersChanged', updateClientDropdownBasedOnFilters);
 // Add event listener for client data loaded to restore initial selection
 document.addEventListener('clientDataLoaded', restoreInitialClientSelection);
 
-// Initialize client dropdown when client data is loaded
-document.addEventListener('clientDataLoaded', function(event) {
-  // Call the existing function to add clients to dropdown
-  addUniqueClientsToOptionsSelectClientDropdown(
-    Object.keys(window.clientDataStore)
-  );
-});
 
 // Utility to count unique clients in the records
 function countUniqueClients(records) {

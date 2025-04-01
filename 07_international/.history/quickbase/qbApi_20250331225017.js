@@ -3116,21 +3116,18 @@ function updateClientDropdownBasedOnFilters() {
   // Temporary set to store matched clients
   const matchedClients = new Set();
 
-  // CRITICAL: If NO types OR regions are selected, NO clients should match
-  const noFiltersSelected = selectedTypes.length === 0 || selectedRegions.length === 0;
-
   // Iterate through all clients in the data store
   Object.entries(window.clientDataStore).forEach(([clientName, clientData]) => {
-    // Skip matching if no filters are selected
-    if (noFiltersSelected) {
+    // CRITICAL: If NO types are selected, NO clients should match
+    if (selectedTypes.length === 0) {
       allClientsMatch = false;
       return; // Skip to next iteration
     }
 
     // Check if client matches current filters
     const matchesTypes = 
-      selectedTypes.length === 0 || 
-      (clientData.typeQuery && clientData.typeQuery.some(type => selectedTypes.includes(type)));
+      clientData.typeQuery && 
+      clientData.typeQuery.some(type => selectedTypes.includes(type));
     
     const matchesRegions = 
       selectedRegions.length === 0 || 
@@ -3178,12 +3175,9 @@ function updateClientDropdownBasedOnFilters() {
 
   // Update select all checkbox
   if (selectAllCheckbox) {
-    selectAllCheckbox.checked = 
-      !noFiltersSelected && 
-      allClientsMatch;
-    
+    selectAllCheckbox.checked = selectedTypes.length > 0 && allClientsMatch;
     selectAllCheckbox.indeterminate = 
-      !noFiltersSelected && 
+      selectedTypes.length > 0 && 
       !allClientsMatch && 
       matchedClientsCount > 0;
   }
@@ -3198,48 +3192,8 @@ function updateClientDropdownBasedOnFilters() {
   console.log('Selected Clients:', Array.from(window.selectedClients_Array));
 }
 
-// Function to restore initial client selection
-function restoreInitialClientSelection() {
-  if (!window.clientDataStore) {
-    console.warn('Client data store not initialized');
-    return;
-  }
-
-  // Get all client checkboxes
-  const clientCheckboxes = document.querySelectorAll(
-    '#options-list-client input[type="checkbox"]'
-  );
-
-  // Get the select all checkbox
-  const selectAllCheckbox = document.getElementById('select-all-checkbox-client');
-
-  // Clear previous selections
-  window.selectedClients_Array.clear();
-
-  // Iterate through all clients and check them
-  clientCheckboxes.forEach(checkbox => {
-    // Skip the select all checkbox
-    if (checkbox.id === 'select-all-checkbox-client') return;
-
-    const clientName = checkbox.value;
-    
-    // Always check the checkbox
-    checkbox.checked = true;
-    window.selectedClients_Array.add(clientName);
-  });
-
-  // Ensure select all checkbox is checked
-  if (selectAllCheckbox) {
-    selectAllCheckbox.checked = true;
-    selectAllCheckbox.indeterminate = false;
-  }
-}
-
 // Add event listener for filters changed
 document.addEventListener('filtersChanged', updateClientDropdownBasedOnFilters);
-
-// Add event listener for client data loaded to restore initial selection
-document.addEventListener('clientDataLoaded', restoreInitialClientSelection);
 
 // Initialize client dropdown when client data is loaded
 document.addEventListener('clientDataLoaded', function(event) {
