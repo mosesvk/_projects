@@ -90,8 +90,8 @@ let firmName = "";
 let urlToPrintXLS;
 // let amount = null;
 
-let selectedArea = "";
-const selectedAreas_Array = new Set();
+let selectedRegion = "";
+const selectedRegions_Array = new Set();
 const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();
@@ -1250,7 +1250,7 @@ function setupDropdownToggle(selectElementId, optionsListId) {
   function closeOtherDropdowns(currentOptionsListId) {
     const dropdownConfigs = [
       { selectId: "custom-select", optionsId: "options-list" },
-      { selectId: "custom-select-area", optionsId: "options-list-area" },
+      { selectId: "custom-select-region", optionsId: "options-list-region" },
       { selectId: "custom-select-type", optionsId: "options-list-type" },
       { selectId: "custom-select-client", optionsId: "options-list-client" },
     ];
@@ -1467,7 +1467,7 @@ function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
 function clientMatchesFilters(
   clientData,
   selectedTypes,
-  selectedAreas,
+  selectedRegions,
   minGiving,
   maxGiving,
   minMission,
@@ -1484,17 +1484,17 @@ function clientMatchesFilters(
     clientData.missionUnit >= minMission &&
     clientData.missionUnit <= maxMission;
 
-  // Check if client has at least one selected area
-  // Convert area codes to area names for comparison
-  const Match =
-    selectedAreas.length === 0 ||
+  // Check if client has at least one selected region
+  // Convert region codes to region names for comparison
+  const regionMatch =
+    selectedRegions.length === 0 ||
     clientData.areaQuery.some((areaName) => {
-      // Find if any selected area code maps to this area name
-      return selectedAreas.some((areaCode) => {
-        // Find the area mapping object
-        const areaObj = areas_Array.find((r) => r.str === areaCode);
-        // Check if this area object's array contains the area name
-        return areaObj && areaObj.arr.includes(areaName);
+      // Find if any selected region code maps to this area name
+      return selectedRegions.some((regionCode) => {
+        // Find the region mapping object
+        const regionObj = regions_Array.find((r) => r.str === regionCode);
+        // Check if this region object's array contains the area name
+        return regionObj && regionObj.arr.includes(areaName);
       });
     });
 
@@ -1504,7 +1504,7 @@ function clientMatchesFilters(
     selectedTypes.length === 0 ||
     selectedTypes.some((type) => clientData.typeQuery.includes(type));
 
-  return givingUnitMatch && missionUnitMatch && areaMatch && typeMatch;
+  return givingUnitMatch && missionUnitMatch && regionMatch && typeMatch;
 }
 
 // Function to update client selection based on filters
@@ -1517,22 +1517,22 @@ function updateClientSelectionBasedOnFilters() {
 
   // Get current filter values
   const selectedTypes = Array.from(window.selectedTypes_Array || []);
-  const selectedAreaCodes = Array.from(window.selectedAreas_Array || []);
+  const selectedRegionCodes = Array.from(window.selectedRegions_Array || []);
   const minGiving = window.sliderValue || 0;
   const maxGiving = window.sliderValue2 || 25000;
   const minMission = window.missionValue || 0;
   const maxMission = window.missionValue2 || 10000;
 
-  // Convert area codes to corresponding area names for comparison
-  const selectedAreaNames = [];
-  selectedAreaCodes.forEach((code) => {
-    const areaObject = areas_Array.find((area) => area.str === code);
-    if (areaObject && areaObject.arr && areaObject.arr.length > 0) {
-      selectedAreaNames.push(...areaObject.arr);
+  // Convert region codes to corresponding region names for comparison
+  const selectedRegionNames = [];
+  selectedRegionCodes.forEach((code) => {
+    const regionObject = regions_Array.find((region) => region.str === code);
+    if (regionObject && regionObject.arr && regionObject.arr.length > 0) {
+      selectedRegionNames.push(...regionObject.arr);
     }
   });
 
-  console.log("Selected Area Names for comparison:", selectedAreaNames);
+  console.log("Selected Region Names for comparison:", selectedRegionNames);
 
   // Get all client checkboxes
   const clientCheckboxes = document.querySelectorAll(
@@ -1571,25 +1571,25 @@ function updateClientSelectionBasedOnFilters() {
       clientData.missionUnit >= minMission &&
       clientData.missionUnit <= maxMission;
 
-    // Check area match using converted names
-    const areaMatch =
-      selectedAreaCodes.length === 0 ||
-      clientData.areaQuery.some((area) => selectedAreaNames.includes(area));
+    // Check region match using converted names
+    const regionMatch =
+      selectedRegionCodes.length === 0 ||
+      clientData.areaQuery.some((area) => selectedRegionNames.includes(area));
 
     // Check type match
     const typeMatch =
       selectedTypes.length === 0 ||
       clientData.typeQuery.some((type) => selectedTypes.includes(type));
 
-    // Special case: If no Areas or no types selected, nothing should match
-    if (selectedAreaCodes.length === 0 || selectedTypes.length === 0) {
+    // Special case: If no regions or no types selected, nothing should match
+    if (selectedRegionCodes.length === 0 || selectedTypes.length === 0) {
       checkbox.checked = false;
       return;
     }
 
     // A client matches if it passes all filter criteria
     const matches =
-      givingUnitMatch && missionUnitMatch && areaMatch && typeMatch;
+      givingUnitMatch && missionUnitMatch && regionMatch && typeMatch;
 
     // Update checkbox and selection array
     checkbox.checked = matches;
@@ -2587,31 +2587,31 @@ document.addEventListener("DOMContentLoaded", function () {
   window.yearSelectionsInitialized = false;
 });
 
-window.selectedAreas_Array = window.selectedAreas_Array || new Set();
+window.selectedRegions_Array = window.selectedRegions_Array || new Set();
 window.selectedTypes_Array = window.selectedTypes_Array || new Set();
 window.selectedClients_Array = window.selectedClients_Array || new Set();
 
 /**
- * Add unique areas to the options select dropdown
+ * Add unique regions to the options select dropdown
  * Prevents duplicate options by clearing existing content
- * @param {Array} areaArray - Array of area objects
+ * @param {Array} regionArray - Array of region objects
  */
-function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
-  window.selectedAreas_Array = window.selectedAreas_Array || new Set();
+function addUniqueRegionsToOptionsSelectRegionsDropdown(regionArray) {
+  window.selectedRegions_Array = window.selectedRegions_Array || new Set();
 
-  areaArray.forEach((areaObject) => {
-    const areaString = areaObject.str;
-    window.selectedAreas_Array.add(areaString);
+  regionArray.forEach((regionObject) => {
+    const regionString = regionObject.str;
+    window.selectedRegions_Array.add(regionString);
   });
 
-  const optionsListArea = document.getElementById("options-list-area");
-  if (!optionsListArea) {
-    console.error("Area options list element not found");
+  const optionsListRegion = document.getElementById("options-list-region");
+  if (!optionsListRegion) {
+    console.error("Region options list element not found");
     return;
   }
 
   // Clear existing content
-  optionsListArea.innerHTML = "";
+  optionsListRegion.innerHTML = "";
 
   // Create "Select All" checkbox and label
   const selectAllLabel = document.createElement("label");
@@ -2638,31 +2638,31 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
   selectAllLabel.appendChild(selectAllInput);
   selectAllLabel.appendChild(selectAllSpan);
 
-  optionsListArea.appendChild(selectAllLabel);
+  optionsListRegion.appendChild(selectAllLabel);
 
   // Handle "Select All" checkbox behavior
   selectAllInput.addEventListener("change", function () {
     const isChecked = selectAllInput.checked;
-    const areaCheckboxes = document.querySelectorAll(
-      "#options-list-area input[type='checkbox']"
+    const regionCheckboxes = document.querySelectorAll(
+      "#options-list-region input[type='checkbox']"
     );
 
-    areaCheckboxes.forEach((checkbox) => {
+    regionCheckboxes.forEach((checkbox) => {
       if (checkbox.id !== "select-all-checkbox") {
         checkbox.checked = isChecked;
-        const areaString = checkbox.value;
+        const regionString = checkbox.value;
 
         if (isChecked) {
-          window.selectedAreas_Array.add(areaString);
+          window.selectedRegions_Array.add(regionString);
         } else {
-          window.selectedAreas_Array.delete(areaString);
+          window.selectedRegions_Array.delete(regionString);
         }
       }
     });
 
     // Log change
-    console.log("All areas selected:", isChecked, {
-      areas: Array.from(window.selectedAreas_Array),
+    console.log("All regions selected:", isChecked, {
+      regions: Array.from(window.selectedRegions_Array),
     });
 
     // Trigger filter changed event
@@ -2670,11 +2670,11 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
     document.dispatchEvent(event);
   });
 
-  // Add area options
-  areaArray.forEach((areaObject) => {
-    const areaName = areaObject.arr[0];
-    const areaString = areaObject.str;
-    const uniqueId = `area-option-${areaString}`;
+  // Add region options
+  regionArray.forEach((regionObject) => {
+    const regionName = regionObject.arr[0];
+    const regionString = regionObject.str;
+    const uniqueId = `region-option-${regionString}`;
 
     const newLabel = document.createElement("label");
     newLabel.setAttribute("for", uniqueId);
@@ -2683,38 +2683,38 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
       "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate"
     );
 
-    const areaInput = document.createElement("input");
-    areaInput.setAttribute("type", "checkbox");
-    areaInput.setAttribute("id", uniqueId);
-    areaInput.setAttribute(
+    const regionInput = document.createElement("input");
+    regionInput.setAttribute("type", "checkbox");
+    regionInput.setAttribute("id", uniqueId);
+    regionInput.setAttribute(
       "class",
       "w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
     );
-    areaInput.setAttribute("value", areaString);
+    regionInput.setAttribute("value", regionString);
 
-    // Add the value to selectedAreas_Array and check the input by default
-    selectedAreas_Array.add(areaString);
-    areaInput.checked = true;
+    // Add the value to selectedRegions_Array and check the input by default
+    selectedRegions_Array.add(regionString);
+    regionInput.checked = true;
 
     const newSpan = document.createElement("span");
-    newSpan.innerText = areaName;
+    newSpan.innerText = regionName;
 
-    newLabel.appendChild(areaInput);
+    newLabel.appendChild(regionInput);
     newLabel.appendChild(newSpan);
 
-    optionsListArea.appendChild(newLabel);
+    optionsListRegion.appendChild(newLabel);
 
-    // Add change event listener to update selectedAreas_Array
-    areaInput.addEventListener("change", function () {
-      if (areaInput.checked) {
-        selectedAreas_Array.add(areaString);
+    // Add change event listener to update selectedRegions_Array
+    regionInput.addEventListener("change", function () {
+      if (regionInput.checked) {
+        selectedRegions_Array.add(regionString);
       } else {
-        selectedAreas_Array.delete(areaString);
+        selectedRegions_Array.delete(regionString);
       }
 
       // Update "Select All" checkbox state
       const allChecked = Array.from(
-        document.querySelectorAll("#options-list-area input[type='checkbox']")
+        document.querySelectorAll("#options-list-region input[type='checkbox']")
       )
         .filter((input) => input.id !== "select-all-checkbox")
         .every((input) => input.checked);
@@ -2722,10 +2722,10 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
       selectAllInput.checked = allChecked;
 
       // Log change
-      console.log("Area selection changed:", {
-        area: areaString,
-        selected: areaInput.checked,
-        allAreas: Array.from(selectedAreas_Array),
+      console.log("Region selection changed:", {
+        region: regionString,
+        selected: regionInput.checked,
+        allRegions: Array.from(selectedRegions_Array),
       });
 
       // Trigger filter changed event

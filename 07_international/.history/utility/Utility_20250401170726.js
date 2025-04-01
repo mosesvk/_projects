@@ -1573,7 +1573,7 @@ function updateClientSelectionBasedOnFilters() {
 
     // Check area match using converted names
     const areaMatch =
-      selectedAreaCodes.length === 0 ||
+      selectedAreasCodes.length === 0 ||
       clientData.areaQuery.some((area) => selectedAreaNames.includes(area));
 
     // Check type match
@@ -1582,7 +1582,7 @@ function updateClientSelectionBasedOnFilters() {
       clientData.typeQuery.some((type) => selectedTypes.includes(type));
 
     // Special case: If no Areas or no types selected, nothing should match
-    if (selectedAreaCodes.length === 0 || selectedTypes.length === 0) {
+    if (selectedAreasCodes.length === 0 || selectedTypes.length === 0) {
       checkbox.checked = false;
       return;
     }

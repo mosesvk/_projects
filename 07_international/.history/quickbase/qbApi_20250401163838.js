@@ -2318,10 +2318,10 @@ class ApiService {
     const currentYear = years[0];
 
     // Build query conditions
-    const areaQuery = this.getAreaQuery(selectedAreas_Array);
+    const regionQuery = this.getRegionQuery(selectedRegions_Array);
     const typeQuery = this.getTypeQuery(selectedTypes_Array);
 
-    // (${areaQuery}) AND
+    // (${regionQuery}) AND
     // (${typeQuery}) AND
 
     //   query: `{301.EX.${currentYear}}
@@ -2537,7 +2537,7 @@ class ApiService {
   // Add a method to initialize filter handlers
   _initializeFilterHandlers() {
     // Set up event listeners for filter changes
-    // These will be triggered when types, areas or sliders change
+    // These will be triggered when types, regions or sliders change
     document.addEventListener("filtersChanged", this._handleFiltersChanged);
 
     // Initialize sliders if they exist
@@ -2584,7 +2584,7 @@ class ApiService {
 
     // Get current filter values
     const selectedTypes = Array.from(window.selectedTypes_Array || []);
-    const selectedAreas = Array.from(window.selectedAreas_Array || []);
+    const selectedRegions = Array.from(window.selectedRegions_Array || []);
     const minGivingUnits = window.sliderValue || 0;
     const maxGivingUnits = window.sliderValue2 || 25000;
     const minMissionUnits = window.missionValue || 0;
@@ -2620,10 +2620,10 @@ class ApiService {
         clientData.givingUnit >= minGivingUnits &&
         clientData.givingUnit <= maxGivingUnits;
 
-      // Check if client has at least one of the selected areas
-      const meetsAreaCriteria =
-        selectedAreas.length === 0 ||
-        selectedAreas.some((area) => clientData.areaQuery.includes(area));
+      // Check if client has at least one of the selected regions
+      const meetsRegionCriteria =
+        selectedRegions.length === 0 ||
+        selectedRegions.some((region) => clientData.areaQuery.includes(region));
 
       // Check if client has at least one of the selected types
       const meetsTypeCriteria =
@@ -2634,7 +2634,7 @@ class ApiService {
       const shouldBeSelected =
         meetsMissionUnitCriteria &&
         meetsGivingUnitCriteria &&
-        meetsAreaCriteria &&
+        meetsRegionCriteria &&
         meetsTypeCriteria;
 
       // Only change the checkbox if it doesn't match the desired state
@@ -2695,16 +2695,16 @@ class ApiService {
     });
   }
 
-  // Build a query condition for areas
-  getAreaQuery(selectedAreasSet) {
+  // Build a query condition for regions
+  getRegionQuery(selectedRegionsSet) {
     // Convert Set to Array for iteration
-    const selectedAreas = Array.from(selectedAreasSet);
+    const selectedRegions = Array.from(selectedRegionsSet);
 
-    const areaConditions = selectedAreas
-      .map((area) => `{359.EX.${area}}`)
+    const regionConditions = selectedRegions
+      .map((region) => `{122.EX.${region}}`)
       .join(" OR ");
 
-    return areaConditions ? `(${areaConditions})` : '({122.EX.""})';
+    return regionConditions ? `(${regionConditions})` : '({122.EX.""})';
   }
 
   // Build a query condition for types
@@ -2783,14 +2783,14 @@ class AppController {
     this.apiService.getRecordsForUniqueClientPeerNames();
 
     // Initialize dropdowns only if they aren't already populated
-    const areasListElement = document.getElementById("options-list-area");
+    const regionsListElement = document.getElementById("options-list-region");
     if (
-      areasListElement &&
-      (!areasListElement.children.length ||
-        areasListElement.children.length <= 1)
+      regionsListElement &&
+      (!regionsListElement.children.length ||
+        regionsListElement.children.length <= 1)
     ) {
-      console.log("Initializing areas dropdown");
-      addUniqueAreasToOptionsSelectAreasDropdown(areas_Array);
+      console.log("Initializing regions dropdown");
+      addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
     }
 
     const typesListElement = document.getElementById("options-list-type");
@@ -3104,7 +3104,7 @@ function updateClientDropdownBasedOnFilters() {
   const maxMission = window.missionValue2 || 10000;
 
   console.log("Filtering with:", {
-    areaCodes: selectedAreasCodes,
+    regionCodes: selectedAreasCodes,
     types: selectedTypes,
     giving: [minGiving, maxGiving],
     mission: [minMission, maxMission]
@@ -3116,9 +3116,9 @@ function updateClientDropdownBasedOnFilters() {
   );
   const selectAllCheckbox = document.getElementById('select-all-checkbox-client');
 
-  // Special case: no areas or types selected = no matches
+  // Special case: no regions or types selected = no matches
   if (selectedAreasCodes.length === 0 || selectedTypes.length === 0) {
-    console.log("No areas or types selected - deselecting all clients");
+    console.log("No regions or types selected - deselecting all clients");
     window.selectedClients_Array.clear();
     
     clientCheckboxes.forEach(checkbox => {
@@ -3159,14 +3159,14 @@ function updateClientDropdownBasedOnFilters() {
       clientData.missionUnit >= minMission && 
       clientData.missionUnit <= maxMission;
 
-    // Check area matches using the proper mapping
+    // Check region matches using the proper mapping
     const matchesAreas =
     selectedAreasCodes.length === 0 ||
       clientData.areaQuery.some((area) => {
-        // Find if any selected area code maps to this area name
-        return selectedAreaCodes.some((areaCode) => {
-          const areaObj = areas_Array.find((r) => r.str === areaCode);
-          return areaObj && areaObj.arr.includes(area);
+        // Find if any selected region code maps to this area name
+        return selectedRegionCodes.some((regionCode) => {
+          const regionObj = regions_Array.find((r) => r.str === regionCode);
+          return regionObj && regionObj.arr.includes(area);
         });
       });
 
@@ -3181,7 +3181,7 @@ function updateClientDropdownBasedOnFilters() {
     const matches = 
       matchesGivingUnits && 
       matchesMissionUnits && 
-      matchesAreas && 
+      matchesRegions && 
       matchesTypes;
 
     // Update checkbox and selection

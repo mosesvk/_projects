@@ -90,7 +90,7 @@ let firmName = "";
 let urlToPrintXLS;
 // let amount = null;
 
-let selectedArea = "";
+let selectedRegion = "";
 const selectedAreas_Array = new Set();
 const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
@@ -1517,22 +1517,22 @@ function updateClientSelectionBasedOnFilters() {
 
   // Get current filter values
   const selectedTypes = Array.from(window.selectedTypes_Array || []);
-  const selectedAreaCodes = Array.from(window.selectedAreas_Array || []);
+  const selectedRegionCodes = Array.from(window.selectedAreas_Array || []);
   const minGiving = window.sliderValue || 0;
   const maxGiving = window.sliderValue2 || 25000;
   const minMission = window.missionValue || 0;
   const maxMission = window.missionValue2 || 10000;
 
   // Convert area codes to corresponding area names for comparison
-  const selectedAreaNames = [];
-  selectedAreaCodes.forEach((code) => {
+  const selectedRegionNames = [];
+  selectedRegionCodes.forEach((code) => {
     const areaObject = areas_Array.find((area) => area.str === code);
     if (areaObject && areaObject.arr && areaObject.arr.length > 0) {
-      selectedAreaNames.push(...areaObject.arr);
+      selectedRegionNames.push(...areaObject.arr);
     }
   });
 
-  console.log("Selected Area Names for comparison:", selectedAreaNames);
+  console.log("Selected Region Names for comparison:", selectedRegionNames);
 
   // Get all client checkboxes
   const clientCheckboxes = document.querySelectorAll(
@@ -1573,8 +1573,8 @@ function updateClientSelectionBasedOnFilters() {
 
     // Check area match using converted names
     const areaMatch =
-      selectedAreaCodes.length === 0 ||
-      clientData.areaQuery.some((area) => selectedAreaNames.includes(area));
+      selectedAreasCodes.length === 0 ||
+      clientData.areaQuery.some((area) => selectedRegionNames.includes(area));
 
     // Check type match
     const typeMatch =
@@ -1582,7 +1582,7 @@ function updateClientSelectionBasedOnFilters() {
       clientData.typeQuery.some((type) => selectedTypes.includes(type));
 
     // Special case: If no Areas or no types selected, nothing should match
-    if (selectedAreaCodes.length === 0 || selectedTypes.length === 0) {
+    if (selectedAreasCodes.length === 0 || selectedTypes.length === 0) {
       checkbox.checked = false;
       return;
     }
@@ -2604,14 +2604,14 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
     window.selectedAreas_Array.add(areaString);
   });
 
-  const optionsListArea = document.getElementById("options-list-area");
-  if (!optionsListArea) {
-    console.error("Area options list element not found");
+  const optionsListRegion = document.getElementById("options-list-area");
+  if (!optionsListRegion) {
+    console.error("Region options list element not found");
     return;
   }
 
   // Clear existing content
-  optionsListArea.innerHTML = "";
+  optionsListRegion.innerHTML = "";
 
   // Create "Select All" checkbox and label
   const selectAllLabel = document.createElement("label");
@@ -2638,7 +2638,7 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
   selectAllLabel.appendChild(selectAllInput);
   selectAllLabel.appendChild(selectAllSpan);
 
-  optionsListArea.appendChild(selectAllLabel);
+  optionsListRegion.appendChild(selectAllLabel);
 
   // Handle "Select All" checkbox behavior
   selectAllInput.addEventListener("change", function () {
@@ -2702,7 +2702,7 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
     newLabel.appendChild(areaInput);
     newLabel.appendChild(newSpan);
 
-    optionsListArea.appendChild(newLabel);
+    optionsListRegion.appendChild(newLabel);
 
     // Add change event listener to update selectedAreas_Array
     areaInput.addEventListener("change", function () {
@@ -2722,7 +2722,7 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
       selectAllInput.checked = allChecked;
 
       // Log change
-      console.log("Area selection changed:", {
+      console.log("Region selection changed:", {
         area: areaString,
         selected: areaInput.checked,
         allAreas: Array.from(selectedAreas_Array),
