@@ -2601,7 +2601,7 @@ class ApiService {
   _updateClientSelection() {
     // Get current filter values
     const selectedTypes = Array.from(window.selectedTypes_Array || []);
-    const selectedAreas = Array.from(window.selectedAreas_Array || []);
+    const selectedRegions = Array.from(window.selectedRegions_Array || []);
     const minGiving = window.sliderValue || 0;
     const maxGiving = window.sliderValue2 || 25000;
     const minMission = window.missionValue || 0;
@@ -2621,9 +2621,9 @@ class ApiService {
       if (clientData) {
         // Simple matching logic as fallback
         const matches =
-          (selectedAreas.length === 0 ||
+          (selectedRegions.length === 0 ||
             clientData.areaQuery.some((area) =>
-              selectedAreas.includes(area)
+              selectedRegions.includes(area)
             )) &&
           (selectedTypes.length === 0 ||
             clientData.typeQuery.some((type) =>
@@ -3075,7 +3075,7 @@ function updateClientDropdownBasedOnFilters() {
 
   // Get current filter values - convert Sets to Arrays
   const selectedTypes = Array.from(window.selectedTypes_Array || []);
-  const selectedAreas = Array.from(window.selectedAreas_Array || []);
+  const selectedRegions = Array.from(window.selectedRegions_Array || []);
   const minGiving = window.sliderValue || 0;
   const maxGiving = window.sliderValue2 || 25000;
   const minMission = window.missionValue || 0;
@@ -3084,7 +3084,7 @@ function updateClientDropdownBasedOnFilters() {
   // Log what filters we're currently using
   console.log("Applying filters:", {
     types: selectedTypes,
-    areas: selectedAreas,
+    regions: selectedRegions,
     giving: [minGiving, maxGiving],
     mission: [minMission, maxMission],
   });
@@ -3116,14 +3116,14 @@ function updateClientDropdownBasedOnFilters() {
       clientData.missionUnit >= minMission &&
       clientData.missionUnit <= maxMission;
 
-    // Check for area match - handle empty array case
-    const areaMatch =
-      selectedAreas.length === 0 ||
-      selectedAreas.some(
-        (area) =>
+    // Check for region match - handle empty array case
+    const regionMatch =
+      selectedRegions.length === 0 ||
+      selectedRegions.some(
+        (region) =>
           clientData.areaQuery &&
           Array.isArray(clientData.areaQuery) &&
-          clientData.areaQuery.includes(area)
+          clientData.areaQuery.includes(region)
       );
 
     // Check for type match - handle empty array case
@@ -3137,7 +3137,7 @@ function updateClientDropdownBasedOnFilters() {
       );
 
     // Combined match result
-    const matches = givingMatch && missionMatch && areaMatch && typeMatch;
+    const matches = givingMatch && missionMatch && regionMatch && typeMatch;
 
     if (matches) matchedCount++;
 

@@ -2580,68 +2580,90 @@ class ApiService {
 
   // Method to handle filter changes
   _handleFiltersChanged() {
-    if (!window.clientDataStore) {
-      console.warn("Client data store not available yet");
-      return;
-    }
+    if (!window.clientDataStore) return;
 
-    console.log("Filter change detected. Updating client selection...");
-
-    // Call the function that updates client checkboxes based on current filters
-    if (typeof updateClientDropdownBasedOnFilters === "function") {
-      updateClientDropdownBasedOnFilters();
-    } else {
-      console.error("updateClientDropdownBasedOnFilters function not found");
-      // Fall back to older implementation
-      this._updateClientSelection();
-    }
-  }
-
-  // Add a fallback method
-  _updateClientSelection() {
     // Get current filter values
     const selectedTypes = Array.from(window.selectedTypes_Array || []);
     const selectedAreas = Array.from(window.selectedAreas_Array || []);
-    const minGiving = window.sliderValue || 0;
-    const maxGiving = window.sliderValue2 || 25000;
-    const minMission = window.missionValue || 0;
-    const maxMission = window.missionValue2 || 10000;
+    const minGivingUnits = window.sliderValue || 0;
+    const maxGivingUnits = window.sliderValue2 || 25000;
+    const minMissionUnits = window.missionValue || 0;
+    const maxMissionUnits = window.missionValue2 || 25000;
 
-    // Update client checkboxes based on filters
+    // Checkbox elements in the client list
     const clientCheckboxes = document.querySelectorAll(
       '#options-list-client input[type="checkbox"]'
     );
+    if (!clientCheckboxes.length) return;
 
-    // Process each client (skip the "select all" checkbox)
-    for (let i = 1; i < clientCheckboxes.length; i++) {
-      const checkbox = clientCheckboxes[i];
+    // Update the select all checkbox
+    const selectAllCheckbox = document.getElementById(
+      "select-all-checkbox-client"
+    );
+
+    // Process each client based on filters
+    clientCheckboxes.forEach((checkbox) => {
+      // Skip the "select all" checkbox
+      if (checkbox.id === "select-all-checkbox-client") return;
+
       const clientName = checkbox.value;
       const clientData = window.clientDataStore[clientName];
 
-      if (clientData) {
-        // Simple matching logic as fallback
-        const matches =
-          (selectedAreas.length === 0 ||
-            clientData.areaQuery.some((area) =>
-              selectedAreas.includes(area)
-            )) &&
-          (selectedTypes.length === 0 ||
-            clientData.typeQuery.some((type) =>
-              selectedTypes.includes(type)
-            )) &&
-          clientData.givingUnit >= minGiving &&
-          clientData.givingUnit <= maxGiving &&
-          clientData.missionUnit >= minMission &&
-          clientData.missionUnit <= maxMission;
+      if (!clientData) return;
 
-        checkbox.checked = matches;
+      // Check if client meets all filter criteria
+      const meetsMissionUnitCriteria =
+        clientData.missionUnit >= minMissionUnits &&
+        clientData.missionUnit <= maxMissionUnits;
 
-        if (matches) {
+      const meetsGivingUnitCriteria =
+        clientData.givingUnit >= minGivingUnits &&
+        clientData.givingUnit <= maxGivingUnits;
+
+      // Check if client has at least one of the selected areas
+      const meetsAreaCriteria =
+        selectedAreas.length === 0 ||
+        selectedAreas.some((area) => clientData.areaQuery.includes(area));
+
+      // Check if client has at least one of the selected types
+      const meetsTypeCriteria =
+        selectedTypes.length === 0 ||
+        selectedTypes.some((type) => clientData.typeQuery.includes(type));
+
+      // Update checkbox state based on all criteria
+      const shouldBeSelected =
+        meetsMissionUnitCriteria &&
+        meetsGivingUnitCriteria &&
+        meetsAreaCriteria &&
+        meetsTypeCriteria;
+
+      // Only change the checkbox if it doesn't match the desired state
+      if (checkbox.checked !== shouldBeSelected) {
+        checkbox.checked = shouldBeSelected;
+
+        // Update global selected clients set
+        if (shouldBeSelected) {
           window.selectedClients_Array.add(clientName);
         } else {
           window.selectedClients_Array.delete(clientName);
         }
       }
+    });
+
+    // Update the "select all" checkbox state
+    if (selectAllCheckbox) {
+      const allClientCheckboxes = Array.from(clientCheckboxes).filter(
+        (checkbox) => checkbox.id !== "select-all-checkbox-client"
+      );
+      const allChecked = allClientCheckboxes.every(
+        (checkbox) => checkbox.checked
+      );
+      const noneChecked = allClientCheckboxes.every(
+        (checkbox) => !checkbox.checked
+      );
+
+      selectAllCheckbox.checked = allChecked;
+      selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
     }
   }
 
@@ -3069,24 +3091,24 @@ ApiService.prototype.getRecordsForUniqueClientPeerNames = async function () {
 function updateClientDropdownBasedOnFilters() {
   // Ensure client data store exists
   if (!window.clientDataStore) {
-    console.warn("Client data store not initialized");
+    console.warn('Client data store not initialized');
     return;
   }
 
   // Get current filter values - convert Sets to Arrays
   const selectedTypes = Array.from(window.selectedTypes_Array || []);
-  const selectedAreas = Array.from(window.selectedAreas_Array || []);
+  const selectedRegions = Array.from(window.selectedRegions_Array || []);
   const minGiving = window.sliderValue || 0;
   const maxGiving = window.sliderValue2 || 25000;
   const minMission = window.missionValue || 0;
   const maxMission = window.missionValue2 || 10000;
 
   // Log what filters we're currently using
-  console.log("Applying filters:", {
+  console.log('Applying filters:', {
     types: selectedTypes,
-    areas: selectedAreas,
+    regions: selectedRegions,
     giving: [minGiving, maxGiving],
-    mission: [minMission, maxMission],
+    mission: [minMission, maxMission]
   });
 
   // Count matches for debugging
@@ -3110,41 +3132,34 @@ function updateClientDropdownBasedOnFilters() {
     }
 
     // Check each filter individually for better debugging
-    const givingMatch =
-      clientData.givingUnit >= minGiving && clientData.givingUnit <= maxGiving;
-    const missionMatch =
-      clientData.missionUnit >= minMission &&
-      clientData.missionUnit <= maxMission;
-
-    // Check for area match - handle empty array case
-    const areaMatch =
-      selectedAreas.length === 0 ||
-      selectedAreas.some(
-        (area) =>
-          clientData.areaQuery &&
-          Array.isArray(clientData.areaQuery) &&
-          clientData.areaQuery.includes(area)
+    const givingMatch = clientData.givingUnit >= minGiving && clientData.givingUnit <= maxGiving;
+    const missionMatch = clientData.missionUnit >= minMission && clientData.missionUnit <= maxMission;
+    
+    // Check for region match - handle empty array case
+    const regionMatch = selectedRegions.length === 0 || 
+      selectedRegions.some(region => 
+        clientData.areaQuery && 
+        Array.isArray(clientData.areaQuery) && 
+        clientData.areaQuery.includes(region)
       );
-
+    
     // Check for type match - handle empty array case
-    const typeMatch =
-      selectedTypes.length === 0 ||
-      selectedTypes.some(
-        (type) =>
-          clientData.typeQuery &&
-          Array.isArray(clientData.typeQuery) &&
-          clientData.typeQuery.includes(type)
+    const typeMatch = selectedTypes.length === 0 || 
+      selectedTypes.some(type => 
+        clientData.typeQuery && 
+        Array.isArray(clientData.typeQuery) && 
+        clientData.typeQuery.includes(type)
       );
 
     // Combined match result
-    const matches = givingMatch && missionMatch && areaMatch && typeMatch;
+    const matches = givingMatch && missionMatch && regionMatch && typeMatch;
 
     if (matches) matchedCount++;
 
     // Only update if checkbox state would change
     if (checkbox.checked !== matches) {
       checkbox.checked = matches;
-
+      
       // Update the selected clients array
       if (matches) {
         window.selectedClients_Array.add(clientName);
@@ -3154,26 +3169,18 @@ function updateClientDropdownBasedOnFilters() {
     }
   }
 
-  console.log(
-    `Filter results: ${matchedCount}/${totalClients} clients matched`
-  );
+  console.log(`Filter results: ${matchedCount}/${totalClients} clients matched`);
 
   // Update "Select All" checkbox state
-  const selectAllCheckbox = document.getElementById(
-    "select-all-checkbox-client"
-  );
+  const selectAllCheckbox = document.getElementById("select-all-checkbox-client");
   if (selectAllCheckbox) {
     const clientOnlyCheckboxes = Array.from(clientCheckboxes).filter(
-      (checkbox) => checkbox.id !== "select-all-checkbox-client"
+      checkbox => checkbox.id !== "select-all-checkbox-client"
     );
-
-    const allChecked = clientOnlyCheckboxes.every(
-      (checkbox) => checkbox.checked
-    );
-    const noneChecked = clientOnlyCheckboxes.every(
-      (checkbox) => !checkbox.checked
-    );
-
+    
+    const allChecked = clientOnlyCheckboxes.every(checkbox => checkbox.checked);
+    const noneChecked = clientOnlyCheckboxes.every(checkbox => !checkbox.checked);
+    
     selectAllCheckbox.checked = allChecked;
     selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
   }
@@ -3219,7 +3226,7 @@ function restoreInitialClientSelection() {
 }
 
 // Add event listener for filters changed
-document.addEventListener("filtersChanged", updateClientDropdownBasedOnFilters);
+document.addEventListener('filtersChanged', updateClientDropdownBasedOnFilters);
 
 // Add event listener for client data loaded to restore initial selection
 document.addEventListener("clientDataLoaded", restoreInitialClientSelection);

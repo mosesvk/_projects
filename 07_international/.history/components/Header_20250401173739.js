@@ -1,5 +1,5 @@
 // At the top of Header.js - initialize global Sets if they don't exist
-window.selectedAreas_Array = window.selectedAreas_Array || new Set();
+window.selectedRegions_Array = window.selectedRegions_Array || new Set();
 window.selectedTypes_Array = window.selectedTypes_Array || new Set();
 window.selectedClients_Array = window.selectedClients_Array || new Set();
 
@@ -24,7 +24,7 @@ function setupDropdownToggle(selectElementId, optionsListId) {
   function closeOtherDropdowns(currentOptionsListId) {
     const dropdownConfigs = [
       { selectId: "custom-select", optionsId: "options-list" },
-      { selectId: "custom-select-area", optionsId: "options-list-area" },
+      { selectId: "custom-select-region", optionsId: "options-list-region" },
       { selectId: "custom-select-type", optionsId: "options-list-type" },
       { selectId: "custom-select-client", optionsId: "options-list-client" },
     ];
@@ -84,7 +84,7 @@ function setupDropdownToggle(selectElementId, optionsListId) {
 function clientMatchesFilters(
   clientData,
   selectedTypes,
-  selectedAreas,
+  selectedRegions,
   minGiving,
   maxGiving,
   minMission,
@@ -102,12 +102,12 @@ function clientMatchesFilters(
     clientData.missionUnit >= minMission &&
     clientData.missionUnit <= maxMission;
 
-  // Check area match (if any areas selected)
-  const areaMatch =
-    selectedAreas.length === 0 ||
+  // Check region match (if any regions selected)
+  const regionMatch =
+    selectedRegions.length === 0 ||
     (clientData.areaQuery && 
      Array.isArray(clientData.areaQuery) && 
-     selectedAreas.some(area => clientData.areaQuery.includes(area)));
+     selectedRegions.some(region => clientData.areaQuery.includes(region)));
 
   // Check type match (if any types selected)
   const typeMatch =
@@ -117,7 +117,7 @@ function clientMatchesFilters(
      selectedTypes.some(type => clientData.typeQuery.includes(type)));
 
   // Return true only if all conditions are met
-  return givingUnitMatch && missionUnitMatch && areaMatch && typeMatch;
+  return givingUnitMatch && missionUnitMatch && regionMatch && typeMatch;
 }
 
 // Function to update client dropdown based on filters - enhanced version
@@ -130,7 +130,7 @@ function updateClientDropdownBasedOnFilters() {
 
   // Get current filter values - convert Sets to Arrays
   const selectedTypes = Array.from(window.selectedTypes_Array || []);
-  const selectedAreas = Array.from(window.selectedAreas_Array || []);
+  const selectedRegions = Array.from(window.selectedRegions_Array || []);
   const minGiving = window.sliderValue || 0;
   const maxGiving = window.sliderValue2 || 25000;
   const minMission = window.missionValue || 0;
@@ -139,7 +139,7 @@ function updateClientDropdownBasedOnFilters() {
   // Log what filters we're currently using
   console.log('Applying filters:', {
     types: selectedTypes,
-    areas: selectedAreas,
+    regions: selectedRegions,
     giving: [minGiving, maxGiving],
     mission: [minMission, maxMission]
   });
@@ -168,11 +168,11 @@ function updateClientDropdownBasedOnFilters() {
     const givingMatch = clientData.givingUnit >= minGiving && clientData.givingUnit <= maxGiving;
     const missionMatch = clientData.missionUnit >= minMission && clientData.missionUnit <= maxMission;
     
-    // Check for area match - handle empty array case
-    const areaMatch = selectedAreas.length === 0 || 
+    // Check for region match - handle empty array case
+    const regionMatch = selectedRegions.length === 0 || 
       (clientData.areaQuery && 
        Array.isArray(clientData.areaQuery) && 
-       selectedAreas.some(area => clientData.areaQuery.includes(area)));
+       selectedRegions.some(region => clientData.areaQuery.includes(region)));
     
     // Check for type match - handle empty array case
     const typeMatch = selectedTypes.length === 0 || 
@@ -181,7 +181,7 @@ function updateClientDropdownBasedOnFilters() {
        selectedTypes.some(type => clientData.typeQuery.includes(type)));
 
     // Combined match result
-    const matches = givingMatch && missionMatch && areaMatch && typeMatch;
+    const matches = givingMatch && missionMatch && regionMatch && typeMatch;
 
     if (matches) matchedCount++;
 
@@ -444,7 +444,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Dropdown configurations
   const dropdownConfigs = [
     { selectId: "custom-select", optionsId: "options-list" },
-    { selectId: "custom-select-area", optionsId: "options-list-area" },
+    { selectId: "custom-select-region", optionsId: "options-list-region" },
     { selectId: "custom-select-type", optionsId: "options-list-type" },
     { selectId: "custom-select-client", optionsId: "options-list-client" },
   ];
@@ -455,19 +455,19 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   function initializeFilterTriggers() {
-    // Track changes to area selections
-    const areaCheckboxes = document.querySelectorAll(
-      "#options-list-area input[type='checkbox']"
+    // Track changes to region selections
+    const regionCheckboxes = document.querySelectorAll(
+      "#options-list-region input[type='checkbox']"
     );
-    areaCheckboxes.forEach((checkbox) => {
+    regionCheckboxes.forEach((checkbox) => {
       checkbox.addEventListener("change", function() {
-        const areaValue = this.value;
+        const regionValue = this.value;
         if (this.checked) {
-          window.selectedAreas_Array.add(areaValue);
+          window.selectedRegions_Array.add(regionValue);
         } else {
-          window.selectedAreas_Array.delete(areaValue);
+          window.selectedRegions_Array.delete(regionValue);
         }
-        console.log(`Area ${areaValue} ${this.checked ? 'selected' : 'deselected'}`);
+        console.log(`Region ${regionValue} ${this.checked ? 'selected' : 'deselected'}`);
         triggerFiltersChanged();
       });
     });
@@ -490,22 +490,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Handle "Select All" checkboxes separately
-    const selectAllArea = document.getElementById("select-all-checkbox");
-    if (selectAllArea) {
-      selectAllArea.addEventListener("change", function() {
+    const selectAllRegion = document.getElementById("select-all-checkbox");
+    if (selectAllRegion) {
+      selectAllRegion.addEventListener("change", function() {
         const isChecked = this.checked;
-        areaCheckboxes.forEach((checkbox) => {
+        regionCheckboxes.forEach((checkbox) => {
           if (checkbox.id !== "select-all-checkbox") {
             checkbox.checked = isChecked;
-            const areaValue = checkbox.value;
+            const regionValue = checkbox.value;
             if (isChecked) {
-              window.selectedAreas_Array.add(areaValue);
+              window.selectedRegions_Array.add(regionValue);
             } else {
-              window.selectedAreas_Array.delete(areaValue);
+              window.selectedRegions_Array.delete(regionValue);
             }
           }
         });
-        console.log(`All areas ${isChecked ? 'selected' : 'deselected'}`);
+        console.log(`All regions ${isChecked ? 'selected' : 'deselected'}`);
         triggerFiltersChanged();
       });
     }
@@ -541,13 +541,13 @@ document.addEventListener("DOMContentLoaded", function () {
       sliderValue2: window.sliderValue2,
       missionValue: window.missionValue,
       missionValue2: window.missionValue2,
-      selectedAreas: {
-        set: window.selectedAreas_Array,
-        size: window.selectedAreas_Array
-          ? window.selectedAreas_Array.size
+      selectedRegions: {
+        set: window.selectedRegions_Array,
+        size: window.selectedRegions_Array
+          ? window.selectedRegions_Array.size
           : "N/A",
-        array: window.selectedAreas_Array
-          ? Array.from(window.selectedAreas_Array)
+        array: window.selectedRegions_Array
+          ? Array.from(window.selectedRegions_Array)
           : [],
       },
       selectedTypes: {
