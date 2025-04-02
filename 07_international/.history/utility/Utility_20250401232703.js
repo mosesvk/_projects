@@ -1488,6 +1488,7 @@ function updateSelectAllCheckboxState() {
   selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
 }
 
+
 function addPeerDataToModalRow(
   yearRow,
   avgValue,

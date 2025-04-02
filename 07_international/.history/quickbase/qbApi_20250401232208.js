@@ -3104,6 +3104,9 @@ function restoreInitialClientSelection() {
   }
 }
 
+// Add event listener for filters changed
+document.addEventListener("filtersChanged", updateClientDropdownBasedOnFilters);
+
 // Add event listener for client data loaded to restore initial selection
 document.addEventListener("clientDataLoaded", restoreInitialClientSelection);
 
