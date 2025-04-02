@@ -1475,11 +1475,35 @@ function clientMatchesFilters(
 ) {
   if (!clientData) return false;
 
-  // CRITICAL FIX: If no types or areas selected, no clients should match
+  // If no types or areas selected, no clients should match
   if (selectedTypes.length === 0 || selectedAreas.length === 0) {
-    return false;
-  }
+    console.log("No types or areas selected - clearing all client selections");
 
+    // Clear the global selection set
+    window.selectedClients_Array.clear();
+
+    // Uncheck all client checkboxes (except the "select all" checkbox)
+    const clientCheckboxes = document.querySelectorAll(
+      '#options-list-client input[type="checkbox"]'
+    );
+
+    clientCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-client") {
+        checkbox.checked = false;
+      }
+    });
+
+    // Update "Select All" checkbox state
+    const selectAllCheckbox = document.getElementById(
+      "select-all-checkbox-client"
+    );
+    if (selectAllCheckbox) {
+      selectAllCheckbox.checked = false;
+      selectAllCheckbox.indeterminate = false;
+    }
+
+    return;
+  }
   // Check giving unit range
   const givingUnitMatch =
     clientData.givingUnit >= minGiving && clientData.givingUnit <= maxGiving;
@@ -1489,16 +1513,24 @@ function clientMatchesFilters(
     clientData.missionUnit >= minMission &&
     clientData.missionUnit <= maxMission;
 
-  // Check area match (modified to remove empty array fallback)
-  const areaMatch =
-    clientData.areaQuery &&
-    Array.isArray(clientData.areaQuery) &&
-    selectedAreas.some((area) => clientData.areaQuery.includes(area));
+  // Check if client has at least one selected area
+  // Convert area codes to area names for comparison
+  const Match =
+    selectedAreas.length === 0 ||
+    clientData.areaQuery.some((areaName) => {
+      // Find if any selected area code maps to this area name
+      return selectedAreas.some((areaCode) => {
+        // Find the area mapping object
+        const areaObj = areas_Array.find((r) => r.str === areaCode);
+        // Check if this area object's array contains the area name
+        return areaObj && areaObj.arr.includes(areaName);
+      });
+    });
 
-  // Check type match (modified to remove empty array fallback)
+  // Check if client has at least one selected type
+  // Types are already stored as full names in both arrays
   const typeMatch =
-    clientData.typeQuery &&
-    Array.isArray(clientData.typeQuery) &&
+    selectedTypes.length === 0 ||
     selectedTypes.some((type) => clientData.typeQuery.includes(type));
 
   return givingUnitMatch && missionUnitMatch && areaMatch && typeMatch;
@@ -1506,8 +1538,6 @@ function clientMatchesFilters(
 
 // Function to update client selection based on filters
 function updateClientSelectionBasedOnFilters() {
-  console.log("*** Utility.js updateClientSelectionBasedOnFilters called ***");
-
   // Ensure client data store exists
   if (!window.clientDataStore) {
     console.warn("Client data store not initialized");

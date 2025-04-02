@@ -8,14 +8,6 @@ window.sliderValue2 = 25000;
 window.missionValue = 0;
 window.missionValue2 = 10000;
 
-const originalAddEventListener = document.addEventListener;
-document.addEventListener = function(type, listener, options) {
-  if (type === 'filtersChanged') {
-    console.log('Added filtersChanged listener at:', new Error().stack.split('\n')[2]);
-  }
-  return originalAddEventListener.call(this, type, listener, options);
-};
-
 // Centralized dropdown toggle function
 function setupDropdownToggle(selectElementId, optionsListId) {
   const selectElement = document.getElementById(selectElementId);
@@ -100,7 +92,7 @@ function clientMatchesFilters(
 ) {
   // If no client data, return false
   if (!clientData) return false;
-
+  
   // *** THE KEY CHANGE: If no types or areas selected, return false immediately ***
   if (selectedTypes.length === 0 || selectedAreas.length === 0) {
     return false;
@@ -117,15 +109,15 @@ function clientMatchesFilters(
 
   // Check area match - modified to remove the empty array case
   const areaMatch =
-    clientData.areaQuery &&
-    Array.isArray(clientData.areaQuery) &&
-    selectedAreas.some((area) => clientData.areaQuery.includes(area));
+    clientData.areaQuery && 
+    Array.isArray(clientData.areaQuery) && 
+    selectedAreas.some(area => clientData.areaQuery.includes(area));
 
   // Check type match - modified to remove the empty array case
   const typeMatch =
-    clientData.typeQuery &&
-    Array.isArray(clientData.typeQuery) &&
-    selectedTypes.some((type) => clientData.typeQuery.includes(type));
+    clientData.typeQuery && 
+    Array.isArray(clientData.typeQuery) && 
+    selectedTypes.some(type => clientData.typeQuery.includes(type));
 
   // Return true only if all conditions are met
   return givingUnitMatch && missionUnitMatch && areaMatch && typeMatch;
@@ -133,7 +125,7 @@ function clientMatchesFilters(
 
 // Function to update client dropdown based on filters - enhanced version
 function updateClientDropdownBasedOnFilters() {
-  console.log("*** Header.js updateClientDropdownBasedOnFilters called ***");
+  console.log('*** Header.js updateClientDropdownBasedOnFilters called ***');
 
   // Ensure client data store exists
   if (!window.clientDataStore) {
@@ -150,16 +142,16 @@ function updateClientDropdownBasedOnFilters() {
   const maxMission = window.missionValue2 || 10000;
 
   // Log what filters we're currently using
-  console.log("Applying filters:", {
-    types: selectedTypes,
-    areas: selectedAreas,
-    giving: [minGiving, maxGiving],
-    mission: [minMission, maxMission],
-  });
+  // console.log("Applying filters:", {
+  //   types: selectedTypes,
+  //   areas: selectedAreas,
+  //   giving: [minGiving, maxGiving],
+  //   mission: [minMission, maxMission],
+  // });
 
-  // CRITICAL FIX: If no types or areas selected, clear all selections
+  // *** THE KEY CHANGE: If no types or areas selected, clear all selections ***
   if (selectedTypes.length === 0 || selectedAreas.length === 0) {
-    console.log("No types or areas selected - clearing all client selections");
+    // console.log("No types or areas selected - clearing all client selections");
 
     // Clear the global selection set
     window.selectedClients_Array.clear();
@@ -168,7 +160,6 @@ function updateClientDropdownBasedOnFilters() {
     const clientCheckboxes = document.querySelectorAll(
       '#options-list-client input[type="checkbox"]'
     );
-
     clientCheckboxes.forEach((checkbox) => {
       if (checkbox.id !== "select-all-checkbox-client") {
         checkbox.checked = false;
@@ -176,16 +167,10 @@ function updateClientDropdownBasedOnFilters() {
     });
 
     // Update "Select All" checkbox state
-    const selectAllCheckbox = document.getElementById(
-      "select-all-checkbox-client"
-    );
-    if (selectAllCheckbox) {
-      selectAllCheckbox.checked = false;
-      selectAllCheckbox.indeterminate = false;
-    }
-
+    updateSelectAllClientCheckboxState();
     return;
   }
+
   // Count matches for debugging
   let matchedCount = 0;
   let totalClients = Object.keys(window.clientDataStore).length;
@@ -596,45 +581,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Log filter state when changes occur
   document.addEventListener("filtersChanged", function () {
-    const selectedTypes = window.selectedTypes_Array
-      ? Array.from(window.selectedTypes_Array)
-      : [];
-    const selectedAreas = window.selectedAreas_Array
-      ? Array.from(window.selectedAreas_Array)
-      : [];
-
-    // If either types or areas are empty, forcibly clear client selections
-    if (selectedTypes.length === 0 || selectedAreas.length === 0) {
-      console.log(
-        "Forcibly clearing client selections due to empty filter set"
-      );
-
-      // Clear the global selection set
-      if (window.selectedClients_Array) {
-        window.selectedClients_Array.clear();
-      }
-
-      // Uncheck all client checkboxes (except the "select all" checkbox)
-      const clientCheckboxes = document.querySelectorAll(
-        '#options-list-client input[type="checkbox"]'
-      );
-
-      clientCheckboxes.forEach((checkbox) => {
-        if (checkbox.id !== "select-all-checkbox-client") {
-          checkbox.checked = false;
-        }
-      });
-
-      // Update "Select All" checkbox state
-      const selectAllCheckbox = document.getElementById(
-        "select-all-checkbox-client"
-      );
-      if (selectAllCheckbox) {
-        selectAllCheckbox.checked = false;
-        selectAllCheckbox.indeterminate = false;
-      }
-    }
-
     console.log("Global Variables State:", {
       sliderValue: window.sliderValue,
       sliderValue2: window.sliderValue2,

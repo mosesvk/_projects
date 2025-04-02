@@ -21,7 +21,7 @@ const areas_Array = [
     arr: ["Unspecified"],
     str: "Unspecified",
   },
-];
+]
 const map_dataUri = new Map();
 const dataUrLObj = new Object();
 
@@ -1464,50 +1464,9 @@ function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
   return cell;
 }
 
-function clientMatchesFilters(
-  clientData,
-  selectedTypes,
-  selectedAreas,
-  minGiving,
-  maxGiving,
-  minMission,
-  maxMission
-) {
-  if (!clientData) return false;
-
-  // CRITICAL FIX: If no types or areas selected, no clients should match
-  if (selectedTypes.length === 0 || selectedAreas.length === 0) {
-    return false;
-  }
-
-  // Check giving unit range
-  const givingUnitMatch =
-    clientData.givingUnit >= minGiving && clientData.givingUnit <= maxGiving;
-
-  // Check mission unit range
-  const missionUnitMatch =
-    clientData.missionUnit >= minMission &&
-    clientData.missionUnit <= maxMission;
-
-  // Check area match (modified to remove empty array fallback)
-  const areaMatch =
-    clientData.areaQuery &&
-    Array.isArray(clientData.areaQuery) &&
-    selectedAreas.some((area) => clientData.areaQuery.includes(area));
-
-  // Check type match (modified to remove empty array fallback)
-  const typeMatch =
-    clientData.typeQuery &&
-    Array.isArray(clientData.typeQuery) &&
-    selectedTypes.some((type) => clientData.typeQuery.includes(type));
-
-  return givingUnitMatch && missionUnitMatch && areaMatch && typeMatch;
-}
-
+clientMatchesFilters
 // Function to update client selection based on filters
 function updateClientSelectionBasedOnFilters() {
-  console.log("*** Utility.js updateClientSelectionBasedOnFilters called ***");
-
   // Ensure client data store exists
   if (!window.clientDataStore) {
     console.warn("Client data store not initialized");

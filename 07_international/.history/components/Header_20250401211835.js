@@ -8,14 +8,6 @@ window.sliderValue2 = 25000;
 window.missionValue = 0;
 window.missionValue2 = 10000;
 
-const originalAddEventListener = document.addEventListener;
-document.addEventListener = function(type, listener, options) {
-  if (type === 'filtersChanged') {
-    console.log('Added filtersChanged listener at:', new Error().stack.split('\n')[2]);
-  }
-  return originalAddEventListener.call(this, type, listener, options);
-};
-
 // Centralized dropdown toggle function
 function setupDropdownToggle(selectElementId, optionsListId) {
   const selectElement = document.getElementById(selectElementId);
