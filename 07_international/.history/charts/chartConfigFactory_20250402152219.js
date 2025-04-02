@@ -1394,7 +1394,7 @@ class ChartConfigFactory {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: "60%", // Reduced column width to allow more space between bars
+          columnWidth: "40%", // Reduced column width to allow more space between bars
           barHeight: "80%",
           dataLabels: {
             position: "top",

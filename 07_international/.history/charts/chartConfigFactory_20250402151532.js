@@ -1311,7 +1311,7 @@ class ChartConfigFactory {
     parsedData,
   }) {
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  
+
     // Extract net assets without donor restrictions data
     const netAssetsWithoutDRData = [];
     selectedYearsArray.forEach((year) => {
@@ -1329,7 +1329,7 @@ class ChartConfigFactory {
         netAssetsWithoutDRData.push(0);
       }
     });
-  
+
     // Extract net assets with donor restrictions data
     const netAssetsWithDRData = [];
     selectedYearsArray.forEach((year) => {
@@ -1347,12 +1347,12 @@ class ChartConfigFactory {
         netAssetsWithDRData.push(0);
       }
     });
-  
+
     // Calculate total net assets for percentage calculation
     const totalNetAssets = netAssetsWithoutDRData.map(
       (val, idx) => val + (netAssetsWithDRData[idx] || 0)
     );
-  
+
     // Format numbers for display
     const formatLargeNumber = (value) => {
       if (!value && value !== 0) return "$0";
@@ -1363,15 +1363,18 @@ class ChartConfigFactory {
       }
       return `${value.toFixed(0)}`;
     };
-  
+
     const formatters = this._createFormatters(numType);
-  
+
     // Define series colors
     const seriesColors = [
       window.chartColors.blue, // Without donor restrictions
       window.chartColors.green, // With donor restrictions
     ];
-  
+
+    // console.log('!!!!!!', {netAssetsWithDRData, netAssetsWithoutDRData});
+    
+
     return {
       colors: seriesColors,
       series: [
@@ -1386,7 +1389,7 @@ class ChartConfigFactory {
       ],
       chart: {
         height: 350,
-        type: "bar",
+        type: "bar", // Changed to bar type
         toolbar: {
           show: false,
         },
@@ -1394,54 +1397,32 @@ class ChartConfigFactory {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: "60%", // Reduced column width to allow more space between bars
-          barHeight: "80%",
+          columnWidth: "55%", // Slightly wider columns
+          endingShape: "rounded",
           dataLabels: {
             position: "top",
           },
-          // Ensure bars are grouped with space between them
-          endingShape: "rounded",
-          borderRadius: 2,
-        },
-      },
-      states: {
-        hover: {
-          filter: {
-            type: 'lighten',
-            value: 0.1,
-          }
+          // Enable grouped bars (not stacked)
+          distributed: false,
         },
       },
       dataLabels: {
         enabled: true,
-        offsetY: -20,
         formatter: formatLargeNumber,
         style: {
-          fontSize: "14px",
+          fontSize: "12px", // Smaller font for easier readability
           fontFamily: "Helvetica, Arial, sans-serif",
           fontWeight: "bold",
-          colors: seriesColors,
         },
         background: {
+          enabled: true,
           padding: 4,
           borderRadius: 2,
           borderWidth: 1,
           borderColor: "#ffffff",
-          opacity: 0.7,
-          dropShadow: {
-            enabled: false,
-            top: 1,
-            left: 1,
-            blur: 1,
-            color: "#000",
-            opacity: 0.45,
-          },
+          opacity: 0.9,
         },
-      },
-      stroke: {
-        show: true,
-        width: 1,
-        colors: ['#fff'], // White borders between bars for better separation
+        offsetY: -20,
       },
       xaxis: {
         categories: selectedYearsArray,
@@ -1453,6 +1434,7 @@ class ChartConfigFactory {
         },
       },
       yaxis: {
+        max: maxValue, // Dynamic max value
         labels: {
           formatter: formatters.yaxisLabelFormatter,
           style: {
@@ -1462,6 +1444,8 @@ class ChartConfigFactory {
         },
       },
       tooltip: {
+        shared: true,
+        intersect: false,
         y: {
           formatter: function (value) {
             return `${formatLargeNumber(value)}`;
@@ -1474,10 +1458,36 @@ class ChartConfigFactory {
         fontSize: "20px",
       },
       grid: {
+        borderColor: this.themeColors.chartColors.borderColor,
+        row: {
+          colors: ["transparent"],
+          opacity: 0.5,
+        },
         padding: {
           top: 5,
           right: 5,
           left: 5,
+        },
+      },
+      // Ensure bars are grouped side by side
+      states: {
+        normal: {
+          filter: {
+            type: 'none',
+          }
+        },
+        hover: {
+          filter: {
+            type: 'lighten',
+            value: 0.1,
+          }
+        },
+        active: {
+          allowMultipleDataPointsSelection: false,
+          filter: {
+            type: 'darken',
+            value: 0.5,
+          }
         },
       },
     };

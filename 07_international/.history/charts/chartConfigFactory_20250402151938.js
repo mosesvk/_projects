@@ -1394,7 +1394,7 @@ class ChartConfigFactory {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: "60%", // Reduced column width to allow more space between bars
+          columnWidth: "40%", // Reduced column width to allow more space between bars
           barHeight: "80%",
           dataLabels: {
             position: "top",
@@ -1414,29 +1414,33 @@ class ChartConfigFactory {
       },
       dataLabels: {
         enabled: true,
-        offsetY: -20,
         formatter: formatLargeNumber,
+        offsetY: -20,
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
           fontWeight: "bold",
+          // Each data label matches its series color
           colors: seriesColors,
         },
         background: {
-          padding: 4,
+          enabled: true,
+          foreColor: "#ffffff", // White text for better contrast
           borderRadius: 2,
+          padding: 4,
+          opacity: 0.9,
           borderWidth: 1,
           borderColor: "#ffffff",
-          opacity: 0.7,
           dropShadow: {
-            enabled: false,
+            enabled: true,
             top: 1,
             left: 1,
             blur: 1,
             color: "#000",
-            opacity: 0.45,
+            opacity: 0.2,
           },
         },
+        distributed: true, // Ensure each label uses its series color
       },
       stroke: {
         show: true,

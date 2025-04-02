@@ -1311,7 +1311,7 @@ class ChartConfigFactory {
     parsedData,
   }) {
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  
+
     // Extract net assets without donor restrictions data
     const netAssetsWithoutDRData = [];
     selectedYearsArray.forEach((year) => {
@@ -1329,7 +1329,7 @@ class ChartConfigFactory {
         netAssetsWithoutDRData.push(0);
       }
     });
-  
+
     // Extract net assets with donor restrictions data
     const netAssetsWithDRData = [];
     selectedYearsArray.forEach((year) => {
@@ -1347,12 +1347,12 @@ class ChartConfigFactory {
         netAssetsWithDRData.push(0);
       }
     });
-  
+
     // Calculate total net assets for percentage calculation
     const totalNetAssets = netAssetsWithoutDRData.map(
       (val, idx) => val + (netAssetsWithDRData[idx] || 0)
     );
-  
+
     // Format numbers for display
     const formatLargeNumber = (value) => {
       if (!value && value !== 0) return "$0";
@@ -1363,53 +1363,37 @@ class ChartConfigFactory {
       }
       return `${value.toFixed(0)}`;
     };
-  
+
     const formatters = this._createFormatters(numType);
-  
+
     // Define series colors
     const seriesColors = [
       window.chartColors.blue, // Without donor restrictions
       window.chartColors.green, // With donor restrictions
     ];
-  
+
+    // console.log('!!!!!!', {netAssetsWithDRData, netAssetsWithoutDRData});
+    
+
     return {
       colors: seriesColors,
       series: [
         {
           name: "Without Donor Restrictions",
+          type: "line", // Explicitly define type for each series
           data: netAssetsWithoutDRData,
         },
         {
           name: "With Donor Restrictions",
+          type: "line", // Explicitly define type for each series
           data: netAssetsWithDRData,
         },
       ],
       chart: {
         height: 350,
-        type: "bar",
+        type: "line", // Main chart type
         toolbar: {
           show: false,
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: "60%", // Reduced column width to allow more space between bars
-          barHeight: "80%",
-          dataLabels: {
-            position: "top",
-          },
-          // Ensure bars are grouped with space between them
-          endingShape: "rounded",
-          borderRadius: 2,
-        },
-      },
-      states: {
-        hover: {
-          filter: {
-            type: 'lighten',
-            value: 0.1,
-          }
         },
       },
       dataLabels: {
@@ -1420,28 +1404,29 @@ class ChartConfigFactory {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
           fontWeight: "bold",
-          colors: seriesColors,
+          colors: ["#000000"], // Use black color for all data labels for better visibility
         },
         background: {
+          enabled: true,
           padding: 4,
           borderRadius: 2,
           borderWidth: 1,
           borderColor: "#ffffff",
           opacity: 0.7,
-          dropShadow: {
-            enabled: false,
-            top: 1,
-            left: 1,
-            blur: 1,
-            color: "#000",
-            opacity: 0.45,
-          },
         },
       },
       stroke: {
-        show: true,
-        width: 1,
-        colors: ['#fff'], // White borders between bars for better separation
+        width: [3, 3], // Increased line width for better visibility
+        curve: "smooth", // Make lines smooth
+        colors: seriesColors, // Use the defined colors for lines
+      },
+      markers: {
+        size: 4, // Add markers to make lines more visible
+        colors: seriesColors,
+        strokeWidth: 2,
+        hover: {
+          size: 6,
+        },
       },
       xaxis: {
         categories: selectedYearsArray,
@@ -1462,6 +1447,8 @@ class ChartConfigFactory {
         },
       },
       tooltip: {
+        shared: true,
+        intersect: false,
         y: {
           formatter: function (value) {
             return `${formatLargeNumber(value)}`;
@@ -1474,12 +1461,27 @@ class ChartConfigFactory {
         fontSize: "20px",
       },
       grid: {
+        borderColor: this.themeColors.chartColors.borderColor,
+        row: {
+          colors: ["transparent"],
+          opacity: 0.5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
         padding: {
           top: 5,
           right: 5,
           left: 5,
         },
-      },
+      }
     };
   }
 
