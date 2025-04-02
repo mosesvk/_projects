@@ -3383,52 +3383,38 @@ document.addEventListener("clientDataLoaded", function (event) {
   );
 });
 
-/**
- * Counts and displays the number of unique clients in filtered records
- * @param {NodeList} records - The filtered client records
- */
+// Utility to count unique clients in the records
 function countUniqueClients(records) {
-  // Check if records is valid and has a forEach method
-  if (!records || typeof records.forEach !== 'function') {
-    console.error("Invalid records provided to countUniqueClients:", records);
-    document.getElementById("uniqueClients").textContent = "0";
-    return;
-  }
-
-  // Get the current filter state
-  const selectedClients = window.selectedClients_Array 
-    ? Array.from(window.selectedClients_Array) 
-    : [];
-  
-  // Use a Set to track unique client names
   const uniqueClients = new Set();
-  
   try {
-    records.forEach((record) => {
-      const clientName = record.querySelector("pe___client_informal_name")?.textContent;
-      
-      // Only count clients that are in the selectedClients_Array
-      if (clientName && selectedClients.includes(clientName)) {
-        uniqueClients.add(clientName);
-      }
-    });
-
-    // Update the UI with the count
-    const count = uniqueClients.size;
-    const element = document.getElementById("uniqueClients");
-    if (element) {
-      element.textContent = count;
-    } else {
-      console.warn("Element with ID 'uniqueClients' not found");
+    // Check if records is iterable
+    if (!records || typeof records[Symbol.iterator] !== "function") {
+      console.warn("Records is not iterable:", records);
+      document.getElementById("uniqueClients").textContent = "0";
+      return;
     }
-    
-    console.log(`Counted ${count} unique clients after filtering`);
+
+    // Process each record
+    for (const record of records) {
+      // Check if record is a DOM element with querySelector
+      if (record && typeof record.querySelector === "function") {
+        const mainRelatedClient = record.querySelector(
+          "pe___client_legal_name"
+        )?.textContent;
+        if (mainRelatedClient) {
+          uniqueClients.add(mainRelatedClient);
+        }
+      } else if (record && record["pe___client_legal_name"]) {
+        // Alternative format: record might be an object with direct properties
+        uniqueClients.add(record["pe___client_legal_name"]);
+      }
+    }
+
+    const count = uniqueClients.size;
+    document.getElementById("uniqueClients").textContent = count;
   } catch (error) {
     console.error("Error counting unique clients:", error);
-    const element = document.getElementById("uniqueClients");
-    if (element) {
-      element.textContent = "0";
-    }
+    document.getElementById("uniqueClients").textContent = "0"; // Set to 0 in case of error
   }
 }
 

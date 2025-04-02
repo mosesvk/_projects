@@ -2343,136 +2343,130 @@ class ApiService {
           console.warn("No records collected, returning empty array");
           return [];
         }
-        
+
         const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
+        const xmlDoc = parser.parseFromString(
+          dataStr + "</qdbapi>",
+          "text/xml"
+        );
         const records = xmlDoc.querySelectorAll("record");
-        console.log(`Parsed ${records.length} peer records from collected data`);
+        console.log(
+          `Parsed ${records.length} peer records from collected data`
+        );
         return records;
       } catch (error) {
         console.error("Error parsing XML in getRecordsForPeer:", error);
         return [];
       }
     }
-  
+
     const currentYear = years[0];
     console.log(`Fetching peer data for year: ${currentYear}`);
-  
+
     try {
       // Get selected clients with appropriate batching
       const clientQuery = this.getClientQuery(window.selectedClients_Array);
-      
+
       // Basic query condition with year
       const queryCondition = `{301.EX.${currentYear}} AND ${clientQuery}`;
-      console.log(`Using query condition: ${queryCondition}`);
-      
+      // console.log(`Using query condition: ${queryCondition}`);
+
       const apiCallPeerData = {
         act: "API_DoQuery",
         query: queryCondition,
-        clist: "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.228.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347.343.346.244.205.341.342.344.345.348.351.352.256.353.354.",
+        clist:
+          "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.228.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347.343.346.244.205.341.342.344.345.348.351.352.256.353.354.",
       };
-  
-      // Use await to make the async operation more explicit
+
       const xml = await $.get(peerData, apiCallPeerData);
       const recordsForPeer = $("record", xml).toArray();
-      console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);
-  
+      console.log(
+        `Received ${recordsForPeer.length} records for year ${currentYear}`
+      );
+
       // Collect records for later use
       if (recordsForPeer.length > 0) {
-        for (const record of recordsForPeer) {
+        recordsForPeer.forEach((record) => {
           const newRecord = document.createElement("record");
-  
+
           // Append each child element to the new record
-          Array.from(record.children).forEach(child => {
+          Array.from(record.children).forEach((child) => {
             newRecord.appendChild(child.cloneNode(true));
           });
-  
+
           this.recordPeerHTMLArray.push(newRecord.outerHTML);
           dataStr += newRecord.outerHTML;
-        }
+        });
       } else {
         console.warn(`No records found for year ${currentYear}`);
       }
-  
+
       // Recursive call with updated years and dataStr
-      return await this.getRecordsForPeer(years.slice(1), dataStr);
+      return this.getRecordsForPeer(years.slice(1), dataStr);
     } catch (error) {
       console.error("Error fetching peer data for year", currentYear, error);
-      
+
       // Log error details
       if (error.status) {
-        console.error(`Status: ${error.status}, StatusText: ${error.statusText}`);
+        console.error(
+          `Status: ${error.status}, StatusText: ${error.statusText}`
+        );
       }
-      
+
       // Continue with next year even if this one failed
       console.log(`Continuing to next year after error...`);
-      return await this.getRecordsForPeer(years.slice(1), dataStr);
+      return this.getRecordsForPeer(years.slice(1), dataStr);
     }
   }
 
   // Retrieve records for client data based on selected years
   async getRecordsForClient(years, dataStr = "<qdbapi>") {
     if (years.length === 0) {
-      // Base case: return the final XML when the array is empty
-      try {
-        // If no data was collected, return empty array
-        if (dataStr === "<qdbapi>") {
-          console.warn("No client records collected, returning empty array");
-          return [];
-        }
-        
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
-        const records = xmlDoc.querySelectorAll("record");
-        console.log(`Parsed ${records.length} client records from collected data`);
-        return records;
-      } catch (error) {
-        console.error("Error parsing client XML:", error);
-        return [];
-      }
+      // Base case: return the final string when the array is empty
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
+      return xmlDoc.querySelectorAll("record");
     }
-  
+
     const currentYear = years[0];
-    console.log(`Fetching client data for year: ${currentYear}`);
-  
+    const apiCallClientData = {
+      act: "API_DoQuery",
+      query: `
+          {192.EX.${currentYear}} AND
+          {29.EX.${ClientRid}}`,
+      clist:
+        "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221.218.15.21",
+    };
+
     try {
-      const apiCallClientData = {
-        act: "API_DoQuery",
-        query: `{192.EX.${currentYear}} AND {29.EX.${ClientRid}}`,
-        clist: "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221.218.15.21",
-      };
-  
-      // Use await to make the async operation more explicit
       const xml = await $.get(clientData, apiCallClientData);
       const recordsForClient = $("record", xml).toArray();
-      console.log(`Received ${recordsForClient.length} client records for year ${currentYear}`);
-  
-      // Process the records
-      for (const record of recordsForClient) {
+
+      // Collect records for later use
+      recordsForClient.forEach((record) => {
         const newRecord = document.createElement("record");
-  
+
         // Append each child element to the new record
-        Array.from(record.children).forEach(child => {
+        Array.from(record.children).forEach((child) => {
           newRecord.appendChild(child.cloneNode(true));
         });
-  
+
         this.recordClientHTMLArray.push(newRecord.outerHTML);
+        const qdbapiElementClient = `<qdbapi>${this.recordClientHTMLArray.join(
+          ""
+        )}</qdbapi>`;
+        // console.log("CLIENT", qdbapiElementClient);
+
+        // Append the new record's outerHTML to dataStr
         dataStr += newRecord.outerHTML;
-      }
-  
+      });
+
       // Recursive call with updated years and dataStr
-      return await this.getRecordsForClient(years.slice(1), dataStr);
+      return this.getRecordsForClient(years.slice(1), dataStr);
     } catch (error) {
-      console.error("Error fetching client data for year", currentYear, error);
-      
-      // Log error details
-      if (error.status) {
-        console.error(`Status: ${error.status}, StatusText: ${error.statusText}`);
-      }
-      
-      // Continue with next year even if this one failed
-      console.log(`Continuing to next year for client data after error...`);
-      return await this.getRecordsForClient(years.slice(1), dataStr);
+      console.error("Error fetching client data:", error);
+      // Return the accumulated data so far even in case of an error
+      return dataStr;
     }
   }
 
@@ -2742,45 +2736,61 @@ class ApiService {
   }
 
   // Build a query condition for clients
+  // Replace the getClientQuery method in ApiService class in qbApi.js
   getClientQuery(selectedClientsSet) {
     // Convert Set to Array for iteration
     const selectedClients = Array.from(selectedClientsSet);
-    
+
     // If empty, return default condition
     if (selectedClients.length === 0) {
       return '({59.EX.""})';
     }
-    
+
     // If more than 15 clients selected, use a non-empty match instead of listing all clients
     if (selectedClients.length > 15) {
-      console.log(`Large client set (${selectedClients.length}), using generic query`);
+      console.log(
+        `Large client set (${selectedClients.length}), using generic query`
+      );
       // This matches any non-empty client name (field 59)
       return '({59.XEX.""})';
     }
-    
+
     // For small numbers of clients, use specific OR conditions
     const clientConditions = selectedClients
-      .map(client => `{59.EX.'${this._escapeClientName(client)}'}`)
+      .map((client) => `{59.EX.'${this._escapeClientName(client)}'}`)
       .join(" OR ");
-      
+
     return `(${clientConditions})`;
   }
-  
+
   // Add this helper method to the ApiService class
   _escapeClientName(clientName) {
     if (!clientName) return "";
     // Replace problematic characters in client names
     return clientName.replace(/'/g, "\\'");
   }
-  
 
-  // // Build a query condition for types
-  // getTypeQuery(selectedTypes) {
-  //   const typeConditions = [...selectedTypes]
-  //     .map((type) => `{334.EX.${type}}`)
-  //     .join(" OR ");
-  //   return typeConditions ? `(${typeConditions})` : '({334.EX.""})'; // Default empty condition
-  // }
+  // Helper function to escape special characters in client names
+  _escapeClientName(clientName) {
+    // Replace single quotes with escaped single quotes
+    return clientName.replace(/'/g, "\\'");
+  }
+
+  // Build a query condition for types
+  getTypeQuery(selectedTypes) {
+    const typeConditions = [...selectedTypes]
+      .map((type) => `{334.EX.${type}}`)
+      .join(" OR ");
+    return typeConditions ? `(${typeConditions})` : '({334.EX.""})'; // Default empty condition
+  }
+
+  // Build a query condition for clients
+  getClientQuery(selectedClients) {
+    const clientConditions = [...selectedClients]
+      .map((client) => `{59.EX.'${client}'}`)
+      .join(" OR ");
+    return clientConditions ? `(${clientConditions})` : '({59.EX.""})'; // Default empty condition
+  }
 
   // Get the combined XML strings for peer and client records
   getPeerXmlString() {
@@ -2883,110 +2893,12 @@ class AppController {
     this._initialized = true;
   }
 
-  async createEmptyChart(chart, title) {
-    const element = document.getElementById(chart);
-    if (!element) return;
-
-    // Clear any existing content
-    element.innerHTML = "";
-
-    // Create a message container
-    const messageDiv = document.createElement("div");
-    messageDiv.className =
-      "flex flex-col items-center justify-center h-64 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg";
-
-    // Add an icon
-    const icon = document.createElement("div");
-    icon.innerHTML = `
-      <svg class="w-12 h-12 text-gray-400 dark:text-gray-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-      </svg>
-    `;
-
-    // Add a title
-    const titleElement = document.createElement("h3");
-    titleElement.className =
-      "mb-2 text-lg font-medium text-gray-900 dark:text-white";
-    titleElement.textContent = title || "No Data Available";
-
-    // Add a message
-    const message = document.createElement("p");
-    message.className = "text-center text-sm text-gray-500 dark:text-gray-400";
-    message.textContent =
-      "No data could be retrieved for this chart. Try selecting fewer clients or different years.";
-
-    // Assemble the elements
-    messageDiv.appendChild(icon);
-    messageDiv.appendChild(titleElement);
-    messageDiv.appendChild(message);
-    element.appendChild(messageDiv);
-  }
-
-  // Update validateDataForCharts method with async/await
-  async _validateDataForCharts() {
-    try {
-      // Check if we have any peer or client data
-      const peerDataExists = await this._checkForAnyData("*_Peer");
-      const clientDataExists = await this._checkForAnyData("*_Client");
-
-      if (!peerDataExists && !clientDataExists) {
-        console.warn("No peer or client data found");
-        createToastWarning(
-          "No data retrieved. Try selecting fewer clients or different years."
-        );
-        return false;
-      }
-
-      return true;
-    } catch (error) {
-      console.error("Error validating chart data:", error);
-      return false;
-    }
-  }
-
-  // Update checkForAnyData helper method with async/await
-  async _checkForAnyData(pattern) {
-    // Check all data categories
-    const categories = [
-      "generalData",
-      "cashData",
-      "assetData",
-      "incomeData",
-      "expenseData",
-    ];
-
-    for (const category of categories) {
-      const data = localStorage.getItem(category);
-      if (!data || data === "{}") continue;
-
-      try {
-        const parsedData = JSON.parse(data);
-
-        // Check for any keys matching the pattern
-        const keys = Object.keys(parsedData);
-        if (
-          keys.some((key) =>
-            pattern === "*_Peer"
-              ? key.endsWith("_Peer")
-              : key.endsWith("_Client")
-          )
-        ) {
-          return true;
-        }
-      } catch (e) {
-        console.error(`Error parsing ${category}:`, e);
-      }
-    }
-
-    return false;
-  }
-
   // Handle the run button click
   async handleRunButtonClick() {
     try {
       // Show loading indicator
       showApiLoadingFunction("open", "api");
-
+      
       // Process selected years
       let selectedYears;
       try {
@@ -2996,52 +2908,37 @@ class AppController {
         showApiLoadingFunction("close");
         return;
       }
-
+      
       this.saveSelectedYearsToLocalStorage(selectedYears);
-
+      
       // Check for selected clients
-      if (
-        !window.selectedClients_Array ||
-        window.selectedClients_Array.size === 0
-      ) {
+      if (!window.selectedClients_Array || window.selectedClients_Array.size === 0) {
         console.warn("No clients selected");
         createToastWarning("Please select at least one client");
         showApiLoadingFunction("close");
         return;
       }
-
+      
       // Log selected data for debugging
       console.log("Selected years:", selectedYears);
-      console.log(
-        "Selected clients:",
-        Array.from(window.selectedClients_Array)
-      );
-      console.log(
-        "Selected areas:",
-        Array.from(window.selectedAreas_Array || [])
-      );
-      console.log(
-        "Selected types:",
-        Array.from(window.selectedTypes_Array || [])
-      );
-
+      console.log("Selected clients:", Array.from(window.selectedClients_Array));
+      console.log("Selected areas:", Array.from(window.selectedAreas_Array || []));
+      console.log("Selected types:", Array.from(window.selectedTypes_Array || []));
+      
       // Clear existing data
       if (this.dataStore && typeof this.dataStore.clear === "function") {
         this.dataStore.clear();
       }
-
-      if (
-        this.apiService &&
-        typeof this.apiService.clearRecords === "function"
-      ) {
+      
+      if (this.apiService && typeof this.apiService.clearRecords === "function") {
         this.apiService.clearRecords();
       }
-
+      
       // Fetch peer data with improved error handling
       let recordsPeer;
       try {
         recordsPeer = await this.apiService.getRecordsForPeer(selectedYears);
-
+        
         // Validate records
         if (!recordsPeer || recordsPeer.length === 0) {
           console.warn("No peer records returned");
@@ -3054,19 +2951,15 @@ class AppController {
         }
       } catch (error) {
         console.error("Error fetching peer data:", error);
-        createToastWarning(
-          "Error fetching peer data. Please try again or adjust your filters."
-        );
+        createToastWarning("Error fetching peer data. Please try again or adjust your filters.");
         // Continue anyway, we might have client data
       }
-
+  
       // Fetch client data with error handling
       let recordsClient;
       try {
-        recordsClient = await this.apiService.getRecordsForClient(
-          selectedYears
-        );
-
+        recordsClient = await this.apiService.getRecordsForClient(selectedYears);
+        
         if (!recordsClient || recordsClient.length === 0) {
           console.warn("No client records returned");
           // Continue anyway, we might have peer data
@@ -3080,20 +2973,16 @@ class AppController {
         createToastWarning("Error fetching client data. Please try again.");
         // Continue anyway, we might have peer data
       }
-
+      
       // Check if we have any data at all
-      if (
-        (!recordsPeer || recordsPeer.length === 0) &&
-        (!recordsClient || recordsClient.length === 0)
-      ) {
+      if ((!recordsPeer || recordsPeer.length === 0) && 
+          (!recordsClient || recordsClient.length === 0)) {
         console.error("No data available for either peer or client");
-        createToastWarning(
-          "No data retrieved. Try selecting fewer clients or different years."
-        );
+        createToastWarning("No data retrieved. Try selecting fewer clients or different years.");
         showApiLoadingFunction("close");
         return;
       }
-
+  
       // Process the data
       try {
         this.dataProcessor.processAllData(
@@ -3107,7 +2996,7 @@ class AppController {
         showApiLoadingFunction("close");
         return;
       }
-
+  
       // Validate data for charts
       const hasValidData = await this._validateDataForCharts();
       if (!hasValidData) {
@@ -3115,15 +3004,13 @@ class AppController {
         showApiLoadingFunction("close");
         return;
       }
-
+  
       // Display charts
       try {
         this.displayAllComponents();
       } catch (error) {
         console.error("Error displaying components:", error);
-        createToastWarning(
-          "Error displaying charts. Please check console for details."
-        );
+        createToastWarning("Error displaying charts. Please check console for details.");
       } finally {
         // Always hide loading indicator
         showApiLoadingFunction("close");
@@ -3383,52 +3270,38 @@ document.addEventListener("clientDataLoaded", function (event) {
   );
 });
 
-/**
- * Counts and displays the number of unique clients in filtered records
- * @param {NodeList} records - The filtered client records
- */
+// Utility to count unique clients in the records
 function countUniqueClients(records) {
-  // Check if records is valid and has a forEach method
-  if (!records || typeof records.forEach !== 'function') {
-    console.error("Invalid records provided to countUniqueClients:", records);
-    document.getElementById("uniqueClients").textContent = "0";
-    return;
-  }
-
-  // Get the current filter state
-  const selectedClients = window.selectedClients_Array 
-    ? Array.from(window.selectedClients_Array) 
-    : [];
-  
-  // Use a Set to track unique client names
   const uniqueClients = new Set();
-  
   try {
-    records.forEach((record) => {
-      const clientName = record.querySelector("pe___client_informal_name")?.textContent;
-      
-      // Only count clients that are in the selectedClients_Array
-      if (clientName && selectedClients.includes(clientName)) {
-        uniqueClients.add(clientName);
-      }
-    });
-
-    // Update the UI with the count
-    const count = uniqueClients.size;
-    const element = document.getElementById("uniqueClients");
-    if (element) {
-      element.textContent = count;
-    } else {
-      console.warn("Element with ID 'uniqueClients' not found");
+    // Check if records is iterable
+    if (!records || typeof records[Symbol.iterator] !== "function") {
+      console.warn("Records is not iterable:", records);
+      document.getElementById("uniqueClients").textContent = "0";
+      return;
     }
-    
-    console.log(`Counted ${count} unique clients after filtering`);
+
+    // Process each record
+    for (const record of records) {
+      // Check if record is a DOM element with querySelector
+      if (record && typeof record.querySelector === "function") {
+        const mainRelatedClient = record.querySelector(
+          "pe___client_legal_name"
+        )?.textContent;
+        if (mainRelatedClient) {
+          uniqueClients.add(mainRelatedClient);
+        }
+      } else if (record && record["pe___client_legal_name"]) {
+        // Alternative format: record might be an object with direct properties
+        uniqueClients.add(record["pe___client_legal_name"]);
+      }
+    }
+
+    const count = uniqueClients.size;
+    document.getElementById("uniqueClients").textContent = count;
   } catch (error) {
     console.error("Error counting unique clients:", error);
-    const element = document.getElementById("uniqueClients");
-    if (element) {
-      element.textContent = "0";
-    }
+    document.getElementById("uniqueClients").textContent = "0"; // Set to 0 in case of error
   }
 }
 
@@ -3569,50 +3442,50 @@ async function validateAndNormalizeRecords(records) {
     console.warn("Empty records received");
     return [];
   }
-
+  
   // If records is already an array, process it
   if (Array.isArray(records)) {
     // Create a new array with properly processed records
     const result = [];
-
+    
     for (const record of records) {
       // If it's a DOM node, return as is
-      if (record && typeof record.querySelector === "function") {
+      if (record && typeof record.querySelector === 'function') {
         result.push(record);
       }
       // If it's an object but not a DOM node, convert to a simulated DOM-like object
-      else if (record && typeof record === "object") {
+      else if (record && typeof record === 'object') {
         // Create a wrapper with querySelector method
         const wrapper = {
-          querySelector: function (selector) {
+          querySelector: function(selector) {
             // Strip any leading underscores or other characters from selector to match property name
-            const propName = selector.replace(/^[_.]/, "");
+            const propName = selector.replace(/^[_.]/, '');
             if (this.hasOwnProperty(propName)) {
               return { textContent: this[propName] };
             }
             return null;
-          },
+          }
         };
-
+        
         // Copy all properties from the original record
         Object.assign(wrapper, record);
         result.push(wrapper);
       }
     }
-
+    
     return result;
   }
-
+  
   // If records is NodeList or other iterable, convert to array
-  if (typeof records[Symbol.iterator] === "function") {
+  if (typeof records[Symbol.iterator] === 'function') {
     return Array.from(records);
   }
-
+  
   // If records is a single object, wrap in array
-  if (typeof records === "object") {
+  if (typeof records === 'object') {
     return [records];
   }
-
+  
   console.error("Unrecognized records format:", records);
   return [];
 }
