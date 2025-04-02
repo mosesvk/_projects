@@ -1462,7 +1462,6 @@ function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
   yearRow.appendChild(cell);
 
   return cell;
-}
 
 // Function to update client selection based on filters
 function updateClientSelectionBasedOnFilters() {
