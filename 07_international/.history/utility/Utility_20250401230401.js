@@ -1440,7 +1440,6 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
     selectAllInput.indeterminate = false;
   });
 };
-
 // Enhanced addClientDataToModalRow function
 function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
   console.log(`Adding client data to row: ${yearRow.id}`, {
@@ -1463,6 +1462,125 @@ function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
   yearRow.appendChild(cell);
 
   return cell;
+}
+
+// Function to update client selection based on filters
+function updateClientSelectionBasedOnFilters() {
+  console.log("*** Utility.js updateClientSelectionBasedOnFilters called ***");
+
+  // Check if the Header.js version exists and use it instead
+  if (typeof window.headerUpdateClientDropdown === "function") {
+    console.log("Using Header.js implementation of client filter update");
+    window.headerUpdateClientDropdown();
+    return;
+  }
+
+  console.warn("Header.js implementation not found, using fallback");
+
+
+  // Ensure client data store exists
+  if (!window.clientDataStore) {
+    console.warn("Client data store not initialized");
+    return;
+  }
+
+  // Get current filter values
+  const selectedTypes = Array.from(window.selectedTypes_Array || []);
+  const selectedAreaCodes = Array.from(window.selectedAreas_Array || []);
+  const minGiving = window.sliderValue || 0;
+  const maxGiving = window.sliderValue2 || 25000;
+  const minMission = window.missionValue || 0;
+  const maxMission = window.missionValue2 || 10000;
+
+  // Convert area codes to corresponding area names for comparison
+  const selectedAreaNames = [];
+  selectedAreaCodes.forEach((code) => {
+    const areaObject = areas_Array.find((area) => area.str === code);
+    if (areaObject && areaObject.arr && areaObject.arr.length > 0) {
+      selectedAreaNames.push(...areaObject.arr);
+    }
+  });
+
+  console.log("Selected Area Names for comparison:", selectedAreaNames);
+
+  // Get all client checkboxes
+  const clientCheckboxes = document.querySelectorAll(
+    '#options-list-client input[type="checkbox"]'
+  );
+
+  // Get the select all checkbox
+  const selectAllCheckbox = document.getElementById(
+    "select-all-checkbox-client"
+  );
+
+  // Clear the current selection
+  window.selectedClients_Array.clear();
+
+  // Track how many clients match
+  let matchCount = 0;
+  let totalClients = 0;
+
+  // Check each client checkbox
+  clientCheckboxes.forEach((checkbox) => {
+    // Skip the select all checkbox
+    if (checkbox.id === "select-all-checkbox-client") return;
+
+    totalClients++;
+    const clientName = checkbox.value;
+    const clientData = window.clientDataStore[clientName];
+
+    if (!clientData) return;
+
+    // Check giving units range
+    const givingUnitMatch =
+      clientData.givingUnit >= minGiving && clientData.givingUnit <= maxGiving;
+
+    // Check mission units range
+    const missionUnitMatch =
+      clientData.missionUnit >= minMission &&
+      clientData.missionUnit <= maxMission;
+
+    // Check area match using converted names
+    const areaMatch =
+      selectedAreaCodes.length === 0 ||
+      clientData.areaQuery.some((area) => selectedAreaNames.includes(area));
+
+    // Check type match
+    const typeMatch =
+      selectedTypes.length === 0 ||
+      clientData.typeQuery.some((type) => selectedTypes.includes(type));
+
+    // Special case: If no Areas or no types selected, nothing should match
+    if (selectedAreaCodes.length === 0 || selectedTypes.length === 0) {
+      checkbox.checked = false;
+      return;
+    }
+
+    // A client matches if it passes all filter criteria
+    const matches =
+      givingUnitMatch && missionUnitMatch && areaMatch && typeMatch;
+
+    // Update checkbox and selection array
+    checkbox.checked = matches;
+
+    if (matches) {
+      window.selectedClients_Array.add(clientName);
+      matchCount++;
+    }
+  });
+
+  // Update select all checkbox state
+  if (selectAllCheckbox) {
+    const allSelected = matchCount === totalClients && totalClients > 0;
+    const noneSelected = matchCount === 0;
+
+    selectAllCheckbox.checked = allSelected;
+    selectAllCheckbox.indeterminate = !allSelected && !noneSelected;
+  }
+
+  console.log(
+    `Filter results: ${matchCount}/${totalClients} clients match current filters`
+  );
 }
 
 // Function to update the "select all" checkbox state
@@ -1488,6 +1606,11 @@ function updateSelectAllCheckboxState() {
   selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
 }
 
+// Listen for filter changes
+document.addEventListener(
+  "filtersChanged",
+  updateClientSelectionBasedOnFilters
+);
 
 function addPeerDataToModalRow(
   yearRow,
