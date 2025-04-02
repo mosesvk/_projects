@@ -92,11 +92,6 @@ function clientMatchesFilters(
 ) {
   // If no client data, return false
   if (!clientData) return false;
-  
-  // *** THE KEY CHANGE: If no types or areas selected, return false immediately ***
-  if (selectedTypes.length === 0 || selectedAreas.length === 0) {
-    return false;
-  }
 
   // Check giving units range
   const givingUnitMatch =
@@ -107,17 +102,19 @@ function clientMatchesFilters(
     clientData.missionUnit >= minMission &&
     clientData.missionUnit <= maxMission;
 
-  // Check area match - modified to remove the empty array case
+  // Check area match (if any areas selected)
   const areaMatch =
-    clientData.areaQuery && 
-    Array.isArray(clientData.areaQuery) && 
-    selectedAreas.some(area => clientData.areaQuery.includes(area));
+    selectedAreas.length === 0 ||
+    (clientData.areaQuery &&
+      Array.isArray(clientData.areaQuery) &&
+      selectedAreas.some((area) => clientData.areaQuery.includes(area)));
 
-  // Check type match - modified to remove the empty array case
+  // Check type match (if any types selected)
   const typeMatch =
-    clientData.typeQuery && 
-    Array.isArray(clientData.typeQuery) && 
-    selectedTypes.some(type => clientData.typeQuery.includes(type));
+    selectedTypes.length === 0 ||
+    (clientData.typeQuery &&
+      Array.isArray(clientData.typeQuery) &&
+      selectedTypes.some((type) => clientData.typeQuery.includes(type)));
 
   // Return true only if all conditions are met
   return givingUnitMatch && missionUnitMatch && areaMatch && typeMatch;
@@ -578,5 +575,39 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeFilterTriggers();
 
   // Log filter state when changes occur
- 
+  document.addEventListener("filtersChanged", function () {
+    console.log("Global Variables State:", {
+      sliderValue: window.sliderValue,
+      sliderValue2: window.sliderValue2,
+      missionValue: window.missionValue,
+      missionValue2: window.missionValue2,
+      selectedAreas: {
+        set: window.selectedAreas_Array,
+        size: window.selectedAreas_Array
+          ? window.selectedAreas_Array.size
+          : "N/A",
+        array: window.selectedAreas_Array
+          ? Array.from(window.selectedAreas_Array)
+          : [],
+      },
+      selectedTypes: {
+        set: window.selectedTypes_Array,
+        size: window.selectedTypes_Array
+          ? window.selectedTypes_Array.size
+          : "N/A",
+        array: window.selectedTypes_Array
+          ? Array.from(window.selectedTypes_Array)
+          : [],
+      },
+      selectedClients: {
+        set: window.selectedClients_Array,
+        size: window.selectedClients_Array
+          ? window.selectedClients_Array.size
+          : "N/A",
+        array: window.selectedClients_Array
+          ? Array.from(window.selectedClients_Array).slice(0, 5)
+          : [],
+      },
+    });
+  });
 });

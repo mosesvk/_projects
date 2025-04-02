@@ -578,5 +578,39 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeFilterTriggers();
 
   // Log filter state when changes occur
- 
+  document.addEventListener("filtersChanged", function () {
+    console.log("Global Variables State:", {
+      sliderValue: window.sliderValue,
+      sliderValue2: window.sliderValue2,
+      missionValue: window.missionValue,
+      missionValue2: window.missionValue2,
+      selectedAreas: {
+        set: window.selectedAreas_Array,
+        size: window.selectedAreas_Array
+          ? window.selectedAreas_Array.size
+          : "N/A",
+        array: window.selectedAreas_Array
+          ? Array.from(window.selectedAreas_Array)
+          : [],
+      },
+      selectedTypes: {
+        set: window.selectedTypes_Array,
+        size: window.selectedTypes_Array
+          ? window.selectedTypes_Array.size
+          : "N/A",
+        array: window.selectedTypes_Array
+          ? Array.from(window.selectedTypes_Array)
+          : [],
+      },
+      selectedClients: {
+        set: window.selectedClients_Array,
+        size: window.selectedClients_Array
+          ? window.selectedClients_Array.size
+          : "N/A",
+        array: window.selectedClients_Array
+          ? Array.from(window.selectedClients_Array).slice(0, 5)
+          : [],
+      },
+    });
+  });
 });
