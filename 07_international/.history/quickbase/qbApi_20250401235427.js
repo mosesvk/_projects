@@ -2317,7 +2317,7 @@ class ApiService {
 
     const currentYear = years[0];
 
-    // Build query conditionsa
+    // Build query conditions
     const areaQuery = this.getAreaQuery(selectedAreas_Array);
     const clientQuery = this.getClientQuery(window.selectedClients_Array);
     const typeQuery = this.getTypeQuery(selectedTypes_Array);

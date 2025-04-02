@@ -2317,9 +2317,9 @@ class ApiService {
 
     const currentYear = years[0];
 
-    // Build query conditionsa
+    // Build query conditions
     const areaQuery = this.getAreaQuery(selectedAreas_Array);
-    const clientQuery = this.getClientQuery(window.selectedClients_Array);
+    const clientQuery = this.getClientQuery(selectedClients_Array);
     const typeQuery = this.getTypeQuery(selectedTypes_Array);
 
     // (${areaQuery}) AND
@@ -2355,7 +2355,7 @@ class ApiService {
         const qdbapiElementPeer = `<qdbapi>${this.recordPeerHTMLArray.join(
           ""
         )}</qdbapi>`;
-        console.log("PEER", qdbapiElementPeer);
+        // console.log("PEER", qdbapiElementPeer);
 
         // Append the new record's outerHTML to dataStr
         dataStr += newRecord.outerHTML;
