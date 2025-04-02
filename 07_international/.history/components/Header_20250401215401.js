@@ -8,6 +8,14 @@ window.sliderValue2 = 25000;
 window.missionValue = 0;
 window.missionValue2 = 10000;
 
+const originalAddEventListener = document.addEventListener;
+document.addEventListener = function(type, listener, options) {
+  if (type === 'filtersChanged') {
+    console.log('Added filtersChanged listener at:', new Error().stack.split('\n')[2]);
+  }
+  return originalAddEventListener.call(this, type, listener, options);
+};
+
 // Centralized dropdown toggle function
 function setupDropdownToggle(selectElementId, optionsListId) {
   const selectElement = document.getElementById(selectElementId);
@@ -102,8 +110,8 @@ function clientMatchesFilters(
   const givingUnitMatch =
     clientData.givingUnit >= minGiving && clientData.givingUnit <= maxGiving;
 
-  // Check mission units range
-  const missionUnitMatch =
+  // Check mission units range 
+  const missionUnitMatch = 
     clientData.missionUnit >= minMission &&
     clientData.missionUnit <= maxMission;
 
@@ -130,7 +138,7 @@ function clientMatchesFilters(
 // Function to update client dropdown based on filters - enhanced version
 function updateClientDropdownBasedOnFilters() {
   console.log("*** Header.js updateClientDropdownBasedOnFilters called ***");
-  
+
   // Ensure client data store exists
   if (!window.clientDataStore) {
     console.warn("Client data store not initialized");
@@ -153,30 +161,35 @@ function updateClientDropdownBasedOnFilters() {
     mission: [minMission, maxMission],
   });
 
-  // If no types or areas selected, clear all selections
+  // CRITICAL FIX: If no types or areas selected, clear all selections
   if (selectedTypes.length === 0 || selectedAreas.length === 0) {
     console.log("No types or areas selected - clearing all client selections");
-    
+
     // Clear the global selection set
     window.selectedClients_Array.clear();
-    
+
     // Uncheck all client checkboxes (except the "select all" checkbox)
     const clientCheckboxes = document.querySelectorAll(
       '#options-list-client input[type="checkbox"]'
     );
-    
+
     clientCheckboxes.forEach((checkbox) => {
       if (checkbox.id !== "select-all-checkbox-client") {
         checkbox.checked = false;
       }
     });
-    
+
     // Update "Select All" checkbox state
-    updateSelectAllClientCheckboxState();
-    console.log("Forcibly clearing client selections due to empty filter set");
+    const selectAllCheckbox = document.getElementById(
+      "select-all-checkbox-client"
+    );
+    if (selectAllCheckbox) {
+      selectAllCheckbox.checked = false;
+      selectAllCheckbox.indeterminate = false;
+    }
+
     return;
   }
-
   // Count matches for debugging
   let matchedCount = 0;
   let totalClients = Object.keys(window.clientDataStore).length;
@@ -197,16 +210,29 @@ function updateClientDropdownBasedOnFilters() {
       continue;
     }
 
-    // Use the clientMatchesFilters function to determine if this client matches
-    const matches = clientMatchesFilters(
-      clientData,
-      selectedTypes,
-      selectedAreas,
-      minGiving,
-      maxGiving,
-      minMission,
-      maxMission
-    );
+    // Check each filter individually for better debugging
+    const givingMatch =
+      clientData.givingUnit >= minGiving && clientData.givingUnit <= maxGiving;
+    const missionMatch =
+      clientData.missionUnit >= minMission &&
+      clientData.missionUnit <= maxMission;
+
+    // Check for area match - handle empty array case
+    const areaMatch =
+      selectedAreas.length === 0 ||
+      (clientData.areaQuery &&
+        Array.isArray(clientData.areaQuery) &&
+        selectedAreas.some((area) => clientData.areaQuery.includes(area)));
+
+    // Check for type match - handle empty array case
+    const typeMatch =
+      selectedTypes.length === 0 ||
+      (clientData.typeQuery &&
+        Array.isArray(clientData.typeQuery) &&
+        selectedTypes.some((type) => clientData.typeQuery.includes(type)));
+
+    // Combined match result
+    const matches = givingMatch && missionMatch && areaMatch && typeMatch;
 
     if (matches) matchedCount++;
 
@@ -227,7 +253,7 @@ function updateClientDropdownBasedOnFilters() {
     `Filter results: ${matchedCount}/${totalClients} clients matched`
   );
 
-  // Update "Select All" checkbox state
+  // Update select all checkbox state
   updateSelectAllClientCheckboxState();
 }
 
@@ -382,22 +408,6 @@ function initializeClientDropdown() {
   });
 }
 
-// Function to override utility filter functions to prevent duplicates
-function overrideUtilityFilterFunctions() {
-  // Override the utility functions to prevent duplicate processing
-  if (typeof window.updateClientSelectionBasedOnFilters === 'function') {
-    window.updateClientSelectionBasedOnFilters = function() {
-      console.log("Utility function bypassed - using Header.js implementation");
-    };
-  }
-  
-  if (typeof window.updateClientDropdownBasedOnFilters === 'function') {
-    window.updateClientDropdownBasedOnFilters = function() {
-      console.log("Utility function bypassed - using Header.js implementation");
-    };
-  }
-}
-
 // Add event listener for filters changed
 document.addEventListener("filtersChanged", updateClientDropdownBasedOnFilters);
 
@@ -415,9 +425,6 @@ document.addEventListener("clientDataLoaded", function (event) {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Override utility functions to prevent duplicates
-  overrideUtilityFilterFunctions();
-  
   const sliderInputs = [
     {
       element: document.getElementById("givingUnitsMin"),
@@ -593,6 +600,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Log filter state when changes occur
   document.addEventListener("filtersChanged", function () {
+    const selectedTypes = window.selectedTypes_Array
+      ? Array.from(window.selectedTypes_Array)
+      : [];
+    const selectedAreas = window.selectedAreas_Array
+      ? Array.from(window.selectedAreas_Array)
+      : [];
+
+    // If either types or areas are empty, forcibly clear client selections
+    if (selectedTypes.length === 0 || selectedAreas.length === 0) {
+      console.log(
+        "Forcibly clearing client selections due to empty filter set"
+      );
+
+      // Clear the global selection set
+      if (window.selectedClients_Array) {
+        window.selectedClients_Array.clear();
+      }
+
+      // Uncheck all client checkboxes (except the "select all" checkbox)
+      const clientCheckboxes = document.querySelectorAll(
+        '#options-list-client input[type="checkbox"]'
+      );
+
+      clientCheckboxes.forEach((checkbox) => {
+        if (checkbox.id !== "select-all-checkbox-client") {
+          checkbox.checked = false;
+        }
+      });
+
+      // Update "Select All" checkbox state
+      const selectAllCheckbox = document.getElementById(
+        "select-all-checkbox-client"
+      );
+      if (selectAllCheckbox) {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = false;
+      }
+    }
+
     console.log("Global Variables State:", {
       sliderValue: window.sliderValue,
       sliderValue2: window.sliderValue2,
@@ -627,11 +673,4 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     });
   });
-
-  // Remove any existing listeners to prevent duplicates
-  document.removeEventListener("filtersChanged", window.updateClientSelectionBasedOnFilters);
-  document.removeEventListener("filtersChanged", window.updateClientDropdownBasedOnFilters);
-  
-  // Then add only the Header.js version
-  document.addEventListener("filtersChanged", updateClientDropdownBasedOnFilters);
 });

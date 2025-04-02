@@ -2908,7 +2908,7 @@ document.addEventListener("DOMContentLoaded", function() {
         updateClientDropdownBasedOnFilters : null;
       
       if (headerUpdateFn) {
-        // Register the function globaladly
+        // Register the function globally
         window.headerUpdateClientDropdown = headerUpdateFn;
         console.log("Header.js function registered globally");
       }

@@ -1508,13 +1508,6 @@ function clientMatchesFilters(
 function updateClientSelectionBasedOnFilters() {
   console.log("*** Utility.js updateClientSelectionBasedOnFilters called ***");
 
-  // Check if the Header.js version exists and use it instead
-  if (typeof window.headerUpdateClientDropdown === "function") {
-    console.log("Deferring to Header.js implementation");
-    window.headerUpdateClientDropdown();
-    return;
-  }
-
   // Ensure client data store exists
   if (!window.clientDataStore) {
     console.warn("Client data store not initialized");
@@ -2885,33 +2878,3 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
 function setToArray(set) {
   return Array.from(set);
 }
-
-
-document.addEventListener("DOMContentLoaded", function() {
-  // Wait for Header.js to load and expose its function
-  setTimeout(function() {
-    // Find the Header.js implementation
-    const scripts = document.querySelectorAll('script');
-    let headerJs = null;
-    
-    for (let script of scripts) {
-      if (script.src && script.src.includes('Header.js')) {
-        headerJs = script;
-        break;
-      }
-    }
-    
-    // If Header.js is loaded, register its function globally
-    if (headerJs) {
-      // Look for the Header.js implementation in the global scope
-      const headerUpdateFn = typeof updateClientDropdownBasedOnFilters === 'function' ? 
-        updateClientDropdownBasedOnFilters : null;
-      
-      if (headerUpdateFn) {
-        // Register the function globaladly
-        window.headerUpdateClientDropdown = headerUpdateFn;
-        console.log("Header.js function registered globally");
-      }
-    }
-  }, 500); // Wait half a second for all scripts to load
-});
