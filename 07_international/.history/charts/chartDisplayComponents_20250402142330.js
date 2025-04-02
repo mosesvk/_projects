@@ -44,7 +44,7 @@ const ChartDisplayComponents = {
       chartManager.createChartFromParsedData(
         parsedGeneralData,
         "changeInNetAssets_chart",
-        "null", 
+        "changeInNetAssets_Peer", // Correct peer data reference
         "changeInNetAssets_Client",
         "dollar",
         0,

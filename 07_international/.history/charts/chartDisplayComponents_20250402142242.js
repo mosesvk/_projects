@@ -28,28 +28,28 @@ const ChartDisplayComponents = {
         ]
       );
 
-      // For netAssetBreakdown_chart
+      // Create the net asset breakdown chart
       chartManager.createChartFromParsedData(
         parsedGeneralData,
         "netAssetBreakdown_chart",
-        "netAssetsWithDonorRestrictionsSum_Peer", // Correct peer data reference
-        "netAssetsWithDonorRestrictionsSum_Client", // Correct client data reference
+        null,
+        null,
         "dollar",
         0,
         "netAssetBreakdown",
-        "wa"
+        "wa" // Add weighted average
       );
 
-      // For changeInNetAssets_chart
+      // Create the change in net assets chart
       chartManager.createChartFromParsedData(
         parsedGeneralData,
         "changeInNetAssets_chart",
-        "null", 
-        "changeInNetAssets_Client",
+        netAssetsWithDonorRestrictionsSum_Peer,
+        "netAssetsWithDonorRestrictionsSum_Client",
         "dollar",
         0,
         "changeInNetAssets",
-        "wa",
+        "wa", // Add weighted average
         null,
         "Change in Net Assets",
         "line"
