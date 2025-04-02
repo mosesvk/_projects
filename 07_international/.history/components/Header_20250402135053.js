@@ -113,7 +113,7 @@ function clientMatchesFilters(
 
   // CRITICAL: If no areas or types are selected, nothing should match
   if (selectedAreas.length === 0 || selectedTypes.length === 0) {
-    // console.log("No areas or types selected, returning false");
+    console.log("No areas or types selected, returning false");
     return false;
   }
 
@@ -136,7 +136,7 @@ function clientMatchesFilters(
  * Acts as the primary filter implementation that Utility.js will defer to
  */
 function updateClientDropdownFilters() {
-  // console.log("Running client dropdown filter update");
+  console.log("Running client dropdown filter update");
 
   // Ensure client data store exists
   if (!window.clientDataStore) {
@@ -152,12 +152,12 @@ function updateClientDropdownFilters() {
   const minMission = window.missionValue || 0;
   const maxMission = window.missionValue2 || 10000;
 
-  // console.log("Current filter criteria:", {
-  //   areas: selectedAreas,
-  //   types: selectedTypes,
-  //   givingRange: [minGiving, maxGiving],
-  //   missionRange: [minMission, maxMission],
-  // });
+  console.log("Current filter criteria:", {
+    areas: selectedAreas,
+    types: selectedTypes,
+    givingRange: [minGiving, maxGiving],
+    missionRange: [minMission, maxMission],
+  });
 
   // Get all client checkboxes
   const clientCheckboxes = document.querySelectorAll(
@@ -217,9 +217,9 @@ function updateClientDropdownFilters() {
     selectAllCheckbox.indeterminate = !allSelected && !noneSelected;
   }
 
-  // console.log(
-  //   `Filter completed: ${matchCount} of ${totalClientCount} clients match current filters`
-  // );
+  console.log(
+    `Filter completed: ${matchCount} of ${totalClientCount} clients match current filters`
+  );
   // console.log("Selected clients:", Array.from(window.selectedClients_Array));
 }
 
@@ -253,7 +253,7 @@ function updateSelectAllClientCheckboxState() {
  * Called when client data is loaded
  */
 function initializeClientDropdown(event) {
-  // console.log("Initializing client dropdown");
+  console.log("Initializing client dropdown");
   const optionsListClient = document.getElementById("options-list-client");
   if (!optionsListClient) {
     console.error("Client options list element not found");
@@ -374,7 +374,7 @@ function initializeClientDropdown(event) {
     });
   });
 
-  // console.log(`Initialized dropdown with ${clientNames.length} clients`);
+  console.log(`Initialized dropdown with ${clientNames.length} clients`);
 }
 
 /**
@@ -458,7 +458,7 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areasArray) {
 
     // Add change event listener to update selectedAreas_Array
     areaInput.addEventListener("change", function () {
-      // console.log("Area checkbox changed:", areaString, this.checked);
+      console.log("Area checkbox changed:", areaString, this.checked);
 
       if (this.checked) {
         window.selectedAreas_Array.add(areaString);
@@ -482,10 +482,10 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areasArray) {
       selectAllInput.checked = allChecked;
       selectAllInput.indeterminate = !allChecked && someChecked;
 
-      // console.log(
-      //   "Areas after change:",
-      //   Array.from(window.selectedAreas_Array)
-      // );
+      console.log(
+        "Areas after change:",
+        Array.from(window.selectedAreas_Array)
+      );
 
       // Trigger filter changed event
       const event = new CustomEvent("filtersChanged");
@@ -516,12 +516,12 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areasArray) {
     // Reset indeterminate state
     selectAllInput.indeterminate = false;
 
-    // console.log(
-    //   "All areas selected:",
-    //   isChecked,
-    //   "Areas:",
-    //   Array.from(window.selectedAreas_Array)
-    // );
+    console.log(
+      "All areas selected:",
+      isChecked,
+      "Areas:",
+      Array.from(window.selectedAreas_Array)
+    );
 
     // Trigger filter changed event
     const event = new CustomEvent("filtersChanged");
@@ -616,7 +616,7 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
 
     // Event listener to update selectedTypes_Array
     newInput.addEventListener("change", function () {
-      // console.log("Type checkbox changed:", typeString, this.checked);
+      console.log("Type checkbox changed:", typeString, this.checked);
 
       if (this.checked) {
         window.selectedTypes_Array.add(typeString);
@@ -640,10 +640,10 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
       selectAllInput.checked = allChecked;
       selectAllInput.indeterminate = !allChecked && someChecked;
 
-      // console.log(
-      //   "Types after change:",
-      //   Array.from(window.selectedTypes_Array)
-      // );
+      console.log(
+        "Types after change:",
+        Array.from(window.selectedTypes_Array)
+      );
 
       // Trigger filter changed event
       const event = new CustomEvent("filtersChanged");
@@ -674,12 +674,12 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
     // Reset indeterminate state
     selectAllInput.indeterminate = false;
 
-    // console.log(
-    //   "All types selected:",
-    //   isChecked,
-    //   "Types:",
-    //   Array.from(window.selectedTypes_Array)
-    // );
+    console.log(
+      "All types selected:",
+      isChecked,
+      "Types:",
+      Array.from(window.selectedTypes_Array)
+    );
 
     // Trigger filter changed event
     const event = new CustomEvent("filtersChanged");
@@ -693,7 +693,7 @@ document.addEventListener("clientDataLoaded", initializeClientDropdown);
 
 // Main initialization when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
-  // console.log("DOM loaded, initializing Header.js functionality");
+  console.log("DOM loaded, initializing Header.js functionality");
 
   // Configure slider inputs
   const sliderInputs = [
@@ -725,9 +725,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to trigger filter change event
   function triggerFiltersChanged(sliderInfo) {
-    // console.log(
-    //   `${sliderInfo.globalVar} changed to ${window[sliderInfo.globalVar]}`
-    // );
+    console.log(
+      `${sliderInfo.globalVar} changed to ${window[sliderInfo.globalVar]}`
+    );
     const event = new CustomEvent("filtersChanged");
     document.dispatchEvent(event);
   }
@@ -836,11 +836,11 @@ document.addEventListener("DOMContentLoaded", function () {
           }
 
           // Log change and trigger filter update
-          // console.log(
-          //   `${type} selection changed:`,
-          //   checkbox.value,
-          //   checkbox.checked
-          // );
+          console.log(
+            `${type} selection changed:`,
+            checkbox.value,
+            checkbox.checked
+          );
           const event = new CustomEvent("filtersChanged");
           document.dispatchEvent(event);
         });
@@ -915,6 +915,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Export the filter update function to global scope so Utility.js can use it
   window.headerUpdateClientDropdown = updateClientDropdownFilters;
-  // console.log("Header.js filter function exported as headerUpdateClientDropdown");
+  console.log("Header.js filter function exported as headerUpdateClientDropdown");
 
 });

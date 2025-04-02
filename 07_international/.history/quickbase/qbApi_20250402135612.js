@@ -2445,7 +2445,7 @@ class ApiService {
       // Use await to make the async operation more explicit
       const xml = await $.get(clientData, apiCallClientData);
       const recordsForClient = $("record", xml).toArray();
-      // console.log(`Received ${recordsForClient.length} client records for year ${currentYear}`);
+      console.log(`Received ${recordsForClient.length} client records for year ${currentYear}`);
   
       // Process the records
       for (const record of recordsForClient) {

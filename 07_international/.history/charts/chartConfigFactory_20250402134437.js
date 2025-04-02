@@ -1372,7 +1372,7 @@ class ChartConfigFactory {
       window.chartColors.green, // With donor restrictions
     ];
 
-    console.log('!!!!!!', {netAssetsWithDRData, netAssetsWithoutDRData});
+    console.log();
     
 
     return {

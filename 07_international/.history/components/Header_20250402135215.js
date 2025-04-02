@@ -915,6 +915,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Export the filter update function to global scope so Utility.js can use it
   window.headerUpdateClientDropdown = updateClientDropdownFilters;
-  // console.log("Header.js filter function exported as headerUpdateClientDropdown");
+  console.log("Header.js filter function exported as headerUpdateClientDropdown");
 
 });

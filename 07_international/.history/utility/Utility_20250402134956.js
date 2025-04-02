@@ -479,7 +479,7 @@ function updateModal(mainName, peerData, clientData, parsedData) {
   const modal = document.querySelector(modalSelector);
 
   if (!modal) {
-    // console.warn(`Modal element with selector "${modalSelector}" not found`);
+    console.warn(`Modal element with selector "${modalSelector}" not found`);
     return;
   }
 
@@ -1876,7 +1876,7 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
 
 const editElementChildren = (element, variable, elementId) => {
   // console.log({ element, variable });
-  // if (!element) console.log(elementId);
+  if (!element) console.log(elementId);
 
   // console.log(element.firstChild);
 
@@ -2054,7 +2054,7 @@ const originalRegisterChartEventListeners = window.registerChartEventListeners;
 
 // Override it to avoid duplicate run button listeners
 window.registerChartEventListeners = function () {
-  // console.log("Using primary event listener from qbApi.js");
+  console.log("Using primary event listener from qbApi.js");
 
   // Only keep the dark mode toggle if it exists
   const darkModeToggle = document.querySelector("#dark-mode-toggle");
@@ -2436,9 +2436,9 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
     });
 
     // Log change
-    // console.log("All areas selected:", isChecked, {
-    //   areas: Array.from(window.selectedAreas_Array),
-    // });
+    console.log("All areas selected:", isChecked, {
+      areas: Array.from(window.selectedAreas_Array),
+    });
 
     // Trigger filter changed event
     const event = new CustomEvent("filtersChanged");
@@ -2497,11 +2497,11 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
       selectAllInput.checked = allChecked;
 
       // Log change
-      // console.log("Area selection changed:", {
-      //   area: areaString,
-      //   selected: areaInput.checked,
-      //   allAreas: Array.from(selectedAreas_Array),
-      // });
+      console.log("Area selection changed:", {
+        area: areaString,
+        selected: areaInput.checked,
+        allAreas: Array.from(selectedAreas_Array),
+      });
 
       // Trigger filter changed event
       const event = new CustomEvent("filtersChanged");

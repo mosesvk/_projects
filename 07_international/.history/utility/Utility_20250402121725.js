@@ -232,148 +232,6 @@ const createToastSuccess = (textString) => {
   }, 100); // Delay adding the event listener to prevent immediate removal
 };
 
-const getMainChartOptions = (
-  dataPeer,
-  dataClient,
-  numType,
-  fixedNum = 0,
-  mainName,
-  wa,
-  parsedData,
-  benchmark,
-  title
-) => {
-  // Use chartConfigFactory to generate chart options
-  if (typeof chartConfigFactory !== 'undefined') {
-    return chartConfigFactory.createConfig('main', {
-      dataPeer,
-      dataClient,
-      numType,
-      fixedNum,
-      mainName,
-      wa,
-      parsedData,
-      benchmark,
-      title
-    });
-  } else {
-    console.error('chartConfigFactory is not defined');
-    return {}; // Return empty options as fallback
-  }
-};
-
-// Line chart options generator
-const getLineChartOptions = (
-  dataPeer,
-  dataClient,
-  numType,
-  fixedNum = 0,
-  mainName,
-  wa,
-  parsedData,
-  benchmark,
-  title
-) => {
-  // Use chartConfigFactory to generate line chart options
-  if (typeof chartConfigFactory !== 'undefined') {
-    return chartConfigFactory.createConfig('line', {
-      dataPeer,
-      dataClient,
-      numType,
-      fixedNum,
-      mainName,
-      wa,
-      parsedData,
-      benchmark,
-      title
-    });
-  } else {
-    console.error('chartConfigFactory is not defined');
-    return {}; // Return empty options as fallback
-  }
-};
-
-// Functional allocation chart options generator
-const getFunctionalAllocationChartOptions = (
-  dataPeer,
-  dataClient,
-  numType,
-  fixedNum = 0,
-  mainName,
-  wa,
-  parsedData
-) => {
-  // Use chartConfigFactory to generate functional allocation chart options
-  if (typeof chartConfigFactory !== 'undefined') {
-    return chartConfigFactory.createConfig('functionalAllocation', {
-      dataPeer,
-      dataClient,
-      numType,
-      fixedNum,
-      mainName,
-      wa,
-      parsedData
-    });
-  } else {
-    console.error('chartConfigFactory is not defined');
-    return {}; // Return empty options as fallback
-  }
-};
-
-// Cost of contributions chart options generator
-const getCostOfContributionsDetailViewOptions = (
-  dataPeer,
-  dataClient,
-  numType,
-  fixedNum = 2,
-  mainName,
-  wa,
-  parsedData
-) => {
-  // Use chartConfigFactory to generate cost of contributions chart options
-  if (typeof chartConfigFactory !== 'undefined') {
-    return chartConfigFactory.createConfig('costOfContributions', {
-      dataPeer,
-      dataClient,
-      numType,
-      fixedNum,
-      mainName,
-      wa,
-      parsedData
-    });
-  } else {
-    console.error('chartConfigFactory is not defined');
-    return {}; // Return empty options as fallback
-  }
-};
-
-// Net asset breakdown chart options generator
-const getNetAssetBreakdownOptions = (
-  dataPeer,
-  dataClient,
-  numType,
-  fixedNum = 0,
-  mainName,
-  wa,
-  parsedData
-) => {
-  // Use chartConfigFactory to generate net asset breakdown chart options
-  if (typeof chartConfigFactory !== 'undefined') {
-    return chartConfigFactory.createConfig('netAssetBreakdown', {
-      dataPeer,
-      dataClient,
-      numType,
-      fixedNum,
-      mainName,
-      wa,
-      parsedData
-    });
-  } else {
-    console.error('chartConfigFactory is not defined');
-    return {}; // Return empty options as fallback
-  }
-};
-
 const createChartFromParsedData = (
   parsedData,
   chart,
@@ -388,39 +246,21 @@ const createChartFromParsedData = (
   chartType
 ) => {
   if (parsedData) {
-    // Use chartManager instead of direct function calls
-    if (typeof chartManager !== 'undefined' && chartManager.createChartFromParsedData) {
-      chartManager.createChartFromParsedData(
-        parsedData,
-        chart,
-        peer,
-        client,
-        type,
-        fixedNum,
-        mainName,
-        wa,
-        benchmark,
-        title,
-        chartType
-      );
-    } else {
-      console.error('chartManager is not defined or missing createChartFromParsedData method');
-      // Fallback to old approach if needed
-      updateModal(mainName, parsedData[peer], parsedData[client], parsedData);
-      createChart(
-        chart,
-        parsedData[peer],
-        parsedData[client],
-        type,
-        fixedNum,
-        mainName,
-        wa,
-        parsedData,
-        benchmark,
-        title,
-        chartType
-      );
-    }
+    // if (mainName == 'functionalExpensePercent_program') console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
+    updateModal(mainName, parsedData[peer], parsedData[client], parsedData);
+    createChart(
+      chart,
+      parsedData[peer],
+      parsedData[client],
+      type,
+      fixedNum,
+      mainName,
+      wa,
+      parsedData,
+      benchmark,
+      title,
+      chartType
+    );
   }
 };
 
@@ -463,9 +303,8 @@ const createChart = (
     return null;
   }
 };
-
 function updateModal(mainName, peerData, clientData, parsedData) {
-  // console.log(`Updating modal for ${mainName}`, { peerData, clientData });
+  console.log(`Updating modal for ${mainName}`, { peerData, clientData });
 
   // Get the selected years from local storage
   const selectedYears = getSelectedYearsFromLocalStorage();
@@ -479,7 +318,7 @@ function updateModal(mainName, peerData, clientData, parsedData) {
   const modal = document.querySelector(modalSelector);
 
   if (!modal) {
-    // console.warn(`Modal element with selector "${modalSelector}" not found`);
+    console.warn(`Modal element with selector "${modalSelector}" not found`);
     return;
   }
 
@@ -1373,11 +1212,11 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
 
 // Enhanced addClientDataToModalRow function
 function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
-  // console.log(`Adding client data to row: ${yearRow.id}`, {
-  //   clientValue,
-  //   type,
-  //   fixedNum,
-  // });
+  console.log(`Adding client data to row: ${yearRow.id}`, {
+    clientValue,
+    type,
+    fixedNum,
+  });
 
   const cell = document.createElement("td");
   cell.className =
@@ -1425,12 +1264,12 @@ function addPeerDataToModalRow(
   p25Value,
   p75Value
 ) {
-  // console.log(`Adding peer data to row: ${yearRow.id}`, {
-  //   avgValue,
-  //   midValue,
-  //   p25Value,
-  //   p75Value,
-  // });
+  console.log(`Adding peer data to row: ${yearRow.id}`, {
+    avgValue,
+    midValue,
+    p25Value,
+    p75Value,
+  });
 
   // Add average value cell
   const avgCell = document.createElement("td");
@@ -1876,7 +1715,7 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
 
 const editElementChildren = (element, variable, elementId) => {
   // console.log({ element, variable });
-  // if (!element) console.log(elementId);
+  if (!element) console.log(elementId);
 
   // console.log(element.firstChild);
 
@@ -2054,7 +1893,7 @@ const originalRegisterChartEventListeners = window.registerChartEventListeners;
 
 // Override it to avoid duplicate run button listeners
 window.registerChartEventListeners = function () {
-  // console.log("Using primary event listener from qbApi.js");
+  console.log("Using primary event listener from qbApi.js");
 
   // Only keep the dark mode toggle if it exists
   const darkModeToggle = document.querySelector("#dark-mode-toggle");
@@ -2436,9 +2275,9 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
     });
 
     // Log change
-    // console.log("All areas selected:", isChecked, {
-    //   areas: Array.from(window.selectedAreas_Array),
-    // });
+    console.log("All areas selected:", isChecked, {
+      areas: Array.from(window.selectedAreas_Array),
+    });
 
     // Trigger filter changed event
     const event = new CustomEvent("filtersChanged");
@@ -2497,11 +2336,11 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areaArray) {
       selectAllInput.checked = allChecked;
 
       // Log change
-      // console.log("Area selection changed:", {
-      //   area: areaString,
-      //   selected: areaInput.checked,
-      //   allAreas: Array.from(selectedAreas_Array),
-      // });
+      console.log("Area selection changed:", {
+        area: areaString,
+        selected: areaInput.checked,
+        allAreas: Array.from(selectedAreas_Array),
+      });
 
       // Trigger filter changed event
       const event = new CustomEvent("filtersChanged");

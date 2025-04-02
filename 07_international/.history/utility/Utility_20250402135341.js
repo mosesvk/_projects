@@ -479,7 +479,7 @@ function updateModal(mainName, peerData, clientData, parsedData) {
   const modal = document.querySelector(modalSelector);
 
   if (!modal) {
-    // console.warn(`Modal element with selector "${modalSelector}" not found`);
+    console.warn(`Modal element with selector "${modalSelector}" not found`);
     return;
   }
 
