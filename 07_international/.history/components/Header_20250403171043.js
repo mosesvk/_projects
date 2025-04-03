@@ -117,7 +117,7 @@ function clientMatchesFilters(
     return false;
   }
 
-  // console.log({area: clientData.areaQuery, type: clientData.typeQuery});
+  console.log({area: clientData.areaQuery, type: clientData.typeQuery});
   
 
   // Check if client has at least one of the selected areas, handle missing areaQuery
