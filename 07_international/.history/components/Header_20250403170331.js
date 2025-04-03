@@ -113,7 +113,7 @@ function clientMatchesFilters(
     clientData.missionUnit <= maxMission;
 
  if (selectedAreas.length === 0 || selectedTypes.length === 0) {
-    console.log("No areas or types selected, returning false");
+    // console.log("No areas or types selected, returning false");
     return false;
   }
 

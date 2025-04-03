@@ -101,7 +101,6 @@ function clientMatchesFilters(
   maxMission
 ) {
   if (!clientData) return false;
-  
 
   // Check giving unit range
   const givingUnitMatch =
@@ -112,8 +111,9 @@ function clientMatchesFilters(
     clientData.missionUnit >= minMission &&
     clientData.missionUnit <= maxMission;
 
- if (selectedAreas.length === 0 || selectedTypes.length === 0) {
-    console.log("No areas or types selected, returning false");
+  // CRITICAL: If no areas or types are selected, nothing should match
+  if (selectedAreas.length === 0 || selectedTypes.length === 0) {
+    // console.log("No areas or types selected, returning false");
     return false;
   }
 

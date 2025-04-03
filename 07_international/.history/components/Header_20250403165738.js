@@ -101,7 +101,6 @@ function clientMatchesFilters(
   maxMission
 ) {
   if (!clientData) return false;
-  
 
   // Check giving unit range
   const givingUnitMatch =
@@ -112,22 +111,37 @@ function clientMatchesFilters(
     clientData.missionUnit >= minMission &&
     clientData.missionUnit <= maxMission;
 
- if (selectedAreas.length === 0 || selectedTypes.length === 0) {
-    console.log("No areas or types selected, returning false");
+  // Only return false if BOTH areas AND types are empty
+  if (selectedAreas.length === 0 && selectedTypes.length === 0) {
+    console.log("Both areas and types are empty, returning false");
     return false;
   }
 
-  // Check if client has at least one of the selected areas, handle missing areaQuery
-  const areaMatch = clientData.areaQuery ? 
-    clientData.areaQuery.some((area) => selectedAreas.includes(area)) : 
-    false;
+  // Handle area matching - if areas are selected, check for matches
+  let areaMatch = true;
+  if (selectedAreas.length > 0) {
+    // Check if client has area data and matches any selected area
+    areaMatch = clientData.areaQuery && 
+                Array.isArray(clientData.areaQuery) &&
+                clientData.areaQuery.some(area => selectedAreas.includes(area));
+  }
 
-  // Check if client has at least one of the selected types, handle missing typeQuery
-  const typeMatch = clientData.typeQuery ? 
-    clientData.typeQuery.some((type) => selectedTypes.includes(type)) : 
-    true; // Set to true if typeQuery is missing to avoid breaking functionality
+  // Handle type matching - if types are selected, check for matches
+  let typeMatch = true;
+  if (selectedTypes.length > 0) {
+    // If typeQuery is undefined, default to true if "Unspecified" is selected
+    if (!clientData.typeQuery || !Array.isArray(clientData.typeQuery)) {
+      typeMatch = selectedTypes.includes("Unspecified");
+    } else {
+      // Otherwise check for actual matches
+      typeMatch = clientData.typeQuery.some(type => selectedTypes.includes(type));
+    }
+  }
 
-  // Client matches only if it passes all criteria
+  // Log the match results for debugging
+  console.log(`Client: ${clientData.name} - Giving: ${givingUnitMatch}, Mission: ${missionUnitMatch}, Area: ${areaMatch}, Type: ${typeMatch}`);
+
+  // Client matches if it passes all applicable criteria
   return givingUnitMatch && missionUnitMatch && areaMatch && typeMatch;
 }
 

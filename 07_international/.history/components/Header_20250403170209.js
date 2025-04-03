@@ -101,7 +101,9 @@ function clientMatchesFilters(
   maxMission
 ) {
   if (!clientData) return false;
-  
+
+  // Debug output of the client data to understand what's in typeQuery
+  console.log(`Processing client: ${clientData.name}, typeQuery:`, clientData.typeQuery);
 
   // Check giving unit range
   const givingUnitMatch =
@@ -112,22 +114,38 @@ function clientMatchesFilters(
     clientData.missionUnit >= minMission &&
     clientData.missionUnit <= maxMission;
 
- if (selectedAreas.length === 0 || selectedTypes.length === 0) {
-    console.log("No areas or types selected, returning false");
-    return false;
+  // Handle area matching - check if client has at least one of the selected areas
+  // Only do this check if areas are selected
+  let areaMatch = true;
+  if (selectedAreas.length > 0) {
+    areaMatch = clientData.areaQuery && 
+                Array.isArray(clientData.areaQuery) &&
+                clientData.areaQuery.some(area => selectedAreas.includes(area));
   }
 
-  // Check if client has at least one of the selected areas, handle missing areaQuery
-  const areaMatch = clientData.areaQuery ? 
-    clientData.areaQuery.some((area) => selectedAreas.includes(area)) : 
-    false;
+  // Handle type matching based on selection
+  let typeMatch = true;
+  
+  if (selectedTypes.length > 0) {
+    // Special case for 'Unspecified' type
+    if (selectedTypes.includes('Unspecified')) {
+      // Match clients that have undefined/empty typeQuery OR have 'Unspecified' in their types
+      typeMatch = !clientData.typeQuery || 
+                 !Array.isArray(clientData.typeQuery) || 
+                 clientData.typeQuery.length === 0 ||
+                 clientData.typeQuery.includes('Unspecified');
+    } else {
+      // For regular type selections, check if client has ANY of the selected types
+      typeMatch = clientData.typeQuery && 
+                 Array.isArray(clientData.typeQuery) &&
+                 clientData.typeQuery.some(type => selectedTypes.includes(type));
+    }
+  }
 
-  // Check if client has at least one of the selected types, handle missing typeQuery
-  const typeMatch = clientData.typeQuery ? 
-    clientData.typeQuery.some((type) => selectedTypes.includes(type)) : 
-    true; // Set to true if typeQuery is missing to avoid breaking functionality
+  // For debugging
+  console.log(`Client: ${clientData.name} - Giving: ${givingUnitMatch}, Mission: ${missionUnitMatch}, Area: ${areaMatch}, Type: ${typeMatch}`);
 
-  // Client matches only if it passes all criteria
+  // Client matches if it passes all criteria
   return givingUnitMatch && missionUnitMatch && areaMatch && typeMatch;
 }
 
