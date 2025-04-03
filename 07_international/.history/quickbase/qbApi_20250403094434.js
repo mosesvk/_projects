@@ -3589,60 +3589,6 @@ const findUniqueYears = (data) => {
 
 
 
-async function validateAndNormalizeRecords(records) {
-  // Handle empty or invalid input
-  if (!records) {
-    console.warn("Empty records received");
-    return [];
-  }
-
-  // If records is already an array, process it
-  if (Array.isArray(records)) {
-    // Create a new array with properly processed records
-    const result = [];
-
-    for (const record of records) {
-      // If it's a DOM node, return as is
-      if (record && typeof record.querySelector === "function") {
-        result.push(record);
-      }
-      // If it's an object but not a DOM node, convert to a simulated DOM-like object
-      else if (record && typeof record === "object") {
-        // Create a wrapper with querySelector method
-        const wrapper = {
-          querySelector: function (selector) {
-            // Strip any leading underscores or other characters from selector to match property name
-            const propName = selector.replace(/^[_.]/, "");
-            if (this.hasOwnProperty(propName)) {
-              return { textContent: this[propName] };
-            }
-            return null;
-          },
-        };
-
-        // Copy all properties from the original record
-        Object.assign(wrapper, record);
-        result.push(wrapper);
-      }
-    }
-
-    return result;
-  }
-
-  // If records is NodeList or other iterable, convert to array
-  if (typeof records[Symbol.iterator] === "function") {
-    return Array.from(records);
-  }
-
-  // If records is a single object, wrap in array
-  if (typeof records === "object") {
-    return [records];
-  }
-
-  console.error("Unrecognized records format:", records);
-  return [];
-};
-
 // Ensure other key components are globally accessible
 window.DataStore = DataStore;
 window.DataProcessor = DataProcessor;

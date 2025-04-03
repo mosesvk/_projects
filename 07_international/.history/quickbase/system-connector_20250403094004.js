@@ -253,7 +253,7 @@ class SystemConnector {
     }
     
     // Define the unified data processing function
-    window.processApiCalls = (years, recordsPeer, recordsClient) => {
+    window.processApiData = (years, recordsPeer, recordsClient) => {
       // console.log("Processing API data with unified function");
       
       // Clear existing data store or create a new one
@@ -295,8 +295,6 @@ class SystemConnector {
   }
 
   async handleRunButtonClick() {
-    console.log('system-connector runButton called');
-    
     // Prevent multiple simultaneous requests
     if (this.isLoading) return;
 

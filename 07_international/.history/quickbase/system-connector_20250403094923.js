@@ -15,6 +15,7 @@ class SystemConnector {
   }
 
   initialize() {
+    console.log('initialize system-connector()')
     if (this.initialized) return;
 
     // console.log("Initializing System Connector");

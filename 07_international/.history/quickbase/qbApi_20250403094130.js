@@ -3587,7 +3587,50 @@ const findUniqueYears = (data) => {
   }
 };
 
+/**
+ * This file contains the additions/modifications to be made to qbApi.js
+ * Add this at the end of your existing qbApi.js file
+ */
 
+// Expose the processApiCalls function globally for system-connector.js to use
+function processApiCalls(years, recordsPeer, recordsClient) {
+  try {
+    console.log("Processing API data with enhanced processApiCalls");
+
+    // Use existing dataStore or create a new one
+    const dataStore = window.dataStore || new DataStore();
+
+    // Create a processor with the dataStore
+    const processor = new DataProcessor(dataStore);
+
+    // Log data processing stats
+    // console.log("Processing API data for years:", years);
+    // console.log("Number of peer records:", recordsPeer?.length || 0);
+    // console.log("Number of client records:", recordsClient?.length || 0);
+
+    // Process all data categories
+    processor.processAllData(years, recordsPeer, recordsClient);
+
+    // Make processed data available globally
+    window.processedData = {
+      generalData: JSON.parse(localStorage.getItem("generalData")),
+      cashData: JSON.parse(localStorage.getItem("cashData")),
+      assetData: JSON.parse(localStorage.getItem("assetData")),
+      incomeData: JSON.parse(localStorage.getItem("incomeData")),
+      expenseData: JSON.parse(localStorage.getItem("expenseData")),
+      miscData: JSON.parse(localStorage.getItem("miscData")),
+    };
+
+    // Signal that data is ready
+    document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
+
+    // console.log("Data processing complete for years:", years);
+    return true;
+  } catch (error) {
+    console.error("Error in processApiCalls:", error);
+    return false;
+  }
+}
 
 async function validateAndNormalizeRecords(records) {
   // Handle empty or invalid input
@@ -3641,7 +3684,10 @@ async function validateAndNormalizeRecords(records) {
 
   console.error("Unrecognized records format:", records);
   return [];
-};
+}
+
+// Make the function globally available
+window.processApiCalls = processApiCalls;
 
 // Ensure other key components are globally accessible
 window.DataStore = DataStore;

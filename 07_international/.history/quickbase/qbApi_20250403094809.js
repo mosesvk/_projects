@@ -3641,7 +3641,10 @@ async function validateAndNormalizeRecords(records) {
 
   console.error("Unrecognized records format:", records);
   return [];
-};
+}
+
+// Make the function globally available
+window.processApiCalls = processApiCalls;
 
 // Ensure other key components are globally accessible
 window.DataStore = DataStore;

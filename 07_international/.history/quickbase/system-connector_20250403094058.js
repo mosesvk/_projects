@@ -295,8 +295,6 @@ class SystemConnector {
   }
 
   async handleRunButtonClick() {
-    console.log('system-connector runButton called');
-    
     // Prevent multiple simultaneous requests
     if (this.isLoading) return;
 
