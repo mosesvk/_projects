@@ -17,15 +17,12 @@ class SystemConnector {
   initialize() {
     if (this.initialized) return;
 
-    console.log("Initializing System Connector");
+    // console.log("Initializing System Connector");
 
     // Initialize the ApiService singleton if it doesn't exist
     if (!window.apiService) {
       window.apiService = new ApiService();
     }
-
-    // Patch missing functions to ensure integration between components
-    this.patchMissingFunctions();
 
     // Set up report link event handler
     const reportLink = document.getElementById("reportLink");
@@ -50,23 +47,9 @@ class SystemConnector {
       }
     });
 
-    // Set up data processing complete listener
-    document.addEventListener("dataProcessingComplete", () => {
-      console.log("Data processing complete event received");
-      setTimeout(() => {
-        if (typeof enhancedInitializeChartDisplay === "function") {
-          enhancedInitializeChartDisplay();
-        } else if (typeof initializeChartDisplay === "function") {
-          initializeChartDisplay();
-        }
-      }, 300);
-    });
-
     // Wait a moment to ensure Flowbite is fully loaded before checking modals
     setTimeout(() => {
-      if (typeof ensureAllModalsExist === "function") {
-        ensureAllModalsExist();
-      }
+      ensureAllModalsExist();
     }, 500);
 
     // Set up a single run button listener to prevent duplicates
@@ -93,117 +76,30 @@ class SystemConnector {
     console.log("System Connector initialized");
   }
 
-  patchMissingFunctions() {
-    // Patch processApiData if missing
-    if (typeof window.processApiData !== "function") {
-      console.log("Patching missing processApiData function");
-      window.processApiData = function (
-        selectedYears,
-        recordsPeer,
-        recordsClient
-      ) {
-        console.log("Patched processApiData called");
-
-        // Call processApiCalls if available
-        if (typeof window.processApiCalls === "function") {
-          return window.processApiCalls(
-            selectedYears,
-            recordsPeer,
-            recordsClient
-          );
-        } else {
-          console.warn(
-            "processApiCalls function not found, using direct processor"
-          );
-
-          // Create a new DataStore instance if needed
-          if (!window.dataStore) {
-            window.dataStore = new DataStore();
-          }
-
-          // Create processor with the store
-          const dataProcessor = new DataProcessor(window.dataStore);
-
-          // Process all data categories
-          dataProcessor.processAllData(
-            selectedYears,
-            recordsPeer,
-            recordsClient
-          );
-
-          // Signal that data is ready
-          document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
-
-          return {
-            generalData: JSON.parse(localStorage.getItem("generalData")),
-            cashData: JSON.parse(localStorage.getItem("cashData")),
-            assetData: JSON.parse(localStorage.getItem("assetData")),
-            incomeData: JSON.parse(localStorage.getItem("incomeData")),
-            expenseData: JSON.parse(localStorage.getItem("expenseData")),
-            miscData: JSON.parse(localStorage.getItem("miscData")),
-          };
-        }
-      };
-    }
-
-    // Ensure chart initialization function exists
-    if (typeof window.initializeChartDisplay !== "function") {
-      console.log("Patching missing initializeChartDisplay function");
-      window.initializeChartDisplay = function () {
-        console.log("Patched initializeChartDisplay called");
-
-        if (
-          window.displayComponents &&
-          typeof window.displayComponents.displayAllComponents === "function"
-        ) {
-          window.displayComponents.displayAllComponents();
-          return true;
-        } else if (
-          typeof displayGeneralComponent === "function" &&
-          typeof displayCashComponent === "function" &&
-          typeof displayIncomeComponent === "function" &&
-          typeof displayExpenseComponent === "function"
-        ) {
-          console.log("Using individual component display functions");
-          displayGeneralComponent();
-          displayCashComponent();
-          displayIncomeComponent();
-          displayExpenseComponent();
-          return true;
-        }
-
-        console.warn("No chart display functions available");
-        return false;
-      };
-    }
-  }
-
   setupReliableReportLoading() {
     // Create a custom event for when all charts are rendered
     const chartsRenderedEvent = new CustomEvent("chartsRendered");
-
+    
     // Store original chart creation function
     const originalCreateChart = window.createChart;
-
+    
     if (originalCreateChart) {
       // Override chart creation to track rendering
       window.createChart = (...args) => {
         // Call original function
         const result = originalCreateChart.apply(window, args);
-
+        
         // Increment chart counter
         this.chartsRendered++;
-        console.log(
-          `Chart rendered: ${this.chartsRendered}/${this.totalExpectedCharts}`
-        );
-
+        console.log(`Chart rendered: ${this.chartsRendered}/${this.totalExpectedCharts}`);
+        
         // If all expected charts are rendered, dispatch the event
         if (this.chartsRendered >= this.totalExpectedCharts) {
           console.log("All charts rendered, triggering report display");
           document.dispatchEvent(chartsRenderedEvent);
           this.chartsRendered = 0; // Reset counter for future calls
         }
-
+        
         return result;
       };
     }
@@ -233,18 +129,18 @@ class SystemConnector {
             window.netAssetBreakdown_chart,
             window.changeInNetAssets_chart,
             window.totalContributions_chart,
-            window.contributionsWithoutDR_chart,
+            window.contributionsWithoutDR_chart
           ];
-
+          
           // Destroy each chart if it exists
-          chartInstances.forEach((chart) => {
-            if (chart && typeof chart.destroy === "function") {
+          chartInstances.forEach(chart => {
+            if (chart && typeof chart.destroy === 'function') {
               chart.destroy();
             }
           });
-
+          
           console.log("All charts destroyed");
-        },
+        }
       };
     }
   }
@@ -355,11 +251,11 @@ class SystemConnector {
         ];
       };
     }
-
+    
     // Define the unified data processing function
     window.processApiCalls = (years, recordsPeer, recordsClient) => {
       // console.log("Processing API data with unified function");
-
+      
       // Clear existing data store or create a new one
       if (!window.dataStore) {
         window.dataStore = new DataStore();
@@ -372,13 +268,13 @@ class SystemConnector {
         window.dataStore.expenseData = {};
         window.dataStore.miscData = {};
       }
-
+      
       // Create processor with the store
       const dataProcessor = new DataProcessor(window.dataStore);
-
+      
       // Process all data categories
       dataProcessor.processAllData(years, recordsPeer, recordsClient);
-
+      
       // Make processed data available globally
       window.processedData = {
         generalData: JSON.parse(localStorage.getItem("generalData")),
@@ -386,77 +282,74 @@ class SystemConnector {
         assetData: JSON.parse(localStorage.getItem("assetData")),
         incomeData: JSON.parse(localStorage.getItem("incomeData")),
         expenseData: JSON.parse(localStorage.getItem("expenseData")),
-        miscData: JSON.parse(localStorage.getItem("miscData")),
+        miscData: JSON.parse(localStorage.getItem("miscData"))
       };
-
+      
       // console.log("Data processing complete and available globally");
-
+      
       // Signal that data is ready
       document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
-
+      
       return window.processedData;
     };
   }
 
   async handleRunButtonClick() {
-    console.log("system-connector runButton called");
-
+    console.log('system-connector runButton called');
+    
     // Prevent multiple simultaneous requests
     if (this.isLoading) return;
-
+  
     try {
       this.isLoading = true;
-
+  
       // Make sure required functions exist
       this.checkRequiredFunctions();
-
+  
       // Update button UI to show loading
       const runButton = document.querySelector("#run");
       if (runButton && typeof toggleButtonLoadingState === "function") {
         toggleButtonLoadingState(runButton);
       }
-
+  
       // Show loading indicator
       if (typeof showApiLoadingFunction === "function") {
         showApiLoadingFunction("open", "api");
       }
-
+  
       // Get selected years
       const selectedYears = this.getSelectedYears();
       this.saveSelectedYearsToLocalStorage(selectedYears);
-
+  
       // Clear existing charts
-      if (
-        window.chartManager &&
-        typeof chartManager.destroyAllCharts === "function"
-      ) {
+      if (window.chartManager && typeof chartManager.destroyAllCharts === "function") {
         console.log("Destroying existing charts");
         chartManager.destroyAllCharts();
       }
-
+  
       // Reset chart render counter
       this.chartsRendered = 0;
-
+  
       // Use existing ApiService
       const apiService = window.apiService;
-
+  
       if (!apiService) {
         throw new Error("ApiService not available");
       }
-
+  
       // Clear any existing record data
       apiService.clearRecords();
-
+  
       // Fetch data from API
       console.log("Fetching peer data...");
       const recordsPeer = await apiService.getRecordsForPeer(selectedYears);
       if (typeof countUniqueClients === "function") {
         countUniqueClients(recordsPeer);
       }
-
+  
       console.log("Fetching client data...");
       const recordsClient = await apiService.getRecordsForClient(selectedYears);
-
+  
       // Process data using the unified function
       console.log("Processing API data...");
       if (typeof window.processApiCalls === "function") {
@@ -464,44 +357,44 @@ class SystemConnector {
       } else {
         throw new Error("processApiCalls function not found");
       }
-
+      
       // Explicitly wait for a moment to ensure data is fully processed
-      await new Promise((resolve) => setTimeout(resolve, 300));
-
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
       // Display charts
       console.log("Displaying charts...");
       this.displayCharts();
-
+  
       // Dispatch event that charts are rendered
       setTimeout(() => {
-        document.dispatchEvent(new Event("chartsRendered"));
+        document.dispatchEvent(new Event('chartsRendered'));
       }, 500);
-
+  
       // Update button UI to show normal state
       if (runButton && typeof toggleButtonNormalState === "function") {
         toggleButtonNormalState(runButton);
       }
-
+  
       // Hide loading indicator
       if (typeof showApiLoadingFunction === "function") {
         showApiLoadingFunction("close");
       }
-
+  
       console.log("Data processing and chart rendering complete");
     } catch (error) {
       console.error("Error in run button handler:", error);
-
+  
       // Update button UI to show normal state even on error
       const runButton = document.querySelector("#run");
       if (runButton && typeof toggleButtonNormalState === "function") {
         toggleButtonNormalState(runButton);
       }
-
+  
       // Hide loading indicator even on error
       if (typeof showApiLoadingFunction === "function") {
         showApiLoadingFunction("close");
       }
-
+  
       // Display error message to user
       if (typeof createToastWarning === "function") {
         createToastWarning("Error processing data: " + error.message);
@@ -533,67 +426,67 @@ class SystemConnector {
     }
   }
 
-  // Display charts with improved flow
-  displayCharts() {
-    try {
-      // First try to use enhancedInitializeChartDisplay from chartIndex.js
-      if (typeof window.enhancedInitializeChartDisplay === "function") {
-        console.log("Using enhancedInitializeChartDisplay");
-        window.enhancedInitializeChartDisplay();
-        return;
-      }
-      // Then try initializeChartDisplay
-      else if (typeof window.initializeChartDisplay === "function") {
-        console.log("Using initializeChartDisplay");
-        window.initializeChartDisplay();
-        return;
-      }
-      // Then try to use the displayComponents from chartDisplayComponents.js
-      else if (
-        window.displayComponents &&
-        typeof displayComponents.displayAllComponents === "function"
-      ) {
-        console.log("Using displayComponents.displayAllComponents");
-        displayComponents.displayAllComponents();
-      }
-      // Then try the individual display functions
-      else if (
-        typeof displayGeneralComponent === "function" &&
-        typeof displayCashComponent === "function" &&
-        typeof displayIncomeComponent === "function" &&
-        typeof displayExpenseComponent === "function"
-      ) {
-        console.log("Displaying individual components");
-        displayGeneralComponent();
-        displayCashComponent();
-        displayIncomeComponent();
-        displayExpenseComponent();
+// Display charts with improved flow
+displayCharts() {
+  try {
+    // First try to use enhancedInitializeChartDisplay from chartIndex.js
+    if (typeof window.enhancedInitializeChartDisplay === "function") {
+      console.log("Using enhancedInitializeChartDisplay");
+      window.enhancedInitializeChartDisplay();
+      return;
+    }
+    // Then try initializeChartDisplay
+    else if (typeof window.initializeChartDisplay === "function") {
+      console.log("Using initializeChartDisplay");
+      window.initializeChartDisplay();
+      return;
+    }
+    // Then try to use the displayComponents from chartDisplayComponents.js
+    else if (
+      window.displayComponents &&
+      typeof displayComponents.displayAllComponents === "function"
+    ) {
+      console.log("Using displayComponents.displayAllComponents");
+      displayComponents.displayAllComponents();
+    }
+    // Then try the individual display functions
+    else if (
+      typeof displayGeneralComponent === "function" &&
+      typeof displayCashComponent === "function" &&
+      typeof displayIncomeComponent === "function" &&
+      typeof displayExpenseComponent === "function"
+    ) {
+      console.log("Displaying individual components");
+      displayGeneralComponent();
+      displayCashComponent();
+      displayIncomeComponent();
+      displayExpenseComponent();
 
-        // Explicitly call displayReportComponent after delay to ensure data is processed
-        setTimeout(() => {
-          if (typeof displayReportComponent === "function") {
-            console.log("Calling displayReportComponent after delay");
-            displayReportComponent();
-          } else {
-            console.warn("displayReportComponent function not available");
-          }
+      // Explicitly call displayReportComponent after delay to ensure data is processed
+      setTimeout(() => {
+        if (typeof displayReportComponent === "function") {
+          console.log("Calling displayReportComponent after delay");
+          displayReportComponent();
+        } else {
+          console.warn("displayReportComponent function not available");
+        }
 
-          // Re-initialize modals after charts have been displayed
-          if (typeof ensureAllModalsExist === "function") {
-            ensureAllModalsExist();
-          }
-        }, 1000);
-      } else {
-        console.error("Chart display functions not found");
-        throw new Error("No chart display functions available");
-      }
-    } catch (error) {
-      console.error("Error displaying charts:", error);
-      if (typeof createToastWarning === "function") {
-        createToastWarning("Error displaying charts: " + error.message);
-      }
+        // Re-initialize modals after charts have been displayed
+        if (typeof ensureAllModalsExist === "function") {
+          ensureAllModalsExist();
+        }
+      }, 1000);
+    } else {
+      console.error("Chart display functions not found");
+      throw new Error("No chart display functions available");
+    }
+  } catch (error) {
+    console.error("Error displaying charts:", error);
+    if (typeof createToastWarning === "function") {
+      createToastWarning("Error displaying charts: " + error.message);
     }
   }
+}
 }
 
 // Function to ensure existing modals are properly initialized
@@ -623,10 +516,9 @@ function ensureAllModalsExist() {
       if (window.Flowbite && typeof window.Flowbite.initModals === "function") {
         try {
           window.Flowbite.initModals();
-          console
-            .log
+          console.log(
             // `Successfully initialized modal ${modalId} via Flowbite.initModals`
-            ();
+          );
         } catch (error) {
           console.error(`Error initializing modal ${modalId}:`, error);
         }
@@ -643,10 +535,9 @@ function ensureAllModalsExist() {
       ) {
         try {
           window.flowbite.initModals();
-          console
-            .log
+          console.log(
             // `Successfully initialized modal ${modalId} via flowbite.initModals`
-            ();
+          );
         } catch (error) {
           console.error(`Error initializing modal ${modalId}:`, error);
         }
@@ -685,7 +576,7 @@ function ensureAllModalsExist() {
 // Make sure all modal rows exist
 function ensureModalsHaveRows() {
   // console.log("Ensuring all modals have proper row structure");
-
+  
   // List of all expected modals
   const modalIds = [
     "daysCashOnHand",
@@ -743,3 +634,4 @@ window.systemConnector = new SystemConnector();
 
 // Add event listeners for DOM ready
 document.addEventListener("DOMContentLoaded", ensureModalsHaveRows);
+
