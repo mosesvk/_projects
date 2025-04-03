@@ -156,26 +156,6 @@ class SystemConnector {
 
     this.initialized = true;
     console.log("System Connector initialized");
-
-    // Listen for data processing completion
-    document.addEventListener("dataProcessingComplete", () => {
-      console.log("Data processing complete event received in SystemConnector");
-
-      // Schedule chart rendering
-      setTimeout(() => {
-        this.displayCharts();
-      }, 300);
-    });
-
-    // Listen for chart rendered events
-    document.addEventListener("chartsRendered", () => {
-      console.log("Charts rendered event received in SystemConnector");
-
-      // Update any UI that depends on charts being rendered
-      if (typeof displayReportComponent === "function") {
-        displayReportComponent();
-      }
-    });
   }
 
   patchMissingFunctions() {

@@ -12,30 +12,6 @@ class SystemConnector {
     } else {
       this.initialize();
     }
-
-    if (window.systemConnector) {
-      const originalHandleRunButtonClick =
-        SystemConnector.prototype.handleRunButtonClick;
-
-      SystemConnector.prototype.handleRunButtonClick = async function () {
-        console.log("Enhanced run button handler in SystemConnector");
-
-        try {
-          // Call original method
-          await originalHandleRunButtonClick.call(this);
-
-          // Ensure chart initialization happens after data processing
-          console.log("Checking for chart display after data processing");
-
-          setTimeout(() => {
-            // Force chart display initialization
-            enhancedInitializeChartDisplay();
-          }, 1000);
-        } catch (error) {
-          console.error("Error in enhanced run button handler:", error);
-        }
-      };
-    }
   }
 
   initialize() {
@@ -94,54 +70,41 @@ class SystemConnector {
     }, 500);
 
     // Set up a single run button listener to prevent duplicates
-    const originalHandleRunButtonClick =
-      AppController.prototype.handleRunButtonClick;
-    if (typeof originalHandleRunButtonClick === "function") {
-      AppController.prototype.handleRunButtonClick = async function () {
+    const originalHandleRunButtonClick = AppController.prototype.handleRunButtonClick;
+    if (typeof originalHandleRunButtonClick === 'function') {
+      AppController.prototype.handleRunButtonClick = async function() {
         // Call the original method first
         await originalHandleRunButtonClick.call(this);
-
+        
         // Then ensure chart display happens after data processing
-        console.log(
-          "Checking if charts need to be displayed after data processing"
-        );
-
+        console.log("Checking if charts need to be displayed after data processing");
+        
         // Give time for data processing to complete
         setTimeout(() => {
           // Try to initialize chart display
-          if (
-            typeof window.systemConnector === "object" &&
-            typeof window.systemConnector.displayCharts === "function"
-          ) {
+          if (typeof window.systemConnector === 'object' && 
+              typeof window.systemConnector.displayCharts === 'function') {
             window.systemConnector.displayCharts();
-          } else if (
-            typeof window.enhancedInitializeChartDisplay === "function"
-          ) {
+          }
+          else if (typeof window.enhancedInitializeChartDisplay === 'function') {
             window.enhancedInitializeChartDisplay();
-          } else if (typeof window.initializeChartDisplay === "function") {
+          }
+          else if (typeof window.initializeChartDisplay === 'function') {
             window.initializeChartDisplay();
           }
         }, 1000);
       };
-
-      console.log(
-        "Successfully hooked into AppController.handleRunButtonClick"
-      );
+      
+      console.log("Successfully hooked into AppController.handleRunButtonClick");
     } else {
-      console.warn(
-        "Could not find AppController.handleRunButtonClick to hook into"
-      );
-
+      console.warn("Could not find AppController.handleRunButtonClick to hook into");
+      
       // Fall back to direct event listener as a backup
       const runButton = document.querySelector("#run");
       if (runButton) {
-        runButton.addEventListener(
-          "click",
-          () => {
-            setTimeout(() => this.displayCharts(), 1500);
-          },
-          { passive: true }
-        );
+        runButton.addEventListener("click", () => {
+          setTimeout(() => this.displayCharts(), 1500);
+        }, { passive: true });
       }
     }
 
@@ -156,26 +119,6 @@ class SystemConnector {
 
     this.initialized = true;
     console.log("System Connector initialized");
-
-    // Listen for data processing completion
-    document.addEventListener("dataProcessingComplete", () => {
-      console.log("Data processing complete event received in SystemConnector");
-
-      // Schedule chart rendering
-      setTimeout(() => {
-        this.displayCharts();
-      }, 300);
-    });
-
-    // Listen for chart rendered events
-    document.addEventListener("chartsRendered", () => {
-      console.log("Charts rendered event received in SystemConnector");
-
-      // Update any UI that depends on charts being rendered
-      if (typeof displayReportComponent === "function") {
-        displayReportComponent();
-      }
-    });
   }
 
   patchMissingFunctions() {

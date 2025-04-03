@@ -3165,7 +3165,7 @@ class AppController {
   }
 
   enableGenerateReportsButton() {
-    console.log("enableGenerateReportsButton called");
+    console.log("enablePrintModalHiddenClass called");
 
     // Re-enable the generate reports button
     const generateReportsBtn = document.getElementById("generateReports");
