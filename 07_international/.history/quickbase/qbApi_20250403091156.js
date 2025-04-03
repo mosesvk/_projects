@@ -2876,7 +2876,7 @@ class AppController {
     }
 
     // Set up run button event listener
-    const runButton = document.getElementById("run"); // Make sure to use correct ID
+    const runButton = document.getElementById("runButton"); // Make sure to use correct ID
     if (runButton) {
       this.runButton = runButton;
 

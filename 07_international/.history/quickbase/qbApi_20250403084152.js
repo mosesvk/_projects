@@ -2565,7 +2565,7 @@ class ApiService {
       xmlString += "</qdbapi>";
 
       // Print the XML string to console
-      // console.log("Client Data XML:", xmlString);
+      console.log("Client Data XML:", xmlString);
 
       const sortedUniquePeerClientNames = Array.from(
         uniquePeerClientNames
@@ -2876,7 +2876,7 @@ class AppController {
     }
 
     // Set up run button event listener
-    const runButton = document.getElementById("run"); // Make sure to use correct ID
+    const runButton = document.getElementById("runButton"); // Make sure to use correct ID
     if (runButton) {
       this.runButton = runButton;
 
@@ -2996,9 +2996,15 @@ class AppController {
 
   // Handle the run button click
   async handleRunButtonClick() {
-    console.log("handleRunButtonClick() called");
-
     try {
+      this.enableGenerateReportsButton();
+
+
+      const printModalFooter = document.getElementById("print_modal_footer");
+      if (printModalFooter) {
+        printModalFooter.classList.add("hidden");
+      }
+
       // Show loading indicator
       showApiLoadingFunction("open", "api");
 
@@ -3031,6 +3037,7 @@ class AppController {
 
         return;
       }
+
 
       // Log selected data for debugging
       // console.log("Selected years:", selectedYears);
@@ -3149,6 +3156,8 @@ class AppController {
       } finally {
         // Always hide loading indicator
         showApiLoadingFunction("close");
+
+        this.enablePrintModalHiddenClass()
       }
     } catch (err) {
       console.error("Unexpected error in handleRunButtonClick:", err);
@@ -3157,15 +3166,11 @@ class AppController {
 
       // Re-enable generateReports button if it exists
       this.enableGenerateReportsButton();
-    } finally {
-      console.log("Finally block in handleRunButtonClick, re-enabling buttons");
-
-      this.enableGenerateReportsButton();
     }
   }
 
   enableGenerateReportsButton() {
-    console.log("enablePrintModalHiddenClass called");
+    console.log('enablePrintModalHiddenClass called');
 
     // Re-enable the generate reports button
     const generateReportsBtn = document.getElementById("generateReports");
@@ -3185,20 +3190,12 @@ class AppController {
   }
 
   enablePrintModalHiddenClass() {
-    console.log("enablePrintModalHiddenClass called");
-
-    // Hide the print modal footer if it exists
+    
+    // Hide the print modal footer
     const printModalFooter = document.getElementById("print_modal_footer");
+    console.log('enablePrintModalHiddenClass', printModalFooter.classList);
     if (printModalFooter) {
-      // Only add the hidden class if it's not already present
-      if (!printModalFooter.classList.contains("hidden")) {
-        console.log("Adding hidden class to print_modal_footer");
-        printModalFooter.classList.add("hidden");
-      } else {
-        console.log("print_modal_footer already has hidden class");
-      }
-    } else {
-      console.warn("print_modal_footer element not found!");
+      printModalFooter.classList.add("hidden");
     }
   }
 

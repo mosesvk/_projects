@@ -633,14 +633,14 @@ class ExcelReportGenerator {
       this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
 
       // Debug: Log final XML
-      // console.log(
-      //   "Final XML payload (first 500 chars):",
-      //   this.xmlPayload.substring(0, 500)
-      // );
-      // console.log(
-      //   "Final XML payload (last 50 chars):",
-      //   this.xmlPayload.substring(this.xmlPayload.length - 50)
-      // );
+      console.log(
+        "Final XML payload (first 500 chars):",
+        this.xmlPayload.substring(0, 500)
+      );
+      console.log(
+        "Final XML payload (last 50 chars):",
+        this.xmlPayload.substring(this.xmlPayload.length - 50)
+      );
 
       // Send to QuickBase with delay to ensure data is properly prepared
       console.log("Adding delay before sending to QuickBase API...");

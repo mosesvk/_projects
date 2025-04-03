@@ -621,7 +621,7 @@ class ExcelReportGenerator {
       }
 
       // Debug log client data XML
-      // console.log("XML with client data:", this.xmlPayload);
+      console.log("XML with client data:", this.xmlPayload);
 
       // Process metrics data
       const metricsXml = this.generateMetricsXml();
@@ -633,14 +633,14 @@ class ExcelReportGenerator {
       this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
 
       // Debug: Log final XML
-      // console.log(
-      //   "Final XML payload (first 500 chars):",
-      //   this.xmlPayload.substring(0, 500)
-      // );
-      // console.log(
-      //   "Final XML payload (last 50 chars):",
-      //   this.xmlPayload.substring(this.xmlPayload.length - 50)
-      // );
+      console.log(
+        "Final XML payload (first 500 chars):",
+        this.xmlPayload.substring(0, 500)
+      );
+      console.log(
+        "Final XML payload (last 50 chars):",
+        this.xmlPayload.substring(this.xmlPayload.length - 50)
+      );
 
       // Send to QuickBase with delay to ensure data is properly prepared
       console.log("Adding delay before sending to QuickBase API...");
@@ -756,44 +756,6 @@ class ExcelReportGenerator {
    * @returns {Promise} Promise that resolves with the QuickBase response
    */
   printToExcel(dataString) {
-    function getUrlBasedOnYearCount(format, RecordId) {
-      const yearCount = selectedYears_Set.size;
-      let url = "";
-
-      switch (yearCount) {
-        case 1:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=42&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-          break;
-        case 2:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=41&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-          break;
-        case 3:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=40&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-          break;
-        case 4:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=39&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-          break;
-        case 5:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=38&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-          break;
-        case 6:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=37&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-          break;
-        case 7:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=36&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-          break;
-        case 8:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=35&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-          break;
-        default:
-          console.error("Invalid year count");
-      }
-
-      console.log(
-        `Generated URL for format ${format} and RecordId ${RecordId}: ${url}`
-      ); // Add this line to log the generated URL
-      return url;
-    }
     return new Promise((resolve, reject) => {
       // Debug: Log the XML payload to console
       console.log("XML Payload being prepared for QuickBase:");
@@ -965,12 +927,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Remove any existing listeners to prevent duplicates
     const newBtn = generateReportsBtn.cloneNode(true);
     generateReportsBtn.parentNode.replaceChild(newBtn, generateReportsBtn);
-
+    
     // Add a single click event listener
     newBtn.addEventListener(
       "click",
       excelReportGenerator.handleGenerateReport.bind(excelReportGenerator),
-      { once: true } // This ensures the event only fires once per click
+      { once: true }  // This ensures the event only fires once per click
     );
   }
 

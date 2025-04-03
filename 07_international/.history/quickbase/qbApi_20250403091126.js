@@ -2876,7 +2876,7 @@ class AppController {
     }
 
     // Set up run button event listener
-    const runButton = document.getElementById("run"); // Make sure to use correct ID
+    const runButton = document.getElementById("runButton"); // Make sure to use correct ID
     if (runButton) {
       this.runButton = runButton;
 
@@ -3706,4 +3706,50 @@ if (!window.dataProcessor) {
 // Initialize the app when window loads - retain original functionality
 window.addEventListener("load", () => {
   window.appController = new AppController();
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  console.log("Setting up direct event handler for runButton");
+  
+  // Give a moment for other scripts to initialize
+  setTimeout(function() {
+    const runButton = document.getElementById("run");
+    if (runButton) {
+      console.log("Found runButton, adding direct click handler");
+      
+      // Add a direct click handler
+      runButton.addEventListener("click", function() {
+        console.log("Direct runButton click handler executed");
+        
+        // Hide print modal footer
+        const printModalFooter = document.getElementById("print_modal_footer");
+        if (printModalFooter) {
+          console.log("Hiding print_modal_footer");
+          printModalFooter.classList.add("hidden");
+        } else {
+          console.warn("print_modal_footer element not found");
+        }
+        
+        // Re-enable generate reports button
+        const generateReportsBtn = document.getElementById("generateReports");
+        if (generateReportsBtn) {
+          console.log("Re-enabling generateReports button");
+          generateReportsBtn.disabled = false;
+          if (typeof toggleGenerateReportButtonNormalState === "function") {
+            toggleGenerateReportButtonNormalState(generateReportsBtn);
+          } else {
+            generateReportsBtn.textContent = "Generate Reports";
+          }
+        } else {
+          console.warn("generateReports button not found");
+        }
+      });
+      
+      console.log("Direct click handler added to runButton");
+    } else {
+      console.error("runButton element not found");
+    }
+  }, 1000); // Wait 1 second for other scripts to initialize
 });

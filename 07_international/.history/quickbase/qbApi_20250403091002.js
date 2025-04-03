@@ -2876,7 +2876,7 @@ class AppController {
     }
 
     // Set up run button event listener
-    const runButton = document.getElementById("run"); // Make sure to use correct ID
+    const runButton = document.getElementById("runButton"); // Make sure to use correct ID
     if (runButton) {
       this.runButton = runButton;
 
@@ -3706,4 +3706,98 @@ if (!window.dataProcessor) {
 // Initialize the app when window loads - retain original functionality
 window.addEventListener("load", () => {
   window.appController = new AppController();
+});
+
+
+function updateUIElements() {
+  console.log("Updating UI elements");
+  
+  // Hide print modal footer
+  const printModalFooter = document.getElementById("print_modal_footer");
+  if (printModalFooter) {
+    console.log("Hiding print_modal_footer");
+    printModalFooter.classList.add("hidden");
+  }
+  
+  // Re-enable generate reports button
+  const generateReportsBtn = document.getElementById("generateReports");
+  if (generateReportsBtn) {
+    console.log("Re-enabling generateReports button");
+    generateReportsBtn.disabled = false;
+    if (typeof toggleGenerateReportButtonNormalState === "function") {
+      toggleGenerateReportButtonNormalState(generateReportsBtn);
+    } else {
+      generateReportsBtn.textContent = "Generate Reports";
+    }
+  }
+}
+
+// Function to attempt attaching the event handler to the run button
+function attachRunButtonHandler() {
+  const runButton = document.getElementById("runButton");
+  if (runButton) {
+    console.log("Found runButton, adding direct click handler");
+    
+    // Add a direct click handler
+    runButton.addEventListener("click", function() {
+      console.log("Direct runButton click handler executed");
+      updateUIElements();
+    });
+    
+    console.log("Direct click handler added to runButton");
+    return true; // Successfully attached
+  }
+  console.log("runButton element not found yet, will retry");
+  return false; // Failed to attach, will retry
+}
+
+// Try to attach the handler when the DOM is ready
+document.addEventListener("DOMContentLoaded", function() {
+  console.log("DOM loaded, initiating runButton handler setup");
+  
+  // Try to attach immediately
+  if (!attachRunButtonHandler()) {
+    // If unsuccessful, set up a polling mechanism
+    let attempts = 0;
+    const maxAttempts = 20; // Try for 10 seconds (20 x 500ms)
+    
+    const interval = setInterval(function() {
+      attempts++;
+      if (attachRunButtonHandler() || attempts >= maxAttempts) {
+        // Stop polling if we succeed or reach max attempts
+        clearInterval(interval);
+        console.log(attachRunButtonHandler() ? 
+          "Successfully attached runButton handler after polling" : 
+          "Failed to find runButton after maximum attempts");
+      }
+    }, 500); // Try every 500ms
+  }
+});
+
+// Also add a direct listener for when the API loading finishes
+if (typeof window.showApiLoadingFunction === "function") {
+  const originalShowApiLoadingFunction = window.showApiLoadingFunction;
+  window.showApiLoadingFunction = function(action, mode) {
+    // Call the original function
+    const result = originalShowApiLoadingFunction(action, mode);
+    
+    // When API loading is done, update UI elements
+    if (action === "close") {
+      console.log("API loading closed, updating UI elements");
+      updateUIElements();
+    }
+    
+    return result;
+  };
+}
+
+// As a final safety measure, listen for the run button to be clicked
+document.addEventListener("click", function(event) {
+  if (event.target && (
+      event.target.id === "runButton" || 
+      (event.target.closest && event.target.closest("#runButton"))
+  )) {
+    console.log("Detected click on runButton through event delegation");
+    updateUIElements();
+  }
 });

@@ -2876,7 +2876,7 @@ class AppController {
     }
 
     // Set up run button event listener
-    const runButton = document.getElementById("run"); // Make sure to use correct ID
+    const runButton = document.getElementById("runButton"); // Make sure to use correct ID
     if (runButton) {
       this.runButton = runButton;
 
@@ -2996,7 +2996,8 @@ class AppController {
 
   // Handle the run button click
   async handleRunButtonClick() {
-    console.log("handleRunButtonClick() called");
+    console.log('handleRunButtonClick() called');
+    
 
     try {
       // Show loading indicator
@@ -3031,6 +3032,7 @@ class AppController {
 
         return;
       }
+
 
       // Log selected data for debugging
       // console.log("Selected years:", selectedYears);
@@ -3149,6 +3151,7 @@ class AppController {
       } finally {
         // Always hide loading indicator
         showApiLoadingFunction("close");
+
       }
     } catch (err) {
       console.error("Unexpected error in handleRunButtonClick:", err);
@@ -3158,6 +3161,7 @@ class AppController {
       // Re-enable generateReports button if it exists
       this.enableGenerateReportsButton();
     } finally {
+
       console.log("Finally block in handleRunButtonClick, re-enabling buttons");
 
       this.enableGenerateReportsButton();
@@ -3165,7 +3169,7 @@ class AppController {
   }
 
   enableGenerateReportsButton() {
-    console.log("enablePrintModalHiddenClass called");
+    console.log('enablePrintModalHiddenClass called');
 
     // Re-enable the generate reports button
     const generateReportsBtn = document.getElementById("generateReports");
@@ -3181,24 +3185,24 @@ class AppController {
       }
     }
 
-    this.enablePrintModalHiddenClass();
+    this.enablePrintModalHiddenClass()
   }
 
   enablePrintModalHiddenClass() {
-    console.log("enablePrintModalHiddenClass called");
-
+    console.log('enablePrintModalHiddenClass called');
+    
     // Hide the print modal footer if it exists
     const printModalFooter = document.getElementById("print_modal_footer");
     if (printModalFooter) {
       // Only add the hidden class if it's not already present
       if (!printModalFooter.classList.contains("hidden")) {
-        console.log("Adding hidden class to print_modal_footer");
+        console.log('Adding hidden class to print_modal_footer');
         printModalFooter.classList.add("hidden");
       } else {
-        console.log("print_modal_footer already has hidden class");
+        console.log('print_modal_footer already has hidden class');
       }
     } else {
-      console.warn("print_modal_footer element not found!");
+      console.warn('print_modal_footer element not found!');
     }
   }
 
