@@ -220,13 +220,6 @@ class ExcelReportGenerator {
    * Handle generate report button click
    */
   handleGenerateReport() {
-    // Check if this function is already running to prevent duplicate calls
-    if (this.isGenerating) {
-      console.warn("Generation already in progress, ignoring duplicate call");
-      return;
-    }
-
-    this.isGenerating = true;
     const button = document.getElementById("generateReports");
 
     if (typeof toggleButtonLoadingState === "function") {
@@ -250,8 +243,6 @@ class ExcelReportGenerator {
         button.disabled = false;
         button.textContent = "Generate Reports";
       }
-
-      this.isGenerating = false;
       return;
     }
 
@@ -265,8 +256,6 @@ class ExcelReportGenerator {
             button.disabled = false;
             button.textContent = "Generate Reports";
           }
-
-          this.isGenerating = false;
         })
         .catch((error) => {
           console.error("Report generation failed:", error);
@@ -283,8 +272,6 @@ class ExcelReportGenerator {
             button.disabled = false;
             button.textContent = "Generate Reports";
           }
-
-          this.isGenerating = false;
         });
     }, 100);
   }
@@ -490,177 +477,174 @@ class ExcelReportGenerator {
     }
   }
 
-  /**
-   * Generate Excel report with all data
-   */
-  async createPrintExcel() {
-    // Reset XML payload
-    this.xmlPayload = "";
+/**
+ * Generate Excel report with all data
+ */
+async createPrintExcel() {
+  // Reset XML payload
+  this.xmlPayload = "";
 
-    try {
-      // Get client data with direct access to global variables
-      const ClientRid = window.ClientRid || "";
+  try {
+    // Get client data with direct access to global variables
+    const ClientRid = window.ClientRid || "";
 
-      // Handle firmName
-      let firmName = "";
-      if (window.firmName) {
-        firmName =
-          window.firmName instanceof HTMLElement
-            ? window.firmName.textContent || ""
-            : window.firmName;
+    // Handle firmName
+    let firmName = "";
+    if (window.firmName) {
+      firmName =
+        window.firmName instanceof HTMLElement
+          ? window.firmName.textContent || ""
+          : window.firmName;
+    }
+
+    // Get uniqueClients
+    let uniqueClientsSize =
+      document.getElementById("uniqueClients")?.textContent || 0;
+
+    // IMPORTANT: Direct access to global variables for filters
+    const sliderValue =
+      document.getElementById("givingUnitsMin")?.value || 0;
+    const sliderValue2 =
+      document.getElementById("givingUnitsMax")?.value || 0;
+    const missionValue =
+      document.getElementById("missionUnitsMin")?.value || 0;
+    const missionValue2 =
+      document.getElementById("missionUnitsMax")?.value || 0;
+
+    // Get types and regions from global arrays
+    let types = "";
+    if (selectedTypes_Array) {
+      // Check if it's a Set
+      if (selectedTypes_Array instanceof Set) {
+        types = Array.from(selectedTypes_Array).join(";");
       }
-
-      // Get uniqueClients
-      let uniqueClientsSize =
-        document.getElementById("uniqueClients")?.textContent || 0;
-
-      // IMPORTANT: Direct access to global variables for filters
-      const sliderValue = document.getElementById("givingUnitsMin")?.value || 0;
-      const sliderValue2 =
-        document.getElementById("givingUnitsMax")?.value || 0;
-      const missionValue =
-        document.getElementById("missionUnitsMin")?.value || 0;
-      const missionValue2 =
-        document.getElementById("missionUnitsMax")?.value || 0;
-
-      // Get types and areas from global arrays
-      let types = "";
-      if (window.selectedTypes_Array) {
-        // Check if it's a Set
-        if (window.selectedTypes_Array instanceof Set) {
-          types = Array.from(window.selectedTypes_Array).join(";");
-        }
-        // Check if it's an Array
-        else if (Array.isArray(window.selectedTypes_Array)) {
-          types = window.selectedTypes_Array.join(";");
-        }
+      // Check if it's an Array
+      else if (Array.isArray(selectedTypes_Array)) {
+        types = selectedTypes_Array.join(";");
       }
+    }
 
-      let areas = "";
-      if (window.selectedAreas_Array) {
-        // Check if it's a Set
-        if (window.selectedAreas_Array instanceof Set) {
-          areas = Array.from(window.selectedAreas_Array).join(";");
-        }
-        // Check if it's an Array
-        else if (Array.isArray(window.selectedAreas_Array)) {
-          areas = window.selectedAreas_Array.join(";");
-        }
+    let regions = "";
+    if (selectedRegions_Array) {
+      // Check if it's a Set
+      if (selectedRegions_Array instanceof Set) {
+        regions = Array.from(selectedRegions_Array).join(";");
       }
+      // Check if it's an Array
+      else if (Array.isArray(selectedRegions_Array)) {
+        regions = selectedRegions_Array.join(";");
+      }
+    }
 
-      // Debug log values
-      console.log("Client data values:", {
-        ClientRid,
-        firmName,
-        uniqueClientsSize,
-        sliderValue,
-        sliderValue2,
-        missionValue,
-        missionValue2,
-        types,
-        areas,
-      });
+    // Debug log values
+    console.log("Client data values:", {
+      ClientRid,
+      firmName,
+      uniqueClientsSize,
+      sliderValue,
+      sliderValue2,
+      missionValue,
+      missionValue2,
+      types,
+      regions,
+    });
 
-      // Start the XML with the XML header
-      this.xmlPayload = this.XML.HEADER;
+    // Start the XML with the XML header
+    this.xmlPayload = this.XML.HEADER;
 
-      // Add client data with direct field additions
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.CLIENT_RID
-      }'>${this.escapeXml(ClientRid)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.FIRM_NAME
-      }'>${this.escapeXml(firmName)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.UNIQUE_CLIENTS
-      }'>${this.escapeXml(uniqueClientsSize)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.SLIDER_MIN
-      }'>${this.escapeXml(sliderValue)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.SLIDER_MAX
-      }'>${this.escapeXml(sliderValue2)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.MISSION_MIN
-      }'>${this.escapeXml(missionValue)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.MISSION_MAX
-      }'>${this.escapeXml(missionValue2)}</field>`;
-      this.xmlPayload += `<field fid='${this.FIELD_IDS.AREAS}'>${this.escapeXml(
-        areas
-      )}</field>`;
-      this.xmlPayload += `<field fid='${this.FIELD_IDS.TYPES}'>${this.escapeXml(
-        types
-      )}</field>`;
+    // Add client data with direct field additions
+    this.xmlPayload += `<field fid='${
+      this.FIELD_IDS.CLIENT_RID
+    }'>${this.escapeXml(ClientRid)}</field>`;
+    this.xmlPayload += `<field fid='${
+      this.FIELD_IDS.FIRM_NAME
+    }'>${this.escapeXml(firmName)}</field>`;
+    this.xmlPayload += `<field fid='${
+      this.FIELD_IDS.UNIQUE_CLIENTS
+    }'>${this.escapeXml(uniqueClientsSize)}</field>`;
+    this.xmlPayload += `<field fid='${
+      this.FIELD_IDS.SLIDER_MIN
+    }'>${this.escapeXml(sliderValue)}</field>`;
+    this.xmlPayload += `<field fid='${
+      this.FIELD_IDS.SLIDER_MAX
+    }'>${this.escapeXml(sliderValue2)}</field>`;
+    this.xmlPayload += `<field fid='${
+      this.FIELD_IDS.MISSION_MIN
+    }'>${this.escapeXml(missionValue)}</field>`;
+    this.xmlPayload += `<field fid='${
+      this.FIELD_IDS.MISSION_MAX
+    }'>${this.escapeXml(missionValue2)}</field>`;
+    this.xmlPayload += `<field fid='${
+      this.FIELD_IDS.REGIONS
+    }'>${this.escapeXml(regions)}</field>`;
+    this.xmlPayload += `<field fid='${this.FIELD_IDS.TYPES}'>${this.escapeXml(
+      types
+    )}</field>`;
 
-      // Add years - MODIFIED TO ENSURE YEARS USE CORRECT FIELD IDS
-      const selectedYears = getSelectedYearsFromLocalStorage() || [];
-      for (let i = 0; i < selectedYears.length; i++) {
-        const year = selectedYears[i];
-        // Make sure we're using the correct field ID from YEARS_START
-        // This is the key change to fix the issue
-        const fieldId = Number(this.FIELD_IDS.YEARS_START) + i;
-
-        // Ensure we're not using the same field IDs as slider or mission fields
-        if (
-          fieldId.toString() === this.FIELD_IDS.SLIDER_MIN ||
+    // Add years - MODIFIED TO ENSURE YEARS USE CORRECT FIELD IDS
+    const selectedYears = getSelectedYearsFromLocalStorage() || [];
+    for (let i = 0; i < selectedYears.length; i++) {
+      const year = selectedYears[i];
+      // Make sure we're using the correct field ID from YEARS_START
+      // This is the key change to fix the issue
+      const fieldId = Number(this.FIELD_IDS.YEARS_START) + i;
+      
+      // Ensure we're not using the same field IDs as slider or mission fields
+      if (fieldId.toString() === this.FIELD_IDS.SLIDER_MIN ||
           fieldId.toString() === this.FIELD_IDS.SLIDER_MAX ||
           fieldId.toString() === this.FIELD_IDS.MISSION_MIN ||
-          fieldId.toString() === this.FIELD_IDS.MISSION_MAX
-        ) {
-          console.error(
-            `Field ID conflict detected: Year field ID ${fieldId} conflicts with slider/mission field IDs`
-          );
-          // Skip this field or handle the conflict another way
-          continue;
-        }
-
-        this.xmlPayload += `<field fid='${fieldId}'>${this.escapeXml(
-          year
-        )}</field>`;
+          fieldId.toString() === this.FIELD_IDS.MISSION_MAX) {
+        console.error(`Field ID conflict detected: Year field ID ${fieldId} conflicts with slider/mission field IDs`);
+        // Skip this field or handle the conflict another way
+        continue;
       }
-
-      // Debug log client data XML
-      console.log("XML with client data:", this.xmlPayload);
-
-      // Process metrics data
-      const metricsXml = this.generateMetricsXml();
-
-      // Add metrics XML to the existing XML payload
-      this.xmlPayload += metricsXml;
-
-      // Close the XML
-      this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
-
-      // Debug: Log final XML
-      console.log(
-        "Final XML payload (first 500 chars):",
-        this.xmlPayload.substring(0, 500)
-      );
-      console.log(
-        "Final XML payload (last 50 chars):",
-        this.xmlPayload.substring(this.xmlPayload.length - 50)
-      );
-
-      // Send to QuickBase with delay to ensure data is properly prepared
-      console.log("Adding delay before sending to QuickBase API...");
-
-      return new Promise((resolve) => {
-        setTimeout(async () => {
-          try {
-            const result = await this.printToExcel(this.xmlPayload);
-            resolve(result);
-          } catch (error) {
-            console.error("Error sending data to QuickBase:", error);
-            throw error;
-          }
-        }, 1500); // Add a 1.5-second delay
-      });
-    } catch (error) {
-      console.error("Error creating Excel report:", error);
-      throw error;
+      
+      this.xmlPayload += `<field fid='${fieldId}'>${this.escapeXml(
+        year
+      )}</field>`;
     }
+
+    // Debug log client data XML
+    console.log("XML with client data:", this.xmlPayload);
+
+    // Process metrics data
+    const metricsXml = this.generateMetricsXml();
+
+    // Add metrics XML to the existing XML payload
+    this.xmlPayload += metricsXml;
+
+    // Close the XML
+    this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
+
+    // Debug: Log final XML
+    console.log(
+      "Final XML payload (first 500 chars):",
+      this.xmlPayload.substring(0, 500)
+    );
+    console.log(
+      "Final XML payload (last 50 chars):",
+      this.xmlPayload.substring(this.xmlPayload.length - 50)
+    );
+
+    // Send to QuickBase with delay to ensure data is properly prepared
+    console.log("Adding delay before sending to QuickBase API...");
+    
+    return new Promise((resolve) => {
+      setTimeout(async () => {
+        try {
+          const result = await this.printToExcel(this.xmlPayload);
+          resolve(result);
+        } catch (error) {
+          console.error("Error sending data to QuickBase:", error);
+          throw error;
+        }
+      }, 1500); // Add a 1.5-second delay
+    });
+  } catch (error) {
+    console.error("Error creating Excel report:", error);
+    throw error;
   }
+}
 
   /*
    * Generate XML for metrics data
@@ -915,26 +899,9 @@ class ExcelReportGenerator {
 }
 
 // Initialize when DOM is ready
-// In the document.addEventListener("DOMContentLoaded", ...) part of print_excel.js
-
 document.addEventListener("DOMContentLoaded", () => {
-  // Create a single instance
+  // Create an instance
   const excelReportGenerator = new ExcelReportGenerator();
-
-  // Make sure no duplicate event listeners are attached to generateReports button
-  const generateReportsBtn = document.getElementById("generateReports");
-  if (generateReportsBtn) {
-    // Remove any existing listeners to prevent duplicates
-    const newBtn = generateReportsBtn.cloneNode(true);
-    generateReportsBtn.parentNode.replaceChild(newBtn, generateReportsBtn);
-    
-    // Add a single click event listener
-    newBtn.addEventListener(
-      "click",
-      excelReportGenerator.handleGenerateReport.bind(excelReportGenerator),
-      { once: true }  // This ensures the event only fires once per click
-    );
-  }
 
   // Expose functions globally for backward compatibility
   window.excelReportGenerator = excelReportGenerator;

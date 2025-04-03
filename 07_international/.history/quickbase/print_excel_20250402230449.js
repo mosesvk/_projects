@@ -26,7 +26,7 @@ class ExcelReportGenerator {
       SLIDER_MAX: "164",
       MISSION_MIN: "165",
       MISSION_MAX: "166",
-      AREAS: "167",
+      REGIONS: "167",
       TYPES: "168",
       YEARS_START: "158",
     };
@@ -220,13 +220,6 @@ class ExcelReportGenerator {
    * Handle generate report button click
    */
   handleGenerateReport() {
-    // Check if this function is already running to prevent duplicate calls
-    if (this.isGenerating) {
-      console.warn("Generation already in progress, ignoring duplicate call");
-      return;
-    }
-
-    this.isGenerating = true;
     const button = document.getElementById("generateReports");
 
     if (typeof toggleButtonLoadingState === "function") {
@@ -250,8 +243,6 @@ class ExcelReportGenerator {
         button.disabled = false;
         button.textContent = "Generate Reports";
       }
-
-      this.isGenerating = false;
       return;
     }
 
@@ -265,8 +256,6 @@ class ExcelReportGenerator {
             button.disabled = false;
             button.textContent = "Generate Reports";
           }
-
-          this.isGenerating = false;
         })
         .catch((error) => {
           console.error("Report generation failed:", error);
@@ -283,8 +272,6 @@ class ExcelReportGenerator {
             button.disabled = false;
             button.textContent = "Generate Reports";
           }
-
-          this.isGenerating = false;
         });
     }, 100);
   }
@@ -515,7 +502,8 @@ class ExcelReportGenerator {
         document.getElementById("uniqueClients")?.textContent || 0;
 
       // IMPORTANT: Direct access to global variables for filters
-      const sliderValue = document.getElementById("givingUnitsMin")?.value || 0;
+      const sliderValue =
+        document.getElementById("givingUnitsMin")?.value || 0;
       const sliderValue2 =
         document.getElementById("givingUnitsMax")?.value || 0;
       const missionValue =
@@ -525,26 +513,26 @@ class ExcelReportGenerator {
 
       // Get types and areas from global arrays
       let types = "";
-      if (window.selectedTypes_Array) {
+      if (selectedTypes_Array) {
         // Check if it's a Set
-        if (window.selectedTypes_Array instanceof Set) {
-          types = Array.from(window.selectedTypes_Array).join(";");
+        if (selectedTypes_Array instanceof Set) {
+          types = Array.from(selectedTypes_Array).join(";");
         }
         // Check if it's an Array
-        else if (Array.isArray(window.selectedTypes_Array)) {
-          types = window.selectedTypes_Array.join(";");
+        else if (Array.isArray(selectedTypes_Array)) {
+          types = selectedTypes_Array.join(";");
         }
       }
 
       let areas = "";
-      if (window.selectedAreas_Array) {
+      if (selectedAreas_Array) {
         // Check if it's a Set
-        if (window.selectedAreas_Array instanceof Set) {
-          areas = Array.from(window.selectedAreas_Array).join(";");
+        if (selectedAreas_Array instanceof Set) {
+          areas = Array.from(selectedAreas_Array).join(";");
         }
         // Check if it's an Array
-        else if (Array.isArray(window.selectedAreas_Array)) {
-          areas = window.selectedAreas_Array.join(";");
+        else if (Array.isArray(selectedAreas_Array)) {
+          areas = selectedAreas_Array.join(";");
         }
       }
 
@@ -586,35 +574,18 @@ class ExcelReportGenerator {
       this.xmlPayload += `<field fid='${
         this.FIELD_IDS.MISSION_MAX
       }'>${this.escapeXml(missionValue2)}</field>`;
-      this.xmlPayload += `<field fid='${this.FIELD_IDS.AREAS}'>${this.escapeXml(
-        areas
-      )}</field>`;
+      this.xmlPayload += `<field fid='${
+        this.FIELD_IDS.AREAS
+      }'>${this.escapeXml(areas)}</field>`;
       this.xmlPayload += `<field fid='${this.FIELD_IDS.TYPES}'>${this.escapeXml(
         types
       )}</field>`;
 
-      // Add years - MODIFIED TO ENSURE YEARS USE CORRECT FIELD IDS
+      // Add years
       const selectedYears = getSelectedYearsFromLocalStorage() || [];
       for (let i = 0; i < selectedYears.length; i++) {
         const year = selectedYears[i];
-        // Make sure we're using the correct field ID from YEARS_START
-        // This is the key change to fix the issue
         const fieldId = Number(this.FIELD_IDS.YEARS_START) + i;
-
-        // Ensure we're not using the same field IDs as slider or mission fields
-        if (
-          fieldId.toString() === this.FIELD_IDS.SLIDER_MIN ||
-          fieldId.toString() === this.FIELD_IDS.SLIDER_MAX ||
-          fieldId.toString() === this.FIELD_IDS.MISSION_MIN ||
-          fieldId.toString() === this.FIELD_IDS.MISSION_MAX
-        ) {
-          console.error(
-            `Field ID conflict detected: Year field ID ${fieldId} conflicts with slider/mission field IDs`
-          );
-          // Skip this field or handle the conflict another way
-          continue;
-        }
-
         this.xmlPayload += `<field fid='${fieldId}'>${this.escapeXml(
           year
         )}</field>`;
@@ -642,20 +613,9 @@ class ExcelReportGenerator {
         this.xmlPayload.substring(this.xmlPayload.length - 50)
       );
 
-      // Send to QuickBase with delay to ensure data is properly prepared
-      console.log("Adding delay before sending to QuickBase API...");
-
-      return new Promise((resolve) => {
-        setTimeout(async () => {
-          try {
-            const result = await this.printToExcel(this.xmlPayload);
-            resolve(result);
-          } catch (error) {
-            console.error("Error sending data to QuickBase:", error);
-            throw error;
-          }
-        }, 1500); // Add a 1.5-second delay
-      });
+      // Send to QuickBase
+      const result = await this.printToExcel(this.xmlPayload);
+      return result;
     } catch (error) {
       console.error("Error creating Excel report:", error);
       throw error;
@@ -751,14 +711,12 @@ class ExcelReportGenerator {
   }
 
   /**
-   * Send XML data to QuickBase with added delay
-   * @param {string} dataString - XML payload to send
-   * @returns {Promise} Promise that resolves with the QuickBase response
+   * Send XML data to QuickBase
    */
   printToExcel(dataString) {
     return new Promise((resolve, reject) => {
       // Debug: Log the XML payload to console
-      console.log("XML Payload being prepared for QuickBase:");
+      console.log("XML Payload being sent to QuickBase:");
       console.log(dataString);
 
       // Optional: Save to localStorage for inspection if needed
@@ -782,159 +740,138 @@ class ExcelReportGenerator {
         // Continue anyway but log the error
       }
 
-      // Add delay before sending the request to ensure data is ready
-      console.log("Adding delay before sending to QuickBase API...");
-      setTimeout(() => {
-        $.ajax({
-          type: "POST",
-          contentType: "text/xml",
-          async: true,
-          url: this.API.UPLOAD_URL,
-          dataType: "xml",
-          processData: false,
-          data: dataString,
-          success: function (response) {
-            try {
-              console.log("QuickBase response received:", response);
+      $.ajax({
+        type: "POST",
+        contentType: "text/xml",
+        async: true,
+        url: this.API.UPLOAD_URL,
+        dataType: "xml",
+        processData: false,
+        data: dataString,
+        success: function (response) {
+          try {
+            console.log("QuickBase response received:", response);
 
-              const xmlUpload = $(response);
-              const errorCode = xmlUpload.find("qdbapi").find("errcode").text();
+            const xmlUpload = $(response);
+            const errorCode = xmlUpload.find("qdbapi").find("errcode").text();
 
-              if (errorCode === "0") {
-                const recordId = xmlUpload.find("qdbapi").find("rid").text();
-                console.log(
-                  "Successfully uploaded to QuickBase, Record ID:",
-                  recordId
-                );
-
-                if (typeof createToastSuccess === "function") {
-                  createToastSuccess(
-                    "Generated Reports successfully to Quickbase."
-                  );
-                }
-
-                const printModalFooter =
-                  document.getElementById("print_modal_footer");
-                if (printModalFooter) {
-                  printModalFooter.classList.remove("hidden");
-                }
-
-                // Update download links if they exist
-                const trendXLSFinal = document.getElementById("trendXLSFinal");
-                if (
-                  trendXLSFinal &&
-                  typeof getUrlBasedOnYearCount === "function"
-                ) {
-                  trendXLSFinal.href = getUrlBasedOnYearCount("xls", recordId);
-                }
-
-                const trendPDFFinal = document.getElementById("trendPDFFinal");
-                if (
-                  trendPDFFinal &&
-                  typeof getUrlBasedOnYearCount === "function"
-                ) {
-                  trendPDFFinal.href = getUrlBasedOnYearCount("pdf", recordId);
-                }
-
-                resolve({ recordId });
-              } else {
-                const errorText =
-                  xmlUpload.find("qdbapi").find("errtext").text() ||
-                  "Unknown QuickBase error";
-                const error = new Error(
-                  `QuickBase error (${errorCode}): ${errorText}`
-                );
-                console.error("QuickBase API error:", {
-                  errorCode,
-                  errorText,
-                  xmlPayload: dataString,
-                });
-
-                if (typeof createToastWarning === "function") {
-                  createToastWarning(error.message);
-                }
-
-                reject(error);
-              }
-            } catch (parseError) {
-              console.error(
-                "Error parsing QuickBase response:",
-                parseError,
-                "Response:",
-                response
+            if (errorCode === "0") {
+              const recordId = xmlUpload.find("qdbapi").find("rid").text();
+              console.log(
+                "Successfully uploaded to QuickBase, Record ID:",
+                recordId
               );
+
+              if (typeof createToastSuccess === "function") {
+                createToastSuccess(
+                  "Generated Reports successfully to Quickbase."
+                );
+              }
+
+              const printModalFooter =
+                document.getElementById("print_modal_footer");
+              if (printModalFooter) {
+                printModalFooter.classList.remove("hidden");
+              }
+
+              // Update download links if they exist
+              const trendXLSFinal = document.getElementById("trendXLSFinal");
+              if (
+                trendXLSFinal &&
+                typeof getUrlBasedOnYearCount === "function"
+              ) {
+                trendXLSFinal.href = getUrlBasedOnYearCount("xls", recordId);
+              }
+
+              const trendPDFFinal = document.getElementById("trendPDFFinal");
+              if (
+                trendPDFFinal &&
+                typeof getUrlBasedOnYearCount === "function"
+              ) {
+                trendPDFFinal.href = getUrlBasedOnYearCount("pdf", recordId);
+              }
+
+              resolve({ recordId });
+            } else {
+              const errorText =
+                xmlUpload.find("qdbapi").find("errtext").text() ||
+                "Unknown QuickBase error";
+              const error = new Error(
+                `QuickBase error (${errorCode}): ${errorText}`
+              );
+              console.error("QuickBase API error:", {
+                errorCode,
+                errorText,
+                xmlPayload: dataString,
+              });
 
               if (typeof createToastWarning === "function") {
-                createToastWarning(
-                  `Failed to parse QuickBase response: ${parseError.message}`
-                );
+                createToastWarning(error.message);
               }
 
-              reject(
-                new Error(
-                  `Failed to parse QuickBase response: ${parseError.message}`
-                )
-              );
+              reject(error);
             }
-          },
-          error: function (xhr, status, error) {
-            // Extract meaningful error information
-            let errorMessage = "Unknown error";
-
-            console.error("QuickBase API request failed:", {
-              status,
-              error,
-              response: xhr.responseText,
-              xmlPayload: dataString,
-            });
-
-            if (xhr && xhr.responseText) {
-              try {
-                // Try to parse XML response
-                const $errorXml = $(xhr.responseText);
-                errorMessage =
-                  $errorXml.find("errtext").text() || error || status;
-              } catch (e) {
-                // If we can't parse XML, use the raw responseText or status
-                errorMessage = xhr.responseText || error || status;
-              }
-            } else {
-              errorMessage = error || status;
-            }
+          } catch (parseError) {
+            console.error(
+              "Error parsing QuickBase response:",
+              parseError,
+              "Response:",
+              response
+            );
 
             if (typeof createToastWarning === "function") {
-              createToastWarning(`QuickBase API error: ${errorMessage}`);
+              createToastWarning(
+                `Failed to parse QuickBase response: ${parseError.message}`
+              );
             }
 
-            reject(new Error(`QuickBase API error: ${errorMessage}`));
-          },
-        });
-      }, 1000); // Add a 1-second delay before sending the request
+            reject(
+              new Error(
+                `Failed to parse QuickBase response: ${parseError.message}`
+              )
+            );
+          }
+        },
+        error: function (xhr, status, error) {
+          // Extract meaningful error information
+          let errorMessage = "Unknown error";
+
+          console.error("QuickBase API request failed:", {
+            status,
+            error,
+            response: xhr.responseText,
+            xmlPayload: dataString,
+          });
+
+          if (xhr && xhr.responseText) {
+            try {
+              // Try to parse XML response
+              const $errorXml = $(xhr.responseText);
+              errorMessage =
+                $errorXml.find("errtext").text() || error || status;
+            } catch (e) {
+              // If we can't parse XML, use the raw responseText or status
+              errorMessage = xhr.responseText || error || status;
+            }
+          } else {
+            errorMessage = error || status;
+          }
+
+          if (typeof createToastWarning === "function") {
+            createToastWarning(`QuickBase API error: ${errorMessage}`);
+          }
+
+          reject(new Error(`QuickBase API error: ${errorMessage}`));
+        },
+      });
     });
   }
 }
 
 // Initialize when DOM is ready
-// In the document.addEventListener("DOMContentLoaded", ...) part of print_excel.js
-
 document.addEventListener("DOMContentLoaded", () => {
-  // Create a single instance
+  // Create an instance
   const excelReportGenerator = new ExcelReportGenerator();
-
-  // Make sure no duplicate event listeners are attached to generateReports button
-  const generateReportsBtn = document.getElementById("generateReports");
-  if (generateReportsBtn) {
-    // Remove any existing listeners to prevent duplicates
-    const newBtn = generateReportsBtn.cloneNode(true);
-    generateReportsBtn.parentNode.replaceChild(newBtn, generateReportsBtn);
-    
-    // Add a single click event listener
-    newBtn.addEventListener(
-      "click",
-      excelReportGenerator.handleGenerateReport.bind(excelReportGenerator),
-      { once: true }  // This ensures the event only fires once per click
-    );
-  }
 
   // Expose functions globally for backward compatibility
   window.excelReportGenerator = excelReportGenerator;

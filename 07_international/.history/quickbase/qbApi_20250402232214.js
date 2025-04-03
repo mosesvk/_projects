@@ -2343,12 +2343,9 @@ class ApiService {
           console.warn("No records collected, returning empty array");
           return [];
         }
-
+        
         const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(
-          dataStr + "</qdbapi>",
-          "text/xml"
-        );
+        const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
         const records = xmlDoc.querySelectorAll("record");
         // console.log(`Parsed ${records.length} peer records from collected data`);
         return records;
@@ -2357,59 +2354,56 @@ class ApiService {
         return [];
       }
     }
-
+  
     const currentYear = years[0];
     // console.log(`Fetching peer data for year: ${currentYear}`);
-
+  
     try {
       // Get selected clients with appropriate batching
       const clientQuery = this.getClientQuery(window.selectedClients_Array);
-
+      
       // Basic query condition with year
       const queryCondition = `{301.EX.${currentYear}} AND ${clientQuery}`;
       // console.log(`Using query condition: ${queryCondition}`);
-
+      
       const apiCallPeerData = {
         act: "API_DoQuery",
         query: queryCondition,
-        clist:
-          "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.228.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347.343.346.244.205.341.342.344.345.348.351.352.256.353.354.",
+        clist: "301.59.60.62.63.64.66.261.302.262.303.211.227.231.118.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.228.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.298.333.222.231.122.344.334.306.347.343.346.244.205.341.342.344.345.348.351.352.256.353.354.",
       };
-
+  
       // Use await to make the async operation more explicit
       const xml = await $.get(peerData, apiCallPeerData);
       const recordsForPeer = $("record", xml).toArray();
       // console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);
-
+  
       // Collect records for later use
       if (recordsForPeer.length > 0) {
         for (const record of recordsForPeer) {
           const newRecord = document.createElement("record");
-
+  
           // Append each child element to the new record
-          Array.from(record.children).forEach((child) => {
+          Array.from(record.children).forEach(child => {
             newRecord.appendChild(child.cloneNode(true));
           });
-
+  
           this.recordPeerHTMLArray.push(newRecord.outerHTML);
           dataStr += newRecord.outerHTML;
         }
       } else {
         console.warn(`No records found for year ${currentYear}`);
       }
-
+  
       // Recursive call with updated years and dataStr
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     } catch (error) {
       console.error("Error fetching peer data for year", currentYear, error);
-
+      
       // Log error details
       if (error.status) {
-        console.error(
-          `Status: ${error.status}, StatusText: ${error.statusText}`
-        );
+        console.error(`Status: ${error.status}, StatusText: ${error.statusText}`);
       }
-
+      
       // Continue with next year even if this one failed
       console.log(`Continuing to next year after error...`);
       return await this.getRecordsForPeer(years.slice(1), dataStr);
@@ -2426,12 +2420,9 @@ class ApiService {
           console.warn("No client records collected, returning empty array");
           return [];
         }
-
+        
         const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(
-          dataStr + "</qdbapi>",
-          "text/xml"
-        );
+        const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
         const records = xmlDoc.querySelectorAll("record");
         // console.log(`Parsed ${records.length} client records from collected data`);
         return records;
@@ -2440,48 +2431,45 @@ class ApiService {
         return [];
       }
     }
-
+  
     const currentYear = years[0];
     // console.log(`Fetching client data for year: ${currentYear}`);
-
+  
     try {
       const apiCallClientData = {
         act: "API_DoQuery",
         query: `{192.EX.${currentYear}} AND {29.EX.${ClientRid}}`,
-        clist:
-          "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221.218.15.21",
+        clist: "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.184.31.213.42.217.25.193.222.221.218.15.21",
       };
-
+  
       // Use await to make the async operation more explicit
       const xml = await $.get(clientData, apiCallClientData);
       const recordsForClient = $("record", xml).toArray();
       // console.log(`Received ${recordsForClient.length} client records for year ${currentYear}`);
-
+  
       // Process the records
       for (const record of recordsForClient) {
         const newRecord = document.createElement("record");
-
+  
         // Append each child element to the new record
-        Array.from(record.children).forEach((child) => {
+        Array.from(record.children).forEach(child => {
           newRecord.appendChild(child.cloneNode(true));
         });
-
+  
         this.recordClientHTMLArray.push(newRecord.outerHTML);
         dataStr += newRecord.outerHTML;
       }
-
+  
       // Recursive call with updated years and dataStr
       return await this.getRecordsForClient(years.slice(1), dataStr);
     } catch (error) {
       console.error("Error fetching client data for year", currentYear, error);
-
+      
       // Log error details
       if (error.status) {
-        console.error(
-          `Status: ${error.status}, StatusText: ${error.statusText}`
-        );
+        console.error(`Status: ${error.status}, StatusText: ${error.statusText}`);
       }
-
+      
       // Continue with next year even if this one failed
       // console.log(`Continuing to next year for client data after error...`);
       return await this.getRecordsForClient(years.slice(1), dataStr);
@@ -2757,35 +2745,34 @@ class ApiService {
   getClientQuery(selectedClientsSet) {
     // Convert Set to Array for iteration
     const selectedClients = Array.from(selectedClientsSet);
-
+    
     // If empty, return default condition
     if (selectedClients.length === 0) {
       return '({59.EX.""})';
     }
-
+    
     // If more than 15 clients selected, use a non-empty match instead of listing all clients
     if (selectedClients.length > 15) {
-      console.log(
-        `Large client set (${selectedClients.length}), using generic query`
-      );
+      console.log(`Large client set (${selectedClients.length}), using generic query`);
       // This matches any non-empty client name (field 59)
       return '({59.XEX.""})';
     }
-
+    
     // For small numbers of clients, use specific OR conditions
     const clientConditions = selectedClients
-      .map((client) => `{59.EX.'${this._escapeClientName(client)}'}`)
+      .map(client => `{59.EX.'${this._escapeClientName(client)}'}`)
       .join(" OR ");
-
+      
     return `(${clientConditions})`;
   }
-
+  
   // Add this helper method to the ApiService class
   _escapeClientName(clientName) {
     if (!clientName) return "";
     // Replace problematic characters in client names
     return clientName.replace(/'/g, "\\'");
   }
+  
 
   // // Build a query condition for types
   // getTypeQuery(selectedTypes) {
@@ -2997,11 +2984,6 @@ class AppController {
   // Handle the run button click
   async handleRunButtonClick() {
     try {
-      const printModalFooter = document.getElementById("print_modal_footer");
-      if (printModalFooter) {
-        printModalFooter.classList.add("hidden");
-      }
-
       // Show loading indicator
       showApiLoadingFunction("open", "api");
 
@@ -3012,9 +2994,6 @@ class AppController {
       } catch (error) {
         console.error("Error processing selected years:", error);
         showApiLoadingFunction("close");
-
-        this.enableGenerateReportsButton();
-
         return;
       }
 
@@ -3028,14 +3007,8 @@ class AppController {
         console.warn("No clients selected");
         createToastWarning("Please select at least one client");
         showApiLoadingFunction("close");
-
-        // Re-enable generateReports button if it exists
-        this.enableGenerateReportsButton();
-
         return;
       }
-
-      this.enableGenerateReportsButton();
 
       // Log selected data for debugging
       // console.log("Selected years:", selectedYears);
@@ -3159,31 +3132,6 @@ class AppController {
       console.error("Unexpected error in handleRunButtonClick:", err);
       createToastWarning("An unexpected error occurred. Please try again.");
       showApiLoadingFunction("close");
-
-      // Re-enable generateReports button if it exists
-      this.enableGenerateReportsButton();
-    }
-  }
-
-  enableGenerateReportsButton() {
-    // Re-enable the generate reports button
-    const generateReportsBtn = document.getElementById("generateReports");
-    if (generateReportsBtn) {
-      generateReportsBtn.disabled = false;
-      
-      // Use the existing toggle function if available
-      if (typeof toggleGenerateReportButtonNormalState === "function") {
-        toggleGenerateReportButtonNormalState(generateReportsBtn);
-      } else {
-        // Fallback for when the toggle function is not available
-        generateReportsBtn.textContent = "Generate Reports";
-      }
-    }
-    
-    // Hide the print modal footer
-    const printModalFooter = document.getElementById("print_modal_footer");
-    if (printModalFooter) {
-      printModalFooter.classList.add("hidden");
     }
   }
 
@@ -3441,26 +3389,24 @@ document.addEventListener("clientDataLoaded", function (event) {
  */
 function countUniqueClients(records) {
   // Check if records is valid and has a forEach method
-  if (!records || typeof records.forEach !== "function") {
+  if (!records || typeof records.forEach !== 'function') {
     console.error("Invalid records provided to countUniqueClients:", records);
     document.getElementById("uniqueClients").textContent = "0";
     return;
   }
 
   // Get the current filter state
-  const selectedClients = window.selectedClients_Array
-    ? Array.from(window.selectedClients_Array)
+  const selectedClients = window.selectedClients_Array 
+    ? Array.from(window.selectedClients_Array) 
     : [];
-
+  
   // Use a Set to track unique client names
   const uniqueClients = new Set();
-
+  
   try {
     records.forEach((record) => {
-      const clientName = record.querySelector(
-        "pe___client_informal_name"
-      )?.textContent;
-
+      const clientName = record.querySelector("pe___client_informal_name")?.textContent;
+      
       // Only count clients that are in the selectedClients_Array
       if (clientName && selectedClients.includes(clientName)) {
         uniqueClients.add(clientName);
@@ -3475,7 +3421,7 @@ function countUniqueClients(records) {
     } else {
       console.warn("Element with ID 'uniqueClients' not found");
     }
-
+    
     console.log(`Counted ${count} unique clients after filtering`);
   } catch (error) {
     console.error("Error counting unique clients:", error);

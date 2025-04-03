@@ -3165,28 +3165,6 @@ class AppController {
     }
   }
 
-  enableGenerateReportsButton() {
-    // Re-enable the generate reports button
-    const generateReportsBtn = document.getElementById("generateReports");
-    if (generateReportsBtn) {
-      generateReportsBtn.disabled = false;
-      
-      // Use the existing toggle function if available
-      if (typeof toggleGenerateReportButtonNormalState === "function") {
-        toggleGenerateReportButtonNormalState(generateReportsBtn);
-      } else {
-        // Fallback for when the toggle function is not available
-        generateReportsBtn.textContent = "Generate Reports";
-      }
-    }
-    
-    // Hide the print modal footer
-    const printModalFooter = document.getElementById("print_modal_footer");
-    if (printModalFooter) {
-      printModalFooter.classList.add("hidden");
-    }
-  }
-
   // Process selected years - with better error handling
   processSelectedYears() {
     const selectedYears = getSelectedYearsFromLocalStorage();

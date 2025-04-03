@@ -463,23 +463,23 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areasArray) {
       } else {
         window.selectedAreas_Array.delete(areaString);
       }
-
+    
       // Update "Select All" checkbox state
       const allChecked = Array.from(
         document.querySelectorAll("#options-list-area input[type='checkbox']")
       )
         .filter((input) => input.id !== "select-all-checkbox-area")
         .every((input) => input.checked);
-
+    
       const someChecked = Array.from(
         document.querySelectorAll("#options-list-area input[type='checkbox']")
       )
         .filter((input) => input.id !== "select-all-checkbox-area")
         .some((input) => input.checked);
-
+    
       selectAllInput.checked = allChecked;
       selectAllInput.indeterminate = !allChecked && someChecked;
-
+    
       // Trigger filter changed event
       const event = new CustomEvent("filtersChanged");
       document.dispatchEvent(event);
@@ -687,15 +687,6 @@ document.addEventListener("clientDataLoaded", initializeClientDropdown);
 // Main initialization when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
   // console.log("DOM loaded, initializing Header.js functionality");
-
-  // Initialize Sets with all available values
-  if (typeof areas_Array !== "undefined") {
-    window.selectedAreas_Array = new Set(areas_Array.map((area) => area.str));
-  }
-
-  if (typeof types_Array !== "undefined") {
-    window.selectedTypes_Array = new Set(types_Array.map((type) => type.str));
-  }
 
   // Configure slider inputs
   const sliderInputs = [
@@ -918,4 +909,5 @@ document.addEventListener("DOMContentLoaded", function () {
   // Export the filter update function to global scope so Utility.js can use it
   window.headerUpdateClientDropdown = updateClientDropdownFilters;
   // console.log("Header.js filter function exported as headerUpdateClientDropdown");
+
 });

@@ -220,13 +220,6 @@ class ExcelReportGenerator {
    * Handle generate report button click
    */
   handleGenerateReport() {
-    // Check if this function is already running to prevent duplicate calls
-    if (this.isGenerating) {
-      console.warn("Generation already in progress, ignoring duplicate call");
-      return;
-    }
-
-    this.isGenerating = true;
     const button = document.getElementById("generateReports");
 
     if (typeof toggleButtonLoadingState === "function") {
@@ -250,8 +243,6 @@ class ExcelReportGenerator {
         button.disabled = false;
         button.textContent = "Generate Reports";
       }
-
-      this.isGenerating = false;
       return;
     }
 
@@ -265,8 +256,6 @@ class ExcelReportGenerator {
             button.disabled = false;
             button.textContent = "Generate Reports";
           }
-
-          this.isGenerating = false;
         })
         .catch((error) => {
           console.error("Report generation failed:", error);
@@ -283,8 +272,6 @@ class ExcelReportGenerator {
             button.disabled = false;
             button.textContent = "Generate Reports";
           }
-
-          this.isGenerating = false;
         });
     }, 100);
   }
@@ -586,9 +573,9 @@ class ExcelReportGenerator {
       this.xmlPayload += `<field fid='${
         this.FIELD_IDS.MISSION_MAX
       }'>${this.escapeXml(missionValue2)}</field>`;
-      this.xmlPayload += `<field fid='${this.FIELD_IDS.AREAS}'>${this.escapeXml(
-        areas
-      )}</field>`;
+      this.xmlPayload += `<field fid='${
+        this.FIELD_IDS.AREAS
+      }'>${this.escapeXml(areas)}</field>`;
       this.xmlPayload += `<field fid='${this.FIELD_IDS.TYPES}'>${this.escapeXml(
         types
       )}</field>`;
@@ -915,26 +902,9 @@ class ExcelReportGenerator {
 }
 
 // Initialize when DOM is ready
-// In the document.addEventListener("DOMContentLoaded", ...) part of print_excel.js
-
 document.addEventListener("DOMContentLoaded", () => {
-  // Create a single instance
+  // Create an instance
   const excelReportGenerator = new ExcelReportGenerator();
-
-  // Make sure no duplicate event listeners are attached to generateReports button
-  const generateReportsBtn = document.getElementById("generateReports");
-  if (generateReportsBtn) {
-    // Remove any existing listeners to prevent duplicates
-    const newBtn = generateReportsBtn.cloneNode(true);
-    generateReportsBtn.parentNode.replaceChild(newBtn, generateReportsBtn);
-    
-    // Add a single click event listener
-    newBtn.addEventListener(
-      "click",
-      excelReportGenerator.handleGenerateReport.bind(excelReportGenerator),
-      { once: true }  // This ensures the event only fires once per click
-    );
-  }
 
   // Expose functions globally for backward compatibility
   window.excelReportGenerator = excelReportGenerator;

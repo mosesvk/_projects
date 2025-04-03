@@ -915,26 +915,9 @@ class ExcelReportGenerator {
 }
 
 // Initialize when DOM is ready
-// In the document.addEventListener("DOMContentLoaded", ...) part of print_excel.js
-
 document.addEventListener("DOMContentLoaded", () => {
-  // Create a single instance
+  // Create an instance
   const excelReportGenerator = new ExcelReportGenerator();
-
-  // Make sure no duplicate event listeners are attached to generateReports button
-  const generateReportsBtn = document.getElementById("generateReports");
-  if (generateReportsBtn) {
-    // Remove any existing listeners to prevent duplicates
-    const newBtn = generateReportsBtn.cloneNode(true);
-    generateReportsBtn.parentNode.replaceChild(newBtn, generateReportsBtn);
-    
-    // Add a single click event listener
-    newBtn.addEventListener(
-      "click",
-      excelReportGenerator.handleGenerateReport.bind(excelReportGenerator),
-      { once: true }  // This ensures the event only fires once per click
-    );
-  }
 
   // Expose functions globally for backward compatibility
   window.excelReportGenerator = excelReportGenerator;

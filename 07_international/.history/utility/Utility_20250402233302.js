@@ -1062,8 +1062,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     "class",
     "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
   );
-  // CHANGE HERE: Set to unchecked by default
-  selectAllInput.checked = false;
+  selectAllInput.checked = true; // Check "Select All" by default
 
   const selectAllSpan = document.createElement("span");
   selectAllSpan.setAttribute("id", "select-all-text-years");
@@ -1095,7 +1094,6 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
       `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
     );
     newInput.setAttribute("value", year);
-    // Check the input only if the year is in the selectedYears_Set
     newInput.checked = selectedYears_Set.has(year);
 
     newInput.addEventListener("change", (e) => {
