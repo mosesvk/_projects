@@ -456,7 +456,7 @@ class ReportComponent {
           maximumFractionDigits: decimals,
           useGrouping: false // Disable thousand separators for percentage values
         });
-        // console.log(value, decimals, result);
+        console.log(value, decimals, result);
         break;
 
       case "dollar":
