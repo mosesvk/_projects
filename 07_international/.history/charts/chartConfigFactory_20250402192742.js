@@ -217,9 +217,6 @@ class ChartConfigFactory {
         toolbar: {
           show: false,
         },
-        padding: {
-          bottom: 20
-        }
       },
       dataLabels: {
         enabled: true,
@@ -445,9 +442,6 @@ class ChartConfigFactory {
           easing: "easeinout",
           speed: 800,
         },
-        padding: {
-          bottom: 20
-        }
       },
       dataLabels: {
         enabled: series.length > 0,
@@ -730,9 +724,6 @@ class ChartConfigFactory {
       chart: {
         type: "bar",
         height: 400,
-        padding: {
-          bottom: 20
-        }
       },
       plotOptions: {
         bar: {
@@ -975,9 +966,6 @@ class ChartConfigFactory {
           toolbar: {
             show: false,
           },
-          padding: {
-            bottom: 20
-          }
         },
         plotOptions: {
           bar: {
@@ -1052,9 +1040,6 @@ class ChartConfigFactory {
         chart: {
           height: 400,
           type: "bar",
-          padding: {
-            bottom: 20
-          }
         },
         noData: {
           text: "Error loading chart data",
@@ -1209,9 +1194,6 @@ class ChartConfigFactory {
         toolbar: {
           show: false,
         },
-        padding: {
-          bottom: 20
-        }
       },
       dataLabels: {
         enabled: true,
@@ -1415,9 +1397,6 @@ class ChartConfigFactory {
         toolbar: {
           show: false,
         },
-        padding: {
-          bottom: 20
-        }
       },
       plotOptions: {
         bar: {

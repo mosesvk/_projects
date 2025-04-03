@@ -26,23 +26,25 @@ async function processChartsWithSpacing(chartMappings) {
         <div class="w-full bg-gray-700 rounded-full h-2.5 mt-2">
           <div id="chart-progress-bar" class="backgroundGreen h-2.5 rounded-full" style="width: 0%"></div>
         </div>
+        <div class="mt-3 text-md text-gray-200">
+          <p id="chart-current-name" class="break-words overflow-hidden text-ellipsis" style="max-width: 100%;">Initializing...</p>
+        </div>
       </div>
     `;
 
     // Find the loading content div within the modal
     const loadingContent =
-      loadingModal.querySelector("#loadingApiInnerDiv") || loadingModal;
+      loadingModal.querySelector(".loading-content") || loadingModal;
 
     // Insert the progress container as the first child of the loading content
     loadingContent.appendChild(progressContainer);
   }
 
   for (let i = 0; i < chartMappings.length; i++) {
-    const { chartId, fieldId } = chartMappings[i];
-
     // Update progress UI if elements exist
     const progressBar = document.getElementById("chart-progress-bar");
     const progressCount = document.getElementById("chart-progress-count");
+    const currentChartName = document.getElementById("chart-current-name");
     const progressText = document.getElementById("chart-progress-text");
 
     if (progressBar) {
@@ -54,10 +56,15 @@ async function processChartsWithSpacing(chartMappings) {
       progressCount.textContent = `${i}/${chartMappings.length}`;
     }
 
+    if (currentChartName) {
+      currentChartName.textContent = `Processing: ${chartId}`;
+    }
+
     if (progressText) {
       progressText.textContent = `Processing charts...`;
     }
 
+    const { chartId, fieldId } = chartMappings[i];
     try {
       console.log(`Processing chart: ${chartId}...`);
 
@@ -224,6 +231,7 @@ async function processChartsWithSpacing(chartMappings) {
   const progressBar = document.getElementById("chart-progress-bar");
   const progressCount = document.getElementById("chart-progress-count");
   const progressText = document.getElementById("chart-progress-text");
+  const currentChartName = document.getElementById("chart-current-name");
 
   if (progressBar) {
     progressBar.style.width = "100%";
@@ -236,7 +244,11 @@ async function processChartsWithSpacing(chartMappings) {
   if (progressText) {
     progressText.textContent = "Processing complete!";
   }
-  
+
+  if (currentChartName) {
+    currentChartName.textContent = "All charts processed";
+  }
+
   return results;
 }
 

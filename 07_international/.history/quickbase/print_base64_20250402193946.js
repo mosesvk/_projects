@@ -2,62 +2,18 @@
 
 /**
  * Improved chart processing for export that ensures the full chart is captured
- *
+ * 
  * @param {Array} chartMappings - Array of chart ID and field ID mappings
  * @returns {Promise<Array>} - Results of chart processing
  */
 async function processChartsWithSpacing(chartMappings) {
-  // console.log(`Processing ${chartMappings.length} charts for export`);
+  console.log(`Processing ${chartMappings.length} charts for export`);
   const results = [];
 
-  const loadingModal = document.getElementById("loadingApiDiv");
-  if (loadingModal) {
-    // Create progress tracking elements
-    const progressContainer = document.createElement("div");
-    progressContainer.id = "chart-progress-container";
-    progressContainer.className = "mt-6 px-3 py-1 w-full";
-
-    progressContainer.innerHTML = `
-      <div class="w-full">
-        <div class="flex justify-between mb-1 text-white">
-          <span id="chart-progress-text" class="text-lg font-medium">Processing charts</span>
-          <span id="chart-progress-count" class="text-lg font-medium">0/${chartMappings.length}</span>
-        </div>
-        <div class="w-full bg-gray-700 rounded-full h-2.5 mt-2">
-          <div id="chart-progress-bar" class="backgroundGreen h-2.5 rounded-full" style="width: 0%"></div>
-        </div>
-      </div>
-    `;
-
-    // Find the loading content div within the modal
-    const loadingContent =
-      loadingModal.querySelector("#loadingApiInnerDiv") || loadingModal;
-
-    // Insert the progress container as the first child of the loading content
-    loadingContent.appendChild(progressContainer);
-  }
+  // Update loading UI code (keep as is)...
 
   for (let i = 0; i < chartMappings.length; i++) {
     const { chartId, fieldId } = chartMappings[i];
-
-    // Update progress UI if elements exist
-    const progressBar = document.getElementById("chart-progress-bar");
-    const progressCount = document.getElementById("chart-progress-count");
-    const progressText = document.getElementById("chart-progress-text");
-
-    if (progressBar) {
-      const progressPercent = Math.floor((i / chartMappings.length) * 100);
-      progressBar.style.width = `${progressPercent}%`;
-    }
-
-    if (progressCount) {
-      progressCount.textContent = `${i}/${chartMappings.length}`;
-    }
-
-    if (progressText) {
-      progressText.textContent = `Processing charts...`;
-    }
-
     try {
       console.log(`Processing chart: ${chartId}...`);
 
@@ -73,18 +29,18 @@ async function processChartsWithSpacing(chartMappings) {
 
       // Get the ApexChart instance
       const chart = chartManager.getChart(chartId) || window[chartId];
-
+      
       // If we have an ApexChart instance, use its export method
-      if (chart && typeof chart.dataURI === "function") {
+      if (chart && typeof chart.dataURI === 'function') {
         // Clone chart container and place it off-screen for capture
-        const tempContainer = document.createElement("div");
+        const tempContainer = document.createElement('div');
         tempContainer.id = `temp-${chartId}`;
-        tempContainer.style.position = "absolute";
-        tempContainer.style.left = "-9999px";
-        tempContainer.style.height = "600px"; // Intentionally taller
-        tempContainer.style.width = chartElement.offsetWidth + "px";
+        tempContainer.style.position = 'absolute';
+        tempContainer.style.left = '-9999px';
+        tempContainer.style.height = '600px'; // Intentionally taller
+        tempContainer.style.width = chartElement.offsetWidth + 'px';
         document.body.appendChild(tempContainer);
-
+        
         // Create a temporary chart with the same config but larger dimensions
         const tempChart = new ApexCharts(tempContainer, {
           ...chart.w.config,
@@ -93,127 +49,117 @@ async function processChartsWithSpacing(chartMappings) {
             height: 550, // Make it taller
             width: chartElement.offsetWidth,
             animations: {
-              enabled: false, // Disable animations for export
+              enabled: false // Disable animations for export
             },
-            fontFamily:
-              chart.w.config.chart.fontFamily || "Helvetica, Arial, sans-serif",
+            fontFamily: chart.w.config.chart.fontFamily || 'Helvetica, Arial, sans-serif'
           },
           // Ensure legend and dataLabels are fully visible
           legend: {
             ...chart.w.config.legend,
-            position: chart.w.config.legend?.position || "bottom",
+            position: chart.w.config.legend?.position || 'bottom'
           },
           // Add extra bottom margin
           grid: {
             ...chart.w.config.grid,
             padding: {
               ...chart.w.config.grid?.padding,
-              bottom: 30, // Extra padding at bottom
-            },
-          },
+              bottom: 30 // Extra padding at bottom
+            }
+          }
         });
-
+        
         // Render the temporary chart
         await tempChart.render();
-
+        
         // Wait for rendering to complete
-        await new Promise((resolve) => setTimeout(resolve, 200));
-
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
         try {
           // Use ApexCharts' dataURI method to get the image
           const uri = await tempChart.dataURI();
-          const base64String = uri.imgURI.split(",")[1];
+          const base64String = uri.imgURI.split(',')[1];
           results.push({ chartId, fieldId, base64String });
         } catch (exportError) {
-          console.error(
-            `Error exporting chart ${chartId} via dataURI:`,
-            exportError
-          );
-
+          console.error(`Error exporting chart ${chartId} via dataURI:`, exportError);
+          
           // Fallback to html2canvas if dataURI fails
           const canvas = await html2canvas(tempContainer, {
             scale: 2,
             height: 600,
             useCORS: true,
             allowTaint: true,
-            backgroundColor:
-              getComputedStyle(document.documentElement).getPropertyValue(
-                "--chart-bg-color"
-              ) || "#ffffff",
+            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') || '#ffffff',
             onclone: (doc, clonedElement) => {
               // Make sure we can see everything
-              clonedElement.style.overflow = "visible";
-              clonedElement.style.height = "600px";
-            },
+              clonedElement.style.overflow = 'visible';
+              clonedElement.style.height = '600px';
+            }
           });
-
-          const base64String = canvas.toDataURL("image/png").split(",")[1];
+          
+          const base64String = canvas.toDataURL('image/png').split(',')[1];
           results.push({ chartId, fieldId, base64String });
         }
-
+        
         // Clean up
         tempChart.destroy();
         document.body.removeChild(tempContainer);
       } else {
         // Fallback for non-ApexCharts or if chart instance not found
         console.log(`Using fallback html2canvas for ${chartId}`);
-
+        
         // Create a clone of the chart element for manipulation
         const originalHeight = chartElement.style.height;
         const originalOverflow = chartElement.style.overflow;
-
+        
         // Set temporary styles for better capture
-        chartElement.style.height = "550px";
-        chartElement.style.overflow = "visible";
-
+        chartElement.style.height = '550px';
+        chartElement.style.overflow = 'visible';
+        
         // Force any SVG elements to include all content
-        const svgElements = chartElement.querySelectorAll("svg");
-        svgElements.forEach((svg) => {
-          if (svg.getAttribute("height")) {
-            svg.setAttribute("height", "550");
+        const svgElements = chartElement.querySelectorAll('svg');
+        svgElements.forEach(svg => {
+          if (svg.getAttribute('height')) {
+            svg.setAttribute('height', '550');
           }
-          svg.style.overflow = "visible";
+          svg.style.overflow = 'visible';
         });
-
+        
         // Wait for styles to apply
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         // Use html2canvas with enhanced options
         const canvas = await html2canvas(chartElement, {
           scale: 2,
           useCORS: true,
           allowTaint: true,
-          backgroundColor:
-            getComputedStyle(document.documentElement).getPropertyValue(
-              "--chart-bg-color"
-            ) || "#ffffff",
+          backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') || '#ffffff',
           height: chartElement.scrollHeight + 50,
           onclone: (doc, clonedElement) => {
-            clonedElement.style.overflow = "visible";
-            clonedElement.style.height = chartElement.scrollHeight + 50 + "px";
-
+            clonedElement.style.overflow = 'visible';
+            clonedElement.style.height = (chartElement.scrollHeight + 50) + 'px';
+            
             // Also adjust any SVG elements in the clone
-            const clonedSvgs = clonedElement.querySelectorAll("svg");
-            clonedSvgs.forEach((svg) => {
-              if (svg.getAttribute("height")) {
-                svg.setAttribute("height", chartElement.scrollHeight + 50);
+            const clonedSvgs = clonedElement.querySelectorAll('svg');
+            clonedSvgs.forEach(svg => {
+              if (svg.getAttribute('height')) {
+                svg.setAttribute('height', chartElement.scrollHeight + 50);
               }
-              svg.style.overflow = "visible";
+              svg.style.overflow = 'visible';
             });
-          },
+          }
         });
-
+        
         // Restore original styles
         chartElement.style.height = originalHeight;
         chartElement.style.overflow = originalOverflow;
-
+        
         // Convert canvas to base64 PNG
-        const base64String = canvas.toDataURL("image/png").split(",")[1];
+        const base64String = canvas.toDataURL('image/png').split(',')[1];
         results.push({ chartId, fieldId, base64String });
       }
 
       // Small timeout to prevent UI freezing
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await new Promise(resolve => setTimeout(resolve, 50));
     } catch (error) {
       console.error(`Error processing chart ${chartId}:`, error);
       results.push({ chartId, fieldId, base64String: null });
@@ -224,6 +170,7 @@ async function processChartsWithSpacing(chartMappings) {
   const progressBar = document.getElementById("chart-progress-bar");
   const progressCount = document.getElementById("chart-progress-count");
   const progressText = document.getElementById("chart-progress-text");
+  const currentChartName = document.getElementById("chart-current-name");
 
   if (progressBar) {
     progressBar.style.width = "100%";
@@ -236,7 +183,11 @@ async function processChartsWithSpacing(chartMappings) {
   if (progressText) {
     progressText.textContent = "Processing complete!";
   }
-  
+
+  if (currentChartName) {
+    currentChartName.textContent = "All charts processed";
+  }
+
   return results;
 }
 
@@ -391,13 +342,23 @@ async function apexChartsExportPrint() {
     printButton.disabled = false;
     printButton.innerHTML = originalButtonContent;
 
-    // Remove progress tracking container
-    const progressContainer = document.getElementById(
-      "chart-progress-container"
+    // Remove progress tracking elements after delay
+    const progressElements = document.querySelectorAll(
+      "#chart-progress-bar, #chart-progress-count, #chart-progress-text, #chart-current-name"
     );
-    if (progressContainer && progressContainer.parentNode) {
-      progressContainer.parentNode.removeChild(progressContainer);
-    }
+    progressElements.forEach((el) => {
+      if (el && el.parentNode && el.parentNode.parentNode) {
+        const progressTracker = el.parentNode.parentNode;
+        if (progressTracker.parentNode) {
+          progressTracker.parentNode.removeChild(progressTracker);
+        }
+      }
+    });
+
+    // setTimeout(() => {
+    //   // Find and remove the progress tracker we added
+
+    // }, 500);
   }
 }
 
