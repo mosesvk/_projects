@@ -143,13 +143,13 @@ class ReportComponent {
         ["daysExpensesInUnrestrictedNA_excludingPPE", "num", 0, "wa"],
         ["daysExpensesInNAwithDR", "num", 0, "wa"],
         ["daysExpensesInNAwithDR_excludingPPE", "num", 0, "wa"],
-        ["liquidityAssetsAvailableCover", "num", 1, "wa"],
+        ["liquidityAssetsAvailableCover", "num", 2, "wa"],
         ["liquidityFundsAvailable", "num", 1, "wa"],
         ["financialAssetsAvailableFY", "dollar", 2, "wa"],
         ["daysFinancialAssetsOnHand", "num", 0, "wa"],
         ["currentRatio", "num", 1, "wa"],
         ["totalCoverageRatio", "num", 1, "wa"],
-        ["assetsWithoutPpeToLiabilitiesWithoutDebt", "num", 1, "wa"],
+        ["assetsWithoutPpeToLiabilitiesWithoutDebt", "num", 2, "wa"],
         ["cashFlowsTrendFinancing", "dollar", 0],
         ["cashFlowsTrendInvesting", "dollar", 0],
         ["cashFlowsTrendOperating", "dollar", 0],
@@ -425,7 +425,7 @@ class ReportComponent {
           const emptyCell = document.createElement("th");
           emptyCell.scope = "row";
           emptyCell.className =
-            "px-6 py-4 font-medium text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+            "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
           emptyCell.textContent = "-";
           row.appendChild(emptyCell);
         }
