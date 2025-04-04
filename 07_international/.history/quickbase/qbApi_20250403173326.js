@@ -2525,26 +2525,22 @@ class ApiService {
 
             // Get mission unit value
             const missionUnitVal =
-              record.querySelector("_06_01nonfin___01_missionary_unit")
-                ?.textContent || "0";
+              record.querySelector("_06_01nonfin___01_missionary_unit")?.textContent || "0";
 
             // Get giving unit value
             const givingUnitVal =
-              record.querySelector("_06_01nonfin___02_giving_unit")
-                ?.textContent || "0";
+              record.querySelector("_06_01nonfin___02_giving_unit")?.textContent || "0";
 
             // Get area query - parse from string to array
             const areaQueryText =
-              record.querySelector("client___international_areasservedquery")
-                ?.textContent || "";
+              record.querySelector("client___international_areasservedquery")?.textContent || "";
             const areaQuery = areaQueryText
               ? areaQueryText.split(";").filter(Boolean)
               : [];
 
             // Get type query - parse from string to array
             const typeQueryText =
-              record.querySelector("client___international_subcategoryquery")
-                ?.textContent || "";
+              record.querySelector("client___international_subcategoryquery")?.textContent || "";
             const typeQuery = typeQueryText
               ? typeQueryText.split(";").filter(Boolean)
               : [];
@@ -2657,17 +2653,15 @@ class ApiService {
       return;
     }
 
-    console.log("Filter change detected. Updating client selection...");
+    // console.log("Filter change detected. Updating client selection...");
 
     // Call the function that updates client checkboxes based on current filters
     if (typeof updateClientDropdownBasedOnFilters === "function") {
       updateClientDropdownBasedOnFilters();
-    } else if (typeof headerUpdateClientDropdown === "function") {
-      // Try the function from Header.js
-      headerUpdateClientDropdown();
     } else {
-      console.error("No suitable update function found for client dropdown");
-      // Don't call this._updateClientSelection() since it doesn't exist
+      console.error("updateClientDropdownBasedOnFilters function not found");
+      // Fall back to older implementation
+      this._updateClientSelection();
     }
   }
 

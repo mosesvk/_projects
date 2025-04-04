@@ -2496,6 +2496,7 @@ class ApiService {
     };
 
     try {
+
       const xml = await $.get(peerData, apiCallPeerData);
       const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
       const uniquePeerClientNames = new Set();
@@ -2525,26 +2526,22 @@ class ApiService {
 
             // Get mission unit value
             const missionUnitVal =
-              record.querySelector("_06_01nonfin___01_missionary_unit")
-                ?.textContent || "0";
+              record.querySelector("missionary_unit")?.textContent || "0";
 
             // Get giving unit value
             const givingUnitVal =
-              record.querySelector("_06_01nonfin___02_giving_unit")
-                ?.textContent || "0";
+              record.querySelector("giving_unit")?.textContent || "0";
 
             // Get area query - parse from string to array
             const areaQueryText =
-              record.querySelector("client___international_areasservedquery")
-                ?.textContent || "";
+              record.querySelector("area_query")?.textContent || "";
             const areaQuery = areaQueryText
               ? areaQueryText.split(";").filter(Boolean)
               : [];
 
             // Get type query - parse from string to array
             const typeQueryText =
-              record.querySelector("client___international_subcategoryquery")
-                ?.textContent || "";
+              record.querySelector("type_query")?.textContent || "";
             const typeQuery = typeQueryText
               ? typeQueryText.split(";").filter(Boolean)
               : [];
@@ -2657,17 +2654,15 @@ class ApiService {
       return;
     }
 
-    console.log("Filter change detected. Updating client selection...");
+    // console.log("Filter change detected. Updating client selection...");
 
     // Call the function that updates client checkboxes based on current filters
     if (typeof updateClientDropdownBasedOnFilters === "function") {
       updateClientDropdownBasedOnFilters();
-    } else if (typeof headerUpdateClientDropdown === "function") {
-      // Try the function from Header.js
-      headerUpdateClientDropdown();
     } else {
-      console.error("No suitable update function found for client dropdown");
-      // Don't call this._updateClientSelection() since it doesn't exist
+      console.error("updateClientDropdownBasedOnFilters function not found");
+      // Fall back to older implementation
+      this._updateClientSelection();
     }
   }
 
@@ -3361,6 +3356,101 @@ class AppController {
     }
   }
 }
+
+// Extend the existing ApiService.getRecordsForUniqueClientPeerNames method
+const originalGetRecordsForUniqueClientPeerNames =
+  ApiService.prototype.getRecordsForUniqueClientPeerNames;
+
+  ApiService.prototype.getRecordsForUniqueClientPeerNames = async function() {
+    const apiCallPeerData = {
+      act: "API_DoQuery",
+      clist: "301.59.238.239.359.358.122.334.187" // Added mission unit, giving unit, area query, type query
+    };
+  
+    try {
+      console.log("Making API call to peerData:", peerData); // Add to verify peerData is defined
+      const xml = await $.get(peerData, apiCallPeerData);
+      console.log("API call successful, processing response");
+    const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
+    const uniquePeerClientNames = new Set();
+
+    // Create a global client data storage
+    if (!window.clientDataStore) {
+      window.clientDataStore = {};
+    }
+
+    // Clear existing data store
+    window.clientDataStore = {};
+
+    // Populate client data store
+    recordsForPeerUniqueClientPeerNames.forEach((record) => {
+      const clientInformalName = record.querySelector(
+        "pe___client_informal_name"
+      )?.textContent;
+
+      if (clientInformalName) {
+        uniquePeerClientNames.add(clientInformalName);
+
+        // Extract comprehensive client data
+        const clientData = {
+          name: clientInformalName,
+
+          // Missionary Unit
+          missionUnit: parseFloat(
+            record.querySelector("_06_01nonfin___01_missionary_unit")
+              ?.textContent || 0
+          ),
+
+          // Giving Unit
+          givingUnit: parseFloat(
+            record.querySelector("_06_01nonfin___02_giving_unit")
+              ?.textContent || 0
+          ),
+
+          // Areas Served (convert to array)
+          areaQuery:
+            record
+              .querySelector("client___international_areasservedquery")
+              ?.textContent.split(";")
+              .filter((area) => area.trim() !== "") || [],
+
+          // Types (convert to array) - Fix the missing typeQuery
+          typeQuery:
+            record
+              .querySelector("client___international_typesservedquery")
+              ?.textContent.split(";")
+              .filter((type) => type.trim() !== "") || [],
+
+          // Fiscal Year (if needed)
+          year: record.querySelector("fiscal_ye_date_formatted_year_text")
+            ?.textContent,
+        };
+
+        // Store client data
+        window.clientDataStore[clientInformalName] = clientData;
+      }
+    });
+
+    // Sort and convert to array
+    const sortedUniquePeerClientNames = Array.from(
+      uniquePeerClientNames
+    ).sort();
+
+    // Trigger client data loaded event
+    const event = new CustomEvent("clientDataLoaded", {
+      detail: {
+        clients: sortedUniquePeerClientNames,
+        dataStore: window.clientDataStore,
+      },
+    });
+    document.dispatchEvent(event);
+
+    return sortedUniquePeerClientNames;
+  } catch (error) {
+    console.error("Error fetching unique client names:", error);
+    return [];
+  }
+};
 
 // Function to restore initial client selection
 function restoreInitialClientSelection() {
