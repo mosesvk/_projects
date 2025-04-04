@@ -40,7 +40,16 @@ class ChartManager {
         return;
       }
 
-
+      // Original implementation...
+      this.updateModal(
+        mainName,
+        parsedData[peer],
+        parsedData[client],
+        parsedData,
+        type,
+        fixedNum,
+        wa
+      );
       this.createChart(
         chart,
         peer,
@@ -327,104 +336,97 @@ class ChartManager {
     );
   }
 
-populateModalContent(
-  headerRow,
-  selectedYears,
-  clientData,
-  peerData,
-  parsedData,
-  type,
-  fixedNum,
-  wa
-) {
-  let tableHead = headerRow.parentElement;
-
-  // Clear existing rows after the headerRow
-  let nextRow = headerRow.nextSibling;
-  while (nextRow) {
-    tableHead.removeChild(nextRow);
-    nextRow = headerRow.nextSibling;
-  }
-
-  // Clear existing header content
-  headerRow.innerHTML = "";
-
-  // Add columns (year, client, avg, 25%, 50%, 75%)
-  this._addModalColumns(headerRow);
-
-  // Get the main name from the header row ID
-  const mainName = headerRow.id.replace("_row", "");
-
-  // Special case flag for annualizedInvestmentReturn chart
-  const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
-  
-  // Process data type appropriately
-  const dataProcessingType = isAnnualizedInvestmentReturn ? "number" : type || "number";
-
-  // Get chart data using the same function used for chart creation
-  // This ensures consistency between chart and modal data
-
-  console.log('CHART---DATA', {
-    peerData,
+  populateModalContent(
+    headerRow,
+    selectedYears,
     clientData,
+    peerData,
     parsedData,
+    type,
     fixedNum,
     wa
-  });
+  ) {
+    let tableHead = headerRow.parentElement;
   
-
-  const chartData = getPeerAndClientChartDataArrays(
-    selectedYears,
-    peerData,
-    clientData,
-    fixedNum,
-    mainName,
-    dataProcessingType, 
-    wa,
-    false, // Don't force refresh
-    parsedData
-  );
-
-  // Now add data rows for each year
-  selectedYears.forEach((year, index) => {
-    const yearRow = this._createYearRow(mainName, year);
-    tableHead.appendChild(yearRow);
-
-    // Add client data
-    if (chartData.clientArray && chartData.clientArray[index] !== undefined) {
-      const clientValue = chartData.clientArray[index];
-      // Format client data according to the data type
-      this._addClientDataToModalRow(
-        yearRow,
-        clientValue,
-        type,
-        fixedNum || 2
-      );
-    } else {
-      // Add empty cell if no client data
-      this._addEmptyCell(yearRow);
+    // Clear existing rows after the headerRow
+    let nextRow = headerRow.nextSibling;
+    while (nextRow) {
+      tableHead.removeChild(nextRow);
+      nextRow = headerRow.nextSibling;
     }
+  
+    // Clear existing header content
+    headerRow.innerHTML = "";
+  
+    // Add columns (year, client, avg, 25%, 50%, 75%)
+    this._addModalColumns(headerRow);
+  
+    // Get the main name from the header row ID
+    const mainName = headerRow.id.replace("_row", "");
+  
+    // Special case flag for annualizedInvestmentReturn chart
+    const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
+    
+    // Process data type appropriately
+    const dataProcessingType = isAnnualizedInvestmentReturn ? "number" : type || "number";
+  
+    // Get chart data using the same function used for chart creation
+    // This ensures consistency between chart and modal data
+    const chartData = getPeerAndClientChartDataArrays(
+      selectedYears,
+      peerData,
+      clientData,
+      fixedNum,
+      mainName,
+      dataProcessingType, 
+      wa,
+      true,
+      parsedData
+    );
 
-    // Add peer data
-    if (chartData.peerAvg && chartData.peerAvg[index] !== undefined) {
-      // Format and add peer data
-      this._addPeerDataToModalRow(
-        yearRow,
-        chartData.peerAvg[index],  // Average
-        chartData.peerMid[index],  // Median (50%)
-        chartData.peer25[index],   // 25th percentile
-        chartData.peer75[index],   // 75th percentile
-        type,
-        fixedNum
-      );
-    } else {
-      // Add empty cells for peer data if none available
-      for (let i = 0; i < 4; i++) {
+    console.log('CHARTDATA', {chartData});
+    
+  
+    // Now add data rows for each year
+    selectedYears.forEach((year, index) => {
+      const yearRow = this._createYearRow(mainName, year);
+      tableHead.appendChild(yearRow);
+  
+      // Add client data
+      if (chartData.clientArray && chartData.clientArray[index] !== undefined) {
+        const clientValue = chartData.clientArray[index];
+        // Format client data according to the data type
+        this._addClientDataToModalRow(
+          yearRow,
+          clientValue,
+          type,
+          fixedNum || 2
+        );
+      } else {
+        // Add empty cell if no client data
         this._addEmptyCell(yearRow);
       }
-    }
-  });
-}
+  
+      // Add peer data
+      if (chartData.peerAvg && chartData.peerAvg[index] !== undefined) {
+        // Format and add peer data
+        this._addPeerDataToModalRow(
+          yearRow,
+          chartData.peerAvg[index],  // Average
+          chartData.peerMid[index],  // Median (50%)
+          chartData.peer25[index],   // 25th percentile
+          chartData.peer75[index],   // 75th percentile
+          type,
+          fixedNum
+        );
+      } else {
+        // Add empty cells for peer data if none available
+        for (let i = 0; i < 4; i++) {
+          this._addEmptyCell(yearRow);
+        }
+      }
+    });
+  }
 
 
   // Helper method to add peer data to row with weighted average support

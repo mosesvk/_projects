@@ -411,15 +411,15 @@ const createChartFromParsedData = (
         "chartManager is not defined or missing createChartFromParsedData method"
       );
       // Fallback to old approach if needed
-      // updateModal(
-      //   mainName,
-      //   parsedData[peer],
-      //   parsedData[client],
-      //   parsedData,
-      //   type,
-      //   fixedNum,
-      //   wa
-      // );
+      updateModal(
+        mainName,
+        parsedData[peer],
+        parsedData[client],
+        parsedData,
+        type,
+        fixedNum,
+        wa
+      );
       createChart(
         chart,
         parsedData[peer],
@@ -477,78 +477,78 @@ const createChart = (
   }
 };
 
-// function updateModal(
-//   mainName,
-//   peerData,
-//   clientData,
-//   parsedData,
-//   type,
-//   fixedNum,
-//   wa
-// ) {
-//   if (mainName == testName) {
-//     console.log({
-//       peerData,
-//       clientData,
-//       parsedData,
-//       type,
-//       fixedNum,
-//       wa,
-//     });
-//   }
+function updateModal(
+  mainName,
+  peerData,
+  clientData,
+  parsedData,
+  type,
+  fixedNum,
+  wa
+) {
+  if (mainName == testName) {
+    console.log({
+      peerData,
+      clientData,
+      parsedData,
+      type,
+      fixedNum,
+      wa,
+    });
+  }
 
-//   if (typeof chartManager !== 'undefined' && chartManager.updateModal) {
-//     console.log('--> revert to chartManager.udpateModal');
+  if (typeof chartManager !== 'undefined' && chartManager.updateModal) {
+    console.log('--> revert to chartManager.udpateModal');
     
-//     return chartManager.updateModal(mainName, peerData, clientData, parsedData, type, fixedNum, wa);
-//   }
+    return chartManager.updateModal(mainName, peerData, clientData, parsedData, type, fixedNum, wa);
+  }
 
-//   // Get the selected years from local storage
-//   const selectedYears = getSelectedYearsFromLocalStorage();
-//   if (!selectedYears || !selectedYears.length) {
-//     console.warn(`No selected years found for modal ${mainName}`);
-//     return;
-//   }
+  // Get the selected years from local storage
+  const selectedYears = getSelectedYearsFromLocalStorage();
+  if (!selectedYears || !selectedYears.length) {
+    console.warn(`No selected years found for modal ${mainName}`);
+    return;
+  }
 
-//   // Find the modal element
-//   const modalSelector = `#${mainName}_modal`;
-//   const modal = document.querySelector(modalSelector);
+  // Find the modal element
+  const modalSelector = `#${mainName}_modal`;
+  const modal = document.querySelector(modalSelector);
 
-//   if (!modal) {
-//     // console.warn(`Modal element with selector "${modalSelector}" not found`);
-//     return;
-//   }
+  if (!modal) {
+    // console.warn(`Modal element with selector "${modalSelector}" not found`);
+    return;
+  }
 
-//   // Find the table header row with more flexible selector
-//   const rowSelector = `#${mainName}_modal_row`;
-//   let headerRow = modal.querySelector(rowSelector);
+  // Find the table header row with more flexible selector
+  const rowSelector = `#${mainName}_modal_row`;
+  let headerRow = modal.querySelector(rowSelector);
 
-//   if (!headerRow) {
-//     console.warn(
-//       `Header row with selector "${rowSelector}" not found in modal ${modalSelector}`
-//     );
-//     // Try a more generic approach to find the table row
-//     headerRow = modal.querySelector('tr[id$="_modal_row"]');
-//     if (!headerRow) {
-//       console.error(
-//         `Could not find any appropriate row in modal ${modalSelector}`
-//       );
-//       return;
-//     }
-//   }
+  if (!headerRow) {
+    console.warn(
+      `Header row with selector "${rowSelector}" not found in modal ${modalSelector}`
+    );
+    // Try a more generic approach to find the table row
+    headerRow = modal.querySelector('tr[id$="_modal_row"]');
+    if (!headerRow) {
+      console.error(
+        `Could not find any appropriate row in modal ${modalSelector}`
+      );
+      return;
+    }
+  }
 
-//   // Clear and populate the modal content
-//   populateModalContent(
-//     headerRow,
-//     selectedYears,
-//     clientData,
-//     peerData,
-//     parsedData,
-//     type,
-//     fixedNum,
-//     wa
-//   );
-// }
+  // Clear and populate the modal content
+  populateModalContent(
+    headerRow,
+    selectedYears,
+    clientData,
+    peerData,
+    parsedData,
+    type,
+    fixedNum,
+    wa
+  );
+}
 
 function populateModalContent(
   headerRow,
@@ -2307,8 +2307,6 @@ function getPeerAndClientChartDataArrays(
           dataArray,
           peerClient: parseStoredData[dataClient],
           parsedData,
-          wa, 
-          numType
         });
 
       // Handle missing data
@@ -2352,6 +2350,7 @@ function getPeerAndClientChartDataArrays(
             mid,
             lower25,
             higher75,
+            clientNum,
             numType,
             fixedNum
           });

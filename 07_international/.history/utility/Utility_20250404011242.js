@@ -411,15 +411,15 @@ const createChartFromParsedData = (
         "chartManager is not defined or missing createChartFromParsedData method"
       );
       // Fallback to old approach if needed
-      // updateModal(
-      //   mainName,
-      //   parsedData[peer],
-      //   parsedData[client],
-      //   parsedData,
-      //   type,
-      //   fixedNum,
-      //   wa
-      // );
+      updateModal(
+        mainName,
+        parsedData[peer],
+        parsedData[client],
+        parsedData,
+        type,
+        fixedNum,
+        wa
+      );
       createChart(
         chart,
         parsedData[peer],
@@ -477,78 +477,78 @@ const createChart = (
   }
 };
 
-// function updateModal(
-//   mainName,
-//   peerData,
-//   clientData,
-//   parsedData,
-//   type,
-//   fixedNum,
-//   wa
-// ) {
-//   if (mainName == testName) {
-//     console.log({
-//       peerData,
-//       clientData,
-//       parsedData,
-//       type,
-//       fixedNum,
-//       wa,
-//     });
-//   }
+function updateModal(
+  mainName,
+  peerData,
+  clientData,
+  parsedData,
+  type,
+  fixedNum,
+  wa
+) {
+  if (mainName == testName) {
+    console.log({
+      peerData,
+      clientData,
+      parsedData,
+      type,
+      fixedNum,
+      wa,
+    });
+  }
 
-//   if (typeof chartManager !== 'undefined' && chartManager.updateModal) {
-//     console.log('--> revert to chartManager.udpateModal');
+  if (typeof chartManager !== 'undefined' && chartManager.updateModal) {
+    console.log('--> revert to chartManager.udpateModal');
     
-//     return chartManager.updateModal(mainName, peerData, clientData, parsedData, type, fixedNum, wa);
-//   }
+    return chartManager.updateModal(mainName, peerData, clientData, parsedData, type, fixedNum, wa);
+  }
 
-//   // Get the selected years from local storage
-//   const selectedYears = getSelectedYearsFromLocalStorage();
-//   if (!selectedYears || !selectedYears.length) {
-//     console.warn(`No selected years found for modal ${mainName}`);
-//     return;
-//   }
+  // Get the selected years from local storage
+  const selectedYears = getSelectedYearsFromLocalStorage();
+  if (!selectedYears || !selectedYears.length) {
+    console.warn(`No selected years found for modal ${mainName}`);
+    return;
+  }
 
-//   // Find the modal element
-//   const modalSelector = `#${mainName}_modal`;
-//   const modal = document.querySelector(modalSelector);
+  // Find the modal element
+  const modalSelector = `#${mainName}_modal`;
+  const modal = document.querySelector(modalSelector);
 
-//   if (!modal) {
-//     // console.warn(`Modal element with selector "${modalSelector}" not found`);
-//     return;
-//   }
+  if (!modal) {
+    // console.warn(`Modal element with selector "${modalSelector}" not found`);
+    return;
+  }
 
-//   // Find the table header row with more flexible selector
-//   const rowSelector = `#${mainName}_modal_row`;
-//   let headerRow = modal.querySelector(rowSelector);
+  // Find the table header row with more flexible selector
+  const rowSelector = `#${mainName}_modal_row`;
+  let headerRow = modal.querySelector(rowSelector);
 
-//   if (!headerRow) {
-//     console.warn(
-//       `Header row with selector "${rowSelector}" not found in modal ${modalSelector}`
-//     );
-//     // Try a more generic approach to find the table row
-//     headerRow = modal.querySelector('tr[id$="_modal_row"]');
-//     if (!headerRow) {
-//       console.error(
-//         `Could not find any appropriate row in modal ${modalSelector}`
-//       );
-//       return;
-//     }
-//   }
+  if (!headerRow) {
+    console.warn(
+      `Header row with selector "${rowSelector}" not found in modal ${modalSelector}`
+    );
+    // Try a more generic approach to find the table row
+    headerRow = modal.querySelector('tr[id$="_modal_row"]');
+    if (!headerRow) {
+      console.error(
+        `Could not find any appropriate row in modal ${modalSelector}`
+      );
+      return;
+    }
+  }
 
-//   // Clear and populate the modal content
-//   populateModalContent(
-//     headerRow,
-//     selectedYears,
-//     clientData,
-//     peerData,
-//     parsedData,
-//     type,
-//     fixedNum,
-//     wa
-//   );
-// }
+  // Clear and populate the modal content
+  populateModalContent(
+    headerRow,
+    selectedYears,
+    clientData,
+    peerData,
+    parsedData,
+    type,
+    fixedNum,
+    wa
+  );
+}
 
 function populateModalContent(
   headerRow,
@@ -2250,10 +2250,7 @@ function getPeerAndClientChartDataArrays(
       dataPeer,
       dataClient,
       parsedData,
-      fixedNum, 
-      mainName, 
-      numType,
-      wa
+      cacheKey,
     });
 
   // Use cached result if available and not forcing refresh
@@ -2301,15 +2298,13 @@ function getPeerAndClientChartDataArrays(
       // Get peer data array
       const dataArray = parsedData[dataPeer];
 
-      if (mainName == testName)
-        console.log({
-          peerData: parsedData[dataPeer],
-          dataArray,
-          peerClient: parseStoredData[dataClient],
-          parsedData,
-          wa, 
-          numType
-        });
+      // if (mainName == testName)
+      //   console.log({
+      //     peerData: parsedData[dataPeer],
+      //     dataArray,
+      //     peerClient: parseStoredData[dataClient],
+      //     parsedData,
+      //   });
 
       // Handle missing data
       if (!dataArray || dataArray.length === 0) {
@@ -2346,17 +2341,6 @@ function getPeerAndClientChartDataArrays(
         wa === "wa" &&
         typeof window.getWeightedAverageOfArray === "function"
       ) {
-        if (mainName == testName) {
-          console.log({
-            avg,
-            mid,
-            lower25,
-            higher75,
-            numType,
-            fixedNum
-          });
-        }
-  
         try {
           // Calculate weighted average with year parameter
           avg = window.getWeightedAverageOfArray(parsedData, mainName, year, 'utility.js');
@@ -2392,16 +2376,32 @@ function getPeerAndClientChartDataArrays(
         ? Number(parsedData[dataClient][year].value)
         : 0;
 
-      
+      // Convert to percentage if needed, but handle special cases
+      if (numType === "percent") {
+        // Convert all values to percentages
+        avg *= 100;
+        mid *= 100;
+        lower25 *= 100;
+        higher75 *= 100;
+        clientNum *= 100;
+      }
 
+      if (mainName == testName) {
+        // console.log({
+        //   avg,
+        //   mid,
+        //   lower25,
+        //   higher75,
+        //   clientNum,
+        // });
+      }
 
       // Format values with consistent precision and add to result arrays
-      peerAvg.push(styleNumber(avg, numType, fixedNum));
-      peerMid.push(styleNumber(mid, numType, fixedNum));
-      peer25.push(styleNumber(lower25, numType, fixedNum));
-      peer75.push(styleNumber(higher75, numType, fixedNum));
-      clientArray.push(styleNumber(clientNum, numType, fixedNum));
-
+      peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
+      peerMid.push(parseFloat(mid.toFixed(fixedNum)));
+      peer25.push(parseFloat(lower25.toFixed(fixedNum)));
+      peer75.push(parseFloat(higher75.toFixed(fixedNum)));
+      clientArray.push(parseFloat(clientNum.toFixed(fixedNum)));
     }
     // Case 2: We have client data but no peer data
     else if (parsedData[dataClient]) {
@@ -2414,7 +2414,12 @@ function getPeerAndClientChartDataArrays(
         ? Number(parsedData[dataClient][year].value)
         : 0;
 
-      clientArray.push(styleNumber(clientNum, numType, fixedNum))
+      // Convert to percentage if needed
+      if (numType === "percent") {
+        clientNum *= 100;
+      }
+
+      clientArray.push(parseFloat(clientNum.toFixed(fixedNum)));
     }
     // Case 3: We have peer data but no client data
     else if (parsedData[dataPeer]) {
@@ -2437,10 +2442,10 @@ function getPeerAndClientChartDataArrays(
           higher75 *= 100;
         }
 
-        peerAvg.push(styleNumber(avg, numType, fixedNum))
-        peerMid.push(styleNumber(mid, numType, fixedNum))
-        peer25.push(styleNumber(lower25, numType, fixedNum))
-        peer75.push(styleNumber(higher75, numType, fixedNum))
+        peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
+        peerMid.push(parseFloat(mid.toFixed(fixedNum)));
+        peer25.push(parseFloat(lower25.toFixed(fixedNum)));
+        peer75.push(parseFloat(higher75.toFixed(fixedNum)));
       } else {
         peerAvg.push(0);
         peerMid.push(0);
@@ -2457,16 +2462,6 @@ function getPeerAndClientChartDataArrays(
       peer25.push(0);
       peer75.push(0);
       clientArray.push(0);
-    }
-
-    if (mainName == testName) {
-      console.log({
-        peerAvg,
-        peerMid,
-        peer25,
-        peer75,
-        clientArray,
-      });
     }
   });
 

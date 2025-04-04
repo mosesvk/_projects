@@ -2,7 +2,7 @@ const getWeightedAverageOfArray = (data, name, year, test) => {
   // console.log(data, name);
   switch (name) {
     case "daysCashOnHand":
-      return daysCashOnHand_weightedAverage(data, name, year, test);
+      return daysCashOnHand_weightedAverage(data, name, year,test);
     case "daysExpensesInUnrestrictedNA":
       return daysExpensesInUnrestrictedNA_weightedAverage(data, name, year);
     case "daysExpensesInUnrestrictedNA_excludingPPE":
@@ -993,6 +993,8 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
 };
 
 const daysCashOnHand_weightedAverage = (data, name, year, test) => {
+
+  
   // [01. 01Ass - 01 Cash and Cash Equivalents]
   // /
   // (
@@ -1013,17 +1015,17 @@ const daysCashOnHand_weightedAverage = (data, name, year, test) => {
 
   const denominator = (totalExpenses - depreciationAndAmortization) / 365;
 
-  console.log("W.A", {
-    data,
-    name,
-    year,
-    cashAndCashEquivalents,
+  console.log('W.A', {
+    data, 
+    name, 
+    year, 
+    cashAndCashEquivalents, 
     denominator,
     result: cashAndCashEquivalents / denominator,
-    test,
+    test
   });
 
   return cashAndCashEquivalents / denominator;
 };
 
-window.getWeightedAverageOfArray = getWeightedAverageOfArray;
+window.getWeightedAverageOfArray = getWeightedAverageOfArray
