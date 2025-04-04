@@ -346,6 +346,14 @@ class ChartManager {
     fixedNum,
     wa
   ) {
+    
+   let name = headerRow.id.replace("_modal_row", "").replace("_row", "");
+
+   console.log('PopulateModalContent', {
+    name, parsedData, peerData, clientData, type, fixedNum, wa
+   });
+   
+
 
     let tableHead = headerRow.parentElement;
 
@@ -365,10 +373,14 @@ class ChartManager {
     // Get the main name from the header row ID
     const mainName = headerRow.id.replace("_row", "");
 
-    console.log('PopulateModalContent', {
-      mainName, parsedData, peerData, clientData, type, fixedNum, wa
-     });
+    // Special case flag for annualizedInvestmentReturn chart
+    const isAnnualizedInvestmentReturn =
+      mainName === "annualizedInvestmentReturn";
 
+    // Process data type appropriately
+    const dataProcessingType = isAnnualizedInvestmentReturn
+      ? "number"
+      : type || "number";
 
     // Add data rows for each year
     selectedYears.forEach((year) => {
@@ -381,7 +393,7 @@ class ChartManager {
         this._addClientDataToModalRow(
           yearRow,
           clientData[year].value,
-          type,
+          dataProcessingType,
           fixedNum || 2
         );
       } else {
@@ -402,7 +414,7 @@ class ChartManager {
           
           try {
             // Calculate weighted average for this specific chart and year
-            const weightedAvg = window.getWeightedAverageOfArray(
+            const weightedAvg = getWeightedAverageOfArray(
               parsedData,
               mainName,
               year
@@ -429,7 +441,7 @@ class ChartManager {
               peerMid,
               peer25,
               peer75,
-              type,
+              dataProcessingType,
               fixedNum
             );
           } catch (error) {
@@ -460,7 +472,7 @@ class ChartManager {
               peerMid,
               peer25,
               peer75,
-              type,
+              dataProcessingType,
               fixedNum
             );
           }
@@ -480,6 +492,11 @@ class ChartManager {
             ? get75thPercentileOfArray(peerValues, mainName)
             : 0;
 
+          // For percentage type, multiply values by 100
+          let multiplier =
+            dataProcessingType === "percent" && !isAnnualizedInvestmentReturn
+              ? 100
+              : 1;
 
           // Add the peer data to the row
           addPeerDataToModalRow(
@@ -488,7 +505,7 @@ class ChartManager {
             peerMid * multiplier,
             peer25 * multiplier,
             peer75 * multiplier,
-            type,
+            dataProcessingType,
             fixedNum
           );
         }

@@ -429,7 +429,7 @@ class ChartManager {
               peerMid,
               peer25,
               peer75,
-              type,
+              typeessingType,
               fixedNum
             );
           } catch (error) {
@@ -460,7 +460,7 @@ class ChartManager {
               peerMid,
               peer25,
               peer75,
-              type,
+              typeessingType,
               fixedNum
             );
           }
