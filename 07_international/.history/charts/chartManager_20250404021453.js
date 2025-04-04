@@ -41,7 +41,15 @@ class ChartManager {
       }
 
       // Original implementation...
-
+      this.updateModal(
+        mainName,
+        parsedData[peer],
+        parsedData[client],
+        parsedData,
+        type,
+        fixedNum,
+        wa
+      );
       this.createChart(
         chart,
         peer,

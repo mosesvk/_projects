@@ -41,7 +41,15 @@ class ChartManager {
       }
 
       // Original implementation...
-
+      this.updateModal(
+        mainName,
+        parsedData[peer],
+        parsedData[client],
+        parsedData,
+        type,
+        fixedNum,
+        wa
+      );
       this.createChart(
         chart,
         peer,
@@ -221,21 +229,6 @@ class ChartManager {
       parsedData,
     };
 
-    document.dispatchEvent(new CustomEvent("chartOptionsApplied", { 
-      detail: { 
-        chartId,
-        mainName,
-        options: {
-          dataPeer,
-          dataClient,
-          parsedData,
-          numType: dataType,
-          fixedNum,
-          wa: weightedAverage
-        }
-      }
-    }));
-
     return chart;
   }
 
@@ -281,6 +274,365 @@ class ChartManager {
     this.updateCashFlowModal("cashFlowsTrend", data, cashFlowKeys);
 
     return chart;
+  }
+
+  // Enhanced modal update method with weighted average support
+  updateModal(mainName, peerData, clientData, parsedData, type, fixedNum, wa) {
+    // Get the selected years from local storage
+    const selectedYears = getSelectedYearsFromLocalStorage();
+    if (!selectedYears || !selectedYears.length) {
+      console.warn(`No selected years found for modal ${mainName}`);
+      return;
+    }
+  
+    // Find the modal element
+    const modalSelector = `#${mainName}_modal`;
+    const modal = document.querySelector(modalSelector);
+  
+    if (!modal) {
+      return;
+    }
+  
+    // Find the table header row with more flexible selector
+    const rowSelector = `#${mainName}_modal_row`;
+    let headerRow = modal.querySelector(rowSelector);
+  
+    if (!headerRow) {
+      // Try a more generic approach to find the table row
+      headerRow = modal.querySelector('tr[id$="_modal_row"]');
+      if (!headerRow) {
+        console.error(`Could not find any appropriate row in modal ${modalSelector}`);
+        return;
+      }
+    }
+  
+    // IMPORTANT: Get the same chart data that was used for the chart
+    const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
+    const dataProcessingType = isAnnualizedInvestmentReturn ? "number" : type || "number";
+  
+    // Use the same data processing logic as in createMainChartConfig
+    const chartData = getPeerAndClientChartDataArrays(
+      selectedYears,
+      peerData,
+      clientData,
+      fixedNum || 0,
+      mainName,
+      dataProcessingType,
+      wa,
+      true, // Force refresh to ensure consistent data
+      parsedData
+    );
+  
+    this.populateModalContent(
+      headerRow,
+      selectedYears,
+      chartData,
+      type,
+      fixedNum,
+      mainName
+    );
+  }
+  populateModalContent(
+    headerRow,
+    selectedYears,
+    clientData,
+    peerData,
+    parsedData,
+    type,
+    fixedNum,
+    wa
+  ) {
+    let tableHead = headerRow.parentElement;
+
+    // Clear existing rows after the headerRow
+    let nextRow = headerRow.nextSibling;
+    while (nextRow) {
+      tableHead.removeChild(nextRow);
+      nextRow = headerRow.nextSibling;
+    }
+
+    // Clear existing header content
+    headerRow.innerHTML = "";
+
+    // Add columns (year, client, avg, 25%, 50%, 75%)
+    this._addModalColumns(headerRow);
+
+    // Get the main name from the header row ID
+    const mainName = headerRow.id.replace("_row", "");
+
+    // Special case flag for annualizedInvestmentReturn chart
+    const isAnnualizedInvestmentReturn =
+      mainName === "annualizedInvestmentReturn";
+
+    // Process data type appropriately
+    const dataProcessingType = isAnnualizedInvestmentReturn
+      ? "number"
+      : type || "number";
+
+    // Get chart data using the same function used for chart creation
+    // This ensures consistency between chart and modal data
+
+    console.log("CHART---DATA", {
+      peerData,
+      clientData,
+      parsedData,
+      fixedNum,
+      wa,
+    });
+
+    const chartData = getPeerAndClientChartDataArrays(
+      selectedYears,
+      peerData,
+      clientData,
+      fixedNum,
+      mainName,
+      dataProcessingType,
+      wa,
+      false, // Don't force refresh
+      parsedData
+    );
+
+    // Now add data rows for each year
+    selectedYears.forEach((year, index) => {
+      const yearRow = this._createYearRow(mainName, year);
+      tableHead.appendChild(yearRow);
+
+      // Add client data
+      if (chartData.clientArray && chartData.clientArray[index] !== undefined) {
+        const clientValue = chartData.clientArray[index];
+        // Format client data according to the data type
+        this._addClientDataToModalRow(
+          yearRow,
+          clientValue,
+          type,
+          fixedNum || 2
+        );
+      } else {
+        // Add empty cell if no client data
+        this._addEmptyCell(yearRow);
+      }
+
+      // Add peer data
+      if (chartData.peerAvg && chartData.peerAvg[index] !== undefined) {
+        // Format and add peer data
+        this._addPeerDataToModalRow(
+          yearRow,
+          chartData.peerAvg[index], // Average
+          chartData.peerMid[index], // Median (50%)
+          chartData.peer25[index], // 25th percentile
+          chartData.peer75[index], // 75th percentile
+          type,
+          fixedNum
+        );
+      } else {
+        // Add empty cells for peer data if none available
+        for (let i = 0; i < 4; i++) {
+          this._addEmptyCell(yearRow);
+        }
+      }
+    });
+  }
+
+  // Helper method to add peer data to row with weighted average support
+  _addPeerDataToModalRow(
+    row,
+    avgValue,
+    midValue,
+    p25Value,
+    p75Value,
+    dataType,
+    fixedNum
+  ) {
+    // console.log({row, avgValue, dataType, fixedNum});
+
+    // Create and add the average value cell
+    this._createPeerDataCell(row, avgValue, dataType, fixedNum);
+
+    // Create and add the 25th percentile cell
+    this._createPeerDataCell(row, p25Value, dataType, fixedNum);
+
+    // Create and add the median cell
+    this._createPeerDataCell(row, midValue, dataType, fixedNum);
+
+    // Create and add the 75th percentile cell
+    this._createPeerDataCell(row, p75Value, dataType, fixedNum);
+  }
+
+  // Make sure the _createPeerDataCell method uses styleNumber properly
+  _createPeerDataCell(row, value, dataType, fixedNum) {
+    const cell = document.createElement("td");
+    cell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+
+    if (value !== undefined && value !== null) {
+      // Make sure value is a number before formatting
+      const numValue = parseFloat(value);
+
+      // Format the value based on type using styleNumber
+      let formattedValue;
+      if (!isNaN(numValue) && typeof styleNumber === "function") {
+        // Use styleNumber directly with the proper parameters
+        formattedValue = styleNumber(numValue, dataType, fixedNum);
+      } else {
+        // Fallback if value is not a number or styleNumber is not available
+        formattedValue = value.toFixed(fixedNum || 2);
+      }
+
+      cell.textContent = formattedValue;
+
+      // Apply color formatting for negative values
+      if (numValue < 0) {
+        cell.classList.remove("text-gray-900", "dark:text-white");
+        cell.classList.add("text-red-500", "dark:text-red-400");
+      }
+    } else {
+      cell.textContent = "-";
+    }
+
+    row.appendChild(cell);
+    return cell;
+  }
+
+  _addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
+    // console.log(`Adding client data to row: ${yearRow.id}`, {
+    //   clientValue,
+    //   type,
+    //   fixedNum,
+    // });
+
+    const cell = document.createElement("td");
+    cell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+
+    // Format the value
+    const formattedValue =
+      clientValue !== undefined && clientValue !== null
+        ? styleNumber(clientValue, type, fixedNum)
+        : "-";
+
+    cell.textContent = formattedValue;
+    yearRow.appendChild(cell);
+
+    return cell;
+  }
+
+  createPeerDataCell(row, value, dataType, fixedNum) {
+    const cell = document.createElement("td");
+    cell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+
+    if (value !== undefined && value !== null) {
+      // Make sure value is a number before formatting
+      const numValue = parseFloat(value);
+
+      // Format the value based on type using styleNumber
+      let formattedValue;
+      if (!isNaN(numValue) && typeof styleNumber === "function") {
+        // Force the type parameter to match expected format in styleNumber
+        let typeParam = dataType;
+        if (dataType === "number") typeParam = "num"; // Convert "number" to "num" for styleNumber
+
+        formattedValue = styleNumber(numValue, typeParam, fixedNum);
+      } else {
+        // Fallback if value is not a number or styleNumber is not available
+        formattedValue = value.toFixed(fixedNum || 2);
+      }
+
+      cell.textContent = formattedValue;
+
+      // Apply color formatting for negative values
+      if (numValue < 0) {
+        cell.classList.remove("text-gray-900", "dark:text-white");
+        cell.classList.add("text-red-500", "dark:text-red-400");
+      }
+    } else {
+      cell.textContent = "-";
+    }
+
+    row.appendChild(cell);
+    return cell;
+  }
+
+  // Helper method to add columns to modal
+  _addModalColumns(headerRow) {
+    const columns = [
+      { text: "Year", className: "px-6 py-3" },
+      { text: "Client", className: "px-6 py-3" },
+      { text: "Avg", className: "px-6 py-3" },
+      { text: "25%", className: "px-6 py-3" },
+      { text: "50%", className: "px-6 py-3" },
+      { text: "75%", className: "px-6 py-3" },
+    ];
+
+    columns.forEach((column) => {
+      const th = document.createElement("th");
+      th.className = column.className;
+      th.textContent = column.text;
+      headerRow.appendChild(th);
+    });
+  }
+
+  // Helper method to create a year row for modal
+  _createYearRow(mainName, year) {
+    const yearRow = document.createElement("tr");
+    yearRow.className =
+      "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
+    yearRow.id = `${mainName}_modal_${year}`;
+
+    // Create year cell
+    const yearCell = document.createElement("td");
+    yearCell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+    yearCell.textContent = year;
+
+    // Append the year cell to the row
+    yearRow.appendChild(yearCell);
+
+    return yearRow;
+  }
+
+  // Helper method to add client data to row
+  _addClientDataToRow(row, value, dataType, fixedNum) {
+    const cell = document.createElement("td");
+    cell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+
+    if (value !== undefined && value !== null) {
+      // Format the value based on type
+      const formattedValue =
+        typeof styleNumber === "function"
+          ? styleNumber(value, dataType, fixedNum)
+          : value;
+
+      cell.textContent = formattedValue;
+    } else {
+      cell.textContent = "-";
+    }
+
+    row.appendChild(cell);
+  }
+
+  // Add an empty cell to a row
+  _addEmptyCell(row) {
+    const cell = document.createElement("td");
+    cell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+    cell.textContent = "-";
+    row.appendChild(cell);
+  }
+
+  // Helper to calculate average from an array
+  _calculateAverage(array) {
+    if (!array || array.length === 0) return 0;
+
+    // Convert all values to numbers
+    const numbers = array.map((val) => Number(val) || 0);
+
+    // Calculate sum
+    const sum = numbers.reduce((acc, val) => acc + val, 0);
+
+    // Return average
+    return sum / numbers.length;
   }
 
   // Handle specialized modal updates for cash flow charts

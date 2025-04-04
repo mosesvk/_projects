@@ -297,59 +297,59 @@ class ChartConfigFactory {
     wa,
     parsedData,
   }) {
-    // Get latest data from localStorage
-    const refreshedData = parseStoredData(
-      getStoredData(`${mainName.split("_")[0]}Data`)
-    );
-    
-    if (refreshedData) {
-      // Update dataPeer and dataClient with fresh data if available
-      if (refreshedData[`${mainName}_Peer`]) {
-        dataPeer = refreshedData[`${mainName}_Peer`];
-      }
-      if (refreshedData[`${mainName}_Client`]) {
-        dataClient = refreshedData[`${mainName}_Client`];
-      }
+   // Get latest data from localStorage
+  const refreshedData = parseStoredData(
+    getStoredData(`${mainName.split("_")[0]}Data`)
+  );
+  
+  if (refreshedData) {
+    // Update dataPeer and dataClient with fresh data if available
+    if (refreshedData[`${mainName}_Peer`]) {
+      dataPeer = refreshedData[`${mainName}_Peer`];
     }
-  
-    // Special case flags
-    const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
-    const isCostOfContributions = mainName === "costOfContributions";
-  
-    const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  
-    // Get chart data with explicit data refresh
-    const chartData = getPeerAndClientChartDataArrays(
-      selectedYearsArray,
-      dataPeer,
-      dataClient,
-      fixedNum,
-      mainName,
-      isAnnualizedInvestmentReturn ? "number" : numType,
-      wa,
-      true, // Add a force refresh parameter
-      parsedData
-    );
-  
-    // Update the corresponding modal with the same data
-    this.updateModalFromChartOptions(mainName, {
-      dataPeer,
-      dataClient,
-      parsedData,
-      numType,
-      fixedNum,
-      wa
-    });
-  
-    // Rest of the existing method remains the same
-    clientArray = chartData.clientArray;
-    peerAvg = chartData.peerAvg;
-    peerMid = chartData.peerMid;
-    peer25 = chartData.peer25;
-    peer75 = chartData.peer75;
-  
-    if (isAnnualizedInvestmentReturn)
-      clientArray = clientArray.map((val) => val * 100);
+    if (refreshedData[`${mainName}_Client`]) {
+      dataClient = refreshedData[`${mainName}_Client`];
+    }
+  }
+
+  // Special case flags
+  const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
+  const isCostOfContributions = mainName === "costOfContributions";
+
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  // Get chart data with explicit data refresh
+  const chartData = getPeerAndClientChartDataArrays(
+    selectedYearsArray,
+    dataPeer,
+    dataClient,
+    fixedNum,
+    mainName,
+    isAnnualizedInvestmentReturn ? "number" : numType,
+    wa,
+    true, // Add a force refresh parameter
+    parsedData
+  );
+
+  // Update the corresponding modal with the same data
+  this.updateModalFromChartOptions(mainName, {
+    dataPeer,
+    dataClient,
+    parsedData,
+    numType,
+    fixedNum,
+    wa
+  });
+
+  // Rest of the existing method remains the same
+  clientArray = chartData.clientArray;
+  peerAvg = chartData.peerAvg;
+  peerMid = chartData.peerMid;
+  peer25 = chartData.peer25;
+  peer75 = chartData.peer75;
+
+  if (isAnnualizedInvestmentReturn)
+    clientArray = clientArray.map((val) => val * 100);
 
     // if (mainName == 'daysCashOnHand')
     //   console.log(

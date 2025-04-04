@@ -288,7 +288,7 @@ class ChartConfigFactory {
   }
 
   // Configuration for standard main charts
-  createMainChartConfig({
+  reateMainChartConfig({
     dataPeer,
     dataClient,
     numType,

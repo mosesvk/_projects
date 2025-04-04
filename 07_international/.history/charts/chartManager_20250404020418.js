@@ -40,8 +40,6 @@ class ChartManager {
         return;
       }
 
-      // Original implementation...
-
       this.createChart(
         chart,
         peer,
@@ -221,21 +219,6 @@ class ChartManager {
       parsedData,
     };
 
-    document.dispatchEvent(new CustomEvent("chartOptionsApplied", { 
-      detail: { 
-        chartId,
-        mainName,
-        options: {
-          dataPeer,
-          dataClient,
-          parsedData,
-          numType: dataType,
-          fixedNum,
-          wa: weightedAverage
-        }
-      }
-    }));
-
     return chart;
   }
 
@@ -281,6 +264,125 @@ class ChartManager {
     this.updateCashFlowModal("cashFlowsTrend", data, cashFlowKeys);
 
     return chart;
+  }
+
+  createPeerDataCell(row, value, dataType, fixedNum) {
+    const cell = document.createElement("td");
+    cell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+
+    if (value !== undefined && value !== null) {
+      // Make sure value is a number before formatting
+      const numValue = parseFloat(value);
+
+      // Format the value based on type using styleNumber
+      let formattedValue;
+      if (!isNaN(numValue) && typeof styleNumber === "function") {
+        // Force the type parameter to match expected format in styleNumber
+        let typeParam = dataType;
+        if (dataType === "number") typeParam = "num"; // Convert "number" to "num" for styleNumber
+
+        formattedValue = styleNumber(numValue, typeParam, fixedNum);
+      } else {
+        // Fallback if value is not a number or styleNumber is not available
+        formattedValue = value.toFixed(fixedNum || 2);
+      }
+
+      cell.textContent = formattedValue;
+
+      // Apply color formatting for negative values
+      if (numValue < 0) {
+        cell.classList.remove("text-gray-900", "dark:text-white");
+        cell.classList.add("text-red-500", "dark:text-red-400");
+      }
+    } else {
+      cell.textContent = "-";
+    }
+
+    row.appendChild(cell);
+    return cell;
+  }
+
+  // Helper method to add columns to modal
+  _addModalColumns(headerRow) {
+    const columns = [
+      { text: "Year", className: "px-6 py-3" },
+      { text: "Client", className: "px-6 py-3" },
+      { text: "Avg", className: "px-6 py-3" },
+      { text: "25%", className: "px-6 py-3" },
+      { text: "50%", className: "px-6 py-3" },
+      { text: "75%", className: "px-6 py-3" },
+    ];
+
+    columns.forEach((column) => {
+      const th = document.createElement("th");
+      th.className = column.className;
+      th.textContent = column.text;
+      headerRow.appendChild(th);
+    });
+  }
+
+  // Helper method to create a year row for modal
+  _createYearRow(mainName, year) {
+    const yearRow = document.createElement("tr");
+    yearRow.className =
+      "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
+    yearRow.id = `${mainName}_modal_${year}`;
+
+    // Create year cell
+    const yearCell = document.createElement("td");
+    yearCell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+    yearCell.textContent = year;
+
+    // Append the year cell to the row
+    yearRow.appendChild(yearCell);
+
+    return yearRow;
+  }
+
+  // Helper method to add client data to row
+  _addClientDataToRow(row, value, dataType, fixedNum) {
+    const cell = document.createElement("td");
+    cell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+
+    if (value !== undefined && value !== null) {
+      // Format the value based on type
+      const formattedValue =
+        typeof styleNumber === "function"
+          ? styleNumber(value, dataType, fixedNum)
+          : value;
+
+      cell.textContent = formattedValue;
+    } else {
+      cell.textContent = "-";
+    }
+
+    row.appendChild(cell);
+  }
+
+  // Add an empty cell to a row
+  _addEmptyCell(row) {
+    const cell = document.createElement("td");
+    cell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+    cell.textContent = "-";
+    row.appendChild(cell);
+  }
+
+  // Helper to calculate average from an array
+  _calculateAverage(array) {
+    if (!array || array.length === 0) return 0;
+
+    // Convert all values to numbers
+    const numbers = array.map((val) => Number(val) || 0);
+
+    // Calculate sum
+    const sum = numbers.reduce((acc, val) => acc + val, 0);
+
+    // Return average
+    return sum / numbers.length;
   }
 
   // Handle specialized modal updates for cash flow charts

@@ -41,7 +41,15 @@ class ChartManager {
       }
 
       // Original implementation...
-
+      this.updateModal(
+        mainName,
+        parsedData[peer],
+        parsedData[client],
+        parsedData,
+        type,
+        fixedNum,
+        wa
+      );
       this.createChart(
         chart,
         peer,
@@ -221,21 +229,6 @@ class ChartManager {
       parsedData,
     };
 
-    document.dispatchEvent(new CustomEvent("chartOptionsApplied", { 
-      detail: { 
-        chartId,
-        mainName,
-        options: {
-          dataPeer,
-          dataClient,
-          parsedData,
-          numType: dataType,
-          fixedNum,
-          wa: weightedAverage
-        }
-      }
-    }));
-
     return chart;
   }
 
@@ -282,7 +275,7 @@ class ChartManager {
 
     return chart;
   }
-
+  
   // Handle specialized modal updates for cash flow charts
   updateCashFlowModal(
     mainName,

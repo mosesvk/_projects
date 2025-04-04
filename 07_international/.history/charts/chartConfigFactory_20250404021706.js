@@ -301,7 +301,7 @@ class ChartConfigFactory {
     const refreshedData = parseStoredData(
       getStoredData(`${mainName.split("_")[0]}Data`)
     );
-    
+
     if (refreshedData) {
       // Update dataPeer and dataClient with fresh data if available
       if (refreshedData[`${mainName}_Peer`]) {
@@ -311,13 +311,20 @@ class ChartConfigFactory {
         dataClient = refreshedData[`${mainName}_Client`];
       }
     }
-  
-    // Special case flags
-    const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
+
+    // Special case flag for annualizedInvestmentReturn chart
+    const isAnnualizedInvestmentReturn =
+      mainName === "annualizedInvestmentReturn";
+
+    // NEW: Special case flag for costOfContributions chart
     const isCostOfContributions = mainName === "costOfContributions";
-  
+
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  
+
+    // if (isAnnualizedInvestmentReturn) console.log('chartConfigFactory()', {dataClient});
+
+    let clientArray, peerAvg, peerMid, peer25, peer75;
+
     // Get chart data with explicit data refresh
     const chartData = getPeerAndClientChartDataArrays(
       selectedYearsArray,
@@ -330,24 +337,13 @@ class ChartConfigFactory {
       true, // Add a force refresh parameter
       parsedData
     );
-  
-    // Update the corresponding modal with the same data
-    this.updateModalFromChartOptions(mainName, {
-      dataPeer,
-      dataClient,
-      parsedData,
-      numType,
-      fixedNum,
-      wa
-    });
-  
-    // Rest of the existing method remains the same
+
     clientArray = chartData.clientArray;
     peerAvg = chartData.peerAvg;
     peerMid = chartData.peerMid;
     peer25 = chartData.peer25;
     peer75 = chartData.peer75;
-  
+
     if (isAnnualizedInvestmentReturn)
       clientArray = clientArray.map((val) => val * 100);
 
