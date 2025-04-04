@@ -365,6 +365,8 @@ const fundraisingAsPercentOfContributions_weightedAverage = (
 };
 
 const annualizedInvestmentReturn_weightedAverage = (data, name, year) => {
+  // console.log('annualizedInvestmentReturn_weightedAverage', {data, name, year});
+
   // [02.01SR - 03 Investment Income]
   // /
   // (
@@ -467,6 +469,8 @@ const contributionsPerGivingUnit_weightedAverage = (data, name, year) => {
 };
 
 const contributionsPercentWithDR_weightedAverage = (data, name, year) => {
+  // console.log({ data, name, year });
+
   // [02.01SR - 02 Contributions with donor restrictions]
   // /
   // (
@@ -502,6 +506,8 @@ const contributionsPercentWithoutDR_weightedAverage = (data, name, year) => {
   const contributionsWithDR = year
     ? getSumOfArray(data.contributionsWithDR[name][year])
     : getSumOfArray(data.contributionsWithDR[name]["total"]);
+
+  // console.log({ data, name, year, contributionsWithoutDR, contributionsWithDR});
 
   const denominator = contributionsWithoutDR + contributionsWithDR;
 
@@ -637,6 +643,8 @@ const assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage = (
   name,
   year
 ) => {
+  // if (!year) console.log('!!!!!!', {data, name});
+
   // [01. 01Ass - 10 Total Assets] - [01. 01Ass - 09 Property, plant and equipment]
   // /
   // [01. 02Liab - 05 Total Liabilities] - [01. 02Liab - 02 Notes Payable]
@@ -645,16 +653,28 @@ const assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage = (
     ? getSumOfArray(data.totalAssets[name][year])
     : getSumOfArray(data.totalAssets[name]["total"]);
   const propertyPlantAndEquipment = year
-    ? getSumOfArray(data.totalAssets[name][year])
-    : getSumOfArray(data.totalAssets[name]["total"]);
+    ? getSumOfArray(data.propertyPlantAndEquipment[name][year])
+    : getSumOfArray(data.propertyPlantAndEquipment[name]["total"]);
 
   const totalLiabilities = year
     ? getSumOfArray(data.totalLiabilities[name][year])
     : getSumOfArray(data.totalLiabilities[name]["total"]);
 
   const notesPayable = year
-    ? getSumOfArray(data.totalLiabilities[name][year])
-    : getSumOfArray(data.totalLiabilities[name]["total"]);
+    ? getSumOfArray(data.notesPayable[name][year])
+    : getSumOfArray(data.notesPayable[name]["total"]);
+
+  let above = totalAssets - propertyPlantAndEquipment;
+  let below = totalLiabilities - notesPayable;
+  // if (!year)
+  //   console.log("!!!!!!", {
+  //     totalAssets,
+  //     propertyPlantAndEquipment,
+  //     above,
+  //     totalLiabilities,
+  //     notesPayable,
+  //     below,
+  //   });
 
   return totalLiabilities > 0
     ? (totalAssets - propertyPlantAndEquipment) /
@@ -663,6 +683,8 @@ const assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage = (
 };
 
 const currentRatio_weightedAverage = (data, name, year) => {
+  // console.log({data, name, year});
+
   // (
   //     [01. 01Ass - 10 Total Assets] -
   //     [01. 01Ass - 02 Cash & Cash Equivalents held for Long Term] -
@@ -781,9 +803,17 @@ const liquidityFundsAvailable_weightedAverage = (data, name, year) => {
 };
 
 const liquidityAssetsAvailableCover_weightedAverage = (data, name, year) => {
+  // console.log({ data, name, year });
+
   // ([01. 01Ass - 10 Total Assets] - [1. 01Ass - 09 Property, plant and equipment])
   // /
   // ([01. 02Liab - 05 Total Liabilities] + [01. 03NA - 03a Net assets with donor restrictions SUM])
+
+  //   ([01. 01Ass - 10 Total Assets]-[01. 01Ass - 09 Property, plant and equipment])
+  // /
+  // ([01. 02Liab - 05 Total Liabilities]+
+  // [01. 03NA - 02 Net assets with donor restrictions by purpose or time]+
+  // [01. 03NA - 03 Net assets with donor restrictions in perpetuity])
 
   const totalAssets = year
     ? getSumOfArray(data.totalAssets[name][year])
@@ -797,11 +827,22 @@ const liquidityAssetsAvailableCover_weightedAverage = (data, name, year) => {
     ? getSumOfArray(data.totalLiabilities[name][year])
     : getSumOfArray(data.totalLiabilities[name]["total"]);
 
-  const netAssetsWithDonorRestrictions = year
-    ? getSumOfArray(data.netAssetsWithDonorRestrictions[name][year])
-    : getSumOfArray(data.netAssetsWithDonorRestrictions[name]["total"]);
+  const netAssetsWithDRByPurposeOrTime = year
+    ? getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name][year])
+    : getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name]["total"]);
 
-  const denominator = totalLiabilities + netAssetsWithDonorRestrictions;
+  const netAssetsWithDRInPerpetuity = year
+    ? getSumOfArray(data.netAssetsWithDRInPerpetuity[name][year])
+    : getSumOfArray(data.netAssetsWithDRInPerpetuity[name]["total"]);
+
+  const netAssetsWithDonorRestrictionsSum = year
+    ? getSumOfArray(data.netAssetsWithDonorRestrictionsSum[name][year])
+    : getSumOfArray(data.netAssetsWithDonorRestrictionsSum[name]["total"]);
+
+  const denominator =
+    totalLiabilities +
+    netAssetsWithDRByPurposeOrTime +
+    netAssetsWithDRInPerpetuity;
 
   return denominator > 0
     ? (totalAssets - propertyPlantAndEquipment) / denominator
@@ -910,6 +951,7 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
   name,
   year
 ) => {
+  // console.log('daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage',{data, name, year});
   // (
   //     [01. 03NA - 01 Net assets without donor restrictions] -
   //     [01. 01Ass - 09 Property, plant and equipment] -
@@ -936,6 +978,12 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
     ? getSumOfArray(data.totalExpenses[name][year])
     : getSumOfArray(data.totalExpenses[name]["total"]);
 
+  // console.log({
+  //   netAssetsWithoutDR,
+  //   propertyPlantAndEquipment,
+  //   notesPayable,
+  //   totalExpenses
+  // })
   const denominator = totalExpenses / 365;
 
   return denominator > 0
@@ -945,6 +993,8 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
 };
 
 const daysCashOnHand_weightedAverage = (data, name, year) => {
+
+  
   // [01. 01Ass - 01 Cash and Cash Equivalents]
   // /
   // (
@@ -965,5 +1015,16 @@ const daysCashOnHand_weightedAverage = (data, name, year) => {
 
   const denominator = (totalExpenses - depreciationAndAmortization) / 365;
 
+  console.log('W.A', {
+    data, 
+    name, 
+    year, 
+    cashAndCashEquivalents, 
+    totalExpenses,
+    depreciationAndAmortization
+  });
+
   return cashAndCashEquivalents / denominator;
 };
+
+window.getWeightedAverageOfArray = getWeightedAverageOfArray

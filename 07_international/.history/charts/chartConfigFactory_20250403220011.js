@@ -50,7 +50,7 @@ class ChartConfigFactory {
   }
 
   // Create chart configuration based on chart type
-  createConfig(type, params) {
+  getMainChartOptions(type, params) {
     this.updateThemeColors();
 
     // Route to appropriate configuration method based on chart type
@@ -83,7 +83,16 @@ class ChartConfigFactory {
     wa,
     parsedData,
   }) {
-    
+
+    if (mainName == 'daysCashOnHand') {
+      console.log('createMainChartConfig', {
+        dataPeer, 
+        dataClient,
+        parsedData, 
+        wa
+      });
+      
+    }
     // Get latest data from localStorage
     const refreshedData = parseStoredData(
       getStoredData(`${mainName.split("_")[0]}Data`)
@@ -355,16 +364,6 @@ class ChartConfigFactory {
     benchmark,
     title,
   }) {
-
-    if (mainName == 'changeInNetAssets') {
-      console.log('createLineChartConfig() changeInNetAssets', {
-        dataPeer, 
-        dataClient,
-        parsedData
-      });
-      
-    }
-
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
     let clientArray = [],
       peerAvg = [],
@@ -385,9 +384,7 @@ class ChartConfigFactory {
         fixedNum,
         mainName,
         dataProcessingType, // Use special handling for annualizedInvestmentReturn
-        wa, 
-        true, 
-        parsedData
+        wa
       );
 
       clientArray = result.clientArray || [];
@@ -1153,9 +1150,7 @@ class ChartConfigFactory {
         fixedNum,
         "costOfContributions",
         "dollar",
-        wa,
-        true, 
-        parsedData
+        wa
       );
 
       costOfContributionsClient = result.clientArray || [];

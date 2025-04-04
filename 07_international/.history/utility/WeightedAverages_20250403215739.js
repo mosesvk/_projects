@@ -14,7 +14,13 @@ const getWeightedAverageOfArray = (data, name, year) => {
     case "daysExpensesInNAwithDR":
       return daysExpensesInNAwithDR_weightedAverage(data, name, year);
     case "daysExpensesInNAwithDR_excludingPPE":
-      return daysExpensesInNAwithDR_excludingPPE_weightedAverage(data, name, year);
+      return daysExpensesInNAwithDR_excludingPPE_weightedAverage(
+        data,
+        name,
+        year
+      );
+    case "liquidityAssetsAvailableCover":
+      return liquidityAssetsAvailableCover_weightedAverage(data, name, year);
     case "liquidityFundsAvailable":
       return liquidityFundsAvailable_weightedAverage(data, name, year);
     case "financialAssetsAvailableFY":
@@ -26,7 +32,11 @@ const getWeightedAverageOfArray = (data, name, year) => {
     case "totalCoverageRatio":
       return totalCoverageRatio_weightedAverage(data, name, year);
     case "assetsWithoutPpeToLiabilitiesWithoutDebt":
-      return assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage(data, name, year);
+      return assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage(
+        data,
+        name,
+        year
+      );
     case "percentWithDR":
       return percentWithDR_weightedAverage(data, name, year);
     case "percentWithoutDR_excludingPPE":
@@ -44,9 +54,17 @@ const getWeightedAverageOfArray = (data, name, year) => {
     case "contributionsPerMissionaryUnit":
       return contributionsPerMissionaryUnit_weightedAverage(data, name, year);
     case "contributionsPerFullTimeEquivalent":
-      return contributionsPerFullTimeEquivalent_weightedAverage(data, name, year);
+      return contributionsPerFullTimeEquivalent_weightedAverage(
+        data,
+        name,
+        year
+      );
     case "fundraisingAsPercentOfContributions":
-      return fundraisingAsPercentOfContributions_weightedAverage(data, name, year);
+      return fundraisingAsPercentOfContributions_weightedAverage(
+        data,
+        name,
+        year
+      );
     case "annualizedInvestmentReturn":
       return annualizedInvestmentReturn_weightedAverage(data, name, year);
     case "functionalExpensePercent_program":
@@ -58,7 +76,11 @@ const getWeightedAverageOfArray = (data, name, year) => {
         year
       );
     case "functionalExpensePercent_fundraising":
-      return functionalExpensePercent_fundraising_weightedAverage(data, name, year);
+      return functionalExpensePercent_fundraising_weightedAverage(
+        data,
+        name,
+        year
+      );
     case "functionalExpensePercent_other":
       return functionalExpensePercent_other_weightedAverage(data, name, year);
     case "costOfContributions":
@@ -78,7 +100,11 @@ const getWeightedAverageOfArray = (data, name, year) => {
     case "salariesAndBenefitsPerFTE":
       return salariesAndBenefitsPerFTE_weightedAverage(data, name, year);
     case "percentageAssessmentOnRestrictedGifts":
-      return percentageAssessmentOnRestrictedGifts_weightedAverage(data, name, year);
+      return percentageAssessmentOnRestrictedGifts_weightedAverage(
+        data,
+        name,
+        year
+      );
     case "ageOfFacilities":
       return ageOfFacilities_weightedAverage(data, name, year);
     default:
@@ -93,29 +119,33 @@ const ageOfFacilities_weightedAverage = (data, name, year) => {
 
   const accumulatedDepreciation = year
     ? getSumOfArray(data.accumulatedDepreciation[name][year])
-    : getSumOfArray(data.accumulatedDepreciation[name]['total']);
+    : getSumOfArray(data.accumulatedDepreciation[name]["total"]);
 
   const depreciationAndAmortization = year
     ? getSumOfArray(data.depreciationAndAmortization[name][year])
-    : getSumOfArray(data.depreciationAndAmortization[name]['total']);
+    : getSumOfArray(data.depreciationAndAmortization[name]["total"]);
 
   return depreciationAndAmortization > 0
     ? accumulatedDepreciation / depreciationAndAmortization
     : 0;
 };
 
-const percentageAssessmentOnRestrictedGifts_weightedAverage = (data, name, year) => {
+const percentageAssessmentOnRestrictedGifts_weightedAverage = (
+  data,
+  name,
+  year
+) => {
   // [02.02Reclass - 01 Total Administrative Assessments]
   // /
   // [02.01SR - 02 Contributions with donor restrictions]
 
   const totalAdministrativeAssessments = year
     ? getSumOfArray(data.totalAdministrativeAssessments[name][year])
-    : getSumOfArray(data.totalAdministrativeAssessments[name]['total']);
+    : getSumOfArray(data.totalAdministrativeAssessments[name]["total"]);
 
   const contributionsWithDR = year
     ? getSumOfArray(data.contributionsWithDR[name][year])
-    : getSumOfArray(data.contributionsWithDR[name]['total']);
+    : getSumOfArray(data.contributionsWithDR[name]["total"]);
 
   return contributionsWithDR > 0
     ? totalAdministrativeAssessments / contributionsWithDR
@@ -129,29 +159,33 @@ const salariesAndBenefitsPerFTE_weightedAverage = (data, name, year) => {
 
   const salariesAndBenefits = year
     ? getSumOfArray(data.salariesAndBenefits[name][year])
-    : getSumOfArray(data.salariesAndBenefits[name]['total']);
+    : getSumOfArray(data.salariesAndBenefits[name]["total"]);
 
   const numberOfEmployeesFTE = year
     ? getSumOfArray(data.numberOfEmployeesFTE[name][year])
-    : getSumOfArray(data.numberOfEmployeesFTE[name]['total']);
+    : getSumOfArray(data.numberOfEmployeesFTE[name]["total"]);
 
   return numberOfEmployeesFTE > 0
     ? salariesAndBenefits / numberOfEmployeesFTE
     : 0;
 };
 
-const salariesAndBenefitsAsPercentOfTotalExpenses_weightedAverage = (data, name, year) => {
+const salariesAndBenefitsAsPercentOfTotalExpenses_weightedAverage = (
+  data,
+  name,
+  year
+) => {
   // [04.01FExp - 03 Salaries & Benefits]
   // /
   // [02.03Exp - 05 Total Expenses]
 
   const salariesAndBenefits = year
     ? getSumOfArray(data.salariesAndBenefits[name][year])
-    : getSumOfArray(data.salariesAndBenefits[name]['total']);
+    : getSumOfArray(data.salariesAndBenefits[name]["total"]);
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   return totalExpenses ? salariesAndBenefits / totalExpenses : 0;
 };
@@ -163,11 +197,11 @@ const expensesPerFullTimeEquivalent_weightedAverage = (data, name, year) => {
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   const numberOfEmployeesFTE = year
     ? getSumOfArray(data.numberOfEmployeesFTE[name][year])
-    : getSumOfArray(data.numberOfEmployeesFTE[name]['total']);
+    : getSumOfArray(data.numberOfEmployeesFTE[name]["total"]);
 
   return numberOfEmployeesFTE ? totalExpenses / numberOfEmployeesFTE : 0;
 };
@@ -179,11 +213,11 @@ const expensesPerMissionaryUnit_weightedAverage = (data, name, year) => {
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   const missionaryUnit = year
     ? getSumOfArray(data.missionaryUnit[name][year])
-    : getSumOfArray(data.missionaryUnit[name]['total']);
+    : getSumOfArray(data.missionaryUnit[name]["total"]);
 
   return missionaryUnit > 0 ? totalExpenses / missionaryUnit : 0;
 };
@@ -195,11 +229,11 @@ const expensesPerGivingUnit_weightedAverage = (data, name, year) => {
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   const givingUnit = year
     ? getSumOfArray(data.givingUnit[name][year])
-    : getSumOfArray(data.givingUnit[name]['total']);
+    : getSumOfArray(data.givingUnit[name]["total"]);
 
   return givingUnit > 0 ? totalExpenses / givingUnit : 0;
 };
@@ -214,15 +248,15 @@ const costOfContributions_weightedAverage = (data, name, year) => {
 
   const fundraisingExpenses = year
     ? getSumOfArray(data.fundraisingExpenses[name][year])
-    : getSumOfArray(data.fundraisingExpenses[name]['total']);
+    : getSumOfArray(data.fundraisingExpenses[name]["total"]);
 
   const contributionsWithoutDR = year
     ? getSumOfArray(data.contributionsWithoutDR[name][year])
-    : getSumOfArray(data.contributionsWithoutDR[name]['total']);
+    : getSumOfArray(data.contributionsWithoutDR[name]["total"]);
 
   const contributionsWithDR = year
     ? getSumOfArray(data.contributionsWithDR[name][year])
-    : getSumOfArray(data.contributionsWithDR[name]['total']);
+    : getSumOfArray(data.contributionsWithDR[name]["total"]);
 
   const denominator = contributionsWithoutDR + contributionsWithDR;
 
@@ -236,43 +270,51 @@ const functionalExpensePercent_other_weightedAverage = (data, name, year) => {
 
   const otherExpenses = year
     ? getSumOfArray(data.otherExpenses[name][year])
-    : getSumOfArray(data.otherExpenses[name]['total']);
+    : getSumOfArray(data.otherExpenses[name]["total"]);
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   return totalExpenses > 0 ? otherExpenses / totalExpenses : 0;
 };
 
-const functionalExpensePercent_fundraising_weightedAverage = (data, name, year) => {
+const functionalExpensePercent_fundraising_weightedAverage = (
+  data,
+  name,
+  year
+) => {
   // [02.03Exp - 03 Fundraising Expenses]
   // /
   // [02.03Exp - 05 Total Expenses]
 
   const fundraisingExpenses = year
     ? getSumOfArray(data.fundraisingExpenses[name][year])
-    : getSumOfArray(data.fundraisingExpenses[name]['total']);
+    : getSumOfArray(data.fundraisingExpenses[name]["total"]);
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   return totalExpenses > 0 ? fundraisingExpenses / totalExpenses : 0;
 };
 
-const functionalExpensePercent_administrative_weightedAverage = (data, name, year) => {
+const functionalExpensePercent_administrative_weightedAverage = (
+  data,
+  name,
+  year
+) => {
   // [02.03Exp - 02 Administrative Expenses]
   // /
   // [02.03Exp - 05 Total Expenses]
 
   const administrativeExpenses = year
     ? getSumOfArray(data.administrativeExpenses[name][year])
-    : getSumOfArray(data.administrativeExpenses[name]['total']);
+    : getSumOfArray(data.administrativeExpenses[name]["total"]);
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   return totalExpenses > 0 ? administrativeExpenses / totalExpenses : 0;
 };
@@ -284,16 +326,20 @@ const functionalExpensePercent_program_weightedAverage = (data, name, year) => {
 
   const programExpenses = year
     ? getSumOfArray(data.programExpenses[name][year])
-    : getSumOfArray(data.programExpenses[name]['total']);
+    : getSumOfArray(data.programExpenses[name]["total"]);
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   return totalExpenses > 0 ? programExpenses / totalExpenses : 0;
 };
 
-const fundraisingAsPercentOfContributions_weightedAverage = (data, name, year) => {
+const fundraisingAsPercentOfContributions_weightedAverage = (
+  data,
+  name,
+  year
+) => {
   // [02.03Exp - 03 Fundraising Expenses]
   // /
   // (
@@ -303,15 +349,15 @@ const fundraisingAsPercentOfContributions_weightedAverage = (data, name, year) =
 
   const fundraisingExpenses = year
     ? getSumOfArray(data.fundraisingExpenses[name][year])
-    : getSumOfArray(data.fundraisingExpenses[name]['total']);
+    : getSumOfArray(data.fundraisingExpenses[name]["total"]);
 
   const contributionsWithoutDR = year
     ? getSumOfArray(data.contributionsWithoutDR[name][year])
-    : getSumOfArray(data.contributionsWithoutDR[name]['total']);
+    : getSumOfArray(data.contributionsWithoutDR[name]["total"]);
 
   const contributionsWithDR = year
     ? getSumOfArray(data.contributionsWithDR[name][year])
-    : getSumOfArray(data.contributionsWithDR[name]['total']);
+    : getSumOfArray(data.contributionsWithDR[name]["total"]);
 
   const denominator = contributionsWithoutDR + contributionsWithDR;
 
@@ -319,6 +365,8 @@ const fundraisingAsPercentOfContributions_weightedAverage = (data, name, year) =
 };
 
 const annualizedInvestmentReturn_weightedAverage = (data, name, year) => {
+  // console.log('annualizedInvestmentReturn_weightedAverage', {data, name, year});
+
   // [02.01SR - 03 Investment Income]
   // /
   // (
@@ -332,16 +380,20 @@ const annualizedInvestmentReturn_weightedAverage = (data, name, year) => {
 
   const investmentIncome = year
     ? getSumOfArray(data.investmentIncome[name][year])
-    : getSumOfArray(data.investmentIncome[name]['total']);
+    : getSumOfArray(data.investmentIncome[name]["total"]);
 
   const investments = year
     ? getSumOfArray(data.investments[name][year])
-    : getSumOfArray(data.investments[name]['total']);
+    : getSumOfArray(data.investments[name]["total"]);
 
   return investments > 0 ? investmentIncome / investments : 0;
 };
 
-const contributionsPerFullTimeEquivalent_weightedAverage = (data, name, year) => {
+const contributionsPerFullTimeEquivalent_weightedAverage = (
+  data,
+  name,
+  year
+) => {
   // (
   //     [02.01SR - 01 Contributions without donor restrictions] +
   //     [02.01SR - 02 Contributions with donor restrictions]
@@ -351,15 +403,15 @@ const contributionsPerFullTimeEquivalent_weightedAverage = (data, name, year) =>
 
   const contributionsWithoutDR = year
     ? getSumOfArray(data.contributionsWithoutDR[name][year])
-    : getSumOfArray(data.contributionsWithoutDR[name]['total']);
+    : getSumOfArray(data.contributionsWithoutDR[name]["total"]);
 
   const contributionsWithDR = year
     ? getSumOfArray(data.contributionsWithDR[name][year])
-    : getSumOfArray(data.contributionsWithDR[name]['total']);
+    : getSumOfArray(data.contributionsWithDR[name]["total"]);
 
   const numberOfEmployeesFTE = year
     ? getSumOfArray(data.numberOfEmployeesFTE[name][year])
-    : getSumOfArray(data.numberOfEmployeesFTE[name]['total']);
+    : getSumOfArray(data.numberOfEmployeesFTE[name]["total"]);
 
   return numberOfEmployeesFTE > 0
     ? (contributionsWithoutDR + contributionsWithDR) / numberOfEmployeesFTE
@@ -376,15 +428,15 @@ const contributionsPerMissionaryUnit_weightedAverage = (data, name, year) => {
 
   const contributionsWithoutDR = year
     ? getSumOfArray(data.contributionsWithoutDR[name][year])
-    : getSumOfArray(data.contributionsWithoutDR[name]['total']);
+    : getSumOfArray(data.contributionsWithoutDR[name]["total"]);
 
   const contributionsWithDR = year
     ? getSumOfArray(data.contributionsWithDR[name][year])
-    : getSumOfArray(data.contributionsWithDR[name]['total']);
+    : getSumOfArray(data.contributionsWithDR[name]["total"]);
 
   const missionaryUnit = year
     ? getSumOfArray(data.missionaryUnit[name][year])
-    : getSumOfArray(data.missionaryUnit[name]['total']);
+    : getSumOfArray(data.missionaryUnit[name]["total"]);
 
   return missionaryUnit > 0
     ? (contributionsWithoutDR + contributionsWithDR) / missionaryUnit
@@ -401,15 +453,15 @@ const contributionsPerGivingUnit_weightedAverage = (data, name, year) => {
 
   const contributionsWithoutDR = year
     ? getSumOfArray(data.contributionsWithoutDR[name][year])
-    : getSumOfArray(data.contributionsWithoutDR[name]['total']);
+    : getSumOfArray(data.contributionsWithoutDR[name]["total"]);
 
   const contributionsWithDR = year
     ? getSumOfArray(data.contributionsWithDR[name][year])
-    : getSumOfArray(data.contributionsWithDR[name]['total']);
+    : getSumOfArray(data.contributionsWithDR[name]["total"]);
 
   const givingUnit = year
     ? getSumOfArray(data.givingUnit[name][year])
-    : getSumOfArray(data.givingUnit[name]['total']);
+    : getSumOfArray(data.givingUnit[name]["total"]);
 
   return givingUnit > 0
     ? (contributionsWithoutDR + contributionsWithDR) / givingUnit
@@ -417,6 +469,8 @@ const contributionsPerGivingUnit_weightedAverage = (data, name, year) => {
 };
 
 const contributionsPercentWithDR_weightedAverage = (data, name, year) => {
+  // console.log({ data, name, year });
+
   // [02.01SR - 02 Contributions with donor restrictions]
   // /
   // (
@@ -426,11 +480,11 @@ const contributionsPercentWithDR_weightedAverage = (data, name, year) => {
 
   const contributionsWithoutDR = year
     ? getSumOfArray(data.contributionsWithoutDR[name][year])
-    : getSumOfArray(data.contributionsWithoutDR[name]['total']);
+    : getSumOfArray(data.contributionsWithoutDR[name]["total"]);
 
   const contributionsWithDR = year
     ? getSumOfArray(data.contributionsWithDR[name][year])
-    : getSumOfArray(data.contributionsWithDR[name]['total']);
+    : getSumOfArray(data.contributionsWithDR[name]["total"]);
 
   const denominator = contributionsWithoutDR + contributionsWithDR;
 
@@ -447,11 +501,13 @@ const contributionsPercentWithoutDR_weightedAverage = (data, name, year) => {
 
   const contributionsWithoutDR = year
     ? getSumOfArray(data.contributionsWithoutDR[name][year])
-    : getSumOfArray(data.contributionsWithoutDR[name]['total']);
+    : getSumOfArray(data.contributionsWithoutDR[name]["total"]);
 
   const contributionsWithDR = year
     ? getSumOfArray(data.contributionsWithDR[name][year])
-    : getSumOfArray(data.contributionsWithDR[name]['total']);
+    : getSumOfArray(data.contributionsWithDR[name]["total"]);
+
+  // console.log({ data, name, year, contributionsWithoutDR, contributionsWithDR});
 
   const denominator = contributionsWithoutDR + contributionsWithDR;
 
@@ -471,19 +527,19 @@ const netIncomeRatio_weightedAverage = (data, name, year) => {
 
   const changeInNetAssetsWithoutDR = year
     ? getSumOfArray(data.changeInNetAssetsWithoutDR[name][year])
-    : getSumOfArray(data.changeInNetAssetsWithoutDR[name]['total']);
+    : getSumOfArray(data.changeInNetAssetsWithoutDR[name]["total"]);
 
   const changeInNetAssetsWithDR = year
     ? getSumOfArray(data.changeInNetAssetsWithDR[name][year])
-    : getSumOfArray(data.changeInNetAssetsWithDR[name]['total']);
+    : getSumOfArray(data.changeInNetAssetsWithDR[name]["total"]);
 
   const totalSupportAndRevenueWithoutDR = year
     ? getSumOfArray(data.totalSupportAndRevenueWithoutDR[name][year])
-    : getSumOfArray(data.totalSupportAndRevenueWithoutDR[name]['total']);
+    : getSumOfArray(data.totalSupportAndRevenueWithoutDR[name]["total"]);
 
   const totalSupportAndRevenueWithDR = year
     ? getSumOfArray(data.totalSupportAndRevenueWithDR[name][year])
-    : getSumOfArray(data.totalSupportAndRevenueWithDR[name]['total']);
+    : getSumOfArray(data.totalSupportAndRevenueWithDR[name]["total"]);
 
   const denominator =
     totalSupportAndRevenueWithoutDR + totalSupportAndRevenueWithDR;
@@ -500,11 +556,11 @@ const percentWithoutDR_weightedAverage = (data, name, year) => {
 
   const netAssetsWithoutDR = year
     ? getSumOfArray(data.netAssetsWithoutDR[name][year])
-    : getSumOfArray(data.netAssetsWithoutDR[name]['total']);
+    : getSumOfArray(data.netAssetsWithoutDR[name]["total"]);
 
   const totalNetAssets = year
     ? getSumOfArray(data.totalNetAssets[name][year])
-    : getSumOfArray(data.totalNetAssets[name]['total']);
+    : getSumOfArray(data.totalNetAssets[name]["total"]);
 
   return totalNetAssets > 0 ? netAssetsWithoutDR / totalNetAssets : 0;
 };
@@ -520,19 +576,19 @@ const percentWithoutDR_excludingPPE_weightedAverage = (data, name, year) => {
 
   const netAssetsWithoutDR = year
     ? getSumOfArray(data.netAssetsWithoutDR[name][year])
-    : getSumOfArray(data.netAssetsWithoutDR[name]['total']);
+    : getSumOfArray(data.netAssetsWithoutDR[name]["total"]);
 
   const propertyPlantAndEquipment = year
     ? getSumOfArray(data.propertyPlantAndEquipment[name][year])
-    : getSumOfArray(data.propertyPlantAndEquipment[name]['total']);
+    : getSumOfArray(data.propertyPlantAndEquipment[name]["total"]);
 
   const notesPayable = year
     ? getSumOfArray(data.notesPayable[name][year])
-    : getSumOfArray(data.notesPayable[name]['total']);
+    : getSumOfArray(data.notesPayable[name]["total"]);
 
   const totalNetAssets = year
     ? getSumOfArray(data.totalNetAssets[name][year])
-    : getSumOfArray(data.totalNetAssets[name]['total']);
+    : getSumOfArray(data.totalNetAssets[name]["total"]);
 
   return totalNetAssets > 0
     ? (netAssetsWithoutDR - propertyPlantAndEquipment - notesPayable) /
@@ -550,15 +606,15 @@ const percentWithDR_weightedAverage = (data, name, year) => {
 
   const netAssetsWithDRByPurposeOrTime = year
     ? getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name][year])
-    : getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name]['total']);
+    : getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name]["total"]);
 
   const netAssetsWithDRInPerpetuity = year
     ? getSumOfArray(data.netAssetsWithDRInPerpetuity[name][year])
-    : getSumOfArray(data.netAssetsWithDRInPerpetuity[name]['total']);
+    : getSumOfArray(data.netAssetsWithDRInPerpetuity[name]["total"]);
 
   const totalNetAssets = year
     ? getSumOfArray(data.totalNetAssets[name][year])
-    : getSumOfArray(data.totalNetAssets[name]['total']);
+    : getSumOfArray(data.totalNetAssets[name]["total"]);
 
   return totalNetAssets > 0
     ? (netAssetsWithDRByPurposeOrTime + netAssetsWithDRInPerpetuity) /
@@ -573,41 +629,62 @@ const totalCoverageRatio_weightedAverage = (data, name, year) => {
 
   const totalAssets = year
     ? getSumOfArray(data.totalAssets[name][year])
-    : getSumOfArray(data.totalAssets[name]['total']);
+    : getSumOfArray(data.totalAssets[name]["total"]);
 
   const totalLiabilities = year
     ? getSumOfArray(data.totalLiabilities[name][year])
-    : getSumOfArray(data.totalLiabilities[name]['total']);
+    : getSumOfArray(data.totalLiabilities[name]["total"]);
 
   return totalLiabilities > 0 ? totalAssets / totalLiabilities : 0;
 };
 
-const assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage = (data, name, year) => {
+const assetsWithoutPpeToLiabilitiesWithoutDebt_weightedAverage = (
+  data,
+  name,
+  year
+) => {
+  // if (!year) console.log('!!!!!!', {data, name});
+
   // [01. 01Ass - 10 Total Assets] - [01. 01Ass - 09 Property, plant and equipment]
   // /
   // [01. 02Liab - 05 Total Liabilities] - [01. 02Liab - 02 Notes Payable]
 
   const totalAssets = year
     ? getSumOfArray(data.totalAssets[name][year])
-    : getSumOfArray(data.totalAssets[name]['total']);
+    : getSumOfArray(data.totalAssets[name]["total"]);
   const propertyPlantAndEquipment = year
-    ? getSumOfArray(data.totalAssets[name][year])
-    : getSumOfArray(data.totalAssets[name]['total']);
+    ? getSumOfArray(data.propertyPlantAndEquipment[name][year])
+    : getSumOfArray(data.propertyPlantAndEquipment[name]["total"]);
 
   const totalLiabilities = year
     ? getSumOfArray(data.totalLiabilities[name][year])
-    : getSumOfArray(data.totalLiabilities[name]['total']);
+    : getSumOfArray(data.totalLiabilities[name]["total"]);
 
   const notesPayable = year
-    ? getSumOfArray(data.totalLiabilities[name][year])
-    : getSumOfArray(data.totalLiabilities[name]['total']);
+    ? getSumOfArray(data.notesPayable[name][year])
+    : getSumOfArray(data.notesPayable[name]["total"]);
 
-  
+  let above = totalAssets - propertyPlantAndEquipment;
+  let below = totalLiabilities - notesPayable;
+  // if (!year)
+  //   console.log("!!!!!!", {
+  //     totalAssets,
+  //     propertyPlantAndEquipment,
+  //     above,
+  //     totalLiabilities,
+  //     notesPayable,
+  //     below,
+  //   });
 
-  return totalLiabilities > 0 ? (totalAssets - propertyPlantAndEquipment) / (totalLiabilities - notesPayable) : 0;
+  return totalLiabilities > 0
+    ? (totalAssets - propertyPlantAndEquipment) /
+        (totalLiabilities - notesPayable)
+    : 0;
 };
 
 const currentRatio_weightedAverage = (data, name, year) => {
+  // console.log({data, name, year});
+
   // (
   //     [01. 01Ass - 10 Total Assets] -
   //     [01. 01Ass - 02 Cash & Cash Equivalents held for Long Term] -
@@ -623,31 +700,31 @@ const currentRatio_weightedAverage = (data, name, year) => {
 
   const totalAssets = year
     ? getSumOfArray(data.totalAssets[name][year])
-    : getSumOfArray(data.totalAssets[name]['total']);
+    : getSumOfArray(data.totalAssets[name]["total"]);
 
   const cashAndCashEquivalents = year
     ? getSumOfArray(data.cashAndCashEquivalents[name][year])
-    : getSumOfArray(data.cashAndCashEquivalents[name]['total']);
+    : getSumOfArray(data.cashAndCashEquivalents[name]["total"]);
 
   const investments = year
     ? getSumOfArray(data.investments[name][year])
-    : getSumOfArray(data.investments[name]['total']);
+    : getSumOfArray(data.investments[name]["total"]);
 
   const propertyPlantAndEquipment = year
     ? getSumOfArray(data.propertyPlantAndEquipment[name][year])
-    : getSumOfArray(data.propertyPlantAndEquipment[name]['total']);
+    : getSumOfArray(data.propertyPlantAndEquipment[name]["total"]);
 
   const totalLiabilities = year
     ? getSumOfArray(data.totalLiabilities[name][year])
-    : getSumOfArray(data.totalLiabilities[name]['total']);
+    : getSumOfArray(data.totalLiabilities[name]["total"]);
 
   const longTermLiabilities = year
     ? getSumOfArray(data.longTermLiabilities[name][year])
-    : getSumOfArray(data.longTermLiabilities[name]['total']);
+    : getSumOfArray(data.longTermLiabilities[name]["total"]);
 
   const notesPayable = year
     ? getSumOfArray(data.notesPayable[name][year])
-    : getSumOfArray(data.notesPayable[name]['total']);
+    : getSumOfArray(data.notesPayable[name]["total"]);
 
   const denominator = totalLiabilities - longTermLiabilities - notesPayable;
 
@@ -669,11 +746,11 @@ const daysFinancialAssetsOnHand_weightedAverage = (data, name, year) => {
 
   const financialAssetsAvailablePerLiquidity = year
     ? getSumOfArray(data.financialAssetsAvailablePerLiquidity[name][year])
-    : getSumOfArray(data.financialAssetsAvailablePerLiquidity[name]['total']);
+    : getSumOfArray(data.financialAssetsAvailablePerLiquidity[name]["total"]);
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   const denominator = totalExpenses / 365;
 
@@ -689,11 +766,11 @@ const financialAssetsAvailableFY_weightedAverage = (data, name, year) => {
 
   const financialAssetsAvailablePerLiquidity = year
     ? getSumOfArray(data.financialAssetsAvailablePerLiquidity[name][year])
-    : getSumOfArray(data.financialAssetsAvailablePerLiquidity[name]['total']);
+    : getSumOfArray(data.financialAssetsAvailablePerLiquidity[name]["total"]);
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   return totalExpenses > 0
     ? financialAssetsAvailablePerLiquidity / totalExpenses
@@ -710,22 +787,73 @@ const liquidityFundsAvailable_weightedAverage = (data, name, year) => {
 
   const totalAssets = year
     ? getSumOfArray(data.totalAssets[name][year])
-    : getSumOfArray(data.totalAssets[name]['total']);
+    : getSumOfArray(data.totalAssets[name]["total"]);
 
   const propertyPlantAndEquipment = year
     ? getSumOfArray(data.propertyPlantAndEquipment[name][year])
-    : getSumOfArray(data.propertyPlantAndEquipment[name]['total']);
+    : getSumOfArray(data.propertyPlantAndEquipment[name]["total"]);
 
   const totalLiabilities = year
     ? getSumOfArray(data.totalLiabilities[name][year])
-    : getSumOfArray(data.totalLiabilities[name]['total']);
+    : getSumOfArray(data.totalLiabilities[name]["total"]);
 
   return totalLiabilities > 0
     ? (totalAssets - propertyPlantAndEquipment) / totalLiabilities
     : 0;
 };
 
-const daysExpensesInNAwithDR_excludingPPE_weightedAverage = (data, name, year) => {
+const liquidityAssetsAvailableCover_weightedAverage = (data, name, year) => {
+  // console.log({ data, name, year });
+
+  // ([01. 01Ass - 10 Total Assets] - [1. 01Ass - 09 Property, plant and equipment])
+  // /
+  // ([01. 02Liab - 05 Total Liabilities] + [01. 03NA - 03a Net assets with donor restrictions SUM])
+
+  //   ([01. 01Ass - 10 Total Assets]-[01. 01Ass - 09 Property, plant and equipment])
+  // /
+  // ([01. 02Liab - 05 Total Liabilities]+
+  // [01. 03NA - 02 Net assets with donor restrictions by purpose or time]+
+  // [01. 03NA - 03 Net assets with donor restrictions in perpetuity])
+
+  const totalAssets = year
+    ? getSumOfArray(data.totalAssets[name][year])
+    : getSumOfArray(data.totalAssets[name]["total"]);
+
+  const propertyPlantAndEquipment = year
+    ? getSumOfArray(data.propertyPlantAndEquipment[name][year])
+    : getSumOfArray(data.propertyPlantAndEquipment[name]["total"]);
+
+  const totalLiabilities = year
+    ? getSumOfArray(data.totalLiabilities[name][year])
+    : getSumOfArray(data.totalLiabilities[name]["total"]);
+
+  const netAssetsWithDRByPurposeOrTime = year
+    ? getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name][year])
+    : getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name]["total"]);
+
+  const netAssetsWithDRInPerpetuity = year
+    ? getSumOfArray(data.netAssetsWithDRInPerpetuity[name][year])
+    : getSumOfArray(data.netAssetsWithDRInPerpetuity[name]["total"]);
+
+  const netAssetsWithDonorRestrictionsSum = year
+    ? getSumOfArray(data.netAssetsWithDonorRestrictionsSum[name][year])
+    : getSumOfArray(data.netAssetsWithDonorRestrictionsSum[name]["total"]);
+
+  const denominator =
+    totalLiabilities +
+    netAssetsWithDRByPurposeOrTime +
+    netAssetsWithDRInPerpetuity;
+
+  return denominator > 0
+    ? (totalAssets - propertyPlantAndEquipment) / denominator
+    : 0;
+};
+
+const daysExpensesInNAwithDR_excludingPPE_weightedAverage = (
+  data,
+  name,
+  year
+) => {
   // (
   //     [01. 03NA - 02 Net assets with donor restrictions by purpose or time] +
   //     [01. 03NA - 03 Net assets with donor restrictions in perpetuity] -
@@ -739,23 +867,23 @@ const daysExpensesInNAwithDR_excludingPPE_weightedAverage = (data, name, year) =
 
   const netAssetsWithDRByPurposeOrTime = year
     ? getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name][year])
-    : getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name]['total']);
+    : getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name]["total"]);
 
   const netAssetsWithDRInPerpetuity = year
     ? getSumOfArray(data.netAssetsWithDRInPerpetuity[name][year])
-    : getSumOfArray(data.netAssetsWithDRInPerpetuity[name]['total']);
+    : getSumOfArray(data.netAssetsWithDRInPerpetuity[name]["total"]);
 
   const propertyPlantAndEquipment = year
     ? getSumOfArray(data.propertyPlantAndEquipment[name][year])
-    : getSumOfArray(data.propertyPlantAndEquipment[name]['total']);
+    : getSumOfArray(data.propertyPlantAndEquipment[name]["total"]);
 
   const notesPayable = year
     ? getSumOfArray(data.notesPayable[name][year])
-    : getSumOfArray(data.notesPayable[name]['total']);
+    : getSumOfArray(data.notesPayable[name]["total"]);
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   const denominator = totalExpenses / 365;
 
@@ -780,15 +908,15 @@ const daysExpensesInNAwithDR_weightedAverage = (data, name, year) => {
 
   const netAssetsWithDRByPurposeOrTime = year
     ? getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name][year])
-    : getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name]['total']);
+    : getSumOfArray(data.netAssetsWithDRByPurposeOrTime[name]["total"]);
 
   const netAssetsWithDRInPerpetuity = year
     ? getSumOfArray(data.netAssetsWithDRInPerpetuity[name][year])
-    : getSumOfArray(data.netAssetsWithDRInPerpetuity[name]['total']);
+    : getSumOfArray(data.netAssetsWithDRInPerpetuity[name]["total"]);
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   const denominator = totalExpenses / 365;
 
@@ -807,18 +935,23 @@ const daysExpensesInUnrestrictedNA_weightedAverage = (data, name, year) => {
 
   const netAssetsWithoutDR = year
     ? getSumOfArray(data.netAssetsWithoutDR[name][year])
-    : getSumOfArray(data.netAssetsWithoutDR[name]['total']);
+    : getSumOfArray(data.netAssetsWithoutDR[name]["total"]);
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   const denominator = totalExpenses / 365;
 
   return netAssetsWithoutDR / denominator;
 };
 
-const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (data, name, year) => {
+const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
+  data,
+  name,
+  year
+) => {
+  // console.log('daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage',{data, name, year});
   // (
   //     [01. 03NA - 01 Net assets without donor restrictions] -
   //     [01. 01Ass - 09 Property, plant and equipment] -
@@ -831,31 +964,41 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (data, name, y
 
   const netAssetsWithoutDR = year
     ? getSumOfArray(data.netAssetsWithoutDR[name][year])
-    : getSumOfArray(data.netAssetsWithoutDR[name]['total']);
+    : getSumOfArray(data.netAssetsWithoutDR[name]["total"]);
 
   const propertyPlantAndEquipment = year
     ? getSumOfArray(data.propertyPlantAndEquipment[name][year])
-    : getSumOfArray(data.propertyPlantAndEquipment[name]['total']);
+    : getSumOfArray(data.propertyPlantAndEquipment[name]["total"]);
 
   const notesPayable = year
     ? getSumOfArray(data.notesPayable[name][year])
-    : getSumOfArray(data.notesPayable[name]['total']);
+    : getSumOfArray(data.notesPayable[name]["total"]);
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
+  // console.log({
+  //   netAssetsWithoutDR,
+  //   propertyPlantAndEquipment,
+  //   notesPayable,
+  //   totalExpenses
+  // })
   const denominator = totalExpenses / 365;
 
   return denominator > 0
-    ? (netAssetsWithoutDR -
-        propertyPlantAndEquipment -
-        notesPayable) /
+    ? (netAssetsWithoutDR - propertyPlantAndEquipment - notesPayable) /
         denominator
     : 0;
 };
 
 const daysCashOnHand_weightedAverage = (data, name, year) => {
+  // console.log('W.A', {
+  //   data, 
+  //   name, 
+  //   year
+  // });
+  
   // [01. 01Ass - 01 Cash and Cash Equivalents]
   // /
   // (
@@ -864,17 +1007,21 @@ const daysCashOnHand_weightedAverage = (data, name, year) => {
 
   const cashAndCashEquivalents = year
     ? getSumOfArray(data.cashAndCashEquivalents[name][year])
-    : getSumOfArray(data.cashAndCashEquivalents[name]['total']);
+    : getSumOfArray(data.cashAndCashEquivalents[name]["total"]);
 
   const totalExpenses = year
     ? getSumOfArray(data.totalExpenses[name][year])
-    : getSumOfArray(data.totalExpenses[name]['total']);
+    : getSumOfArray(data.totalExpenses[name]["total"]);
 
   const depreciationAndAmortization = year
     ? getSumOfArray(data.depreciationAndAmortization[name][year])
-    : getSumOfArray(data.depreciationAndAmortization[name]['total']);
+    : getSumOfArray(data.depreciationAndAmortization[name]["total"]);
 
   const denominator = (totalExpenses - depreciationAndAmortization) / 365;
 
+
+
   return cashAndCashEquivalents / denominator;
 };
+
+window.getWeightedAverageOfArray = getWeightedAverageOfArray

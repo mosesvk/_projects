@@ -24,9 +24,6 @@ class ChartManager {
     title,
     chartType
   ) {
-
-    
-
     try {
       if (!parsedData) {
         console.warn(`No data provided for chart ${mainName}`);
@@ -47,8 +44,8 @@ class ChartManager {
       updateModal(mainName, parsedData[peer], parsedData[client], parsedData);
       createChart(
         chart,
-        peer,
-        client,
+        parsedData,
+        parsedData,
         type,
         fixedNum,
         mainName,
@@ -148,15 +145,6 @@ class ChartManager {
     title,
     chartType
   ) {
-    const testName = 'contributionsWithoutDR'
-    if (mainName == testName) {
-      console.log('chartmanager.createChart', {
-        dataPeer, 
-        dataClient,
-        parsedData
-      })
-    }
-    
     // Get chart element and clear it
     const chartElement = document.getElementById(chartId);
     if (!chartElement) {

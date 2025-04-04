@@ -25,7 +25,14 @@ class ChartManager {
     chartType
   ) {
 
-    
+    if (mainName == 'daysCashOnHand') {
+      console.log('chartManager', {
+        parsedData,
+        peer, 
+        client
+      });
+      
+    }
 
     try {
       if (!parsedData) {
@@ -47,8 +54,8 @@ class ChartManager {
       updateModal(mainName, parsedData[peer], parsedData[client], parsedData);
       createChart(
         chart,
-        peer,
-        client,
+        parsedData[peer],
+        parsedData[client],
         type,
         fixedNum,
         mainName,
@@ -148,15 +155,6 @@ class ChartManager {
     title,
     chartType
   ) {
-    const testName = 'contributionsWithoutDR'
-    if (mainName == testName) {
-      console.log('chartmanager.createChart', {
-        dataPeer, 
-        dataClient,
-        parsedData
-      })
-    }
-    
     // Get chart element and clear it
     const chartElement = document.getElementById(chartId);
     if (!chartElement) {

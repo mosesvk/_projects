@@ -148,15 +148,6 @@ class ChartManager {
     title,
     chartType
   ) {
-    const testName = 'contributionsWithoutDR'
-    if (mainName == testName) {
-      console.log('chartmanager.createChart', {
-        dataPeer, 
-        dataClient,
-        parsedData
-      })
-    }
-    
     // Get chart element and clear it
     const chartElement = document.getElementById(chartId);
     if (!chartElement) {

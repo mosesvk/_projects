@@ -386,7 +386,6 @@ class ChartConfigFactory {
         mainName,
         dataProcessingType, // Use special handling for annualizedInvestmentReturn
         wa, 
-        true, 
         parsedData
       );
 
@@ -1153,9 +1152,7 @@ class ChartConfigFactory {
         fixedNum,
         "costOfContributions",
         "dollar",
-        wa,
-        true, 
-        parsedData
+        wa
       );
 
       costOfContributionsClient = result.clientArray || [];

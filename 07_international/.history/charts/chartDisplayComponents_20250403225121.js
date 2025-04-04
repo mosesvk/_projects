@@ -188,7 +188,7 @@ const ChartDisplayComponents = {
         "dollar",
         0,
         "contributionsWithoutDR",
-        null // Add weighted average
+        "wa" // Add weighted average
       );
 
       // Contributions Trend
@@ -200,7 +200,7 @@ const ChartDisplayComponents = {
         "percent",
         0,
         "contributionsTrend",
-        null // Add weighted average
+        "wa" // Add weighted average
       );
 
       // Annualized Investment Return

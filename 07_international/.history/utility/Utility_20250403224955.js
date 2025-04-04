@@ -2054,7 +2054,7 @@ function getPeerAndClientChartDataArrays(
   parsedData
 ) {
 
-  const testName = 'contributionsWithoutDR'
+  const testName = 'totalContributions'
 
   // Cache key based on parameters
   const cacheKey = `${mainName}_${years.join('_')}_${numType}_${wa}_${fixedNum}`;
@@ -2184,7 +2184,6 @@ function getPeerAndClientChartDataArrays(
       }
 
       if (mainName == testName) {
-        testName, 
         console.log({
           avg, 
           mid, 

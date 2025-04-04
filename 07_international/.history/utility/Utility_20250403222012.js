@@ -2054,12 +2054,10 @@ function getPeerAndClientChartDataArrays(
   parsedData
 ) {
 
-  const testName = 'contributionsWithoutDR'
-
   // Cache key based on parameters
   const cacheKey = `${mainName}_${years.join('_')}_${numType}_${wa}_${fixedNum}`;
 
-  if (mainName == testName) console.log('getPeerAndClientChartDataArrays', {
+  if (mainName == 'daysCashOnHand') console.log('getPeerAndClientChartDataArrays', {
     dataPeer, 
     dataClient,
     parsedData,
@@ -2088,7 +2086,7 @@ function getPeerAndClientChartDataArrays(
   const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
   
   // Log data for debugging
-  if (mainName == testName) {
+  if (mainName == 'daysCashOnHand') {
     console.log(`Processing chart data for ${mainName}:`, {
       years,
       peerData: parsedData[dataPeer],
@@ -2107,11 +2105,11 @@ function getPeerAndClientChartDataArrays(
       // Get peer data array
       const dataArray = parsedData[dataPeer];
 
-      if (mainName == testName) 
+      // if (mainName == 'daysCashOnHand') 
         console.log({
           peerData: parsedData[dataPeer], 
           dataArray, 
-          peerClient: parseStoredData[dataClient],
+          dataPeer,
           parsedData
         })
 
@@ -2139,7 +2137,7 @@ function getPeerAndClientChartDataArrays(
       let avg, mid, lower25, higher75;
 
       // Ensure we're working with numeric arrays
-      const numericArray = dataArray[year].map(val => typeof val === 'string' ? parseFloat(val) : Number(val));
+      const numericArray = dataArray.map(val => typeof val === 'string' ? parseFloat(val) : Number(val));
       
       // Use weighted average if requested
       if (wa === "wa" && typeof window.getWeightedAverageOfArray === "function") {
@@ -2153,7 +2151,7 @@ function getPeerAndClientChartDataArrays(
           higher75 = get75thPercentileOfArray(numericArray, mainName);
           
           // Log successful weighted average calculation
-          // console.log(`Used weighted average for ${mainName}, year ${year}: ${avg}`);
+          console.log(`Used weighted average for ${mainName}, year ${year}: ${avg}`);
         } catch (error) {
           console.error(`Error calculating weighted average for ${mainName}:`, error);
           // Fall back to regular statistics
@@ -2183,16 +2181,10 @@ function getPeerAndClientChartDataArrays(
         clientNum *= 100;
       }
 
-      if (mainName == testName) {
-        testName, 
-        console.log({
-          avg, 
-          mid, 
-          lower25, 
-          higher75,
-          clientNum
-        });
-        
+      // Special handling for annualizedInvestmentReturn
+      if (isAnnualizedInvestmentReturn && mainName === "annualizedInvestmentReturn") {
+        // Ensure consistent display for this chart
+        // console.log(`Special handling for annualizedInvestmentReturn: ${clientNum}`);
       }
 
       // Format values with consistent precision and add to result arrays
@@ -2220,7 +2212,6 @@ function getPeerAndClientChartDataArrays(
     } 
     // Case 3: We have peer data but no client data
     else if (parsedData[dataPeer]) {
-      
       const dataArray = parsedData[dataPeer][year];
       
       if (dataArray && Array.isArray(dataArray) && dataArray.length > 0) {

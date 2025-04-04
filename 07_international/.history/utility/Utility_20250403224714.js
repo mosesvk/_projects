@@ -2054,12 +2054,10 @@ function getPeerAndClientChartDataArrays(
   parsedData
 ) {
 
-  const testName = 'contributionsWithoutDR'
-
   // Cache key based on parameters
   const cacheKey = `${mainName}_${years.join('_')}_${numType}_${wa}_${fixedNum}`;
 
-  if (mainName == testName) console.log('getPeerAndClientChartDataArrays', {
+  if (mainName == 'changeInNetAssets') console.log('getPeerAndClientChartDataArrays', {
     dataPeer, 
     dataClient,
     parsedData,
@@ -2088,7 +2086,7 @@ function getPeerAndClientChartDataArrays(
   const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
   
   // Log data for debugging
-  if (mainName == testName) {
+  if (mainName == 'changeInNetAssets') {
     console.log(`Processing chart data for ${mainName}:`, {
       years,
       peerData: parsedData[dataPeer],
@@ -2107,11 +2105,11 @@ function getPeerAndClientChartDataArrays(
       // Get peer data array
       const dataArray = parsedData[dataPeer];
 
-      if (mainName == testName) 
+      if (mainName == 'totalContributions') 
         console.log({
           peerData: parsedData[dataPeer], 
           dataArray, 
-          peerClient: parseStoredData[dataClient],
+          peerClient: parseStoredData[dataClient]
           parsedData
         })
 
@@ -2181,18 +2179,6 @@ function getPeerAndClientChartDataArrays(
         lower25 *= 100;
         higher75 *= 100;
         clientNum *= 100;
-      }
-
-      if (mainName == testName) {
-        testName, 
-        console.log({
-          avg, 
-          mid, 
-          lower25, 
-          higher75,
-          clientNum
-        });
-        
       }
 
       // Format values with consistent precision and add to result arrays

@@ -75,7 +75,7 @@ class ChartConfigFactory {
 
   // Configuration for standard main charts
   createMainChartConfig({
-    dataPeer,
+    peer,
     dataClient,
     numType,
     fixedNum = 0,
@@ -83,7 +83,6 @@ class ChartConfigFactory {
     wa,
     parsedData,
   }) {
-    
     // Get latest data from localStorage
     const refreshedData = parseStoredData(
       getStoredData(`${mainName.split("_")[0]}Data`)
@@ -355,16 +354,6 @@ class ChartConfigFactory {
     benchmark,
     title,
   }) {
-
-    if (mainName == 'changeInNetAssets') {
-      console.log('createLineChartConfig() changeInNetAssets', {
-        dataPeer, 
-        dataClient,
-        parsedData
-      });
-      
-    }
-
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
     let clientArray = [],
       peerAvg = [],
@@ -385,9 +374,7 @@ class ChartConfigFactory {
         fixedNum,
         mainName,
         dataProcessingType, // Use special handling for annualizedInvestmentReturn
-        wa, 
-        true, 
-        parsedData
+        wa
       );
 
       clientArray = result.clientArray || [];
@@ -1153,9 +1140,7 @@ class ChartConfigFactory {
         fixedNum,
         "costOfContributions",
         "dollar",
-        wa,
-        true, 
-        parsedData
+        wa
       );
 
       costOfContributionsClient = result.clientArray || [];

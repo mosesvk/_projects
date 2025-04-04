@@ -386,7 +386,6 @@ class ChartConfigFactory {
         mainName,
         dataProcessingType, // Use special handling for annualizedInvestmentReturn
         wa, 
-        true, 
         parsedData
       );
 
@@ -1154,7 +1153,6 @@ class ChartConfigFactory {
         "costOfContributions",
         "dollar",
         wa,
-        true, 
         parsedData
       );
 

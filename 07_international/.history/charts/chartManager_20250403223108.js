@@ -148,8 +148,7 @@ class ChartManager {
     title,
     chartType
   ) {
-    const testName = 'contributionsWithoutDR'
-    if (mainName == testName) {
+    if (mainName == 'changeInNetAssets') {
       console.log('chartmanager.createChart', {
         dataPeer, 
         dataClient,

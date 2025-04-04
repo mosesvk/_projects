@@ -83,14 +83,11 @@ class ChartConfigFactory {
     wa,
     parsedData,
   }) {
-    
     // Get latest data from localStorage
     const refreshedData = parseStoredData(
       getStoredData(`${mainName.split("_")[0]}Data`)
     );
-    
     if (refreshedData) {
-      
       // Update dataPeer and dataClient with fresh data if available
       if (refreshedData[`${mainName}_Peer`]) {
         dataPeer = refreshedData[`${mainName}_Peer`];
@@ -122,8 +119,7 @@ class ChartConfigFactory {
       mainName,
       isAnnualizedInvestmentReturn ? "number" : numType,
       wa,
-      true, // Add a force refresh parameter
-      parsedData
+      true // Add a force refresh parameter
     );
 
     clientArray = chartData.clientArray;
@@ -355,16 +351,6 @@ class ChartConfigFactory {
     benchmark,
     title,
   }) {
-
-    if (mainName == 'changeInNetAssets') {
-      console.log('createLineChartConfig() changeInNetAssets', {
-        dataPeer, 
-        dataClient,
-        parsedData
-      });
-      
-    }
-
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
     let clientArray = [],
       peerAvg = [],
@@ -385,9 +371,7 @@ class ChartConfigFactory {
         fixedNum,
         mainName,
         dataProcessingType, // Use special handling for annualizedInvestmentReturn
-        wa, 
-        true, 
-        parsedData
+        wa
       );
 
       clientArray = result.clientArray || [];
@@ -1153,9 +1137,7 @@ class ChartConfigFactory {
         fixedNum,
         "costOfContributions",
         "dollar",
-        wa,
-        true, 
-        parsedData
+        wa
       );
 
       costOfContributionsClient = result.clientArray || [];

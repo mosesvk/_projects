@@ -993,11 +993,7 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
 };
 
 const daysCashOnHand_weightedAverage = (data, name, year) => {
-  // console.log('W.A', {
-  //   data, 
-  //   name, 
-  //   year
-  // });
+
   
   // [01. 01Ass - 01 Cash and Cash Equivalents]
   // /
@@ -1019,9 +1015,16 @@ const daysCashOnHand_weightedAverage = (data, name, year) => {
 
   const denominator = (totalExpenses - depreciationAndAmortization) / 365;
 
-
+  console.log('W.A', {
+    data, 
+    name, 
+    year, 
+    cashAndCashEquivalents, 
+    totalExpenses,
+    depreciationAndAmortization
+  });
 
   return cashAndCashEquivalents / denominator;
 };
 
-window.getWeightedAverageOfArray = getWeightedAverageOfArray
+window.getWeightedAverageOfArray = window.getWeightedAverageOfArray
