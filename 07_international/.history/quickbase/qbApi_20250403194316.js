@@ -2861,7 +2861,7 @@ class AppController {
     if (
       typeof this.apiService.getRecordsForUniqueClientPeerNames === "function"
     ) {
-      // console.log("Loading client names...");
+      console.log("Loading client names...");
       this.apiService.getRecordsForUniqueClientPeerNames();
     }
 
