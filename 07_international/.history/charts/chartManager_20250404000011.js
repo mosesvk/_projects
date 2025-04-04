@@ -50,7 +50,7 @@ class ChartManager {
         fixedNum,
         wa
       );
-      this.createChart(
+      createChart(
         chart,
         peer,
         client,
@@ -534,29 +534,6 @@ class ChartManager {
 
     // Create and add the 75th percentile cell
     const p75Cell = createPeerDataCell(row, p75Value, dataType, fixedNum);
-  }
-
-  _addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
-    // console.log(`Adding client data to row: ${yearRow.id}`, {
-    //   clientValue,
-    //   type,
-    //   fixedNum,
-    // });
-  
-    const cell = document.createElement("td");
-    cell.className =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-  
-    // Format the value
-    const formattedValue =
-      clientValue !== undefined && clientValue !== null
-        ? styleNumber(clientValue, type, fixedNum)
-        : "-";
-  
-    cell.textContent = formattedValue;
-    yearRow.appendChild(cell);
-  
-    return cell;
   }
 
   createPeerDataCell(row, value, dataType, fixedNum) {
