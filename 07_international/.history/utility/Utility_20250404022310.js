@@ -1,5 +1,5 @@
 let clientDataStore = {}; // Global store for client data
-const testName = "daysCashOnHand";
+const testName = "totalContributions";
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const areas_Array = [
@@ -2396,11 +2396,11 @@ function getPeerAndClientChartDataArrays(
 
 
       // Format values with consistent precision and add to result arrays
-      peerAvg.push(avg);
-      peerMid.push(mid);
-      peer25.push(lower25);
-      peer75.push(higher75);
-      clientArray.push(clientNum);
+      peerAvg.push(styleNumber(avg, numType, fixedNum));
+      peerMid.push(styleNumber(mid, numType, fixedNum));
+      peer25.push(styleNumber(lower25, numType, fixedNum));
+      peer75.push(styleNumber(higher75, numType, fixedNum));
+      clientArray.push(styleNumber(clientNum, numType, fixedNum));
 
     }
     // Case 2: We have client data but no peer data
@@ -2414,7 +2414,7 @@ function getPeerAndClientChartDataArrays(
         ? Number(parsedData[dataClient][year].value)
         : 0;
 
-      clientArray.push(clientNum)
+      clientArray.push(styleNumber(clientNum, numType, fixedNum))
     }
     // Case 3: We have peer data but no client data
     else if (parsedData[dataPeer]) {
@@ -2437,10 +2437,10 @@ function getPeerAndClientChartDataArrays(
           higher75 *= 100;
         }
 
-        peerAvg.push(avg, numType, fixedNum)
-        peerMid.push(mid, numType, fixedNum)
-        peer25.push(lower25, numType, fixedNum)
-        peer75.push(higher75, numType, fixedNum)
+        peerAvg.push(styleNumber(avg, numType, fixedNum))
+        peerMid.push(styleNumber(mid, numType, fixedNum))
+        peer25.push(styleNumber(lower25, numType, fixedNum))
+        peer75.push(styleNumber(higher75, numType, fixedNum))
       } else {
         peerAvg.push(0);
         peerMid.push(0);

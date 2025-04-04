@@ -1,5 +1,5 @@
 let clientDataStore = {}; // Global store for client data
-const testName = "daysCashOnHand";
+const testName = "totalContributions";
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const areas_Array = [

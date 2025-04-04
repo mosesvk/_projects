@@ -209,7 +209,7 @@ class ChartConfigFactory {
     cell.className =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
 
-    if (value != Math.floor(value))console.log("_addPeerDataCell()", { row, value });
+    console.log("_addPeerDataCell()", { row, value });
 
     if (value !== undefined && value !== null) {
       // Get the numeric value

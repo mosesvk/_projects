@@ -103,15 +103,6 @@ class ChartConfigFactory {
 
       // Add peer data
       if (chartData.peerAvg && chartData.peerAvg[index] !== undefined) {
-        if (mainName == testName) {
-          console.log("updateModalFromChartOptions", {
-            chartData: chartData.peerAvg,
-            dataType,
-            wa,
-            fixedNum,
-          });
-        }
-
         this._addPeerDataToModalRow(
           yearRow,
           chartData.peerAvg[index],
@@ -208,8 +199,6 @@ class ChartConfigFactory {
     const cell = document.createElement("td");
     cell.className =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-
-    if (value != Math.floor(value))console.log("_addPeerDataCell()", { row, value });
 
     if (value !== undefined && value !== null) {
       // Get the numeric value
@@ -312,7 +301,7 @@ class ChartConfigFactory {
     const refreshedData = parseStoredData(
       getStoredData(`${mainName.split("_")[0]}Data`)
     );
-
+    
     if (refreshedData) {
       // Update dataPeer and dataClient with fresh data if available
       if (refreshedData[`${mainName}_Peer`]) {
@@ -322,14 +311,13 @@ class ChartConfigFactory {
         dataClient = refreshedData[`${mainName}_Client`];
       }
     }
-
+  
     // Special case flags
-    const isAnnualizedInvestmentReturn =
-      mainName === "annualizedInvestmentReturn";
+    const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
     const isCostOfContributions = mainName === "costOfContributions";
-
+  
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
-
+  
     // Get chart data with explicit data refresh
     const chartData = getPeerAndClientChartDataArrays(
       selectedYearsArray,
@@ -342,7 +330,7 @@ class ChartConfigFactory {
       true, // Add a force refresh parameter
       parsedData
     );
-
+  
     // Update the corresponding modal with the same data
     this.updateModalFromChartOptions(mainName, {
       dataPeer,
@@ -350,15 +338,15 @@ class ChartConfigFactory {
       parsedData,
       numType,
       fixedNum,
-      wa,
+      wa
     });
-
+  
     let clientArray = chartData.clientArray;
     let peerAvg = chartData.peerAvg;
     let peerMid = chartData.peerMid;
     let peer25 = chartData.peer25;
     let peer75 = chartData.peer75;
-
+  
     if (isAnnualizedInvestmentReturn)
       clientArray = clientArray.map((val) => val * 100);
 
