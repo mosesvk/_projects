@@ -83,20 +83,6 @@ class ChartConfigFactory {
     wa,
     parsedData,
   }) {
-    // Get latest data from localStorage
-    const refreshedData = parseStoredData(
-      getStoredData(`${mainName.split("_")[0]}Data`)
-    );
-    if (refreshedData) {
-      // Update dataPeer and dataClient with fresh data if available
-      if (refreshedData[`${mainName}_Peer`]) {
-        dataPeer = refreshedData[`${mainName}_Peer`];
-      }
-      if (refreshedData[`${mainName}_Client`]) {
-        dataClient = refreshedData[`${mainName}_Client`];
-      }
-    }
-
     // Special case flag for annualizedInvestmentReturn chart
     const isAnnualizedInvestmentReturn =
       mainName === "annualizedInvestmentReturn";
@@ -131,18 +117,18 @@ class ChartConfigFactory {
     if (isAnnualizedInvestmentReturn)
       clientArray = clientArray.map((val) => val * 100);
 
-    if (mainName == 'daysCashOnHand')
-      console.log(
-        mainName,
-        clientArray,
-        peerAvg,
-        peerMid,
-        peer25,
-        peer75,
-        dataPeer,
-        fixedNum,
-        numType
-      );
+    // if (isAnnualizedInvestmentReturn)
+    //   console.log(
+    //     mainName,
+    //     clientArray,
+    //     peerAvg,
+    //     peerMid,
+    //     peer25,
+    //     peer75,
+    //     dataPeer,
+    //     fixedNum,
+    //     numType
+    //   );
 
     // Create formatters based on number type
     const formatters = this._createFormatters(numType, mainName); // Pass mainName to formatters

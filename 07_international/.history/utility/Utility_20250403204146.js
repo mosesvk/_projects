@@ -2077,16 +2077,13 @@ function getPeerAndClientChartDataArrays(
   const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
   
   // Log data for debugging
-  if (mainName == 'daysCashOnHand') {
-    console.log(`Processing chart data for ${mainName}:`, {
-      years,
-      peerData: dataPeer,
-      clientData: !!dataClient,
-      numType,
-      wa
-    });
-  }
-  
+  console.log(`Processing chart data for ${mainName}:`, {
+    years,
+    hasPeerData: !!dataPeer,
+    hasClientData: !!dataClient,
+    numType,
+    wa
+  });
 
   // Process each year
   years.forEach((year) => {

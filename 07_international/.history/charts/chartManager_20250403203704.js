@@ -207,9 +207,6 @@ class ChartManager {
       type: configType,
       name: mainName,
       weightedAverage, // Store weighted average setting
-      dataPeer, // Store data references
-      dataClient, 
-      parsedData
     };
 
     return chart;

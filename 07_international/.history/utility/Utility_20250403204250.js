@@ -2080,7 +2080,7 @@ function getPeerAndClientChartDataArrays(
   if (mainName == 'daysCashOnHand') {
     console.log(`Processing chart data for ${mainName}:`, {
       years,
-      peerData: dataPeer,
+      peerData: !!dataPeer,
       clientData: !!dataClient,
       numType,
       wa

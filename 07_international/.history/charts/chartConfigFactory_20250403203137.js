@@ -96,7 +96,7 @@ class ChartConfigFactory {
         dataClient = refreshedData[`${mainName}_Client`];
       }
     }
-
+    
     // Special case flag for annualizedInvestmentReturn chart
     const isAnnualizedInvestmentReturn =
       mainName === "annualizedInvestmentReturn";
@@ -131,18 +131,18 @@ class ChartConfigFactory {
     if (isAnnualizedInvestmentReturn)
       clientArray = clientArray.map((val) => val * 100);
 
-    if (mainName == 'daysCashOnHand')
-      console.log(
-        mainName,
-        clientArray,
-        peerAvg,
-        peerMid,
-        peer25,
-        peer75,
-        dataPeer,
-        fixedNum,
-        numType
-      );
+    // if (daysCashOnHand)
+    //   console.log(
+    //     mainName,
+    //     clientArray,
+    //     peerAvg,
+    //     peerMid,
+    //     peer25,
+    //     peer75,
+    //     dataPeer,
+    //     fixedNum,
+    //     numType
+    //   );
 
     // Create formatters based on number type
     const formatters = this._createFormatters(numType, mainName); // Pass mainName to formatters

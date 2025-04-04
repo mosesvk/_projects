@@ -11,19 +11,7 @@ class ChartManager {
   }
 
   // Create chart from parsed data
-  createChartFromParsedData(
-    parsedData,
-    chart,
-    peer,
-    client,
-    type,
-    fixedNum,
-    mainName,
-    wa,
-    benchmark,
-    title,
-    chartType
-  ) {
+  createChartFromParsedData(parsedData, chart, peer, client, type, fixedNum, mainName, wa, benchmark, title, chartType) {
     try {
       if (!parsedData) {
         console.warn(`No data provided for chart ${mainName}`);
@@ -31,7 +19,7 @@ class ChartManager {
         this.createEmptyChart(chart, mainName, title);
         return;
       }
-
+      
       // Check if required data exists
       if (!parsedData[client]) {
         // console.warn(`Missing peer or client data for chart ${mainName}`);
@@ -39,7 +27,7 @@ class ChartManager {
         this.createEmptyChart(chart, mainName, title);
         return;
       }
-
+      
       // Original implementation...
       updateModal(mainName, parsedData[peer], parsedData[client], parsedData);
       createChart(
@@ -56,15 +44,12 @@ class ChartManager {
         chartType
       );
     } catch (error) {
-      console.error(
-        `Error creating chart from parsed data for ${mainName}:`,
-        error
-      );
+      console.error(`Error creating chart from parsed data for ${mainName}:`, error);
       // Create an empty placeholder chart on error
       this.createEmptyChart(chart, mainName, title);
     }
   }
-
+  
   // Add this new method to create empty charts as fallbacks
   createEmptyChart(chartId, mainName, title) {
     const element = document.getElementById(chartId);
@@ -72,14 +57,13 @@ class ChartManager {
       console.warn(`Chart element ${chartId} not found`);
       return;
     }
-
+    
     // Clear any existing content
     element.innerHTML = "";
-
+    
     // Create a simple message
     const message = document.createElement("div");
-    message.className =
-      "flex items-center justify-center h-64 text-gray-500 dark:text-gray-400";
+    message.className = "flex items-center justify-center h-64 text-gray-500 dark:text-gray-400";
     message.innerHTML = `
       <div class="text-center">
         <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -89,7 +73,7 @@ class ChartManager {
         <p class="text-sm">Try adjusting your filters or selecting different years</p>
       </div>
     `;
-
+    
     element.appendChild(message);
   }
 
@@ -207,9 +191,6 @@ class ChartManager {
       type: configType,
       name: mainName,
       weightedAverage, // Store weighted average setting
-      dataPeer, // Store data references
-      dataClient, 
-      parsedData
     };
 
     return chart;
@@ -506,6 +487,7 @@ class ChartManager {
 
   // Helper to create a data cell for peer data
   _createPeerDataCell(row, value, dataType, fixedNum, metricName) {
+
     const cell = document.createElement("td");
     cell.className =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
@@ -689,78 +671,31 @@ class ChartManager {
     return this.charts[chartId]?.instance;
   }
 
+  // Update a chart's options
   updateChartOptions(chartId, newOptions) {
-    const chart = this.getChart(chartId);
-    if (chart) {
-      chart.updateOptions(newOptions);
-      this.charts[chartId].config = newOptions;
-      
-      // Add this new code to trigger modal updates
-      const chartInfo = this.charts[chartId];
-      if (chartInfo && chartInfo.name) {
-        const mainName = chartInfo.name;
-        
-        // Update corresponding modal if the function exists
-        if (typeof updateModal === "function") {
-          // Get the data from the options or retrieve it from localStorage
-          const dataPeer = newOptions.dataPeer || 
-            (chartInfo.dataPeer ? chartInfo.dataPeer : null);
-          const dataClient = newOptions.dataClient || 
-            (chartInfo.dataClient ? chartInfo.dataClient : null);
-          
-          // Get stored data if available
-          const category = this._getCategoryFromMainName(mainName);
-          let parsedData = newOptions.parsedData;
-          if (!parsedData && category) {
-            const storedData = localStorage.getItem(category);
-            if (storedData) {
-              parsedData = JSON.parse(storedData);
-            }
-          }
-          
-          // Update the modal with current data
-          if (dataPeer || dataClient) {
-            console.log(`Updating modal for ${mainName} after chart update`);
-            updateModal(mainName, dataPeer, dataClient, parsedData);
-          }
-        }
-      }
+    if (!this.chartInstances[chartId]) {
+      console.error(`Chart with ID "${chartId}" not found`);
+      return;
     }
-  }
   
-  // Add this helper method to determine data category from chart name
-  _getCategoryFromMainName(mainName) {
-    // Map chart names to data categories
-    const categoryMappings = {
-      // Cash flow charts
-      'cashFlowsTrend': 'cashData',
-      'daysCashOnHand': 'cashData',
-      'daysExpensesInUnrestrictedNA': 'cashData',
-      'daysExpensesInUnrestrictedNA_excludingPPE': 'cashData',
-      'liquidityAssetsAvailableCover': 'cashData',
-      'totalCoverageRatio': 'cashData',
-      'assetsWithoutPpeToLiabilitiesWithoutDebt': 'cashData',
-      
-      // Income charts
-      'contributionsTrend': 'incomeData',
-      'annualizedInvestmentReturn': 'incomeData',
-      'totalContributions': 'incomeData',
-      'contributionsWithoutDR': 'incomeData',
-      
-      // Expense charts
-      'functionalExpensePercent_program': 'expenseData',
-      'functionalExpensePercent_administrative': 'expenseData',
-      'functionalExpensePercent_fundraising': 'expenseData',
-      'costOfContributions': 'expenseData',
-      'costOfContributionsDetailView': 'expenseData',
-      'functionalAllocation': 'expenseData',
-      
-      // General charts
-      'netAssetBreakdown': 'generalData',
-      'changeInNetAssets': 'generalData'
-    };
+    this.chartConfigs[chartId] = newOptions;
+    this.chartInstances[chartId].updateOptions(newOptions);
     
-    return categoryMappings[mainName] || null;
+    // Get the mainName for this chart
+    const chartInfo = this.charts[chartId];
+    if (chartInfo && chartInfo.name) {
+      const mainName = chartInfo.name;
+      
+      // Dispatch an event so modals can update
+      const event = new CustomEvent('chartOptionsApplied', {
+        detail: {
+          chartId,
+          mainName,
+          options: newOptions
+        }
+      });
+      document.dispatchEvent(event);
+    }
   }
 
   // Destroy all charts (cleanup)

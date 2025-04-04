@@ -2030,8 +2030,9 @@ window.registerChartEventListeners = function () {
 };
 
 /**
- * Extracts peer and client data arrays from the parsed data with improved consistency
- * 
+ * Extracts peer and client data arrays from the parsed data
+ * This function is used by multiple chart configuration components
+ *
  * @param {Array} years - Array of selected years
  * @param {Object} dataPeer - Peer data object
  * @param {Object} dataClient - Client data object
@@ -2039,7 +2040,6 @@ window.registerChartEventListeners = function () {
  * @param {String} mainName - Name identifier for the chart
  * @param {String} numType - Data type (percent, dollar, number)
  * @param {Boolean|String} wa - Whether to use weighted average
- * @param {Boolean} forceRefresh - Whether to force data refresh
  * @returns {Object} Object containing formatted data arrays
  */
 function getPeerAndClientChartDataArrays(
@@ -2049,23 +2049,9 @@ function getPeerAndClientChartDataArrays(
   fixedNum,
   mainName,
   numType,
-  wa,
+  wa, 
   forceRefresh = false
 ) {
-  // Cache key based on parameters
-  const cacheKey = `${mainName}_${years.join('_')}_${numType}_${wa}_${fixedNum}`;
-  
-  // Use cached result if available and not forcing refresh
-  if (!forceRefresh && window.chartDataCache && window.chartDataCache[cacheKey]) {
-    console.log(`Using cached chart data for ${mainName}`);
-    return window.chartDataCache[cacheKey];
-  }
-  
-  // Initialize window.chartDataCache if it doesn't exist
-  if (!window.chartDataCache) {
-    window.chartDataCache = {};
-  }
-  
   // Initialize arrays
   const peerAvg = [];
   const peerMid = [];
@@ -2074,39 +2060,29 @@ function getPeerAndClientChartDataArrays(
   const clientArray = [];
 
   // Special flag for annualizedInvestmentReturn to avoid double percentage conversion
-  const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
-  
-  // Log data for debugging
-  if (mainName == 'daysCashOnHand') {
-    console.log(`Processing chart data for ${mainName}:`, {
-      years,
-      peerData: dataPeer,
-      clientData: !!dataClient,
-      numType,
-      wa
-    });
-  }
-  
+  const isAnnualizedInvestmentReturn =
+    mainName === "annualizedInvestmentReturn";
 
   // Process each year
   years.forEach((year) => {
-    // Case 1: We have both peer and client data
-    if (dataPeer && dataClient) {
+    if (dataPeer !== undefined && dataClient !== undefined) {
       // Get peer data array
       const dataArray = dataPeer[year];
 
       // Handle missing data
-      if (!dataArray || !Array.isArray(dataArray) || dataArray.length === 0) {
-        console.warn(`No peer data array for ${mainName}, year ${year}`);
+      if (!dataArray) {
         peerAvg.push(0);
         peerMid.push(0);
         peer25.push(0);
         peer75.push(0);
 
         // Get client data
-        let clientNum = dataClient[year]?.value ? Number(dataClient[year].value) : 0;
+        let clientNum = dataClient[year]?.value
+          ? Number(dataClient[year].value)
+          : 0;
 
-        // Convert to percentage if needed
+        // Convert to percentage if needed, but not for annualizedInvestmentReturn in the chart
+        // (we'll handle that separately)
         if (numType === "percent" && !isAnnualizedInvestmentReturn) {
           clientNum *= 100;
         }
@@ -2118,44 +2094,52 @@ function getPeerAndClientChartDataArrays(
       // Calculate statistics
       let avg, mid, lower25, higher75;
 
-      // Ensure we're working with numeric arrays
-      const numericArray = dataArray.map(val => typeof val === 'string' ? parseFloat(val) : Number(val));
-      
       // Use weighted average if requested
-      if (wa === "wa" && typeof window.getWeightedAverageOfArray === "function") {
+      if (
+        wa === "wa" &&
+        typeof window.getWeightedAverageOfArray === "function"
+      ) {
         try {
           // Calculate weighted average with year parameter
           avg = window.getWeightedAverageOfArray(dataPeer, mainName, year);
-          
+
           // For other percentiles, use regular calculations
-          mid = getMidpointOfArray(numericArray, mainName);
-          lower25 = get25thPercentileOfArray(numericArray, mainName);
-          higher75 = get75thPercentileOfArray(numericArray, mainName);
-          
-          // Log successful weighted average calculation
-          console.log(`Used weighted average for ${mainName}, year ${year}: ${avg}`);
+          const array = dataArray.map((item) => Number(item || 0));
+          mid = getMidpointOfArray(array, mainName);
+          lower25 = get25thPercentileOfArray(array, mainName);
+          higher75 = get75thPercentileOfArray(array, mainName);
         } catch (error) {
-          console.error(`Error calculating weighted average for ${mainName}:`, error);
+          console.error(
+            `Error calculating weighted average for ${mainName}:`,
+            error
+          );
           // Fall back to regular statistics
-          avg = getAverageOfArray(numericArray);
-          mid = getMidpointOfArray(numericArray, mainName);
-          lower25 = get25thPercentileOfArray(numericArray, mainName);
-          higher75 = get75thPercentileOfArray(numericArray, mainName);
+          const array = dataArray.map((item) => Number(item || 0));
+          avg = getAverageOfArray(array);
+          mid = getMidpointOfArray(array, mainName);
+          lower25 = get25thPercentileOfArray(array, mainName);
+          higher75 = get75thPercentileOfArray(array, mainName);
         }
       } else {
         // Use regular statistics
-        avg = getAverageOfArray(numericArray);
-        mid = getMidpointOfArray(numericArray, mainName);
-        lower25 = get25thPercentileOfArray(numericArray, mainName);
-        higher75 = get75thPercentileOfArray(numericArray, mainName);
+        const array = dataArray.map((item) => Number(item || 0));
+        avg = getAverageOfArray(array);
+        mid = getMidpointOfArray(array, mainName);
+        lower25 = get25thPercentileOfArray(array, mainName);
+        higher75 = get75thPercentileOfArray(array, mainName);
       }
 
       // Get client value
-      let clientNum = dataClient[year]?.value ? Number(dataClient[year].value) : 0;
+      let clientNum = dataClient[year]?.value
+        ? Number(dataClient[year].value)
+        : 0;
 
-      // Convert to percentage if needed, but handle special cases
+      // if (isAnnualizedInvestmentReturn) {
+      //   console.log({ clientNum });
+      // }
+
+      // Convert to percentage if needed, but not for annualizedInvestmentReturn in the chart
       if (numType === "percent") {
-        // Convert all values to percentages
         avg *= 100;
         mid *= 100;
         lower25 *= 100;
@@ -2163,90 +2147,43 @@ function getPeerAndClientChartDataArrays(
         clientNum *= 100;
       }
 
-      // Special handling for annualizedInvestmentReturn
-      if (isAnnualizedInvestmentReturn && mainName === "annualizedInvestmentReturn") {
-        // Ensure consistent display for this chart
-        // console.log(`Special handling for annualizedInvestmentReturn: ${clientNum}`);
-      }
-
-      // Format values with consistent precision and add to result arrays
+      // Format values and add to result arrays
       peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
       peerMid.push(parseFloat(mid.toFixed(fixedNum)));
       peer25.push(parseFloat(lower25.toFixed(fixedNum)));
       peer75.push(parseFloat(higher75.toFixed(fixedNum)));
-      clientArray.push(parseFloat(clientNum.toFixed(fixedNum)));
-    } 
-    // Case 2: We have client data but no peer data
-    else if (dataClient) {
+      clientArray.push(clientNum);
+    } else {
+      // Handle cases with missing data
       peerAvg.push(0);
       peerMid.push(0);
       peer25.push(0);
       peer75.push(0);
 
-      let clientNum = dataClient[year]?.value ? Number(dataClient[year].value) : 0;
+      if (dataPeer === undefined && dataClient) {
+        let clientNum = dataClient[year]?.value
+          ? Number(dataClient[year].value)
+          : 0;
 
-      // Convert to percentage if needed
-      if (numType === "percent") {
-        clientNum *= 100;
-      }
-
-      clientArray.push(parseFloat(clientNum.toFixed(fixedNum)));
-    } 
-    // Case 3: We have peer data but no client data
-    else if (dataPeer) {
-      const dataArray = dataPeer[year];
-      
-      if (dataArray && Array.isArray(dataArray) && dataArray.length > 0) {
-        const numericArray = dataArray.map(val => typeof val === 'string' ? parseFloat(val) : Number(val));
-        
-        let avg = getAverageOfArray(numericArray);
-        let mid = getMidpointOfArray(numericArray, mainName);
-        let lower25 = get25thPercentileOfArray(numericArray, mainName);
-        let higher75 = get75thPercentileOfArray(numericArray, mainName);
-        
+        // Convert to percentage if needed, but handle annualizedInvestmentReturn specially
         if (numType === "percent") {
-          avg *= 100;
-          mid *= 100;
-          lower25 *= 100;
-          higher75 *= 100;
+          if (isAnnualizedInvestmentReturn) {
+            // For annualizedInvestmentReturn, we need to ensure the client data shows as percentage
+            clientNum *= 100;
+          } else {
+            // Normal percentage conversion
+            clientNum *= 100;
+          }
         }
-        
-        peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
-        peerMid.push(parseFloat(mid.toFixed(fixedNum)));
-        peer25.push(parseFloat(lower25.toFixed(fixedNum)));
-        peer75.push(parseFloat(higher75.toFixed(fixedNum)));
+
+        clientArray.push(clientNum);
       } else {
-        peerAvg.push(0);
-        peerMid.push(0);
-        peer25.push(0);
-        peer75.push(0);
+        clientArray.push(0);
       }
-      
-      clientArray.push(0);
-    } 
-    // Case 4: We have neither peer nor client data
-    else {
-      peerAvg.push(0);
-      peerMid.push(0);
-      peer25.push(0);
-      peer75.push(0);
-      clientArray.push(0);
     }
   });
 
-  // Create result object
-  const result = { 
-    clientArray, 
-    peerAvg, 
-    peerMid, 
-    peer25, 
-    peer75 
-  };
-  
-  // Cache the result
-  window.chartDataCache[cacheKey] = result;
-  
-  return result;
+  return { clientArray, peerAvg, peerMid, peer25, peer75 };
 }
 
 // Ensure function is available globally
@@ -2324,6 +2261,8 @@ function getSeriesData(
   ];
 }
 
+// Ensure functions are available globally
+window.getPeerAndClientChartDataArrays = getPeerAndClientChartDataArrays;
 window.getSeriesData = getSeriesData;
 
 function ensureModalsHaveRows() {

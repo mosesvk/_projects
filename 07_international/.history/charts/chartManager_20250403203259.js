@@ -207,9 +207,6 @@ class ChartManager {
       type: configType,
       name: mainName,
       weightedAverage, // Store weighted average setting
-      dataPeer, // Store data references
-      dataClient, 
-      parsedData
     };
 
     return chart;
@@ -689,78 +686,31 @@ class ChartManager {
     return this.charts[chartId]?.instance;
   }
 
+  // Update a chart's options
   updateChartOptions(chartId, newOptions) {
-    const chart = this.getChart(chartId);
-    if (chart) {
-      chart.updateOptions(newOptions);
-      this.charts[chartId].config = newOptions;
-      
-      // Add this new code to trigger modal updates
-      const chartInfo = this.charts[chartId];
-      if (chartInfo && chartInfo.name) {
-        const mainName = chartInfo.name;
-        
-        // Update corresponding modal if the function exists
-        if (typeof updateModal === "function") {
-          // Get the data from the options or retrieve it from localStorage
-          const dataPeer = newOptions.dataPeer || 
-            (chartInfo.dataPeer ? chartInfo.dataPeer : null);
-          const dataClient = newOptions.dataClient || 
-            (chartInfo.dataClient ? chartInfo.dataClient : null);
-          
-          // Get stored data if available
-          const category = this._getCategoryFromMainName(mainName);
-          let parsedData = newOptions.parsedData;
-          if (!parsedData && category) {
-            const storedData = localStorage.getItem(category);
-            if (storedData) {
-              parsedData = JSON.parse(storedData);
-            }
-          }
-          
-          // Update the modal with current data
-          if (dataPeer || dataClient) {
-            console.log(`Updating modal for ${mainName} after chart update`);
-            updateModal(mainName, dataPeer, dataClient, parsedData);
-          }
-        }
-      }
+    if (!this.chartInstances[chartId]) {
+      console.error(`Chart with ID "${chartId}" not found`);
+      return;
     }
-  }
-  
-  // Add this helper method to determine data category from chart name
-  _getCategoryFromMainName(mainName) {
-    // Map chart names to data categories
-    const categoryMappings = {
-      // Cash flow charts
-      'cashFlowsTrend': 'cashData',
-      'daysCashOnHand': 'cashData',
-      'daysExpensesInUnrestrictedNA': 'cashData',
-      'daysExpensesInUnrestrictedNA_excludingPPE': 'cashData',
-      'liquidityAssetsAvailableCover': 'cashData',
-      'totalCoverageRatio': 'cashData',
-      'assetsWithoutPpeToLiabilitiesWithoutDebt': 'cashData',
-      
-      // Income charts
-      'contributionsTrend': 'incomeData',
-      'annualizedInvestmentReturn': 'incomeData',
-      'totalContributions': 'incomeData',
-      'contributionsWithoutDR': 'incomeData',
-      
-      // Expense charts
-      'functionalExpensePercent_program': 'expenseData',
-      'functionalExpensePercent_administrative': 'expenseData',
-      'functionalExpensePercent_fundraising': 'expenseData',
-      'costOfContributions': 'expenseData',
-      'costOfContributionsDetailView': 'expenseData',
-      'functionalAllocation': 'expenseData',
-      
-      // General charts
-      'netAssetBreakdown': 'generalData',
-      'changeInNetAssets': 'generalData'
-    };
-    
-    return categoryMappings[mainName] || null;
+
+    this.chartConfigs[chartId] = newOptions;
+    this.chartInstances[chartId].updateOptions(newOptions);
+
+    // Get the mainName for this chart
+    const chartInfo = this.charts[chartId];
+    if (chartInfo && chartInfo.name) {
+      const mainName = chartInfo.name;
+
+      // Dispatch an event so modals can update
+      const event = new CustomEvent("chartOptionsApplied", {
+        detail: {
+          chartId,
+          mainName,
+          options: newOptions,
+        },
+      });
+      document.dispatchEvent(event);
+    }
   }
 
   // Destroy all charts (cleanup)
