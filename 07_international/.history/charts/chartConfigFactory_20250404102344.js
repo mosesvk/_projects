@@ -361,38 +361,44 @@ class ChartConfigFactory {
     let peer25 = chartData.peer25;
     let peer75 = chartData.peer75;
 
-    console.log("createMainChart", {
-      mainName,
-      chartData,
-      numType,
-      fixedNum,
-      clientArray,
-      peerAvg,
-    });
+
 
     if (numType === "percent" && !isAnnualizedInvestmentReturn) {
       // For annualizedInvestmentReturn we're already handling this elsewhere
       clientArray = clientArray.map((val) =>
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val
+        val !== null && val !== undefined ? val  : val
       );
       peerAvg = peerAvg.map((val) =>
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val
+        val !== null && val !== undefined ? val  : val
       );
       peerMid = peerMid.map((val) =>
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val
+        val !== null && val !== undefined ? val  : val
       );
       peer25 = peer25.map((val) =>
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val
+        val !== null && val !== undefined ? val  : val
       );
       peer75 = peer75.map((val) =>
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val
+        val !== null && val !== undefined ? val  : val
       );
     } else if (isAnnualizedInvestmentReturn) {
       // For annualizedInvestmentReturn, multiply client array by 100
       clientArray = clientArray.map((val) =>
         val !== null && val !== undefined ? parseFloat(val) * 100 : val
       );
-    }
+    } 
+
+
+    console.log("createMainChart", {
+      mainName,
+      chartData,
+      numType,
+      fixedNum,
+      clientArray,
+      peerAvg
+    });
+    
+
+
 
     // Create formatters based on number type
     const formatters = this._createFormatters(numType, mainName); // Pass mainName to formatters
@@ -473,7 +479,7 @@ class ChartConfigFactory {
       colors: this.themeColors.seriesColors,
       series: series,
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         stacked: false,
         toolbar: {
@@ -488,24 +494,14 @@ class ChartConfigFactory {
         enabledOnSeries: [0],
         offsetY: -20,
         formatter: function (value) {
-          // Special formatting for costOfContributions
+          // NEW: Special formatting for costOfContributions
           if (isCostOfContributions) {
             return `$${value.toFixed(2)}`;
           }
-
-          // Round numeric values to nearest integer when fixedNum is 0
-          if (numType === "number" && fixedNum === 0) {
-            return Math.round(value).toString(); // This will round 51.5567224361063 to "52"
-          } else if (value > 10000) {
+          if (value > 10000) {
             return formatters.formatLargeNumber(value);
           } else {
-            if (numType === "percent") {
-              // For percentages, round to the specified number of decimal places
-              return `${parseFloat(value).toFixed(fixedNum)}%`;
-            } else {
-              // For all other cases, apply the specified decimal places
-              return parseFloat(value).toFixed(fixedNum);
-            }
+            return styleNumber(value, numType, fixedNum)
           }
         },
         style: {
@@ -550,7 +546,6 @@ class ChartConfigFactory {
       },
       yaxis: [yaxisConfig], // NEW: Use our configurable yaxis
       tooltip: {
-        enabled: true,
         fixed: {
           enabled: true,
           position: "topLeft",
@@ -558,24 +553,19 @@ class ChartConfigFactory {
           offsetX: 60,
         },
         y: {
-          formatter: function (value) {
-        
-            // Special tooltip formatting for costOfContributions
+          formatter: function (value, { seriesIndex }) {
+            if (numType == 'num') console.log('createMainChartConfig-TOOLTIP', {
+              value, numType, fixedNum
+            });
+            
+            // NEW: Special tooltip formatting for costOfContributions
             if (isCostOfContributions) {
               return `$${value.toFixed(2)}`;
             }
-            
             if (value > 10000) {
-              return formatters.tooltipFormatter(value);
+              return formatters.formatLargeNumber(value);
             } else {
-              if (numType == "percent") {
-                return `${value.toFixed(fixedNum)}%`;
-              } else if (numType == "dollar") {
-                return styleNumber(value, "dollar", fixedNum);
-              } else {
-                // Handle the case for "number" type with values <= 10000
-                return styleNumber(value, "num", fixedNum);
-              }
+                return styleNumber(value, numType, fixedNum)
             }
           },
           title: {
@@ -725,7 +715,7 @@ class ChartConfigFactory {
       ],
       series: series,
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         toolbar: {
           show: false,
@@ -1030,7 +1020,7 @@ class ChartConfigFactory {
       series: chartSeries,
       chart: {
         type: "bar",
-        height: 550,
+        height: 400,
         padding: {
           bottom: 20,
         },
@@ -1270,7 +1260,7 @@ class ChartConfigFactory {
           },
         ],
         chart: {
-          height: 550,
+          height: 400,
           type: "bar",
           stacked: true,
           toolbar: {
@@ -1355,7 +1345,7 @@ class ChartConfigFactory {
       return {
         series: [],
         chart: {
-          height: 550,
+          height: 400,
           type: "bar",
           padding: {
             bottom: 20,
@@ -1486,6 +1476,11 @@ class ChartConfigFactory {
     const safeMinDollarValue = 0;
     const safeMaxDollarValue = calculateYAxisMax(allDollarValues);
 
+    console.log('createCostOfContributionsConfig', {
+      allDollarValues, safeMinDollarValue, safeMaxDollarValue
+    });
+    
+
     const allRatioValues = [
       ...costOfContributionsClient,
       ...costOfContributionsPeer,
@@ -1527,7 +1522,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         stacked: false,
         toolbar: {
@@ -1598,8 +1593,6 @@ class ChartConfigFactory {
         },
         {
           show: false,
-          min: safeMinDollarValue,
-          max: safeMaxDollarValue,
         },
         {
           labels: {
@@ -1618,8 +1611,6 @@ class ChartConfigFactory {
         },
         {
           show: false,
-          min: safeMinRatioValue,
-          max: safeMaxRatioValue,
         },
       ],
       tooltip: {
@@ -1744,7 +1735,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 550,
+        height: 400,
         type: "bar",
         toolbar: {
           show: false,

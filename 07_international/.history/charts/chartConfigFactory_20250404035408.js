@@ -67,7 +67,9 @@ class ChartConfigFactory {
     // Special case for annualizedInvestmentReturn
     const isAnnualizedInvestmentReturn =
       mainName === "annualizedInvestmentReturn";
-    const dataType = isAnnualizedInvestmentReturn ? "num" : numType || "num";
+    const dataType = isAnnualizedInvestmentReturn
+      ? "num"
+      : numType || "num";
 
     // Get the chart data - use the exact same data processing as the charts
     const chartData = getPeerAndClientChartDataArrays(
@@ -167,6 +169,7 @@ class ChartConfigFactory {
       // Format the valued
       let formattedValue;
       if (!isNaN(numValue) && typeof styleNumber === "function") {
+        
         const styleType = dataType == "number" ? "num" : dataType;
         // console.log({dataType, styleType});
         formattedValue = styleNumber(numValue, styleType, fixedNum);
@@ -209,6 +212,7 @@ class ChartConfigFactory {
     cell.className =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
 
+
     if (value !== undefined && value !== null) {
       // Get the numeric value
       const numValue = typeof value === "number" ? value : parseFloat(value);
@@ -224,6 +228,8 @@ class ChartConfigFactory {
       }
 
       // if (value != Math.floor)console.log("_addPeerDataCell()", { row, value, formattedValue, numValue, dataType, fixedNum });
+
+
 
       cell.textContent = formattedValue;
 
@@ -325,6 +331,8 @@ class ChartConfigFactory {
     //   }
     // }
 
+
+
     // Special case flags
     const isAnnualizedInvestmentReturn =
       mainName === "annualizedInvestmentReturn";
@@ -355,44 +363,47 @@ class ChartConfigFactory {
       wa,
     });
 
+    
+
     let clientArray = chartData.clientArray;
     let peerAvg = chartData.peerAvg;
     let peerMid = chartData.peerMid;
     let peer25 = chartData.peer25;
     let peer75 = chartData.peer75;
 
-    console.log("createMainChart", {
-      mainName,
-      chartData,
-      numType,
-      fixedNum,
-      clientArray,
-      peerAvg,
-    });
+    console.log('createMainChart', {chartData, numType, fixedNum, clientArray});
+
 
     if (numType === "percent" && !isAnnualizedInvestmentReturn) {
       // For annualizedInvestmentReturn we're already handling this elsewhere
-      clientArray = clientArray.map((val) =>
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val
-      );
-      peerAvg = peerAvg.map((val) =>
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val
-      );
-      peerMid = peerMid.map((val) =>
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val
-      );
-      peer25 = peer25.map((val) =>
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val
-      );
-      peer75 = peer75.map((val) =>
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val
-      );
+      clientArray = clientArray.map(val => 
+        val !== null && val !== undefined ? parseFloat(val) * 100 : val);
+      peerAvg = peerAvg.map(val => 
+        val !== null && val !== undefined ? parseFloat(val) * 100 : val);
+      peerMid = peerMid.map(val => 
+        val !== null && val !== undefined ? parseFloat(val) * 100 : val);
+      peer25 = peer25.map(val => 
+        val !== null && val !== undefined ? parseFloat(val) * 100 : val);
+      peer75 = peer75.map(val => 
+        val !== null && val !== undefined ? parseFloat(val) * 100 : val);
     } else if (isAnnualizedInvestmentReturn) {
       // For annualizedInvestmentReturn, multiply client array by 100
-      clientArray = clientArray.map((val) =>
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val
-      );
+      clientArray = clientArray.map(val => 
+        val !== null && val !== undefined ? parseFloat(val) * 100 : val);
     }
+
+    // if (mainName == 'daysCashOnHand')
+    //   console.log(
+    //     mainName,
+    //     clientArray,
+    //     peerAvg,
+    //     peerMid,
+    //     peer25,
+    //     peer75,
+    //     dataPeer,
+    //     fixedNum,
+    //     numType
+    //   );
 
     // Create formatters based on number type
     const formatters = this._createFormatters(numType, mainName); // Pass mainName to formatters
@@ -473,7 +484,7 @@ class ChartConfigFactory {
       colors: this.themeColors.seriesColors,
       series: series,
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         stacked: false,
         toolbar: {
@@ -488,25 +499,11 @@ class ChartConfigFactory {
         enabledOnSeries: [0],
         offsetY: -20,
         formatter: function (value) {
-          // Special formatting for costOfContributions
+          // NEW: Special formatting for costOfContributions
           if (isCostOfContributions) {
             return `$${value.toFixed(2)}`;
           }
-
-          // Round numeric values to nearest integer when fixedNum is 0
-          if (numType === "number" && fixedNum === 0) {
-            return Math.round(value).toString(); // This will round 51.5567224361063 to "52"
-          } else if (value > 10000) {
-            return formatters.formatLargeNumber(value);
-          } else {
-            if (numType === "percent") {
-              // For percentages, round to the specified number of decimal places
-              return `${parseFloat(value).toFixed(fixedNum)}%`;
-            } else {
-              // For all other cases, apply the specified decimal places
-              return parseFloat(value).toFixed(fixedNum);
-            }
-          }
+          if (value > 10000) return formatters.formatLargeNumber(value);
         },
         style: {
           fontSize: "14px",
@@ -550,7 +547,6 @@ class ChartConfigFactory {
       },
       yaxis: [yaxisConfig], // NEW: Use our configurable yaxis
       tooltip: {
-        enabled: true,
         fixed: {
           enabled: true,
           position: "topLeft",
@@ -558,25 +554,12 @@ class ChartConfigFactory {
           offsetX: 60,
         },
         y: {
-          formatter: function (value) {
-        
-            // Special tooltip formatting for costOfContributions
+          formatter: function (value, { seriesIndex }) {
+            // NEW: Special tooltip formatting for costOfContributions
             if (isCostOfContributions) {
               return `$${value.toFixed(2)}`;
             }
-            
-            if (value > 10000) {
-              return formatters.tooltipFormatter(value);
-            } else {
-              if (numType == "percent") {
-                return `${value.toFixed(fixedNum)}%`;
-              } else if (numType == "dollar") {
-                return styleNumber(value, "dollar", fixedNum);
-              } else {
-                // Handle the case for "number" type with values <= 10000
-                return styleNumber(value, "num", fixedNum);
-              }
-            }
+            return formatters.tooltipFormatter(value);
           },
           title: {
             formatter: (seriesName) => `${seriesName}:`,
@@ -725,7 +708,7 @@ class ChartConfigFactory {
       ],
       series: series,
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         toolbar: {
           show: false,
@@ -1030,7 +1013,7 @@ class ChartConfigFactory {
       series: chartSeries,
       chart: {
         type: "bar",
-        height: 550,
+        height: 400,
         padding: {
           bottom: 20,
         },
@@ -1054,8 +1037,8 @@ class ChartConfigFactory {
         categories: selectedYearsArray,
         labels: {
           style: {
-            colors: this.themeColors.chartColor,
-            fontSize: "1.25rem",
+            colors: this.themeColors.chartColors.labelColor,
+            fontSize: "1rem",
           },
         },
       },
@@ -1213,7 +1196,7 @@ class ChartConfigFactory {
           weightedAvg *= 100;
           programPeerAvg[index] = isNaN(weightedAvg)
             ? null
-            : Math.floor(weightedAvg);
+            : parseFloat(weightedAvg.toFixed(2));
 
           // console.log(
           //   `Using weighted average for ${year}: ${programPeerAvg[index]}%`
@@ -1230,12 +1213,12 @@ class ChartConfigFactory {
         }
       });
 
-      console.log("createFunctionalAllocationConfig", {
-        programClientArray,
-        adminClientArray,
-        fundraisingClientArray,
-        programPeerAvg,
-      });
+      // console.log({
+      //   programClientArray,
+      //   adminClientArray,
+      //   fundraisingClientArray,
+      //   programPeerAvg,
+      // });
 
       // Define series colors
       const seriesColors = [
@@ -1270,7 +1253,7 @@ class ChartConfigFactory {
           },
         ],
         chart: {
-          height: 550,
+          height: 400,
           type: "bar",
           stacked: true,
           toolbar: {
@@ -1355,7 +1338,7 @@ class ChartConfigFactory {
       return {
         series: [],
         chart: {
-          height: 550,
+          height: 400,
           type: "bar",
           padding: {
             bottom: 20,
@@ -1461,30 +1444,9 @@ class ChartConfigFactory {
       ...totalContributionsData,
     ].filter((v) => !isNaN(v) && v !== null);
 
-    // Custom function to determine a good max value without excessive rounding
-    const calculateYAxisMax = (values) => {
-      if (!values || values.length === 0) return 1000000;
-
-      const maxVal = Math.max(...values) * 1.2; // Add 20% headroom
-
-      // For values under 100,000, just return the exact calculation
-      if (maxVal < 100000) return maxVal;
-
-      // For larger values, find an appropriate increment that's not too large
-      if (maxVal < 500000) {
-        // Round to nearest 50,000
-        return Math.ceil(maxVal / 50000) * 50000;
-      } else if (maxVal < 1000000) {
-        // Round to nearest 100,000
-        return Math.ceil(maxVal / 100000) * 100000;
-      } else {
-        // For very large values, round to nearest 500,000
-        return Math.ceil(maxVal / 500000) * 500000;
-      }
-    };
-
     const safeMinDollarValue = 0;
-    const safeMaxDollarValue = calculateYAxisMax(allDollarValues);
+    const safeMaxDollarValue =
+      allDollarValues.length > 0 ? Math.max(...allDollarValues) * 1.5 : 1000000;
 
     const allRatioValues = [
       ...costOfContributionsClient,
@@ -1506,28 +1468,32 @@ class ChartConfigFactory {
       colors: seriesColors,
       series: [
         {
-          name: "Fundraising Expenses",
+          name: "Fundr. Exp.",
           type: "column",
           data: fundraisingExpensesData,
+          yAxisIndex: 0,
         },
         {
-          name: "Total Contributions",
+          name: "Total Contr.",
           type: "column",
           data: totalContributionsData,
+          yAxisIndex: 0,
         },
         {
-          name: firmName,
+          name: "Client",
           type: "line",
           data: costOfContributionsClient,
+          yAxisIndex: 1,
         },
         {
-          name: "Peer Average",
+          name: "Peer Avg",
           type: "line",
           data: costOfContributionsPeer,
+          yAxisIndex: 1,
         },
       ],
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         stacked: false,
         toolbar: {
@@ -1597,11 +1563,6 @@ class ChartConfigFactory {
           tickAmount: 5,
         },
         {
-          show: false,
-          min: safeMinDollarValue,
-          max: safeMaxDollarValue,
-        },
-        {
           labels: {
             formatter: function (value) {
               return formatRatio(value);
@@ -1615,11 +1576,6 @@ class ChartConfigFactory {
           min: safeMinRatioValue,
           max: safeMaxRatioValue,
           tickAmount: 5,
-        },
-        {
-          show: false,
-          min: safeMinRatioValue,
-          max: safeMaxRatioValue,
         },
       ],
       tooltip: {
@@ -1744,7 +1700,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 550,
+        height: 400,
         type: "bar",
         toolbar: {
           show: false,
@@ -1809,8 +1765,8 @@ class ChartConfigFactory {
         categories: selectedYearsArray,
         labels: {
           style: {
-            colors: this.themeColors.chartColor,
-            fontSize: "1.25rem",
+            colors: this.themeColors.chartColors.labelColor,
+            fontSize: "1rem",
           },
         },
       },
@@ -1902,10 +1858,10 @@ class ChartConfigFactory {
         }
 
         // Use the custom rounding helper with isYAxis=false
-        if (value > 10000) {
+        if (value > 10000){
           return self._roundValueByMagnitude(value, numType, false);
         } else {
-          return value;
+          return value 
         }
       },
     };

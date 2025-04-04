@@ -473,7 +473,7 @@ class ChartConfigFactory {
       colors: this.themeColors.seriesColors,
       series: series,
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         stacked: false,
         toolbar: {
@@ -559,6 +559,12 @@ class ChartConfigFactory {
         },
         y: {
           formatter: function (value) {
+            if (numType == "number")
+              console.log("createMainChartConfig-TOOLTIP", {
+                value,
+                numType,
+                fixedNum,
+              });
         
             // Special tooltip formatting for costOfContributions
             if (isCostOfContributions) {
@@ -569,7 +575,7 @@ class ChartConfigFactory {
               return formatters.tooltipFormatter(value);
             } else {
               if (numType == "percent") {
-                return `${value.toFixed(fixedNum)}%`;
+                return styleNumber(value, "percent", fixedNum);
               } else if (numType == "dollar") {
                 return styleNumber(value, "dollar", fixedNum);
               } else {
@@ -725,7 +731,7 @@ class ChartConfigFactory {
       ],
       series: series,
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         toolbar: {
           show: false,
@@ -1030,7 +1036,7 @@ class ChartConfigFactory {
       series: chartSeries,
       chart: {
         type: "bar",
-        height: 550,
+        height: 400,
         padding: {
           bottom: 20,
         },
@@ -1270,7 +1276,7 @@ class ChartConfigFactory {
           },
         ],
         chart: {
-          height: 550,
+          height: 400,
           type: "bar",
           stacked: true,
           toolbar: {
@@ -1355,7 +1361,7 @@ class ChartConfigFactory {
       return {
         series: [],
         chart: {
-          height: 550,
+          height: 400,
           type: "bar",
           padding: {
             bottom: 20,
@@ -1486,6 +1492,12 @@ class ChartConfigFactory {
     const safeMinDollarValue = 0;
     const safeMaxDollarValue = calculateYAxisMax(allDollarValues);
 
+    console.log("createCostOfContributionsConfig", {
+      allDollarValues,
+      safeMinDollarValue,
+      safeMaxDollarValue,
+    });
+
     const allRatioValues = [
       ...costOfContributionsClient,
       ...costOfContributionsPeer,
@@ -1527,7 +1539,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         stacked: false,
         toolbar: {
@@ -1598,8 +1610,6 @@ class ChartConfigFactory {
         },
         {
           show: false,
-          min: safeMinDollarValue,
-          max: safeMaxDollarValue,
         },
         {
           labels: {
@@ -1618,8 +1628,6 @@ class ChartConfigFactory {
         },
         {
           show: false,
-          min: safeMinRatioValue,
-          max: safeMaxRatioValue,
         },
       ],
       tooltip: {
@@ -1744,7 +1752,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 550,
+        height: 400,
         type: "bar",
         toolbar: {
           show: false,

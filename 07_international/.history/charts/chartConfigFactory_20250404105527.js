@@ -473,7 +473,7 @@ class ChartConfigFactory {
       colors: this.themeColors.seriesColors,
       series: series,
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         stacked: false,
         toolbar: {
@@ -725,7 +725,7 @@ class ChartConfigFactory {
       ],
       series: series,
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         toolbar: {
           show: false,
@@ -1030,7 +1030,7 @@ class ChartConfigFactory {
       series: chartSeries,
       chart: {
         type: "bar",
-        height: 550,
+        height: 400,
         padding: {
           bottom: 20,
         },
@@ -1270,7 +1270,7 @@ class ChartConfigFactory {
           },
         ],
         chart: {
-          height: 550,
+          height: 400,
           type: "bar",
           stacked: true,
           toolbar: {
@@ -1355,7 +1355,7 @@ class ChartConfigFactory {
       return {
         series: [],
         chart: {
-          height: 550,
+          height: 400,
           type: "bar",
           padding: {
             bottom: 20,
@@ -1527,7 +1527,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         stacked: false,
         toolbar: {
@@ -1744,7 +1744,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 550,
+        height: 400,
         type: "bar",
         toolbar: {
           show: false,

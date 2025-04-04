@@ -473,7 +473,7 @@ class ChartConfigFactory {
       colors: this.themeColors.seriesColors,
       series: series,
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         stacked: false,
         toolbar: {
@@ -725,7 +725,7 @@ class ChartConfigFactory {
       ],
       series: series,
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         toolbar: {
           show: false,
@@ -1030,7 +1030,7 @@ class ChartConfigFactory {
       series: chartSeries,
       chart: {
         type: "bar",
-        height: 550,
+        height: 400,
         padding: {
           bottom: 20,
         },
@@ -1270,7 +1270,7 @@ class ChartConfigFactory {
           },
         ],
         chart: {
-          height: 550,
+          height: 400,
           type: "bar",
           stacked: true,
           toolbar: {
@@ -1355,7 +1355,7 @@ class ChartConfigFactory {
       return {
         series: [],
         chart: {
-          height: 550,
+          height: 400,
           type: "bar",
           padding: {
             bottom: 20,
@@ -1527,7 +1527,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 550,
+        height: 400,
         type: "line",
         stacked: false,
         toolbar: {
@@ -1594,12 +1594,9 @@ class ChartConfigFactory {
           },
           min: safeMinDollarValue,
           max: safeMaxDollarValue,
-          tickAmount: 5,
         },
         {
           show: false,
-          min: safeMinDollarValue,
-          max: safeMaxDollarValue,
         },
         {
           labels: {
@@ -1614,12 +1611,9 @@ class ChartConfigFactory {
           opposite: true,
           min: safeMinRatioValue,
           max: safeMaxRatioValue,
-          tickAmount: 5,
         },
         {
           show: false,
-          min: safeMinRatioValue,
-          max: safeMaxRatioValue,
         },
       ],
       tooltip: {
@@ -1744,7 +1738,7 @@ class ChartConfigFactory {
         },
       ],
       chart: {
-        height: 550,
+        height: 400,
         type: "bar",
         toolbar: {
           show: false,

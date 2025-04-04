@@ -142,7 +142,7 @@ const ChartDisplayComponents = {
         "assetsWithoutPpeToLiabilitiesWithoutDebt_Peer",
         "assetsWithoutPpeToLiabilitiesWithoutDebt_Client",
         "number",
-        1,
+        ,
         "assetsWithoutPpeToLiabilitiesWithoutDebt",
         "wa", // Add weighted average
         1,
