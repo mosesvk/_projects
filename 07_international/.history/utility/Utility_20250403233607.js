@@ -1,5 +1,4 @@
 let clientDataStore = {}; // Global store for client data
-const testName = 'daysCashOnHand'
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const areas_Array = [
@@ -486,18 +485,7 @@ function updateModal(
   fixedNum,
   wa
 ) {
-
-  if (mainName == testName) {
-    console.log({
-      peerData,
-      clientData,
-      parsedData,
-      type,
-      fixedNum,
-      wa
-    });
-    
-  }
+  // console.log(`Updating modal for ${mainName}`, { peerData, clientData });
 
   // Get the selected years from local storage
   const selectedYears = getSelectedYearsFromLocalStorage();
@@ -1556,10 +1544,6 @@ function addPeerDataToModalRow(
   dataType,
   fixedNum
 ) {
-  // console.log({
-  //   row, avgValue, dataType, fixedNum
-  // });
-  
   // Create and add the average value cell
   const avgCell = createPeerDataCell(row, avgValue, dataType, fixedNum);
 
@@ -2236,6 +2220,7 @@ function getPeerAndClientChartDataArrays(
   forceRefresh = false,
   parsedData
 ) {
+  const testName = "contributionsWithoutDR";
 
   // Cache key based on parameters
   const cacheKey = `${mainName}_${years.join(
@@ -2295,13 +2280,13 @@ function getPeerAndClientChartDataArrays(
       // Get peer data array
       const dataArray = parsedData[dataPeer];
 
-      // if (mainName == testName)
-      //   console.log({
-      //     peerData: parsedData[dataPeer],
-      //     dataArray,
-      //     peerClient: parseStoredData[dataClient],
-      //     parsedData,
-      //   });
+      if (mainName == testName)
+        console.log({
+          peerData: parsedData[dataPeer],
+          dataArray,
+          peerClient: parseStoredData[dataClient],
+          parsedData,
+        });
 
       // Handle missing data
       if (!dataArray || dataArray.length === 0) {
@@ -2384,13 +2369,14 @@ function getPeerAndClientChartDataArrays(
       }
 
       if (mainName == testName) {
-          // console.log({
-          //   avg,
-          //   mid,
-          //   lower25,
-          //   higher75,
-          //   clientNum,
-          // });
+        testName,
+          console.log({
+            avg,
+            mid,
+            lower25,
+            higher75,
+            clientNum,
+          });
       }
 
       // Format values with consistent precision and add to result arrays

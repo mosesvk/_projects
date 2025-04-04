@@ -1,5 +1,4 @@
 let clientDataStore = {}; // Global store for client data
-const testName = 'daysCashOnHand'
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const areas_Array = [
@@ -244,8 +243,8 @@ const getMainChartOptions = (
   title
 ) => {
   // Use chartConfigFactory to generate chart options
-  if (typeof chartConfigFactory !== "undefined") {
-    return chartConfigFactory.createConfig("main", {
+  if (typeof chartConfigFactory !== 'undefined') {
+    return chartConfigFactory.createConfig('main', {
       dataPeer,
       dataClient,
       numType,
@@ -254,10 +253,10 @@ const getMainChartOptions = (
       wa,
       parsedData,
       benchmark,
-      title,
+      title
     });
   } else {
-    console.error("chartConfigFactory is not defined");
+    console.error('chartConfigFactory is not defined');
     return {}; // Return empty options as fallback
   }
 };
@@ -275,8 +274,8 @@ const getLineChartOptions = (
   title
 ) => {
   // Use chartConfigFactory to generate line chart options
-  if (typeof chartConfigFactory !== "undefined") {
-    return chartConfigFactory.createConfig("line", {
+  if (typeof chartConfigFactory !== 'undefined') {
+    return chartConfigFactory.createConfig('line', {
       dataPeer,
       dataClient,
       numType,
@@ -285,10 +284,10 @@ const getLineChartOptions = (
       wa,
       parsedData,
       benchmark,
-      title,
+      title
     });
   } else {
-    console.error("chartConfigFactory is not defined");
+    console.error('chartConfigFactory is not defined');
     return {}; // Return empty options as fallback
   }
 };
@@ -304,18 +303,18 @@ const getFunctionalAllocationChartOptions = (
   parsedData
 ) => {
   // Use chartConfigFactory to generate functional allocation chart options
-  if (typeof chartConfigFactory !== "undefined") {
-    return chartConfigFactory.createConfig("functionalAllocation", {
+  if (typeof chartConfigFactory !== 'undefined') {
+    return chartConfigFactory.createConfig('functionalAllocation', {
       dataPeer,
       dataClient,
       numType,
       fixedNum,
       mainName,
       wa,
-      parsedData,
+      parsedData
     });
   } else {
-    console.error("chartConfigFactory is not defined");
+    console.error('chartConfigFactory is not defined');
     return {}; // Return empty options as fallback
   }
 };
@@ -331,18 +330,18 @@ const getCostOfContributionsDetailViewOptions = (
   parsedData
 ) => {
   // Use chartConfigFactory to generate cost of contributions chart options
-  if (typeof chartConfigFactory !== "undefined") {
-    return chartConfigFactory.createConfig("costOfContributions", {
+  if (typeof chartConfigFactory !== 'undefined') {
+    return chartConfigFactory.createConfig('costOfContributions', {
       dataPeer,
       dataClient,
       numType,
       fixedNum,
       mainName,
       wa,
-      parsedData,
+      parsedData
     });
   } else {
-    console.error("chartConfigFactory is not defined");
+    console.error('chartConfigFactory is not defined');
     return {}; // Return empty options as fallback
   }
 };
@@ -358,18 +357,18 @@ const getNetAssetBreakdownOptions = (
   parsedData
 ) => {
   // Use chartConfigFactory to generate net asset breakdown chart options
-  if (typeof chartConfigFactory !== "undefined") {
-    return chartConfigFactory.createConfig("netAssetBreakdown", {
+  if (typeof chartConfigFactory !== 'undefined') {
+    return chartConfigFactory.createConfig('netAssetBreakdown', {
       dataPeer,
       dataClient,
       numType,
       fixedNum,
       mainName,
       wa,
-      parsedData,
+      parsedData
     });
   } else {
-    console.error("chartConfigFactory is not defined");
+    console.error('chartConfigFactory is not defined');
     return {}; // Return empty options as fallback
   }
 };
@@ -389,10 +388,7 @@ const createChartFromParsedData = (
 ) => {
   if (parsedData) {
     // Use chartManager instead of direct function calls
-    if (
-      typeof chartManager !== "undefined" &&
-      chartManager.createChartFromParsedData
-    ) {
+    if (typeof chartManager !== 'undefined' && chartManager.createChartFromParsedData) {
       chartManager.createChartFromParsedData(
         parsedData,
         chart,
@@ -407,19 +403,9 @@ const createChartFromParsedData = (
         chartType
       );
     } else {
-      console.error(
-        "chartManager is not defined or missing createChartFromParsedData method"
-      );
+      console.error('chartManager is not defined or missing createChartFromParsedData method');
       // Fallback to old approach if needed
-      updateModal(
-        mainName,
-        parsedData[peer],
-        parsedData[client],
-        parsedData,
-        type,
-        fixedNum,
-        wa
-      );
+      updateModal(mainName, parsedData[peer], parsedData[client], parsedData, type, fixedNum, wa);
       createChart(
         chart,
         parsedData[peer],
@@ -455,9 +441,9 @@ const createChart = (
 
   // Store chart ID in the dataUrLObj mapping
   dataUrLObj[mainName] = chartId;
-
+  
   // Use the chartManager instance to create the chart
-  if (typeof chartManager !== "undefined" && chartManager.createChart) {
+  if (typeof chartManager !== 'undefined' && chartManager.createChart) {
     return chartManager.createChart(
       chartId,
       dataPeer,
@@ -472,32 +458,13 @@ const createChart = (
       chartType
     );
   } else {
-    console.error("chartManager is not defined or missing createChart method");
+    console.error('chartManager is not defined or missing createChart method');
     return null;
   }
 };
 
-function updateModal(
-  mainName,
-  peerData,
-  clientData,
-  parsedData,
-  type,
-  fixedNum,
-  wa
-) {
-
-  if (mainName == testName) {
-    console.log({
-      peerData,
-      clientData,
-      parsedData,
-      type,
-      fixedNum,
-      wa
-    });
-    
-  }
+function updateModal(mainName, peerData, clientData, parsedData, type, fixedNum, wa) {
+  // console.log(`Updating modal for ${mainName}`, { peerData, clientData });
 
   // Get the selected years from local storage
   const selectedYears = getSelectedYearsFromLocalStorage();
@@ -534,28 +501,10 @@ function updateModal(
   }
 
   // Clear and populate the modal content
-  populateModalContent(
-    headerRow,
-    selectedYears,
-    clientData,
-    peerData,
-    parsedData,
-    type,
-    fixedNum,
-    wa
-  );
+  populateModalContent(headerRow, selectedYears, clientData, peerData, parsedData, type, fixedNum, wa);
 }
 
-function populateModalContent(
-  headerRow,
-  selectedYears,
-  clientData,
-  peerData,
-  parsedData,
-  type,
-  fixedNum,
-  wa
-) {
+function populateModalContent(headerRow, selectedYears, clientData, peerData) {
   let tableHead = headerRow.parentElement;
 
   // Clear existing rows after the headerRow
@@ -571,151 +520,34 @@ function populateModalContent(
   // Add columns (year, client, avg, 25%, 50%, 75%)
   addModalColumns(headerRow);
 
-  // Get the main name from the header row ID
-  const mainName = headerRow.id.replace("_row", "");
-
-  // Special case flag for annualizedInvestmentReturn chart
-  const isAnnualizedInvestmentReturn =
-    mainName === "annualizedInvestmentReturn";
-
-  // Process data type appropriately
-  const dataProcessingType = isAnnualizedInvestmentReturn
-    ? "number"
-    : type || "number";
-
   // Add data rows for each year
   selectedYears.forEach((year) => {
-    const yearRow = createYearRow(mainName, year);
+    const yearRow = createYearRow(headerRow.id.replace("_row", ""), year);
     tableHead.appendChild(yearRow);
 
     // Now add client data to this row if available
     if (clientData && clientData[year]) {
-      // Format client data according to the data type
-      addClientDataToModalRow(
-        yearRow,
-        clientData[year].value,
-        dataProcessingType,
-        fixedNum || 2
-      );
-    } else {
-      // Add empty cell if no client data
-      addEmptyCell(yearRow);
+      addClientDataToModalRow(yearRow, clientData[year].value, "number", 2);
     }
 
     // Add peer data if available
     if (peerData && peerData[year]) {
-      // If we're using weighted average and the function exists
-      if (
-        wa === "wa" &&
-        typeof getWeightedAverageOfArray === "function" &&
-        parsedData
-      ) {
-        try {
-          // Calculate weighted average for this specific chart and year
-          const weightedAvg = getWeightedAverageOfArray(
-            parsedData,
-            mainName,
-            year
-          );
+      const peerValues = peerData[year];
+      // Calculate peer stats
+      const peerAvg = Array.isArray(peerValues)
+        ? getAverageOfArray(peerValues)
+        : 0;
+      const peerMid = Array.isArray(peerValues)
+        ? getMidpointOfArray(peerValues)
+        : 0;
+      const peer25 = Array.isArray(peerValues)
+        ? get25thPercentileOfArray(peerValues)
+        : 0;
+      const peer75 = Array.isArray(peerValues)
+        ? get75thPercentileOfArray(peerValues)
+        : 0;
 
-          // For other percentiles, use regular calculations
-          const peerValues = peerData[year];
-          const peerMid = Array.isArray(peerValues)
-            ? getMidpointOfArray(peerValues, mainName)
-            : 0;
-          const peer25 = Array.isArray(peerValues)
-            ? get25thPercentileOfArray(peerValues, mainName)
-            : 0;
-          const peer75 = Array.isArray(peerValues)
-            ? get75thPercentileOfArray(peerValues, mainName)
-            : 0;
-
-          // For percentage type, multiply values by 100 (except for annualizedInvestmentReturn which is already handled)
-          let multiplier =
-            dataProcessingType === "percent" && !isAnnualizedInvestmentReturn
-              ? 100
-              : 1;
-
-          // Add the peer data to the row with appropriate formatting
-          addPeerDataToModalRow(
-            yearRow,
-            weightedAvg * multiplier,
-            peerMid * multiplier,
-            peer25 * multiplier,
-            peer75 * multiplier,
-            dataProcessingType,
-            fixedNum
-          );
-        } catch (error) {
-          console.error(
-            `Error calculating weighted average for ${mainName}:`,
-            error
-          );
-
-          // Fall back to regular statistics
-          const peerValues = peerData[year];
-          const peerAvg = Array.isArray(peerValues)
-            ? getAverageOfArray(peerValues)
-            : 0;
-          const peerMid = Array.isArray(peerValues)
-            ? getMidpointOfArray(peerValues, mainName)
-            : 0;
-          const peer25 = Array.isArray(peerValues)
-            ? get25thPercentileOfArray(peerValues, mainName)
-            : 0;
-          const peer75 = Array.isArray(peerValues)
-            ? get75thPercentileOfArray(peerValues, mainName)
-            : 0;
-
-          // Add the peer data to the row
-          addPeerDataToModalRow(
-            yearRow,
-            peerAvg,
-            peerMid,
-            peer25,
-            peer75,
-            dataProcessingType,
-            fixedNum
-          );
-        }
-      } else {
-        // Use regular statistics without weighted average
-        const peerValues = peerData[year];
-        const peerAvg = Array.isArray(peerValues)
-          ? getAverageOfArray(peerValues)
-          : 0;
-        const peerMid = Array.isArray(peerValues)
-          ? getMidpointOfArray(peerValues, mainName)
-          : 0;
-        const peer25 = Array.isArray(peerValues)
-          ? get25thPercentileOfArray(peerValues, mainName)
-          : 0;
-        const peer75 = Array.isArray(peerValues)
-          ? get75thPercentileOfArray(peerValues, mainName)
-          : 0;
-
-        // For percentage type, multiply values by 100
-        let multiplier =
-          dataProcessingType === "percent" && !isAnnualizedInvestmentReturn
-            ? 100
-            : 1;
-
-        // Add the peer data to the row
-        addPeerDataToModalRow(
-          yearRow,
-          peerAvg * multiplier,
-          peerMid * multiplier,
-          peer25 * multiplier,
-          peer75 * multiplier,
-          dataProcessingType,
-          fixedNum
-        );
-      }
-    } else {
-      // Add empty cells for peer data if none available
-      for (let i = 0; i < 4; i++) {
-        addEmptyCell(yearRow);
-      }
+      addPeerDataToModalRow(yearRow, peerAvg, peerMid, peer25, peer75);
     }
   });
 }
@@ -1116,6 +948,7 @@ function calculatePercentiles(arr, type, fixed) {
     return [0, 0, 0]; // Return default values if calculation fails
   }
 }
+
 
 function sortSet(set) {
   const sortedArray = Array.from(set).sort();
@@ -1547,68 +1380,52 @@ function updateSelectAllCheckboxState() {
   selectAllCheckbox.checked = allChecked;
   selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
 }
+
 function addPeerDataToModalRow(
-  row,
+  yearRow,
   avgValue,
   midValue,
   p25Value,
-  p75Value,
-  dataType,
-  fixedNum
+  p75Value
 ) {
-  // console.log({
-  //   row, avgValue, dataType, fixedNum
+  // console.log(`Adding peer data to row: ${yearRow.id}`, {
+  //   avgValue,
+  //   midValue,
+  //   p25Value,
+  //   p75Value,
   // });
-  
-  // Create and add the average value cell
-  const avgCell = createPeerDataCell(row, avgValue, dataType, fixedNum);
 
-  // Create and add the 25th percentile cell
-  const p25Cell = createPeerDataCell(row, p25Value, dataType, fixedNum);
-
-  // Create and add the median cell
-  const midCell = createPeerDataCell(row, midValue, dataType, fixedNum);
-
-  // Create and add the 75th percentile cell
-  const p75Cell = createPeerDataCell(row, p75Value, dataType, fixedNum);
-}
-
-// Helper to create a data cell for peer data with appropriate formatting
-function createPeerDataCell(row, value, dataType, fixedNum) {
-  const cell = document.createElement("td");
-  cell.className =
+  // Add average value cell
+  const avgCell = document.createElement("td");
+  avgCell.className =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  avgCell.textContent =
+    avgValue !== undefined && avgValue !== null ? avgValue.toFixed(2) : "-";
+  yearRow.appendChild(avgCell);
 
-  if (value !== undefined && value !== null) {
-    // Make sure value is a number before formatting
-    const numValue = parseFloat(value);
+  // Add 25th percentile cell
+  const p25Cell = document.createElement("td");
+  p25Cell.className =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  p25Cell.textContent =
+    p25Value !== undefined && p25Value !== null ? p25Value.toFixed(2) : "-";
+  yearRow.appendChild(p25Cell);
 
-    // Format the value based on type using styleNumber
-    let formattedValue;
-    if (!isNaN(numValue) && typeof styleNumber === "function") {
-      // Force the type parameter to match expected format in styleNumber
-      let typeParam = dataType;
-      if (dataType === "number") typeParam = "num"; // Convert "number" to "num" for styleNumber
+  // Add median cell
+  const midCell = document.createElement("td");
+  midCell.className =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  midCell.textContent =
+    midValue !== undefined && midValue !== null ? midValue.toFixed(2) : "-";
+  yearRow.appendChild(midCell);
 
-      formattedValue = styleNumber(numValue, typeParam, fixedNum);
-    } else {
-      // Fallback if value is not a number or styleNumber is not available
-      formattedValue = value.toFixed(fixedNum || 2);
-    }
-
-    cell.textContent = formattedValue;
-
-    // Apply color formatting for negative values
-    if (numValue < 0) {
-      cell.classList.remove("text-gray-900", "dark:text-white");
-      cell.classList.add("text-red-500", "dark:text-red-400");
-    }
-  } else {
-    cell.textContent = "-";
-  }
-
-  row.appendChild(cell);
-  return cell;
+  // Add 75th percentile cell
+  const p75Cell = document.createElement("td");
+  p75Cell.className =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  p75Cell.textContent =
+    p75Value !== undefined && p75Value !== null ? p75Value.toFixed(2) : "-";
+  yearRow.appendChild(p75Cell);
 }
 
 const styleNumber = (num, type, fixed, name) => {
@@ -2214,7 +2031,7 @@ window.registerChartEventListeners = function () {
 
 /**
  * Extracts peer and client data arrays from the parsed data with improved consistency
- *
+ * 
  * @param {Array} years - Array of selected years
  * @param {Object} dataPeer - Peer data object
  * @param {Object} dataClient - Client data object
@@ -2237,34 +2054,29 @@ function getPeerAndClientChartDataArrays(
   parsedData
 ) {
 
+  const testName = 'contributionsWithoutDR'
+
   // Cache key based on parameters
-  const cacheKey = `${mainName}_${years.join(
-    "_"
-  )}_${numType}_${wa}_${fixedNum}`;
+  const cacheKey = `${mainName}_${years.join('_')}_${numType}_${wa}_${fixedNum}`;
 
-  if (mainName == testName)
-    console.log("getPeerAndClientChartDataArrays", {
-      dataPeer,
-      dataClient,
-      parsedData,
-      cacheKey,
-    });
-
+  if (mainName == testName) console.log('getPeerAndClientChartDataArrays', {
+    dataPeer, 
+    dataClient,
+    parsedData,
+    cacheKey
+  });
+  
   // Use cached result if available and not forcing refresh
-  if (
-    !forceRefresh &&
-    window.chartDataCache &&
-    window.chartDataCache[cacheKey]
-  ) {
+  if (!forceRefresh && window.chartDataCache && window.chartDataCache[cacheKey]) {
     console.log(`Using cached chart data for ${mainName}`);
     return window.chartDataCache[cacheKey];
   }
-
+  
   // Initialize window.chartDataCache if it doesn't exist
   if (!window.chartDataCache) {
     window.chartDataCache = {};
   }
-
+  
   // Initialize arrays
   const peerAvg = [];
   const peerMid = [];
@@ -2273,9 +2085,8 @@ function getPeerAndClientChartDataArrays(
   const clientArray = [];
 
   // Special flag for annualizedInvestmentReturn to avoid double percentage conversion
-  const isAnnualizedInvestmentReturn =
-    mainName === "annualizedInvestmentReturn";
-
+  const isAnnualizedInvestmentReturn = mainName === "annualizedInvestmentReturn";
+  
   // Log data for debugging
   if (mainName == testName) {
     console.log(`Processing chart data for ${mainName}:`, {
@@ -2283,10 +2094,11 @@ function getPeerAndClientChartDataArrays(
       peerData: parsedData[dataPeer],
       clientData: parsedData[dataClient],
       numType,
-      wa,
-      parsedData,
+      wa, 
+      parsedData
     });
   }
+  
 
   // Process each year
   years.forEach((year) => {
@@ -2295,13 +2107,13 @@ function getPeerAndClientChartDataArrays(
       // Get peer data array
       const dataArray = parsedData[dataPeer];
 
-      // if (mainName == testName)
-      //   console.log({
-      //     peerData: parsedData[dataPeer],
-      //     dataArray,
-      //     peerClient: parseStoredData[dataClient],
-      //     parsedData,
-      //   });
+      if (mainName == testName) 
+        console.log({
+          peerData: parsedData[dataPeer], 
+          dataArray, 
+          peerClient: parseStoredData[dataClient],
+          parsedData
+        })
 
       // Handle missing data
       if (!dataArray || dataArray.length === 0) {
@@ -2312,9 +2124,7 @@ function getPeerAndClientChartDataArrays(
         peer75.push(0);
 
         // Get client data
-        let clientNum = parsedData[dataClient][year]?.value
-          ? Number(parsedData[dataClient][year].value)
-          : 0;
+        let clientNum = parsedData[dataClient][year]?.value ? Number(parsedData[dataClient][year].value) : 0;
 
         // Convert to percentage if needed
         if (numType === "percent" && !isAnnualizedInvestmentReturn) {
@@ -2329,31 +2139,23 @@ function getPeerAndClientChartDataArrays(
       let avg, mid, lower25, higher75;
 
       // Ensure we're working with numeric arrays
-      const numericArray = dataArray[year].map((val) =>
-        typeof val === "string" ? parseFloat(val) : Number(val)
-      );
-
+      const numericArray = dataArray[year].map(val => typeof val === 'string' ? parseFloat(val) : Number(val));
+      
       // Use weighted average if requested
-      if (
-        wa === "wa" &&
-        typeof window.getWeightedAverageOfArray === "function"
-      ) {
+      if (wa === "wa" && typeof window.getWeightedAverageOfArray === "function") {
         try {
           // Calculate weighted average with year parameter
           avg = window.getWeightedAverageOfArray(parsedData, mainName, year);
-
+          
           // For other percentiles, use regular calculations
           mid = getMidpointOfArray(numericArray, mainName);
           lower25 = get25thPercentileOfArray(numericArray, mainName);
           higher75 = get75thPercentileOfArray(numericArray, mainName);
-
+          
           // Log successful weighted average calculation
           // console.log(`Used weighted average for ${mainName}, year ${year}: ${avg}`);
         } catch (error) {
-          console.error(
-            `Error calculating weighted average for ${mainName}:`,
-            error
-          );
+          console.error(`Error calculating weighted average for ${mainName}:`, error);
           // Fall back to regular statistics
           avg = getAverageOfArray(numericArray);
           mid = getMidpointOfArray(numericArray, mainName);
@@ -2369,9 +2171,7 @@ function getPeerAndClientChartDataArrays(
       }
 
       // Get client value
-      let clientNum = parsedData[dataClient][year]?.value
-        ? Number(parsedData[dataClient][year].value)
-        : 0;
+      let clientNum = parsedData[dataClient][year]?.value ? Number(parsedData[dataClient][year].value) : 0;
 
       // Convert to percentage if needed, but handle special cases
       if (numType === "percent") {
@@ -2384,13 +2184,15 @@ function getPeerAndClientChartDataArrays(
       }
 
       if (mainName == testName) {
-          // console.log({
-          //   avg,
-          //   mid,
-          //   lower25,
-          //   higher75,
-          //   clientNum,
-          // });
+        testName, 
+        console.log({
+          avg, 
+          mid, 
+          lower25, 
+          higher75,
+          clientNum
+        });
+        
       }
 
       // Format values with consistent precision and add to result arrays
@@ -2399,7 +2201,7 @@ function getPeerAndClientChartDataArrays(
       peer25.push(parseFloat(lower25.toFixed(fixedNum)));
       peer75.push(parseFloat(higher75.toFixed(fixedNum)));
       clientArray.push(parseFloat(clientNum.toFixed(fixedNum)));
-    }
+    } 
     // Case 2: We have client data but no peer data
     else if (parsedData[dataClient]) {
       peerAvg.push(0);
@@ -2407,9 +2209,7 @@ function getPeerAndClientChartDataArrays(
       peer25.push(0);
       peer75.push(0);
 
-      let clientNum = parsedData[dataClient][year]?.value
-        ? Number(parsedData[dataClient][year].value)
-        : 0;
+      let clientNum = parsedData[dataClient][year]?.value ? Number(parsedData[dataClient][year].value) : 0;
 
       // Convert to percentage if needed
       if (numType === "percent") {
@@ -2417,28 +2217,27 @@ function getPeerAndClientChartDataArrays(
       }
 
       clientArray.push(parseFloat(clientNum.toFixed(fixedNum)));
-    }
+    } 
     // Case 3: We have peer data but no client data
     else if (parsedData[dataPeer]) {
+      
       const dataArray = parsedData[dataPeer][year];
-
+      
       if (dataArray && Array.isArray(dataArray) && dataArray.length > 0) {
-        const numericArray = dataArray.map((val) =>
-          typeof val === "string" ? parseFloat(val) : Number(val)
-        );
-
+        const numericArray = dataArray.map(val => typeof val === 'string' ? parseFloat(val) : Number(val));
+        
         let avg = getAverageOfArray(numericArray);
         let mid = getMidpointOfArray(numericArray, mainName);
         let lower25 = get25thPercentileOfArray(numericArray, mainName);
         let higher75 = get75thPercentileOfArray(numericArray, mainName);
-
+        
         if (numType === "percent") {
           avg *= 100;
           mid *= 100;
           lower25 *= 100;
           higher75 *= 100;
         }
-
+        
         peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
         peerMid.push(parseFloat(mid.toFixed(fixedNum)));
         peer25.push(parseFloat(lower25.toFixed(fixedNum)));
@@ -2449,9 +2248,9 @@ function getPeerAndClientChartDataArrays(
         peer25.push(0);
         peer75.push(0);
       }
-
+      
       clientArray.push(0);
-    }
+    } 
     // Case 4: We have neither peer nor client data
     else {
       peerAvg.push(0);
@@ -2463,17 +2262,17 @@ function getPeerAndClientChartDataArrays(
   });
 
   // Create result object
-  const result = {
-    clientArray,
-    peerAvg,
-    peerMid,
-    peer25,
-    peer75,
+  const result = { 
+    clientArray, 
+    peerAvg, 
+    peerMid, 
+    peer25, 
+    peer75 
   };
-
+  
   // Cache the result
   window.chartDataCache[cacheKey] = result;
-
+  
   return result;
 }
 

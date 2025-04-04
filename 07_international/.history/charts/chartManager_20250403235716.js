@@ -389,7 +389,7 @@ class ChartManager {
         );
       } else {
         // Add empty cell if no client data
-        this._addEmptyCell(yearRow);
+        addEmptyCell(yearRow);
       }
 
       // Add peer data if available
@@ -504,7 +504,7 @@ class ChartManager {
       } else {
         // Add empty cells for peer data if none available
         for (let i = 0; i < 4; i++) {
-          this._addEmptyCell(yearRow);
+          addEmptyCell(yearRow);
         }
       }
     });

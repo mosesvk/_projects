@@ -324,7 +324,7 @@ class ChartManager {
     }
 
     // Clear and populate the modal content
-    this.populateModalContent(
+    populateModalContent(
       headerRow,
       selectedYears,
       clientData,
@@ -359,7 +359,7 @@ class ChartManager {
     headerRow.innerHTML = "";
 
     // Add columns (year, client, avg, 25%, 50%, 75%)
-    this._addModalColumns(headerRow);
+    addModalColumns(headerRow);
 
     // Get the main name from the header row ID
     const mainName = headerRow.id.replace("_row", "");
@@ -375,13 +375,13 @@ class ChartManager {
 
     // Add data rows for each year
     selectedYears.forEach((year) => {
-      const yearRow = this._createYearRow(mainName, year);
+      const yearRow = createYearRow(mainName, year);
       tableHead.appendChild(yearRow);
 
       // Now add client data to this row if available
       if (clientData && clientData[year]) {
         // Format client data according to the data type
-        this._addClientDataToModalRow(
+        addClientDataToModalRow(
           yearRow,
           clientData[year].value,
           dataProcessingType,
@@ -389,7 +389,7 @@ class ChartManager {
         );
       } else {
         // Add empty cell if no client data
-        this._addEmptyCell(yearRow);
+        addEmptyCell(yearRow);
       }
 
       // Add peer data if available
@@ -504,13 +504,13 @@ class ChartManager {
       } else {
         // Add empty cells for peer data if none available
         for (let i = 0; i < 4; i++) {
-          this._addEmptyCell(yearRow);
+          addEmptyCell(yearRow);
         }
       }
     });
   }
 
-  _addPeerDataToModalRow(
+  addPeerDataToModalRow(
     row,
     avgValue,
     midValue,
@@ -540,26 +540,26 @@ class ChartManager {
     const cell = document.createElement("td");
     cell.className =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-
+  
     if (value !== undefined && value !== null) {
       // Make sure value is a number before formatting
       const numValue = parseFloat(value);
-
+  
       // Format the value based on type using styleNumber
       let formattedValue;
       if (!isNaN(numValue) && typeof styleNumber === "function") {
         // Force the type parameter to match expected format in styleNumber
         let typeParam = dataType;
         if (dataType === "number") typeParam = "num"; // Convert "number" to "num" for styleNumber
-
+  
         formattedValue = styleNumber(numValue, typeParam, fixedNum);
       } else {
         // Fallback if value is not a number or styleNumber is not available
         formattedValue = value.toFixed(fixedNum || 2);
       }
-
+  
       cell.textContent = formattedValue;
-
+  
       // Apply color formatting for negative values
       if (numValue < 0) {
         cell.classList.remove("text-gray-900", "dark:text-white");
@@ -568,7 +568,7 @@ class ChartManager {
     } else {
       cell.textContent = "-";
     }
-
+  
     row.appendChild(cell);
     return cell;
   }

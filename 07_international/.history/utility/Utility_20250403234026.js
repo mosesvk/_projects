@@ -486,18 +486,7 @@ function updateModal(
   fixedNum,
   wa
 ) {
-
-  if (mainName == testName) {
-    console.log({
-      peerData,
-      clientData,
-      parsedData,
-      type,
-      fixedNum,
-      wa
-    });
-    
-  }
+  // console.log(`Updating modal for ${mainName}`, { peerData, clientData });
 
   // Get the selected years from local storage
   const selectedYears = getSelectedYearsFromLocalStorage();
@@ -1556,9 +1545,9 @@ function addPeerDataToModalRow(
   dataType,
   fixedNum
 ) {
-  // console.log({
-  //   row, avgValue, dataType, fixedNum
-  // });
+  console.log({
+    row, avgValue, dataType, fixedNum
+  });
   
   // Create and add the average value cell
   const avgCell = createPeerDataCell(row, avgValue, dataType, fixedNum);
@@ -2236,6 +2225,7 @@ function getPeerAndClientChartDataArrays(
   forceRefresh = false,
   parsedData
 ) {
+  const testName = "contributionsWithoutDR";
 
   // Cache key based on parameters
   const cacheKey = `${mainName}_${years.join(
@@ -2295,13 +2285,13 @@ function getPeerAndClientChartDataArrays(
       // Get peer data array
       const dataArray = parsedData[dataPeer];
 
-      // if (mainName == testName)
-      //   console.log({
-      //     peerData: parsedData[dataPeer],
-      //     dataArray,
-      //     peerClient: parseStoredData[dataClient],
-      //     parsedData,
-      //   });
+      if (mainName == testName)
+        console.log({
+          peerData: parsedData[dataPeer],
+          dataArray,
+          peerClient: parseStoredData[dataClient],
+          parsedData,
+        });
 
       // Handle missing data
       if (!dataArray || dataArray.length === 0) {

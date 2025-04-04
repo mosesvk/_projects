@@ -277,7 +277,16 @@ class ChartManager {
   }
 
   // Enhanced modal update method with weighted average support
-  updateModal(mainName, peerData, clientData, parsedData, type, fixedNum, wa) {
+  updateModal(
+    mainName,
+    peerData,
+    clientData,
+    parsedData,
+    type,
+    fixedNum,
+    wa
+  ) {
+  
     if (mainName == testName) {
       console.log({
         peerData,
@@ -285,30 +294,31 @@ class ChartManager {
         parsedData,
         type,
         fixedNum,
-        wa,
+        wa
       });
+      
     }
-
+  
     // Get the selected years from local storage
     const selectedYears = getSelectedYearsFromLocalStorage();
     if (!selectedYears || !selectedYears.length) {
       console.warn(`No selected years found for modal ${mainName}`);
       return;
     }
-
+  
     // Find the modal element
     const modalSelector = `#${mainName}_modal`;
     const modal = document.querySelector(modalSelector);
-
+  
     if (!modal) {
       // console.warn(`Modal element with selector "${modalSelector}" not found`);
       return;
     }
-
+  
     // Find the table header row with more flexible selector
     const rowSelector = `#${mainName}_modal_row`;
     let headerRow = modal.querySelector(rowSelector);
-
+  
     if (!headerRow) {
       console.warn(
         `Header row with selector "${rowSelector}" not found in modal ${modalSelector}`
@@ -322,9 +332,9 @@ class ChartManager {
         return;
       }
     }
-
+  
     // Clear and populate the modal content
-    this.populateModalContent(
+    populateModalContent(
       headerRow,
       selectedYears,
       clientData,
@@ -334,243 +344,6 @@ class ChartManager {
       fixedNum,
       wa
     );
-  }
-
-  populateModalContent(
-    headerRow,
-    selectedYears,
-    clientData,
-    peerData,
-    parsedData,
-    type,
-    fixedNum,
-    wa
-  ) {
-    let tableHead = headerRow.parentElement;
-
-    // Clear existing rows after the headerRow
-    let nextRow = headerRow.nextSibling;
-    while (nextRow) {
-      tableHead.removeChild(nextRow);
-      nextRow = headerRow.nextSibling;
-    }
-
-    // Clear existing header content
-    headerRow.innerHTML = "";
-
-    // Add columns (year, client, avg, 25%, 50%, 75%)
-    this._addModalColumns(headerRow);
-
-    // Get the main name from the header row ID
-    const mainName = headerRow.id.replace("_row", "");
-
-    // Special case flag for annualizedInvestmentReturn chart
-    const isAnnualizedInvestmentReturn =
-      mainName === "annualizedInvestmentReturn";
-
-    // Process data type appropriately
-    const dataProcessingType = isAnnualizedInvestmentReturn
-      ? "number"
-      : type || "number";
-
-    // Add data rows for each year
-    selectedYears.forEach((year) => {
-      const yearRow = this._createYearRow(mainName, year);
-      tableHead.appendChild(yearRow);
-
-      // Now add client data to this row if available
-      if (clientData && clientData[year]) {
-        // Format client data according to the data type
-        this._addClientDataToModalRow(
-          yearRow,
-          clientData[year].value,
-          dataProcessingType,
-          fixedNum || 2
-        );
-      } else {
-        // Add empty cell if no client data
-        this._addEmptyCell(yearRow);
-      }
-
-      // Add peer data if available
-      if (peerData && peerData[year]) {
-        // If we're using weighted average and the function exists
-        if (
-          wa === "wa" &&
-          typeof getWeightedAverageOfArray === "function" &&
-          parsedData
-        ) {
-          try {
-            // Calculate weighted average for this specific chart and year
-            const weightedAvg = getWeightedAverageOfArray(
-              parsedData,
-              mainName,
-              year
-            );
-
-            // For other percentiles, use regular calculations
-            const peerValues = peerData[year];
-            const peerMid = Array.isArray(peerValues)
-              ? getMidpointOfArray(peerValues, mainName)
-              : 0;
-            const peer25 = Array.isArray(peerValues)
-              ? get25thPercentileOfArray(peerValues, mainName)
-              : 0;
-            const peer75 = Array.isArray(peerValues)
-              ? get75thPercentileOfArray(peerValues, mainName)
-              : 0;
-
-            // For percentage type, multiply values by 100 (except for annualizedInvestmentReturn which is already handled)
-            let multiplier =
-              dataProcessingType === "percent" && !isAnnualizedInvestmentReturn
-                ? 100
-                : 1;
-
-            // Add the peer data to the row with appropriate formatting
-            addPeerDataToModalRow(
-              yearRow,
-              weightedAvg * multiplier,
-              peerMid * multiplier,
-              peer25 * multiplier,
-              peer75 * multiplier,
-              dataProcessingType,
-              fixedNum
-            );
-          } catch (error) {
-            console.error(
-              `Error calculating weighted average for ${mainName}:`,
-              error
-            );
-
-            // Fall back to regular statistics
-            const peerValues = peerData[year];
-            const peerAvg = Array.isArray(peerValues)
-              ? getAverageOfArray(peerValues)
-              : 0;
-            const peerMid = Array.isArray(peerValues)
-              ? getMidpointOfArray(peerValues, mainName)
-              : 0;
-            const peer25 = Array.isArray(peerValues)
-              ? get25thPercentileOfArray(peerValues, mainName)
-              : 0;
-            const peer75 = Array.isArray(peerValues)
-              ? get75thPercentileOfArray(peerValues, mainName)
-              : 0;
-
-            // Add the peer data to the row
-            addPeerDataToModalRow(
-              yearRow,
-              peerAvg,
-              peerMid,
-              peer25,
-              peer75,
-              dataProcessingType,
-              fixedNum
-            );
-          }
-        } else {
-          // Use regular statistics without weighted average
-          const peerValues = peerData[year];
-          const peerAvg = Array.isArray(peerValues)
-            ? getAverageOfArray(peerValues)
-            : 0;
-          const peerMid = Array.isArray(peerValues)
-            ? getMidpointOfArray(peerValues, mainName)
-            : 0;
-          const peer25 = Array.isArray(peerValues)
-            ? get25thPercentileOfArray(peerValues, mainName)
-            : 0;
-          const peer75 = Array.isArray(peerValues)
-            ? get75thPercentileOfArray(peerValues, mainName)
-            : 0;
-
-          // For percentage type, multiply values by 100
-          let multiplier =
-            dataProcessingType === "percent" && !isAnnualizedInvestmentReturn
-              ? 100
-              : 1;
-
-          // Add the peer data to the row
-          addPeerDataToModalRow(
-            yearRow,
-            peerAvg * multiplier,
-            peerMid * multiplier,
-            peer25 * multiplier,
-            peer75 * multiplier,
-            dataProcessingType,
-            fixedNum
-          );
-        }
-      } else {
-        // Add empty cells for peer data if none available
-        for (let i = 0; i < 4; i++) {
-          this._addEmptyCell(yearRow);
-        }
-      }
-    });
-  }
-
-  _addPeerDataToModalRow(
-    row,
-    avgValue,
-    midValue,
-    p25Value,
-    p75Value,
-    dataType,
-    fixedNum
-  ) {
-    // console.log({
-    //   row, avgValue, dataType, fixedNum
-    // });
-
-    // Create and add the average value cell
-    const avgCell = createPeerDataCell(row, avgValue, dataType, fixedNum);
-
-    // Create and add the 25th percentile cell
-    const p25Cell = createPeerDataCell(row, p25Value, dataType, fixedNum);
-
-    // Create and add the median cell
-    const midCell = createPeerDataCell(row, midValue, dataType, fixedNum);
-
-    // Create and add the 75th percentile cell
-    const p75Cell = createPeerDataCell(row, p75Value, dataType, fixedNum);
-  }
-
-  createPeerDataCell(row, value, dataType, fixedNum) {
-    const cell = document.createElement("td");
-    cell.className =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-
-    if (value !== undefined && value !== null) {
-      // Make sure value is a number before formatting
-      const numValue = parseFloat(value);
-
-      // Format the value based on type using styleNumber
-      let formattedValue;
-      if (!isNaN(numValue) && typeof styleNumber === "function") {
-        // Force the type parameter to match expected format in styleNumber
-        let typeParam = dataType;
-        if (dataType === "number") typeParam = "num"; // Convert "number" to "num" for styleNumber
-
-        formattedValue = styleNumber(numValue, typeParam, fixedNum);
-      } else {
-        // Fallback if value is not a number or styleNumber is not available
-        formattedValue = value.toFixed(fixedNum || 2);
-      }
-
-      cell.textContent = formattedValue;
-
-      // Apply color formatting for negative values
-      if (numValue < 0) {
-        cell.classList.remove("text-gray-900", "dark:text-white");
-        cell.classList.add("text-red-500", "dark:text-red-400");
-      }
-    } else {
-      cell.textContent = "-";
-    }
-
-    row.appendChild(cell);
-    return cell;
   }
 
   // Helper method to add columns to modal

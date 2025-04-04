@@ -2295,13 +2295,13 @@ function getPeerAndClientChartDataArrays(
       // Get peer data array
       const dataArray = parsedData[dataPeer];
 
-      // if (mainName == testName)
-      //   console.log({
-      //     peerData: parsedData[dataPeer],
-      //     dataArray,
-      //     peerClient: parseStoredData[dataClient],
-      //     parsedData,
-      //   });
+      if (mainName == testName)
+        console.log({
+          peerData: parsedData[dataPeer],
+          dataArray,
+          peerClient: parseStoredData[dataClient],
+          parsedData,
+        });
 
       // Handle missing data
       if (!dataArray || dataArray.length === 0) {

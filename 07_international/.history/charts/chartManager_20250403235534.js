@@ -324,7 +324,7 @@ class ChartManager {
     }
 
     // Clear and populate the modal content
-    this.populateModalContent(
+    populateModalContent(
       headerRow,
       selectedYears,
       clientData,
@@ -359,7 +359,7 @@ class ChartManager {
     headerRow.innerHTML = "";
 
     // Add columns (year, client, avg, 25%, 50%, 75%)
-    this._addModalColumns(headerRow);
+    addModalColumns(headerRow);
 
     // Get the main name from the header row ID
     const mainName = headerRow.id.replace("_row", "");
@@ -375,13 +375,13 @@ class ChartManager {
 
     // Add data rows for each year
     selectedYears.forEach((year) => {
-      const yearRow = this._createYearRow(mainName, year);
+      const yearRow = createYearRow(mainName, year);
       tableHead.appendChild(yearRow);
 
       // Now add client data to this row if available
       if (clientData && clientData[year]) {
         // Format client data according to the data type
-        this._addClientDataToModalRow(
+        addClientDataToModalRow(
           yearRow,
           clientData[year].value,
           dataProcessingType,
@@ -389,7 +389,7 @@ class ChartManager {
         );
       } else {
         // Add empty cell if no client data
-        this._addEmptyCell(yearRow);
+        addEmptyCell(yearRow);
       }
 
       // Add peer data if available
@@ -504,13 +504,13 @@ class ChartManager {
       } else {
         // Add empty cells for peer data if none available
         for (let i = 0; i < 4; i++) {
-          this._addEmptyCell(yearRow);
+          addEmptyCell(yearRow);
         }
       }
     });
   }
 
-  _addPeerDataToModalRow(
+  addPeerDataToModalRow(
     row,
     avgValue,
     midValue,
