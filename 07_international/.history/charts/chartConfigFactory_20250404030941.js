@@ -169,9 +169,7 @@ class ChartConfigFactory {
       // Format the value
       let formattedValue;
       if (!isNaN(numValue) && typeof styleNumber === "function") {
-        
-        const styleType = dataType == "number" ? "num" : dataType;
-        console.log({dataType, styleType});
+        const styleType = dataType === "number" ? "num" : dataType;
         formattedValue = styleNumber(numValue, styleType, fixedNum);
       } else {
         formattedValue = numValue.toFixed(fixedNum || 2);
@@ -212,6 +210,7 @@ class ChartConfigFactory {
     cell.className =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
 
+    if (value != Math.floor)console.log("_addPeerDataCell()", { row, value });
 
     if (value !== undefined && value !== null) {
       // Get the numeric value
@@ -220,16 +219,10 @@ class ChartConfigFactory {
       // Format the value
       let formattedValue;
       if (!isNaN(numValue) && typeof styleNumber === "function") {
-        const styleType = dataType == "number" ? "num" : dataType;
-
-        formattedValue = styleNumber(numValue, styleType, fixedNum);
+        formattedValue = styleNumber(numValue, dataType, fixedNum);
       } else {
         formattedValue = numValue.toFixed(fixedNum || 2);
       }
-
-      if (value != Math.floor)console.log("_addPeerDataCell()", { row, value, formattedValue, numValue, dataType, fixedNum });
-
-
 
       cell.textContent = formattedValue;
 

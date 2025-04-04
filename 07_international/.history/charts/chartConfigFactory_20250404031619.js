@@ -169,9 +169,7 @@ class ChartConfigFactory {
       // Format the value
       let formattedValue;
       if (!isNaN(numValue) && typeof styleNumber === "function") {
-        
-        const styleType = dataType == "number" ? "num" : dataType;
-        console.log({dataType, styleType});
+        const styleType = dataType === "number" ? "num" : dataType;
         formattedValue = styleNumber(numValue, styleType, fixedNum);
       } else {
         formattedValue = numValue.toFixed(fixedNum || 2);
@@ -220,9 +218,7 @@ class ChartConfigFactory {
       // Format the value
       let formattedValue;
       if (!isNaN(numValue) && typeof styleNumber === "function") {
-        const styleType = dataType == "number" ? "num" : dataType;
-
-        formattedValue = styleNumber(numValue, styleType, fixedNum);
+        formattedValue = styleNumber(numValue, dataType, fixedNum);
       } else {
         formattedValue = numValue.toFixed(fixedNum || 2);
       }

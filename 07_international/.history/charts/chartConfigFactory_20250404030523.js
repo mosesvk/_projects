@@ -68,8 +68,8 @@ class ChartConfigFactory {
     const isAnnualizedInvestmentReturn =
       mainName === "annualizedInvestmentReturn";
     const dataType = isAnnualizedInvestmentReturn
-      ? "num"
-      : numType || "num";
+      ? "number"
+      : numType || "number";
 
     // Get the chart data - use the exact same data processing as the charts
     const chartData = getPeerAndClientChartDataArrays(
@@ -169,10 +169,8 @@ class ChartConfigFactory {
       // Format the value
       let formattedValue;
       if (!isNaN(numValue) && typeof styleNumber === "function") {
-        
-        const styleType = dataType == "number" ? "num" : dataType;
-        console.log({dataType, styleType});
-        formattedValue = styleNumber(numValue, styleType, fixedNum);
+        const styleType = dataType === "number" ? "num" : dataType;
+        formattedValue = styleNumber(numValue, dataType, fixedNum);
       } else {
         formattedValue = numValue.toFixed(fixedNum || 2);
       }
@@ -212,6 +210,7 @@ class ChartConfigFactory {
     cell.className =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
 
+    if (value != Math.floor)console.log("_addPeerDataCell()", { row, value });
 
     if (value !== undefined && value !== null) {
       // Get the numeric value
@@ -220,16 +219,10 @@ class ChartConfigFactory {
       // Format the value
       let formattedValue;
       if (!isNaN(numValue) && typeof styleNumber === "function") {
-        const styleType = dataType == "number" ? "num" : dataType;
-
-        formattedValue = styleNumber(numValue, styleType, fixedNum);
+        formattedValue = styleNumber(numValue, dataType, fixedNum);
       } else {
         formattedValue = numValue.toFixed(fixedNum || 2);
       }
-
-      if (value != Math.floor)console.log("_addPeerDataCell()", { row, value, formattedValue, numValue, dataType, fixedNum });
-
-
 
       cell.textContent = formattedValue;
 
@@ -345,7 +338,7 @@ class ChartConfigFactory {
       dataClient,
       fixedNum,
       mainName,
-      isAnnualizedInvestmentReturn ? "num" : numType,
+      isAnnualizedInvestmentReturn ? "number" : numType,
       wa,
       true, // Add a force refresh parameter
       parsedData
@@ -367,23 +360,8 @@ class ChartConfigFactory {
     let peer25 = chartData.peer25;
     let peer75 = chartData.peer75;
 
-    if (numType === "percent" && !isAnnualizedInvestmentReturn) {
-      // For annualizedInvestmentReturn we're already handling this elsewhere
-      clientArray = clientArray.map(val => 
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val);
-      peerAvg = peerAvg.map(val => 
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val);
-      peerMid = peerMid.map(val => 
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val);
-      peer25 = peer25.map(val => 
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val);
-      peer75 = peer75.map(val => 
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val);
-    } else if (isAnnualizedInvestmentReturn) {
-      // For annualizedInvestmentReturn, multiply client array by 100
-      clientArray = clientArray.map(val => 
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val);
-    }
+    if (isAnnualizedInvestmentReturn)
+      clientArray = clientArray.map((val) => val * 100);
 
     // if (mainName == 'daysCashOnHand')
     //   console.log(
@@ -624,7 +602,7 @@ class ChartConfigFactory {
     try {
       // Special case for annualizedInvestmentReturn chart
       const dataProcessingType =
-        mainName === "annualizedInvestmentReturn" ? "num" : numType;
+        mainName === "annualizedInvestmentReturn" ? "number" : numType;
 
       // Use the modified data type for data processing
       const result = getPeerAndClientChartDataArrays(
