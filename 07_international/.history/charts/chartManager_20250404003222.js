@@ -325,7 +325,6 @@ class ChartManager {
 
     // Clear and populate the modal content
     this.populateModalContent(
-       mainName,
       headerRow,
       selectedYears,
       clientData,
@@ -338,7 +337,6 @@ class ChartManager {
   }
 
   populateModalContent(
-    mainName,
     headerRow,
     selectedYears,
     clientData,
@@ -523,7 +521,7 @@ class ChartManager {
     fixedNum
   ) {
 
-    console.log({row, avgValue, dataType, fixedNum});
+    console.log({row, avgValue});
     
     // Create and add the average value cell
     this._createPeerDataCell(row, avgValue, dataType, fixedNum);

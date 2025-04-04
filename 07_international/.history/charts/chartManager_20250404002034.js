@@ -325,7 +325,6 @@ class ChartManager {
 
     // Clear and populate the modal content
     this.populateModalContent(
-       mainName,
       headerRow,
       selectedYears,
       clientData,
@@ -333,12 +332,11 @@ class ChartManager {
       parsedData,
       type,
       fixedNum,
-      wa
+      wa,
     );
   }
 
   populateModalContent(
-    mainName,
     headerRow,
     selectedYears,
     clientData,
@@ -348,7 +346,18 @@ class ChartManager {
     fixedNum,
     wa
   ) {
-    
+
+    if (mainName == testName){
+      console.log({
+        parsedData, 
+        clientData,
+        peer, 
+        type, 
+        fixedNum,
+        wa
+      });
+      
+    }
 
     let tableHead = headerRow.parentElement;
 
@@ -404,9 +413,6 @@ class ChartManager {
           typeof getWeightedAverageOfArray === "function" &&
           parsedData
         ) {
-          
-          console.log('WA-PopulateModalContent', {parsedData, clientData, peerData, type, fixedNum, wa});
-          
           try {
             // Calculate weighted average for this specific chart and year
             const weightedAvg = getWeightedAverageOfArray(
@@ -511,8 +517,6 @@ class ChartManager {
     });
   }
 
-
-  // Helper method to add peer data to row with weighted average support
   _addPeerDataToModalRow(
     row,
     avgValue,
@@ -522,55 +526,21 @@ class ChartManager {
     dataType,
     fixedNum
   ) {
+    // console.log({
+    //   row, avgValue, dataType, fixedNum
+    // });
 
-    console.log({row, avgValue, dataType, fixedNum});
-    
     // Create and add the average value cell
-    this._createPeerDataCell(row, avgValue, dataType, fixedNum);
+    const avgCell = createPeerDataCell(row, avgValue, dataType, fixedNum);
 
     // Create and add the 25th percentile cell
-    this._createPeerDataCell(row, p25Value, dataType, fixedNum);
+    const p25Cell = createPeerDataCell(row, p25Value, dataType, fixedNum);
 
     // Create and add the median cell
-    this._createPeerDataCell(row, midValue, dataType, fixedNum);
+    const midCell = createPeerDataCell(row, midValue, dataType, fixedNum);
 
     // Create and add the 75th percentile cell
-    this._createPeerDataCell(row, p75Value, dataType, fixedNum);
-  }
-
-  // Make sure the _createPeerDataCell method uses styleNumber properly
-  _createPeerDataCell(row, value, dataType, fixedNum) {
-    const cell = document.createElement("td");
-    cell.className =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-
-    if (value !== undefined && value !== null) {
-      // Make sure value is a number before formatting
-      const numValue = parseFloat(value);
-
-      // Format the value based on type using styleNumber
-      let formattedValue;
-      if (!isNaN(numValue) && typeof styleNumber === "function") {
-        // Use styleNumber directly with the proper parameters
-        formattedValue = styleNumber(numValue, dataType, fixedNum);
-      } else {
-        // Fallback if value is not a number or styleNumber is not available
-        formattedValue = value.toFixed(fixedNum || 2);
-      }
-
-      cell.textContent = formattedValue;
-
-      // Apply color formatting for negative values
-      if (numValue < 0) {
-        cell.classList.remove("text-gray-900", "dark:text-white");
-        cell.classList.add("text-red-500", "dark:text-red-400");
-      }
-    } else {
-      cell.textContent = "-";
-    }
-
-    row.appendChild(cell);
-    return cell;
+    const p75Cell = createPeerDataCell(row, p75Value, dataType, fixedNum);
   }
 
   _addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
@@ -579,20 +549,20 @@ class ChartManager {
     //   type,
     //   fixedNum,
     // });
-
+  
     const cell = document.createElement("td");
     cell.className =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-
+  
     // Format the value
     const formattedValue =
       clientValue !== undefined && clientValue !== null
         ? styleNumber(clientValue, type, fixedNum)
         : "-";
-
+  
     cell.textContent = formattedValue;
     yearRow.appendChild(cell);
-
+  
     return cell;
   }
 
@@ -690,6 +660,64 @@ class ChartManager {
     }
 
     row.appendChild(cell);
+  }
+
+  // Helper method to add peer data to row with weighted average support
+  _addPeerDataToModalRow(
+    row,
+    avgValue,
+    midValue,
+    p25Value,
+    p75Value,
+    dataType,
+    fixedNum
+  ) {
+    // Create and add the average value cell
+    this._createPeerDataCell(row, avgValue, dataType, fixedNum);
+  
+    // Create and add the 25th percentile cell  
+    this._createPeerDataCell(row, p25Value, dataType, fixedNum);
+  
+    // Create and add the median cell
+    this._createPeerDataCell(row, midValue, dataType, fixedNum);
+  
+    // Create and add the 75th percentile cell
+    this._createPeerDataCell(row, p75Value, dataType, fixedNum);
+  }
+  
+  // Make sure the _createPeerDataCell method uses styleNumber properly
+  _createPeerDataCell(row, value, dataType, fixedNum) {
+    const cell = document.createElement("td");
+    cell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  
+    if (value !== undefined && value !== null) {
+      // Make sure value is a number before formatting
+      const numValue = parseFloat(value);
+  
+      // Format the value based on type using styleNumber
+      let formattedValue;
+      if (!isNaN(numValue) && typeof styleNumber === "function") {
+        // Use styleNumber directly with the proper parameters
+        formattedValue = styleNumber(numValue, dataType, fixedNum);
+      } else {
+        // Fallback if value is not a number or styleNumber is not available
+        formattedValue = value.toFixed(fixedNum || 2);
+      }
+  
+      cell.textContent = formattedValue;
+  
+      // Apply color formatting for negative values
+      if (numValue < 0) {
+        cell.classList.remove("text-gray-900", "dark:text-white");
+        cell.classList.add("text-red-500", "dark:text-red-400");
+      }
+    } else {
+      cell.textContent = "-";
+    }
+  
+    row.appendChild(cell);
+    return cell;
   }
 
   // Add an empty cell to a row

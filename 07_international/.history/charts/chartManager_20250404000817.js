@@ -325,7 +325,6 @@ class ChartManager {
 
     // Clear and populate the modal content
     this.populateModalContent(
-       mainName,
       headerRow,
       selectedYears,
       clientData,
@@ -338,7 +337,6 @@ class ChartManager {
   }
 
   populateModalContent(
-    mainName,
     headerRow,
     selectedYears,
     clientData,
@@ -348,8 +346,6 @@ class ChartManager {
     fixedNum,
     wa
   ) {
-    
-
     let tableHead = headerRow.parentElement;
 
     // Clear existing rows after the headerRow
@@ -404,9 +400,6 @@ class ChartManager {
           typeof getWeightedAverageOfArray === "function" &&
           parsedData
         ) {
-          
-          console.log('WA-PopulateModalContent', {parsedData, clientData, peerData, type, fixedNum, wa});
-          
           try {
             // Calculate weighted average for this specific chart and year
             const weightedAvg = getWeightedAverageOfArray(
@@ -427,13 +420,19 @@ class ChartManager {
               ? get75thPercentileOfArray(peerValues, mainName)
               : 0;
 
+            // For percentage type, multiply values by 100 (except for annualizedInvestmentReturn which is already handled)
+            let multiplier =
+              dataProcessingType === "percent" && !isAnnualizedInvestmentReturn
+                ? 100
+                : 1;
+
             // Add the peer data to the row with appropriate formatting
             this._addPeerDataToModalRow(
               yearRow,
-              weightedAvg,
-              peerMid,
-              peer25,
-              peer75,
+              weightedAvg * multiplier,
+              peerMid * multiplier,
+              peer25 * multiplier,
+              peer75 * multiplier,
               dataProcessingType,
               fixedNum
             );
@@ -511,8 +510,6 @@ class ChartManager {
     });
   }
 
-
-  // Helper method to add peer data to row with weighted average support
   _addPeerDataToModalRow(
     row,
     avgValue,
@@ -522,55 +519,21 @@ class ChartManager {
     dataType,
     fixedNum
   ) {
+    // console.log({
+    //   row, avgValue, dataType, fixedNum
+    // });
 
-    console.log({row, avgValue, dataType, fixedNum});
-    
     // Create and add the average value cell
-    this._createPeerDataCell(row, avgValue, dataType, fixedNum);
+    const avgCell = createPeerDataCell(row, avgValue, dataType, fixedNum);
 
     // Create and add the 25th percentile cell
-    this._createPeerDataCell(row, p25Value, dataType, fixedNum);
+    const p25Cell = createPeerDataCell(row, p25Value, dataType, fixedNum);
 
     // Create and add the median cell
-    this._createPeerDataCell(row, midValue, dataType, fixedNum);
+    const midCell = createPeerDataCell(row, midValue, dataType, fixedNum);
 
     // Create and add the 75th percentile cell
-    this._createPeerDataCell(row, p75Value, dataType, fixedNum);
-  }
-
-  // Make sure the _createPeerDataCell method uses styleNumber properly
-  _createPeerDataCell(row, value, dataType, fixedNum) {
-    const cell = document.createElement("td");
-    cell.className =
-      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-
-    if (value !== undefined && value !== null) {
-      // Make sure value is a number before formatting
-      const numValue = parseFloat(value);
-
-      // Format the value based on type using styleNumber
-      let formattedValue;
-      if (!isNaN(numValue) && typeof styleNumber === "function") {
-        // Use styleNumber directly with the proper parameters
-        formattedValue = styleNumber(numValue, dataType, fixedNum);
-      } else {
-        // Fallback if value is not a number or styleNumber is not available
-        formattedValue = value.toFixed(fixedNum || 2);
-      }
-
-      cell.textContent = formattedValue;
-
-      // Apply color formatting for negative values
-      if (numValue < 0) {
-        cell.classList.remove("text-gray-900", "dark:text-white");
-        cell.classList.add("text-red-500", "dark:text-red-400");
-      }
-    } else {
-      cell.textContent = "-";
-    }
-
-    row.appendChild(cell);
-    return cell;
+    const p75Cell = createPeerDataCell(row, p75Value, dataType, fixedNum);
   }
 
   _addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
@@ -579,20 +542,20 @@ class ChartManager {
     //   type,
     //   fixedNum,
     // });
-
+  
     const cell = document.createElement("td");
     cell.className =
       "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
-
+  
     // Format the value
     const formattedValue =
       clientValue !== undefined && clientValue !== null
         ? styleNumber(clientValue, type, fixedNum)
         : "-";
-
+  
     cell.textContent = formattedValue;
     yearRow.appendChild(cell);
-
+  
     return cell;
   }
 
@@ -690,6 +653,126 @@ class ChartManager {
     }
 
     row.appendChild(cell);
+  }
+
+  // Helper method to add peer data to row with weighted average support
+  _addPeerDataToRow(
+    row,
+    peerData,
+    parsedData,
+    metricName,
+    year,
+    weightedAverage,
+    dataType,
+    fixedNum
+  ) {
+    // if (metricName == 'annualizedInvestmentReturn') {
+    //   console.log({
+    //     weightedAverage,
+    //     parsedData,
+    //     year,
+    //     peerData,
+    //     dataType
+    //   });
+    // }
+
+    // Initialize values
+    let peerAvg = 0,
+      peerMid = 0,
+      peer25 = 0,
+      peer75 = 0;
+
+    // Process peer data for this year
+    const yearData = peerData[year];
+
+    // Calculate weighted average if requested and function is available
+    if (
+      weightedAverage === "wa" &&
+      typeof getWeightedAverageOfArray === "function" &&
+      yearData
+    ) {
+      try {
+        // Use weighted average calculation with year parameter
+        peerAvg = getWeightedAverageOfArray(parsedData, metricName, year);
+        // console.log(
+        //   `Using weighted average for ${metricName} (year: ${year}): ${peerAvg}`
+        // );
+      } catch (error) {
+        console.error(
+          `Error calculating weighted average for ${metricName}:`,
+          error
+        );
+        // Fall back to regular average
+        peerAvg = Array.isArray(yearData)
+          ? this._calculateAverage(yearData)
+          : 0;
+      }
+    } else if (yearData ?? Array.isArray(yearData)) {
+      // Use regular statistics
+      peerAvg = this._calculateAverage(yearData);
+    } else {
+      peerAvg = 0;
+    }
+
+    // Always calculate percentiles using array data regardless of weighted average
+    if (Array.isArray(yearData)) {
+      // Use percentile functions if available
+      if (typeof get25thPercentileOfArray === "function") {
+        peer25 = get25thPercentileOfArray(yearData, metricName);
+      }
+
+      if (typeof getMidpointOfArray === "function") {
+        peerMid = getMidpointOfArray(yearData, metricName);
+      }
+
+      if (typeof get75thPercentileOfArray === "function") {
+        peer75 = get75thPercentileOfArray(yearData, metricName);
+      }
+    }
+
+    // Create and append the cells with the calculated values
+    this._createPeerDataCell(row, peerAvg, dataType, fixedNum, metricName);
+    this._createPeerDataCell(row, peer25, dataType, fixedNum, metricName);
+    this._createPeerDataCell(row, peerMid, dataType, fixedNum, metricName);
+    this._createPeerDataCell(row, peer75, dataType, fixedNum, metricName);
+  }
+
+  // Helper to create a data cell for peer data
+  _createPeerDataCell(row, value, dataType, fixedNum, metricName) {
+    const cell = document.createElement("td");
+    cell.className =
+      "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+
+    if (value !== undefined && value !== null) {
+      // Make sure value is a number before formatting
+      const numValue = parseFloat(value);
+
+      // Format the value based on type using styleNumber
+      let formattedValue;
+      if (!isNaN(numValue) && typeof styleNumber === "function") {
+        // Force the type parameter to match expected format in styleNumber
+        let typeParam = dataType;
+        if (dataType === "number") typeParam = "num"; // Convert "number" to "num" for styleNumber
+
+        formattedValue = styleNumber(numValue, typeParam, fixedNum);
+      } else {
+        // Fallback if value is not a number or styleNumber is not available
+        formattedValue = value.toFixed(fixedNum || 2);
+      }
+
+      cell.textContent = formattedValue;
+
+      // Apply color formatting for negative values
+      if (numValue < 0) {
+        cell.classList.remove("text-gray-900", "dark:text-white");
+        cell.classList.add("text-red-500", "dark:text-red-400");
+      }
+    } else {
+      cell.textContent = "-";
+    }
+
+    row.appendChild(cell);
+    return cell;
   }
 
   // Add an empty cell to a row

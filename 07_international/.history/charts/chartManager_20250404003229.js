@@ -325,7 +325,6 @@ class ChartManager {
 
     // Clear and populate the modal content
     this.populateModalContent(
-       mainName,
       headerRow,
       selectedYears,
       clientData,
@@ -338,7 +337,6 @@ class ChartManager {
   }
 
   populateModalContent(
-    mainName,
     headerRow,
     selectedYears,
     clientData,
