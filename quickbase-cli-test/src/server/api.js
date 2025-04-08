@@ -1,7 +1,7 @@
 // api.js
 // Centralized API management for Quickbase data extraction
 
-import {QuickbaseClient} from
+const {QuickbaseClient} = require('quickbase')
 
 class QuickbaseDataStore {
   constructor() {

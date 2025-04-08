@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "display": "node src/tests/terminal-display.js"
-
+    "display": "node src/tests/terminal-display.js",
+    "test:api": "node src/server/api.js"
   },
   "keywords": [],
   "author": "",
