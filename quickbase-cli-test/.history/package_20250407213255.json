@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "display": "node src/tests/terminal-display.js"
+    "display": "node src/server/terminal-display.js"
 
   },
   "keywords": [],
