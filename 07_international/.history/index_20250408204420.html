@@ -5,40 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>International</title>
 
-    <!-- Development -->
-    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
-    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
-
-    <!-- Production -->
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://unpkg.com/tippy.js@6"></script>
-
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.js"
-      integrity="sha512-SxopZNPB/jzFpgtGdR6lI7dK8EbbheOZVLNDI0FsMNM0NAqNkJyVoT83C72esOJCTdPVfDb8miZ3whsW4o/+fA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.css"
-      integrity="sha512-ZKliQ0+hD8CfDJ2v8kzEzNxT5Y4EnmG5cFV6oFvswCDyckUCRG+1p6nyMMlLgi1vM5srVpX+6YkxiUoF2tOfRw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.js"
-      integrity="sha512-nsQH9RD40r4g0C32+8AvcOqHtpotZ+7AI3LpKPbfTXgYWHhwbJ+20ATTkbUz+kO3ZeruAiaubTq97pD6sWSRbA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.css"
-      integrity="sha512-j5NOES5oZiza0awDPWoDCbU50obvmJUQobyAqYzhsXFxaXaxkcxB2WhnRcZa5wRGNyborruWuJaeg9J508HfQg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <script src="https://unpkg.com/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6.3.7/dist/tippy-bundle.umd.min.js"></script>
 
     <link
       rel="stylesheet"
@@ -54,13 +22,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
-      defer="true"
+      defer
     ></script>
+
+    <script>
+      var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
+      $.ajaxSetup({ data: { apptoken: apptoken } });
+
+      //retrieve URL ID for record
+      function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split("=");
+          if (pair[0] == variable) {
+            return pair[1];
+          }
+        }
+        return false;
+      }
+      var ClientRid = getQueryVariable("clientrid");
+      const clientData = "bsz5d5eva";
+      const peerData = "bs2bkir3i";
+
+      let clientName;
+    </script>
 
     <script>
       chartColors = {
@@ -401,7 +390,7 @@
                     ></div>
                   </div>
                 </li>
-                <li>
+                <!-- <li>
                   <button
                     id="netAssetsLink"
                     data-popover-target="popoverAssets-hover"
@@ -448,7 +437,7 @@
                       class="bg-gray-700 dark:border-gray-600"
                     ></div>
                   </div>
-                </li>
+                </li> -->
                 <li>
                   <button
                     id="incomeLink"
@@ -661,6 +650,64 @@
         <main class="px-4 pt-6 grid gap-y-4 dddark:text-white">
           <!-- General TAB -->
           <div id="GeneralContent" class="tab-content">
+            <!-- netAssetBreakdown -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Net Asset Breakdown
+                  </span>
+                </div>
+              </div>
+              <div id="netAssetBreakdown_chart"></div>
+              <!-- <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="netAssetBreakdown_modal"
+                    data-modal-toggle="netAssetBreakdown_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div> -->
+            </div>
+
+            <!-- changeInNetAssets -->
+            <div
+              class="mb-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                    >Change in Net Assets</span
+                  >
+                </div>
+              </div>
+              <div id="changeInNetAssets_chart"></div>
+            </div>
+
             <!-- statementCashFlows -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -675,7 +722,7 @@
                 </div>
               </div>
               <div id="statementCashFlows_chart"></div>
-              <div
+              <!-- <div
                 class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
               >
                 <div class="flex-shrink-0">
@@ -701,7 +748,7 @@
                     </svg>
                   </button>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
 
@@ -836,6 +883,50 @@
               </div>
             </div>
 
+            <!-- liquidityAssetsAvailableCover -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Liquidity: Assets available to cover liabilities and net
+                    assets with donor restrictions
+                  </span>
+                </div>
+              </div>
+              <div id="liquidityAssetsAvailableCover_chart"></div>
+              <!-- <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="liquidityAssetsAvailableCover_modal"
+                    data-modal-toggle="liquidityAssetsAvailableCover_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div> -->
+            </div>
+
             <!-- totalCoverageRatio -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -878,15 +969,144 @@
                 </div>
               </div>
             </div>
+
+            <!-- assetsWithoutPpeToLiabilitiesWithoutDebt -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Assets Without PPE to Liabilties Without Debt
+                  </span>
+                </div>
+              </div>
+              <div id="assetsWithoutPpeToLiabilitiesWithoutDebt_chart"></div>
+              <!-- <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="assetsWithoutPpeToLiabilitiesWithoutDebt_modal"
+                    data-modal-toggle="assetsWithoutPpeToLiabilitiesWithoutDebt_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div> -->
+            </div>
           </div>
 
           <!-- NET ASSET TAB -->
-          <div id="netAssetsContent" class="tab-content hidden">
+          <!-- <div id="netAssetsContent" class="tab-content hidden">
             <h1>Net Assets</h1>
-          </div>
+          </div> -->
 
           <!-- INCOME TAB -->
           <div id="incomeContent" class="tab-content hidden">
+            <!-- totalContributions -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Total Contributions
+                  </span>
+                </div>
+              </div>
+              <div id="totalContributions_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="totalContributions_modal"
+                    data-modal-toggle="totalContributions_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- contributionsWithoutDR -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Contributions Without Donor Restrictions
+                  </span>
+                </div>
+              </div>
+              <div id="contributionsWithoutDR_chart"></div>
+              <div
+                class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
+              >
+                <div class="flex-shrink-0">
+                  <button
+                    data-modal-target="contributionsWithoutDR_modal"
+                    data-modal-toggle="contributionsWithoutDR_modal"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 rounded-lg hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600"
+                  >
+                    Expand Info
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <!-- contributionsTrend -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -976,6 +1196,22 @@
 
           <!-- EXPENSE TAB  -->
           <div id="expenseContent" class="tab-content hidden">
+            <!-- functionalAllocation -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Functional Allocation
+                  </span>
+                </div>
+              </div>
+              <div id="functionalAllocation_chart"></div>
+            </div>
+
             <!-- functionalExpensePercent_program -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -1105,6 +1341,22 @@
               </div>
             </div>
 
+            <!-- costOfContributionsDetailView -->
+            <div
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex-shrink-0">
+                  <span
+                    class="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white"
+                  >
+                    Cost of Contributions (Raise $1) - Detailed View
+                  </span>
+                </div>
+              </div>
+              <div id="costOfContributionsDetailView_chart"></div>
+            </div>
+
             <!-- costOfContributions -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -1175,10 +1427,10 @@
                               General Metrics
                             </th>
 
-                            <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">25%</th>
-                            <th scope="col" class="px-6 py-3">50%</th>
-                            <th scope="col" class="px-6 py-3">75%</th>
+                            <th scope="col" class="px-6 py-3 text-xl">Avg</th>
+                            <th scope="col" class="px-6 py-3 text-xl">25%</th>
+                            <th scope="col" class="px-6 py-3 text-xl">50%</th>
+                            <th scope="col" class="px-6 py-3 text-xl">75%</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1254,10 +1506,10 @@
                               Cash Flow and Reserve Ratios and Measurements
                             </th>
 
-                            <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">25%</th>
-                            <th scope="col" class="px-6 py-3">50%</th>
-                            <th scope="col" class="px-6 py-3">75%</th>
+                            <th scope="col" class="px-6 py-3 text-lg">Avg</th>
+                            <th scope="col" class="px-6 py-3 text-lg">25%</th>
+                            <th scope="col" class="px-6 py-3 text-lg">50%</th>
+                            <th scope="col" class="px-6 py-3 text-lg">75%</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1343,6 +1595,18 @@
                             </th>
                           </tr>
                           <tr
+                            id="row_liquidityAssetsAvailableCover"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Liquidity: Assets available to cover liabilities
+                              and net assets with donor restrictions
+                            </th>
+                          </tr>
+                          <tr
                             id="row_daysFinancialAssetsOnHand"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
@@ -1373,6 +1637,17 @@
                               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               Total Coverage Ratio
+                            </th>
+                          </tr>
+                          <tr
+                            id="row_assetsWithoutPpeToLiabilitiesWithoutDebt"
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
+                            <th
+                              scope="row"
+                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              Assets Without PPE to Liabilities without Debt
                             </th>
                           </tr>
                           <tr
@@ -1436,10 +1711,10 @@
                               Net Assets Measurements
                             </th>
 
-                            <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">25%</th>
-                            <th scope="col" class="px-6 py-3">50%</th>
-                            <th scope="col" class="px-6 py-3">75%</th>
+                            <th scope="col" class="px-6 py-3 text-lg">Avg</th>
+                            <th scope="col" class="px-6 py-3 text-lg">25%</th>
+                            <th scope="col" class="px-6 py-3 text-lg">50%</th>
+                            <th scope="col" class="px-6 py-3 text-lg">75%</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1505,10 +1780,10 @@
                               Income Ratios
                             </th>
 
-                            <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">25%</th>
-                            <th scope="col" class="px-6 py-3">50%</th>
-                            <th scope="col" class="px-6 py-3">75%</th>
+                            <th scope="col" class="px-6 py-3 text-lg">Avg</th>
+                            <th scope="col" class="px-6 py-3 text-lg">25%</th>
+                            <th scope="col" class="px-6 py-3 text-lg">50%</th>
+                            <th scope="col" class="px-6 py-3 text-lg">75%</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1662,10 +1937,10 @@
                               Expense Ratios And Measurements
                             </th>
 
-                            <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">25%</th>
-                            <th scope="col" class="px-6 py-3">50%</th>
-                            <th scope="col" class="px-6 py-3">75%</th>
+                            <th scope="col" class="px-6 py-3  text-lg">Avg</th>
+                            <th scope="col" class="px-6 py-3  text-lg">25%</th>
+                            <th scope="col" class="px-6 py-3  text-lg">50%</th>
+                            <th scope="col" class="px-6 py-3  text-lg">75%</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1818,10 +2093,10 @@
                               MISC Ratios And Measurements
                             </th>
 
-                            <th scope="col" class="px-6 py-3">Avg</th>
-                            <th scope="col" class="px-6 py-3">25%</th>
-                            <th scope="col" class="px-6 py-3">50%</th>
-                            <th scope="col" class="px-6 py-3">75%</th>
+                            <th scope="col" class="px-6 py-3 text-lg">Avg</th>
+                            <th scope="col" class="px-6 py-3 text-lg">25%</th>
+                            <th scope="col" class="px-6 py-3 text-lg">50%</th>
+                            <th scope="col" class="px-6 py-3 text-lg">75%</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1849,7 +2124,154 @@
     </div>
 
     <!-- GENERAL MODALS -->
-    <div
+    <!-- <div
+      id="netAssetBreakdown_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="netAssetBreakdown_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Net Asset Breakdown
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="netAssetBreakdown_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="netAssetBreakdown-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#netAssetBreakdown-body-1"
+                aria-expanded="true"
+                aria-controls="netAssetBreakdown-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="netAssetBreakdown-body-1"
+              class="hidden"
+              aria-labelledby="netAssetBreakdown-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="netAssetBreakdown_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="netAssetBreakdown-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#netAssetBreakdown-body-2"
+                aria-expanded="false"
+                aria-controls="netAssetBreakdown-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="netAssetBreakdown-body-2"
+              class="hidden"
+              aria-labelledby="netAssetBreakdown-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  This chart breaks down your organization's net assets into two
+                  categories: those without donor restrictions (which can be
+                  used for any purpose) and those with donor restrictions (which
+                  must be used according to donor specifications). Understanding
+                  this breakdown helps assess your financial flexibility and
+                  ability to respond to opportunities and challenges.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div
       id="statementCashFlows_modal"
       tabindex="-1"
       aria-hidden="true"
@@ -1989,48 +2411,10 @@
                 </p>
               </div>
             </div>
-            <h2 id="statementCashFlows-heading-3">
-              <button
-                type="button"
-                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
-                data-accordion-target="#statementCashFlows-body-3"
-                aria-expanded="false"
-                aria-controls="statementCashFlows-body-3"
-              >
-                <span>Benchmark</span>
-                <svg
-                  data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5 5 1 1 5"
-                  />
-                </svg>
-              </button>
-            </h2>
-            <div
-              id="statementCashFlows-body-3"
-              class="hidden"
-              aria-labelledby="statementCashFlows-heading-3"
-            >
-              <div
-                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
-              >
-                <p class="mb-2 text-gray-500 dark:text-gray-400"></p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- CASH MODALS -->
     <div
@@ -2195,7 +2579,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="daysCashOnHand-heading-3">
+            <!-- <h2 id="daysCashOnHand-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -2237,7 +2621,7 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -2384,7 +2768,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="daysExpensesInUnrestrictedNA-heading-3">
+            <!-- <h2 id="daysExpensesInUnrestrictedNA-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -2426,7 +2810,7 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -2574,7 +2958,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="daysExpensesInUnrestrictedNA_excludingPPE-heading-3">
+            <!-- <h2 id="daysExpensesInUnrestrictedNA_excludingPPE-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -2616,7 +3000,7 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -2762,7 +3146,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="totalCoverageRatio-heading-3">
+            <!-- <h2 id="totalCoverageRatio-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -2804,13 +3188,297 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
 
     <!-- INCOME MODALS -->
+
+    <div
+      id="totalContributions_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="totalContributions_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Contributions Trend
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="totalContributions_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="totalContributions-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#totalContributions-body-1"
+                aria-expanded="true"
+                aria-controls="totalContributions-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="totalContributions-body-1"
+              class="hidden"
+              aria-labelledby="totalContributions-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="totalContributions_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="totalContributions-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#totalContributions-body-2"
+                aria-expanded="false"
+                aria-controls="totalContributions-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="totalContributions-body-2"
+              class="hidden"
+              aria-labelledby="totalContributions-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  This is the total contributions with and without donor restrictions for each year
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="contributionsWithoutDR_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-fit md:max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+          <div
+            id="contributionsWithoutDR_modal"
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div
+              class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
+            >
+              <h1 class="text-white font-bold text-center self-center">
+                Contributions Without Donor Restrictions
+              </h1>
+              <button
+                type="button"
+                class="text-white font-extrabold bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="contributionsWithoutDR_modal"
+              >
+                <svg
+                  class="w-3 h-3 font-bold"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <h2 id="contributionsWithoutDR-heading-1">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#contributionsWithoutDR-body-1"
+                aria-expanded="true"
+                aria-controls="contributionsWithoutDR-body-1"
+              >
+                <span>Support Data</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="contributionsWithoutDR-body-1"
+              class="hidden"
+              aria-labelledby="contributionsWithoutDR-heading-1"
+            >
+              <div
+                class="border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <div class="flex flex-col">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                      <div class="relative overflow-x-auto shadow-md">
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
+                          >
+                            <tr id="contributionsWithoutDR_modal_row"></tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 id="contributionsWithoutDR-heading-2">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-b-0 border-gray-200 dark:border-gray-600 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3 text-gray-500 dark:text-gray-400"
+                data-accordion-target="#contributionsWithoutDR-body-2"
+                aria-expanded="false"
+                aria-controls="contributionsWithoutDR-body-2"
+              >
+                <span>What does this mean?</span>
+                <svg
+                  data-accordion-icon
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id="contributionsWithoutDR-body-2"
+              class="hidden"
+              aria-labelledby="contributionsWithoutDR-heading-2"
+            >
+              <div
+                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  This is showing contributions without donor restrictions for each year.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div
       id="contributionsTrend_modal"
@@ -2951,49 +3619,49 @@
                 </p>
               </div>
             </div>
-            <h2 id="contributionsTrend-heading-3">
-              <button
-                type="button"
-                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
-                data-accordion-target="#contributionsTrend-body-3"
-                aria-expanded="false"
-                aria-controls="contributionsTrend-body-3"
-              >
-                <span>Benchmark</span>
-                <svg
-                  data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5 5 1 1 5"
-                  />
-                </svg>
-              </button>
-            </h2>
-            <div
-              id="contributionsTrend-body-3"
-              class="hidden"
-              aria-labelledby="contributionsTrend-heading-3"
+            <!-- <h2 id="contributionsTrend-heading-3">
+          <button
+            type="button"
+            class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+            data-accordion-target="#contributionsTrend-body-3"
+            aria-expanded="false"
+            aria-controls="contributionsTrend-body-3"
+          >
+            <span>Benchmark</span>
+            <svg
+              data-accordion-icon
+              class="w-3 h-3 rotate-180 shrink-0"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
             >
-              <div
-                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
-              >
-                <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Ratione optio id ex odio recusandae maiores repellendus eum
-                  numquam laborum eos illo rem, pariatur cum temporibus
-                  praesentium natus veritatis blanditiis. Magnam.
-                </p>
-              </div>
-            </div>
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5 5 1 1 5"
+              />
+            </svg>
+          </button>
+        </h2>
+        <div
+          id="contributionsTrend-body-3"
+          class="hidden"
+          aria-labelledby="contributionsTrend-heading-3"
+        >
+          <div
+            class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
+          >
+            <p class="mb-2 text-gray-500 dark:text-gray-400">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              Ratione optio id ex odio recusandae maiores repellendus eum
+              numquam laborum eos illo rem, pariatur cum temporibus
+              praesentium natus veritatis blanditiis. Magnam.
+            </p>
+          </div>
+        </div> -->
           </div>
         </div>
       </div>
@@ -3139,7 +3807,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="annualizedInvestmentReturn-heading-3">
+            <!-- <h2 id="annualizedInvestmentReturn-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -3181,7 +3849,7 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -3329,7 +3997,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="functionalExpensePercent_administrative-heading-3">
+            <!-- <h2 id="functionalExpensePercent_administrative-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -3371,7 +4039,7 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -3518,7 +4186,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="functionalExpensePercent_program-heading-3">
+            <!-- <h2 id="functionalExpensePercent_program-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -3560,7 +4228,7 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -3707,7 +4375,7 @@
                 </p>
               </div>
             </div>
-            <h2 id="functionalExpensePercent_fundraising-heading-3">
+            <!-- <h2 id="functionalExpensePercent_fundraising-heading-3">
               <button
                 type="button"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
@@ -3749,7 +4417,7 @@
                   praesentium natus veritatis blanditiis. Magnam.
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -3894,49 +4562,6 @@
                 </p>
               </div>
             </div>
-            <h2 id="costOfContributions-heading-3">
-              <button
-                type="button"
-                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
-                data-accordion-target="#costOfContributions-body-3"
-                aria-expanded="false"
-                aria-controls="costOfContributions-body-3"
-              >
-                <span>Benchmark</span>
-                <svg
-                  data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5 5 1 1 5"
-                  />
-                </svg>
-              </button>
-            </h2>
-            <div
-              id="costOfContributions-body-3"
-              class="hidden"
-              aria-labelledby="costOfContributions-heading-3"
-            >
-              <div
-                class="p-5 border-t-0 border-gray-200 dark:border-none dark:bg-gray-800"
-              >
-                <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Ratione optio id ex odio recusandae maiores repellendus eum
-                  numquam laborum eos illo rem, pariatur cum temporibus
-                  praesentium natus veritatis blanditiis. Magnam.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -3946,7 +4571,6 @@
     <div
       id="options_modal"
       tabindex="-1"
-      aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
     >
       <div class="relative p-4 w-full max-w-4xl max-h-full">
@@ -3975,7 +4599,6 @@
                 >
                   <svg
                     class="w-3 h-3"
-                    aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 14 14"
@@ -3994,15 +4617,14 @@
 
               <!-- MODAL BODY -->
               <div class="flex flex-col justify-between gap-y-5 ml-8">
-                <!-- Region and Type -->
+                <!-- Area and Type -->
                 <div class="flex py-4">
                   <div
-                    id="custom-select-region"
+                    id="custom-select-area"
                     class="flex mr-4 pb-2 max-w-max cursor-pointer text-gray-800 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-300"
                   >
                     <svg
                       class="w-5 h-5"
-                      aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
                       viewBox="0 0 16 20"
@@ -4017,7 +4639,6 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
-                      aria-hidden="true"
                     >
                       <path
                         fill-rule="evenodd"
@@ -4027,7 +4648,7 @@
                     </svg>
                   </div>
                   <div
-                    id="options-list-region"
+                    id="options-list-area"
                     class="absolute top-32 left-20 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-fit invisible overflow-y-scroll h-fit"
                   ></div>
                   <div
@@ -4036,7 +4657,6 @@
                   >
                     <svg
                       class="w-5 h-5"
-                      aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="24"
@@ -4055,7 +4675,6 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
-                      aria-hidden="true"
                     >
                       <path
                         fill-rule="evenodd"
@@ -4074,7 +4693,6 @@
                   >
                     <svg
                       class="w-5 h-5"
-                      aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="24"
@@ -4093,7 +4711,6 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
-                      aria-hidden="true"
                     >
                       <path
                         fill-rule="evenodd"
@@ -4116,7 +4733,6 @@
                         >
                           <svg
                             class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                            aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 20 20"
@@ -4154,6 +4770,7 @@
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
+                      id="givingUnitsMin"
                       class="bg-transparent border-none text-center w-24 text-xl"
                     />
                     -
@@ -4162,6 +4779,7 @@
                       maxlength="5"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
+                      id="givingUnitsMax"
                       class="bg-transparent border-none text-center w-24 text-xl"
                     />
                   </div>
@@ -4197,12 +4815,12 @@
                       ></div>
 
                       <div
-                        class="absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
+                        class="givingUnitSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
                         x-bind:style="'left: '+minthumb+'%'"
                       ></div>
 
                       <div
-                        class="absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
+                        class="givingUnitSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
                         x-bind:style="'right: '+maxthumb+'%'"
                       ></div>
                     </div>
@@ -4222,6 +4840,7 @@
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
+                      id="missionUnitsMin"
                       class="bg-transparent border-none text-center w-24 text-xl"
                     />
                     -
@@ -4230,6 +4849,7 @@
                       maxlength="5"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
+                      id="missionUnitsMax"
                       class="bg-transparent border-none text-center w-24 text-xl"
                     />
                   </div>
@@ -4265,12 +4885,12 @@
                       ></div>
 
                       <div
-                        class="absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
+                        class="missionUnitSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
                         x-bind:style="'left: '+minthumb+'%'"
                       ></div>
 
                       <div
-                        class="absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
+                        class="missionUnitSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
                         x-bind:style="'right: '+maxthumb+'%'"
                       ></div>
                     </div>
@@ -4331,40 +4951,34 @@
                     <div
                       class="flex justify-center flex-col md:flex-row grid-rows-4 grid-flow-col gap-4"
                     >
-                      <button
+                      <a
                         href=""
                         class="flex backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
                         id="trendXLSFinal"
                         target="_blank"
                       >
                         Trends XLS
-                      </button>
-                      <button
+                      </a>
+                      <a
                         href=""
                         class="flex backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
                         id="trendPDFFinal"
                         target="_blank"
                       >
                         Trends PDF
-                      </button>
-                      <button
-                        href=""
-                        class="flex backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-                        id="benchXLSFinal"
-                        target="_blank"
-                      >
-                        Benchmark XLS
-                      </button>
-                      <button
-                        href=""
-                        class="flex backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-                        id="benchPDFFinal"
-                        target="_blank"
-                      >
-                        Benchmark PDF
-                      </button>
+                      </a>
                     </div>
                   </div>
+                  <hr
+                    class="h-px my-4 mx-8 bg-gray-700 border-0 dark:bg-gray-500"
+                  />
+                  <button
+                    type="button"
+                    class="flex backgroundBlue text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    id="printBase64"
+                  >
+                    Print Presentation
+                  </button>
                 </div>
               </div>
             </div>
@@ -4373,14 +4987,100 @@
       </div>
     </div>
 
-    <!-- import all the .js files from components, data, and utility folders-->
-    <script src="./utility/Utility.js"></script>
-    <script src="./utility/WeightedAverages.js"></script>
-    <script src="./data/Api.js"></script>
-    <script src="./components/DisplayCharts.js"></script>
-    <script src="./components/Header.js"></script>
-    <script src="./components/Report.js"></script>
-    <script src="./utility/UiManagement.js"></script>
-    <script src="utility/charts.js"></script>
+    <!-- Loading Modal -->
+    <div
+      id="loadingApiDiv"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75"
+    >
+      <div class="text-center">
+        <div role="staatus">
+          <div
+            id="loadingApiInnerDiv"
+            class="animate-pulse flex flex-col place-items-center px-5 py-5 font-semibold text-white leading-none tracking-wider text-center rounded-full dark:bg-blue-900 dark:text-blue-200"
+          >
+            <div id="loadingApiHeader" class="mb-4 text-6xl"></div>
+            <div id="loadingApiYears"
+              class="px-3 py-1 text-4xl font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200"
+            >
+              <span id="apiYears">
+                <span id="firstApiYear" class="mx-2"></span> -
+                <span id="LastApiYear" class="mx-2"></span>
+              </span>
+              <span id="apiPrint" class="flex">
+                Chart
+                <svg
+                  class="mx-2 font-extrabold w-10 h-10 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 12H5m14 0-4 4m4-4-4-4"
+                  />
+                </svg>
+                Base64
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Base utilities -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=164"></script>
+    <!-- utility.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=168"></script>
+    <!-- weightedAverage.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=182"></script>
+    <!-- utilityPrint.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=165"></script>
+    <!-- Header.js -->
+
+    <!-- Load qbApi.js early since other components depend on it -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=163"></script>
+    <!-- qbApi.js -->
+
+    <!-- Core chart system (base functionality) -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=194"></script>
+    <!-- intl_chartSystem.js -->
+
+    <!-- Chart configuration factory (includes color definitions) -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=195"></script>
+    <!-- intl_chartConfigFactory.js -->
+
+    <!-- Chart manager -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=196"></script>
+    <!-- intl_chartManager.js -->
+
+    <!-- Chart display components with compatibility layer -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=197"></script>
+    <!-- intl_chartDisplayComponents.js -->
+
+    <!-- Chart system main index -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=198"></script>
+    <!-- intl_chartIndex.js -->
+
+    <!-- UI Management -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=166"></script>
+
+    <!-- Simplified Excel Report Integration -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=201"></script>
+    <!-- printExcel.js -->
+
+    <!-- Simplified Report Component -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=167"></script>
+    <!-- report_Main.js -->
+
+    <!-- System connector (keep this where it is, at the end) -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=199"></script>
   </body>
 </html>
