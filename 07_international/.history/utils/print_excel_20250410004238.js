@@ -57,13 +57,11 @@ class ExcelReportGenerator {
         false,
         "cash",
       ],
-      ["liquidityAssetsAvailableCover", [207, 208, 209, 210], false, false, "cash"],
       ["liquidityFundsAvailable", [12, 50, 88, 126], false, false, "cash"],
       ["financialAssetsAvailableFY", [13, 51, 89, 127], false, false, "cash"],
       ["daysFinancialAssetsOnHand", [14, 52, 90, 128], false, false, "cash"],
       ["currentRatio", [15, 53, 91, 129], false, false, "cash"],
       ["totalCoverageRatio", [16, 54, 92, 130], false, false, "cash"],
-      ["assetsWithoutPpeToLiabilitiesWithoutDebt", [211, 212, 213, 214], false, false, "cash"],
       ["cashFlowsTrendFinancing", [17, 55, 93, 131], false, false, "cash"],
       ["cashFlowsTrendInvesting", [18, 56, 94, 132], false, false, "cash"],
       ["cashFlowsTrendOperating", [19, 57, 95, 133], false, false, "cash"],
@@ -605,8 +603,7 @@ class ExcelReportGenerator {
         
         if (i >= 5) {
           let num = i - 5
-          fieldId = 176 + num
-          console.log(i, fieldId);
+          fieldId = 178 + num
         } else {
           fieldId = Number(this.FIELD_IDS.YEARS_START) + i;
         }

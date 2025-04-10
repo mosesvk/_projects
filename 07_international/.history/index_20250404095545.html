@@ -4770,7 +4770,7 @@
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
-                      id="assetsMin"
+                      id="givingUnitsMin"
                       class="bg-transparent border-none text-center w-24 text-xl"
                     />
                     -
@@ -4779,7 +4779,7 @@
                       maxlength="5"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
-                      id="assetsMax"
+                      id="givingUnitsMax"
                       class="bg-transparent border-none text-center w-24 text-xl"
                     />
                   </div>
@@ -4815,12 +4815,12 @@
                       ></div>
 
                       <div
-                        class="assetSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
+                        class="givingUnitSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
                         x-bind:style="'left: '+minthumb+'%'"
                       ></div>
 
                       <div
-                        class="assetSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
+                        class="givingUnitSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
                         x-bind:style="'right: '+maxthumb+'%'"
                       ></div>
                     </div>
@@ -4891,76 +4891,6 @@
 
                       <div
                         class="missionUnitSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
-                        x-bind:style="'right: '+maxthumb+'%'"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Total Assets -->
-                <div
-                  x-data="assetsRange()"
-                  x-init="mintrigger(); maxtrigger()"
-                  class="relative max-w-md w-full pb-5"
-                >
-                  <div class="flex items-center py-3 pr-3">
-                    <p class="whitespace-nowrap mr-4">Total Assets:</p>
-                    <input
-                      type="text"
-                      maxlength="5"
-                      x-on:input="mintrigger"
-                      x-model="minprice"
-                      x-ref="minInput"
-                      id="assetsMin"
-                      class="bg-transparent border-none text-center w-24 text-xl"
-                    />
-                    -
-                    <input
-                      type="text"
-                      maxlength="5"
-                      x-on:input="maxtrigger"
-                      x-model="maxprice"
-                      id="assetsMax"
-                      class="bg-transparent border-none text-center w-24 text-xl"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="range"
-                      step="100"
-                      x-bind:min="min"
-                      x-bind:max="max"
-                      x-on:input="mintrigger"
-                      x-model="minprice"
-                      class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
-                    />
-
-                    <input
-                      type="range"
-                      step="100"
-                      x-bind:min="min"
-                      x-bind:max="max"
-                      x-on:input="maxtrigger"
-                      x-model="maxprice"
-                      class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
-                    />
-
-                    <div class="relative z-10 h-2">
-                      <div
-                        class="absolute z-10 left-0 right-0 bottom-0 top-0 rounded-md bg-gray-200"
-                      ></div>
-
-                      <div
-                        class="absolute z-20 top-0 bottom-0 rounded-md backgroundGreen"
-                        x-bind:style="'right:'+maxthumb+'%; left:'+minthumb+'%'"
-                      ></div>
-
-                      <div
-                        class="assetSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
-                        x-bind:style="'left: '+minthumb+'%'"
-                      ></div>
-
-                      <div
-                        class="assetSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
                         x-bind:style="'right: '+maxthumb+'%'"
                       ></div>
                     </div>

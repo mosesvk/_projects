@@ -63,7 +63,6 @@ class ExcelReportGenerator {
       ["daysFinancialAssetsOnHand", [14, 52, 90, 128], false, false, "cash"],
       ["currentRatio", [15, 53, 91, 129], false, false, "cash"],
       ["totalCoverageRatio", [16, 54, 92, 130], false, false, "cash"],
-      ["assetsWithoutPpeToLiabilitiesWithoutDebt", [211, 212, 213, 214], false, false, "cash"],
       ["cashFlowsTrendFinancing", [17, 55, 93, 131], false, false, "cash"],
       ["cashFlowsTrendInvesting", [18, 56, 94, 132], false, false, "cash"],
       ["cashFlowsTrendOperating", [19, 57, 95, 133], false, false, "cash"],
