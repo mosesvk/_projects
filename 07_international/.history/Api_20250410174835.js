@@ -2686,7 +2686,7 @@ class ApiService {
     checkForFunctions();
   }
   // Method to handle filter changes
-  _handleFiltersChanged() {a
+  _handleFiltersChanged() {
     if (!window.clientDataStore) {
       console.warn("Client data store not available yet");
       return;

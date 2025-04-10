@@ -2686,14 +2686,14 @@ class ApiService {
     checkForFunctions();
   }
   // Method to handle filter changes
-  _handleFiltersChanged() {a
+  _handleFiltersChanged() {
     if (!window.clientDataStore) {
       console.warn("Client data store not available yet");
       return;
     }
-
+  
     console.log("Filter change detected. Updating client selection...");
-
+  
     // Call the function that updates client checkboxes based on current filters
     if (typeof updateClientDropdownBasedOnFilters === "function") {
       updateClientDropdownBasedOnFilters();
