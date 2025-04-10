@@ -90,7 +90,7 @@ async function processChartsWithSpacing(chartMappings) {
           ...chart.w.config,
           chart: {
             ...chart.w.config.chart,
-            height: 400, // Make it taller
+            height: 40, // Make it taller
             width: 900,
             animations: {
               enabled: false, // Disable animations for export

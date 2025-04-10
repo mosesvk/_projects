@@ -81,8 +81,8 @@ async function processChartsWithSpacing(chartMappings) {
         tempContainer.id = `temp-${chartId}`;
         tempContainer.style.position = "absolute";
         tempContainer.style.left = "-9999px";
-        tempContainer.style.height = "400px"; // Intentionally taller
-        tempContainer.style.width = "900px"
+        tempContainer.style.height = "600px"; // Intentionally taller
+        tempContainer.style.width = chartElement.offsetWidth + "px";
         document.body.appendChild(tempContainer);
 
         // Create a temporary chart with the same config but larger dimensions
@@ -90,8 +90,8 @@ async function processChartsWithSpacing(chartMappings) {
           ...chart.w.config,
           chart: {
             ...chart.w.config.chart,
-            height: 400, // Make it taller
-            width: 900,
+            height: 550, // Make it taller
+            width: chartElement.offsetWidth,
             animations: {
               enabled: false, // Disable animations for export
             },
@@ -133,8 +133,7 @@ async function processChartsWithSpacing(chartMappings) {
           // Fallback to html2canvas if dataURI fails
           const canvas = await html2canvas(tempContainer, {
             scale: 2,
-            width: 900,  // Fixed width (9.37 inches)
-            height: 400, // Fixed height (4.16 inches)
+            height: 600,
             useCORS: true,
             allowTaint: true,
             backgroundColor:
