@@ -3105,6 +3105,8 @@ class AppController {
         if (!recordsClient || recordsClient.length === 0) {
           console.warn("No client records returned");
           // Continue anyway, we might have peer data
+        } else if (recordsClient.length < 6) {
+          createToastWarning('There are 5 or less Unique Clients in Peer Records.')
         } else {
           // Process client records
           recordsClient = await validateAndNormalizeRecords(recordsClient);
@@ -3448,14 +3450,11 @@ function countUniqueClients(records) {
 
     // Update the UI with the count
     const count = uniqueClients.size;
-    if (count < 6) {
-      createToastWarning('There are 5 or less Unique Clients in Peer Records.')
-    }
     const element = document.getElementById("uniqueClients");
     if (element) {
       element.textContent = count;
     } else {
-      createToastWarning('There are 5 or less Unique Clients in Peer Records.')
+      console.warn("Element with ID 'uniqueClients' not found");
     }
 
     console.log(`Counted ${count} unique clients after filtering`);

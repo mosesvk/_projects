@@ -437,7 +437,7 @@ class DataProcessor {
           "daysExpensesInNAwithDR_Peer",
           record,
           "c02_03_ratio_days_expenses_in_net_assets_with_dr",
-          "c02_03_yes_no_days_expenses_in_net_assets_with_dr"
+          "c02_02_yes_no_days_expenses_in_unrestricted_na"
         );
         this.dataStore.insertData(
           "cash",
@@ -446,7 +446,7 @@ class DataProcessor {
           "netAssetsWithDRByPurposeOrTime",
           record,
           "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
-          "c02_03_yes_no_days_expenses_in_net_assets_with_dr",
+          "c02_02_yes_no_days_expenses_in_unrestricted_na",
           "daysExpensesInNAwithDR"
         );
         this.dataStore.insertData(
@@ -456,7 +456,7 @@ class DataProcessor {
           "netAssetsWithDRInPerpetuity",
           record,
           "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
-          "c02_03_yes_no_days_expenses_in_net_assets_with_dr",
+          "c02_02_yes_no_days_expenses_in_unrestricted_na",
           "daysExpensesInNAwithDR"
         );
         this.dataStore.insertData(
@@ -466,7 +466,7 @@ class DataProcessor {
           "totalExpenses",
           record,
           "_02_03exp___05_total_expenses",
-          "c02_03_yes_no_days_expenses_in_net_assets_with_dr",
+          "c02_02_yes_no_days_expenses_in_unrestricted_na",
           "daysExpensesInNAwithDR"
         );
 
@@ -2599,7 +2599,7 @@ class ApiService {
       // Initialize filter handlers after client data is loaded
       this._initializeFilterHandlers();
 
-      window.sortedUniquePeerClientNames = sortedUniquePeerClientNames;
+      window.sortedUniquePeerClientNames = sortedUniquePeerClientNames
 
       return sortedUniquePeerClientNames;
     } catch (error) {
@@ -3105,6 +3105,8 @@ class AppController {
         if (!recordsClient || recordsClient.length === 0) {
           console.warn("No client records returned");
           // Continue anyway, we might have peer data
+        } else if (recordsClient.length < 5) { 
+        
         } else {
           // Process client records
           recordsClient = await validateAndNormalizeRecords(recordsClient);
@@ -3448,14 +3450,11 @@ function countUniqueClients(records) {
 
     // Update the UI with the count
     const count = uniqueClients.size;
-    if (count < 6) {
-      createToastWarning('There are 5 or less Unique Clients in Peer Records.')
-    }
     const element = document.getElementById("uniqueClients");
     if (element) {
       element.textContent = count;
     } else {
-      createToastWarning('There are 5 or less Unique Clients in Peer Records.')
+      console.warn("Element with ID 'uniqueClients' not found");
     }
 
     console.log(`Counted ${count} unique clients after filtering`);
