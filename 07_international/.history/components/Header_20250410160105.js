@@ -16,87 +16,6 @@ window.revenueValue = 0;
 window.revenueValue2 = 600000000;
 
 /**
- * NumberFormatter class for managing formatted display of numeric values
- * Only updates textContent/innerHTML, not input values
- */
-class NumberFormatter {
-  constructor() {
-    // Map of display elements IDs and their corresponding global variables
-    this.displayMap = {
-      // Assets displays
-      'assetsMinDisplay': { globalVar: 'assetsValue', format: 'currency' },
-      'assetsMaxDisplay': { globalVar: 'assetsValue2', format: 'currency' },
-      // Revenue displays
-      'revenueMinDisplay': { globalVar: 'revenueValue', format: 'currency' },
-      'revenueMaxDisplay': { globalVar: 'revenueValue2', format: 'currency' },
-      // Giving units displays
-      'givingUnitsMinDisplay': { globalVar: 'sliderValue', format: 'integer' },
-      'givingUnitsMaxDisplay': { globalVar: 'sliderValue2', format: 'integer' },
-      // Mission units displays
-      'missionUnitsMinDisplay': { globalVar: 'missionValue', format: 'integer' },
-      'missionUnitsMaxDisplay': { globalVar: 'missionValue2', format: 'integer' }
-    };
-    
-    // Cache display elements
-    this.displayElements = {};
-    Object.keys(this.displayMap).forEach(id => {
-      this.displayElements[id] = document.getElementById(id);
-    });
-    
-    // Initialize displays
-    this.updateAllDisplays();
-  }
-  
-  /**
-   * Format a number for display
-   * @param {number} value - The value to format
-   * @param {string} formatType - Format type (currency, integer, number)
-   * @returns {string} - Formatted string
-   */
-  formatValue(value, formatType = 'number') {
-    if (value === undefined || value === null) return '';
-    
-    // Format as currency with $ sign and commas
-    if (formatType === 'currency') {
-      return '$ ' + new Intl.NumberFormat('en-US').format(value);
-    }
-    
-    // Format as integer with commas
-    if (formatType === 'integer') {
-      return new Intl.NumberFormat('en-US').format(Math.round(value));
-    }
-    
-    // Format as number with commas (default)
-    return new Intl.NumberFormat('en-US').format(value);
-  }
-  
-  /**
-   * Update a single display element with formatted value
-   * @param {string} displayId - ID of the display element
-   */
-  updateDisplay(displayId) {
-    const element = this.displayElements[displayId];
-    if (!element) return;
-    
-    const config = this.displayMap[displayId];
-    const value = window[config.globalVar];
-    
-    // Set the formatted text content
-    element.textContent = this.formatValue(value, config.format);
-  }
-  
-  /**
-   * Update all display elements with formatted values
-   */
-  updateAllDisplays() {
-    Object.keys(this.displayMap).forEach(displayId => {
-      this.updateDisplay(displayId);
-    });
-  }
-}
-
-
-/**
  * Sets up dropdown toggle functionality
  * @param {string} selectElementId - ID of the dropdown trigger element
  * @param {string} optionsListId - ID of the dropdown content element
@@ -827,9 +746,91 @@ document.addEventListener("clientDataLoaded", initializeClientDropdown);
 
 // Main initialization when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
+  // Find all the formatted input fields
+  const formattedInputs = [
+    document.getElementById("assetsMin"),
+    document.getElementById("assetsMax"),
+    document.getElementById("revenueMin"),
+    document.getElementById("revenueMax"),
+    document.getElementById("givingUnitsMin"),
+    document.getElementById("givingUnitsMax"),
+    document.getElementById("missionUnitsMin"),
+    document.getElementById("missionUnitsMax"),
+  ];
 
-  window.numberFormatter = new NumberFormatter();
+  // Add input formatter to each field
+  formattedInputs.forEach((input) => {
+    if (input) {
+      // Format initial value
+      let initialValue =
+        input.id === "assetsMin"
+          ? window.assetsValue
+          : input.id === "assetsMax"
+          ? window.assetsValue2
+          : input.id === "revenueMin"
+          ? window.revenueValue
+          : input.id === "revenueMax"
+          ? window.revenueValue2
+          : input.id === "givingUnitsMin"
+          ? window.sliderValue
+          : input.id === "givingUnitsMax"
+          ? window.sliderValue2
+          : input.id === "missionUnitsMin"
+          ? window.missionValue
+          : input.id === "missionUnitsMax"
+          ? window.missionValue2
+          : 0;
 
+      // Set the raw value first
+      input.value = initialValue;
+
+      // Then apply formatting
+      formatNumberWithCommas(input);
+
+      // Add input event to format as user types
+      input.addEventListener("input", function () {
+        // Format the display
+        let rawValue = formatNumberWithCommas(this);
+
+        // Update the corresponding global variable
+        if (this.id === "assetsMin") window.assetsValue = rawValue;
+        else if (this.id === "assetsMax") window.assetsValue2 = rawValue;
+        else if (this.id === "revenueMin") window.revenueValue = rawValue;
+        else if (this.id === "revenueMax") window.revenueValue2 = rawValue;
+        else if (this.id === "givingUnitsMin") window.sliderValue = rawValue;
+        else if (this.id === "givingUnitsMax") window.sliderValue2 = rawValue;
+        else if (this.id === "missionUnitsMin") window.missionValue = rawValue;
+        else if (this.id === "missionUnitsMax") window.missionValue2 = rawValue;
+
+        // Trigger filter update
+        const event = new CustomEvent("filtersChanged");
+        document.dispatchEvent(event);
+      });
+
+      // Add focus event to select all text when user clicks
+      input.addEventListener("focus", function () {
+        this.select();
+      });
+
+      // Add blur event to ensure formatting when user leaves the field
+      input.addEventListener("blur", function () {
+        // If empty, set to 0
+        if (!this.value) {
+          this.value = "0";
+          // Update the corresponding global variable
+          if (this.id === "assetsMin") window.assetsValue = 0;
+          else if (this.id === "assetsMax") window.assetsValue2 = 0;
+          else if (this.id === "revenueMin") window.revenueValue = 0;
+          else if (this.id === "revenueMax") window.revenueValue2 = 0;
+          else if (this.id === "givingUnitsMin") window.sliderValue = 0;
+          else if (this.id === "givingUnitsMax") window.sliderValue2 = 0;
+          else if (this.id === "missionUnitsMin") window.missionValue = 0;
+          else if (this.id === "missionUnitsMax") window.missionValue2 = 0;
+        }
+        formatNumberWithCommas(this);
+      });
+    }
+  });
 
   // Initialize Sets with all available values
   if (typeof areas_Array !== "undefined") {
@@ -1030,9 +1031,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     sliders.forEach((slider) => {
       if (slider) {
-        slider.addEventListener('input', function() {
-          window.numberFormatter.updateAllDisplays();
-        });
         // Set initial slider values to match global variables
         slider.value = parseInt(
           slider.id === "givingUnitsMin"
@@ -1083,8 +1081,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeFilterTriggers();
 
   document.addEventListener("filtersChanged", function () {
-    window.numberFormatter.updateAllInputs();
-
     console.log("Filter State Updated:", {
       sliders: {
         givingMin: window.sliderValue,

@@ -1811,6 +1811,27 @@ function changeThWidth(elementId) {
   }
 }
 
+function formatNumberWithCommas(input) {
+  // Remove any existing commas and non-numeric characters except decimals
+  let value = input.value.replace(/,/g, "").replace(/[^\d.]/g, "");
+
+  // Store the raw value in a data attribute
+  input.dataset.rawValue = value;
+
+  // Format the value with commas for display
+  if (value) {
+    // Split by decimal point if there is one
+    const parts = value.split(".");
+    // Format integer part with commas
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Reassemble with decimal if it exists
+    input.value = parts.join(".");
+  }
+
+  // Return the raw numeric value for calculations
+  return parseFloat(value) || 0;
+}
+
 const range = () => {
   return {
     minprice: 0,

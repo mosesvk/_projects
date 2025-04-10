@@ -1925,8 +1925,7 @@ function assetsRange() {
       assetsValue = this.minprice;
       if (document.getElementById("assetsMin")) {
         document.getElementById("assetsMin").value = assetsValue;
-        document.getElementById("assetsMin").textContent =
-          assetsValue.toLocaleString();
+        document.getElementById("assetsMin").textContent = assetsValue.toLocaleString();
       }
 
       this.minthumb =
@@ -1942,8 +1941,6 @@ function assetsRange() {
       assetsValue2 = this.maxprice;
       if (document.getElementById("assetsMax")) {
         document.getElementById("assetsMax").value = assetsValue2;
-        document.getElementById("assetsMax").textContent =
-          assetsValue2.toLocaleString();
       }
 
       this.maxthumb =

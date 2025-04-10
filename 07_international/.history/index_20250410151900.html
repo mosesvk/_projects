@@ -1937,10 +1937,10 @@
                               Expense Ratios And Measurements
                             </th>
 
-                            <th scope="col" class="px-6 py-3 text-lg">Avg</th>
-                            <th scope="col" class="px-6 py-3 text-lg">25%</th>
-                            <th scope="col" class="px-6 py-3 text-lg">50%</th>
-                            <th scope="col" class="px-6 py-3 text-lg">75%</th>
+                            <th scope="col" class="px-6 py-3  text-lg">Avg</th>
+                            <th scope="col" class="px-6 py-3  text-lg">25%</th>
+                            <th scope="col" class="px-6 py-3  text-lg">50%</th>
+                            <th scope="col" class="px-6 py-3  text-lg">75%</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -3329,8 +3329,7 @@
                 class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
               >
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  This is the total contributions with and without donor
-                  restrictions for each year
+                  This is the total contributions with and without donor restrictions for each year
                 </p>
               </div>
             </div>
@@ -3472,8 +3471,7 @@
                 class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800"
               >
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  This is showing contributions without donor restrictions for
-                  each year.
+                  This is showing contributions without donor restrictions for each year.
                 </p>
               </div>
             </div>
@@ -4759,27 +4757,26 @@
                   </div>
                 </div>
                 <!-- Giving Units - slider -->
-                <div
+                <div 
                   x-data="range()"
                   x-init="mintrigger(); maxtrigger()"
-                  class="relative max-w-lg w-full pb-5"
+                  class="relative max-w-md w-full pb-5"
                 >
                   <div class="flex items-center py-3 pr-3">
                     <p class="whitespace-nowrap w-40">Giving Units:</p>
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
                       id="givingUnitsMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
-                    <span class="mx-1">-</span>
-
+                    -
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
                       id="givingUnitsMax"
@@ -4833,23 +4830,23 @@
                 <div
                   x-data="missionaryRange()"
                   x-init="mintrigger(); maxtrigger()"
-                  class="relative max-w-lg w-full pb-5"
+                  class="relative max-w-md w-full pb-5"
                 >
                   <div class="flex items-center py-3 pr-3">
                     <p class="whitespace-nowrap w-40">Missionary Units:</p>
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
                       id="missionUnitsMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
-                    <span class="mx-1">-</span>
+                    -
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
                       id="missionUnitsMax"
@@ -4903,23 +4900,23 @@
                 <div
                   x-data="assetsRange()"
                   x-init="mintrigger(); maxtrigger()"
-                  class="relative max-w-lg w-full pb-5"
+                  class="relative max-w-md w-full pb-5"
                 >
                   <div class="flex items-center py-3 pr-3">
                     <p class="whitespace-nowrap w-40">Total Assets:</p>
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
                       id="assetsMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
-                    <span class="mx-1">-</span>
+                    -
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
                       id="assetsMax"
@@ -4973,23 +4970,23 @@
                 <div
                   x-data="revenueRange()"
                   x-init="mintrigger(); maxtrigger()"
-                  class="relative max-w-lg w-full pb-5"
+                  class="relative max-w-md w-full pb-5"
                 >
                   <div class="flex items-center py-3 pr-3">
                     <p class="whitespace-nowrap w-40">Total Revenue:</p>
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
                       id="revenueMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
-                    <span class="mx-1">-</span>
+                    -
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
                       id="revenueMax"
@@ -5144,8 +5141,7 @@
             class="animate-pulse flex flex-col place-items-center px-5 py-5 font-semibold text-white leading-none tracking-wider text-center rounded-full dark:bg-blue-900 dark:text-blue-200"
           >
             <div id="loadingApiHeader" class="mb-4 text-6xl"></div>
-            <div
-              id="loadingApiYears"
+            <div id="loadingApiYears"
               class="px-3 py-1 text-4xl font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200"
             >
               <span id="apiYears">
