@@ -2373,7 +2373,7 @@ class ApiService {
         act: "API_DoQuery",
         query: queryCondition,
         clist:
-          "301.59.60.62.63.64.66.261.302.262.303.211.227.231.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.228.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.222.231.344.334.306.347.343.346.244.205.341.342.344.345.348.351.352.256.353.354.7",
+          "301.59.60.62.63.64.66.261.302.262.303.211.227.231.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.228.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.222.231.344.334.306.347.343.346.244.205.341.342.344.345.348.351.352.256.353.354.",
       };
 
       // Use await to make the async operation more explicit
@@ -3111,12 +3111,10 @@ class AppController {
         } else {
           // Process client records
           recordsClient = await validateAndNormalizeRecords(recordsClient);
-
-          window.recordsClientSelectedYears = recordsClient
-          window.monthYearEnd = recordsClient[recordsClientSelectedYears.length - 1].querySelector('fiscal_ye_date_formatted_month').textContent
           // console.log(`Normalized ${recordsClient.length} client records`);
         }
 
+        window.recordsClient = recordsClient
       } catch (error) {
         console.error("Error fetching client data:", error);
         createToastWarning("Error fetching client data. Please try again.");
@@ -3511,7 +3509,7 @@ function toggleButtonNormalState(btn) {
 let apiCallClientDataForUniqueYears = {
   act: "API_DoQuery",
   query: `{29.EX.${ClientRid}}`,
-  clist: "29.191.220.223",
+  clist: "29.191.220",
 };
 
 // Fetch client information

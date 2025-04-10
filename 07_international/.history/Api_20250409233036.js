@@ -3111,9 +3111,6 @@ class AppController {
         } else {
           // Process client records
           recordsClient = await validateAndNormalizeRecords(recordsClient);
-
-          window.recordsClientSelectedYears = recordsClient
-          window.monthYearEnd = recordsClient[recordsClientSelectedYears.length - 1].querySelector('fiscal_ye_date_formatted_month').textContent
           // console.log(`Normalized ${recordsClient.length} client records`);
         }
 
@@ -3511,7 +3508,7 @@ function toggleButtonNormalState(btn) {
 let apiCallClientDataForUniqueYears = {
   act: "API_DoQuery",
   query: `{29.EX.${ClientRid}}`,
-  clist: "29.191.220.223",
+  clist: "29.191.220.2223",
 };
 
 // Fetch client information

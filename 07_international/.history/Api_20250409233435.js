@@ -3113,7 +3113,6 @@ class AppController {
           recordsClient = await validateAndNormalizeRecords(recordsClient);
 
           window.recordsClientSelectedYears = recordsClient
-          window.monthYearEnd = recordsClient[recordsClientSelectedYears.length - 1].querySelector('fiscal_ye_date_formatted_month').textContent
           // console.log(`Normalized ${recordsClient.length} client records`);
         }
 

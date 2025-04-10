@@ -82,7 +82,7 @@ async function processChartsWithSpacing(chartMappings) {
         tempContainer.style.position = "absolute";
         tempContainer.style.left = "-9999px";
         tempContainer.style.height = "400px"; // Intentionally taller
-        tempContainer.style.width = "900px";
+        tempContainer.style.width = "900px"
         document.body.appendChild(tempContainer);
 
         // Create a temporary chart with the same config but larger dimensions
@@ -133,7 +133,7 @@ async function processChartsWithSpacing(chartMappings) {
           // Fallback to html2canvas if dataURI fails
           const canvas = await html2canvas(tempContainer, {
             scale: 2,
-            width: 900, // Fixed width (9.37 inches)
+            width: 900,  // Fixed width (9.37 inches)
             height: 400, // Fixed height (4.16 inches)
             useCORS: true,
             allowTaint: true,
@@ -237,7 +237,7 @@ async function processChartsWithSpacing(chartMappings) {
   if (progressText) {
     progressText.textContent = "Processing complete!";
   }
-
+  
   return results;
 }
 
@@ -359,14 +359,9 @@ async function apexChartsExportPrint() {
     uploadXml += createFieldXml(37, sliderValue2);
     uploadXml += createFieldXml(38, missionValue);
     uploadXml += createFieldXml(39, missionValue2);
-    uploadXml += createFieldXml(
-      40,
-      Array.from(window.selectedAreas_Array).join(";")
-    );
-    uploadXml += createFieldXml(
-      41,
-      Array.from(window.selectedTypes_Array).join(";")
-    );
+    uploadXml += createFieldXml(40, Array.from(window.selectedAreas_Array));
+    uploadXml += createFieldXml(41, Array.from(window.selectedTypes_Array)
+  );
     // uploadXml += createFieldXml(24, selectedYears[]);
 
     // Add base64 images for charts
