@@ -16,81 +16,171 @@ window.revenueValue = 0;
 window.revenueValue2 = 600000000;
 
 /**
- * NumberFormatter class for managing formatted display of numeric values
- * Only updates textContent/innerHTML, not input values
+ * NumberFormatter class for handling display formatting of numeric inputs
+ * Maintains raw values for calculations while showing formatted values for display
  */
 class NumberFormatter {
   constructor() {
-    // Map of display elements IDs and their corresponding global variables
-    this.displayMap = {
-      // Assets displays
-      'assetsMinDisplay': { globalVar: 'assetsValue', format: 'currency' },
-      'assetsMaxDisplay': { globalVar: 'assetsValue2', format: 'currency' },
-      // Revenue displays
-      'revenueMinDisplay': { globalVar: 'revenueValue', format: 'currency' },
-      'revenueMaxDisplay': { globalVar: 'revenueValue2', format: 'currency' },
-      // Giving units displays
-      'givingUnitsMinDisplay': { globalVar: 'sliderValue', format: 'integer' },
-      'givingUnitsMaxDisplay': { globalVar: 'sliderValue2', format: 'integer' },
-      // Mission units displays
-      'missionUnitsMinDisplay': { globalVar: 'missionValue', format: 'integer' },
-      'missionUnitsMaxDisplay': { globalVar: 'missionValue2', format: 'integer' }
+    // Store references to input elements
+    this.inputElements = {
+      assetsMin: document.getElementById('assetsMin'),
+      assetsMax: document.getElementById('assetsMax'),
+      revenueMin: document.getElementById('revenueMin'),
+      revenueMax: document.getElementById('revenueMax'),
+      givingUnitsMin: document.getElementById('givingUnitsMin'),
+      givingUnitsMax: document.getElementById('givingUnitsMax'),
+      missionUnitsMin: document.getElementById('missionUnitsMin'),
+      missionUnitsMax: document.getElementById('missionUnitsMax')
     };
     
-    // Cache display elements
-    this.displayElements = {};
-    Object.keys(this.displayMap).forEach(id => {
-      this.displayElements[id] = document.getElementById(id);
+    // Map input IDs to global variables
+    this.globalVarMap = {
+      'assetsMin': 'assetsValue',
+      'assetsMax': 'assetsValue2',
+      'revenueMin': 'revenueValue',
+      'revenueMax': 'revenueValue2',
+      'givingUnitsMin': 'sliderValue',
+      'givingUnitsMax': 'sliderValue2',
+      'missionUnitsMin': 'missionValue',
+      'missionUnitsMax': 'missionValue2'
+    };
+    
+    // Initialize the formatter
+    this.init();
+  }
+  
+  /**
+   * Initialize event listeners and format initial values
+   */
+  init() {
+    // Add event listeners to all input elements
+    Object.entries(this.inputElements).forEach(([key, input]) => {
+      if (!input) return;
+      
+      // Set initial formatted value
+      this.setFormattedValue(input, window[this.globalVarMap[key]]);
+      
+      // Add input event listener
+      input.addEventListener('input', () => this.handleInputChange(input));
+      
+      // Add focus event to select all text
+      input.addEventListener('focus', () => input.select());
+      
+      // Add blur event to ensure formatting
+      input.addEventListener('blur', () => this.handleBlur(input));
     });
-    
-    // Initialize displays
-    this.updateAllDisplays();
   }
   
   /**
-   * Format a number for display
-   * @param {number} value - The value to format
-   * @param {string} formatType - Format type (currency, integer, number)
-   * @returns {string} - Formatted string
+   * Format a number with commas for display
+   * @param {string|number} value - The value to format
+   * @returns {string} - Formatted value with commas
    */
-  formatValue(value, formatType = 'number') {
-    if (value === undefined || value === null) return '';
+  formatWithCommas(value) {
+    if (value === undefined || value === null || value === '') return '';
     
-    // Format as currency with $ sign and commas
-    if (formatType === 'currency') {
-      return '$ ' + new Intl.NumberFormat('en-US').format(value);
+    // Convert to string and remove existing commas
+    const numStr = String(value).replace(/,/g, '');
+    
+    // If empty or not a valid number, return original
+    if (!numStr || isNaN(parseFloat(numStr))) return numStr;
+    
+    // Split by decimal point if there is one
+    const parts = numStr.split('.');
+    
+    // Format integer part with commas
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    
+    // Reassemble with decimal if it exists
+    return parts.join('.');
+  }
+  
+  /**
+   * Parse a formatted string back to a number
+   * @param {string} formattedValue - Value with potential commas
+   * @returns {number} - Parsed number value
+   */
+  parseFormattedValue(formattedValue) {
+    // Remove commas and other non-numeric characters except decimal point
+    const numericString = String(formattedValue).replace(/,/g, '').replace(/[^\d.-]/g, '');
+    return parseFloat(numericString) || 0;
+  }
+  
+  /**
+   * Set a formatted value to an input element
+   * @param {HTMLInputElement} input - The input element
+   * @param {number} rawValue - The raw numeric value
+   */
+  setFormattedValue(input, rawValue) {
+    // Store raw value in data attribute
+    input.dataset.rawValue = rawValue;
+    
+    // Set formatted value as input value
+    input.value = this.formatWithCommas(rawValue);
+  }
+  
+  /**
+   * Handle input change event
+   * @param {HTMLInputElement} input - The changed input element
+   */
+  handleInputChange(input) {
+    // Get the raw value by removing commas
+    const rawValue = this.parseFormattedValue(input.value);
+    
+    // Store raw value in data attribute
+    input.dataset.rawValue = rawValue;
+    
+    // Update the global variable
+    const globalVarName = this.globalVarMap[input.id];
+    if (globalVarName) {
+      window[globalVarName] = rawValue;
     }
     
-    // Format as integer with commas
-    if (formatType === 'integer') {
-      return new Intl.NumberFormat('en-US').format(Math.round(value));
+    // Format the display value with commas
+    // Don't update the input value during typing to avoid cursor jumping
+    
+    // Trigger filter update
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  }
+  
+  /**
+   * Handle input blur event (when user moves away from input)
+   * @param {HTMLInputElement} input - The input element
+   */
+  handleBlur(input) {
+    // Get stored raw value
+    let rawValue = this.parseFormattedValue(input.value);
+    
+    // If empty, set to 0
+    if (input.value === '') {
+      rawValue = 0;
+      
+      // Update the global variable
+      const globalVarName = this.globalVarMap[input.id];
+      if (globalVarName) {
+        window[globalVarName] = rawValue;
+      }
     }
     
-    // Format as number with commas (default)
-    return new Intl.NumberFormat('en-US').format(value);
+    // Set formatted value
+    this.setFormattedValue(input, rawValue);
   }
   
   /**
-   * Update a single display element with formatted value
-   * @param {string} displayId - ID of the display element
+   * Update all input elements with formatted values from global variables
+   * Call this whenever filters change or values are updated from elsewhere
    */
-  updateDisplay(displayId) {
-    const element = this.displayElements[displayId];
-    if (!element) return;
-    
-    const config = this.displayMap[displayId];
-    const value = window[config.globalVar];
-    
-    // Set the formatted text content
-    element.textContent = this.formatValue(value, config.format);
-  }
-  
-  /**
-   * Update all display elements with formatted values
-   */
-  updateAllDisplays() {
-    Object.keys(this.displayMap).forEach(displayId => {
-      this.updateDisplay(displayId);
+  updateAllInputs() {
+    Object.entries(this.inputElements).forEach(([key, input]) => {
+      if (!input) return;
+      
+      // Get current global variable value
+      const globalVarName = this.globalVarMap[key];
+      const rawValue = window[globalVarName];
+      
+      // Set formatted value
+      this.setFormattedValue(input, rawValue);
     });
   }
 }
@@ -1030,9 +1120,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     sliders.forEach((slider) => {
       if (slider) {
-        slider.addEventListener('input', function() {
-          window.numberFormatter.updateAllDisplays();
-        });
         // Set initial slider values to match global variables
         slider.value = parseInt(
           slider.id === "givingUnitsMin"

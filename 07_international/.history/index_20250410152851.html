@@ -4762,24 +4762,24 @@
                 <div
                   x-data="range()"
                   x-init="mintrigger(); maxtrigger()"
-                  class="relative max-w-lg w-full pb-5"
+                  class="relative max-w-md w-full pb-5"
                 >
                   <div class="flex items-center py-3 pr-3">
                     <p class="whitespace-nowrap w-40">Giving Units:</p>
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="10"
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
                       id="givingUnitsMin"
-                      class="bg-transparent border-none text-center w-40 text-xl"
+                      class="bg-transparent border-none text-center w-28 text-xl"
                     />
                     <span class="mx-1">-</span>
 
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
                       id="givingUnitsMax"
@@ -4833,13 +4833,13 @@
                 <div
                   x-data="missionaryRange()"
                   x-init="mintrigger(); maxtrigger()"
-                  class="relative max-w-lg w-full pb-5"
+                  class="relative max-w-md w-full pb-5"
                 >
                   <div class="flex items-center py-3 pr-3">
                     <p class="whitespace-nowrap w-40">Missionary Units:</p>
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
@@ -4849,7 +4849,7 @@
                     <span class="mx-1">-</span>
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
                       id="missionUnitsMax"
@@ -4903,13 +4903,13 @@
                 <div
                   x-data="assetsRange()"
                   x-init="mintrigger(); maxtrigger()"
-                  class="relative max-w-lg w-full pb-5"
+                  class="relative max-w-md w-full pb-5"
                 >
                   <div class="flex items-center py-3 pr-3">
                     <p class="whitespace-nowrap w-40">Total Assets:</p>
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
@@ -4919,7 +4919,7 @@
                     <span class="mx-1">-</span>
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
                       id="assetsMax"
@@ -4973,13 +4973,13 @@
                 <div
                   x-data="revenueRange()"
                   x-init="mintrigger(); maxtrigger()"
-                  class="relative max-w-lg w-full pb-5"
+                  class="relative max-w-md w-full pb-5"
                 >
                   <div class="flex items-center py-3 pr-3">
                     <p class="whitespace-nowrap w-40">Total Revenue:</p>
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
@@ -4989,7 +4989,7 @@
                     <span class="mx-1">-</span>
                     <input
                       type="text"
-                      maxlength="12"
+                      maxlength="5"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
                       id="revenueMax"

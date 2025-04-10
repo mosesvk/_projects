@@ -1030,9 +1030,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     sliders.forEach((slider) => {
       if (slider) {
-        slider.addEventListener('input', function() {
-          window.numberFormatter.updateAllDisplays();
-        });
         // Set initial slider values to match global variables
         slider.value = parseInt(
           slider.id === "givingUnitsMin"
