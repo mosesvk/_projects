@@ -4770,7 +4770,7 @@
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
-                      id="givingUnitsMin"
+                      id="assetsMin"
                       class="bg-transparent border-none text-center w-24 text-xl"
                     />
                     -
@@ -4779,7 +4779,7 @@
                       maxlength="5"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
-                      id="givingUnitsMax"
+                      id="assetsMax"
                       class="bg-transparent border-none text-center w-24 text-xl"
                     />
                   </div>
@@ -4815,12 +4815,12 @@
                       ></div>
 
                       <div
-                        class="givingUnitSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
+                        class="assetSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
                         x-bind:style="'left: '+minthumb+'%'"
                       ></div>
 
                       <div
-                        class="givingUnitSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
+                        class="assetSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
                         x-bind:style="'right: '+maxthumb+'%'"
                       ></div>
                     </div>
@@ -4973,7 +4973,7 @@
                   class="relative max-w-md w-full pb-5"
                 >
                   <div class="flex items-center py-3 pr-3">
-                    <p class="whitespace-nowrap mr-4">Total Revenue:</p>
+                    <p class="whitespace-nowrap mr-4">Total Assets:</p>
                     <input
                       type="text"
                       maxlength="5"

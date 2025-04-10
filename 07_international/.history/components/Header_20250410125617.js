@@ -120,12 +120,12 @@ function clientMatchesFilters(
     clientData.missionUnit >= minMission &&
     clientData.missionUnit <= maxMission;
 
-  // Check assets range
+  // Check assets unit range
   const assetsMatch =
     clientData.assets >= minAssets &&
     clientData.assets <= maxAssets;
 
-  // Check revenue range
+  // Check revenue unit range
   const revenueMatch =
     clientData.revenueUnit >= minRevenue &&
     clientData.revenueUnit <= maxRevenue;
@@ -951,13 +951,13 @@ document.addEventListener("DOMContentLoaded", function () {
           } else if (slider.id === "missionUnitsMax") {
             window.missionValue2 = parseInt(slider.value);
           } else if (slider.id === "assetsMin") {
-            window.assetsValue = parseInt(slider.value);
+            window.missionValue = parseInt(slider.value);
           } else if (slider.id === "assetsMax") {
-            window.assetsValue2 = parseInt(slider.value);
+            window.missionValue2 = parseInt(slider.value);
           } else if (slider.id === "revenueMin") {
-            window.revenueValue = parseInt(slider.value);
+            window.missionValue = parseInt(slider.value);
           } else if (slider.id === "revenueMax") {
-            window.revenueValue2 = parseInt(slider.value);
+            window.missionValue2 = parseInt(slider.value);
           }
 
           // Trigger the filtersChanged event
@@ -978,10 +978,6 @@ document.addEventListener("DOMContentLoaded", function () {
         givingMax: window.sliderValue2,
         missionMin: window.missionValue,
         missionMax: window.missionValue2,
-        assetsMin: window.assetsValue,
-        assetsMax: window.assetsValue2,
-        revenueMin: window.revenueValue,
-        revenueMax: window.revenueValue2,
       },
       areas: Array.from(window.selectedAreas_Array || []),
       types: Array.from(window.selectedTypes_Array || []),

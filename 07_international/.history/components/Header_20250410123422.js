@@ -102,11 +102,7 @@ function clientMatchesFilters(
   minGiving,
   maxGiving,
   minMission,
-  maxMission,
-  minAssets,
-  maxAssets,
-  minRevenue,
-  maxRevenue
+  maxMission
 ) {
   if (!clientData) return false;
   
@@ -119,16 +115,6 @@ function clientMatchesFilters(
   const missionUnitMatch =
     clientData.missionUnit >= minMission &&
     clientData.missionUnit <= maxMission;
-
-  // Check assets range
-  const assetsMatch =
-    clientData.assets >= minAssets &&
-    clientData.assets <= maxAssets;
-
-  // Check revenue range
-  const revenueMatch =
-    clientData.revenueUnit >= minRevenue &&
-    clientData.revenueUnit <= maxRevenue;
 
  if (selectedAreas.length === 0 || selectedTypes.length === 0) {
     console.log("No areas or types selected, returning false");
@@ -149,7 +135,7 @@ function clientMatchesFilters(
     true; // Set to true if typeQuery is missing to avoid breaking functionality
 
   // Client matches only if it passes all criteria
-  return givingUnitMatch && missionUnitMatch && areaMatch && typeMatch && assetsMatch && revenueMatch;
+  return givingUnitMatch && missionUnitMatch && areaMatch && typeMatch;
 }
 
 /**
@@ -423,7 +409,7 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areasArray) {
     console.error("Area options list element not found");
     return;
   }
-  
+
   // Ensure global sets exist
   window.selectedAreas_Array = window.selectedAreas_Array || new Set();
 
@@ -767,7 +753,7 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       element: document.getElementById("assetsMax"),
       globalVar: "assetsValue2",
-      defaultValue: 9000000000,
+      defaultValue: 10000,
       sliderDivs: document.querySelectorAll(".assetsSlider"),
     },
     {
@@ -779,7 +765,7 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       element: document.getElementById("revenueMax"),
       globalVar: "revenueValue2",
-      defaultValue: 6000000000,
+      defaultValue: 10000,
       sliderDivs: document.querySelectorAll(".revenueSlider"),
     },
   ];
@@ -951,13 +937,13 @@ document.addEventListener("DOMContentLoaded", function () {
           } else if (slider.id === "missionUnitsMax") {
             window.missionValue2 = parseInt(slider.value);
           } else if (slider.id === "assetsMin") {
-            window.assetsValue = parseInt(slider.value);
+            window.missionValue = parseInt(slider.value);
           } else if (slider.id === "assetsMax") {
-            window.assetsValue2 = parseInt(slider.value);
+            window.missionValue2 = parseInt(slider.value);
           } else if (slider.id === "revenueMin") {
-            window.revenueValue = parseInt(slider.value);
+            window.missionValue = parseInt(slider.value);
           } else if (slider.id === "revenueMax") {
-            window.revenueValue2 = parseInt(slider.value);
+            window.missionValue2 = parseInt(slider.value);
           }
 
           // Trigger the filtersChanged event
@@ -978,10 +964,6 @@ document.addEventListener("DOMContentLoaded", function () {
         givingMax: window.sliderValue2,
         missionMin: window.missionValue,
         missionMax: window.missionValue2,
-        assetsMin: window.assetsValue,
-        assetsMax: window.assetsValue2,
-        revenueMin: window.revenueValue,
-        revenueMax: window.revenueValue2,
       },
       areas: Array.from(window.selectedAreas_Array || []),
       types: Array.from(window.selectedTypes_Array || []),
