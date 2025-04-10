@@ -2433,6 +2433,7 @@ class ApiService {
           "text/xml"
         );
 
+        
         const records = xmlDoc.querySelectorAll("record");
         // console.log(`Parsed ${records.length} client records from collected data`);
         return records;
@@ -2541,8 +2542,8 @@ class ApiService {
 
             // Get giving unit value
             const revenueVal =
-              record.querySelector("query_slider_total_revenue")?.textContent ||
-              "0";
+              record.querySelector("query_slider_total_revenue")
+                ?.textContent || "0";
 
             // Get area query - parse from string to array
             const areaQueryText =
@@ -2566,8 +2567,7 @@ class ApiService {
               year: year,
               missionUnit: parseFloat(missionUnitVal) || 0,
               givingUnit: parseFloat(givingUnitVal) || 0,
-              assets: parseFloat(assetsVal) || 0,
-              revenue: parseFloat(revenueVal) || 0,
+              assets: 
               areaQuery: areaQuery,
               typeQuery: typeQuery,
             };
@@ -3098,7 +3098,7 @@ class AppController {
           // Process peer records
           recordsPeer = await validateAndNormalizeRecords(recordsPeer);
           // console.log(`Normalized ${recordsPeer.length} peer records`);
-          window.recordsPeer = recordsPeer;
+          window.recordsPeer = recordsPeer
           countUniqueClients(recordsPeer);
         }
       } catch (error) {
@@ -3123,12 +3123,11 @@ class AppController {
           // Process client records
           recordsClient = await validateAndNormalizeRecords(recordsClient);
 
-          window.recordsClientSelectedYears = recordsClient;
-          window.monthYearEnd = recordsClient[
-            recordsClientSelectedYears.length - 1
-          ].querySelector("fiscal_ye_date_formatted_month").textContent;
+          window.recordsClientSelectedYears = recordsClient
+          window.monthYearEnd = recordsClient[recordsClientSelectedYears.length - 1].querySelector('fiscal_ye_date_formatted_month').textContent
           // console.log(`Normalized ${recordsClient.length} client records`);
         }
+
       } catch (error) {
         console.error("Error fetching client data:", error);
         createToastWarning("Error fetching client data. Please try again.");
@@ -3468,13 +3467,13 @@ function countUniqueClients(records) {
     // Update the UI with the count
     const count = uniqueClients.size;
     if (count < 6) {
-      createToastWarning("There are 5 or less Unique Clients in Peer Records.");
+      createToastWarning('There are 5 or less Unique Clients in Peer Records.')
     }
     const element = document.getElementById("uniqueClients");
     if (element) {
       element.textContent = count;
     } else {
-      createToastWarning("There are 5 or less Unique Clients in Peer Records.");
+      createToastWarning('There are 5 or less Unique Clients in Peer Records.')
     }
 
     console.log(`Counted ${count} unique clients after filtering`);

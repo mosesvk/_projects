@@ -109,7 +109,7 @@ function clientMatchesFilters(
   maxRevenue
 ) {
   if (!clientData) return false;
-  // console.log('clientMatchesFilters', clientData);
+  console.log('clientMatchesFilters', clientData);
   
   
 

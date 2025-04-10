@@ -503,7 +503,7 @@ const createChart = (
 
 //   if (typeof chartManager !== 'undefined' && chartManager.updateModal) {
 //     console.log('--> revert to chartManager.udpateModal');
-
+    
 //     return chartManager.updateModal(mainName, peerData, clientData, parsedData, type, fixedNum, wa);
 //   }
 
@@ -1918,33 +1918,29 @@ function assetsRange() {
 
     mintrigger() {
       this.minprice = Math.min(this.minprice, this.maxprice - 500);
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+      this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
 
       // Update assetsValue and trigger slider movement if necessary
       assetsValue = this.minprice;
-      if (document.getElementById("assetsMin")) {
-        document.getElementById("assetsMin").value = assetsValue;
+      if (document.getElementById('assetsMin')) {
+        document.getElementById('assetsMin').value = assetsValue;
       }
 
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+      this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
     },
 
     maxtrigger() {
       this.maxprice = Math.max(this.maxprice, this.minprice + 500);
-      this.maxthumb =
-        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+      this.maxthumb = 100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
 
       // Update assetsValue2 and trigger slider movement if necessary
       assetsValue2 = this.maxprice;
-      if (document.getElementById("assetsMax")) {
-        document.getElementById("assetsMax").value = assetsValue2;
+      if (document.getElementById('assetsMax')) {
+        document.getElementById('assetsMax').value = assetsValue2;
       }
 
-      this.maxthumb =
-        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
-    },
+      this.maxthumb = 100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+    }
   };
 }
 
@@ -1959,33 +1955,29 @@ function revenueRange() {
 
     mintrigger() {
       this.minprice = Math.min(this.minprice, this.maxprice - 500);
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+      this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
 
       // Update revenueValue and trigger slider movement if necessary
       revenueValue = this.minprice;
-      if (document.getElementById("revenueMin")) {
-        document.getElementById("revenueMin").value = revenueValue;
+      if (document.getElementById('revenueMin')) {
+        document.getElementById('revenueMin').value = revenueValue;
       }
 
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+      this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
     },
 
     maxtrigger() {
       this.maxprice = Math.max(this.maxprice, this.minprice + 500);
-      this.maxthumb =
-        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+      this.maxthumb = 100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
 
       // Update revenueValue2 and trigger slider movement if necessary
       revenueValue2 = this.maxprice;
-      if (document.getElementById("revenueMax")) {
-        document.getElementById("revenueMax").value = revenueValue2;
+      if (document.getElementById('revenueMax')) {
+        document.getElementById('revenueMax').value = revenueValue2;
       }
 
-      this.maxthumb =
-        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
-    },
+      this.maxthumb = 100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+    }
   };
 }
 
@@ -2338,10 +2330,10 @@ function getPeerAndClientChartDataArrays(
       dataPeer,
       dataClient,
       parsedData,
-      fixedNum,
-      mainName,
+      fixedNum, 
+      mainName, 
       numType,
-      wa,
+      wa
     });
 
   // Use cached result if available and not forcing refresh
@@ -2395,8 +2387,8 @@ function getPeerAndClientChartDataArrays(
           dataArray,
           peerClient: parseStoredData[dataClient],
           parsedData,
-          wa,
-          numType,
+          wa, 
+          numType
         });
 
       // Handle missing data
@@ -2444,15 +2436,10 @@ function getPeerAndClientChartDataArrays(
         //     fixedNum
         //   });
         // }
-
+  
         try {
           // Calculate weighted average with year parameter
-          avg = window.getWeightedAverageOfArray(
-            parsedData,
-            mainName,
-            year,
-            "utility.js"
-          );
+          avg = window.getWeightedAverageOfArray(parsedData, mainName, year, 'utility.js');
 
           // For other percentiles, use regular calculations
           mid = getMidpointOfArray(numericArray, mainName);
@@ -2485,12 +2472,16 @@ function getPeerAndClientChartDataArrays(
         ? Number(parsedData[dataClient][year].value)
         : 0;
 
+      
+
+
       // Format values with consistent precision and add to result arrays
       peerAvg.push(avg);
       peerMid.push(mid);
       peer25.push(lower25);
       peer75.push(higher75);
       clientArray.push(clientNum);
+
     }
     // Case 2: We have client data but no peer data
     else if (parsedData[dataClient]) {
@@ -2503,7 +2494,7 @@ function getPeerAndClientChartDataArrays(
         ? Number(parsedData[dataClient][year].value)
         : 0;
 
-      clientArray.push(clientNum);
+      clientArray.push(clientNum)
     }
     // Case 3: We have peer data but no client data
     else if (parsedData[dataPeer]) {
@@ -2526,10 +2517,10 @@ function getPeerAndClientChartDataArrays(
           higher75 *= 100;
         }
 
-        peerAvg.push(avg, numType, fixedNum);
-        peerMid.push(mid, numType, fixedNum);
-        peer25.push(lower25, numType, fixedNum);
-        peer75.push(higher75, numType, fixedNum);
+        peerAvg.push(avg, numType, fixedNum)
+        peerMid.push(mid, numType, fixedNum)
+        peer25.push(lower25, numType, fixedNum)
+        peer75.push(higher75, numType, fixedNum)
       } else {
         peerAvg.push(0);
         peerMid.push(0);
