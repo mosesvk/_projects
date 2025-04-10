@@ -332,69 +332,6 @@ class QuickbaseClient {
     }
   }
   
-  // Example usage of the QuickbaseClient class
-  async function quickbaseCliExample() {
-    // Create a client instance
-    const qb = new QuickbaseClient({
-      realmHostname: 'capincrouse.quickbase.com',
-      userToken: 'YOUR_USER_TOKEN', // Replace with your token
-      appId: 'bps9da9i5',
-      tableId: 'bs2bkir3i'
-    });
-  
-    try {
-      // Test connection
-      const connectionTest = await qb.testConnection();
-      if (!connectionTest.success) {
-        console.error('Connection failed:', connectionTest.error);
-        return;
-      }
-  
-      console.log('App Info:', connectionTest.appInfo);
-  
-      // Get tables
-      const tables = await qb.getTables();
-      console.log(`App has ${tables.length} tables:`, tables.map(t => t.name));
-  
-      // Get fields for the table
-      const fields = await qb.getFields();
-      console.log(`Table has ${fields.length} fields`);
-  
-      // Query records
-      const records = await qb.queryRecords({
-        top: 10 // Limit to 10 records
-      });
-      
-      console.log(`Retrieved ${records.data.length} records`);
-      
-      // Process the records as needed
-      if (records.data && records.data.length > 0) {
-        console.log('First record:', records.data[0]);
-      }
-  
-      return {
-        success: true,
-        tables: tables,
-        fields: fields,
-        records: records
-      };
-    } catch (error) {
-      console.error('Error in Quickbase CLI example:', error);
-      return {
-        success: false,
-        error: error
-      };
-    }
-  }
-  
-  // Don't run automatically when used as a module
-  if (typeof window !== 'undefined' && window.document && window.document.querySelector('#runExample')) {
-    document.querySelector('#runExample').addEventListener('click', async () => {
-      const result = await quickbaseCliExample();
-      console.log('Example completed:', result);
-    });
-  }
-  
   // Export the class for module usage
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = { QuickbaseClient };
