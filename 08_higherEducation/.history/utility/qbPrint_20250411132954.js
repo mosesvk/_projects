@@ -1,3 +1,6 @@
+// This is the file that is working. 
+// It is connecting to a Quickbase api table and sending base64 data of each chart to certain fields
+
 const urlUploadFile =
   "https://capincrouse.quickbase.com/db/buk93bd7x?a=API_AddRecord";
 let uploadMainFile = "";
@@ -84,7 +87,6 @@ const mainPrint = async () => {
   await getPngString("currentRatio_chart", 18);
   await getPngString("salariesBenefitsToTotalExpense_chart", 19);
   await getPngString("salariesBenefitsPerNetTuition_chart", 20);
-  // await getPngString("adminCostsPerStudent_chart", 21);
   await getPngString("netEducationalExpensePerStudent_chart", 22);
   await getPngString("annualTraditionalNetTuitionPerStudent_chart", 23);
   await getPngString("tuitionDependency_chart", 24);

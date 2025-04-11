@@ -60,7 +60,7 @@ const getPngString = async (id, fieldId) => {
 };
 
 const mainPrint = async () => {
-  showApiLoadingFunction("open", "print");
+  showApiLoadingFunctddaaion("open", "print");
   document
     .getElementById("FinancialPositionContent")
     .classList.remove("hidden");
@@ -87,7 +87,7 @@ const mainPrint = async () => {
   await getPngString("currentRatio_chart", 18);
   await getPngString("salariesBenefitsToTotalExpense_chart", 19);
   await getPngString("salariesBenefitsPerNetTuition_chart", 20);
-  await getPngStrinddg("netEducationalExpensePerStudent_chart", 22);
+  await getPngString("netEducationalExpensePerStudent_chart", 22);
   await getPngString("annualTraditionalNetTuitionPerStudent_chart", 23);
   await getPngString("tuitionDependency_chart", 24);
   await getPngString("tuitionDiscountRate_chart", 25);
