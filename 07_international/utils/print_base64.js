@@ -76,52 +76,13 @@ async function processChartsWithSpacing(chartMappings) {
 
       // If we have an ApexChart instance, use its export method
       if (chart && typeof chart.dataURI === "function") {
-        // Clone chart container and place it off-screen for capture
-        const tempContainer = document.createElement("div");
-        tempContainer.id = `temp-${chartId}`;
-        tempContainer.style.position = "absolute";
-        tempContainer.style.left = "-9999px";
-        tempContainer.style.height = "400px"; // Intentionally taller
-        tempContainer.style.width = "900px";
-        document.body.appendChild(tempContainer);
-
-        // Create a temporary chart with the same config but larger dimensions
-        const tempChart = new ApexCharts(tempContainer, {
-          ...chart.w.config,
-          chart: {
-            ...chart.w.config.chart,
-            height: 400, // Make it taller
-            width: 900,
-            animations: {
-              enabled: false, // Disable animations for export
-            },
-            fontFamily:
-              chart.w.config.chart.fontFamily || "Helvetica, Arial, sans-serif",
-          },
-          // Ensure legend and dataLabels are fully visible
-          legend: {
-            ...chart.w.config.legend,
-            position: chart.w.config.legend?.position || "bottom",
-          },
-          // Add extra bottom margin
-          grid: {
-            ...chart.w.config.grid,
-            padding: {
-              ...chart.w.config.grid?.padding,
-              bottom: 30, // Extra padding at bottom
-            },
-          },
-        });
-
-        // Render the temporary chart
-        await tempChart.render();
 
         // Wait for rendering to complete
         await new Promise((resolve) => setTimeout(resolve, 200));
 
         try {
           // Use ApexCharts' dataURI method to get the image
-          const uri = await tempChart.dataURI();
+          const uri = await chart.dataURI();
           const base64String = uri.imgURI.split(",")[1];
           results.push({ chartId, fieldId, base64String });
         } catch (exportError) {
