@@ -311,6 +311,14 @@ class ExcelReportGenerator {
    * Process data arrays and calculate statistics
    */
   calculateStatistics(data, metricName) {
+    if (data[`${metricName}_Stats`]) {
+      return {
+        avg: data[`${metricName}_Stats`].avg || 0,
+        mid: data[`${metricName}_Stats`].median || 0,
+        min: data[`${metricName}_Stats`].q1 || 0,
+        max: data[`${metricName}_Stats`].q3 || 0
+      };
+    }
     // Get peer data
     const peerData = data[`${metricName}_Peer`];
     if (!peerData || !peerData.total || !Array.isArray(peerData.total)) {

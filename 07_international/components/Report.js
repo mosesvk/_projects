@@ -12,13 +12,13 @@ class ReportComponent {
    */
   initializeEventListeners() {
     // Report link handling
-    const reportLink = document.getElementById("reportLink");
-    if (reportLink) {
-      reportLink.addEventListener(
-        "click",
-        this.handleReportLinkClick.bind(this)
-      );
-    }
+    // const reportLink = document.getElementById("reportLink");
+    // if (reportLink) {
+    //   reportLink.addEventListener(
+    //     "click",
+    //     this.handleReportLinkClick.bind(this)
+    //   );
+    // }
 
     // Generate reports button
     const generateReportsBtn = document.getElementById("generateReports");
@@ -130,65 +130,93 @@ class ReportComponent {
       const miscData = JSON.parse(localStorage.getItem("miscData") || "{}");
 
       // Insert data for each category
-      this.insertDataToReport(generalData, selectedYears, [
-        ["givingUnits", "num", 0],
-        ["missionaryUnit", "num", 0],
-        ["numberOfEmployeesFTE", "num", 0],
-        ["itExpenses", "dollar", 0],
-      ]);
+      this.insertDataToReport(
+        generalData,
+        selectedYears,
+        [
+          ["givingUnits", "num", 0],
+          ["missionaryUnit", "num", 0],
+          ["numberOfEmployeesFTE", "num", 0],
+          ["itExpenses", "dollar", 0],
+        ],
+        "generalData"
+      );
 
-      this.insertDataToReport(cashData, selectedYears, [
-        ["daysCashOnHand", "num", 0, "wa"],
-        ["daysExpensesInUnrestrictedNA", "num", 0, "wa"],
-        ["daysExpensesInUnrestrictedNA_excludingPPE", "num", 0, "wa"],
-        ["daysExpensesInNAwithDR", "num", 0, "wa"],
-        ["daysExpensesInNAwithDR_excludingPPE", "num", 0, "wa"],
-        ["liquidityAssetsAvailableCover", "num", 1, "wa"],
-        ["liquidityFundsAvailable", "num", 1, "wa"],
-        ["financialAssetsAvailableFY", "dollar", 2, "wa"],
-        ["daysFinancialAssetsOnHand", "num", 0, "wa"],
-        ["currentRatio", "num", 1, "wa"],
-        ["totalCoverageRatio", "num", 1, "wa"],
-        ["assetsWithoutPpeToLiabilitiesWithoutDebt", "num", 1, "wa"],
-        ["cashFlowsTrendFinancing", "dollar", 0],
-        ["cashFlowsTrendInvesting", "dollar", 0],
-        ["cashFlowsTrendOperating", "dollar", 0],
-      ]);
+      this.insertDataToReport(
+        cashData,
+        selectedYears,
+        [
+          ["daysCashOnHand", "num", 0, "wa"],
+          ["daysExpensesInUnrestrictedNA", "num", 0, "wa"],
+          ["daysExpensesInUnrestrictedNA_excludingPPE", "num", 0, "wa"],
+          ["daysExpensesInNAwithDR", "num", 0, "wa"],
+          ["daysExpensesInNAwithDR_excludingPPE", "num", 0, "wa"],
+          ["liquidityAssetsAvailableCover", "num", 1, "wa"],
+          ["liquidityFundsAvailable", "num", 1, "wa"],
+          ["financialAssetsAvailableFY", "dollar", 2, "wa"],
+          ["daysFinancialAssetsOnHand", "num", 0, "wa"],
+          ["currentRatio", "num", 1, "wa"],
+          ["totalCoverageRatio", "num", 1, "wa"],
+          ["assetsWithoutPpeToLiabilitiesWithoutDebt", "num", 1, "wa"],
+          ["cashFlowsTrendFinancing", "dollar", 0],
+          ["cashFlowsTrendInvesting", "dollar", 0],
+          ["cashFlowsTrendOperating", "dollar", 0],
+        ],
+        "cashData"
+      );
 
-      this.insertDataToReport(assetData, selectedYears, [
-        ["percentWithDR", "percent", 0, "wa"],
-        ["percentWithoutDR_excludingPPE", "percent", 0, "wa"],
-        ["percentWithoutDR", "percent", 0, "wa"],
-      ]);
+      this.insertDataToReport(
+        assetData,
+        selectedYears,
+        [
+          ["percentWithDR", "percent", 0, "wa"],
+          ["percentWithoutDR_excludingPPE", "percent", 0, "wa"],
+          ["percentWithoutDR", "percent", 0, "wa"],
+        ],
+        "assetData"
+      );
 
-      this.insertDataToReport(incomeData, selectedYears, [
-        ["netIncomeRatio", "num", 2, "wa"],
-        ["contributionsTrend_basedOnNumberOfDonors", "percent", 0, "wa"],
-        ["contributionsTrend", "percent", 0],
-        ["contributionsPercentWithoutDR", "percent", 0, "wa"],
-        ["contributionsPercentWithDR", "percent", 0, "wa"],
-        ["contributionsPerGivingUnit", "dollar", 0, "wa"],
-        ["contributionsPerMissionaryUnit", "dollar", 0, "wa"],
-        ["contributionsPerFullTimeEquivalent", "dollar", 0, "wa"],
-        ["fundraisingAsPercentOfContributions", "percent", 1, "wa"],
-        ["annualizedInvestmentReturn", "percent", 0],
-      ]);
+      this.insertDataToReport(
+        incomeData,
+        selectedYears,
+        [
+          ["netIncomeRatio", "num", 2, "wa"],
+          ["contributionsTrend_basedOnNumberOfDonors", "percent", 0, "wa"],
+          ["contributionsTrend", "percent", 0],
+          ["contributionsPercentWithoutDR", "percent", 0, "wa"],
+          ["contributionsPercentWithDR", "percent", 0, "wa"],
+          ["contributionsPerGivingUnit", "dollar", 0, "wa"],
+          ["contributionsPerMissionaryUnit", "dollar", 0, "wa"],
+          ["contributionsPerFullTimeEquivalent", "dollar", 0, "wa"],
+          ["fundraisingAsPercentOfContributions", "percent", 1, "wa"],
+          ["annualizedInvestmentReturn", "percent", 0],
+        ],
+        "incomeData"
+      );
 
-      this.insertDataToReport(expenseData, selectedYears, [
-        ["functionalExpensePercent_program", "percent", 0, "wa"],
-        ["functionalExpensePercent_administrative", "percent", 0, "wa"],
-        ["functionalExpensePercent_fundraising", "percent", 0, "wa"],
-        ["costOfContributions", "dollar", 2, "wa"],
-        ["expensesPerGivingUnit", "dollar", 0, "wa"],
-        ["expensesPerMissionaryUnit", "dollar", 0, "wa"],
-        ["expensesPerFullTimeEquivalent", "dollar", 0, "wa"],
-        ["salariesAndBenefitsAsPercentOfTotalExpenses", "percent", 0, "wa"],
-        ["salariesAndBenefitsPerFTE", "dollar", 0, "wa"],
-      ]);
+      this.insertDataToReport(
+        expenseData,
+        selectedYears,
+        [
+          ["functionalExpensePercent_program", "percent", 0, "wa"],
+          ["functionalExpensePercent_administrative", "percent", 0, "wa"],
+          ["functionalExpensePercent_fundraising", "percent", 0, "wa"],
+          ["costOfContributions", "dollar", 2, "wa"],
+          ["expensesPerGivingUnit", "dollar", 0, "wa"],
+          ["expensesPerMissionaryUnit", "dollar", 0, "wa"],
+          ["expensesPerFullTimeEquivalent", "dollar", 0, "wa"],
+          ["salariesAndBenefitsAsPercentOfTotalExpenses", "percent", 0, "wa"],
+          ["salariesAndBenefitsPerFTE", "dollar", 0, "wa"],
+        ],
+        "expenseData"
+      );
 
-      this.insertDataToReport(miscData, selectedYears, [
-        ["percentageAssessmentOnRestrictedGifts", "percent", 0, "wa", true],
-      ]);
+      this.insertDataToReport(
+        miscData,
+        selectedYears,
+        [["percentageAssessmentOnRestrictedGifts", "percent", 0, "wa", true]],
+        "miscData"
+      );
 
       // Format the table cells
       this.processTHElements();
@@ -224,7 +252,7 @@ class ReportComponent {
   /**
    * Insert data to the report for a specific category
    */
-  insertDataToReport(data, selectedYears, metricsConfig) {
+  insertDataToReport(data, selectedYears, metricsConfig, dataName) {
     if (!data || !selectedYears || !metricsConfig) {
       return;
     }
@@ -306,6 +334,9 @@ class ReportComponent {
       const peerData = data[`${metricName}_Peer`];
 
       if (peerData) {
+        if (!data[`${metricName}_Stats`]) {
+          data[`${metricName}_Stats`] = {};
+        }
         // Calculate statistics
         let avg = 0;
         let q1 = 0,
@@ -361,6 +392,15 @@ class ReportComponent {
             q3 = this.getPercentileOfArray(peerData["total"], 75) || 0;
           }
         }
+
+        // Store the raw calculated values (not formatted)
+        data[`${metricName}_Stats`].avg = avg;
+        data[`${metricName}_Stats`].q1 = q1;
+        data[`${metricName}_Stats`].median = median;
+        data[`${metricName}_Stats`].q3 = q3;
+
+        // Update localStorage with the modified data
+        localStorage.setItem(dataName, JSON.stringify(data));
 
         // Format values
         const textAvg = this.styleNumber(
@@ -433,6 +473,24 @@ class ReportComponent {
     }
   }
 
+  getCategoryForMetric(metricName) {
+    // Maps metric names to their categories
+    const metricCategories = {
+      // General metrics
+      givingUnits: "general",
+      missionaryUnit: "general",
+      numberOfEmployeesFTE: "general",
+      itExpenses: "general",
+      // Cash metrics
+      daysCashOnHand: "cash",
+      daysExpensesInUnrestrictedNA: "cash",
+      daysExpensesInUnrestrictedNA_excludingPPE: "cash",
+      // ... add other metric mappings as needed
+    };
+
+    return metricCategories[metricName] || null;
+  }
+
   /**
    * Format number based on data type
    */
@@ -454,7 +512,7 @@ class ReportComponent {
         result = num.toLocaleString("en-US", {
           minimumFractionDigits: decimals,
           maximumFractionDigits: decimals,
-          useGrouping: false // Disable thousand separators for percentage values
+          useGrouping: false, // Disable thousand separators for percentage values
         });
         // console.log(value, decimals, result);
         break;
@@ -760,6 +818,9 @@ class ReportComponent {
 document.addEventListener("DOMContentLoaded", () => {
   // Create report component
   const reportComponent = new ReportComponent();
+
+  // Immediately display the report component without waiting for button click
+  // reportComponent.displayReportComponent();
 
   // Expose functions globally for backward compatibility
   window.reportComponent = reportComponent;

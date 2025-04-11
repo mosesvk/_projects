@@ -53,16 +53,16 @@ class SystemConnector {
 
     // Set up report link event handler
     const reportLink = document.getElementById("reportLink");
-    if (reportLink) {
-      reportLink.addEventListener("click", function () {
-        console.log("Report link clicked");
-        if (typeof displayReportComponent === "function") {
-          displayReportComponent();
-        } else {
-          console.error("displayReportComponent function not found");
-        }
-      });
-    }
+    // if (reportLink) {
+    //   reportLink.addEventListener("click", function () {
+    //     console.log("Report link clicked");
+    //     if (typeof displayReportComponent === "function") {
+    //       displayReportComponent();
+    //     } else {
+    //       console.error("displayReportComponent function not found");
+    //     }
+    //   });
+    // }
 
     // Set up charts rendered event listener
     document.addEventListener("chartsRendered", () => {

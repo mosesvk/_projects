@@ -3345,6 +3345,7 @@ class AppController {
         return;
       }
 
+      window.reportComponent.displayReportComponent()
       // Rest of the displayAllComponents method...
     } catch (error) {
       console.error("Error in displayAllComponents:", error);

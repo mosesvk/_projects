@@ -321,9 +321,9 @@ class ChartConfigFactory {
     // }
 
     // Special case flags
-    const isAnnualizedInvestmentReturn =
-      mainName === "annualizedInvestmentReturn";
-    const isCostOfContributions = mainName === "costOfContributions";
+    // const isAnnualizedInvestmentReturn =
+    //   mainName === "annualizedInvestmentReturn";
+    // const isCostOfContributions = mainName === "costOfContributions";
 
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
