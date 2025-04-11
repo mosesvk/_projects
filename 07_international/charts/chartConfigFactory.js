@@ -64,11 +64,6 @@ class ChartConfigFactory {
     // Add standard column headers
     this._addModalColumns(headerRow);
 
-    // Special case for annualizedInvestmentReturn
-    const isAnnualizedInvestmentReturn =
-      mainName === "annualizedInvestmentReturn";
-    const dataType = isAnnualizedInvestmentReturn ? "num" : numType || "num";
-
     // Get the chart data - use the exact same data processing as the charts
     const chartData = getPeerAndClientChartDataArrays(
       selectedYears,
@@ -76,7 +71,7 @@ class ChartConfigFactory {
       dataClient,
       fixedNum,
       mainName,
-      dataType,
+      numType,
       wa,
       false, // Don't force refresh as the chart already did this
       parsedData
@@ -339,7 +334,7 @@ class ChartConfigFactory {
       dataClient,
       fixedNum,
       mainName,
-      isAnnualizedInvestmentReturn ? "num" : numType,
+      numType,
       wa,
       true, // Add a force refresh parameter
       parsedData
@@ -370,8 +365,7 @@ class ChartConfigFactory {
       peerAvg,
     });
 
-    if (numType === "percent" && !isAnnualizedInvestmentReturn) {
-      // For annualizedInvestmentReturn we're already handling this elsewhere
+    if (numType === "percent") {
       clientArray = clientArray.map((val) =>
         val !== null && val !== undefined ? parseFloat(val) * 100 : val
       );
@@ -385,11 +379,6 @@ class ChartConfigFactory {
         val !== null && val !== undefined ? parseFloat(val) * 100 : val
       );
       peer75 = peer75.map((val) =>
-        val !== null && val !== undefined ? parseFloat(val) * 100 : val
-      );
-    } else if (isAnnualizedInvestmentReturn) {
-      // For annualizedInvestmentReturn, multiply client array by 100
-      clientArray = clientArray.map((val) =>
         val !== null && val !== undefined ? parseFloat(val) * 100 : val
       );
     }
@@ -646,9 +635,6 @@ class ChartConfigFactory {
       peer75 = [];
 
     try {
-      // Special case for annualizedInvestmentReturn chart
-      const dataProcessingType =
-        mainName === "annualizedInvestmentReturn" ? "num" : numType;
 
       // Use the modified data type for data processing
       const result = getPeerAndClientChartDataArrays(
@@ -657,7 +643,7 @@ class ChartConfigFactory {
         dataClient,
         fixedNum,
         mainName,
-        dataProcessingType, // Use special handling for annualizedInvestmentReturn
+        numType, 
         wa,
         true,
         parsedData
@@ -754,13 +740,6 @@ class ChartConfigFactory {
         enabled: series.length > 0,
         formatter: function (value) {
           if (value === null || value === undefined) return "";
-
-          // Special handling for annualizedInvestmentReturn
-          if (mainName === "annualizedInvestmentReturn") {
-            // Return value directly with % sign - it's already the correct percentage
-            return `${value.toFixed(fixedNum)}%`;
-          }
-
           // Format the value based on data type with exact decimal places
           if (numType === "dollar") {
             // For dollar type, add $ prefix and format with fixedNum decimal places
@@ -934,12 +913,6 @@ class ChartConfigFactory {
         y: {
           formatter: function (value) {
             if (value === null || value === undefined) return "";
-
-            // Special handling for annualizedInvestmentReturn
-            if (mainName === "annualizedInvestmentReturn") {
-              return `${value.toFixed(fixedNum)}%`;
-            }
-
             // Format the value based on data type with exact decimal places
             if (numType === "dollar") {
               // For dollar type, add $ prefix and format with fixedNum decimal places
