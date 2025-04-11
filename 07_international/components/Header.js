@@ -16,87 +16,6 @@ window.revenueValue = 0;
 window.revenueValue2 = 600000000;
 
 /**
- * NumberFormatter class for managing formatted display of numeric values
- * Only updates textContent/innerHTML, not input values
- */
-class NumberFormatter {
-  constructor() {
-    // Map of display elements IDs and their corresponding global variables
-    this.displayMap = {
-      // Assets displays
-      'assetsMinDisplay': { globalVar: 'assetsValue', format: 'currency' },
-      'assetsMaxDisplay': { globalVar: 'assetsValue2', format: 'currency' },
-      // Revenue displays
-      'revenueMinDisplay': { globalVar: 'revenueValue', format: 'currency' },
-      'revenueMaxDisplay': { globalVar: 'revenueValue2', format: 'currency' },
-      // Giving units displays
-      'givingUnitsMinDisplay': { globalVar: 'sliderValue', format: 'integer' },
-      'givingUnitsMaxDisplay': { globalVar: 'sliderValue2', format: 'integer' },
-      // Mission units displays
-      'missionUnitsMinDisplay': { globalVar: 'missionValue', format: 'integer' },
-      'missionUnitsMaxDisplay': { globalVar: 'missionValue2', format: 'integer' }
-    };
-    
-    // Cache display elements
-    this.displayElements = {};
-    Object.keys(this.displayMap).forEach(id => {
-      this.displayElements[id] = document.getElementById(id);
-    });
-    
-    // Initialize displays
-    this.updateAllDisplays();
-  }
-  
-  /**
-   * Format a number for display
-   * @param {number} value - The value to format
-   * @param {string} formatType - Format type (currency, integer, number)
-   * @returns {string} - Formatted string
-   */
-  formatValue(value, formatType = 'number') {
-    if (value === undefined || value === null) return '';
-    
-    // Format as currency with $ sign and commas
-    if (formatType === 'currency') {
-      return '$ ' + new Intl.NumberFormat('en-US').format(value);
-    }
-    
-    // Format as integer with commas
-    if (formatType === 'integer') {
-      return new Intl.NumberFormat('en-US').format(Math.round(value));
-    }
-    
-    // Format as number with commas (default)
-    return new Intl.NumberFormat('en-US').format(value);
-  }
-  
-  /**
-   * Update a single display element with formatted value
-   * @param {string} displayId - ID of the display element
-   */
-  updateDisplay(displayId) {
-    const element = this.displayElements[displayId];
-    if (!element) return;
-    
-    const config = this.displayMap[displayId];
-    const value = window[config.globalVar];
-    
-    // Set the formatted text content
-    element.textContent = this.formatValue(value, config.format);
-  }
-  
-  /**
-   * Update all display elements with formatted values
-   */
-  updateAllDisplays() {
-    Object.keys(this.displayMap).forEach(displayId => {
-      this.updateDisplay(displayId);
-    });
-  }
-}
-
-
-/**
  * Sets up dropdown toggle functionality
  * @param {string} selectElementId - ID of the dropdown trigger element
  * @param {string} optionsListId - ID of the dropdown content element
@@ -191,6 +110,8 @@ function clientMatchesFilters(
 ) {
   if (!clientData) return false;
   // console.log('clientMatchesFilters', clientData);
+  
+  
 
   // Check giving unit range
   const givingUnitMatch =
@@ -203,39 +124,34 @@ function clientMatchesFilters(
 
   // Check assets range
   const assetsMatch =
-    clientData.assets >= minAssets && clientData.assets <= maxAssets;
+    clientData.assets >= minAssets &&
+    clientData.assets <= maxAssets;
 
   // Check revenue range
   const revenueMatch =
-    clientData.revenueUnit >= minRevenue &&
-    clientData.revenueUnit <= maxRevenue;
+    clientData.revenue >= minRevenue &&
+    clientData.revenue <= maxRevenue;
 
-  if (selectedAreas.length === 0 || selectedTypes.length === 0) {
+ if (selectedAreas.length === 0 || selectedTypes.length === 0) {
     console.log("No areas or types selected, returning false");
     return false;
   }
 
   // console.log({area: clientData.areaQuery, type: clientData.typeQuery});
+  
 
   // Check if client has at least one of the selected areas, handle missing areaQuery
-  const areaMatch = clientData.areaQuery
-    ? clientData.areaQuery.some((area) => selectedAreas.includes(area))
-    : false;
+  const areaMatch = clientData.areaQuery ? 
+    clientData.areaQuery.some((area) => selectedAreas.includes(area)) : 
+    false;
 
   // Check if client has at least one of the selected types, handle missing typeQuery
-  const typeMatch = clientData.typeQuery
-    ? clientData.typeQuery.some((type) => selectedTypes.includes(type))
-    : true; // Set to true if typeQuery is missing to avoid breaking functionality
+  const typeMatch = clientData.typeQuery ? 
+    clientData.typeQuery.some((type) => selectedTypes.includes(type)) : 
+    true; // Set to true if typeQuery is missing to avoid breaking functionality
 
   // Client matches only if it passes all criteria
-  return (
-    givingUnitMatch &&
-    missionUnitMatch &&
-    areaMatch &&
-    typeMatch &&
-    assetsMatch &&
-    revenueMatch
-  );
+  return givingUnitMatch && missionUnitMatch && areaMatch && typeMatch && assetsMatch && revenueMatch;
 }
 
 /**
@@ -289,6 +205,7 @@ function updateClientDropdownFilters() {
   //   selectedTypes,
   //   selectedAreas
   // });
+  
 
   // Process each client checkbox (skip the select all checkbox)
   clientCheckboxes.forEach((checkbox) => {
@@ -508,7 +425,7 @@ function addUniqueAreasToOptionsSelectAreasDropdown(areasArray) {
     console.error("Area options list element not found");
     return;
   }
-
+  
   // Ensure global sets exist
   window.selectedAreas_Array = window.selectedAreas_Array || new Set();
 
@@ -800,36 +717,13 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
   });
 }
 
-function formatNumberWithCommas(input) {
-  // Remove any existing commas and non-numeric characters except decimals
-  let value = input.value.replace(/,/g, "").replace(/[^\d.]/g, "");
-
-  // Store the raw value in a data attribute
-  input.dataset.rawValue = value;
-
-  // Format the value with commas for display
-  if (value) {
-    // Split by decimal point if there is one
-    const parts = value.split(".");
-    // Format integer part with commas
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    // Reassemble with decimal if it exists
-    input.value = parts.join(".");
-  }
-
-  // Return the raw numeric value for calculations
-  return parseFloat(value) || 0;
-}
-
 // Add event listeners for key events
 document.addEventListener("filtersChanged", updateClientDropdownFilters);
 document.addEventListener("clientDataLoaded", initializeClientDropdown);
 
 // Main initialization when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
-
-  window.numberFormatter = new NumberFormatter();
-
+  // console.log("DOM loaded, initializing Header.js functionality");
 
   // Initialize Sets with all available values
   if (typeof areas_Array !== "undefined") {
@@ -1030,9 +924,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     sliders.forEach((slider) => {
       if (slider) {
-        slider.addEventListener('input', function() {
-          window.numberFormatter.updateAllDisplays();
-        });
         // Set initial slider values to match global variables
         slider.value = parseInt(
           slider.id === "givingUnitsMin"
@@ -1046,8 +937,8 @@ document.addEventListener("DOMContentLoaded", function () {
             : slider.id === "assetsMin"
             ? window.assetsValue
             : slider.id === "assetsMax"
-            ? window.assetsValue2
-            : slider.id === "revenueMin"
+            ? window.assetsValue2 
+            : slider.id === "revenueMin" 
             ? window.revenueValue
             : window.revenueValue2
         );
@@ -1083,8 +974,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeFilterTriggers();
 
   document.addEventListener("filtersChanged", function () {
-    window.numberFormatter.updateAllInputs();
-
     console.log("Filter State Updated:", {
       sliders: {
         givingMin: window.sliderValue,

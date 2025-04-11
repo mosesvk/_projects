@@ -2623,70 +2623,50 @@ class ApiService {
 
   // Add a method to initialize filter handlers
   _initializeFilterHandlers() {
-    // Delay initialization until the updateClientDropdownFilters function is available
-    const checkForFunctions = () => {
-      if (
-        typeof window.headerUpdateClientDropdown === "function" ||
-        typeof updateClientDropdownBasedOnFilters === "function"
-      ) {
-        console.log(
-          "Found client dropdown update function, initializing filters"
-        );
+    // Set up event listeners for filter changes
+    // These will be triggered when types, areas or sliders change
+    document.addEventListener("filtersChanged", this._handleFiltersChanged);
 
-        // Set up event listeners for filter changes
-        // These will be triggered when types, areas or sliders change
-        document.addEventListener("filtersChanged", this._handleFiltersChanged);
+    // Initialize sliders if they exist
+    const givingMinSlider = document.getElementById("giving-min-slider");
+    const givingMaxSlider = document.getElementById("giving-max-slider");
+    const missionMinSlider = document.getElementById("mission-min-slider");
+    const missionMaxSlider = document.getElementById("mission-max-slider");
 
-        // Initialize sliders if they exist
-        const givingMinSlider = document.getElementById("giving-min-slider");
-        const givingMaxSlider = document.getElementById("giving-max-slider");
-        const missionMinSlider = document.getElementById("mission-min-slider");
-        const missionMaxSlider = document.getElementById("mission-max-slider");
+    if (givingMinSlider) {
+      givingMinSlider.addEventListener("input", () => {
+        window.sliderValue = parseInt(givingMinSlider.value);
+        this._triggerFiltersChanged();
+      });
+    }
 
-        if (givingMinSlider) {
-          givingMinSlider.addEventListener("input", () => {
-            window.sliderValue = parseInt(givingMinSlider.value);
-            this._triggerFiltersChanged();
-          });
-        }
+    if (givingMaxSlider) {
+      givingMaxSlider.addEventListener("input", () => {
+        window.sliderValue2 = parseInt(givingMaxSlider.value);
+        this._triggerFiltersChanged();
+      });
+    }
 
-        if (givingMaxSlider) {
-          givingMaxSlider.addEventListener("input", () => {
-            window.sliderValue2 = parseInt(givingMaxSlider.value);
-            this._triggerFiltersChanged();
-          });
-        }
+    if (missionMinSlider) {
+      missionMinSlider.addEventListener("input", () => {
+        window.missionValue = parseInt(missionMinSlider.value);
+        this._triggerFiltersChanged();
+      });
+    }
 
-        if (missionMinSlider) {
-          missionMinSlider.addEventListener("input", () => {
-            window.missionValue = parseInt(missionMinSlider.value);
-            this._triggerFiltersChanged();
-          });
-        }
+    if (missionMaxSlider) {
+      missionMaxSlider.addEventListener("input", () => {
+        window.missionValue2 = parseInt(missionMaxSlider.value);
+        this._triggerFiltersChanged();
+      });
+    }
 
-        if (missionMaxSlider) {
-          missionMaxSlider.addEventListener("input", () => {
-            window.missionValue2 = parseInt(missionMaxSlider.value);
-            this._triggerFiltersChanged();
-          });
-        }
-
-        // Initial filter application - delay this to avoid early triggering
-        setTimeout(() => {
-          this._triggerFiltersChanged();
-        }, 500);
-      } else {
-        // Wait and try again in 100ms
-        console.log("Client dropdown function not found yet, retrying...");
-        setTimeout(checkForFunctions, 100);
-      }
-    };
-
-    // Start the check process
-    checkForFunctions();
+    // Initial filter application
+    this._triggerFiltersChanged();
   }
+
   // Method to handle filter changes
-  _handleFiltersChanged() {a
+  _handleFiltersChanged() {
     if (!window.clientDataStore) {
       console.warn("Client data store not available yet");
       return;
@@ -2697,10 +2677,12 @@ class ApiService {
     // Call the function that updates client checkboxes based on current filters
     if (typeof updateClientDropdownBasedOnFilters === "function") {
       updateClientDropdownBasedOnFilters();
-    } else if (typeof window.headerUpdateClientDropdown === "function") {
-      window.headerUpdateClientDropdown();
+    } else if (typeof headerUpdateClientDropdown === "function") {
+      // Try the function from Header.js
+      headerUpdateClientDropdown();
     } else {
-      console.warn("No suitable update function found for client dropdown");
+      console.error("No suitable update function found for client dropdown");
+      this._updateClientSelection() 
     }
   }
 
@@ -2713,6 +2695,10 @@ class ApiService {
     const maxGiving = window.sliderValue2 || 25000;
     const minMission = window.missionValue || 0;
     const maxMission = window.missionValue2 || 10000;
+    const minAssets = window.assetsValue || 0;
+    const maxAssets = window.assetsValue2 || 900000000;
+    const minRevenue = window.revenueValue || 0;
+    const maxRevenue = window.revenueValue2 || 600000000;
 
     // Update client checkboxes based on filters
     const clientCheckboxes = document.querySelectorAll(
@@ -2739,7 +2725,11 @@ class ApiService {
           clientData.givingUnit >= minGiving &&
           clientData.givingUnit <= maxGiving &&
           clientData.missionUnit >= minMission &&
-          clientData.missionUnit <= maxMission;
+          clientData.missionUnit <= maxMission &&
+          clientData.assets >= minAssets &&
+          clientData.assets <= maxAssets &&
+          clientData.revenue >= minRevenue &&
+          clientData.revenue <= maxRevenue
 
         checkbox.checked = matches;
 
@@ -3541,7 +3531,7 @@ function toggleButtonNormalState(btn) {
 let apiCallClientDataForUniqueYears = {
   act: "API_DoQuery",
   query: `{29.EX.${ClientRid}}`,
-  clist: "29.191.220.223",
+  clist: "29.191.220.223.366",
 };
 
 // Fetch client information
