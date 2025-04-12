@@ -3674,7 +3674,7 @@
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <!-- CHART - ASSET TO LIABILITIES -->
+              <!-- CHART - CURRENT RATIO -->
               <div id="currentRatio_chart" class="w-full"></div>
               <button
                 id="dropdown_currentRatio"
@@ -5655,7 +5655,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 6 10"
-                  id="arrow_debtServiceCoverageRatio"
+                  id="arrow_endowmentAssetsPerStudent"
                 >
                   <path
                     stroke="currentColor"
@@ -5776,28 +5776,6 @@
                                 class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
                               >
                                 Endowment Asset per Student
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_endowmentAssetsPerStudentPeer_endowment"
-                              class="backgroundOffBlue font-bold border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Endowment
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_endowmentAssetsPerStudentPeer_totalStudentFte"
-                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Total Full Time Students
                               </th>
                             </tr>
                           </tbody>
@@ -5998,6 +5976,7 @@
       <div class="text-center">
         <div role="status">
           <div
+            id="loadingApiInnerDiv"
             class="animate-pulse flex flex-col place-items-center px-5 py-5 font-semibold text-white leading-none tracking-wider text-center rounded-full dark:bg-blue-900 dark:text-blue-200"
           >
             <div id="loadingApiHeader" class="mb-4 text-6xl"></div>

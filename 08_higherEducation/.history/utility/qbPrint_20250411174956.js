@@ -1,12 +1,12 @@
-// qbPrint.js - Ultra-Robust Version
+// qbPrint.js - Performance Optimized Version
 
 /**
- * Streamlined chart processing with minimal overhead
+ * Process multiple charts in parallel with optimized rendering
  * 
  * @param {Array} chartMappings - Array of chart ID and field ID mappings
  * @returns {Promise<Array>} - Results of chart processing
  */
-async function robustChartProcessing(chartMappings) {
+async function processChartsInParallel(chartMappings) {
   // Create progress tracking elements
   const loadingModal = document.getElementById("loadingApiDiv");
   let progressBar, progressCount, progressText;
@@ -36,48 +36,15 @@ async function robustChartProcessing(chartMappings) {
     progressText = document.getElementById("chart-progress-text");
   }
 
-  // Process charts in smaller batches to prevent browser overload
-  const results = [];
-  const batchSize = 3; // Process 3 charts at a time
+  // Create a map to store results
+  const resultsMap = new Map();
   let completedCount = 0;
-  
-  // Process charts in batches
-  for (let i = 0; i < chartMappings.length; i += batchSize) {
-    const batch = chartMappings.slice(i, Math.min(i + batchSize, chartMappings.length));
+
+  // Process charts in parallel but in batches to avoid overwhelming the browser
+  const batchSize = 5; // Process 5 charts at a time
+  const updateProgress = () => {
+    completedCount++;
     
-    // Process this batch in parallel
-    const batchPromises = batch.map(async ({ chartId, fieldId }) => {
-      try {
-        const chartElement = document.getElementById(chartId);
-        if (!chartElement) {
-          console.warn(`Chart element not found: ${chartId}`);
-          return { chartId, fieldId, base64String: null };
-        }
-        
-        // Simple, direct capture of what's rendered in the DOM
-        const canvas = await html2canvas(chartElement, {
-          scale: 1.5,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: "#ffffff",
-          logging: false,
-        });
-        
-        // Get base64 string
-        const base64String = canvas.toDataURL("image/png", 0.9).split(",")[1];
-        return { chartId, fieldId, base64String };
-      } catch (error) {
-        console.error(`Error processing chart ${chartId}:`, error);
-        return { chartId, fieldId, base64String: null };
-      }
-    });
-    
-    // Wait for all charts in this batch to finish
-    const batchResults = await Promise.all(batchPromises);
-    results.push(...batchResults);
-    
-    // Update progress
-    completedCount += batch.length;
     if (progressBar) {
       const progressPercent = Math.floor((completedCount / chartMappings.length) * 100);
       progressBar.style.width = `${progressPercent}%`;
@@ -86,12 +53,106 @@ async function robustChartProcessing(chartMappings) {
     if (progressCount) {
       progressCount.textContent = `${completedCount}/${chartMappings.length}`;
     }
+  };
+
+  // Process a single chart optimally
+  const processChart = async (chartId, fieldId) => {
+    try {
+      const chartElement = document.getElementById(chartId);
+      if (!chartElement) {
+        console.warn(`Chart element not found: ${chartId}`);
+        resultsMap.set(fieldId, null);
+        updateProgress();
+        return;
+      }
+
+      // Try to get a reference to the ApexCharts instance
+      const chart = window[chartId] || (window.chartManager && window.chartManager.getChart(chartId));
+      
+      // Direct, optimized rendering based on chart type
+      if (chart && typeof chart.dataURI === "function") {
+        // Use ApexCharts' built-in export - faster than creating a new chart
+        try {
+          // Set temporary export options if possible
+          const originalHeight = chart.w.globals.dom.Paper.node.parentNode.getAttribute('height');
+          const originalWidth = chart.w.globals.dom.Paper.node.parentNode.getAttribute('width');
+          
+          // Temporarily increase chart size for better quality (if possible)
+          chart.w.globals.dom.Paper.node.parentNode.setAttribute('height', '400');
+          chart.w.globals.dom.Paper.node.parentNode.setAttribute('width', '900');
+          
+          // Get data URI directly from existing chart
+          const uri = await chart.dataURI({ scale: 2 });
+          
+          // Restore original dimensions
+          chart.w.globals.dom.Paper.node.parentNode.setAttribute('height', originalHeight);
+          chart.w.globals.dom.Paper.node.parentNode.setAttribute('width', originalWidth);
+          
+          const base64String = uri.imgURI.split(",")[1];
+          resultsMap.set(fieldId, base64String);
+          updateProgress();
+          return;
+        } catch (directExportError) {
+          console.log(`Direct export failed for ${chartId}, falling back to html2canvas`);
+          // Fall back to html2canvas
+        }
+      }
+      
+      // HTML2Canvas fallback with optimized settings
+      const originalHeight = chartElement.style.height;
+      const originalOverflow = chartElement.style.overflow;
+      const originalPosition = chartElement.style.position;
+      
+      // Set styles for capture
+      chartElement.style.height = "auto";
+      chartElement.style.overflow = "visible";
+      
+      // Fast html2canvas capture
+      const canvas = await html2canvas(chartElement, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: getComputedStyle(document.documentElement).getPropertyValue("--chart-bg-color") || "#ffffff",
+        logging: false, // Disable logging for performance
+      });
+      
+      // Restore original styles
+      chartElement.style.height = originalHeight;
+      chartElement.style.overflow = originalOverflow;
+      chartElement.style.position = originalPosition;
+      
+      // Get base64 string
+      const base64String = canvas.toDataURL("image/png").split(",")[1];
+      resultsMap.set(fieldId, base64String);
+    } catch (error) {
+      console.error(`Error processing chart ${chartId}:`, error);
+      resultsMap.set(fieldId, null);
+    }
     
-    // Small pause between batches to let the browser breathe
+    updateProgress();
+  };
+
+  // Process charts in batches
+  for (let i = 0; i < chartMappings.length; i += batchSize) {
+    const batch = chartMappings.slice(i, i + batchSize);
+    
+    // Process batch in parallel
+    await Promise.all(
+      batch.map(({ chartId, fieldId }) => processChart(chartId, fieldId))
+    );
+    
+    // Small pause between batches to let browser breathe
     if (i + batchSize < chartMappings.length) {
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 10));
     }
   }
+
+  // Compile results in the same order as input
+  const results = chartMappings.map(({ chartId, fieldId }) => ({
+    chartId,
+    fieldId,
+    base64String: resultsMap.get(fieldId)
+  }));
 
   // Update final progress
   if (progressBar) progressBar.style.width = "100%";
@@ -102,81 +163,61 @@ async function robustChartProcessing(chartMappings) {
 }
 
 /**
- * Create optimized XML and handle large uploads safely
- * @param {Array} results - Chart processing results
- * @param {Object} metadata - Additional fields
- * @returns {string} - XML payload
+ * Optimized XML creation for Quickbase
+ * @param {Array} results - Chart processing results with base64 data
+ * @param {Object} metadata - Additional data to include
+ * @returns {string} - Complete XML payload
  */
 function createQuickbaseXml(results, metadata) {
-  const parts = ["<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>"];
+  // Start with header
+  let xml = "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
   
   // Add metadata
-  Object.entries(metadata).forEach(([key, value]) => {
-    if (value != null) {
-      parts.push(`<field fid='${key}'>${value}</field>`);
+  for (const [key, value] of Object.entries(metadata)) {
+    if (value !== null && value !== undefined) {
+      xml += `<field fid='${key}'>${value}</field>`;
     }
-  });
+  }
   
   // Add chart images
-  results.forEach(({ fieldId, base64String }) => {
+  for (const { fieldId, base64String } of results) {
     if (base64String) {
-      parts.push(`<field fid='${fieldId}' filename='chart.png'>${base64String}</field>`);
+      xml += `<field fid='${fieldId}' filename='chart.png'>${base64String}</field>`;
     }
-  });
+  }
   
-  parts.push("</qdbapi>");
-  return parts.join('');
+  // Close XML
+  xml += "</qdbapi>";
+  
+  return xml;
 }
 
 /**
- * Send data to Quickbase with robust error handling
+ * Send data to Quickbase with optimized settings
  * @param {string} xml - XML payload
  * @returns {Promise<object>} - Response
  */
-async function sendToQuickbaseRobust(xml) {
-  // Split into smaller payloads if needed (30MB limit for QuickBase)
-  const maxSize = 25 * 1024 * 1024; // 25MB to be safe
-  
-  if (xml.length > maxSize) {
-    throw new Error("Data payload exceeds QuickBase size limit. Please try processing fewer charts at once.");
-  }
-  
-  // Try the API call with retries
-  let attempts = 0;
-  const maxAttempts = 3;
-  
-  while (attempts < maxAttempts) {
-    try {
-      console.log(`API attempt ${attempts + 1} of ${maxAttempts}`);
-      
-      return await $.ajax({
-        type: "POST",
-        contentType: "text/xml",
-        url: "https://capincrouse.quickbase.com/db/buk93bd7x?a=API_AddRecord",
-        dataType: "xml",
-        processData: false,
-        data: xml,
-        timeout: 120000, // 2-minute timeout
-      });
-    } catch (error) {
-      attempts++;
-      console.error(`API attempt ${attempts} failed:`, error);
-      
-      if (attempts >= maxAttempts) {
-        throw new Error(`QuickBase API failed after ${maxAttempts} attempts: ${error.statusText || error.message || "Unknown error"}`);
-      }
-      
-      // Wait before retrying (exponential backoff)
-      await new Promise(resolve => setTimeout(resolve, 2000 * attempts));
-    }
+async function sendToQuickbase(xml) {
+  try {
+    return await $.ajax({
+      type: "POST",
+      contentType: "text/xml",
+      url: "https://capincrouse.quickbase.com/db/buk93bd7x?a=API_AddRecord",
+      dataType: "xml",
+      processData: false,
+      data: xml,
+      timeout: 90000, // Increased timeout for large payloads
+    });
+  } catch (error) {
+    const errorMessage = error.responseText || error.statusText || error.message || "Unknown error";
+    throw new Error(`Quickbase API error: ${errorMessage}`);
   }
 }
 
 /**
- * Robust chart export and upload
+ * Optimized and faster chart export function
  */
-async function robustChartExport() {
-  console.time("Total Export Process");
+async function fastChartExport() {
   showApiLoadingFunction("open", "print");
 
   const printButton = document.getElementById("printCharts");
@@ -215,11 +256,10 @@ async function robustChartExport() {
       }
     });
 
-    // Brief wait for DOM update
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // Very brief wait for DOM update
+    await new Promise(resolve => setTimeout(resolve, 10));
 
-    // Chart mappings from the original qbPrint.js
-    // Fix typo in original - netEducationalExpensePerStudent_chart had a typo in the original qbPrint.js
+    // Define chart mappings - preserved from original qbPrint.js
     const chartMappings = [
       { chartId: "cfiRatio_chart", fieldId: 6 },
       { chartId: "cfi_primaryReserveRatio_chart", fieldId: 7 },
@@ -235,7 +275,7 @@ async function robustChartExport() {
       { chartId: "currentRatio_chart", fieldId: 18 },
       { chartId: "salariesBenefitsToTotalExpense_chart", fieldId: 19 },
       { chartId: "salariesBenefitsPerNetTuition_chart", fieldId: 20 },
-      { chartId: "netEducationalExpensePerStudent_chart", fieldId: 22 }, // Fixed from typo in original
+      { chartId: "netEducationalExpensePerStudent_chart", fieldId: 22 },
       { chartId: "annualTraditionalNetTuitionPerStudent_chart", fieldId: 23 },
       { chartId: "tuitionDependency_chart", fieldId: 24 },
       { chartId: "tuitionDiscountRate_chart", fieldId: 25 },
@@ -255,9 +295,9 @@ async function robustChartExport() {
       throw new Error("No valid charts found to upload");
     }
 
-    // Process charts in smaller batches
+    // Process charts in parallel with optimized rendering
     console.time("Chart Processing");
-    const results = await robustChartProcessing(validChartMappings);
+    const results = await processChartsInParallel(validChartMappings);
     console.timeEnd("Chart Processing");
 
     // Count successful exports
@@ -273,7 +313,7 @@ async function robustChartExport() {
       element.classList.add("hidden");
     });
 
-    // Create XML
+    // Create XML - optimized for memory usage
     console.time("XML Creation");
     const metadata = {
       31: clientName,
@@ -283,16 +323,9 @@ async function robustChartExport() {
     const xml = createQuickbaseXml(results, metadata);
     console.timeEnd("XML Creation");
 
-    // Send to Quickbase with retries
+    // Send to Quickbase
     console.time("Quickbase Upload");
-    
-    // Update progress text to show we're now uploading
-    const progressText = document.getElementById("chart-progress-text");
-    if (progressText) {
-      progressText.textContent = "Uploading to Quickbase...";
-    }
-    
-    const response = await sendToQuickbaseRobust(xml);
+    const response = await sendToQuickbase(xml);
     console.timeEnd("Quickbase Upload");
     
     const xmlResponse = $(response);
@@ -305,12 +338,9 @@ async function robustChartExport() {
       const errorText = xmlResponse.find("qdbapi").find("errtext").text() || "Unknown error";
       throw new Error(`Quickbase returned error ${errorCode}: ${errorText}`);
     }
-    
-    console.timeEnd("Total Export Process");
   } catch (error) {
-    console.error("Error in robustChartExport:", error);
+    console.error("Error in fastChartExport:", error);
     createToastWarning(`Error creating presentation: ${error.message || "Unknown error"}`);
-    console.timeEnd("Total Export Process");
   } finally {
     // Restore button state
     printButton.disabled = false;
@@ -327,12 +357,12 @@ async function robustChartExport() {
 }
 
 /**
- * Initialize robust export functionality
+ * Initialize optimized export functionality
  */
-function initRobustExport() {
+function initOptimizedExport() {
   const printButton = document.getElementById("printCharts");
   if (!printButton) {
-    console.error("Print button not found for robust export");
+    console.error("Print button not found for optimized export");
     return;
   }
 
@@ -340,15 +370,15 @@ function initRobustExport() {
   const newPrintButton = printButton.cloneNode(true);
   printButton.parentNode.replaceChild(newPrintButton, printButton);
 
-  // Add robust export function
-  newPrintButton.addEventListener("click", robustChartExport);
+  // Add optimized export function
+  newPrintButton.addEventListener("click", fastChartExport);
   
-  console.log("Robust chart export functionality initialized");
+  console.log("Optimized chart export functionality initialized");
 }
 
 // Initialize when document is loaded
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initRobustExport);
+  document.addEventListener("DOMContentLoaded", initOptimizedExport);
 } else {
-  initRobustExport();
+  initOptimizedExport();
 }
