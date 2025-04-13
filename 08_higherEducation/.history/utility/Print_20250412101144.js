@@ -228,10 +228,11 @@ async function apexChartsExportPrint() {
 
   try {
     const sections = [
-      "FinancialPositionContent",
-      "RevenueAndExpenseContent",
-      "DebtAndEndowmentContent",
-      "CfiRatioContent"
+      "GeneralContent",
+      "cashContent",
+      "netAssetsContent",
+      "incomeContent",
+      "expenseContent",
     ];
     const hiddenSections = [];
 
@@ -248,29 +249,31 @@ async function apexChartsExportPrint() {
 
     // Define all chart IDs and their corresponding field IDs
     const chartMappings = [
-      { chartId: "cfiRatio_chart", fieldId: 6 },
-      { chartId: "cfi_primaryReserveRatio_chart", fieldId: 7 },
-      { chartId: "cfi_netIncomeOperationsRatio_chart", fieldId: 8 },
-      { chartId: "cfi_returnOnNetAssets_chart", fieldId: 10 },
-      { chartId: "cfi_viabilityRatio_chart", fieldId: 11 },
-      { chartId: "FinancialPosition_chart", fieldId: 12 },
-      { chartId: "assetToLiabilities_chart", fieldId: 13 },
-      { chartId: "sourceOfIncomeClient_chart", fieldId: 14 },
-      { chartId: "sourceOfIncomePeer_chart", fieldId: 15 },
-      { chartId: "ffa_chart", fieldId: 16 },
-      { chartId: "cashFlowsTrend_chart", fieldId: 17 },
-      { chartId: "currentRatio_chart", fieldId: 18 },
-      { chartId: "salariesBenefitsToTotalExpense_chart", fieldId: 19 },
-      { chartId: "salariesBenefitsPerNetTuition_chart", fieldId: 20 },
-      { chartId: "netEducationalExpensePerStudent_chart", fieldId: 22 }, // Fixed from typo in original
-      { chartId: "annualTraditionalNetTuitionPerStudent_chart", fieldId: 23 },
-      { chartId: "tuitionDependency_chart", fieldId: 24 },
-      { chartId: "tuitionDiscountRate_chart", fieldId: 25 },
-      { chartId: "ltDebtPerTotalOperatingRevenue_chart", fieldId: 26 },
-      { chartId: "debtServiceCoverageRatio_chart", fieldId: 27 },
-      { chartId: "debtBurdenRatio_chart", fieldId: 28 },
-      { chartId: "endowmentOperatingBudget_chart", fieldId: 29 },
-      { chartId: "endowmentAssetsPerStudent_chart", fieldId: 30 }
+      { chartId: "statementCashFlows_chart", fieldId: 8 },
+      { chartId: "daysCashOnHand_chart", fieldId: 9 },
+      { chartId: "daysExpensesInUnrestrictedNA_chart", fieldId: 10 },
+      {
+        chartId: "daysExpensesInUnrestrictedNA_excludingPPE_chart",
+        fieldId: 11,
+      },
+      { chartId: "totalCoverageRatio_chart", fieldId: 12 },
+      { chartId: "contributionsTrend_chart", fieldId: 13 },
+      { chartId: "annualizedInvestmentReturn_chart", fieldId: 14 },
+      { chartId: "functionalExpensePercent_program_chart", fieldId: 15 },
+      { chartId: "functionalExpensePercent_administrative_chart", fieldId: 16 },
+      { chartId: "functionalExpensePercent_fundraising_chart", fieldId: 17 },
+      { chartId: "costOfContributions_chart", fieldId: 18 },
+      { chartId: "netAssetBreakdown_chart", fieldId: 25 },
+      { chartId: "changeInNetAssets_chart", fieldId: 26 },
+      { chartId: "liquidityAssetsAvailableCover_chart", fieldId: 27 },
+      {
+        chartId: "assetsWithoutPpeToLiabilitiesWithoutDebt_chart",
+        fieldId: 28,
+      },
+      { chartId: "totalContributions_chart", fieldId: 29 },
+      { chartId: "contributionsWithoutDR_chart", fieldId: 30 },
+      { chartId: "functionalAllocation_chart", fieldId: 31 },
+      { chartId: "costOfContributionsDetailView_chart", fieldId: 32 },
     ];
 
     // Filter out any charts that don't exist in the DOM

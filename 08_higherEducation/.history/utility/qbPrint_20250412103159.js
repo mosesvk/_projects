@@ -167,7 +167,7 @@ async function sendToQuickbaseRobust(xml) {
       }
       
       // Wait before retrying (exponential backoff)
-      await new Promise(resolve => setTimeout(resolve, 500 * attempts));
+      await new Promise(resolve => setTimeout(resolve, 2000 * attempts));
     }
   }
 }
