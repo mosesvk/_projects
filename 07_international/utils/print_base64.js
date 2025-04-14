@@ -76,15 +76,49 @@ async function processChartsWithSpacing(chartMappings) {
 
       // If we have an ApexChart instance, use its export method
       if (chart && typeof chart.dataURI === "function") {
-
         // Wait for rendering to complete
         await new Promise((resolve) => setTimeout(resolve, 200));
 
         try {
-          // Use ApexCharts' dataURI method to get the image
-          const uri = await chart.dataURI();
+          // Set fixed dimensions for the export
+          const originalWidth =
+            chart.w.globals.dom.Paper.node.getAttribute("width");
+          const originalHeight =
+            chart.w.globals.dom.Paper.node.getAttribute("height");
+
+          console.log(chart)
+          console.group()
+          console.log({originalHeight, originalWidth});
+          
+
+          // Set fixed dimensions (same as your html2canvas settings)
+          chart.w.globals.dom.Paper.node.setAttribute("width", "900");
+          chart.w.globals.dom.Paper.node.setAttribute("height", "600");
+
+          // Force SVG to update
+          chart.w.globals.dom.Paper.node.style.width = "900px";
+          chart.w.globals.dom.Paper.node.style.height = "600px";
+
+          console.log({"changeWidth?": chart.w.globals.dom.Paper.node.style.width, "changeHeight?": chart.w.globals.dom.Paper.node});
+
+          // Use ApexCharts' dataURI method with fixed options
+          const uri = await chart.dataURI({
+            width: 900,
+            height: 600,
+            scale: 2, // Higher resolution
+          });
+
+          
           const base64String = uri.imgURI.split(",")[1];
+          console.log({uri, base64String})
+          console.groupEnd()
           results.push({ chartId, fieldId, base64String });
+
+          // Restore original dimensions
+          chart.w.globals.dom.Paper.node.setAttribute("width", originalWidth);
+          chart.w.globals.dom.Paper.node.setAttribute("height", originalHeight);
+          chart.w.globals.dom.Paper.node.style.width = `${originalWidth}px`;
+          chart.w.globals.dom.Paper.node.style.height = `${originalHeight}px`;
         } catch (exportError) {
           console.error(
             `Error exporting chart ${chartId} via dataURI:`,
