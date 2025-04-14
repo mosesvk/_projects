@@ -92,10 +92,10 @@ async function processChartsWithSpacing(chartMappings) {
           );
 
           // Fallback to html2canvas if dataURI fails
-          const canvas = await html2canvas(tempContainer, {
+          const canvas = await html2canvas(chartElement, {
             scale: 2,
             width: 900, // Fixed width (9.37 inches)
-            height: 400, // Fixed height (4.16 inches)
+            height: 600, // Fixed height (4.16 inches)
             useCORS: true,
             allowTaint: true,
             backgroundColor:
@@ -105,7 +105,6 @@ async function processChartsWithSpacing(chartMappings) {
             onclone: (doc, clonedElement) => {
               // Make sure we can see everything
               clonedElement.style.overflow = "visible";
-              clonedElement.style.height = "600px";
             },
           });
 
@@ -114,8 +113,8 @@ async function processChartsWithSpacing(chartMappings) {
         }
 
         // Clean up
-        tempChart.destroy();
-        document.body.removeChild(tempContainer);
+        // tempChart.destroy();
+        // document.body.removeChild(tempContainer);
       } else {
         // Fallback for non-ApexCharts or if chart instance not found
         console.log(`Using fallback html2canvas for ${chartId}`);
@@ -125,14 +124,14 @@ async function processChartsWithSpacing(chartMappings) {
         const originalOverflow = chartElement.style.overflow;
 
         // Set temporary styles for better capture
-        chartElement.style.height = "550px";
-        chartElement.style.overflow = "visible";
+        // chartElement.style.height = "550px";
+        // chartElement.style.overflow = "visible";
 
         // Force any SVG elements to include all content
         const svgElements = chartElement.querySelectorAll("svg");
         svgElements.forEach((svg) => {
           if (svg.getAttribute("height")) {
-            svg.setAttribute("height", "550");
+            svg.setAttribute("height", "400");
           }
           svg.style.overflow = "visible";
         });
@@ -143,23 +142,20 @@ async function processChartsWithSpacing(chartMappings) {
         // Use html2canvas with enhanced options
         const canvas = await html2canvas(chartElement, {
           scale: 2,
+          width: 900, // Fixed width (9.37 inches)
+          height: 600, // Fixed height (4.16 inches)
           useCORS: true,
           allowTaint: true,
           backgroundColor:
             getComputedStyle(document.documentElement).getPropertyValue(
               "--chart-bg-color"
             ) || "#ffffff",
-          height: chartElement.scrollHeight + 50,
           onclone: (doc, clonedElement) => {
             clonedElement.style.overflow = "visible";
-            clonedElement.style.height = chartElement.scrollHeight + 50 + "px";
 
             // Also adjust any SVG elements in the clone
             const clonedSvgs = clonedElement.querySelectorAll("svg");
             clonedSvgs.forEach((svg) => {
-              if (svg.getAttribute("height")) {
-                svg.setAttribute("height", chartElement.scrollHeight + 50);
-              }
               svg.style.overflow = "visible";
             });
           },
