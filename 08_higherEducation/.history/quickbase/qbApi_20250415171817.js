@@ -14,7 +14,7 @@ $.get(clientData, apiCallClientDataForUniqueYears)
     clientName =
       recordsClient[0].querySelector("merged_client_name").textContent;
     document.getElementById("firmName").textContent = clientName;
-    window.firmName = clientName;
+    window.firmName = clientName
 
     recordId = recordsClient[0].querySelector("related_client").textContent;
 
@@ -2786,7 +2786,7 @@ const countUniqueClients = (records) => {
       uniqueClients.add(mainRelatedClient);
     });
 
-    window.uniqueClientSize = uniqueClients.size;
+    window.uniqueClientSize = uniqueClients.size
     // console.log(count);
     document.getElementById("uniqueClients").textContent = uniqueClients.size;
   } catch (error) {
@@ -2904,12 +2904,6 @@ run_btn.addEventListener("click", async () => {
       yearsData_Array,
       "<qdbapi>"
     );
-
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(recordClientHTMLArray[0], "text/xml");
-
-    // Get the merged_client_name element
-    window.monthYearEnd = xmlDoc.querySelector("fiscal_ye_date_formatted_month").textContent;
 
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
@@ -3138,6 +3132,7 @@ const getRecordsForClient = async (years, dataStr) => {
       Array.from(record.children).forEach((child) => {
         newRecord.appendChild(child.cloneNode(true));
       });
+
 
       recordClientHTMLArray.push(newRecord.outerHTML);
 

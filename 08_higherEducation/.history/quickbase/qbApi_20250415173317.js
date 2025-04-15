@@ -2906,10 +2906,10 @@ run_btn.addEventListener("click", async () => {
     );
 
     const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(recordClientHTMLArray[0], "text/xml");
+    const xmlDoc = parser.parseFromString(recordClientHTMLArray, "text/xml");
 
     // Get the merged_client_name element
-    window.monthYearEnd = xmlDoc.querySelector("fiscal_ye_date_formatted_month").textContent;
+    window.monthYearEnd = xmlDoc.querySelector("fiscal_ye_date_formatted_month");
 
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""

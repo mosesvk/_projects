@@ -71,17 +71,6 @@ const getChartInstance = (chartId) => {
     case "ffa_chart": return ffa_chart;
     case "cashFlowsTrend_chart": return cashFlowsTrend_chart;
     case "currentRatio_chart": return currentRatio_chart;
-    case "salariesBenefitsToTotalExpense_chart": return salariesBenefitsToTotalExpense_chart;
-    case "salariesBenefitsPerNetTuition_chart": return salariesBenefitsPerNetTuition_chart;
-    case "netEducationalExpensePerStudent_chart": return netEducationalExpensePerStudent_chart;
-    case "annualTraditionalNetTuitionPerStudent_chart": return annualTraditionalNetTuitionPerStudent_chart;
-    case "tuitionDependency_chart": return tuitionDependency_chart;
-    case "tuitionDiscountRate_chart": return tuitionDiscountRate_chart;
-    case "ltDebtPerTotalOperatingRevenue_chart": return ltDebtPerTotalOperatingRevenue_chart;
-    case "debtServiceCoverageRatio_chart": return debtServiceCoverageRatio_chart;
-    case "debtBurdenRatio_chart": return debtBurdenRatio_chart;
-    case "endowmentOperatingBudget_chart": return endowmentOperatingBudget_chart;
-    case "endowmentAssetsPerStudent_chart": return endowmentAssetsPerStudent_chart;
     
     // For the remaining charts in chartMappings that aren't explicitly declared,
     // we'll try to access them from the window object or from a chartManager if available
@@ -498,7 +487,7 @@ function buildUploadXml(results) {
   // Add metadata
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  uploadXml += createFieldXml(31, window.firmName.textContent);
+  uploadXml += createFieldXml(31, window.firmName);
   uploadXml += createFieldXml(32, window.uniqueClientSize);
   uploadXml += createFieldXml(76, selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(69, window.monthYearEnd);

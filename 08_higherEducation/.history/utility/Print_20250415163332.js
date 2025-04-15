@@ -498,7 +498,7 @@ function buildUploadXml(results) {
   // Add metadata
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  uploadXml += createFieldXml(31, window.firmName.textContent);
+  uploadXml += createFieldXml(31, window.firmName);
   uploadXml += createFieldXml(32, window.uniqueClientSize);
   uploadXml += createFieldXml(76, selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(69, window.monthYearEnd);

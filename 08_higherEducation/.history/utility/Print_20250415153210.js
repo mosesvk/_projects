@@ -26,7 +26,7 @@ async function processChartsWithSpacing(chartMappings) {
       }
 
       // const chart = chartManager.getChart(chartId) || window[chartId];
-      const chart = getChartInstance(chartId);
+      const chart = document.getElementById(chartId)
 
       // If we have an ApexChart instance, use its export method
       if (chart && typeof chart.dataURI === "function") {
@@ -54,43 +54,6 @@ async function processChartsWithSpacing(chartMappings) {
   completeProgressUI(chartMappings.length);
   return results;
 }
-
-const getChartInstance = (chartId) => {
-  // The charts that are explicitly declared in your codebase
-  switch(chartId) {
-    case "cfiRatio_chart": return cfiRatio_chart;
-    case "doeOverall_chart": return doeOverall_chart;
-    case "cfi_primaryReserveRatio_chart": return cfi_primaryReserveRatio_chart;
-    case "cfi_netIncomeOperationsRatio_chart": return cfi_netIncomeOperationsRatio_chart;
-    case "cfi_returnOnNetAssets_chart": return cfi_returnOnNetAssets_chart;
-    case "cfi_viabilityRatio_chart": return cfi_viabilityRatio_chart;
-    case "FinancialPosition_chart": return FinancialPosition_chart;
-    case "assetToLiabilities_chart": return assetToLiabilities_chart;
-    case "sourceOfIncomeClient_chart": return sourceOfIncomeClient_chart;
-    case "sourceOfIncomePeer_chart": return sourceOfIncomePeer_chart;
-    case "ffa_chart": return ffa_chart;
-    case "cashFlowsTrend_chart": return cashFlowsTrend_chart;
-    case "currentRatio_chart": return currentRatio_chart;
-    case "salariesBenefitsToTotalExpense_chart": return salariesBenefitsToTotalExpense_chart;
-    case "salariesBenefitsPerNetTuition_chart": return salariesBenefitsPerNetTuition_chart;
-    case "netEducationalExpensePerStudent_chart": return netEducationalExpensePerStudent_chart;
-    case "annualTraditionalNetTuitionPerStudent_chart": return annualTraditionalNetTuitionPerStudent_chart;
-    case "tuitionDependency_chart": return tuitionDependency_chart;
-    case "tuitionDiscountRate_chart": return tuitionDiscountRate_chart;
-    case "ltDebtPerTotalOperatingRevenue_chart": return ltDebtPerTotalOperatingRevenue_chart;
-    case "debtServiceCoverageRatio_chart": return debtServiceCoverageRatio_chart;
-    case "debtBurdenRatio_chart": return debtBurdenRatio_chart;
-    case "endowmentOperatingBudget_chart": return endowmentOperatingBudget_chart;
-    case "endowmentAssetsPerStudent_chart": return endowmentAssetsPerStudent_chart;
-    
-    // For the remaining charts in chartMappings that aren't explicitly declared,
-    // we'll try to access them from the window object or from a chartManager if available
-    default:
-      // Try different methods to get the chart
-      return null
-  }
-};
-
 
 /**
  * Export an ApexChart with fixed dimensions
@@ -498,7 +461,7 @@ function buildUploadXml(results) {
   // Add metadata
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  uploadXml += createFieldXml(31, window.firmName.textContent);
+  uploadXml += createFieldXml(31, window.firmName);
   uploadXml += createFieldXml(32, window.uniqueClientSize);
   uploadXml += createFieldXml(76, selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(69, window.monthYearEnd);

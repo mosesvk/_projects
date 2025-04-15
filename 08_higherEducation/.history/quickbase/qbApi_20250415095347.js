@@ -14,7 +14,6 @@ $.get(clientData, apiCallClientDataForUniqueYears)
     clientName =
       recordsClient[0].querySelector("merged_client_name").textContent;
     document.getElementById("firmName").textContent = clientName;
-    window.firmName = clientName;
 
     recordId = recordsClient[0].querySelector("related_client").textContent;
 
@@ -2785,8 +2784,8 @@ const countUniqueClients = (records) => {
       // console.log(mainRelatedClient);
       uniqueClients.add(mainRelatedClient);
     });
-
-    window.uniqueClientSize = uniqueClients.size;
+    
+    window.uniqueClientSize = uniqueClients.size
     // console.log(count);
     document.getElementById("uniqueClients").textContent = uniqueClients.size;
   } catch (error) {
@@ -2904,12 +2903,6 @@ run_btn.addEventListener("click", async () => {
       yearsData_Array,
       "<qdbapi>"
     );
-
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(recordClientHTMLArray[0], "text/xml");
-
-    // Get the merged_client_name element
-    window.monthYearEnd = xmlDoc.querySelector("fiscal_ye_date_formatted_month").textContent;
 
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
@@ -3117,12 +3110,13 @@ const getRecordsForClient = async (years, dataStr) => {
     query: `
 	    {7.EX.${currentYear}} AND {533.EX.${ClientRid}}`,
     clist:
-      "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.419.420.421.422.423.424.425.426.427.428.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429.641.635.481.482.483.709.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.450.451.551.546.711.614.613.633.603.633.621.710.504.550.217.980.981.982.985.983.984.609.608.581.582.583.584.585.586.587.588.589.590.591.592.593.594.595.596.971.972.973.355.1078",
+      "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.419.420.421.422.423.424.425.426.427.428.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429.641.635.481.482.483.709.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.450.451.551.546.711.614.613.633.603.633.621.710.504.550.217.980.981.982.985.983.984.609.608.581.582.583.584.585.586.587.588.589.590.591.592.593.594.595.596.971.972.973.355",
   };
 
   try {
     const xml = await $.get(clientData, apiCallClientData);
     const recordsForClient = $("record", xml).toArray();
+
     //console.log('recordsForClient', recordsForClient[0].children)
     //console.log($('record', xml))
     //console.log(`year - ${currentYear}`)

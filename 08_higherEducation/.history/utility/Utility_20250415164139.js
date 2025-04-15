@@ -153,7 +153,7 @@ let selectedSchoolChurch_Selected;
 const map_dataUri = new Map();
 const dataUrLObj = new Object();
 
-// CHARTS
+// Define all chart variables
 let cfiRatio_chart;
 let doeOverall_chart;
 let cfi_primaryReserveRatio_chart;
