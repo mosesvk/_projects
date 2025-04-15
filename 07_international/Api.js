@@ -2493,7 +2493,7 @@ class ApiService {
   async getRecordsForUniqueClientPeerNames() {
     const apiCallPeerData = {
       act: "API_DoQuery",
-      clist: "301.59.238.239.359.358.366", // Added mission unit, giving unit, area query, type query
+      clist: "301.59.238.239.359.358.366.195", // Added mission unit, giving unit, area query, type query
     };
 
     try {
@@ -2582,7 +2582,7 @@ class ApiService {
       xmlString += "</qdbapi>";
 
       // Print the XML string to console
-      // onsole.log("Client Data XML:", xmlString);
+      // console.log("Client Data XML:", xmlString);
 
       const sortedUniquePeerClientNames = Array.from(
         uniquePeerClientNames
@@ -2712,6 +2712,7 @@ class ApiService {
       const clientData = window.clientDataStore[clientName];
 
       if (clientData) {
+
         // Simple matching logic as fallback
         const matches =
           (selectedAreas.length === 0 ||
