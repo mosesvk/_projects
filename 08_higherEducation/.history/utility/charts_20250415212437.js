@@ -2303,15 +2303,13 @@ const getCurrentRatioChartOptions = (data) => {
 
   // console.log({mainName, benchmark});
 
-  const seriesColors = [
-    window.chartColors.green,
-    window.chartColors.red,
-    window.chartColors.blue,
-    window.chartColors.grey,
-  ]
-
   return {
-    colors: seriesColors,
+    colors: [
+      window.chartColors.green,
+      window.chartColors.red,
+      window.chartColors.blue,
+      window.chartColors.grey,
+    ],
     series: [
       {
         name: "Current Assets",
@@ -2366,25 +2364,7 @@ const getCurrentRatioChartOptions = (data) => {
       offsetY: -20,
       formatter: yaxisLabelFormatter,
       style: {
-        fontSize: "16px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
-        colors: seriesColors,
-      },
-      background: {
-        padding: 4,
-        borderRadius: 2,
-        borderWidth: 1,
-        borderColor: "#ffffff",
-        opacity: 0.7,
-        dropShadow: {
-          enabled: false,
-          top: 1,
-          left: 1,
-          blur: 1,
-          color: "#000",
-          opacity: 0.45,
-        },
+        fontSize: "18px",
       },
     },
     title: {

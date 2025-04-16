@@ -384,7 +384,7 @@ const getMainChartOptions = (
       type: "line",
       data: peer75,
     },
-  ];
+  ]
 
   return {
     colors: [
@@ -1145,7 +1145,7 @@ const getAtlChartOptions = (data) => {
 
 const getSourcesOfIncomeClientChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  selectedYearsArray.sort((a, b) => b - a);
+  selectedYearsArray.sort((a, b) => b - a)
 
   console.log({ data, selectedYearsArray });
 
@@ -2255,34 +2255,9 @@ const getCurrentRatioChartOptions = (data) => {
     : "#3a464f";
 
   const yaxisLabelFormatter = (value) => {
-    if (value === null || value === undefined || isNaN(value)) {
-      return ""; // Handle null/undefined/NaN values
-    }
-
-    // For values >= 1,000,000: round to nearest 100,000 and show as xM or x.yM
     if (value >= 1000000) {
-      const millions = value / 1000000;
-      // Round to 1 decimal place
-      const roundedMillions = Math.round(millions * 10) / 10;
-      // If it's a whole number, show as "xM", otherwise show as "x.yM"
-      return roundedMillions % 1 === 0
-        ? `${Math.round(roundedMillions)}M`
-        : `${roundedMillions.toFixed(1)}M`;
+      return `${Math.round(value / 1000000)}M`;
     }
-
-    // For values between 100,000 and 1,000,000: round to nearest 10,000 and show as xxxK
-    else if (value >= 100000) {
-      const roundedThousands = Math.round(value / 10000) * 10;
-      return `${roundedThousands}K`;
-    }
-
-    // For values between 1,000 and 100,000: round to nearest 1,000 and show as xxK
-    else if (value >= 1000) {
-      const roundedThousands = Math.round(value / 1000);
-      return `${roundedThousands}K`;
-    }
-
-    // For values less than 1,000: use the original formatNumber function
     return `${formatNumber(value)}`;
   };
   const yaxisLabelFormatter2 = (value) => {
@@ -2303,15 +2278,13 @@ const getCurrentRatioChartOptions = (data) => {
 
   // console.log({mainName, benchmark});
 
-  const seriesColors = [
-    window.chartColors.green,
-    window.chartColors.red,
-    window.chartColors.blue,
-    window.chartColors.grey,
-  ]
-
   return {
-    colors: seriesColors,
+    colors: [
+      window.chartColors.green,
+      window.chartColors.red,
+      window.chartColors.blue,
+      window.chartColors.grey,
+    ],
     series: [
       {
         name: "Current Assets",
@@ -2363,28 +2336,8 @@ const getCurrentRatioChartOptions = (data) => {
     dataLabels: {
       enabled: true,
       enabledOnSeries: [0, 1],
-      offsetY: -20,
-      formatter: yaxisLabelFormatter,
       style: {
-        fontSize: "16px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
-        colors: seriesColors,
-      },
-      background: {
-        padding: 4,
-        borderRadius: 2,
-        borderWidth: 1,
-        borderColor: "#ffffff",
-        opacity: 0.7,
-        dropShadow: {
-          enabled: false,
-          top: 1,
-          left: 1,
-          blur: 1,
-          color: "#000",
-          opacity: 0.45,
-        },
+        fontSize: "18px",
       },
     },
     title: {
@@ -5817,11 +5770,12 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
 `;
 
-    const clientRatio = Number(data.ratio_Client[year].value);
-    clientArray.push(clientRatio);
+    const clientRatio = Number(data.ratio_Client[year].value)
+    clientArray.push(clientRatio)
     const formattedClientRatio = Number(clientRatio).toLocaleString();
 
     // console.log({clientRatio, formattedClientRatio})
+
 
     clientRatioRow.innerHTML += `
 <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
@@ -5829,7 +5783,9 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 </th>
 `;
 
-    const endowmentSizeClient = Number(data.endowment_Client[year].value);
+    const endowmentSizeClient = Number(
+      data.endowment_Client[year].value
+    )
     const formattedEndowmentSizeClient =
       Number(endowmentSizeClient).toLocaleString();
 
@@ -5880,12 +5836,14 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
     const peer75 = get75thPercentileOfArray(peerAvgArray);
     peer75Array.push(Math.round(peer75));
+
+
   });
 
   // console.log({
   //   clientArray,
   //   peerAvgArray,
-  //   peer25Array,
+  //   peer25Array, 
   //   peer50Array,
   //   peer75Array
   // });
