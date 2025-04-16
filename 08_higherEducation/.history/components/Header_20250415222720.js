@@ -570,6 +570,369 @@ const addUniqueMembershipsToOptionsSelectMembershipsDropdown = membershipArray =
   });
 };
 
+const addUniqueEnrollmentsToOptionsSelectEnrollmentsDropdown = enrollmentArray => {
+  const optionsListEnrollment = document.getElementById(
+    'options-list-enrollment'
+  );
+
+  // Create "Select All" checkbox and label
+  const selectAllLabel = document.createElement('label');
+  selectAllLabel.setAttribute('for', 'select-all-checkbox-enrollment');
+  selectAllLabel.setAttribute(
+    'class',
+    'flex items-center justify-start px-4 py-2 cursor-pointer truncate'
+  );
+
+  const selectAllInput = document.createElement('input');
+  selectAllInput.setAttribute('type', 'checkbox');
+  selectAllInput.setAttribute('id', 'select-all-checkbox-enrollment');
+  selectAllInput.setAttribute(
+    'class',
+    'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer'
+  );
+
+  const selectAllSpan = document.createElement('span');
+  selectAllSpan.setAttribute('id', 'select-all-text');
+  selectAllSpan.innerText = '(select all)';
+  selectAllSpan.setAttribute('class', 'text-lg font-semibold');
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListEnrollment.appendChild(selectAllLabel);
+
+  selectAllInput.addEventListener('change', function() {
+    const isChecked = selectAllInput.checked;
+    // Toggle other checkboxes based on "Select All" checkbox state
+    const enrollmentCheckboxes = document.querySelectorAll(
+      "#options-list-enrollment input[type='checkbox']"
+    );
+    enrollmentCheckboxes.forEach(checkbox => {
+      checkbox.checked = isChecked;
+    });
+  });
+
+  enrollmentArray.forEach((enrollmentObject, index) => {
+    const enrollmentName = enrollmentObject.arr[0];
+    const enrollmentString = enrollmentObject.str;
+
+    const newLabel = document.createElement('label');
+    newLabel.setAttribute('for', `option-${enrollmentString}`);
+    newLabel.setAttribute(
+      'class',
+      'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate'
+    );
+
+    const newInput = document.createElement('input');
+    newInput.setAttribute('type', 'checkbox');
+    newInput.setAttribute('id', `option-${enrollmentString}`);
+    newInput.setAttribute(
+      'class',
+      'w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500'
+    );
+    newInput.setAttribute('value', enrollmentString);
+
+    // Add the value to selectedEnrollments_Array and check the input by default
+    selectedEnrollments_Array.add(enrollmentString);
+    selectAllInput.checked = true;
+    newInput.checked = true;
+
+    const newSpan = document.createElement('span');
+    newSpan.innerText = enrollmentName;
+
+    newLabel.appendChild(newInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListEnrollment.appendChild(newLabel);
+  });
+
+  // Add event listeners to other checkboxes
+  const enrollmentLabels = document.querySelectorAll(
+    '#options-list-enrollment label'
+  );
+  enrollmentLabels.forEach((label, index) => {
+    const input = label.querySelector('input');
+    const enrollmentString = label.querySelector('input').value;
+
+    input.addEventListener('change', function() {
+      if (input.checked && !selectedEnrollments_Array.has(enrollmentString)) {
+        // Handle when the enrollment is selected
+        selectedEnrollments_Array.add(enrollmentString);
+      } else if (
+        input.checked &&
+        selectedEnrollments_Array.has(enrollmentString)
+      ) {
+        // loop through enrollmentLabels again to find any unchecked inputs, if so, delete from selectedEnrollments_Array
+        enrollmentLabels.forEach(label => {
+          const input = label.querySelector('input');
+          const enrollmentString = label.querySelector('input').value;
+          if (!input.checked) {
+            selectedEnrollments_Array.delete(enrollmentString);
+          }
+        });
+      } else {
+        selectedEnrollments_Array.delete(enrollmentString);
+        // check if all inputs are unchecked, if so, make sure selectedEnrollments_Array contains all enrollments
+        let allUnchecked = true;
+        enrollmentLabels.forEach(label => {
+          const input = label.querySelector('input');
+          if (input.checked) {
+            allUnchecked = false;
+          }
+        });
+        if (allUnchecked) {
+          enrollmentLabels.forEach(label => {
+            const enrollmentString = label.querySelector('input').value;
+            selectedEnrollments_Array.add(enrollmentString);
+          });
+        }
+      }
+    });
+  });
+};
+
+const addUniqueRegionalsToOptionsSelectRegionalsDropdown = regionalArray => {
+  const optionsListRegional = document.getElementById(
+    'options-list-regional'
+  );
+
+  // Create "Select All" checkbox and label
+  const selectAllLabel = document.createElement('label');
+  selectAllLabel.setAttribute('for', 'select-all-checkbox-regional');
+  selectAllLabel.setAttribute(
+    'class',
+    'flex items-center justify-start px-4 py-2 cursor-pointer truncate'
+  );
+
+  const selectAllInput = document.createElement('input');
+  selectAllInput.setAttribute('type', 'checkbox');
+  selectAllInput.setAttribute('id', 'select-all-checkbox-regional');
+  selectAllInput.setAttribute(
+    'class',
+    'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer'
+  );
+
+  const selectAllSpan = document.createElement('span');
+  selectAllSpan.setAttribute('id', 'select-all-text');
+  selectAllSpan.innerText = '(select all)';
+  selectAllSpan.setAttribute('class', 'text-lg font-semibold');
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListRegional.appendChild(selectAllLabel);
+
+  selectAllInput.addEventListener('change', function() {
+    const isChecked = selectAllInput.checked;
+    // Toggle other checkboxes based on "Select All" checkbox state
+    const regionalCheckboxes = document.querySelectorAll(
+      "#options-list-regional input[type='checkbox']"
+    );
+    regionalCheckboxes.forEach(checkbox => {
+      checkbox.checked = isChecked;
+    });
+  });
+
+  regionalArray.forEach((regionalObject, index) => {
+    const regionalName = regionalObject.arr[0];
+    const regionalString = regionalObject.str;
+
+    const newLabel = document.createElement('label');
+    newLabel.setAttribute('for', `option-${regionalString}`);
+    newLabel.setAttribute(
+      'class',
+      'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate'
+    );
+
+    const newInput = document.createElement('input');
+    newInput.setAttribute('type', 'checkbox');
+    newInput.setAttribute('id', `option-${regionalString}`);
+    newInput.setAttribute(
+      'class',
+      'w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500'
+    );
+    newInput.setAttribute('value', regionalString);
+
+    // Add the value to selectedRegionals_Array and check the input by default
+    selectedRegionals_Array.add(regionalString);
+    selectAllInput.checked = true;
+    newInput.checked = true;
+
+    const newSpan = document.createElement('span');
+    newSpan.innerText = regionalName;
+
+    newLabel.appendChild(newInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListRegional.appendChild(newLabel);
+  });
+
+  // Add event listeners to other checkboxes
+  const regionalLabels = document.querySelectorAll(
+    '#options-list-regional label'
+  );
+  regionalLabels.forEach((label, index) => {
+    const input = label.querySelector('input');
+    const regionalString = label.querySelector('input').value;
+
+    input.addEventListener('change', function() {
+      if (input.checked && !selectedRegionals_Array.has(regionalString)) {
+        // Handle when the regional is selected
+        selectedRegionals_Array.add(regionalString);
+      } else if (
+        input.checked &&
+        selectedRegionals_Array.has(regionalString)
+      ) {
+        // loop through regionalLabels again to find any unchecked inputs, if so, delete from selectedRegionals_Array
+        regionalLabels.forEach(label => {
+          const input = label.querySelector('input');
+          const regionalString = label.querySelector('input').value;
+          if (!input.checked) {
+            selectedRegionals_Array.delete(regionalString);
+          }
+        });
+      } else {
+        selectedRegionals_Array.delete(regionalString);
+        // check if all inputs are unchecked, if so, make sure selectedRegionals_Array contains all regionals
+        let allUnchecked = true;
+        regionalLabels.forEach(label => {
+          const input = label.querySelector('input');
+          if (input.checked) {
+            allUnchecked = false;
+          }
+        });
+        if (allUnchecked) {
+          regionalLabels.forEach(label => {
+            const regionalString = label.querySelector('input').value;
+            selectedRegionals_Array.add(regionalString);
+          });
+        }
+      }
+    });
+  });
+};
+
+const addUniqueSeminariesToOptionsSelectSeminariesDropdown = seminaryArray => {
+  const optionsListSeminary = document.getElementById(
+    'options-list-seminary'
+  );
+
+  // Create "Select All" checkbox and label
+  const selectAllLabel = document.createElement('label');
+  selectAllLabel.setAttribute('for', 'select-all-checkbox-seminary');
+  selectAllLabel.setAttribute(
+    'class',
+    'flex items-center justify-start px-4 py-2 cursor-pointer truncate'
+  );
+
+  const selectAllInput = document.createElement('input');
+  selectAllInput.setAttribute('type', 'checkbox');
+  selectAllInput.setAttribute('id', 'select-all-checkbox-seminary');
+  selectAllInput.setAttribute(
+    'class',
+    'w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer'
+  );
+
+  const selectAllSpan = document.createElement('span');
+  selectAllSpan.setAttribute('id', 'select-all-text');
+  selectAllSpan.innerText = '(select all)';
+  selectAllSpan.setAttribute('class', 'text-lg font-semibold');
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListSeminary.appendChild(selectAllLabel);
+
+  selectAllInput.addEventListener('change', function() {
+    const isChecked = selectAllInput.checked;
+    // Toggle other checkboxes based on "Select All" checkbox state
+    const seminaryCheckboxes = document.querySelectorAll(
+      "#options-list-seminary input[type='checkbox']"
+    );
+    seminaryCheckboxes.forEach(checkbox => {
+      checkbox.checked = isChecked;
+    });
+  });
+
+  seminaryArray.forEach((seminaryObject, index) => {
+    const seminaryName = seminaryObject.arr[0];
+    const seminaryString = seminaryObject.str;
+
+    const newLabel = document.createElement('label');
+    newLabel.setAttribute('for', `option-${seminaryString}`);
+    newLabel.setAttribute(
+      'class',
+      'flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate'
+    );
+
+    const newInput = document.createElement('input');
+    newInput.setAttribute('type', 'checkbox');
+    newInput.setAttribute('id', `option-${seminaryString}`);
+    newInput.setAttribute(
+      'class',
+      'w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500'
+    );
+    newInput.setAttribute('value', seminaryString);
+
+    // Add the value to selectedSeminaries_Array and check the input by default
+    selectedSeminaries_Array.add(seminaryString);
+    selectAllInput.checked = true;
+    newInput.checked = true;
+
+    const newSpan = document.createElement('span');
+    newSpan.innerText = seminaryName;
+
+    newLabel.appendChild(newInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListSeminary.appendChild(newLabel);
+  });
+
+  // Add event listeners to other checkboxes
+  const seminaryLabels = document.querySelectorAll(
+    '#options-list-seminary label'
+  );
+  seminaryLabels.forEach((label, index) => {
+    const input = label.querySelector('input');
+    const seminaryString = label.querySelector('input').value;
+
+    input.addEventListener('change', function() {
+      if (input.checked && !selectedSeminaries_Array.has(seminaryString)) {
+        // Handle when the seminary is selected
+        selectedSeminaries_Array.add(seminaryString);
+      } else if (
+        input.checked &&
+        selectedSeminaries_Array.has(seminaryString)
+      ) {
+        // loop through seminaryLabels again to find any unchecked inputs, if so, delete from selectedSeminaries_Array
+        seminaryLabels.forEach(label => {
+          const input = label.querySelector('input');
+          const seminaryString = label.querySelector('input').value;
+          if (!input.checked) {
+            selectedSeminaries_Array.delete(seminaryString);
+          }
+        });
+      } else {
+        selectedSeminaries_Array.delete(seminaryString);
+        // check if all inputs are unchecked, if so, make sure selectedSeminaries_Array contains all seminaries
+        let allUnchecked = true;
+        seminaryLabels.forEach(label => {
+          const input = label.querySelector('input');
+          if (input.checked) {
+            allUnchecked = false;
+          }
+        });
+        if (allUnchecked) {
+          seminaryLabels.forEach(label => {
+            const seminaryString = label.querySelector('input').value;
+            selectedSeminaries_Array.add(seminaryString);
+          });
+        }
+      }
+    });
+  });
+};
+
 const addUniqueClientsToOptionsSelectClientsDropdown = clientArray => {
   // console.log(clientArray);
   const optionsListClient = document.getElementById ('options-list-client');

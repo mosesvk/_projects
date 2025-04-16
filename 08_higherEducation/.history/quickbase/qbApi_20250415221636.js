@@ -47,12 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
   addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
 
   addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
-
-  addUniqueEnrollmentsToOptionsSelectEnrollmentsDropdown(enrollment_Array)
-
-  addUniqueRegionalsToOptionsSelectRegionalsDropdown(regional_Array)
-
-  addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminary_Array)
 });
 
 const findUniqueYears = (data) => {
@@ -3030,7 +3024,7 @@ const getRecordsForPeer = async (years, dataStr) => {
 
   function getRegionalQuery(selectedRegional) {
     const regionalConditions = [...selectedRegional]
-      .map((regional) => `{761.EX.${regional}}`)
+      .map((regional) => `{760.EX.${regional}}`)
       .join(" OR ");
     // console.log({ regionalConditions });
     return `(${regionalConditions})`;
@@ -3038,7 +3032,7 @@ const getRecordsForPeer = async (years, dataStr) => {
 
   function getEnrollmentQuery(selectedEnrollment) {
     const enrollmentConditions = [...selectedEnrollment]
-      .map((enrollment) => `{741.EX.${enrollment}}`)
+      .map((enrollment) => `{760.EX.${enrollment}}`)
       .join(" OR ");
     // console.log({ enrollmentConditions });
     return `(${enrollmentConditions})`;
@@ -3052,14 +3046,11 @@ const getRecordsForPeer = async (years, dataStr) => {
       (${getMembershipsQuery(selectedMemberships_Array)}) AND
       (${getAthleticsQuery(selectedAthletics_Array)}) AND
       (${getTypeQuery(selectedTypes_Array)}) AND
-      (${getSeminaryQuery(selectedSeminaries_Array)}) AND
-      (${getRegionalQuery(selectedRegionals_Array)}) AND
-      (${getEnrollmentQuery(selectedEnrollments_Array)}) AND
       (${getClientQuery(selectedClients_Array)}) AND
       {7.EX.${currentYear}}
     `,
     clist:
-      "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550",
+      "7.3.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550",
   };
 
   try {

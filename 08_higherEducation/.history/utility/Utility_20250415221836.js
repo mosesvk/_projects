@@ -138,28 +138,6 @@ const seminary_Array = [
   { arr: ["Unspecified"], str: "Unspecified" },
 ]
 
-const regional_Array = [
-  { arr: ["Higher Learning Commission"], str: "Higher Learning Commission" },
-  { arr: ["Middle States Commission on Higher Education"], str: "Middle States Commission on Higher Education" },
-  { arr: ["New England Commission on Higher Education"], str: "New England Commission on Higher Education" },
-  { arr: ["Northwest Commission on Colleges and Universities"], str: "Northwest Commission on Colleges and Universities" },
-  { arr: ["Southern Association of Colleges and Schools Commission on Colleges"], str: "Southern Association of Colleges and Schools Commission on Colleges" },
-  { arr: ["WASC Senior College and University Commission"], str: "WASC Senior College and University Commission" },
-  { arr: ["South Carolina Independent Colleges and Universities"], str: "South Carolina Independent Colleges and Universities" },
-  { arr: ["Unspecified"], str: "Unspecified" }
-];
-
-const enrollment_Array = [
-  { arr: ["NCAA I"], str: "NCAA I" },
-  { arr: ["NCAA II"], str: "NCAA II" },
-  { arr: ["NCAA III"], str: "NCAA III" },
-  { arr: ["NAIA"], str: "NAIA" },
-  { arr: ["NCCAA I"], str: "NCCAA I" },
-  { arr: ["NCCAA II"], str: "NCCAA II" },
-  { arr: ["USCAA"], str: "USCAA" },
-  { arr: ["Unspecified"], str: "Unspecified" }
-];
-
 let sliderAmount = null;
 let sliderRange = null;
 let sliderValue = 0;
@@ -173,9 +151,6 @@ const selectedStates_Array = new Set();
 const selectedMemberships_Array = new Set();
 const selectedTrendlines_Array = new Set();
 const selectedAthletics_Array = new Set();
-const selectedSeminaries_Array = new Set();
-const selectedRegionals_Array = new Set();
-const selectedEnrollments_Array = new Set();
 const selectedSites_Array = [];
 const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();

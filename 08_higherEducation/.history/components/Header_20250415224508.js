@@ -119,6 +119,15 @@ customSelectAthleticElement.addEventListener ('click', event => {
     optionsListAthleticElement.classList.toggle ('invisible');
   }
 });
+customSelectRegionalElement.addEventListener('click', event => {
+  // Check if the click target is not a checkbox inside the customSelectRegionalElement
+  if (
+    !event.target.closest('.form-checkbox') &&
+    !event.target.closest('label')
+  ) {
+    optionsListRegionalElement.classList.toggle('invisible');
+  }
+});
 customSelectEnrollmentElement.addEventListener('click', event => {
   // Check if the click target is not a checkbox inside the customSelectEnrollmentElement
   if (
