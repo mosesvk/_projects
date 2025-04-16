@@ -360,13 +360,23 @@ const getMainChartOptions = (
 
   return {
     colors: [
-      window.chartColors.cfi25,
-      window.chartColors.cfi50,
-      window.chartColors.cfiAvg,
-      window.chartColors.cfi75,
-      window.chartColors.cfiClient,
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.orange,
+      window.chartColors.yellow,
+      window.chartColors.purple,
     ],
     series: [
+      {
+        name: clientName,
+        type: "column",
+        data: clientArray,
+      },
+      {
+        name: "Avg",
+        type: "line",
+        data: peerAvg,
+      },
       {
         name: "25th",
         type: "line",
@@ -378,19 +388,9 @@ const getMainChartOptions = (
         data: peerMid,
       },
       {
-        name: "Avg",
-        type: "line",
-        data: peerAvg,
-      },
-      {
         name: "75th",
         type: "line",
         data: peer75,
-      },
-      {
-        name: clientName,
-        type: "column",
-        data: clientArray,
       },
     ],
     chart: {

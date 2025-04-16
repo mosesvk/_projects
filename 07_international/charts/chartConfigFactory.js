@@ -356,14 +356,14 @@ class ChartConfigFactory {
     let peer25 = chartData.peer25;
     let peer75 = chartData.peer75;
 
-    console.log("createMainChart", {
-      mainName,
-      chartData,
-      numType,
-      fixedNum,
-      clientArray,
-      peerAvg,
-    });
+    // console.log("createMainChart", {
+    //   mainName,
+    //   chartData,
+    //   numType,
+    //   fixedNum,
+    //   clientArray,
+    //   peerAvg,
+    // });
 
     if (numType === "percent") {
       clientArray = clientArray.map((val) =>
