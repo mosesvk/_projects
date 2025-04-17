@@ -80,29 +80,28 @@ const getMainChartOptions = (
   //   console.log({ dataClient, clientArray, fixedNum });
 
   let yaxisAnnotation;
-
+  let yaxisMax;
+  let yaxisMin = null
   let previousData = [];
 
   const chartEvents = {
-    beforeMount: function (chartContext, config) {
-      setTimeout(function () {
+    beforeMount: function(chartContext, config) {
+      setTimeout(function() {
         const chartElement = document.getElementById(chartId);
         if (!chartElement) return;
-
+        
         const chartWidth = chartElement.offsetWidth;
-
+        
         // Get the plotting area dimensions
-        const chartArea = document.querySelector(
-          `#${chartId} .apexcharts-plot-series`
-        );
+        const chartArea = document.querySelector(`#${chartId} .apexcharts-plot-series`);
         const plotRect = chartArea ? chartArea.getBoundingClientRect() : null;
         const chartRect = chartElement.getBoundingClientRect();
-
+        
         // Calculate left padding (distance from container edge to plot area)
         const leftPadding = plotRect ? plotRect.left - chartRect.left : 60; // Default if can't measure
-
-        console.log("Chart width:", chartWidth, "Left padding:", leftPadding);
-
+        
+        console.log('Chart width:', chartWidth, 'Left padding:', leftPadding);
+        
         // Create annotation that spans the entire chart width
         const newAnnotation = {
           id: "annotation",
@@ -128,13 +127,13 @@ const getMainChartOptions = (
             },
           },
         };
-
+        
         // Apply the annotation
         chartContext.updateOptions({
-          annotations: newAnnotation,
-        });
+          annotations: newAnnotation
+        })
       }, 300);
-    },
+    }
   };
 
   if (mainName == "cfiRatio") {
@@ -162,7 +161,8 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfiRatio_annotation;
-    yaxisMax = 10;
+    yaxisMax = 10
+    yaxisMin = -4
     previousData = clientArray;
   } else if (mainName == "doeOverall") {
     const data = JSON.parse(localStorage.doeData);
@@ -328,16 +328,16 @@ const getMainChartOptions = (
     yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
   } else if (mainName == "cfi_netIncomeOperationsRatio") {
-    console.log("cfi_netIncomeOperationsRatio", {
-      dataPeer,
+    console.log('cfi_netIncomeOperationsRatio', {
+      dataPeer, 
       dataClient,
       peerAvg,
       fixedNum,
       mainName,
       benchmark,
-      numType,
+      numType
     });
-
+    
     cfi_netIncomeOperationsRatio_annotation = [
       {
         id: "annotation",
@@ -503,6 +503,8 @@ const getMainChartOptions = (
       },
     },
     yaxis: {
+      max: yaxisMax,
+      min: yaxisMin,
       axisTicks: {
         show: true,
       },
@@ -527,9 +529,9 @@ const getMainChartOptions = (
       },
       y: {
         formatter: (val) => {
-          let formatVal = formatDecimal(val, fixedNum);
-          if (numType == "percent") return `${formatVal}%`;
-          return `${formatVal}`;
+          let formatVal = formatDecimal(val, fixedNum)
+          if (numType == 'percent') return `${formatVal}%`
+          return `${formatVal}`
         },
         title: {
           formatter: (seriesName) => `${seriesName}:`,
@@ -555,9 +557,9 @@ const getMainChartOptions = (
       enabledOnSeries: [0],
       offsetY: -20,
       formatter: (val) => {
-        let formatVal = formatDecimal(val, fixedNum);
-        if (numType == "percent") return `${formatVal}%`;
-        return `${formatVal}`;
+        let formatVal = formatDecimal(val, fixedNum)
+        if (numType == 'percent') return `${formatVal}%`
+        return `${formatVal}`
       },
       style: {
         fontSize: "20px",
@@ -666,8 +668,6 @@ const getFSchartOptions = (
     ],
     clientString
   );
-
-  const lastYear = yearsDataFinancialStatment_Array[yearsDataFinancialStatment_Array.length - 1];
 
   return {
     colors: [color],
@@ -796,22 +796,6 @@ const getFSchartOptions = (
           value: 0.35,
         },
       },
-    },
-    annotations: {
-      points: [{
-        x: lastYear,
-        seriesIndex: 0,
-        marker: {
-          size: 0
-        },
-        label: {
-          borderColor: 'transparent',
-          offsetY: 0,
-          style: {
-            color: 'transparent',
-          },
-        }
-      }]
     },
   };
 };

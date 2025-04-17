@@ -2930,7 +2930,7 @@ run_btn.addEventListener("click", async () => {
     if (recordPeerHTMLArray.length === 0) {
       console.error("No Peer records found for the selected years");
     } else {
-      console.log("PEER", qdbapiElementPeer);
+      // console.log("PEER", qdbapiElementPeer);
     }
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
@@ -3057,7 +3057,7 @@ const getRecordsForPeer = async (years, dataStr) => {
       selectedMemberships_Array
     )}) AND (${getAthleticsQuery(
       selectedAthletics_Array
-    )}) AND {7.EX.${currentYear}} AND {638.EX."COMPLETE"}`,
+    )}) AND {7.EX.${currentYear}}`,
 
     // Group 3: Type, Seminary, Regional, Enrollment filters
     `(${getTypeQuery(selectedTypes_Array)}) AND (${getSeminaryQuery(
@@ -3078,7 +3078,7 @@ const getRecordsForPeer = async (years, dataStr) => {
       act: "API_DoQuery",
       query: filterGroup,
       clist:
-        "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638",
+        "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550",
     };
 
     try {

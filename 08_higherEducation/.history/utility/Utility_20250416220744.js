@@ -434,23 +434,15 @@ const createChart = (
 
   if (chartIds.includes(chartId)) {
     if (chartId === "cfiRatio_chart") {
-      // Create a custom chart options object for cfiRatio that explicitly sets min to -4
-      const cfiRatioOptions = { ...chartOptions };
-      
-      // Make sure the yaxis setting has a proper min value
-      if (!cfiRatioOptions.yaxis.min) {
-        cfiRatioOptions.yaxis.min = -4;
-      }
-      
       cfiRatio_chart = new ApexCharts(
         document.getElementById(chartId),
-        cfiRatioOptions
+        chartOptions
       );
       cfiRatio_chart.render();
-      
       document.addEventListener("dark-mode", function () {
-        cfiRatio_chart.updateOptions(cfiRatioOptions);
+        cfiRatio_chart.updateOptions(chartOptions);
       });
+
     } else if (chartId === "doeOverall_chart") {
       doeOverall_chart = new ApexCharts(
         document.getElementById(chartId),
@@ -756,10 +748,10 @@ const getPeerAndClientChartDataArrays = (
 
       if (mainName == 'cfi_netIncomeOperationsRatio') console.log({mainName, avg, mid, lower25, higher75 });
 
-      peerAvg.push(avg.toFixed(fixedNum));
-      peerMid.push(mid.toFixed(fixedNum));
-      peer25.push(lower25.toFixed(fixedNum));
-      peer75.push(higher75.toFixed(fixedNum));
+      peerAvg.push(formatDecimal(avg, fixedNum));
+      peerMid.push(formatDecimal(mid, fixedNum));
+      peer25.push(formatDecimal(lower25, fixedNum));
+      peer75.push(formatDecimal(higher75, fixedNum));
 
       if (mainName == "cfi_netIncomeOperationsRatio") console.log({mainName, peerAvg, peerMid, peer25, peer75});
 
@@ -1419,14 +1411,7 @@ function createAndRenderFSChart(
       tableDataClass
     )
   );
-  // let mostCurrentYearIndex = Object.keys(parsedData[dataKey]).length - 1
-  // console.log('mostCurrentYearIndex', parsedData[dataKey])
-  // console.log('mostCurrentYearIndex', mostCurrentYearIndex)
-
-  // chart.toggleDataPointSelection(0, mostCurrentYearIndex)
   chart.render();
-
-
 
   // Update the chart on dark mode event
   document.addEventListener("dark-mode", function () {

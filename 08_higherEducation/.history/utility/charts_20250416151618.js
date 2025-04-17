@@ -5,8 +5,7 @@ const getMainChartOptions = (
   fixedNum = 0,
   mainName,
   benchmark,
-  title,
-  chartId
+  title
 ) => {
   // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
   // if (mainName == "doeOverall")
@@ -80,62 +79,8 @@ const getMainChartOptions = (
   //   console.log({ dataClient, clientArray, fixedNum });
 
   let yaxisAnnotation;
-
+  let yaxisMax;
   let previousData = [];
-
-  const chartEvents = {
-    beforeMount: function (chartContext, config) {
-      setTimeout(function () {
-        const chartElement = document.getElementById(chartId);
-        if (!chartElement) return;
-
-        const chartWidth = chartElement.offsetWidth;
-
-        // Get the plotting area dimensions
-        const chartArea = document.querySelector(
-          `#${chartId} .apexcharts-plot-series`
-        );
-        const plotRect = chartArea ? chartArea.getBoundingClientRect() : null;
-        const chartRect = chartElement.getBoundingClientRect();
-
-        // Calculate left padding (distance from container edge to plot area)
-        const leftPadding = plotRect ? plotRect.left - chartRect.left : 60; // Default if can't measure
-
-        console.log("Chart width:", chartWidth, "Left padding:", leftPadding);
-
-        // Create annotation that spans the entire chart width
-        const newAnnotation = {
-          id: "annotation",
-          y: benchmark,
-          strokeDashArray: 0,
-          borderColor: chartColors.labelColor,
-          strokeWidth: 1,
-          // Make it full chart width
-          width: `${chartWidth}px`,
-          // Pull it back to align with y-axis
-          offsetX: -leftPadding,
-          label: {
-            text: "Benchmark",
-            borderColor: "transparent",
-            borderWidth: 0,
-            position: "top",
-            offsetX: 10,
-            style: {
-              background: "transparent",
-              color: chartColors.labelColor,
-              fontSize: "18px",
-              fontWeight: 600,
-            },
-          },
-        };
-
-        // Apply the annotation
-        chartContext.updateOptions({
-          annotations: newAnnotation,
-        });
-      }, 300);
-    },
-  };
 
   if (mainName == "cfiRatio") {
     cfiRatio_annotation = [
@@ -144,14 +89,14 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
-        width: "200%",
-        offsetX: -180,
+        width: "100%", // Use 100% instead of 200%
+        offsetX: 0, // Set to 0 instead of -180
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: -70,
+          offsetX: 10, // Small offset for label positioning
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -162,7 +107,7 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfiRatio_annotation;
-    yaxisMax = 10;
+    yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
   } else if (mainName == "doeOverall") {
     const data = JSON.parse(localStorage.doeData);
@@ -328,16 +273,6 @@ const getMainChartOptions = (
     yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
   } else if (mainName == "cfi_netIncomeOperationsRatio") {
-    console.log("cfi_netIncomeOperationsRatio", {
-      dataPeer,
-      dataClient,
-      peerAvg,
-      fixedNum,
-      mainName,
-      benchmark,
-      numType,
-    });
-
     cfi_netIncomeOperationsRatio_annotation = [
       {
         id: "annotation",
@@ -477,7 +412,26 @@ const getMainChartOptions = (
       zoom: {
         enabled: false,
       },
-      events: chartEvents,
+      events: {
+        mounted: function (chartContext, config) {
+          const chartElement = document.getElementById(chartId);
+          const chartWidth = chartElement.offsetWidth;
+          console.log("chartWidth", chartWidth);
+
+          chartContext.updateOptions({
+            annotations: {
+              yaxis: [
+                {
+                  id: "annotation",
+                  y: benchmark,
+                  width: chartWidth,
+                  offsetX: 0,
+                },
+              ],
+            },
+          });
+        },
+      },
     },
     stroke: {
       width: [2, 3, 4, 4, 4],
@@ -503,6 +457,7 @@ const getMainChartOptions = (
       },
     },
     yaxis: {
+      // max: yaxisMax,
       axisTicks: {
         show: true,
       },
@@ -526,11 +481,7 @@ const getMainChartOptions = (
         position: "topLeft",
       },
       y: {
-        formatter: (val) => {
-          let formatVal = formatDecimal(val, fixedNum);
-          if (numType == "percent") return `${formatVal}%`;
-          return `${formatVal}`;
-        },
+        formatter: tooltipFormatter,
         title: {
           formatter: (seriesName) => `${seriesName}:`,
         },
@@ -554,11 +505,7 @@ const getMainChartOptions = (
       enabled: true,
       enabledOnSeries: [0],
       offsetY: -20,
-      formatter: (val) => {
-        let formatVal = formatDecimal(val, fixedNum);
-        if (numType == "percent") return `${formatVal}%`;
-        return `${formatVal}`;
-      },
+      formatter: (val) => formatDecimal(val, fixedNum),
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",
@@ -666,8 +613,6 @@ const getFSchartOptions = (
     ],
     clientString
   );
-
-  const lastYear = yearsDataFinancialStatment_Array[yearsDataFinancialStatment_Array.length - 1];
 
   return {
     colors: [color],
@@ -796,22 +741,6 @@ const getFSchartOptions = (
           value: 0.35,
         },
       },
-    },
-    annotations: {
-      points: [{
-        x: lastYear,
-        seriesIndex: 0,
-        marker: {
-          size: 0
-        },
-        label: {
-          borderColor: 'transparent',
-          offsetY: 0,
-          style: {
-            color: 'transparent',
-          },
-        }
-      }]
     },
   };
 };

@@ -2930,7 +2930,7 @@ run_btn.addEventListener("click", async () => {
     if (recordPeerHTMLArray.length === 0) {
       console.error("No Peer records found for the selected years");
     } else {
-      console.log("PEER", qdbapiElementPeer);
+      // console.log("PEER", qdbapiElementPeer);
     }
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);

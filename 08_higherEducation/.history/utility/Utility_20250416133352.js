@@ -136,37 +136,17 @@ const seminary_Array = [
   { arr: ["Small"], str: "Small" },
   { arr: ["Large"], str: "Large" },
   { arr: ["Unspecified"], str: "Unspecified" },
-];
+]
 
 const regional_Array = [
   { arr: ["Higher Learning Commission"], str: "Higher Learning Commission" },
-  {
-    arr: ["Middle States Commission on Higher Education"],
-    str: "Middle States Commission on Higher Education",
-  },
-  {
-    arr: ["New England Commission on Higher Education"],
-    str: "New England Commission on Higher Education",
-  },
-  {
-    arr: ["Northwest Commission on Colleges and Universities"],
-    str: "Northwest Commission on Colleges and Universities",
-  },
-  {
-    arr: [
-      "Southern Association of Colleges and Schools Commission on Colleges",
-    ],
-    str: "Southern Association of Colleges and Schools Commission on Colleges",
-  },
-  {
-    arr: ["WASC Senior College and University Commission"],
-    str: "WASC Senior College and University Commission",
-  },
-  {
-    arr: ["South Carolina Independent Colleges and Universities"],
-    str: "South Carolina Independent Colleges and Universities",
-  },
-  { arr: ["Unspecified"], str: "Unspecified" },
+  { arr: ["Middle States Commission on Higher Education"], str: "Middle States Commission on Higher Education" },
+  { arr: ["New England Commission on Higher Education"], str: "New England Commission on Higher Education" },
+  { arr: ["Northwest Commission on Colleges and Universities"], str: "Northwest Commission on Colleges and Universities" },
+  { arr: ["Southern Association of Colleges and Schools Commission on Colleges"], str: "Southern Association of Colleges and Schools Commission on Colleges" },
+  { arr: ["WASC Senior College and University Commission"], str: "WASC Senior College and University Commission" },
+  { arr: ["South Carolina Independent Colleges and Universities"], str: "South Carolina Independent Colleges and Universities" },
+  { arr: ["Unspecified"], str: "Unspecified" }
 ];
 
 const enrollment_Array = [
@@ -177,7 +157,7 @@ const enrollment_Array = [
   { arr: ["NCCAA I"], str: "NCCAA I" },
   { arr: ["NCCAA II"], str: "NCCAA II" },
   { arr: ["USCAA"], str: "USCAA" },
-  { arr: ["Unspecified"], str: "Unspecified" },
+  { arr: ["Unspecified"], str: "Unspecified" }
 ];
 
 let sliderAmount = null;
@@ -419,8 +399,7 @@ const createChart = (
     fixedNum,
     mainName,
     benchmark,
-    title,
-    chartId
+    title
   );
 
   const chartIds = [
@@ -434,23 +413,27 @@ const createChart = (
 
   if (chartIds.includes(chartId)) {
     if (chartId === "cfiRatio_chart") {
-      // Create a custom chart options object for cfiRatio that explicitly sets min to -4
-      const cfiRatioOptions = { ...chartOptions };
-      
-      // Make sure the yaxis setting has a proper min value
-      if (!cfiRatioOptions.yaxis.min) {
-        cfiRatioOptions.yaxis.min = -4;
-      }
-      
       cfiRatio_chart = new ApexCharts(
         document.getElementById(chartId),
-        cfiRatioOptions
+        chartOptions
       );
       cfiRatio_chart.render();
-      
       document.addEventListener("dark-mode", function () {
-        cfiRatio_chart.updateOptions(cfiRatioOptions);
+        cfiRatio_chart.updateOptions(chartOptions);
       });
+      cfiRatio_chart.addEventListener("rendered", function() {
+        const chartWidth = cfiRatio_chart.el.clientWidth;
+        cfiRatio_chart.updateOptions({
+            annotations: {
+                yaxis: [{
+                    id: "annotation",
+                    y: benchmark,
+                    width: chartWidth,
+                    offsetX: 0
+                }]
+            }
+        });
+    });
     } else if (chartId === "doeOverall_chart") {
       doeOverall_chart = new ApexCharts(
         document.getElementById(chartId),
@@ -648,7 +631,7 @@ const get75thPercentileOfArray = (array, mainName) => {
 };
 
 const getSumOfArray = (array) => {
-  if (array === null || array === undefined) return 0;
+  if (array === null || array === undefined) return 0
   const filteredArray = array.filter((value) => Number(value) !== 0);
 
   // console.log(array);
@@ -720,8 +703,8 @@ const getPeerAndClientChartDataArrays = (
   const benchmarkArray = [];
 
   years.forEach((year) => {
-    if (mainName == "cfi_netIncomeOperationsRatio")
-      console.log({ mainName, year, client: dataClient[year], peer: dataPeer, type, fixedNum });
+    // if (mainName == "doeOverall")
+    //   console.log({ year, client: dataClient[year], peer: dataPeer, type, fixedNum });
 
     benchmarkArray.push(benchmark);
 
@@ -733,35 +716,29 @@ const getPeerAndClientChartDataArrays = (
       peer25.push(null);
       peer75.push(null);
 
-      const clientNum = styleNumber(dataClient[year].value, type, fixedNum);
+      const clientNum = styleNumber(dataClient[year].value, type, fixedNum)
       // if (mainName === "doeOverall") console.log(clientNum);
+      
+      clientArray.push(clientNum); 
 
-      clientArray.push(clientNum);
     } else if (dataPeer[year] !== undefined && dataClient[year] !== undefined) {
       // console.log('---- hit if');
 
-      let numToTimesByIfPercent = 1
-      if (type == 'percent') numToTimesByIfPercent = 100
-
       const array = dataPeer[year];
       // if (mainName == 'cfiRatio') console.log(array)
-      let avg = getAverageOfArray(array);
-      avg *= numToTimesByIfPercent
-      let mid = getMidpointOfArray(array);
-      mid *= numToTimesByIfPercent
-      let lower25 = get25thPercentileOfArray(array);
-      lower25 *= numToTimesByIfPercent
-      let higher75 = get75thPercentileOfArray(array);
-      higher75 *= numToTimesByIfPercent
+      const avg = getAverageOfArray(array);
+      const mid = getMidpointOfArray(array);
+      const lower25 = get25thPercentileOfArray(array);
+      const higher75 = get75thPercentileOfArray(array);
 
-      if (mainName == 'cfi_netIncomeOperationsRatio') console.log({mainName, avg, mid, lower25, higher75 });
+      // if (mainName == 'cfiRatio') console.log({ avg, mid, lower25, higher75 });
 
-      peerAvg.push(avg.toFixed(fixedNum));
-      peerMid.push(mid.toFixed(fixedNum));
-      peer25.push(lower25.toFixed(fixedNum));
-      peer75.push(higher75.toFixed(fixedNum));
+      peerAvg.push(Number(styleNumber(avg, type, fixedNum)));
+      peerMid.push(Number(styleNumber(mid, type, fixedNum)));
+      peer25.push(Number(styleNumber(lower25, type, fixedNum)));
+      peer75.push(Number(styleNumber(higher75, type, fixedNum)));
 
-      if (mainName == "cfi_netIncomeOperationsRatio") console.log({mainName, peerAvg, peerMid, peer25, peer75});
+      // if (mainName == "cfiRatio") console.log({peerAvg, peerMid, peer25, peer75});
 
       // const client = Number(dataClient[year].value).toFixed(fixedNum);
       // const client = dataClient[year].value;
@@ -769,7 +746,7 @@ const getPeerAndClientChartDataArrays = (
       // // if (mainName == 'doeOverall') debugger
       // clientArray.push(clientNum);
 
-      const clientNum = styleNumber(dataClient[year].value, type, fixedNum);
+      const clientNum = styleNumber(dataClient[year].value, type, fixedNum)
       clientArray.push(clientNum);
     } else if (dataPeer[year] === undefined && dataClient[year]) {
       // console.log('---- hit ELSE if');
@@ -779,7 +756,7 @@ const getPeerAndClientChartDataArrays = (
       peer25.push(null);
       peer75.push(null);
 
-      const clientNum = styleNumber(dataClient[year].value, type, fixedNum);
+      const clientNum = styleNumber(dataClient[year].value, type, fixedNum)
       clientArray.push(clientNum);
     } else if (dataClient == undefined || dataPeer == undefined) {
       throw new Error(
@@ -791,10 +768,11 @@ const getPeerAndClientChartDataArrays = (
     }
 
     // if (mainName == "doeOverall") console.log({clientArray, dataClient});
+    ;
   });
 
-  if (mainName == "cfi_netIncomeOperationsRatio")
-    console.log({ mainName, clientArray, peerAvg, peerMid, peer25, peer75 });
+  // if (mainName == "cfi_netIncomeOperationsRatio")
+  //   console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
 };
@@ -825,7 +803,7 @@ const formatDecimal = (val, fixedNum) => {
 
   // Default return value
   return valStr;
-};
+}
 
 function styleNumber(num, type, fixed) {
   // Convert num to a number if it's a string
@@ -1419,14 +1397,7 @@ function createAndRenderFSChart(
       tableDataClass
     )
   );
-  // let mostCurrentYearIndex = Object.keys(parsedData[dataKey]).length - 1
-  // console.log('mostCurrentYearIndex', parsedData[dataKey])
-  // console.log('mostCurrentYearIndex', mostCurrentYearIndex)
-
-  // chart.toggleDataPointSelection(0, mostCurrentYearIndex)
   chart.render();
-
-
 
   // Update the chart on dark mode event
   document.addEventListener("dark-mode", function () {

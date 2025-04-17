@@ -667,7 +667,7 @@ const getFSchartOptions = (
     clientString
   );
 
-  const lastYear = yearsDataFinancialStatment_Array[yearsDataFinancialStatment_Array.length - 1];
+  const lastIndex = clientArray.length - 1;
 
   return {
     colors: [color],
@@ -700,6 +700,12 @@ const getFSchartOptions = (
       type: "line",
       stacked: false,
       events: {
+        beforeMount: function (chartContext, config) {
+          // Set the last data point as active when the chart is mounted
+          console.log('MOUNT FS', lastIndex);
+          
+          chartContext.toggleDataPointSelection(0, lastIndex);
+        },
         dataPointSelection: function (event, chartContext, opts) {
           const index = opts.dataPointIndex;
           // console.log({ chart, index, opts, year: yearsData_Array[index] });
@@ -796,22 +802,6 @@ const getFSchartOptions = (
           value: 0.35,
         },
       },
-    },
-    annotations: {
-      points: [{
-        x: lastYear,
-        seriesIndex: 0,
-        marker: {
-          size: 0
-        },
-        label: {
-          borderColor: 'transparent',
-          offsetY: 0,
-          style: {
-            color: 'transparent',
-          },
-        }
-      }]
     },
   };
 };

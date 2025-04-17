@@ -1419,14 +1419,12 @@ function createAndRenderFSChart(
       tableDataClass
     )
   );
-  // let mostCurrentYearIndex = Object.keys(parsedData[dataKey]).length - 1
-  // console.log('mostCurrentYearIndex', parsedData[dataKey])
+  chart.render();
+
+  let mostCurrentYearIndex = Array.from(parsedData[dataKey]).length
   // console.log('mostCurrentYearIndex', mostCurrentYearIndex)
 
   // chart.toggleDataPointSelection(0, mostCurrentYearIndex)
-  chart.render();
-
-
 
   // Update the chart on dark mode event
   document.addEventListener("dark-mode", function () {

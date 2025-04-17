@@ -2338,7 +2338,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         "cfiRatio_peerAverage_Peer",
         record,
         "r119_ccfi_overall_ratio",
-        "r119_ccfi_overall_ratioyn"
+        "Yes"
       );
 
       // primaryReserveRatio_peerAverage
@@ -2349,7 +2349,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         "primaryReserveRatio_peerAverage_Peer",
         record,
         "r115_ccfi_primary_reserve_ratio",
-        "r115_ccfi_primary_reserve_ratioyn"
+        "Yes"
       );
 
       // netIncomeOperationsRatio_peerAverage
@@ -2360,7 +2360,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         "netIncomeOperationsRatio_peerAverage_Peer",
         record,
         "r116_ccfi_net_income_operations_ratio",
-        "r116_ccfi_net_income_operations_ratioyn"
+        "Yes"
       );
 
       // returnOnNetAssets_peerAverage
@@ -2371,7 +2371,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         "returnOnNetAssets_peerAverage_Peer",
         record,
         "r117_ccfi_return_on_net_assets_total_return_ratio",
-        "r117_ccfi_return_on_net_assets_total_return_ratioyn"
+        "Yes"
       );
 
       // viabilityRatio_peerAverage
@@ -2382,7 +2382,7 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
         "viabilityRatio_peerAverage_Peer",
         record,
         "r118_ccfi_viability_ratio",
-        "r118_ccfi_viability_ratioyn"
+        "Yes"
       );
     });
 
@@ -2930,7 +2930,7 @@ run_btn.addEventListener("click", async () => {
     if (recordPeerHTMLArray.length === 0) {
       console.error("No Peer records found for the selected years");
     } else {
-      console.log("PEER", qdbapiElementPeer);
+      // console.log("PEER", qdbapiElementPeer);
     }
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
@@ -3057,7 +3057,7 @@ const getRecordsForPeer = async (years, dataStr) => {
       selectedMemberships_Array
     )}) AND (${getAthleticsQuery(
       selectedAthletics_Array
-    )}) AND {7.EX.${currentYear}} AND {638.EX."COMPLETE"}`,
+    )}) AND {7.EX.${currentYear}}`,
 
     // Group 3: Type, Seminary, Regional, Enrollment filters
     `(${getTypeQuery(selectedTypes_Array)}) AND (${getSeminaryQuery(
@@ -3077,10 +3077,9 @@ const getRecordsForPeer = async (years, dataStr) => {
     const apiCallPeerData = {
       act: "API_DoQuery",
       query: filterGroup,
-      clist:
-        "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638",
+      clist: "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550",
     };
-
+    
     try {
       const xml = await $.get(peerData, apiCallPeerData);
       const recordsForPeer = $("record", xml).toArray();
@@ -3089,7 +3088,7 @@ const getRecordsForPeer = async (years, dataStr) => {
       console.error("Error fetching data:", error);
     }
   }
-
+  
   // Process records same as before
   allRecords.forEach((record) => {
     const newRecord = document.createElement("record");
@@ -3099,7 +3098,7 @@ const getRecordsForPeer = async (years, dataStr) => {
     recordPeerHTMLArray.push(newRecord.outerHTML);
     dataStr += newRecord.outerHTML;
   });
-
+  
   return getRecordsForPeer(years.slice(1), dataStr);
 };
 
