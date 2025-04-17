@@ -143,37 +143,28 @@ const getMainChartOptions = (
   };
 
   const selectedYearsLength = selectedYearsArray.length;
-  let dynamicOffsetX
 
   switch (selectedYearsLength) {
     case 3:
     case 2:
     case 1:
-      dynamicOffsetX = -120;
+      dynamicOffsetX = -120
       break;
     case 5:
-    case 4:
-      dynamicOffsetX = -75;
-      break;
+    case 4: dynamicOffsetX = -75;break
     case 6:
-      dynamicOffsetX = -40;
+      dynamicOffsetX = -50;
       break;
     case 7:
-      dynamicOffsetX = -10;
+      dynamicOffsetX = -30;
       break;
     case 8:
       dynamicOffsetX = 0;
       break;
     case 9:
-      dynamicOffsetX = 20;
-      break;
-    case 10:
-      dynamicOffsetX = 30;
-      break;
-    case 11: 
-      dynamicOffsetX = 40
     default:
-      dynamicOffsetX = 50;
+      dynamicOffsetX = 10;
+      break;
   }
 
   if (mainName == "cfiRatio") {
@@ -188,7 +179,7 @@ const getMainChartOptions = (
           borderColor: "transparent",
           borderWidth: 0,
           offsetX: dynamicOffsetX,
-          position: "left",
+          position: "top",
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -214,7 +205,7 @@ const getMainChartOptions = (
           borderColor: "transparent",
           borderWidth: 0,
           offsetX: dynamicOffsetX,
-          position: "left",
+          position: "top",
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -342,12 +333,14 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        width: "200%",
+        offsetX: dynamicOffsetX,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -377,12 +370,14 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        width: "200%",
+        offsetX: dynamicOffsetX,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -402,12 +397,14 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        width: "200%",
+        offsetX: dynamicOffsetX,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -428,12 +425,14 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        width: "200%",
+        offsetX: dynamicOffsetX,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,

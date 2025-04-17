@@ -223,8 +223,8 @@ function configureChartForExport(chart, width, height) {
       updatedAnnotations.yaxis.forEach((annotation) => {
         if (annotation.label) {
           annotation.label.style = annotation.label.style || {};
-          annotation.label.style.fontSize = "12px";
-          annotation.label.style.fontWeight = 400;
+          annotation.label.style.fontSize = "10px";
+          annotation.label.style.fontWeight = 300;
           annotation.label.offsetX = 0;
           annotation.label.position = "left";
         }

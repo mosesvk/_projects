@@ -85,96 +85,62 @@ const getMainChartOptions = (
 
   const chartEvents = {
     beforeMount: function (chartContext, config) {
-      // First, wait for the chart and annotations to be rendered
-      setTimeout(() => {
+      setTimeout(function () {
         const chartElement = document.getElementById(chartId);
         if (!chartElement) return;
 
-        // Get the first grid line to use as reference
-        const gridLine = chartElement.querySelector(
-          `.apexcharts-gridlines-horizontal line`
-        );
-        if (!gridLine) return;
+        // Find the grid element which defines the plotting area
+        const gridLines = document.querySelectorAll(
+          `#${chartId} .apexcharts-gridlines-horizontal line`
+        );        
 
-        // Get the annotation line (y-axis annotation)
-        const annotationLine = chartElement.querySelector(
-          `.apexcharts-yaxis-annotations line`
-        );
-        if (!annotationLine) return;
+        const x1 = gridLines[0].getAttribute("x1")
+        const x2 = gridLines[0].getAttribute("x2")
+        const y1 = gridLines[0].getAttribute("y1")
+        const y2 = gridLines[0].getAttribute("y2")
 
-        // Get the exact x1 and x2 values from the grid line
-        const x1 = gridLine.getAttribute("x1");
-        const x2 = gridLine.getAttribute("x2");
+        console.log(chartId, 'x1', x1, 'x2', x2, 'y1', y1, 'y2', y2);
 
-        // Set the annotation line to match exactly
-        annotationLine.setAttribute("x1", x1);
-        annotationLine.setAttribute("x2", x2);
+        // Create annotation that spans exactly like the grid lines
+        const newAnnotation = {
+          yaxis: [{
+            id: "annotation",
+            y: benchmark,
+            strokeDashArray: 0,
+            borderColor: chartColors.labelColor,
+            strokeWidth: 1,
+            // Set width to match exactly grid line width
+            // width: `${gridWidth}px`,
+            // For yaxis annotations, position is relative to axis
+            // But we need to adjust to match grid exactly
+            // offsetX: (x2 + x1) / 2, // Center the annotation at the midpoint of the grid
+            label: {
+              text: "Benchmark",
+              borderColor: "transparent",
+              borderWidth: 0,
+              position: "top",
+              offsetX: 20,
+              style: {
+                background: "transparent",
+                color: chartColors.labelColor,
+                fontSize: "18px",
+                fontWeight: 600,
+              },
+            },
+          }],
+          points:[ {
+            x: x1,
+            y: benchmark
+          }],
+        };
 
-        console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
-      }, 200); // Extra delay to ensure annotations are rendered
-    },
-    updated: function (chartContext, config) {
-      // First, wait for the chart and annotations to be rendered
-      const chartElement = document.getElementById(chartId);
-      if (!chartElement) return;
-
-      // Get the first grid line to use as reference
-      const gridLine = chartElement.querySelector(
-        `.apexcharts-gridlines-horizontal line`
-      );
-      if (!gridLine) return;
-
-      // Get the annotation line (y-axis annotation)
-      const annotationLine = chartElement.querySelector(
-        `.apexcharts-yaxis-annotations line`
-      );
-      if (!annotationLine) return;
-
-      // Get the exact x1 and x2 values from the grid line
-      const x1 = gridLine.getAttribute("x1");
-      const x2 = gridLine.getAttribute("x2");
-
-      // Set the annotation line to match exactly
-      annotationLine.setAttribute("x1", x1);
-      annotationLine.setAttribute("x2", x2);
-
-      console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
+        // Apply the annotation
+        chartContext.updateOptions({
+          annotations: newAnnotation,
+        });
+      }, 300);
     },
   };
-
-  const selectedYearsLength = selectedYearsArray.length;
-  let dynamicOffsetX
-
-  switch (selectedYearsLength) {
-    case 3:
-    case 2:
-    case 1:
-      dynamicOffsetX = -120;
-      break;
-    case 5:
-    case 4:
-      dynamicOffsetX = -75;
-      break;
-    case 6:
-      dynamicOffsetX = -40;
-      break;
-    case 7:
-      dynamicOffsetX = -10;
-      break;
-    case 8:
-      dynamicOffsetX = 0;
-      break;
-    case 9:
-      dynamicOffsetX = 20;
-      break;
-    case 10:
-      dynamicOffsetX = 30;
-      break;
-    case 11: 
-      dynamicOffsetX = 40
-    default:
-      dynamicOffsetX = 50;
-  }
 
   if (mainName == "cfiRatio") {
     cfiRatio_annotation = [
@@ -183,12 +149,14 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
-          offsetX: dynamicOffsetX,
-          position: "left",
+          position: "top",
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -209,12 +177,14 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
-          offsetX: dynamicOffsetX,
-          position: "left",
+          position: "top",
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -342,12 +312,14 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -361,15 +333,15 @@ const getMainChartOptions = (
     yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
   } else if (mainName == "cfi_netIncomeOperationsRatio") {
-    // console.log("cfi_netIncomeOperationsRatio", {
-    //   dataPeer,
-    //   dataClient,
-    //   peerAvg,
-    //   fixedNum,
-    //   mainName,
-    //   benchmark,
-    //   numType,
-    // });
+    console.log("cfi_netIncomeOperationsRatio", {
+      dataPeer,
+      dataClient,
+      peerAvg,
+      fixedNum,
+      mainName,
+      benchmark,
+      numType,
+    });
 
     cfi_netIncomeOperationsRatio_annotation = [
       {
@@ -377,12 +349,14 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -402,12 +376,14 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -428,12 +404,14 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        width: "200%",
+        offsetX: -180,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,

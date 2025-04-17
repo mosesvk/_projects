@@ -143,7 +143,6 @@ const getMainChartOptions = (
   };
 
   const selectedYearsLength = selectedYearsArray.length;
-  let dynamicOffsetX
 
   switch (selectedYearsLength) {
     case 3:
@@ -187,7 +186,7 @@ const getMainChartOptions = (
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
-          offsetX: dynamicOffsetX,
+          offsetX: 10,
           position: "left",
           style: {
             background: "transparent",
@@ -213,7 +212,7 @@ const getMainChartOptions = (
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
-          offsetX: dynamicOffsetX,
+          offsetX: 10,
           position: "left",
           style: {
             background: "transparent",
@@ -342,12 +341,13 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        offsetX: dynamicOffsetX,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -377,12 +377,13 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        offsetX: dynamicOffsetX,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -402,12 +403,13 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        offsetX: dynamicOffsetX,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,
@@ -428,12 +430,13 @@ const getMainChartOptions = (
         y: benchmark,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        offsetX: dynamicOffsetX,
         label: {
           text: "Benchmark",
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,

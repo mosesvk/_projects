@@ -223,10 +223,10 @@ function configureChartForExport(chart, width, height) {
       updatedAnnotations.yaxis.forEach((annotation) => {
         if (annotation.label) {
           annotation.label.style = annotation.label.style || {};
-          annotation.label.style.fontSize = "12px";
-          annotation.label.style.fontWeight = 400;
+          annotation.label.style.fontSize = "10px";
+          annotation.label.style.fontWeight = 300;
           annotation.label.offsetX = 0;
-          annotation.label.position = "left";
+          annotation.label.position = "right";
         }
       });
     }
@@ -241,7 +241,7 @@ function configureChartForExport(chart, width, height) {
 }
 
 /**
- * Restore chart to original state including annotations and title
+ * Restore chart to original state including annotations
  */
 function restoreChartState(chart, originalState) {
   const paperNode = chart.w.globals.dom.Paper.node;
@@ -272,20 +272,15 @@ function restoreChartState(chart, originalState) {
     chart: {
       width: parseInt(originalState.width),
       height: parseInt(originalState.height),
-    }
+    },
   };
 
   // Restore annotations if they were saved
   if (originalState.annotations) {
     restoreOptions.annotations = originalState.annotations;
   }
-  
-  // Restore title if it was saved
-  if (originalState.title) {
-    restoreOptions.title = originalState.title;
-  }
 
-  // Force chart to redraw with original dimensions, annotations, and title
+  // Force chart to redraw with original dimensions and annotations
   if (chart.updateOptions) {
     chart.updateOptions(restoreOptions, false, false);
   }

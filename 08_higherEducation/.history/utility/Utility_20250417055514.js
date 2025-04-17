@@ -720,8 +720,8 @@ const getPeerAndClientChartDataArrays = (
   const benchmarkArray = [];
 
   years.forEach((year) => {
-    // if (mainName == "cfi_netIncomeOperationsRatio")
-    //   console.log({ mainName, year, client: dataClient[year], peer: dataPeer, type, fixedNum });
+    if (mainName == "cfi_netIncomeOperationsRatio")
+      console.log({ mainName, year, client: dataClient[year], peer: dataPeer, type, fixedNum });
 
     benchmarkArray.push(benchmark);
 
@@ -754,14 +754,14 @@ const getPeerAndClientChartDataArrays = (
       let higher75 = get75thPercentileOfArray(array);
       higher75 *= numToTimesByIfPercent
 
-      // if (mainName == 'cfi_netIncomeOperationsRatio') console.log({mainName, avg, mid, lower25, higher75 });
+      if (mainName == 'cfi_netIncomeOperationsRatio') console.log({mainName, avg, mid, lower25, higher75 });
 
       peerAvg.push(avg.toFixed(fixedNum));
       peerMid.push(mid.toFixed(fixedNum));
       peer25.push(lower25.toFixed(fixedNum));
       peer75.push(higher75.toFixed(fixedNum));
 
-      // if (mainName == "cfi_netIncomeOperationsRatio") console.log({mainName, peerAvg, peerMid, peer25, peer75});
+      if (mainName == "cfi_netIncomeOperationsRatio") console.log({mainName, peerAvg, peerMid, peer25, peer75});
 
       // const client = Number(dataClient[year].value).toFixed(fixedNum);
       // const client = dataClient[year].value;
@@ -793,8 +793,8 @@ const getPeerAndClientChartDataArrays = (
     // if (mainName == "doeOverall") console.log({clientArray, dataClient});
   });
 
-  // if (mainName == "cfi_netIncomeOperationsRatio")
-  //   console.log({ mainName, clientArray, peerAvg, peerMid, peer25, peer75 });
+  if (mainName == "cfi_netIncomeOperationsRatio")
+    console.log({ mainName, clientArray, peerAvg, peerMid, peer25, peer75 });
 
   return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
 };

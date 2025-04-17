@@ -57,63 +57,40 @@ async function processChartsWithSpacing(chartMappings) {
 
 const getChartInstance = (chartId) => {
   // The charts that are explicitly declared in your codebase
-  switch (chartId) {
-    case "cfiRatio_chart":
-      return cfiRatio_chart;
-    case "doeOverall_chart":
-      return doeOverall_chart;
-    case "cfi_primaryReserveRatio_chart":
-      return cfi_primaryReserveRatio_chart;
-    case "cfi_netIncomeOperationsRatio_chart":
-      return cfi_netIncomeOperationsRatio_chart;
-    case "cfi_returnOnNetAssets_chart":
-      return cfi_returnOnNetAssets_chart;
-    case "cfi_viabilityRatio_chart":
-      return cfi_viabilityRatio_chart;
-    case "FinancialPosition_chart":
-      return FinancialPosition_chart;
-    case "assetToLiabilities_chart":
-      return assetToLiabilities_chart;
-    case "sourceOfIncomeClient_chart":
-      return sourceOfIncomeClient_chart;
-    case "sourceOfIncomePeer_chart":
-      return sourceOfIncomePeer_chart;
-    case "ffa_chart":
-      return ffa_chart;
-    case "cashFlowsTrend_chart":
-      return cashFlowsTrend_chart;
-    case "currentRatio_chart":
-      return currentRatio_chart;
-    case "salariesBenefitsToTotalExpense_chart":
-      return salariesBenefitsToTotalExpense_chart;
-    case "salariesBenefitsPerNetTuition_chart":
-      return salariesBenefitsPerNetTuition_chart;
-    case "netEducationalExpensePerStudent_chart":
-      return netEducationalExpensePerStudent_chart;
-    case "annualTraditionalNetTuitionPerStudent_chart":
-      return annualTraditionalNetTuitionPerStudent_chart;
-    case "tuitionDependency_chart":
-      return tuitionDependency_chart;
-    case "tuitionDiscountRate_chart":
-      return tuitionDiscountRate_chart;
-    case "ltDebtPerTotalOperatingRevenue_chart":
-      return ltDebtPerTotalOperatingRevenue_chart;
-    case "debtServiceCoverageRatio_chart":
-      return debtServiceCoverageRatio_chart;
-    case "debtBurdenRatio_chart":
-      return debtBurdenRatio_chart;
-    case "endowmentOperatingBudget_chart":
-      return endowmentOperatingBudget_chart;
-    case "endowmentAssetsPerStudent_chart":
-      return endowmentAssetsPerStudent_chart;
-
+  switch(chartId) {
+    case "cfiRatio_chart": return cfiRatio_chart;
+    case "doeOverall_chart": return doeOverall_chart;
+    case "cfi_primaryReserveRatio_chart": return cfi_primaryReserveRatio_chart;
+    case "cfi_netIncomeOperationsRatio_chart": return cfi_netIncomeOperationsRatio_chart;
+    case "cfi_returnOnNetAssets_chart": return cfi_returnOnNetAssets_chart;
+    case "cfi_viabilityRatio_chart": return cfi_viabilityRatio_chart;
+    case "FinancialPosition_chart": return FinancialPosition_chart;
+    case "assetToLiabilities_chart": return assetToLiabilities_chart;
+    case "sourceOfIncomeClient_chart": return sourceOfIncomeClient_chart;
+    case "sourceOfIncomePeer_chart": return sourceOfIncomePeer_chart;
+    case "ffa_chart": return ffa_chart;
+    case "cashFlowsTrend_chart": return cashFlowsTrend_chart;
+    case "currentRatio_chart": return currentRatio_chart;
+    case "salariesBenefitsToTotalExpense_chart": return salariesBenefitsToTotalExpense_chart;
+    case "salariesBenefitsPerNetTuition_chart": return salariesBenefitsPerNetTuition_chart;
+    case "netEducationalExpensePerStudent_chart": return netEducationalExpensePerStudent_chart;
+    case "annualTraditionalNetTuitionPerStudent_chart": return annualTraditionalNetTuitionPerStudent_chart;
+    case "tuitionDependency_chart": return tuitionDependency_chart;
+    case "tuitionDiscountRate_chart": return tuitionDiscountRate_chart;
+    case "ltDebtPerTotalOperatingRevenue_chart": return ltDebtPerTotalOperatingRevenue_chart;
+    case "debtServiceCoverageRatio_chart": return debtServiceCoverageRatio_chart;
+    case "debtBurdenRatio_chart": return debtBurdenRatio_chart;
+    case "endowmentOperatingBudget_chart": return endowmentOperatingBudget_chart;
+    case "endowmentAssetsPerStudent_chart": return endowmentAssetsPerStudent_chart;
+    
     // For the remaining charts in chartMappings that aren't explicitly declared,
     // we'll try to access them from the window object or from a chartManager if available
     default:
       // Try different methods to get the chart
-      return null;
+      return null
   }
 };
+
 
 /**
  * Export an ApexChart with fixed dimensions
@@ -157,7 +134,7 @@ async function exportApexChart(chart) {
  */
 function saveChartState(chart) {
   const paperNode = chart.w.globals.dom.Paper.node;
-
+  
   // Save basic SVG attributes
   const state = {
     width: paperNode.getAttribute("width"),
@@ -167,15 +144,12 @@ function saveChartState(chart) {
     styleHeight: paperNode.style.height,
     preserveAspectRatio: paperNode.getAttribute("preserveAspectRatio"),
   };
-
+  
+  // Save annotations if they exist
   if (chart.w.config.annotations && chart.w.config.annotations.yaxis) {
     state.annotations = JSON.parse(JSON.stringify(chart.w.config.annotations));
   }
-
-  if (chart.w.config.title) {
-    state.title = JSON.parse(JSON.stringify(chart.w.config.title));
-  }
-
+  
   return state;
 }
 
@@ -200,37 +174,27 @@ function configureChartForExport(chart, width, height) {
     chart: {
       width: width,
       height: height,
-    },
-    // Hide the title
-    title: {
-      text: '', // Empty text effectively hides the title
-      style: {
-        fontSize: '0px', // Make it invisible
-        opacity: 0
-      }
     }
   };
-
+  
   // Check if the chart has yaxis annotations and update their styling
   if (chart.w.config.annotations && chart.w.config.annotations.yaxis) {
     // Create a deep copy of the annotations to avoid modifying the original reference
-    const updatedAnnotations = JSON.parse(
-      JSON.stringify(chart.w.config.annotations)
-    );
-
+    const updatedAnnotations = JSON.parse(JSON.stringify(chart.w.config.annotations));
+    
     // Update each yaxis annotation
     if (Array.isArray(updatedAnnotations.yaxis)) {
-      updatedAnnotations.yaxis.forEach((annotation) => {
+      updatedAnnotations.yaxis.forEach(annotation => {
         if (annotation.label) {
           annotation.label.style = annotation.label.style || {};
-          annotation.label.style.fontSize = "12px";
-          annotation.label.style.fontWeight = 400;
+          annotation.label.style.fontSize = "10px";
+          annotation.label.style.fontWeight = 300;
           annotation.label.offsetX = 0;
-          annotation.label.position = "left";
+          annotation.label.position = "right";
         }
       });
     }
-
+    
     updatedOptions.annotations = updatedAnnotations;
   }
 
@@ -241,12 +205,11 @@ function configureChartForExport(chart, width, height) {
 }
 
 /**
- * Restore chart to original state including annotations and title
+ * Restore chart to original state
  */
 function restoreChartState(chart, originalState) {
   const paperNode = chart.w.globals.dom.Paper.node;
 
-  // Restore SVG element attributes
   paperNode.setAttribute("width", originalState.width);
   paperNode.setAttribute("height", originalState.height);
   paperNode.style.width = originalState.styleWidth;
@@ -267,27 +230,18 @@ function restoreChartState(chart, originalState) {
     paperNode.removeAttribute("preserveAspectRatio");
   }
 
-  // Prepare options for restoration
-  const restoreOptions = {
-    chart: {
-      width: parseInt(originalState.width),
-      height: parseInt(originalState.height),
-    }
-  };
-
-  // Restore annotations if they were saved
-  if (originalState.annotations) {
-    restoreOptions.annotations = originalState.annotations;
-  }
-  
-  // Restore title if it was saved
-  if (originalState.title) {
-    restoreOptions.title = originalState.title;
-  }
-
-  // Force chart to redraw with original dimensions, annotations, and title
+  // Force chart to redraw with original dimensions
   if (chart.updateOptions) {
-    chart.updateOptions(restoreOptions, false, false);
+    chart.updateOptions(
+      {
+        chart: {
+          width: parseInt(originalState.width),
+          height: parseInt(originalState.height),
+        },
+      },
+      false,
+      false
+    );
   }
 }
 
@@ -490,8 +444,9 @@ async function apexChartsExportPrint() {
       { chartId: "debtServiceCoverageRatio_chart", fieldId: 27 },
       { chartId: "debtBurdenRatio_chart", fieldId: 28 },
       { chartId: "endowmentOperatingBudget_chart", fieldId: 29 },
-      { chartId: "endowmentAssetsPerStudent_chart", fieldId: 30 },
+      { chartId: "endowmentAssetsPerStudent_chart", fieldId: 30 }
     ];
+
 
     // Filter out any charts that don't exist in the DOM
     const validChartMappings = chartMappings.filter(
@@ -574,17 +529,27 @@ function buildUploadXml(results) {
   uploadXml += createFieldXml(32, window.uniqueClientSize);
   uploadXml += createFieldXml(76, selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(69, window.monthYearEnd);
-  uploadXml += createFieldXml(64, Array.from(selectedRegions_Array).join(", "));
-  uploadXml += createFieldXml(65, Array.from(selectedStates_Array).join(", "));
+  uploadXml += createFieldXml(
+    64,
+    Array.from(selectedRegions_Array).join(', ')
+  );
+  uploadXml += createFieldXml(
+    65,
+    Array.from(selectedStates_Array).join(', ')
+  );
   uploadXml += createFieldXml(
     66,
-    Array.from(selectedMemberships_Array).join(", ")
+    Array.from(selectedMemberships_Array).join(', ')
   );
-  uploadXml += createFieldXml(67, Array.from(selectedTypes_Array).join(", "));
+  uploadXml += createFieldXml(
+    67,
+    Array.from(selectedTypes_Array).join(', ')
+  );
   uploadXml += createFieldXml(
     68,
-    Array.from(selectedAthletics_Array).join(", ")
+    Array.from(selectedAthletics_Array).join(', ')
   );
+
 
   // Add base64 images for charts
   results.forEach((result) => {

@@ -347,7 +347,7 @@ const getMainChartOptions = (
           borderColor: "transparent",
           borderWidth: 0,
           position: "top",
-          offsetX: dynamicOffsetX,
+          offsetX: -70,
           style: {
             background: "transparent",
             color: chartColors.labelColor,
