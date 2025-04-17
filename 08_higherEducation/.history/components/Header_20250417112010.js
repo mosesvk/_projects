@@ -1,8 +1,5 @@
 const sidebarElement = document.getElementById ('sidebar');
 const backdropElement = document.getElementById ('sidebarBackdrop');
-// Initialize slider default values
-window.sliderValue = 0;
-window.sliderValue2 = 25000;
 
 const customSelectYearElement = document.getElementById ('custom-select-year');
 const customSelectRegionElement = document.getElementById (
@@ -53,7 +50,9 @@ const optionsListRegionalElement = document.getElementById(
   'options-list-regional'
 );
 
-
+// Initialize slider default values
+window.sliderValue = 0;
+window.sliderValue2 = 25000;
 
 
 customSelectYearElement.addEventListener ('click', event => {

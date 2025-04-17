@@ -90,7 +90,6 @@ const types_Array = [
   { arr: ["Graduate University"], str: "Graduate University" },
   { arr: ["Liberal Arts"], str: "Liberal Arts" },
   { arr: ["Seminary"], str: "Seminary" },
-  { arr: ["Liberal Arts & Bible College"], str: "Liberal Arts & Bible College" },
 ];
 const memberships_Array = [
   { arr: ["ABACC"], str: "ABACC" },
@@ -102,11 +101,37 @@ const memberships_Array = [
   { arr: ["IABCU"], str: "IABCU" },
   { arr: ["NHERMC"], str: "NHERMC" },
   { arr: ["TRACS"], str: "TRACS" },
-  { arr: ["ECFA"], str: "ECFA" },
-  { arr: ["NACUBO"], str: "NACUBO" },
-  { arr: ["Unspecified"], str: "Unspecified" },
 ];
-
+const athletics_Array = [
+  { arr: ["NAIA Division I"], str: "NAIA Division I" },
+  { arr: ["NAIA Division II"], str: "NAIA Division II" },
+  {
+    arr: ["NCAA Division I without football"],
+    str: "NCAA Division I without football",
+  },
+  { arr: ["NCAA Division I FCS"], str: "NCAA Division I FCS" },
+  {
+    arr: ["NCAA Division II with football"],
+    str: "NCAA Division II with football",
+  },
+  {
+    arr: ["NCAA Division II without football"],
+    str: "NCAA Division II without football",
+  },
+  {
+    arr: ["NCAA Division III with football"],
+    str: "NCAA Division III with football",
+  },
+  {
+    arr: ["NCAA Division III without football"],
+    str: "NCAA Division III without football",
+  },
+  { arr: ["NCCAA Division I"], str: "NCCAA Division I" },
+  { arr: ["NCCAA Division II"], str: "NCCAA Division II" },
+  { arr: ["NJCAA Division I"], str: "NJCAA Division I" },
+  { arr: ["Other"], str: "Other" },
+  { arr: ["USCAA"], str: "USCAA" },
+];
 const seminary_Array = [
   { arr: ["Small"], str: "Small" },
   { arr: ["Large"], str: "Large" },
@@ -144,7 +169,7 @@ const regional_Array = [
   { arr: ["Unspecified"], str: "Unspecified" },
 ];
 
-const athletics_Array = [
+const enrollment_Array = [
   { arr: ["NCAA I"], str: "NCAA I" },
   { arr: ["NCAA II"], str: "NCAA II" },
   { arr: ["NCAA III"], str: "NCAA III" },
@@ -1051,6 +1076,26 @@ const findMaxValueOfObject = (data) => {
   }
   return max;
 };
+
+function missionaryRange() {
+  return {
+    min: 0,
+    max: 10000,
+    missionprice: 0,
+    missionthumb: 0,
+    missiontrigger() {
+      missionValue = this.missionprice;
+      let missionValuePercent =
+        ((this.missionprice - this.min) / (this.max - this.min)) * 100;
+      this.missionthumb =
+        missionValuePercent > 100
+          ? 100
+          : missionValuePercent < 0
+          ? 0
+          : missionValuePercent;
+    },
+  };
+}
 
 const adjustDivHeight = () => {
   var div = document.getElementById("options-list-year");

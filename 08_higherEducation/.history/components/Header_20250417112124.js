@@ -4,6 +4,7 @@ const backdropElement = document.getElementById ('sidebarBackdrop');
 window.sliderValue = 0;
 window.sliderValue2 = 25000;
 
+
 const customSelectYearElement = document.getElementById ('custom-select-year');
 const customSelectRegionElement = document.getElementById (
   'custom-select-region'

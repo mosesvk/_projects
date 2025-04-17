@@ -1757,6 +1757,18 @@ const getFfaChartOptions = (data) => {
         return `$${val.toLocaleString()}`;
       },
       textAnchor: "end",
+      style: {
+        colors: [
+          "#00808D",
+          "#EDAB20",
+          "#00808D",
+          "#00808D",
+          "#00808D",
+          "#EDAB20",
+          "#EDAB20",
+          surplusDefecitColor,
+        ],
+      },
       background: {
         enabled: true,
         foreColor: window.chartColors.grey,
@@ -3162,7 +3174,7 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
 
   // Clear existing content before appending
   tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
-  salariesBenefitsPerNetTuitionRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Salaries & Benefits per Net Tuition</th>`;
+  salariesBenefitsPerNetTuitionRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Salaries & Benefits to Total Expense</th>`;
   salariesAndBenefitsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Salaries & Benefits</th>`;
   netTuitionRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Net Tuition</th>`;
 
@@ -3923,22 +3935,17 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
 
   return {
     colors: [
-      window.chartColors.green,
-      window.chartColors.blue,
-      window.chartColors.orange,
-      window.chartColors.yellow,
-      window.chartColors.purple,
+      window.chartColors.cfiClient,
+      window.chartColors.cfi25,
+      window.chartColors.cfi50,
+      window.chartColors.cfiAvg,
+      window.chartColors.cfi75,
     ],
     series: [
       {
         name: clientName,
         type: "column",
         data: clientArray,
-      },
-      {
-        name: "Avg",
-        type: "line",
-        data: peerAvgArray,
       },
       {
         name: "25th",
@@ -3949,6 +3956,11 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
         name: "50th",
         type: "line",
         data: peer50Array,
+      },
+      {
+        name: "Avg",
+        type: "line",
+        data: peerAvgArray,
       },
       {
         name: "75th",
@@ -4253,10 +4265,10 @@ const getTuitionDependencyChartOptions = (data) => {
 
   return {
     colors: [
-      window.chartColors.yellow,
-      window.chartColors.orange,
-      window.chartColors.green,
       window.chartColors.blue,
+      window.chartColors.teal,
+      window.chartColors.green,
+      window.chartColors.grey,
     ],
     series: [
       {
@@ -4558,10 +4570,10 @@ const getTuitionDiscountRateChartOptions = (data) => {
 
   return {
     colors: [
-      window.chartColors.yellow,
-      window.chartColors.orange,
-      window.chartColors.green,
       window.chartColors.blue,
+      window.chartColors.teal,
+      window.chartColors.green,
+      window.chartColors.grey,
     ],
     series: [
       {
@@ -4666,9 +4678,6 @@ const getTuitionDiscountRateChartOptions = (data) => {
           },
         },
       },
-      {
-        show: false
-      }
     ],
     xaxis: {
       categories: selectedYearsArray,
@@ -5483,10 +5492,10 @@ const getDebtBurdenRatioChartOptions = (data) => {
 
   return {
     colors: [
-      window.chartColors.yellow,
-      window.chartColors.orange,
-      window.chartColors.green,
       window.chartColors.blue,
+      window.chartColors.teal,
+      window.chartColors.green,
+      window.chartColors.grey,
     ],
     series: [
       {
@@ -6048,8 +6057,8 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
   return {
     colors: [
+      window.chartColors.blue,
       window.chartColors.green,
-      window.chartColors.vlue,
       window.chartColors.red,
       window.chartColors.orange,
       window.chartColors.purple,
@@ -6064,11 +6073,6 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
         },
       },
       {
-        name: "Avg",
-        type: "line",
-        data: peerAvgArray,
-      },
-      {
         name: "25th",
         type: "line",
         data: peer25Array,
@@ -6077,6 +6081,11 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
         name: "50th",
         type: "line",
         data: peer50Array,
+      },
+      {
+        name: "Avg",
+        type: "line",
+        data: peerAvgArray,
       },
       {
         name: "75th",

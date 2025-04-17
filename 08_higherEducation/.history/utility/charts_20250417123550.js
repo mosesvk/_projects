@@ -6048,8 +6048,8 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
   return {
     colors: [
+      window.chartColors.blue,
       window.chartColors.green,
-      window.chartColors.vlue,
       window.chartColors.red,
       window.chartColors.orange,
       window.chartColors.purple,
@@ -6064,11 +6064,6 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
         },
       },
       {
-        name: "Avg",
-        type: "line",
-        data: peerAvgArray,
-      },
-      {
         name: "25th",
         type: "line",
         data: peer25Array,
@@ -6077,6 +6072,11 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
         name: "50th",
         type: "line",
         data: peer50Array,
+      },
+      {
+        name: "Avg",
+        type: "line",
+        data: peerAvgArray,
       },
       {
         name: "75th",

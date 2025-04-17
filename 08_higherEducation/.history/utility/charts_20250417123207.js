@@ -4558,7 +4558,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
 
   return {
     colors: [
-      window.chartColors.yellow,
+      window.chartColors.yellos,
       window.chartColors.orange,
       window.chartColors.green,
       window.chartColors.blue,
@@ -4666,9 +4666,6 @@ const getTuitionDiscountRateChartOptions = (data) => {
           },
         },
       },
-      {
-        show: false
-      }
     ],
     xaxis: {
       categories: selectedYearsArray,
@@ -5483,10 +5480,10 @@ const getDebtBurdenRatioChartOptions = (data) => {
 
   return {
     colors: [
-      window.chartColors.yellow,
-      window.chartColors.orange,
-      window.chartColors.green,
       window.chartColors.blue,
+      window.chartColors.teal,
+      window.chartColors.green,
+      window.chartColors.grey,
     ],
     series: [
       {
@@ -6048,8 +6045,8 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
   return {
     colors: [
+      window.chartColors.blue,
       window.chartColors.green,
-      window.chartColors.vlue,
       window.chartColors.red,
       window.chartColors.orange,
       window.chartColors.purple,
@@ -6064,11 +6061,6 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
         },
       },
       {
-        name: "Avg",
-        type: "line",
-        data: peerAvgArray,
-      },
-      {
         name: "25th",
         type: "line",
         data: peer25Array,
@@ -6077,6 +6069,11 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
         name: "50th",
         type: "line",
         data: peer50Array,
+      },
+      {
+        name: "Avg",
+        type: "line",
+        data: peerAvgArray,
       },
       {
         name: "75th",

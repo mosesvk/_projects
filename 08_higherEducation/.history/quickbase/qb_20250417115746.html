@@ -4604,7 +4604,7 @@
                                 scope="row"
                                 class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                               >
-                                Salaries & Benefits per Net Tuition
+                                Salaries & Benefits to Total Expenses
                               </th>
                             </tr>
                             <tr
@@ -6068,7 +6068,7 @@
 
                   <input
                     type="range"
-                    step="100"
+                    step="100000"
                     x-bind:min="min"
                     x-bind:max="max"
                     x-on:input="maxtrigger"
@@ -6087,12 +6087,12 @@
                     ></div>
 
                     <div
-                      class="slider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
+                      class="enrollmentSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
                       x-bind:style="'left: '+minthumb+'%'"
                     ></div>
 
                     <div
-                      class="slider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
+                      class="enrollmentSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
                       x-bind:style="'right: '+maxthumb+'%'"
                     ></div>
                   </div>
