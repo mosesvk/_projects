@@ -118,10 +118,6 @@ const getMainChartOptions = (
       const chartElement = document.getElementById(chartId);
       if (!chartElement) return;
 
-      if (chartId === 'cfiRatio_chart') {
-
-      }
-
       // Get the first grid line to use as reference
       const gridLine = chartElement.querySelector(
         `.apexcharts-gridlines-horizontal line`
@@ -132,9 +128,6 @@ const getMainChartOptions = (
       const annotationLine = chartElement.querySelector(
         `.apexcharts-yaxis-annotations line`
       );
-      const yaxis = chartElement.querySelector(
-        `.apexcharts-yaxis`
-      );
       if (!annotationLine) return;
 
       // Get the exact x1 and x2 values from the grid line
@@ -144,7 +137,6 @@ const getMainChartOptions = (
       // Set the annotation line to match exactly
       annotationLine.setAttribute("x1", x1);
       annotationLine.setAttribute("x2", x2);
-      if (chartId == 'cfiRatio_chart')
 
       console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
     },
@@ -5933,6 +5925,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   // sort years in descending order
+  selectedYearsArray.sort((a, b) => b - a);
 
   const clientArray = [];
   const peerAvgArray = [];
@@ -6109,7 +6102,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       stacked: false,
     },
     stroke: {
-      width: 4
+      width: 4,
     },
     title: {
       text: "Endowment Assets per Student",
