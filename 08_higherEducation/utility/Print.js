@@ -15,8 +15,6 @@ async function processChartsWithSpacing(chartMappings) {
     updateProgressUI(i, chartMappings.length);
 
     try {
-      console.log(`Processing chart: ${chartId}...`);
-
       // Get the chart element and instance
       const chartElement = document.getElementById(chartId);
       if (!chartElement) {
@@ -25,21 +23,19 @@ async function processChartsWithSpacing(chartMappings) {
         continue;
       }
 
-      // const chart = chartManager.getChart(chartId) || window[chartId];
       const chart = getChartInstance(chartId);
 
-      // If we have an ApexChart instance, use its export method
+      // If we have an ApexChart instance, try its export method first
       if (chart && typeof chart.dataURI === "function") {
         const base64String = await exportApexChart(chart);
         if (base64String) {
           results.push({ chartId, fieldId, base64String });
           continue;
         }
+        // Silently fall back to html2canvas if ApexCharts export fails
       }
 
-      console.warn("fallback to html2canvas");
-
-      // Fallback to html2canvas
+      // Use html2canvas as fallback
       const base64String = await exportWithHtml2Canvas(chartElement);
       results.push({ chartId, fieldId, base64String });
 
@@ -147,7 +143,7 @@ async function exportApexChart(chart) {
 
     return uri.imgURI.split(",")[1];
   } catch (error) {
-    console.error("Error in exportApexChart:", error);
+    // Don't log the error, just return null to trigger fallback
     return null;
   }
 }
@@ -196,16 +192,21 @@ function configureChartForExport(chart, width, height) {
 
   // Ensure aspect ratio is preserved and content is centered
   paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  
   let updatedOptions = {
     chart: {
       width: width,
       height: height,
     },
+    markers: {
+      size: [3], // Set a minimum marker size to prevent negative values
+      strokeWidth: 0,
+    },
     // Hide the title
     title: {
-      text: '', // Empty text effectively hides the title
+      text: '',
       style: {
-        fontSize: '0px', // Make it invisible
+        fontSize: '0px',
         opacity: 0
       }
     }
@@ -213,12 +214,8 @@ function configureChartForExport(chart, width, height) {
 
   // Check if the chart has yaxis annotations and update their styling
   if (chart.w.config.annotations && chart.w.config.annotations.yaxis) {
-    // Create a deep copy of the annotations to avoid modifying the original reference
-    const updatedAnnotations = JSON.parse(
-      JSON.stringify(chart.w.config.annotations)
-    );
+    const updatedAnnotations = JSON.parse(JSON.stringify(chart.w.config.annotations));
 
-    // Update each yaxis annotation
     if (Array.isArray(updatedAnnotations.yaxis)) {
       updatedAnnotations.yaxis.forEach((annotation) => {
         if (annotation.label) {
@@ -565,7 +562,7 @@ async function apexChartsExportPrint() {
  * Build XML for Quickbase upload
  */
 function buildUploadXml(results) {
-  let uploadXml = "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
+  let uploadXml = '<?xml version="1.0" encoding="UTF-8"?>\n<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>';
 
   // Add metadata
   const selectedYears = getSelectedYearsFromLocalStorage();
@@ -576,15 +573,9 @@ function buildUploadXml(results) {
   uploadXml += createFieldXml(69, window.monthYearEnd);
   uploadXml += createFieldXml(64, Array.from(selectedRegions_Array).join(", "));
   uploadXml += createFieldXml(65, Array.from(selectedStates_Array).join(", "));
-  uploadXml += createFieldXml(
-    66,
-    Array.from(selectedMemberships_Array).join(", ")
-  );
+  uploadXml += createFieldXml(66, Array.from(selectedMemberships_Array).join(", "));
   uploadXml += createFieldXml(67, Array.from(selectedTypes_Array).join(", "));
-  uploadXml += createFieldXml(
-    68,
-    Array.from(selectedAthletics_Array).join(", ")
-  );
+  uploadXml += createFieldXml(68, Array.from(selectedAthletics_Array).join(", "));
 
   // Add base64 images for charts
   results.forEach((result) => {
@@ -597,12 +588,16 @@ function buildUploadXml(results) {
   return uploadXml;
 }
 
-/**
- * Create XML field entry for a value
- * @param {string|number} id - Field ID
- * @param {string|number} val - Value to upload
- * @returns {string} - XML field entry
- */
+function createImageFieldXml(id, val) {
+  if (!val) {
+    console.warn(`Skipping image upload for field ${id} - missing data`);
+    return "";
+  }
+  
+  // Wrap the base64 data in CDATA to prevent XML parsing issues
+  return `<field fid='${id}' filename='chart.png'><![CDATA[${val}]]></field>`;
+}
+
 function createFieldXml(id, val) {
   if (val === null || val === undefined) {
     console.warn(`Skipping upload for field ${id} due to null/undefined value`);
@@ -614,21 +609,18 @@ function createFieldXml(id, val) {
     return "";
   }
 
-  return `<field fid='${id}'>${val}</field>`;
-}
+  // Escape special characters for regular fields
+  const escapedVal = String(val).replace(/[<>&'"]/g, function(c) {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case "'": return '&apos;';
+      case '"': return '&quot;';
+    }
+  });
 
-/**
- * Create XML field entry for an image
- * @param {string|number} id - Field ID
- * @param {string} val - Base64 image data
- * @returns {string} - XML field entry for image
- */
-function createImageFieldXml(id, val) {
-  if (!val) {
-    console.warn(`Skipping image upload for field ${id} - missing data`);
-    return "";
-  }
-  return `<field fid='${id}' filename='chart.png'>${val}</field>`;
+  return `<field fid='${id}'>${escapedVal}</field>`;
 }
 
 /**

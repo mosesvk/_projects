@@ -55,6 +55,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer="true"
@@ -82,10 +83,32 @@
     ></script>
 
     <script>
+      var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
+      $.ajaxSetup({ data: { apptoken: apptoken } });
+
+      //retrieve URL ID for record
+      function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split("=");
+          if (pair[0] == variable) {
+            return pair[1];
+          }
+        }
+        return false;
+      }
+      var ClientRid = getQueryVariable("clientrid");
+      const clientData = "bt3egnexu";
+      const peerData = "bt3mx3t3i";
+    </script>
+
+    <script>
       chartColors = {
         green: "#83b240",
+        chartGreen: "#88C428",
         darkGreen: "#EDAB20",
-        blue: "#376eaa",
+        blue: "#326eaa",
         darkBlue: "#00588D",
         grey: "#43505a",
         red: "#ff6384",
@@ -1885,17 +1908,6 @@
                                 Total Functional Expenses
                               </th>
                             </tr>
-                            <tr
-                              id="row_ni_nonOperatingActivitiesInvestmentIncome"
-                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Non-Operating Activities (Investment Income)
-                              </th>
-                            </tr>
                           </tbody>
                         </table>
                       </div>
@@ -2081,8 +2093,8 @@
                     <p class="p-5 borderGreen border-2">
                       A 6% return on net assets is considered a baseline for
                       adequate financial health, suggesting that the
-                      organization’s net assets have increased by at least 6%
-                      over the period.
+                      organization&#39;s net assets have increased by at least
+                      6% over the period.
                     </p>
                   </div>
                 </div>
@@ -2298,12 +2310,12 @@
               >
                 Details
                 <svg
+                  id="arrow_doeOverall"
                   class="w-3 h-3 ms-3"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 6 10"
-                  id="arrow_doeOverall "
                 >
                   <path
                     stroke="currentColor"
@@ -2320,78 +2332,7 @@
                   class="my-8 mx-40 border-1 border-black dark:border-white"
                 />
                 <!-- CLIENT TABLE - DOE Overall -->
-                <div id="doeOverall_clientTable" class="flex flex-col">
-                  <div class="overflow-x-auto rounded-lg">
-                    <div class="inline-block min-w-full align-middle">
-                      <div
-                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                      >
-                        <table
-                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                        >
-                          <thead
-                            class="text-xs text-white uppercase backgroundGreen opacity-75"
-                          >
-                            <tr id="row_doeOverall_tableHeader">
-                              <th
-                                scope="col"
-                                class="px-6 py-3 text-lg tracking-wide"
-                              >
-                                Data
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr
-                              id="row_doeOverall_peerAverage"
-                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Peer Average
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_doeOverall"
-                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                CFI Return on Net Assets
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_ro_changeInNetAssets"
-                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Change in Net Assets
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_ro_netAssetsBeginningOfYear"
-                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Net Assets Beginning of the Year
-                              </th>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <div id="doeClientTable" class="mx-4"></div>
               </div>
             </div>
           </div>
@@ -2421,7 +2362,7 @@
                     </div>
                     <div id="assets_chart"></div>
                   </div>
-                  <div id="assets_summary">
+                  <div id="assets_summary" class="w-1/2">
                     <table
                       id="assets_table"
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -2505,7 +2446,7 @@
                     </div>
                     <div id="liabilities_chart"></div>
                   </div>
-                  <div id="liabilities_summary">
+                  <div id="liabilities_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -2590,7 +2531,7 @@
                     </div>
                     <div id="netAssets_chart"></div>
                   </div>
-                  <div id="netAssets_summary">
+                  <div id="netAssets_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -2652,7 +2593,7 @@
                     </div>
                     <div id="revenueAndSupport_chart"></div>
                   </div>
-                  <div id="revenueAndSupport_summary">
+                  <div id="revenueAndSupport_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -2669,14 +2610,6 @@
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Scholarships and Financial Aid
-                          </th>
-                          <td class="revenueAndSupport_dataPoint"></td>
-                        </tr>
-
-                        <!-- Net Tuition and Fees -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Net Tuition and Fees
                           </th>
                           <td class="revenueAndSupport_dataPoint"></td>
                         </tr>
@@ -2713,22 +2646,6 @@
                           <td class="revenueAndSupport_dataPoint"></td>
                         </tr>
 
-                        <!-- Non-Contribution Revenue -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Non-Contribution Revenue
-                          </th>
-                          <td class="revenueAndSupport_dataPoint"></td>
-                        </tr>
-
-                        <!-- Contributions -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
-                            Contributions
-                          </th>
-                          <td class="revenueAndSupport_dataPoint"></td>
-                        </tr>
-
                         <!-- Large One-Time Gifts -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
@@ -2752,20 +2669,15 @@
                           </th>
                           <td class="revenueAndSupport_dataPoint"></td>
                         </tr>
-
-                        <!-- Operating Revenues, Support, and Releases -->
-                        <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium"></th>
-                          <td class="revenueAndSupport_dataPoint"></td>
-                        </tr>
                       </tbody>
 
                       <tfoot>
+                        <!-- Total Revenue & Support -->
                         <tr class="font-semibold dark:text-white text-2xl">
-                          <th scope="row" class="px-6 py-3">Total Assets</th>
-                          <td
-                            class="px-6 py-3 revenueAndSupport_dataPoint"
-                          ></td>
+                          <th scope="row" class="px-6 py-3">
+                            Total Revenue & Support
+                          </th>
+                          <td class="revenueAndSupport_dataPoint"></td>
                         </tr>
                       </tfoot>
                     </table>
@@ -2795,7 +2707,7 @@
                     </div>
                     <div id="educationalProgramExpenses_chart"></div>
                   </div>
-                  <div id="educationalProgramExpenses_summary">
+                  <div id="educationalProgramExpenses_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -2855,6 +2767,26 @@
                           </th>
                           <td class="educationalProgramExpenses_dataPoint"></td>
                         </tr>
+
+                        <!-- Fundraising Expenses -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Fundraising Expenses
+                          </th>
+                          <td class="educationalProgramExpenses_dataPoint"></td>
+                        </tr>
+
+                        <!-- Other Expenses -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Other Expenses
+                          </th>
+                          <td class="educationalProgramExpenses_dataPoint"></td>
+                        </tr>
+
+                        <!-- r280-->
+
+                        <!-- r281-->
                       </tbody>
 
                       <tfoot>
@@ -2890,7 +2822,7 @@
                     </div>
                     <div id="nonOperatingActivities_chart"></div>
                   </div>
-                  <div id="nonOperatingActivities_summary">
+                  <div id="nonOperatingActivities_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -2900,7 +2832,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Investment income
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonOperatingActivities_dataPoint"></td>
                         </tr>
 
                         <!-- Endowment spending policy appropriation -->
@@ -2908,7 +2840,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Endowment spending policy appropriation
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonOperatingActivities_dataPoint"></td>
                         </tr>
 
                         <!-- Change in value of interest rate swap -->
@@ -2916,7 +2848,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Change in value of interest rate swap
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonOperatingActivities_dataPoint"></td>
                         </tr>
 
                         <!-- Adjustment to PRBO -->
@@ -2924,7 +2856,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Adjustment to PRBO
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonOperatingActivities_dataPoint"></td>
                         </tr>
 
                         <!-- Contributions and other -->
@@ -2932,7 +2864,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Contributions and other
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonOperatingActivities_dataPoint"></td>
                         </tr>
                       </tbody>
 
@@ -2941,7 +2873,7 @@
                           <th scope="row" class="px-6 py-3">
                             Total Non Operating Activities
                           </th>
-                          <td class="nonoperatingActivities_dataPoint"></td>
+                          <td class="nonOperatingActivities_dataPoint"></td>
                         </tr>
                       </tfoot>
                     </table>
@@ -2971,7 +2903,7 @@
                     </div>
                     <div id="changesInNetAssetsWithDR_chart"></div>
                   </div>
-                  <div id="changesInNetAssetsWithDR_summary">
+                  <div id="changesInNetAssetsWithDR_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -3002,10 +2934,12 @@
                           <td class="changesInNetAssetsWithDR_dataPoint"></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
+                          <th scope="row" class="pl-6 py-1 font-bold text-xl">
                             Temporarily Restricted Net Change
                           </th>
-                          <td class="changesInNetAssetsWithDR_dataPoint"></td>
+                          <td
+                            class="changesInNetAssetsWithDR_dataPoint pl-3 font-semibold"
+                          ></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
@@ -3026,10 +2960,15 @@
                           <td class="changesInNetAssetsWithDR_dataPoint"></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
-                          <th scope="row" class="px-4 py-1 font-medium">
+                          <th
+                            scope="row"
+                            class="pl-6 py-1 font-bold text-xl font-semibold"
+                          >
                             Permanently Restricted Net Change
                           </th>
-                          <td class="changesInNetAssetsWithDR_dataPoint"></td>
+                          <td
+                            class="changesInNetAssetsWithDR_dataPoint pl-3"
+                          ></td>
                         </tr>
                       </tbody>
 
@@ -3068,7 +3007,7 @@
                     </div>
                     <div id="naturalExpenseCategories_chart"></div>
                   </div>
-                  <div id="naturalExpenseCategories_summary">
+                  <div id="naturalExpenseCategories_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -3155,60 +3094,105 @@
                     </div>
                     <div id="cashFlowsOperatingActivities_chart"></div>
                   </div>
-                  <div id="cashFlowsOperatingActivities_summary">
+                  <div id="cashFlowsOperatingActivities_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
                       <tbody class="text-xl dark:text-white">
-                        <!-- Salaries and Wages -->
+                        <!-- Depreciation -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Salaries and Wages
+                            Depreciation
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
                           ></td>
                         </tr>
-                        <!-- Employee Benefits -->
+
+                        <!-- Gifts and Grants Restricted in Perpetuity -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Employee Benefits
+                            Gifts and Grants Restricted in Perpetuity
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
                           ></td>
                         </tr>
-                        <!-- Service, Supplies and Other -->
+
+                        <!-- Gain on Investment -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Service, Supplies and Other
+                            Gain on Investment
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
                           ></td>
                         </tr>
-                        <!-- Occupancy, Utilities and Maintenance -->
+
+                        <!-- Derivative CSLVI Amort Bond Costs -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Occupancy, Utilities and Maintenance
+                            Derivative CSLVI Amort Bond Costs
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
                           ></td>
                         </tr>
-                        <!-- Depreciation and Amortization -->
+
+                        <!-- Accounts Receivable -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Depreciation and Amortization
+                            Accounts Receivable
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
                           ></td>
                         </tr>
-                        <!-- Interest -->
+
+                        <!-- Inventory -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Interest
+                            Inventory
+                          </th>
+                          <td
+                            class="cashFlowsOperatingActivities_dataPoint"
+                          ></td>
+                        </tr>
+
+                        <!-- Prepaids and Other Assets -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Prepaids and Other Assets
+                          </th>
+                          <td
+                            class="cashFlowsOperatingActivities_dataPoint"
+                          ></td>
+                        </tr>
+
+                        <!-- Accounts Payable and Accrued Expenses -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Accounts Payable and Accrued Expenses
+                          </th>
+                          <td
+                            class="cashFlowsOperatingActivities_dataPoint"
+                          ></td>
+                        </tr>
+
+                        <!-- Deferred Revenue -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Deferred Revenue
+                          </th>
+                          <td
+                            class="cashFlowsOperatingActivities_dataPoint"
+                          ></td>
+                        </tr>
+
+                        <!-- Other Liabilities -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Other Liabilities
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
@@ -3219,7 +3203,7 @@
                       <tfoot>
                         <tr class="font-semibold dark:text-white text-2xl">
                           <th scope="row" class="px-6 py-3">
-                            Total Natural Category Expenses
+                            Net Cash used in Operating activities
                           </th>
                           <td
                             class="cashFlowsOperatingActivities_dataPoint"
@@ -3253,7 +3237,7 @@
                     </div>
                     <div id="cashFlowsInvestingActivities_chart"></div>
                   </div>
-                  <div id="cashFlowsInvestingActivities_summary">
+                  <div id="cashFlowsInvestingActivities_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -3294,6 +3278,13 @@
                             class="cashFlowsInvestingActivities_dataPoint"
                           ></td>
                         </tr>
+                        <!-- Other Investing Activity -->
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Other Investing Activity
+                          </th>
+                          <td class="cashFlowsInvestingActivity_dataPoint"></td>
+                        </tr>
                       </tbody>
 
                       <tfoot>
@@ -3333,7 +3324,7 @@
                     </div>
                     <div id="cashFlowsFinancingActivities_chart"></div>
                   </div>
-                  <div id="cashFlowsFinancingActivities_summary">
+                  <div id="cashFlowsFinancingActivities_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -3407,7 +3398,7 @@
                     </div>
                     <div id="propertyAndEquipment_chart"></div>
                   </div>
-                  <div id="propertyAndEquipment_summary">
+                  <div id="propertyAndEquipment_summary" class="w-1/2">
                     <table
                       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
@@ -3440,7 +3431,7 @@
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
-                            Total Property and Equipment at Cost
+                            Total Property and Equipment
                           </th>
                           <td class="propertyAndEquipment_dataPoint"></td>
                         </tr>
@@ -3683,7 +3674,7 @@
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <!-- CHART - ASSET TO LIABILITIES -->
+              <!-- CHART - CURRENT RATIO -->
               <div id="currentRatio_chart" class="w-full"></div>
               <button
                 id="dropdown_currentRatio"
@@ -3901,7 +3892,7 @@
                           <tbody>
                             <tr
                               id="row_currentRatioPeer_ratio"
-                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
@@ -3912,7 +3903,7 @@
                             </tr>
                             <tr
                               id="row_currentRatioPeer_currentAssets"
-                              class="backgroundOffBlue font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="backgroundOffBlue font-medium border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
@@ -3923,7 +3914,7 @@
                             </tr>
                             <tr
                               id="row_currentRatioPeer_currentLiabilities"
-                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                              class="bg-white font-medium border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
@@ -4391,12 +4382,6 @@
                                   >
                                     Client
                                   </th>
-                                  <th
-                                    scope="col"
-                                    class="px-6 py-3 text-lg tracking-wide backgroundBlue"
-                                  >
-                                    Peer
-                                  </th>
                                 </tr>
                               </thead>
                               <tbody id="sourceOfIncomeClient_tbody"></tbody>
@@ -4557,7 +4542,7 @@
                     its payroll costs relative to the tuition revenue it
                     generates. Keeping this ratio below 70% ensures that a
                     significant portion of net tuition revenue is available for
-                    other essential expenses, supporting the institution’s
+                    other essential expenses, supporting the institution&#39;s
                     overall financial health and enabling investment in
                     strategic priorities. Maintaining this threshold reflects
                     prudent financial management and sustainability.
@@ -4619,7 +4604,7 @@
                                 scope="row"
                                 class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                               >
-                                Salaries & Benefits to Total Expenses
+                                Salaries & Benefits per Net Tuition
                               </th>
                             </tr>
                             <tr
@@ -4771,32 +4756,10 @@
                 id="annualTraditionalNetTuitionPerStudent_chart"
                 class="text-center"
               ></div>
-              <button
-                id="dropdown_annualTraditionalNetTuitionPerStudent"
-                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-              >
-                Details
-                <svg
-                  class="w-3 h-3 ms-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                  id="arrow_annualTraditionalNetTuitionPerStudent"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 1 4 4 1 7"
-                  />
-                </svg>
-              </button>
               <!-- DETAILS - Annual Traditional Net Tuition per Student -->
               <div
                 id="details_annualTraditionalNetTuitionPerStudent"
-                class="my-5 mx-2 hidden"
+                class="my-5 mx-2"
               >
                 <hr
                   class="my-8 mx-40 border-1 border-black dark:border-white"
@@ -5011,28 +4974,6 @@
                                 Tuition Dependency
                               </th>
                             </tr>
-                            <tr
-                              id="row_tuitionDependencyPeer_netTuitionAndFees"
-                              class="backgroundOffBlue font-bold border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Net Tuition and Fees
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_tuitionDependencyPeer_operatingRevenue"
-                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Operating Revenue
-                              </th>
-                            </tr>
                           </tbody>
                         </table>
                       </div>
@@ -5173,28 +5114,6 @@
                                 class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
                               >
                                 Tuition Discount Rate
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_tuitionDiscountRatePeer_scholarshipsAndFinancialAid"
-                              class="backgroundOffBlue font-bold border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Scholarships and Financial Aid
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_tuitionDiscountRatePeer_tuitionAndFees"
-                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Tuition and Fees
                               </th>
                             </tr>
                           </tbody>
@@ -5736,7 +5655,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 6 10"
-                  id="arrow_debtServiceCoverageRatio"
+                  id="arrow_endowmentAssetsPerStudent"
                 >
                   <path
                     stroke="currentColor"
@@ -5859,28 +5778,6 @@
                                 Endowment Asset per Student
                               </th>
                             </tr>
-                            <tr
-                              id="row_endowmentAssetsPerStudentPeer_endowment"
-                              class="backgroundOffBlue font-bold border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Endowment
-                              </th>
-                            </tr>
-                            <tr
-                              id="row_endowmentAssetsPerStudentPeer_totalStudentFte"
-                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Total Full Time Students
-                              </th>
-                            </tr>
                           </tbody>
                         </table>
                       </div>
@@ -5894,6 +5791,7 @@
       </div>
     </div>
 
+    <!-- Other Options Modal -->
     <div
       id="otherOptions-modal"
       data-modal-placement="top-center"
@@ -5901,7 +5799,7 @@
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
     >
-      <div class="relative p-4 w-full max-w-2xl max-h-full">
+      <div class="relative p-4 w-full max-w-6xl max-h-full">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <!-- Modal header -->
@@ -5935,134 +5833,272 @@
             </button>
           </div>
           <!-- Modal body -->
-          <div class="p-4 md:p-5 space-y-4">
-            <button
-              id="custom-select-membership"
-              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-            >
-              <div
-                class="flex items-center justify-between dark:text-white px-3"
+          <div class="p-4 md:p-5 space-y-4 justify-self-center">
+            <div>
+              <button
+                id="custom-select-membership"
+                class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
               >
-                <div class="px-2">Memberships</div>
-                <svg
-                  class="w-6 h-6 text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
+                <div
+                  class="flex items-center justify-between dark:text-white px-3"
                 >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m19 9-7 7-7-7"
-                  />
-                </svg>
-              </div>
-              <div
-                id="options-list-membership"
-                class="text-xl absolute left-0 top-8 z-10 mt-2 w-full colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto h-fit py-4 invisible"
-              ></div>
-            </button>
-            <!-- type -->
-            <button
-              id="custom-select-type"
-              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-            >
-              <div
-                class="flex items-center justify-between dark:text-white px-3"
+                  <div class="px-2">Memberships</div>
+                  <svg
+                    class="w-6 h-6 text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m19 9-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+                <div
+                  id="options-list-membership"
+                  class="text-xl absolute left-0 top-8 z-10 mt-2 w-full colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto h-fit py-4 invisible"
+                ></div>
+              </button>
+              <!-- type -->
+              <button
+                id="custom-select-type"
+                class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
               >
-                <div class="px-2">Type</div>
-                <svg
-                  class="w-6 h-6 text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
+                <div
+                  class="flex items-center justify-between dark:text-white px-3"
                 >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m19 9-7 7-7-7"
-                  />
-                </svg>
-              </div>
-              <div
-                id="options-list-type"
-                class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-80 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
-              ></div>
-            </button>
-            <!-- athletic -->
-            <button
-              id="custom-select-athletic"
-              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-            >
-              <div
-                class="flex items-center justify-between dark:text-white px-3"
+                  <div class="px-2">Type</div>
+                  <svg
+                    class="w-6 h-6 text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m19 9-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+                <div
+                  id="options-list-type"
+                  class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-80 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
+                ></div>
+              </button>
+              <!-- athletic -->
+              <button
+                id="custom-select-athletic"
+                class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
               >
-                <div class="px-2">Athletic</div>
-                <svg
-                  class="w-6 h-6 text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
+                <div
+                  class="flex items-center justify-between dark:text-white px-3"
                 >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m19 9-7 7-7-7"
-                  />
-                </svg>
-              </div>
-              <div
-                id="options-list-athletic"
-                class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-72 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
-              ></div>
-            </button>
-            <!-- client  -->
-            <button
-              id="custom-select-client"
-              class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
-            >
-              <div
-                class="flex items-center justify-between dark:text-white px-3"
+                  <div class="px-2">Athletic</div>
+                  <svg
+                    class="w-6 h-6 text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m19 9-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+                <div
+                  id="options-list-athletic"
+                  class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-72 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
+                ></div>
+              </button>
+              <!-- seminary -->
+              <button
+                id="custom-select-seminary"
+                class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
               >
-                <div class="px-2">Client</div>
-                <svg
-                  class="w-6 h-6 text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
+                <div
+                  class="flex items-center justify-between dark:text-white px-3"
                 >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m19 9-7 7-7-7"
-                  />
-                </svg>
-              </div>
+                  <div class="px-2">Seminary</div>
+                  <svg
+                    class="w-6 h-6 text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m19 9-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+                <div
+                  id="options-list-seminary"
+                  class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-72 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
+                ></div>
+              </button>
+              <!-- regional -->
+              <button
+                id="custom-select-regional"
+                class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+              >
+                <div
+                  class="flex items-center justify-between dark:text-white px-3"
+                >
+                  <div class="px-2">Regional</div>
+                  <svg
+                    class="w-6 h-6 text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m19 9-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+                <div
+                  id="options-list-regional"
+                  class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-72 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
+                ></div>
+              </button>
+              <!-- client  -->
+              <button
+                id="custom-select-client"
+                class="text-sm mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+              >
+                <div
+                  class="flex items-center justify-between dark:text-white px-3"
+                >
+                  <div class="px-2">Client</div>
+                  <svg
+                    class="w-6 h-6 text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m19 9-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+                <div
+                  id="options-list-client"
+                  class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-80 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
+                ></div>
+              </button>
+            </div>
+            <div>
+              <!-- Enrollment slider -->
               <div
-                id="options-list-client"
-                class="text-xl text-left absolute left-0 top-8 z-10 mt-2 w-80 colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-96 py-4 invisible whitespace-normal"
-              ></div>
-            </button>
+                x-data="range()"
+                x-init="mintrigger(); maxtrigger()"
+                class="relative max-w-lg w-full pb-5 justify-self-center"
+              >
+                <div class="flex items-center py-3 pr-3">
+                  <p class="whitespace-nowrap w-40">Enrollment:</p>
+                  <input
+                    type="text"
+                    maxlength="12"
+                    x-on:input="mintrigger"
+                    x-model="minprice"
+                    x-ref="minInput"
+                    id="enrollmentMin"
+                    class="bg-transparent border-none text-center w-40 text-xl"
+                  />
+                  <span class="mx-1">-</span>
+                  <input
+                    type="text"
+                    maxlength="12"
+                    x-on:input="maxtrigger"
+                    x-model="maxprice"
+                    id="enrollmentMax"
+                    class="bg-transparent border-none text-center w-40 text-xl"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="range"
+                    step="100"
+                    x-bind:min="min"
+                    x-bind:max="max"
+                    x-on:input="mintrigger"
+                    x-model="minprice"
+                    class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
+                  />
+
+                  <input
+                    type="range"
+                    step="100"
+                    x-bind:min="min"
+                    x-bind:max="max"
+                    x-on:input="maxtrigger"
+                    x-model="maxprice"
+                    class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
+                  />
+
+                  <div class="relative z-10 h-2">
+                    <div
+                      class="absolute z-10 left-0 right-0 bottom-0 top-0 rounded-md bg-gray-200"
+                    ></div>
+
+                    <div
+                      class="absolute z-20 top-0 bottom-0 rounded-md backgroundGreen"
+                      x-bind:style="'right:'+maxthumb+'%; left:'+minthumb+'%'"
+                    ></div>
+
+                    <div
+                      class="slider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
+                      x-bind:style="'left: '+minthumb+'%'"
+                    ></div>
+
+                    <div
+                      class="slider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
+                      x-bind:style="'right: '+maxthumb+'%'"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -6078,6 +6114,7 @@
       <div class="text-center">
         <div role="status">
           <div
+            id="loadingApiInnerDiv"
             class="animate-pulse flex flex-col place-items-center px-5 py-5 font-semibold text-white leading-none tracking-wider text-center rounded-full dark:bg-blue-900 dark:text-blue-200"
           >
             <div id="loadingApiHeader" class="mb-4 text-6xl"></div>
@@ -6116,15 +6153,23 @@
       </div>
     </div>
 
-    <!-- import all the .js files from components, data, and utility folders-->
-    <script src="./utility/Utility.js"></script>
-    <script src="./utility/WeightedAverages.js"></script>
-    <script src="./utility/Print.js"></script>
-    <script src="./data/Api.js"></script>
-    <script src="./components/DisplayCharts.js"></script>
-    <script src="./components/Header.js"></script>
-    <script src="./components/Report.js"></script>
-    <script src="./utility/UiManagement.js"></script>
-    <script src="utility/charts.js"></script>
+    <!-- utility.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=185"></script>
+    <!-- utilityPrint.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=191"></script>
+    <!-- utilityWeightedAverage.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=192"></script>
+    <!-- api.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=184"></script>
+    <!-- Header.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=186"></script>
+    <!-- displayCharts.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=188"></script>
+    <!-- compReport.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=190"></script>
+    <!-- uiManagement.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=187"></script>
+    <!-- charts.js -->
+    <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=189"></script>
   </body>
 </html>
