@@ -925,6 +925,10 @@ const getFpaChartOptions = (data) => {
   `;
   });
 
+
+  const { minY, maxY } = getMinMaxY([totalAssetsArray, totalLiabilitiesArray, netPositionArray]);
+
+
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
         borderColor: "#374151",
@@ -974,7 +978,6 @@ const getFpaChartOptions = (data) => {
     series: [
       {
         name: "Total Assets",
-        type: "bar",
         data: totalAssetsArray,
         style: {
           colors: [chartColors.labelColor],
@@ -982,7 +985,6 @@ const getFpaChartOptions = (data) => {
       },
       {
         name: "Total Liabilities",
-        group: "column",
         data: totalLiabilitiesArray,
         style: {
           colors: [chartColors.grey],
@@ -990,7 +992,6 @@ const getFpaChartOptions = (data) => {
       },
       {
         name: "Net Position",
-        group: "column",
         data: netPositionArray,
         style: {
           colors: [chartColors.labelColor],
@@ -1043,6 +1044,8 @@ const getFpaChartOptions = (data) => {
     },
     yaxis: [
       {
+        min: minY,
+        max: maxY,
         axisTicks: {
           show: true,
         },
@@ -1062,10 +1065,14 @@ const getFpaChartOptions = (data) => {
         },
       },
       {
-        show: false
+        show: false,
+        min: minY,
+        max: maxY,  
       }, 
       {
-        show: false
+        show: false,
+        min: minY,
+        max: maxY,
       }
     ],
     tooltip: {
@@ -1074,10 +1081,8 @@ const getFpaChartOptions = (data) => {
       },
     },
     legend: {
-      horizontalAlign: "center",
-      offsetX: 40,
+      position: "bottom",
       fontSize: "20px",
-      color: chartColor,
     },
     grid: {
       row: {
@@ -1298,7 +1303,7 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   selectedYearsArray.sort((a, b) => b - a);
 
-  console.log({ data, selectedYearsArray });
+  // console.log({ data, selectedYearsArray });
 
   const tuitionValue = Number(
     data["si_revenueTuitionAndFees_Client"][selectedYearsArray[0]].value
@@ -2550,9 +2555,6 @@ const getCurrentRatioChartOptions = (data) => {
         }
       },
       {
-        show: false,
-      },
-      {
         opposite: true,
         stepSize: 1,
         axisBorder: {
@@ -2567,6 +2569,10 @@ const getCurrentRatioChartOptions = (data) => {
           },
         },
       },
+      {
+        opposite: true,
+        show: false,
+      },
     ],
     xaxis: {
       categories: yearsDataCurrentRatio_Array.sort((a, b) => a - b),
@@ -2580,7 +2586,6 @@ const getCurrentRatioChartOptions = (data) => {
     legend: {
       position: "bottom",
       fontSize: "20px",
-      offsetY: -10,
     },
     grid: {
       row: {
@@ -3248,246 +3253,6 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
   };
 };
 
-const getAdminCostsPerStudentChartOptions = (data) => {
-  console.log({ data });
-
-  const mostRecentYear = Math.max(...Object.keys(data["healthAdminAsst_Peer"]));
-
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  let clientArray = [];
-  let peerAvgArray = [];
-  let peer25Array = [];
-  let peer50Array = [];
-  let peer75Array = [];
-  let peerArray = [];
-
-  selectedYearsArray.map((year) => {
-    peerArray = [];
-    const array = data["salAdminAsst_Peer"][year];
-    array.map((item, idx) => {
-      const salAdminAsst = Number(data.salAdminAsst_Peer[year][idx]);
-      const ficaAdminAsst = Number(data.ficaAdminAsst_Peer[year][idx]);
-      const healthAdminAsst = Number(data.healthAdminAsst_Peer[year][idx]);
-      const disabilityAdminAsst = Number(
-        data.disabilityAdminAsst_Peer[year][idx]
-      );
-      const retirementAdminAsst = Number(
-        data.retirementAdminAsst_Peer[year][idx]
-      );
-      const housingAdminAsst = Number(data.housingAdminAsst_Peer[year][idx]);
-      const otherAdminAsst = Number(data.otherAdminAsst_Peer[year][idx]);
-      const totalStudentFTE = Number(data.totalStudentFte_Peer[year][idx]);
-      const totalStudentUHC = Number(data.totalStudentUhc_Peer[year][idx]);
-
-      const peerNum =
-        (salAdminAsst +
-          ficaAdminAsst +
-          healthAdminAsst +
-          disabilityAdminAsst +
-          retirementAdminAsst +
-          housingAdminAsst +
-          otherAdminAsst) /
-        (totalStudentFTE + totalStudentUHC);
-
-      peerArray.push(Math.round(peerNum));
-    });
-
-    const clientData =
-      Number(data["adminCostsPerStudent_Client"][year].value) * 100;
-    clientArray.push(clientData);
-
-    const peerAvg = getWeightedAverageOfArray(
-      data,
-      "adminCostsPerStudent",
-      year
-    );
-    peerAvgArray.push(Math.round(peerAvg * 100));
-
-    const peer25 = get25thPercentileOfArray(peerArray);
-    peer25Array.push(Math.round(peer25));
-
-    const peer50 = getMidpointOfArray(peerArray);
-    peer50Array.push(Math.round(peer50));
-
-    const peer75 = get75thPercentileOfArray(peerArray);
-    peer75Array.push(Math.round(peer75));
-  });
-
-  // console.log({
-  //   clientArray,
-  //   peerAvgArray,
-  //   peerArray,
-  //   peer25Array,
-  //   peer50Array,
-  //   peer75Array,
-  // });
-
-  const chartColors = document.documentElement.classList.contains("dark")
-    ? {
-        borderColor: "#374151",
-        labelColor: "#ebedf0",
-        opacityFrom: 0,
-        opacityTo: 0.15,
-      }
-    : {
-        borderColor: "#F3F4F6",
-        labelColor: "#000000",
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
-
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
-    : "#000000";
-
-  const yaxisLabelFormatter = (val) => {
-    const num = parseInt(val, 10);
-    if (isNaN(num)) {
-      return "Invalid input";
-    }
-    return `${val}%`;
-  };
-
-  const tooltipFormatter = (value) => {
-    if (!value) return;
-    const formattedValue = value.toLocaleString();
-    return `${formattedValue}%`;
-  };
-
-  return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.red,
-      window.chartColors.yellow,
-      window.chartColors.blue,
-      window.chartColors.purple,
-    ],
-    series: [
-      {
-        name: clientName,
-        type: "column",
-        data: clientArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
-      },
-      {
-        name: "25th",
-        type: "line",
-        data: peer25Array,
-      },
-      {
-        name: "50th",
-        type: "line",
-        data: peer50Array,
-      },
-      {
-        name: "Avg",
-        type: "line",
-        data: peerAvgArray,
-      },
-      {
-        name: "75th",
-        type: "line",
-        data: peer75Array,
-      },
-    ],
-    chart: {
-      id: "adminCostsPerStudent",
-      toolbar: {
-        tools: {
-          download: false,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
-      },
-      height: 550,
-      type: "line",
-      stacked: false,
-    },
-    stroke: {
-      width: 4,
-    },
-    title: {
-      text: "Admin Costs Per Student",
-      position: "top",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColors.labelColor,
-        fontSize: "1.5rem",
-      },
-    },
-    xaxis: {
-      categories: selectedYearsArray,
-      labels: {
-        style: {
-          colors: chartColors.labelColor,
-          fontSize: "1rem",
-        },
-      },
-    },
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColors.labelColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColors.labelColor,
-            fontSize: "1rem",
-          },
-        },
-        tooltip: {
-          enabled: true,
-        },
-      },
-    ],
-    tooltip: {
-      fixed: {
-        enabled: true,
-        position: "topLeft",
-        offsetY: 30,
-        offsetX: 60,
-      },
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    legend: {
-      horizontalAlign: "center",
-      position: "top",
-      offsetX: 40,
-      fontSize: "20px",
-    },
-    grid: {
-      row: {
-        colors: ["transparent"],
-        opacity: 0.5,
-        thickness: 4,
-      },
-    },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
-      },
-    },
-  };
-};
-
 const getMapChartOptions = (data) => {
   am4core.useTheme(am4themes_animated);
 
@@ -4039,10 +3804,8 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       },
     },
     legend: {
-      horizontalAlign: "center",
       position: "bottom",
       fontSize: "20px",
-      offsetY: 5,
     },
     dataLabels: {
       enabled: true,
@@ -4169,27 +3932,17 @@ const getTuitionDependencyChartOptions = (data) => {
     `;
   });
 
-  const allData = [...netTuitionAndFeesArray, ...operatingRevenueArray];
-  let minY = Math.min(...allData);
-  let maxY = Math.max(...allData);
-
-  if (maxY >= 1000000) {
-    // Round to the nearest 5 million
-    maxY = Math.ceil(maxY / 5000000) * 5000000;
-    minY = Math.floor(minY / 5000000) * 5000000;
-  } else if (maxY >= 100000) {
-    maxY = Math.ceil(maxY / 10000) * 10000;
-    minY = Math.floor(minY / 10000) * 10000;
-  } else if (maxY >= 1000) {
-    maxY = Math.ceil(maxY / 5000) * 5000;
-    minY = Math.floor(minY / 5000) * 5000;
-  }
-
-  // console.log({
+  const { minY, maxY } = getMinMaxY([netTuitionAndFeesArray, operatingRevenueArray]);
+  const {minYLine, maxYLine} = getMinMaxY(clientRatioArray, peerRatioArray);
+  // console.log('getTuitionDependencyChartOptions', {
   //   clientRatioArray,
   //   peerRatioArray,
   //   netTuitionAndFeesArray,
   //   operatingRevenueArray,
+  //   minY,
+  //   maxY,
+  //   minYLine,
+  //   maxYLine, 
   // });
 
   const chartColors = document.documentElement.classList.contains("dark")
@@ -4210,22 +3963,6 @@ const getTuitionDependencyChartOptions = (data) => {
     ? "#e3f0fa"
     : "#3a464f";
 
-  const yaxisLabelFormatter = (val) => {
-    const num = parseInt(val, 10);
-    if (isNaN(num)) {
-      return "Invalid input";
-    }
-    if (num >= 1000000) {
-      return `${Math.floor(num / 1000000)}M`;
-    }
-    if (num >= 1000) {
-      return `${Math.floor(num / 1000)}k`;
-    }
-    return val;
-  };
-  const yaxisLabelFormatter2 = (value) => {
-    return `${value}`;
-  };
 
   const tooltipFormatter = (value) => {
     if (!value) return;
@@ -4319,6 +4056,7 @@ const getTuitionDependencyChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
+        tickAmount: 7,
         min: minY,
         max: maxY,
       },
@@ -4337,12 +4075,20 @@ const getTuitionDependencyChartOptions = (data) => {
           color: chartColor,
         },
         labels: {
-          formatter: yaxisLabelFormatter2,
+          formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
             fontSize: "1.25rem",
           },
         },
+        min: minYLine,
+        max: maxYLine,
+      },
+      {
+        show: false,
+        opposite: true,
+        min: minYLine,
+        max: maxYLine,
       },
     ],
     xaxis: {
@@ -4355,7 +4101,7 @@ const getTuitionDependencyChartOptions = (data) => {
       },
     },
     legend: {
-      position: "top",
+      position: "bottom",
       fontSize: "20px",
     },
     dataLabels: {
@@ -4474,28 +4220,23 @@ const getTuitionDiscountRateChartOptions = (data) => {
     `;
   });
 
-  const allData = [...scholarshipArray, ...tuitionFeesArray];
-  let minY = Math.min(...allData);
-  let maxY = Math.max(...allData);
+  // const allData = [...scholarshipArray, ...tuitionFeesArray];
 
-  if (maxY >= 1000000) {
-    // Round to the nearest 5 million
-    maxY = Math.ceil(maxY / 5000000) * 5000000;
-    minY = Math.floor(minY / 5000000) * 5000000;
-  } else if (maxY >= 100000) {
-    maxY = Math.ceil(maxY / 10000) * 10000;
-    minY = Math.floor(minY / 10000) * 10000;
-  } else if (maxY >= 1000) {
-    maxY = Math.ceil(maxY / 5000) * 5000;
-    minY = Math.floor(minY / 5000) * 5000;
-  }
+  // console.log({ mainName: data.mainName, scholarshipArray, tuitionFeesArray });
+  
+  const { minY, maxY } = getMinMaxY(scholarshipArray, tuitionFeesArray);
+  const {minYLine, maxYLine} = getMinMaxY(clientRatioArray, peerRatioArray);
 
-  // console.log({
-  //   clientRatioArray,
-  //   peerRatioArray,
-  //   scholarshipArray,
-  //   tuitionFeesArray,
-  // });
+  console.log('getTuitionDiscountRateChartOptions',{
+    clientRatioArray,
+    peerRatioArray,
+    scholarshipArray,
+    tuitionFeesArray,
+    minY,
+    maxY,
+    minYLine,
+    maxYLine,
+  });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -4515,19 +4256,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
     ? "#e3f0fa"
     : "#3a464f";
 
-  const yaxisLabelFormatter = (val) => {
-    const num = parseInt(val, 10);
-    if (isNaN(num)) {
-      return "Invalid input";
-    }
-    if (num >= 1000000) {
-      return `${Math.floor(num / 1000000)}M`;
-    }
-    if (num >= 1000) {
-      return `${Math.floor(num / 1000)}k`;
-    }
-    return val;
-  };
+
   const yaxisLabelFormatter2 = (value) => {
     return `${value}`;
   };
@@ -4631,6 +4360,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
+        tickAmount: 7,
         min: minY,
         max: maxY,
       },
@@ -4641,23 +4371,22 @@ const getTuitionDiscountRateChartOptions = (data) => {
       },
       {
         opposite: true,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
         labels: {
-          formatter: yaxisLabelFormatter2,
+          formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
             fontSize: "1.25rem",
           },
         },
+        tickAmount: 7,
+        min: minYLine,
+        max: maxYLine,
       },
       {
-        show: false
+        opposite: true,
+        show: false,
+        min: minYLine,
+        max: maxYLine,
       }
     ],
     xaxis: {
@@ -4671,7 +4400,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
     },
     legend: {
       horizontalAlign: "center",
-      position: "top",
+      position: "bottom",
       fontSize: "20px",
     },
     itemMargin: {
@@ -5415,12 +5144,18 @@ const getDebtBurdenRatioChartOptions = (data) => {
     operationalExpenseArray.push(num);
   });
 
-  // console.log({
-  //   clientRatioArray,
-  //   peerRatioArray,
-  //   debtServiceArray,
-  //   operationalExpenseArray,
-  // });
+  const { minY, maxY } = getMinMaxY([debtServiceArray, operationalExpenseArray]);
+  const {minYLine, maxYLine} = getMinMaxY(clientRatioArray, peerRatioArray);
+  console.log('getDebtBurdenRatioChartOptions',{
+    clientRatioArray,
+    peerRatioArray,
+    debtServiceArray,
+    operationalExpenseArray,
+    minY,
+    maxY,
+    minYLine,
+    maxYLine,
+  });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -5439,23 +5174,6 @@ const getDebtBurdenRatioChartOptions = (data) => {
   const chartColor = document.documentElement.classList.contains("dark")
     ? "#e3f0fa"
     : "#3a464f";
-
-  const yaxisLabelFormatter = (val) => {
-    const num = parseInt(val, 10);
-    if (isNaN(num)) {
-      return "Invalid input";
-    }
-    if (num >= 1000000) {
-      return `${Math.floor(num / 1000000)}M`;
-    }
-    if (num >= 1000) {
-      return `${Math.floor(num / 1000)}k`;
-    }
-    return val;
-  };
-  const yaxisLabelFormatter2 = (value) => {
-    return `${value}`;
-  };
 
   const tooltipFormatter = (value) => {
     if (!value) return;
@@ -5552,24 +5270,31 @@ const getDebtBurdenRatioChartOptions = (data) => {
       },
       {
         show: false,
+        min: minY,
+        max: maxY,
+      },
+      {
+        show: false,
+        opposite: true,
+        min: minYLine,
+        max: maxYLine,
       },
       {
         opposite: true,
-        axisTicks: {
-          show: true,
-        },
         axisBorder: {
           show: true,
           color: chartColor,
         },
         labels: {
-          formatter: yaxisLabelFormatter2,
+          formatter: yaxisLabelFormatter,
           style: {
             colors: chartColor,
             fontSize: "1.25rem",
           },
         },
-      },
+        min: minYLine,
+        max: maxYLine,
+      }
     ],
     xaxis: {
       categories: selectedYearsArray,

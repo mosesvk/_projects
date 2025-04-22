@@ -90,7 +90,10 @@ const types_Array = [
   { arr: ["Graduate University"], str: "Graduate University" },
   { arr: ["Liberal Arts"], str: "Liberal Arts" },
   { arr: ["Seminary"], str: "Seminary" },
-  { arr: ["Liberal Arts & Bible College"], str: "Liberal Arts & Bible College" },
+  {
+    arr: ["Liberal Arts & Bible College"],
+    str: "Liberal Arts & Bible College",
+  },
 ];
 const memberships_Array = [
   { arr: ["ABACC"], str: "ABACC" },
@@ -411,18 +414,18 @@ const createChart = (
     if (chartId === "cfiRatio_chart") {
       // Create a custom chart options object for cfiRatio that explicitly sets min to -4
       const cfiRatioOptions = { ...chartOptions };
-      
+
       // Make sure the yaxis setting has a proper min value
       if (!cfiRatioOptions.yaxis.min) {
         cfiRatioOptions.yaxis.min = -4;
       }
-      
+
       cfiRatio_chart = new ApexCharts(
         document.getElementById(chartId),
         cfiRatioOptions
       );
       cfiRatio_chart.render();
-      
+
       document.addEventListener("dark-mode", function () {
         cfiRatio_chart.updateOptions(cfiRatioOptions);
       });
@@ -715,19 +718,19 @@ const getPeerAndClientChartDataArrays = (
     } else if (dataPeer[year] !== undefined && dataClient[year] !== undefined) {
       // console.log('---- hit if');
 
-      let numToTimesByIfPercent = 1
-      if (type == 'percent') numToTimesByIfPercent = 100
+      let numToTimesByIfPercent = 1;
+      if (type == "percent") numToTimesByIfPercent = 100;
 
       const array = dataPeer[year];
       // if (mainName == 'cfiRatio') console.log(array)
       let avg = getAverageOfArray(array);
-      avg *= numToTimesByIfPercent
+      avg *= numToTimesByIfPercent;
       let mid = getMidpointOfArray(array);
-      mid *= numToTimesByIfPercent
+      mid *= numToTimesByIfPercent;
       let lower25 = get25thPercentileOfArray(array);
-      lower25 *= numToTimesByIfPercent
+      lower25 *= numToTimesByIfPercent;
       let higher75 = get75thPercentileOfArray(array);
-      higher75 *= numToTimesByIfPercent
+      higher75 *= numToTimesByIfPercent;
 
       // if (mainName == 'cfi_netIncomeOperationsRatio') console.log({mainName, avg, mid, lower25, higher75 });
 
@@ -1190,6 +1193,133 @@ const editElementChildren = (element, variable, elementId) => {
   element.classList.add("ease-in-out");
 };
 
+const getMinMaxY = (arrays) => {
+  // Handle case where arrays contains numbers instead of arrays
+  const allData = arrays.reduce((acc, item) => {
+    // If item is a number or string number, wrap it in array before spreading
+    const arr = Array.isArray(item) ? item : [item];
+    return [
+      ...acc,
+      ...arr.map((val) => (typeof val === "string" ? parseFloat(val) : val)),
+    ];
+  }, []);
+
+  let minY = Math.min(...allData);
+  let maxY = Math.max(...allData);
+
+  // For ratio values between 0 and 1
+  if (allData.every((val) => val > 0 && val <= 1)) {
+    minY = 0;
+    maxY = Math.ceil(maxY * 10) / 10; // Round up to nearest 0.1
+    return {
+      minY,
+      maxY,
+      minYLine:
+        minY < 0.1
+          ? 0
+          : minY < 0.2
+          ? 0.1
+          : minY < 0.3
+          ? 0.2
+          : minY < 0.4
+          ? 0.3
+          : minY < 0.5
+          ? 0.4
+          : minY < 0.6
+          ? 0.5
+          : minY < 0.7
+          ? 0.6
+          : minY < 0.8
+          ? 0.7
+          : minY < 0.9
+          ? 0.8
+          : 0.9,
+      maxYLine: maxY + 0.1, // Add 0.1 to give some padding above highest value
+    };
+  }
+
+  // Handle maxY rounding
+  if (maxY >= 1000000) {
+    maxY = Math.ceil(maxY / 5000000) * 5000000;
+  } else if (maxY >= 100000) {
+    maxY = Math.ceil(maxY / 10000) * 10000;
+  } else if (maxY >= 1000) {
+    maxY = Math.ceil(maxY / 5000) * 5000;
+  } else if (maxY >= 100) {
+    maxY = Math.ceil(maxY / 100) * 100;
+  } else if (maxY >= 10) {
+    maxY = Math.ceil(maxY / 10) * 10;
+  } else if (maxY >= 1) {
+    maxY = Math.ceil(maxY);
+  } else {
+    // For values between 0 and 1
+    maxY = Math.ceil(maxY * 10) / 10;
+  }
+
+  // Handle minY
+  if (minY >= 0) {
+    minY = 0;
+  } else {
+    // Handle negative minY rounding
+    if (Math.abs(minY) >= 1000000) {
+      minY = Math.floor(minY / 5000000) * 5000000;
+    } else if (Math.abs(minY) >= 100000) {
+      minY = Math.floor(minY / 10000) * 10000;
+    } else if (Math.abs(minY) >= 1000) {
+      minY = Math.floor(minY / 5000) * 5000;
+    } else if (Math.abs(minY) >= 100) {
+      minY = Math.floor(minY / 100) * 100;
+    } else if (Math.abs(minY) >= 10) {
+      minY = Math.floor(minY / 10) * 10;
+    } else if (Math.abs(minY) >= 1) {
+      minY = Math.floor(minY);
+    } else {
+      // For values between -1 and 0
+      minY = Math.floor(minY * 10) / 10;
+    }
+  }
+
+  return { minY, maxY, minYLine: minY, maxYLine: maxY };
+};
+
+const yaxisLabelFormatter = (val) => {
+  const num = parseFloat(val);
+  if (isNaN(num)) {
+    return "Invalid input";
+  }
+
+  const absNum = Math.abs(num);
+  let rounded;
+
+  if (absNum >= 1000000) {
+    rounded = Math.round(num / 100000) * 100000;
+    return `${(rounded / 1000000).toFixed(1)}M`;
+  }
+  if (absNum >= 100000) {
+    rounded = Math.round(num / 10000) * 10000;
+    return `${(rounded / 1000).toFixed(0)}k`;
+  }
+  if (absNum >= 10000) {
+    rounded = Math.round(num / 1000) * 1000;
+    return `${(rounded / 1000).toFixed(0)}k`;
+  }
+  if (absNum >= 1000) {
+    rounded = Math.round(num / 100) * 100;
+    return `${(rounded / 1000).toFixed(1)}k`;
+  }
+  if (absNum >= 100) {
+    rounded = Math.round(num / 10) * 10;
+    return rounded.toString();
+  }
+  if (absNum >= 1) {
+    rounded = Math.round(num * 2) / 2;
+    return rounded.toFixed(1);
+  }
+  // Between 0 and 1
+  rounded = Math.round(num * 10) / 10;
+  return rounded.toFixed(1);
+};
+
 const getSelectedSchoolChurchOption = () => {
   const options = document.querySelectorAll('input[name="schoolChurch"]');
   options.forEach((option, index) => {
@@ -1381,81 +1511,89 @@ function createAndRenderFSChart(
   // chart.toggleDataPointSelection(0, mostCurrentYearIndex)
   chart.render();
 
+  // Get the client string
+  const clientString = dataKey.replace("_Client", "");
 
-// Get the client string
-const clientString = dataKey.replace("_Client", "");
-  
-// Get the years from the data
-const years = Object.keys(parsedData[dataKey]);
+  // Get the years from the data
+  const years = Object.keys(parsedData[dataKey]);
 
-// Sort years numerically (ascending)
-const sortedYears = [...years].sort((a, b) => parseInt(a) - parseInt(b));
+  // Sort years numerically (ascending)
+  const sortedYears = [...years].sort((a, b) => parseInt(a) - parseInt(b));
 
-// Get the most recent year (last in the sorted array)
-const mostRecentYear = sortedYears[sortedYears.length - 1];
+  // Get the most recent year (last in the sorted array)
+  const mostRecentYear = sortedYears[sortedYears.length - 1];
 
-// Get the index of the most recent year in the chart's x-axis categories
-const firstKey = Object.keys(parsedData)[0];
-const yearsDataFinancialStatment_Array = Object.keys(parsedData[firstKey]).sort((a, b) => a - b);
-const mostRecentYearIndex = yearsDataFinancialStatment_Array.indexOf(mostRecentYear);
+  // Get the index of the most recent year in the chart's x-axis categories
+  const firstKey = Object.keys(parsedData)[0];
+  const yearsDataFinancialStatment_Array = Object.keys(
+    parsedData[firstKey]
+  ).sort((a, b) => a - b);
+  const mostRecentYearIndex =
+    yearsDataFinancialStatment_Array.indexOf(mostRecentYear);
 
-// Process financial data for the most recent year
-setTimeout(() => {
-  processFinancialData(
-    parsedData,
-    tableDataClass,
-    mostRecentYear,
-    clientString
-  );
-  
-  // Apply styling to the last bar
-  try {
-    const chartElement = document.querySelector(chartId);
-    if (!chartElement) return;
-    
-    // Target all possible chart types
-    const allBars = chartElement.querySelectorAll('.apexcharts-series rect');
-    
-    // Filter to get only the bars for the current series (if multiple series exist)
-    const seriesBars = Array.from(allBars).filter(bar => {
-      // Look for the data series index in the element's attributes
-      return bar.getAttribute('data-series-index') === '0' || 
-             bar.parentElement.getAttribute('data-series-index') === '0';
-    });
-    
-    // If we have bars and the index is valid
-    if (seriesBars.length > 0 && mostRecentYearIndex >= 0 && mostRecentYearIndex < seriesBars.length) {
-      // Get the bar for the most recent year
-      const targetBar = seriesBars[mostRecentYearIndex];
-      if (targetBar) {
-        // Apply darkening style to make it look active
-        targetBar.style.filter = 'brightness(0.65)';
-        targetBar.style.opacity = '1';
-        targetBar.style.stroke = 'rgba(0, 0, 0, 0.35)';
-        targetBar.style.strokeWidth = '1px';
-      }
-    }
-  } catch (e) {
-    console.error("Error styling bar:", e);
-  }
-}, 500); // Allow time for chart to render
-
-// Update the chart on dark mode event
-document.addEventListener("dark-mode", function () {
-  chart.updateOptions(
-    getFSchartOptions(
+  // Process financial data for the most recent year
+  setTimeout(() => {
+    processFinancialData(
       parsedData,
-      dataKey,
-      color,
-      currency,
-      label,
-      chartId,
-      tableDataClass
-    )
-  );
-});
+      tableDataClass,
+      mostRecentYear,
+      clientString
+    );
 
-return chart;
+    // Apply styling to the last bar
+    try {
+      const chartElement = document.querySelector(chartId);
+      if (!chartElement) return;
+
+      // Target all possible chart types
+      const allBars = chartElement.querySelectorAll(".apexcharts-series rect");
+
+      // Filter to get only the bars for the current series (if multiple series exist)
+      const seriesBars = Array.from(allBars).filter((bar) => {
+        // Look for the data series index in the element's attributes
+        return (
+          bar.getAttribute("data-series-index") === "0" ||
+          bar.parentElement.getAttribute("data-series-index") === "0"
+        );
+      });
+
+      // If we have bars and the index is valid
+      if (
+        seriesBars.length > 0 &&
+        mostRecentYearIndex >= 0 &&
+        mostRecentYearIndex < seriesBars.length
+      ) {
+        // Get the bar for the most recent year
+        const targetBar = seriesBars[mostRecentYearIndex];
+        if (targetBar) {
+          // Apply darkening style to make it look active
+          targetBar.style.filter = "brightness(0.65)";
+          targetBar.style.opacity = "1";
+          targetBar.style.stroke = "rgba(0, 0, 0, 0.35)";
+          targetBar.style.strokeWidth = "1px";
+        }
+      }
+    } catch (e) {
+      console.error("Error styling bar:", e);
+    }
+  }, 500); // Allow time for chart to render
+
+  // Update the chart on dark mode event
+  document.addEventListener("dark-mode", function () {
+    chart.updateOptions(
+      getFSchartOptions(
+        parsedData,
+        dataKey,
+        color,
+        currency,
+        label,
+        chartId,
+        tableDataClass
+      )
+    );
+  });
+
+  return chart;
 }
 
 function showApiLoadingFunction(action, mode) {
