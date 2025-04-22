@@ -1,3 +1,4 @@
+
 const getMainChartOptions = (
   dataPeer,
   dataClient,
@@ -997,12 +998,23 @@ const getFpaChartOptions = (data) => {
       },
     ],
     chart: {
+      toolbar: {
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
       zoom: {
         enabled: false,
       },
-      height: 350,
+      height: 450,
+      width: "100%",
       type: "bar",
-      stacked: true,
     },
     dataLabels: {
       enabled: false,
@@ -2535,34 +2547,10 @@ const getCurrentRatioChartOptions = (data) => {
           style: {
             fontSize: "1.25rem",
           },
-        },
-        // title: {
-        //   text: "Assets",
-        //   style: {
-        //     color: window.chartColors.green,
-        //   },
-        // }
+        }
       },
       {
         show: false,
-        // opposite: true,
-        // axisBorder: {
-        //   show: false,
-        //   color: window.chartColors.red,
-        // },
-        // labels: {
-        //   formatter: yaxisLabelFormatter,
-        //   style: {
-        //     colors: window.chartColors.red,
-        //     fontSize: "1.25rem",
-        //   },
-        // },
-        // title: {
-        //   text: "Liabilities",
-        //   style: {
-        //     color: window.chartColors.red,
-        //   },
-        // }
       },
       {
         opposite: true,
@@ -2578,12 +2566,6 @@ const getCurrentRatioChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
-        // title: {
-        //   text: "Ratio",
-        //   style: {
-        //     color: chartColor,
-        //   },
-        // }
       },
     ],
     xaxis: {
@@ -2596,7 +2578,7 @@ const getCurrentRatioChartOptions = (data) => {
       },
     },
     legend: {
-      position: "top",
+      position: "bottom",
       fontSize: "20px",
       offsetY: -10,
     },
@@ -2774,7 +2756,7 @@ const getLiquidityChartOptions = (data) => {
       },
     },
     legend: {
-      position: "top",
+      position: "bottom",
       fontSize: "20px",
     },
     grid: {

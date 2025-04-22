@@ -568,6 +568,7 @@ function buildUploadXml(results) {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   uploadXml += createFieldXml(31, firmName);
+  uploadXml += createFieldXml(3, ClientRid);
   uploadXml += createFieldXml(32, window.uniqueClientSize);
   uploadXml += createFieldXml(76, selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(69, window.monthYearEnd);
