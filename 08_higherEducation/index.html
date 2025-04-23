@@ -104,6 +104,9 @@
     </script>
 
     <script>
+      dynamicFontColor = document.documentElement.classList.contains("dark")
+    ? "#e3f0fa"
+    : "#000000";
       chartColors = {
         green: "#83b240",
         chartGreen: "#88C428",
@@ -948,7 +951,7 @@
         <main class="px-4 pt-6 grid gap-y-4 dark:text-white">
           <!-- CFI CONTENT -->
           <div id="CfiRatioContent" class="tab-content">
-            <!-- CFI Ratio -->
+            <!-- Trendline Options -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
@@ -1059,9 +1062,10 @@
                 </label>
               </div>
             </div>
-
+            
+            <!-- CFI Ratio -->
             <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+              class="p-2 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 dark:bg-gray-800 mb-4"
             >
               <div id="cfiRatio_chart"></div>
               <button
@@ -1553,7 +1557,7 @@
 
             <!-- Primary Reserve Ratio -->
             <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+              class="p-2 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 dark:bg-gray-800 mb-4"
             >
               <div id="cfi_primaryReserveRatio_chart"></div>
               <button
@@ -1763,7 +1767,7 @@
 
             <!-- CFI Net Income - Operations Ratio -->
             <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+              class="p-2 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700  dark:bg-gray-800 mb-4"
             >
               <div id="cfi_netIncomeOperationsRatio_chart"></div>
               <button
@@ -1936,7 +1940,7 @@
 
             <!-- CFI Return on Net Assets -->
             <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 dark:bg-gray-800 mb-4"
             >
               <div id="cfi_returnOnNetAssets_chart"></div>
               <button
@@ -2103,7 +2107,7 @@
 
             <!-- CFI Viability Ratio -->
             <div
-              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
+              class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 dark:bg-gray-800 mb-4"
             >
               <div id="cfi_viabilityRatio_chart"></div>
               <button
@@ -5630,11 +5634,12 @@
               </div>
             </div>
 
+            <p class="m-4 text-xl font-bold">Endowment Assets per Student</p>
+
             <!-- Endowment Assets per Student -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <p class="m-4 text-xl font-bold">Endowment Assets per Student</p>
               <div class="">
                 <!-- <div class="flex flex-row"> -->
                 <!-- <div class="w-1/2 pr-2">

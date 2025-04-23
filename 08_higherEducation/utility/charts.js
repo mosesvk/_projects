@@ -1,4 +1,3 @@
-
 const getMainChartOptions = (
   dataPeer,
   dataClient,
@@ -119,8 +118,7 @@ const getMainChartOptions = (
       const chartElement = document.getElementById(chartId);
       if (!chartElement) return;
 
-      if (chartId === 'cfiRatio_chart') {
-
+      if (chartId === "cfiRatio_chart") {
       }
 
       // Get the first grid line to use as reference
@@ -133,9 +131,7 @@ const getMainChartOptions = (
       const annotationLine = chartElement.querySelector(
         `.apexcharts-yaxis-annotations line`
       );
-      const yaxis = chartElement.querySelector(
-        `.apexcharts-yaxis`
-      );
+      const yaxis = chartElement.querySelector(`.apexcharts-yaxis`);
       if (!annotationLine) return;
 
       // Get the exact x1 and x2 values from the grid line
@@ -145,19 +141,18 @@ const getMainChartOptions = (
       // Set the annotation line to match exactly
       annotationLine.setAttribute("x1", x1);
       annotationLine.setAttribute("x2", x2);
-      if (chartId == 'cfiRatio_chart')
-
-      console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
+      if (chartId == "cfiRatio_chart")
+        console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
     },
   };
 
   const selectedYearsLength = selectedYearsArray.length;
-  let dynamicOffsetX
+  let dynamicOffsetX;
 
   switch (selectedYearsLength) {
     case 1:
       dynamicOffsetX = 30;
-      break
+      break;
     case 3:
     case 2:
       dynamicOffsetX = -120;
@@ -181,8 +176,8 @@ const getMainChartOptions = (
     case 10:
       dynamicOffsetX = 30;
       break;
-    case 11: 
-      dynamicOffsetX = 40
+    case 11:
+      dynamicOffsetX = 40;
     default:
       dynamicOffsetX = 50;
   }
@@ -525,11 +520,11 @@ const getMainChartOptions = (
       text: title,
       align: "center",
       style: {
-        color: chartColors.labelColor,
+        color: chartColor,
         fontSize: "1.5rem",
       },
-      margin: 50,
-      offsetY: 0,
+      margin: 10,
+      offsetY: 35
     },
     xaxis: {
       categories: selectedYearsArray,
@@ -551,10 +546,14 @@ const getMainChartOptions = (
       labels: {
         formatter: yaxisLabelFormatter,
         style: {
-          colors: chartColors.labelColor,
+          colors: chartColors,
           fontSize: "1rem",
         },
       },
+      ...(mainName === "cfiRatio" ? {
+        min: -4,
+        max: 10
+      } : {})
     },
     tooltip: {
       shared: true,
@@ -575,7 +574,6 @@ const getMainChartOptions = (
       },
     },
     legend: {
-      horizontalAlign: "center",
       position: "bottom",
       fontSize: "20px",
       offsetY: 5,
@@ -811,6 +809,9 @@ const getFSchartOptions = (
         opacity: 0.5,
         thickness: 4,
       },
+      style: {
+        fontColor: dynamicFontColor,
+      },
     },
     plotOptions: {
       bar: {
@@ -925,9 +926,11 @@ const getFpaChartOptions = (data) => {
   `;
   });
 
-
-  const { minY, maxY } = getMinMaxY([totalAssetsArray, totalLiabilitiesArray, netPositionArray]);
-
+  const { minY, maxY } = getMinMaxY([
+    totalAssetsArray,
+    totalLiabilitiesArray,
+    netPositionArray,
+  ]);
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -1067,13 +1070,13 @@ const getFpaChartOptions = (data) => {
       {
         show: false,
         min: minY,
-        max: maxY,  
-      }, 
+        max: maxY,
+      },
       {
         show: false,
         min: minY,
         max: maxY,
-      }
+      },
     ],
     tooltip: {
       y: {
@@ -1382,7 +1385,14 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
   ];
 
   return {
-    colors: [window.chartColors.green, window.chartColors.yellow, window.chartColors.blue, window.chartColors.orange, window.chartColors.grey, window.chartColors.purple],
+    colors: [
+      window.chartColors.green,
+      window.chartColors.yellow,
+      window.chartColors.blue,
+      window.chartColors.orange,
+      window.chartColors.grey,
+      window.chartColors.purple,
+    ],
     series: chartData,
     chart: {
       toolbar: {
@@ -1445,9 +1455,10 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
       },
     },
     legend: {
-      horizontalAlign: "center",
-      position: "bottom",
-      fontSize: "20px",
+      show: false,
+      // horizontalAlign: "center",
+      // position: "bottom",
+      // fontSize: "20px",
     },
   };
 };
@@ -1524,7 +1535,14 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
   ];
 
   return {
-    colors: [window.chartColors.green, window.chartColors.yellow, window.chartColors.blue, window.chartColors.orange, window.chartColors.grey, window.chartColors.purple],
+    colors: [
+      window.chartColors.green,
+      window.chartColors.yellow,
+      window.chartColors.blue,
+      window.chartColors.orange,
+      window.chartColors.grey,
+      window.chartColors.purple,
+    ],
     series: chartData,
     chart: {
       toolbar: {
@@ -1588,9 +1606,10 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
       },
     },
     legend: {
-      horizontalAlign: "center",
-      position: "bottom",
-      fontSize: "20px",
+      show: false,
+      // horizontalAlign: "center",
+      // position: "bottom",
+      // fontSize: "20px",
     },
   };
 };
@@ -1981,7 +2000,14 @@ const getCashFlowTrendChartOptions = (data) => {
   };
 
   return {
-    colors: [window.chartColors.green, window.chartColors.blue, window.chartColors.grey, window.chartColors.yellow, window.chartColors.purple, window.chartColors.orange],
+    colors: [
+      window.chartColors.green,
+      window.chartColors.blue,
+      window.chartColors.grey,
+      window.chartColors.yellow,
+      window.chartColors.purple,
+      window.chartColors.orange,
+    ],
     series: seriesData,
     chart: {
       toolbar: {
@@ -2378,6 +2404,26 @@ const getCurrentRatioChartOptions = (data) => {
     `;
   });
 
+  const { minY, maxY } = getMinMaxY([
+    currentAssetsArray,
+    currentLiabilitiesArray,
+  ]);
+  const { minYLine, maxYLine } = getMinMaxY([
+    currentRatioArray,
+    peerAvgCurrentRatioArray,
+  ]);
+
+  console.log("getCurrentRatioChartOptions", {
+    currentAssetsArray,
+    currentLiabilitiesArray,
+    currentRatioArray,
+    peerAvgCurrentRatioArray,
+    minY,
+    maxY,
+    minYLine,
+    maxYLine,
+  });
+
   const formatNumber = (value) => value.toLocaleString();
 
   const chartColors = document.documentElement.classList.contains("dark")
@@ -2496,6 +2542,54 @@ const getCurrentRatioChartOptions = (data) => {
         enabled: false,
       },
     },
+    yaxis: [
+      {
+        seriesName: "Current Assets",
+        axisBorder: {
+          show: true,
+          color: window.chartColors.green,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            fontSize: "1.25rem",
+          },
+        },
+        min: minY,
+        max: maxY,
+      },
+      {
+        seriesName: "Current Liabilities",
+        show: false,
+        min: minYLine,
+        max: maxYLine,
+      },
+      {
+        seriesName: "Current Ratio",
+        opposite: true,
+        // stepSize: 1,
+        axisBorder: {
+          show: true,
+          color: chartColor,
+        },
+        labels: {
+          formatter: yaxisLabelFormatter2,
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
+        },
+        min: minYLine,
+        max: maxYLine,
+      },
+      {
+        seriesName: "Peer Avg",
+        opposite: true,
+        show: false,
+        min: minYLine,
+        max: maxYLine,
+      },
+    ],
     tooltip: {
       y: {
         formatter: tooltipFormatter,
@@ -2541,39 +2635,6 @@ const getCurrentRatioChartOptions = (data) => {
         fontSize: "1.5rem",
       },
     },
-    yaxis: [
-      {
-        axisBorder: {
-          show: true,
-          color: window.chartColors.green,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            fontSize: "1.25rem",
-          },
-        }
-      },
-      {
-        opposite: true,
-        stepSize: 1,
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter2,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        },
-      },
-      {
-        opposite: true,
-        show: false,
-      },
-    ],
     xaxis: {
       categories: yearsDataCurrentRatio_Array.sort((a, b) => a - b),
       labels: {
@@ -3932,8 +3993,11 @@ const getTuitionDependencyChartOptions = (data) => {
     `;
   });
 
-  const { minY, maxY } = getMinMaxY([netTuitionAndFeesArray, operatingRevenueArray]);
-  const {minYLine, maxYLine} = getMinMaxY(clientRatioArray, peerRatioArray);
+  const { minY, maxY } = getMinMaxY([
+    netTuitionAndFeesArray,
+    operatingRevenueArray,
+  ]);
+  const { minYLine, maxYLine } = getMinMaxY(clientRatioArray, peerRatioArray);
   // console.log('getTuitionDependencyChartOptions', {
   //   clientRatioArray,
   //   peerRatioArray,
@@ -3942,7 +4006,7 @@ const getTuitionDependencyChartOptions = (data) => {
   //   minY,
   //   maxY,
   //   minYLine,
-  //   maxYLine, 
+  //   maxYLine,
   // });
 
   const chartColors = document.documentElement.classList.contains("dark")
@@ -3962,7 +4026,6 @@ const getTuitionDependencyChartOptions = (data) => {
   const chartColor = document.documentElement.classList.contains("dark")
     ? "#e3f0fa"
     : "#3a464f";
-
 
   const tooltipFormatter = (value) => {
     if (!value) return;
@@ -4223,20 +4286,20 @@ const getTuitionDiscountRateChartOptions = (data) => {
   // const allData = [...scholarshipArray, ...tuitionFeesArray];
 
   // console.log({ mainName: data.mainName, scholarshipArray, tuitionFeesArray });
-  
-  const { minY, maxY } = getMinMaxY(scholarshipArray, tuitionFeesArray);
-  const {minYLine, maxYLine} = getMinMaxY(clientRatioArray, peerRatioArray);
 
-  console.log('getTuitionDiscountRateChartOptions',{
-    clientRatioArray,
-    peerRatioArray,
-    scholarshipArray,
-    tuitionFeesArray,
-    minY,
-    maxY,
-    minYLine,
-    maxYLine,
-  });
+  const { minY, maxY } = getMinMaxY(scholarshipArray, tuitionFeesArray);
+  const { minYLine, maxYLine } = getMinMaxY(clientRatioArray, peerRatioArray);
+
+  // console.log("getTuitionDiscountRateChartOptions", {
+  //   clientRatioArray,
+  //   peerRatioArray,
+  //   scholarshipArray,
+  //   tuitionFeesArray,
+  //   minY,
+  //   maxY,
+  //   minYLine,
+  //   maxYLine,
+  // });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -4255,7 +4318,6 @@ const getTuitionDiscountRateChartOptions = (data) => {
   const chartColor = document.documentElement.classList.contains("dark")
     ? "#e3f0fa"
     : "#3a464f";
-
 
   const yaxisLabelFormatter2 = (value) => {
     return `${value}`;
@@ -4387,7 +4449,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
         show: false,
         min: minYLine,
         max: maxYLine,
-      }
+      },
     ],
     xaxis: {
       categories: selectedYearsArray,
@@ -4499,7 +4561,7 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "Annual Traditional Net Tuition per Student",
+        caption: "",
         subcaption: "",
         lowerLimit: "0",
         upperLimit: value + 5000,
@@ -4508,6 +4570,8 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
         chartBottomMargin: "50",
         valueFontSize: "14",
         valueFontBold: "6",
+        labelFontColor: dynamicFontColor,
+        baseFontColor: dynamicFontColor,
       },
       colorRange: {
         color: [
@@ -4586,6 +4650,10 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
 
 const getDebtServiceCoverageChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
+
+  const chartColor = document.documentElement.classList.contains("dark")
+    ? "#e3f0fa"
+    : "#000000";
 
   const tableHeaderRow = document.getElementById(
     "row_debtServiceCoverageRatio_tableHeader"
@@ -4675,7 +4743,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "Debt Service Coverage Ratio",
+        caption: "",
         subcaption: "",
         lowerLimit: "0",
         upperLimit: "10",
@@ -4684,6 +4752,8 @@ const getDebtServiceCoverageChartOptions = (data) => {
         chartBottomMargin: "50",
         valueFontSize: "14",
         valueFontBold: "6",
+        labelFontColor: chartColor,
+        baseFontColor: chartColor,
       },
       colorRange: {
         color: [
@@ -4761,6 +4831,10 @@ const getDebtServiceCoverageChartOptions = (data) => {
 };
 
 const getEndowmentOperatingChartOptions = (data) => {
+  const chartColor = document.documentElement.classList.contains("dark")
+    ? "#e3f0fa"
+    : "#000000";
+
   const tableHeaderRow = document.getElementById(
     "row_endowmentOperatingBudget_tableHeader"
   );
@@ -4837,7 +4911,7 @@ const getEndowmentOperatingChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "Endowment to Operating Budget",
+        caption: "",
         subcaption: clientName,
         lowerLimit: "0",
         upperLimit: "250",
@@ -4846,6 +4920,8 @@ const getEndowmentOperatingChartOptions = (data) => {
         chartBottomMargin: "50",
         valueFontSize: "14",
         valueFontBold: "6",
+        labelFontColor: chartColor,
+        baseFontColor: chartColor,
       },
       colorRange: {
         color: [
@@ -5144,18 +5220,21 @@ const getDebtBurdenRatioChartOptions = (data) => {
     operationalExpenseArray.push(num);
   });
 
-  const { minY, maxY } = getMinMaxY([debtServiceArray, operationalExpenseArray]);
-  const {minYLine, maxYLine} = getMinMaxY(clientRatioArray, peerRatioArray);
-  console.log('getDebtBurdenRatioChartOptions',{
-    clientRatioArray,
-    peerRatioArray,
+  const { minY, maxY } = getMinMaxY([
     debtServiceArray,
     operationalExpenseArray,
-    minY,
-    maxY,
-    minYLine,
-    maxYLine,
-  });
+  ]);
+  const { minYLine, maxYLine } = getMinMaxY(clientRatioArray, peerRatioArray);
+  // console.log("getDebtBurdenRatioChartOptions", {
+  //   clientRatioArray,
+  //   peerRatioArray,
+  //   debtServiceArray,
+  //   operationalExpenseArray,
+  //   minY,
+  //   maxY,
+  //   minYLine,
+  //   maxYLine,
+  // });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -5294,7 +5373,7 @@ const getDebtBurdenRatioChartOptions = (data) => {
         },
         min: minYLine,
         max: maxYLine,
-      }
+      },
     ],
     xaxis: {
       categories: selectedYearsArray,
@@ -5324,286 +5403,6 @@ const getDebtBurdenRatioChartOptions = (data) => {
   };
 };
 
-// const getEndowmentAssetsPerStudentMapOptions = (data) => {
-//   am4core.useTheme(am4themes_animated);
-
-//   // Create map instance
-//   var chart = am4core.create(
-//     "endowmentAssetsPerStudentMAP_chart",
-//     am4maps.MapChart
-//   );
-
-//   // Set map definition
-//   chart.geodata = am4geodata_usaLow;
-
-//   // Set projection
-//   chart.projection = new am4maps.projections.AlbersUsa();
-
-//   // Create map polygon series
-//   var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
-
-//   //Set min/max fill color for each area
-//   polygonSeries.heatRules.push({
-//     property: "fill",
-//     target: polygonSeries.mapPolygons.template,
-//     min: chart.colors.getIndex(1).brighten(1),
-//     max: chart.colors.getIndex(1).brighten(-0.3),
-//     logarithmic: true,
-//   });
-
-//   // Make map load polygon data (state shapes and names) from GeoJSON
-//   polygonSeries.useGeodata = true;
-
-//   // Set heatmap values for each state
-//   polygonSeries.data = [
-//     {
-//       id: "US-AL",
-//       value: 444710,
-//     },
-//     {
-//       id: "US-AK",
-//       value: 626932,
-//     },
-//     {
-//       id: "US-AZ",
-//       value: 5130632,
-//     },
-//     {
-//       id: "US-AR",
-//       value: 2673400,
-//     },
-//     {
-//       id: "US-CA",
-//       value: 33871648,
-//     },
-//     {
-//       id: "US-CO",
-//       value: 4301261,
-//     },
-//     {
-//       id: "US-CT",
-//       value: 3405565,
-//     },
-//     {
-//       id: "US-DE",
-//       value: 783600,
-//     },
-//     {
-//       id: "US-FL",
-//       value: 15982378,
-//     },
-//     {
-//       id: "US-GA",
-//       value: 8186453,
-//     },
-//     {
-//       id: "US-HI",
-//       value: 1211537,
-//     },
-//     {
-//       id: "US-ID",
-//       value: 1293953,
-//     },
-//     {
-//       id: "US-IL",
-//       value: 12419293,
-//     },
-//     {
-//       id: "US-IN",
-//       value: 6080485,
-//     },
-//     {
-//       id: "US-IA",
-//       value: 2926324,
-//     },
-//     {
-//       id: "US-KS",
-//       value: 2688418,
-//     },
-//     {
-//       id: "US-KY",
-//       value: 4041769,
-//     },
-//     {
-//       id: "US-LA",
-//       value: 4468976,
-//     },
-//     {
-//       id: "US-ME",
-//       value: 1274923,
-//     },
-//     {
-//       id: "US-MD",
-//       value: 5296486,
-//     },
-//     {
-//       id: "US-MA",
-//       value: 6349097,
-//     },
-//     {
-//       id: "US-MI",
-//       value: 9938444,
-//     },
-//     {
-//       id: "US-MN",
-//       value: 4919479,
-//     },
-//     {
-//       id: "US-MS",
-//       value: 2844658,
-//     },
-//     {
-//       id: "US-MO",
-//       value: 5595211,
-//     },
-//     {
-//       id: "US-MT",
-//       value: 902195,
-//     },
-//     {
-//       id: "US-NE",
-//       value: 1711263,
-//     },
-//     {
-//       id: "US-NV",
-//       value: 1998257,
-//     },
-//     {
-//       id: "US-NH",
-//       value: 1235786,
-//     },
-//     {
-//       id: "US-NJ",
-//       value: 8414350,
-//     },
-//     {
-//       id: "US-NM",
-//       value: 1819046,
-//     },
-//     {
-//       id: "US-NY",
-//       value: 18976457,
-//     },
-//     {
-//       id: "US-NC",
-//       value: 8049313,
-//     },
-//     {
-//       id: "US-ND",
-//       value: 642200,
-//     },
-//     {
-//       id: "US-OH",
-//       value: 11353140,
-//     },
-//     {
-//       id: "US-OK",
-//       value: 3450654,
-//     },
-//     {
-//       id: "US-OR",
-//       value: 3421399,
-//     },
-//     {
-//       id: "US-PA",
-//       value: 12281054,
-//     },
-//     {
-//       id: "US-RI",
-//       value: 1048319,
-//     },
-//     {
-//       id: "US-SC",
-//       value: 4012012,
-//     },
-//     {
-//       id: "US-SD",
-//       value: 754844,
-//     },
-//     {
-//       id: "US-TN",
-//       value: 5689283,
-//     },
-//     {
-//       id: "US-TX",
-//       value: 20851820,
-//     },
-//     {
-//       id: "US-UT",
-//       value: 2233169,
-//     },
-//     {
-//       id: "US-VT",
-//       value: 608827,
-//     },
-//     {
-//       id: "US-VA",
-//       value: 7078515,
-//     },
-//     {
-//       id: "US-WA",
-//       value: 5894121,
-//     },
-//     {
-//       id: "US-WV",
-//       value: 1808344,
-//     },
-//     {
-//       id: "US-WI",
-//       value: 5363675,
-//     },
-//     {
-//       id: "US-WY",
-//       value: 493782,
-//     },
-//   ];
-
-//   // Set up heat legend
-//   let heatLegend = chart.createChild(am4maps.HeatLegend);
-//   heatLegend.series = polygonSeries;
-//   heatLegend.align = "right";
-//   heatLegend.valign = "bottom";
-//   heatLegend.height = am4core.percent(80);
-//   heatLegend.orientation = "vertical";
-//   heatLegend.valign = "middle";
-//   heatLegend.marginRight = am4core.percent(4);
-//   heatLegend.valueAxis.renderer.opposite = true;
-//   heatLegend.valueAxis.renderer.dx = -25;
-//   heatLegend.valueAxis.strictMinMax = false;
-//   heatLegend.valueAxis.fontSize = 9;
-//   heatLegend.valueAxis.logarithmic = true;
-
-//   // Configure series tooltip
-//   var polygonTemplate = polygonSeries.mapPolygons.template;
-//   polygonTemplate.tooltipText = "{name}: {value}";
-//   polygonTemplate.nonScalingStroke = true;
-//   polygonTemplate.strokeWidth = 0.5;
-
-//   // Create hover state and set alternative fill color
-//   var hs = polygonTemplate.states.create("hover");
-//   hs.properties.fill = am4core.color("#dc5c3c");
-
-//   // heat legend behavior
-//   polygonSeries.mapPolygons.template.events.on("over", function (event) {
-//     handleHover(event.target);
-//   });
-
-//   polygonSeries.mapPolygons.template.events.on("hit", function (event) {
-//     handleHover(event.target);
-//   });
-
-//   function handleHover(column) {
-//     if (!isNaN(column.dataItem.value)) {
-//       heatLegend.valueAxis.showTooltipAt(column.dataItem.value);
-//     } else {
-//       heatLegend.valueAxis.hideTooltip();
-//     }
-//   }
-
-//   polygonSeries.mapPolygons.template.events.on("out", function (event) {
-//     heatLegend.valueAxis.hideTooltip();
-//   });
-// };
 
 const getEndowmentAssetsPerStudentChartOptions = (data) => {
   // console.log("endowmentAssets", { data });
@@ -5816,7 +5615,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       stacked: false,
     },
     stroke: {
-      width: 4
+      width: 4,
     },
     title: {
       text: "Endowment Assets per Student",
@@ -5874,9 +5673,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       },
     },
     legend: {
-      horizontalAlign: "center",
-      position: "top",
-      offsetX: 40,
+      position: "bottom",
       fontSize: "20px",
     },
     grid: {
