@@ -1,5 +1,29 @@
 // print_base64.js
 
+// Default chart dimensions
+const DEFAULT_CHART_WIDTH = 1200;
+const DEFAULT_CHART_HEIGHT = 530;
+const CFI_COMPOSITE_WIDTH = 500;
+const CFI_COMPOSITE_HEIGHT = 1200;
+
+/**
+ * Get chart dimensions based on chart ID
+ * @param {string} chartId - The ID of the chart
+ * @returns {Object} - Object containing width and height
+ */
+function getChartDimensions(chartId) {
+  if (chartId === "cfiCompositeHtml_Chart") {
+    return {
+      width: CFI_COMPOSITE_WIDTH,
+      height: CFI_COMPOSITE_HEIGHT
+    };
+  }
+  return {
+    width: DEFAULT_CHART_WIDTH,
+    height: DEFAULT_CHART_HEIGHT
+  };
+}
+
 /**
  * Process charts with fixed dimensions regardless of screen resolution
  *
@@ -102,6 +126,10 @@ const getChartInstance = (chartId) => {
       return endowmentOperatingBudget_chart;
     case "endowmentAssetsPerStudent_chart":
       return endowmentAssetsPerStudent_chart;
+    case "doeOverall_chart":
+      return doeOverall_chart;
+    case "cfiCompositeHtml_Chart":
+      return cfiCompositeHtml_Chart;
 
     // For the remaining charts in chartMappings that aren't explicitly declared,
     // we'll try to access them from the window object or from a chartManager if available
@@ -125,16 +153,19 @@ async function exportApexChart(chart) {
     // Store original chart state
     const originalState = saveChartState(chart);
 
+    // Get chart dimensions based on chart ID
+    const dimensions = getChartDimensions(chart.w.globals.chartID);
+
     // Set fixed dimensions for both SVG element and viewBox
-    configureChartForExport(chart, 900, 530);
+    configureChartForExport(chart, dimensions.width, dimensions.height);
 
     // Let the chart update
     await new Promise((resolve) => setTimeout(resolve, 150));
 
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
-      width: 900,
-      height: 530,
+      width: dimensions.width,
+      height: dimensions.height,
       scale: 2, // Higher resolution
     });
 
@@ -292,28 +323,31 @@ function restoreChartState(chart, originalState) {
  * Fallback to html2canvas for export
  */
 async function exportWithHtml2Canvas(chartElement) {
+  // Get chart dimensions based on chart ID
+  const dimensions = getChartDimensions(chartElement.id);
+
   // Create a clone container with fixed dimensions
   const container = document.createElement("div");
   container.style.position = "absolute";
   // container.style.left = '-9999px';
-  container.style.width = "900px";
-  container.style.height = "530px";
+  container.style.width = `${dimensions.width}px`;
+  container.style.height = `${dimensions.height}px`;
 
   // Clone the chart element into the container
   const clone = chartElement.cloneNode(true);
-  clone.style.width = "900px";
-  clone.style.height = "530px";
+  clone.style.width = `${dimensions.width}px`;
+  clone.style.height = `${dimensions.height}px`;
   container.appendChild(clone);
   document.body.appendChild(container);
 
   // Find and adjust any SVG elements
   const svgElements = clone.querySelectorAll("svg");
   svgElements.forEach((svg) => {
-    svg.setAttribute("width", "900");
-    svg.setAttribute("height", "530");
-    svg.style.width = "900px";
-    svg.style.height = "530px";
-    svg.setAttribute("viewBox", "0 0 900 530");
+    svg.setAttribute("width", dimensions.width.toString());
+    svg.setAttribute("height", dimensions.height.toString());
+    svg.style.width = `${dimensions.width}px`;
+    svg.style.height = `${dimensions.height}px`;
+    svg.setAttribute("viewBox", `0 0 ${dimensions.width} ${dimensions.height}`);
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   });
 
@@ -324,8 +358,8 @@ async function exportWithHtml2Canvas(chartElement) {
     // Use html2canvas with fixed dimensions
     const canvas = await html2canvas(clone, {
       scale: 2,
-      width: 900,
-      height: 530,
+      width: dimensions.width,
+      height: dimensions.height,
       useCORS: true,
       allowTaint: true,
       backgroundColor:
@@ -451,6 +485,7 @@ async function apexChartsExportPrint() {
       "RevenueAndExpenseContent",
       "DebtAndEndowmentContent",
       "CfiRatioContent",
+      "DoeContent"
     ];
     const hiddenSections = [];
 
@@ -488,6 +523,8 @@ async function apexChartsExportPrint() {
       { chartId: "debtBurdenRatio_chart", fieldId: 28 },
       { chartId: "endowmentOperatingBudget_chart", fieldId: 29 },
       { chartId: "endowmentAssetsPerStudent_chart", fieldId: 30 },
+      { chartId: "doeOverall_chart", fieldId: 71 },
+      { chartId: "cfiCompositeHtml_Chart", fieldId: 72 },
     ];
 
     // Filter out any charts that don't exist in the DOM
@@ -568,7 +605,6 @@ function buildUploadXml(results) {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   uploadXml += createFieldXml(31, firmName);
-  uploadXml += createFieldXml(3, ClientRid);
   uploadXml += createFieldXml(32, window.uniqueClientSize);
   uploadXml += createFieldXml(76, selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(69, window.monthYearEnd);

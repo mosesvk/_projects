@@ -110,7 +110,7 @@ const getMainChartOptions = (
         annotationLine.setAttribute("x1", x1);
         annotationLine.setAttribute("x2", x2);
 
-        console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
+        // console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
       }, 200); // Extra delay to ensure annotations are rendered
     },
     updated: function (chartContext, config) {
@@ -553,6 +553,8 @@ const getMainChartOptions = (
       ...(mainName === "cfiRatio" ? {
         min: -4,
         max: 10
+      } : (mainName === "doeOverall") ? {
+        max: Math.round(Math.max(...clientArray) + 1)
       } : {})
     },
     tooltip: {
@@ -2413,16 +2415,16 @@ const getCurrentRatioChartOptions = (data) => {
     peerAvgCurrentRatioArray,
   ]);
 
-  console.log("getCurrentRatioChartOptions", {
-    currentAssetsArray,
-    currentLiabilitiesArray,
-    currentRatioArray,
-    peerAvgCurrentRatioArray,
-    minY,
-    maxY,
-    minYLine,
-    maxYLine,
-  });
+  // console.log("getCurrentRatioChartOptions", {
+  //   currentAssetsArray,
+  //   currentLiabilitiesArray,
+  //   currentRatioArray,
+  //   peerAvgCurrentRatioArray,
+  //   minY,
+  //   maxY,
+  //   minYLine,
+  //   maxYLine,
+  // });
 
   const formatNumber = (value) => value.toLocaleString();
 
