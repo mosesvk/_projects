@@ -4,7 +4,7 @@
 const DEFAULT_CHART_WIDTH = 1200;
 const DEFAULT_CHART_HEIGHT = 530;
 const CFI_COMPOSITE_WIDTH = 500;
-const CFI_COMPOSITE_HEIGHT = 1200;
+const CFI_COMPOSITE_HEIGHT = 800;
 
 /**
  * Get chart dimensions based on chart ID
@@ -157,7 +157,7 @@ async function exportApexChart(chart) {
     const dimensions = getChartDimensions(chart.w.globals.chartID);
 
     // Set fixed dimensions for both SVG element and viewBox
-    configureChartForExport(chart, dimensions.width, dimensions.height);
+    await configureChartForExport(chart, dimensions.width, dimensions.height);
 
     // Let the chart update
     await new Promise((resolve) => setTimeout(resolve, 150));
@@ -209,7 +209,7 @@ function saveChartState(chart) {
 /**
  * Configure chart for consistent export
  */
-function configureChartForExport(chart, width, height) {
+async function configureChartForExport(chart, width, height) {
   const paperNode = chart.w.globals.dom.Paper.node;
 
   // Set SVG element dimensions
@@ -228,10 +228,21 @@ function configureChartForExport(chart, width, height) {
     chart: {
       width: width,
       height: height,
+      animations: {
+        enabled: false // Disable animations during export
+      }
     },
     markers: {
-      size: [3], // Set a minimum marker size to prevent negative values
-      strokeWidth: 0,
+      size: 4, // Set a fixed marker size
+      strokeWidth: 1,
+      hover: {
+        size: 4
+      }
+    },
+    dataLabels: {
+      style: {
+        fontSize: '12px'
+      }
     },
     // Hide the title
     title: {
@@ -264,8 +275,11 @@ function configureChartForExport(chart, width, height) {
 
   // Force chart to redraw with new dimensions and annotation styles
   if (chart.updateOptions) {
-    chart.updateOptions(updatedOptions, false, false);
+    chart.updateOptions(updatedOptions, false, true); // Set redrawPaths to true
   }
+
+  // Add a small delay to ensure the chart has time to properly resize
+  return new Promise(resolve => setTimeout(resolve, 100));
 }
 
 /**
@@ -608,11 +622,22 @@ function buildUploadXml(results) {
   uploadXml += createFieldXml(32, window.uniqueClientSize);
   uploadXml += createFieldXml(76, selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(69, window.monthYearEnd);
+  uploadXml += createFieldXml(89, sliderValue);
+  uploadXml += createFieldXml(90, sliderValue);
+  uploadXml += createFieldXml(91, Array.from(selectedSeminaries_Array).join(", "));
+  uploadXml += createFieldXml(93, Array.from(selectedRegionals_Array).join(", "));
   uploadXml += createFieldXml(64, Array.from(selectedRegions_Array).join(", "));
   uploadXml += createFieldXml(65, Array.from(selectedStates_Array).join(", "));
   uploadXml += createFieldXml(66, Array.from(selectedMemberships_Array).join(", "));
   uploadXml += createFieldXml(67, Array.from(selectedTypes_Array).join(", "));
   uploadXml += createFieldXml(68, Array.from(selectedAthletics_Array).join(", "));
+
+  // Add each selected year to corresponding fields (73, 74, 75)
+  selectedYears.forEach((year, index) => {
+    if (index < 8) {  // Only process up to 8 years
+      uploadXml += createFieldXml(73 + index, year);
+    }
+  });
 
   // Add base64 images for charts
   results.forEach((result) => {
