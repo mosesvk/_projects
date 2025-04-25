@@ -2200,12 +2200,12 @@ const processDoeData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
   years.forEach((year) => {
-    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+    const filteredClientRecords = [...recordsClient].filter((record) => {
       const fiscalYear = record.querySelector("year").textContent;
 
       return fiscalYear.includes(year.toString());
     });
-    filteredPeerRecords.forEach((record) => {
+    filteredClientRecords.forEach((record) => {
       // doePrimaryReserveRatio
       insertDataIntoObject(
         "client",
@@ -3044,24 +3044,7 @@ const getRecordsForPeer = async (years, dataStr) => {
   let recordsArray = [];
 
   try {
-    // Query 1: Location and Type filters
-    const baseConditions = [
-      `{7.EX.${currentYear}}`,
-      `{638.EX.'COMPLETE'}`,
-      getRegionQuery(selectedRegions_Array),
-      getStateQuery(selectedStates_Array),
-      getTypeQuery(selectedTypes_Array)
-    ];
-    
-    const baseQuery = {
-      act: "API_DoQuery",
-      query: baseConditions.join(" AND "),
-      clist: "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638"
-    };
-    const baseXml = await $.get(peerData, baseQuery);
-    recordsArray = [...recordsArray, ...$("record", baseXml).toArray()];
-
-    // Query 2: Membership and Athletics
+    // Query 1: Activity filters (memberships, athletics)
     const activityConditions = [
       `{7.EX.${currentYear}}`,
       `{638.EX.'COMPLETE'}`,
@@ -3072,17 +3055,24 @@ const getRecordsForPeer = async (years, dataStr) => {
     const activityQuery = {
       act: "API_DoQuery",
       query: activityConditions.join(" AND "),
-      clist: "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638"
+      clist: "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566"
     };
     const activityXml = await $.get(peerData, activityQuery);
     console.log('activityXml', activityXml);
+    const activityRecords = $("record", activityXml).toArray();
     
-    recordsArray = [...recordsArray, ...$("record", activityXml).toArray()];
+    // Store activity record IDs in a Set for intersection
+    const activityRecordIds = new Set(
+      activityRecords.map(record => record.getAttribute("rid"))
+    );
 
-    // Query 3: Seminary, Regional and Enrollment
+    // Query 2: Other filters (region, state, type, seminary, regional, enrollment)
     const otherConditions = [
       `{7.EX.${currentYear}}`,
       `{638.EX.'COMPLETE'}`,
+      getRegionQuery(selectedRegions_Array),
+      getStateQuery(selectedStates_Array),
+      getTypeQuery(selectedTypes_Array),
       getSeminaryQuery(selectedSeminaries_Array),
       getRegionalQuery(selectedRegionals_Array),
       `{741.GTE.${sliderValue}}`,
@@ -3092,17 +3082,17 @@ const getRecordsForPeer = async (years, dataStr) => {
     const otherQuery = {
       act: "API_DoQuery",
       query: otherConditions.join(" AND "),
-      clist: "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638"
+      clist: "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566"
     };
     const otherXml = await $.get(peerData, otherQuery);
     console.log('otherXml', otherXml);
-    recordsArray = [...recordsArray, ...$("record", otherXml).toArray()];
+    const otherRecords = $("record", otherXml).toArray();
 
-    // Process records and remove duplicates
-    recordsArray.forEach(record => {
+    // Find records that exist in both queries
+    otherRecords.forEach(record => {
       const recordId = record.getAttribute("rid");
-      if (!allRecords.has(recordId)) {
-        allRecords.add(recordId);
+      // Only process records that exist in both result sets
+      if (activityRecordIds.has(recordId)) {
         const newRecord = document.createElement("record");
         Array.from(record.children).forEach((child) => {
           newRecord.appendChild(child.cloneNode(true));
