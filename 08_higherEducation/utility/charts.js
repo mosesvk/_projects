@@ -523,8 +523,8 @@ const getMainChartOptions = (
         color: chartColor,
         fontSize: "1.5rem",
       },
-      margin: 10,
-      offsetY: 35
+      margin: 5,
+      offsetY: 30
     },
     xaxis: {
       categories: selectedYearsArray,
@@ -2968,7 +2968,7 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
             offsetY: 120,
           },
           value: {
-            fontSize: "100px",
+            fontSize: "50px",
             fontWeight: "700",
             color: chartColor,
             formatter: function (val) {
@@ -3292,7 +3292,7 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
             offsetY: 120,
           },
           value: {
-            fontSize: "100px",
+            fontSize: "50px",
             fontWeight: "700",
             color: chartColor,
             formatter: function (val) {
@@ -5101,7 +5101,7 @@ const getLtDebtPerTotalOperatingRevenueChartOptions = (data) => {
             offsetY: 120,
           },
           value: {
-            fontSize: "100px",
+            fontSize: "50px",
             fontWeight: "700",
             color: chartColor,
             formatter: function (val) {

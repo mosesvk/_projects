@@ -195,6 +195,14 @@ function saveChartState(chart) {
     preserveAspectRatio: paperNode.getAttribute("preserveAspectRatio"),
   };
 
+  // Save radialBar specific options if it's a radialBar chart
+  if (chart.w.config.chart && chart.w.config.chart.type === 'radialBar') {
+    state.radialBar = {
+      plotOptions: chart.w.config.plotOptions,
+      dataLabels: chart.w.config.dataLabels
+    };
+  }
+
   if (chart.w.config.annotations && chart.w.config.annotations.yaxis) {
     state.annotations = JSON.parse(JSON.stringify(chart.w.config.annotations));
   }
@@ -233,7 +241,7 @@ async function configureChartForExport(chart, width, height) {
       }
     },
     markers: {
-      size: 4, // Set a fixed marker size
+      size: 4,
       strokeWidth: 1,
       hover: {
         size: 4
@@ -244,7 +252,6 @@ async function configureChartForExport(chart, width, height) {
         fontSize: '12px'
       }
     },
-    // Hide the title
     title: {
       text: '',
       style: {
@@ -253,6 +260,29 @@ async function configureChartForExport(chart, width, height) {
       }
     }
   };
+
+  // For radialBar charts, preserve the configuration but adjust value font size
+  if (chart.w.config.chart && chart.w.config.chart.type === 'radialBar') {
+    // Deep clone the plotOptions to avoid modifying the original
+    const plotOptions = JSON.parse(JSON.stringify(chart.w.config.plotOptions));
+    
+
+    // Only adjust the value font size
+    if (plotOptions.radialBar?.dataLabels?.value) {
+      console.log('radialBar before', plotOptions.radialBar.dataLabels);
+      
+      plotOptions.radialBar.dataLabels.value.fontSize = '14px';
+      console.log('radialBar after', plotOptions.radialBar.dataLabels);
+    }
+
+    updatedOptions = {
+      ...updatedOptions,
+      plotOptions: plotOptions,
+      fill: chart.w.config.fill,
+      stroke: chart.w.config.stroke,
+      labels: chart.w.config.labels
+    };
+  }
 
   // Check if the chart has yaxis annotations and update their styling
   if (chart.w.config.annotations && chart.w.config.annotations.yaxis) {
@@ -273,9 +303,9 @@ async function configureChartForExport(chart, width, height) {
     updatedOptions.annotations = updatedAnnotations;
   }
 
-  // Force chart to redraw with new dimensions and annotation styles
+  // Force chart to redraw with new dimensions and styles
   if (chart.updateOptions) {
-    chart.updateOptions(updatedOptions, false, true); // Set redrawPaths to true
+    chart.updateOptions(updatedOptions, false, true);
   }
 
   // Add a small delay to ensure the chart has time to properly resize
@@ -301,10 +331,7 @@ function restoreChartState(chart, originalState) {
   }
 
   if (originalState.preserveAspectRatio) {
-    paperNode.setAttribute(
-      "preserveAspectRatio",
-      originalState.preserveAspectRatio
-    );
+    paperNode.setAttribute("preserveAspectRatio", originalState.preserveAspectRatio);
   } else {
     paperNode.removeAttribute("preserveAspectRatio");
   }
@@ -316,6 +343,12 @@ function restoreChartState(chart, originalState) {
       height: parseInt(originalState.height),
     }
   };
+
+  // Restore radialBar specific options if they were saved
+  if (originalState.radialBar) {
+    restoreOptions.plotOptions = originalState.radialBar.plotOptions;
+    restoreOptions.dataLabels = originalState.radialBar.dataLabels;
+  }
 
   // Restore annotations if they were saved
   if (originalState.annotations) {
@@ -329,7 +362,7 @@ function restoreChartState(chart, originalState) {
 
   // Force chart to redraw with original dimensions, annotations, and title
   if (chart.updateOptions) {
-    chart.updateOptions(restoreOptions, false, false);
+    chart.updateOptions(restoreOptions, false, true);
   }
 }
 
@@ -692,6 +725,8 @@ function createFieldXml(id, val) {
  */
 async function sendToQuickbase(xml) {
   try {
+    console.log('Sending request to Quickbase...');
+    
     const response = await $.ajax({
       type: "POST",
       contentType: "text/xml",
@@ -699,16 +734,61 @@ async function sendToQuickbase(xml) {
       dataType: "xml",
       processData: false,
       data: xml,
-      timeout: 60000, // 60-second timeout (increased from 30)
+      timeout: 60000, // 60-second timeout
+      headers: {
+        'QUICKBASE-ACTION': 'API_AddRecord'
+      },
+      beforeSend: function(xhr) {
+        console.log('Request headers:', xhr.getAllResponseHeaders());
+      },
+      success: function(data, status, xhr) {
+        console.log('Response headers:', xhr.getAllResponseHeaders());
+        console.log('Response data:', data);
+      },
+      error: function(xhr, status, error) {
+        console.error('Detailed error information:');
+        console.error('Status:', status);
+        console.error('Error:', error);
+        console.error('Response Text:', xhr.responseText);
+        console.error('Status Code:', xhr.status);
+        console.error('Status Text:', xhr.statusText);
+      }
     });
+
+    // Log the raw response for debugging
+    console.log('Raw response:', response);
+
+    // Check if we got a valid XML response
+    if (!response || !$(response).find('qdbapi').length) {
+      throw new Error('Invalid response format from Quickbase');
+    }
 
     return response;
   } catch (error) {
-    const errorMessage =
-      error.responseText ||
-      error.statusText ||
-      error.message ||
-      "Unknown error";
+    console.error('Full error object:', error);
+    
+    let errorMessage = 'Unknown error';
+    
+    if (error.responseText) {
+      try {
+        // Try to parse the error response as XML
+        const errorXml = $(error.responseText);
+        const errtext = errorXml.find('errtext').text();
+        const errcode = errorXml.find('errcode').text();
+        errorMessage = errtext || error.responseText;
+        if (errcode) {
+          errorMessage = `Error code ${errcode}: ${errorMessage}`;
+        }
+      } catch (e) {
+        // If XML parsing fails, use the raw response text
+        errorMessage = error.responseText;
+      }
+    } else if (error.statusText) {
+      errorMessage = error.statusText;
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
     throw new Error(`Quickbase API error: ${errorMessage}`);
   }
 }
