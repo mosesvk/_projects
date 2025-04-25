@@ -2205,13 +2205,7 @@ const processDoeData = (years, recordsPeer, recordsClient) => {
 
       return fiscalYear.includes(year.toString());
     });
-    filteredPeerRecords.forEach((record) => {});
-
-    const filteredClientRecords = [...recordsClient].filter((record) => {
-      const fiscalYear = record.querySelector("year").textContent;
-      return fiscalYear.includes(year.toString());
-    });
-    filteredClientRecords.forEach((record) => {
+    filteredPeerRecords.forEach((record) => {
       // doePrimaryReserveRatio
       insertDataIntoObject(
         "client",
@@ -2784,20 +2778,38 @@ const processCfiData = (years, recordsPeer, recordsClient) => {
 
 const countUniqueClients = (records) => {
   uniqueClients = new Set();
+  const clientsByYear = new Map(); // Map to store unique clients by year
+  
   try {
     records.forEach((record) => {
-      const mainRelatedClient =
-        record.querySelector("merged_client_name").textContent;
-      // console.log(mainRelatedClient);
+      const mainRelatedClient = record.querySelector("merged_client_name").textContent;
+      const year = record.querySelector("year").textContent;
+      
+      // Add to overall unique clients
       uniqueClients.add(mainRelatedClient);
+      
+      // Add to year-specific tracking
+      if (!clientsByYear.has(year)) {
+        clientsByYear.set(year, new Set());
+      }
+      clientsByYear.get(year).add(mainRelatedClient);
     });
 
     window.uniqueClientSize = uniqueClients.size;
-    // console.log(count);
+    window.clientsByYear = clientsByYear; // Store in window for access elsewhere
+    
+    // Update total unique clients count
     document.getElementById("uniqueClients").textContent = uniqueClients.size;
+    
+    // Log year-by-year breakdown
+    console.log("Unique clients by year:");
+    clientsByYear.forEach((clients, year) => {
+      console.log(`${year}: ${clients.size} unique clients`);
+    });
+    
   } catch (error) {
     console.error("Error counting unique clients:", error);
-    document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
+    document.getElementById("uniqueClients").textContent = 0;
   }
 };
 
@@ -2932,7 +2944,7 @@ run_btn.addEventListener("click", async () => {
     if (recordPeerHTMLArray.length === 0) {
       console.error("No Peer records found for the selected years");
     } else {
-      // console.log("PEER", qdbapiElementPeer);
+      console.log("PEER", qdbapiElementPeer);
     }
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
@@ -2965,8 +2977,6 @@ const getRecordsForPeer = async (years, dataStr) => {
 
   const currentYear = years[0];
 
-  // console.log({ currentYear, sliderValue, sliderValue2, selectedTypes_Array})
-
   function getRegionQuery(selectedRegions) {
     const regionConditions = [...selectedRegions]
       .map((region) => `{536.EX.${region}}`)
@@ -2978,7 +2988,6 @@ const getRecordsForPeer = async (years, dataStr) => {
     const stateConditions = [...selectedStates]
       .map((state) => `{619.EX.${state}}`)
       .join(" OR ");
-    // console.log({ stateConditions });
     return `(${stateConditions})`;
   }
 
@@ -2986,7 +2995,6 @@ const getRecordsForPeer = async (years, dataStr) => {
     const membershipsConditions = [...selectedMemberships]
       .map((membership) => `{758.HAS.${membership}}`)
       .join(" OR ");
-    // console.log({ membershipsConditions });
     return `(${membershipsConditions})`;
   }
 
@@ -2994,7 +3002,6 @@ const getRecordsForPeer = async (years, dataStr) => {
     const athleticsConditions = [...selectedAthletics]
       .map((athletic) => `{757.EX.${athletic}}`)
       .join(" OR ");
-    // console.log({ athleticsConditions });
     return `(${athleticsConditions})`;
   }
 
@@ -3002,25 +3009,20 @@ const getRecordsForPeer = async (years, dataStr) => {
     const typeConditions = [...selectedTypes]
       .map((type) => `{759.EX.${type}}`)
       .join(" OR ");
-    // console.log({ typeConditions });
     return `(${typeConditions})`;
   }
 
   function getClientQuery(selectedClients) {
-    // Check if the "select-all-checkbox-client" input is checked
     const selectAllCheckbox = document.getElementById(
       "select-all-checkbox-client"
     );
     if (selectAllCheckbox && selectAllCheckbox.checked) {
-      // If checked, return an empty string
       return "";
     }
 
-    // Otherwise, continue with the existing logic
     const clientConditions = selectedClients
       .map((client) => `{539.EX.${client}}`)
       .join(" OR ");
-    // console.log({ clientConditions });
     return `(${clientConditions})`;
   }
 
@@ -3028,7 +3030,6 @@ const getRecordsForPeer = async (years, dataStr) => {
     const seminaryConditions = [...selectedSeminary]
       .map((seminary) => `{760.EX.${seminary}}`)
       .join(" OR ");
-    // console.log({ seminaryConditions });
     return `(${seminaryConditions})`;
   }
 
@@ -3036,73 +3037,85 @@ const getRecordsForPeer = async (years, dataStr) => {
     const regionalConditions = [...selectedRegional]
       .map((regional) => `{761.EX.${regional}}`)
       .join(" OR ");
-    // console.log({ regionalConditions });
     return `(${regionalConditions})`;
   }
 
-  // function getEnrollmentQuery(selectedEnrollment) {
-  //   const enrollmentConditions = [...selectedEnrollment]
-  //     .map((enrollment) => `{741.EX.${enrollment}}`)
-  //     .join(" OR ");
-  //   // console.log({ enrollmentConditions });
-  //   return `(${enrollmentConditions})`;
-  // }
+  let allRecords = new Set();
+  let recordsArray = [];
 
-  const filterGroups = [
-    // Group 1: Region and State filters
-    `(${getRegionQuery(selectedRegions_Array)}) AND (${getStateQuery(
-      selectedStates_Array
-    )}) AND {7.EX.${currentYear}}`,
-
-    // Group 2: Membership and Athletics filters
-    `(${getMembershipsQuery(
-      selectedMemberships_Array
-    )}) AND (${getAthleticsQuery(
-      selectedAthletics_Array
-    )}) AND {7.EX.${currentYear}} AND {638.EX.'COMPLETE'}`,
-
-    // Group 3: Type, Seminary, Regional, Enrollment filters
-    `(${getTypeQuery(selectedTypes_Array)}) AND (${getSeminaryQuery(
-      selectedSeminaries_Array
-    )}) AND
-     (${getRegionalQuery(selectedRegionals_Array)}) AND {7.EX.${currentYear}}`,
-
-    // Group 4: Client filter
-    `(${getClientQuery(selectedClients_Array)}) AND {7.EX.${currentYear}}`,
-  ];
-
-  let allRecords = [];
-
-  for (const filterGroup of filterGroups) {
-    const apiCallPeerData = {
+  try {
+    // Query 1: Location and Type filters
+    const baseConditions = [
+      `{7.EX.${currentYear}}`,
+      `{638.EX.'COMPLETE'}`,
+      getRegionQuery(selectedRegions_Array),
+      getStateQuery(selectedStates_Array),
+      getTypeQuery(selectedTypes_Array)
+    ];
+    
+    const baseQuery = {
       act: "API_DoQuery",
-      query: `{7.EX.${currentYear}} AND {638.EX.'COMPLETE'} AND (${getMembershipsQuery(
-        selectedMemberships_Array
-      )}) AND (${getSeminaryQuery(
-        selectedSeminaries_Array
-      )}) AND {741.GTE.${sliderValue}} AND {741.LTE.${sliderValue2}}`,
-      clist:
-        "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638",
+      query: baseConditions.join(" AND "),
+      clist: "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638"
     };
+    const baseXml = await $.get(peerData, baseQuery);
+    recordsArray = [...recordsArray, ...$("record", baseXml).toArray()];
 
-    try {
-      const xml = await $.get(peerData, apiCallPeerData);
-      const recordsForPeer = $("record", xml).toArray();
-      allRecords = [...allRecords, ...recordsForPeer];
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
+    // Query 2: Membership and Athletics
+    const activityConditions = [
+      `{7.EX.${currentYear}}`,
+      `{638.EX.'COMPLETE'}`,
+      getMembershipsQuery(selectedMemberships_Array),
+      getAthleticsQuery(selectedAthletics_Array)
+    ];
+    
+    const activityQuery = {
+      act: "API_DoQuery",
+      query: activityConditions.join(" AND "),
+      clist: "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638"
+    };
+    const activityXml = await $.get(peerData, activityQuery);
+    console.log('activityXml', activityXml);
+    
+    recordsArray = [...recordsArray, ...$("record", activityXml).toArray()];
 
-  // Process records same as before
-  allRecords.forEach((record) => {
-    const newRecord = document.createElement("record");
-    Array.from(record.children).forEach((child) => {
-      newRecord.appendChild(child.cloneNode(true));
+    // Query 3: Seminary, Regional and Enrollment
+    const otherConditions = [
+      `{7.EX.${currentYear}}`,
+      `{638.EX.'COMPLETE'}`,
+      getSeminaryQuery(selectedSeminaries_Array),
+      getRegionalQuery(selectedRegionals_Array),
+      `{741.GTE.${sliderValue}}`,
+      `{741.LTE.${sliderValue2}}`
+    ];
+
+    const otherQuery = {
+      act: "API_DoQuery",
+      query: otherConditions.join(" AND "),
+      clist: "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638"
+    };
+    const otherXml = await $.get(peerData, otherQuery);
+    console.log('otherXml', otherXml);
+    recordsArray = [...recordsArray, ...$("record", otherXml).toArray()];
+
+    // Process records and remove duplicates
+    recordsArray.forEach(record => {
+      const recordId = record.getAttribute("rid");
+      if (!allRecords.has(recordId)) {
+        allRecords.add(recordId);
+        const newRecord = document.createElement("record");
+        Array.from(record.children).forEach((child) => {
+          newRecord.appendChild(child.cloneNode(true));
+        });
+        recordPeerHTMLArray.push(newRecord.outerHTML);
+        dataStr += newRecord.outerHTML;
+      }
     });
-    recordPeerHTMLArray.push(newRecord.outerHTML);
-    dataStr += newRecord.outerHTML;
-  });
+
+  } catch (error) {
+    console.error("Error in query execution:", error);
+    console.log("Failed query conditions:", error.responseText);
+  }
 
   return getRecordsForPeer(years.slice(1), dataStr);
 };

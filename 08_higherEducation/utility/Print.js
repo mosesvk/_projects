@@ -653,10 +653,10 @@ function buildUploadXml(results) {
 
   uploadXml += createFieldXml(31, firmName);
   uploadXml += createFieldXml(32, window.uniqueClientSize);
-  uploadXml += createFieldXml(76, selectedYears[selectedYears.length - 1]);
+  uploadXml += createFieldXml(94, selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(69, window.monthYearEnd);
   uploadXml += createFieldXml(89, sliderValue);
-  uploadXml += createFieldXml(90, sliderValue);
+  uploadXml += createFieldXml(90, sliderValue2);
   uploadXml += createFieldXml(91, Array.from(selectedSeminaries_Array).join(", "));
   uploadXml += createFieldXml(93, Array.from(selectedRegionals_Array).join(", "));
   uploadXml += createFieldXml(64, Array.from(selectedRegions_Array).join(", "));
@@ -669,6 +669,7 @@ function buildUploadXml(results) {
   selectedYears.forEach((year, index) => {
     if (index < 8) {  // Only process up to 8 years
       uploadXml += createFieldXml(73 + index, year);
+      uploadXml += createFieldXml(81 + index, window.clientsByYear.get(String(year)).size);
     }
   });
 

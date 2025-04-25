@@ -996,7 +996,7 @@ const getFpaChartOptions = (data) => {
         },
       },
       {
-        name: "Net Position",
+        name: "Net Assets",
         data: netPositionArray,
         style: {
           colors: [chartColors.labelColor],
@@ -4570,7 +4570,7 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
         numberSuffix: "",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
-        valueFontSize: "14",
+        valueFontSize: "1.25rem",
         valueFontBold: "6",
         labelFontColor: dynamicFontColor,
         baseFontColor: dynamicFontColor,
@@ -4634,7 +4634,7 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
               {
                 id: "rangeText",
                 type: "Text",
-                fontSize: "14",
+                fontSize: "1.25rem",
                 fillcolor: "#ffffff",
                 text: text,
                 x: "$chartCenterX",
@@ -4752,7 +4752,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
         numberSuffix: "%",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
-        valueFontSize: "14",
+        valueFontSize: "1.25rem",
         valueFontBold: "6",
         labelFontColor: chartColor,
         baseFontColor: chartColor,
@@ -4816,7 +4816,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
               {
                 id: "rangeText",
                 type: "Text",
-                fontSize: "14",
+                fontSize: "1.25rem",
                 fillcolor: "#ffffff",
                 text: text,
                 x: "$chartCenterX",
