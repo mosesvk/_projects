@@ -181,7 +181,6 @@ const fundsExpensesPerStudent_FundsRaisedOverUnder_weightedAverage = (
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
     data.grossTuitionRevenuesExcludingFees[name]
   );
-  let numDiscounts = getSumOfArray(data.discounts[name]);
   let numFinancialAidScholarships = getSumOfArray(
     data.financialAidScholarships[name]
   );
@@ -192,7 +191,7 @@ const fundsExpensesPerStudent_FundsRaisedOverUnder_weightedAverage = (
 
   return (
     numTotalContributions / numStudentAverageEnrollment +
-    ((numGrossTuitionRevenuesExcludingFees - numDiscounts -
+    ((numGrossTuitionRevenuesExcludingFees -
       numFinancialAidScholarships) /
       numStudentAverageEnrollment -
       (numTotalExpenses - numTotalDepreciationExpense) /
@@ -580,27 +579,6 @@ const totalFinancialAssistance_weightedAverage = (data, name) => {
   return numFinancialAidScholarships / numStudentAverageEnrollment;
 };
 
-const scholarshipAwarded_weightedAverage = (data, name) => {
-  // (0 - [36] 04-03 Discounts )  / [6] 01-01 Students-average enrollment
-
-  let numDiscounts = getSumOfArray(data.discounts[name]);
-  let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
-  );
-
-  return (0 - numDiscounts) / numStudentAverageEnrollment;
-};
-
-const financialAssistanceDiscountBased_weightedAverage = (data, name) => {
-  // [36] 04-03 Discounts / [6] 01-01 Students-average enrollment
-
-  let numDiscounts = getSumOfArray(data.discounts[name]);
-  let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
-  );
-
-  return numDiscounts / numStudentAverageEnrollment;
-};
 
 const grossTuition_weightedAverage = (data, name) => {
   // [34] 04-01 Gross Tuition Revenues Excluding Fees / [6] 01-01 Students-average enrollment

@@ -5387,7 +5387,7 @@ const getDebtBurdenRatioChartOptions = (data) => {
       },
     },
     legend: {
-      position: "top",
+      position: "bottom",
       fontSize: "20px",
     },
     grid: {

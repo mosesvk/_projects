@@ -1,6 +1,6 @@
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
-let selectedSchoolChurch = document.getElementById('schoolChurch').checked ? 0 : 1;
+let selectedSchoolChurch = document.getElementById('selectSchool').checked ? 0 : 1;
 let selectedImagesArray = []
 let uniqueClients
 let firmName;
@@ -870,7 +870,7 @@ function missionaryRange() {
 }
 
 // Add event listener to checkbox input
-document.getElementById('schoolChurch').addEventListener('change', function() {
+document.getElementById('selectSchool').addEventListener('change', function() {
   // Update selectedSchoolChurch based on the checked state
   selectedSchoolChurch = this.checked ? 0 : 1;
   

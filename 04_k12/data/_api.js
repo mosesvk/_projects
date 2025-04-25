@@ -975,16 +975,6 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
         "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "discounts",
-        record,
-        "_04_03_discounts",
-        "_22b1_yes_no_financial_assistance_discount_based",
-        "fundsExpensesPerStudent_FundsRaisedOverUnder"
-      );
 
       // facilityCostExcluding_lessThanTen
       insertDataIntoObject(
@@ -1659,16 +1649,6 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "discounts",
-        record,
-        "_04_03_discounts",
-        "_22b1_yes_no_financial_assistance_discount_based",
-        "financialAssistanceDiscountBased"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
         "studentAverageEnrollment_Main",
         record,
         "_01b_ratio_students_enrollment_average",
@@ -1685,16 +1665,6 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         record,
         "_22c1_ratio_scholarship_awarded",
         "_22c1_yes_no_scholarship_awarded"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "discounts",
-        record,
-        "_04_03_discounts",
-        "_22c1_yes_no_scholarship_awarded",
-        "scholarshipAwarded"
       );
       insertDataIntoObject(
         "peer",
@@ -3038,10 +3008,6 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
   localStorage.removeItem("enrollmentData");
   localStorage.setItem("enrollmentData", JSON.stringify(object));
 };
-
-
-
-
 
 // Helper functions
 

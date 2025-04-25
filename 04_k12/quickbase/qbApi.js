@@ -11,7 +11,9 @@ $.get(clientData, apiCallClientDataForUniqueYears)
   .then(async (xml) => {
     recordsClient = await $("record", xml).toArray();
 
-    firmName = recordsClient[0].children[2].innerHTML;
+    firmName = recordsClient[0].children[2].textContent;
+    // console.log(recordsClient[0].children);
+    
     document.querySelector("#firmName").textContent = firmName;
 
     if (recordsClient.length > 0) {
@@ -31,7 +33,7 @@ window.addEventListener("beforeunload", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   uploadMainFile = "";
-  document.getElementById("print_modal_footer").classList.add("hidden");
+  // document.getElementById("print_modal_footer").classList.add("hidden");
 });
 
 const findUniqueYears = (data) => {
@@ -966,16 +968,6 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
         "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "discounts",
-        record,
-        "_04_03_discounts",
-        "_22b1_yes_no_financial_assistance_discount_based",
-        "fundsExpensesPerStudent_FundsRaisedOverUnder"
-      );
 
       // facilityCostExcluding_lessThanTen
       insertDataIntoObject(
@@ -1646,16 +1638,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "_22b1_ratio_financial_assistance_discount_based",
         "_22b1_yes_no_financial_assistance_discount_based"
       );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "discounts",
-        record,
-        "_04_03_discounts",
-        "_22b1_yes_no_financial_assistance_discount_based",
-        "financialAssistanceDiscountBased"
-      );
+
       insertDataIntoObject(
         "peer",
         year,
@@ -1676,16 +1659,6 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         record,
         "_22c1_ratio_scholarship_awarded",
         "_22c1_yes_no_scholarship_awarded"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "discounts",
-        record,
-        "_04_03_discounts",
-        "_22c1_yes_no_scholarship_awarded",
-        "scholarshipAwarded"
       );
       insertDataIntoObject(
         "peer",
@@ -3258,7 +3231,7 @@ const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
   try {
     uploadMainFile = "";
-    document.getElementById("print_modal_footer").classList.add("hidden");
+    // document.getElementById("print_modal_footer").classList.add("hidden");
     toggleButtonLoadingState(run_btn);
     const selectedYears = processSelectedYears();
     saveSelectedYearsToLocalStorage(selectedYears);
