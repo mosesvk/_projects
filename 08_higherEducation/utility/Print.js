@@ -34,6 +34,16 @@ async function processChartsWithSpacing(chartMappings) {
   const results = [];
   setupProgressUI(chartMappings.length);
 
+  // Create a fixed-size container for consistent chart rendering
+  const fixedContainer = document.createElement("div");
+  fixedContainer.style.position = "absolute";
+  fixedContainer.style.left = "-9999px";
+  fixedContainer.style.width = `${DEFAULT_CHART_WIDTH}px`;
+  fixedContainer.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+  fixedContainer.style.backgroundColor = "#ffffff";
+  fixedContainer.style.overflow = "hidden";
+  document.body.appendChild(fixedContainer);
+
   for (let i = 0; i < chartMappings.length; i++) {
     const { chartId, fieldId } = chartMappings[i];
     updateProgressUI(i, chartMappings.length);
@@ -48,19 +58,65 @@ async function processChartsWithSpacing(chartMappings) {
       }
 
       const chart = getChartInstance(chartId);
+      const dimensions = getChartDimensions(chartId);
+
+      // Store original dimensions and state
+      const originalStyles = {
+        width: chartElement.style.width,
+        height: chartElement.style.height,
+        position: chartElement.style.position,
+        transform: chartElement.style.transform
+      };
+
+      // Only save state for ApexCharts instances
+      const originalState = chart ? saveChartState(chart) : null;
+
+      // Move chart to fixed container and set dimensions
+      const originalParent = chartElement.parentElement;
+      fixedContainer.innerHTML = '';
+      fixedContainer.appendChild(chartElement);
+      
+      // Set fixed dimensions
+      chartElement.style.width = `${dimensions.width}px`;
+      chartElement.style.height = `${dimensions.height}px`;
+      chartElement.style.position = 'absolute';
+      chartElement.style.transform = 'none';
+
+      let base64String = null;
 
       // If we have an ApexChart instance, try its export method first
       if (chart && typeof chart.dataURI === "function") {
-        const base64String = await exportApexChart(chart);
-        if (base64String) {
-          results.push({ chartId, fieldId, base64String });
-          continue;
+        try {
+          base64String = await exportApexChart(chart);
+        } catch (e) {
+          console.warn(`ApexCharts export failed for ${chartId}:`, e);
         }
-        // Silently fall back to html2canvas if ApexCharts export fails
       }
 
-      // Use html2canvas as fallback
-      const base64String = await exportWithHtml2Canvas(chartElement);
+      // Use html2canvas as fallback if ApexCharts export failed or wasn't available
+      if (!base64String) {
+        try {
+          base64String = await exportWithHtml2Canvas(chartElement);
+        } catch (e) {
+          console.warn(`html2canvas export failed for ${chartId}:`, e);
+        }
+      }
+
+      // Restore chart to original position and state
+      if (originalParent) {
+        originalParent.appendChild(chartElement);
+      }
+      Object.assign(chartElement.style, originalStyles);
+
+      // Only attempt to restore state for ApexCharts instances
+      if (chart && originalState) {
+        try {
+          await restoreChartState(chart, originalState);
+        } catch (e) {
+          console.warn(`Failed to restore chart state for ${chartId}:`, e);
+        }
+      }
+
       results.push({ chartId, fieldId, base64String });
 
       // Prevent UI freezing
@@ -69,6 +125,11 @@ async function processChartsWithSpacing(chartMappings) {
       console.error(`Error processing chart ${chartId}:`, error);
       results.push({ chartId, fieldId, base64String: null });
     }
+  }
+
+  // Clean up the fixed container
+  if (fixedContainer.parentNode) {
+    document.body.removeChild(fixedContainer);
   }
 
   completeProgressUI(chartMappings.length);
@@ -183,35 +244,54 @@ async function exportApexChart(chart) {
  * Save current chart state for later restoration
  */
 function saveChartState(chart) {
-  const paperNode = chart.w.globals.dom.Paper.node;
+  try {
+    // Check if this is a valid ApexCharts instance
+    if (!chart || !chart.w || !chart.w.globals || !chart.w.globals.dom || !chart.w.globals.dom.Paper) {
+      return null;
+    }
 
-  // Save basic SVG attributes
-  const state = {
-    width: paperNode.getAttribute("width"),
-    height: paperNode.getAttribute("height"),
-    viewBox: paperNode.getAttribute("viewBox"),
-    styleWidth: paperNode.style.width,
-    styleHeight: paperNode.style.height,
-    preserveAspectRatio: paperNode.getAttribute("preserveAspectRatio"),
-  };
+    const paperNode = chart.w.globals.dom.Paper.node;
+    const chartConfig = chart.w.config;
 
-  // Save radialBar specific options if it's a radialBar chart
-  if (chart.w.config.chart && chart.w.config.chart.type === 'radialBar') {
-    state.radialBar = {
-      plotOptions: chart.w.config.plotOptions,
-      dataLabels: chart.w.config.dataLabels
+    // Save basic SVG attributes and chart configuration
+    const state = {
+      // SVG attributes
+      width: paperNode.getAttribute("width"),
+      height: paperNode.getAttribute("height"),
+      viewBox: paperNode.getAttribute("viewBox"),
+      styleWidth: paperNode.style.width,
+      styleHeight: paperNode.style.height,
+      preserveAspectRatio: paperNode.getAttribute("preserveAspectRatio"),
     };
-  }
 
-  if (chart.w.config.annotations && chart.w.config.annotations.yaxis) {
-    state.annotations = JSON.parse(JSON.stringify(chart.w.config.annotations));
-  }
+    // Safely clone chart configuration
+    try {
+      if (chartConfig) {
+        state.config = JSON.parse(JSON.stringify({
+          chart: chartConfig.chart || {},
+          dataLabels: chartConfig.dataLabels || {},
+          markers: chartConfig.markers || {},
+          title: chartConfig.title || {},
+          xaxis: chartConfig.xaxis || {},
+          yaxis: chartConfig.yaxis || {},
+          tooltip: chartConfig.tooltip || {},
+          legend: chartConfig.legend || {},
+          grid: chartConfig.grid || {},
+          stroke: chartConfig.stroke || {},
+          fill: chartConfig.fill || {},
+          plotOptions: chartConfig.plotOptions || {},
+          annotations: chartConfig.annotations || {}
+        }));
+      }
+    } catch (e) {
+      console.warn('Error cloning chart config:', e);
+    }
 
-  if (chart.w.config.title) {
-    state.title = JSON.parse(JSON.stringify(chart.w.config.title));
+    return state;
+  } catch (e) {
+    console.warn('Error saving chart state:', e);
+    return null;
   }
-
-  return state;
 }
 
 /**
@@ -220,16 +300,24 @@ function saveChartState(chart) {
 async function configureChartForExport(chart, width, height) {
   const paperNode = chart.w.globals.dom.Paper.node;
 
-  // Set SVG element dimensions
+  // Create a wrapper div with fixed dimensions
+  const wrapper = document.createElement('div');
+  wrapper.style.width = `${width}px`;
+  wrapper.style.height = `${height}px`;
+  wrapper.style.position = 'relative';
+  wrapper.style.overflow = 'hidden';
+  
+  // Set SVG element dimensions with proper scaling
   paperNode.setAttribute("width", width.toString());
   paperNode.setAttribute("height", height.toString());
   paperNode.style.width = `${width}px`;
   paperNode.style.height = `${height}px`;
+  paperNode.style.position = 'absolute';
+  paperNode.style.left = '0';
+  paperNode.style.top = '0';
 
   // Set viewBox to match dimensions exactly
   paperNode.setAttribute("viewBox", `0 0 ${width} ${height}`);
-
-  // Ensure aspect ratio is preserved and content is centered
   paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
   
   let updatedOptions = {
@@ -237,8 +325,9 @@ async function configureChartForExport(chart, width, height) {
       width: width,
       height: height,
       animations: {
-        enabled: false // Disable animations during export
-      }
+        enabled: false
+      },
+      background: '#ffffff'
     },
     markers: {
       size: 4,
@@ -253,28 +342,32 @@ async function configureChartForExport(chart, width, height) {
       }
     },
     title: {
-      text: '',
       style: {
-        fontSize: '0px',
-        opacity: 0
+        fontSize: '20px'
+      }
+    },
+    xaxis: {
+      labels: {
+        style: {
+          fontSize: '12px'
+        }
+      }
+    },
+    yaxis: {
+      labels: {
+        style: {
+          fontSize: '12px'
+        }
       }
     }
   };
 
   // For radialBar charts, preserve the configuration but adjust value font size
   if (chart.w.config.chart && chart.w.config.chart.type === 'radialBar') {
-    // Deep clone the plotOptions to avoid modifying the original
     const plotOptions = JSON.parse(JSON.stringify(chart.w.config.plotOptions));
-    
-
-    // Only adjust the value font size
     if (plotOptions.radialBar?.dataLabels?.value) {
-      console.log('radialBar before', plotOptions.radialBar.dataLabels);
-      
       plotOptions.radialBar.dataLabels.value.fontSize = '14px';
-      console.log('radialBar after', plotOptions.radialBar.dataLabels);
     }
-
     updatedOptions = {
       ...updatedOptions,
       plotOptions: plotOptions,
@@ -284,28 +377,28 @@ async function configureChartForExport(chart, width, height) {
     };
   }
 
-  // Check if the chart has yaxis annotations and update their styling
+  // Update annotations if they exist
   if (chart.w.config.annotations && chart.w.config.annotations.yaxis) {
     const updatedAnnotations = JSON.parse(JSON.stringify(chart.w.config.annotations));
-
     if (Array.isArray(updatedAnnotations.yaxis)) {
       updatedAnnotations.yaxis.forEach((annotation) => {
         if (annotation.label) {
-          annotation.label.style = annotation.label.style || {};
-          annotation.label.style.fontSize = "12px";
-          annotation.label.style.fontWeight = 400;
+          annotation.label.style = {
+            ...annotation.label.style,
+            fontSize: "12px",
+            fontWeight: 400
+          };
           annotation.label.offsetX = 0;
           annotation.label.position = "left";
         }
       });
     }
-
     updatedOptions.annotations = updatedAnnotations;
   }
 
   // Force chart to redraw with new dimensions and styles
   if (chart.updateOptions) {
-    chart.updateOptions(updatedOptions, false, true);
+    await chart.updateOptions(updatedOptions, false, true);
   }
 
   // Add a small delay to ensure the chart has time to properly resize
@@ -315,54 +408,43 @@ async function configureChartForExport(chart, width, height) {
 /**
  * Restore chart to original state including annotations and title
  */
-function restoreChartState(chart, originalState) {
-  const paperNode = chart.w.globals.dom.Paper.node;
-
-  // Restore SVG element attributes
-  paperNode.setAttribute("width", originalState.width);
-  paperNode.setAttribute("height", originalState.height);
-  paperNode.style.width = originalState.styleWidth;
-  paperNode.style.height = originalState.styleHeight;
-
-  if (originalState.viewBox) {
-    paperNode.setAttribute("viewBox", originalState.viewBox);
-  } else {
-    paperNode.removeAttribute("viewBox");
-  }
-
-  if (originalState.preserveAspectRatio) {
-    paperNode.setAttribute("preserveAspectRatio", originalState.preserveAspectRatio);
-  } else {
-    paperNode.removeAttribute("preserveAspectRatio");
-  }
-
-  // Prepare options for restoration
-  const restoreOptions = {
-    chart: {
-      width: parseInt(originalState.width),
-      height: parseInt(originalState.height),
+async function restoreChartState(chart, originalState) {
+  try {
+    // Check if we have valid inputs
+    if (!chart || !originalState || !chart.w || !chart.w.globals || !chart.w.globals.dom) {
+      return;
     }
-  };
 
-  // Restore radialBar specific options if they were saved
-  if (originalState.radialBar) {
-    restoreOptions.plotOptions = originalState.radialBar.plotOptions;
-    restoreOptions.dataLabels = originalState.radialBar.dataLabels;
-  }
+    const paperNode = chart.w.globals.dom.Paper.node;
 
-  // Restore annotations if they were saved
-  if (originalState.annotations) {
-    restoreOptions.annotations = originalState.annotations;
-  }
-  
-  // Restore title if it was saved
-  if (originalState.title) {
-    restoreOptions.title = originalState.title;
-  }
+    // Restore SVG element attributes
+    if (paperNode) {
+      paperNode.setAttribute("width", originalState.width || '100%');
+      paperNode.setAttribute("height", originalState.height || '100%');
+      paperNode.style.width = originalState.styleWidth || '100%';
+      paperNode.style.height = originalState.styleHeight || '100%';
 
-  // Force chart to redraw with original dimensions, annotations, and title
-  if (chart.updateOptions) {
-    chart.updateOptions(restoreOptions, false, true);
+      if (originalState.viewBox) {
+        paperNode.setAttribute("viewBox", originalState.viewBox);
+      }
+      if (originalState.preserveAspectRatio) {
+        paperNode.setAttribute("preserveAspectRatio", originalState.preserveAspectRatio);
+      }
+    }
+
+    // Restore chart configuration if available
+    if (originalState.config && chart.updateOptions) {
+      try {
+        await new Promise((resolve) => {
+          chart.updateOptions(originalState.config, true, true);
+          setTimeout(resolve, 100);
+        });
+      } catch (e) {
+        console.warn('Error updating chart options:', e);
+      }
+    }
+  } catch (e) {
+    console.warn('Error restoring chart state:', e);
   }
 }
 
@@ -370,20 +452,25 @@ function restoreChartState(chart, originalState) {
  * Fallback to html2canvas for export
  */
 async function exportWithHtml2Canvas(chartElement) {
-  // Get chart dimensions based on chart ID
   const dimensions = getChartDimensions(chartElement.id);
 
-  // Create a clone container with fixed dimensions
+  // Create a fixed-size container
   const container = document.createElement("div");
   container.style.position = "absolute";
-  // container.style.left = '-9999px';
+  container.style.left = "-9999px";
   container.style.width = `${dimensions.width}px`;
   container.style.height = `${dimensions.height}px`;
+  container.style.backgroundColor = "#ffffff";
+  container.style.overflow = "hidden";
 
   // Clone the chart element into the container
   const clone = chartElement.cloneNode(true);
   clone.style.width = `${dimensions.width}px`;
   clone.style.height = `${dimensions.height}px`;
+  clone.style.position = "absolute";
+  clone.style.left = "0";
+  clone.style.top = "0";
+  clone.style.transform = "none";
   container.appendChild(clone);
   document.body.appendChild(container);
 
@@ -402,17 +489,17 @@ async function exportWithHtml2Canvas(chartElement) {
     // Wait for layout updates
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    // Use html2canvas with fixed dimensions
+    // Use html2canvas with fixed dimensions and proper scaling
     const canvas = await html2canvas(clone, {
       scale: 2,
       width: dimensions.width,
       height: dimensions.height,
       useCORS: true,
       allowTaint: true,
-      backgroundColor:
-        getComputedStyle(document.documentElement).getPropertyValue(
-          "--chart-bg-color"
-        ) || "#ffffff",
+      backgroundColor: "#ffffff",
+      logging: false,
+      removeContainer: true,
+      foreignObjectRendering: false
     });
 
     const base64String = canvas.toDataURL("image/png").split(",")[1];

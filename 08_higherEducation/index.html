@@ -885,12 +885,13 @@
                 <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
                 <li>
                   <button
-                    id="printCharts"
+                    data-modal-target="print_modal"
+                    data-modal-toggle="print_modal"
                     data-popover-target="popoverPrint-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
                     type="button"
-                    class="flex items-center w-full py-2 pl-1 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
+                    class="flex items-center w-full py-2 pl-1 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
                     <svg
                       class="flex-shrink-0 w-6 h-6 transition duration-75"
@@ -909,10 +910,10 @@
                     </svg>
 
                     <span
-                      class="flex-1 ml-4 text-left text-lg font-semibold tracking-wide whitespace-nowrap"
+                      class="ml-4 text-left text-xl font-bold whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
-                      Print Charts
+                      Print
                     </span>
                   </button>
                   <div
@@ -925,7 +926,7 @@
                       class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
                     >
                       <h3 class="font-semibold text-white text-lg">
-                        Print Charts
+                        Print Report
                       </h3>
                     </div>
                     <div
@@ -6101,6 +6102,50 @@
                       x-bind:style="'right: '+maxthumb+'%'"
                     ></div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRINT MODAL -->
+    <div
+      id="print_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
+    >
+      <div
+        class="relative bg-white rounded-lg shadow dark:bg-gray-800 p-4 w-full max-w-fit md:max-w-4xl max-h-full"
+      >
+        <div class="relative">
+          <div
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div class="flex justify-center py-4">
+              <h2
+                class="text-3xl dark:text-white font-bold leading-none uppercase"
+              >
+                Print Options
+              </h2>
+            </div>
+            <!-- <hr class="h-px my-4 mx-8 bg-gray-700 border-0 dark:bg-gray-500" /> -->
+            <div
+              class="block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent dark:text-gray-400 relative text-xl"
+            >
+              <div class="flex flex-col gap-y-5 mx-8">
+                <div class="flex flex-col justify-center py-4">
+
+                  <button
+                    type="button"
+                    class="flex backgroundBlue text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    id="printCharts"
+                  >
+                    Print Presentation
+                  </button>
                 </div>
               </div>
             </div>

@@ -69,14 +69,14 @@ async function exportApexChart(chart) {
     const originalState = saveChartState(chart);
     
     // Set fixed dimensions for both SVG element and viewBox
-    configureChartForExport(chart, 900, 450);
+    configureChartForExport(chart, 1200, 450);
     
     // Let the chart update
     await new Promise(resolve => setTimeout(resolve, 150));
     
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
-      width: 900,
+      width: 1200,
       height: 450,
       scale: 2 // Higher resolution
     });
@@ -177,12 +177,12 @@ async function exportWithHtml2Canvas(chartElement) {
   const container = document.createElement('div');
   container.style.position = 'absolute';
   // container.style.left = '-9999px';
-  container.style.width = '900px';
+  container.style.width = '1200px';
   container.style.height = '450px';
   
   // Clone the chart element into the container
   const clone = chartElement.cloneNode(true);
-  clone.style.width = '900px';
+  clone.style.width = '1200px';
   clone.style.height = '450px';
   container.appendChild(clone);
   document.body.appendChild(container);
@@ -190,11 +190,11 @@ async function exportWithHtml2Canvas(chartElement) {
   // Find and adjust any SVG elements
   const svgElements = clone.querySelectorAll('svg');
   svgElements.forEach(svg => {
-    svg.setAttribute('width', '900');
+    svg.setAttribute('width', '1200');
     svg.setAttribute('height', '450');
-    svg.style.width = '900px';
+    svg.style.width = '1200px';
     svg.style.height = '450px';
-    svg.setAttribute('viewBox', '0 0 900 450');
+    svg.setAttribute('viewBox', '0 0 1200 450');
     svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
   });
   
@@ -205,7 +205,7 @@ async function exportWithHtml2Canvas(chartElement) {
     // Use html2canvas with fixed dimensions
     const canvas = await html2canvas(clone, {
       scale: 2,
-      width: 900,
+      width: 1200,
       height: 450,
       useCORS: true,
       allowTaint: true,
