@@ -2935,9 +2935,9 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
   // console.log({ chartColor });
 
   const textArray = [
-    "Exceeds Target Goal: Reduce to below 70%",
-    "Far Exceeds Target Goal: Reduce to below 70%",
-    "Within Target Goal: below 70%",
+    "Exceeds Target Goal: Reduce to below 60%",
+    "Far Exceeds Target Goal: Reduce to below 60%",
+    "Within Target Goal: below 60%",
   ];
 
   const textLabel =
