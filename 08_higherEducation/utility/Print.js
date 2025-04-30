@@ -405,7 +405,7 @@ async function configureChartForExport(chart, width, height) {
   return new Promise(resolve => setTimeout(resolve, 100));
 }
 
-/**
+/**d
  * Restore chart to original state including annotations and title
  */
 async function restoreChartState(chart, originalState) {

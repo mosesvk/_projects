@@ -1,8 +1,19 @@
 const sidebarElement = document.getElementById ('sidebar');
 const backdropElement = document.getElementById ('sidebarBackdrop');
+// Initialize global Sets
+window.selectedAreas_Array = window.selectedAreas_Array || new Set();
+window.selectedTypes_Array = window.selectedTypes_Array || new Set();
+window.selectedClients_Array = window.selectedClients_Array || new Set();
+
 // Initialize slider default values
 window.sliderValue = 0;
 window.sliderValue2 = 25000;
+window.missionValue = 0;
+window.missionValue2 = 10000;
+window.assetsValue = 0;
+window.assetsValue2 = 900000000;
+window.revenueValue = 0;
+window.revenueValue2 = 600000000;
 
 const customSelectYearElement = document.getElementById ('custom-select-year');
 const customSelectRegionElement = document.getElementById (
@@ -51,158 +62,58 @@ const optionsListRegionalElement = document.getElementById(
   'options-list-regional'
 );
 
+// Event Listeners for Dropdown Toggles
+function setupDropdownToggle(selectElement, optionsListElement) {
+    selectElement.addEventListener('click', event => {
+        if (!event.target.closest('.form-checkbox') && !event.target.closest('label')) {
+            optionsListElement.classList.toggle('invisible');
+        }
+    });
+}
 
+// Setup all dropdowns
+setupDropdownToggle(customSelectYearElement, optionsListYearElement);
+setupDropdownToggle(customSelectRegionElement, optionsListRegionElement);
+setupDropdownToggle(customSelectStateElement, optionsListStateElement);
+setupDropdownToggle(customSelectMembershipElement, optionsListMembershipElement);
+setupDropdownToggle(customSelectClientElement, optionsListClientElement);
+setupDropdownToggle(customSelectTypeElement, optionsListTypeElement);
+setupDropdownToggle(customSelectAthleticElement, optionsListAthleticElement);
+setupDropdownToggle(customSelectSeminaryElement, optionsListSeminaryElement);
+setupDropdownToggle(customSelectRegionalElement, optionsListRegionalElement);
 
-
-customSelectYearElement.addEventListener ('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectYearElement
-  if (
-    !event.target.closest ('.form-checkbox') &&
-    !event.target.closest ('label')
-  ) {
-    optionsListYearElement.classList.toggle ('invisible');
-  }
+// Close dropdowns when clicking outside
+document.addEventListener('click', event => {
+    if (!customSelectYearElement.contains(event.target) && !optionsListYearElement.contains(event.target)) {
+        optionsListYearElement.classList.add('invisible');
+    }
+    if (!customSelectRegionElement.contains(event.target) && !optionsListRegionElement.contains(event.target)) {
+        optionsListRegionElement.classList.add('invisible');
+    }
+    if (!customSelectStateElement.contains(event.target) && !optionsListStateElement.contains(event.target)) {
+        optionsListStateElement.classList.add('invisible');
+    }
+    if (!customSelectMembershipElement.contains(event.target) && !optionsListMembershipElement.contains(event.target)) {
+        optionsListMembershipElement.classList.add('invisible');
+    }
+    if (!customSelectClientElement.contains(event.target) && !optionsListClientElement.contains(event.target)) {
+        optionsListClientElement.classList.add('invisible');
+    }
+    if (!customSelectTypeElement.contains(event.target) && !optionsListTypeElement.contains(event.target)) {
+        optionsListTypeElement.classList.add('invisible');
+    }
+    if (!customSelectAthleticElement.contains(event.target) && !optionsListAthleticElement.contains(event.target)) {
+        optionsListAthleticElement.classList.add('invisible');
+    }
+    if (!customSelectSeminaryElement.contains(event.target) && !optionsListSeminaryElement.contains(event.target)) {
+        optionsListSeminaryElement.classList.add('invisible');
+    }
+    if (!customSelectRegionalElement.contains(event.target) && !optionsListRegionalElement.contains(event.target)) {
+        optionsListRegionalElement.classList.add('invisible');
+    }
 });
-customSelectRegionElement.addEventListener ('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectRegion
-  if (
-    !event.target.closest ('.form-checkbox') &&
-    !event.target.closest ('label')
-  ) {
-    optionsListRegionElement.classList.toggle ('invisible'); // Corrected class name
-  }
-});
-customSelectStateElement.addEventListener ('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectTypeElement
-  if (
-    !event.target.closest ('.form-checkbox') &&
-    !event.target.closest ('label')
-  ) {
-    optionsListStateElement.classList.toggle ('invisible');
-  }
-});
-customSelectMembershipElement.addEventListener ('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectMembershipElement
-  if (
-    !event.target.closest ('.form-checkbox') &&
-    !event.target.closest ('label')
-  ) {
-    optionsListMembershipElement.classList.toggle ('invisible');
-  }
-});
-customSelectClientElement.addEventListener ('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectClientElement
-  if (
-    !event.target.closest ('.form-checkbox') &&
-    !event.target.closest ('label')
-  ) {
-    optionsListClientElement.classList.toggle ('invisible');
-  }
-});
-customSelectTypeElement.addEventListener ('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectTypeElement
-  if (
-    !event.target.closest ('.form-checkbox') &&
-    !event.target.closest ('label')
-  ) {
-    optionsListTypeElement.classList.toggle ('invisible');
-  }
-});
-customSelectAthleticElement.addEventListener ('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectAthleticElement
-  if (
-    !event.target.closest ('.form-checkbox') &&
-    !event.target.closest ('label')
-  ) {
-    optionsListAthleticElement.classList.toggle ('invisible');
-  }
-});
-
-customSelectSeminaryElement.addEventListener('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectSeminaryElement
-  if (
-    !event.target.closest('.form-checkbox') &&
-    !event.target.closest('label')
-  ) {
-    optionsListSeminaryElement.classList.toggle('invisible');
-  }
-});
-customSelectRegionalElement.addEventListener('click', event => {
-  // Check if the click target is not a checkbox inside the customSelectRegionalElement
-  if (
-    !event.target.closest('.form-checkbox') &&
-    !event.target.closest('label')
-  ) {
-    optionsListRegionalElement.classList.toggle('invisible');
-  }
-});
-
 
 document.addEventListener ('click', event => {
-  if (
-    !customSelectYearElement.contains (event.target) &&
-    !optionsListYearElement.contains (event.target)
-  ) {
-    optionsListYearElement.classList.add ('invisible');
-  }
-
-  if (
-    !optionsListRegionElement.contains (event.target) &&
-    !customSelectRegionElement.contains (event.target)
-  ) {
-    optionsListRegionElement.classList.add ('invisible');
-  }
-
-  if (
-    !customSelectStateElement.contains (event.target) &&
-    !optionsListStateElement.contains (event.target)
-  ) {
-    optionsListStateElement.classList.add ('invisible');
-  }
-
-  if (
-    !customSelectMembershipElement.contains (event.target) &&
-    !optionsListMembershipElement.contains (event.target)
-  ) {
-    optionsListMembershipElement.classList.add ('invisible');
-  }
-
-  if (
-    !customSelectClientElement.contains (event.target) &&
-    !optionsListClientElement.contains (event.target)
-  ) {
-    optionsListClientElement.classList.add ('invisible');
-  }
-
-  if (
-    !customSelectTypeElement.contains (event.target) &&
-    !optionsListTypeElement.contains (event.target)
-  ) {
-    optionsListTypeElement.classList.add ('invisible');
-  }
-
-  if (
-    !customSelectAthleticElement.contains (event.target) &&
-    !optionsListAthleticElement.contains (event.target)
-  ) {
-    optionsListAthleticElement.classList.add ('invisible');
-  }
-
-  if (
-    !customSelectSeminaryElement.contains(event.target) &&
-    !optionsListSeminaryElement.contains(event.target)
-  ) {
-    optionsListSeminaryElement.classList.add('invisible');
-  }
-
-  if (
-    !customSelectRegionalElement.contains(event.target) &&
-    !optionsListRegionalElement.contains(event.target)
-  ) {
-    optionsListRegionalElement.classList.add('invisible');
-  }
-  
-
   if (
     !document.getElementById('custom-select-other').contains(event.target)
   ) {
@@ -621,8 +532,6 @@ const addUniqueMembershipsToOptionsSelectMembershipsDropdown = membershipArray =
     });
   });
 };
-
-
 
 const addUniqueRegionalsToOptionsSelectRegionalsDropdown = regionalArray => {
   const optionsListRegional = document.getElementById(
@@ -1220,6 +1129,40 @@ const addUniqueAthleticsToOptionsSelectAthleticsDropdown = athleticArray => {
   });
 };
 
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Sets with all available values
+    if (typeof areas_Array !== 'undefined') {
+        window.selectedAreas_Array = new Set(areas_Array.map(area => area.str));
+    }
+
+    if (typeof types_Array !== 'undefined') {
+        window.selectedTypes_Array = new Set(types_Array.map(type => type.str));
+    }
+
+    // Initialize all dropdowns
+    if (typeof regions_Array !== 'undefined') {
+        addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
+    }
+    if (typeof states_Array !== 'undefined') {
+        addUniqueStatesToOptionsSelectStatesDropdown(states_Array);
+    }
+    if (typeof memberships_Array !== 'undefined') {
+        addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
+    }
+    if (typeof types_Array !== 'undefined') {
+        addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
+    }
+    if (typeof athletics_Array !== 'undefined') {
+        addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
+    }
+    if (typeof regional_Array !== 'undefined') {
+        addUniqueRegionalsToOptionsSelectRegionalsDropdown(regional_Array);
+    }
+    if (typeof seminary_Array !== 'undefined') {
+        addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminary_Array);
+    }
+});
 
 // --------------------------------------------------------------------------------
 

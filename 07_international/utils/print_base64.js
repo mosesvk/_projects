@@ -1,7 +1,7 @@
 // print_base64.js
 
-const DEFAULT_CHART_WIDTH = 1200;
-const DEFAULT_CHART_HEIGHT = 630;
+const DEFAULT_CHART_WIDTH = 1100;
+const DEFAULT_CHART_HEIGHT = 530;
 
 /**
  * Process charts with fixed dimensions regardless of screen resolution
@@ -100,6 +100,15 @@ function saveCompleteChartState(chart) {
       dimensions: {
         width: chart.w.globals.svgWidth,
         height: chart.w.globals.svgHeight
+      },
+      // Save x-axis categories and configuration
+      xaxisConfig: {
+        categories: chartConfig.xaxis?.categories || [],
+        labels: chartConfig.xaxis?.labels || {},
+        type: chartConfig.xaxis?.type || 'category',
+        tickPlacement: chartConfig.xaxis?.tickPlacement || 'between',
+        axisBorder: chartConfig.xaxis?.axisBorder || {},
+        crosshairs: chartConfig.xaxis?.crosshairs || {}
       }
     };
     return originalConfig;
@@ -162,16 +171,50 @@ function restoreCompleteChartState(chart, originalState) {
       };
     };
 
-    // Create a new config object with restored formatters
+    // Create a new config object with restored formatters and x-axis configuration
     const restoredConfig = {
       ...originalState.chartConfig,
-      yaxis: originalState.chartConfig.yaxis?.map((axis, index) => ({
-        ...axis,
+      xaxis: {
+        ...originalState.xaxisConfig,
+        categories: originalState.xaxisConfig.categories,
         labels: {
-          ...axis.labels,
-          formatter: createYAxisFormatter(originalConfig.yaxis?.[index]?.labels?.formatter?.toString().includes('dollar') ? 'dollar' : 'number')
+          ...originalState.xaxisConfig.labels,
+          style: {
+            ...originalState.xaxisConfig.labels.style,
+            colors: originalState.chartConfig.xaxis?.labels?.style?.colors || '#3a464f'
+          }
         }
-      }))
+      },
+      yaxis: originalState.chartConfig.yaxis?.map((axis, index) => {
+        // For the second y-axis (index 2), ensure we preserve its specific formatter
+        if (index === 2) {
+          return {
+            ...axis,
+            labels: {
+              ...axis.labels,
+              formatter: axis.labels?.formatter || function(value) {
+                return value.toFixed(2);
+              },
+              style: {
+                ...axis.labels?.style,
+                colors: axis.labels?.style?.colors || '#3a464f'
+              }
+            }
+          };
+        }
+        // For other y-axes, use the standard formatter
+        return {
+          ...axis,
+          labels: {
+            ...axis.labels,
+            formatter: createYAxisFormatter(originalConfig.yaxis?.[index]?.labels?.formatter?.toString().includes('dollar') ? 'dollar' : 'number'),
+            style: {
+              ...axis.labels?.style,
+              colors: axis.labels?.style?.colors || '#3a464f'
+            }
+          }
+        };
+      })
     };
     
     // Restore complete chart configuration
@@ -292,13 +335,47 @@ async function exportApexChart(chart) {
           show: false
         }
       },
-      yaxis: originalState.chartConfig.yaxis?.map((axis, index) => ({
-        ...axis,
+      xaxis: {
+        ...originalState.xaxisConfig,
+        categories: originalState.xaxisConfig.categories,
         labels: {
-          ...axis.labels,
-          formatter: createYAxisFormatter(originalConfig.yaxis?.[index]?.labels?.formatter?.toString().includes('dollar') ? 'dollar' : 'number')
+          ...originalState.xaxisConfig.labels,
+          style: {
+            ...originalState.xaxisConfig.labels.style,
+            colors: originalState.chartConfig.xaxis?.labels?.style?.colors || '#3a464f'
+          }
         }
-      })),
+      },
+      yaxis: originalState.chartConfig.yaxis?.map((axis, index) => {
+        // For the second y-axis (index 2), ensure we preserve its specific formatter
+        if (index === 2) {
+          return {
+            ...axis,
+            labels: {
+              ...axis.labels,
+              formatter: axis.labels?.formatter || function(value) {
+                return value.toFixed(2);
+              },
+              style: {
+                ...axis.labels?.style,
+                colors: axis.labels?.style?.colors || '#3a464f'
+              }
+            }
+          };
+        }
+        // For other y-axes, use the standard formatter
+        return {
+          ...axis,
+          labels: {
+            ...axis.labels,
+            formatter: createYAxisFormatter(originalConfig.yaxis?.[index]?.labels?.formatter?.toString().includes('dollar') ? 'dollar' : 'number'),
+            style: {
+              ...axis.labels?.style,
+              colors: axis.labels?.style?.colors || '#3a464f'
+            }
+          }
+        };
+      }),
       grid: {
         ...originalState.chartConfig.grid,
         padding: {

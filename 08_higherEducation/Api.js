@@ -1,3 +1,239 @@
+// Data Model and Business Logic Classes
+
+// DataStore class for organizing and storing data
+class DataStore {
+  constructor() {
+    this.debtEndowmentData = {};
+    this.revenueExpenseData = {};
+    this.financialPositionData = {};
+    this.financialStatementData = {};
+    this.financialAnalysisData = {};
+    this.doeData = {};
+    this.cfiData = {};
+  }
+
+  // Save all data categories to localStorage
+  saveAllToLocalStorage() {
+    localStorage.setItem("debtEndowmentData", JSON.stringify(this.debtEndowmentData));
+    localStorage.setItem("revenueExpenseData", JSON.stringify(this.revenueExpenseData));
+    localStorage.setItem("financialPositionData", JSON.stringify(this.financialPositionData));
+    localStorage.setItem("financialStatementData", JSON.stringify(this.financialStatementData));
+    localStorage.setItem("financialAnalysisData", JSON.stringify(this.financialAnalysisData));
+    localStorage.setItem("doeData", JSON.stringify(this.doeData));
+    localStorage.setItem("cfiData", JSON.stringify(this.cfiData));
+  }
+
+  // Get a reference to the appropriate data object based on category
+  getDataCategory(category) {
+    switch (category) {
+      case "debtEndowment":
+        return this.debtEndowmentData;
+      case "revenueExpense":
+        return this.revenueExpenseData;
+      case "financialPosition":
+        return this.financialPositionData;
+      case "financialStatement":
+        return this.financialStatementData;
+      case "financialAnalysis":
+        return this.financialAnalysisData;
+      case "doe":
+        return this.doeData;
+      case "cfi":
+        return this.cfiData;
+      default:
+        throw new Error(`Unknown data category: ${category}`);
+    }
+  }
+
+  // Insert data into the appropriate data structure
+  insertData(
+    category,
+    type,
+    year,
+    dataKey,
+    record,
+    child,
+    dynamicValueClientPeer,
+    name
+  ) {
+    const targetData = this.getDataCategory(category);
+
+    // Get the value from the record or default to 0
+    const innerData =
+      !child || child == 0
+        ? 0
+        : record.querySelector(child)?.innerHTML.trim().length > 0
+        ? record.querySelector(child).innerHTML.trim()
+        : 0;
+
+    if (type === "client") {
+      this.insertClientData(
+        targetData,
+        dataKey,
+        year,
+        innerData,
+        record,
+        dynamicValueClientPeer
+      );
+    } else {
+      this.insertPeerData(
+        targetData,
+        dataKey,
+        year,
+        innerData,
+        record,
+        dynamicValueClientPeer,
+        name
+      );
+    }
+  }
+
+  // Insert client data with benchmark if available
+  insertClientData(targetData, dataKey, year, value, record, benchmarkField) {
+    if (!targetData[dataKey]) {
+      targetData[dataKey] = {};
+    }
+
+    if (!targetData[dataKey][year]) {
+      targetData[dataKey][year] = {};
+    }
+
+    targetData[dataKey][year].value = value;
+
+    // Add benchmark if available
+    if (benchmarkField) {
+      const benchmark = record
+        .querySelector(benchmarkField)
+        ?.textContent.trim();
+      targetData[dataKey][year].benchmark = benchmark;
+    }
+  }
+
+  // Insert peer data with proper organization for calculating averages
+  insertPeerData(targetData, dataKey, year, value, record, yesNoField, name) {
+    // Check if the yesNo field value is "Yes"
+    const shouldInclude =
+      yesNoField === "Yes" ||
+      (yesNoField &&
+        record.querySelector(yesNoField)?.textContent.trim() === "Yes");
+
+    if (shouldInclude) {
+      // Initialize data structures if they don't exist
+      if (!targetData[dataKey]) {
+        targetData[dataKey] = {};
+      }
+
+      if (!targetData[dataKey][year]) {
+        targetData[dataKey][year] = [];
+      }
+
+      // Add value to the year array
+      targetData[dataKey][year].push(value);
+
+      // If name is provided, organize by name as well (for weighted averages)
+      if (name) {
+        if (!targetData[dataKey][name]) {
+          targetData[dataKey][name] = {};
+        }
+
+        if (!targetData[dataKey][name]["total"]) {
+          targetData[dataKey][name]["total"] = [];
+        }
+
+        if (!targetData[dataKey][name][year]) {
+          targetData[dataKey][name][year] = [];
+        }
+
+        targetData[dataKey][name]["total"].push(value);
+        targetData[dataKey][name][year].push(value);
+      }
+
+      // Always add to "total" if we're including this value
+      if (!targetData[dataKey]["total"]) {
+        targetData[dataKey]["total"] = [];
+      }
+
+      targetData[dataKey]["total"].push(value);
+    }
+  }
+}
+
+// Global dataStore instance
+const dataStore = new DataStore();
+
+// Keep the existing insert function for backwards compatibility
+const insertDataIntoObject = (
+  type,
+  year,
+  object,
+  dataKey,
+  record,
+  child,
+  dynamicValueClientPeer,
+  name
+) => {
+  // Call the new dataStore method based on the category 
+  // Determine category based on dataKey or object reference
+  let category = "debtEndowment"; // Default
+  
+  if (dataKey.includes("revenueExpense")) {
+    category = "revenueExpense";
+  } else if (dataKey.includes("financialPosition")) {
+    category = "financialPosition";
+  } else if (dataKey.includes("financialStatement")) {
+    category = "financialStatement";
+  } else if (dataKey.includes("financialAnalysis")) {
+    category = "financialAnalysis";
+  } else if (dataKey.includes("doe")) {
+    category = "doe";
+  } else if (dataKey.includes("cfi")) {
+    category = "cfi";
+  }
+  
+  dataStore.insertData(
+    category,
+    type,
+    year,
+    dataKey,
+    record,
+    child,
+    dynamicValueClientPeer,
+    name
+  );
+  
+  // Also update existing object for backwards compatibility
+  const innerData = !child || child == 0
+    ? 0
+    : record.querySelector(child)?.innerHTML.trim().length > 0
+    ? record.querySelector(child).innerHTML.trim()
+    : 0;
+
+  if (!object[dataKey]) {
+    object[dataKey] = {};
+  }
+
+  if (type === "client") {
+    if (!object[dataKey][year]) {
+      object[dataKey][year] = {};
+    }
+    
+    object[dataKey][year].value = innerData;
+  } else {
+    if (!object[dataKey][year]) {
+      object[dataKey][year] = [];
+    }
+    
+    const shouldInclude =
+      dynamicValueClientPeer === "Yes" ||
+      (dynamicValueClientPeer &&
+        record.querySelector(dynamicValueClientPeer)?.textContent.trim() === "Yes");
+    
+    if (shouldInclude) {
+      object[dataKey][year].push(innerData);
+    }
+  }
+};
+
 let apiCallClientDataForUniqueYears = {
   act: "API_DoQuery",
   query: `{533.EX.${ClientRid}}`,
@@ -78,80 +314,6 @@ const findUniqueYears = (data) => {
 };
 
 // Main Data Retrieval Functions ----------------------------------------------->
-
-const insertDataIntoObject = (
-  type,
-  year,
-  object,
-  dataKey,
-  record,
-  child,
-  dynamicValueClientPeer,
-  name
-) => {
-  // console.log ({
-  //   type,
-  //   year,
-  //   object,
-  //   dataKey,
-  //   record,
-  //   child,
-  //   dynamicValueClientPeer,
-  //   name,
-  // });
-
-  const innerData =
-    child == 0
-      ? 0
-      : record.querySelector(child).innerHTML.split("").length > 0
-      ? record.querySelector(child).innerHTML.trim()
-      : 0;
-
-  if (type === "client") {
-    if (!object[dataKey]) {
-      object[dataKey] = {};
-    }
-    if (!object[dataKey][year]) {
-      object[dataKey][year] = {};
-    }
-    object[dataKey][year].value = innerData;
-    const benchmarkField =
-      dynamicValueClientPeer &&
-      record.querySelector(dynamicValueClientPeer).textContent.trim();
-    object[dataKey][year].benchmark = benchmarkField;
-  } else {
-    // type === 'peer'
-
-    const yesNoField =
-      dynamicValueClientPeer == "Yes"
-        ? "Yes"
-        : dynamicValueClientPeer &&
-          record.querySelector(dynamicValueClientPeer).textContent.trim();
-
-    if (yesNoField == "Yes") {
-      if (!object[dataKey]) {
-        object[dataKey] = {};
-      }
-      if (!object[dataKey][year]) {
-        object[dataKey][year] = [];
-      }
-
-      if (!name) {
-        if (!object[dataKey]["total"]) {
-          object[dataKey]["total"] = [];
-        }
-        object[dataKey]["total"].push(innerData);
-      } else {
-        if (!object[dataKey][name]) {
-          object[dataKey][name] = [];
-        }
-        object[dataKey][name].push(innerData);
-      }
-
-      object[dataKey][year].push(innerData);
-    }
-  }
-};
 
 const processDebtEndowmentContentData = (
   seletectedYears,
@@ -2965,181 +3127,105 @@ const getParsedData = (xmlString) => {
   return xmlDoc.querySelectorAll("record");
 };
 
-const getRecordsForPeer = async (years, dataStr) => {
-  // console.log({years});
-
+const getRecordsForPeer = async (years, dataStr = "<qdbapi>") => {
   if (years.length === 0) {
-    // Base case: return the final string when the array is empty
-    // if (dataStr === '<qdbapi>') console.error('No Peer records found for the selected years')
     const parsedData = getParsedData(dataStr + "</qdbapi>");
     return parsedData;
   }
 
   const currentYear = years[0];
-
-  function getRegionQuery(selectedRegions) {
-    const regionConditions = [...selectedRegions]
-      .map((region) => `{536.EX.${region}}`)
-      .join(" OR ");
-    return `(${regionConditions})`;
-  }
-
-  function getStateQuery(selectedStates) {
-    const stateConditions = [...selectedStates]
-      .map((state) => `{619.EX.${state}}`)
-      .join(" OR ");
-    return `(${stateConditions})`;
-  }
-
-  function getMembershipsQuery(selectedMemberships) {
-    const membershipsConditions = [...selectedMemberships]
-      .map((membership) => `{758.HAS.${membership}}`)
-      .join(" OR ");
-    return `(${membershipsConditions})`;
-  }
-
-  function getAthleticsQuery(selectedAthletics) {
-    const athleticsConditions = [...selectedAthletics]
-      .map((athletic) => `{757.EX.${athletic}}`)
-      .join(" OR ");
-    return `(${athleticsConditions})`;
-  }
-
-  function getTypeQuery(selectedTypes) {
-    const typeConditions = [...selectedTypes]
-      .map((type) => `{759.EX.${type}}`)
-      .join(" OR ");
-    return `(${typeConditions})`;
-  }
-
-  function getClientQuery(selectedClients) {
-    const selectAllCheckbox = document.getElementById(
-      "select-all-checkbox-client"
-    );
-    if (selectAllCheckbox && selectAllCheckbox.checked) {
-      return "";
-    }
-
-    const clientConditions = selectedClients
-      .map((client) => `{539.EX.${client}}`)
-      .join(" OR ");
-    return `(${clientConditions})`;
-  }
-
-  function getSeminaryQuery(selectedSeminary) {
-    const seminaryConditions = [...selectedSeminary]
-      .map((seminary) => `{760.EX.${seminary}}`)
-      .join(" OR ");
-    return `(${seminaryConditions})`;
-  }
-
-  function getRegionalQuery(selectedRegional) {
-    const regionalConditions = [...selectedRegional]
-      .map((regional) => `{761.EX.${regional}}`)
-      .join(" OR ");
-    return `(${regionalConditions})`;
-  }
-
   let allRecords = new Set();
   let recordsArray = [];
 
   try {
-    // Query 1: Activity filters (memberships, athletics)
-    const activityConditions = [
-      `{7.EX.${currentYear}}`,
-      `{638.EX.'COMPLETE'}`,
-      getMembershipsQuery(selectedMemberships_Array),
-      getAthleticsQuery(selectedAthletics_Array)
-    ];
-    
-    const activityQuery = {
+    const query = {
       act: "API_DoQuery",
-      query: activityConditions.join(" AND "),
+      query: `{7.EX.${currentYear}} AND {638.EX.'COMPLETE'}`,
       clist: "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566"
     };
-    const activityXml = await $.get(peerData, activityQuery);
-    console.log('activityXml', activityXml);
-    const activityRecords = $("record", activityXml).toArray();
-    
-    // Store activity record IDs in a Set for intersection
-    const activityRecordIds = new Set(
-      activityRecords.map(record => record.getAttribute("rid"))
-    );
 
-    // Query 2: Other filters (region, state, type, seminary, regional, enrollment)
-    const otherConditions = [
-      `{7.EX.${currentYear}}`,
-      `{638.EX.'COMPLETE'}`,
-      getRegionQuery(selectedRegions_Array),
-      getStateQuery(selectedStates_Array),
-      getTypeQuery(selectedTypes_Array),
-      getSeminaryQuery(selectedSeminaries_Array),
-      getRegionalQuery(selectedRegionals_Array),
-      `{741.GTE.${sliderValue}}`,
-      `{741.LTE.${sliderValue2}}`
-    ];
+    const xml = await $.get(peerData, query);
+    const records = $("record", xml).toArray();
 
-    const otherQuery = {
-      act: "API_DoQuery",
-      query: otherConditions.join(" AND "),
-      clist: "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566"
-    };
-    const otherXml = await $.get(peerData, otherQuery);
-    console.log('otherXml', otherXml);
-    const otherRecords = $("record", otherXml).toArray();
-
-    // Find records that exist in both queries
-    otherRecords.forEach(record => {
-      const recordId = record.getAttribute("rid");
-      // Only process records that exist in both result sets
-      if (activityRecordIds.has(recordId)) {
-        const newRecord = document.createElement("record");
-        Array.from(record.children).forEach((child) => {
-          newRecord.appendChild(child.cloneNode(true));
-        });
-        recordPeerHTMLArray.push(newRecord.outerHTML);
-        dataStr += newRecord.outerHTML;
-      }
+    records.forEach(record => {
+      const newRecord = document.createElement("record");
+      Array.from(record.children).forEach((child) => {
+        newRecord.appendChild(child.cloneNode(true));
+      });
+      recordPeerHTMLArray.push(newRecord.outerHTML);
+      dataStr += newRecord.outerHTML;
     });
 
   } catch (error) {
     console.error("Error in query execution:", error);
-    console.log("Failed query conditions:", error.responseText);
   }
 
   return getRecordsForPeer(years.slice(1), dataStr);
 };
 
-const getRecordsForUniqueClientsPeerNames = async () => {
+// Initialize client data store and dispatch event
+const initializeClientDataStore = (peerRecords) => {
+  // Create client data store if it doesn't exist
+  window.clientDataStore = window.clientDataStore || {};
+  
+  // Process peer records to populate client data store
+  peerRecords.forEach(record => {
+    const clientName = record.querySelector('merged_client_name')?.textContent;
+    if (!clientName) return;
+    
+    // Create or update client data object
+    window.clientDataStore[clientName] = window.clientDataStore[clientName] || {};
+    
+    // Store filter-relevant data
+    window.clientDataStore[clientName].region = record.querySelector('merged_region')?.textContent;
+    window.clientDataStore[clientName].state = record.querySelector('merged_state')?.textContent;
+    window.clientDataStore[clientName].type = record.querySelector('merged_type')?.textContent;
+    window.clientDataStore[clientName].athletic = record.querySelector('merged_athletic')?.textContent;
+    window.clientDataStore[clientName].seminary = record.querySelector('merged_seminary')?.textContent;
+    window.clientDataStore[clientName].regional = record.querySelector('merged_regional')?.textContent;
+    window.clientDataStore[clientName].enrollment = parseInt(record.querySelector('merged_enrollment')?.textContent) || 0;
+    
+    // Parse memberships field (comma-separated)
+    const membershipsStr = record.querySelector('merged_memberships')?.textContent;
+    if (membershipsStr) {
+      window.clientDataStore[clientName].memberships = membershipsStr.split(',').map(m => m.trim());
+    }
+  });
+  
+  // Dispatch event to notify that client data is loaded
+  const event = new CustomEvent('clientDataLoaded', {
+    detail: { dataStore: window.clientDataStore }
+  });
+  document.dispatchEvent(event);
+};
+
+// Update getRecordsForUniqueClientPeerNames to include client data store initialization
+const getRecordsForUniqueClientPeerNames = async () => {
+  const currentYear = new Date().getFullYear();
   const apiCallPeerData = {
     act: "API_DoQuery",
-    clist:
-      "7.536.619.537.618.534.539.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395",
+    query: `{7.EX.${currentYear}} AND {638.EX.'COMPLETE'}`,
+    clist: "7.533.539.536.619.741.758.759.757.760.761.638"
   };
 
   try {
     const xml = await $.get(peerData, apiCallPeerData);
-
     const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
 
     const uniquePeerClientNames = new Set();
 
-    recordsForPeerUniqueClientPeerNames.forEach((record, index) => {
-      const clientInformalName =
-        record.querySelector("merged_client_name").textContent;
+    recordsForPeerUniqueClientPeerNames.forEach((record) => {
+      const clientInformalName = record.querySelector("merged_client_name").textContent;
       uniquePeerClientNames.add(clientInformalName);
     });
 
-    // console.log({ uniquePeerClientNames });
+    const sortedUniquePeerClientNames = Array.from(uniquePeerClientNames).sort();
+    sortedUniquePeerClientNames.forEach((item) => window.selectedClients_Array.add(item));
 
-    const sortedUniquePeerClientNames = Array.from(
-      uniquePeerClientNames
-    ).sort();
+    // Initialize client data store
+    initializeClientDataStore(recordsForPeerUniqueClientPeerNames);
 
-    sortedUniquePeerClientNames.forEach((item) =>
-      selectedClients_Array.add(item)
-    );
-
+    // Add unique clients to dropdown
     addUniqueClientsToOptionsSelectClientsDropdown(sortedUniquePeerClientNames);
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -3195,3 +3281,85 @@ const getRecordsForClient = async (years, dataStr) => {
     return dataStr; // Return the accumulated data so far even in case of an error
   }
 };
+
+// Initialize filter handlers
+const initializeFilterHandlers = () => {
+  document.addEventListener('filtersChanged', handleFiltersChanged);
+};
+
+// Handle filters changed
+const handleFiltersChanged = async () => {
+  try {
+    // Clear existing records
+    recordPeerHTMLArray = [];
+    
+    // Get selected years
+    const selectedYears = getSelectedYearsFromLocalStorage();
+    if (!selectedYears || selectedYears.length === 0) {
+      console.error("No years selected");
+      return;
+    }
+
+    // Update UI to show loading state
+    const generateReportBtn = document.getElementById("generateReportBtn");
+    if (generateReportBtn) {
+      toggleButtonLoadingState(generateReportBtn);
+    }
+
+    // Get records with updated filters
+    const records = await getRecordsForPeer(selectedYears);
+    
+    // Update unique clients count
+    countUniqueClients(records);
+    
+    // Process the data
+    processApiCalls(selectedYears, records, recordsClient);
+    
+    // Display components
+    displayComponents();
+
+    // Reset UI loading state
+    if (generateReportBtn) {
+      toggleButtonNormalState(generateReportBtn);
+    }
+  } catch (error) {
+    console.error("Error handling filters changed:", error);
+    
+    // Reset UI loading state on error
+    const generateReportBtn = document.getElementById("generateReportBtn");
+    if (generateReportBtn) {
+      toggleButtonNormalState(generateReportBtn);
+    }
+  }
+};
+
+// Get selected years from localStorage
+const getSelectedYearsFromLocalStorage = () => {
+  const selectedYearsStr = localStorage.getItem("selectedYears");
+  return selectedYearsStr ? JSON.parse(selectedYearsStr) : [];
+};
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', async () => {
+  // Initialize filter handlers
+  initializeFilterHandlers();
+  
+  // First get unique client names to populate dropdown
+  await getRecordsForUniqueClientPeerNames();
+  
+  // Process selected years (if any are already selected)
+  const selectedYears = getSelectedYearsFromLocalStorage();
+  if (selectedYears && selectedYears.length > 0) {
+    // Get peer records for selected years
+    const peerRecords = await getRecordsForPeer(selectedYears);
+    
+    // Get client records if needed
+    const clientRecords = await getRecordsForClient(selectedYears);
+    
+    // Process API calls with the data
+    processApiCalls(selectedYears, peerRecords, clientRecords);
+    
+    // Display components
+    displayComponents();
+  }
+});
