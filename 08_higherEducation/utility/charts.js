@@ -248,37 +248,37 @@ const getMainChartOptions = (
     reverseYears.forEach((year) => {
       const doeOverall_Client = Number(
         data.doeOverall_Client[year].value
-      ).toFixed(2);
+      ).toFixed(1);
       const doePrimaryReserveRatio_Client = Number(
         data.doePrimaryReserveRatio_Client[year].value
       ).toFixed(2);
       const doePrimaryReserveStrengthFactor_Client = Number(
         data.doePrimaryReserveStrengthFactor_Client[year].value
-      ).toFixed(2);
+      ).toFixed(1);
       const doePrimaryReserveOverallWeight_Client = 0.4;
       const doePrimaryReserveRatioWeighted_Client = Number(
         data.doePrimaryReserveRatioWeighted_Client[year].value
-      ).toFixed(2);
+      ).toFixed(1);
       const doeEquityRatio_Client = Number(
         data.doeEquityRatio_Client[year].value
       ).toFixed(2);
       const doeEquityStrengthFactor_Client = Number(
         data.doeEquityStrengthFactor_Client[year].value
-      ).toFixed(2);
+      ).toFixed(1);
       const doeEquityOverallWeight_Client = 0.4;
       const doeEquityRatioWeighted_Client = Number(
         data.doeEquityRatioWeighted_Client[year].value
-      ).toFixed(2);
+      ).toFixed(1);
       const doeNetIncomeRatio_Client = Number(
         data.doeNetIncomeRatio_Client[year].value
       ).toFixed(2);
       const doeNetIncomeStrengthFactor_Client = Number(
         data.doeNetIncomeStrengthFactor_Client[year].value
-      ).toFixed(2);
+      ).toFixed(1);
       const doeNetIncomeOverallWeight_Client = 0.2;
       const doeNetIncomeRatioWeighted_Client = Number(
         data.doeNetIncomeRatioWeighted_Client[year].value
-      ).toFixed(2);
+      ).toFixed(1);
 
       const tableHTML = `
         <div class="flex my-6">
@@ -290,8 +290,8 @@ const getMainChartOptions = (
                   <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-white uppercase backgroundGreen opacity-75">
                       <tr id="row_doeOverall_tableHeader">
+                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Title</th>
                         <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Ratio</th>
-                        <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800"></th>
                         <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Strength</th>
                         <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Weight</th>
                         <th scope="col" class="px-6 py-3 text-lg tracking-wide border-2 border-white dark:border-gray-800">Weighted</th>

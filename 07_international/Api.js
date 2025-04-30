@@ -2450,7 +2450,7 @@ class ApiService {
         act: "API_DoQuery",
         query: `{192.EX.${currentYear}} AND {29.EX.${ClientRid}}`,
         clist:
-          "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.31.213.42.217.25.193.221.218.15.21.223",
+          "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.31.213.42.217.25.193.221.218.15.21.223.222",
       };
 
       // Use await to make the async operation more explicit
@@ -3124,6 +3124,9 @@ class AppController {
         recordsClient = await this.apiService.getRecordsForClient(
           selectedYears
         );
+
+        window.testRecordsClient = recordsClient;
+
 
         if (!recordsClient || recordsClient.length === 0) {
           console.warn("No client records returned");

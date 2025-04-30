@@ -400,26 +400,6 @@ class ChartConfigFactory {
       tooltip: { enabled: true },
     };
 
-    // NEW: Add special yaxis configuration for costOfContributions
-    if (isCostOfContributions) {
-      // Calculate appropriate max value for costOfContributions
-      // Collect all values to find max
-      const allValues = [...clientArray, ...peerAvg].filter(
-        (val) => val !== null && val !== undefined
-      );
-
-      const maxValue = allValues.length > 0 ? Math.max(...allValues) : 0.2;
-      // Set a minimum max value of 0.2 for better visibility of small values
-      const adjustedMaxValue = Math.max(maxValue * 1.2, 0.2);
-
-      // Apply specific yaxis configuration for costOfContributions
-      yaxisConfig = {
-        ...yaxisConfig,
-        min: 0,
-        max: adjustedMaxValue,
-        tickAmount: 5,
-      };
-    }
 
     const series = [
       {
@@ -465,9 +445,6 @@ class ChartConfigFactory {
         height: 550,
         type: "line",
         stacked: false,
-        toolbar: {
-          show: false,
-        },
         padding: {
           bottom: 20,
         },
@@ -478,9 +455,7 @@ class ChartConfigFactory {
         offsetY: -20,
         formatter: function (value) {
           // Special formatting for costOfContributions
-          if (isCostOfContributions) {
-            return `$${value.toFixed(2)}`;
-          }
+
 
           // Round numeric values to nearest integer when fixedNum is 0
           if (numType === "number" && fixedNum === 0) {
@@ -549,10 +524,7 @@ class ChartConfigFactory {
         y: {
           formatter: function (value) {
         
-            // Special tooltip formatting for costOfContributions
-            if (isCostOfContributions) {
-              return `$${value.toFixed(2)}`;
-            }
+
             
             if (value > 10000) {
               return formatters.tooltipFormatter(value);
@@ -593,7 +565,6 @@ class ChartConfigFactory {
         },
       },
       toolbar: {
-        show: false,
         tools: {
           download: true,
           selection: false,
@@ -713,9 +684,7 @@ class ChartConfigFactory {
       chart: {
         height: 550,
         type: "line",
-        toolbar: {
-          show: false,
-        },
+
         title: {
           text: title || mainName,
           align: "top",
@@ -977,6 +946,16 @@ class ChartConfigFactory {
           fontFamily: "Helvetica, Arial, sans-serif",
         },
       },
+      toolbar: {
+        tools: {
+          download: true,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+        },
+      },
     };
   }
 
@@ -1076,7 +1055,14 @@ class ChartConfigFactory {
         },
       },
       toolbar: {
-        show: false,
+        tools: {
+          download: true,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+        },
       },
     };
   }
@@ -1320,6 +1306,16 @@ class ChartConfigFactory {
           y: {
             formatter: (value) =>
               value ? `${value.toLocaleString()}%` : "N/A",
+          },
+        },
+        toolbar: {
+          tools: {
+            download: true,
+            selection: false,
+            zoom: false,
+            zoomin: false,
+            zoomout: false,
+            pan: false,
           },
         },
       };
@@ -1629,6 +1625,16 @@ class ChartConfigFactory {
           bottom: 20,
         },
       },
+      toolbar: {
+        tools: {
+          download: true,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+        },
+      },
     };
   }
 
@@ -1719,9 +1725,6 @@ class ChartConfigFactory {
       chart: {
         height: 550,
         type: "bar",
-        toolbar: {
-          show: false,
-        },
         padding: {
           bottom: 20,
         },
@@ -1813,13 +1816,22 @@ class ChartConfigFactory {
           bottom: 20,
         },
       },
+      toolbar: {
+        tools: {
+          download: true,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+        },
+      },
     };
   }
 
   // Helper to create formatters based on number type
   _createFormatters(numType, mainName) {
     const self = this; // Capture 'this' reference to use inside formatters
-    const isCostOfContributions = mainName === "costOfContributions";
 
     return {
       yaxisLabelFormatter: (value) => {
@@ -1827,11 +1839,7 @@ class ChartConfigFactory {
           return numType === "dollar" ? "$0" : "0";
         }
 
-        // Special handling for costOfContributions
-        if (isCostOfContributions) {
-          // For cost of contributions, always show 2 decimal places for small values
-          return `$${value.toFixed(2)}`;
-        }
+
 
         // Use the custom rounding helper with isYAxis=true
         return self._roundValueByMagnitude(value, numType, true);
@@ -1840,11 +1848,7 @@ class ChartConfigFactory {
       tooltipFormatter: (value) => {
         if (value === null || value === undefined) return "";
 
-        // Special handling for costOfContributions
-        if (isCostOfContributions) {
-          // For cost of contributions, show as "$ per dollar raised"
-          return `$${value.toFixed(2)} per dollar raised`;
-        }
+
 
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);
@@ -1855,12 +1859,6 @@ class ChartConfigFactory {
           return numType === "dollar" ? "$0" : "0";
         }
 
-        // Special handling for costOfContributions
-        if (isCostOfContributions) {
-          // For cost of contributions, always show 2 decimal places
-          return `$${value.toFixed(2)}`;
-        }
-
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);
       },
@@ -1868,11 +1866,7 @@ class ChartConfigFactory {
       dataLabelFormatter: (value) => {
         if (value === null || value === undefined) return "";
 
-        // Special handling for costOfContributions
-        if (isCostOfContributions) {
-          // For cost of contributions, always show 2 decimal places
-          return `$${value.toFixed(2)}`;
-        }
+
 
         // Use the custom rounding helper with isYAxis=false
         if (value > 10000) {

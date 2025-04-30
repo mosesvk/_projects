@@ -1,5 +1,8 @@
 // print_base64.js
 
+const DEFAULT_CHART_WIDTH = 1200;
+const DEFAULT_CHART_HEIGHT = 630;
+
 /**
  * Process charts with fixed dimensions regardless of screen resolution
  * 
@@ -55,6 +58,132 @@ async function processChartsWithSpacing(chartMappings) {
 }
 
 /**
+ * Save complete chart state including all configurations
+ */
+function saveCompleteChartState(chart) {
+  try {
+    const paperNode = chart.w.globals.dom.Paper.node;
+    const chartConfig = chart.w.config;
+
+    // Deep clone the entire chart configuration
+    const clonedConfig = JSON.parse(JSON.stringify({
+      chart: chartConfig.chart || {},
+      dataLabels: chartConfig.dataLabels || {},
+      markers: chartConfig.markers || {},
+      title: chartConfig.title || {},
+      xaxis: chartConfig.xaxis || {},
+      yaxis: chartConfig.yaxis || {},
+      tooltip: chartConfig.tooltip || {},
+      legend: chartConfig.legend || {},
+      grid: chartConfig.grid || {},
+      stroke: chartConfig.stroke || {},
+      fill: chartConfig.fill || {},
+      plotOptions: chartConfig.plotOptions || {},
+      annotations: chartConfig.annotations || {},
+      colors: chartConfig.colors || [],
+      series: chartConfig.series || []
+    }));
+
+    const originalConfig = {
+      // Save SVG element attributes
+      svgAttributes: {
+        width: paperNode.getAttribute('width'),
+        height: paperNode.getAttribute('height'),
+        viewBox: paperNode.getAttribute('viewBox'),
+        styleWidth: paperNode.style.width,
+        styleHeight: paperNode.style.height,
+        preserveAspectRatio: paperNode.getAttribute('preserveAspectRatio')
+      },
+      // Save complete chart configuration
+      chartConfig: clonedConfig,
+      // Save chart dimensions
+      dimensions: {
+        width: chart.w.globals.svgWidth,
+        height: chart.w.globals.svgHeight
+      }
+    };
+    return originalConfig;
+  } catch (error) {
+    console.warn('Error saving chart state:', error);
+    return null;
+  }
+}
+
+/**
+ * Restore complete chart state
+ */
+function restoreCompleteChartState(chart, originalState) {
+  try {
+    if (!chart || !originalState || !chart.w || !chart.w.globals || !chart.w.globals.dom) {
+      return;
+    }
+
+    const paperNode = chart.w.globals.dom.Paper.node;
+    
+    // Restore SVG attributes
+    const { svgAttributes } = originalState;
+    paperNode.setAttribute('width', svgAttributes.width);
+    paperNode.setAttribute('height', svgAttributes.height);
+    paperNode.style.width = svgAttributes.styleWidth;
+    paperNode.style.height = svgAttributes.styleHeight;
+    paperNode.setAttribute('viewBox', svgAttributes.viewBox);
+    paperNode.setAttribute('preserveAspectRatio', svgAttributes.preserveAspectRatio);
+    
+    // Get the original chart configuration
+    const originalConfig = chart.w.config;
+    const chartId = chart.w.globals.chartID;
+    const mainName = chartId.replace('_chart', '');
+
+    // Create a new formatter that matches the original chart's formatting
+    const createYAxisFormatter = (numType) => {
+      return (value) => {
+        if (value === null || value === undefined || value === 0) {
+          return numType === "dollar" ? "$0" : "0";
+        }
+
+        // Handle negative values
+        const isNegative = value < 0;
+        const absValue = Math.abs(value);
+
+        // Format based on magnitude
+        if (absValue >= 1000000) {
+          return isNegative 
+            ? `-$${absValue / 1000000}M`
+            : `$${absValue / 1000000}M`;
+        } else if (absValue >= 1000) {
+          return isNegative 
+            ? `-$${absValue / 1000}K`
+            : `$${absValue / 1000}K`;
+        } else {
+          return isNegative 
+            ? `-$${absValue}`
+            : `$${absValue}`;
+        }
+      };
+    };
+
+    // Create a new config object with restored formatters
+    const restoredConfig = {
+      ...originalState.chartConfig,
+      yaxis: originalState.chartConfig.yaxis?.map((axis, index) => ({
+        ...axis,
+        labels: {
+          ...axis.labels,
+          formatter: createYAxisFormatter(originalConfig.yaxis?.[index]?.labels?.formatter?.toString().includes('dollar') ? 'dollar' : 'number')
+        }
+      }))
+    };
+    
+    // Restore complete chart configuration
+    if (chart.updateOptions) {
+      chart.updateOptions(restoredConfig, true, true);
+    }
+  } catch (error) {
+    console.warn('Error restoring chart state:', error);
+  }
+}
+
+/**
  * Export an ApexChart with fixed dimensions
  * 
  * @param {Object} chart - ApexChart instance
@@ -62,110 +191,156 @@ async function processChartsWithSpacing(chartMappings) {
  */
 async function exportApexChart(chart) {
   try {
-    // Wait for rendering to complete
-    await new Promise(resolve => setTimeout(resolve, 200));
-    
-    // Store original chart state
-    const originalState = saveChartState(chart);
-    
-    // Set fixed dimensions for both SVG element and viewBox
-    configureChartForExport(chart, 1200, 450);
+    if (!chart || !chart.w || !chart.w.globals || !chart.w.globals.dom) {
+      throw new Error('Invalid chart instance');
+    }
+
+    // Create a fixed-size container
+    const fixedContainer = document.createElement("div");
+    fixedContainer.style.position = "absolute";
+    fixedContainer.style.left = "-9999px";
+    fixedContainer.style.width = `${DEFAULT_CHART_WIDTH}px`;
+    fixedContainer.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    fixedContainer.style.backgroundColor = "#ffffff";
+    fixedContainer.style.overflow = "hidden";
+    document.body.appendChild(fixedContainer);
+
+    // Get the chart element
+    const chartElement = chart.w.globals.dom.Paper.node.parentNode;
+    if (!chartElement) {
+      throw new Error('Chart element not found');
+    }
+
+    // Store original styles
+    const originalStyles = {
+      width: chartElement.style.width,
+      height: chartElement.style.height,
+      position: chartElement.style.position,
+      transform: chartElement.style.transform
+    };
+
+    // Save complete chart state
+    const originalState = saveCompleteChartState(chart);
+    if (!originalState) {
+      throw new Error('Failed to save chart state');
+    }
+
+    // Move chart to fixed container
+    const originalParent = chartElement.parentElement;
+    fixedContainer.innerHTML = '';
+    fixedContainer.appendChild(chartElement);
+
+    // Set fixed dimensions
+    chartElement.style.width = `${DEFAULT_CHART_WIDTH}px`;
+    chartElement.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    chartElement.style.position = 'absolute';
+    chartElement.style.transform = 'none';
+
+    // Force exact dimensions for export
+    const paperNode = chart.w.globals.dom.Paper.node;
+    paperNode.setAttribute('width', DEFAULT_CHART_WIDTH.toString());
+    paperNode.setAttribute('height', DEFAULT_CHART_HEIGHT.toString());
+    paperNode.style.width = `${DEFAULT_CHART_WIDTH}px`;
+    paperNode.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    paperNode.setAttribute('viewBox', `0 0 ${DEFAULT_CHART_WIDTH} ${DEFAULT_CHART_HEIGHT}`);
+    paperNode.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+    // Get the chart's original configuration
+    const originalConfig = chart.w.config;
+    const chartId = chart.w.globals.chartID;
+    const mainName = chartId.replace('_chart', '');
+
+    // Create a new formatter that matches the original chart's formatting
+    const createYAxisFormatter = (numType) => {
+      return (value) => {
+        if (value === null || value === undefined || value === 0) {
+          return numType === "dollar" ? "$0" : "0";
+        }
+
+        // Handle negative values
+        const isNegative = value < 0;
+        const absValue = Math.abs(value);
+
+        // Format based on magnitude
+        if (absValue >= 1000000) {
+          return isNegative 
+            ? `-$${absValue / 1000000}M`
+            : `$${absValue / 1000000}M`;
+        } else if (absValue >= 1000) {
+          return isNegative 
+            ? `-$${absValue / 1000}K`
+            : `$${absValue / 1000}K`;
+        } else {
+          return isNegative 
+            ? `-$${absValue}`
+            : `$${absValue}`;
+        }
+      };
+    };
+
+    // Update chart options for export while preserving original configurations
+    const exportOptions = {
+      ...originalState.chartConfig,
+      chart: {
+        ...originalState.chartConfig.chart,
+        width: DEFAULT_CHART_WIDTH,
+        height: DEFAULT_CHART_HEIGHT,
+        animations: {
+          enabled: false
+        },
+        toolbar: {
+          show: false
+        }
+      },
+      yaxis: originalState.chartConfig.yaxis?.map((axis, index) => ({
+        ...axis,
+        labels: {
+          ...axis.labels,
+          formatter: createYAxisFormatter(originalConfig.yaxis?.[index]?.labels?.formatter?.toString().includes('dollar') ? 'dollar' : 'number')
+        }
+      })),
+      grid: {
+        ...originalState.chartConfig.grid,
+        padding: {
+          top: 20,
+          right: 20,
+          bottom: 20,
+          left: 20
+        }
+      }
+    };
+
+    // Update chart with export options
+    chart.updateOptions(exportOptions, false, false);
     
     // Let the chart update
-    await new Promise(resolve => setTimeout(resolve, 150));
+    await new Promise(resolve => setTimeout(resolve, 100));
     
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
-      width: 1200,
-      height: 450,
+      width: DEFAULT_CHART_WIDTH,
+      height: DEFAULT_CHART_HEIGHT,
       scale: 2 // Higher resolution
     });
-    
-    // Restore original state
-    restoreChartState(chart, originalState);
+
+    // Restore chart to original position
+    if (originalParent) {
+      originalParent.appendChild(chartElement);
+    }
+    Object.assign(chartElement.style, originalStyles);
+
+    // Restore complete chart state
+    restoreCompleteChartState(chart, originalState);
+
+    // Clean up the fixed container
+    if (fixedContainer.parentNode) {
+      document.body.removeChild(fixedContainer);
+    }
     
     return uri.imgURI.split(",")[1];
   } catch (error) {
     console.error("Error in exportApexChart:", error);
     return null;
-  }
-}
-
-/**
- * Save current chart state for later restoration
- */
-function saveChartState(chart) {
-  const paperNode = chart.w.globals.dom.Paper.node;
-  return {
-    width: paperNode.getAttribute('width'),
-    height: paperNode.getAttribute('height'),
-    viewBox: paperNode.getAttribute('viewBox'),
-    styleWidth: paperNode.style.width,
-    styleHeight: paperNode.style.height,
-    preserveAspectRatio: paperNode.getAttribute('preserveAspectRatio')
-  };
-}
-
-/**
- * Configure chart for consistent export
- */
-function configureChartForExport(chart, width, height) {
-  const paperNode = chart.w.globals.dom.Paper.node;
-  
-  // Set SVG element dimensions
-  paperNode.setAttribute('width', width.toString());
-  paperNode.setAttribute('height', height.toString());
-  paperNode.style.width = `${width}px`;
-  paperNode.style.height = `${height}px`;
-  
-  // Set viewBox to match dimensions exactly
-  paperNode.setAttribute('viewBox', `0 0 ${width} ${height}`);
-  
-  // Ensure aspect ratio is preserved and content is centered
-  paperNode.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-  
-  // Force chart to redraw with new dimensions
-  if (chart.updateOptions) {
-    chart.updateOptions({
-      chart: {
-        width: width,
-        height: height
-      }
-    }, false, false);
-  }
-}
-
-/**
- * Restore chart to original state
- */
-function restoreChartState(chart, originalState) {
-  const paperNode = chart.w.globals.dom.Paper.node;
-  
-  paperNode.setAttribute('width', originalState.width);
-  paperNode.setAttribute('height', originalState.height);
-  paperNode.style.width = originalState.styleWidth;
-  paperNode.style.height = originalState.styleHeight;
-  
-  if (originalState.viewBox) {
-    paperNode.setAttribute('viewBox', originalState.viewBox);
-  } else {
-    paperNode.removeAttribute('viewBox');
-  }
-  
-  if (originalState.preserveAspectRatio) {
-    paperNode.setAttribute('preserveAspectRatio', originalState.preserveAspectRatio);
-  } else {
-    paperNode.removeAttribute('preserveAspectRatio');
-  }
-  
-  // Force chart to redraw with original dimensions
-  if (chart.updateOptions) {
-    chart.updateOptions({
-      chart: {
-        width: parseInt(originalState.width),
-        height: parseInt(originalState.height)
-      }
-    }, false, false);
   }
 }
 
@@ -177,24 +352,24 @@ async function exportWithHtml2Canvas(chartElement) {
   const container = document.createElement('div');
   container.style.position = 'absolute';
   // container.style.left = '-9999px';
-  container.style.width = '1200px';
-  container.style.height = '450px';
+  container.style.width = `${DEFAULT_CHART_WIDTH}px`;
+  container.style.height = `${DEFAULT_CHART_HEIGHT}px`;
   
   // Clone the chart element into the container
   const clone = chartElement.cloneNode(true);
-  clone.style.width = '1200px';
-  clone.style.height = '450px';
+  clone.style.width = `${DEFAULT_CHART_WIDTH}px`;
+  clone.style.height = `${DEFAULT_CHART_HEIGHT}px`;
   container.appendChild(clone);
   document.body.appendChild(container);
   
   // Find and adjust any SVG elements
   const svgElements = clone.querySelectorAll('svg');
   svgElements.forEach(svg => {
-    svg.setAttribute('width', '1200');
-    svg.setAttribute('height', '450');
-    svg.style.width = '1200px';
-    svg.style.height = '450px';
-    svg.setAttribute('viewBox', '0 0 1200 450');
+    svg.setAttribute('width', DEFAULT_CHART_WIDTH.toString());
+    svg.setAttribute('height', DEFAULT_CHART_HEIGHT.toString());
+    svg.style.width = `${DEFAULT_CHART_WIDTH}px`;
+    svg.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    svg.setAttribute('viewBox', `0 0 ${DEFAULT_CHART_WIDTH} ${DEFAULT_CHART_HEIGHT}`);
     svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
   });
   
@@ -205,8 +380,8 @@ async function exportWithHtml2Canvas(chartElement) {
     // Use html2canvas with fixed dimensions
     const canvas = await html2canvas(clone, {
       scale: 2,
-      width: 1200,
-      height: 450,
+      width: DEFAULT_CHART_WIDTH,
+      height: DEFAULT_CHART_HEIGHT,
       useCORS: true,
       allowTaint: true,
       backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') || '#ffffff'
