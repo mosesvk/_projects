@@ -1511,7 +1511,7 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
 
 // Enhanced addClientDataToModalRow function
 function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
-  // console.log(`Adding client data to row: ${yearRow.id}`, {
+  // console.log(`Adding client datfa to row: ${yearRow.id}`, {
   //   clientValue,
   //   type,
   //   fixedNum,

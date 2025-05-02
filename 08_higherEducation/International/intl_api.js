@@ -1,39 +1,58 @@
 // Data Model and Business Logic Classes
 class DataStore {
   constructor() {
-    this.generalData = {};
-    this.cashData = {};
-    this.assetData = {};
-    this.incomeData = {};
-    this.expenseData = {};
-    this.miscData = {};
+    this.cfiData = {};
+    this.doeData = {};
+    this.debtEndowmentData = {};
+    this.revenueExpenseData = {};
+    this.financialPositionData = {};
+    this.financialStatementData = {};
+    this.financialAnalysisData = {};
   }
 
   // Save all data categories to localStorage
   saveAllToLocalStorage() {
-    localStorage.setItem("generalData", JSON.stringify(this.generalData));
-    localStorage.setItem("cashData", JSON.stringify(this.cashData));
-    localStorage.setItem("assetData", JSON.stringify(this.assetData));
-    localStorage.setItem("incomeData", JSON.stringify(this.incomeData));
-    localStorage.setItem("expenseData", JSON.stringify(this.expenseData));
-    localStorage.setItem("miscData", JSON.stringify(this.miscData));
+    localStorage.setItem("cfiData", JSON.stringify(this.cfiData));
+    localStorage.setItem("doeData", JSON.stringify(this.doeData));
+    localStorage.setItem(
+      "debtEndowmentData",
+      JSON.stringify(this.debtEndowmentData)
+    );
+    localStorage.setItem(
+      "revenueExpenseData",
+      JSON.stringify(this.revenueExpenseData)
+    );
+    localStorage.setItem(
+      "financialPositionData",
+      JSON.stringify(this.financialPositionData)
+    );
+    localStorage.setItem(
+      "financialStatementData",
+      JSON.stringify(this.financialStatementData)
+    );
+    localStorage.setItem(
+      "financialAnalysisData",
+      JSON.stringify(this.financialAnalysisData)
+    );
   }
 
   // Get a reference to the appropriate data object based on category
   getDataCategory(category) {
     switch (category) {
-      case "general":
-        return this.generalData;
-      case "cash":
-        return this.cashData;
-      case "asset":
-        return this.assetData;
-      case "income":
-        return this.incomeData;
-      case "expense":
-        return this.expenseData;
-      case "misc":
-        return this.miscData;
+      case "cfi":
+        return this.cfiData;
+      case "doe":
+        return this.doeData;
+      case "debtEndowment":
+        return this.debtEndowmentData;
+      case "revenueExpense":
+        return this.revenueExpenseData;
+      case "financialPosition":
+        return this.financialPositionData;
+      case "financialStatement":
+        return this.financialStatementData;
+      case "financialAnalysis":
+        return this.financialAnalysisData;
       default:
         throw new Error(`Unknown data category: ${category}`);
     }
@@ -159,140 +178,16 @@ class DataProcessor {
 
   // Process data for all categories
   processAllData(years, recordsPeer, recordsClient) {
-    this.processGeneralData(years, recordsPeer, recordsClient);
-    this.processCashData(years, recordsPeer, recordsClient);
-    this.processAssetData(years, recordsPeer, recordsClient);
-    this.processIncomeData(years, recordsPeer, recordsClient);
-    this.processExpenseData(years, recordsPeer, recordsClient);
-    this.processMiscData(years, recordsPeer, recordsClient);
+    this.processCfiData(years, recordsPeer, recordsClient);
+    this.processDoeData(years, recordsPeer, recordsClient);
+    this.processDebtEndowmentData(years, recordsPeer, recordsClient);
+    this.processRevenueExpenseData(years, recordsPeer, recordsClient);
+    this.processFinancialPositionData(years, recordsPeer, recordsClient);
+    this.processFinancialStatementData(years, recordsPeer, recordsClient);
+    this.processFinancialAnalysisData(years, recordsPeer, recordsClient);
 
     // Save all data to localStorage at once
     this.dataStore.saveAllToLocalStorage();
-  }
-
-  // GENERAL DATA PROCESSING
-  processGeneralData(years, recordsPeer, recordsClient) {
-    years.forEach((year) => {
-      const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      const filteredClientRecords = this.filterRecordsByYear(
-        recordsClient,
-        year
-      );
-
-      // Process peer records
-      filteredPeerRecords.forEach((record) => {
-        // givingUnits
-        this.dataStore.insertData(
-          "general",
-          "peer",
-          year,
-          "givingUnits_Peer",
-          record,
-          "0"
-        );
-
-        // missionaryUnit
-        this.dataStore.insertData(
-          "general",
-          "peer",
-          year,
-          "missionaryUnit_Peer",
-          record,
-          "0"
-        );
-
-        // numberOfEmployeesFTE
-        this.dataStore.insertData(
-          "general",
-          "peer",
-          year,
-          "numberOfEmployeesFTE_Peer",
-          record,
-          "0"
-        );
-
-        // itExpenses
-        this.dataStore.insertData(
-          "general",
-          "peer",
-          year,
-          "itExpenses_Peer",
-          record,
-          "c01_04_ratio_it_expenses",
-          "c01_04_yes_no_it_expenses"
-        );
-      });
-
-      // Process client records
-      filteredClientRecords.forEach((record) => {
-        // givingUnits
-        this.dataStore.insertData(
-          "general",
-          "client",
-          year,
-          "givingUnits_Client",
-          record,
-          "c01_01_ratio_giving_units"
-        );
-
-        // missionaryUnit
-        this.dataStore.insertData(
-          "general",
-          "client",
-          year,
-          "missionaryUnit_Client",
-          record,
-          "c01_02_ratio_missionary_unit"
-        );
-
-        // numberOfEmployeesFTE
-        this.dataStore.insertData(
-          "general",
-          "client",
-          year,
-          "numberOfEmployeesFTE_Client",
-          record,
-          "c01_03_ratio_number_of_employees_fte"
-        );
-
-        // itExpenses
-        this.dataStore.insertData(
-          "general",
-          "client",
-          year,
-          "itExpenses_Client",
-          record,
-          "c01_04_ratio_it_expenses"
-        );
-
-        // Net assets data
-        this.dataStore.insertData(
-          "general",
-          "client",
-          year,
-          "netAssetsWithoutDonorRestrictions_Client",
-          record,
-          "_01__03na___01_net_assets_without_donor_restrictions"
-        );
-        this.dataStore.insertData(
-          "general",
-          "client",
-          year,
-          "netAssetsWithDonorRestrictionsSum_Client",
-          record,
-          "_01__03na___03a_net_assets_with_donor_restrictions_sum"
-        );
-
-        this.dataStore.insertData(
-          "general",
-          "client",
-          year,
-          "changeInNetAssets_Client",
-          record,
-          "_02_04change___03_change_in_net_assets_with_and_wo_donor_restriction_sum"
-        );
-      });
-    });
   }
 
   // CASH DATA PROCESSING
@@ -1103,8 +998,7 @@ class DataProcessor {
     });
   }
 
-  // ASSET DATA PROCESSING
-  processAssetData(years, recordsPeer, recordsClient) {
+  processCfiData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
       const filteredClientRecords = this.filterRecordsByYear(
@@ -1112,1178 +1006,1349 @@ class DataProcessor {
         year
       );
 
-      // Process peer records for asset metrics
+      // Process peer records
       filteredPeerRecords.forEach((record) => {
-        // Percent With DR
+        // cfiRatio_peerAverage
         this.dataStore.insertData(
-          "asset",
+          "cfi",
           "peer",
           year,
-          "percentWithDR_Peer",
+          "cfiRatio_peerAverage_Peer",
           record,
-          "c03_01_ratio_percent_with_donor_restrictions",
-          "c03_01_yes_no_percent_with_donor_restrictions"
-        );
-        this.dataStore.insertData(
-          "asset",
-          "peer",
-          year,
-          "netAssetsWithDRByPurposeOrTime",
-          record,
-          "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
-          "c03_01_yes_no_percent_with_donor_restrictions",
-          "percentWithDR"
-        );
-        this.dataStore.insertData(
-          "asset",
-          "peer",
-          year,
-          "netAssetsWithDRInPerpetuity",
-          record,
-          "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
-          "c03_01_yes_no_percent_with_donor_restrictions",
-          "percentWithDR"
-        );
-        this.dataStore.insertData(
-          "asset",
-          "peer",
-          year,
-          "totalNetAssets",
-          record,
-          "_01__03na___04_total_net_assets",
-          "c03_01_yes_no_percent_with_donor_restrictions",
-          "percentWithDR"
+          "r119_ccfi_overall_ratio",
+          "r119_ccfi_overall_ratioyn"
         );
 
-        // Percent Without DR Excluding PPE
+        // primaryReserveRatio_peerAverage
         this.dataStore.insertData(
-          "asset",
+          "cfi",
           "peer",
           year,
-          "percentWithoutDR_excludingPPE_Peer",
+          "primaryReserveRatio_peerAverage_Peer",
           record,
-          "c03_02_ratio_percent_without_donor_restrictions_excluding_net_investment_in_ppe",
-          "c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe"
-        );
-        this.dataStore.insertData(
-          "asset",
-          "peer",
-          year,
-          "netAssetsWithoutDR",
-          record,
-          "_01__03na___01_net_assets_without_donor_restrictions",
-          "c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe",
-          "percentWithoutDR_excludingPPE"
-        );
-        this.dataStore.insertData(
-          "asset",
-          "peer",
-          year,
-          "propertyPlantAndEquipment",
-          record,
-          "_01__01ass___09_property__plant_and_equipment",
-          "c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe",
-          "percentWithoutDR_excludingPPE"
-        );
-        this.dataStore.insertData(
-          "asset",
-          "peer",
-          year,
-          "notesPayable",
-          record,
-          "_01__02liab___02_notes_payable",
-          "c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe",
-          "percentWithoutDR_excludingPPE"
-        );
-        this.dataStore.insertData(
-          "asset",
-          "peer",
-          year,
-          "totalNetAssets",
-          record,
-          "_01__03na___04_total_net_assets",
-          "c03_02_yes_no_percent_without_donor_restrictions_excluding_net_investment_in_ppe",
-          "percentWithoutDR_excludingPPE"
+          "r115_ccfi_primary_reserve_ratio",
+          "r115_ccfi_primary_reserve_ratioyn"
         );
 
-        // Percent Without DR
+        // netIncomeOperationsRatio_peerAverage
         this.dataStore.insertData(
-          "asset",
+          "cfi",
           "peer",
           year,
-          "percentWithoutDR_Peer",
+          "netIncomeOperationsRatio_peerAverage_Peer",
           record,
-          "c03_03_ratio_percent_without_donor_restrictions",
-          "c03_03_yes_no_percent_without_donor_restrictions"
+          "r116_ccfi_net_income_operations_ratio",
+          "r116_ccfi_net_income_operations_ratioyn"
         );
+
+        // returnOnNetAssets_peerAverage
         this.dataStore.insertData(
-          "asset",
+          "cfi",
           "peer",
           year,
-          "netAssetsWithoutDR",
+          "returnOnNetAssets_peerAverage_Peer",
           record,
-          "_01__03na___01_net_assets_without_donor_restrictions",
-          "c03_03_yes_no_percent_without_donor_restrictions",
-          "percentWithoutDR"
+          "r117_ccfi_return_on_net_assets_total_return_ratio",
+          "r117_ccfi_return_on_net_assets_total_return_ratioyn"
         );
+
+        // viabilityRatio_peerAverage
         this.dataStore.insertData(
-          "asset",
+          "cfi",
           "peer",
           year,
-          "totalNetAssets",
+          "viabilityRatio_peerAverage_Peer",
           record,
-          "_01__03na___04_total_net_assets",
-          "c03_03_yes_no_percent_without_donor_restrictions",
-          "percentWithoutDR"
+          "r118_ccfi_viability_ratio",
+          "r118_ccfi_viability_ratioyn"
         );
       });
 
-      // Process client records for asset metrics
+      // Process client records
       filteredClientRecords.forEach((record) => {
-        // Percent With DR
+        // cfiRatio
         this.dataStore.insertData(
-          "asset",
+          "cfi",
           "client",
           year,
-          "percentWithDR_Client",
+          "cfiRatio_Client",
           record,
-          "c03_01_ratio_percent_with_donor_restrictions"
+          "r119_ccfi_overall_ratio"
         );
 
-        // Percent Without DR Excluding PPE
+        // cfi_primaryReserveRatio
         this.dataStore.insertData(
-          "asset",
+          "cfi",
           "client",
           year,
-          "percentWithoutDR_excludingPPE_Client",
+          "cfi_primaryReserveRatio_Client",
           record,
-          "c03_02_ratio_percent_without_donor_restrictions_excluding_net_investment_in_ppe"
+          "r115_ccfi_primary_reserve_ratio"
         );
 
-        // Percent Without DR
+        // cfi_primaryReserveRatio_Strength
         this.dataStore.insertData(
-          "asset",
+          "cfi",
           "client",
           year,
-          "percentWithoutDR_Client",
+          "cfi_primaryReserveRatio_Strength_Client",
           record,
-          "c03_03_ratio_percent_without_donor_restrictions"
+          "r115_ccfi_primary_reserve_ratio_cfi_score___strength"
+        );
+
+        // cfi_primaryReserveRatio_Weight
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_primaryReserveRatio_Weight_Client",
+          record,
+          "r115_ccfi_primary_reserve_ratio_cfi_score___weight"
+        );
+
+        // cfi_primaryReserveRatio_Score
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_primaryReserveRatio_Score_Client",
+          record,
+          "r115_ccfi_primary_reserve_ratio_cfi_score"
+        );
+
+        // cfi_netIncomeOperationsRatio
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_netIncomeOperationsRatio_Client",
+          record,
+          "r116_ccfi_net_income_operations_ratio"
+        );
+
+        // cfi_netIncomeOperationsRatio_Strength
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_netIncomeOperationsRatio_Strength_Client",
+          record,
+          "r116_ccfi_net_income_operations_ratio_cfi_score___strength"
+        );
+
+        // cfi_netIncomeOperationsRatio_Weight
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_netIncomeOperationsRatio_Weight_Client",
+          record,
+          "r116_ccfi_net_income_operations_ratio_cfi_score___weight"
+        );
+
+        // cfi_netIncomeOperationsRatio_Score
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_netIncomeOperationsRatio_Score_Client",
+          record,
+          "r116_ccfi_net_income_operations_ratio_cfi_score"
+        );
+
+        // cfi_returnOnNetAssets
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_returnOnNetAssets_Client",
+          record,
+          "r117_ccfi_return_on_net_assets_total_return_ratio"
+        );
+
+        // cfi_returnOnNetAssets_Strength
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_returnOnNetAssets_Strength_Client",
+          record,
+          "r117_ccfi_return_on_net_assets_total_return_ratio_cfi_score___strength"
+        );
+
+        // cfi_returnOnNetAssets_Weight
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_returnOnNetAssets_Weight_Client",
+          record,
+          "r117_ccfi_return_on_net_assets_total_return_ratio_cfi_score___weight"
+        );
+
+        // cfi_returnOnNetAssets_Score
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_returnOnNetAssets_Score_Client",
+          record,
+          "r117_ccfi_return_on_net_assets_total_return_ratio_cfi_score"
+        );
+
+        // cfi_viabilityRatio
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_viabilityRatio_Client",
+          record,
+          "r118_ccfi_viability_ratio"
+        );
+
+        // cfi_viabilityRatio_Strength
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_viabilityRatio_Strength_Client",
+          record,
+          "r118_ccfi_viability_ratio_cfi_score___strength"
+        );
+
+        // cfi_viabilityRatio_Weight
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_viabilityRatio_Weight_Client",
+          record,
+          "r118_ccfi_viability_ratio_cfi_score___weight"
+        );
+
+        // cfi_viabilityRatio_Score
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfi_viabilityRatio_Score_Client",
+          record,
+          "r118_ccfi_viability_ratio_cfi_score"
+        );
+
+        // PRIMARY RESERVE RATIO
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "primaryReserveRatio_Client",
+          record,
+          "r115_ccfi_primary_reserve_ratio"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "pr_nonrestrictedNetAssets_Client",
+          record,
+          "r017_net_assets_without_donor_restriction"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "pr_restrictedNetAssets_Client",
+          record,
+          "r018_net_assets_restricted_by_time_or_purpose"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "pr_propertyAndEquipment_Client",
+          record,
+          "r099_ctotal_property_and_equipment_less_depreciation"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "pr_notesPayable_Client",
+          record,
+          "r015_notes_payable"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "pr_cfi_primaryReserveAdjustment_Client",
+          record,
+          "r114_cfi_primary_reserve_adjustment_number"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "pr_totalFunctionalExpenses_Client",
+          record,
+          "r044_ctotal_functional_expenses"
+        );
+
+        // NET INCOME OPERATIONS RATIO
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "netIncomeOperationsRatio_Client",
+          record,
+          "r116_ccfi_net_income_operations_ratio"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "ni_operatingRevenuesSupportAndReleases_Client",
+          record,
+          "r036_coperating_revenues_support_and_releases"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "ni_totalFunctionalExpenses_Client",
+          record,
+          "r044_ctotal_functional_expenses"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "ni_nonOperatingActivitiesInvestmentIncome_Client",
+          record,
+          "r047_non_operating_activities_investment_income"
+        );
+
+        // CFI RETURN ON NET ASSETS
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "returnOnNetAssets_Client",
+          record,
+          "r117_ccfi_return_on_net_assets_total_return_ratio"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "ro_changeInNetAssets_Client",
+          record,
+          "r065_cchange_in_net_assets"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "ro_netAssetsBeginningOfYear_Client",
+          record,
+          "r066_net_assets_beginning_of_year"
+        );
+
+        // VIABILITY RATIO
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "viabilityRatio_Client",
+          record,
+          "r118_ccfi_viability_ratio"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "vr_nonrestrictedNetAssets_Client",
+          record,
+          "r017_net_assets_without_donor_restriction"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "vr_restrictedNetAssets_Client",
+          record,
+          "r018_net_assets_restricted_by_time_or_purpose"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "vr_totalPropertyAndEquipment_Client",
+          record,
+          "r099_ctotal_property_and_equipment_less_depreciation"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "vr_accumulatedDepreciation_Client",
+          record,
+          "r098_accumulated_depreciation"
+        );
+
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "vr_notesPayable_Client",
+          record,
+          "r015_notes_payable"
+        );
+      });
+    });
+
+    const selectedYears = getSelectedYearsFromLocalStorage();
+    const cfiValue =
+      this.dataStore.cfiData.cfiRatio_Client[
+        selectedYears[selectedYears.length - 1]
+      ]?.value;
+    updateCfiValue(cfiValue, selectedYears[selectedYears.length - 1]);
+    const thCfiScoreElement = document.getElementById("th_cfiScore");
+    thCfiScoreElement.textContent =
+      cfiValue !== undefined && !isNaN(cfiValue) && cfiValue !== 0
+        ? cfiValue
+        : "-";
+  }
+
+  processDebtEndowmentContentData(years, recordsPeer, recordsClient) {
+    years.forEach((year) => {
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
+      const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
+
+      // Process client records
+      filteredClientRecords.forEach((record) => {
+        // Long Term Debt Per Total Operating Revenue
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "longTermDebtForLongTermPurpose_Client",
+          record,
+          "r285_clong_term_debt_per_total_operating_revenue"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "longTermDebt_Client",
+          record,
+          "r015_notes_payable"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "totalOperatingRevenue_Client",
+          record,
+          "r036_coperating_revenues_support_and_releases"
+        );
+
+        // Debt Service Coverage Ratio
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r288_cdebt_service_coverage_ratio"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "debtService_Client",
+          record,
+          "r286_cdebt_service"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "interest_Client",
+          record,
+          "r165_interest"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "principalPayments_Client",
+          record,
+          "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable"
+        );
+
+        // Debt Burden Ratio
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r287_cdebt_burden_ratio"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "operationalExpense_Client",
+          record,
+          "r044_ctotal_functional_expenses"
+        );
+
+        // Endowment Operating Budget
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r153_cendowment_to_expenses_ratio"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "endowment_Client",
+          record,
+          "e001_endowment_size"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "annualOperatingBudget_Client",
+          record,
+          "r044_ctotal_functional_expenses"
+        );
+
+        // Endowment Assets Per Student
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r152_cendowment_assets_per_student"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "totalStudentFte_Client",
+          record,
+          "g025_ctotal_student_fte"
+        );
+      });
+
+      // Process peer records
+      filteredPeerRecords.forEach((record) => {
+        // Debt Burden Ratio
+        this.dataStore.insertData(
+          "debtEndowment",
+          "peer",
+          year,
+          "ratio_Peer",
+          record,
+          "r287_cdebt_burden_ratio",
+          "Yes"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "peer",
+          year,
+          "operationalExpense_Peer",
+          record,
+          "r044_ctotal_functional_expenses",
+          "Yes"
+        );
+
+        // Endowment Assets Per Student
+        this.dataStore.insertData(
+          "debtEndowment",
+          "peer",
+          year,
+          "ratio_Peer",
+          record,
+          "r152_cendowment_assets_per_student",
+          "Yes"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "peer",
+          year,
+          "endowment_Peer",
+          record,
+          "e001_endowment_size",
+          "Yes"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "peer",
+          year,
+          "totalStudentFte_Peer",
+          record,
+          "g025_ctotal_student_fte",
+          "Yes"
         );
       });
     });
   }
 
-  // INCOME DATA PROCESSING
-  processIncomeData(years, recordsPeer, recordsClient) {
+  processRevenueExpenseContentData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
+      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      const filteredClientRecords = this.filterRecordsByYear(
-        recordsClient,
-        year
-      );
 
-      // Process peer records for income metrics
+      // Process client records
+      filteredClientRecords.forEach((record) => {
+        // Salaries and Benefits to Total Expense
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "salariesAndBenefitsToTotalExpense_Client",
+          record,
+          "r228_csalaries_and_benefits_to_total_expenses"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "salariesAndWages_Client",
+          record,
+          "r160_salaries_and_wages"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "employeeBenefits_Client",
+          record,
+          "r161_employee_benefits"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "totalFunctionalExpenses_Client",
+          record,
+          "r044_ctotal_functional_expenses"
+        );
+
+        // Average Employee Salary
+        const employeeSalaryFields = [
+          ["president_Client", "c011_sal_president"],
+          ["chiefAcademic_Client", "c021_sal_chief_academic"],
+          ["chiefFinance_Client", "c031_sal_chief_finance"],
+          ["chiefEnrollment_Client", "c041_sal_chief_enrollment"],
+          ["chiefDevelopment_Client", "c051_sal_chief_development"],
+          ["chiefOps_Client", "c061_sal_chief_ops"],
+          ["dirFinance_Client", "c071_sal_dir_of_fin_aid"],
+          ["dirHr_Client", "c081_sal_dir_of_hr"],
+          ["dirIt_Client", "c091_sal_dir_of_it"],
+          ["dirPhysPlant_Client", "c101_sal_dir_of_phys_plant"],
+          ["controller_Client", "c111_sal_controller"],
+          ["busMgr_Client", "c121_sal_bus_mgr"],
+          ["bursar_Client", "c131_sal_bursar"],
+          ["budgetDir_Client", "c141_sal_budget_dir"],
+          ["dirAcct_Client", "c151_sal_dir_of_acct"],
+          ["srAcct_Client", "c161_sal_sr_acct"],
+          ["nonSrAcct_Client", "c171_sal_non_sr_acct"],
+          ["stuAcctMgr_Client", "c181_sal_stu_acct_mgr"],
+          ["otherBusOffice_Client", "c191_sal_other_bus_office"],
+          ["adminAsst_Client", "c201_sal_admin_asst"]
+        ];
+
+        employeeSalaryFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "revenueExpense",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
+        });
+
+        // Salaries and Benefits Per Net Tuition
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "salariesAndBenefitsPerNetTuition_Client",
+          record,
+          "r284_csalaries_and_benefits_per_net_tuition_revenue"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "netTuitionAndFees_Client",
+          record,
+          "r026_cnet_tuition_and_fees"
+        );
+
+        // Admin Costs Per Student
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "adminCostsPerStudent_Client",
+          record,
+          "r230_cadmin_costs_per_student"
+        );
+
+        // Net Educational Expense Per Student
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r138_cnet_educational_expenses_per_student"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "netEducationalExpenses_Client",
+          record,
+          "r137_cnet_educational_expenses"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "totalStudents_Client",
+          record,
+          "g025_ctotal_student_fte"
+        );
+
+        // Annual Traditional Net Tuition Per Student
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r136_cnet_tuition_per_student"
+        );
+
+        // Tuition Dependency
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r147_cnet_tuition_dependency_ratio"
+        );
+
+        // Tuition Discount Rate
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r229_ctuition_discount_rate"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "revenueScholarshipsAndFinanancialAid_Client",
+          record,
+          "r024_revenue_scholarships_and_financial_aid"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "revenueTuitionAndFees_Client",
+          record,
+          "r023_revenue_tuition_and_fees"
+        );
+      });
+
+      // Process peer records
       filteredPeerRecords.forEach((record) => {
+        // Average Employee Salary
+        const peerSalaryFields = [
+          ["president_Peer", "c011_sal_president"],
+          ["chiefAcademic_Peer", "c021_sal_chief_academic"],
+          ["chiefFinance_Peer", "c031_sal_chief_finance"],
+          ["chiefEnrollment_Peer", "c041_sal_chief_enrollment"],
+          ["chiefDevelopment_Peer", "c051_sal_chief_development"],
+          ["chiefOps_Peer", "c061_sal_chief_ops"],
+          ["dirFinance_Peer", "c071_sal_dir_of_fin_aid"],
+          ["dirHr_Peer", "c081_sal_dir_of_hr"],
+          ["dirIt_Peer", "c091_sal_dir_of_it"],
+          ["dirPhysPlant_Peer", "c101_sal_dir_of_phys_plant"],
+          ["controller_Peer", "c111_sal_controller"],
+          ["busMgr_Peer", "c121_sal_bus_mgr"],
+          ["bursar_Peer", "c131_sal_bursar"],
+          ["budgetDir_Peer", "c141_sal_budget_dir"],
+          ["dirAcct_Peer", "c151_sal_dir_of_acct"],
+          ["srAcct_Peer", "c161_sal_sr_acct"],
+          ["nonSrAcct_Peer", "c171_sal_non_sr_acct"],
+          ["stuAcctMgr_Peer", "c181_sal_stu_acct_mgr"],
+          ["otherBusOffice_Peer", "c191_sal_other_bus_office"],
+          ["adminAsst_Peer", "c201_sal_admin_asst"]
+        ];
+
+        peerSalaryFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "revenueExpense",
+            "peer",
+            year,
+            key,
+            record,
+            field,
+            "Yes"
+          );
+        });
+
+        // Admin Costs Per Student
+        const adminCostsFields = [
+          ["salAdminAsst_Peer", "c201_sal_admin_asst"],
+          ["ficaAdminAsst_Peer", "c203_fica_admin_asst"],
+          ["healthAdminAsst_Peer", "c204_health_admin_asst"],
+          ["disabilityAdminAsst_Peer", "c205_disability_admin_asst"],
+          ["retirementAdminAsst_Peer", "c206_retirement_admin_asst"],
+          ["housingAdminAsst_Peer", "c207_housing_admin_asst"],
+          ["otherAdminAsst_Peer", "c208_other_admin_asst"],
+          ["totalStudentFte_Peer", "g025_ctotal_student_fte"],
+          ["totalStudentUhc_Peer", "g035_ctotal_student_uhc"]
+        ];
+
+        adminCostsFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "revenueExpense",
+            "peer",
+            year,
+            key,
+            record,
+            field,
+            "Yes"
+          );
+        });
+
+        // Net Educational Expense Per Student
+        this.dataStore.insertData(
+          "revenueExpense",
+          "peer",
+          year,
+          "ratio_Peer",
+          record,
+          "r138_cnet_educational_expenses_per_student",
+          "Yes"
+        );
+
+        // Tuition Dependency
+        this.dataStore.insertData(
+          "revenueExpense",
+          "peer",
+          year,
+          "ratio_Peer",
+          record,
+          "r147_cnet_tuition_dependency_ratio",
+          "Yes"
+        );
+
+        // Tuition Discount Rate
+        this.dataStore.insertData(
+          "revenueExpense",
+          "peer",
+          year,
+          "ratio_Peer",
+          record,
+          "r229_ctuition_discount_rate",
+          "Yes"
+        );
+      });
+    });
+  }
+
+  processFinancialPositionContentData(years, recordsPeer, recordsClient) {
+    years.forEach((year) => {
+      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
+
+      // Process client records
+      filteredClientRecords.forEach((record) => {
+        // Current Ratio
+        const currentRatioFields = [
+          ["cashAndCashEquivalents_Client", "r001_cash_and_cash_equivalents"],
+          ["accountsReceivable_Client", "r002_accounts_receivable_net"],
+          ["studentLoansAndOtherReceivables_Client", "r003_student_loans_and_other_receivables"],
+          ["contributionsReceivable_Client", "r004_contributions_receivable"],
+          ["prepaidExpensesAndOtherAssets_Client", "r005_prepaid_expenses_and_other_assets"],
+          ["accountsPayable_Client", "r009_accounts_payable_and_accrued_liabilities"],
+          ["deferredRevenue_Client", "r010_deferred_revenue"],
+          ["postRetirementHealthBenefits_Client", "r011_post_retirement_health_benefits"],
+          ["annuityObligations_Client", "r012_annuity_obligations"],
+          ["otherLiabilities_Client", "r013_other_liabilities"]
+        ];
+
+        currentRatioFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialPosition",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
+        });
+
+        // Liquidity
+        const liquidityFields = [
+          ["fasbLiquidity_Client", "r250_fasb_liquidity"],
+          ["quasiEndowment_Client", "r251_quasi_endowment"],
+          ["lineOfCredit_Client", "r252_line_of_credit_available"]
+        ];
+
+        liquidityFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialPosition",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
+        });
+      });
+
+      // Process peer records
+      filteredPeerRecords.forEach((record) => {
+        // Current Ratio
+        this.dataStore.insertData(
+          "financialPosition",
+          "peer",
+          year,
+          "currentRatio_Peer",
+          record,
+          "r258_ccurrent_ratio",
+          "Yes"
+        );
+
+        this.dataStore.insertData(
+          "financialPosition",
+          "peer",
+          year,
+          "currentAssets_Peer",
+          record,
+          "r256_ccurrent_assets",
+          "Yes"
+        );
+
+        this.dataStore.insertData(
+          "financialPosition",
+          "peer",
+          year,
+          "currentLiabilities_Peer",
+          record,
+          "r257_ccurrent_liabilities",
+          "Yes"
+        );
+
+        // Liquidity
+        this.dataStore.insertData(
+          "financialPosition",
+          "peer",
+          year,
+          "liquidity_Peer",
+          record,
+          "r250_fasb_liquidity",
+          "Yes"
+        );
+      });
+    });
+  }
+
+  processFinancialAnalysisContentData(years, recordsPeer, recordsClient) {
+    years.forEach((year) => {
+      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
+
+      // Process client records
+      filteredClientRecords.forEach((record) => {
+        // Operating Results
+        const operatingResultsFields = [
+          ["operatingRevenuesSupportAndRelease_Client", "r036_coperating_revenues_support_and_releases"],
+          ["totalFunctionalExpenses_Client", "r044_ctotal_functional_expenses"],
+          ["changeInNetAssetsFromOperations_Client", "r045_cchange_in_net_assets_from_operations"]
+        ];
+
+        operatingResultsFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialAnalysis",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
+        });
+
+        // Net Operating Income Ratio
+        this.dataStore.insertData(
+          "financialAnalysis",
+          "client",
+          year,
+          "netOperatingIncomeRatio_Client",
+          record,
+          "r227_cnet_operating_income_ratio"
+        );
+
+        // Operating Revenue Growth
+        this.dataStore.insertData(
+          "financialAnalysis",
+          "client",
+          year,
+          "operatingRevenueGrowth_Client",
+          record,
+          "r231_coperating_revenue_growth"
+        );
+
+        // Operating Expense Growth
+        this.dataStore.insertData(
+          "financialAnalysis",
+          "client",
+          year,
+          "operatingExpenseGrowth_Client",
+          record,
+          "r232_coperating_expense_growth"
+        );
+      });
+
+      // Process peer records
+      filteredPeerRecords.forEach((record) => {
+        // Net Operating Income Ratio
+        this.dataStore.insertData(
+          "financialAnalysis",
+          "peer",
+          year,
+          "netOperatingIncomeRatio_Peer",
+          record,
+          "r227_cnet_operating_income_ratio",
+          "Yes"
+        );
+
+        // Operating Revenue Growth
+        this.dataStore.insertData(
+          "financialAnalysis",
+          "peer",
+          year,
+          "operatingRevenueGrowth_Peer",
+          record,
+          "r231_coperating_revenue_growth",
+          "Yes"
+        );
+
+        // Operating Expense Growth
+        this.dataStore.insertData(
+          "financialAnalysis",
+          "peer",
+          year,
+          "operatingExpenseGrowth_Peer",
+          record,
+          "r232_coperating_expense_growth",
+          "Yes"
+        );
+      });
+    });
+  }
+
+  processDoeData(years, recordsPeer, recordsClient) {
+    years.forEach((year) => {
+      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
+
+      // Process client records
+      filteredClientRecords.forEach((record) => {
+        // Composite Score
+        this.dataStore.insertData(
+          "doe",
+          "client",
+          year,
+          "compositeScore_Client",
+          record,
+          "r226_ccomposite_score"
+        );
+
+        // Primary Reserve Ratio
+        const primaryReserveFields = [
+          ["primaryReserveRatio_Client", "r223_cprimary_reserve_ratio"],
+          ["expendableNetAssets_Client", "r217_cexpendable_net_assets"],
+          ["totalExpenses_Client", "r044_ctotal_functional_expenses"]
+        ];
+
+        primaryReserveFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "doe",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
+        });
+
+        // Equity Ratio
+        const equityFields = [
+          ["equityRatio_Client", "r224_cequity_ratio"],
+          ["modifiedNetAssets_Client", "r218_cmodified_net_assets"],
+          ["modifiedAssets_Client", "r219_cmodified_assets"]
+        ];
+
+        equityFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "doe",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
+        });
+
+        // Net Income Ratio
+        const netIncomeFields = [
+          ["netIncomeRatio_Client", "r225_cnet_income_ratio"],
+          ["changeInUnrestrictedNetAssets_Client", "r220_cchange_in_unrestricted_net_assets"],
+          ["totalUnrestrictedRevenue_Client", "r221_ctotal_unrestricted_revenue"]
+        ];
+
+        netIncomeFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "doe",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
+        });
+      });
+
+      // Process peer records
+      filteredPeerRecords.forEach((record) => {
+        // Composite Score
+        this.dataStore.insertData(
+          "doe",
+          "peer",
+          year,
+          "compositeScore_Peer",
+          record,
+          "r226_ccomposite_score",
+          "Yes"
+        );
+
+        // Primary Reserve Ratio
+        this.dataStore.insertData(
+          "doe",
+          "peer",
+          year,
+          "primaryReserveRatio_Peer",
+          record,
+          "r223_cprimary_reserve_ratio",
+          "Yes"
+        );
+
+        // Equity Ratio
+        this.dataStore.insertData(
+          "doe",
+          "peer",
+          year,
+          "equityRatio_Peer",
+          record,
+          "r224_cequity_ratio",
+          "Yes"
+        );
+
         // Net Income Ratio
         this.dataStore.insertData(
-          "income",
+          "doe",
           "peer",
           year,
           "netIncomeRatio_Peer",
           record,
-          "c04_01_ratio_net_income_ratio",
-          "c04_01_yes_no_net_income_ratio"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "changeInNetAssetsWithoutDR",
-          record,
-          "_02_04change___01_change_in_net_assets_without_donor_restriction",
-          "c04_01_yes_no_net_income_ratio",
-          "netIncomeRatio"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "changeInNetAssetsWithDR",
-          record,
-          "_02_04change___02_change_in_net_assets_with_donor_restriction",
-          "c04_01_yes_no_net_income_ratio",
-          "netIncomeRatio"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "totalSupportAndRevenueWithoutDR",
-          record,
-          "_02_01sr___08_total_support_and_revenue_without_donor_restrictions",
-          "c04_01_yes_no_net_income_ratio",
-          "netIncomeRatio"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "totalSupportAndRevenueWithDR",
-          record,
-          "_02_01sr___09_total_support_and_revenue_with_donor_restrictions",
-          "c04_01_yes_no_net_income_ratio",
-          "netIncomeRatio"
-        );
-
-        // Contributions Trend Based On Number Of Donors
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsTrend_basedOnNumberOfDonors_Peer",
-          record,
-          "c04_02_ratio_contributions_trend_based_on_donor_count",
-          "c04_02_yes_no_contributions_trend_based_on_donor_count"
-        );
-
-        // Contributions Trend
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsTrend_Peer",
-          record,
-          "c04_03_ratio_contributions_trend",
-          "c04_03_yes_no_contributions_trend"
-        );
-
-        // Contributions Percent Without DR
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsPercentWithoutDR_Peer",
-          record,
-          "c04_04_ratio_contributions_percent_without_donor_restrictions",
-          "c04_04_yes_no_contributions_percent_without_donor_restrictions"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithoutDR",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions",
-          "c04_04_yes_no_contributions_percent_without_donor_restrictions",
-          "contributionsPercentWithoutDR"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithDR",
-          record,
-          "_02_01sr___02_contributions_with_donor_restrictions",
-          "c04_04_yes_no_contributions_percent_without_donor_restrictions",
-          "contributionsPercentWithoutDR"
-        );
-
-        // Contributions Percent With DR
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsPercentWithDR_Peer",
-          record,
-          "c04_05_ratio_contributions_percent_with_donor_restrictions",
-          "c04_05_yes_no_contributions_percent_with_donor_restrictions"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithoutDR",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions",
-          "c04_05_yes_no_contributions_percent_with_donor_restrictions",
-          "contributionsPercentWithDR"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithDR",
-          record,
-          "_02_01sr___02_contributions_with_donor_restrictions",
-          "c04_05_yes_no_contributions_percent_with_donor_restrictions",
-          "contributionsPercentWithDR"
-        );
-
-        // Contributions Per Giving Unit
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsPerGivingUnit_Peer",
-          record,
-          "c04_06_ratio_contributions_per_giving_unit",
-          "c04_06_yes_no_contributions_per_giving_unit"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithoutDR",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions",
-          "c04_06_yes_no_contributions_per_giving_unit",
-          "contributionsPerGivingUnit"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithDR",
-          record,
-          "_02_01sr___02_contributions_with_donor_restrictions",
-          "c04_06_yes_no_contributions_per_giving_unit",
-          "contributionsPerGivingUnit"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "givingUnit",
-          record,
-          "_06_01nonfin___02_giving_unit",
-          "c04_06_yes_no_contributions_per_giving_unit",
-          "contributionsPerGivingUnit"
-        );
-
-        // Contributions Per Missionary Unit
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsPerMissionaryUnit_Peer",
-          record,
-          "c04_07_ratio_contributions_per_missionary_unit",
-          "c04_07_yes_no_contributions_per_missionary_unit"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithoutDR",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions",
-          "c04_07_yes_no_contributions_per_missionary_unit",
-          "contributionsPerMissionaryUnit"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithDR",
-          record,
-          "_02_01sr___02_contributions_with_donor_restrictions",
-          "c04_07_yes_no_contributions_per_missionary_unit",
-          "contributionsPerMissionaryUnit"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "missionaryUnit",
-          record,
-          "_06_01nonfin___01_missionary_unit",
-          "c04_07_yes_no_contributions_per_missionary_unit",
-          "contributionsPerMissionaryUnit"
-        );
-
-        // Contributions Per Full Time Equivalent
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsPerFullTimeEquivalent_Peer",
-          record,
-          "c04_08_ratio_contributions_per_full_time_equivalent",
-          "c04_08_yes_no_contributions_per_full_time_equivalent"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithoutDR",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions",
-          "c04_08_yes_no_contributions_per_full_time_equivalent",
-          "contributionsPerFullTimeEquivalent"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithDR",
-          record,
-          "_02_01sr___02_contributions_with_donor_restrictions",
-          "c04_08_yes_no_contributions_per_full_time_equivalent",
-          "contributionsPerFullTimeEquivalent"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "numberOfEmployeesFTE",
-          record,
-          "_06_01nonfin___03_number_of_employees_fte",
-          "c04_08_yes_no_contributions_per_full_time_equivalent",
-          "contributionsPerFullTimeEquivalent"
-        );
-
-        // Fundraising As Percent Of Contributions
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "fundraisingAsPercentOfContributions_Peer",
-          record,
-          "c04_09_ratio_fundraising_as_percent_of_contributions",
-          "c04_09_yes_no_fundraising_as_percent_of_contributions"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithoutDR",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions",
-          "c04_09_yes_no_fundraising_as_percent_of_contributions",
-          "fundraisingAsPercentOfContributions"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithDR",
-          record,
-          "_02_01sr___02_contributions_with_donor_restrictions",
-          "c04_09_yes_no_fundraising_as_percent_of_contributions",
-          "fundraisingAsPercentOfContributions"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "fundraisingExpenses",
-          record,
-          "_02_03exp___03_fundraising_expenses",
-          "c04_09_yes_no_fundraising_as_percent_of_contributions",
-          "fundraisingAsPercentOfContributions"
-        );
-
-        // Annualized Investment Return
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "annualizedInvestmentReturn_Peer",
-          record,
-          "c04_10_ratio_annualized_investment_return",
-          "c04_10_yes_no_annualized_investment_return"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "investmentIncome",
-          record,
-          "_02_01sr___03_investment_income",
-          "c04_10_yes_no_annualized_investment_return",
-          "annualizedInvestmentReturn"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "investments",
-          record,
-          "_01__01ass___03_investments",
-          "c04_10_yes_no_annualized_investment_return",
-          "annualizedInvestmentReturn"
-        );
-
-        // Total Contributions
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "totalContributions_Peer",
-          record,
-          "_02_01sr___00_contributions_with_and_without_sum",
+          "r225_cnet_income_ratio",
           "Yes"
-        );
-
-        // Contributions without DR
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithoutDR_Peer",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions",
-          "Yes"
-        );
-      });
-
-      // Process client records for income metrics
-      filteredClientRecords.forEach((record) => {
-        // Net Income Ratio
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "netIncomeRatio_Client",
-          record,
-          "c04_01_ratio_net_income_ratio"
-        );
-
-        // Contributions Trend Based On Number Of Donors
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsTrend_basedOnNumberOfDonors_Client",
-          record,
-          "c04_02_ratio_contributions_trend_based_on_donor_count"
-        );
-
-        // Contributions Trend
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsTrend_Client",
-          record,
-          "c04_03_ratio_contributions_trend"
-        );
-
-        // Contributions Percent Without DR
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsPercentWithoutDR_Client",
-          record,
-          "c04_04_ratio_contributions_percent_without_donor_restrictions"
-        );
-
-        // Contributions Percent With DR
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsPercentWithDR_Client",
-          record,
-          "c04_05_ratio_contributions_percent_with_donor_restrictions"
-        );
-
-        // Contributions Per Giving Unit
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsPerGivingUnit_Client",
-          record,
-          "c04_06_ratio_contributions_per_giving_unit"
-        );
-
-        // Contributions Per Missionary Unit
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsPerMissionaryUnit_Client",
-          record,
-          "c04_07_ratio_contributions_per_missionary_unit"
-        );
-
-        // Contributions Per Full Time Equivalent
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsPerFullTimeEquivalent_Client",
-          record,
-          "c04_08_ratio_contributions_per_full_time_equivalent"
-        );
-
-        // Fundraising As Percent Of Contributions
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "fundraisingAsPercentOfContributions_Client",
-          record,
-          "c04_09_ratio_fundraising_as_percent_of_contributions"
-        );
-
-        // Annualized Investment Return
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "annualizedInvestmentReturn_Client",
-          record,
-          "c04_10_ratio_annualized_investment_return"
-        );
-        2;
-
-        // Total Contributions
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "totalContributions_Client",
-          record,
-          "_02_01sr___00_contributions_with_and_without_sum"
-        );
-
-        // Contributions Without DR
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsWithoutDR_Client",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions"
         );
       });
     });
   }
 
-  // EXPENSE DATA PROCESSING
-  processExpenseData(years, recordsPeer, recordsClient) {
+  processFinancialStatementContentData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
+      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      const filteredClientRecords = this.filterRecordsByYear(
-        recordsClient,
-        year
-      );
 
-      // Process peer records for expense metrics
-      filteredPeerRecords.forEach((record) => {
-        // Functional Expense Percent Program
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "functionalExpensePercent_program_Peer",
-          record,
-          "c05_01_ratio_functional_expense_percentage___program",
-          "c05_01_yes_no_functional_expense_percentage___program"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "programExpenses",
-          record,
-          "_02_03exp___01_program_expenses",
-          "c05_01_yes_no_functional_expense_percentage___program",
-          "functionalExpensePercent_program"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c05_01_yes_no_functional_expense_percentage___program",
-          "functionalExpensePercent_program"
-        );
-
-        // Functional Expense Percent Administrative
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "functionalExpensePercent_administrative_Peer",
-          record,
-          "c05_02_ratio_functional_expense_percentage___administrative",
-          "c05_02_yes_no_functional_expense_percentage___administrative"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "administrativeExpenses",
-          record,
-          "_02_03exp___02_administrative_expenses",
-          "c05_02_yes_no_functional_expense_percentage___administrative",
-          "functionalExpensePercent_administrative"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c05_02_yes_no_functional_expense_percentage___administrative",
-          "functionalExpensePercent_administrative"
-        );
-
-        // Functional Expense Percent Fundraising
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "functionalExpensePercent_fundraising_Peer",
-          record,
-          "c05_03_ratio_functional_expense_percentage___fundraising",
-          "c05_03_yes_no_functional_expense_percentage___fundraising"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "fundraisingExpenses",
-          record,
-          "_02_03exp___03_fundraising_expenses",
-          "c05_03_yes_no_functional_expense_percentage___fundraising",
-          "functionalExpensePercent_fundraising"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c05_03_yes_no_functional_expense_percentage___fundraising",
-          "functionalExpensePercent_fundraising"
-        );
-
-        // Functional Expense Percent Other
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "functionalExpensePercent_other_Peer",
-          record,
-          "c05_04_ratio_functional_expense_percentage___other",
-          "c05_04_yes_no_functional_expense_percentage___other"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "otherExpenses",
-          record,
-          "_02_03exp___04_other_expenses",
-          "c05_04_yes_no_functional_expense_percentage___other",
-          "functionalExpensePercent_other"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c05_04_yes_no_functional_expense_percentage___other",
-          "functionalExpensePercent_other"
-        );
-
-        // Cost Of Contributions
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "costOfContributions_Peer",
-          record,
-          "c05_05_ratio_cost_of_contributions_raise_1_dollar",
-          "c05_05_yes_no_cost_of_contributions_raise_1_dollar"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "fundraisingExpenses",
-          record,
-          "_02_03exp___03_fundraising_expenses",
-          "c05_05_yes_no_cost_of_contributions_raise_1_dollar",
-          "costOfContributions"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "contributionsWithoutDR",
-          record,
-          "_02_01sr___01_contributions_without_donor_restrictions",
-          "c05_05_yes_no_cost_of_contributions_raise_1_dollar",
-          "costOfContributions"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "contributionsWithDR",
-          record,
-          "_02_01sr___02_contributions_with_donor_restrictions",
-          "c05_05_yes_no_cost_of_contributions_raise_1_dollar",
-          "costOfContributions"
-        );
-
-        // Expenses Per Giving Unit
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "expensesPerGivingUnit_Peer",
-          record,
-          "c05_06_ratio_expenses_per_giving_unit",
-          "c05_06_yes_no_expenses_per_giving_unit"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c05_06_yes_no_expenses_per_giving_unit",
-          "expensesPerGivingUnit"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "givingUnit",
-          record,
-          "_06_01nonfin___02_giving_unit",
-          "c05_06_yes_no_expenses_per_giving_unit",
-          "expensesPerGivingUnit"
-        );
-
-        // Expenses Per Missionary Unit
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "expensesPerMissionaryUnit_Peer",
-          record,
-          "c05_07_ratio_expenses_per_missionary_unit",
-          "c05_07_yes_no_expenses_per_missionary_unit"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c05_07_yes_no_expenses_per_missionary_unit",
-          "expensesPerMissionaryUnit"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "missionaryUnit",
-          record,
-          "_06_01nonfin___01_missionary_unit",
-          "c05_07_yes_no_expenses_per_missionary_unit",
-          "expensesPerMissionaryUnit"
-        );
-
-        // Expenses Per Full Time Equivalent
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "expensesPerFullTimeEquivalent_Peer",
-          record,
-          "c05_08_ratio_expenses_per_full_time_equivalent",
-          "c05_08_yes_no_expenses_per_full_time_equivalent"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c05_08_yes_no_expenses_per_full_time_equivalent",
-          "expensesPerFullTimeEquivalent"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "numberOfEmployeesFTE",
-          record,
-          "_06_01nonfin___03_number_of_employees_fte",
-          "c05_08_yes_no_expenses_per_full_time_equivalent",
-          "expensesPerFullTimeEquivalent"
-        );
-
-        // Salaries And Benefits As Percent Of Total Expenses
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "salariesAndBenefitsAsPercentOfTotalExpenses_Peer",
-          record,
-          "c05_09_ratio_salaries_and_benefits_as_percent_of_total_expenses",
-          "c05_09_yes_no_salaries_and_benefits_as_percent_of_total_expenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "salariesAndBenefits",
-          record,
-          "_04_01fexp___03_salaries___benefits",
-          "c05_09_yes_no_salaries_and_benefits_as_percent_of_total_expenses",
-          "salariesAndBenefitsAsPercentOfTotalExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c05_09_yes_no_salaries_and_benefits_as_percent_of_total_expenses",
-          "salariesAndBenefitsAsPercentOfTotalExpenses"
-        );
-
-        // Salaries And Benefits Per FTE
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "salariesAndBenefitsPerFTE_Peer",
-          record,
-          "c05_10_ratio_salaries___benefits_per_fte",
-          "c05_10_yes_no_salaries___benefits_per_fte"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "salariesAndBenefits",
-          record,
-          "_04_01fexp___03_salaries___benefits",
-          "c05_10_yes_no_salaries___benefits_per_fte",
-          "salariesAndBenefitsPerFTE"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "numberOfEmployeesFTE",
-          record,
-          "_06_01nonfin___03_number_of_employees_fte",
-          "c05_10_yes_no_salaries___benefits_per_fte",
-          "salariesAndBenefitsPerFTE"
-        );
-      });
-
-      // Process client records for expense metrics
+      // Process client records
       filteredClientRecords.forEach((record) => {
-        // Cost Of Contributions Detail View
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "costOfContributionsDetailView_Client",
-          record,
-          "_02_01sr___00_contributions_with_and_without_sum"
-        );
+        // Operating Revenue
+        const operatingRevenueFields = [
+          ["tuitionAndFees_Client", "r023_revenue_tuition_and_fees"],
+          ["scholarshipsAndFinancialAid_Client", "r024_revenue_scholarships_and_financial_aid"],
+          ["netTuitionAndFees_Client", "r026_cnet_tuition_and_fees"],
+          ["governmentGrants_Client", "r027_revenue_government_grants"],
+          ["privateGifts_Client", "r028_revenue_private_gifts"],
+          ["investmentReturn_Client", "r029_revenue_investment_return"],
+          ["salesAndServices_Client", "r030_revenue_sales_and_services"],
+          ["otherRevenue_Client", "r031_revenue_other"],
+          ["netAssetsReleasedFromRestrictions_Client", "r032_revenue_net_assets_released_from_restrictions"],
+          ["operatingRevenuesSupportAndRelease_Client", "r036_coperating_revenues_support_and_releases"]
+        ];
 
-        // Functional Expense Percent Program
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "functionalExpensePercent_program_Client",
-          record,
-          "c05_01_ratio_functional_expense_percentage___program"
-        );
+        operatingRevenueFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialStatement",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
+        });
 
-        // Functional Expense Percent Administrative
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "functionalExpensePercent_administrative_Client",
-          record,
-          "c05_02_ratio_functional_expense_percentage___administrative"
-        );
+        // Operating Expenses
+        const operatingExpenseFields = [
+          ["instructionExpense_Client", "r037_expense_instruction"],
+          ["researchExpense_Client", "r038_expense_research"],
+          ["publicServiceExpense_Client", "r039_expense_public_service"],
+          ["academicSupportExpense_Client", "r040_expense_academic_support"],
+          ["studentServicesExpense_Client", "r041_expense_student_services"],
+          ["institutionalSupportExpense_Client", "r042_expense_institutional_support"],
+          ["auxiliaryEnterprisesExpense_Client", "r043_expense_auxiliary_enterprises"],
+          ["totalFunctionalExpenses_Client", "r044_ctotal_functional_expenses"]
+        ];
 
-        // Functional Expense Percent Fundraising
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "functionalExpensePercent_fundraising_Client",
-          record,
-          "c05_03_ratio_functional_expense_percentage___fundraising"
-        );
+        operatingExpenseFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialStatement",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
+        });
 
-        // Functional Expense Percent Other
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "functionalExpensePercent_other_Client",
-          record,
-          "c05_04_ratio_functional_expense_percentage___other"
-        );
+        // Change in Net Assets
+        const netAssetsFields = [
+          ["changeInNetAssetsFromOperations_Client", "r045_cchange_in_net_assets_from_operations"],
+          ["nonOperatingRevenues_Client", "r046_non_operating_revenues"],
+          ["totalChangeInNetAssets_Client", "r047_ctotal_change_in_net_assets"],
+          ["beginningNetAssets_Client", "r048_beginning_net_assets"],
+          ["endingNetAssets_Client", "r049_cending_net_assets"]
+        ];
 
-        // Fundraising Expense
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "fundraisingExpense_Client",
-          record,
-          "_02_03exp___03_fundraising_expenses"
-        );
-
-        // Contributions With And Without Sum
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "contributionsWithAndWithoutSum_Client",
-          record,
-          "_02_01sr___00_contributions_with_and_without_sum"
-        );
-
-        // Cost Of Contributions
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "costOfContributions_Client",
-          record,
-          "c05_05_ratio_cost_of_contributions_raise_1_dollar"
-        );
-
-        // Expenses Per Giving Unit
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "expensesPerGivingUnit_Client",
-          record,
-          "c05_06_ratio_expenses_per_giving_unit"
-        );
-
-        // Expenses Per Missionary Unit
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "expensesPerMissionaryUnit_Client",
-          record,
-          "c05_07_ratio_expenses_per_missionary_unit"
-        );
-
-        // Expenses Per Full Time Equivalent
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "expensesPerFullTimeEquivalent_Client",
-          record,
-          "c05_08_ratio_expenses_per_full_time_equivalent"
-        );
-
-        // Salaries And Benefits As Percent Of Total Expenses
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "salariesAndBenefitsAsPercentOfTotalExpenses_Client",
-          record,
-          "c05_09_ratio_salaries_and_benefits_as_percent_of_total_expenses"
-        );
-
-        // Salaries And Benefits Per FTE
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "salariesAndBenefitsPerFTE_Client",
-          record,
-          "c05_10_ratio_salaries___benefits_per_fte"
-        );
+        netAssetsFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialStatement",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
+        });
       });
-    });
-  }
 
-  // MISC DATA PROCESSING
-  processMiscData(years, recordsPeer, recordsClient) {
-    years.forEach((year) => {
-      const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      const filteredClientRecords = this.filterRecordsByYear(
-        recordsClient,
-        year
-      );
-
-      // Process peer records for misc metrics
+      // Process peer records
       filteredPeerRecords.forEach((record) => {
-        // Percentage Assessment On Restricted Gifts
+        // Operating Revenue
         this.dataStore.insertData(
-          "misc",
+          "financialStatement",
           "peer",
           year,
-          "percentageAssessmentOnRestrictedGifts_Peer",
+          "operatingRevenuesSupportAndRelease_Peer",
           record,
-          "c06_01_ratio_percentage_assessment_on_restricted_gifts",
-          "c06_01_yes_no_percentage_assessment_on_restricted_gifts"
+          "r036_coperating_revenues_support_and_releases",
+          "Yes"
         );
-        this.dataStore.insertData(
-          "misc",
-          "peer",
-          year,
-          "totalAdministrativeAssessments",
-          record,
-          "_02_02reclass___01_total_administrative_assessments",
-          "c06_01_yes_no_percentage_assessment_on_restricted_gifts",
-          "percentageAssessmentOnRestrictedGifts"
-        );
-        this.dataStore.insertData(
-          "misc",
-          "peer",
-          year,
-          "contributionsWithDR",
-          record,
-          "_02_01sr___02_contributions_with_donor_restrictions",
-          "c06_01_yes_no_percentage_assessment_on_restricted_gifts",
-          "percentageAssessmentOnRestrictedGifts"
-        );
-      });
 
-      // Process client records for misc metrics
-      filteredClientRecords.forEach((record) => {
-        // Percentage Assessment On Restricted Gifts
+        // Operating Expenses
         this.dataStore.insertData(
-          "misc",
-          "client",
+          "financialStatement",
+          "peer",
           year,
-          "percentageAssessmentOnRestrictedGifts_Client",
+          "totalFunctionalExpenses_Peer",
           record,
-          "c06_01_ratio_percentage_assessment_on_restricted_gifts"
+          "r044_ctotal_functional_expenses",
+          "Yes"
         );
+
+        // Change in Net Assets
+        const peerNetAssetsFields = [
+          ["changeInNetAssetsFromOperations_Peer", "r045_cchange_in_net_assets_from_operations"],
+          ["totalChangeInNetAssets_Peer", "r047_ctotal_change_in_net_assets"],
+          ["endingNetAssets_Peer", "r049_cending_net_assets"]
+        ];
+
+        peerNetAssetsFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialStatement",
+            "peer",
+            year,
+            key,
+            record,
+            field,
+            "Yes"
+          );
+        });
       });
     });
   }
@@ -2304,13 +2369,13 @@ class DataProcessor {
         // Check if record is a DOM element
         if (record && typeof record.querySelector === "function") {
           const fiscalYear = record.querySelector(
-            "fiscal_ye_date_formatted_year_text"
+            "year"
           )?.textContent;
           return fiscalYear && fiscalYear.includes(year.toString());
         }
         // Check if record is an object with direct properties
-        else if (record && record.fiscal_ye_date_formatted_year_text) {
-          const fiscalYear = record.fiscal_ye_date_formatted_year_text;
+        else if (record && record.year) {
+          const fiscalYear = record.year;
           return fiscalYear && fiscalYear.includes(year.toString());
         }
         // If neither format works, log and skip this record
@@ -2493,7 +2558,7 @@ class ApiService {
   async getRecordsForUniqueClientPeerNames() {
     const apiCallPeerData = {
       act: "API_DoQuery",
-      clist: "301.59.238.239.359.358.366.195", // Added mission unit, giving unit, area query, type query
+      clist: "7.539.667.619.758.759.757.760.761.741", 
     };
 
     try {
@@ -2510,59 +2575,79 @@ class ApiService {
       let xmlString = "<qdbapi>";
 
       recordsForPeerUniqueClientPeerNames.forEach((record) => {
-        const clientInformalName = record.querySelector(
-          "pe___client_informal_name"
+        const clientName = record.querySelector(
+          "merged_client_name"
         )?.textContent;
 
-        if (clientInformalName) {
-          uniquePeerClientNames.add(clientInformalName);
+        if (clientName) {
+          uniquePeerClientNames.add(clientName);
 
           // Store client data with all required fields
-          if (!window.clientDataStore[clientInformalName]) {
+          if (!window.clientDataStore[clientName]) {
             // Get fiscal year
             const year = record.querySelector(
-              "fiscal_ye_date_formatted_year_text"
+              "year"
             )?.textContent;
 
             // Get mission unit value
-            const missionUnitVal =
-              record.querySelector("_06_01nonfin___01_missionary_unit")
+            const enrollmentVal =
+              record.querySelector("client___2023_total_headcount_12_month")
                 ?.textContent || "0";
 
-            // Get giving unit value
-            const givingUnitVal =
-              record.querySelector("_06_01nonfin___02_giving_unit")
+            // Get region value
+            const regionVal =
+              record.querySelector("client___he__g001_geographic_region")
                 ?.textContent || "0";
 
-            // Get giving unit value
-            const assetsVal =
-              record.querySelector("_01__01ass___10_total_assets")
-                ?.textContent || "0";
-
-            // Get giving unit value
-            const revenueVal =
-              record.querySelector("query_slider_total_revenue")?.textContent ||
+            // Get statevalue
+            const stateVal =
+              record.querySelector("client___merged_state")?.textContent ||
               "0";
 
-            // Get area query - parse from string to array
-            const areaQueryText =
-              record.querySelector("client___international_areasservedquery")
+            // Get membership query - parse from string to array
+            const membershipText =
+              record.querySelector("client___he__membershipsquery")
                 ?.textContent || "";
-            const areaQuery = areaQueryText
-              ? areaQueryText.split(";").filter(Boolean)
+            const membership = membershipText
+              ? membershipText.split(";").filter(Boolean)
               : [];
 
             // Get type query - parse from string to array
             const typeQueryText =
-              record.querySelector("client___international_subcategoryquery")
+              record.querySelector("client___he__g003_institution_typequery")
                 ?.textContent || "";
             const typeQuery = typeQueryText
               ? typeQueryText.split(";").filter(Boolean)
               : [];
 
+            // Get athletic query - parse from string to array
+            const athleticQueryText =
+              record.querySelector("client___he__a001_athletic_classificiationquery")
+                ?.textContent || "";
+            const athleticQuery = athleticQueryText
+              ? athleticQueryText.split(";").filter(Boolean)
+              : [];
+
+            // Get seminary query - parse from string to array 
+            const seminaryQueryText =
+              record.querySelector("client___he__seminary_projectquery")
+                ?.textContent || "";
+            const seminaryQuery = seminaryQueryText
+              ? seminaryQueryText.split(";").filter(Boolean)
+              : [];
+
+            // Get regional query - parse from string to array 
+            const regionalQueryText =
+              record.querySelector("client___he__regional_accreditorquery")
+                ?.textContent || "";
+            const regionalQuery = regionalQueryText
+              ? regionalQueryText.split(";").filter(Boolean)
+              : [];
+              
+
             // Store all client data
-            window.clientDataStore[clientInformalName] = {
-              name: clientInformalName,
+            window.clientDataStore[clientName] = {
+              name: clientName,
               year: year,
               missionUnit: parseFloat(missionUnitVal) || 0,
               givingUnit: parseFloat(givingUnitVal) || 0,
@@ -2570,6 +2655,7 @@ class ApiService {
               revenue: parseFloat(revenueVal) || 0,
               areaQuery: areaQuery,
               typeQuery: typeQuery,
+              
             };
           }
 
@@ -2628,35 +2714,20 @@ class ApiService {
     document.addEventListener("filtersChanged", this._handleFiltersChanged);
 
     // Initialize sliders if they exist
-    const givingMinSlider = document.getElementById("giving-min-slider");
-    const givingMaxSlider = document.getElementById("giving-max-slider");
-    const missionMinSlider = document.getElementById("mission-min-slider");
-    const missionMaxSlider = document.getElementById("mission-max-slider");
+    const enrollmentMinSlider = document.getElementById("enrollmentMin");
+    const enrollmentMaxSlider = document.getElementById("enrollmentMax");
 
-    if (givingMinSlider) {
-      givingMinSlider.addEventListener("input", () => {
-        window.sliderValue = parseInt(givingMinSlider.value);
+
+    if (enrollmentMinSlider) {
+      enrollmentMinSlider.addEventListener("input", () => {
+        window.sliderValue = parseInt(enrollmentMinSlider.value);
         this._triggerFiltersChanged();
       });
     }
 
-    if (givingMaxSlider) {
-      givingMaxSlider.addEventListener("input", () => {
-        window.sliderValue2 = parseInt(givingMaxSlider.value);
-        this._triggerFiltersChanged();
-      });
-    }
-
-    if (missionMinSlider) {
-      missionMinSlider.addEventListener("input", () => {
-        window.missionValue = parseInt(missionMinSlider.value);
-        this._triggerFiltersChanged();
-      });
-    }
-
-    if (missionMaxSlider) {
-      missionMaxSlider.addEventListener("input", () => {
-        window.missionValue2 = parseInt(missionMaxSlider.value);
+    if (enrollmentMaxSlider) {
+      enrollmentMaxSlider.addEventListener("input", () => {
+        window.sliderValue2 = parseInt(enrollmentMaxSlider.value);
         this._triggerFiltersChanged();
       });
     }
@@ -2682,23 +2753,23 @@ class ApiService {
       headerUpdateClientDropdown();
     } else {
       console.error("No suitable update function found for client dropdown");
-      this._updateClientSelection() 
+      this._updateClientSelection();
     }
   }
 
   // Add a fallback method
   _updateClientSelection() {
     // Get current filter values
+    const minEnrollment = window.sliderValue || 0;
+    const maxEnrollment = window.sliderValue2 || 25000;
+    const selectedRegions = Array.from(window.selectedRegions_Array || []);
+    const selectedStates = Array.from(window.selectedStates_Array || []);
+    const selectedMemberships = Array.from(window.selectedMemberships_Array || []);
     const selectedTypes = Array.from(window.selectedTypes_Array || []);
-    const selectedAreas = Array.from(window.selectedAreas_Array || []);
-    const minGiving = window.sliderValue || 0;
-    const maxGiving = window.sliderValue2 || 25000;
-    const minMission = window.missionValue || 0;
-    const maxMission = window.missionValue2 || 10000;
-    const minAssets = window.assetsValue || 0;
-    const maxAssets = window.assetsValue2 || 900000000;
-    const minRevenue = window.revenueValue || 0;
-    const maxRevenue = window.revenueValue2 || 600000000;
+    const selectedAthletics = Array.from(window.selectedAthletics_Array || []);
+    const selectedSeminaries = Array.from(window.selectedSeminaries_Array || []);
+    const selectedRegionals = Array.from(window.selectedRegionals_Array || []);
+
 
     // Update client checkboxes based on filters
     const clientCheckboxes = document.querySelectorAll(
@@ -2712,26 +2783,38 @@ class ApiService {
       const clientData = window.clientDataStore[clientName];
 
       if (clientData) {
-
         // Simple matching logic as fallback
         const matches =
-          (selectedAreas.length === 0 ||
-            clientData.areaQuery.some((area) =>
-              selectedAreas.includes(area)
+          (selectedRegions.length === 0 ||
+            clientData.regionQuery.some((region) =>
+              selectedRegions.includes(region)
+            )) &&
+          (selectedStates.length === 0 ||
+            clientData.stateQuery.some((state) =>
+              selectedStates.includes(state)
+            )) &&
+          (selectedMemberships.length === 0 ||
+            clientData.membershipQuery.some((membership) =>
+              selectedMemberships.includes(membership)
             )) &&
           (selectedTypes.length === 0 ||
             clientData.typeQuery.some((type) =>
               selectedTypes.includes(type)
             )) &&
-          clientData.givingUnit >= minGiving &&
-          clientData.givingUnit <= maxGiving &&
-          clientData.missionUnit >= minMission &&
-          clientData.missionUnit <= maxMission &&
-          clientData.assets >= minAssets &&
-          clientData.assets <= maxAssets &&
-          clientData.revenue >= minRevenue &&
-          clientData.revenue <= maxRevenue
-
+          (selectedAthletics.length === 0 ||
+            clientData.athleticQuery.some((athletic) =>
+              selectedAthletics.includes(athletic)
+            )) &&
+          (selectedSeminaries.length === 0 ||
+            clientData.seminaryQuery.some((seminary) =>
+              selectedSeminaries.includes(seminary)
+            )) &&
+          (selectedRegionals.length === 0 ||
+            clientData.regionalQuery.some((regional) =>
+              selectedRegionals.includes(regional)
+            )) &&
+          clientData.enrollment >= minEnrollment &&
+          clientData.enrollment <= maxEnrollment
         checkbox.checked = matches;
 
         if (matches) {
@@ -2771,60 +2854,7 @@ class ApiService {
     });
   }
 
-  // Build a query condition for areas
-  getAreaQuery(selectedAreasSet) {
-    // Convert Set to Array for iteration
-    const selectedAreas = Array.from(selectedAreasSet);
-
-    const areaConditions = selectedAreas
-      .map((area) => `{359.EX.${area}}`)
-      .join(" OR ");
-
-    return areaConditions ? `(${areaConditions})` : '({122.EX.""})';
-  }
-
-  // Build a query condition for clients
-  getClientQuery(selectedClientsSet) {
-    // Convert Set to Array for iteration
-    const selectedClients = Array.from(selectedClientsSet);
-
-    // If empty, return default condition
-    if (selectedClients.length === 0) {
-      return '({59.EX.""})';
-    }
-
-    // If more than 15 clients selected, use a non-empty match instead of listing all clients
-    if (selectedClients.length > 15) {
-      console.log(
-        `Large client set (${selectedClients.length}), using generic query`
-      );
-      // This matches any non-empty client name (field 59)
-      return '({59.XEX.""})';
-    }
-
-    // For small numbers of clients, use specific OR conditions
-    const clientConditions = selectedClients
-      .map((client) => `{59.EX.'${this._escapeClientName(client)}'}`)
-      .join(" OR ");
-
-    return `(${clientConditions})`;
-  }
-
-  // Add this helper method to the ApiService class
-  _escapeClientName(clientName) {
-    if (!clientName) return "";
-    // Replace problematic characters in client names
-    return clientName.replace(/'/g, "\\'");
-  }
-
-  // // Build a query condition for types
-  // getTypeQuery(selectedTypes) {
-  //   const typeConditions = [...selectedTypes]
-  //     .map((type) => `{334.EX.${type}}`)
-  //     .join(" OR ");
-  //   return typeConditions ? `(${typeConditions})` : '({334.EX.""})'; // Default empty condition
-  // }
-
+  
   // Get the combined XML strings for peer and client records
   getPeerXmlString() {
     return `<qdbapi>${this.recordPeerHTMLArray.join("")}</qdbapi>`;
@@ -2890,25 +2920,61 @@ class AppController {
     }
 
     // Initialize dropdowns only if they aren't already populated
-    const areasListElement = document.getElementById("options-list-area");
+    const regionsListElement = document.getElementById("options-list-region");
     if (
-      areasListElement &&
-      (!areasListElement.children.length ||
-        areasListElement.children.length <= 1)
+      regionsListElement &&
+      (!regionsListElement.children.length ||
+        regionsListElement.children.length <= 1)
     ) {
-      // console.log("Initializing areas dropdown");
-      addUniqueAreasToOptionsSelectAreasDropdown(areas_Array);
+      addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
+    }
+
+    const statesListElement = document.getElementById("options-list-state");
+    if (
+      statesListElement &&
+      (!statesListElement.children.length ||
+        statesListElement.children.length <= 1)
+    ) {
+      addUniqueStatesToOptionsSelectStatesDropdown(states_Array);
+    }
+
+    const membershipsListElement = document.getElementById("options-list-membership");
+    if (
+      membershipsListElement &&
+      (!membershipsListElement.children.length ||
+        membershipsListElement.children.length <= 1)
+    ) {
+      addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
+    }
+
+    const athleticsListElement = document.getElementById("options-list-athletic");
+    if (
+      athleticsListElement &&
+      (!athleticsListElement.children.length ||
+        athleticsListElement.children.length <= 1)
+    ) {
+      addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
+    }
+
+    const seminariesListElement = document.getElementById("options-list-seminary");
+    if (
+      seminariesListElement &&
+      (!seminariesListElement.children.length ||
+        seminariesListElement.children.length <= 1)
+    ) {
+      addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminaries_Array);
+    }
+
+    const regionalsListElement = document.getElementById("options-list-regional");
+    if (
+      regionalsListElement &&
+      (!regionalsListElement.children.length ||
+        regionalsListElement.children.length <= 1)
+    ) {
+      addUniqueRegionalsToOptionsSelectRegionalsDropdown(regionals_Array);
     }
 
     const typesListElement = document.getElementById("options-list-type");
-    if (
-      typesListElement &&
-      (!typesListElement.children.length ||
-        typesListElement.children.length <= 1)
-    ) {
-      // console.log("Initializing types dropdown");
-      addUniqueTypesToOptionsSelectTypeDropdown(types_Array);
-    }
 
     // Set up run button event listener
     const runButton = document.getElementById("run"); // Make sure to use correct ID
@@ -3126,7 +3192,6 @@ class AppController {
         );
 
         window.testRecordsClient = recordsClient;
-
 
         if (!recordsClient || recordsClient.length === 0) {
           console.warn("No client records returned");
@@ -3349,7 +3414,7 @@ class AppController {
         return;
       }
 
-      window.reportComponent.displayReportComponent()
+      window.reportComponent.displayReportComponent();
       // Rest of the displayAllComponents method...
     } catch (error) {
       console.error("Error in displayAllComponents:", error);

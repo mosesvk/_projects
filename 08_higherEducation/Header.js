@@ -524,8 +524,6 @@ const initializeFilterTriggers = () => {
     });
   }
   
-  // Set up enrollment slider
-//   setupEnrollmentSlider();
 };
 
 // Update filter selections
@@ -586,6 +584,150 @@ function updateClientSelection(element) {
     if (option.value) window.selectedClients_Array.add(option.value);
   });
 }
+
+const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
+    // Get the options list element correctly
+    const optionsListElement = document.getElementById("options-list");
+  
+    if (!optionsListElement) {
+      console.error("Options list element not found for years dropdown");
+      return;
+    }
+  
+    // Clear the selected years on page load
+    if (!window.yearSelectionsInitialized) {
+      resetSelectedYearsFromLocalStorage();
+      selectedYears_Set.clear();
+      window.yearSelectionsInitialized = true;
+    }
+  
+    // Initialize selectedYears_Set from local storage if data exists
+    const storedYears = getSelectedYearsFromLocalStorage();
+  
+    if (Array.isArray(storedYears)) {
+      selectedYears_Set = new Set(storedYears);
+    }
+  
+    // Clear existing content
+    optionsListElement.innerHTML = "";
+  
+    // Create "Select All" checkbox
+    const selectAllLabel = document.createElement("label");
+    selectAllLabel.setAttribute("for", "select-all-checkbox-years");
+    selectAllLabel.setAttribute(
+      "class",
+      "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+    );
+  
+    const selectAllInput = document.createElement("input");
+    selectAllInput.setAttribute("type", "checkbox");
+    selectAllInput.setAttribute("id", "select-all-checkbox-years");
+    selectAllInput.setAttribute(
+      "class",
+      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+    );
+    // CHANGE HERE: Set to unchecked by default
+    selectAllInput.checked = false;
+  
+    const selectAllSpan = document.createElement("span");
+    selectAllSpan.setAttribute("id", "select-all-text-years");
+    selectAllSpan.innerText = "(select all)";
+    selectAllSpan.setAttribute("class", "text-lg font-semibold");
+  
+    selectAllLabel.appendChild(selectAllInput);
+    selectAllLabel.appendChild(selectAllSpan);
+  
+    optionsListElement.appendChild(selectAllLabel);
+  
+    // Sort years in descending order
+    const sortedYears = yearsArray.sort((a, b) => b - a);
+  
+    // Add year options
+    sortedYears.forEach((year) => {
+      const newLabel = document.createElement("label");
+      newLabel.setAttribute("for", `option-${year}`);
+      newLabel.setAttribute(
+        "class",
+        "flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+      );
+  
+      const newInput = document.createElement("input");
+      newInput.setAttribute("type", "checkbox");
+      newInput.setAttribute("id", `option-${year}`);
+      newInput.setAttribute(
+        "class",
+        `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
+      );
+      newInput.setAttribute("value", year);
+      // Check the input only if the year is in the selectedYears_Set
+      newInput.checked = selectedYears_Set.has(year);
+  
+      newInput.addEventListener("change", (e) => {
+        const isChecked = e.target.checked;
+  
+        if (isChecked) {
+          selectedYears_Set.add(year);
+        } else {
+          selectedYears_Set.delete(year);
+        }
+  
+        // Update "Select All" checkbox state
+        const yearCheckboxes = document.querySelectorAll(
+          "#options-list input[type='checkbox']"
+        );
+        const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
+          (cb) => cb.id !== "select-all-checkbox-years"
+        );
+  
+        const allChecked = nonSelectAllCheckboxes.every((cb) => cb.checked);
+        const noneChecked = nonSelectAllCheckboxes.every((cb) => !cb.checked);
+  
+        selectAllInput.checked = allChecked;
+        selectAllInput.indeterminate = !allChecked && !noneChecked;
+  
+        // Save to local storage
+        const selectedYearsArray = Array.from(selectedYears_Set).sort(
+          (a, b) => a - b
+        );
+        localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+      });
+  
+      const newSpan = document.createElement("span");
+      newSpan.innerText = year;
+  
+      newLabel.appendChild(newInput);
+      newLabel.appendChild(newSpan);
+  
+      optionsListElement.appendChild(newLabel);
+    });
+  
+    // "Select All" checkbox behavior
+    selectAllInput.addEventListener("change", function () {
+      const isChecked = selectAllInput.checked;
+      const yearCheckboxes = document.querySelectorAll(
+        "#options-list input[type='checkbox']"
+      );
+  
+      yearCheckboxes.forEach((checkbox) => {
+        if (checkbox.id !== "select-all-checkbox-years") {
+          checkbox.checked = isChecked;
+          const year = parseInt(checkbox.value);
+  
+          if (isChecked) {
+            selectedYears_Set.add(year);
+          } else {
+            selectedYears_Set.delete(year);
+          }
+        }
+      });
+  
+      // Save to local storage
+      const selectedYearsArray = Array.from(selectedYears_Set).sort(
+        (a, b) => a - b
+      );
+      localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+    });
+  };
 
 
 // Trigger filters changed event
