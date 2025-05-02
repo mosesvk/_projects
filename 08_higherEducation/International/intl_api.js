@@ -2975,7 +2975,14 @@ class AppController {
     }
 
     const typesListElement = document.getElementById("options-list-type");
-
+    if (
+      typesListElement &&
+      (!typesListElement.children.length ||
+        typesListElement.children.length <= 1)
+    ) {
+      addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
+    }
+    
     // Set up run button event listener
     const runButton = document.getElementById("run"); // Make sure to use correct ID
     if (runButton) {

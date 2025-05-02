@@ -95,13 +95,13 @@ class DataStore {
     const value = record.querySelector(yesNoField)?.textContent.trim() || "0";
     const shouldInclude = !yesNoField || value === "Yes";
 
-      if (!targetData[dataKey]) {
-        targetData[dataKey] = {};
-      }
+    if (!targetData[dataKey]) {
+      targetData[dataKey] = {};
+    }
 
-      if (!targetData[dataKey][year]) {
-        targetData[dataKey][year] = [];
-      }
+    if (!targetData[dataKey][year]) {
+      targetData[dataKey][year] = [];
+    }
 
     if (shouldInclude) {
       targetData[dataKey][year].push(value);
@@ -3740,7 +3740,7 @@ let recordPeerHTMLArray = [];
 // Replace the existing run button event listener with the AppController-based version
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize the run button with the AppController
-const run_btn = document.querySelector("#run");
+  const run_btn = document.querySelector("#run");
   if (run_btn) {
     // Remove any existing listeners to prevent duplicates
     const newRunButton = run_btn.cloneNode(true);
