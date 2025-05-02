@@ -37,14 +37,16 @@ function setupDropdownToggle(selectElementId, optionsListId) {
   // Function to close all other dropdowns
   function closeOtherDropdowns(currentOptionsListId) {
     const dropdownConfigs = [
-      { selectId: "selectRegions", optionsId: "options-list-region" },
-      { selectId: "selectStates", optionsId: "options-list-state" },
-      { selectId: "selectMemberships", optionsId: "options-list-membership" },
-      { selectId: "selectTypes", optionsId: "options-list-type" },
-      { selectId: "selectAthletics", optionsId: "options-list-athletic" },
-      { selectId: "selectClients", optionsId: "options-list-client" },
-      { selectId: "selectSeminaries", optionsId: "options-list-seminary" },
-      { selectId: "selectRegionals", optionsId: "options-list-regional" },
+      { selectId: "custom-select-year", optionsId: "options-list-year" },
+      { selectId: "custom-select-region", optionsId: "options-list-region" },
+      { selectId: "custom-select-state", optionsId: "options-list-state" },
+      { selectId: "custom-select-other", optionsId: "options-list-other" },
+      { selectId: "custom-select-type", optionsId: "options-list-type" },
+      { selectId: "custom-select-athletic", optionsId: "options-list-athletic" },
+      { selectId: "custom-select-seminary", optionsId: "options-list-seminary" },
+      { selectId: "custom-select-regional", optionsId: "options-list-regional" },
+      { selectId: "custom-select-membership", optionsId: "options-list-membership" },
+      { selectId: "custom-select-client", optionsId: "options-list-client" }
     ];
 
     dropdownConfigs.forEach((config) => {
@@ -77,6 +79,32 @@ function setupDropdownToggle(selectElementId, optionsListId) {
 
     // Toggle visibility
     optionsListElement.classList.toggle("invisible");
+    
+    // If the dropdown is now visible, ensure z-index is set correctly
+    if (!optionsListElement.classList.contains("invisible")) {
+      // Ensure dropdown has the correct styling
+      const isSpecialDropdown = ["custom-select-year", "custom-select-region", "custom-select-state"].includes(selectElement.id);
+      const width = selectElement.id === "custom-select-regional" ? "w-66" : "w-60";
+      optionsListElement.className = `absolute ${isSpecialDropdown ? 'top-28' : 'top-36'} z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg ${width} overflow-y-auto h-fit max-h-80 text-xl`;
+      if (optionsListElement.classList.contains("invisible")) {
+        optionsListElement.classList.remove("invisible");
+      }
+      
+      // Set slider container and all its components to a low z-index
+      const sliders = document.querySelectorAll('[x-data="range()"]');
+      sliders.forEach(slider => {
+        // Set the slider container to low z-index
+        slider.style.zIndex = "1";
+        
+        // Also set all slider components to low z-index
+        const sliderComponents = slider.querySelectorAll("*");
+        sliderComponents.forEach(component => {
+          if (component.style) {
+            component.style.zIndex = "5";
+          }
+        });
+      });
+    }
   }
 
   // Function to close dropdown when clicking outside
@@ -169,7 +197,7 @@ function updateClientDropdownFilters() {
   const maxEnrollment = window.sliderValue2 || 25000;
 
   // Get all client options
-  const clientOptions = document.querySelectorAll('#selectClients option');
+  const clientOptions = document.querySelectorAll('#custom-select-client option');
 
   // Get the select all checkbox
   const selectAllCheckbox = document.getElementById("select-all-checkbox-client");
@@ -233,7 +261,7 @@ function updateSelectAllClientCheckboxState() {
   const selectAllCheckbox = document.getElementById("select-all-checkbox-client");
   if (!selectAllCheckbox) return;
 
-  const clientOptions = document.querySelectorAll('#selectClients option');
+  const clientOptions = document.querySelectorAll('#custom-select-client option');
   const clientOnlyOptions = Array.from(clientOptions).filter(
     (option, index) => index > 0 && !option.disabled
   );
@@ -254,44 +282,145 @@ function updateSelectAllClientCheckboxState() {
  * Add unique clients to dropdown
  */
 const addUniqueClientsToOptionsSelectClientsDropdown = (sortedUniquePeerClientNames) => {
-  const selectElement = document.getElementById("selectClients");
-  if (!selectElement) return;
-
-  // Clear existing options except the first one
-  while (selectElement.options.length > 1) {
-    selectElement.remove(1);
+  const optionsListClient = document.getElementById("options-list-client");
+  if (!optionsListClient) {
+    console.error("Client options list element not found");
+    return;
   }
 
-  // Add new options
+  // Ensure global scoping and initialization
+  window.selectedClients_Array = window.selectedClients_Array || new Set();
+  window.clientDataStore = window.clientDataStore || {};
+
+  // Clear existing content
+  optionsListClient.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-client");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-client");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer text-black"
+  );
+  selectAllInput.checked = true;
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-client");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+  optionsListClient.appendChild(selectAllLabel);
+
+  // Clear selectedClients_Array before populating
+  window.selectedClients_Array.clear();
+
+  // Handle undefined/non-array input
+  if (!sortedUniquePeerClientNames || !Array.isArray(sortedUniquePeerClientNames)) {
+    console.warn("No client names array provided");
+    sortedUniquePeerClientNames = [];
+  }
+
+  // Add client options
   sortedUniquePeerClientNames.forEach((clientName) => {
-    const option = document.createElement("option");
-    option.value = clientName;
-    option.textContent = clientName;
-    selectElement.appendChild(option);
-    
-    // Store client data in client data store
-    if (!window.clientDataStore) {
-      window.clientDataStore = {};
-    }
-    
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("div");
+    newDiv.setAttribute(
+      "class", 
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("id", `client_${clientName}`);
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("value", clientName);
+    newInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `client_${clientName}`);
+    newLabel.setAttribute(
+      "class",
+      "w-full py-2 ms-2 text-gray-900 rounded dark:text-gray-300 text-sm"
+    );
+    newLabel.innerText = clientName;
+
+    // Initialize checked state and add to selectedClients_Array
+    newInput.checked = true;
+    window.selectedClients_Array.add(clientName);
+
+    // Initialize client data store
     window.clientDataStore[clientName] = window.clientDataStore[clientName] || {};
-  });
 
-  // Add options selection event
-  selectElement.addEventListener('change', function() {
-    const selectedOption = this.options[this.selectedIndex];
-    if (selectedOption.value) {
-      window.selectedClients_Array.clear();
-      window.selectedClients_Array.add(selectedOption.value);
+    newDiv.appendChild(newInput);
+    newDiv.appendChild(newLabel);
+    newListItem.appendChild(newDiv);
+    optionsListClient.appendChild(newListItem);
+
+    // Add change event listener
+    newInput.addEventListener("change", function() {
+      if (newInput.checked) {
+        window.selectedClients_Array.add(clientName);
+      } else {
+        window.selectedClients_Array.delete(clientName);
+      }
+
+      // Update select all checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-client input[type='checkbox']")
+      )
+        .filter(input => input.id !== "select-all-checkbox-client")
+        .every(input => input.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate = !allChecked && 
+        Array.from(document.querySelectorAll("#options-list-client input[type='checkbox']"))
+          .filter(input => input.id !== "select-all-checkbox-client")
+          .some(input => input.checked);
+
       triggerFiltersChanged();
-    }
+    });
   });
 
-  // Populate client data store with additional information from peer records
-  populateClientDataStore();
+  // Add select all change handler
+  selectAllInput.addEventListener("change", function() {
+    const isChecked = selectAllInput.checked;
+    const clientCheckboxes = document.querySelectorAll(
+      "#options-list-client input[type='checkbox']"
+    );
 
-  // Update select all checkbox state
-  updateSelectAllClientCheckboxState();
+    clientCheckboxes.forEach(checkbox => {
+      if (checkbox.id !== "select-all-checkbox-client") {
+        checkbox.checked = isChecked;
+        const clientName = checkbox.value;
+        
+        if (isChecked) {
+          window.selectedClients_Array.add(clientName);
+        } else {
+          window.selectedClients_Array.delete(clientName);
+        }
+      }
+    });
+
+    selectAllInput.indeterminate = false;
+    triggerFiltersChanged();
+  });
+
+  // Populate client data store
+  populateClientDataStore();
 }
 
 /**
@@ -337,36 +466,41 @@ function populateClientDataStore() {
 // Initialize filter triggers
 const initializeFilterTriggers = () => {
   const filterElements = [
-    document.getElementById('selectRegions'),
-    document.getElementById('selectStates'),
-    document.getElementById('selectMemberships'),
-    document.getElementById('selectTypes'),
-    document.getElementById('selectAthletics'),
-    document.getElementById('selectSeminaries'),
-    document.getElementById('selectRegionals'),
-    document.getElementById('selectClients'),
-    document.getElementById('enrollmentRange')
+    document.getElementById('custom-select-year'),
+    document.getElementById('custom-select-region'),
+    document.getElementById('custom-select-state'),
+    document.getElementById('custom-select-type'),
+    document.getElementById('custom-select-athletic'),
+    document.getElementById('custom-select-seminary'),
+    document.getElementById('custom-select-regional'),
+    document.getElementById('custom-select-membership'),
+    document.getElementById('custom-select-area'),
+    document.getElementById('custom-select-client')
   ];
 
   filterElements.forEach(element => {
     if (element) {
       element.addEventListener('change', () => {
-        if (element.id === 'selectRegions') {
+        if (element.id === 'custom-select-region') {
           updateRegionSelection(element);
-        } else if (element.id === 'selectStates') {
+        } else if (element.id === 'custom-select-state') {
           updateStateSelection(element);
-        } else if (element.id === 'selectMemberships') {
-          updateMembershipSelection(element);
-        } else if (element.id === 'selectTypes') {
+        } else if (element.id === 'custom-select-year') {
+          updateYearSelection(element);
+        } else if (element.id === 'custom-select-type') {
           updateTypeSelection(element);
-        } else if (element.id === 'selectAthletics') {
+        } else if (element.id === 'custom-select-athletic') {
           updateAthleticSelection(element);
-        } else if (element.id === 'selectSeminaries') {
+        } else if (element.id === 'custom-select-seminary') {
           updateSeminarySelection(element);
-        } else if (element.id === 'selectRegionals') {
+        } else if (element.id === 'custom-select-regional') {
           updateRegionalSelection(element);
-        }
-        
+        } else if (element.id === 'custom-select-membership') {
+          updateMembershipSelection(element);
+        } else if (element.id === 'custom-select-client') {
+          updateClientSelection(element);
+        }   
+
         triggerFiltersChanged();
       });
     }
@@ -376,7 +510,7 @@ const initializeFilterTriggers = () => {
   const selectAllCheckbox = document.getElementById('select-all-checkbox-client');
   if (selectAllCheckbox) {
     selectAllCheckbox.addEventListener('change', () => {
-      const clientOptions = document.querySelectorAll('#selectClients option');
+      const clientOptions = document.querySelectorAll('#custom-select-client option');
       clientOptions.forEach((option, index) => {
         if (index > 0 && !option.disabled) {
           if (selectAllCheckbox.checked) {
@@ -391,11 +525,13 @@ const initializeFilterTriggers = () => {
   }
   
   // Set up enrollment slider
-  setupEnrollmentSlider();
+//   setupEnrollmentSlider();
 };
 
 // Update filter selections
-function updateRegionSelection(element) {
+function updateRegionSelection(element) {f
+    console.log({element, selectedRegions_Array: window.selectedRegions_Array, selectedOptions: Array.from(element.selectedOptions), isSelected: element.selectedOptions});
+    
   window.selectedRegions_Array.clear();
   Array.from(element.selectedOptions).forEach(option => {
     if (option.value) window.selectedRegions_Array.add(option.value);
@@ -444,28 +580,13 @@ function updateRegionalSelection(element) {
   });
 }
 
-// Set up enrollment slider
-function setupEnrollmentSlider() {
-  const minSlider = document.getElementById('enrollmentMin');
-  const maxSlider = document.getElementById('enrollmentMax');
-  
-  if (minSlider && maxSlider) {
-    // Set initial values
-    minSlider.value = window.sliderValue;
-    maxSlider.value = window.sliderValue2;
-    
-    // Update values on change
-    minSlider.addEventListener('input', function() {
-      window.sliderValue = parseInt(this.value);
-      triggerFiltersChanged();
-    });
-    
-    maxSlider.addEventListener('input', function() {
-      window.sliderValue2 = parseInt(this.value);
-      triggerFiltersChanged();
-    });
-  }
+function updateClientSelection(element) {
+  window.selectedClients_Array.clear();
+  Array.from(element.selectedOptions).forEach(option => {
+    if (option.value) window.selectedClients_Array.add(option.value);
+  });
 }
+
 
 // Trigger filters changed event
 const triggerFiltersChanged = () => {
@@ -481,19 +602,56 @@ const triggerFiltersChanged = () => {
 document.addEventListener('DOMContentLoaded', () => {
   // Setup dropdown toggles
   const dropdownConfigs = [
-    { selectId: "selectRegions", optionsId: "options-list-region" },
-    { selectId: "selectStates", optionsId: "options-list-state" },
-    { selectId: "selectMemberships", optionsId: "options-list-membership" },
-    { selectId: "selectTypes", optionsId: "options-list-type" },
-    { selectId: "selectAthletics", optionsId: "options-list-athletic" },
-    { selectId: "selectClients", optionsId: "options-list-client" },
-    { selectId: "selectSeminaries", optionsId: "options-list-seminary" },
-    { selectId: "selectRegionals", optionsId: "options-list-regional" }
+    { selectId: "custom-select-year", optionsId: "options-list-year" },
+    { selectId: "custom-select-region", optionsId: "options-list-region" },
+    { selectId: "custom-select-state", optionsId: "options-list-state" },
+    { selectId: "custom-select-type", optionsId: "options-list-type" },
+    { selectId: "custom-select-athletic", optionsId: "options-list-athletic" },
+    { selectId: "custom-select-seminary", optionsId: "options-list-seminary" },
+    { selectId: "custom-select-regional", optionsId: "options-list-regional" },
+    { selectId: "custom-select-membership", optionsId: "options-list-membership" }, 
+    { selectId: "custom-select-client", optionsId: "options-list-client" }
   ];
 
   dropdownConfigs.forEach(config => {
     setupDropdownToggle(config.selectId, config.optionsId);
+    
+    // Update the classes for custom select elements
+    const customSelectElement = document.getElementById(config.selectId);
+    if (customSelectElement) {
+      // Preserve backgroundBlue class if it exists or add Tailwind button styling
+      const hasBackgroundBlue = customSelectElement.classList.contains('backgroundBlue');
+      
+      customSelectElement.className = "text-sm mr-3 font-semibold px-4 py-2 h-10 rounded transition flex items-center justify-between text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 cursor-pointer";
+      
+      // Add backgroundBlue class back if it existed
+      if (hasBackgroundBlue) {
+        customSelectElement.classList.add('backgroundBlue');
+      } else {
+        // Add equivalent Tailwind blue background if backgroundBlue doesn't exist
+        customSelectElement.classList.add('bg-blue-600');
+      }
+      
+      // Ensure it's a button if it's not already
+      if (customSelectElement.tagName !== 'BUTTON') {
+        customSelectElement.setAttribute('role', 'button');
+        customSelectElement.setAttribute('tabindex', '0');
+      }
+    }
+    
+    // Update the classes for options list elements
+    const optionsListElement = document.getElementById(config.optionsId);
+    if (optionsListElement) {
+      optionsListElement.className = "absolute z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 overflow-y-auto h-fit max-h-80 text-xl invisible";
+    }
   });
+  
+  // Make sure the buttons container has proper styling for side-by-side alignment
+  const buttonsContainer = document.querySelector('#custom-select-membership')?.closest('div');
+  if (buttonsContainer) {
+    // Add flex and spacing classes to container
+    buttonsContainer.classList.add('flex', 'flex-wrap', 'items-center', 'gap-2', 'p-2');
+  }
   
   // Initialize filter triggers
   initializeFilterTriggers();
@@ -503,4 +661,1016 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Make header functions globally available
   window.headerUpdateClientDropdownFilters = updateClientDropdownFilters;
-}); 
+});
+
+/**
+ * Add unique regions to the options select dropdown
+ * @param {Array} regionsArray - Array of region objects
+ */
+function addUniqueRegionsToOptionsSelectRegionsDropdown(regionsArray) {
+  const optionsListRegion = document.getElementById("options-list-region");
+  if (!optionsListRegion) {
+    console.error("Region options list element not found");
+    return;
+  }
+  
+  // Ensure global sets exist
+  window.selectedRegions_Array = window.selectedRegions_Array || new Set();
+
+  // Clear existing content
+  optionsListRegion.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-region");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-region");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-region");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold text-black");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListRegion.appendChild(selectAllLabel);
+
+  // If array is not provided or empty, return after creating select all option
+  if (!regionsArray || !Array.isArray(regionsArray)) {
+    console.warn("No regions array provided to addUniqueRegionsToOptionsSelectRegionsDropdown");
+    regionsArray = [];
+  }
+
+  // Populate all regions by default
+  regionsArray.forEach((regionObject) => {
+    const regionName = regionObject.arr[0];
+    const regionString = regionObject.str;
+    const uniqueId = `region-option-${regionString}`;
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", uniqueId);
+    newLabel.setAttribute(
+      "class",
+      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate text-black"
+    );
+
+    const regionInput = document.createElement("input");
+    regionInput.setAttribute("type", "checkbox");
+    regionInput.setAttribute("id", uniqueId);
+    regionInput.setAttribute(
+      "class",
+      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+    regionInput.setAttribute("value", regionString);
+
+    // Add the value to selectedRegions_Array and check the input by default
+    window.selectedRegions_Array.add(regionString);
+    regionInput.checked = true;
+
+    const newSpan = document.createElement("span");
+    newSpan.innerText = regionName;
+
+    newLabel.appendChild(regionInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListRegion.appendChild(newLabel);
+
+    // Add change event listener to update selectedRegions_Array
+    regionInput.addEventListener("change", function () {
+      if (this.checked) {
+        window.selectedRegions_Array.add(regionString);
+      } else {
+        window.selectedRegions_Array.delete(regionString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-region input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-region")
+        .every((input) => input.checked);
+
+      const someChecked = Array.from(
+        document.querySelectorAll("#options-list-region input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-region")
+        .some((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate = !allChecked && someChecked;
+
+      // Trigger filter changed event
+      const event = new CustomEvent("filtersChanged");
+      document.dispatchEvent(event);
+    });
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = this.checked;
+    const regionCheckboxes = document.querySelectorAll(
+      "#options-list-region input[type='checkbox']"
+    );
+
+    regionCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-region") {
+        checkbox.checked = isChecked;
+        const regionString = checkbox.value;
+
+        if (isChecked) {
+          window.selectedRegions_Array.add(regionString);
+        } else {
+          window.selectedRegions_Array.delete(regionString);
+        }
+      }
+    });
+
+    // Reset indeterminate state
+    selectAllInput.indeterminate = false;
+
+    // Trigger filter changed event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  });
+}
+
+/**
+ * Add unique states to the options select dropdown
+ * @param {Array} statesArray - Array of state objects
+ */
+function addUniqueStatesToOptionsSelectStatesDropdown(statesArray) {
+  const optionsListState = document.getElementById("options-list-state");
+  if (!optionsListState) {
+    console.error("State options list element not found");
+    return;
+  }
+  
+  // Ensure global sets exist
+  window.selectedStates_Array = window.selectedStates_Array || new Set();
+
+  // Clear existing content
+  optionsListState.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-state");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-state");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-state");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListState.appendChild(selectAllLabel);
+
+  // If array is not provided or empty, return after creating select all option
+  if (!statesArray || !Array.isArray(statesArray)) {
+    console.warn("No states array provided to addUniqueStatesToOptionsSelectStatesDropdown");
+    statesArray = [];
+  }
+
+  // Populate all states by default
+  statesArray.forEach((stateObject) => {
+    const stateName = stateObject.arr[0];
+    const stateString = stateObject.str;
+    const uniqueId = `state-option-${stateString}`;
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", uniqueId);
+    newLabel.setAttribute(
+      "class",
+      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate text-black"
+    );
+
+    const stateInput = document.createElement("input");
+    stateInput.setAttribute("type", "checkbox");
+    stateInput.setAttribute("id", uniqueId);
+    stateInput.setAttribute(
+      "class",
+      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+    stateInput.setAttribute("value", stateString);
+
+    // Add the value to selectedStates_Array and check the input by default
+    window.selectedStates_Array.add(stateString);
+    stateInput.checked = true;
+
+    const newSpan = document.createElement("span");
+    newSpan.innerText = stateName;
+
+    newLabel.appendChild(stateInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListState.appendChild(newLabel);
+
+    // Add change event listener to update selectedStates_Array
+    stateInput.addEventListener("change", function () {
+      if (this.checked) {
+        window.selectedStates_Array.add(stateString);
+      } else {
+        window.selectedStates_Array.delete(stateString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-state input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-state")
+        .every((input) => input.checked);
+
+      const someChecked = Array.from(
+        document.querySelectorAll("#options-list-state input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-state")
+        .some((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate = !allChecked && someChecked;
+
+      // Trigger filter changed event
+      const event = new CustomEvent("filtersChanged");
+      document.dispatchEvent(event);
+    });
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = this.checked;
+    const stateCheckboxes = document.querySelectorAll(
+      "#options-list-state input[type='checkbox']"
+    );
+
+    stateCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-state") {
+        checkbox.checked = isChecked;
+        const stateString = checkbox.value;
+
+        if (isChecked) {
+          window.selectedStates_Array.add(stateString);
+        } else {
+          window.selectedStates_Array.delete(stateString);
+        }
+      }
+    });
+
+    // Reset indeterminate state
+    selectAllInput.indeterminate = false;
+
+    // Trigger filter changed event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  });
+}
+
+/**
+ * Add unique memberships to the options select dropdown
+ * @param {Array} membershipsArray - Array of membership objects
+ */
+function addUniqueMembershipsToOptionsSelectMembershipsDropdown(membershipsArray) {
+  const optionsListMembership = document.getElementById("options-list-membership");
+  if (!optionsListMembership) {
+    console.error("Membership options list element not found");
+    return;
+  }
+  
+  // Ensure global sets exist
+  window.selectedMemberships_Array = window.selectedMemberships_Array || new Set();
+
+  // Clear existing content
+  optionsListMembership.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-membership");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-membership");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-membership");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListMembership.appendChild(selectAllLabel);
+
+  // If array is not provided or empty, return after creating select all option
+  if (!membershipsArray || !Array.isArray(membershipsArray)) {
+    console.warn("No memberships array provided to addUniqueMembershipsToOptionsSelectMembershipsDropdown");
+    membershipsArray = [];
+  }
+
+  // Populate all memberships by default
+  membershipsArray.forEach((membershipObject) => {
+    const membershipName = membershipObject.arr[0];
+    const membershipString = membershipObject.str;
+    const uniqueId = `membership-option-${membershipString}`;
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", uniqueId);
+    newLabel.setAttribute(
+      "class",
+      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate text-black"
+    );
+
+    const membershipInput = document.createElement("input");
+    membershipInput.setAttribute("type", "checkbox");
+    membershipInput.setAttribute("id", uniqueId);
+    membershipInput.setAttribute(
+      "class",
+      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+    membershipInput.setAttribute("value", membershipString);
+
+    // Add the value to selectedMemberships_Array and check the input by default
+    window.selectedMemberships_Array.add(membershipString);
+    membershipInput.checked = true;
+
+    const newSpan = document.createElement("span");
+    newSpan.innerText = membershipName;
+
+    newLabel.appendChild(membershipInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListMembership.appendChild(newLabel);
+
+    // Add change event listener to update selectedMemberships_Array
+    membershipInput.addEventListener("change", function () {
+      if (this.checked) {
+        window.selectedMemberships_Array.add(membershipString);
+      } else {
+        window.selectedMemberships_Array.delete(membershipString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-membership input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-membership")
+        .every((input) => input.checked);
+
+      const someChecked = Array.from(
+        document.querySelectorAll("#options-list-membership input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-membership")
+        .some((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate = !allChecked && someChecked;
+
+      // Trigger filter changed event
+      const event = new CustomEvent("filtersChanged");
+      document.dispatchEvent(event);
+    });
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = this.checked;
+    const membershipCheckboxes = document.querySelectorAll(
+      "#options-list-membership input[type='checkbox']"
+    );
+
+    membershipCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-membership") {
+        checkbox.checked = isChecked;
+        const membershipString = checkbox.value;
+
+        if (isChecked) {
+          window.selectedMemberships_Array.add(membershipString);
+        } else {
+          window.selectedMemberships_Array.delete(membershipString);
+        }
+      }
+    });
+
+    // Reset indeterminate state
+    selectAllInput.indeterminate = false;
+
+    // Trigger filter changed event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  });
+}
+
+/**
+ * Add unique types to the options select dropdown
+ * @param {Array} typesArray - Array of type objects
+ */
+function addUniqueTypesToOptionsSelectTypesDropdown(typesArray) {
+  const optionsListType = document.getElementById("options-list-type");
+  if (!optionsListType) {
+    console.error("Type options list element not found");
+    return;
+  }
+  
+  // Ensure global sets exist
+  window.selectedTypes_Array = window.selectedTypes_Array || new Set();
+
+  // Clear existing content
+  optionsListType.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-type");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-type");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-type");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListType.appendChild(selectAllLabel);
+
+  // If array is not provided or empty, return after creating select all option
+  if (!typesArray || !Array.isArray(typesArray)) {
+    console.warn("No types array provided to addUniqueTypesToOptionsSelectTypesDropdown");
+    typesArray = [];
+  }
+
+  // Populate all types by default
+  typesArray.forEach((typeObject) => {
+    const typeName = typeObject.arr[0];
+    const typeString = typeObject.str;
+    const uniqueId = `type-option-${typeString}`;
+
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("div");
+    newDiv.setAttribute(
+      "class",
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    const typeInput = document.createElement("input");
+    typeInput.setAttribute("id", `type_${typeString}`);
+    typeInput.setAttribute("type", "checkbox");
+    typeInput.setAttribute("value", typeString);
+    typeInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `type_${typeString}`);
+    newLabel.setAttribute(
+      "class",
+      "w-full py-2 ms-2 text-gray-900 rounded dark:text-gray-300"
+    );
+    newLabel.innerText = typeName;
+
+    // Add the value to selectedTypes_Array and check the input by default
+    window.selectedTypes_Array.add(typeString);
+    typeInput.checked = true;
+
+    newDiv.appendChild(typeInput);
+    newDiv.appendChild(newLabel);
+
+    newListItem.appendChild(newDiv);
+    optionsListType.appendChild(newListItem);
+
+    // Add change event listener to update selectedTypes_Array
+    typeInput.addEventListener("change", function () {
+      if (this.checked) {
+        window.selectedTypes_Array.add(typeString);
+      } else {
+        window.selectedTypes_Array.delete(typeString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-type input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-type")
+        .every((input) => input.checked);
+
+      const someChecked = Array.from(
+        document.querySelectorAll("#options-list-type input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-type")
+        .some((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate = !allChecked && someChecked;
+
+      // Trigger filter changed event
+      const event = new CustomEvent("filtersChanged");
+      document.dispatchEvent(event);
+    });
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = this.checked;
+    const typeCheckboxes = document.querySelectorAll(
+      "#options-list-type input[type='checkbox']"
+    );
+
+    typeCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-type") {
+        checkbox.checked = isChecked;
+        const typeString = checkbox.value;
+
+        if (isChecked) {
+          window.selectedTypes_Array.add(typeString);
+        } else {
+          window.selectedTypes_Array.delete(typeString);
+        }
+      }
+    });
+
+    // Reset indeterminate state
+    selectAllInput.indeterminate = false;
+
+    // Trigger filter changed event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  });
+}
+
+/**
+ * Add unique athletics options to the dropdown
+ * @param {Array} athleticsArray - Array of athletics objects
+ */
+function addUniqueAthleticsToOptionsSelectAthleticsDropdown(athleticsArray) {
+  const optionsListAthletic = document.getElementById("options-list-athletic");
+  if (!optionsListAthletic) {
+    console.error("Athletic options list element not found");
+    return;
+  }
+  
+  // Ensure global sets exist
+  window.selectedAthletics_Array = window.selectedAthletics_Array || new Set();
+
+  // Clear existing content
+  optionsListAthletic.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-athletic");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-athletic");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-athletic");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListAthletic.appendChild(selectAllLabel);
+
+  // If array is not provided or empty, return after creating select all option
+  if (!athleticsArray || !Array.isArray(athleticsArray)) {
+    console.warn("No athletics array provided to addUniqueAthleticsToOptionsSelectAthleticsDropdown");
+    athleticsArray = [];
+  }
+
+  // Populate all athletics by default
+  athleticsArray.forEach((athleticObject) => {
+    const athleticName = athleticObject.arr[0];
+    const athleticString = athleticObject.str;
+    const uniqueId = `athletic-option-${athleticString}`;
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", uniqueId);
+    newLabel.setAttribute(
+      "class",
+      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate text-black"
+    );
+
+    const athleticInput = document.createElement("input");
+    athleticInput.setAttribute("type", "checkbox");
+    athleticInput.setAttribute("id", uniqueId);
+    athleticInput.setAttribute(
+      "class",
+      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+    athleticInput.setAttribute("value", athleticString);
+
+    // Add the value to selectedAthletics_Array and check the input by default
+    window.selectedAthletics_Array.add(athleticString);
+    athleticInput.checked = true;
+
+    const newSpan = document.createElement("span");
+    newSpan.innerText = athleticName;
+
+    newLabel.appendChild(athleticInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListAthletic.appendChild(newLabel);
+
+    // Add change event listener to update selectedAthletics_Array
+    athleticInput.addEventListener("change", function () {
+      if (this.checked) {
+        window.selectedAthletics_Array.add(athleticString);
+      } else {
+        window.selectedAthletics_Array.delete(athleticString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-athletic input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-athletic")
+        .every((input) => input.checked);
+
+      const someChecked = Array.from(
+        document.querySelectorAll("#options-list-athletic input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-athletic")
+        .some((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate = !allChecked && someChecked;
+
+      // Trigger filter changed event
+      const event = new CustomEvent("filtersChanged");
+      document.dispatchEvent(event);
+    });
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = this.checked;
+    const athleticCheckboxes = document.querySelectorAll(
+      "#options-list-athletic input[type='checkbox']"
+    );
+
+    athleticCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-athletic") {
+        checkbox.checked = isChecked;
+        const athleticString = checkbox.value;
+
+        if (isChecked) {
+          window.selectedAthletics_Array.add(athleticString);
+        } else {
+          window.selectedAthletics_Array.delete(athleticString);
+        }
+      }
+    });
+
+    // Reset indeterminate state
+    selectAllInput.indeterminate = false;
+
+    // Trigger filter changed event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  });
+}
+
+/**
+ * Add unique regionals to the options select dropdown
+ * @param {Array} regionalsArray - Array of regional objects
+ */
+function addUniqueRegionalsToOptionsSelectRegionalsDropdown(regionalsArray) {
+  const optionsListRegional = document.getElementById("options-list-regional");
+  if (!optionsListRegional) {
+    console.error("Regional options list element not found");
+    return;
+  }
+  
+  // Ensure global sets exist
+  window.selectedRegionals_Array = window.selectedRegionals_Array || new Set();
+
+  // Clear existing content
+  optionsListRegional.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-regional");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-regional");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-regional");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold text-black");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListRegional.appendChild(selectAllLabel);
+
+  // If array is not provided or empty, return after creating select all option
+  if (!regionalsArray || !Array.isArray(regionalsArray)) {
+    console.warn("No regionals array provided to addUniqueRegionalsToOptionsSelectRegionalsDropdown");
+    regionalsArray = [];
+  }
+
+  // Clear selectedRegionals_Array before populating
+  window.selectedRegionals_Array.clear();
+
+  // Populate all regionals by default
+  regionalsArray.forEach((regionalObject) => {
+    const regionalName = regionalObject.arr[0];
+    const regionalString = regionalObject.str;
+    
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("div");
+    newDiv.setAttribute(
+      "class", 
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    const regionalInput = document.createElement("input");
+    regionalInput.setAttribute("id", `regional_${regionalString}`);
+    regionalInput.setAttribute("type", "checkbox");
+    regionalInput.setAttribute("value", regionalString);
+    regionalInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `regional_${regionalString}`);
+    newLabel.setAttribute(
+      "class",
+      "w-full py-2 ms-2 text-gray-900 rounded dark:text-gray-300"
+    );
+    newLabel.innerText = regionalName;
+
+    // Add the value to selectedRegionals_Array and check the input by default
+    window.selectedRegionals_Array.add(regionalString);
+    regionalInput.checked = true;
+
+    newDiv.appendChild(regionalInput);
+    newDiv.appendChild(newLabel);
+    newListItem.appendChild(newDiv);
+    optionsListRegional.appendChild(newListItem);
+
+    // Add change event listener to update selectedRegionals_Array
+    regionalInput.addEventListener("change", function () {
+      if (this.checked) {
+        window.selectedRegionals_Array.add(regionalString);
+      } else {
+        window.selectedRegionals_Array.delete(regionalString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-regional input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-regional")
+        .every((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate = !allChecked && 
+        Array.from(document.querySelectorAll("#options-list-regional input[type='checkbox']"))
+          .filter(input => input.id !== "select-all-checkbox-regional")
+          .some(input => input.checked);
+
+      triggerFiltersChanged();
+    });
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = this.checked;
+    const regionalCheckboxes = document.querySelectorAll(
+      "#options-list-regional input[type='checkbox']"
+    );
+
+    regionalCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-regional") {
+        checkbox.checked = isChecked;
+        const regionalString = checkbox.value;
+
+        if (isChecked) {
+          window.selectedRegionals_Array.add(regionalString);
+        } else {
+          window.selectedRegionals_Array.delete(regionalString);
+        }
+      }
+    });
+
+    // Reset indeterminate state
+    selectAllInput.indeterminate = false;
+
+    // Trigger filter changed event
+    triggerFiltersChanged();
+  });
+}
+
+/**
+ * Add unique seminaries to the options select dropdown
+ * @param {Array} seminariesArray - Array of seminary objects
+ */
+function addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminariesArray) {
+  const optionsListSeminary = document.getElementById("options-list-seminary");
+  if (!optionsListSeminary) {
+    console.error("Seminary options list element not found");
+    return;
+  }
+  
+  // Ensure global sets exist
+  window.selectedSeminaries_Array = window.selectedSeminaries_Array || new Set();
+
+  // Clear existing content
+  optionsListSeminary.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-seminary");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-seminary");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-seminary");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListSeminary.appendChild(selectAllLabel);
+
+  // If array is not provided or empty, return after creating select all option
+  if (!seminariesArray || !Array.isArray(seminariesArray)) {
+    console.warn("No seminaries array provided to addUniqueSeminariesToOptionsSelectSeminariesDropdown");
+    seminariesArray = [];
+  }
+
+  // Populate all seminaries by default
+  seminariesArray.forEach((seminaryObject) => {
+    const seminaryName = seminaryObject.arr[0];
+    const seminaryString = seminaryObject.str;
+    const uniqueId = `seminary-option-${seminaryString}`;
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", uniqueId);
+    newLabel.setAttribute(
+      "class",
+      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate text-black text-black"
+    );
+
+    const seminaryInput = document.createElement("input");
+    seminaryInput.setAttribute("type", "checkbox");
+    seminaryInput.setAttribute("id", uniqueId);
+    seminaryInput.setAttribute(
+      "class",
+      "w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+    seminaryInput.setAttribute("value", seminaryString);
+
+    // Add the value to selectedSeminaries_Array and check the input by default
+    window.selectedSeminaries_Array.add(seminaryString);
+    seminaryInput.checked = true;
+
+    const newSpan = document.createElement("span");
+    newSpan.innerText = seminaryName;
+
+    newLabel.appendChild(seminaryInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListSeminary.appendChild(newLabel);
+
+    // Add change event listener to update selectedSeminaries_Array
+    seminaryInput.addEventListener("change", function () {
+      if (this.checked) {
+        window.selectedSeminaries_Array.add(seminaryString);
+      } else {
+        window.selectedSeminaries_Array.delete(seminaryString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-seminary input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-seminary")
+        .every((input) => input.checked);
+
+      const someChecked = Array.from(
+        document.querySelectorAll("#options-list-seminary input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-seminary")
+        .some((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate = !allChecked && someChecked;
+
+      // Trigger filter changed event
+      const event = new CustomEvent("filtersChanged");
+      document.dispatchEvent(event);
+    });
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = this.checked;
+    const seminaryCheckboxes = document.querySelectorAll(
+      "#options-list-seminary input[type='checkbox']"
+    );
+
+    seminaryCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-seminary") {
+        checkbox.checked = isChecked;
+        const seminaryString = checkbox.value;
+
+        if (isChecked) {
+          window.selectedSeminaries_Array.add(seminaryString);
+        } else {
+          window.selectedSeminaries_Array.delete(seminaryString);
+        }
+      }
+    });
+
+    // Reset indeterminate state
+    selectAllInput.indeterminate = false;
+
+    // Trigger filter changed event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  });
+} 

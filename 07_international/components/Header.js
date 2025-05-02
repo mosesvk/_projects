@@ -177,7 +177,7 @@ function updateClientDropdownFilters() {
   const minAssets = window.assetsValue || 0;
   const maxAssets = window.assetsValue2 || 900000000;
   const minRevenue = window.revenueValue || 0;
-  const maxRevenue = window.revenueValue2 || 600000000;
+  const maxRevenue = window.revenueValue2 || 600000000; vc
 
   // console.log("Current filter criteria:", {
   //   areas: selectedAreas,

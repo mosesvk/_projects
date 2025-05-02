@@ -252,7 +252,7 @@ $.get(clientData, apiCallClientDataForUniqueYears)
     document.getElementById("firmName").textContent = clientName;
     window.firmName = clientName;
 
-    recordId = recordsClient[0].querySelector("related_client").textContent;
+    recordId = recordsClient[0].querySelector("record_id_").textContent;
 
     // console.log(recordsClient[0].children)
 
@@ -272,7 +272,7 @@ window.addEventListener("beforeunload", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  getRecordsForUniqueClientsPeerNames();
+  getRecordsForUniqueClientPeerNames();
 
   addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
 
@@ -292,25 +292,190 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const findUniqueYears = (data) => {
-  if (data) {
-    data.forEach((item) => {
-      const yearElement = item.querySelector("year");
-      if (yearElement) {
-        const year = yearElement.textContent;
+  console.log({data});
+  
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    console.warn("Invalid or empty data provided to findUniqueYears");
+    return;
+  }
 
-        // Check if the year is not already in yearsData_Array to ensure uniqueness
-        if (!yearsData_Array.includes(year)) {
-          yearsData_Array.push(year);
+  const uniqueYears = new Set();
+  
+  // Check what kind of data structure we're dealing with
+  const firstRecord = data[0];
+  
+  try {
+    // If data is array of objects with year property
+    if (typeof firstRecord === 'object' && firstRecord.year) {
+      data.forEach((record) => {
+        if (record.year && !uniqueYears.has(record.year)) {
+          uniqueYears.add(record.year);
+        }
+      });
+    } 
+    // If data is from DOM elements/records with year child element
+    else if (firstRecord.querySelector) {
+      data.forEach((record) => {
+        const yearElement = record.querySelector("year");
+        if (yearElement && yearElement.textContent) {
+          uniqueYears.add(yearElement.textContent);
+        }
+      });
+    }
+    
+    const uniqueYearsArray = Array.from(uniqueYears).sort((a, b) => b - a); // Sort years in descending order
+    window.uniqueYears_Array = uniqueYearsArray;
+    
+    // Add unique years to dropdown
+    addUniqueYearsToOptionsSelectDropdown(uniqueYearsArray);
+  } catch (error) {
+    console.error("Error processing years data:", error);
+  }
+};
+
+/**
+ * Adds unique years to the year selection dropdown
+ * @param {Array} yearsArray - Array of unique years
+ */
+const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
+  const optionsListElement = document.getElementById("options-list-year");
+
+  if (!optionsListElement) {
+    console.error("Options list element not found for years dropdown");
+    return;
+  }
+
+  // Clear the selected years on page load
+  if (!window.yearSelectionsInitialized) {
+    resetSelectedYearsFromLocalStorage();
+    selectedYears_Set.clear();
+    window.yearSelectionsInitialized = true;
+  }
+
+  // Initialize selectedYears_Set from local storage if data exists
+  const storedYears = getSelectedYearsFromLocalStorage();
+
+  if (Array.isArray(storedYears)) {
+    selectedYears_Set = new Set(storedYears);
+  }
+
+  // Clear existing content
+  optionsListElement.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-years");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-years");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = false;
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-years");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListElement.appendChild(selectAllLabel);
+
+  // Sort years in descending order
+  const sortedYears = yearsArray.sort((a, b) => b - a);
+
+  // Add year options
+  sortedYears.forEach((year) => {
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `option-${year}`);
+    newLabel.setAttribute(
+      "class",
+      "flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("id", `option-${year}`);
+    newInput.setAttribute(
+      "class",
+      `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
+    );
+    newInput.setAttribute("value", year);
+    newInput.checked = selectedYears_Set.has(year);
+
+    newInput.addEventListener("change", (e) => {
+      const isChecked = e.target.checked;
+
+      if (isChecked) {
+        selectedYears_Set.add(year);
+      } else {
+        selectedYears_Set.delete(year);
+      }
+
+      // Update "Select All" checkbox state
+      const yearCheckboxes = document.querySelectorAll(
+        "#options-list-year input[type='checkbox']"
+      );
+      const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
+        (cb) => cb.id !== "select-all-checkbox-years"
+      );
+
+      const allChecked = nonSelectAllCheckboxes.every((cb) => cb.checked);
+      const noneChecked = nonSelectAllCheckboxes.every((cb) => !cb.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate = !allChecked && !noneChecked;
+
+      // Save to local storage
+      const selectedYearsArray = Array.from(selectedYears_Set).sort(
+        (a, b) => a - b
+      );
+      localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+    });
+
+    const newSpan = document.createElement("span");
+    newSpan.innerText = year;
+
+    newLabel.appendChild(newInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListElement.appendChild(newLabel);
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = selectAllInput.checked;
+    const yearCheckboxes = document.querySelectorAll(
+      "#options-list-year input[type='checkbox']"
+    );
+
+    yearCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-years") {
+        checkbox.checked = isChecked;
+        const year = parseInt(checkbox.value);
+
+        if (isChecked) {
+          selectedYears_Set.add(year);
+        } else {
+          selectedYears_Set.delete(year);
         }
       }
     });
 
-    yearsData_Array.sort();
-
-    //nav-component
-    // we want to display all the years
-    addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
-  }
+    // Save to local storage
+    const selectedYearsArray = Array.from(selectedYears_Set).sort(
+      (a, b) => a - b
+    );
+    localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+  });
 };
 
 // Main Data Retrieval Functions ----------------------------------------------->
@@ -3060,8 +3225,8 @@ const displayComponents = () => {
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const recordClientHTMLArray = [];
-const recordPeerHTMLArray = [];
+let recordClientHTMLArray = [];
+let recordPeerHTMLArray = [];
 
 const run_btn = document.querySelector("#run");
 run_btn.addEventListener("click", async () => {
@@ -3201,35 +3366,85 @@ const initializeClientDataStore = (peerRecords) => {
 
 // Update getRecordsForUniqueClientPeerNames to include client data store initialization
 const getRecordsForUniqueClientPeerNames = async () => {
-  const currentYear = new Date().getFullYear();
-  const apiCallPeerData = {
-    act: "API_DoQuery",
-    query: `{7.EX.${currentYear}} AND {638.EX.'COMPLETE'}`,
-    clist: "7.533.539.536.619.741.758.759.757.760.761.638"
-  };
-
-  try {
-    const xml = await $.get(peerData, apiCallPeerData);
-    const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
-
-    const uniquePeerClientNames = new Set();
-
-    recordsForPeerUniqueClientPeerNames.forEach((record) => {
-      const clientInformalName = record.querySelector("merged_client_name").textContent;
-      uniquePeerClientNames.add(clientInformalName);
-    });
-
-    const sortedUniquePeerClientNames = Array.from(uniquePeerClientNames).sort();
-    sortedUniquePeerClientNames.forEach((item) => window.selectedClients_Array.add(item));
-
-    // Initialize client data store
-    initializeClientDataStore(recordsForPeerUniqueClientPeerNames);
-
-    // Add unique clients to dropdown
-    addUniqueClientsToOptionsSelectClientsDropdown(sortedUniquePeerClientNames);
-  } catch (error) {
-    console.error("Error fetching data:", error);
+  if (!window.selectedClients_Array) {
+    window.selectedClients_Array = new Set();
   }
+  
+  // Initialize recordPeerHTMLArray as empty array
+  window.recordPeerHTMLArray = [];
+
+  const currentYear = 2024
+  
+  // Try to get records from current year first
+  let recordsForPeerUniqueClientPeerNames = await fetchPeerRecordsForYear(currentYear);
+  
+  // If no records found for current year, try the previous year
+  if (!recordsForPeerUniqueClientPeerNames || recordsForPeerUniqueClientPeerNames.length === 0) {
+    console.warn(`No peer records found for ${currentYear}, trying previous year...`);
+    recordsForPeerUniqueClientPeerNames = await fetchPeerRecordsForYear(currentYear - 1);
+    
+    // If still no records, try one more year back
+    if (!recordsForPeerUniqueClientPeerNames || recordsForPeerUniqueClientPeerNames.length === 0) {
+      console.warn(`No peer records found for ${currentYear - 1}, trying ${currentYear - 2}...`);
+      recordsForPeerUniqueClientPeerNames = await fetchPeerRecordsForYear(currentYear - 2);
+    }
+  }
+
+  // Process the records if we found any
+  if (recordsForPeerUniqueClientPeerNames && recordsForPeerUniqueClientPeerNames.length > 0) {
+    processClientPeerRecords(recordsForPeerUniqueClientPeerNames);
+  } else {
+    console.error("No peer records found for recent years. Please check database connection and data.");
+    // Still initialize an empty dropdown even when no records are found
+    addUniqueClientsToOptionsSelectClientsDropdown([]);
+  }
+};
+
+// Helper function to fetch peer records for a specific year
+const fetchPeerRecordsForYear = async (year) => {
+  try {
+    const apiCallPeerData = {
+      act: "API_DoQuery",
+      query: `{7.EX.${year}} AND {638.EX.'COMPLETE'}`,
+      clist: "7.533.539.536.619.741.758.759.757.760.761.638"
+    };
+    
+    const xml = await $.get(peerData, apiCallPeerData);
+    return $("record", xml).toArray();
+  } catch (error) {
+    console.error(`Error fetching data for year ${year}:`, error);
+    return [];
+  }
+};
+
+// Helper function to process peer records
+const processClientPeerRecords = (records) => {
+  if (!records || !Array.isArray(records) || records.length === 0) {
+    console.warn("No records provided to processClientPeerRecords");
+    return;
+  }
+
+  const uniquePeerClientNames = new Set();
+
+  records.forEach((record) => {
+    const clientNameElement = record.querySelector("merged_client_name");
+    if (clientNameElement && clientNameElement.textContent) {
+      const clientInformalName = clientNameElement.textContent;
+      uniquePeerClientNames.add(clientInformalName);
+    }
+  });
+
+  const sortedUniquePeerClientNames = Array.from(uniquePeerClientNames).sort();
+  sortedUniquePeerClientNames.forEach((item) => window.selectedClients_Array.add(item));
+
+  // Store peer record data for later use
+  window.recordPeerHTMLArray = records.map(record => record.outerHTML);
+
+  // Initialize client data store
+  initializeClientDataStore(records);
+
+  // Add unique clients to dropdown
+  addUniqueClientsToOptionsSelectClientsDropdown(sortedUniquePeerClientNames);
 };
 
 const getRecordsForClient = async (years, dataStr) => {
@@ -3333,18 +3548,12 @@ const handleFiltersChanged = async () => {
   }
 };
 
-// Get selected years from localStorage
-const getSelectedYearsFromLocalStorage = () => {
-  const selectedYearsStr = localStorage.getItem("selectedYears");
-  return selectedYearsStr ? JSON.parse(selectedYearsStr) : [];
-};
-
 // Initialize on load
 document.addEventListener('DOMContentLoaded', async () => {
   // Initialize filter handlers
   initializeFilterHandlers();
   
-  // First get unique client names to populate dropdown
+  // First get unique client names to populate dropddown
   await getRecordsForUniqueClientPeerNames();
   
   // Process selected years (if any are already selected)
