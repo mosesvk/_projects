@@ -2438,7 +2438,7 @@ class ApiService {
         act: "API_DoQuery",
         query: queryCondition,
         clist:
-          "301.59.60.62.63.64.66.261.302.262.303.211.227.231.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.228.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.222.231.344.334.306.347.343.346.244.205.341.342.344.345.348.351.352.256.353.354.7",
+          "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566",
       };
 
       // Use await to make the async operation more explicit
@@ -2513,9 +2513,10 @@ class ApiService {
     try {
       const apiCallClientData = {
         act: "API_DoQuery",
-        query: `{192.EX.${currentYear}} AND {29.EX.${ClientRid}}`,
+        query: `
+          {7.EX.${currentYear}} AND {533.EX.${ClientRid}}`,
         clist:
-          "29.192.157.158.159.160.141.142.143.144.145.146.147.148.149.185.186.187.212.189.188.150.161.162.163.164.165.166.167.168.169.170.171.172.42.173.174.175.176.177.178.179.180.181.182.183.31.213.42.217.25.193.221.218.15.21.223.222",
+          "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.419.420.421.422.423.424.425.426.427.428.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429.641.635.481.482.483.709.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.450.451.551.546.711.614.613.633.603.633.621.710.504.550.217.980.981.982.985.983.984.609.608.581.582.583.584.585.586.587.588.589.590.591.592.593.594.595.596.971.972.973.355.1075.1076.1077.1078",
       };
 
       // Use await to make the async operation more explicit
@@ -2648,14 +2649,15 @@ class ApiService {
             // Store all client data
             window.clientDataStore[clientName] = {
               name: clientName,
-              year: year,
-              missionUnit: parseFloat(missionUnitVal) || 0,
-              givingUnit: parseFloat(givingUnitVal) || 0,
-              assets: parseFloat(assetsVal) || 0,
-              revenue: parseFloat(revenueVal) || 0,
-              areaQuery: areaQuery,
-              typeQuery: typeQuery,
-              
+              year: year, 
+              enrollment: parseFloat(enrollmentVal) || 0,
+              region: regionVal,
+              state: stateVal,
+              membership: membership,
+              type: typeQuery,
+              athletic: athleticQuery,
+              seminary: seminaryQuery,
+              regional: regionalQuery,
             };
           }
 
@@ -2981,8 +2983,9 @@ class AppController {
         typesListElement.children.length <= 1)
     ) {
       addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
+      
     }
-    
+
     // Set up run button event listener
     const runButton = document.getElementById("run"); // Make sure to use correct ID
     if (runButton) {
@@ -3069,11 +3072,13 @@ class AppController {
   async _checkForAnyData(pattern) {
     // Check all data categories
     const categories = [
-      "generalData",
-      "cashData",
-      "assetData",
-      "incomeData",
-      "expenseData",
+      "cfiData",
+      "doeData",
+      "financialAnalysisData",
+      "financialPositionData",
+      "financialStatementData",
+      "revenueExpenseData",
+      "debtEndowmentData",
     ];
 
     for (const category of categories) {
@@ -3280,88 +3285,89 @@ class AppController {
     }
   }
 
-  enableGenerateReportsButton() {
-    console.log("enableGenerateReportsButton called");
+  // enableGenerateReportsButton() {
+  //   console.log("enableGenerateReportsButton called");
 
-    // Re-enable the generate reports button
-    const generateReportsBtn = document.getElementById("generateReports");
-    if (generateReportsBtn) {
-      generateReportsBtn.disabled = false;
+  //   // Re-enable the generate reports button
+  //   const generateReportsBtn = document.getElementById("generateReports");
+  //   if (generateReportsBtn) {
+  //     generateReportsBtn.disabled = false;
 
-      // Use the existing toggle function if available
-      if (typeof toggleGenerateReportButtonNormalState === "function") {
-        toggleGenerateReportButtonNormalState(generateReportsBtn);
-      } else {
-        // Fallback for when the toggle function is not available
-        generateReportsBtn.textContent = "Generate Reports";
-      }
+  //     // Use the existing toggle function if available
+  //     if (typeof toggleGenerateReportButtonNormalState === "function") {
+  //       toggleGenerateReportButtonNormalState(generateReportsBtn);
+  //     } else {
+  //       // Fallback for when the toggle function is not available
+  //       generateReportsBtn.textContent = "Generate Reports";
+  //     }
 
-      // Remove any existing listeners to prevent duplicates
-      const newBtn = generateReportsBtn.cloneNode(true);
-      generateReportsBtn.parentNode.replaceChild(newBtn, generateReportsBtn);
+  //     // Remove any existing listeners to prevent duplicates
+  //     const newBtn = generateReportsBtn.cloneNode(true);
+  //     generateReportsBtn.parentNode.replaceChild(newBtn, generateReportsBtn);
 
-      // Ensure ExcelReportGenerator is available
-      if (typeof ExcelReportGenerator === "function") {
-        // Create a new instance or use the existing one
-        if (!window.excelReportGenerator) {
-          window.excelReportGenerator = new ExcelReportGenerator();
-        }
+  //     // Ensure ExcelReportGenerator is available
+  //     if (typeof ExcelReportGenerator === "function") {
+  //       // Create a new instance or use the existing one
+  //       if (!window.excelReportGenerator) {
+  //         window.excelReportGenerator = new ExcelReportGenerator();
+  //       }
 
-        // Add a single click event listener
-        newBtn.addEventListener(
-          "click",
-          window.excelReportGenerator.handleGenerateReport.bind(
-            window.excelReportGenerator
-          ),
-          { once: true } // This ensures the event only fires once per click
-        );
+  //       // Add a single click event listener
+  //       newBtn.addEventListener(
+  //         "click",
+  //         window.excelReportGenerator.handleGenerateReport.bind(
+  //           window.excelReportGenerator
+  //         ),
+  //         { once: true } // This ensures the event only fires once per click
+  //       );
 
-        // Expose functions globally for backward compatibility if not already done
-        if (!window.createPrintExcel) {
-          window.createPrintExcel =
-            window.excelReportGenerator.createPrintExcel.bind(
-              window.excelReportGenerator
-            );
-          window.uploadToFile = window.excelReportGenerator.uploadToFile.bind(
-            window.excelReportGenerator
-          );
-          window.uploadSingleToFile =
-            window.excelReportGenerator.uploadSingleToFile.bind(
-              window.excelReportGenerator
-            );
-          window.printToExcel = window.excelReportGenerator.printToExcel.bind(
-            window.excelReportGenerator
-          );
-        }
-      } else {
-        console.warn(
-          "ExcelReportGenerator not available. Excel report functionality may be limited."
-        );
-      }
-    }
+  //       // Expose functions globally for backward compatibility if not already done
+  //       if (!window.createPrintExcel) {
+  //         window.createPrintExcel =
+  //           window.excelReportGenerator.createPrintExcel.bind(
+  //             window.excelReportGenerator
+  //           );
+  //         window.uploadToFile = window.excelReportGenerator.uploadToFile.bind(
+  //           window.excelReportGenerator
+  //         );
+  //         window.uploadSingleToFile =
+  //           window.excelReportGenerator.uploadSingleToFile.bind(
+  //             window.excelReportGenerator
+  //           );
+  //         window.printToExcel = window.excelReportGenerator.printToExcel.bind(
+  //           window.excelReportGenerator
+  //         );
+  //       }
+  //     } else {
+  //       console.warn(
+  //         "ExcelReportGenerator not available. Excel report functionality may be limited."
+  //       );
+  //     }
+  //   }
 
-    this.enablePrintModalHiddenClass();
-  }
+  //   this.enablePrintModalHiddenClass();
+  // }
 
-  enablePrintModalHiddenClass() {
-    console.log("enablePrintModalHiddenClass called");
+  // enablePrintModalHiddenClass() {
+  //   console.log("enablePrintModalHiddenClass called");
 
-    // Hide the print modal footer if it exists
-    const printModalFooter = document.getElementById("print_modal_footer");
-    if (printModalFooter) {
-      // Only add the hidden class if it's not already present
-      if (!printModalFooter.classList.contains("hidden")) {
-        console.log("Adding hidden class to print_modal_footer");
-        printModalFooter.classList.add("hidden");
-      } else {
-        console.log("print_modal_footer already has hidden class");
-      }
-    } else {
-      console.warn("print_modal_footer element not found!");
-    }
-  }
+  //   // Hide the print modal footer if it exists
+  //   const printModalFooter = document.getElementById("print_modal_footer");
+  //   if (printModalFooter) {
+  //     // Only add the hidden class if it's not already present
+  //     if (!printModalFooter.classList.contains("hidden")) {
+  //       console.log("Adding hidden class to print_modal_footer");
+  //       printModalFooter.classList.add("hidden");
+  //     } else {
+  //       console.log("print_modal_footer already has hidden class");
+  //     }
+  //   } else {
+  //     console.warn("print_modal_footer element not found!");
+  //   }
+  // }
 
   // Process selected years - with better error handling
+  
   processSelectedYears() {
     const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -3433,11 +3439,13 @@ class AppController {
     try {
       // Check localStorage for required data categories
       const categories = [
-        "generalData",
-        "cashData",
-        "assetData",
-        "incomeData",
-        "expenseData",
+        "cfiData",
+        "doeData",
+        "financialAnalysisData",
+        "financialPositionData",
+        "financialStatementData",
+        "revenueExpenseData",
+        "debtEndowmentData",
       ];
 
       for (const category of categories) {
@@ -3541,7 +3549,7 @@ function countUniqueClients(records) {
   try {
     records.forEach((record) => {
       const clientName = record.querySelector(
-        "pe___client_informal_name"
+        "merged_client_name"
       )?.textContent;
 
       // Only count clients that are in the selectedClients_Array
@@ -3607,14 +3615,17 @@ function toggleButtonNormalState(btn) {
 // API Client Data Query
 let apiCallClientDataForUniqueYears = {
   act: "API_DoQuery",
-  query: `{29.EX.${ClientRid}}`,
-  clist: "29.191.220.223.366",
+  query: `{533.EX.${ClientRid}}`,
+  clist: "533.7.539.3",
 };
 
 // Fetch client information
 $.get(clientData, apiCallClientDataForUniqueYears)
   .then(async (xml) => {
     recordsClient = await $("record", xml).toArray();
+
+    // console.log({recordsClient});
+    
 
     if (recordsClient.length > 0) {
       firmName = recordsClient[0].children[2].innerHTML;
@@ -3630,11 +3641,11 @@ $.get(clientData, apiCallClientDataForUniqueYears)
 
 // Find and add unique years from data
 const findUniqueYears = (data) => {
-  // console.log({data});
+  // console.log('findUniqueYears', {data});
 
   if (data) {
     data.forEach((item) => {
-      const yearElement = item.querySelector("fiscal_ye_date_formatted_year");
+      const yearElement = item.querySelector("year");
       if (yearElement) {
         const year = yearElement.textContent;
 
@@ -3644,9 +3655,10 @@ const findUniqueYears = (data) => {
         }
       }
     });
+    
 
     yearsData_Array.sort();
-    // console.log({yearsData_Array});
+    // console.log('findUniqueYears', {yearsData_Array});
 
     // Add years to options dropdown
     addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
@@ -3762,12 +3774,13 @@ window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
     document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
 
     return {
-      generalData: JSON.parse(localStorage.getItem("generalData")),
-      cashData: JSON.parse(localStorage.getItem("cashData")),
-      assetData: JSON.parse(localStorage.getItem("assetData")),
-      incomeData: JSON.parse(localStorage.getItem("incomeData")),
-      expenseData: JSON.parse(localStorage.getItem("expenseData")),
-      miscData: JSON.parse(localStorage.getItem("miscData")),
+      cfiData: JSON.parse(localStorage.getItem("cfiData")),
+      doeData: JSON.parse(localStorage.getItem("doeData")),
+      financialAnalysisData: JSON.parse(localStorage.getItem("financialAnalysisData")),
+      financialPositionData: JSON.parse(localStorage.getItem("financialPositionData")),
+      financialStatementData: JSON.parse(localStorage.getItem("financialStatementData")),
+      revenueExpenseData: JSON.parse(localStorage.getItem("revenueExpenseData")),
+      debtEndowmentData: JSON.parse(localStorage.getItem("debtEndowmentData")),
     };
   }
 };

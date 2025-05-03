@@ -110,13 +110,13 @@ const memberships_Array = [
   { arr: ["Unspecified"], str: "Unspecified" },
 ];
 
-const seminary_Array = [
+const seminaries_Array = [
   { arr: ["Small"], str: "Small" },
   { arr: ["Large"], str: "Large" },
   { arr: ["Unspecified"], str: "Unspecified" },
 ];
 
-const regional_Array = [
+const regionals_Array = [
   { arr: ["Higher Learning Commission"], str: "Higher Learning Commission" },
   {
     arr: ["Middle States Commission on Higher Education"],
@@ -679,6 +679,468 @@ const changeListenerForInputYears = (input, year) => {
   );
   localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
 };
+
+const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
+  // Get the options list element correctly
+  const optionsListElement = document.getElementById("options-list-year");
+
+  if (!optionsListElement) {
+    console.error("Options list element not found for years dropdown");
+    return;
+  }
+
+  // Clear the selected years on page load
+  if (!window.yearSelectionsInitialized) {
+    resetSelectedYearsFromLocalStorage();
+    selectedYears_Set.clear();
+    window.yearSelectionsInitialized = true;
+  }
+
+  // Initialize selectedYears_Set from local storage if data exists
+  const storedYears = getSelectedYearsFromLocalStorage();
+
+  if (Array.isArray(storedYears)) {
+    selectedYears_Set = new Set(storedYears);
+  }
+
+  // Clear existing content
+  optionsListElement.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-years");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-years");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  // CHANGE HERE: Set to unchecked by default
+  selectAllInput.checked = false;
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-years");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListElement.appendChild(selectAllLabel);
+
+  // Sort years in descending order
+  const sortedYears = yearsArray.sort((a, b) => b - a);
+
+  // Add year options
+  sortedYears.forEach((year) => {
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `option-${year}`);
+    newLabel.setAttribute(
+      "class",
+      "flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("id", `option-${year}`);
+    newInput.setAttribute(
+      "class",
+      `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
+    );
+    newInput.setAttribute("value", year);
+    // Check the input only if the year is in the selectedYears_Set
+    newInput.checked = selectedYears_Set.has(year);
+
+    newInput.addEventListener("change", (e) => {
+      const isChecked = e.target.checked;
+
+      if (isChecked) {
+        selectedYears_Set.add(year);
+      } else {
+        selectedYears_Set.delete(year);
+      }
+
+      // Update "Select All" checkbox state
+      const yearCheckboxes = document.querySelectorAll(
+        "#options-list input[type='checkbox']"
+      );
+      const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
+        (cb) => cb.id !== "select-all-checkbox-years"
+      );
+
+      const allChecked = nonSelectAllCheckboxes.every((cb) => cb.checked);
+      const noneChecked = nonSelectAllCheckboxes.every((cb) => !cb.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate = !allChecked && !noneChecked;
+
+      // Save to local storage
+      const selectedYearsArray = Array.from(selectedYears_Set).sort(
+        (a, b) => a - b
+      );
+      localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+    });
+
+    const newSpan = document.createElement("span");
+    newSpan.innerText = year;
+
+    newLabel.appendChild(newInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListElement.appendChild(newLabel);
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = selectAllInput.checked;
+    const yearCheckboxes = document.querySelectorAll(
+      "#options-list input[type='checkbox']"
+    );
+
+    yearCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-years") {
+        checkbox.checked = isChecked;
+        const year = parseInt(checkbox.value);
+
+        if (isChecked) {
+          selectedYears_Set.add(year);
+        } else {
+          selectedYears_Set.delete(year);
+        }
+      }
+    });
+
+    // Save to local storage
+    const selectedYearsArray = Array.from(selectedYears_Set).sort(
+      (a, b) => a - b
+    );
+    localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+  });
+};
+
+// Modify the dropdown toggle function to close other dropdowns
+function setupDropdownToggle(selectElementId, optionsListId) {
+  const selectElement = document.getElementById(selectElementId);
+  const optionsListElement = document.getElementById(optionsListId);
+
+  if (!selectElement || !optionsListElement) {
+    console.warn(
+      `Dropdown elements not found: ${selectElementId}, ${optionsListId}`
+    );
+    return;
+  }
+
+  // Function to close all other dropdowns
+  function closeOtherDropdowns(currentOptionsListId) {
+    const dropdownConfigs = [
+      { selectId: "custom-select", optionsId: "options-list" },
+      { selectId: "custom-select-area", optionsId: "options-list-area" },
+      { selectId: "custom-select-type", optionsId: "options-list-type" },
+      { selectId: "custom-select-client", optionsId: "options-list-client" },
+    ];
+
+    dropdownConfigs.forEach((config) => {
+      if (config.optionsId !== currentOptionsListId) {
+        const otherOptionsListElement = document.getElementById(
+          config.optionsId
+        );
+        if (otherOptionsListElement) {
+          otherOptionsListElement.classList.add("invisible");
+        }
+      }
+    });
+  }
+
+  // Function to toggle dropdown visibility
+  function toggleDropdown(event) {
+    // Prevent event propagation to avoid immediate closing
+    event.stopPropagation();
+
+    // Check if click is on checkbox or label to prevent unnecessary toggling
+    if (
+      event.target.closest(".form-checkbox") ||
+      event.target.closest("label")
+    ) {
+      return;
+    }
+
+    // Close other dropdowns first
+    closeOtherDropdowns(optionsListId);
+
+    // Toggle visibility of current dropdown
+    optionsListElement.classList.toggle("invisible");
+  }
+
+  // Function to close dropdown when clicking outside
+  function closeDropdownOutsideClick(event) {
+    if (
+      !selectElement.contains(event.target) &&
+      !optionsListElement.contains(event.target)
+    ) {
+      optionsListElement.classList.add("invisible");
+    }
+  }
+
+  // Remove any existing listeners to prevent duplicate attachments
+  selectElement.removeEventListener("click", toggleDropdown);
+  document.removeEventListener("click", closeDropdownOutsideClick);
+
+  // Add new event listeners
+  selectElement.addEventListener("click", toggleDropdown);
+  document.addEventListener("click", closeDropdownOutsideClick);
+}
+
+const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
+  const optionsListClient = document.getElementById("options-list-client");
+  if (!optionsListClient) {
+    console.error("Client options list element not found");
+    return;
+  }
+
+  // Ensure global scoping and initialization
+  window.selectedClients_Array = window.selectedClients_Array || new Set();
+
+  // Clear existing content
+  optionsListClient.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-client");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-client");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-client");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListClient.appendChild(selectAllLabel);
+
+  // EXPLICITLY clear the selectedClients_Array before populating
+  window.selectedClients_Array.clear();
+
+  // Populate all clients by default
+  clientArray.forEach((clientString) => {
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("div");
+    newDiv.setAttribute(
+      "class",
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    // Create the new input element
+    const newInput = document.createElement("input");
+    newInput.setAttribute("id", `client_${clientString}`);
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("value", clientString);
+    newInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `client_${clientString}`);
+    newLabel.setAttribute(
+      "class",
+      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+    );
+    newLabel.innerText = clientString;
+
+    // FORCE check the input and add to selectedClients_Array
+    newInput.checked = true;
+    window.selectedClients_Array.add(clientString);
+
+    newDiv.appendChild(newInput);
+    newDiv.appendChild(newLabel);
+
+    newListItem.appendChild(newDiv);
+    optionsListClient.appendChild(newListItem);
+
+    // Event listener to update selectedClients_Array
+    newInput.addEventListener("change", function () {
+      if (newInput.checked) {
+        window.selectedClients_Array.add(clientString);
+      } else {
+        window.selectedClients_Array.delete(clientString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-client input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-client")
+        .every((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate =
+        !allChecked &&
+        Array.from(
+          document.querySelectorAll(
+            "#options-list-client input[type='checkbox']"
+          )
+        )
+          .filter((input) => input.id !== "select-all-checkbox-client")
+          .some((input) => input.checked);
+    });
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = selectAllInput.checked;
+    const clientCheckboxes = document.querySelectorAll(
+      "#options-list-client input[type='checkbox']"
+    );
+
+    clientCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-client") {
+        checkbox.checked = isChecked;
+        const clientString = checkbox.value;
+
+        if (isChecked) {
+          window.selectedClients_Array.add(clientString);
+        } else {
+          window.selectedClients_Array.delete(clientString);
+        }
+      }
+    });
+
+    // Reset indeterminate state
+    selectAllInput.indeterminate = false;
+  });
+};
+
+// Enhanced addClientDataToModalRow function
+function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
+  // console.log(`Adding client datfa to row: ${yearRow.id}`, {
+  //   clientValue,
+  //   type,
+  //   fixedNum,
+  // });
+
+  const cell = document.createElement("td");
+  cell.className =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+
+  // Format the value
+  const formattedValue =
+    clientValue !== undefined && clientValue !== null
+      ? styleNumber(clientValue, type, fixedNum)
+      : "-";
+
+  cell.textContent = formattedValue;
+  yearRow.appendChild(cell);
+
+  return cell;
+}
+
+// Function to update the "select all" checkbox state
+function updateSelectAllCheckboxState() {
+  const selectAllCheckbox = document.getElementById(
+    "select-all-checkbox-client"
+  );
+  if (!selectAllCheckbox) return;
+
+  const clientCheckboxes = document.querySelectorAll(
+    '#options-list-client input[type="checkbox"]'
+  );
+  const clientOnlyCheckboxes = Array.from(clientCheckboxes).filter(
+    (checkbox) => checkbox.id !== "select-all-checkbox-client"
+  );
+
+  const allChecked = clientOnlyCheckboxes.every((checkbox) => checkbox.checked);
+  const noneChecked = clientOnlyCheckboxes.every(
+    (checkbox) => !checkbox.checked
+  );
+
+  selectAllCheckbox.checked = allChecked;
+  selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
+}
+
+function addPeerDataToModalRow(
+  row,
+  avgValue,
+  midValue,
+  p25Value,
+  p75Value,
+  dataType,
+  fixedNum
+) {
+  // console.log({
+  //   row, avgValue, dataType, fixedNum
+  // });
+
+  // Create and add the average value cell
+  const avgCell = createPeerDataCell(row, avgValue, dataType, fixedNum);
+
+  // Create and add the 25th percentile cell
+  const p25Cell = createPeerDataCell(row, p25Value, dataType, fixedNum);
+
+  // Create and add the median cell
+  const midCell = createPeerDataCell(row, midValue, dataType, fixedNum);
+
+  // Create and add the 75th percentile cell
+  const p75Cell = createPeerDataCell(row, p75Value, dataType, fixedNum);
+}
+
+// Helper to create a data cell for peer data with appropriate formatting
+function createPeerDataCell(row, value, dataType, fixedNum) {
+  const cell = document.createElement("td");
+  cell.className =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+
+  if (value !== undefined && value !== null) {
+    // Make sure value is a number before formatting
+    const numValue = parseFloat(value);
+
+    // Format the value based on type using styleNumber
+    let formattedValue;
+    if (!isNaN(numValue) && typeof styleNumber === "function") {
+      // Force the type parameter to match expected format in styleNumber
+      let typeParam = dataType;
+      if (dataType === "number") typeParam = "num"; // Convert "number" to "num" for styleNumber
+
+      formattedValue = styleNumber(numValue, typeParam, fixedNum);
+    } else {
+      // Fallback if value is not a number or styleNumber is not available
+      formattedValue = value.toFixed(fixedNum || 2);
+    }
+
+    cell.textContent = formattedValue;
+
+    // Apply color formatting for negative values
+    if (numValue < 0) {
+      cell.classList.remove("text-gray-900", "dark:text-white");
+      cell.classList.add("text-red-500", "dark:text-red-400");
+    }
+  } else {
+    cell.textContent = "-";
+  }
+
+  row.appendChild(cell);
+  return cell;
+}
 
 const getPeerAndClientChartDataArrays = (
   years,
