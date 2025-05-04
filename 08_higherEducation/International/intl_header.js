@@ -129,7 +129,8 @@ function clientMatchesFilters(
 
   // Check enrollment range
   const enrollmentMatch =
-    clientData.enrollment >= enrollmentMin && clientData.enrollment <= enrollmentMax;
+    clientData.enrollment >= enrollmentMin &&
+    clientData.enrollment <= enrollmentMax;
 
   if (
     selectedRegions.length === 0 ||
@@ -156,7 +157,9 @@ function clientMatchesFilters(
 
   // Check if client has at least one of the selected memberships, handle missing memberships
   const membershipMatch = clientData.membershipQuery
-    ? clientData.membershipQuery.some((membership) => selectedMemberships.includes(membership))
+    ? clientData.membershipQuery.some((membership) =>
+        selectedMemberships.includes(membership)
+      )
     : false;
 
   // Check if client has at least one of the selected types, handle missing typeQuery
@@ -166,17 +169,23 @@ function clientMatchesFilters(
 
   // Check if client has at least one of the selected athletics, handle missing athletics
   const athleticMatch = clientData.athleticQuery
-    ? clientData.athleticQuery.some((athletic) => selectedAthletics.includes(athletic))
+    ? clientData.athleticQuery.some((athletic) =>
+        selectedAthletics.includes(athletic)
+      )
     : false;
 
-  // Check if client has at least one of the selected seminaries, handle missing seminaries   
+  // Check if client has at least one of the selected seminaries, handle missing seminaries
   const seminaryMatch = clientData.seminaryQuery
-    ? clientData.seminaryQuery.some((seminary) => selectedSeminaries.includes(seminary))
+    ? clientData.seminaryQuery.some((seminary) =>
+        selectedSeminaries.includes(seminary)
+      )
     : false;
 
   // Check if client has at least one of the selected regionals, handle missing regionals
   const regionalMatch = clientData.regionalQuery
-    ? clientData.regionalQuery.some((regional) => selectedRegionals.includes(regional))
+    ? clientData.regionalQuery.some((regional) =>
+        selectedRegionals.includes(regional)
+      )
     : false;
 
   // Client matches only if it passes all criteria
@@ -208,7 +217,9 @@ function updateClientDropdownFilters() {
   // Get current filter values
   const selectedRegions = Array.from(window.selectedRegions_Array || []);
   const selectedStates = Array.from(window.selectedStates_Array || []);
-  const selectedMemberships = Array.from(window.selectedMemberships_Array || []);
+  const selectedMemberships = Array.from(
+    window.selectedMemberships_Array || []
+  );
   const selectedTypes = Array.from(window.selectedTypes_Array || []);
   const selectedAthletics = Array.from(window.selectedAthletics_Array || []);
   const selectedSeminaries = Array.from(window.selectedSeminaries_Array || []);
@@ -398,7 +409,7 @@ function initializeClientDropdown(event) {
     newLabel.setAttribute("for", `client_${clientName}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
     newLabel.innerText = clientName;
 
@@ -520,7 +531,7 @@ function addUniqueRegionsToOptionsSelectRegionsDropdown(regionArray) {
     newLabel.setAttribute("for", `region_${regionString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
     newLabel.innerText = regionName;
 
@@ -664,7 +675,7 @@ function addUniqueStatesToOptionsSelectStatesDropdown(stateArray) {
     newLabel.setAttribute("for", `state_${stateString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
     newLabel.innerText = stateName;
 
@@ -741,19 +752,24 @@ function addUniqueStatesToOptionsSelectStatesDropdown(stateArray) {
  * Function to handle membership selection changes
  * @param {Array} membershipArray - Array of membership objects
  */
-function addUniqueMembershipsToOptionsSelectMembershipsDropdown(membershipArray) {
-  console.log('addUniqueMembershipsToOptionsSelectMembershipsDropdown', {
+function addUniqueMembershipsToOptionsSelectMembershipsDropdown(
+  membershipArray
+) {
+  console.log("addUniqueMembershipsToOptionsSelectMembershipsDropdown", {
     membershipArray,
   });
 
-  const optionsListMembership = document.getElementById("options-list-membership");
+  const optionsListMembership = document.getElementById(
+    "options-list-membership"
+  );
   if (!optionsListMembership) {
     console.error("Membership options list element not found");
     return;
   }
 
   // Ensure global scoping and initialization
-  window.selectedMemberships_Array = window.selectedMemberships_Array || new Set();
+  window.selectedMemberships_Array =
+    window.selectedMemberships_Array || new Set();
 
   // Clear existing content
   optionsListMembership.innerHTML = "";
@@ -812,7 +828,7 @@ function addUniqueMembershipsToOptionsSelectMembershipsDropdown(membershipArray)
     newLabel.setAttribute("for", `membership_${membershipString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
     newLabel.innerText = membershipName;
 
@@ -836,13 +852,17 @@ function addUniqueMembershipsToOptionsSelectMembershipsDropdown(membershipArray)
 
       // Update "Select All" checkbox state
       const allChecked = Array.from(
-        document.querySelectorAll("#options-list-membership input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-membership input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-membership")
         .every((input) => input.checked);
 
       const someChecked = Array.from(
-        document.querySelectorAll("#options-list-membership input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-membership input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-membership")
         .some((input) => input.checked);
@@ -884,7 +904,7 @@ function addUniqueMembershipsToOptionsSelectMembershipsDropdown(membershipArray)
     document.dispatchEvent(event);
   });
 }
-   
+
 /**
  * Function to handle type selection changes
  * @param {Array} typeArray - Array of type objects
@@ -956,7 +976,7 @@ function addUniqueTypesToOptionsSelectTypesDropdown(typeArray) {
     newLabel.setAttribute("for", `type_${typeString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
     newLabel.innerText = typeName;
 
@@ -1114,7 +1134,7 @@ function addUniqueAthleticsToOptionsSelectAthleticsDropdown(athleticArray) {
     newLabel.setAttribute("for", `athletic_${athleticString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
     newLabel.innerText = athleticName;
 
@@ -1138,13 +1158,17 @@ function addUniqueAthleticsToOptionsSelectAthleticsDropdown(athleticArray) {
 
       // Update "Select All" checkbox state
       const allChecked = Array.from(
-        document.querySelectorAll("#options-list-athletic input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-athletic input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-athletic")
         .every((input) => input.checked);
 
       const someChecked = Array.from(
-        document.querySelectorAll("#options-list-athletic input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-athletic input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-athletic")
         .some((input) => input.checked);
@@ -1199,7 +1223,8 @@ function addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminaryArray) {
   }
 
   // Ensure global scoping and initialization
-  window.selectedSeminaries_Array = window.selectedSeminaries_Array || new Set();
+  window.selectedSeminaries_Array =
+    window.selectedSeminaries_Array || new Set();
 
   // Clear existing content
   optionsListSeminary.innerHTML = "";
@@ -1258,7 +1283,7 @@ function addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminaryArray) {
     newLabel.setAttribute("for", `seminary_${seminaryString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
     newLabel.innerText = seminaryName;
 
@@ -1282,13 +1307,17 @@ function addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminaryArray) {
 
       // Update "Select All" checkbox state
       const allChecked = Array.from(
-        document.querySelectorAll("#options-list-seminary input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-seminary input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-seminary")
         .every((input) => input.checked);
 
       const someChecked = Array.from(
-        document.querySelectorAll("#options-list-seminary input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-seminary input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-seminary")
         .some((input) => input.checked);
@@ -1402,7 +1431,7 @@ function addUniqueRegionalsToOptionsSelectRegionalsDropdown(regionalArray) {
     newLabel.setAttribute("for", `regional_${regionalString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
     newLabel.innerText = regionalName;
 
@@ -1426,13 +1455,17 @@ function addUniqueRegionalsToOptionsSelectRegionalsDropdown(regionalArray) {
 
       // Update "Select All" checkbox state
       const allChecked = Array.from(
-        document.querySelectorAll("#options-list-regional input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-regional input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-regional")
         .every((input) => input.checked);
 
       const someChecked = Array.from(
-        document.querySelectorAll("#options-list-regional input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-regional input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-regional")
         .some((input) => input.checked);
@@ -1609,31 +1642,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initialize Sets with all available values
   if (typeof regions_Array !== "undefined") {
-    window.selectedRegions_Array = new Set(regions_Array.map((region) => region.str));
+    window.selectedRegions_Array = new Set(
+      regions_Array.map((region) => region.str)
+    );
   }
 
   if (typeof states_Array !== "undefined") {
-    window.selectedStates_Array = new Set(states_Array.map((state) => state.str));
+    window.selectedStates_Array = new Set(
+      states_Array.map((state) => state.str)
+    );
   }
 
   if (typeof memberships_Array !== "undefined") {
-    window.selectedMemberships_Array = new Set(memberships_Array.map((membership) => membership.str));
-  } 
+    window.selectedMemberships_Array = new Set(
+      memberships_Array.map((membership) => membership.str)
+    );
+  }
 
   if (typeof types_Array !== "undefined") {
     window.selectedTypes_Array = new Set(types_Array.map((type) => type.str));
   }
 
   if (typeof athletics_Array !== "undefined") {
-    window.selectedAthletics_Array = new Set(athletics_Array.map((athletic) => athletic.str));
+    window.selectedAthletics_Array = new Set(
+      athletics_Array.map((athletic) => athletic.str)
+    );
   }
 
   if (typeof seminaries_Array !== "undefined") {
-    window.selectedSeminaries_Array = new Set(seminaries_Array.map((seminary) => seminary.str));
+    window.selectedSeminaries_Array = new Set(
+      seminaries_Array.map((seminary) => seminary.str)
+    );
   }
 
   if (typeof regionals_Array !== "undefined") {
-    window.selectedRegionals_Array = new Set(regionals_Array.map((regional) => regional.str));
+    window.selectedRegionals_Array = new Set(
+      regionals_Array.map((regional) => regional.str)
+    );
   }
 
   // Configure slider inputs
@@ -1711,7 +1756,10 @@ document.addEventListener("DOMContentLoaded", function () {
     { selectId: "custom-select-year", optionsId: "options-list-year" },
     { selectId: "custom-select-region", optionsId: "options-list-region" },
     { selectId: "custom-select-state", optionsId: "options-list-state" },
-    { selectId: "custom-select-membership", optionsId: "options-list-membership" },
+    {
+      selectId: "custom-select-membership",
+      optionsId: "options-list-membership",
+    },
     { selectId: "custom-select-type", optionsId: "options-list-type" },
     { selectId: "custom-select-athletic", optionsId: "options-list-athletic" },
     { selectId: "custom-select-seminary", optionsId: "options-list-seminary" },
@@ -1726,7 +1774,15 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize filters for area and type checkboxes
   function initializeFilterTriggers() {
     // Set up event listeners for area and type filter checkboxes
-    ["area", "type"].forEach((type) => {
+    [
+      "region",
+      "state",
+      "membership",
+      "type",
+      "athletic",
+      "seminary",
+      "regional",
+    ].forEach((type) => {
       const checkboxes = document.querySelectorAll(
         `#options-list-${type} input[type='checkbox']`
       );
@@ -1738,9 +1794,19 @@ document.addEventListener("DOMContentLoaded", function () {
           if (checkbox.id === `select-all-checkbox-${type}`) {
             const isChecked = checkbox.checked;
             const targetArray =
-              type === "area"
-                ? window.selectedAreas_Array
-                : window.selectedTypes_Array;
+              type === "region"
+                ? window.selectedRegions_Array
+                : type === "state"
+                ? window.selectedStates_Array
+                : type === "membership"
+                ? window.selectedMemberships_Array
+                : type === "type"
+                ? window.selectedTypes_Array
+                : type === "athletic"
+                ? window.selectedAthletics_Array
+                : type === "seminary"
+                ? window.selectedSeminaries_Array
+                : window.selectedRegionals_Array;
 
             // Clear existing selections
             targetArray.clear();
@@ -1754,18 +1820,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 .forEach((cb) => {
                   targetArray.add(cb.value);
                 });
-            }
-          } else {
-            // Update the appropriate global array
-            const targetArray =
-              type === "area"
-                ? window.selectedAreas_Array
-                : window.selectedTypes_Array;
-
-            if (checkbox.checked) {
-              targetArray.add(checkbox.value);
-            } else {
-              targetArray.delete(checkbox.value);
             }
           }
 
@@ -1785,7 +1839,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const sliders = [
       document.getElementById("enrollmentMin"),
       document.getElementById("enrollmentMax"),
-   
     ];
 
     sliders.forEach((slider) => {
@@ -1803,8 +1856,8 @@ document.addEventListener("DOMContentLoaded", function () {
             : slider.id === "assetsMin"
             ? window.assetsValue
             : slider.id === "assetsMax"
-            ? window.assetsValue2 
-            : slider.id === "revenueMin" 
+            ? window.assetsValue2
+            : slider.id === "revenueMin"
             ? window.revenueValue
             : window.revenueValue2
         );
@@ -1870,6 +1923,3 @@ document.addEventListener("DOMContentLoaded", function () {
   window.headerUpdateClientDropdown = updateClientDropdownFilters;
   // console.log("Header.js filter function exported as headerUpdateClientDropdown");
 });
-
-
-

@@ -897,6 +897,8 @@ function setupDropdownToggle(selectElementId, optionsListId) {
 }
 
 const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
+  console.log('addUniqueClientsToOptionsSelectClientDropdown', {clientArray});
+  
   const optionsListClient = document.getElementById("options-list-client");
   if (!optionsListClient) {
     console.error("Client options list element not found");

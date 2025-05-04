@@ -1,13 +1,10 @@
-// Initialize DOM elements
-const customSelectClient = document.querySelector(".custom-select-client");
-const optionsListClient = document.getElementById("options-list-client");
-const selectAllCheckboxClient = document.getElementById("select-all-checkbox-client");
-const selectedOptionsClient = document.getElementById("selected-options-client");
+// HEADER.js
 
 // Initialize global Sets if they don't exist
 window.selectedRegions_Array = window.selectedRegions_Array || new Set();
 window.selectedStates_Array = window.selectedStates_Array || new Set();
-window.selectedMemberships_Array = window.selectedMemberships_Array || new Set();
+window.selectedMemberships_Array =
+  window.selectedMemberships_Array || new Set();
 window.selectedTypes_Array = window.selectedTypes_Array || new Set();
 window.selectedAthletics_Array = window.selectedAthletics_Array || new Set();
 window.selectedClients_Array = window.selectedClients_Array || new Set();
@@ -40,13 +37,24 @@ function setupDropdownToggle(selectElementId, optionsListId) {
       { selectId: "custom-select-year", optionsId: "options-list-year" },
       { selectId: "custom-select-region", optionsId: "options-list-region" },
       { selectId: "custom-select-state", optionsId: "options-list-state" },
-      { selectId: "custom-select-other", optionsId: "options-list-other" },
       { selectId: "custom-select-type", optionsId: "options-list-type" },
-      { selectId: "custom-select-athletic", optionsId: "options-list-athletic" },
-      { selectId: "custom-select-seminary", optionsId: "options-list-seminary" },
-      { selectId: "custom-select-regional", optionsId: "options-list-regional" },
-      { selectId: "custom-select-membership", optionsId: "options-list-membership" },
-      { selectId: "custom-select-client", optionsId: "options-list-client" }
+      {
+        selectId: "custom-select-athletic",
+        optionsId: "options-list-athletic",
+      },
+      {
+        selectId: "custom-select-seminary",
+        optionsId: "options-list-seminary",
+      },
+      {
+        selectId: "custom-select-regional",
+        optionsId: "options-list-regional",
+      },
+      {
+        selectId: "custom-select-membership",
+        optionsId: "options-list-membership",
+      },
+      { selectId: "custom-select-client", optionsId: "options-list-client" },
     ];
 
     dropdownConfigs.forEach((config) => {
@@ -79,32 +87,6 @@ function setupDropdownToggle(selectElementId, optionsListId) {
 
     // Toggle visibility
     optionsListElement.classList.toggle("invisible");
-    
-    // If the dropdown is now visible, ensure z-index is set correctly
-    if (!optionsListElement.classList.contains("invisible")) {
-      // Ensure dropdown has the correct styling
-      const isSpecialDropdown = ["custom-select-year", "custom-select-region", "custom-select-state"].includes(selectElement.id);
-      const width = selectElement.id === "custom-select-regional" ? "w-66" : "w-60";
-      optionsListElement.className = `absolute ${isSpecialDropdown ? 'top-28' : 'top-36'} z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg ${width} overflow-y-auto h-fit max-h-80 text-xl`;
-      if (optionsListElement.classList.contains("invisible")) {
-        optionsListElement.classList.remove("invisible");
-      }
-      
-      // Set slider container and all its components to a low z-index
-      const sliders = document.querySelectorAll('[x-data="range()"]');
-      sliders.forEach(slider => {
-        // Set the slider container to low z-index
-        slider.style.zIndex = "1";
-        
-        // Also set all slider components to low z-index
-        const sliderComponents = slider.querySelectorAll("*");
-        sliderComponents.forEach(component => {
-          if (component.style) {
-            component.style.zIndex = "5";
-          }
-        });
-      });
-    }
   }
 
   // Function to close dropdown when clicking outside
@@ -128,57 +110,104 @@ function setupDropdownToggle(selectElementId, optionsListId) {
 
 /**
  * Checks if a client matches the current filter criteria
+ * Critical function that determines whether a client should be selected
  */
 function clientMatchesFilters(
   clientData,
+  enrollmentMin,
+  enrollmentMax,
   selectedRegions,
   selectedStates,
   selectedMemberships,
   selectedTypes,
   selectedAthletics,
   selectedSeminaries,
-  selectedRegionals,
-  minEnrollment,
-  maxEnrollment
+  selectedRegionals
 ) {
   if (!clientData) return false;
-  
+//   console.log('clientMatchesFilters', clientData);
+
   // Check enrollment range
   const enrollmentMatch =
-    clientData.enrollment >= minEnrollment && clientData.enrollment <= maxEnrollment;
+    clientData.enrollment >= enrollmentMin &&
+    clientData.enrollment <= enrollmentMax;
 
-  // Check if client has at least one of the selected filters or if no filter is selected
-  const regionMatch = selectedRegions.length === 0 || 
-    selectedRegions.some(region => clientData.region === region);
-  
-  const stateMatch = selectedStates.length === 0 || 
-    selectedStates.some(state => clientData.state === state);
-  
-  const membershipMatch = selectedMemberships.length === 0 || 
-    (clientData.memberships && selectedMemberships.some(membership => 
-      clientData.memberships.includes(membership)));
-  
-  const typeMatch = selectedTypes.length === 0 || 
-    selectedTypes.some(type => clientData.type === type);
-  
-  const athleticMatch = selectedAthletics.length === 0 || 
-    selectedAthletics.some(athletic => clientData.athletic === athletic);
-  
-  const seminaryMatch = selectedSeminaries.length === 0 || 
-    selectedSeminaries.some(seminary => clientData.seminary === seminary);
-  
-  const regionalMatch = selectedRegionals.length === 0 || 
-    selectedRegionals.some(regional => clientData.regional === regional);
+  if (
+    selectedRegions.length === 0 ||
+    selectedStates.length === 0 ||
+    selectedMemberships.length === 0 ||
+    selectedTypes.length === 0 ||
+    selectedAthletics.length === 0 ||
+    selectedSeminaries.length === 0 ||
+    selectedRegionals.length === 0
+  ) {
+    console.log("No areas or types selected, returning false");
+    return false;
+  }
+
+  // Check if client has at least one of the selected regions, handle missing regions
+  const regionMatch = clientData.regionQuery
+    ? clientData.regionQuery.some((region) => selectedRegions.includes(region))
+    : false;
+
+  // Check if client has at least one of the selected states, handle missing states
+  const stateMatch = clientData.stateQuery
+    ? clientData.stateQuery.some((state) => selectedStates.includes(state))
+    : false;
+
+  // Check if client has at least one of the selected memberships, handle missing memberships
+  const membershipMatch = clientData.membershipQuery
+    ? clientData.membershipQuery.some((membership) =>
+        selectedMemberships.includes(membership)
+      )
+    : false;
+
+  // Check if client has at least one of the selected types, handle missing typeQuery
+  const typeMatch = clientData.typeQuery
+    ? clientData.typeQuery.some((type) => selectedTypes.includes(type))
+    : true; // Set to true if typeQuery is missing to avoid breaking functionality
+
+  // Check if client has at least one of the selected athletics, handle missing athletics
+  const athleticMatch = clientData.athleticQuery
+    ? clientData.athleticQuery.some((athletic) =>
+        selectedAthletics.includes(athletic)
+      )
+    : false;
+
+  // Check if client has at least one of the selected seminaries, handle missing seminaries
+  const seminaryMatch = clientData.seminaryQuery
+    ? clientData.seminaryQuery.some((seminary) =>
+        selectedSeminaries.includes(seminary)
+      )
+    : false;
+
+  // Check if client has at least one of the selected regionals, handle missing regionals
+  const regionalMatch = clientData.regionalQuery
+    ? clientData.regionalQuery.some((regional) =>
+        selectedRegionals.includes(regional)
+      )
+    : false;
 
   // Client matches only if it passes all criteria
-  return enrollmentMatch && regionMatch && stateMatch && membershipMatch && 
-         typeMatch && athleticMatch && seminaryMatch && regionalMatch;
+  return (
+    enrollmentMatch &&
+    regionMatch &&
+    stateMatch &&
+    membershipMatch &&
+    typeMatch &&
+    athleticMatch &&
+    seminaryMatch &&
+    regionalMatch
+  );
 }
 
 /**
- * Updates client dropdown based on current filter criteria
+ * Updates client dropdown checkboxes based on current filter criteria
+ * Acts as the primary filter implementation that Utility.js will defer to
  */
 function updateClientDropdownFilters() {
+  // console.log("Running client dropdown filter update");
+
   // Ensure client data store exists
   if (!window.clientDataStore) {
     console.warn("Client data store not initialized");
@@ -188,7 +217,9 @@ function updateClientDropdownFilters() {
   // Get current filter values
   const selectedRegions = Array.from(window.selectedRegions_Array || []);
   const selectedStates = Array.from(window.selectedStates_Array || []);
-  const selectedMemberships = Array.from(window.selectedMemberships_Array || []);
+  const selectedMemberships = Array.from(
+    window.selectedMemberships_Array || []
+  );
   const selectedTypes = Array.from(window.selectedTypes_Array || []);
   const selectedAthletics = Array.from(window.selectedAthletics_Array || []);
   const selectedSeminaries = Array.from(window.selectedSeminaries_Array || []);
@@ -196,47 +227,63 @@ function updateClientDropdownFilters() {
   const minEnrollment = window.sliderValue || 0;
   const maxEnrollment = window.sliderValue2 || 25000;
 
-  // Get all client options
-  const clientOptions = document.querySelectorAll('#custom-select-client option');
+  // console.log("Current filter criteria:", {
+  //   areas: selectedAreas,
+  //   types: selectedTypes,
+  //   givingRange: [minGiving, maxGiving],
+  //   missionRange: [minMission, maxMission],
+  // });
+
+  // Get all client checkboxes
+  const clientCheckboxes = document.querySelectorAll(
+    '#options-list-client input[type="checkbox"]'
+  );
 
   // Get the select all checkbox
-  const selectAllCheckbox = document.getElementById("select-all-checkbox-client");
+  const selectAllCheckbox = document.getElementById(
+    "select-all-checkbox-client"
+  );
 
   // Clear the selected clients array to rebuild from scratch
   window.selectedClients_Array.clear();
   let matchCount = 0;
   let totalClientCount = 0;
 
-  // Process each client option (skip the first placeholder option)
-  Array.from(clientOptions).forEach((option, index) => {
-    if (index === 0) return; // Skip placeholder option
-    
+  // console.log({
+  //   selectedTypes,
+  //   selectedAreas
+  // });
+
+  // Process each client checkbox (skip the select all checkbox)
+  clientCheckboxes.forEach((checkbox) => {
+    if (checkbox.id === "select-all-checkbox-client") return;
+
     totalClientCount++;
-    const clientName = option.value;
+    const clientName = checkbox.value;
     const clientData = window.clientDataStore[clientName];
 
     if (!clientData) {
       console.warn(`No data found for client: ${clientName}`);
-      option.disabled = true;
+      checkbox.checked = false;
       return;
     }
 
     // Determine if client matches all filter criteria
     const matches = clientMatchesFilters(
       clientData,
+      minEnrollment,
+      maxEnrollment,
       selectedRegions,
       selectedStates,
       selectedMemberships,
       selectedTypes,
       selectedAthletics,
       selectedSeminaries,
-      selectedRegionals,
-      minEnrollment,
-      maxEnrollment
+      selectedRegionals
     );
 
-    // Update option and selection array
-    option.disabled = !matches;
+    // Update checkbox and selection array
+    checkbox.checked = matches;
 
     if (matches) {
       window.selectedClients_Array.add(clientName);
@@ -252,26 +299,32 @@ function updateClientDropdownFilters() {
     selectAllCheckbox.checked = allSelected;
     selectAllCheckbox.indeterminate = !allSelected && !noneSelected;
   }
+
+  console.log(
+    `Filter completed: ${matchCount} of ${totalClientCount} clients match current filters`
+  );
+  console.log("Selected clients:", Array.from(window.selectedClients_Array));
 }
 
 /**
  * Updates the state of the "select all" checkbox based on individual client selections
  */
 function updateSelectAllClientCheckboxState() {
-  const selectAllCheckbox = document.getElementById("select-all-checkbox-client");
+  const selectAllCheckbox = document.getElementById(
+    "select-all-checkbox-client"
+  );
   if (!selectAllCheckbox) return;
 
-  const clientOptions = document.querySelectorAll('#custom-select-client option');
-  const clientOnlyOptions = Array.from(clientOptions).filter(
-    (option, index) => index > 0 && !option.disabled
+  const clientCheckboxes = document.querySelectorAll(
+    '#options-list-client input[type="checkbox"]'
+  );
+  const clientOnlyCheckboxes = Array.from(clientCheckboxes).filter(
+    (checkbox) => checkbox.id !== "select-all-checkbox-client"
   );
 
-  const allChecked = clientOnlyOptions.every(option => 
-    window.selectedClients_Array.has(option.value)
-  );
-  
-  const noneChecked = clientOnlyOptions.every(option => 
-    !window.selectedClients_Array.has(option.value)
+  const allChecked = clientOnlyCheckboxes.every((checkbox) => checkbox.checked);
+  const noneChecked = clientOnlyCheckboxes.every(
+    (checkbox) => !checkbox.checked
   );
 
   selectAllCheckbox.checked = allChecked;
@@ -279,18 +332,25 @@ function updateSelectAllClientCheckboxState() {
 }
 
 /**
- * Add unique clients to dropdown
+ * Initializes the client dropdown with checkboxes for each client
+ * Called when client data is loaded
  */
-const addUniqueClientsToOptionsSelectClientsDropdown = (sortedUniquePeerClientNames) => {
+function initializeClientDropdown(event) {
+  // console.log("Initializing client dropdown");
   const optionsListClient = document.getElementById("options-list-client");
   if (!optionsListClient) {
     console.error("Client options list element not found");
     return;
   }
 
-  // Ensure global scoping and initialization
+  // Ensure global sets exist
   window.selectedClients_Array = window.selectedClients_Array || new Set();
   window.clientDataStore = window.clientDataStore || {};
+
+  // If event data exists, update clientDataStore
+  if (event && event.detail && event.detail.dataStore) {
+    window.clientDataStore = event.detail.dataStore;
+  }
 
   // Clear existing content
   optionsListClient.innerHTML = "";
@@ -300,7 +360,7 @@ const addUniqueClientsToOptionsSelectClientsDropdown = (sortedUniquePeerClientNa
   selectAllLabel.setAttribute("for", "select-all-checkbox-client");
   selectAllLabel.setAttribute(
     "class",
-    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
   );
 
   const selectAllInput = document.createElement("input");
@@ -308,9 +368,9 @@ const addUniqueClientsToOptionsSelectClientsDropdown = (sortedUniquePeerClientNa
   selectAllInput.setAttribute("id", "select-all-checkbox-client");
   selectAllInput.setAttribute(
     "class",
-    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer text-black"
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
   );
-  selectAllInput.checked = true;
+  selectAllInput.checked = true; // Check by default
 
   const selectAllSpan = document.createElement("span");
   selectAllSpan.setAttribute("id", "select-all-text-client");
@@ -319,25 +379,20 @@ const addUniqueClientsToOptionsSelectClientsDropdown = (sortedUniquePeerClientNa
 
   selectAllLabel.appendChild(selectAllInput);
   selectAllLabel.appendChild(selectAllSpan);
+
   optionsListClient.appendChild(selectAllLabel);
 
-  // Clear selectedClients_Array before populating
-  window.selectedClients_Array.clear();
+  // Get client names and sort them alphabetically
+  const clientNames = Object.keys(window.clientDataStore).sort();
 
-  // Handle undefined/non-array input
-  if (!sortedUniquePeerClientNames || !Array.isArray(sortedUniquePeerClientNames)) {
-    console.warn("No client names array provided");
-    sortedUniquePeerClientNames = [];
-  }
-
-  // Add client options
-  sortedUniquePeerClientNames.forEach((clientName) => {
+  // Populate clients from clientDataStore
+  clientNames.forEach((clientName) => {
     const newListItem = document.createElement("li");
     newListItem.style.listStyleType = "none";
 
     const newDiv = document.createElement("div");
     newDiv.setAttribute(
-      "class", 
+      "class",
       "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
     );
 
@@ -354,59 +409,45 @@ const addUniqueClientsToOptionsSelectClientsDropdown = (sortedUniquePeerClientNa
     newLabel.setAttribute("for", `client_${clientName}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 text-gray-900 rounded dark:text-gray-300 text-sm"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
     newLabel.innerText = clientName;
 
-    // Initialize checked state and add to selectedClients_Array
+    // Always check the checkbox by default
     newInput.checked = true;
     window.selectedClients_Array.add(clientName);
 
-    // Initialize client data store
-    window.clientDataStore[clientName] = window.clientDataStore[clientName] || {};
-
     newDiv.appendChild(newInput);
     newDiv.appendChild(newLabel);
+
     newListItem.appendChild(newDiv);
     optionsListClient.appendChild(newListItem);
 
     // Add change event listener
-    newInput.addEventListener("change", function() {
-      if (newInput.checked) {
+    newInput.addEventListener("change", function () {
+      if (this.checked) {
         window.selectedClients_Array.add(clientName);
       } else {
         window.selectedClients_Array.delete(clientName);
       }
 
       // Update select all checkbox state
-      const allChecked = Array.from(
-        document.querySelectorAll("#options-list-client input[type='checkbox']")
-      )
-        .filter(input => input.id !== "select-all-checkbox-client")
-        .every(input => input.checked);
-
-      selectAllInput.checked = allChecked;
-      selectAllInput.indeterminate = !allChecked && 
-        Array.from(document.querySelectorAll("#options-list-client input[type='checkbox']"))
-          .filter(input => input.id !== "select-all-checkbox-client")
-          .some(input => input.checked);
-
-      triggerFiltersChanged();
+      updateSelectAllClientCheckboxState();
     });
   });
 
-  // Add select all change handler
-  selectAllInput.addEventListener("change", function() {
-    const isChecked = selectAllInput.checked;
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = this.checked;
     const clientCheckboxes = document.querySelectorAll(
-      "#options-list-client input[type='checkbox']"
+      '#options-list-client input[type="checkbox"]'
     );
 
-    clientCheckboxes.forEach(checkbox => {
+    clientCheckboxes.forEach((checkbox) => {
       if (checkbox.id !== "select-all-checkbox-client") {
         checkbox.checked = isChecked;
         const clientName = checkbox.value;
-        
+
         if (isChecked) {
           window.selectedClients_Array.add(clientName);
         } else {
@@ -414,409 +455,23 @@ const addUniqueClientsToOptionsSelectClientsDropdown = (sortedUniquePeerClientNa
         }
       }
     });
-
-    selectAllInput.indeterminate = false;
-    triggerFiltersChanged();
   });
 
-  // Populate client data store
-  populateClientDataStore();
+  // console.log(`Initialized dropdown with ${clientNames.length} clients`);
 }
 
 /**
- * Populate client data store with details needed for filtering
+ * Function to handle region selection changes
+ * @param {Array} regionArray - Array of region objects
  */
-function populateClientDataStore() {
-  // Ensure client data store exists
-  window.clientDataStore = window.clientDataStore || {};
-  
-  // Use existing recordPeerHTMLArray to populate client data
-  if (window.recordPeerHTMLArray && window.recordPeerHTMLArray.length > 0) {
-    window.recordPeerHTMLArray.forEach(recordHTML => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(recordHTML, 'text/html');
-      const record = doc.querySelector('record');
-      
-      if (!record) return;
-      
-      const clientName = record.querySelector('merged_client_name')?.textContent;
-      if (!clientName) return;
-      
-      // Create client data object if it doesn't exist
-      window.clientDataStore[clientName] = window.clientDataStore[clientName] || {};
-      
-      // Populate with filter values
-      window.clientDataStore[clientName].region = record.querySelector('merged_region')?.textContent;
-      window.clientDataStore[clientName].state = record.querySelector('merged_state')?.textContent;
-      window.clientDataStore[clientName].type = record.querySelector('merged_type')?.textContent;
-      window.clientDataStore[clientName].athletic = record.querySelector('merged_athletic')?.textContent;
-      window.clientDataStore[clientName].seminary = record.querySelector('merged_seminary')?.textContent;
-      window.clientDataStore[clientName].regional = record.querySelector('merged_regional')?.textContent;
-      window.clientDataStore[clientName].enrollment = parseInt(record.querySelector('merged_enrollment')?.textContent) || 0;
-      
-      // Parse memberships field (comma-separated)
-      const membershipsStr = record.querySelector('merged_memberships')?.textContent;
-      if (membershipsStr) {
-        window.clientDataStore[clientName].memberships = membershipsStr.split(',').map(m => m.trim());
-      }
-    });
-  }
-}
-
-// Initialize filter triggers
-const initializeFilterTriggers = () => {
-  const filterElements = [
-    document.getElementById('custom-select-year'),
-    document.getElementById('custom-select-region'),
-    document.getElementById('custom-select-state'),
-    document.getElementById('custom-select-type'),
-    document.getElementById('custom-select-athletic'),
-    document.getElementById('custom-select-seminary'),
-    document.getElementById('custom-select-regional'),
-    document.getElementById('custom-select-membership'),
-    document.getElementById('custom-select-area'),
-    document.getElementById('custom-select-client')
-  ];
-
-  filterElements.forEach(element => {
-    if (element) {
-      element.addEventListener('change', () => {
-        if (element.id === 'custom-select-region') {
-          updateRegionSelection(element);
-        } else if (element.id === 'custom-select-state') {
-          updateStateSelection(element);
-        } else if (element.id === 'custom-select-year') {
-          updateYearSelection(element);
-        } else if (element.id === 'custom-select-type') {
-          updateTypeSelection(element);
-        } else if (element.id === 'custom-select-athletic') {
-          updateAthleticSelection(element);
-        } else if (element.id === 'custom-select-seminary') {
-          updateSeminarySelection(element);
-        } else if (element.id === 'custom-select-regional') {
-          updateRegionalSelection(element);
-        } else if (element.id === 'custom-select-membership') {
-          updateMembershipSelection(element);
-        } else if (element.id === 'custom-select-client') {
-          updateClientSelection(element);
-        }   
-
-        triggerFiltersChanged();
-      });
-    }
-  });
-
-  // Handle select all checkbox
-  const selectAllCheckbox = document.getElementById('select-all-checkbox-client');
-  if (selectAllCheckbox) {
-    selectAllCheckbox.addEventListener('change', () => {
-      const clientOptions = document.querySelectorAll('#custom-select-client option');
-      clientOptions.forEach((option, index) => {
-        if (index > 0 && !option.disabled) {
-          if (selectAllCheckbox.checked) {
-            window.selectedClients_Array.add(option.value);
-          } else {
-            window.selectedClients_Array.delete(option.value);
-          }
-        }
-      });
-      triggerFiltersChanged();
-    });
-  }
-  
-};
-
-// Update filter selections
-function updateRegionSelection(element) {f
-    console.log({element, selectedRegions_Array: window.selectedRegions_Array, selectedOptions: Array.from(element.selectedOptions), isSelected: element.selectedOptions});
-    
-  window.selectedRegions_Array.clear();
-  Array.from(element.selectedOptions).forEach(option => {
-    if (option.value) window.selectedRegions_Array.add(option.value);
-  });
-}
-
-function updateStateSelection(element) {
-  window.selectedStates_Array.clear();
-  Array.from(element.selectedOptions).forEach(option => {
-    if (option.value) window.selectedStates_Array.add(option.value);
-  });
-}
-
-function updateMembershipSelection(element) {
-  window.selectedMemberships_Array.clear();
-  Array.from(element.selectedOptions).forEach(option => {
-    if (option.value) window.selectedMemberships_Array.add(option.value);
-  });
-}
-
-function updateTypeSelection(element) {
-  window.selectedTypes_Array.clear();
-  Array.from(element.selectedOptions).forEach(option => {
-    if (option.value) window.selectedTypes_Array.add(option.value);
-  });
-}
-
-function updateAthleticSelection(element) {
-  window.selectedAthletics_Array.clear();
-  Array.from(element.selectedOptions).forEach(option => {
-    if (option.value) window.selectedAthletics_Array.add(option.value);
-  });
-}
-
-function updateSeminarySelection(element) {
-  window.selectedSeminaries_Array.clear();
-  Array.from(element.selectedOptions).forEach(option => {
-    if (option.value) window.selectedSeminaries_Array.add(option.value);
-  });
-}
-
-function updateRegionalSelection(element) {
-  window.selectedRegionals_Array.clear();
-  Array.from(element.selectedOptions).forEach(option => {
-    if (option.value) window.selectedRegionals_Array.add(option.value);
-  });
-}
-
-function updateClientSelection(element) {
-  window.selectedClients_Array.clear();
-  Array.from(element.selectedOptions).forEach(option => {
-    if (option.value) window.selectedClients_Array.add(option.value);
-  });
-}
-
-const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
-    // Get the options list element correctly
-    const optionsListElement = document.getElementById("options-list");
-  
-    if (!optionsListElement) {
-      console.error("Options list element not found for years dropdown");
-      return;
-    }
-  
-    // Clear the selected years on page load
-    if (!window.yearSelectionsInitialized) {
-      resetSelectedYearsFromLocalStorage();
-      selectedYears_Set.clear();
-      window.yearSelectionsInitialized = true;
-    }
-  
-    // Initialize selectedYears_Set from local storage if data exists
-    const storedYears = getSelectedYearsFromLocalStorage();
-  
-    if (Array.isArray(storedYears)) {
-      selectedYears_Set = new Set(storedYears);
-    }
-  
-    // Clear existing content
-    optionsListElement.innerHTML = "";
-  
-    // Create "Select All" checkbox
-    const selectAllLabel = document.createElement("label");
-    selectAllLabel.setAttribute("for", "select-all-checkbox-years");
-    selectAllLabel.setAttribute(
-      "class",
-      "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
-    );
-  
-    const selectAllInput = document.createElement("input");
-    selectAllInput.setAttribute("type", "checkbox");
-    selectAllInput.setAttribute("id", "select-all-checkbox-years");
-    selectAllInput.setAttribute(
-      "class",
-      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
-    );
-    // CHANGE HERE: Set to unchecked by default
-    selectAllInput.checked = false;
-  
-    const selectAllSpan = document.createElement("span");
-    selectAllSpan.setAttribute("id", "select-all-text-years");
-    selectAllSpan.innerText = "(select all)";
-    selectAllSpan.setAttribute("class", "text-lg font-semibold");
-  
-    selectAllLabel.appendChild(selectAllInput);
-    selectAllLabel.appendChild(selectAllSpan);
-  
-    optionsListElement.appendChild(selectAllLabel);
-  
-    // Sort years in descending order
-    const sortedYears = yearsArray.sort((a, b) => b - a);
-  
-    // Add year options
-    sortedYears.forEach((year) => {
-      const newLabel = document.createElement("label");
-      newLabel.setAttribute("for", `option-${year}`);
-      newLabel.setAttribute(
-        "class",
-        "flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-      );
-  
-      const newInput = document.createElement("input");
-      newInput.setAttribute("type", "checkbox");
-      newInput.setAttribute("id", `option-${year}`);
-      newInput.setAttribute(
-        "class",
-        `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
-      );
-      newInput.setAttribute("value", year);
-      // Check the input only if the year is in the selectedYears_Set
-      newInput.checked = selectedYears_Set.has(year);
-  
-      newInput.addEventListener("change", (e) => {
-        const isChecked = e.target.checked;
-  
-        if (isChecked) {
-          selectedYears_Set.add(year);
-        } else {
-          selectedYears_Set.delete(year);
-        }
-  
-        // Update "Select All" checkbox state
-        const yearCheckboxes = document.querySelectorAll(
-          "#options-list input[type='checkbox']"
-        );
-        const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
-          (cb) => cb.id !== "select-all-checkbox-years"
-        );
-  
-        const allChecked = nonSelectAllCheckboxes.every((cb) => cb.checked);
-        const noneChecked = nonSelectAllCheckboxes.every((cb) => !cb.checked);
-  
-        selectAllInput.checked = allChecked;
-        selectAllInput.indeterminate = !allChecked && !noneChecked;
-  
-        // Save to local storage
-        const selectedYearsArray = Array.from(selectedYears_Set).sort(
-          (a, b) => a - b
-        );
-        localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
-      });
-  
-      const newSpan = document.createElement("span");
-      newSpan.innerText = year;
-  
-      newLabel.appendChild(newInput);
-      newLabel.appendChild(newSpan);
-  
-      optionsListElement.appendChild(newLabel);
-    });
-  
-    // "Select All" checkbox behavior
-    selectAllInput.addEventListener("change", function () {
-      const isChecked = selectAllInput.checked;
-      const yearCheckboxes = document.querySelectorAll(
-        "#options-list input[type='checkbox']"
-      );
-  
-      yearCheckboxes.forEach((checkbox) => {
-        if (checkbox.id !== "select-all-checkbox-years") {
-          checkbox.checked = isChecked;
-          const year = parseInt(checkbox.value);
-  
-          if (isChecked) {
-            selectedYears_Set.add(year);
-          } else {
-            selectedYears_Set.delete(year);
-          }
-        }
-      });
-  
-      // Save to local storage
-      const selectedYearsArray = Array.from(selectedYears_Set).sort(
-        (a, b) => a - b
-      );
-      localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
-    });
-  };
-
-
-// Trigger filters changed event
-const triggerFiltersChanged = () => {
-  // Update client dropdown based on filter selections
-  updateClientDropdownFilters();
-  
-  // Dispatch the filters changed event
-  const event = new CustomEvent('filtersChanged');
-  document.dispatchEvent(event);
-};
-
-// Initialize on DOM content loaded
-document.addEventListener('DOMContentLoaded', () => {
-  // Setup dropdown toggles
-  const dropdownConfigs = [
-    { selectId: "custom-select-year", optionsId: "options-list-year" },
-    { selectId: "custom-select-region", optionsId: "options-list-region" },
-    { selectId: "custom-select-state", optionsId: "options-list-state" },
-    { selectId: "custom-select-type", optionsId: "options-list-type" },
-    { selectId: "custom-select-athletic", optionsId: "options-list-athletic" },
-    { selectId: "custom-select-seminary", optionsId: "options-list-seminary" },
-    { selectId: "custom-select-regional", optionsId: "options-list-regional" },
-    { selectId: "custom-select-membership", optionsId: "options-list-membership" }, 
-    { selectId: "custom-select-client", optionsId: "options-list-client" }
-  ];
-
-  dropdownConfigs.forEach(config => {
-    setupDropdownToggle(config.selectId, config.optionsId);
-    
-    // Update the classes for custom select elements
-    const customSelectElement = document.getElementById(config.selectId);
-    if (customSelectElement) {
-      // Preserve backgroundBlue class if it exists or add Tailwind button styling
-      const hasBackgroundBlue = customSelectElement.classList.contains('backgroundBlue');
-      
-      customSelectElement.className = "text-sm mr-3 font-semibold px-4 py-2 h-10 rounded transition flex items-center justify-between text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 cursor-pointer";
-      
-      // Add backgroundBlue class back if it existed
-      if (hasBackgroundBlue) {
-        customSelectElement.classList.add('backgroundBlue');
-      } else {
-        // Add equivalent Tailwind blue background if backgroundBlue doesn't exist
-        customSelectElement.classList.add('bg-blue-600');
-      }
-      
-      // Ensure it's a button if it's not already
-      if (customSelectElement.tagName !== 'BUTTON') {
-        customSelectElement.setAttribute('role', 'button');
-        customSelectElement.setAttribute('tabindex', '0');
-      }
-    }
-    
-    // Update the classes for options list elements
-    const optionsListElement = document.getElementById(config.optionsId);
-    if (optionsListElement) {
-      optionsListElement.className = "absolute z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 overflow-y-auto h-fit max-h-80 text-xl invisible";
-    }
-  });
-  
-  // Make sure the buttons container has proper styling for side-by-side alignment
-  const buttonsContainer = document.querySelector('#custom-select-membership')?.closest('div');
-  if (buttonsContainer) {
-    // Add flex and spacing classes to container
-    buttonsContainer.classList.add('flex', 'flex-wrap', 'items-center', 'gap-2', 'p-2');
-  }
-  
-  // Initialize filter triggers
-  initializeFilterTriggers();
-  
-  // Create client data store
-  window.clientDataStore = {};
-  
-  // Make header functions globally available
-  window.headerUpdateClientDropdownFilters = updateClientDropdownFilters;
-});
-
-/**
- * Add unique regions to the options select dropdown
- * @param {Array} regionsArray - Array of region objects
- */
-function addUniqueRegionsToOptionsSelectRegionsDropdown(regionsArray) {
+function addUniqueRegionsToOptionsSelectRegionsDropdown(regionArray) {
   const optionsListRegion = document.getElementById("options-list-region");
   if (!optionsListRegion) {
     console.error("Region options list element not found");
     return;
   }
-  
-  // Ensure global sets exist
+
+  // Ensure global scoping and initialization
   window.selectedRegions_Array = window.selectedRegions_Array || new Set();
 
   // Clear existing content
@@ -827,7 +482,7 @@ function addUniqueRegionsToOptionsSelectRegionsDropdown(regionsArray) {
   selectAllLabel.setAttribute("for", "select-all-checkbox-region");
   selectAllLabel.setAttribute(
     "class",
-    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
   );
 
   const selectAllInput = document.createElement("input");
@@ -842,55 +497,56 @@ function addUniqueRegionsToOptionsSelectRegionsDropdown(regionsArray) {
   const selectAllSpan = document.createElement("span");
   selectAllSpan.setAttribute("id", "select-all-text-region");
   selectAllSpan.innerText = "(select all)";
-  selectAllSpan.setAttribute("class", "text-lg font-semibold text-black");
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
 
   selectAllLabel.appendChild(selectAllInput);
   selectAllLabel.appendChild(selectAllSpan);
 
   optionsListRegion.appendChild(selectAllLabel);
 
-  // If array is not provided or empty, return after creating select all option
-  if (!regionsArray || !Array.isArray(regionsArray)) {
-    console.warn("No regions array provided to addUniqueRegionsToOptionsSelectRegionsDropdown");
-    regionsArray = [];
-  }
-
   // Populate all regions by default
-  regionsArray.forEach((regionObject) => {
+  regionArray.forEach((regionObject) => {
     const regionName = regionObject.arr[0];
     const regionString = regionObject.str;
-    const uniqueId = `region-option-${regionString}`;
+
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("div");
+    newDiv.setAttribute(
+      "class",
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("id", `region_${regionString}`);
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("value", regionString);
+    newInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
 
     const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", uniqueId);
+    newLabel.setAttribute("for", `region_${regionString}`);
     newLabel.setAttribute(
       "class",
-      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate text-black"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
+    newLabel.innerText = regionName;
 
-    const regionInput = document.createElement("input");
-    regionInput.setAttribute("type", "checkbox");
-    regionInput.setAttribute("id", uniqueId);
-    regionInput.setAttribute(
-      "class",
-      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-    );
-    regionInput.setAttribute("value", regionString);
-
-    // Add the value to selectedRegions_Array and check the input by default
+    // Automatically add all regions to the set and check the inputs
     window.selectedRegions_Array.add(regionString);
-    regionInput.checked = true;
+    newInput.checked = true;
 
-    const newSpan = document.createElement("span");
-    newSpan.innerText = regionName;
+    newDiv.appendChild(newInput);
+    newDiv.appendChild(newLabel);
 
-    newLabel.appendChild(regionInput);
-    newLabel.appendChild(newSpan);
+    newListItem.appendChild(newDiv);
+    optionsListRegion.appendChild(newListItem);
 
-    optionsListRegion.appendChild(newLabel);
-
-    // Add change event listener to update selectedRegions_Array
-    regionInput.addEventListener("change", function () {
+    // Event listener to update selectedRegions_Array
+    newInput.addEventListener("change", function () {
       if (this.checked) {
         window.selectedRegions_Array.add(regionString);
       } else {
@@ -949,17 +605,17 @@ function addUniqueRegionsToOptionsSelectRegionsDropdown(regionsArray) {
 }
 
 /**
- * Add unique states to the options select dropdown
- * @param {Array} statesArray - Array of state objects
+ * Function to handle state selection changes
+ * @param {Array} stateArray - Array of state objects
  */
-function addUniqueStatesToOptionsSelectStatesDropdown(statesArray) {
+function addUniqueStatesToOptionsSelectStatesDropdown(stateArray) {
   const optionsListState = document.getElementById("options-list-state");
   if (!optionsListState) {
     console.error("State options list element not found");
     return;
   }
-  
-  // Ensure global sets exist
+
+  // Ensure global scoping and initialization
   window.selectedStates_Array = window.selectedStates_Array || new Set();
 
   // Clear existing content
@@ -970,7 +626,7 @@ function addUniqueStatesToOptionsSelectStatesDropdown(statesArray) {
   selectAllLabel.setAttribute("for", "select-all-checkbox-state");
   selectAllLabel.setAttribute(
     "class",
-    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
   );
 
   const selectAllInput = document.createElement("input");
@@ -992,48 +648,49 @@ function addUniqueStatesToOptionsSelectStatesDropdown(statesArray) {
 
   optionsListState.appendChild(selectAllLabel);
 
-  // If array is not provided or empty, return after creating select all option
-  if (!statesArray || !Array.isArray(statesArray)) {
-    console.warn("No states array provided to addUniqueStatesToOptionsSelectStatesDropdown");
-    statesArray = [];
-  }
-
   // Populate all states by default
-  statesArray.forEach((stateObject) => {
+  stateArray.forEach((stateObject) => {
     const stateName = stateObject.arr[0];
     const stateString = stateObject.str;
-    const uniqueId = `state-option-${stateString}`;
+
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("div");
+    newDiv.setAttribute(
+      "class",
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("id", `state_${stateString}`);
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("value", stateString);
+    newInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
 
     const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", uniqueId);
+    newLabel.setAttribute("for", `state_${stateString}`);
     newLabel.setAttribute(
       "class",
-      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate text-black"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
+    newLabel.innerText = stateName;
 
-    const stateInput = document.createElement("input");
-    stateInput.setAttribute("type", "checkbox");
-    stateInput.setAttribute("id", uniqueId);
-    stateInput.setAttribute(
-      "class",
-      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-    );
-    stateInput.setAttribute("value", stateString);
-
-    // Add the value to selectedStates_Array and check the input by default
+    // Automatically add all states to the set and check the inputs
     window.selectedStates_Array.add(stateString);
-    stateInput.checked = true;
+    newInput.checked = true;
 
-    const newSpan = document.createElement("span");
-    newSpan.innerText = stateName;
+    newDiv.appendChild(newInput);
+    newDiv.appendChild(newLabel);
 
-    newLabel.appendChild(stateInput);
-    newLabel.appendChild(newSpan);
+    newListItem.appendChild(newDiv);
+    optionsListState.appendChild(newListItem);
 
-    optionsListState.appendChild(newLabel);
-
-    // Add change event listener to update selectedStates_Array
-    stateInput.addEventListener("change", function () {
+    // Event listener to update selectedStates_Array
+    newInput.addEventListener("change", function () {
       if (this.checked) {
         window.selectedStates_Array.add(stateString);
       } else {
@@ -1092,18 +749,27 @@ function addUniqueStatesToOptionsSelectStatesDropdown(statesArray) {
 }
 
 /**
- * Add unique memberships to the options select dropdown
- * @param {Array} membershipsArray - Array of membership objects
+ * Function to handle membership selection changes
+ * @param {Array} membershipArray - Array of membership objects
  */
-function addUniqueMembershipsToOptionsSelectMembershipsDropdown(membershipsArray) {
-  const optionsListMembership = document.getElementById("options-list-membership");
+function addUniqueMembershipsToOptionsSelectMembershipsDropdown(
+  membershipArray
+) {
+  console.log("addUniqueMembershipsToOptionsSelectMembershipsDropdown", {
+    membershipArray,
+  });
+
+  const optionsListMembership = document.getElementById(
+    "options-list-membership"
+  );
   if (!optionsListMembership) {
     console.error("Membership options list element not found");
     return;
   }
-  
-  // Ensure global sets exist
-  window.selectedMemberships_Array = window.selectedMemberships_Array || new Set();
+
+  // Ensure global scoping and initialization
+  window.selectedMemberships_Array =
+    window.selectedMemberships_Array || new Set();
 
   // Clear existing content
   optionsListMembership.innerHTML = "";
@@ -1113,7 +779,7 @@ function addUniqueMembershipsToOptionsSelectMembershipsDropdown(membershipsArray
   selectAllLabel.setAttribute("for", "select-all-checkbox-membership");
   selectAllLabel.setAttribute(
     "class",
-    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
   );
 
   const selectAllInput = document.createElement("input");
@@ -1135,48 +801,49 @@ function addUniqueMembershipsToOptionsSelectMembershipsDropdown(membershipsArray
 
   optionsListMembership.appendChild(selectAllLabel);
 
-  // If array is not provided or empty, return after creating select all option
-  if (!membershipsArray || !Array.isArray(membershipsArray)) {
-    console.warn("No memberships array provided to addUniqueMembershipsToOptionsSelectMembershipsDropdown");
-    membershipsArray = [];
-  }
-
   // Populate all memberships by default
-  membershipsArray.forEach((membershipObject) => {
+  membershipArray.forEach((membershipObject) => {
     const membershipName = membershipObject.arr[0];
     const membershipString = membershipObject.str;
-    const uniqueId = `membership-option-${membershipString}`;
+
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("div");
+    newDiv.setAttribute(
+      "class",
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("id", `membership_${membershipString}`);
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("value", membershipString);
+    newInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
 
     const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", uniqueId);
+    newLabel.setAttribute("for", `membership_${membershipString}`);
     newLabel.setAttribute(
       "class",
-      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate text-black"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
+    newLabel.innerText = membershipName;
 
-    const membershipInput = document.createElement("input");
-    membershipInput.setAttribute("type", "checkbox");
-    membershipInput.setAttribute("id", uniqueId);
-    membershipInput.setAttribute(
-      "class",
-      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-    );
-    membershipInput.setAttribute("value", membershipString);
-
-    // Add the value to selectedMemberships_Array and check the input by default
+    // Automatically add all memberships to the set and check the inputs
     window.selectedMemberships_Array.add(membershipString);
-    membershipInput.checked = true;
+    newInput.checked = true;
 
-    const newSpan = document.createElement("span");
-    newSpan.innerText = membershipName;
+    newDiv.appendChild(newInput);
+    newDiv.appendChild(newLabel);
 
-    newLabel.appendChild(membershipInput);
-    newLabel.appendChild(newSpan);
+    newListItem.appendChild(newDiv);
+    optionsListMembership.appendChild(newListItem);
 
-    optionsListMembership.appendChild(newLabel);
-
-    // Add change event listener to update selectedMemberships_Array
-    membershipInput.addEventListener("change", function () {
+    // Event listener to update selectedMemberships_Array
+    newInput.addEventListener("change", function () {
       if (this.checked) {
         window.selectedMemberships_Array.add(membershipString);
       } else {
@@ -1185,13 +852,17 @@ function addUniqueMembershipsToOptionsSelectMembershipsDropdown(membershipsArray
 
       // Update "Select All" checkbox state
       const allChecked = Array.from(
-        document.querySelectorAll("#options-list-membership input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-membership input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-membership")
         .every((input) => input.checked);
 
       const someChecked = Array.from(
-        document.querySelectorAll("#options-list-membership input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-membership input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-membership")
         .some((input) => input.checked);
@@ -1235,17 +906,17 @@ function addUniqueMembershipsToOptionsSelectMembershipsDropdown(membershipsArray
 }
 
 /**
- * Add unique types to the options select dropdown
- * @param {Array} typesArray - Array of type objects
+ * Function to handle type selection changes
+ * @param {Array} typeArray - Array of type objects
  */
-function addUniqueTypesToOptionsSelectTypesDropdown(typesArray) {
+function addUniqueTypesToOptionsSelectTypesDropdown(typeArray) {
   const optionsListType = document.getElementById("options-list-type");
   if (!optionsListType) {
     console.error("Type options list element not found");
     return;
   }
-  
-  // Ensure global sets exist
+
+  // Ensure global scoping and initialization
   window.selectedTypes_Array = window.selectedTypes_Array || new Set();
 
   // Clear existing content
@@ -1256,7 +927,7 @@ function addUniqueTypesToOptionsSelectTypesDropdown(typesArray) {
   selectAllLabel.setAttribute("for", "select-all-checkbox-type");
   selectAllLabel.setAttribute(
     "class",
-    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
   );
 
   const selectAllInput = document.createElement("input");
@@ -1278,17 +949,10 @@ function addUniqueTypesToOptionsSelectTypesDropdown(typesArray) {
 
   optionsListType.appendChild(selectAllLabel);
 
-  // If array is not provided or empty, return after creating select all option
-  if (!typesArray || !Array.isArray(typesArray)) {
-    console.warn("No types array provided to addUniqueTypesToOptionsSelectTypesDropdown");
-    typesArray = [];
-  }
-
   // Populate all types by default
-  typesArray.forEach((typeObject) => {
+  typeArray.forEach((typeObject) => {
     const typeName = typeObject.arr[0];
     const typeString = typeObject.str;
-    const uniqueId = `type-option-${typeString}`;
 
     const newListItem = document.createElement("li");
     newListItem.style.listStyleType = "none";
@@ -1299,11 +963,11 @@ function addUniqueTypesToOptionsSelectTypesDropdown(typesArray) {
       "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
     );
 
-    const typeInput = document.createElement("input");
-    typeInput.setAttribute("id", `type_${typeString}`);
-    typeInput.setAttribute("type", "checkbox");
-    typeInput.setAttribute("value", typeString);
-    typeInput.setAttribute(
+    const newInput = document.createElement("input");
+    newInput.setAttribute("id", `type_${typeString}`);
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("value", typeString);
+    newInput.setAttribute(
       "class",
       "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
     );
@@ -1312,22 +976,24 @@ function addUniqueTypesToOptionsSelectTypesDropdown(typesArray) {
     newLabel.setAttribute("for", `type_${typeString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
     newLabel.innerText = typeName;
 
-    // Add the value to selectedTypes_Array and check the input by default
+    // Automatically add all types to the set and check the inputs
     window.selectedTypes_Array.add(typeString);
-    typeInput.checked = true;
+    newInput.checked = true;
 
-    newDiv.appendChild(typeInput);
+    newDiv.appendChild(newInput);
     newDiv.appendChild(newLabel);
 
     newListItem.appendChild(newDiv);
     optionsListType.appendChild(newListItem);
 
-    // Add change event listener to update selectedTypes_Array
-    typeInput.addEventListener("change", function () {
+    // Event listener to update selectedTypes_Array
+    newInput.addEventListener("change", function () {
+      // console.log("Type checkbox changed:", typeString, this.checked);
+
       if (this.checked) {
         window.selectedTypes_Array.add(typeString);
       } else {
@@ -1349,6 +1015,11 @@ function addUniqueTypesToOptionsSelectTypesDropdown(typesArray) {
 
       selectAllInput.checked = allChecked;
       selectAllInput.indeterminate = !allChecked && someChecked;
+
+      // console.log(
+      //   "Types after change:",
+      //   Array.from(window.selectedTypes_Array)
+      // );
 
       // Trigger filter changed event
       const event = new CustomEvent("filtersChanged");
@@ -1379,6 +1050,13 @@ function addUniqueTypesToOptionsSelectTypesDropdown(typesArray) {
     // Reset indeterminate state
     selectAllInput.indeterminate = false;
 
+    // console.log(
+    //   "All types selected:",
+    //   isChecked,
+    //   "Types:",
+    //   Array.from(window.selectedTypes_Array)
+    // );
+
     // Trigger filter changed event
     const event = new CustomEvent("filtersChanged");
     document.dispatchEvent(event);
@@ -1386,17 +1064,17 @@ function addUniqueTypesToOptionsSelectTypesDropdown(typesArray) {
 }
 
 /**
- * Add unique athletics options to the dropdown
- * @param {Array} athleticsArray - Array of athletics objects
+ * Function to handle athletic selection changes
+ * @param {Array} athleticArray - Array of athletic objects
  */
-function addUniqueAthleticsToOptionsSelectAthleticsDropdown(athleticsArray) {
+function addUniqueAthleticsToOptionsSelectAthleticsDropdown(athleticArray) {
   const optionsListAthletic = document.getElementById("options-list-athletic");
   if (!optionsListAthletic) {
     console.error("Athletic options list element not found");
     return;
   }
-  
-  // Ensure global sets exist
+
+  // Ensure global scoping and initialization
   window.selectedAthletics_Array = window.selectedAthletics_Array || new Set();
 
   // Clear existing content
@@ -1407,7 +1085,7 @@ function addUniqueAthleticsToOptionsSelectAthleticsDropdown(athleticsArray) {
   selectAllLabel.setAttribute("for", "select-all-checkbox-athletic");
   selectAllLabel.setAttribute(
     "class",
-    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
   );
 
   const selectAllInput = document.createElement("input");
@@ -1429,48 +1107,49 @@ function addUniqueAthleticsToOptionsSelectAthleticsDropdown(athleticsArray) {
 
   optionsListAthletic.appendChild(selectAllLabel);
 
-  // If array is not provided or empty, return after creating select all option
-  if (!athleticsArray || !Array.isArray(athleticsArray)) {
-    console.warn("No athletics array provided to addUniqueAthleticsToOptionsSelectAthleticsDropdown");
-    athleticsArray = [];
-  }
-
   // Populate all athletics by default
-  athleticsArray.forEach((athleticObject) => {
+  athleticArray.forEach((athleticObject) => {
     const athleticName = athleticObject.arr[0];
     const athleticString = athleticObject.str;
-    const uniqueId = `athletic-option-${athleticString}`;
+
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("div");
+    newDiv.setAttribute(
+      "class",
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("id", `athletic_${athleticString}`);
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("value", athleticString);
+    newInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
 
     const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", uniqueId);
+    newLabel.setAttribute("for", `athletic_${athleticString}`);
     newLabel.setAttribute(
       "class",
-      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate text-black"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
+    newLabel.innerText = athleticName;
 
-    const athleticInput = document.createElement("input");
-    athleticInput.setAttribute("type", "checkbox");
-    athleticInput.setAttribute("id", uniqueId);
-    athleticInput.setAttribute(
-      "class",
-      "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-    );
-    athleticInput.setAttribute("value", athleticString);
-
-    // Add the value to selectedAthletics_Array and check the input by default
+    // Automatically add all athletics to the set and check the inputs
     window.selectedAthletics_Array.add(athleticString);
-    athleticInput.checked = true;
+    newInput.checked = true;
 
-    const newSpan = document.createElement("span");
-    newSpan.innerText = athleticName;
+    newDiv.appendChild(newInput);
+    newDiv.appendChild(newLabel);
 
-    newLabel.appendChild(athleticInput);
-    newLabel.appendChild(newSpan);
+    newListItem.appendChild(newDiv);
+    optionsListAthletic.appendChild(newListItem);
 
-    optionsListAthletic.appendChild(newLabel);
-
-    // Add change event listener to update selectedAthletics_Array
-    athleticInput.addEventListener("change", function () {
+    // Event listener to update selectedAthletics_Array
+    newInput.addEventListener("change", function () {
       if (this.checked) {
         window.selectedAthletics_Array.add(athleticString);
       } else {
@@ -1479,13 +1158,17 @@ function addUniqueAthleticsToOptionsSelectAthleticsDropdown(athleticsArray) {
 
       // Update "Select All" checkbox state
       const allChecked = Array.from(
-        document.querySelectorAll("#options-list-athletic input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-athletic input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-athletic")
         .every((input) => input.checked);
 
       const someChecked = Array.from(
-        document.querySelectorAll("#options-list-athletic input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-athletic input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-athletic")
         .some((input) => input.checked);
@@ -1529,164 +1212,19 @@ function addUniqueAthleticsToOptionsSelectAthleticsDropdown(athleticsArray) {
 }
 
 /**
- * Add unique regionals to the options select dropdown
- * @param {Array} regionalsArray - Array of regional objects
+ * Function to handle seminary selection changes
+ * @param {Array} seminaryArray - Array of seminary objects
  */
-function addUniqueRegionalsToOptionsSelectRegionalsDropdown(regionalsArray) {
-  const optionsListRegional = document.getElementById("options-list-regional");
-  if (!optionsListRegional) {
-    console.error("Regional options list element not found");
-    return;
-  }
-  
-  // Ensure global sets exist
-  window.selectedRegionals_Array = window.selectedRegionals_Array || new Set();
-
-  // Clear existing content
-  optionsListRegional.innerHTML = "";
-
-  // Create "Select All" checkbox
-  const selectAllLabel = document.createElement("label");
-  selectAllLabel.setAttribute("for", "select-all-checkbox-regional");
-  selectAllLabel.setAttribute(
-    "class",
-    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
-  );
-
-  const selectAllInput = document.createElement("input");
-  selectAllInput.setAttribute("type", "checkbox");
-  selectAllInput.setAttribute("id", "select-all-checkbox-regional");
-  selectAllInput.setAttribute(
-    "class",
-    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
-  );
-  selectAllInput.checked = true; // Check "Select All" by default
-
-  const selectAllSpan = document.createElement("span");
-  selectAllSpan.setAttribute("id", "select-all-text-regional");
-  selectAllSpan.innerText = "(select all)";
-  selectAllSpan.setAttribute("class", "text-lg font-semibold text-black");
-
-  selectAllLabel.appendChild(selectAllInput);
-  selectAllLabel.appendChild(selectAllSpan);
-
-  optionsListRegional.appendChild(selectAllLabel);
-
-  // If array is not provided or empty, return after creating select all option
-  if (!regionalsArray || !Array.isArray(regionalsArray)) {
-    console.warn("No regionals array provided to addUniqueRegionalsToOptionsSelectRegionalsDropdown");
-    regionalsArray = [];
-  }
-
-  // Clear selectedRegionals_Array before populating
-  window.selectedRegionals_Array.clear();
-
-  // Populate all regionals by default
-  regionalsArray.forEach((regionalObject) => {
-    const regionalName = regionalObject.arr[0];
-    const regionalString = regionalObject.str;
-    
-    const newListItem = document.createElement("li");
-    newListItem.style.listStyleType = "none";
-
-    const newDiv = document.createElement("div");
-    newDiv.setAttribute(
-      "class", 
-      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
-    );
-
-    const regionalInput = document.createElement("input");
-    regionalInput.setAttribute("id", `regional_${regionalString}`);
-    regionalInput.setAttribute("type", "checkbox");
-    regionalInput.setAttribute("value", regionalString);
-    regionalInput.setAttribute(
-      "class",
-      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-    );
-
-    const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", `regional_${regionalString}`);
-    newLabel.setAttribute(
-      "class",
-      "w-full py-2 ms-2 text-gray-900 rounded dark:text-gray-300"
-    );
-    newLabel.innerText = regionalName;
-
-    // Add the value to selectedRegionals_Array and check the input by default
-    window.selectedRegionals_Array.add(regionalString);
-    regionalInput.checked = true;
-
-    newDiv.appendChild(regionalInput);
-    newDiv.appendChild(newLabel);
-    newListItem.appendChild(newDiv);
-    optionsListRegional.appendChild(newListItem);
-
-    // Add change event listener to update selectedRegionals_Array
-    regionalInput.addEventListener("change", function () {
-      if (this.checked) {
-        window.selectedRegionals_Array.add(regionalString);
-      } else {
-        window.selectedRegionals_Array.delete(regionalString);
-      }
-
-      // Update "Select All" checkbox state
-      const allChecked = Array.from(
-        document.querySelectorAll("#options-list-regional input[type='checkbox']")
-      )
-        .filter((input) => input.id !== "select-all-checkbox-regional")
-        .every((input) => input.checked);
-
-      selectAllInput.checked = allChecked;
-      selectAllInput.indeterminate = !allChecked && 
-        Array.from(document.querySelectorAll("#options-list-regional input[type='checkbox']"))
-          .filter(input => input.id !== "select-all-checkbox-regional")
-          .some(input => input.checked);
-
-      triggerFiltersChanged();
-    });
-  });
-
-  // "Select All" checkbox behavior
-  selectAllInput.addEventListener("change", function () {
-    const isChecked = this.checked;
-    const regionalCheckboxes = document.querySelectorAll(
-      "#options-list-regional input[type='checkbox']"
-    );
-
-    regionalCheckboxes.forEach((checkbox) => {
-      if (checkbox.id !== "select-all-checkbox-regional") {
-        checkbox.checked = isChecked;
-        const regionalString = checkbox.value;
-
-        if (isChecked) {
-          window.selectedRegionals_Array.add(regionalString);
-        } else {
-          window.selectedRegionals_Array.delete(regionalString);
-        }
-      }
-    });
-
-    // Reset indeterminate state
-    selectAllInput.indeterminate = false;
-
-    // Trigger filter changed event
-    triggerFiltersChanged();
-  });
-}
-
-/**
- * Add unique seminaries to the options select dropdown
- * @param {Array} seminariesArray - Array of seminary objects
- */
-function addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminariesArray) {
+function addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminaryArray) {
   const optionsListSeminary = document.getElementById("options-list-seminary");
   if (!optionsListSeminary) {
     console.error("Seminary options list element not found");
     return;
   }
-  
-  // Ensure global sets exist
-  window.selectedSeminaries_Array = window.selectedSeminaries_Array || new Set();
+
+  // Ensure global scoping and initialization
+  window.selectedSeminaries_Array =
+    window.selectedSeminaries_Array || new Set();
 
   // Clear existing content
   optionsListSeminary.innerHTML = "";
@@ -1696,7 +1234,7 @@ function addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminariesArray) {
   selectAllLabel.setAttribute("for", "select-all-checkbox-seminary");
   selectAllLabel.setAttribute(
     "class",
-    "flex items-center justify-start px-4 py-2 cursor-pointer truncate text-black"
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
   );
 
   const selectAllInput = document.createElement("input");
@@ -1718,48 +1256,49 @@ function addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminariesArray) {
 
   optionsListSeminary.appendChild(selectAllLabel);
 
-  // If array is not provided or empty, return after creating select all option
-  if (!seminariesArray || !Array.isArray(seminariesArray)) {
-    console.warn("No seminaries array provided to addUniqueSeminariesToOptionsSelectSeminariesDropdown");
-    seminariesArray = [];
-  }
-
   // Populate all seminaries by default
-  seminariesArray.forEach((seminaryObject) => {
+  seminaryArray.forEach((seminaryObject) => {
     const seminaryName = seminaryObject.arr[0];
     const seminaryString = seminaryObject.str;
-    const uniqueId = `seminary-option-${seminaryString}`;
+
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("div");
+    newDiv.setAttribute(
+      "class",
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("id", `seminary_${seminaryString}`);
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("value", seminaryString);
+    newInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
 
     const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", uniqueId);
+    newLabel.setAttribute("for", `seminary_${seminaryString}`);
     newLabel.setAttribute(
       "class",
-      "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 truncate text-black text-black"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
     );
+    newLabel.innerText = seminaryName;
 
-    const seminaryInput = document.createElement("input");
-    seminaryInput.setAttribute("type", "checkbox");
-    seminaryInput.setAttribute("id", uniqueId);
-    seminaryInput.setAttribute(
-      "class",
-      "w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-    );
-    seminaryInput.setAttribute("value", seminaryString);
-
-    // Add the value to selectedSeminaries_Array and check the input by default
+    // Automatically add all seminaries to the set and check the inputs
     window.selectedSeminaries_Array.add(seminaryString);
-    seminaryInput.checked = true;
+    newInput.checked = true;
 
-    const newSpan = document.createElement("span");
-    newSpan.innerText = seminaryName;
+    newDiv.appendChild(newInput);
+    newDiv.appendChild(newLabel);
 
-    newLabel.appendChild(seminaryInput);
-    newLabel.appendChild(newSpan);
+    newListItem.appendChild(newDiv);
+    optionsListSeminary.appendChild(newListItem);
 
-    optionsListSeminary.appendChild(newLabel);
-
-    // Add change event listener to update selectedSeminaries_Array
-    seminaryInput.addEventListener("change", function () {
+    // Event listener to update selectedSeminaries_Array
+    newInput.addEventListener("change", function () {
       if (this.checked) {
         window.selectedSeminaries_Array.add(seminaryString);
       } else {
@@ -1768,13 +1307,17 @@ function addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminariesArray) {
 
       // Update "Select All" checkbox state
       const allChecked = Array.from(
-        document.querySelectorAll("#options-list-seminary input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-seminary input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-seminary")
         .every((input) => input.checked);
 
       const someChecked = Array.from(
-        document.querySelectorAll("#options-list-seminary input[type='checkbox']")
+        document.querySelectorAll(
+          "#options-list-seminary input[type='checkbox']"
+        )
       )
         .filter((input) => input.id !== "select-all-checkbox-seminary")
         .some((input) => input.checked);
@@ -1815,4 +1358,562 @@ function addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminariesArray) {
     const event = new CustomEvent("filtersChanged");
     document.dispatchEvent(event);
   });
-} 
+}
+
+/**
+ * Function to handle regional selection changes
+ * @param {Array} regionalArray - Array of regional objects
+ */
+function addUniqueRegionalsToOptionsSelectRegionalsDropdown(regionalArray) {
+  const optionsListRegional = document.getElementById("options-list-regional");
+  if (!optionsListRegional) {
+    console.error("Regional options list element not found");
+    return;
+  }
+
+  // Ensure global scoping and initialization
+  window.selectedRegionals_Array = window.selectedRegionals_Array || new Set();
+
+  // Clear existing content
+  optionsListRegional.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-regional");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-regional");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-regional");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListRegional.appendChild(selectAllLabel);
+
+  // Populate all regionals by default
+  regionalArray.forEach((regionalObject) => {
+    const regionalName = regionalObject.arr[0];
+    const regionalString = regionalObject.str;
+
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("div");
+    newDiv.setAttribute(
+      "class",
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("id", `regional_${regionalString}`);
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("value", regionalString);
+    newInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `regional_${regionalString}`);
+    newLabel.setAttribute(
+      "class",
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
+    );
+    newLabel.innerText = regionalName;
+
+    // Automatically add all regionals to the set and check the inputs
+    window.selectedRegionals_Array.add(regionalString);
+    newInput.checked = true;
+
+    newDiv.appendChild(newInput);
+    newDiv.appendChild(newLabel);
+
+    newListItem.appendChild(newDiv);
+    optionsListRegional.appendChild(newListItem);
+
+    // Event listener to update selectedRegionals_Array
+    newInput.addEventListener("change", function () {
+      if (this.checked) {
+        window.selectedRegionals_Array.add(regionalString);
+      } else {
+        window.selectedRegionals_Array.delete(regionalString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll(
+          "#options-list-regional input[type='checkbox']"
+        )
+      )
+        .filter((input) => input.id !== "select-all-checkbox-regional")
+        .every((input) => input.checked);
+
+      const someChecked = Array.from(
+        document.querySelectorAll(
+          "#options-list-regional input[type='checkbox']"
+        )
+      )
+        .filter((input) => input.id !== "select-all-checkbox-regional")
+        .some((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate = !allChecked && someChecked;
+
+      // Trigger filter changed event
+      const event = new CustomEvent("filtersChanged");
+      document.dispatchEvent(event);
+    });
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = this.checked;
+    const regionalCheckboxes = document.querySelectorAll(
+      "#options-list-regional input[type='checkbox']"
+    );
+
+    regionalCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-regional") {
+        checkbox.checked = isChecked;
+        const regionalString = checkbox.value;
+
+        if (isChecked) {
+          window.selectedRegionals_Array.add(regionalString);
+        } else {
+          window.selectedRegionals_Array.delete(regionalString);
+        }
+      }
+    });
+
+    // Reset indeterminate state
+    selectAllInput.indeterminate = false;
+
+    // Trigger filter changed event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  });
+}
+
+// Function to format numbers with commas
+function formatNumberWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// Function to observe and format input values
+function setupNumberFormatting() {
+  const inputIds = [
+    "enrollmentMin",
+    "enrollmentMax"
+  ];
+
+  // Process each input field
+  inputIds.forEach((id) => {
+    const input = document.getElementById(id);
+    if (!input) return;
+
+    // Format initial value
+    if (input.value) {
+      const formattedValue = formatNumberWithCommas(input.value);
+      const displaySpan = getOrCreateDisplaySpan(input, id);
+      displaySpan.textContent = formattedValue;
+    }
+
+    // Setup MutationObserver to watch for value changes from slider movement
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "value"
+        ) {
+          const rawValue = input.value;
+          const formattedValue = formatNumberWithCommas(rawValue);
+          const displaySpan = getOrCreateDisplaySpan(input, id);
+          displaySpan.textContent = formattedValue;
+        }
+      });
+    });
+
+    // Start observing the input element for value changes
+    observer.observe(input, { attributes: true });
+
+    // Also handle direct input changes
+    input.addEventListener("input", function () {
+      const rawValue = this.value;
+      const formattedValue = formatNumberWithCommas(rawValue);
+      const displaySpan = getOrCreateDisplaySpan(this, id);
+      displaySpan.textContent = formattedValue;
+    });
+
+    // Handle change event to ensure formattedValue is updated
+    input.addEventListener("change", function () {
+      const rawValue = this.value;
+      const formattedValue = formatNumberWithCommas(rawValue);
+      const displaySpan = getOrCreateDisplaySpan(this, id);
+      displaySpan.textContent = formattedValue;
+    });
+  });
+
+  // Also listen for the custom filtersChanged event
+  document.addEventListener("filtersChanged", function () {
+    inputIds.forEach((id) => {
+      const input = document.getElementById(id);
+      if (!input) return;
+
+      const rawValue = input.value;
+      const formattedValue = formatNumberWithCommas(rawValue);
+      const displaySpan = getOrCreateDisplaySpan(input, id);
+      displaySpan.textContent = formattedValue;
+    });
+  });
+}
+
+// Helper function to get or create display span
+function getOrCreateDisplaySpan(inputElement, inputId) {
+  // Check if we already have a display span
+  let displaySpan = document.querySelector(`[data-format-for="${inputId}"]`);
+
+  // If not, create one and position it appropriately
+  if (!displaySpan) {
+    displaySpan = document.createElement("span");
+    displaySpan.setAttribute("data-format-for", inputId);
+    displaySpan.className = "formatted-value ml-2";
+
+    // Style the display span
+    displaySpan.style.position = "absolute";
+    displaySpan.style.zIndex = "10";
+    displaySpan.style.background = "transparent";
+    displaySpan.style.pointerEvents = "none"; // Don't interfere with input
+
+    // Hide the actual input value visually (keep it for functionality)
+    inputElement.style.color = "transparent";
+
+    // Position the display span over the input
+    const rect = inputElement.getBoundingClientRect();
+
+    // Create a wrapper if the input doesn't have one
+    let wrapper = inputElement.parentElement;
+    if (!wrapper.classList.contains("input-wrapper")) {
+      wrapper = document.createElement("div");
+      wrapper.className = "input-wrapper relative";
+      wrapper.style.position = "relative";
+      inputElement.parentNode.insertBefore(wrapper, inputElement);
+      wrapper.appendChild(inputElement);
+    }
+
+    // Add the span after the input in the same wrapper
+    wrapper.appendChild(displaySpan);
+
+    // Adjust positioning to overlay the input
+    displaySpan.style.left = "8px"; // Padding
+    displaySpan.style.top = "50%";
+    displaySpan.style.transform = "translateY(-50%)";
+  }
+
+  return displaySpan;
+}
+
+// Add event listeners for key events
+document.addEventListener("filtersChanged", updateClientDropdownFilters);
+document.addEventListener("clientDataLoaded", initializeClientDropdown);
+
+// Main initialization when DOM is loaded
+document.addEventListener("DOMContentLoaded", function () {
+  // console.log("DOM loaded, initializing Header.js functionality");
+
+  // Initialize Sets with all available values
+  if (typeof regions_Array !== "undefined") {
+    window.selectedRegions_Array = new Set(
+      regions_Array.map((region) => region.str)
+    );
+  }
+
+  if (typeof states_Array !== "undefined") {
+    window.selectedStates_Array = new Set(
+      states_Array.map((state) => state.str)
+    );
+  }
+
+  if (typeof memberships_Array !== "undefined") {
+    window.selectedMemberships_Array = new Set(
+      memberships_Array.map((membership) => membership.str)
+    );
+  }
+
+  if (typeof types_Array !== "undefined") {
+    window.selectedTypes_Array = new Set(types_Array.map((type) => type.str));
+  }
+
+  if (typeof athletics_Array !== "undefined") {
+    window.selectedAthletics_Array = new Set(
+      athletics_Array.map((athletic) => athletic.str)
+    );
+  }
+
+  if (typeof seminaries_Array !== "undefined") {
+    window.selectedSeminaries_Array = new Set(
+      seminaries_Array.map((seminary) => seminary.str)
+    );
+  }
+
+  if (typeof regionals_Array !== "undefined") {
+    window.selectedRegionals_Array = new Set(
+      regionals_Array.map((regional) => regional.str)
+    );
+  }
+
+  // Configure slider inputs
+  const sliderInputs = [
+    {
+      element: document.getElementById("enrollmentMin"),
+      globalVar: "sliderValue",
+      defaultValue: 0,
+      sliderDivs: document.querySelectorAll(".enrollmentSlider"),
+    },
+    {
+      element: document.getElementById("enrollmentMax"),
+      globalVar: "sliderValue2",
+      defaultValue: 25000,
+      sliderDivs: document.querySelectorAll(".enrollmentSlider"),
+    },
+  ];
+
+  // Function to trigger filter change event
+  function triggerFiltersChanged(sliderInfo) {
+    // console.log(
+    //   `${sliderInfo.globalVar} changed to ${window[sliderInfo.globalVar]}`
+    // );
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
+  }
+
+  // Set up each slider
+  sliderInputs.forEach((slider) => {
+    if (slider.element) {
+      // Set initial value
+      slider.element.value = window[slider.globalVar];
+
+      // If slider has specific slider divs
+      if (slider.sliderDivs && slider.sliderDivs.length) {
+        slider.sliderDivs.forEach((sliderDiv) => {
+          // Set up MutationObserver to detect style changes
+          const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+              if (
+                mutation.type === "attributes" &&
+                mutation.attributeName === "style"
+              ) {
+                // Update global variable from the input element
+                window[slider.globalVar] =
+                  parseInt(slider.element.value) || slider.defaultValue;
+                triggerFiltersChanged(slider);
+              }
+            });
+          });
+
+          // Configure the observer
+          observer.observe(sliderDiv, {
+            attributes: true,
+            attributeFilter: ["style"],
+          });
+        });
+      }
+
+      // Standard event listeners as a fallback
+      slider.element.addEventListener("input", function () {
+        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
+        triggerFiltersChanged(slider);
+      });
+
+      slider.element.addEventListener("change", function () {
+        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
+        triggerFiltersChanged(slider);
+      });
+    }
+  });
+
+  // Initialize all dropdowns
+  const dropdownConfigs = [
+    { selectId: "custom-select-year", optionsId: "options-list-year" },
+    { selectId: "custom-select-region", optionsId: "options-list-region" },
+    { selectId: "custom-select-state", optionsId: "options-list-state" },
+    {
+      selectId: "custom-select-membership",
+      optionsId: "options-list-membership",
+    },
+    { selectId: "custom-select-type", optionsId: "options-list-type" },
+    { selectId: "custom-select-athletic", optionsId: "options-list-athletic" },
+    { selectId: "custom-select-seminary", optionsId: "options-list-seminary" },
+    { selectId: "custom-select-regional", optionsId: "options-list-regional" },
+    { selectId: "custom-select-client", optionsId: "options-list-client" },
+  ];
+
+  dropdownConfigs.forEach((config) => {
+    setupDropdownToggle(config.selectId, config.optionsId);
+  });
+
+  // Initialize filters for area and type checkboxes
+  function initializeFilterTriggers() {
+    // Set up event listeners for area and type filter checkboxes
+    [
+      "region",
+      "state",
+      "membership",
+      "type",
+      "athletic",
+      "seminary",
+      "regional",
+    ].forEach((type) => {
+      const checkboxes = document.querySelectorAll(
+        `#options-list-${type} input[type='checkbox']`
+      );
+
+      checkboxes.forEach((checkbox) => {
+        // Add change event listener that triggers filter update
+        checkbox.addEventListener("change", () => {
+          // For select-all checkbox, need special handling
+          if (checkbox.id === `select-all-checkbox-${type}`) {
+            const isChecked = checkbox.checked;
+            const targetArray =
+              type === "region"
+                ? window.selectedRegions_Array
+                : type === "state"
+                ? window.selectedStates_Array
+                : type === "membership"
+                ? window.selectedMemberships_Array
+                : type === "type"
+                ? window.selectedTypes_Array
+                : type === "athletic"
+                ? window.selectedAthletics_Array
+                : type === "seminary"
+                ? window.selectedSeminaries_Array
+                : window.selectedRegionals_Array;
+
+            // Clear existing selections
+            targetArray.clear();
+
+            if (isChecked) {
+              // Add all values if checked
+              document
+                .querySelectorAll(
+                  `#options-list-${type} input[type='checkbox']:not(#select-all-checkbox-${type})`
+                )
+                .forEach((cb) => {
+                  targetArray.add(cb.value);
+                });
+            }
+          }
+
+          // Log change and trigger filter update
+          // console.log(
+          //   `${type} selection changed:`,
+          //   checkbox.value,
+          //   checkbox.checked
+          // );
+          const event = new CustomEvent("filtersChanged");
+          document.dispatchEvent(event);
+        });
+      });
+    });
+
+    // Set up sliders with current values
+    const sliders = [
+      document.getElementById("enrollmentMin"),
+      document.getElementById("enrollmentMax"),
+    ];
+
+    sliders.forEach((slider) => {
+      if (slider) {
+        // Set initial slider values to match global variables
+        slider.value = parseInt(
+          slider.id === "givingUnitsMin"
+            ? window.sliderValue
+            : slider.id === "givingUnitsMax"
+            ? window.sliderValue2
+            : slider.id === "missionUnitsMin"
+            ? window.missionValue
+            : slider.id === "missionUnitsMax"
+            ? window.missionValue2
+            : slider.id === "assetsMin"
+            ? window.assetsValue
+            : slider.id === "assetsMax"
+            ? window.assetsValue2
+            : slider.id === "revenueMin"
+            ? window.revenueValue
+            : window.revenueValue2
+        );
+        slider.addEventListener("input", () => {
+          // Update corresponding value
+          if (slider.id === "givingUnitsMin") {
+            window.sliderValue = parseInt(slider.value);
+          } else if (slider.id === "givingUnitsMax") {
+            window.sliderValue2 = parseInt(slider.value);
+          } else if (slider.id === "missionUnitsMin") {
+            window.missionValue = parseInt(slider.value);
+          } else if (slider.id === "missionUnitsMax") {
+            window.missionValue2 = parseInt(slider.value);
+          } else if (slider.id === "assetsMin") {
+            window.assetsValue = parseInt(slider.value);
+          } else if (slider.id === "assetsMax") {
+            window.assetsValue2 = parseInt(slider.value);
+          } else if (slider.id === "revenueMin") {
+            window.revenueValue = parseInt(slider.value);
+          } else if (slider.id === "revenueMax") {
+            window.revenueValue2 = parseInt(slider.value);
+          }
+
+          // Trigger the filtersChanged event
+          const event = new CustomEvent("filtersChanged");
+          document.dispatchEvent(event);
+        });
+      }
+    });
+  }
+
+  // Initialize all filter triggers
+  initializeFilterTriggers();
+
+  document.addEventListener("filtersChanged", function () {
+    setTimeout(setupNumberFormatting, 500);
+    console.log("Filter State Updated:", {
+      sliders: {
+        enrollmentMin: window.sliderValue,
+        enrollmentMax: window.sliderValue2,
+      },
+      regions: Array.from(window.selectedRegions_Array || []),
+      states: Array.from(window.selectedStates_Array || []),
+      memberships: Array.from(window.selectedMemberships_Array || []),
+      types: Array.from(window.selectedTypes_Array || []),
+      athletics: Array.from(window.selectedAthletics_Array || []),
+      seminaries: Array.from(window.selectedSeminaries_Array || []),
+      regionals: Array.from(window.selectedRegionals_Array || []),
+      clients: {
+        count: window.selectedClients_Array
+          ? window.selectedClients_Array.size
+          : 0,
+      },
+    });
+  });
+
+  // Initialize areas dropdown with the provided array
+  // if (typeof areas_Array !== "undefined") {
+  //   addUniqueAreasToOptionsSelectAreasDropdown(areas_Array);
+  // }
+
+  // Export the filter update function to global scope so Utility.js can use it
+  window.headerUpdateClientDropdown = updateClientDropdownFilters;
+  // console.log("Header.js filter function exported as headerUpdateClientDropdown");
+});
