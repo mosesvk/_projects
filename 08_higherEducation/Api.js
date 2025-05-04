@@ -1636,7 +1636,10 @@ class DataProcessor {
 
   processRevenueExpenseContentData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
 
       // Process client records
@@ -1699,7 +1702,7 @@ class DataProcessor {
           ["nonSrAcct_Client", "c171_sal_non_sr_acct"],
           ["stuAcctMgr_Client", "c181_sal_stu_acct_mgr"],
           ["otherBusOffice_Client", "c191_sal_other_bus_office"],
-          ["adminAsst_Client", "c201_sal_admin_asst"]
+          ["adminAsst_Client", "c201_sal_admin_asst"],
         ];
 
         employeeSalaryFields.forEach(([key, field]) => {
@@ -1842,7 +1845,7 @@ class DataProcessor {
           ["nonSrAcct_Peer", "c171_sal_non_sr_acct"],
           ["stuAcctMgr_Peer", "c181_sal_stu_acct_mgr"],
           ["otherBusOffice_Peer", "c191_sal_other_bus_office"],
-          ["adminAsst_Peer", "c201_sal_admin_asst"]
+          ["adminAsst_Peer", "c201_sal_admin_asst"],
         ];
 
         peerSalaryFields.forEach(([key, field]) => {
@@ -1867,7 +1870,7 @@ class DataProcessor {
           ["housingAdminAsst_Peer", "c207_housing_admin_asst"],
           ["otherAdminAsst_Peer", "c208_other_admin_asst"],
           ["totalStudentFte_Peer", "g025_ctotal_student_fte"],
-          ["totalStudentUhc_Peer", "g035_ctotal_student_uhc"]
+          ["totalStudentUhc_Peer", "g035_ctotal_student_uhc"],
         ];
 
         adminCostsFields.forEach(([key, field]) => {
@@ -1920,7 +1923,10 @@ class DataProcessor {
 
   processFinancialPositionContentData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
 
       // Process client records
@@ -1929,14 +1935,26 @@ class DataProcessor {
         const currentRatioFields = [
           ["cashAndCashEquivalents_Client", "r001_cash_and_cash_equivalents"],
           ["accountsReceivable_Client", "r002_accounts_receivable_net"],
-          ["studentLoansAndOtherReceivables_Client", "r003_student_loans_and_other_receivables"],
+          [
+            "studentLoansAndOtherReceivables_Client",
+            "r003_student_loans_and_other_receivables",
+          ],
           ["contributionsReceivable_Client", "r004_contributions_receivable"],
-          ["prepaidExpensesAndOtherAssets_Client", "r005_prepaid_expenses_and_other_assets"],
-          ["accountsPayable_Client", "r009_accounts_payable_and_accrued_liabilities"],
+          [
+            "prepaidExpensesAndOtherAssets_Client",
+            "r005_prepaid_expenses_and_other_assets",
+          ],
+          [
+            "accountsPayable_Client",
+            "r009_accounts_payable_and_accrued_liabilities",
+          ],
           ["deferredRevenue_Client", "r010_deferred_revenue"],
-          ["postRetirementHealthBenefits_Client", "r011_post_retirement_health_benefits"],
+          [
+            "postRetirementHealthBenefits_Client",
+            "r011_post_retirement_health_benefits",
+          ],
           ["annuityObligations_Client", "r012_annuity_obligations"],
-          ["otherLiabilities_Client", "r013_other_liabilities"]
+          ["otherLiabilities_Client", "r013_other_liabilities"],
         ];
 
         currentRatioFields.forEach(([key, field]) => {
@@ -1954,7 +1972,7 @@ class DataProcessor {
         const liquidityFields = [
           ["fasbLiquidity_Client", "r250_fasb_liquidity"],
           ["quasiEndowment_Client", "r251_quasi_endowment"],
-          ["lineOfCredit_Client", "r252_line_of_credit_available"]
+          ["lineOfCredit_Client", "r252_line_of_credit_available"],
         ];
 
         liquidityFields.forEach(([key, field]) => {
@@ -2018,16 +2036,25 @@ class DataProcessor {
 
   processFinancialAnalysisContentData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
 
       // Process client records
       filteredClientRecords.forEach((record) => {
         // Operating Results
         const operatingResultsFields = [
-          ["operatingRevenuesSupportAndRelease_Client", "r036_coperating_revenues_support_and_releases"],
+          [
+            "operatingRevenuesSupportAndRelease_Client",
+            "r036_coperating_revenues_support_and_releases",
+          ],
           ["totalFunctionalExpenses_Client", "r044_ctotal_functional_expenses"],
-          ["changeInNetAssetsFromOperations_Client", "r045_cchange_in_net_assets_from_operations"]
+          [
+            "changeInNetAssetsFromOperations_Client",
+            "r045_cchange_in_net_assets_from_operations",
+          ],
         ];
 
         operatingResultsFields.forEach(([key, field]) => {
@@ -2112,7 +2139,10 @@ class DataProcessor {
 
   processDoeData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
 
       // Process client records
@@ -2131,54 +2161,39 @@ class DataProcessor {
         const primaryReserveFields = [
           ["primaryReserveRatio_Client", "r223_cprimary_reserve_ratio"],
           ["expendableNetAssets_Client", "r217_cexpendable_net_assets"],
-          ["totalExpenses_Client", "r044_ctotal_functional_expenses"]
+          ["totalExpenses_Client", "r044_ctotal_functional_expenses"],
         ];
 
         primaryReserveFields.forEach(([key, field]) => {
-          this.dataStore.insertData(
-            "doe",
-            "client",
-            year,
-            key,
-            record,
-            field
-          );
+          this.dataStore.insertData("doe", "client", year, key, record, field);
         });
 
         // Equity Ratio
         const equityFields = [
           ["equityRatio_Client", "r224_cequity_ratio"],
           ["modifiedNetAssets_Client", "r218_cmodified_net_assets"],
-          ["modifiedAssets_Client", "r219_cmodified_assets"]
+          ["modifiedAssets_Client", "r219_cmodified_assets"],
         ];
 
         equityFields.forEach(([key, field]) => {
-          this.dataStore.insertData(
-            "doe",
-            "client",
-            year,
-            key,
-            record,
-            field
-          );
+          this.dataStore.insertData("doe", "client", year, key, record, field);
         });
 
         // Net Income Ratio
         const netIncomeFields = [
           ["netIncomeRatio_Client", "r225_cnet_income_ratio"],
-          ["changeInUnrestrictedNetAssets_Client", "r220_cchange_in_unrestricted_net_assets"],
-          ["totalUnrestrictedRevenue_Client", "r221_ctotal_unrestricted_revenue"]
+          [
+            "changeInUnrestrictedNetAssets_Client",
+            "r220_cchange_in_unrestricted_net_assets",
+          ],
+          [
+            "totalUnrestrictedRevenue_Client",
+            "r221_ctotal_unrestricted_revenue",
+          ],
         ];
 
         netIncomeFields.forEach(([key, field]) => {
-          this.dataStore.insertData(
-            "doe",
-            "client",
-            year,
-            key,
-            record,
-            field
-          );
+          this.dataStore.insertData("doe", "client", year, key, record, field);
         });
       });
 
@@ -2233,7 +2248,10 @@ class DataProcessor {
 
   processFinancialStatementContentData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
 
       // Process client records
@@ -2241,15 +2259,24 @@ class DataProcessor {
         // Operating Revenue
         const operatingRevenueFields = [
           ["tuitionAndFees_Client", "r023_revenue_tuition_and_fees"],
-          ["scholarshipsAndFinancialAid_Client", "r024_revenue_scholarships_and_financial_aid"],
+          [
+            "scholarshipsAndFinancialAid_Client",
+            "r024_revenue_scholarships_and_financial_aid",
+          ],
           ["netTuitionAndFees_Client", "r026_cnet_tuition_and_fees"],
           ["governmentGrants_Client", "r027_revenue_government_grants"],
           ["privateGifts_Client", "r028_revenue_private_gifts"],
           ["investmentReturn_Client", "r029_revenue_investment_return"],
           ["salesAndServices_Client", "r030_revenue_sales_and_services"],
           ["otherRevenue_Client", "r031_revenue_other"],
-          ["netAssetsReleasedFromRestrictions_Client", "r032_revenue_net_assets_released_from_restrictions"],
-          ["operatingRevenuesSupportAndRelease_Client", "r036_coperating_revenues_support_and_releases"]
+          [
+            "netAssetsReleasedFromRestrictions_Client",
+            "r032_revenue_net_assets_released_from_restrictions",
+          ],
+          [
+            "operatingRevenuesSupportAndRelease_Client",
+            "r036_coperating_revenues_support_and_releases",
+          ],
         ];
 
         operatingRevenueFields.forEach(([key, field]) => {
@@ -2270,9 +2297,15 @@ class DataProcessor {
           ["publicServiceExpense_Client", "r039_expense_public_service"],
           ["academicSupportExpense_Client", "r040_expense_academic_support"],
           ["studentServicesExpense_Client", "r041_expense_student_services"],
-          ["institutionalSupportExpense_Client", "r042_expense_institutional_support"],
-          ["auxiliaryEnterprisesExpense_Client", "r043_expense_auxiliary_enterprises"],
-          ["totalFunctionalExpenses_Client", "r044_ctotal_functional_expenses"]
+          [
+            "institutionalSupportExpense_Client",
+            "r042_expense_institutional_support",
+          ],
+          [
+            "auxiliaryEnterprisesExpense_Client",
+            "r043_expense_auxiliary_enterprises",
+          ],
+          ["totalFunctionalExpenses_Client", "r044_ctotal_functional_expenses"],
         ];
 
         operatingExpenseFields.forEach(([key, field]) => {
@@ -2288,11 +2321,14 @@ class DataProcessor {
 
         // Change in Net Assets
         const netAssetsFields = [
-          ["changeInNetAssetsFromOperations_Client", "r045_cchange_in_net_assets_from_operations"],
+          [
+            "changeInNetAssetsFromOperations_Client",
+            "r045_cchange_in_net_assets_from_operations",
+          ],
           ["nonOperatingRevenues_Client", "r046_non_operating_revenues"],
           ["totalChangeInNetAssets_Client", "r047_ctotal_change_in_net_assets"],
           ["beginningNetAssets_Client", "r048_beginning_net_assets"],
-          ["endingNetAssets_Client", "r049_cending_net_assets"]
+          ["endingNetAssets_Client", "r049_cending_net_assets"],
         ];
 
         netAssetsFields.forEach(([key, field]) => {
@@ -2333,9 +2369,12 @@ class DataProcessor {
 
         // Change in Net Assets
         const peerNetAssetsFields = [
-          ["changeInNetAssetsFromOperations_Peer", "r045_cchange_in_net_assets_from_operations"],
+          [
+            "changeInNetAssetsFromOperations_Peer",
+            "r045_cchange_in_net_assets_from_operations",
+          ],
           ["totalChangeInNetAssets_Peer", "r047_ctotal_change_in_net_assets"],
-          ["endingNetAssets_Peer", "r049_cending_net_assets"]
+          ["endingNetAssets_Peer", "r049_cending_net_assets"],
         ];
 
         peerNetAssetsFields.forEach(([key, field]) => {
@@ -2368,9 +2407,7 @@ class DataProcessor {
       try {
         // Check if record is a DOM element
         if (record && typeof record.querySelector === "function") {
-          const fiscalYear = record.querySelector(
-            "year"
-          )?.textContent;
+          const fiscalYear = record.querySelector("year")?.textContent;
           return fiscalYear && fiscalYear.includes(year.toString());
         }
         // Check if record is an object with direct properties
@@ -2444,6 +2481,7 @@ class ApiService {
       // Use await to make the async operation more explicit
       const xml = await $.get(peerData, apiCallPeerData);
       const recordsForPeer = $("record", xml).toArray();
+
       // console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);
 
       // Collect records for later use
@@ -2499,6 +2537,7 @@ class ApiService {
         );
 
         const records = xmlDoc.querySelectorAll("record");
+
         // console.log(`Parsed ${records.length} client records from collected data`);
         return records;
       } catch (error) {
@@ -2559,7 +2598,7 @@ class ApiService {
   async getRecordsForUniqueClientPeerNames() {
     const apiCallPeerData = {
       act: "API_DoQuery",
-      clist: "7.539.667.619.758.759.757.760.761.741", 
+      clist: "7.539.667.619.758.759.757.760.761.741.536",
     };
 
     try {
@@ -2576,19 +2615,17 @@ class ApiService {
       let xmlString = "<qdbapi>";
 
       recordsForPeerUniqueClientPeerNames.forEach((record) => {
-        const clientName = record.querySelector(
-          "merged_client_name"
-        )?.textContent;
+        const clientName =
+          record.querySelector("merged_client_name")?.textContent;
 
         if (clientName) {
+
           uniquePeerClientNames.add(clientName);
 
           // Store client data with all required fields
           if (!window.clientDataStore[clientName]) {
             // Get fiscal year
-            const year = record.querySelector(
-              "year"
-            )?.textContent;
+            const year = record.querySelector("year")?.textContent;
 
             // Get mission unit value
             const enrollmentVal =
@@ -2602,8 +2639,7 @@ class ApiService {
 
             // Get statevalue
             const stateVal =
-              record.querySelector("client___merged_state")?.textContent ||
-              "0";
+              record.querySelector("client___merged_state")?.textContent || "0";
 
             // Get membership query - parse from string to array
             const membershipText =
@@ -2623,13 +2659,14 @@ class ApiService {
 
             // Get athletic query - parse from string to array
             const athleticQueryText =
-              record.querySelector("client___he__a001_athletic_classificiationquery")
-                ?.textContent || "";
+              record.querySelector(
+                "client___he__a001_athletic_classificiationquery"
+              )?.textContent || "";
             const athleticQuery = athleticQueryText
               ? athleticQueryText.split(";").filter(Boolean)
               : [];
 
-            // Get seminary query - parse from string to array 
+            // Get seminary query - parse from string to array
             const seminaryQueryText =
               record.querySelector("client___he__seminary_projectquery")
                 ?.textContent || "";
@@ -2637,19 +2674,18 @@ class ApiService {
               ? seminaryQueryText.split(";").filter(Boolean)
               : [];
 
-            // Get regional query - parse from string to array 
+            // Get regional query - parse from string to array
             const regionalQueryText =
               record.querySelector("client___he__regional_accreditorquery")
                 ?.textContent || "";
             const regionalQuery = regionalQueryText
               ? regionalQueryText.split(";").filter(Boolean)
               : [];
-              
 
             // Store all client data
             window.clientDataStore[clientName] = {
               name: clientName,
-              year: year, 
+              year: year,
               enrollment: parseFloat(enrollmentVal) || 0,
               region: regionVal,
               state: stateVal,
@@ -2670,7 +2706,7 @@ class ApiService {
       xmlString += "</qdbapi>";
 
       // Print the XML string to console
-      // console.log("Client Data XML:", xmlString);
+      console.log("getRecordsForUniqueClientPeerNames XML", xmlString);
 
       const sortedUniquePeerClientNames = Array.from(
         uniquePeerClientNames
@@ -2719,7 +2755,6 @@ class ApiService {
     const enrollmentMinSlider = document.getElementById("enrollmentMin");
     const enrollmentMaxSlider = document.getElementById("enrollmentMax");
 
-
     if (enrollmentMinSlider) {
       enrollmentMinSlider.addEventListener("input", () => {
         window.sliderValue = parseInt(enrollmentMinSlider.value);
@@ -2766,12 +2801,15 @@ class ApiService {
     const maxEnrollment = window.sliderValue2 || 25000;
     const selectedRegions = Array.from(window.selectedRegions_Array || []);
     const selectedStates = Array.from(window.selectedStates_Array || []);
-    const selectedMemberships = Array.from(window.selectedMemberships_Array || []);
+    const selectedMemberships = Array.from(
+      window.selectedMemberships_Array || []
+    );
     const selectedTypes = Array.from(window.selectedTypes_Array || []);
     const selectedAthletics = Array.from(window.selectedAthletics_Array || []);
-    const selectedSeminaries = Array.from(window.selectedSeminaries_Array || []);
+    const selectedSeminaries = Array.from(
+      window.selectedSeminaries_Array || []
+    );
     const selectedRegionals = Array.from(window.selectedRegionals_Array || []);
-
 
     // Update client checkboxes based on filters
     const clientCheckboxes = document.querySelectorAll(
@@ -2816,7 +2854,7 @@ class ApiService {
               selectedRegionals.includes(regional)
             )) &&
           clientData.enrollment >= minEnrollment &&
-          clientData.enrollment <= maxEnrollment
+          clientData.enrollment <= maxEnrollment;
         checkbox.checked = matches;
 
         if (matches) {
@@ -2856,7 +2894,6 @@ class ApiService {
     });
   }
 
-  
   // Get the combined XML strings for peer and client records
   getPeerXmlString() {
     return `<qdbapi>${this.recordPeerHTMLArray.join("")}</qdbapi>`;
@@ -2940,7 +2977,9 @@ class AppController {
       addUniqueStatesToOptionsSelectStatesDropdown(states_Array);
     }
 
-    const membershipsListElement = document.getElementById("options-list-membership");
+    const membershipsListElement = document.getElementById(
+      "options-list-membership"
+    );
     if (
       membershipsListElement &&
       (!membershipsListElement.children.length ||
@@ -2949,7 +2988,9 @@ class AppController {
       addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
     }
 
-    const athleticsListElement = document.getElementById("options-list-athletic");
+    const athleticsListElement = document.getElementById(
+      "options-list-athletic"
+    );
     if (
       athleticsListElement &&
       (!athleticsListElement.children.length ||
@@ -2958,7 +2999,9 @@ class AppController {
       addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
     }
 
-    const seminariesListElement = document.getElementById("options-list-seminary");
+    const seminariesListElement = document.getElementById(
+      "options-list-seminary"
+    );
     if (
       seminariesListElement &&
       (!seminariesListElement.children.length ||
@@ -2967,7 +3010,9 @@ class AppController {
       addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminaries_Array);
     }
 
-    const regionalsListElement = document.getElementById("options-list-regional");
+    const regionalsListElement = document.getElementById(
+      "options-list-regional"
+    );
     if (
       regionalsListElement &&
       (!regionalsListElement.children.length ||
@@ -2983,7 +3028,6 @@ class AppController {
         typesListElement.children.length <= 1)
     ) {
       addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
-      
     }
 
     // Set up run button event listener
@@ -3367,7 +3411,7 @@ class AppController {
   // }
 
   // Process selected years - with better error handling
-  
+
   processSelectedYears() {
     const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -3548,9 +3592,8 @@ function countUniqueClients(records) {
 
   try {
     records.forEach((record) => {
-      const clientName = record.querySelector(
-        "merged_client_name"
-      )?.textContent;
+      const clientName =
+        record.querySelector("merged_client_name")?.textContent;
 
       // Only count clients that are in the selectedClients_Array
       if (clientName && selectedClients.includes(clientName)) {
@@ -3625,7 +3668,6 @@ $.get(clientData, apiCallClientDataForUniqueYears)
     recordsClient = await $("record", xml).toArray();
 
     // console.log({recordsClient});
-    
 
     if (recordsClient.length > 0) {
       firmName = recordsClient[0].children[2].innerHTML;
@@ -3655,7 +3697,6 @@ const findUniqueYears = (data) => {
         }
       }
     });
-    
 
     yearsData_Array.sort();
     // console.log('findUniqueYears', {yearsData_Array});
@@ -3776,10 +3817,18 @@ window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
     return {
       cfiData: JSON.parse(localStorage.getItem("cfiData")),
       doeData: JSON.parse(localStorage.getItem("doeData")),
-      financialAnalysisData: JSON.parse(localStorage.getItem("financialAnalysisData")),
-      financialPositionData: JSON.parse(localStorage.getItem("financialPositionData")),
-      financialStatementData: JSON.parse(localStorage.getItem("financialStatementData")),
-      revenueExpenseData: JSON.parse(localStorage.getItem("revenueExpenseData")),
+      financialAnalysisData: JSON.parse(
+        localStorage.getItem("financialAnalysisData")
+      ),
+      financialPositionData: JSON.parse(
+        localStorage.getItem("financialPositionData")
+      ),
+      financialStatementData: JSON.parse(
+        localStorage.getItem("financialStatementData")
+      ),
+      revenueExpenseData: JSON.parse(
+        localStorage.getItem("revenueExpenseData")
+      ),
       debtEndowmentData: JSON.parse(localStorage.getItem("debtEndowmentData")),
     };
   }

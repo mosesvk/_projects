@@ -125,7 +125,27 @@ function clientMatchesFilters(
   selectedRegionals
 ) {
   if (!clientData) return false;
-//   console.log('clientMatchesFilters', clientData);
+  //   console.log('clientMatchesFilters', clientData);
+  //   {
+  //     "name": "Wofford College",
+  //     "year": "2020",
+  //     "enrollment": 0,
+  //     "region": "0",
+  //     "state": "SC",
+  //     "membership": [
+  //         "Unspecified"
+  //     ],
+  //     "type": [
+  //         "Unspecified"
+  //     ],
+  //     "athletic": [
+  //         "Unspecified"
+  //     ],
+  //     "seminary": [],
+  //     "regional": [
+  //         "South Carolina Independent Colleges and Universities"
+  //     ]
+  // }
 
   // Check enrollment range
   const enrollmentMatch =
@@ -146,49 +166,73 @@ function clientMatchesFilters(
   }
 
   // Check if client has at least one of the selected regions, handle missing regions
-  const regionMatch = clientData.regionQuery
-    ? clientData.regionQuery.some((region) => selectedRegions.includes(region))
+  const regionMatch = clientData.region
+    ? selectedRegions.includes(clientData.region)
     : false;
 
   // Check if client has at least one of the selected states, handle missing states
-  const stateMatch = clientData.stateQuery
-    ? clientData.stateQuery.some((state) => selectedStates.includes(state))
+  const stateMatch = clientData.state
+    ? selectedStates.includes(clientData.state)
     : false;
 
   // Check if client has at least one of the selected memberships, handle missing memberships
-  const membershipMatch = clientData.membershipQuery
-    ? clientData.membershipQuery.some((membership) =>
+  const membershipMatch = clientData.membership
+    ? clientData.membership.some((membership) =>
         selectedMemberships.includes(membership)
       )
     : false;
 
   // Check if client has at least one of the selected types, handle missing typeQuery
-  const typeMatch = clientData.typeQuery
-    ? clientData.typeQuery.some((type) => selectedTypes.includes(type))
-    : true; // Set to true if typeQuery is missing to avoid breaking functionality
+  const typeMatch = clientData.type
+    ? clientData.type.some((type) => selectedTypes.includes(type))
+    : true; // Set to true if type is missing to avoid breaking functionality
 
   // Check if client has at least one of the selected athletics, handle missing athletics
-  const athleticMatch = clientData.athleticQuery
-    ? clientData.athleticQuery.some((athletic) =>
+  const athleticMatch = clientData.athletic
+    ? clientData.athletic.some((athletic) =>
         selectedAthletics.includes(athletic)
       )
     : false;
 
   // Check if client has at least one of the selected seminaries, handle missing seminaries
-  const seminaryMatch = clientData.seminaryQuery
-    ? clientData.seminaryQuery.some((seminary) =>
+  const seminaryMatch = clientData.seminary
+    ? clientData.seminary.some((seminary) =>
         selectedSeminaries.includes(seminary)
       )
     : false;
 
   // Check if client has at least one of the selected regionals, handle missing regionals
-  const regionalMatch = clientData.regionalQuery
-    ? clientData.regionalQuery.some((regional) =>
+  const regionalMatch = clientData.regional
+    ? clientData.regional.some((regional) =>
         selectedRegionals.includes(regional)
       )
     : false;
 
-  // Client matches only if it passes all criteria
+  if (
+    clientData.name === "Life Pacific University" ||
+    clientData.name === "Lipscomb University"
+  ) {
+    console.log("clientMatchesFilters", {
+      clientData,
+      enrollmentMin,
+      enrollmentMax,
+      selectedRegions,
+      selectedStates,
+      selectedMemberships,
+      selectedTypes,
+      selectedAthletics,
+      selectedSeminaries,
+      selectedRegionals,
+      enrollmentMatch,
+      regionMatch,
+      stateMatch,
+      membershipMatch,
+      typeMatch,
+      athleticMatch,
+      seminaryMatch,
+      regionalMatch,
+    });
+  }
   return (
     enrollmentMatch &&
     regionMatch &&
@@ -1515,10 +1559,7 @@ function formatNumberWithCommas(number) {
 
 // Function to observe and format input values
 function setupNumberFormatting() {
-  const inputIds = [
-    "enrollmentMin",
-    "enrollmentMax"
-  ];
+  const inputIds = ["enrollmentMin", "enrollmentMax"];
 
   // Process each input field
   inputIds.forEach((id) => {
