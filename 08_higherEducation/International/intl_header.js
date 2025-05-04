@@ -34,7 +34,7 @@ function setupDropdownToggle(selectElementId, optionsListId) {
   // Function to close all other dropdowns
   function closeOtherDropdowns(currentOptionsListId) {
     const dropdownConfigs = [
-      { selectId: "custom-select", optionsId: "options-list" },
+      { selectId: "custom-select-year", optionsId: "options-list-year" },
       { selectId: "custom-select-region", optionsId: "options-list-region" },
       { selectId: "custom-select-state", optionsId: "options-list-state" },
       { selectId: "custom-select-type", optionsId: "options-list-type" },
@@ -742,6 +742,10 @@ function addUniqueStatesToOptionsSelectStatesDropdown(stateArray) {
  * @param {Array} membershipArray - Array of membership objects
  */
 function addUniqueMembershipsToOptionsSelectMembershipsDropdown(membershipArray) {
+  console.log('addUniqueMembershipsToOptionsSelectMembershipsDropdown', {
+    membershipArray,
+  });
+
   const optionsListMembership = document.getElementById("options-list-membership");
   if (!optionsListMembership) {
     console.error("Membership options list element not found");
@@ -1704,6 +1708,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initialize all dropdowns
   const dropdownConfigs = [
+    { selectId: "custom-select-year", optionsId: "options-list-year" },
     { selectId: "custom-select-region", optionsId: "options-list-region" },
     { selectId: "custom-select-state", optionsId: "options-list-state" },
     { selectId: "custom-select-membership", optionsId: "options-list-membership" },
