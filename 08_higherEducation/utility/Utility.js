@@ -21,11 +21,13 @@ const regions_Array = [
   },
 ];
 const states_Array = [
+  { arr: ["AB"], str: "AB" },
   { arr: ["AL"], str: "AL" },
   { arr: ["AK"], str: "AK" },
   { arr: ["AZ"], str: "AZ" },
   { arr: ["AR"], str: "AR" },
   { arr: ["AS"], str: "AS" },
+  { arr: ["BC"], str: "BC" },
   { arr: ["CA"], str: "CA" },
   { arr: ["CO"], str: "CO" },
   { arr: ["CT"], str: "CT" },
@@ -43,6 +45,7 @@ const states_Array = [
   { arr: ["KY"], str: "KY" },
   { arr: ["LA"], str: "LA" },
   { arr: ["ME"], str: "ME" },
+  { arr: ["MB"], str: "MB" },
   { arr: ["MD"], str: "MD" },
   { arr: ["MA"], str: "MA" },
   { arr: ["MI"], str: "MI" },
@@ -51,6 +54,7 @@ const states_Array = [
   { arr: ["MO"], str: "MO" },
   { arr: ["MT"], str: "MT" },
   { arr: ["NE"], str: "NE" },
+  { arr: ["NB"], str: "NB" },
   { arr: ["NV"], str: "NV" },
   { arr: ["NH"], str: "NH" },
   { arr: ["NJ"], str: "NJ" },
@@ -60,6 +64,7 @@ const states_Array = [
   { arr: ["ND"], str: "ND" },
   { arr: ["MP"], str: "MP" },
   { arr: ["OH"], str: "OH" },
+  { arr: ["ON"], str: "ON" },
   { arr: ["OK"], str: "OK" },
   { arr: ["OR"], str: "OR" },
   { arr: ["PA"], str: "PA" },
@@ -148,9 +153,9 @@ const regionals_Array = [
 ];
 
 const athletics_Array = [
-  { arr: ["NCAA I"], str: "NCAA I" },
-  { arr: ["NCAA II"], str: "NCAA II" },
-  { arr: ["NCAA III"], str: "NCAA III" },
+  { arr: ["NCAA  I"], str: "NCAA  I" },
+  { arr: ["NCAA  II"], str: "NCAA  II" },
+  { arr: ["NCAA  III"], str: "NCAA  III" },
   { arr: ["NAIA"], str: "NAIA" },
   { arr: ["NCCAA I"], str: "NCCAA I" },
   { arr: ["NCCAA II"], str: "NCCAA II" },
@@ -1954,7 +1959,8 @@ function createAndRenderFSChart(
   label,
   tableDataClass
 ) {
-  // if (tableDataClass == 'changesInNetAssetsWithDR_dataPoint') console.log({ chartId, parsedData, dataKey, color, currency, label });
+  // if (tableDataClass == 'totalAssets_dataPoint') 
+    console.log({ chartId, parsedData, dataKey, color, currency, label });
   // Create the chart
   const chart = new ApexCharts(
     document.querySelector(chartId),

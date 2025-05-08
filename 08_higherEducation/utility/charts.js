@@ -9,8 +9,15 @@ const getMainChartOptions = (
   chartId
 ) => {
   // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
-  // if (mainName == "doeOverall")
-  //   console.log({ dataClient, numType });
+  if (mainName == "doeOverall")
+    console.log({   dataPeer,
+      dataClient,
+      numType,
+      fixedNum,
+      mainName,
+      benchmark,
+      title,
+      chartId });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -458,7 +465,7 @@ const getMainChartOptions = (
 
   const series = [
     {
-      name: clientName,
+      name: firmName,
       type: "column",
       data: clientArray,
     },
@@ -633,9 +640,9 @@ const getFSchartOptions = (
   chartId,
   tableDataClass
 ) => {
-  // if (chartId == "#nonOperatingActivities_chart")
+  // if (chartId == "#assets_chart")
   //   console.log({ data, client, color, numType, title, chartId });
-  // console.log({ data, client, 'data[client]': data[client]});
+  console.log({ data, client, 'data[client]': data[client], numType, title, chartId });
 
   const clientString = client.replace("_Client", "");
 
@@ -714,7 +721,7 @@ const getFSchartOptions = (
     colors: [color],
     series: [
       {
-        name: clientName,
+        name: firmName,
         type: "column",
         data: clientArray,
         style: {
@@ -863,7 +870,7 @@ const getFSchartOptions = (
 };
 
 const getFpaChartOptions = (data) => {
-  // console.log('getFPA', {data});
+  console.log('getFpaChartOptions', {data});
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -1196,7 +1203,7 @@ const getAtlChartOptions = (data) => {
     ],
     series: [
       {
-        name: clientName,
+        name: firmName,
         data: clientArray,
         style: {
           colors: [chartColors.labelColor],
@@ -2854,7 +2861,7 @@ const getLiquidityChartOptions = (data) => {
 };
 
 const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
-  // console.log({ data });
+  console.log('getSalariesAndBenefitsToTotalExpenseChartOptions',{ data });
 
   // Get number for chart
   const mostRecentYear = Math.max(
@@ -3749,7 +3756,7 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     ],
     series: [
       {
-        name: clientName,
+        name: firmName,
         type: "column",
         data: clientArray,
       },
@@ -4914,7 +4921,7 @@ const getEndowmentOperatingChartOptions = (data) => {
       chart: {
         theme: "fusion",
         caption: "",
-        subcaption: clientName,
+        subcaption: firmName,
         lowerLimit: "0",
         upperLimit: "250",
         numberSuffix: "%",
@@ -5571,7 +5578,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     ],
     series: [
       {
-        name: clientName,
+        name: firmName,
         type: "column",
         data: clientArray,
         style: {

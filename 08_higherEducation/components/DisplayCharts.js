@@ -1,4 +1,4 @@
-displayCfiComponent = () => {
+const displayCfiComponent = () => {
   // console.log('displayCfiComponent()');
   const savedData = getStoredData("cfiData");
   const parseData = parseStoredData(savedData);
@@ -76,7 +76,7 @@ toggleDetailsByIdentifier("returnOnNetAssets");
 toggleDetailsByIdentifier("cfiViabilityRatio");
 
 // DOE
-displayDoeComponent = () => {
+const displayDoeComponent = () => {
   // console.log('displayCfiComponent()');
   const savedData = getStoredData("doeData");
   const parseData = parseStoredData(savedData);
@@ -99,7 +99,7 @@ toggleDetailsByIdentifier("doeOverall");
 
 // Financial ANALYSIS
 const displayFinancialAnalysisContentComponent = async () => {
-  const savedData = getStoredData("financialAnalysisContentData");
+  const savedData = getStoredData("financialAnalysisData");
   const parseData = parseStoredData(savedData);
 
   FinancialPosition_chart = new ApexCharts(
@@ -171,33 +171,13 @@ toggleDetailsByIdentifier("ffa");
 
 // Financial STATEMENT
 const displayFinancialStatementComponent = () => {
-  // console.log('hit');
-  const keys = [
-    "totalAssetsData",
-    "totalLiabilitiesData",
-    "netAssetsData",
-    "revenueAndSupportData",
-    "educationalProgramData",
-    "nonOperatingActivitiesData",
-    "changesInNetAssetsWithDRData",
-    "naturalExpenseCategoriesData",
-    "cashFlowsOperatingData",
-    "cashFlowsInvestingData",
-    "cashFlowsFinancingData",
-    "propertyAndEquipmentData",
-  ];
-  const parsedData = {};
-
-  keys.forEach((key) => {
-    const storedData = getStoredData(key);
-    parsedData[key] = parseStoredData(storedData);
-  });
-
-  // console.log({ parsedData });
+    const storedData = getStoredData("financialStatementData");
+    parsedData = parseStoredData(storedData);
+  console.log({ parsedData });
 
   createAndRenderFSChart(
     "#assets_chart",
-    parsedData["totalAssetsData"],
+    parsedData,
     "totalAssets_Client",
     "#FBD75A",
     "dollar",
@@ -207,7 +187,7 @@ const displayFinancialStatementComponent = () => {
 
   createAndRenderFSChart(
     "#liabilities_chart",
-    parsedData["totalLiabilitiesData"],
+    parsedData,
     "totalLiabilities_Client",
     window.chartColors.blue,
     "dollar",
@@ -217,7 +197,7 @@ const displayFinancialStatementComponent = () => {
 
   createAndRenderFSChart(
     "#netAssets_chart",
-    parsedData["netAssetsData"],
+    parsedData,
     "netAssets_Client",
     window.chartColors.yellow,
     "dollar",
@@ -227,7 +207,7 @@ const displayFinancialStatementComponent = () => {
 
   createAndRenderFSChart(
     "#revenueAndSupport_chart",
-    parsedData["revenueAndSupportData"],
+    parsedData,
     "revenueAndSupport_Client",
     "#4EA79F",
     "dollar",
@@ -237,7 +217,7 @@ const displayFinancialStatementComponent = () => {
 
   createAndRenderFSChart(
     "#educationalProgramExpenses_chart",
-    parsedData["educationalProgramData"],
+    parsedData,
     "educationalProgramExpenses_Client",
     "#F4982D",
     "dollar",
@@ -247,7 +227,7 @@ const displayFinancialStatementComponent = () => {
 
   createAndRenderFSChart(
     "#nonOperatingActivities_chart",
-    parsedData["nonOperatingActivitiesData"],
+    parsedData,
     "nonOperatingActivities_Client",
     window.chartColors.red,
     "dollar",
@@ -257,7 +237,7 @@ const displayFinancialStatementComponent = () => {
 
   createAndRenderFSChart(
     "#changesInNetAssetsWithDR_chart",
-    parsedData["changesInNetAssetsWithDRData"],
+    parsedData,
     "changesInNetAssetsWithDR_Client",
     "#C57FD7",
     "dollar",
@@ -267,7 +247,7 @@ const displayFinancialStatementComponent = () => {
 
   createAndRenderFSChart(
     "#naturalExpenseCategories_chart",
-    parsedData["naturalExpenseCategoriesData"],
+    parsedData,
     "naturalExpenseCategories_Client",
     "#4F76D9",
     "dollar",
@@ -277,7 +257,7 @@ const displayFinancialStatementComponent = () => {
 
   createAndRenderFSChart(
     "#cashFlowsOperatingActivities_chart",
-    parsedData["cashFlowsOperatingData"],
+    parsedData,
     "cashFlowsOperatingActivities_Client",
     "#70B5CC",
     "dollar",
@@ -287,7 +267,7 @@ const displayFinancialStatementComponent = () => {
 
   createAndRenderFSChart(
     "#cashFlowsInvestingActivities_chart",
-    parsedData["cashFlowsInvestingData"],
+    parsedData,
     "cashFlowsInvestingActivities_Client",
     "#FFA726",
     "dollar",
@@ -297,7 +277,7 @@ const displayFinancialStatementComponent = () => {
 
   createAndRenderFSChart(
     "#cashFlowsFinancingActivities_chart",
-    parsedData["cashFlowsFinancingData"],
+    parsedData,
     "cashFlowsFinancingActivities_Client",
     "#FFCDD2",
     "dollar",
@@ -307,7 +287,7 @@ const displayFinancialStatementComponent = () => {
 
   createAndRenderFSChart(
     "#propertyAndEquipment_chart",
-    parsedData["propertyAndEquipmentData"],
+    parsedData,
     "propertyAndEquipment_Client",
     "#459B53",
     "dollar",
@@ -319,73 +299,54 @@ const displayFinancialStatementComponent = () => {
 // Financial Position
 const displayFinancialPositionComponent = () => {
   // console.log('hit');
-  const keys = ["currentRatioData", "liquidityData"];
-  const parsedData = {};
 
-  keys.forEach((key) => {
-    const storedData = getStoredData(key);
-    parsedData[key] = parseStoredData(storedData);
-  });
-
+  const storedData = getStoredData("financialPositionData");
+  parsedData = parseStoredData(storedData);
   // console.log(parsedData);
 
   // getCurrentRatioChartOptions(parsedData["currentRatioData"])
 
   currentRatio_chart = new ApexCharts(
     document.querySelector("#currentRatio_chart"),
-    getCurrentRatioChartOptions(parsedData["currentRatioData"])
+    getCurrentRatioChartOptions(parsedData)
   );
   currentRatio_chart.render();
   document.addEventListener("dark-mode", function () {
     currentRatio_chart.updateOptions(
-      getCurrentRatioChartOptions(parsedData["currentRatioData"])
+      getCurrentRatioChartOptions(parsedData)
     );
   });
 
   // getLiquidityChartOptions
   //   const liquidityChart = new ApexCharts(
   //     document.querySelector("#liquidity_chart"),
-  //     getLiquidityChartOptions(parsedData["liquidityData"])
+  //     getLiquidityChartOptions(parsedData)
   //   );
   //   liquidityChart.render();
   //   document.addEventListener("dark-mode", function () {
   //     liquidityChart.updateOptions(
-  //       getLiquidityChartOptions(parsedData["liquidityData"])
+  //       getLiquidityChartOptions(parsedData)
   //     );
   //   });
 };
 
 // Revenue and Expense
 const displayRevenueAndExpenseComponent = () => {
-  const keys = [
-    "salariesAndBenefitsToTotalExpenseData",
-    "averageEmployeeSalaryData",
-    "salariesAndBenefitsPerNetTuitionData",
-    "adminCostsPerStudentData",
-    "netEducationalExpensePerStudentData",
-    "annualTraditionalNetTuitionPerStudentData",
-    "tuitionDependencyData",
-    "tuitionDiscountRateData",
-  ];
-  const parsedData = {};
-
-  keys.forEach((key) => {
-    const storedData = getStoredData(key);
-    parsedData[key] = parseStoredData(storedData);
-  });
+  const storedData = getStoredData("revenueExpenseData");
+  parsedData = parseStoredData(storedData);
 
   // salariesAndBenefitsToTotalExpenseData
   salariesBenefitsToTotalExpense_chart = new ApexCharts(
     document.querySelector("#salariesBenefitsToTotalExpense_chart"),
     getSalariesAndBenefitsToTotalExpenseChartOptions(
-      parsedData["salariesAndBenefitsToTotalExpenseData"]
+      parsedData
     )
   );
   salariesBenefitsToTotalExpense_chart.render();
   document.addEventListener("dark-mode", function () {
     salariesBenefitsToTotalExpense_chart.updateOptions(
       getSalariesAndBenefitsToTotalExpenseChartOptions(
-        parsedData["salariesAndBenefitsToTotalExpenseData"]
+        parsedData
       )
     );
   });
@@ -394,45 +355,45 @@ const displayRevenueAndExpenseComponent = () => {
   // const averageEmployeeSalary_chart = new ApexCharts(
   //   document.querySelector("#averageEmployeeSalary_chart"),
   //   getAverageEmployeeSalaryChartOptions(
-  //     parsedData["averageEmployeeSalaryData"]
+  //     parsedData]
   //   )
   // );
   // averageEmployeeSalary_chart.render();
   // document.addEventListener("dark-mode", function () {
   //   averageEmployeeSalary_chart.updateOptions(
   //     getAverageEmployeeSalaryChartOptions(
-  //       parsedData["averageEmployeeSalaryData"]
+  //       parsedData]
   //     )
   //   );
   // });
 
-  // getSalariesAndBenefitsPerNetTuitionChartOptions(parsedData["salariesAndBenefitsPerNetTuitionData"])
+  // getSalariesAndBenefitsPerNetTuitionChartOptions(parsedData)
   salariesBenefitsPerNetTuition_chart = new ApexCharts(
     document.querySelector("#salariesBenefitsPerNetTuition_chart"),
     getSalariesAndBenefitsPerNetTuitionChartOptions(
-      parsedData["salariesAndBenefitsPerNetTuitionData"]
+      parsedData
     )
   );
   salariesBenefitsPerNetTuition_chart.render();
   document.addEventListener("dark-mode", function () {
     salariesBenefitsPerNetTuition_chart.updateOptions(
       getSalariesAndBenefitsPerNetTuitionChartOptions(
-        parsedData["salariesAndBenefitsPerNetTuitionData"]
+        parsedData
       )
     );
   });
 
   // adminCostsPerStudent
-  // getAdminCostsPerStudentChartOptions(parsedData["adminCostsPerStudentData"])
+  // getAdminCostsPerStudentChartOptions(parsedData)
   // const adminCostsPerStudent_chart = new ApexCharts(
   //   document.querySelector("#adminCostsPerStudent_chart"),
-  //   getAdminCostsPerStudentChartOptions(parsedData["adminCostsPerStudentData"])
+  //   getAdminCostsPerStudentChartOptions(parsedData)
   // );
   // adminCostsPerStudent_chart.render();
   // document.addEventListener("dark-mode", function () {
   //   adminCostsPerStudent_chart.updateOptions(
   //     getAdminCostsPerStudentChartOptions(
-  //       parsedData["adminCostsPerStudentData"]
+  //       parsedData
   //     )
   //   );
   // });
@@ -443,43 +404,43 @@ const displayRevenueAndExpenseComponent = () => {
   netEducationalExpensePerStudent_chart = new ApexCharts(
     document.querySelector("#netEducationalExpensePerStudent_chart"),
     getNetEducationalExpensePerStudentChartOptions(
-      parsedData["netEducationalExpensePerStudentData"]
+      parsedData
     )
   );
   netEducationalExpensePerStudent_chart.render();
   document.addEventListener("dark-mode", function () {
     netEducationalExpensePerStudent_chart.updateOptions(
       getNetEducationalExpensePerStudentChartOptions(
-        parsedData["netEducationalExpensePerStudentData"]
+        parsedData
       )
     );
   });
 
   getAnualTraditionalNetTuitionPerStudentChartOptions(
-    parsedData["annualTraditionalNetTuitionPerStudentData"]
+    parsedData
   );
 
-  getTuitionDependencyChartOptions(parsedData["tuitionDependencyData"]);
+  getTuitionDependencyChartOptions(parsedData)
   tuitionDependency_chart = new ApexCharts(
     document.querySelector("#tuitionDependency_chart"),
-    getTuitionDependencyChartOptions(parsedData["tuitionDependencyData"])
+    getTuitionDependencyChartOptions(parsedData)
   );
   tuitionDependency_chart.render();
   document.addEventListener("dark-mode", function () {
     tuitionDependency_chart.updateOptions(
-      getTuitionDependencyChartOptions(parsedData["tuitionDependencyData"])
+      getTuitionDependencyChartOptions(parsedData)
     );
   });
 
-  // getTuitionDiscountRateChartOptions(parsedData["tuitionDiscountRateData"])
+  // getTuitionDiscountRateChartOptions(parsedData)
   tuitionDiscountRate_chart = new ApexCharts(
     document.querySelector("#tuitionDiscountRate_chart"),
-    getTuitionDiscountRateChartOptions(parsedData["tuitionDiscountRateData"])
+    getTuitionDiscountRateChartOptions(parsedData)
   );
   tuitionDiscountRate_chart.render();
   document.addEventListener("dark-mode", function () {
     tuitionDiscountRate_chart.updateOptions(
-      getTuitionDiscountRateChartOptions(parsedData["tuitionDiscountRateData"])
+      getTuitionDiscountRateChartOptions(parsedData)
     );
   });
 };
@@ -492,55 +453,44 @@ toggleDetailsByIdentifier("tuitionDiscountRate");
 
 // Debt and Endowment
 const displayDebtAndEndowmentComponent = () => {
-  const keys = [
-    "ltDebtPerTotalOperatingRevenueData",
-    "debtServiceCoverageRatioData",
-    "debtBurdenRatioData",
-    "endowmentOperatingBudgetData",
-    "endowmentAssetsPerStudentData",
-  ];
-  const parsedData = {};
-
-  keys.forEach((key) => {
-    const storedData = getStoredData(key);
-    parsedData[key] = parseStoredData(storedData);
-  });
+  const storedData = getStoredData("debtEndowmentData");
+  parsedData = parseStoredData(storedData);
 
   // ltDebtPerTotalOperatingRevenue
   ltDebtPerTotalOperatingRevenue_chart = new ApexCharts(
     document.querySelector("#ltDebtPerTotalOperatingRevenue_chart"),
     getLtDebtPerTotalOperatingRevenueChartOptions(
-      parsedData["ltDebtPerTotalOperatingRevenueData"]
+      parsedData
     )
   );
   ltDebtPerTotalOperatingRevenue_chart.render();
   document.addEventListener("dark-mode", function () {
     ltDebtPerTotalOperatingRevenue_chart.updateOptions(
       getLtDebtPerTotalOperatingRevenueChartOptions(
-        parsedData["ltDebtPerTotalOperatingRevenueData"]
+        parsedData
       )
     );
   });
 
   // debtServiceCoverageRatio
   getDebtServiceCoverageChartOptions(
-    parsedData["debtServiceCoverageRatioData"]
+    parsedData
   );
 
   // debtBurdenRatio
   debtBurdenRatio_chart = new ApexCharts(
     document.querySelector("#debtBurdenRatio_chart"),
-    getDebtBurdenRatioChartOptions(parsedData["debtBurdenRatioData"])
+    getDebtBurdenRatioChartOptions(parsedData)
   );
   debtBurdenRatio_chart.render();
   document.addEventListener("dark-mode", function () {
     debtBurdenRatio_chart.updateOptions(
-      getDebtBurdenRatioChartOptions(parsedData["debtBurdenRatioData"])
+      getDebtBurdenRatioChartOptions(parsedData)
     );
   });
 
   // endowmentOperatingBudget
-  getEndowmentOperatingChartOptions(parsedData["endowmentOperatingBudgetData"]);
+  getEndowmentOperatingChartOptions(parsedData)
 
   // endowmentAssetsPerStudentMap
   // getEndowmentAssetsPerStudentMapOptions();
@@ -549,14 +499,14 @@ const displayDebtAndEndowmentComponent = () => {
   endowmentAssetsPerStudent_chart = new ApexCharts(
     document.querySelector("#endowmentAssetsPerStudent_chart"),
     getEndowmentAssetsPerStudentChartOptions(
-      parsedData["endowmentAssetsPerStudentData"]
+      parsedData
     )
   );
   endowmentAssetsPerStudent_chart.render();
   document.addEventListener("dark-mode", function () {
     endowmentAssetsPerStudent_chart.updateOptions(
       getEndowmentAssetsPerStudentChartOptions(
-        parsedData["endowmentAssetsPerStudentData"]
+        parsedData
       )
     );
   });
