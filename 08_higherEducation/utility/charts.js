@@ -641,8 +641,8 @@ const getFSchartOptions = (
   tableDataClass
 ) => {
   // if (chartId == "#assets_chart")
+  // console.log('getFSchartOptions', { yearsData_Array, client, 'data[client]': data[client], numType, title, chartId });
   //   console.log({ data, client, color, numType, title, chartId });
-  console.log({ data, client, 'data[client]': data[client], numType, title, chartId });
 
   const clientString = client.replace("_Client", "");
 

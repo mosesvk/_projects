@@ -3194,7 +3194,7 @@ class AppController {
       let recordsClient;
       try {
         recordsClient = await this.apiService.getRecordsForClient(
-          selectedYears
+          yearsData_Array
         );
 
         window.testRecordsClient = recordsClient;
@@ -3429,7 +3429,7 @@ class AppController {
       displayFinancialPositionComponent();
       displayRevenueAndExpenseComponent();
       displayDebtAndEndowmentComponent();
-
+      displayReportComponent();
       // Signal that all components have been displayed
       document.dispatchEvent(new CustomEvent('componentsDisplayed'));
 

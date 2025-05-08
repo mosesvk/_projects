@@ -902,8 +902,8 @@ function setupDropdownToggle(selectElementId, optionsListId) {
 }
 
 const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
-  console.log('addUniqueClientsToOptionsSelectClientDropdown', {clientArray});
-  
+  console.log("addUniqueClientsToOptionsSelectClientDropdown", { clientArray });
+
   const optionsListClient = document.getElementById("options-list-client");
   if (!optionsListClient) {
     console.error("Client options list element not found");
@@ -1894,29 +1894,51 @@ const displayFSSummary = (chart, idx) => {
   // console.log({ summaryDiv, idx });
 };
 
-function createFSTable(tableDataClass, data, idString, year) {
-  // console.log({ tableDataClass, data, idString, year });
+function createFSTable(
+  tableDataClass,
+  arrayData,
+  idString,
+  year,
+  dataObject
+) {
+  console.log("createFSTable", {
+    tableDataClass,
+    arrayData,
+    idString,
+    year,
+    dataObject,
+  });
 
   const tableHeaderData = document.getElementById(`${idString}_yearSelectData`);
   const tableHeaderYear = document.getElementById(`${idString}_yearSelect`);
-  let index = yearsData_Array.indexOf(year);
-  const totalNum = Number(data[data.length - 1]);
+  const totalNum = dataObject[`${idString}_Client`][year].value;
+  const isTotalNumString = typeof totalNum === "string";
 
   tableHeaderYear.textContent = `(${year})`;
-  tableHeaderData.textContent = `$${totalNum.toLocaleString()}`;
+  tableHeaderData.textContent = `$${isTotalNumString ? Number(totalNum).toLocaleString() : totalNum.toLocaleString()}`;
 
   const tableDataArray = document.querySelectorAll(`.${tableDataClass}`);
 
   // console.log({ tableDataArray });
   tableDataArray.forEach((item, idx) => {
-    const dataPoint = Number(data[idx]).toLocaleString();
+    const dataPoint = Number(arrayData[idx]).toLocaleString();
     // console.log({ dataPoint });
     item.textContent = `$${dataPoint}`;
   });
 }
 
-function processFinancialData(dataObject, tableDataClass, year, idString) {
-  // console.log({ dataObject, tableDataClass, year, idString });
+function processFinancialData(
+  dataObject,
+  tableDataClass,
+  year,
+  idString,
+) {
+  console.log("processFinancialData - utility.js", {
+    dataObject,
+    tableDataClass,
+    year,
+    idString,
+  });
 
   // Create an array of values for the current year
   let arrayData = [];
@@ -1926,7 +1948,7 @@ function processFinancialData(dataObject, tableDataClass, year, idString) {
     }
   }
   // Call the createFSTable function with the tableId and arrayData
-  createFSTable(tableDataClass, arrayData, idString, year);
+  createFSTable(tableDataClass, arrayData, idString, year, dataObject);
 }
 
 function toggleDetails(button, details, arrowIcon) {
@@ -1959,8 +1981,16 @@ function createAndRenderFSChart(
   label,
   tableDataClass
 ) {
-  // if (tableDataClass == 'totalAssets_dataPoint') 
-    console.log({ chartId, parsedData, dataKey, color, currency, label });
+  // if (tableDataClass == 'totalAssets_dataPoint')
+  console.log("createAndRenderFSChart", {
+    yearsData_Array,
+    chartId,
+    parsedData,
+    dataKey,
+    color,
+    currency,
+    label,
+  });
   // Create the chart
   const chart = new ApexCharts(
     document.querySelector(chartId),

@@ -173,7 +173,7 @@ toggleDetailsByIdentifier("ffa");
 const displayFinancialStatementComponent = () => {
     const storedData = getStoredData("financialStatementData");
     parsedData = parseStoredData(storedData);
-  console.log({ parsedData });
+  console.log('displayFinancialStatementComponent',{ parsedData });
 
   createAndRenderFSChart(
     "#assets_chart",

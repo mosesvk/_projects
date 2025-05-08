@@ -3,13 +3,22 @@ const displayReportComponent = () => {
 
   const cfiData = JSON.parse(localStorage.getItem("cfiData"));
   const financialAnalysisContentData = JSON.parse(
-    localStorage.getItem("financialAnalysisContentData")
+    localStorage.getItem("financialAnalysisData")
   );
   const financialStatementContentData = JSON.parse(
-    localStorage.getItem("financialStatementContentData")
+    localStorage.getItem("financialStatementData")
   );
   const years = getSelectedYearsFromLocalStorage();
   const selectedYears = years && years.sort((a, b) => a - b);
+
+  console.log(
+    'displayReportComponent',
+    {
+    cfiData,
+    financialAnalysisContentData,
+    financialStatementContentData,
+    selectedYears,
+  });
 
   if (selectedYears) {
     insertDataToReport(
@@ -182,7 +191,7 @@ const insertDataToFfaReport = (data, selectedYears) => {
       : "-";
 
   const servicesSuppliesAndOtherClient = Number(
-    data["ffa_servicesSuppliesAndOther_Client"][currentYear].value
+    data["ffa_servicesSuppliesOther_Client"][currentYear].value
   );
   const occupancyUtilitiesAndMaintenanceClient = Number(
     data["ffa_occupancyUtilitiesAndMaintenance_Client"][currentYear].value
@@ -244,6 +253,7 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
     ["Auxiliary", "revenueAuxiliaryActivities"],
     ["Contributions", "revenueContributions"],
     ["Investments", "revenueInvestmentIncome"],
+    ["Net Assets Released", "netAssetsReleased"],
     ["Other", "revenueOther"],
   ];
 
