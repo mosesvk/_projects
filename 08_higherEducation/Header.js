@@ -209,8 +209,7 @@ function clientMatchesFilters(
     : false;
 
   if (
-    clientData.name === "Life Pacific University" ||
-    clientData.name === "Lipscomb University"
+    clientData.name === "Briercrest College and Seminary" 
   ) {
     console.log("clientMatchesFilters", {
       clientData,
@@ -245,10 +244,16 @@ function clientMatchesFilters(
   );
 }
 
+
+
 /**
  * Updates client dropdown checkboxes based on current filter criteria
  * Acts as the primary filter implementation that Utility.js will defer to
  */
+
+// Initialize prevMatchCount outside the function
+let prevMatchCount = 0;
+
 function updateClientDropdownFilters() {
   // console.log("Running client dropdown filter update");
 
@@ -271,13 +276,6 @@ function updateClientDropdownFilters() {
   const minEnrollment = window.sliderValue || 0;
   const maxEnrollment = window.sliderValue2 || 25000;
 
-  // console.log("Current filter criteria:", {
-  //   areas: selectedAreas,
-  //   types: selectedTypes,
-  //   givingRange: [minGiving, maxGiving],
-  //   missionRange: [minMission, maxMission],
-  // });
-
   // Get all client checkboxes
   const clientCheckboxes = document.querySelectorAll(
     '#options-list-client input[type="checkbox"]'
@@ -292,11 +290,6 @@ function updateClientDropdownFilters() {
   window.selectedClients_Array.clear();
   let matchCount = 0;
   let totalClientCount = 0;
-
-  // console.log({
-  //   selectedTypes,
-  //   selectedAreas
-  // });
 
   // Process each client checkbox (skip the select all checkbox)
   clientCheckboxes.forEach((checkbox) => {
@@ -344,12 +337,19 @@ function updateClientDropdownFilters() {
     selectAllCheckbox.indeterminate = !allSelected && !noneSelected;
   }
 
+  // Only show toast if matchCount has changed
+  if (matchCount !== prevMatchCount) {
+    createToastSuccess(`${matchCount} clients match your filter criteria`);
+  }
+  
+  // Update prevMatchCount for next comparison
+  prevMatchCount = matchCount;
+
   console.log(
     `Filter completed: ${matchCount} of ${totalClientCount} clients match current filters`
   );
   console.log("Selected clients:", Array.from(window.selectedClients_Array));
 }
-
 /**
  * Updates the state of the "select all" checkbox based on individual client selections
  */
@@ -556,7 +556,7 @@ function addUniqueRegionsToOptionsSelectRegionsDropdown(regionArray) {
     const newListItem = document.createElement("li");
     newListItem.style.listStyleType = "none";
 
-    const newDiv = document.createElement("div");
+    const newDiv = document.createElement("label");
     newDiv.setAttribute(
       "class",
       "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
@@ -700,7 +700,7 @@ function addUniqueStatesToOptionsSelectStatesDropdown(stateArray) {
     const newListItem = document.createElement("li");
     newListItem.style.listStyleType = "none";
 
-    const newDiv = document.createElement("div");
+    const newDiv = document.createElement("label");
     newDiv.setAttribute(
       "class",
       "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"

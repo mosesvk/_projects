@@ -5,7 +5,7 @@ let cfiRatioChart, assetsChart;
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
 const regions_Array = [
-  { arr: ["NorthEast"], str: "NorthEast" },
+  { arr: ["Northeast"], str: "Northeast" },
   {
     arr: ["West"],
     str: "West",
@@ -71,6 +71,7 @@ const states_Array = [
   { arr: ["PR"], str: "PR" },
   { arr: ["RI"], str: "RI" },
   { arr: ["SC"], str: "SC" },
+  { arr: ["SK"], str: "SK" },
   { arr: ["SD"], str: "SD" },
   { arr: ["TN"], str: "TN" },
   { arr: ["TX"], str: "TX" },
@@ -85,7 +86,7 @@ const states_Array = [
   { arr: ["WY"], str: "WY" },
 ];
 const types_Array = [
-  { arr: ["Bible College / University"], str: "Bible College / University" },
+  { arr: ["Bible College/University"], str: "Bible College/University" },
   { arr: ["Category I (Doctoral)"], str: "Category I (Doctoral)" },
   { arr: ["Category IIA (Master's)"], str: "Category IIA (Master's)" },
   {
@@ -99,6 +100,7 @@ const types_Array = [
     arr: ["Liberal Arts & Bible College"],
     str: "Liberal Arts & Bible College",
   },
+  { arr: ["Unspecified"], str: "Unspecified" },
 ];
 const memberships_Array = [
   { arr: ["ABACC"], str: "ABACC" },
@@ -321,7 +323,7 @@ const createToastSuccess = (textString) => {
       </svg>
       <span class="sr-only">success</span>
     </div>
-    <div class="ms-3 text-sm font-normal">${textString}</div>
+    <div class="ms-3 text-lg font-normal">${textString}</div>
     <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
         <span class="sr-only">Close</span>
         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -330,17 +332,7 @@ const createToastSuccess = (textString) => {
     </button>
   `;
 
-  const closeButton = toastSuccessDiv.querySelector(
-    '[data-dismiss-target="#toast-success"]'
-  );
-  closeButton.addEventListener("click", (event) => {
-    event.stopPropagation(); // Prevent propagation to the toast
-    toastSuccessDiv.remove();
-  });
-
-  document.body.appendChild(toastSuccessDiv);
-
-  // Event listener to close the toast when clicking outside of it
+  // Create click outside handler
   const clickOutsideHandler = (event) => {
     if (!toastSuccessDiv.contains(event.target)) {
       toastSuccessDiv.remove();
@@ -348,9 +340,19 @@ const createToastSuccess = (textString) => {
     }
   };
 
-  setTimeout(() => {
-    document.body.addEventListener("click", clickOutsideHandler);
-  }, 100); // Delay adding the event listener to prevent immediate removal
+  // Add click outside listener
+  document.body.addEventListener("click", clickOutsideHandler);
+
+  // Add close button handler
+  const closeButton = toastSuccessDiv.querySelector(
+    '[data-dismiss-target="#toast-success"]'
+  );
+  closeButton.addEventListener("click", () => {
+    toastSuccessDiv.remove();
+    document.body.removeEventListener("click", clickOutsideHandler);
+  });
+
+  document.body.appendChild(toastSuccessDiv);
 };
 
 const createChartFromParsedData = (
@@ -1894,13 +1896,7 @@ const displayFSSummary = (chart, idx) => {
   // console.log({ summaryDiv, idx });
 };
 
-function createFSTable(
-  tableDataClass,
-  arrayData,
-  idString,
-  year,
-  dataObject
-) {
+function createFSTable(tableDataClass, arrayData, idString, year, dataObject) {
   console.log("createFSTable", {
     tableDataClass,
     arrayData,
@@ -1915,7 +1911,11 @@ function createFSTable(
   const isTotalNumString = typeof totalNum === "string";
 
   tableHeaderYear.textContent = `(${year})`;
-  tableHeaderData.textContent = `$${isTotalNumString ? Number(totalNum).toLocaleString() : totalNum.toLocaleString()}`;
+  tableHeaderData.textContent = `$${
+    isTotalNumString
+      ? Number(totalNum).toLocaleString()
+      : totalNum.toLocaleString()
+  }`;
 
   const tableDataArray = document.querySelectorAll(`.${tableDataClass}`);
 
@@ -1927,12 +1927,7 @@ function createFSTable(
   });
 }
 
-function processFinancialData(
-  dataObject,
-  tableDataClass,
-  year,
-  idString,
-) {
+function processFinancialData(dataObject, tableDataClass, year, idString) {
   console.log("processFinancialData - utility.js", {
     dataObject,
     tableDataClass,
