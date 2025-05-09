@@ -176,7 +176,7 @@ const ChartDisplayComponents = {
         "dollar",
         0,
         "totalContributions",
-        null 
+        "wa" // Add weighted average
       );
 
       // Contributions Without DR
@@ -188,7 +188,7 @@ const ChartDisplayComponents = {
         "dollar",
         0,
         "contributionsWithoutDR",
-        null // Add weighted average
+        "wa" // Add weighted average
       );
 
       // Contributions Trend
@@ -200,7 +200,7 @@ const ChartDisplayComponents = {
         "percent",
         0,
         "contributionsTrend",
-        null // Add weighted average
+        "wa" // Add weighted average
       );
 
       // Annualized Investment Return
@@ -289,7 +289,7 @@ const ChartDisplayComponents = {
         "dollar",
         2,
         "costOfContributionsDetailView",
-        "wa" // Add weighted average
+        "wa" // Ensure weighted average
       );
 
       // Cost of Contributions
@@ -389,68 +389,30 @@ window.displayComponents = function (componentName) {
   }
 };
 
-// Any other global functions from displayCharts.js that might be needed
-// Add them here to ensure full backward compatibility
-
-// Ensure chart instances are available globally
-window.daysCashOnHand_chart = null;
-window.daysExpensesInUnrestrictedNA_chart = null;
-window.daysExpensesInUnrestrictedNA_excludingPPE_chart = null;
-window.liquidityAssetsAvailableCover_chart = null;
-window.totalCoverageRatio_chart = null;
-window.assetsWithoutPpeToLiabilitiesWithoutDebt_chart = null;
-window.contributionsTrend_chart = null;
-window.annualizedInvestmentReturn_chart = null;
-window.functionalExpensePercent_program_chart = null;
-window.functionalExpensePercent_administrative_chart = null;
-window.functionalExpensePercent_fundraising_chart = null;
-window.costOfContributionsDetailView_chart = null;
-window.costOfContributions_chart = null;
-window.functionalAllocation_chart = null;
-window.netAssetBreakdown_chart = null;
-window.changeInNetAssets_chart = null;
-window.totalContributions_chart = null;
-window.contributionsWithoutDR_chart = null;
-window.statementCashFlows_chart = null;
-
-// Helper function to make the global chart references point to chart instances
-function updateGlobalChartReferences() {
-  // This function updates the global variables to point to actual chart instances
-  const chartIds = [
-    "daysCashOnHand_chart",
-    "daysExpensesInUnrestrictedNA_chart",
-    "daysExpensesInUnrestrictedNA_excludingPPE_chart",
-    "liquidityAssetsAvailableCover_chart",
-    "totalCoverageRatio_chart",
-    "assetsWithoutPpeToLiabilitiesWithoutDebt_chart",
-    "contributionsTrend_chart",
-    "annualizedInvestmentReturn_chart",
-    "functionalExpensePercent_program_chart",
-    "functionalExpensePercent_administrative_chart",
-    "functionalExpensePercent_fundraising_chart",
-    "costOfContributionsDetailView_chart",
-    "costOfContributions_chart",
-    "functionalAllocation_chart",
-    "netAssetBreakdown_chart",
-    "changeInNetAssets_chart",
-    "totalContributions_chart",
-    "contributionsWithoutDR_chart",
-    "statementCashFlows_chart",
-  ];
-
-  chartIds.forEach((id) => {
-    const chart = chartManager.getChart(id);
-    if (chart) {
-      window[id] = chart;
-    }
-  });
-}
-
 // Call this function after charts are rendered
 document.addEventListener("chartsRendered", updateGlobalChartReferences);
+
+// Also fix numType values after charts are rendered
+document.addEventListener("chartsRendered", function() {
+  // Give charts a moment to fully initialize their globals
+  setTimeout(() => {
+    console.log("Running chart numType fix...");
+    if (chartManager && typeof chartManager.fixChartNumTypes === 'function') {
+      chartManager.fixChartNumTypes();
+    }
+  }, 500);
+});
 
 // Also call it after the window loads
 window.addEventListener("load", () => {
   // Give some time for charts to render
   setTimeout(updateGlobalChartReferences, 1000);
+  
+  // Also fix numType values
+  setTimeout(() => {
+    console.log("Running chart numType fix on window load...");
+    if (chartManager && typeof chartManager.fixChartNumTypes === 'function') {
+      chartManager.fixChartNumTypes();
+    }
+  }, 1500);
 });

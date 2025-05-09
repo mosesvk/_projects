@@ -325,6 +325,16 @@ class ChartConfigFactory {
     //   mainName === "annualizedInvestmentReturn";
     // const isCostOfContributions = mainName === "costOfContributions";
 
+    console.log('createMainChartConfig', {
+      dataPeer,
+      dataClient,
+      numType,
+      fixedNum,
+      mainName,
+      wa,
+      parsedData,
+    });
+    
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
     // Get chart data with explicit data refresh
@@ -395,9 +405,9 @@ class ChartConfigFactory {
         style: {
           colors: this.themeColors.chartColor,
           fontSize: "1.25rem",
-        },
+        }
       },
-      tooltip: { enabled: true },
+      tooltip: { enabled: true }
     };
 
 
@@ -437,8 +447,8 @@ class ChartConfigFactory {
       },
     ];
 
-    // Return complete chart configuration
-    return {
+    // Store numType in chart's global state
+    const chartConfig = {
       colors: this.themeColors.seriesColors,
       series: series,
       chart: {
@@ -448,6 +458,12 @@ class ChartConfigFactory {
         padding: {
           bottom: 20,
         },
+        // Add numType to chart's global state
+        events: {
+          mounted: function(chart) {
+            chart.w.globals.numType = numType;
+          }
+        }
       },
       dataLabels: {
         enabled: true,
@@ -575,6 +591,8 @@ class ChartConfigFactory {
         },
       },
     };
+
+    return chartConfig;
   }
 
   // Configuration for line charts
@@ -589,15 +607,6 @@ class ChartConfigFactory {
     benchmark,
     title,
   }) {
-    // if (mainName == 'changeInNetAssets') {
-    //   console.log('createLineChartConfig() changeInNetAssets', {
-    //     dataPeer,
-    //     dataClient,
-    //     parsedData
-    //   });
-
-    // }
-
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
     let clientArray = [],
       peerAvg = [],
@@ -606,7 +615,6 @@ class ChartConfigFactory {
       peer75 = [];
 
     try {
-
       // Use the modified data type for data processing
       const result = getPeerAndClientChartDataArrays(
         selectedYearsArray,
@@ -634,7 +642,7 @@ class ChartConfigFactory {
       peer75 = selectedYearsArray.map(() => null);
     }
 
-    // Create formatters based on number type but with special case for annualizedInvestmentReturn
+    // Create formatters based on number type
     const formatters = this._createFormatters(numType);
 
     // Build series array based on available data
@@ -671,7 +679,7 @@ class ChartConfigFactory {
     const allValues = [...clientArray, ...peerAvg].filter(
       (val) => val !== null && val !== undefined
     );
-    const minValue = allValues.length > 0 ? Math.min(...allValues) * 0.9 : 0;
+    const minValue = allValues.length > 0 ? (Math.min(...allValues) > 0 ? 0 : Math.min(...allValues) - 5) : 0;
     const maxValue = allValues.length > 0 ? Math.max(...allValues) * 1.1 : 100;
 
     return {
@@ -684,7 +692,12 @@ class ChartConfigFactory {
       chart: {
         height: 550,
         type: "line",
-
+        // Add numType to chart's global state
+        events: {
+          mounted: function(chart) {
+            chart.w.globals.numType = numType;
+          }
+        },
         title: {
           text: title || mainName,
           align: "top",
@@ -786,7 +799,7 @@ class ChartConfigFactory {
       yaxis: {
         min: minValue,
         max: maxValue,
-        forceNiceScale: true,
+        stepSize: 5,
         axisTicks: {
           show: true,
         },
@@ -795,78 +808,15 @@ class ChartConfigFactory {
           color: this.themeColors.chartColor,
         },
         labels: {
-          formatter: function (value) {
-            if (value === null || value === undefined || value === 0) {
-              return numType === "dollar" ? "$0" : "0";
-            }
-
-            if (numType === "percent") {
-              // Return the value directly with % sign without multiplying by 100
-              return `${value.toFixed(1)}%`;
-            }
-
-            // Handle negative values
-            const isNegative = value < 0;
-            const absValue = Math.abs(value);
-
-            // Apply custom rounding based on magnitude
-            let roundedValue;
-            if (absValue < 100) {
-              // Round to nearest whole number
-              roundedValue = Math.round(absValue);
-            } else if (absValue < 1000) {
-              // Round to nearest 10
-              roundedValue = Math.round(absValue / 10) * 10;
-            } else if (absValue < 10000) {
-              // Round to nearest 100
-              roundedValue = Math.round(absValue / 100) * 100;
-            } else if (absValue < 100000) {
-              // Round to nearest 1,000
-              roundedValue = Math.round(absValue / 1000) * 1000;
-            } else if (absValue < 1000000) {
-              // Round to nearest 10,000
-              roundedValue = Math.round(absValue / 10000) * 10000;
-            } else if (absValue < 10000000) {
-              // Round to nearest 100,000
-              roundedValue = Math.round(absValue / 100000) * 100000;
-            } else if (absValue < 100000000) {
-              // Round to nearest 1,000,000
-              roundedValue = Math.round(absValue / 1000000) * 1000000;
-            } else {
-              // For larger values, round to nearest 10,000,000
-              roundedValue = Math.round(absValue / 10000000) * 10000000;
-            }
-
-            // Apply sign and format
-            roundedValue = isNegative ? -roundedValue : roundedValue;
-
-            // Format based on data type
-            if (numType === "dollar") {
-              if (Math.abs(roundedValue) >= 1000000) {
-                return `$${(roundedValue / 1000000).toFixed(1)}M`;
-              } else if (Math.abs(roundedValue) >= 1000) {
-                return `$${(roundedValue / 1000).toFixed(0)}K`;
-              }
-              return `$${roundedValue}`;
-            } else if (numType === "percent") {
-              return `${roundedValue}%`;
-            } else {
-              if (Math.abs(roundedValue) >= 1000000) {
-                return `${(roundedValue / 1000000).toFixed(1)}M`;
-              } else if (Math.abs(roundedValue) >= 1000) {
-                return `${(roundedValue / 1000).toFixed(0)}K`;
-              }
-              return roundedValue.toString();
-            }
-          },
+          formatter: formatters.yaxisLabelFormatter,
           style: {
             colors: this.themeColors.chartColor,
             fontSize: "1.25rem",
-          },
+          }
         },
         tooltip: {
           enabled: true,
-        },
+        }
       },
       tooltip: {
         enabled: true,
@@ -880,30 +830,7 @@ class ChartConfigFactory {
           offsetX: 60,
         },
         y: {
-          formatter: function (value) {
-            if (value === null || value === undefined) return "";
-            // Format the value based on data type with exact decimal places
-            if (numType === "dollar") {
-              // For dollar type, add $ prefix and format with fixedNum decimal places
-              if (Math.abs(value) >= 1000000) {
-                return `$${(value / 1000000).toFixed(fixedNum)}M`;
-              } else if (Math.abs(value) >= 1000) {
-                return `$${(value / 1000).toFixed(fixedNum)}K`;
-              }
-              return `$${value.toFixed(fixedNum)}`;
-            } else if (numType === "percent") {
-              // For percent type, format with fixedNum decimal places and add % suffix
-              return `${value.toFixed(fixedNum)}%`;
-            } else {
-              // For regular numbers, just format with fixedNum decimal places
-              if (Math.abs(value) >= 1000000) {
-                return `${(value / 1000000).toFixed(fixedNum)}M`;
-              } else if (Math.abs(value) >= 1000) {
-                return `${(value / 1000).toFixed(fixedNum)}K`;
-              }
-              return value.toFixed(fixedNum);
-            }
-          },
+          formatter: formatters.tooltipFormatter,
           title: {
             formatter: (seriesName) => `${seriesName}:`,
           },
@@ -983,6 +910,12 @@ class ChartConfigFactory {
       chart: {
         type: "bar",
         height: 550,
+        // Add numType to chart's global state
+        events: {
+          mounted: function(chart) {
+            chart.w.globals.numType = 'dollar';
+          }
+        },
         padding: {
           bottom: 20,
         },
@@ -1030,7 +963,7 @@ class ChartConfigFactory {
           },
           tooltip: {
             enabled: true,
-          },
+          }
         },
       ],
       tooltip: {
@@ -1232,6 +1165,12 @@ class ChartConfigFactory {
           height: 550,
           type: "bar",
           stacked: true,
+          // Add numType to chart's global state
+          events: {
+            mounted: function(chart) {
+              chart.w.globals.numType = 'percent';
+            }
+          },
           toolbar: {
             show: false,
           },
@@ -1261,7 +1200,7 @@ class ChartConfigFactory {
               colors: this.themeColors.chartColor,
               fontSize: "1.25rem",
             },
-          },
+          }
         },
         legend: {
           horizontalAlign: "center",
@@ -1341,7 +1280,7 @@ class ChartConfigFactory {
   createCostOfContributionsConfig({
     dataPeer,
     dataClient,
-    numType,
+    numType = 'dollar',
     fixedNum = 2,
     mainName,
     wa,
@@ -1499,6 +1438,12 @@ class ChartConfigFactory {
         height: 550,
         type: "line",
         stacked: false,
+        // Add numType to chart's global state
+        events: {
+          mounted: function(chart) {
+            chart.w.globals.numType = numType;
+          }
+        },
         toolbar: {
           show: false,
         },
@@ -1725,6 +1670,12 @@ class ChartConfigFactory {
       chart: {
         height: 550,
         type: "bar",
+        // Add numType to chart's global state
+        events: {
+          mounted: function(chart) {
+            chart.w.globals.numType = numType;
+          }
+        },
         padding: {
           bottom: 20,
         },
@@ -1797,7 +1748,7 @@ class ChartConfigFactory {
             colors: this.themeColors.chartColor,
             fontSize: "1.25rem",
           },
-        },
+        }
       },
       tooltip: {
         y: {
@@ -1834,39 +1785,53 @@ class ChartConfigFactory {
     const self = this; // Capture 'this' reference to use inside formatters
 
     return {
-      yaxisLabelFormatter: (value) => {
-        if (value === null || value === undefined || value === 0) {
-          return numType === "dollar" ? "$0" : "0";
+      yaxisLabelFormatter: function(value) {
+        // Get numType from chart context if available
+        if (this && this.w && this.w.globals && this.w.globals.numType) {
+          numType = this.w.globals.numType;
         }
-
-
+        
+        if (value === null || value === undefined || value === 0) {
+          return numType === "dollar" ? "$0" : numType === "percent" ? "0%" : "0";
+        }
 
         // Use the custom rounding helper with isYAxis=true
         return self._roundValueByMagnitude(value, numType, true);
       },
 
-      tooltipFormatter: (value) => {
+      tooltipFormatter: function(value) {
+        // Get numType from chart context if available
+        if (this && this.w && this.w.globals && this.w.globals.numType) {
+          numType = this.w.globals.numType;
+        }
+        
         if (value === null || value === undefined) return "";
-
-
 
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);
       },
 
-      formatLargeNumber: (value) => {
+      formatLargeNumber: function(value) {
+        // Get numType from chart context if available
+        if (this && this.w && this.w.globals && this.w.globals.numType) {
+          numType = this.w.globals.numType;
+        }
+        
         if (value === null || value === undefined || value === 0) {
-          return numType === "dollar" ? "$0" : "0";
+          return numType === "dollar" ? "$0" : numType === "percent" ? "0%" : "0";
         }
 
         // Use the custom rounding helper with isYAxis=false
         return self._roundValueByMagnitude(value, numType, false);
       },
 
-      dataLabelFormatter: (value) => {
+      dataLabelFormatter: function(value) {
+        // Get numType from chart context if available
+        if (this && this.w && this.w.globals && this.w.globals.numType) {
+          numType = this.w.globals.numType;
+        }
+        
         if (value === null || value === undefined) return "";
-
-
 
         // Use the custom rounding helper with isYAxis=false
         if (value > 10000) {
@@ -1939,7 +1904,7 @@ class ChartConfigFactory {
   // Handles custom rounding based on value magnitude
   _roundValueByMagnitude(value, numType, isYAxis = false) {
     if (value === null || value === undefined || value === 0) {
-      return numType === "dollar" ? "$0" : "0";
+      return numType === "dollar" ? "$0" : numType === "percent" ? "0%" : "0";
     }
 
     // Handle negative values

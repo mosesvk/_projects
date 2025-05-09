@@ -206,8 +206,34 @@ class ChartManager {
       total: "cashFlowsTrendTotal", // For cash flow charts
     });
 
+    // Ensure numType is set in chart globals for all chart types
+    if (!chartConfig.chart.events) {
+      chartConfig.chart.events = {};
+    }
+    
+    // Create or modify mounted event to ensure numType is set
+    const originalMounted = chartConfig.chart.events.mounted;
+    chartConfig.chart.events.mounted = function(chartContext) {
+      // Ensure numType is set in chart globals
+      if (chartContext && chartContext.w && chartContext.w.globals) {
+        chartContext.w.globals.numType = dataType;
+        console.log(`Chart ${chartId} mounted with numType: ${dataType}`);
+      }
+      
+      // Call original mounted event if it exists
+      if (typeof originalMounted === 'function') {
+        originalMounted.call(this, chartContext);
+      }
+    };
+
     // Create chart instance
     const chart = this._createAndRenderChart(chartId, chartConfig);
+    
+    // Ensure numType is explicitly set on the chart instance
+    if (chart && chart.w && chart.w.globals) {
+      chart.w.globals.numType = dataType;
+      console.log(`Explicitly set numType for ${chartId}: ${dataType}`);
+    }
 
     // Store chart for reference
     this.charts[chartId] = {
@@ -219,6 +245,7 @@ class ChartManager {
       dataPeer, // Store data references
       dataClient,
       parsedData,
+      numType: dataType, // Store numType for future reference
     };
 
     document.dispatchEvent(new CustomEvent("chartOptionsApplied", { 
@@ -241,46 +268,86 @@ class ChartManager {
 
   // Create a cash flow chart
   createCashFlowChart(chartId, data, cashFlowKeys) {
-    const [financing, investing, operating, total] = cashFlowKeys;
+    try {
+      const chartElement = document.getElementById(chartId);
+      if (!chartElement) {
+        console.error(`Chart element with ID "${chartId}" not found`);
+        return;
+      }
+      chartElement.innerHTML = "";
 
-    const financeData = data[`${financing}_Client`];
-    const investingData = data[`${investing}_Client`];
-    const operatingData = data[`${operating}_Client`];
-    const totalData = data[`${total}_Client`];
+      const [financing, investing, operating, total] = cashFlowKeys;
+      
+      const financeData = data[`${financing}_Client`];
+      const investingData = data[`${investing}_Client`];
+      const operatingData = data[`${operating}_Client`];
+      const totalData = data[`${total}_Client`];
 
-    const selectedYearsArray = getSelectedYearsFromLocalStorage();
+      const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-    // Use the getSeriesData function to generate series data
-    const seriesData = getSeriesData(
-      selectedYearsArray,
-      operatingData,
-      investingData,
-      financeData,
-      totalData
-    );
+      // Use the getSeriesData function to generate series data
+      const seriesData = getSeriesData(
+        selectedYearsArray,
+        operatingData,
+        investingData,
+        financeData,
+        totalData
+      );
 
-    const chartConfig = chartConfigFactory.createConfig("cashFlow", {
-      data,
-      financing: cashFlowKeys[0],
-      investing: cashFlowKeys[1],
-      operating: cashFlowKeys[2],
-      total: cashFlowKeys[3],
-      seriesData, // Add the series data to the config params
-    });
+      // Get chart configuration
+      const chartConfig = chartConfigFactory.createConfig("cashFlow", {
+        data,
+        financing: cashFlowKeys[0],
+        investing: cashFlowKeys[1],
+        operating: cashFlowKeys[2],
+        total: cashFlowKeys[3],
+        seriesData, // Add the series data to the config params
+      });
+      
+      // Ensure numType is set in chart globals for cash flow charts
+      if (!chartConfig.chart.events) {
+        chartConfig.chart.events = {};
+      }
+      
+      // Create or modify mounted event to ensure numType is set
+      const originalMounted = chartConfig.chart.events.mounted;
+      chartConfig.chart.events.mounted = function(chartContext) {
+        // Ensure numType is set in chart globals for cash flow charts
+        if (chartContext && chartContext.w && chartContext.w.globals) {
+          chartContext.w.globals.numType = 'dollar';
+        }
+        
+        // Call original mounted event if it exists
+        if (typeof originalMounted === 'function') {
+          originalMounted.call(this, chartContext);
+        }
+      };
 
-    const chart = this._createAndRenderChart(chartId, chartConfig);
-
-    this.charts[chartId] = {
-      instance: chart,
-      config: chartConfig,
-      type: "cashFlow",
-      name: "cashFlow",
-    };
-
-    // Update corresponding modal
-    this.updateCashFlowModal("cashFlowsTrend", data, cashFlowKeys);
-
-    return chart;
+      // Create chart and store it
+      const chart = this._createAndRenderChart(chartId, chartConfig);
+      
+      // Ensure numType is explicitly set on the chart instance
+      if (chart && chart.w && chart.w.globals) {
+        chart.w.globals.numType = 'dollar';
+        console.log(`Explicitly set numType for ${chartId}: dollar`);
+      }
+      
+      this.charts[chartId] = {
+        instance: chart,
+        config: chartConfig,
+        type: "cashFlow",
+        name: "cashFlow",
+        numType: 'dollar', // Store numType for future reference
+      };
+      
+      // Update corresponding modal
+      this.updateCashFlowModal("cashFlowsTrend", data, cashFlowKeys);
+      
+      return chart;
+    } catch (error) {
+      console.error("Error creating cash flow chart:", error);
+      return null;
+    }
   }
 
   // Handle specialized modal updates for cash flow charts
@@ -392,6 +459,57 @@ class ChartManager {
   // Internal method to create and render chart
   _createAndRenderChart(chartId, config) {
     const chart = new ApexCharts(document.getElementById(chartId), config);
+    
+    // Ensure numType is explicitly set before rendering
+    if (!chart.w) chart.w = {};
+    if (!chart.w.globals) chart.w.globals = {};
+    
+    // Try to get numType from config first
+    let numType = null;
+    
+    // Method 1: Look for numType in the mounted function
+    if (config && config.chart && config.chart.events && config.chart.events.mounted) {
+      const mountedFn = config.chart.events.mounted.toString();
+      // Try more patterns for robustness
+      const patterns = [
+        /numType\s*=\s*['"]([^'"]+)['"]/,
+        /numType\s*=\s*([a-zA-Z0-9_]+)/,
+        /globals\.numType\s*=\s*['"]([^'"]+)['"]/,
+        /globals\.numType\s*=\s*([a-zA-Z0-9_]+)/
+      ];
+      
+      for (let pattern of patterns) {
+        const match = mountedFn.match(pattern);
+        if (match && match[1]) {
+          numType = match[1];
+          break;
+        }
+      }
+    }
+    
+    // Method 2: Look for numType in chart config parameters
+    if (!numType && config && config.numType) {
+      numType = config.numType;
+    }
+    
+    // Method 3: Use special case detection based on chart ID
+    if (!numType) {
+      if (chartId.includes('dollar') || chartId.includes('cost') || 
+          chartId.includes('asset') || chartId.includes('contributions') ||
+          chartId.includes('cashFlow')) {
+        numType = 'dollar';
+      } else if (chartId.includes('percent') || chartId.includes('Percent') || 
+                chartId.includes('functional') || chartId.includes('Allocation')) {
+        numType = 'percent';
+      }
+    }
+    
+    // Set the numType if we found it
+    if (numType) {
+      chart.w.globals.numType = numType;
+      console.log(`Direct numType set for ${chartId}: ${numType}`);
+    }
+    
     chart.render();
 
     // Add event listener for dark mode changes
@@ -481,6 +599,54 @@ class ChartManager {
     };
 
     return categoryMappings[mainName] || null;
+  }
+
+  // Utility function to fix numType for all chart instances
+  fixChartNumTypes() {
+    console.log("Fixing numType for all charts...");
+    
+    // Chart types that should be dollars
+    const dollarCharts = [
+      'totalContributions_chart',
+      'contributionsWithoutDR_chart',
+      'netAssetBreakdown_chart',
+      'changeInNetAssets_chart',
+      'statementCashFlows_chart',
+      'costOfContributions_chart',
+      'costOfContributionsDetailView_chart',
+      'daysCashOnHand_chart',
+      'liquidityAssetsAvailableCover_chart'
+    ];
+    
+    // Chart types that should be percentages
+    const percentCharts = [
+      'functionalExpensePercent_program_chart',
+      'functionalExpensePercent_administrative_chart',
+      'functionalExpensePercent_fundraising_chart',
+      'functionalAllocation_chart',
+      'contributionsTrend_chart',
+      'annualizedInvestmentReturn_chart'
+    ];
+    
+    // Fix dollar charts
+    dollarCharts.forEach(chartId => {
+      const chart = this.getChart(chartId);
+      if (chart && chart.w && chart.w.globals) {
+        chart.w.globals.numType = 'dollar';
+        console.log(`Fixed ${chartId} to dollar`);
+      }
+    });
+    
+    // Fix percent charts
+    percentCharts.forEach(chartId => {
+      const chart = this.getChart(chartId);
+      if (chart && chart.w && chart.w.globals) {
+        chart.w.globals.numType = 'percent';
+        console.log(`Fixed ${chartId} to percent`);
+      }
+    });
+    
+    console.log("Chart numType fixing complete");
   }
 
   // Destroy all charts (cleanup)
