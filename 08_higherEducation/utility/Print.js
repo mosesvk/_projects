@@ -739,24 +739,36 @@ function buildUploadXml(results) {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   uploadXml += createFieldXml(31, firmName);
-  uploadXml += createFieldXml(32, window.uniqueClientSize);
+  
+  // Check if uniqueClientSize exists before using it
+  if (typeof window.uniqueClientSize !== 'undefined') {
+    uploadXml += createFieldXml(32, window.uniqueClientSize);
+  }
+  
   uploadXml += createFieldXml(94, selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(69, window.monthYearEnd);
   uploadXml += createFieldXml(89, sliderValue);
   uploadXml += createFieldXml(90, sliderValue2);
-  uploadXml += createFieldXml(91, Array.from(selectedSeminaries_Array).join(", "));
-  uploadXml += createFieldXml(93, Array.from(selectedRegionals_Array).join(", "));
-  uploadXml += createFieldXml(64, Array.from(selectedRegions_Array).join(", "));
-  uploadXml += createFieldXml(65, Array.from(selectedStates_Array).join(", "));
-  uploadXml += createFieldXml(66, Array.from(selectedMemberships_Array).join(", "));
-  uploadXml += createFieldXml(67, Array.from(selectedTypes_Array).join(", "));
-  uploadXml += createFieldXml(68, Array.from(selectedAthletics_Array).join(", "));
+  uploadXml += createFieldXml(91, Array.from(window.selectedSeminaries_Array).join(", "));
+  uploadXml += createFieldXml(93, Array.from(window.selectedRegionals_Array).join(", "));
+  uploadXml += createFieldXml(64, Array.from(window.selectedRegions_Array).join(", "));
+  uploadXml += createFieldXml(65, Array.from(window.selectedStates_Array).join(", "));
+  uploadXml += createFieldXml(66, Array.from(window.selectedMemberships_Array).join(", "));
+  uploadXml += createFieldXml(67, Array.from(window.selectedTypes_Array).join(", "));
+  uploadXml += createFieldXml(68, Array.from(window.selectedAthletics_Array).join(", "));
 
   // Add each selected year to corresponding fields (73, 74, 75)
   selectedYears.forEach((year, index) => {
     if (index < 8) {  // Only process up to 8 years
       uploadXml += createFieldXml(73 + index, year);
-      uploadXml += createFieldXml(81 + index, window.clientsByYear.get(String(year)).size);
+      
+      // Check if clientsByYear exists and has the year data before accessing it
+      if (window.clientsByYear && typeof window.clientsByYear.get === 'function') {
+        const yearData = window.clientsByYear.get(String(year));
+        if (yearData && yearData.size) {
+          uploadXml += createFieldXml(81 + index, yearData.size);
+        }
+      }
     }
   });
 

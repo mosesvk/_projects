@@ -9,15 +9,15 @@ const getMainChartOptions = (
   chartId
 ) => {
   // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
-  if (mainName == "doeOverall")
-    console.log({   dataPeer,
-      dataClient,
-      numType,
-      fixedNum,
-      mainName,
-      benchmark,
-      title,
-      chartId });
+  // if (mainName == "doeOverall")
+    // console.log({   dataPeer,
+    //   dataClient,
+    //   numType,
+    //   fixedNum,
+    //   mainName,
+    //   benchmark,
+    //   title,
+    //   chartId });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -148,8 +148,6 @@ const getMainChartOptions = (
       // Set the annotation line to match exactly
       annotationLine.setAttribute("x1", x1);
       annotationLine.setAttribute("x2", x2);
-      if (chartId == "cfiRatio_chart")
-        console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
     },
   };
 
@@ -870,7 +868,7 @@ const getFSchartOptions = (
 };
 
 const getFpaChartOptions = (data) => {
-  console.log('getFpaChartOptions', {data});
+  // console.log('getFpaChartOptions', {data});
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 

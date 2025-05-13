@@ -222,7 +222,7 @@ function restoreCompleteChartState(chart, originalState) {
       chartType === "cashFlow" ||
       chartType === "netAssetBreakdown"
     ) {
-      // Use the working restoration logic for these chart types
+      // Use the working restoration logic for these chart types but fix formatters
       restoredConfig = {
         ...originalState.chartConfig,
         xaxis: {
@@ -269,6 +269,67 @@ function restoreCompleteChartState(chart, originalState) {
             },
           },
         },
+        yaxis: Array.isArray(originalState.chartConfig.yaxis) 
+          ? originalState.chartConfig.yaxis.map(axis => {
+              return {
+                ...axis,
+                labels: {
+                  ...axis.labels,
+                  formatter: function(value) {
+                    if (value === null || value === undefined || value === 0) return "0";
+                    
+                    const isNegative = value < 0;
+                    const absValue = Math.abs(value);
+                    
+                    let formattedValue;
+                    if (absValue >= 1000000) {
+                      // Remove decimal point for millions
+                      const millions = absValue / 1000000;
+                      formattedValue = `${Math.round(millions)}M`;
+                    } else if (absValue >= 1000) {
+                      formattedValue = `${Math.round(absValue / 1000)}K`;
+                    } else {
+                      formattedValue = Math.round(absValue).toString();
+                    }
+                    
+                    // Apply currency symbol if needed
+                    if (axis.labels?.formatter?.toString().includes('$')) {
+                      return `${isNegative ? "-" : ""}$${formattedValue}`;
+                    }
+                    return `${isNegative ? "-" : ""}${formattedValue}`;
+                  }
+                }
+              };
+            })
+          : {
+              ...originalState.chartConfig.yaxis,
+              labels: {
+                ...originalState.chartConfig.yaxis?.labels,
+                formatter: function(value) {
+                  if (value === null || value === undefined || value === 0) return "0";
+                  
+                  const isNegative = value < 0;
+                  const absValue = Math.abs(value);
+                  
+                  let formattedValue;
+                  if (absValue >= 1000000) {
+                    // Remove decimal point for millions
+                    const millions = absValue / 1000000;
+                    formattedValue = `${Math.round(millions)}M`;
+                  } else if (absValue >= 1000) {
+                    formattedValue = `${Math.round(absValue / 1000)}K`;
+                  } else {
+                    formattedValue = Math.round(absValue).toString();
+                  }
+                  
+                  // Apply currency symbol if needed
+                  if (originalState.chartConfig.yaxis?.labels?.formatter?.toString().includes('$')) {
+                    return `${isNegative ? "-" : ""}$${formattedValue}`;
+                  }
+                  return `${isNegative ? "-" : ""}${formattedValue}`;
+                }
+              }
+            }
       };
     } else {
       console.log("restoredConfig", {
@@ -394,11 +455,13 @@ function restoreCompleteChartState(chart, originalState) {
 
                       let formattedValue;
                       if (absValue >= 1000000) {
-                        formattedValue = `${(absValue / 1000000).toFixed(1)}M`;
+                        // Round to whole millions for y-axis display
+                        const millions = absValue / 1000000;
+                        formattedValue = `${Math.round(millions)}M`;
                       } else if (absValue >= 1000) {
-                        formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+                        formattedValue = `${Math.round(absValue / 1000)}K`;
                       } else {
-                        formattedValue = absValue.toFixed(fixedNum);
+                        formattedValue = Math.round(absValue).toString();
                       }
 
                       return `${isNegative ? "-" : ""}$${formattedValue}`;
@@ -417,11 +480,11 @@ function restoreCompleteChartState(chart, originalState) {
                     ...axis.labels,
                     formatter: function (value) {
                       if (value === null || value === undefined || value === 0)
-                        return "0.00";
+                        return "$0.00";
 
                       const isNegative = value < 0;
                       const absValue = Math.abs(value);
-                      return `${isNegative ? "-" : ""}${absValue.toFixed(2)}`;
+                      return `${isNegative ? "-" : ""}$${absValue.toFixed(2)}`;
                     },
                     style: {
                       ...axis.labels?.style,
@@ -496,7 +559,10 @@ function createFormatterWithGlobals(numType, fixedNum) {
 
     let formattedValue;
     if (absValue >= 1000000) {
-      formattedValue = `${(absValue / 1000000).toFixed(1)}M`;
+      // Check if the division has a fractional part
+      const millions = absValue / 1000000;
+      const isWholeNumber = millions === Math.floor(millions);
+      formattedValue = isWholeNumber ? `${Math.floor(millions)}M` : `${millions.toFixed(1)}M`;
     } else if (absValue >= 1000) {
       formattedValue = `${(absValue / 1000).toFixed(0)}K`;
     } else {
@@ -642,10 +708,70 @@ async function exportApexChart(chart) {
       chartType === "cashFlow" ||
       chartType === "netAssetBreakdown"
     ) {
-      // Keep original yaxis for working chart types
+      // Keep original yaxis for working chart types but fix formatters
       exportOptions = {
         ...baseExportOptions,
-        yaxis: originalState.chartConfig.yaxis,
+        yaxis: Array.isArray(originalState.chartConfig.yaxis) 
+          ? originalState.chartConfig.yaxis.map(axis => {
+              return {
+                ...axis,
+                labels: {
+                  ...axis.labels,
+                  formatter: function(value) {
+                    if (value === null || value === undefined || value === 0) return "0";
+                    
+                    const isNegative = value < 0;
+                    const absValue = Math.abs(value);
+                    
+                    let formattedValue;
+                    if (absValue >= 1000000) {
+                      // Remove decimal point for millions
+                      const millions = absValue / 1000000;
+                      formattedValue = `${Math.round(millions)}M`;
+                    } else if (absValue >= 1000) {
+                      formattedValue = `${Math.round(absValue / 1000)}K`;
+                    } else {
+                      formattedValue = Math.round(absValue).toString();
+                    }
+                    
+                    // Apply currency symbol if needed
+                    if (axis.labels?.formatter?.toString().includes('$')) {
+                      return `${isNegative ? "-" : ""}$${formattedValue}`;
+                    }
+                    return `${isNegative ? "-" : ""}${formattedValue}`;
+                  }
+                }
+              };
+            })
+          : {
+              ...originalState.chartConfig.yaxis,
+              labels: {
+                ...originalState.chartConfig.yaxis?.labels,
+                formatter: function(value) {
+                  if (value === null || value === undefined || value === 0) return "0";
+                  
+                  const isNegative = value < 0;
+                  const absValue = Math.abs(value);
+                  
+                  let formattedValue;
+                  if (absValue >= 1000000) {
+                    // Remove decimal point for millions
+                    const millions = absValue / 1000000;
+                    formattedValue = `${Math.round(millions)}M`;
+                  } else if (absValue >= 1000) {
+                    formattedValue = `${Math.round(absValue / 1000)}K`;
+                  } else {
+                    formattedValue = Math.round(absValue).toString();
+                  }
+                  
+                  // Apply currency symbol if needed
+                  if (originalState.chartConfig.yaxis?.labels?.formatter?.toString().includes('$')) {
+                    return `${isNegative ? "-" : ""}$${formattedValue}`;
+                  }
+                  return `${isNegative ? "-" : ""}${formattedValue}`;
+                }
+              }
+            }
       };
     } else {
       // Create a formatter that can access chart.w.globals
@@ -723,11 +849,13 @@ async function exportApexChart(chart) {
 
                       let formattedValue;
                       if (absValue >= 1000000) {
-                        formattedValue = `${(absValue / 1000000).toFixed(1)}M`;
+                        // Round to whole millions for y-axis display
+                        const millions = absValue / 1000000;
+                        formattedValue = `${Math.round(millions)}M`;
                       } else if (absValue >= 1000) {
-                        formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+                        formattedValue = `${Math.round(absValue / 1000)}K`;
                       } else {
-                        formattedValue = absValue.toFixed(fixedNum);
+                        formattedValue = Math.round(absValue).toString();
                       }
 
                       return `${isNegative ? "-" : ""}$${formattedValue}`;
@@ -746,11 +874,11 @@ async function exportApexChart(chart) {
                     ...axis.labels,
                     formatter: function (value) {
                       if (value === null || value === undefined || value === 0)
-                        return "0.00";
+                        return "$0.00";
 
                       const isNegative = value < 0;
                       const absValue = Math.abs(value);
-                      return `${isNegative ? "-" : ""}${absValue.toFixed(2)}`;
+                      return `${isNegative ? "-" : ""}$${absValue.toFixed(2)}`;
                     },
                     style: {
                       ...axis.labels?.style,

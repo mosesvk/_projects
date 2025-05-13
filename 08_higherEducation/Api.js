@@ -2364,6 +2364,7 @@ class ApiService {
           dataStr + "</qdbapi>",
           "text/xml"
         );
+        // console.log("PEER XML", xmlDoc);
         const records = xmlDoc.querySelectorAll("record");
         // console.log("getRecordsForPeer", records);
         // console.log(`Parsed ${records.length} peer records from collected data`);
@@ -2394,6 +2395,7 @@ class ApiService {
 
       // Use await to make the async operation more explicit
       const xml = await $.get(peerData, apiCallPeerData);
+      // console.log("PEER XML", xml);
       const recordsForPeer = $("record", xml).toArray();
       // console.log("recordsForPeer", recordsForPeer);
       // console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);
@@ -2514,7 +2516,7 @@ class ApiService {
   async getRecordsForUniqueClientPeerNames() {
     const apiCallPeerData = {
       act: "API_DoQuery",
-      clist: "7.539.667.619.758.759.757.760.761.741.536",
+      clist: "7.539.667.619.758.759.757.760.761.741.536.557",
     };
 
     try {
@@ -2545,7 +2547,7 @@ class ApiService {
 
             // Get mission unit value
             const enrollmentVal =
-              record.querySelector("client___2023_total_headcount_12_month")
+              record.querySelector("g025_ctotal_student_fte")
                 ?.textContent || "0";
 
             // Get region value
@@ -2696,7 +2698,7 @@ class ApiService {
       return;
     }
 
-    console.log("Filter change detected. Updating client selection...");
+    // console.log("Filter change detected. Updating client selection...");
 
     // Call the function that updates client checkboxes based on current filters
     if (typeof updateClientDropdownBasedOnFilters === "function") {
@@ -3563,6 +3565,7 @@ function countUniqueClients(records) {
 
     // Update the UI with the count
     const count = uniqueClients.size;
+    window.uniqueClientSize = count;
     if (count < 6) {
       createToastWarning("There are 5 or less Unique Clients in Peer Records.");
     }
@@ -3622,6 +3625,7 @@ let apiCallClientDataForUniqueYears = {
   clist: "533.7.539.3",
 };
 
+
 // Fetch client information
 $.get(clientData, apiCallClientDataForUniqueYears)
   .then(async (xml) => {
@@ -3643,7 +3647,7 @@ $.get(clientData, apiCallClientDataForUniqueYears)
 
 // Find and add unique years from data
 const findUniqueYears = (data) => {
-  console.log('findUniqueYears', {data});
+  // console.log('findUniqueYears', {data});
 
   if (data) {
     data.forEach((item) => {

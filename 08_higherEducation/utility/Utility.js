@@ -167,10 +167,10 @@ const athletics_Array = [
 
 let sliderAmount = null;
 let sliderRange = null;
-let sliderValue = 0;
-let sliderValue2 = 25000;
+// Make sure these are window-scoped variables
+window.sliderValue = 0;
+window.sliderValue2 = 16000;
 let missionValue = 0;
-// let amount = null;
 
 let selectedRegion = "";
 const selectedRegions_Array = new Set();
@@ -904,7 +904,7 @@ function setupDropdownToggle(selectElementId, optionsListId) {
 }
 
 const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
-  console.log("addUniqueClientsToOptionsSelectClientDropdown", { clientArray });
+  // console.log("addUniqueClientsToOptionsSelectClientDropdown", { clientArray });
 
   const optionsListClient = document.getElementById("options-list-client");
   if (!optionsListClient) {
@@ -1471,10 +1471,10 @@ function changeThWidth(elementId) {
 
 const range = () => {
   return {
-    minprice: 0,
-    maxprice: 25000,
+    minprice: window.sliderValue,
+    maxprice: window.sliderValue2,
     min: 0,
-    max: 25000,
+    max: 16000,
     minthumb: 1,
     maxthumb: 1,
 
@@ -1483,17 +1483,19 @@ const range = () => {
       this.minthumb =
         ((this.minprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update sliderValue and trigger slider movement if necessary
-      sliderValue = this.minprice;
+      // Update global variable
+      window.sliderValue = this.minprice;
+      
+      // Trigger a custom event to notify other components
+      const event = new CustomEvent("sliderChanged", { detail: { value: this.minprice, type: "min" } });
+      document.dispatchEvent(event);
+      
       if (sliderAmount) {
-        sliderAmount.value = sliderValue; // Assuming sliderAmount is an input element
-        // Update slider position dynamically using appropriate API (e.g., jQuery UI, NoUiSlider)
+        sliderAmount.value = window.sliderValue;
       }
 
       this.minthumb =
         ((this.minprice - this.min) / (this.max - this.min)) * 100;
-
-      // Consider adding visual or functional feedback for minthumb movement
     },
 
     maxtrigger() {
@@ -1501,17 +1503,19 @@ const range = () => {
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update sliderValue2 and trigger slider movement if necessary
-      sliderValue2 = this.maxprice;
+      // Update global variable
+      window.sliderValue2 = this.maxprice;
+      
+      // Trigger a custom event to notify other components
+      const event = new CustomEvent("sliderChanged", { detail: { value: this.maxprice, type: "max" } });
+      document.dispatchEvent(event);
+      
       if (sliderRange) {
-        sliderRange.value = sliderValue2; // Assuming sliderRange is an input element
-        // Update slider position dynamically using appropriate API
+        sliderRange.value = window.sliderValue2;
       }
 
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
-
-      // Consider adding visual or functional feedback for maxthumb movement
     },
   };
 };
@@ -1897,13 +1901,13 @@ const displayFSSummary = (chart, idx) => {
 };
 
 function createFSTable(tableDataClass, arrayData, idString, year, dataObject) {
-  console.log("createFSTable", {
-    tableDataClass,
-    arrayData,
-    idString,
-    year,
-    dataObject,
-  });
+  // console.log("createFSTable", {
+  //   tableDataClass,
+  //   arrayData,
+  //   idString,
+  //   year,
+  //   dataObject,
+  // });
 
   const tableHeaderData = document.getElementById(`${idString}_yearSelectData`);
   const tableHeaderYear = document.getElementById(`${idString}_yearSelect`);
@@ -1928,12 +1932,12 @@ function createFSTable(tableDataClass, arrayData, idString, year, dataObject) {
 }
 
 function processFinancialData(dataObject, tableDataClass, year, idString) {
-  console.log("processFinancialData - utility.js", {
-    dataObject,
-    tableDataClass,
-    year,
-    idString,
-  });
+  // console.log("processFinancialData - utility.js", {
+  //   dataObject,
+  //   tableDataClass,
+  //   year,
+  //   idString,
+  // });
 
   // Create an array of values for the current year
   let arrayData = [];
@@ -1977,15 +1981,15 @@ function createAndRenderFSChart(
   tableDataClass
 ) {
   // if (tableDataClass == 'totalAssets_dataPoint')
-  console.log("createAndRenderFSChart", {
-    yearsData_Array,
-    chartId,
-    parsedData,
-    dataKey,
-    color,
-    currency,
-    label,
-  });
+  // console.log("createAndRenderFSChart", {
+  //   yearsData_Array,
+  //   chartId,
+  //   parsedData,
+  //   dataKey,
+  //   color,
+  //   currency,
+  //   label,
+  // });
   // Create the chart
   const chart = new ApexCharts(
     document.querySelector(chartId),

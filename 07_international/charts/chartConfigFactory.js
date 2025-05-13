@@ -682,6 +682,86 @@ class ChartConfigFactory {
     const minValue = allValues.length > 0 ? (Math.min(...allValues) > 0 ? 0 : Math.min(...allValues) - 5) : 0;
     const maxValue = allValues.length > 0 ? Math.max(...allValues) * 1.1 : 100;
 
+    // Configure y-axis
+    let yAxisConfig = {
+      min: minValue,
+      max: maxValue,
+      axisTicks: {
+        show: true,
+      },
+      axisBorder: {
+        show: true,
+        color: this.themeColors.chartColor,
+      },
+      labels: {
+        formatter: function(val) {
+          // For all charts, use simple rounding
+          if (val === null || val === undefined || val === 0) {
+            return numType === "dollar" ? "$0" : numType === "percent" ? "0%" : "0";
+          }
+          
+          // Round based on magnitude
+          if (Math.abs(val) >= 1000000) {
+            // For millions, show with 1 decimal place
+            const roundedVal = Math.round(val / 100000) / 10;
+            return numType === "dollar" ? `$${roundedVal}M` : 
+                   numType === "percent" ? `${roundedVal}%` : `${roundedVal}M`;
+          } else if (Math.abs(val) >= 1000) {
+            // For thousands, round to nearest thousand
+            const roundedVal = Math.round(val / 1000);
+            return numType === "dollar" ? `$${roundedVal}K` : 
+                   numType === "percent" ? `${roundedVal}%` : `${roundedVal}K`;
+          } else {
+            // For small numbers, round to integers
+            const roundedVal = Math.round(val);
+            return numType === "dollar" ? `$${roundedVal}` : 
+                   numType === "percent" ? `${roundedVal}%` : `${roundedVal}`;
+          }
+        },
+        style: {
+          colors: this.themeColors.chartColor,
+          fontSize: "1.25rem",
+        }
+      },
+      tooltip: {
+        enabled: true,
+      }
+    };
+
+    // Special case for assetsWithoutPpeToLiabilitiesWithoutDebt chart
+    if (mainName === "assetsWithoutPpeToLiabilitiesWithoutDebt") {
+      // Use the same formatter but ensure integers are displayed
+      yAxisConfig = {
+        min: minValue,
+        max: maxValue,
+        labels: {
+          formatter: function(val) {
+            // For this special chart, always use integer values
+            if (val === null || val === undefined || val === 0) {
+              return "0";
+            }
+            
+            // Always round to integers
+            return Math.round(val).toString();
+          },
+          style: {
+            colors: this.themeColors.chartColor,
+            fontSize: "1.25rem",
+          }
+        },
+        axisTicks: {
+          show: true
+        },
+        axisBorder: {
+          show: true,
+          color: this.themeColors.chartColor
+        },
+        tooltip: {
+          enabled: true
+        }
+      };
+    }
+
     return {
       colors: [
         window.chartColors.green,
@@ -796,28 +876,7 @@ class ChartConfigFactory {
           },
         },
       },
-      yaxis: {
-        min: minValue,
-        max: maxValue,
-        stepSize: 5,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: this.themeColors.chartColor,
-        },
-        labels: {
-          formatter: formatters.yaxisLabelFormatter,
-          style: {
-            colors: this.themeColors.chartColor,
-            fontSize: "1.25rem",
-          }
-        },
-        tooltip: {
-          enabled: true,
-        }
-      },
+      yaxis: yAxisConfig,
       tooltip: {
         enabled: true,
         shared: true,
@@ -830,9 +889,15 @@ class ChartConfigFactory {
           offsetX: 60,
         },
         y: {
-          formatter: formatters.tooltipFormatter,
-          title: {
-            formatter: (seriesName) => `${seriesName}:`,
+          formatter: function (value, { seriesIndex }) {
+            if (value === null || value === undefined) return "";
+            if (seriesIndex <= 1) {
+              // Format for bar charts (dollar values)
+              return `$${value.toLocaleString()}`;
+            } else {
+              // Format for line charts (ratios)
+              return `$${value.toFixed(2)}`;
+            }
           },
         },
       },
@@ -1454,7 +1519,27 @@ class ChartConfigFactory {
       dataLabels: {
         enabled: true,
         offsetY: -20,
-        formatter: formatLargeNumber,
+        formatter: function(value, { seriesIndex }) {
+          if (!value && value !== 0) return "$0";
+          
+          const isNegative = value < 0;
+          const absValue = Math.abs(value);
+          
+          let formattedValue;
+          if (absValue >= 1000000) {
+            // Check if the division has a fractional part
+            const millions = absValue / 1000000;
+            const isWholeNumber = millions === Math.floor(millions);
+            formattedValue = isWholeNumber ? `${Math.floor(millions)}M` : `${millions.toFixed(1)}M`;
+          } else if (absValue >= 1000) {
+            formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+          } else {
+            formattedValue = absValue.toFixed(2);
+          }
+          
+          // Add dollar sign to all data points
+          return `${isNegative ? "-" : ""}$${formattedValue}`;
+        },
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
@@ -1499,7 +1584,24 @@ class ChartConfigFactory {
         {
           labels: {
             formatter: function (value) {
-              return formatLargeNumber(value);
+              if (value === null || value === undefined || value === 0) return "$0";
+              
+              const isNegative = value < 0;
+              const absValue = Math.abs(value);
+              
+              let formattedValue;
+              if (absValue >= 1000000) {
+                // Check if the division has a fractional part
+                const millions = absValue / 1000000;
+                const isWholeNumber = millions === Math.floor(millions);
+                formattedValue = isWholeNumber ? `${Math.floor(millions)}M` : `${millions.toFixed(1)}M`;
+              } else if (absValue >= 1000) {
+                formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+              } else {
+                formattedValue = absValue.toFixed(2);
+              }
+              
+              return `${isNegative ? "-" : ""}$${formattedValue}`;
             },
             style: {
               colors: this.themeColors.chartColor,
@@ -1518,7 +1620,13 @@ class ChartConfigFactory {
         {
           labels: {
             formatter: function (value) {
-              return formatRatio(value);
+              if (value === null || value === undefined || value === 0) return "$0.00";
+              
+              const isNegative = value < 0;
+              const absValue = Math.abs(value);
+              
+              // Add dollar sign to ratio values
+              return `${isNegative ? "-" : ""}$${absValue.toFixed(2)}`;
             },
             style: {
               colors: this.themeColors.chartColor,
@@ -1544,10 +1652,10 @@ class ChartConfigFactory {
             if (value === null || value === undefined) return "";
             if (seriesIndex <= 1) {
               // Format for bar charts (dollar values)
-              return `${value.toLocaleString()}`;
+              return `$${value.toLocaleString()}`;
             } else {
               // Format for line charts (ratios)
-              return `${value.toFixed(2)}`;
+              return `$${value.toFixed(2)}`;
             }
           },
         },
