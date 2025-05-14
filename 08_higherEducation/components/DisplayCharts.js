@@ -191,7 +191,7 @@ const displayFinancialStatementComponent = () => {
       "prepaidExpensesAndOtherAssets",
       "propertyAndEquipment",
       "investmentsHeldForLongTermPurposes",
-      "assets"
+      "totalAssets"
     ]
   );
 
@@ -207,11 +207,11 @@ const displayFinancialStatementComponent = () => {
       "accountsPayableAndAccruedExpenses",
       "deferredRevenue",
       "postRetirementHealthBenefits",
-      "annuityAndTrusts",
+      "annuityObligations",
       "otherLiabilities",
       "interestRateSwapLiability",
       "bondsAndNotesPayable",
-      "liabilities"
+      "totalLiabilities"
     ]
   );
 
@@ -243,12 +243,12 @@ const displayFinancialStatementComponent = () => {
       "tuitionAndFees",
       "scholarshipsAndFinancialAid",
       "auxiliaryActivities",
-      "investmentIncome",
-      "endowmentSpendingAppropriation",
-      "otherRevenue",
-      "largeOneTimeGifts",
+      "revenueInvestmentIncome",
+      "revenueEndowmentSpendingAppropriation",
+      "revenueAndSupportOther",
+      "contributionsLargeOneTimeGifts",
       "netAssetsReleasedFromRestriction",
-      "revenueFromContributions",
+      "totalRevenueContributions",
       "revenueAndSupport"
     ]
   );
@@ -262,16 +262,16 @@ const displayFinancialStatementComponent = () => {
     "Educational Program Expenses",
     "educationalProgramExpenses_dataPoint",
     [
-      "educationalEducationalInstruction",
-      "educationalEducationalResearch",
-      "educationalEducationalAcademicSupport",
-      "educationalEducationalStudentServices", 
-      "educationalEducationalAuxiliaryActivities",
-      "educationalEducationalInstitutionalSupport",
-      "educationalEducationalPublicService",
-      "educationalEducationalFundraisingExpenses",
-      "educationalEducationalOther",
-      "educationalEducationalEducationalProgramExpenses"
+      "educationalProgramInstruction",
+      "educationalProgramResearch",
+      "educationalProgramAcademicSupport",
+      "educationalProgramStudentServices", 
+      "educationalProgramAuxiliaryActivities",
+      "educationalProgramInstitutionalSupport",
+      "educationalProgramPublicService",
+      "educationalProgramFundraisingExpenses",
+      "educationalProgramOther",
+      "educationalProgramExpenses"
     ]
   );
 
@@ -284,8 +284,8 @@ const displayFinancialStatementComponent = () => {
     "Non Operating Activities",
     "nonOperatingActivities_dataPoint",
     [
-      "investmentIncome",
-      "endowmentSpendingPolicyAppropriation",
+      "nonOperatingInvestmentIncome",
+      "nonOperatingEndowmentSpendingPolicyAppropriation",
       "changeInValueOfInterestRateSwap",
       "adjustmentToPRBO",
       "contributionsAndOther",
@@ -302,14 +302,14 @@ const displayFinancialStatementComponent = () => {
     "Changes in Net Assets with Donor Restrictions",
     "changesInNetAssetsWithDR_dataPoint",
     [
-      "temporarilyRestrictedContributions",
-      "temporarilyRestrictedInvestmentIncome",
-      "temporarilyRestrictedEndowmentSpending",
-      "temporarilyRestrictedNetAssetsReleased",
+      "contributions",
+      "investmentIncomePlusEndowment",
+      "endowmentSpendingPolicy",
+      "netAssetsReleasedFromProgram",
       "temporarilyRestrictedNetChange",
       "permanentlyRestrictedContributions",
-      "permanentlyRestrictedInvestmentIncome",
-      "permanentlyRestrictedNetAssetsReleased",
+      "investmentIncome",
+      "netAssetsReleased",
       "permanentlyRestrictedNetChange",
       "changesInNetAssetsWithDR"
     ]
@@ -326,7 +326,7 @@ const displayFinancialStatementComponent = () => {
     [
       "salariesAndWages",
       "employeeBenefits",
-      "serviceSuppliesAndOther",
+      "servicesSuppliesAndOther",
       "occupancyUtilitiesAndMaintenance",
       "depreciationAndAmortization",
       "interest",
@@ -341,7 +341,20 @@ const displayFinancialStatementComponent = () => {
     "#70B5CC",
     "dollar",
     "Cash Flows: Operating Activities",
-    "cashFlowsOperatingActivities_dataPoint"
+    "cashFlowsOperatingActivities_dataPoint",
+    [
+      "depreciation",
+      "adjustmentsGiftsAndGrantsRestrictedInPerpetuity",
+      "gainOnInvestment",
+      "derivativeCSLVIAmortBondCosts",
+      "adjustmentsAccountsReceivable",
+      "adjustmentsInventory",
+      "adjustmentsPrepaidsAndOtherAssets",
+      "accountsPayableAndAccruedExpenses",
+      "deferredRevenue",
+      "adjustmentsOtherLiabilities",
+      "cashFlowsOperatingActivities"
+    ]
   );
 
   createAndRenderFSChart(
@@ -351,7 +364,15 @@ const displayFinancialStatementComponent = () => {
     "#FFA726",
     "dollar",
     "Cash Flows: Investing Activities",
-    "cashFlowsInvestingActivities_dataPoint"
+    "cashFlowsInvestingActivities_dataPoint",
+    [
+      "purchaseOfInvestments",
+      "proceedsFromSaleOfInvestments",
+      "purchaseOfPropertyAndEquipment",
+      "studentLoanFund",
+      "otherInvestingActivity",
+      "cashFlowsInvestingActivities"
+    ]
   );
 
   createAndRenderFSChart(
@@ -361,7 +382,13 @@ const displayFinancialStatementComponent = () => {
     "#FFCDD2",
     "dollar",
     "Cash Flows: Financing Activities",
-    "cashFlowsFinancingActivities_dataPoint"
+    "cashFlowsFinancingActivities_dataPoint",
+    [
+      "proceedsFromNotesPayable",
+      "principalPaymentsOnNotesPayable",
+      "cashFlowsFinancingOther",
+      "cashFlowsFinancingActivities"
+    ]
   );
 
   createAndRenderFSChart(
@@ -371,7 +398,16 @@ const displayFinancialStatementComponent = () => {
     "#459B53",
     "dollar",
     "Property and Equipment",
-    "propertyAndEquipment_dataPoint"
+    "propertyAndEquipment_dataPoint",
+    [
+      "landAndImprovements",
+      "buildingAndImprovements",
+      "furnitureAndEquipment",
+      "cip",
+      "totalPropertyAndEquipment",
+      "accumulatedDepreciation",
+      "propertyAndEquipmentLessDepreciation"
+    ]
   );
 };
 

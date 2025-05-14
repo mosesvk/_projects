@@ -1925,8 +1925,7 @@ function toggleDetailsByIdentifier(identifier) {
   toggleDetails(dropdownButton, detailsDiv, arrowIcon);
 }
 
-function createFSTable(tableDataClass, arrayData, idString, year, dataObject) {
-
+function createFSTable(tableDataClass, arrayData, idString, year, dataObject, dataPointArray) {
   const tableHeaderData = document.getElementById(`${idString}_yearSelectData`);
   const tableHeaderYear = document.getElementById(`${idString}_yearSelect`);
   const totalNum = dataObject[`${idString}_Client`][year].value;
@@ -1939,30 +1938,27 @@ function createFSTable(tableDataClass, arrayData, idString, year, dataObject) {
       : totalNum.toLocaleString()
   }`;
 
-  const tableDataArray = document.querySelectorAll(`.${tableDataClass}`);
-
-    console.log("createFSTable", {
-    tableDataClass,
-    arrayData,
-    idString,
-    year,
-    dataObject,
-    tableDataArray,
-    tableHeaderData,
-    tableHeaderYear,
-    totalNum,
-    isTotalNumString,
-  });
-
-  // console.log({ tableDataArray });
-  tableDataArray.forEach((item, idx) => {
-    const dataPoint = Number(arrayData[idx]).toLocaleString();
+  // Loop through each data point in the array
+  dataPointArray.forEach(dataPoint => {
     // console.log({ dataPoint });
-    item.textContent = `$${dataPoint}`;
+    // Get the corresponding table cell using the dataPoint class
+    const tableCell = document.querySelector(`.${dataPoint}_dataPoint`);
+    if (tableCell) {
+      // Get the value from dataObject using the _Client suffix
+      const value = dataObject[`${dataPoint}_Client`][year].value;
+      // Format and display the value
+      tableCell.textContent = `$${Number(value).toLocaleString()}`;
+    }
   });
 }
 
-function processFinancialData(dataObject, tableDataClass, year, idString) {
+function processFinancialData(
+  dataObject,
+  tableDataClass,
+  year,
+  idString,
+  dataPointArray
+) {
   // Create an array of values for the current year
   let arrayData = [];
   for (let key in dataObject) {
@@ -1971,15 +1967,23 @@ function processFinancialData(dataObject, tableDataClass, year, idString) {
     }
   }
 
-  console.log("processFinancialData - utility.js", {
-    dataObject,
-    tableDataClass,
-    year,
-    idString,
-    arrayData,
-  });
+  // console.log("processFinancialData - utility.js", {
+  //   dataObject,
+  //   tableDataClass,
+  //   year,
+  //   idString,
+  //   arrayData,
+  //   dataPointArray
+  // });
   // Call the createFSTable function with the tableId and arrayData
-  createFSTable(tableDataClass, arrayData, idString, year, dataObject);
+  createFSTable(
+    tableDataClass,
+    arrayData,
+    idString,
+    year,
+    dataObject,
+    dataPointArray
+  );
 }
 
 function createAndRenderFSChart(
@@ -1989,7 +1993,8 @@ function createAndRenderFSChart(
   color,
   currency,
   label,
-  tableDataClass
+  tableDataClass,
+  dataPointArray
 ) {
   // if (tableDataClass == 'totalAssets_dataPoint')
   // console.log("createAndRenderFSChart", {
@@ -2000,6 +2005,7 @@ function createAndRenderFSChart(
   //   color,
   //   currency,
   //   label,
+  //   dataPointArray
   // });
   // Create the chart
   const chart = new ApexCharts(
@@ -2011,7 +2017,8 @@ function createAndRenderFSChart(
       currency,
       label,
       chartId,
-      tableDataClass
+      tableDataClass,
+      dataPointArray
     )
   );
   // let mostCurrentYearIndex = Object.keys(parsedData[dataKey]).length - 1
@@ -2047,7 +2054,8 @@ function createAndRenderFSChart(
       parsedData,
       tableDataClass,
       mostRecentYear,
-      clientString
+      clientString,
+      dataPointArray
     );
 
     // Apply styling to the last bar
@@ -2098,7 +2106,8 @@ function createAndRenderFSChart(
         currency,
         label,
         chartId,
-        tableDataClass
+        tableDataClass,
+        dataPointArray
       )
     );
   });

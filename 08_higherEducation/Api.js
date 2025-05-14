@@ -1957,7 +1957,7 @@ class DataProcessor {
           { key: "ffa_changeInPermanentlyRestrictedNA_Client", field: "r060_change_in_permanently_restricted_net_assets_contributions" },
           { key: "ffa_salariesAndWages_Client", field: "r160_salaries_and_wages" },
           { key: "ffa_employeeBenefits_Client", field: "r161_employee_benefits" },
-          { key: "ffa_servicesSuppliesOther_Client", field: "r162_services_supplies_and_other" },
+          { key: "ffa_servicesSuppliesAndOther_Client", field: "r162_services_supplies_and_other" },
           { key: "ffa_occupancyUtilitiesAndMaintenance_Client", field: "r163_occupancy_utilities_and_maintenance" },
           { key: "ffa_incomeExpenseSurplusDefecit_Client", field: "dashboard_c001_income_expense_surplus_defecit" },
           { key: "ffa_interest_Client", field: "r165_interest" },
@@ -2147,7 +2147,7 @@ class DataProcessor {
           { key: "annuityObligations_Client", field: "r012_annuity_obligations" },
           { key: "otherLiabilities_Client", field: "r013_other_liabilities" },
           { key: "interestRateSwapLiability_Client", field: "r014_interest_rate_swap_liability" },
-          { key: "bondsNotesPayable_Client", field: "r015_notes_payable" },
+          { key: "bondsAndNotesPayable_Client", field: "r015_notes_payable" },
           { key: "totalLiabilities_Client", field: "r016_ctotal_liabilities" }
         ];
         totalLiabilities_array.forEach(({ key, field }) => {
@@ -2156,9 +2156,9 @@ class DataProcessor {
 
         // Net Assets
         const netAssets_array = [
-          { key: "netAssetsWithoutDonorRestriction_Client", field: "r017_net_assets_without_donor_restriction" },
-          { key: "netAssetsRestrictedByTimeOrPurpose_Client", field: "r018_net_assets_restricted_by_time_or_purpose" },
-          { key: "netChangeInNetAssetsRestrictedInPerpetuity_Client", field: "r064_cnet_change_restricted_in_perpetuity" },
+          { key: "withoutDonorRestrictions_Client", field: "r017_net_assets_without_donor_restriction" },
+          { key: "restrictedByTimeOrPurpose_Client", field: "r018_net_assets_restricted_by_time_or_purpose" },
+          { key: "restrictedInPerpetuity_Client", field: "r064_cnet_change_restricted_in_perpetuity" },
           { key: "netAssets_Client", field: "r020_ctotal_net_assets" }
         ];
         netAssets_array.forEach(({ key, field }) => {
@@ -2168,11 +2168,11 @@ class DataProcessor {
         // Revenue and Support
         const revenueAndSupport_array = [
           { key: "tuitionAndFees_Client", field: "r023_revenue_tuition_and_fees" },
-          { key: "scholarshipsAndFinancialaid_Client", field: "r024_revenue_scholarships_and_financial_aid" },
+          { key: "scholarshipsAndFinancialAid_Client", field: "r024_revenue_scholarships_and_financial_aid" },
           { key: "netTuitionAndFees_Client", field: "r026_cnet_tuition_and_fees" },
           { key: "auxiliaryActivities_Client", field: "r028_revenue_auxiliary_activities" },
-          { key: "investmentIncome_Client", field: "r029_revenue_investment_income" },
-          { key: "endowmentSpendingAppropriation_Client", field: "r030_revenue_endowment_spending_appropriation" },
+          { key: "revenueInvestmentIncome_Client", field: "r029_revenue_investment_income" },
+          { key: "revenueEndowmentSpendingAppropriation_Client", field: "r030_revenue_endowment_spending_appropriation" },
           { key: "revenueAndSupportOther_Client", field: "r031_revenue_other" },
           { key: "nonContributionRevenue_Client", field: "r032_cnon_contribution_revenue" },
           { key: "contributions_Client", field: "r054_contributions" },
@@ -2188,16 +2188,16 @@ class DataProcessor {
 
         // Educational Program Expenses
         const educationalProgramExpenses_array = [
-          { key: "expensesEducationalInstruction_Client", field: "r037_expenses_educational_program_instruction" },
-          { key: "expensesEducationalResearch_Client", field: "r038_expenses_educational_program_research" },
-          { key: "expensesEducationalAcademicSupport_Client", field: "r039_expenses_educational_program_academic_support" },
-          { key: "expensesEducationalStudentServices_Client", field: "r040_expenses_educational_program_student_services" },
-          { key: "expensesEducationalAuxiliaryActivities_Client", field: "r041_expenses_educational_program_auxiliary_activities" },
-          { key: "expensesEducationalInstitutionalSupport_Client", field: "r042_expenses_educational_program_institutional_support" },
-          { key: "expensesEducationalPublicService_Client", field: "r043_expenses_educational_program_public_service" },
-          { key: "educationalEducationalProgramExpenses_Client", field: "r044_ctotal_functional_expenses" },
-          { key: "educationalEducationalFundraisingExpenses_Client", field: "r280_fundraising_expenses" },
-          { key: "educationalEducationalOther_Client", field: "r281_other_expenses" }
+          { key: "educationalProgramInstruction_Client", field: "r037_expenses_educational_program_instruction" },
+          { key: "educationalProgramResearch_Client", field: "r038_expenses_educational_program_research" },
+          { key: "educationalProgramAcademicSupport_Client", field: "r039_expenses_educational_program_academic_support" },
+          { key: "educationalProgramStudentServices_Client", field: "r040_expenses_educational_program_student_services" },
+          { key: "educationalProgramAuxiliaryActivities_Client", field: "r041_expenses_educational_program_auxiliary_activities" },
+          { key: "educationalProgramInstitutionalSupport_Client", field: "r042_expenses_educational_program_institutional_support" },
+          { key: "educationalProgramPublicService_Client", field: "r043_expenses_educational_program_public_service" },
+          { key: "educationalProgramExpenses_Client", field: "r044_ctotal_functional_expenses" },
+          { key: "educationalProgramFundraisingExpenses_Client", field: "r280_fundraising_expenses" },
+          { key: "educationalProgramOther_Client", field: "r281_other_expenses" }
         ];
         educationalProgramExpenses_array.forEach(({ key, field }) => {
           this.dataStore.insertData("financialStatement", "client", year, key, record, field);
@@ -2205,10 +2205,10 @@ class DataProcessor {
 
         // Non-Operating Activities
         const nonOperatingActivities_array = [
-          { key: "investmentIncome_Client", field: "r047_non_operating_activities_investment_income" },
-          { key: "endowmentSpendingPolicy_Client", field: "r048_investments_net_in_excess_of_amounts_appropriated_for_spending" },
-          { key: "changeInValueInterestRateSwap_Client", field: "r049_non_operating_activities_change_in_value_of_split_interest_agreements" },
-          { key: "adjustmentPrbo_Client", field: "r050_non_operating_activities_adjustment_to_prbo" },
+          { key: "nonOperatingInvestmentIncome_Client", field: "r047_non_operating_activities_investment_income" },
+          { key: "nonOperatingEndowmentSpendingPolicyAppropriation_Client", field: "r048_investments_net_in_excess_of_amounts_appropriated_for_spending" },
+          { key: "changeInValueOfInterestRateSwap_Client", field: "r049_non_operating_activities_change_in_value_of_split_interest_agreements" },
+          { key: "adjustmentToPRBO_Client", field: "r050_non_operating_activities_adjustment_to_prbo" },
           { key: "contributionsAndOther_Client", field: "r051_other_gains_losses" },
           { key: "nonOperatingActivities_Client", field: "r052_ctotal_non_operating_changes" }
         ];
@@ -2221,12 +2221,12 @@ class DataProcessor {
           { key: "contributions_Client", field: "r054_contributions" },
           { key: "investmentIncomePlusEndowment_Client", field: "r055_investment_return_net" },
           { key: "endowmentSpendingPolicy_Client", field: "r056_change_in_temporarily_restricted_net_assets_endowment_spending_policy_approp" },
-          { key: "NetAssetsReleasedFromProgram_Client", field: "r058_net_assets_released_from_restriction" },
+          { key: "netAssetsReleasedFromProgram_Client", field: "r058_net_assets_released_from_restriction" },
           { key: "temporarilyRestrictedNetChange_Client", field: "r059_cchange_in_net_assets_with_donor_restrictions" },
-          { key: "contributions2_Client", field: "r060_change_in_permanently_restricted_net_assets_contributions" },
+          { key: "permanentlyRestrictedContributions_Client", field: "r060_change_in_permanently_restricted_net_assets_contributions" },
           { key: "investmentIncome_Client", field: "r061_change_in_permanently_restricted_net_assets_investment_income" },
           { key: "netAssetsReleased_Client", field: "r063_change_in_permanently_restricted_net_assets_released_from_program_restrictions" },
-          { key: "permanentlyRestricted_Client", field: "r064_cnet_change_restricted_in_perpetuity" },
+          { key: "permanentlyRestrictedNetChange_Client", field: "r064_cnet_change_restricted_in_perpetuity" },
           { key: "changesInNetAssetsWithDR_Client", field: "r065_cchange_in_net_assets" }
         ];
         changesInNetAssetsWithDR_array.forEach(({ key, field }) => {
@@ -2249,13 +2249,18 @@ class DataProcessor {
 
         // Cash Flows Operating
         const cashFlowsOperating_array = [
-          { key: "salariesAndWages_Client", field: "r160_salaries_and_wages" },
-          { key: "employeeBenefits_Client", field: "r161_employee_benefits" },
-          { key: "serviceSuppliesOther_Client", field: "r162_services_supplies_and_other" },
-          { key: "occupancyUtilitiesMaintenance_Client", field: "r163_occupancy_utilities_and_maintenance" },
-          { key: "depreciationAndAmortization_Client", field: "r164_depreciation_and_amortization" },
-          { key: "interest_Client", field: "r165_interest" },
-          { key: "cashFlowsOperatingActivities_Client", field: "r166_ctotal_natural_category_expenses" }
+          { key: "depreciation_Client", field: "r070_adjustments_depreciation" },
+          { key: "adjustmentsGiftsAndGrantsRestrictedInPerpetuity_Client", field: "r071_adjustments_gifts_and_grants_restricted_in_perpetuity" },
+          { key: "gainOnInvestment_Client", field: "r072_adjustments_gain_on_investments" },
+          { key: "derivativeCSLVIAmortBondCosts_Client", field: "r073_adjustments_derivative_cslvi_amort_bond_costs" },
+          { key: "adjustmentsAccountsReceivable_Client", field: "r074_adjustments_accounts_receivable" },
+          { key: "adjustmentsInventory_Client", field: "r075_adjustments_inventory" },
+          { key: "adjustmentsPrepaidsAndOtherAssets_Client", field: "r076_adjustments_prepaids_and_other_assets" },
+          { key: "accountsPayableAndAccruedExpenses_Client", field: "r077_adjustments_accounts_payable_and_accrued_expenses" },
+          { key: "deferredRevenue_Client", field: "r078_adjustments_deferred_revenue" },
+          { key: "adjustmentsOtherLiabilities_Client", field: "r079_adjustments_other_liabilities" },
+          { key: "cashFlowsOperatingActivities_Client", field: "r080_cnet_cash_provided_by_operating_activities" },
+          { key: "netCashFlowOperatingActivities_Client", field: "r081_cnet_cash_provided_by_operating_activities" },
         ];
         cashFlowsOperating_array.forEach(({ key, field }) => {
           this.dataStore.insertData("financialStatement", "client", year, key, record, field);
@@ -2265,8 +2270,9 @@ class DataProcessor {
         const cashFlowsInvesting_array = [
           { key: "purchaseOfInvestments_Client", field: "r081_cash_flows_from_investing_activities_purchase_of_investments" },
           { key: "proceedsFromSaleOfInvestments_Client", field: "r082_cash_flows_from_investing_activities_proceeds_from_sale_of_investments" },
-          { key: "PurchaseOfPropertyAndEquipment_Client", field: "d" },
+          { key: "purchaseOfPropertyAndEquipment_Client", field: "r083_cash_flows_from_investing_activities_purchases_of_property_and_equipment" },
           { key: "studentLoanFund_Client", field: "r084_cash_flows_from_investing_activities_student_loan_fund" },
+          { key: "otherInvestingActivity_Client", field: "r282_other_investing_activity" },
           { key: "cashFlowsInvestingActivities_Client", field: "r085_cnet_cash_used_in_investing_activities" }
         ];
         cashFlowsInvesting_array.forEach(({ key, field }) => {
@@ -2276,9 +2282,9 @@ class DataProcessor {
         // Cash Flows Financing
         const cashFlowsFinancing_array = [
           { key: "proceedsFromNotesPayable_Client", field: "r086_cash_flows_from_financing_activities_proceeds_from_notes_payable" },
-          { key: "principalPayments_Client", field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable" },
-          { key: "cashFlowsInvestingOther_Client", field: "r088_cash_flows_from_financing_activities_other" },
-          { key: "cashFlowsFinancingActivities_Client", field: "r089_cnet_cash_used_in_financing_activities" }
+          { key: "principalPaymentsOnNotesPayable_Client", field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable" },
+          { key: "cashFlowsFinancingOther_Client", field: "r088_cash_flows_from_financing_activities_other" },
+          { key: "cashFlowsFinancingActivities_Client", field: "r089_cnet_cash_used_in_financing_activities" },
         ];
         cashFlowsFinancing_array.forEach(({ key, field }) => {
           this.dataStore.insertData("financialStatement", "client", year, key, record, field);
@@ -2286,13 +2292,13 @@ class DataProcessor {
 
         // Property and Equipment
         const propertyAndEquipment_array = [
-          { key: "landImprovements_Client", field: "r093_property_and_equipment_land_and_improvements" },
-          { key: "buildingImprovements_Client", field: "r094_property_and_equipment_buildings_and_improvements" },
-          { key: "furnitureEquipment_Client", field: "r095_property_and_equipment_furniture_and_equipment" },
+          { key: "landAndImprovements_Client", field: "r093_property_and_equipment_land_and_improvements" },
+          { key: "buildingAndImprovements_Client", field: "r094_property_and_equipment_buildings_and_improvements" },
+          { key: "furnitureAndEquipment_Client", field: "r095_property_and_equipment_furniture_and_equipment" },
           { key: "cip_Client", field: "r096_property_and_equipment_cip" },
-          { key: "totalPEatCost_Client", field: "r097_ctotal_property_and_equipment_at_cost" },
+          { key: "totalPropertyAndEquipment_Client", field: "r097_ctotal_property_and_equipment_at_cost" },
           { key: "accumulatedDepreciation_Client", field: "r098_accumulated_depreciation" },
-          { key: "propertyAndEquipment_Client", field: "r099_ctotal_property_and_equipment_less_depreciation" }
+          { key: "propertyAndEquipmentLessDepreciation_Client", field: "r099_ctotal_property_and_equipment_less_depreciation" }
         ];
         propertyAndEquipment_array.forEach(({ key, field }) => {
           this.dataStore.insertData("financialStatement", "client", year, key, record, field);

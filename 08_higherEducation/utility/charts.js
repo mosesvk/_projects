@@ -640,7 +640,8 @@ const getFSchartOptions = (
   numType,
   title,
   chartId,
-  tableDataClass
+  tableDataClass,
+  dataPointArray
 ) => {
   // if (chartId == "#assets_chart")
   // console.log('getFSchartOptions', { yearsData_Array, client, 'data[client]': data[client], numType, title, chartId });
@@ -704,17 +705,18 @@ const getFSchartOptions = (
     }
   };
 
-  console.log("getFSchartOptions", {
-    data,
-    client,
-    color,
-    numType,
-    title,
-    chartId,
-    yearsDataFinancialStatment_Array,
-    clientArray,
-    currentYear: yearsDataFinancialStatment_Array.length - 1,
-  });
+  // console.log("getFSchartOptions", {
+  //   data,
+  //   client,
+  //   color,
+  //   numType,
+  //   title,
+  //   chartId,
+  //   yearsDataFinancialStatment_Array,
+  //   clientArray,
+  //   currentYear: yearsDataFinancialStatment_Array.length - 1,
+  //   dataPointArray
+  // });
 
   processFinancialData(
     data,
@@ -722,7 +724,8 @@ const getFSchartOptions = (
     yearsDataFinancialStatment_Array[
       yearsDataFinancialStatment_Array.length - 1
     ],
-    clientString
+    clientString,
+    dataPointArray
   );
 
   const lastYear =
@@ -768,7 +771,8 @@ const getFSchartOptions = (
             data,
             tableDataClass,
             yearsDataFinancialStatment_Array[index],
-            clientString
+            clientString,
+            dataPointArray
           );
         },
       },
@@ -1688,8 +1692,8 @@ const getFfaChartOptions = (data) => {
   const compensationAndBenefitsClient =
     restrictedGiftsClient - (salariesAndWagesClient + employeeBenefitsClient);
 
-  const servicesSuppliesOtherClient = Number(
-    data["ffa_servicesSuppliesOther_Client"][currentYear].value
+  const servicesSuppliesAndOtherClient = Number(
+    data["ffa_servicesSuppliesAndOther_Client"][currentYear].value
   );
   const occupancyUtilitiesAndMaintenanceClient = Number(
     data["ffa_occupancyUtilitiesAndMaintenance_Client"][currentYear].value
@@ -1699,7 +1703,7 @@ const getFfaChartOptions = (data) => {
 
   const generalExpenseClient =
     compensationAndBenefitsClient -
-    (servicesSuppliesOtherClient +
+    (servicesSuppliesAndOtherClient +
       occupancyUtilitiesAndMaintenanceClient +
       interestClient);
 

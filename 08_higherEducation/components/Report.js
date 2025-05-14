@@ -191,7 +191,7 @@ const insertDataToFfaReport = (data, selectedYears) => {
       : "-";
 
   const servicesSuppliesAndOtherClient = Number(
-    data["ffa_servicesSuppliesOther_Client"][currentYear].value
+    data["ffa_servicesSuppliesAndOther_Client"][currentYear].value
   );
   const occupancyUtilitiesAndMaintenanceClient = Number(
     data["ffa_occupancyUtilitiesAndMaintenance_Client"][currentYear].value
