@@ -1485,11 +1485,13 @@ const range = () => {
 
       // Update global variable
       window.sliderValue = this.minprice;
-      
+
       // Trigger a custom event to notify other components
-      const event = new CustomEvent("sliderChanged", { detail: { value: this.minprice, type: "min" } });
+      const event = new CustomEvent("sliderChanged", {
+        detail: { value: this.minprice, type: "min" },
+      });
       document.dispatchEvent(event);
-      
+
       if (sliderAmount) {
         sliderAmount.value = window.sliderValue;
       }
@@ -1505,11 +1507,13 @@ const range = () => {
 
       // Update global variable
       window.sliderValue2 = this.maxprice;
-      
+
       // Trigger a custom event to notify other components
-      const event = new CustomEvent("sliderChanged", { detail: { value: this.maxprice, type: "max" } });
+      const event = new CustomEvent("sliderChanged", {
+        detail: { value: this.maxprice, type: "max" },
+      });
       document.dispatchEvent(event);
-      
+
       if (sliderRange) {
         sliderRange.value = window.sliderValue2;
       }
@@ -1900,56 +1904,6 @@ const displayFSSummary = (chart, idx) => {
   // console.log({ summaryDiv, idx });
 };
 
-function createFSTable(tableDataClass, arrayData, idString, year, dataObject) {
-  // console.log("createFSTable", {
-  //   tableDataClass,
-  //   arrayData,
-  //   idString,
-  //   year,
-  //   dataObject,
-  // });
-
-  const tableHeaderData = document.getElementById(`${idString}_yearSelectData`);
-  const tableHeaderYear = document.getElementById(`${idString}_yearSelect`);
-  const totalNum = dataObject[`${idString}_Client`][year].value;
-  const isTotalNumString = typeof totalNum === "string";
-
-  tableHeaderYear.textContent = `(${year})`;
-  tableHeaderData.textContent = `$${
-    isTotalNumString
-      ? Number(totalNum).toLocaleString()
-      : totalNum.toLocaleString()
-  }`;
-
-  const tableDataArray = document.querySelectorAll(`.${tableDataClass}`);
-
-  // console.log({ tableDataArray });
-  tableDataArray.forEach((item, idx) => {
-    const dataPoint = Number(arrayData[idx]).toLocaleString();
-    // console.log({ dataPoint });
-    item.textContent = `$${dataPoint}`;
-  });
-}
-
-function processFinancialData(dataObject, tableDataClass, year, idString) {
-  // console.log("processFinancialData - utility.js", {
-  //   dataObject,
-  //   tableDataClass,
-  //   year,
-  //   idString,
-  // });
-
-  // Create an array of values for the current year
-  let arrayData = [];
-  for (let key in dataObject) {
-    if (dataObject[key][year]) {
-      arrayData.push(dataObject[key][year].value);
-    }
-  }
-  // Call the createFSTable function with the tableId and arrayData
-  createFSTable(tableDataClass, arrayData, idString, year, dataObject);
-}
-
 function toggleDetails(button, details, arrowIcon) {
   button.addEventListener("click", () => {
     // console.log('clicked');
@@ -1969,6 +1923,63 @@ function toggleDetailsByIdentifier(identifier) {
 
   // For demonstration purposes, let's log a message
   toggleDetails(dropdownButton, detailsDiv, arrowIcon);
+}
+
+function createFSTable(tableDataClass, arrayData, idString, year, dataObject) {
+
+  const tableHeaderData = document.getElementById(`${idString}_yearSelectData`);
+  const tableHeaderYear = document.getElementById(`${idString}_yearSelect`);
+  const totalNum = dataObject[`${idString}_Client`][year].value;
+  const isTotalNumString = typeof totalNum === "string";
+
+  tableHeaderYear.textContent = `(${year})`;
+  tableHeaderData.textContent = `$${
+    isTotalNumString
+      ? Number(totalNum).toLocaleString()
+      : totalNum.toLocaleString()
+  }`;
+
+  const tableDataArray = document.querySelectorAll(`.${tableDataClass}`);
+
+    console.log("createFSTable", {
+    tableDataClass,
+    arrayData,
+    idString,
+    year,
+    dataObject,
+    tableDataArray,
+    tableHeaderData,
+    tableHeaderYear,
+    totalNum,
+    isTotalNumString,
+  });
+
+  // console.log({ tableDataArray });
+  tableDataArray.forEach((item, idx) => {
+    const dataPoint = Number(arrayData[idx]).toLocaleString();
+    // console.log({ dataPoint });
+    item.textContent = `$${dataPoint}`;
+  });
+}
+
+function processFinancialData(dataObject, tableDataClass, year, idString) {
+  // Create an array of values for the current year
+  let arrayData = [];
+  for (let key in dataObject) {
+    if (dataObject[key][year]) {
+      arrayData.push(dataObject[key][year].value);
+    }
+  }
+
+  console.log("processFinancialData - utility.js", {
+    dataObject,
+    tableDataClass,
+    year,
+    idString,
+    arrayData,
+  });
+  // Call the createFSTable function with the tableId and arrayData
+  createFSTable(tableDataClass, arrayData, idString, year, dataObject);
 }
 
 function createAndRenderFSChart(

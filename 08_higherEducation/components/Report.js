@@ -11,14 +11,14 @@ const displayReportComponent = () => {
   const years = getSelectedYearsFromLocalStorage();
   const selectedYears = years && years.sort((a, b) => a - b);
 
-  console.log(
-    'displayReportComponent',
-    {
-    cfiData,
-    financialAnalysisContentData,
-    financialStatementContentData,
-    selectedYears,
-  });
+  // console.log(
+  //   'displayReportComponent',
+  //   {
+  //   cfiData,
+  //   financialAnalysisContentData,
+  //   financialStatementContentData,
+  //   selectedYears,
+  // });
 
   if (selectedYears) {
     insertDataToReport(

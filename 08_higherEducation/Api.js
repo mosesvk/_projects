@@ -2173,7 +2173,7 @@ class DataProcessor {
           { key: "auxiliaryActivities_Client", field: "r028_revenue_auxiliary_activities" },
           { key: "investmentIncome_Client", field: "r029_revenue_investment_income" },
           { key: "endowmentSpendingAppropriation_Client", field: "r030_revenue_endowment_spending_appropriation" },
-          { key: "other_Client", field: "r031_revenue_other" },
+          { key: "revenueAndSupportOther_Client", field: "r031_revenue_other" },
           { key: "nonContributionRevenue_Client", field: "r032_cnon_contribution_revenue" },
           { key: "contributions_Client", field: "r054_contributions" },
           { key: "contributionsLargeOneTimeGifts_Client", field: "r033a_revenue_contributions_large_one_time_gifts" },
@@ -2195,7 +2195,9 @@ class DataProcessor {
           { key: "expensesEducationalAuxiliaryActivities_Client", field: "r041_expenses_educational_program_auxiliary_activities" },
           { key: "expensesEducationalInstitutionalSupport_Client", field: "r042_expenses_educational_program_institutional_support" },
           { key: "expensesEducationalPublicService_Client", field: "r043_expenses_educational_program_public_service" },
-          { key: "educationalProgramExpenses_Client", field: "r044_ctotal_functional_expenses" }
+          { key: "educationalEducationalProgramExpenses_Client", field: "r044_ctotal_functional_expenses" },
+          { key: "educationalEducationalFundraisingExpenses_Client", field: "r280_fundraising_expenses" },
+          { key: "educationalEducationalOther_Client", field: "r281_other_expenses" }
         ];
         educationalProgramExpenses_array.forEach(({ key, field }) => {
           this.dataStore.insertData("financialStatement", "client", year, key, record, field);
@@ -2275,7 +2277,7 @@ class DataProcessor {
         const cashFlowsFinancing_array = [
           { key: "proceedsFromNotesPayable_Client", field: "r086_cash_flows_from_financing_activities_proceeds_from_notes_payable" },
           { key: "principalPayments_Client", field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable" },
-          { key: "other_Client", field: "r088_cash_flows_from_financing_activities_other" },
+          { key: "cashFlowsInvestingOther_Client", field: "r088_cash_flows_from_financing_activities_other" },
           { key: "cashFlowsFinancingActivities_Client", field: "r089_cnet_cash_used_in_financing_activities" }
         ];
         cashFlowsFinancing_array.forEach(({ key, field }) => {
@@ -3176,7 +3178,9 @@ class AppController {
         // Validate records
         if (!recordsPeer || recordsPeer.length === 0) {
           console.warn("No peer records returned");
-          // Continue anyway, we might have client data
+          createToastWarning("No peer records extracted. Please select more filters");
+          showApiLoadingFunction("close");
+          return; // Stop the whole process here
         } else {
           // Process peer records
           recordsPeer = await validateAndNormalizeRecords(recordsPeer);
@@ -3189,7 +3193,8 @@ class AppController {
         createToastWarning(
           "Error fetching peer data. Please try again or adjust your filters."
         );
-        // Continue anyway, we might have client data
+        showApiLoadingFunction("close");
+        return; // Stop the process on error as well
       }
 
       // Fetch client data with error handling

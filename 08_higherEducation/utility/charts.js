@@ -10,14 +10,14 @@ const getMainChartOptions = (
 ) => {
   // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
   // if (mainName == "doeOverall")
-    // console.log({   dataPeer,
-    //   dataClient,
-    //   numType,
-    //   fixedNum,
-    //   mainName,
-    //   benchmark,
-    //   title,
-    //   chartId });
+  // console.log({   dataPeer,
+  //   dataClient,
+  //   numType,
+  //   fixedNum,
+  //   mainName,
+  //   benchmark,
+  //   title,
+  //   chartId });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -501,7 +501,7 @@ const getMainChartOptions = (
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -529,7 +529,7 @@ const getMainChartOptions = (
         fontSize: "1.5rem",
       },
       margin: 5,
-      offsetY: 30
+      offsetY: 30,
     },
     xaxis: {
       categories: selectedYearsArray,
@@ -555,12 +555,16 @@ const getMainChartOptions = (
           fontSize: "1rem",
         },
       },
-      ...(mainName === "cfiRatio" ? {
-        min: -4,
-        max: 10
-      } : (mainName === "doeOverall") ? {
-        max: Math.round(Math.max(...clientArray) + 1)
-      } : {})
+      ...(mainName === "cfiRatio"
+        ? {
+            min: -4,
+            max: 10,
+          }
+        : mainName === "doeOverall"
+        ? {
+            max: Math.round(Math.max(...clientArray) + 1),
+          }
+        : {}),
     },
     tooltip: {
       shared: true,
@@ -640,7 +644,6 @@ const getFSchartOptions = (
 ) => {
   // if (chartId == "#assets_chart")
   // console.log('getFSchartOptions', { yearsData_Array, client, 'data[client]': data[client], numType, title, chartId });
-  //   console.log({ data, client, color, numType, title, chartId });
 
   const clientString = client.replace("_Client", "");
 
@@ -701,6 +704,18 @@ const getFSchartOptions = (
     }
   };
 
+  console.log("getFSchartOptions", {
+    data,
+    client,
+    color,
+    numType,
+    title,
+    chartId,
+    yearsDataFinancialStatment_Array,
+    clientArray,
+    currentYear: yearsDataFinancialStatment_Array.length - 1,
+  });
+
   processFinancialData(
     data,
     tableDataClass,
@@ -730,7 +745,7 @@ const getFSchartOptions = (
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -1011,7 +1026,7 @@ const getFpaChartOptions = (data) => {
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -1225,7 +1240,7 @@ const getAtlChartOptions = (data) => {
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -1404,7 +1419,7 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -1554,7 +1569,7 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -1789,7 +1804,7 @@ const getFfaChartOptions = (data) => {
       id: "FinancialPosition",
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -2019,7 +2034,7 @@ const getCashFlowTrendChartOptions = (data) => {
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -2536,7 +2551,7 @@ const getCurrentRatioChartOptions = (data) => {
       type: "line",
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -2859,7 +2874,7 @@ const getLiquidityChartOptions = (data) => {
 };
 
 const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
-  console.log('getSalariesAndBenefitsToTotalExpenseChartOptions',{ data });
+  // console.log('getSalariesAndBenefitsToTotalExpenseChartOptions',{ data });
 
   // Get number for chart
   const mostRecentYear = Math.max(
@@ -3782,7 +3797,7 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -4082,7 +4097,7 @@ const getTuitionDependencyChartOptions = (data) => {
       type: "line",
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -4378,7 +4393,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
       type: "line",
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -5309,7 +5324,7 @@ const getDebtBurdenRatioChartOptions = (data) => {
       type: "line",
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -5409,7 +5424,6 @@ const getDebtBurdenRatioChartOptions = (data) => {
     },
   };
 };
-
 
 const getEndowmentAssetsPerStudentChartOptions = (data) => {
   // console.log("endowmentAssets", { data });
@@ -5608,7 +5622,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       id: "adminCostsPerStudent",
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
