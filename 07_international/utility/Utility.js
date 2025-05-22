@@ -2391,14 +2391,14 @@ function getPeerAndClientChartDataArrays(
       const dataArray = parsedData[dataPeer];
 
       if (mainName == testName)
-        console.log({
-          peerData: parsedData[dataPeer],
-          dataArray,
-          peerClient: parseStoredData[dataClient],
-          parsedData,
-          wa,
-          numType,
-        });
+        // console.log({
+        //   peerData: parsedData[dataPeer],
+        //   dataArray,
+        //   peerClient: parseStoredData[dataClient],
+        //   parsedData,
+        //   wa,
+        //   numType,
+        // });
 
       // Handle missing data
       if (!dataArray || dataArray.length === 0) {

@@ -324,17 +324,6 @@ class ChartConfigFactory {
     // const isAnnualizedInvestmentReturn =
     //   mainName === "annualizedInvestmentReturn";
     // const isCostOfContributions = mainName === "costOfContributions";
-
-    console.log('createMainChartConfig', {
-      dataPeer,
-      dataClient,
-      numType,
-      fixedNum,
-      mainName,
-      wa,
-      parsedData,
-    });
-    
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
     // Get chart data with explicit data refresh
@@ -349,6 +338,17 @@ class ChartConfigFactory {
       true, // Add a force refresh parameter
       parsedData
     );
+
+    console.log('createMainChartConfig', {
+      dataPeer,
+      dataClient,
+      numType,
+      fixedNum,
+      mainName,
+      wa,
+      parsedData,
+    });
+    
 
     // Update the corresponding modal with the same data
     this.updateModalFromChartOptions(mainName, {
@@ -1197,7 +1197,7 @@ class ChartConfigFactory {
       // Define series colors
       const seriesColors = [
         window.chartColors.blue,
-        window.chartColors.orange,
+        window.chartColors.yellow,
         window.chartColors.red,
         window.chartColors.black,
       ];
@@ -1412,39 +1412,23 @@ class ChartConfigFactory {
       costOfContributionsPeer = selectedYearsArray.map(() => 0);
     }
 
-    // Create formatters
-    const formatLargeNumber = (value) => {
-      if (!value && value !== 0) return "$0";
-      if (value >= 1000000) {
-        return `${(value / 1000000).toFixed(1)}M`;
-      } else if (value >= 1000) {
-        return `${(value / 1000).toFixed(0)}K`;
-      }
-      return `${value.toFixed(2)}`;
-    };
-
-    const formatRatio = (value) => {
-      if (!value && value !== 0) return "$0.00";
-      return `${value.toFixed(2)}`;
-    };
-
-    // Calculate dynamic axis limits
+    // Calculate dynamic axis limits with improved precision
     const allDollarValues = [
       ...fundraisingExpensesData,
       ...totalContributionsData,
     ].filter((v) => !isNaN(v) && v !== null);
 
-    // Custom function to determine a good max value without excessive rounding
+    // Improved function to calculate y-axis max with better precision
     const calculateYAxisMax = (values) => {
       if (!values || values.length === 0) return 1000000;
 
       const maxVal = Math.max(...values) * 1.2; // Add 20% headroom
 
-      // For values under 100,000, just return the exact calculation
-      if (maxVal < 100000) return maxVal;
-
-      // For larger values, find an appropriate increment that's not too large
-      if (maxVal < 500000) {
+      // For values under 100,000, use more precise increments
+      if (maxVal < 100000) {
+        // Round to nearest 10,000
+        return Math.ceil(maxVal / 10000) * 10000;
+      } else if (maxVal < 500000) {
         // Round to nearest 50,000
         return Math.ceil(maxVal / 50000) * 50000;
       } else if (maxVal < 1000000) {
@@ -1464,9 +1448,23 @@ class ChartConfigFactory {
       ...costOfContributionsPeer,
     ].filter((v) => !isNaN(v) && v !== null);
 
+    // Improved ratio value calculation
     const safeMinRatioValue = 0;
-    const safeMaxRatioValue =
-      allRatioValues.length > 0 ? Math.max(...allRatioValues) * 1.5 : 0.3;
+    const safeMaxRatioValue = allRatioValues.length > 0 
+      ? Math.ceil(Math.max(...allRatioValues) * 1.2 * 100) / 100 // Round to 2 decimal places
+      : 0.3;
+
+    // Store axis values in chart's global state for persistence
+    const axisValues = {
+      dollarAxis: {
+        min: safeMinDollarValue,
+        max: safeMaxDollarValue
+      },
+      ratioAxis: {
+        min: safeMinRatioValue,
+        max: safeMaxRatioValue
+      }
+    };
 
     const seriesColors = [
       window.chartColors.blue, // Fundraising expenses
@@ -1482,31 +1480,50 @@ class ChartConfigFactory {
           name: "Fundraising Expenses",
           type: "column",
           data: fundraisingExpensesData,
+          yAxisIndex: 0
         },
         {
           name: "Total Contributions",
           type: "column",
           data: totalContributionsData,
+          yAxisIndex: 0
         },
         {
           name: firmName,
           type: "line",
           data: costOfContributionsClient,
+          yAxisIndex: 2
         },
         {
           name: "Peer Average",
           type: "line",
           data: costOfContributionsPeer,
+          yAxisIndex: 2
         },
       ],
       chart: {
         height: 550,
         type: "line",
         stacked: false,
-        // Add numType to chart's global state
         events: {
           mounted: function(chart) {
+            // Store axis values in chart's global state
+            chart.w.globals.axisValues = axisValues;
             chart.w.globals.numType = numType;
+          },
+          updated: function(chart) {
+            // Restore axis values when chart is updated
+            if (chart.w.globals.axisValues) {
+              const { dollarAxis, ratioAxis } = chart.w.globals.axisValues;
+              chart.updateOptions({
+                yaxis: [
+                  { ...chart.w.config.yaxis[0], min: dollarAxis.min, max: dollarAxis.max },
+                  { ...chart.w.config.yaxis[1], min: dollarAxis.min, max: dollarAxis.max },
+                  { ...chart.w.config.yaxis[2], min: ratioAxis.min, max: ratioAxis.max },
+                  { ...chart.w.config.yaxis[3], min: ratioAxis.min, max: ratioAxis.max }
+                ]
+              });
+            }
           }
         },
         toolbar: {
@@ -1591,7 +1608,6 @@ class ChartConfigFactory {
               
               let formattedValue;
               if (absValue >= 1000000) {
-                // Check if the division has a fractional part
                 const millions = absValue / 1000000;
                 const isWholeNumber = millions === Math.floor(millions);
                 formattedValue = isWholeNumber ? `${Math.floor(millions)}M` : `${millions.toFixed(1)}M`;
@@ -1616,6 +1632,7 @@ class ChartConfigFactory {
           show: false,
           min: safeMinDollarValue,
           max: safeMaxDollarValue,
+          tickAmount: 5
         },
         {
           labels: {
@@ -1625,7 +1642,6 @@ class ChartConfigFactory {
               const isNegative = value < 0;
               const absValue = Math.abs(value);
               
-              // Add dollar sign to ratio values
               return `${isNegative ? "-" : ""}$${absValue.toFixed(2)}`;
             },
             style: {
@@ -1636,13 +1652,14 @@ class ChartConfigFactory {
           opposite: true,
           min: safeMinRatioValue,
           max: safeMaxRatioValue,
-          tickAmount: 5,
+          tickAmount: 5
         },
         {
           show: false,
           min: safeMinRatioValue,
           max: safeMaxRatioValue,
-        },
+          tickAmount: 5
+        }
       ],
       tooltip: {
         shared: true,
@@ -1903,7 +1920,15 @@ class ChartConfigFactory {
           return numType === "dollar" ? "$0" : numType === "percent" ? "0%" : "0";
         }
 
-        // Use the custom rounding helper with isYAxis=true
+        // Handle values between 0 and 1 with 2 decimal places
+        if (Math.abs(value) < 1 && Math.abs(value) > 0) {
+          const formattedValue = value.toFixed(2);
+          return numType === "dollar" ? `$${formattedValue}` 
+                : numType === "percent" ? `${formattedValue}%` 
+                : formattedValue;
+        }
+
+        // Use the custom rounding helper with isYAxis=true for larger values
         return self._roundValueByMagnitude(value, numType, true);
       },
 

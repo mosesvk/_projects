@@ -32,7 +32,7 @@ async function processChartsWithSpacing(chartMappings) {
 
       // If we have an ApexChart instance, use its export method
       if (chart && typeof chart.dataURI === "function") {
-        const base64String = await exportApexChart(chart);
+        const base64String = await exportApexChart(chart, chartId);
         if (base64String) {
           results.push({ chartId, fieldId, base64String });
           continue;
@@ -103,6 +103,24 @@ function saveCompleteChartState(chart) {
         )
       : chartConfig.dataLabels?.fixedNum || 0;
 
+    // For costOfContributions chart, save the exact y-axis configuration
+    let yaxisConfig = null;
+    if (
+      chartType === "costOfContributions" &&
+      Array.isArray(chartConfig.yaxis)
+    ) {
+      yaxisConfig = chartConfig.yaxis.map((axis) => ({
+        ...axis,
+        labels: {
+          ...axis.labels,
+          formatter: axis.labels?.formatter?.toString(),
+          style: axis.labels?.style || {},
+        },
+        axisBorder: axis.axisBorder || {},
+        axisTicks: axis.axisTicks || {},
+      }));
+    }
+
     // Save everything we'll need for proper restoration
     const originalConfig = {
       chartId: chartId,
@@ -132,6 +150,7 @@ function saveCompleteChartState(chart) {
       numType: numType,
       fixedNum: fixedNum,
       isYAxisArray: Array.isArray(chartConfig.yaxis),
+      yaxisConfig: yaxisConfig,
     };
     return originalConfig;
   } catch (error) {
@@ -168,6 +187,7 @@ function getChartTypeFromId(chartId) {
  * Restore complete chart state
  */
 function restoreCompleteChartState(chart, originalState) {
+  // console.log("RESTORE CHART STATE", { chart, originalState });
   try {
     if (
       !chart ||
@@ -211,18 +231,116 @@ function restoreCompleteChartState(chart, originalState) {
     let restoredConfig;
 
     // First, ensure numType will be available in chart.w.globals
-    // This is critical for all formatters to work properly
     if (chart.w.globals) {
       chart.w.globals.numType = numType;
     }
 
-    // For chart types that we know are working correctly, preserve their restoration logic
-    if (
-      chartType === "line" ||
-      chartType === "cashFlow" ||
-      chartType === "netAssetBreakdown"
-    ) {
-      // Use the working restoration logic for these chart types but fix formatters
+    // For costOfContributions chart, use the saved y-axis configuration
+    if (chartType === "costOfContributions") {
+      // First, get the original y-axis configuration
+      const originalYAxis = originalState.chartConfig.yaxis;
+
+      // console.log("CHARTTYPE==costOfContributions", {
+      //   originalState,
+      //   originalYAxis,
+      // });
+
+      restoredConfig = {
+        ...originalState.chartConfig,
+        yaxis: [
+          // First y-axis (dollar values)
+          {
+            ...originalYAxis[0],
+            labels: {
+              ...originalYAxis[0].labels,
+              formatter: function (value) {
+                if (value === null || value === undefined || value === 0) {
+                  if (numType === "dollar") return "$0";
+                  if (numType === "percent") return "0%";
+                  return "0";
+                }
+
+                const isNegative = value < 0;
+                const absValue = Math.abs(value);
+
+                let formattedValue;
+                if (absValue >= 1000000) {
+                  // Remove decimal point for millions
+                  const millions = absValue / 1000000;
+                  formattedValue = `${Math.round(millions)}M`;
+                } else if (absValue >= 1000) {
+                  formattedValue = `${Math.round(absValue / 1000)}K`;
+                } else if (absValue < 1 && absValue > 0) {
+                  formattedValue = absValue.toFixed(2);
+                } else {
+                  formattedValue = Math.round(absValue).toString();
+                }
+
+                // Apply appropriate symbol based on numType
+                if (numType === "dollar") {
+                  return `${isNegative ? "-" : ""}$${formattedValue}`;
+                } else if (numType === "percent") {
+                  return `${isNegative ? "-" : ""}${formattedValue}%`;
+                }
+                return `${isNegative ? "-" : ""}${formattedValue}`;
+              },
+            },
+          },
+          // Second y-axis (hidden)
+          {
+            ...originalYAxis[1],
+          },
+          // Third y-axis (ratio values)
+          {
+            ...originalYAxis[2],
+            labels: {
+              ...originalYAxis[2].labels,
+              formatter: function (value) {
+                if (value === null || value === undefined || value === 0) {
+                  if (numType === "dollar") return "$0";
+                  if (numType === "percent") return "0%";
+                  return "0";
+                }
+
+                const isNegative = value < 0;
+                const absValue = Math.abs(value);
+
+                let formattedValue;
+                if (absValue >= 1000000) {
+                  // Remove decimal point for millions
+                  const millions = absValue / 1000000;
+                  formattedValue = `${Math.round(millions)}M`;
+                } else if (absValue >= 1000) {
+                  formattedValue = `${Math.round(absValue / 1000)}K`;
+                } else if (absValue < 1 && absValue > 0) {
+                  formattedValue = absValue.toFixed(2);
+                } else {
+                  formattedValue = Math.round(absValue).toString();
+                }
+
+                // Apply appropriate symbol based on numType
+                if (numType === "dollar") {
+                  return `${isNegative ? "-" : ""}$${formattedValue}`;
+                } else if (numType === "percent") {
+                  return `${isNegative ? "-" : ""}${formattedValue}%`;
+                }
+                return `${isNegative ? "-" : ""}${formattedValue}`;
+              },
+              style: {
+                ...originalYAxis[2].labels?.style,
+                colors: originalYAxis[2]?.labels?.style?.colors || "#3a464f",
+                fontSize: "1.25rem",
+              },
+            },
+          },
+          // Fourth y-axis (hidden)
+          {
+            ...originalYAxis[3],
+          },
+        ],
+      };
+    } else {
+      // Use existing restoration logic for other chart types
       restoredConfig = {
         ...originalState.chartConfig,
         xaxis: {
@@ -237,50 +355,23 @@ function restoreCompleteChartState(chart, originalState) {
                 "#3a464f",
             },
           },
-          events: {
-            ...originalState.chartConfig.chart?.events,
-            mounted: function (chartContext) {
-              chartContext.w.globals.numType = numType;
-
-              // Call original mounted event if it exists
-              if (originalState.chartConfig.chart?.events?.mounted) {
-                originalState.chartConfig.chart.events.mounted.call(
-                  this,
-                  chartContext
-                );
-              }
-            },
-          },
         },
-        chart: {
-          ...originalState.chartConfig.chart,
-          events: {
-            ...originalState.chartConfig.chart?.events,
-            mounted: function (chartContext) {
-              chartContext.w.globals.numType = numType;
-
-              // Call original mounted event if it exists
-              if (originalState.chartConfig.chart?.events?.mounted) {
-                originalState.chartConfig.chart.events.mounted.call(
-                  this,
-                  chartContext
-                );
-              }
-            },
-          },
-        },
-        yaxis: Array.isArray(originalState.chartConfig.yaxis) 
-          ? originalState.chartConfig.yaxis.map(axis => {
+        yaxis: Array.isArray(originalState.chartConfig.yaxis)
+          ? originalState.chartConfig.yaxis.map((axis) => {
               return {
                 ...axis,
                 labels: {
                   ...axis.labels,
-                  formatter: function(value) {
-                    if (value === null || value === undefined || value === 0) return "0";
-                    
+                  formatter: function (value) {
+                    if (value === null || value === undefined || value === 0) {
+                      if (numType === "dollar") return "$0";
+                      if (numType === "percent") return "0%";
+                      return "0";
+                    }
+
                     const isNegative = value < 0;
                     const absValue = Math.abs(value);
-                    
+
                     let formattedValue;
                     if (absValue >= 1000000) {
                       // Remove decimal point for millions
@@ -288,29 +379,37 @@ function restoreCompleteChartState(chart, originalState) {
                       formattedValue = `${Math.round(millions)}M`;
                     } else if (absValue >= 1000) {
                       formattedValue = `${Math.round(absValue / 1000)}K`;
+                    } else if (absValue < 1 && absValue > 0) {
+                      formattedValue = absValue.toFixed(2);
                     } else {
                       formattedValue = Math.round(absValue).toString();
                     }
-                    
-                    // Apply currency symbol if needed
-                    if (axis.labels?.formatter?.toString().includes('$')) {
+
+                    // Apply appropriate symbol based on numType
+                    if (numType === "dollar") {
                       return `${isNegative ? "-" : ""}$${formattedValue}`;
+                    } else if (numType === "percent") {
+                      return `${isNegative ? "-" : ""}${formattedValue}%`;
                     }
                     return `${isNegative ? "-" : ""}${formattedValue}`;
-                  }
-                }
+                  },
+                },
               };
             })
           : {
               ...originalState.chartConfig.yaxis,
               labels: {
                 ...originalState.chartConfig.yaxis?.labels,
-                formatter: function(value) {
-                  if (value === null || value === undefined || value === 0) return "0";
-                  
+                formatter: function (value) {
+                  if (value === null || value === undefined || value === 0) {
+                    if (numType === "dollar") return "$0";
+                    if (numType === "percent") return "0%";
+                    return "0";
+                  }
+
                   const isNegative = value < 0;
                   const absValue = Math.abs(value);
-                  
+
                   let formattedValue;
                   if (absValue >= 1000000) {
                     // Remove decimal point for millions
@@ -321,213 +420,18 @@ function restoreCompleteChartState(chart, originalState) {
                   } else {
                     formattedValue = Math.round(absValue).toString();
                   }
-                  
-                  // Apply currency symbol if needed
-                  if (originalState.chartConfig.yaxis?.labels?.formatter?.toString().includes('$')) {
+
+                  // Apply appropriate symbol based on numType
+                  if (numType === "dollar") {
                     return `${isNegative ? "-" : ""}$${formattedValue}`;
+                  } else if (numType === "percent") {
+                    return `${isNegative ? "-" : ""}${formattedValue}%`;
                   }
                   return `${isNegative ? "-" : ""}${formattedValue}`;
-                }
-              }
-            }
-      };
-    } else {
-      console.log("restoredConfig", {
-        chart,
-        chartGlobals: chart.w.globals,
-        config: originalState.chartConfig,
-      });
-
-      // Basic restored config without yaxis (will add it specifically for each chart type)
-      restoredConfig = {
-        ...originalState.chartConfig,
-        xaxis: {
-          ...originalState.xaxisConfig,
-          categories: originalState.xaxisConfig.categories,
-          labels: {
-            ...originalState.xaxisConfig.labels,
-            style: {
-              ...originalState.xaxisConfig.labels.style,
-              colors:
-                originalState.chartConfig.xaxis?.labels?.style?.colors ||
-                "#3a464f",
-            },
-          },
-          events: {
-            ...originalState.chartConfig.chart?.events,
-            mounted: function (chartContext) {
-              chartContext.w.globals.numType = numType;
-
-              // Call original mounted event if it exists
-              if (originalState.chartConfig.chart?.events?.mounted) {
-                originalState.chartConfig.chart.events.mounted.call(
-                  this,
-                  chartContext
-                );
-              }
-            },
-          },
-        },
-        chart: {
-          ...originalState.chartConfig.chart,
-          events: {
-            ...originalState.chartConfig.chart?.events,
-            mounted: function (chartContext) {
-              chartContext.w.globals.numType = numType;
-
-              // Call original mounted event if it exists
-              if (originalState.chartConfig.chart?.events?.mounted) {
-                originalState.chartConfig.chart.events.mounted.call(
-                  this,
-                  chartContext
-                );
-              }
-            },
-          },
-        },
-      };
-
-      // Create a formatter that can access chart.w.globals
-      const yaxisFormatter = createFormatterWithGlobals(numType, fixedNum);
-
-      // Handle each chart type specifically
-      if (chartType === "main") {
-        // Main chart type - Ensure we use an array with a single object for yaxis
-        restoredConfig.yaxis = [
-          {
-            axisTicks: { show: true },
-            axisBorder: {
-              show: true,
-              color:
-                originalState.chartConfig.yaxis[0]?.axisBorder?.color ||
-                "#3a464f",
-            },
-            labels: {
-              formatter: yaxisFormatter,
-              style: {
-                colors:
-                  originalState.chartConfig.yaxis[0]?.labels?.style?.colors ||
-                  "#3a464f",
-                fontSize:
-                  originalState.chartConfig.yaxis[0]?.labels?.style?.fontSize ||
-                  "1.25rem",
+                },
               },
             },
-            tooltip: { enabled: true },
-          },
-        ];
-      } else if (chartType === "functionalAllocation") {
-        // Functional allocation chart - Uses percent formatting
-        restoredConfig.yaxis = {
-          max: 100,
-          labels: {
-            formatter: function (value) {
-              return `${value}%`; // Direct percent formatter
-            },
-            style: {
-              colors:
-                originalState.chartConfig.yaxis?.labels?.style?.colors ||
-                "#3a464f",
-              fontSize:
-                originalState.chartConfig.yaxis?.labels?.style?.fontSize ||
-                "1.25rem",
-            },
-          },
-        };
-      } else if (chartType === "costOfContributions") {
-        // Cost of contributions chart - Handle multiple axes
-        if (Array.isArray(originalState.chartConfig.yaxis)) {
-          restoredConfig.yaxis = originalState.chartConfig.yaxis.map(
-            (axis, index) => {
-              // Different handling for different axes
-              if (index < 2) {
-                // First two axes (0 and 1) are dollar values
-                return {
-                  ...axis,
-                  labels: {
-                    ...axis.labels,
-                    formatter: function (value) {
-                      if (value === null || value === undefined || value === 0)
-                        return "$0";
-
-                      const isNegative = value < 0;
-                      const absValue = Math.abs(value);
-
-                      let formattedValue;
-                      if (absValue >= 1000000) {
-                        // Round to whole millions for y-axis display
-                        const millions = absValue / 1000000;
-                        formattedValue = `${Math.round(millions)}M`;
-                      } else if (absValue >= 1000) {
-                        formattedValue = `${Math.round(absValue / 1000)}K`;
-                      } else {
-                        formattedValue = Math.round(absValue).toString();
-                      }
-
-                      return `${isNegative ? "-" : ""}$${formattedValue}`;
-                    },
-                    style: {
-                      ...axis.labels?.style,
-                      colors: axis.labels?.style?.colors || "#3a464f",
-                    },
-                  },
-                };
-              } else if (index === 2 || index === 3) {
-                // Third and fourth axes (2 and 3) are ratios
-                return {
-                  ...axis,
-                  labels: {
-                    ...axis.labels,
-                    formatter: function (value) {
-                      if (value === null || value === undefined || value === 0)
-                        return "$0.00";
-
-                      const isNegative = value < 0;
-                      const absValue = Math.abs(value);
-                      return `${isNegative ? "-" : ""}$${absValue.toFixed(2)}`;
-                    },
-                    style: {
-                      ...axis.labels?.style,
-                      colors: axis.labels?.style?.colors || "#3a464f",
-                    },
-                  },
-                };
-              } else {
-                // Any other axes
-                return {
-                  ...axis,
-                  labels: {
-                    ...axis.labels,
-                    formatter: yaxisFormatter,
-                    style: {
-                      ...axis.labels?.style,
-                      colors: axis.labels?.style?.colors || "#3a464f",
-                    },
-                  },
-                };
-              }
-            }
-          );
-        } else {
-          // Fallback for single yaxis
-          restoredConfig.yaxis = {
-            ...originalState.chartConfig.yaxis,
-            labels: {
-              ...originalState.chartConfig.yaxis?.labels,
-              formatter: yaxisFormatter,
-              style: {
-                ...originalState.chartConfig.yaxis?.labels?.style,
-                colors:
-                  originalState.chartConfig.yaxis?.labels?.style?.colors ||
-                  "#3a464f",
-                fontSize:
-                  originalState.chartConfig.yaxis?.labels?.style?.fontSize ||
-                  "1.25rem",
-              },
-            },
-          };
-        }
-      }
+      };
     }
 
     // Apply the restored configuration
@@ -562,7 +466,9 @@ function createFormatterWithGlobals(numType, fixedNum) {
       // Check if the division has a fractional part
       const millions = absValue / 1000000;
       const isWholeNumber = millions === Math.floor(millions);
-      formattedValue = isWholeNumber ? `${Math.floor(millions)}M` : `${millions.toFixed(1)}M`;
+      formattedValue = isWholeNumber
+        ? `${Math.floor(millions)}M`
+        : `${millions.toFixed(1)}M`;
     } else if (absValue >= 1000) {
       formattedValue = `${(absValue / 1000).toFixed(0)}K`;
     } else {
@@ -585,7 +491,7 @@ function createFormatterWithGlobals(numType, fixedNum) {
  * @param {Object} chart - ApexChart instance
  * @returns {Promise<string>} - Base64 encoded image or null if failed
  */
-async function exportApexChart(chart) {
+async function exportApexChart(chart, chartId) {
   try {
     if (!chart || !chart.w || !chart.w.globals || !chart.w.globals.dom) {
       throw new Error("Invalid chart instance");
@@ -645,11 +551,19 @@ async function exportApexChart(chart) {
     paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
     // Get chart info
-    const chartId = originalState.chartId || chart.w.globals.chartID;
     const mainName = originalState.mainName || chartId.replace("_chart", "");
     const chartType = originalState.chartType || getChartTypeFromId(chartId);
     const numType = originalState.numType || "number";
     const fixedNum = originalState.fixedNum || 0;
+
+    console.log("export ApexChart", {
+      chart,
+      numType,
+      fixedNum,
+      chartId,
+      chartType,
+      mainName,
+    });
 
     // Ensure numType is set in globals
     if (chart.w.globals) {
@@ -701,58 +615,72 @@ async function exportApexChart(chart) {
 
     // Different export options based on chart type
     let exportOptions;
+    // Create a formatter that can access chart.w.globals
+    const yaxisFormatter = createFormatterWithGlobals(numType, fixedNum);
 
-    // For chart types that we know are working correctly, preserve their export logic
-    if (
-      chartType === "line" ||
-      chartType === "cashFlow" ||
-      chartType === "netAssetBreakdown"
-    ) {
-      // Keep original yaxis for working chart types but fix formatters
-      exportOptions = {
-        ...baseExportOptions,
-        yaxis: Array.isArray(originalState.chartConfig.yaxis) 
-          ? originalState.chartConfig.yaxis.map(axis => {
-              return {
-                ...axis,
-                labels: {
-                  ...axis.labels,
-                  formatter: function(value) {
-                    if (value === null || value === undefined || value === 0) return "0";
-                    
-                    const isNegative = value < 0;
-                    const absValue = Math.abs(value);
-                    
-                    let formattedValue;
-                    if (absValue >= 1000000) {
-                      // Remove decimal point for millions
-                      const millions = absValue / 1000000;
-                      formattedValue = `${Math.round(millions)}M`;
-                    } else if (absValue >= 1000) {
-                      formattedValue = `${Math.round(absValue / 1000)}K`;
-                    } else {
-                      formattedValue = Math.round(absValue).toString();
-                    }
-                    
-                    // Apply currency symbol if needed
-                    if (axis.labels?.formatter?.toString().includes('$')) {
-                      return `${isNegative ? "-" : ""}$${formattedValue}`;
-                    }
-                    return `${isNegative ? "-" : ""}${formattedValue}`;
-                  }
-                }
-              };
-            })
-          : {
-              ...originalState.chartConfig.yaxis,
+    // Handle each chart type specifically
+    if (chartId === "costOfContributionsDetailView_chart") {
+      // Cost of contributions chart - Handle multiple axes
+      if (Array.isArray(originalState.chartConfig.yaxis)) {
+        // Get the min and max values for ratio axes
+        const safeMinRatioValue = originalState.chartConfig.yaxis[2]?.min || 0;
+        const safeMaxRatioValue =
+          originalState.chartConfig.yaxis[2]?.max || 0.12;
+
+        exportOptions = {
+          ...baseExportOptions,
+          yaxis: [
+            // First y-axis (dollar values)
+            {
+              ...originalState.chartConfig.yaxis[0],
               labels: {
-                ...originalState.chartConfig.yaxis?.labels,
-                formatter: function(value) {
-                  if (value === null || value === undefined || value === 0) return "0";
-                  
+                ...originalState.chartConfig.yaxis[0].labels,
+                formatter: function (value) {
+                  if (value === null || value === undefined || value === 0) {
+                    if (numType === "dollar") return "$0";
+                    if (numType === "percent") return "0%";
+                    return "0";
+                  }
+
                   const isNegative = value < 0;
                   const absValue = Math.abs(value);
-                  
+
+                  let formattedValue;
+                  if (absValue >= 1000000) {
+                    const millions = absValue / 1000000;
+                    const isWholeNumber = millions === Math.floor(millions);
+                    formattedValue = isWholeNumber
+                      ? `${Math.floor(millions)}M`
+                      : `${millions.toFixed(1)}M`;
+                  } else if (absValue >= 1000) {
+                    formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+                  } else {
+                    formattedValue = absValue.toFixed(2);
+                  }
+
+                  return `${isNegative ? "-" : ""}$${formattedValue}`;
+                },
+              },
+            },
+            // Second y-axis (hidden)
+            {
+              ...originalState.chartConfig.yaxis[1],
+            },
+            // Third y-axis (ratio values)
+            {
+              ...originalState.chartConfig.yaxis[2],
+              labels: {
+                ...originalState.chartConfig.yaxis[2].labels,
+                formatter: function (value) {
+                  if (value === null || value === undefined || value === 0) {
+                    if (numType === "dollar") return "$0";
+                    if (numType === "percent") return "0%";
+                    return "0";
+                  }
+
+                  const isNegative = value < 0;
+                  const absValue = Math.abs(value);
+
                   let formattedValue;
                   if (absValue >= 1000000) {
                     // Remove decimal point for millions
@@ -760,63 +688,67 @@ async function exportApexChart(chart) {
                     formattedValue = `${Math.round(millions)}M`;
                   } else if (absValue >= 1000) {
                     formattedValue = `${Math.round(absValue / 1000)}K`;
+                  } else if (absValue < 1 && absValue > 0) {
+                    formattedValue = absValue.toFixed(2);
                   } else {
                     formattedValue = Math.round(absValue).toString();
                   }
-                  
-                  // Apply currency symbol if needed
-                  if (originalState.chartConfig.yaxis?.labels?.formatter?.toString().includes('$')) {
+
+                  // Apply appropriate symbol based on numType
+                  if (numType === "dollar") {
                     return `${isNegative ? "-" : ""}$${formattedValue}`;
+                  } else if (numType === "percent") {
+                    return `${isNegative ? "-" : ""}${formattedValue}%`;
                   }
                   return `${isNegative ? "-" : ""}${formattedValue}`;
-                }
-              }
-            }
-      };
-    } else {
-      // Create a formatter that can access chart.w.globals
-      const yaxisFormatter = createFormatterWithGlobals(numType, fixedNum);
-
-      // Handle each chart type specifically
-      if (chartType === "main") {
-        // Main chart type - Ensure we use an array with a single object for yaxis
-        exportOptions = {
-          ...baseExportOptions,
-          yaxis: [
-            {
-              axisTicks: { show: true },
+                },
+                style: {
+                  ...originalState.chartConfig.yaxis[2].labels?.style,
+                  colors:
+                    originalState.chartConfig.yaxis[2]?.labels?.style?.colors ||
+                    "#3a464f",
+                  fontSize: "1.25rem",
+                },
+              },
+              min: safeMinRatioValue,
+              max: safeMaxRatioValue,
+              tickAmount: 5,
+              show: true,
+              opposite: true,
               axisBorder: {
                 show: true,
                 color:
-                  originalState.chartConfig.yaxis[0]?.axisBorder?.color ||
+                  originalState.chartConfig.yaxis[2]?.axisBorder?.color ||
                   "#3a464f",
               },
-              labels: {
-                formatter: yaxisFormatter,
-                style: {
-                  colors:
-                    originalState.chartConfig.yaxis[0]?.labels?.style?.colors ||
-                    "#3a464f",
-                  fontSize:
-                    originalState.chartConfig.yaxis[0]?.labels?.style
-                      ?.fontSize || "1.25rem",
-                },
+              axisTicks: {
+                show: true,
+                color:
+                  originalState.chartConfig.yaxis[2]?.axisTicks?.color ||
+                  "#3a464f",
               },
-              tooltip: { enabled: true },
+            },
+            // Fourth y-axis (hidden)
+            {
+              ...originalState.chartConfig.yaxis[3],
             },
           ],
         };
-      } else if (chartType === "functionalAllocation") {
-        // Functional allocation chart - Uses percent formatting
+
+        console.log("export ApexChart CHARTTYPE==costOfContributions", {
+          exportOptions,
+        });
+      } else {
+        // Fallback for single yaxis
         exportOptions = {
           ...baseExportOptions,
           yaxis: {
-            max: 100,
+            ...originalState.chartConfig.yaxis,
             labels: {
-              formatter: function (value) {
-                return `${value}%`; // Direct percent formatter
-              },
+              ...originalState.chartConfig.yaxis?.labels,
+              formatter: yaxisFormatter,
               style: {
+                ...originalState.chartConfig.yaxis?.labels?.style,
                 colors:
                   originalState.chartConfig.yaxis?.labels?.style?.colors ||
                   "#3a464f",
@@ -827,107 +759,133 @@ async function exportApexChart(chart) {
             },
           },
         };
-      } else if (chartType === "costOfContributions") {
-        // Cost of contributions chart - Handle multiple axes
-        if (Array.isArray(originalState.chartConfig.yaxis)) {
-          exportOptions = {
-            ...baseExportOptions,
-            yaxis: originalState.chartConfig.yaxis.map((axis, index) => {
-              // Different handling for different axes
-              if (index < 2) {
-                // First two axes (0 and 1) are dollar values
-                return {
-                  ...axis,
-                  labels: {
-                    ...axis.labels,
-                    formatter: function (value) {
-                      if (value === null || value === undefined || value === 0)
-                        return "$0";
+      }
+    } else if (chartId === "costOfContributions_chart") {
+      if (Array.isArray(originalState.chartConfig.yaxis)) {
+        // Get the min and max values for ratio axes
+        const safeMinRatioValue = originalState.chartConfig.yaxis?.min || 0;
+        const safeMaxRatioValue =
+          originalState.chartConfig.yaxis?.max || 0.12;
 
-                      const isNegative = value < 0;
-                      const absValue = Math.abs(value);
-
-                      let formattedValue;
-                      if (absValue >= 1000000) {
-                        // Round to whole millions for y-axis display
-                        const millions = absValue / 1000000;
-                        formattedValue = `${Math.round(millions)}M`;
-                      } else if (absValue >= 1000) {
-                        formattedValue = `${Math.round(absValue / 1000)}K`;
-                      } else {
-                        formattedValue = Math.round(absValue).toString();
-                      }
-
-                      return `${isNegative ? "-" : ""}$${formattedValue}`;
-                    },
-                    style: {
-                      ...axis.labels?.style,
-                      colors: axis.labels?.style?.colors || "#3a464f",
-                    },
-                  },
-                };
-              } else if (index === 2 || index === 3) {
-                // Third and fourth axes (2 and 3) are ratios
-                return {
-                  ...axis,
-                  labels: {
-                    ...axis.labels,
-                    formatter: function (value) {
-                      if (value === null || value === undefined || value === 0)
-                        return "$0.00";
-
-                      const isNegative = value < 0;
-                      const absValue = Math.abs(value);
-                      return `${isNegative ? "-" : ""}$${absValue.toFixed(2)}`;
-                    },
-                    style: {
-                      ...axis.labels?.style,
-                      colors: axis.labels?.style?.colors || "#3a464f",
-                    },
-                  },
-                };
-              } else {
-                // Any other axes
-                return {
-                  ...axis,
-                  labels: {
-                    ...axis.labels,
-                    formatter: yaxisFormatter,
-                    style: {
-                      ...axis.labels?.style,
-                      colors: axis.labels?.style?.colors || "#3a464f",
-                    },
-                  },
-                };
-              }
-            }),
-          };
-        } else {
-          // Fallback for single yaxis
-          exportOptions = {
-            ...baseExportOptions,
-            yaxis: {
+        exportOptions = {
+          ...baseExportOptions,
+          yaxis: [
+            {
               ...originalState.chartConfig.yaxis,
               labels: {
-                ...originalState.chartConfig.yaxis?.labels,
-                formatter: yaxisFormatter,
+                ...originalState.chartConfig.yaxis.labels,
+                formatter: function (value) {
+                  if (value === null || value === undefined || value === 0) {
+                    if (numType === "dollar") return "$0";
+                    if (numType === "percent") return "0%";
+                    return "0";
+                  }
+
+                  const isNegative = value < 0;
+                  const absValue = Math.abs(value);
+
+                  let formattedValue;
+                  if (absValue >= 1000000) {
+                    // Remove decimal point for millions
+                    const millions = absValue / 1000000;
+                    formattedValue = `${Math.round(millions)}M`;
+                  } else if (absValue >= 1000) {
+                    formattedValue = `${Math.round(absValue / 1000)}K`;
+                  } else if (absValue < 1 && absValue > 0) {
+                    formattedValue = absValue.toFixed(2);
+                  } else {
+                    formattedValue = Math.round(absValue).toString();
+                  }
+
+                  // Apply appropriate symbol based on numType
+                  if (numType === "dollar") {
+                    return `${isNegative ? "-" : ""}$${formattedValue}`;
+                  } else if (numType === "percent") {
+                    return `${isNegative ? "-" : ""}${formattedValue}%`;
+                  }
+                  return `${isNegative ? "-" : ""}${formattedValue}`;
+                },
                 style: {
-                  ...originalState.chartConfig.yaxis?.labels?.style,
+                  ...originalState.chartConfig.yaxis.labels?.style,
                   colors:
                     originalState.chartConfig.yaxis?.labels?.style?.colors ||
                     "#3a464f",
-                  fontSize:
-                    originalState.chartConfig.yaxis?.labels?.style?.fontSize ||
-                    "1.25rem",
+                  fontSize: "1.25rem",
                 },
               },
+              min: safeMinRatioValue,
+              max: safeMaxRatioValue,
+              tickAmount: 5,
+              show: true,
+              axisBorder: {
+                show: true,
+                color:
+                  originalState.chartConfig.yaxis?.axisBorder?.color ||
+                  "#3a464f",
+              },
+              axisTicks: {
+                show: true,
+                color:
+                  originalState.chartConfig.yaxis?.axisTicks?.color ||
+                  "#3a464f",
+              },
             },
-          };
-        }
+          ],
+        };
+
+        console.log("export ApexChart CHARTTYPE==costOfContributions", {
+          exportOptions,
+        });
       } else {
-        // Default for other chart types
-        exportOptions = baseExportOptions;
+        // Fallback for single yaxis
+        exportOptions = {
+          ...baseExportOptions,
+          yaxis: {
+            ...originalState.chartConfig.yaxis,
+            labels: {
+              ...originalState.chartConfig.yaxis?.labels,
+              formatter: yaxisFormatter,
+              style: {
+                ...originalState.chartConfig.yaxis?.labels?.style,
+                colors:
+                  originalState.chartConfig.yaxis?.labels?.style?.colors ||
+                  "#3a464f",
+                fontSize:
+                  originalState.chartConfig.yaxis?.labels?.style?.fontSize ||
+                  "1.25rem",
+              },
+            },
+          },
+        };
       }
+    } else {
+      // Main chart type - Ensure we use an array with a single object for yaxis
+      exportOptions = {
+        ...baseExportOptions,
+        yaxis: [
+          {
+            axisTicks: { show: true },
+            axisBorder: {
+              show: true,
+              color:
+                originalState.chartConfig.yaxis[0]?.axisBorder?.color ||
+                "#3a464f",
+            },
+            labels: {
+              formatter: yaxisFormatter,
+              style: {
+                colors:
+                  originalState.chartConfig.yaxis[0]?.labels?.style?.colors ||
+                  "#3a464f",
+                fontSize:
+                  originalState.chartConfig.yaxis[0]?.labels?.style?.fontSize ||
+                  "1.25rem",
+              },
+            },
+            tooltip: { enabled: true },
+          },
+        ],
+      };
     }
 
     // Update chart with export options
