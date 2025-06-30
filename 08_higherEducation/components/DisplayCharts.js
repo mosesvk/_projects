@@ -16,7 +16,7 @@ const displayCfiComponent = () => {
     "CFI Overall Ratio"
   );
 
-  // cfi_primaryReserveRatiod
+  // cfi_primaryReserveRatio
   createChartFromParsedData(
     parseData,
     "cfi_primaryReserveRatio_chart",
@@ -350,7 +350,7 @@ const displayFinancialStatementComponent = () => {
       "adjustmentsAccountsReceivable",
       "adjustmentsInventory",
       "adjustmentsPrepaidsAndOtherAssets",
-      "cashFlowsaccountsPayableAndAccruedExpenses",
+      "cashFlowsAccountsPayableAndAccruedExpenses",
       "cashFlowsDeferredRevenue",
       "adjustmentsOtherLiabilities",
       "cashFlowsOperatingActivities"
