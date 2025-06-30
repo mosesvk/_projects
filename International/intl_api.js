@@ -1009,19 +1009,15 @@ class DataProcessor {
       // Process peer records
       filteredPeerRecords.forEach((record) => {
         // cfiRatio_peerAverage
-        const cfiRatioValue = record["r119_ccfi_overall_ratio"];
-        if (cfiRatioValue !== undefined && cfiRatioValue !== null) {
-          this.dataStore.insertData(
-            "cfi",
-            "peer",
-            year,
-            "cfiRatio_peerAverage_Peer",
-            record,
-            "r119_ccfi_overall_ratio",
-            "r119_ccfi_overall_ratioyn"
-          );
-          console.log(`Processed CFI Ratio peer data for year ${year}:`, cfiRatioValue);
-        }
+        this.dataStore.insertData(
+          "cfi",
+          "peer",
+          year,
+          "cfiRatio_peerAverage_Peer",
+          record,
+          "r119_ccfi_overall_ratio",
+          "r119_ccfi_overall_ratioyn"
+        );
 
         // primaryReserveRatio_peerAverage
         this.dataStore.insertData(
@@ -1071,18 +1067,14 @@ class DataProcessor {
       // Process client records
       filteredClientRecords.forEach((record) => {
         // cfiRatio
-        const cfiRatioValue = record["r119_ccfi_overall_ratio"];
-        if (cfiRatioValue !== undefined && cfiRatioValue !== null) {
-          this.dataStore.insertData(
-            "cfi",
-            "client",
-            year,
-            "cfiRatio_Client",
-            record,
-            "r119_ccfi_overall_ratio"
-          );
-          console.log(`Processed CFI Ratio client data for year ${year}:`, cfiRatioValue);
-        }
+        this.dataStore.insertData(
+          "cfi",
+          "client",
+          year,
+          "cfiRatio_Client",
+          record,
+          "r119_ccfi_overall_ratio"
+        );
 
         // cfi_primaryReserveRatio
         this.dataStore.insertData(

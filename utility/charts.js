@@ -10,7 +10,14 @@ const getMainChartOptions = (
 ) => {
   // console.log('getMainChartOptions()',{ dataPeer, dataClient, numType, fixedNum, mainName, benchmark, title });
   // if (mainName == "doeOverall")
-  //   console.log({ dataClient, numType });
+  // console.log({   dataPeer,
+  //   dataClient,
+  //   numType,
+  //   fixedNum,
+  //   mainName,
+  //   benchmark,
+  //   title,
+  //   chartId });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -81,6 +88,8 @@ const getMainChartOptions = (
 
   let yaxisAnnotation;
 
+  let previousData = [];
+
   const chartEvents = {
     beforeMount: function (chartContext, config) {
       // First, wait for the chart and annotations to be rendered
@@ -139,8 +148,6 @@ const getMainChartOptions = (
       // Set the annotation line to match exactly
       annotationLine.setAttribute("x1", x1);
       annotationLine.setAttribute("x2", x2);
-      if (chartId == "cfiRatio_chart")
-        console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
     },
   };
 
@@ -203,6 +210,7 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfiRatio_annotation;
+    yaxisMax = 10;
     previousData = clientArray;
   } else if (mainName == "doeOverall") {
     const data = JSON.parse(localStorage.doeData);
@@ -228,6 +236,7 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = doeOverall_annotation;
+    yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
 
     // console.log('doeOverall', data)
@@ -360,6 +369,7 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfi_primaryReserveRatio_annotation;
+    yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
   } else if (mainName == "cfi_netIncomeOperationsRatio") {
     // console.log("cfi_netIncomeOperationsRatio", {
@@ -394,6 +404,7 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfi_netIncomeOperationsRatio_annotation;
+    yaxisMax = Math.round(Math.max(...clientArray) + 5);
     previousData = clientArray;
   } else if (mainName == "cfi_returnOnNetAssets") {
     cfi_returnOnNetAssets_annotation = [
@@ -418,6 +429,7 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfi_returnOnNetAssets_annotation;
+    yaxisMax = Math.round(Math.max(...clientArray) + 5);
     previousData = clientArray;
   } else if (mainName == "cfi_viabilityRatio") {
     // cfi_viabilityRatio
@@ -443,6 +455,7 @@ const getMainChartOptions = (
       },
     ];
     yaxisAnnotation = cfi_viabilityRatio_annotation;
+    yaxisMax = Math.round(Math.max(...clientArray) + 2);
     previousData = clientArray;
   } else {
     return;
@@ -450,7 +463,7 @@ const getMainChartOptions = (
 
   const series = [
     {
-      name: clientName,
+      name: firmName,
       type: "column",
       data: clientArray,
     },
@@ -488,7 +501,7 @@ const getMainChartOptions = (
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -516,7 +529,7 @@ const getMainChartOptions = (
         fontSize: "1.5rem",
       },
       margin: 5,
-      offsetY: 30
+      offsetY: 30,
     },
     xaxis: {
       categories: selectedYearsArray,
@@ -542,12 +555,16 @@ const getMainChartOptions = (
           fontSize: "1rem",
         },
       },
-      ...(mainName === "cfiRatio" ? {
-        min: -4,
-        max: 10
-      } : (mainName === "doeOverall") ? {
-        max: Math.round(Math.max(...clientArray) + 1)
-      } : {})
+      ...(mainName === "cfiRatio"
+        ? {
+            min: -4,
+            max: 10,
+          }
+        : mainName === "doeOverall"
+        ? {
+            max: Math.round(Math.max(...clientArray) + 1),
+          }
+        : {}),
     },
     tooltip: {
       shared: true,
@@ -623,11 +640,11 @@ const getFSchartOptions = (
   numType,
   title,
   chartId,
-  tableDataClass
+  tableDataClass,
+  dataPointArray
 ) => {
-  // if (chartId == "#nonOperatingActivities_chart")
-  //   console.log({ data, client, color, numType, title, chartId });
-  // console.log({ data, client, 'data[client]': data[client]});
+  // if (chartId == "#assets_chart")
+  // console.log('getFSchartOptions', { yearsData_Array, client, 'data[client]': data[client], numType, title, chartId });
 
   const clientString = client.replace("_Client", "");
 
@@ -688,13 +705,27 @@ const getFSchartOptions = (
     }
   };
 
+  // console.log("getFSchartOptions", {
+  //   data,
+  //   client,
+  //   color,
+  //   numType,
+  //   title,
+  //   chartId,
+  //   yearsDataFinancialStatment_Array,
+  //   clientArray,
+  //   currentYear: yearsDataFinancialStatment_Array.length - 1,
+  //   dataPointArray
+  // });
+
   processFinancialData(
     data,
     tableDataClass,
     yearsDataFinancialStatment_Array[
       yearsDataFinancialStatment_Array.length - 1
     ],
-    clientString
+    clientString,
+    dataPointArray
   );
 
   const lastYear =
@@ -706,7 +737,7 @@ const getFSchartOptions = (
     colors: [color],
     series: [
       {
-        name: clientName,
+        name: firmName,
         type: "column",
         data: clientArray,
         style: {
@@ -717,7 +748,7 @@ const getFSchartOptions = (
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -740,7 +771,8 @@ const getFSchartOptions = (
             data,
             tableDataClass,
             yearsDataFinancialStatment_Array[index],
-            clientString
+            clientString,
+            dataPointArray
           );
         },
       },
@@ -855,7 +887,7 @@ const getFSchartOptions = (
 };
 
 const getFpaChartOptions = (data) => {
-  // console.log('getFPA', {data});
+  // console.log('getFpaChartOptions', {data});
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -998,7 +1030,7 @@ const getFpaChartOptions = (data) => {
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -1188,7 +1220,7 @@ const getAtlChartOptions = (data) => {
     ],
     series: [
       {
-        name: clientName,
+        name: firmName,
         data: clientArray,
         style: {
           colors: [chartColors.labelColor],
@@ -1212,7 +1244,7 @@ const getAtlChartOptions = (data) => {
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -1391,7 +1423,7 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -1541,7 +1573,7 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -1660,8 +1692,8 @@ const getFfaChartOptions = (data) => {
   const compensationAndBenefitsClient =
     restrictedGiftsClient - (salariesAndWagesClient + employeeBenefitsClient);
 
-  const servicesSuppliesOtherClient = Number(
-    data["ffa_servicesSuppliesOther_Client"][currentYear].value
+  const servicesSuppliesAndOtherClient = Number(
+    data["ffa_servicesSuppliesAndOther_Client"][currentYear].value
   );
   const occupancyUtilitiesAndMaintenanceClient = Number(
     data["ffa_occupancyUtilitiesAndMaintenance_Client"][currentYear].value
@@ -1671,7 +1703,7 @@ const getFfaChartOptions = (data) => {
 
   const generalExpenseClient =
     compensationAndBenefitsClient -
-    (servicesSuppliesOtherClient +
+    (servicesSuppliesAndOtherClient +
       occupancyUtilitiesAndMaintenanceClient +
       interestClient);
 
@@ -1776,7 +1808,7 @@ const getFfaChartOptions = (data) => {
       id: "FinancialPosition",
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -2006,7 +2038,7 @@ const getCashFlowTrendChartOptions = (data) => {
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -2523,7 +2555,7 @@ const getCurrentRatioChartOptions = (data) => {
       type: "line",
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -2846,7 +2878,7 @@ const getLiquidityChartOptions = (data) => {
 };
 
 const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
-  // console.log({ data });
+  // console.log('getSalariesAndBenefitsToTotalExpenseChartOptions',{ data });
 
   // Get number for chart
   const mostRecentYear = Math.max(
@@ -3741,7 +3773,7 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     ],
     series: [
       {
-        name: clientName,
+        name: firmName,
         type: "column",
         data: clientArray,
       },
@@ -3769,7 +3801,7 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     chart: {
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -4069,7 +4101,7 @@ const getTuitionDependencyChartOptions = (data) => {
       type: "line",
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -4365,7 +4397,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
       type: "line",
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -4906,7 +4938,7 @@ const getEndowmentOperatingChartOptions = (data) => {
       chart: {
         theme: "fusion",
         caption: "",
-        subcaption: clientName,
+        subcaption: firmName,
         lowerLimit: "0",
         upperLimit: "250",
         numberSuffix: "%",
@@ -5296,7 +5328,7 @@ const getDebtBurdenRatioChartOptions = (data) => {
       type: "line",
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,
@@ -5396,7 +5428,6 @@ const getDebtBurdenRatioChartOptions = (data) => {
     },
   };
 };
-
 
 const getEndowmentAssetsPerStudentChartOptions = (data) => {
   // console.log("endowmentAssets", { data });
@@ -5563,7 +5594,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     ],
     series: [
       {
-        name: clientName,
+        name: firmName,
         type: "column",
         data: clientArray,
         style: {
@@ -5595,7 +5626,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       id: "adminCostsPerStudent",
       toolbar: {
         tools: {
-          download: false,
+          download: true,
           selection: false,
           zoom: false,
           zoomin: false,

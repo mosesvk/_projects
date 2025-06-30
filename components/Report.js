@@ -1,567 +1,801 @@
-/**
- * Report Component
- * Handles displaying and managing financial report data in tables
- */
-class ReportComponent {
-  constructor() {
-    this.initializeEventListeners();
+const displayReportComponent = () => {
+  // console.log('displayReportComponent()');
+
+  const cfiData = JSON.parse(localStorage.getItem("cfiData"));
+  const financialAnalysisContentData = JSON.parse(
+    localStorage.getItem("financialAnalysisData")
+  );
+  const financialStatementContentData = JSON.parse(
+    localStorage.getItem("financialStatementData")
+  );
+  const years = getSelectedYearsFromLocalStorage();
+  const selectedYears = years && years.sort((a, b) => a - b);
+
+  // console.log(
+  //   'displayReportComponent',
+  //   {
+  //   cfiData,
+  //   financialAnalysisContentData,
+  //   financialStatementContentData,
+  //   selectedYears,
+  // });
+
+  if (selectedYears) {
+    insertDataToReport(
+      cfiData,
+      selectedYears,
+      document.getElementById("cfiRatio_clientTable"),
+      [
+        ["cfiRatio_peerAverage_Peer", "num", 1],
+        ["cfiRatio", "num", 1],
+        ["cfi_primaryReserveRatio", "num", 2],
+        ["cfi_netIncomeOperationsRatio", "percent", 1],
+        ["cfi_returnOnNetAssets", "percent", 1],
+        ["cfi_viabilityRatio", "num", 2],
+      ]
+    );
+    insertCalculatedDataToReport(cfiData, selectedYears, [
+      ["primaryReserveRatio", "num", 2],
+      ["netIncomeOperationsRatio", "num", 2],
+      ["returnOnNetAssets", "num", 2],
+      ["viabilityRatio", "num", 2],
+    ]);
+
+    insertDataToReport(
+      cfiData,
+      selectedYears,
+      document.getElementById("primaryReserveRatio_clientTable"),
+      [
+        ["primaryReserveRatio_peerAverage_Peer", "num", 2],
+        ["primaryReserveRatio", "num", 2],
+        ["pr_nonrestrictedNetAssets", "dollar", 0],
+        ["pr_restrictedNetAssets", "dollar", 0],
+        ["pr_propertyAndEquipment", "dollar", 0],
+        ["pr_notesPayable", "dollar", 0],
+        ["pr_cfi_primaryReserveAdjustment", "num", 1],
+        ["pr_totalFunctionalExpenses", "dollar", 0],
+      ]
+    );
+
+    insertDataToReport(
+      cfiData,
+      selectedYears,
+      document.getElementById("netIncomeOperations_clientTable"),
+      [
+        ["netIncomeOperationsRatio_peerAverage_Peer", "percent", 1],
+        ["netIncomeOperationsRatio", "percent", 1],
+        ["ni_operatingRevenuesSupportAndReleases", "dollar", 0],
+        ["ni_totalFunctionalExpenses", "dollar", 0],
+      ]
+    );
+
+    insertDataToReport(
+      cfiData,
+      selectedYears,
+      document.getElementById("returnOnNetAssets_clientTable"),
+      [
+        ["returnOnNetAssets_peerAverage_Peer", "percent", 1],
+        ["returnOnNetAssets", "percent", 1],
+        ["ro_changeInNetAssets", "dollar", 0],
+        ["ro_netAssetsBeginningOfYear", "dollar", 0],
+      ]
+    );
+
+    insertDataToReport(
+      cfiData,
+      selectedYears,
+      document.getElementById("viabilityRatio_clientTable"),
+      [
+        ["viabilityRatio_peerAverage_Peer", "num", 2],
+        ["viabilityRatio", "num", 2],
+        ["vr_nonrestrictedNetAssets", "dollar", 0],
+        ["vr_restrictedNetAssets", "dollar", 0],
+        ["vr_totalPropertyAndEquipment", "dollar", 0],
+        ["vr_accumulatedDepreciation", "dollar", 0],
+        ["vr_notesPayable", "dollar", 0],
+      ]
+    );
+
+    insertDataToAssetToLiabilityReport(
+      financialAnalysisContentData,
+      selectedYears
+    );
+
+    insertDataToSourceOfInomeReport(
+      financialAnalysisContentData,
+      selectedYears
+    );
+
+    insertDataToFfaReport(financialAnalysisContentData, selectedYears);
+
+    insertDataToFSReport(financialStatementContentData, selectedYears);
+
+    formatNegativeNumbers();
   }
+};
 
-  /**
-   * Initialize event listeners
-   */
-  initializeEventListeners() {
-    // Report link handling
-    const reportLink = document.getElementById("reportLink");
-    if (reportLink) {
-      reportLink.addEventListener("click", this.handleReportLinkClick.bind(this));
-    }
+const insertDataToFSReport = (data, selectedYears) => {
+  // console.log({ data, selectedYears });
+};
 
-    // Generate reports button
-    const generateReportsBtn = document.getElementById("generateReports");
-    if (generateReportsBtn) {
-      generateReportsBtn.addEventListener(
-        "click",
-        this.handleGenerateReportClick.bind(this)
-      );
-    }
+const insertDataToFfaReport = (data, selectedYears) => {
+  // console.log('ffa', {data, selectedYears});
 
-    // Listen for data processing complete
-    document.addEventListener(
-      "dataProcessingComplete",
-      this.onDataProcessingComplete.bind(this)
+  const currentYear = selectedYears[selectedYears.length - 1];
+
+  const revenueTuitionAndFeesClient = Number(
+    data["ffa_revenueTuitionAndFees_Client"][currentYear].value
+  );
+  document.getElementById("ffa_tuitionFees").textContent =
+    revenueTuitionAndFeesClient != 0
+      ? styleNumber(revenueTuitionAndFeesClient, "dollar", 0)
+      : "-";
+
+  const revenueSchoolServicesClient = Number(
+    data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value
+  );
+  document.getElementById("ffa_scholarshipsFinancial").textContent =
+    revenueSchoolServicesClient != 0
+      ? styleNumber(revenueSchoolServicesClient, "dollar", 0)
+      : "-";
+
+  const totalRevenueContributionsClient = Number(
+    data["ffa_totalRevenueContributions_Client"][currentYear].value
+  );
+  document.getElementById("ffa_unrestrictedGifts").textContent =
+    totalRevenueContributionsClient != 0
+      ? styleNumber(totalRevenueContributionsClient, "dollar", 0)
+      : "-";
+
+  const revenueAuxiliaryActivitiesClient = Number(
+    data["ffa_revenueAuxiliaryActivities_Client"][currentYear].value
+  );
+  const revenueOtherClient = Number(
+    data["ffa_revenueOther_Client"][currentYear].value
+  );
+  const revenueInvestmentIncomeClient = Number(
+    data["ffa_revenueInvestmentIncome_Client"][currentYear].value
+  );
+  const revenueEndowmentSpendingAppropriationClient = Number(
+    data["ffa_revenueEndowmentSpendingAppropriation_Client"][currentYear].value
+  );
+  const auxiliaryAndOtherClient =
+    revenueAuxiliaryActivitiesClient +
+    revenueOtherClient +
+    revenueInvestmentIncomeClient +
+    revenueEndowmentSpendingAppropriationClient;
+  document.getElementById("ffa_auxiliaryOther").textContent =
+    auxiliaryAndOtherClient != 0
+      ? styleNumber(auxiliaryAndOtherClient, "dollar", 0)
+      : "-";
+
+  const contributionsClient = Number(
+    data["ffa_contributions_Client"][currentYear].value
+  );
+  document.getElementById("ffa_restrictedGifts").textContent =
+    contributionsClient != 0
+      ? styleNumber(contributionsClient, "dollar", 0)
+      : "-";
+
+  const salariesAndWagesClient = Number(
+    data["ffa_salariesAndWages_Client"][currentYear].value
+  );
+  const employeeBenefitsClient = Number(
+    data["ffa_employeeBenefits_Client"][currentYear].value
+  );
+  const compensationAndBenefitsClient =
+    salariesAndWagesClient + employeeBenefitsClient;
+  document.getElementById("ffa_compensationBenefits").textContent =
+    compensationAndBenefitsClient != 0
+      ? styleNumber(compensationAndBenefitsClient, "dollar", 0)
+      : "-";
+
+  const servicesSuppliesAndOtherClient = Number(
+    data["ffa_servicesSuppliesAndOther_Client"][currentYear].value
+  );
+  const occupancyUtilitiesAndMaintenanceClient = Number(
+    data["ffa_occupancyUtilitiesAndMaintenance_Client"][currentYear].value
+  );
+  const depreciationAndAmortizationClient = Number(
+    data["ffa_depreciationAndAmortization_Client"][currentYear].value
+  );
+  const interestClient = Number(data["ffa_interest_Client"][currentYear].value);
+  const incomeExpenseSurplusDefecitClient = Number(
+    data["ffa_incomeExpenseSurplusDefecit_Client"][currentYear].value
+  );
+  const generalExpenseClient =
+    servicesSuppliesAndOtherClient +
+    occupancyUtilitiesAndMaintenanceClient +
+    depreciationAndAmortizationClient +
+    interestClient +
+    incomeExpenseSurplusDefecitClient;
+  document.getElementById("ffa_generalExpense").textContent =
+    generalExpenseClient != 0
+      ? styleNumber(generalExpenseClient, "dollar", 0)
+      : "-";
+
+  const totalRevenues =
+    revenueTuitionAndFeesClient +
+    totalRevenueContributionsClient +
+    auxiliaryAndOtherClient +
+    contributionsClient;
+  const totalExpenses =
+    revenueSchoolServicesClient +
+    compensationAndBenefitsClient +
+    generalExpenseClient;
+
+  document.getElementById("ffa_totalRevenues").textContent =
+    totalRevenues != 0 ? styleNumber(totalRevenues, "dollar", 0) : "-";
+  document.getElementById("ffa_totalExpenses").textContent =
+    totalExpenses != 0 ? styleNumber(totalExpenses, "dollar", 0) : "-";
+};
+
+const insertDataToSourceOfInomeReport = (data, selectedYears) => {
+  // console.log ({data, selectedYears});
+  const tableHeaderRow = document.getElementById(
+    "row_sourceOfIncomeClient_tableHeader"
+  );
+  const tbody = document.getElementById("sourceOfIncomeClient_tbody");
+
+  const yearElement = `
+    <th
+      scope="col"
+      class="px-6 py-3 text-lg tracking-wide"
+    >
+      ${selectedYears[selectedYears.length - 1]}
+    </th>  
+  `;
+  // append yearElement as the first child of tableHeaderRows children
+  tableHeaderRow.insertAdjacentHTML("afterbegin", yearElement);
+
+  const variables = [
+    ["Tuition", "revenueTuitionAndFees"],
+    ["Auxiliary", "revenueAuxiliaryActivities"],
+    ["Contributions", "revenueContributions"],
+    ["Investments", "revenueInvestmentIncome"],
+    ["Net Assets Released", "netAssetsReleased"],
+    ["Other", "revenueOther"],
+  ];
+
+  variables.forEach((variable, index) => {
+    // console.log({variable, index});
+    const clientName = `si_${variable[1]}_Client`;
+    const peerName = `${variable[1]}_Peer`;
+    const title = variable[0];
+
+    // console.log({clientName, peerName, title, data});
+
+    const clientValue =
+      Number(data[clientName][selectedYears[0]].value) > 0
+        ? styleNumber(data[clientName][selectedYears[0]].value, "dollar", 0)
+        : "-";
+
+    const classTrEven =
+      "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
+    const classTrOdd =
+      "backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
+    const rowElement = document.createElement("tr");
+    rowElement.className = index % 2 === 0 ? classTrEven : classTrOdd;
+
+    const cellHTML = `
+          <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${title}</th>
+          <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${clientValue}</th>
+      `;
+
+    rowElement.innerHTML = cellHTML;
+    tbody.appendChild(rowElement);
+  });
+};
+
+const insertDataToAssetToLiabilityReport = (data, selectedYears) => {
+  // console.log({ data, selectedYears });
+  const totalAssetsClient = data["totalAssets_Client"];
+  const totalLiabilitiesClient = data["totalLiabilities_Client"];
+  const tableBodyClient = document.getElementById(
+    "assetToLiabilitiesClient_tbody"
+  );
+  tableBodyClient.innerHTML = "";
+
+  const totalAssetsPeer = data["totalAssets_Peer"];
+  const totalLiabilitiesPeer = data["totalLiabilities_Peer"];
+  const tableBodyPeer = document.getElementById("assetToLiabilitiesPeer_tbody");
+  tableBodyPeer.innerHTML = "";
+
+  // console.log({ totalAssetsPeer, totalLiabilitiesPeer });
+
+  selectedYears.forEach((year, index) => {
+    const totalAssetsClientValue =
+      Number(totalAssetsClient[year].value) > 0
+        ? styleNumber(totalAssetsClient[year].value, "dollar", 0)
+        : "-";
+    const totalLiabilitiesClientValue =
+      Number(totalLiabilitiesClient[year].value) > 0
+        ? styleNumber(totalLiabilitiesClient[year].value, "dollar", 0)
+        : "-";
+    const totalAssetToLiabilityClientValue =
+      Number(totalAssetsClient[year].value) > 0
+        ? styleNumber(
+            Number(totalAssetsClient[year].value) /
+              Number(totalLiabilitiesClient[year].value),
+            "num",
+            2
+          )
+        : "-";
+
+    // console.log(index, index % 2 !== 0)
+    const classTrClient =
+      index % 2 === 0
+        ? "bg-white dark:bg-gray-800"
+        : "backgroundOffGreen dark:bg-gray-700";
+    const clientRow = document.createElement("tr");
+    clientRow.className = classTrClient;
+    clientRow.innerHTML = `
+          <th scope="row" class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${year}</th>
+          <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalAssetsClientValue}</td>
+          <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalLiabilitiesClientValue}</td>
+          <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalAssetToLiabilityClientValue}</td>
+      `;
+    tableBodyClient.appendChild(clientRow);
+
+    const totalAssetsPeerValue = totalAssetsPeer[year]
+      ? styleNumber(getSumOfArray(totalAssetsPeer[year]), "dollar", 0)
+      : "-";
+    const totalLiabilitiesPeerValue = totalLiabilitiesPeer[year]
+      ? styleNumber(getSumOfArray(totalLiabilitiesPeer[year]), "dollar", 0)
+      : "-";
+    const ratioPeer = totalLiabilitiesPeer[year]
+      ? Number(getSumOfArray(totalAssetsPeer[year])) /
+        Number(getSumOfArray(totalLiabilitiesPeer[year]))
+      : 0;
+    const totalAssetToLiabilitysPeerValue =
+      ratioPeer > 0 ? styleNumber(ratioPeer, "num", 2) : "-";
+
+    const classTrPeer =
+      index % 2 === 0
+        ? "bg-white dark:bg-gray-800"
+        : "backgroundOffBlue dark:bg-gray-700";
+    const peerRow = document.createElement("tr");
+    peerRow.className = classTrPeer;
+    peerRow.innerHTML = `
+          <th scope="row" class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${year}</th>
+          <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalAssetsPeerValue}</td>
+          <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalLiabilitiesPeerValue}</td>
+          <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalAssetToLiabilitysPeerValue}</td>
+      `;
+    tableBodyPeer.appendChild(peerRow);
+  });
+};
+
+const insertDataToReport = (data, selectedYears, table, arrayOfNames) => {
+  addYearColumnsToReportTable(selectedYears, table);
+  if (data && selectedYears) {
+    addTotalDataToEveryRow(data, selectedYears, arrayOfNames, table);
+  }
+};
+
+const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames, table) => {
+  // console.log('data', data);d
+
+  // console.log({ table, data, arrayOfNames });
+
+  for (let name of arrayOfNames) {
+    // console.log('name', name);
+    addToSingleRow(
+      selectedYears,
+      name[0],
+      data,
+      data[`${name[0]}_Client`],
+      data[`${name[0]}`],
+      name[1],
+      name[2],
+      name[3],
+      name[4],
+      name[5],
+      name[6],
+      name[7]
     );
   }
+};
 
-  /**
-   * Handle report link click
-   */
-  handleReportLinkClick(event) {
-    // Show the report tab
-    this.showReportsTab();
+const addToSingleRow = (
+  selectedYears,
+  name,
+  data,
+  client,
+  peer,
+  type,
+  fixedNum,
+  wa,
+  cb,
+  fIdArray,
+  begin,
+  end
+) => {
+  // take away the "_Peer" from the name
+  const rowName = peer ? name.replace("_Peer", "") : name;
+  const tableHeaderRow = document.getElementById(`row_${rowName}`);
+  // console.log (`row_${name}`);
+  // console.log ({
+  //   selectedYears,
+  //   name,
+  //   client,
+  //   peer,
+  //   type,
+  //   fixedNum,
+  //   tableHeaderRow,
+  //   rowName,
+  // });
+  // console.log({name})
+  while (tableHeaderRow.children.length > 1) {
+    tableHeaderRow.removeChild(tableHeaderRow.children[1]);
+  }
 
-    // Only generate report if data is available
-    if (localStorage.getItem("cfiData")) {
-      this.displayReportComponent();
+  // check if variable name ends with '_Peer'
+  if (name.endsWith("_Peer")) {
+    addPeerDataToReportRow(
+      tableHeaderRow,
+      peer,
+      type,
+      fixedNum,
+      "total",
+      wa,
+      name,
+      data,
+      fIdArray,
+      begin,
+      end,
+      selectedYears
+    );
+  } else {
+    addClientDataToReportRow(
+      tableHeaderRow,
+      selectedYears,
+      client,
+      type,
+      fixedNum,
+      cb,
+      name
+    );
+  }
+};
+
+const addClientDataToReportRow = (
+  tableHeaderRow,
+  selectedYears,
+  client,
+  type,
+  fixedNum,
+  cb,
+  name
+) => {
+  const propClass =
+    "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
+  const propScope = "row";
+
+  const tableRow = document.getElementById(`row_${name}`);
+
+  // console.log ({client, tableRow, selectedYears, type, fixedNum, name});
+
+  selectedYears.forEach((year) => {
+    const dataPoint = document.createElement("th");
+
+    // console.log({client, tableRow, year, type, fixedNum, dataPoint, name})
+
+    const text =
+      Number(client[year].value) !== 0
+        ? styleNumber(client[year].value, type, fixedNum)
+        : "-";
+
+    // console.log ({text, client, year, type, fixedNum, dataPoint});
+
+    // Create a new span element
+    const spanElement = document.createElement("span");
+    spanElement.textContent = text;
+
+    // Add the "mr-2" class to the span element
+    spanElement.classList.add("mr-2");
+
+    // Create a new div element
+    const divElement = document.createElement("div");
+
+    // Add the "flex" class to the div element
+    divElement.classList.add("flex");
+    divElement.classList.add("justify-between");
+
+    // Append the span element to the div element
+    divElement.appendChild(spanElement);
+
+    // Append the div element to the dataPoint
+    dataPoint.appendChild(divElement);
+    dataPoint.className = propClass;
+    dataPoint.scope = propScope;
+
+    // Append the dataPoint to the tableRow
+    tableRow.appendChild(dataPoint);
+  });
+
+  // if (cb) {
+  //   let clientBenchmarkArray = getBenchmarks (client);
+
+  //   //  console.log(clientBenchmarkArray, tableRow);
+
+  //   getBackgroundColor (clientBenchmarkArray, tableRow);
+  // }
+};
+
+const addPeerDataToReportRow = (
+  tableRow,
+  peer,
+  type,
+  fixedNum,
+  dataArray,
+  wa,
+  name,
+  data,
+  fIdArray,
+  begin,
+  end,
+  selectedYears
+) => {
+  // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, name, data, fIdArray, begin, end, selectedYears })
+  // if (name == "cfiRatio_peerAverage_Peer")
+  //   console.log({
+  //     tableRow,
+  //     peer,
+  //     type,
+  //     fixedNum,
+  //     dataArray,
+  //     wa,
+  //     name,
+  //     data,
+  //     fIdArray,
+  //     begin,
+  //     end,
+  //     selectedYears,
+  //   });
+
+  const propClass =
+    "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
+  const propScope = "row";
+
+  selectedYears.forEach((year) => {
+    let avg;
+    if (peer && wa) {
+      avg = parseFloat(getWeightedAverageOfArray(data, name));
+    } else if (peer && !wa) {
+      avg = peer[year] ? parseFloat(getAverageOfArray(peer[year])) : 0;
     } else {
-      if (typeof createToastWarning === "function") {
-        createToastWarning("Please select years and run the report first.");
-      }
-    }
-  }
-
-  /**
-   * Handle generate report button click
-   */
-  handleGenerateReportClick() {
-    if (typeof window.createPrintExcel === "function") {
-      window.createPrintExcel();
-    } else {
-      console.error("Excel report generator not available");
-    }
-  }
-
-  /**
-   * Show reports tab
-   */
-  showReportsTab() {
-    // Hide all content tabs
-    document.querySelectorAll(".tab-content").forEach((tab) => {
-      tab.classList.add("hidden");
-    });
-
-    // Show reports tab
-    const reportsTab = document.getElementById("reportsContent");
-    if (reportsTab) {
-      reportsTab.classList.remove("hidden");
+      avg = 0;
     }
 
-    // Update active state on sidebar links
-    document.querySelectorAll("#sidebar button").forEach((button) => {
-      button.classList.remove("active", "bg-gray-300", "dark:bg-gray-700");
-    });
+    const dataPoint = document.createElement("th");
+    const text = peer ? styleNumber(avg, type, fixedNum) : "";
 
-    // Set reports link as active
-    const reportsLink = document.getElementById("reportLink");
-    if (reportsLink) {
-      reportsLink.classList.add("active", "bg-gray-300", "dark:bg-gray-700");
-    }
-  }
+    const spanElement = document.createElement("span");
+    spanElement.textContent = text;
 
-  /**
-   * Display report component with data
-   */
-  displayReportComponent() {
-    console.log("Displaying report component");
+    // Add the "mr-2" class to the span element
+    spanElement.classList.add("mr-2");
 
-    try {
-      // Get data from localStorage
-      const cfiData = JSON.parse(localStorage.getItem("cfiData"));
-      const financialAnalysisContentData = JSON.parse(
-        localStorage.getItem("financialAnalysisContentData")
-      );
-      const financialStatementContentData = JSON.parse(
-        localStorage.getItem("financialStatementContentData")
-      );
-      const years = getSelectedYearsFromLocalStorage();
-      const selectedYears = years && years.sort((a, b) => a - b);
+    // Create a new div element
+    const divElement = document.createElement("div");
 
-      if (selectedYears) {
-        // Insert CFI data
-        this.insertDataToReport(
-          cfiData,
-          selectedYears,
-          document.getElementById("cfiRatio_clientTable"),
-          [
-            ["cfiRatio_peerAverage_Peer", "num", 1],
-            ["cfiRatio", "num", 1],
-            ["cfi_primaryReserveRatio", "num", 2],
-            ["cfi_netIncomeOperationsRatio", "percent", 1],
-            ["cfi_returnOnNetAssets", "percent", 1],
-            ["cfi_viabilityRatio", "num", 2],
-          ]
-        );
+    // Add the "flex" class to the div element
+    divElement.classList.add("flex");
+    divElement.classList.add("justify-between");
 
-        // Insert calculated data
-        this.insertCalculatedDataToReport(cfiData, selectedYears, [
-          ["primaryReserveRatio", "num", 2],
-          ["netIncomeOperationsRatio", "num", 2],
-          ["returnOnNetAssets", "num", 2],
-          ["viabilityRatio", "num", 2],
-        ]);
+    // Append the span element to the div element
+    divElement.appendChild(spanElement);
 
-        // Insert primary reserve ratio data
-        this.insertDataToReport(
-          cfiData,
-          selectedYears,
-          document.getElementById("primaryReserveRatio_clientTable"),
-          [
-            ["primaryReserveRatio_peerAverage_Peer", "num", 2],
-            ["primaryReserveRatio", "num", 2],
-            ["pr_nonrestrictedNetAssets", "dollar", 0],
-            ["pr_restrictedNetAssets", "dollar", 0],
-            ["pr_propertyAndEquipment", "dollar", 0],
-            ["pr_notesPayable", "dollar", 0],
-            ["pr_cfi_primaryReserveAdjustment", "num", 1],
-            ["pr_totalFunctionalExpenses", "dollar", 0],
-          ]
-        );
+    // Append the div element to the dataPoint
+    dataPoint.appendChild(divElement);
+    dataPoint.className = propClass;
+    dataPoint.scope = propScope;
 
-        // Insert net income operations data
-        this.insertDataToReport(
-          cfiData,
-          selectedYears,
-          document.getElementById("netIncomeOperations_clientTable"),
-          [
-            ["netIncomeOperationsRatio_peerAverage_Peer", "percent", 1],
-            ["netIncomeOperationsRatio", "percent", 1],
-            ["ni_operatingRevenuesSupportAndReleases", "dollar", 0],
-            ["ni_totalFunctionalExpenses", "dollar", 0],
-          ]
-        );
+    // Append the dataPoint to the tableRow
+    tableRow.appendChild(dataPoint);
+  });
 
-        // Insert return on net assets data
-        this.insertDataToReport(
-          cfiData,
-          selectedYears,
-          document.getElementById("returnOnNetAssets_clientTable"),
-          [
-            ["returnOnNetAssets_peerAverage_Peer", "percent", 1],
-            ["returnOnNetAssets", "percent", 1],
-            ["ro_changeInNetAssets", "dollar", 0],
-            ["ro_netAssetsBeginningOfYear", "dollar", 0],
-          ]
-        );
+  // console.log({ tableRow, fixedNum, avg, mid, min, textMin, max, textMax });
+};
 
-        // Insert viability ratio data
-        this.insertDataToReport(
-          cfiData,
-          selectedYears,
-          document.getElementById("viabilityRatio_clientTable"),
-          [
-            ["viabilityRatio_peerAverage_Peer", "num", 2],
-            ["viabilityRatio", "num", 2],
-            ["vr_nonrestrictedNetAssets", "dollar", 0],
-            ["vr_restrictedNetAssets", "dollar", 0],
-            ["vr_totalPropertyAndEquipment", "dollar", 0],
-            ["vr_accumulatedDepreciation", "dollar", 0],
-            ["vr_notesPayable", "dollar", 0],
-          ]
-        );
+const insertCalculatedDataToReport = (data, selectedYears, arrayOfNames) => {
+  // console.log({ data, selectedYears, arrayOfNames });
+  if (data && selectedYears) {
+    // Get the value from data and set it to the element with id="th_cfiScore"
+    const year = selectedYears[selectedYears.length - 1];
+    const ratioValue =
+      data["row_cfiRatio_Client"] && data["row_cfiRatio_Client"][year]
+        ? data["row_cfiRatio_Client"][year].value
+        : "-";
 
-        // Insert other report data
-        this.insertDataToAssetToLiabilityReport(
-          financialAnalysisContentData,
-          selectedYears
-        );
-        this.insertDataToSourceOfInomeReport(
-          financialAnalysisContentData,
-          selectedYears
-        );
-        this.insertDataToFfaReport(financialAnalysisContentData, selectedYears);
-        this.insertDataToFSReport(financialStatementContentData, selectedYears);
-
-        // Format negative numbers
-        this.formatNegativeNumbers();
-
-        console.log("Report generated successfully");
-      }
-    } catch (error) {
-      console.error("Error displaying report component:", error);
-      if (typeof createToastWarning === "function") {
-        createToastWarning("Error displaying report: " + error.message);
-      }
-    }
-  }
-
-  /**
-   * Event handler for when data processing is complete
-   */
-  onDataProcessingComplete() {
-    // Enable the report link
-    const reportLink = document.getElementById("reportLink");
-    if (reportLink) {
-      reportLink.classList.remove("disabled");
-    }
-  }
-
-  /**
-   * Insert data to the report for a specific category
-   */
-  insertDataToReport(data, selectedYears, table, arrayOfNames) {
-    this.addYearColumnsToReportTable(selectedYears, table);
-    if (data && selectedYears) {
-      this.addTotalDataToEveryRow(data, selectedYears, arrayOfNames, table);
-    }
-  }
-
-  /**
-   * Add total data to every row in the report
-   */
-  addTotalDataToEveryRow(data, selectedYears, arrayOfNames, table) {
+    // Iterate through arrayOfNames and add calculated rows
     for (let name of arrayOfNames) {
-      this.addToSingleRow(
-        selectedYears,
-        name[0],
-        data,
-        data[`${name[0]}_Client`],
-        data[`${name[0]}`],
-        name[1],
-        name[2],
-        name[3],
-        name[4],
-        name[5],
-        name[6],
-        name[7]
-      );
+      addToCalculatedRow(year, data, name[0], name[1], name[2]);
     }
   }
+};
 
-  /**
-   * Add data to a single row
-   */
-  addToSingleRow(
-    selectedYears,
-    name,
-    data,
-    client,
-    peer,
-    type,
-    fixedNum,
-    wa,
-    cb,
-    fIdArray,
-    begin,
-    end
-  ) {
-    const rowName = peer ? name.replace("_Peer", "") : name;
-    const tableHeaderRow = document.getElementById(`row_${rowName}`);
+const addToCalculatedRow = (year, data, name, type, fixedNum) => {
+  const tableReportRow = document.getElementById(`row_cfiScore_${name}`);
 
-    while (tableHeaderRow.children.length > 1) {
-      tableHeaderRow.removeChild(tableHeaderRow.children[1]);
-    }
-
-    if (name.endsWith("_Peer")) {
-      this.addPeerDataToReportRow(
-        tableHeaderRow,
-        peer,
-        type,
-        fixedNum,
-        "total",
-        wa,
-        name,
-        data,
-        fIdArray,
-        begin,
-        end,
-        selectedYears
-      );
-    } else {
-      this.addClientDataToReportRow(
-        tableHeaderRow,
-        selectedYears,
-        client,
-        type,
-        fixedNum,
-        cb,
-        name
-      );
-    }
+  // console.log ({tableReportRow, year, type, fixedNum, data, name});
+  // Clear previous children except the first one
+  while (tableReportRow.children.length > 1) {
+    tableReportRow.removeChild(tableReportRow.children[1]);
   }
 
-  /**
-   * Add client data to a report row
-   */
-  addClientDataToReportRow(
-    tableHeaderRow,
-    selectedYears,
-    client,
-    type,
-    fixedNum,
-    cb,
-    name
-  ) {
-    const propClass =
-      "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
-    const propScope = "row";
+  const propClass =
+    "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
+  const propScope = "row";
 
-    const tableRow = document.getElementById(`row_${name}`);
+  const fields = [
+    `cfi_${name}_Client`,
+    `cfi_${name}_Strength_Client`,
+    `cfi_${name}_Weight_Client`,
+    `cfi_${name}_Score_Client`,
+  ];
 
-    selectedYears.forEach((year) => {
-      const dataPoint = document.createElement("th");
-      const text =
-        Number(client[year].value) !== 0
-          ? this.styleNumber(client[year].value, type, fixedNum)
-          : "-";
+  for (let i = 0; i < 4; i++) {
+    const dataPoint = document.createElement("th");
 
-      const spanElement = document.createElement("span");
-      spanElement.textContent = text;
-      spanElement.classList.add("mr-2");
+    // console.log({ tableReportRow, year, type, fixedNum, data, name });
+    const field = fields[i];
+    const value =
+      data[field] && data[field][year] ? data[field][year].value : undefined;
 
-      const divElement = document.createElement("div");
-      divElement.classList.add("flex", "justify-between");
-      divElement.appendChild(spanElement);
+    // console.log ({value, field, year, type, fixedNum, dataPoint});
 
-      dataPoint.appendChild(divElement);
-      dataPoint.className = propClass;
-      dataPoint.scope = propScope;
+    const text =
+      value !== undefined && !isNaN(value) && value !== 0
+        ? styleNumber(value, type, fixedNum)
+        : "-";
 
-      tableRow.appendChild(dataPoint);
-    });
+    // console.log({ text, year, type, fixedNum, dataPoint });
+
+    // Create a new span element
+    const spanElement = document.createElement("span");
+    spanElement.textContent = text;
+
+    // Add the "mr-2" class to the span element
+    spanElement.classList.add("mr-2");
+
+    // Create a new div element
+    const divElement = document.createElement("div");
+
+    // Add the "flex" class to the div element
+    divElement.classList.add("flex");
+    divElement.classList.add("justify-between");
+
+    // Append the span element to the div element
+    divElement.appendChild(spanElement);
+
+    // Append the div element to the dataPoint
+    dataPoint.appendChild(divElement);
+    dataPoint.className = propClass;
+    dataPoint.scope = propScope;
+
+    // Append the dataPoint to the tableRow
+    tableReportRow.appendChild(dataPoint);
   }
+};
 
-  /**
-   * Add peer data to a report row
-   */
-  addPeerDataToReportRow(
-    tableRow,
-    peer,
-    type,
-    fixedNum,
-    dataArray,
-    wa,
-    name,
-    data,
-    fIdArray,
-    begin,
-    end,
-    selectedYears
-  ) {
-    const propClass =
-      "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
-    const propScope = "row";
+const addYearColumnsToReportTable = (years, table) => {
+  // console.log({years, table});
+  const trElements = table.querySelectorAll("tr");
+  const trIds = Array.from(trElements)
+    .map((tr) => tr.getAttribute("id"))
+    .filter((id) => id && id.endsWith("_tableHeader"));
 
-    selectedYears.forEach((year) => {
-      let avg;
-      if (peer && wa) {
-        avg = parseFloat(getWeightedAverageOfArray(data, name));
-      } else if (peer && !wa) {
-        avg = peer[year] ? parseFloat(getAverageOfArray(peer[year])) : 0;
-      } else {
-        avg = 0;
+  // console.log(trIds);
+
+  trIds.forEach((idName) => {
+    // console.log ({idName, table});
+    // Clear existing columns before adding new ones
+    clearTableColumns(idName);
+
+    // Add new columns to the table
+    addSingleNewColumnToReportTable(idName, years);
+  });
+};
+
+const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
+  // Find the table header row by its ID
+  const tableHeaderRow = document.getElementById(tableHeader);
+
+  // const existingColumns = Array.from(tableHeader.children).slice(1
+  // console.log(existingColumns)
+  // console.log({tableHeaderRow, yearsArray});;
+
+  // Iterate through the selectedYearArray and add new columns
+  // yearsArray.sort((a, b) => b - a);
+  // console.log(yearsArray);
+  yearsArray.forEach((year) => {
+    // Create a new <th> element for each selected yeara
+    const newTh = document.createElement("th");
+    newTh.setAttribute("scope", "col");
+    newTh.setAttribute("class", "px-6 py-3 text-xl");
+    newTh.innerText = year;
+
+    // Insert the new <th> element to tableHeaderRow
+    tableHeaderRow.appendChild(newTh);
+    // console.log(year, newTh);
+    // console.log(tableHeaderRow);
+  });
+};
+
+const clearTableColumns = (idName) => {
+  const headerRow = document.getElementById(idName);
+  const columnsToPreserve = ["Avg", "25%", "50%", "75%"];
+
+  // Remove all existing th elements except the first one and those to be preserved
+  Array.from(headerRow.children)
+    .slice(1)
+    .forEach((th) => {
+      const columnName = th.textContent.trim();
+      if (!columnsToPreserve.includes(columnName)) {
+        th.remove();
       }
-
-      const dataPoint = document.createElement("th");
-      const text = peer ? this.styleNumber(avg, type, fixedNum) : "";
-
-      const spanElement = document.createElement("span");
-      spanElement.textContent = text;
-      spanElement.classList.add("mr-2");
-
-      const divElement = document.createElement("div");
-      divElement.classList.add("flex", "justify-between");
-      divElement.appendChild(spanElement);
-
-      dataPoint.appendChild(divElement);
-      dataPoint.className = propClass;
-      dataPoint.scope = propScope;
-
-      tableRow.appendChild(dataPoint);
     });
-  }
 
-  /**
-   * Insert calculated data to the report
-   */
-  insertCalculatedDataToReport(data, selectedYears, arrayOfNames) {
-    if (data && selectedYears) {
-      const year = selectedYears[selectedYears.length - 1];
-      const ratioValue =
-        data["row_cfiRatio_Client"] && data["row_cfiRatio_Client"][year]
-          ? data["row_cfiRatio_Client"][year].value
-          : "-";
+  // Clear corresponding columns from other rows in the table body
+  clearColumnsFromOtherRowsInTable(idName, columnsToPreserve);
+};
 
-      for (let name of arrayOfNames) {
-        this.addToCalculatedRow(year, data, name[0], name[1], name[2]);
-      }
-    }
-  }
+const clearColumnsFromOtherRowsInTable = (idName, columnsToPreserve) => {
+  const rows = document.querySelectorAll(`#${idName} + tbody tr`);
 
-  /**
-   * Add data to a calculated row
-   */
-  addToCalculatedRow(year, data, name, type, fixedNum) {
-    const tableReportRow = document.getElementById(`row_cfiScore_${name}`);
-
-    while (tableReportRow.children.length > 1) {
-      tableReportRow.removeChild(tableReportRow.children[1]);
-    }
-
-    const propClass =
-      "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
-    const propScope = "row";
-
-    const fields = [
-      `cfi_${name}_Client`,
-      `cfi_${name}_Strength_Client`,
-      `cfi_${name}_Weight_Client`,
-      `cfi_${name}_Score_Client`,
-    ];
-
-    for (let i = 0; i < 4; i++) {
-      const dataPoint = document.createElement("th");
-      const field = fields[i];
-      const value =
-        data[field] && data[field][year] ? data[field][year].value : undefined;
-
-      const text =
-        value !== undefined && !isNaN(value) && value !== 0
-          ? this.styleNumber(value, type, fixedNum)
-          : "-";
-
-      const spanElement = document.createElement("span");
-      spanElement.textContent = text;
-      spanElement.classList.add("mr-2");
-
-      const divElement = document.createElement("div");
-      divElement.classList.add("flex", "justify-between");
-      divElement.appendChild(spanElement);
-
-      dataPoint.appendChild(divElement);
-      dataPoint.className = propClass;
-      dataPoint.scope = propScope;
-
-      tableReportRow.appendChild(dataPoint);
-    }
-  }
-
-  /**
-   * Add year columns to report table
-   */
-  addYearColumnsToReportTable(years, table) {
-    const trElements = table.querySelectorAll("tr");
-    const trIds = Array.from(trElements)
-      .map((tr) => tr.getAttribute("id"))
-      .filter((id) => id && id.endsWith("_tableHeader"));
-
-    trIds.forEach((idName) => {
-      this.clearTableColumns(idName);
-      this.addSingleNewColumnToReportTable(idName, years);
-    });
-  }
-
-  /**
-   * Add a single new column to report table
-   */
-  addSingleNewColumnToReportTable(tableHeader, yearsArray) {
-    const tableHeaderRow = document.getElementById(tableHeader);
-
-    yearsArray.forEach((year) => {
-      const newTh = document.createElement("th");
-      newTh.setAttribute("scope", "col");
-      newTh.setAttribute("class", "px-6 py-3 text-xl");
-      newTh.innerText = year;
-      tableHeaderRow.appendChild(newTh);
-    });
-  }
-
-  /**
-   * Clear table columns
-   */
-  clearTableColumns(idName) {
-    const headerRow = document.getElementById(idName);
-    const columnsToPreserve = ["Avg", "25%", "50%", "75%"];
-
-    Array.from(headerRow.children)
+  rows.forEach((row) => {
+    // Remove all existing td elements except the first one and those to be preserved
+    Array.from(row.children)
       .slice(1)
-      .forEach((th) => {
-        const columnName = th.textContent.trim();
+      .forEach((td) => {
+        const columnName = td.textContent.trim();
         if (!columnsToPreserve.includes(columnName)) {
-          th.remove();
+          td.remove();
         }
       });
+  });
+};
 
-    this.clearColumnsFromOtherRowsInTable(idName, columnsToPreserve);
-  }
+function formatNegativeNumbers() {
+  // Select all <tr> elements with an id
+  const rows = document.querySelectorAll("tr[id]");
 
-  /**
-   * Clear columns from other rows in table
-   */
-  clearColumnsFromOtherRowsInTable(idName, columnsToPreserve) {
-    const rows = document.querySelectorAll(`#${idName} + tbody tr`);
+  rows.forEach((row) => {
+    // Select all <th> elements inside the current <tr>
+    const thElements = row.querySelectorAll("th");
 
-    rows.forEach((row) => {
-      Array.from(row.children)
-        .slice(1)
-        .forEach((td) => {
-          const columnName = td.textContent.trim();
-          if (!columnsToPreserve.includes(columnName)) {
-            td.remove();
-          }
-        });
-    });
-  }
-
-  /**
-   * Format negative numbers in the report
-   */
-  formatNegativeNumbers() {
-    // Select all <tr> elements with an id
-    const rows = document.querySelectorAll("tr[id]");
-
-    rows.forEach((row) => {
-      const thElements = row.querySelectorAll("th");
-
-      thElements.forEach((th) => {
-        const divChild = th.querySelector("div");
-        if (divChild) {
-          const spanChild = divChild.querySelector("span");
-          if (spanChild) {
-            let textContent = spanChild.textContent.trim();
-            if (/\d/.test(textContent)) {
-              if (textContent.includes("-")) {
-                spanChild.textContent = textContent;
-                th.classList.remove("text-gray-900", "dark:text-white");
-                th.classList.add("text-red-500", "dark:text-red-400");
-              }
+    thElements.forEach((th) => {
+      // Check if the <th> has a <div> child
+      const divChild = th.querySelector("div");
+      if (divChild) {
+        // If <th> has a <div> child, find the <span> inside it
+        const spanChild = divChild.querySelector("span");
+        if (spanChild) {
+          // Process the text content of <span> child
+          let textContent = spanChild.textContent.trim();
+          // Check if the text content contains numbers
+          if (/\d/.test(textContent)) {
+            if (textContent.includes("-")) {
+              // Apply classes
+              spanChild.textContent = textContent;
+              th.classList.remove("text-gray-900", "dark:text-white");
+              th.classList.add("text-red-500", "dark:text-red-400");
             }
           }
-        } else if (th.childElementCount === 3) {
+        }
+      } else {
+        // Check if the <th> has exactly three children
+        if (th.childElementCount === 3) {
+          // Process the two <p> tags
           const pTags = th.querySelectorAll("p");
           pTags.forEach((p) => {
             let textContent = p.textContent.trim();
+            // Check if the text content contains numbers
             if (/\d/.test(textContent)) {
               if (textContent.includes("-")) {
+                // Apply classes
                 p.textContent = textContent;
                 p.classList.remove("text-gray-900", "dark:text-white");
                 p.classList.add("text-red-500", "dark:text-red-400");
@@ -569,351 +803,92 @@ class ReportComponent {
             }
           });
         } else {
+          // Process the text content of <th> directly
           let textContent = th.textContent.trim();
+          // Check if the text content contains numbers
           if (/\d/.test(textContent)) {
             if (textContent.includes("-")) {
+              // Apply classes
               th.textContent = textContent;
               th.classList.remove("text-gray-900", "dark:text-white");
               th.classList.add("text-red-500", "dark:text-red-400");
             }
           }
         }
-      });
+      }
+    });
+  });
+
+  // Select all <td> elements with a class that ends with "_dataPoint"
+  const tdElements = document.querySelectorAll("td[class$='_dataPoint']");
+  tdElements.forEach((td) => {
+    let textContent = td.textContent.trim();
+    // Check if the text content contains numbers
+    if (/\d/.test(textContent)) {
+      if (textContent.includes("-")) {
+        // Apply classes
+        td.textContent = textContent;
+        td.classList.remove("text-gray-900", "dark:text-white");
+        td.classList.add("text-red-500", "dark:text-red-400");
+      }
+    }
+  });
+
+  // Select all <th> elements with an id attribute
+  const thElements = document.querySelectorAll("th[id]");
+  thElements.forEach((th) => {
+    let textContent = th.textContent.trim();
+    // Check if the text content contains numbers
+    if (/\d/.test(textContent)) {
+      if (textContent.includes("-")) {
+        // Apply classes
+        th.textContent = textContent;
+        th.classList.remove("text-gray-900", "dark:text-white");
+        th.classList.add("text-red-500", "dark:text-red-400");
+      }
+    }
+  });
+
+  // Select all <p> elements with an id that ends with "_yearSelectData"
+  const pElements = document.querySelectorAll("p[id$='_yearSelectData']");
+  pElements.forEach((p) => {
+    let textContent = p.textContent.trim();
+    // Check if the text content contains numbers
+    if (/\d/.test(textContent)) {
+      if (textContent.includes("-")) {
+        // Apply classes
+        p.textContent = textContent;
+        p.classList.remove("text-black", "dark:text-white");
+        p.classList.add("text-red-500", "dark:text-red-400");
+      }
+    }
+  });
+
+  // Select all <div> elements with an id that ends with "_summary"
+  const divs = document.querySelectorAll("div[id$='_summary']");
+  divs.forEach((div) => {
+    // Change the class of the table child
+    const tds = div.querySelectorAll("td");
+    tds.forEach((td) => {
+      let textContent = td.textContent.trim();
+      if (textContent.includes("-")) {
+        td.classList.add("text-red-500", "dark:text-red-400");
+      }
     });
 
-    // Format other elements
-    this.formatNegativeNumbersForElements("td[class$='_dataPoint']");
-    this.formatNegativeNumbersForElements("th[id]");
-    this.formatNegativeNumbersForElements("p[id$='_yearSelectData']");
-    this.formatNegativeNumbersForElements("div[id$='_summary'] td");
-  }
-
-  /**
-   * Format negative numbers for specific elements
-   */
-  formatNegativeNumbersForElements(selector) {
-    const elements = document.querySelectorAll(selector);
-    elements.forEach((element) => {
-      let textContent = element.textContent.trim();
+    // Process the text content of <td> elements inside the table
+    const tdElements = div.querySelectorAll("td");
+    tdElements.forEach((td) => {
+      let textContent = td.textContent.trim();
+      // Check if the text content contains numbers
       if (/\d/.test(textContent)) {
         if (textContent.includes("-")) {
-          element.textContent = textContent;
-          element.classList.remove("text-gray-900", "dark:text-white");
-          element.classList.add("text-red-500", "dark:text-red-400");
+          // Apply classes
+          td.textContent = textContent;
+          td.classList.remove("text-gray-900", "dark:text-white");
+          td.classList.add("text-red-500", "dark:text-red-400");
         }
       }
     });
-  }
-
-  /**
-   * Style number based on type
-   */
-  styleNumber(value, type, fixedNum) {
-    if (value === undefined || value === null) return "-";
-
-    let num = parseFloat(value);
-    if (isNaN(num)) return "-";
-
-    let prefix = "";
-    let suffix = "";
-    let result = "";
-
-    switch (type) {
-      case "percent":
-        num = num * 100;
-        suffix = "%";
-        result = num.toLocaleString("en-US", {
-          minimumFractionDigits: fixedNum,
-          maximumFractionDigits: fixedNum,
-          useGrouping: false,
-        });
-        break;
-
-      case "dollar":
-        prefix = "$";
-        result = num.toLocaleString("en-US", {
-          minimumFractionDigits: fixedNum,
-          maximumFractionDigits: fixedNum,
-        });
-        break;
-
-      case "num":
-      default:
-        result = num.toLocaleString("en-US", {
-          minimumFractionDigits: fixedNum,
-          maximumFractionDigits: fixedNum,
-        });
-        break;
-    }
-
-    return `${prefix}${result}${suffix}`;
-  }
-
-  /**
-   * Insert data to asset to liability report
-   */
-  insertDataToAssetToLiabilityReport(data, selectedYears) {
-    const totalAssetsClient = data["totalAssets_Client"];
-    const totalLiabilitiesClient = data["totalLiabilities_Client"];
-    const tableBodyClient = document.getElementById(
-      "assetToLiabilitiesClient_tbody"
-    );
-    tableBodyClient.innerHTML = "";
-
-    const totalAssetsPeer = data["totalAssets_Peer"];
-    const totalLiabilitiesPeer = data["totalLiabilities_Peer"];
-    const tableBodyPeer = document.getElementById("assetToLiabilitiesPeer_tbody");
-    tableBodyPeer.innerHTML = "";
-
-    selectedYears.forEach((year, index) => {
-      const totalAssetsClientValue =
-        Number(totalAssetsClient[year].value) > 0
-          ? this.styleNumber(totalAssetsClient[year].value, "dollar", 0)
-          : "-";
-      const totalLiabilitiesClientValue =
-        Number(totalLiabilitiesClient[year].value) > 0
-          ? this.styleNumber(totalLiabilitiesClient[year].value, "dollar", 0)
-          : "-";
-      const totalAssetToLiabilityClientValue =
-        Number(totalAssetsClient[year].value) > 0
-          ? this.styleNumber(
-              Number(totalAssetsClient[year].value) /
-                Number(totalLiabilitiesClient[year].value),
-              "num",
-              2
-            )
-          : "-";
-
-      const classTrClient =
-        index % 2 === 0
-          ? "bg-white dark:bg-gray-800"
-          : "backgroundOffGreen dark:bg-gray-700";
-      const clientRow = document.createElement("tr");
-      clientRow.className = classTrClient;
-      clientRow.innerHTML = `
-        <th scope="row" class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${year}</th>
-        <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalAssetsClientValue}</td>
-        <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalLiabilitiesClientValue}</td>
-        <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalAssetToLiabilityClientValue}</td>
-      `;
-      tableBodyClient.appendChild(clientRow);
-
-      const totalAssetsPeerValue = totalAssetsPeer[year]
-        ? this.styleNumber(getSumOfArray(totalAssetsPeer[year]), "dollar", 0)
-        : "-";
-      const totalLiabilitiesPeerValue = totalLiabilitiesPeer[year]
-        ? this.styleNumber(getSumOfArray(totalLiabilitiesPeer[year]), "dollar", 0)
-        : "-";
-      const ratioPeer = totalLiabilitiesPeer[year]
-        ? Number(getSumOfArray(totalAssetsPeer[year])) /
-          Number(getSumOfArray(totalLiabilitiesPeer[year]))
-        : 0;
-      const totalAssetToLiabilitysPeerValue =
-        ratioPeer > 0 ? this.styleNumber(ratioPeer, "num", 2) : "-";
-
-      const classTrPeer =
-        index % 2 === 0
-          ? "bg-white dark:bg-gray-800"
-          : "backgroundOffBlue dark:bg-gray-700";
-      const peerRow = document.createElement("tr");
-      peerRow.className = classTrPeer;
-      peerRow.innerHTML = `
-        <th scope="row" class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${year}</th>
-        <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalAssetsPeerValue}</td>
-        <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalLiabilitiesPeerValue}</td>
-        <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">${totalAssetToLiabilitysPeerValue}</td>
-      `;
-      tableBodyPeer.appendChild(peerRow);
-    });
-  }
-
-  /**
-   * Insert data to source of income report
-   */
-  insertDataToSourceOfInomeReport(data, selectedYears) {
-    const tableHeaderRow = document.getElementById(
-      "row_sourceOfIncomeClient_tableHeader"
-    );
-    const tbody = document.getElementById("sourceOfIncomeClient_tbody");
-
-    const yearElement = `
-      <th scope="col" class="px-6 py-3 text-lg tracking-wide">
-        ${selectedYears[selectedYears.length - 1]}
-      </th>  
-    `;
-    tableHeaderRow.insertAdjacentHTML("afterbegin", yearElement);
-
-    const variables = [
-      ["Tuition", "revenueTuitionAndFees"],
-      ["Auxiliary", "revenueAuxiliaryActivities"],
-      ["Contributions", "revenueContributions"],
-      ["Investments", "revenueInvestmentIncome"],
-      ["Other", "revenueOther"],
-    ];
-
-    variables.forEach((variable, index) => {
-      const clientName = `si_${variable[1]}_Client`;
-      const peerName = `${variable[1]}_Peer`;
-      const title = variable[0];
-
-      const clientValue =
-        Number(data[clientName][selectedYears[0]].value) > 0
-          ? this.styleNumber(data[clientName][selectedYears[0]].value, "dollar", 0)
-          : "-";
-
-      const classTrEven =
-        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
-      const classTrOdd =
-        "backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
-      const rowElement = document.createElement("tr");
-      rowElement.className = index % 2 === 0 ? classTrEven : classTrOdd;
-
-      const cellHTML = `
-        <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${title}</th>
-        <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">${clientValue}</th>
-      `;
-
-      rowElement.innerHTML = cellHTML;
-      tbody.appendChild(rowElement);
-    });
-  }
-
-  /**
-   * Insert data to FFA report
-   */
-  insertDataToFfaReport(data, selectedYears) {
-    const currentYear = selectedYears[selectedYears.length - 1];
-
-    // Revenue data
-    const revenueTuitionAndFeesClient = Number(
-      data["ffa_revenueTuitionAndFees_Client"][currentYear].value
-    );
-    document.getElementById("ffa_tuitionFees").textContent =
-      revenueTuitionAndFeesClient != 0
-        ? this.styleNumber(revenueTuitionAndFeesClient, "dollar", 0)
-        : "-";
-
-    const revenueSchoolServicesClient = Number(
-      data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value
-    );
-    document.getElementById("ffa_scholarshipsFinancial").textContent =
-      revenueSchoolServicesClient != 0
-        ? this.styleNumber(revenueSchoolServicesClient, "dollar", 0)
-        : "-";
-
-    const totalRevenueContributionsClient = Number(
-      data["ffa_totalRevenueContributions_Client"][currentYear].value
-    );
-    document.getElementById("ffa_unrestrictedGifts").textContent =
-      totalRevenueContributionsClient != 0
-        ? this.styleNumber(totalRevenueContributionsClient, "dollar", 0)
-        : "-";
-
-    // Auxiliary and other data
-    const revenueAuxiliaryActivitiesClient = Number(
-      data["ffa_revenueAuxiliaryActivities_Client"][currentYear].value
-    );
-    const revenueOtherClient = Number(
-      data["ffa_revenueOther_Client"][currentYear].value
-    );
-    const revenueInvestmentIncomeClient = Number(
-      data["ffa_revenueInvestmentIncome_Client"][currentYear].value
-    );
-    const revenueEndowmentSpendingAppropriationClient = Number(
-      data["ffa_revenueEndowmentSpendingAppropriation_Client"][currentYear].value
-    );
-    const auxiliaryAndOtherClient =
-      revenueAuxiliaryActivitiesClient +
-      revenueOtherClient +
-      revenueInvestmentIncomeClient +
-      revenueEndowmentSpendingAppropriationClient;
-    document.getElementById("ffa_auxiliaryOther").textContent =
-      auxiliaryAndOtherClient != 0
-        ? this.styleNumber(auxiliaryAndOtherClient, "dollar", 0)
-        : "-";
-
-    // Contributions data
-    const contributionsClient = Number(
-      data["ffa_contributions_Client"][currentYear].value
-    );
-    document.getElementById("ffa_restrictedGifts").textContent =
-      contributionsClient != 0
-        ? this.styleNumber(contributionsClient, "dollar", 0)
-        : "-";
-
-    // Compensation data
-    const salariesAndWagesClient = Number(
-      data["ffa_salariesAndWages_Client"][currentYear].value
-    );
-    const employeeBenefitsClient = Number(
-      data["ffa_employeeBenefits_Client"][currentYear].value
-    );
-    const compensationAndBenefitsClient =
-      salariesAndWagesClient + employeeBenefitsClient;
-    document.getElementById("ffa_compensationBenefits").textContent =
-      compensationAndBenefitsClient != 0
-        ? this.styleNumber(compensationAndBenefitsClient, "dollar", 0)
-        : "-";
-
-    // General expense data
-    const servicesSuppliesAndOtherClient = Number(
-      data["ffa_servicesSuppliesAndOther_Client"][currentYear].value
-    );
-    const occupancyUtilitiesAndMaintenanceClient = Number(
-      data["ffa_occupancyUtilitiesAndMaintenance_Client"][currentYear].value
-    );
-    const depreciationAndAmortizationClient = Number(
-      data["ffa_depreciationAndAmortization_Client"][currentYear].value
-    );
-    const interestClient = Number(
-      data["ffa_interest_Client"][currentYear].value
-    );
-    const incomeExpenseSurplusDefecitClient = Number(
-      data["ffa_incomeExpenseSurplusDefecit_Client"][currentYear].value
-    );
-    const generalExpenseClient =
-      servicesSuppliesAndOtherClient +
-      occupancyUtilitiesAndMaintenanceClient +
-      depreciationAndAmortizationClient +
-      interestClient +
-      incomeExpenseSurplusDefecitClient;
-    document.getElementById("ffa_generalExpense").textContent =
-      generalExpenseClient != 0
-        ? this.styleNumber(generalExpenseClient, "dollar", 0)
-        : "-";
-
-    // Total calculations
-    const totalRevenues =
-      revenueTuitionAndFeesClient +
-      totalRevenueContributionsClient +
-      auxiliaryAndOtherClient +
-      contributionsClient;
-    const totalExpenses =
-      revenueSchoolServicesClient +
-      compensationAndBenefitsClient +
-      generalExpenseClient;
-
-    document.getElementById("ffa_totalRevenues").textContent =
-      totalRevenues != 0 ? this.styleNumber(totalRevenues, "dollar", 0) : "-";
-    document.getElementById("ffa_totalExpenses").textContent =
-      totalExpenses != 0 ? this.styleNumber(totalExpenses, "dollar", 0) : "-";
-  }
-
-  /**
-   * Insert data to financial statement report
-   */
-  insertDataToFSReport(data, selectedYears) {
-    // Implementation can be added here if needed
-  }
+  });
 }
-
-// Initialize when DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
-  // Create report component
-  const reportComponent = new ReportComponent();
-
-  // Expose functions globally for backward compatibility
-  window.reportComponent = reportComponent;
-  window.displayReportComponent =
-    reportComponent.displayReportComponent.bind(reportComponent);
-});

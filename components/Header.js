@@ -13,7 +13,7 @@ window.selectedRegionals_Array = window.selectedRegionals_Array || new Set();
 
 // Initialize slider default values
 window.sliderValue = 0;
-window.sliderValue2 = 16000;
+window.sliderValue2 = 25000;
 
 /**
  * Sets up dropdown toggle functionality
@@ -114,8 +114,8 @@ function setupDropdownToggle(selectElementId, optionsListId) {
  */
 function clientMatchesFilters(
   clientData,
-  minEnrollment,
-  maxEnrollment,
+  enrollmentMin,
+  enrollmentMax,
   selectedRegions,
   selectedStates,
   selectedMemberships,
@@ -125,32 +125,11 @@ function clientMatchesFilters(
   selectedRegionals
 ) {
   if (!clientData) return false;
-  //   console.log('clientMatchesFilters', clientData);
-  //   {
-  //     "name": "Wofford College",
-  //     "year": "2020",
-  //     "enrollment": 0,
-  //     "region": "0",
-  //     "state": "SC",
-  //     "membership": [
-  //         "Unspecified"
-  //     ],
-  //     "type": [
-  //         "Unspecified"
-  //     ],
-  //     "athletic": [
-  //         "Unspecified"
-  //     ],
-  //     "seminary": [],
-  //     "regional": [
-  //         "South Carolina Independent Colleges and Universities"
-  //     ]
-  // }
-
+  
   // Check enrollment range
   const enrollmentMatch =
-    clientData.enrollment >= minEnrollment &&
-    clientData.enrollment <= maxEnrollment;
+    clientData.enrollment >= enrollmentMin &&
+    clientData.enrollment <= enrollmentMax;
 
   if (
     selectedRegions.length === 0 ||
@@ -161,7 +140,7 @@ function clientMatchesFilters(
     selectedSeminaries.length === 0 ||
     selectedRegionals.length === 0
   ) {
-    console.warn("No areas or types selected, returning false");
+    console.log("No areas or types selected, returning false");
     return false;
   }
 
@@ -208,30 +187,29 @@ function clientMatchesFilters(
       )
     : false;
 
-  if (
-    clientData.name === "Briercrest College and Seminary" 
-  ) {
-    // console.log("clientMatchesFilters", {
-    //   clientData,
-    //   enrollmentMin,
-    //   enrollmentMax,
-    //   selectedRegions,
-    //   selectedStates,
-    //   selectedMemberships,
-    //   selectedTypes,
-    //   selectedAthletics,
-    //   selectedSeminaries,
-    //   selectedRegionals,
-    //   enrollmentMatch,
-    //   regionMatch,
-    //   stateMatch,
-    //   membershipMatch,
-    //   typeMatch,
-    //   athleticMatch,
-    //   seminaryMatch,
-    //   regionalMatch,
-    // });
-  }
+    if (clientData.name === "Regent College" || clientData.name === "Trinity Western University") {
+      console.log("clientMatchesFilters", {
+        clientData,
+        enrollmentMin,
+        enrollmentMax,
+        selectedRegions,
+        selectedStates,
+        selectedMemberships,
+        selectedTypes,
+        selectedAthletics,
+        selectedSeminaries,
+        selectedRegionals,
+        enrollmentMatch,
+        regionMatch,
+        stateMatch,
+        membershipMatch,
+        typeMatch,
+        athleticMatch,
+        seminaryMatch,
+        regionalMatch
+      });
+    }
+
   return (
     enrollmentMatch &&
     regionMatch &&
@@ -244,19 +222,12 @@ function clientMatchesFilters(
   );
 }
 
-
-
 /**
  * Updates client dropdown checkboxes based on current filter criteria
  * Acts as the primary filter implementation that Utility.js will defer to
  */
-
-// Initialize prevMatchCount outside the function
-let prevMatchCount = 0;
-
-function updateClientDropdownFilters() {
-  // console.log("Running client dropdown filter update");
-
+function updateClientDropdownFilters(isInitial = false) {
+  console.log("updateClientDropdownFilters", isInitial);
   // Ensure client data store exists
   if (!window.clientDataStore) {
     console.warn("Client data store not initialized");
@@ -276,6 +247,13 @@ function updateClientDropdownFilters() {
   const minEnrollment = window.sliderValue || 0;
   const maxEnrollment = window.sliderValue2 || 25000;
 
+  // console.log("Current filter criteria:", {
+  //   areas: selectedAreas,
+  //   types: selectedTypes,
+  //   givingRange: [minGiving, maxGiving],
+  //   missionRange: [minMission, maxMission],
+  // });
+
   // Get all client checkboxes
   const clientCheckboxes = document.querySelectorAll(
     '#options-list-client input[type="checkbox"]'
@@ -290,6 +268,11 @@ function updateClientDropdownFilters() {
   window.selectedClients_Array.clear();
   let matchCount = 0;
   let totalClientCount = 0;
+
+  // console.log({
+  //   selectedTypes,
+  //   selectedAreas
+  // });
 
   // Process each client checkbox (skip the select all checkbox)
   clientCheckboxes.forEach((checkbox) => {
@@ -337,23 +320,14 @@ function updateClientDropdownFilters() {
     selectAllCheckbox.indeterminate = !allSelected && !noneSelected;
   }
 
-  // Only show toast if matchCount has changed and not on initial load
-  if (window.hasRunInitialClientDropdownFilter) {
-    if (matchCount !== prevMatchCount) {
-      createToastSuccess(`${matchCount} clients match your filter criteria`);
-    }
-  } else {
-    window.hasRunInitialClientDropdownFilter = true;
-  }
-  
-  // Update prevMatchCount for next comparison
-  prevMatchCount = matchCount;
+  createToastSuccess(`Number of unique clients filtered: ${matchCount}`);
 
-  // console.log(
-  //   `Filter completed: ${matchCount} of ${totalClientCount} clients match current filters`
-  // );
-  // console.log("Selected clients:", Array.from(window.selectedClients_Array));
+  console.log(
+    `Filter completed: ${matchCount} of ${totalClientCount} clients match current filters`
+  );
+  console.log("Selected clients:", Array.from(window.selectedClients_Array));
 }
+
 /**
  * Updates the state of the "select all" checkbox based on individual client selections
  */
@@ -506,8 +480,6 @@ function initializeClientDropdown(event) {
   });
 
   // console.log(`Initialized dropdown with ${clientNames.length} clients`);
-
-  window.hasRunInitialClientDropdownFilter = false;
 }
 
 /**
@@ -805,9 +777,9 @@ function addUniqueStatesToOptionsSelectStatesDropdown(stateArray) {
 function addUniqueMembershipsToOptionsSelectMembershipsDropdown(
   membershipArray
 ) {
-  // console.log("addUniqueMembershipsToOptionsSelectMembershipsDropdown", {
-  //   membershipArray,
-  // });
+  console.log("addUniqueMembershipsToOptionsSelectMembershipsDropdown", {
+    membershipArray,
+  });
 
   const optionsListMembership = document.getElementById(
     "options-list-membership"
@@ -1665,7 +1637,7 @@ function getOrCreateDisplaySpan(inputElement, inputId) {
     wrapper.appendChild(displaySpan);
 
     // Adjust positioning to overlay the input
-    displaySpan.style.left = "8px"; // Padding
+    displaySpan.style.left = "2rem"; // Padding
     displaySpan.style.top = "50%";
     displaySpan.style.transform = "translateY(-50%)";
   }
@@ -1674,23 +1646,35 @@ function getOrCreateDisplaySpan(inputElement, inputId) {
 }
 
 // Add event listeners for key events
-document.addEventListener("filtersChanged", updateClientDropdownFilters);
-document.addEventListener("clientDataLoaded", initializeClientDropdown);
-
-// Listen for custom slider events
-document.addEventListener("sliderChanged", function(event) {
-  const { value, type } = event.detail;
-  const input = document.getElementById(type === "min" ? "enrollmentMin" : "enrollmentMax");
-  if (input && input.value != value) {
-    input.value = value;
-    
-    // Also update the formatted display if it exists
-    const displaySpan = document.querySelector(`[data-format-for="${input.id}"]`);
-    if (displaySpan) {
-      displaySpan.textContent = formatNumberWithCommas(value);
+document.addEventListener("filtersChanged", function () {
+    // Debounce the filter updates to prevent multiple rapid executions
+    if (window.filterUpdateTimeout) {
+        clearTimeout(window.filterUpdateTimeout);
     }
-  }
-});
+    
+    window.filterUpdateTimeout = setTimeout(() => {
+        setupNumberFormatting();
+        updateClientDropdownFilters();
+        
+        // Only log in development environment or with debug flag
+        console.log("Filter State Updated:", {
+          sliders: {
+              enrollmentMin: window.sliderValue,
+              enrollmentMax: window.sliderValue2,
+          },
+          regions: Array.from(window.selectedRegions_Array || []),
+          states: Array.from(window.selectedStates_Array || []),
+          memberships: Array.from(window.selectedMemberships_Array || []),
+          types: Array.from(window.selectedTypes_Array || []),
+          athletics: Array.from(window.selectedAthletics_Array || []),
+          seminaries: Array.from(window.selectedSeminaries_Array || []),
+          regionals: Array.from(window.selectedRegionals_Array || []),
+          clients: {
+              count: window.selectedClients_Array ? window.selectedClients_Array.size : 0,
+          },
+      });
+    }, 250); // Debounce delay
+}, { passive: true }); // Optimize event listener
 
 // Main initialization when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
@@ -1748,17 +1732,10 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       element: document.getElementById("enrollmentMax"),
       globalVar: "sliderValue2",
-      defaultValue: 16000,
+      defaultValue: 25000,
       sliderDivs: document.querySelectorAll(".enrollmentSlider"),
     },
   ];
-
-  // Set initial values to inputs
-  sliderInputs.forEach(slider => {
-    if (slider.element) {
-      slider.element.value = window[slider.globalVar];
-    }
-  });
 
   // Function to trigger filter change event
   function triggerFiltersChanged(sliderInfo) {
@@ -1772,25 +1749,44 @@ document.addEventListener("DOMContentLoaded", function () {
   // Set up each slider
   sliderInputs.forEach((slider) => {
     if (slider.element) {
-      // Set up MutationObserver to detect style changes
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          if (
-            mutation.type === "attributes" &&
-            mutation.attributeName === "style"
-          ) {
-            // Update global variable from the input element
-            window[slider.globalVar] =
-              parseInt(slider.element.value) || slider.defaultValue;
-            triggerFiltersChanged(slider);
-          }
+      // Set initial value
+      slider.element.value = window[slider.globalVar];
+
+      // If slider has specific slider divs
+      if (slider.sliderDivs && slider.sliderDivs.length) {
+        slider.sliderDivs.forEach((sliderDiv) => {
+          // Set up MutationObserver to detect style changes
+          const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+              if (
+                mutation.type === "attributes" &&
+                mutation.attributeName === "style"
+              ) {
+                // Update global variable from the input element
+                window[slider.globalVar] =
+                  parseInt(slider.element.value) || slider.defaultValue;
+                triggerFiltersChanged(slider);
+              }
+            });
+          });
+
+          // Configure the observer
+          observer.observe(sliderDiv, {
+            attributes: true,
+            attributeFilter: ["style"],
+          });
         });
+      }
+
+      // Standard event listeners as a fallback
+      slider.element.addEventListener("input", function () {
+        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
+        triggerFiltersChanged(slider);
       });
 
-      // Configure the observer
-      observer.observe(slider.element, {
-        attributes: true,
-        attributeFilter: ["style"],
+      slider.element.addEventListener("change", function () {
+        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
+        triggerFiltersChanged(slider);
       });
     }
   });
@@ -1889,41 +1885,19 @@ document.addEventListener("DOMContentLoaded", function () {
       if (slider) {
         // Set initial slider values to match global variables
         slider.value = parseInt(
-          slider.id === "givingUnitsMin"
+          slider.id === "enrollmentMin"
             ? window.sliderValue
-            : slider.id === "givingUnitsMax"
+            : slider.id === "enrollmentMax"
             ? window.sliderValue2
-            : slider.id === "missionUnitsMin"
-            ? window.missionValue
-            : slider.id === "missionUnitsMax"
-            ? window.missionValue2
-            : slider.id === "assetsMin"
-            ? window.assetsValue
-            : slider.id === "assetsMax"
-            ? window.assetsValue2
-            : slider.id === "revenueMin"
-            ? window.revenueValue
-            : window.revenueValue2
+            : 0
         );
         slider.addEventListener("input", () => {
           // Update corresponding value
-          if (slider.id === "givingUnitsMin") {
+          if (slider.id === "enrollmentMax") {
             window.sliderValue = parseInt(slider.value);
-          } else if (slider.id === "givingUnitsMax") {
+          } else if (slider.id === "enrollmentMax") {
             window.sliderValue2 = parseInt(slider.value);
-          } else if (slider.id === "missionUnitsMin") {
-            window.missionValue = parseInt(slider.value);
-          } else if (slider.id === "missionUnitsMax") {
-            window.missionValue2 = parseInt(slider.value);
-          } else if (slider.id === "assetsMin") {
-            window.assetsValue = parseInt(slider.value);
-          } else if (slider.id === "assetsMax") {
-            window.assetsValue2 = parseInt(slider.value);
-          } else if (slider.id === "revenueMin") {
-            window.revenueValue = parseInt(slider.value);
-          } else if (slider.id === "revenueMax") {
-            window.revenueValue2 = parseInt(slider.value);
-          }
+          } 
 
           // Trigger the filtersChanged event
           const event = new CustomEvent("filtersChanged");
@@ -1936,40 +1910,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize all filter triggers
   initializeFilterTriggers();
 
-  document.addEventListener("filtersChanged", function () {
-    setTimeout(setupNumberFormatting, 500);
-    // console.log("Filter State Updated:", {
-    //   sliders: {
-    //     enrollmentMin: window.sliderValue,
-    //     enrollmentMax: window.sliderValue2,
-    //   },
-    //   regions: Array.from(window.selectedRegions_Array || []),
-    //   states: Array.from(window.selectedStates_Array || []),
-    //   memberships: Array.from(window.selectedMemberships_Array || []),
-    //   types: Array.from(window.selectedTypes_Array || []),
-    //   athletics: Array.from(window.selectedAthletics_Array || []),
-    //   seminaries: Array.from(window.selectedSeminaries_Array || []),
-    //   regionals: Array.from(window.selectedRegionals_Array || []),
-    //   clients: {
-    //     count: window.selectedClients_Array
-    //       ? window.selectedClients_Array.size
-    //       : 0,
-    //   },
-    // });
-  });
-
-  // Initialize areas dropdown with the provided array
-  // if (typeof areas_Array !== "undefined") {
-  //   addUniqueAreasToOptionsSelectAreasDropdown(areas_Array);
-  // }
-
-  // Export the filter update function to global scope so Utility.js can use it
+  // Export the filter update function to global scope so Api.js can use it
   window.headerUpdateClientDropdown = updateClientDropdownFilters;
   // console.log("Header.js filter function exported as headerUpdateClientDropdown");
-  
-  // Explicitly set enrollment input values
-  const enrollmentMin = document.getElementById('enrollmentMin');
-  const enrollmentMax = document.getElementById('enrollmentMax');
-  if (enrollmentMin) enrollmentMin.value = window.sliderValue;
-  if (enrollmentMax) enrollmentMax.value = window.sliderValue2;
 });

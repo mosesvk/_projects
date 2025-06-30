@@ -28,7 +28,6 @@ const states_Array = [
   { arr: ["AR"], str: "AR" },
   { arr: ["AS"], str: "AS" },
   { arr: ["BC"], str: "BC" },
-  { arr: ["BS"], str: "BS" },
   { arr: ["CA"], str: "CA" },
   { arr: ["CO"], str: "CO" },
   { arr: ["CT"], str: "CT" },
@@ -45,8 +44,8 @@ const states_Array = [
   { arr: ["KS"], str: "KS" },
   { arr: ["KY"], str: "KY" },
   { arr: ["LA"], str: "LA" },
-  { arr: ["MB"], str: "MB" },
   { arr: ["ME"], str: "ME" },
+  { arr: ["MB"], str: "MB" },
   { arr: ["MD"], str: "MD" },
   { arr: ["MA"], str: "MA" },
   { arr: ["MI"], str: "MI" },
@@ -55,28 +54,28 @@ const states_Array = [
   { arr: ["MO"], str: "MO" },
   { arr: ["MT"], str: "MT" },
   { arr: ["NE"], str: "NE" },
+  { arr: ["NB"], str: "NB" },
   { arr: ["NV"], str: "NV" },
   { arr: ["NH"], str: "NH" },
   { arr: ["NJ"], str: "NJ" },
   { arr: ["NM"], str: "NM" },
   { arr: ["NY"], str: "NY" },
   { arr: ["NC"], str: "NC" },
-  { arr: ["ND"], str: "NB" },
-  { arr: ["NB"], str: "ND" },
+  { arr: ["ND"], str: "ND" },
   { arr: ["MP"], str: "MP" },
   { arr: ["OH"], str: "OH" },
+  { arr: ["ON"], str: "ON" },
   { arr: ["OK"], str: "OK" },
   { arr: ["OR"], str: "OR" },
-  { arr: ["ON"], str: "ON" },
   { arr: ["PA"], str: "PA" },
   { arr: ["PR"], str: "PR" },
   { arr: ["RI"], str: "RI" },
   { arr: ["SC"], str: "SC" },
-  { arr: ["SD"], str: "SD" },
   { arr: ["SK"], str: "SK" },
+  { arr: ["SD"], str: "SD" },
   { arr: ["TN"], str: "TN" },
-  { arr: ["TT"], str: "TT" },
   { arr: ["TX"], str: "TX" },
+  { arr: ["TT"], str: "TT" },
   { arr: ["UT"], str: "UT" },
   { arr: ["VT"], str: "VT" },
   { arr: ["VA"], str: "VA" },
@@ -101,7 +100,7 @@ const types_Array = [
     arr: ["Liberal Arts & Bible College"],
     str: "Liberal Arts & Bible College",
   },
-  { arr: ["Unspecified"], str: "Unspecified" }
+  { arr: ["Unspecified"], str: "Unspecified" },
 ];
 const memberships_Array = [
   { arr: ["ABACC"], str: "ABACC" },
@@ -168,10 +167,10 @@ const athletics_Array = [
 
 let sliderAmount = null;
 let sliderRange = null;
-let sliderValue = 0;
-let sliderValue2 = 25000;
+// Make sure these are window-scoped variables
+window.sliderValue = 0;
+window.sliderValue2 = 16000;
 let missionValue = 0;
-// let amount = null;
 
 let selectedRegion = "";
 const selectedRegions_Array = new Set();
@@ -299,7 +298,7 @@ const createToastSuccess = (textString) => {
     "ease-in-out",
     "delay-150",
     "fixed",
-    "top-12",
+    "top-20",
     "left-1/2",
     "transform",
     "-translate-x-1/2",
@@ -324,7 +323,7 @@ const createToastSuccess = (textString) => {
       </svg>
       <span class="sr-only">success</span>
     </div>
-    <div class="ms-3 text-sm font-normal">${textString}</div>
+    <div class="ms-3 text-lg font-normal">${textString}</div>
     <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
         <span class="sr-only">Close</span>
         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -333,17 +332,7 @@ const createToastSuccess = (textString) => {
     </button>
   `;
 
-  const closeButton = toastSuccessDiv.querySelector(
-    '[data-dismiss-target="#toast-success"]'
-  );
-  closeButton.addEventListener("click", (event) => {
-    event.stopPropagation(); // Prevent propagation to the toast
-    toastSuccessDiv.remove();
-  });
-
-  document.body.appendChild(toastSuccessDiv);
-
-  // Event listener to close the toast when clicking outside of it
+  // Create click outside handler
   const clickOutsideHandler = (event) => {
     if (!toastSuccessDiv.contains(event.target)) {
       toastSuccessDiv.remove();
@@ -351,12 +340,22 @@ const createToastSuccess = (textString) => {
     }
   };
 
-  setTimeout(() => {
-    document.body.addEventListener("click", clickOutsideHandler);
-  }, 100); // Delay adding the event listener to prevent immediate removal
+  // Add click outside listener
+  document.body.addEventListener("click", clickOutsideHandler);
+
+  // Add close button handler
+  const closeButton = toastSuccessDiv.querySelector(
+    '[data-dismiss-target="#toast-success"]'
+  );
+  closeButton.addEventListener("click", () => {
+    toastSuccessDiv.remove();
+    document.body.removeEventListener("click", clickOutsideHandler);
+  });
+
+  document.body.appendChild(toastSuccessDiv);
 };
 
-function createChartFromParsedData(
+const createChartFromParsedData = (
   parsedData,
   chart,
   peer,
@@ -366,9 +365,9 @@ function createChartFromParsedData(
   mainName,
   benchmark,
   title
-){
+) => {
   if (parsedData) {
-    console.log('UTILITY.JS: createChartFromParsedData', { parsedData, chart, peer, client, type, fixedNum, mainName });
+    // console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
 
     createChart(
       chart,
@@ -383,8 +382,6 @@ function createChartFromParsedData(
     // updateModal (mainName, parsedData[peer], parsedData[client]);
   }
 };
-
-window.createChartFromParsedData = createChartFromParsedData;
 
 const createChart = (
   chartId,
@@ -496,7 +493,6 @@ const createChart = (
   }
 };
 
-window.createChart = createChart;
 const getStoredData = (dataTable) => {
   return localStorage.getItem(dataTable) || null;
 };
@@ -908,8 +904,8 @@ function setupDropdownToggle(selectElementId, optionsListId) {
 }
 
 const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
-  console.log('addUniqueClientsToOptionsSelectClientDropdown', {clientArray});
-  
+  // console.log("addUniqueClientsToOptionsSelectClientDropdown", { clientArray });
+
   const optionsListClient = document.getElementById("options-list-client");
   if (!optionsListClient) {
     console.error("Client options list element not found");
@@ -1155,7 +1151,7 @@ function createPeerDataCell(row, value, dataType, fixedNum) {
   return cell;
 }
 
-function getPeerAndClientChartDataArrays(
+const getPeerAndClientChartDataArrays = (
   years,
   dataPeer,
   dataClient,
@@ -1163,7 +1159,7 @@ function getPeerAndClientChartDataArrays(
   mainName,
   benchmark,
   type
-) {
+) => {
   // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark, type });
   const peerAvg = [];
   const peerMid = [];
@@ -1173,8 +1169,8 @@ function getPeerAndClientChartDataArrays(
   const benchmarkArray = [];
 
   years.forEach((year) => {
-    if (mainName == "cfiRatio")
-      console.log({ mainName, year, client: dataClient[year], peer: dataPeer, type, fixedNum });
+    // if (mainName == "cfi_netIncomeOperationsRatio")
+    //   console.log({ mainName, year, client: dataClient[year], peer: dataPeer, type, fixedNum });
 
     benchmarkArray.push(benchmark);
 
@@ -1251,9 +1247,6 @@ function getPeerAndClientChartDataArrays(
 
   return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
 };
-
-window.getPeerAndClientChartDataArrays = getPeerAndClientChartDataArrays;
-
 
 const formatDecimal = (val, fixedNum) => {
   // Check if val is null or undefined
@@ -1478,10 +1471,10 @@ function changeThWidth(elementId) {
 
 const range = () => {
   return {
-    minprice: 0,
-    maxprice: 25000,
+    minprice: window.sliderValue,
+    maxprice: window.sliderValue2,
     min: 0,
-    max: 25000,
+    max: 16000,
     minthumb: 1,
     maxthumb: 1,
 
@@ -1490,17 +1483,21 @@ const range = () => {
       this.minthumb =
         ((this.minprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update sliderValue and trigger slider movement if necessary
-      sliderValue = this.minprice;
+      // Update global variable
+      window.sliderValue = this.minprice;
+
+      // Trigger a custom event to notify other components
+      const event = new CustomEvent("sliderChanged", {
+        detail: { value: this.minprice, type: "min" },
+      });
+      document.dispatchEvent(event);
+
       if (sliderAmount) {
-        sliderAmount.value = sliderValue; // Assuming sliderAmount is an input element
-        // Update slider position dynamically using appropriate API (e.g., jQuery UI, NoUiSlider)
+        sliderAmount.value = window.sliderValue;
       }
 
       this.minthumb =
         ((this.minprice - this.min) / (this.max - this.min)) * 100;
-
-      // Consider adding visual or functional feedback for minthumb movement
     },
 
     maxtrigger() {
@@ -1508,17 +1505,21 @@ const range = () => {
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update sliderValue2 and trigger slider movement if necessary
-      sliderValue2 = this.maxprice;
+      // Update global variable
+      window.sliderValue2 = this.maxprice;
+
+      // Trigger a custom event to notify other components
+      const event = new CustomEvent("sliderChanged", {
+        detail: { value: this.maxprice, type: "max" },
+      });
+      document.dispatchEvent(event);
+
       if (sliderRange) {
-        sliderRange.value = sliderValue2; // Assuming sliderRange is an input element
-        // Update slider position dynamically using appropriate API
+        sliderRange.value = window.sliderValue2;
       }
 
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
-
-      // Consider adding visual or functional feedback for maxthumb movement
     },
   };
 };
@@ -1903,41 +1904,6 @@ const displayFSSummary = (chart, idx) => {
   // console.log({ summaryDiv, idx });
 };
 
-function createFSTable(tableDataClass, data, idString, year) {
-  // console.log({ tableDataClass, data, idString, year });
-
-  const tableHeaderData = document.getElementById(`${idString}_yearSelectData`);
-  const tableHeaderYear = document.getElementById(`${idString}_yearSelect`);
-  let index = yearsData_Array.indexOf(year);
-  const totalNum = Number(data[data.length - 1]);
-
-  tableHeaderYear.textContent = `(${year})`;
-  tableHeaderData.textContent = `$${totalNum.toLocaleString()}`;
-
-  const tableDataArray = document.querySelectorAll(`.${tableDataClass}`);
-
-  // console.log({ tableDataArray });
-  tableDataArray.forEach((item, idx) => {
-    const dataPoint = Number(data[idx]).toLocaleString();
-    // console.log({ dataPoint });
-    item.textContent = `$${dataPoint}`;
-  });
-}
-
-function processFinancialData(dataObject, tableDataClass, year, idString) {
-  // console.log({ dataObject, tableDataClass, year, idString });
-
-  // Create an array of values for the current year
-  let arrayData = [];
-  for (let key in dataObject) {
-    if (dataObject[key][year]) {
-      arrayData.push(dataObject[key][year].value);
-    }
-  }
-  // Call the createFSTable function with the tableId and arrayData
-  createFSTable(tableDataClass, arrayData, idString, year);
-}
-
 function toggleDetails(button, details, arrowIcon) {
   button.addEventListener("click", () => {
     // console.log('clicked');
@@ -1959,6 +1925,67 @@ function toggleDetailsByIdentifier(identifier) {
   toggleDetails(dropdownButton, detailsDiv, arrowIcon);
 }
 
+function createFSTable(tableDataClass, arrayData, idString, year, dataObject, dataPointArray) {
+  const tableHeaderData = document.getElementById(`${idString}_yearSelectData`);
+  const tableHeaderYear = document.getElementById(`${idString}_yearSelect`);
+  const totalNum = dataObject[`${idString}_Client`][year].value;
+  const isTotalNumString = typeof totalNum === "string";
+
+  tableHeaderYear.textContent = `(${year})`;
+  tableHeaderData.textContent = `$${
+    isTotalNumString
+      ? Number(totalNum).toLocaleString()
+      : totalNum.toLocaleString()
+  }`;
+
+  // Loop through each data point in the array
+  dataPointArray.forEach(dataPoint => {
+    // console.log({ dataPoint });
+    // Get the corresponding table cell using the dataPoint class
+    const tableCell = document.querySelector(`.${dataPoint}_dataPoint`);
+    if (tableCell) {
+      // Get the value from dataObject using the _Client suffix
+      const value = dataObject[`${dataPoint}_Client`][year].value;
+      // Format and display the value
+      tableCell.textContent = `$${Number(value).toLocaleString()}`;
+    }
+  });
+}
+
+function processFinancialData(
+  dataObject,
+  tableDataClass,
+  year,
+  idString,
+  dataPointArray
+) {
+  // Create an array of values for the current year
+  let arrayData = [];
+  for (let key in dataObject) {
+    if (dataObject[key][year]) {
+      arrayData.push(dataObject[key][year].value);
+    }
+  }
+
+  // console.log("processFinancialData - utility.js", {
+  //   dataObject,
+  //   tableDataClass,
+  //   year,
+  //   idString,
+  //   arrayData,
+  //   dataPointArray
+  // });
+  // Call the createFSTable function with the tableId and arrayData
+  createFSTable(
+    tableDataClass,
+    arrayData,
+    idString,
+    year,
+    dataObject,
+    dataPointArray
+  );
+}
+
 function createAndRenderFSChart(
   chartId,
   parsedData,
@@ -1966,9 +1993,20 @@ function createAndRenderFSChart(
   color,
   currency,
   label,
-  tableDataClass
+  tableDataClass,
+  dataPointArray
 ) {
-  // if (tableDataClass == 'changesInNetAssetsWithDR_dataPoint') console.log({ chartId, parsedData, dataKey, color, currency, label });
+  // if (tableDataClass == 'totalAssets_dataPoint')
+  // console.log("createAndRenderFSChart", {
+  //   yearsData_Array,
+  //   chartId,
+  //   parsedData,
+  //   dataKey,
+  //   color,
+  //   currency,
+  //   label,
+  //   dataPointArray
+  // });
   // Create the chart
   const chart = new ApexCharts(
     document.querySelector(chartId),
@@ -1979,7 +2017,8 @@ function createAndRenderFSChart(
       currency,
       label,
       chartId,
-      tableDataClass
+      tableDataClass,
+      dataPointArray
     )
   );
   // let mostCurrentYearIndex = Object.keys(parsedData[dataKey]).length - 1
@@ -2015,7 +2054,8 @@ function createAndRenderFSChart(
       parsedData,
       tableDataClass,
       mostRecentYear,
-      clientString
+      clientString,
+      dataPointArray
     );
 
     // Apply styling to the last bar
@@ -2066,7 +2106,8 @@ function createAndRenderFSChart(
         currency,
         label,
         chartId,
-        tableDataClass
+        tableDataClass,
+        dataPointArray
       )
     );
   });
