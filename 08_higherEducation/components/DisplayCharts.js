@@ -350,8 +350,8 @@ const displayFinancialStatementComponent = () => {
       "adjustmentsAccountsReceivable",
       "adjustmentsInventory",
       "adjustmentsPrepaidsAndOtherAssets",
-      "accountsPayableAndAccruedExpenses",
-      "deferredRevenue",
+      "cashFlowsaccountsPayableAndAccruedExpenses",
+      "cashFlowsDeferredRevenue",
       "adjustmentsOtherLiabilities",
       "cashFlowsOperatingActivities"
     ]
