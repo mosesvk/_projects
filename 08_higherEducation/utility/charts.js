@@ -2172,7 +2172,7 @@ const getCurrentRatioChartOptions = (data) => {
   );
 
   const accountsPayableArray = Object.values(
-    data["accountsPayable_Client"]
+    data["accountsPayableAndAccruedExpenses_Client"]
   ).map((item) => Number(item.value));
   const deferredRevenueArray = Object.values(
     data["deferredRevenue_Client"]

@@ -744,6 +744,9 @@ function buildUploadXml(results) {
   if (typeof window.uniqueClientSize !== 'undefined') {
     uploadXml += createFieldXml(32, window.uniqueClientSize);
   }
+
+  console.log(window.selectedAthletics_Array);
+  
   
   uploadXml += createFieldXml(94, selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(69, window.monthYearEnd);

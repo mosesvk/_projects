@@ -1736,7 +1736,7 @@ class DataProcessor {
           { key: "studentLoansAndOtherReceivables_Client", field: "r003_student_loans_and_other_receivables" },
           { key: "contributionsReceivable_Client", field: "r004_contributions_receivable" },
           { key: "prepaidExpensesAndOtherAssets_Client", field: "r005_prepaid_expenses_and_other_assets" },
-          { key: "accountsPayable_Client", field: "r009_accounts_payable_and_accrued_liabilities" },
+          { key: "accountsPayableAndAccruedExpenses_Client", field: "r009_accounts_payable_and_accrued_liabilities" },
           { key: "deferredRevenue_Client", field: "r010_deferred_revenue" },
           { key: "postRetirementHealthBenefits_Client", field: "r011_post_retirement_health_benefits" },
           { key: "annuityObligations_Client", field: "r012_annuity_obligations" },
@@ -2141,7 +2141,7 @@ class DataProcessor {
 
         // Total Liabilities
         const totalLiabilities_array = [
-          { key: "accountsPayable_Client", field: "r009_accounts_payable_and_accrued_liabilities" },
+          { key: "accountsPayableAndAccruedExpenses_Client", field: "r009_accounts_payable_and_accrued_liabilities" },
           { key: "deferredRevenue_Client", field: "r010_deferred_revenue" },
           { key: "postRetirementHealthBenefits_Client", field: "r011_post_retirement_health_benefits" },
           { key: "annuityObligations_Client", field: "r012_annuity_obligations" },
