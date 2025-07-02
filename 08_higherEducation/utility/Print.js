@@ -764,6 +764,7 @@ function buildUploadXml(results) {
   selectedYears.forEach((year, index) => {
     if (index < 8) {  // Only process up to 8 years
       uploadXml += createFieldXml(73 + index, year);
+      uploadXml += createFieldXml(81 + index, window.uniqueClientsPerYearMap[year]);
       
       // Check if clientsByYear exists and has the year data before accessing it
       if (window.clientsByYear && typeof window.clientsByYear.get === 'function') {

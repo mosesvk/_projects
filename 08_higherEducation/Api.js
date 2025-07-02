@@ -3563,16 +3563,42 @@ function countUniqueClients(records) {
   // Use a Set to track unique client names
   const uniqueClients = new Set();
 
+  // Initialize uniqueClientsPerYearMap based on selectedYears_Set
+  window.uniqueClientsPerYearMap = {};
+
+  if (selectedYears_Set) {
+    // Convert Set to Array and sort for consistent key order
+    const selectedYearsArray = Array.from(selectedYears_Set).sort();
+    selectedYearsArray.forEach(year => {
+      window.uniqueClientsPerYearMap[year] = new Set();
+    });
+  }
+
+  // console.log({records});
+
   try {
     records.forEach((record) => {
       const clientName =
         record.querySelector("merged_client_name")?.textContent;
+      const year = record.querySelector("year")?.textContent;
 
       // Only count clients that are in the selectedClients_Array
       if (clientName && selectedClients.includes(clientName)) {
         uniqueClients.add(clientName);
+        
+        // Track unique clients per year
+        if (year && window.uniqueClientsPerYearMap && window.uniqueClientsPerYearMap[year]) {
+          window.uniqueClientsPerYearMap[year].add(clientName);
+        }
       }
     });
+
+    // Convert Sets to counts for the per-year map
+    if (window.uniqueClientsPerYearMap) {
+      Object.keys(window.uniqueClientsPerYearMap).forEach(year => {
+        window.uniqueClientsPerYearMap[year] = window.uniqueClientsPerYearMap[year].size;
+      });
+    }
 
     // Update the UI with the count
     const count = uniqueClients.size;
@@ -3587,7 +3613,8 @@ function countUniqueClients(records) {
       createToastWarning("There are 5 or less Unique Clients in Peer Records.");
     }
 
-    console.log(`Counted ${count} unique clients after filtering`);
+    // console.log(`Counted ${count} unique clients after filtering`);
+    // console.log('Unique clients per year:', window.uniqueClientsPerYearMap);
   } catch (error) {
     console.error("Error counting unique clients:", error);
     const element = document.getElementById("uniqueClients");
