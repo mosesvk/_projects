@@ -554,7 +554,7 @@ class DataProcessor {
           "peer",
           year,
           "totalExpenses",
-          record,
+        record,
           "_02_03exp___05_total_expenses",
           "c02_07_yes_no_days_financial_assets_on_hand_to_fund_expenditures",
           "daysFinancialAssetsOnHand"
@@ -2403,7 +2403,7 @@ class ApiService {
 
       // Use await to make the async operation more explicit
       const xml = await $.get(peerData, apiCallPeerData);
-      // console.log("PEER XML", xml);
+      console.log("PEER XML", xml);
       const recordsForPeer = $("record", xml).toArray();
       // console.log("recordsForPeer", recordsForPeer);
       // console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);

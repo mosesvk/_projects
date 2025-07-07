@@ -900,7 +900,7 @@ const getFpaChartOptions = (data) => {
   tableHeader.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide"></th>`;
   assetsRow.innerHTML = `<th scope="row" class="px-6 py-2 font-meddium text-gray-900 whitespace-nowrap dark:text-white">Assets</th>`;
   liabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Liabilities</th>`;
-  netPositionRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Net Position</th>`;
+  netPositionRow.innerHTML = `<th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">Net Assets</th>`;
 
   // Loop through selected years and populate the table
 
@@ -1063,7 +1063,7 @@ const getFpaChartOptions = (data) => {
       },
     },
     title: {
-      text: "Financial Position Analysis: Assets, Liabiliites, and Net Position",
+      text: "Financial Position Analysis: Assets, Liabiliites, and Net Assets",
       position: "top",
       align: "center",
       style: {
@@ -2587,8 +2587,8 @@ const getCurrentRatioChartOptions = (data) => {
       {
         seriesName: "Current Liabilities",
         show: false,
-        min: minYLine,
-        max: maxYLine,
+        min: minY,
+        max: maxY,
       },
       {
         seriesName: "Current Ratio",
