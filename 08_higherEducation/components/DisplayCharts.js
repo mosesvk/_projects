@@ -189,8 +189,10 @@ const displayFinancialStatementComponent = () => {
       "studentLoansAndOtherReceivables",
       "contributionsReceivable",
       "prepaidExpensesAndOtherAssets",
+      "financingLeasesRightOfUseAssets",
       "propertyAndEquipment",
       "investmentsHeldForLongTermPurposes",
+      "investmentsHeldForShortTermPurposes",
       "totalAssets"
     ]
   );
@@ -208,6 +210,7 @@ const displayFinancialStatementComponent = () => {
       "deferredRevenue",
       "postRetirementHealthBenefits",
       "annuityObligations",
+      "financingLeasesRightOfUseLiabilities",
       "otherLiabilities",
       "interestRateSwapLiability",
       "bondsAndNotesPayable",

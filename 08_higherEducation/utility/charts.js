@@ -1015,6 +1015,7 @@ const getFpaChartOptions = (data) => {
       {
         name: "Total Liabilities",
         data: totalLiabilitiesArray,
+        group: "stacked",
         style: {
           colors: [chartColors.grey],
         },
@@ -1022,6 +1023,7 @@ const getFpaChartOptions = (data) => {
       {
         name: "Net Assets",
         data: netPositionArray,
+        group: "stacked",
         style: {
           colors: [chartColors.labelColor],
         },
@@ -1045,6 +1047,7 @@ const getFpaChartOptions = (data) => {
       height: 450,
       width: "100%",
       type: "bar",
+      stacked: true,
     },
     dataLabels: {
       enabled: false,

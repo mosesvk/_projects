@@ -191,812 +191,6 @@ class DataProcessor {
   }
 
   // CASH DATA PROCESSING
-  processCashData(years, recordsPeer, recordsClient) {
-    years.forEach((year) => {
-      const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      const filteredClientRecords = this.filterRecordsByYear(
-        recordsClient,
-        year
-      );
-
-      // Process peer records for cash metrics
-      filteredPeerRecords.forEach((record) => {
-        // Days Cash on Hand
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "daysCashOnHand_Peer",
-          record,
-          "c02_01_ratio_days_cash_on_hand",
-          "c02_01_yes_no_days_cash_on_hand"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "cashAndCashEquivalents",
-          record,
-          "_01__01ass___01_cash_and_cash_equivalents",
-          "c02_01_yes_no_days_cash_on_hand",
-          "daysCashOnHand"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c02_01_yes_no_days_cash_on_hand",
-          "daysCashOnHand"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "depreciationAndAmortization",
-          record,
-          "_04_01fexp___06_depreciation_and_amortization",
-          "c02_01_yes_no_days_cash_on_hand",
-          "daysCashOnHand"
-        );
-
-        // Days Expenses in Unrestricted NA
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "daysExpensesInUnrestrictedNA_Peer",
-          record,
-          "c02_02_ratio_days_expenses_in_unrestricted_na",
-          "c02_02_yes_no_days_expenses_in_unrestricted_na"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "netAssetsWithoutDR",
-          record,
-          "_01__03na___01_net_assets_without_donor_restrictions",
-          "c02_02_yes_no_days_expenses_in_unrestricted_na",
-          "daysExpensesInUnrestrictedNA"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c02_02_yes_no_days_expenses_in_unrestricted_na",
-          "daysExpensesInUnrestrictedNA"
-        );
-
-        // Days Expenses in Unrestricted NA excluding PPE
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "daysExpensesInUnrestrictedNA_excludingPPE_Peer",
-          record,
-          "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe",
-          "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "netAssetsWithoutDR",
-          record,
-          "_01__03na___01_net_assets_without_donor_restrictions",
-          "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
-          "daysExpensesInUnrestrictedNA_excludingPPE"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "propertyPlantAndEquipment",
-          record,
-          "_01__01ass___09_property__plant_and_equipment",
-          "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
-          "daysExpensesInUnrestrictedNA_excludingPPE"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "notesPayable",
-          record,
-          "_01__02liab___02_notes_payable",
-          "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
-          "daysExpensesInUnrestrictedNA_excludingPPE"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
-          "daysExpensesInUnrestrictedNA_excludingPPE"
-        );
-
-        // Days Expenses in NA with DR
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "daysExpensesInNAwithDR_Peer",
-          record,
-          "c02_03_ratio_days_expenses_in_net_assets_with_dr",
-          "c02_03_yes_no_days_expenses_in_net_assets_with_dr"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "netAssetsWithDRByPurposeOrTime",
-          record,
-          "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
-          "c02_03_yes_no_days_expenses_in_net_assets_with_dr",
-          "daysExpensesInNAwithDR"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "netAssetsWithDRInPerpetuity",
-          record,
-          "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
-          "c02_03_yes_no_days_expenses_in_net_assets_with_dr",
-          "daysExpensesInNAwithDR"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c02_03_yes_no_days_expenses_in_net_assets_with_dr",
-          "daysExpensesInNAwithDR"
-        );
-
-        // Days Expenses in NA with DR excluding PPE
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "daysExpensesInNAwithDR_excludingPPE_Peer",
-          record,
-          "c02_04_ratio_days_expenses_in_net_assets_with_dr_excluding_ppe",
-          "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "netAssetsWithDRByPurposeOrTime",
-          record,
-          "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
-          "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
-          "daysExpensesInNAwithDR_excludingPPE"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "netAssetsWithDRInPerpetuity",
-          record,
-          "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
-          "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
-          "daysExpensesInNAwithDR_excludingPPE"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "propertyPlantAndEquipment",
-          record,
-          "_01__01ass___09_property__plant_and_equipment",
-          "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
-          "daysExpensesInNAwithDR_excludingPPE"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "notesPayable",
-          record,
-          "_01__02liab___02_notes_payable",
-          "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
-          "daysExpensesInNAwithDR_excludingPPE"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
-          "daysExpensesInNAwithDR_excludingPPE"
-        );
-
-        // Liquidity Funds Available
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "liquidityFundsAvailable_Peer",
-          record,
-          "c02_05_ratio_liquidity_funds_available",
-          "c02_05_yes_no_liquidity_funds_available"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalAssets",
-          record,
-          "_01__01ass___10_total_assets",
-          "c02_05_yes_no_liquidity_funds_available",
-          "liquidityFundsAvailable"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "propertyPlantAndEquipment",
-          record,
-          "_01__01ass___09_property__plant_and_equipment",
-          "c02_05_yes_no_liquidity_funds_available",
-          "liquidityFundsAvailable"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalLiabilities",
-          record,
-          "_01__02liab___05_total_liabilities",
-          "c02_05_yes_no_liquidity_funds_available",
-          "liquidityFundsAvailable"
-        );
-
-        // Liquidity Ratio
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "liquidityRatio_Peer",
-          record,
-          "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
-          "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "financialAssetsAvailablePerLiquidity",
-          record,
-          "_05_01liquid___01_financial_assets_available_per_liquidity_fn",
-          "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
-          "liquidityRatio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
-          "liquidityRatio"
-        );
-
-        // Financial Assets Available FY
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "financialAssetsAvailableFY_Peer",
-          record,
-          "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
-          "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "financialAssetsAvailablePerLiquidity",
-          record,
-          "_05_01liquid___01_financial_assets_available_per_liquidity_fn",
-          "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
-          "financialAssetsAvailableFY"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalExpenses",
-          record,
-          "_02_03exp___05_total_expenses",
-          "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
-          "financialAssetsAvailableFY"
-        );
-
-        // Days Financial Assets On Hand
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "daysFinancialAssetsOnHand_Peer",
-          record,
-          "c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures",
-          "c02_07_yes_no_days_financial_assets_on_hand_to_fund_expenditures"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "financialAssetsAvailablePerLiquidity",
-          record,
-          "_05_01liquid___01_financial_assets_available_per_liquidity_fn",
-          "c02_07_yes_no_days_financial_assets_on_hand_to_fund_expenditures",
-          "daysFinancialAssetsOnHand"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalExpenses",
-        record,
-          "_02_03exp___05_total_expenses",
-          "c02_07_yes_no_days_financial_assets_on_hand_to_fund_expenditures",
-          "daysFinancialAssetsOnHand"
-        );
-
-        // Current Ratio
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "currentRatio_Peer",
-          record,
-          "c02_08_ratio_current_ratio",
-          "c02_08_yes_no_current_ratio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalAssets",
-          record,
-          "_01__01ass___10_total_assets",
-          "c02_08_yes_no_current_ratio",
-          "currentRatio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "cashAndCashEquivalents",
-          record,
-          "_01__01ass___02_cash___cash_equivalents_held_for_long_term",
-          "c02_08_yes_no_current_ratio",
-          "currentRatio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "investments",
-          record,
-          "_01__01ass___03_investments",
-          "c02_08_yes_no_current_ratio",
-          "currentRatio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "longTermLiabilities",
-          record,
-          "_01__02liab___04_long_term_liabilities",
-          "c02_08_yes_no_current_ratio",
-          "currentRatio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "propertyPlantAndEquipment",
-          record,
-          "_01__01ass___09_property__plant_and_equipment",
-          "c02_08_yes_no_current_ratio",
-          "currentRatio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalLiabilities",
-          record,
-          "_01__02liab___05_total_liabilities",
-          "c02_08_yes_no_current_ratio",
-          "currentRatio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "notesPayable",
-          record,
-          "_01__02liab___02_notes_payable",
-          "c02_08_yes_no_current_ratio",
-          "currentRatio"
-        );
-
-        // Total Coverage Ratio
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalCoverageRatio_Peer",
-          record,
-          "c02_09_ratio_total_coverage_ratio",
-          "c02_09_yes_no_total_coverage_ratio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalAssets",
-          record,
-          "_01__01ass___10_total_assets",
-          "c02_09_yes_no_total_coverage_ratio",
-          "totalCoverageRatio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalLiabilities",
-          record,
-          "_01__02liab___05_total_liabilities",
-          "c02_09_yes_no_total_coverage_ratio",
-          "totalCoverageRatio"
-        );
-
-        // Assets Without PPE To Liabilities Without Debt
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "assetsWithoutPpeToLiabilitiesWithoutDebt_Peer",
-          record,
-          "c02_09a_ratio_coverage_ratio_wo_ppe_and_debt",
-          "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalAssets",
-          record,
-          "_01__01ass___10_total_assets",
-          "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
-          "assetsWithoutPpeToLiabilitiesWithoutDebt"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "propertyPlantAndEquipment",
-          record,
-          "_01__01ass___09_property__plant_and_equipment",
-          "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
-          "assetsWithoutPpeToLiabilitiesWithoutDebt"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalLiabilities",
-          record,
-          "_01__02liab___05_total_liabilities",
-          "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
-          "assetsWithoutPpeToLiabilitiesWithoutDebt"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "notesPayable",
-          record,
-          "_01__02liab___02_notes_payable",
-          "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
-          "assetsWithoutPpeToLiabilitiesWithoutDebt"
-        );
-
-        // Liquidity Assets Available Cover
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "liquidityAssetsAvailableCover_Peer",
-          record,
-          "c02_05a_ratio_liquidity___assets_available_to_cover_liab_and_restricted_na",
-          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalAssets",
-          record,
-          "_01__01ass___10_total_assets",
-          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
-          "liquidityAssetsAvailableCover"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "propertyPlantAndEquipment",
-          record,
-          "_01__01ass___09_property__plant_and_equipment",
-          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
-          "liquidityAssetsAvailableCover"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalLiabilities",
-          record,
-          "_01__02liab___05_total_liabilities",
-          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
-          "liquidityAssetsAvailableCover"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "netAssetsWithDRByPurposeOrTime",
-          record,
-          "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
-          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
-          "liquidityAssetsAvailableCover"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "netAssetsWithDRInPerpetuity",
-          record,
-          "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
-          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
-          "liquidityAssetsAvailableCover"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "netAssetsWithDonorRestrictionsSum",
-          record,
-          "c02_04_ratio_days_expenses_in_net_assets_with_dr_excluding_ppe",
-          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
-          "liquidityAssetsAvailableCover"
-        );
-
-        // Cash Flows Trends
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "cashFlowsTrendFinancing_Peer",
-          record,
-          "0"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "cashFlowsTrendInvesting_Peer",
-          record,
-          "0"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "cashFlowsTrendOperating_Peer",
-          record,
-          "0"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "cashFlowsTrendTotal_Peer",
-          record,
-          "0"
-        );
-      });
-
-      // Process client records for cash metrics
-      filteredClientRecords.forEach((record) => {
-        // Days Cash on Hand
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "daysCashOnHand_Client",
-          record,
-          "c02_01_ratio_days_cash_on_hand"
-        );
-
-        // Days Expenses in Unrestricted NA
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "daysExpensesInUnrestrictedNA_Client",
-          record,
-          "c02_02_ratio_days_expenses_in_unrestricted_na"
-        );
-
-        // Days Expenses in Unrestricted NA excluding PPE
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "daysExpensesInUnrestrictedNA_excludingPPE_Client",
-          record,
-          "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe"
-        );
-
-        // Days Expenses in NA with DR
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "daysExpensesInNAwithDR_Client",
-          record,
-          "c02_03_ratio_days_expenses_in_net_assets_with_dr"
-        );
-
-        // Days Expenses in NA with DR excluding PPE
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "daysExpensesInNAwithDR_excludingPPE_Client",
-          record,
-          "c02_04_ratio_days_expenses_in_net_assets_with_dr_excluding_ppe"
-        );
-
-        // Liquidity Funds Available
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "liquidityFundsAvailable_Client",
-          record,
-          "c02_05_ratio_liquidity_funds_available"
-        );
-
-        // Liquidity Ratio
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "liquidityRatio_Client",
-          record,
-          "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
-        );
-
-        // Financial Assets Available FY
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "financialAssetsAvailableFY_Client",
-          record,
-          "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
-        );
-
-        // Days Financial Assets On Hand
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "daysFinancialAssetsOnHand_Client",
-          record,
-          "c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures"
-        );
-
-        // Current Ratio
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "currentRatio_Client",
-          record,
-          "c02_08_ratio_current_ratio"
-        );
-
-        // Liquidity Assets Available Cover
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "liquidityAssetsAvailableCover_Client",
-          record,
-          "c02_05a_ratio_liquidity___assets_available_to_cover_liab_and_restricted_na"
-        );
-
-        // Total Coverage Ratio
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "totalCoverageRatio_Client",
-          record,
-          "c02_09_ratio_total_coverage_ratio"
-        );
-
-        // Assets Without PPE To Liabilities Without Debt
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "assetsWithoutPpeToLiabilitiesWithoutDebt_Client",
-          record,
-          "c02_09a_ratio_coverage_ratio_wo_ppe_and_debt"
-        );
-
-        // Cash Flow Trends
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "cashFlowsTrendFinancing_Client",
-          record,
-          "_03_01cashflow___03_financing"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "cashFlowsTrendInvesting_Client",
-          record,
-          "_03_01cashflow___02_investing"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "cashFlowsTrendOperating_Client",
-          record,
-          "_03_01cashflow___01_operating"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "cashFlowsTrendTotal_Client",
-          record,
-          "_03_01cashflow___total"
-        );
-      });
-    });
-  }
 
   processCfiData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
@@ -1766,7 +960,7 @@ class DataProcessor {
           year,
           "currentRatio_Peer",
           record,
-          "r258c_current_ratio",
+          "r258_ccurrent_ratio",
           "Yes"
         );
 
@@ -1777,7 +971,7 @@ class DataProcessor {
           year,
           "currentAssets_Peer",
           record,
-          "r256c_current_assets",
+          "r256_ccurrent_assets",
           "Yes"
         );
 
@@ -1788,7 +982,7 @@ class DataProcessor {
           year,
           "currentLiabilities_Peer",
           record,
-          "r257c_current_liabilities",
+          "r257_ccurrent_liabilities",
           "Yes"
         );
 
@@ -2131,8 +1325,10 @@ class DataProcessor {
           { key: "studentLoansAndOtherReceivables_Client", field: "r003_student_loans_and_other_receivables" },
           { key: "contributionsReceivable_Client", field: "r004_contributions_receivable" },
           { key: "prepaidExpensesAndOtherAssets_Client", field: "r005_prepaid_expenses_and_other_assets" },
+          { key: "financingLeasesRightOfUseAssets_Client", field: "r290_financing_leases_right_of_use_assets" },
           { key: "propertyAndEquipment_Client", field: "r006_property_and_equipment_net" },
           { key: "investmentsHeldForLongTermPurposes_Client", field: "r007_investments_held_for_long_term_purposes" },
+          { key: "investmentsHeldForShortTermPurposes_Client", field: "r289_investments" },
           { key: "totalAssets_Client", field: "r008_ctotal_assets" }
         ];
         totalAssets_array.forEach(({ key, field }) => {
@@ -2145,6 +1341,7 @@ class DataProcessor {
           { key: "deferredRevenue_Client", field: "r010_deferred_revenue" },
           { key: "postRetirementHealthBenefits_Client", field: "r011_post_retirement_health_benefits" },
           { key: "annuityObligations_Client", field: "r012_annuity_obligations" },
+          { key: "financingLeasesRightOfUseLiabilities_Client", field: "r291_financing_leases_right_of_use_liabilities" },
           { key: "otherLiabilities_Client", field: "r013_other_liabilities" },
           { key: "interestRateSwapLiability_Client", field: "r014_interest_rate_swap_liability" },
           { key: "bondsAndNotesPayable_Client", field: "r015_notes_payable" },
@@ -2158,7 +1355,7 @@ class DataProcessor {
         const netAssets_array = [
           { key: "withoutDonorRestrictions_Client", field: "r017_net_assets_without_donor_restriction" },
           { key: "restrictedByTimeOrPurpose_Client", field: "r018_net_assets_restricted_by_time_or_purpose" },
-          { key: "restrictedInPerpetuity_Client", field: "r064_cnet_change_restricted_in_perpetuity" },
+          { key: "restrictedInPerpetuity_Client", field: "r019_net_assets_restricted_in_perpetuity" }, 
           { key: "netAssets_Client", field: "r020_ctotal_net_assets" }
         ];
         netAssets_array.forEach(({ key, field }) => {
@@ -2180,7 +1377,7 @@ class DataProcessor {
           { key: "netAssetsReleasedFromRestriction_Client", field: "r034_revenue_net_assets_released_from_restriction" },
           { key: "totalRevenueContributions_Client", field: "r035_ctotal_revenue_from_contributions" },
           { key: "operatingRevenuesSupportAndReleases_Client", field: "r036_coperating_revenues_support_and_releases" },
-          { key: "revenueAndSupport_Client", field: "r008_ctotal_assets" }
+          { key: "revenueAndSupport_Client", field: "r036_coperating_revenues_support_and_releases" }
         ];
         revenueAndSupport_array.forEach(({ key, field }) => {
           this.dataStore.insertData("financialStatement", "client", year, key, record, field);
@@ -2391,19 +1588,19 @@ class ApiService {
       const clientQuery = this.getClientQuery(window.selectedClients_Array);
 
       // Basic query condition with year
-      const queryCondition = `{7.EX.${currentYear}} AND ${clientQuery}`;
+      const queryCondition = `{7.EX.${currentYear}} AND ${clientQuery} AND `;
       // console.log(`Using query condition: ${queryCondition}`);
 
       const apiCallPeerData = {
         act: "API_DoQuery",
         query: queryCondition,
         clist:
-          "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566"
+          "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566.439"
       };
 
       // Use await to make the async operation more explicit
       const xml = await $.get(peerData, apiCallPeerData);
-      console.log("PEER XML", xml);
+      // console.log("PEER XML", xml);
       const recordsForPeer = $("record", xml).toArray();
       // console.log("recordsForPeer", recordsForPeer);
       // console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);
@@ -2438,7 +1635,7 @@ class ApiService {
       }
 
       // Continue with next year even if this one failed
-      console.log(`Continuing to next year after error...`);
+      // console.log(`Continuing to next year after error...`);
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     }
   }
@@ -2479,7 +1676,7 @@ class ApiService {
         query: `
           {7.EX.${currentYear}} AND {533.EX.${ClientRid}}`,
         clist:
-          "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.419.420.421.422.423.424.425.426.427.428.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429.641.635.481.482.483.709.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.450.451.551.546.711.614.613.633.603.633.621.710.504.550.217.980.981.982.985.983.984.609.608.581.582.583.584.585.586.587.588.589.590.591.592.593.594.595.596.971.972.973.355.1075.1076.1077.1078",
+          "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.419.420.421.422.423.424.425.426.427.428.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429.641.635.481.482.483.709.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.450.451.551.546.711.614.613.633.603.633.621.710.504.550.217.980.981.982.985.983.984.609.608.581.582.583.584.585.586.587.588.589.590.591.592.593.594.595.596.971.972.973.355.1075.1076.1077.1078.1012.993.1013",
       };
 
       // Use await to make the async operation more explicit
@@ -2832,9 +2029,9 @@ class ApiService {
   
       // If more than 15 clients selected, use a non-empty match instead of listing all clients
       if (selectedClients.length > 15) {
-        console.log(
-          `Large client set (${selectedClients.length}), using generic query`
-        );
+        // console.log(
+        //   `Large client set (${selectedClients.length}), using generic query`
+        // );
         // This matches any non-empty client name (field 59)
         return '({539.XEX.""})';
       }
@@ -2887,7 +2084,7 @@ class AppController {
   initializeEventListeners() {
     // Prevent duplicate initialization
     if (this._initialized) {
-      console.log("AppController already initialized");
+      // console.log("AppController already initialized");
       return;
     }
 
@@ -3113,7 +2310,7 @@ class AppController {
 
   // Handle the run button click
   async handleRunButtonClick() {
-    console.log("handleRunButtonClick() called");
+    // console.log("handleRunButtonClick() called");
 
     try {
       // Show loading indicator
@@ -3286,7 +2483,7 @@ class AppController {
       // Re-enable generateReports button if it exists
       // this.enableGenerateReportsButton();
     } finally {
-      console.log("Finally block in handleRunButtonClick, re-enabling buttons");
+      // console.log("Finally block in handleRunButtonClick, re-enabling buttons");
 
       // this.enableGenerateReportsButton();
     }
@@ -3763,11 +2960,11 @@ async function validateAndNormalizeRecords(records) {
 }
 
 window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
-  console.log("processApiData called with", {
-    yearsCount: selectedYears.length,
-    peerCount: recordsPeer ? recordsPeer.length : 0,
-    clientCount: recordsClient ? recordsClient.length : 0,
-  });
+  // console.log("processApiData called with", {
+  //   yearsCount: selectedYears.length,
+  //   peerCount: recordsPeer ? recordsPeer.length : 0,
+  //   clientCount: recordsClient ? recordsClient.length : 0,
+  // });
 
   // Call the processApiCalls function which will update the dataStore
   if (typeof processApiCalls === "function") {
@@ -3783,20 +2980,20 @@ window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
     // Attempt to trigger chart initialization
     setTimeout(() => {
       if (typeof enhancedInitializeChartDisplay === "function") {
-        console.log(
-          "Triggering enhancedInitializeChartDisplay from processApiData"
-        );
+        // console.log(
+        //   "Triggering enhancedInitializeChartDisplay from processApiData"
+        // );
         enhancedInitializeChartDisplay();
-      } else if (typeof initializeChartDisplay === "function") {
-        console.log("Triggering initializeChartDisplay from processApiData");
+              } else if (typeof initializeChartDisplay === "function") {
+          // console.log("Triggering initializeChartDisplay from processApiData");
         initializeChartDisplay();
-      } else if (
-        window.systemConnector &&
-        typeof window.systemConnector.displayCharts === "function"
-      ) {
-        console.log(
-          "Triggering systemConnector.displayCharts from processApiData"
-        );
+              } else if (
+          window.systemConnector &&
+          typeof window.systemConnector.displayCharts === "function"
+        ) {
+          // console.log(
+          //   "Triggering systemConnector.displayCharts from processApiData"
+          // );
         window.systemConnector.displayCharts();
       }
     }, 500);
@@ -3852,7 +3049,7 @@ if (!window.dataProcessor) {
 
 window.onload = () => {
   if (!window.appController) {
-    console.log("Initializing AppController");
+    // console.log("Initializing AppController");
     window.appController = new AppController();
   }
 };
