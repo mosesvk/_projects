@@ -982,8 +982,15 @@ const getFpaChartOptions = (data) => {
   // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 })
 
   const yaxisLabelFormatter = (value) => {
-    if (value >= 1000000) {
+    if (value >= 10000000) {
+      // Round to nearest 10M for values >= 10M
+      return `$${Math.round(value / 10000000) * 10}M`;
+    } else if (value >= 1000000) {
+      // Round to nearest 1M for values >= 1M
       return `$${Math.round(value / 1000000)}M`;
+    } else if (value >= 10000) {
+      // Round to nearest 10K for values >= 10K
+      return `$${Math.round(value / 10000) * 10}K`;
     }
     return `$${formatNumber(value)}`;
   };
@@ -1094,6 +1101,14 @@ const getFpaChartOptions = (data) => {
         },
         tooltip: {
           enabled: true,
+        },
+        tickAmount: 6,
+        labels: {
+          formatter: yaxisLabelFormatter,
+          style: {
+            colors: chartColor,
+            fontSize: "1.25rem",
+          },
         },
       },
       {
@@ -1305,7 +1320,6 @@ const getAtlChartOptions = (data) => {
           fontSize: "1.25rem",
         },
       },
-
       stepSize: 5,
       tickAmount: 5,
     },
@@ -2474,35 +2488,17 @@ const getCurrentRatioChartOptions = (data) => {
     : "#3a464f";
 
   const yaxisLabelFormatter = (value) => {
-    if (value === null || value === undefined || isNaN(value)) {
-      return ""; // Handle null/undefined/NaN values
+    if (value >= 10000000) {
+      // Round to nearest 10M for values >= 10M
+      return `$${Math.round(value / 10000000) * 10}M`;
+    } else if (value >= 1000000) {
+      // Round to nearest 1M for values >= 1M
+      return `$${Math.round(value / 1000000)}M`;
+    } else if (value >= 10000) {
+      // Round to nearest 10K for values >= 10K
+      return `$${Math.round(value / 10000) * 10}K`;
     }
-
-    // For values >= 1,000,000: round to nearest 100,000 and show as xM or x.yM
-    if (value >= 1000000) {
-      const millions = value / 1000000;
-      // Round to 1 decimal place
-      const roundedMillions = Math.round(millions * 10) / 10;
-      // If it's a whole number, show as "xM", otherwise show as "x.yM"
-      return roundedMillions % 1 === 0
-        ? `${Math.round(roundedMillions)}M`
-        : `${roundedMillions.toFixed(1)}M`;
-    }
-
-    // For values between 100,000 and 1,000,000: round to nearest 10,000 and show as xxxK
-    else if (value >= 100000) {
-      const roundedThousands = Math.round(value / 10000) * 10;
-      return `${roundedThousands}K`;
-    }
-
-    // For values between 1,000 and 100,000: round to nearest 1,000 and show as xxK
-    else if (value >= 1000) {
-      const roundedThousands = Math.round(value / 1000);
-      return `${roundedThousands}K`;
-    }
-
-    // For values less than 1,000: use the original formatNumber function
-    return `${formatNumber(value)}`;
+    return `$${formatNumber(value)}`;
   };
   const yaxisLabelFormatter2 = (value) => {
     return `${Math.round(value)}`;
@@ -2584,6 +2580,7 @@ const getCurrentRatioChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
+        tickAmount: 7,
         min: minY,
         max: maxY,
       },
