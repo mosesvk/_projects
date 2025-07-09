@@ -1656,7 +1656,7 @@ class ApiService {
           dataStr + "</qdbapi>",
           "text/xml"
         );
-
+        console.log("Client XML", xmlDoc);
         const records = xmlDoc.querySelectorAll("record");
 
         // console.log(`Parsed ${records.length} client records from collected data`);
