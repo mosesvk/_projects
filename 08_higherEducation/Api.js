@@ -3,21 +3,27 @@ class DataStore {
   constructor() {
     this.cfiData = {};
     this.doeData = {};
-    this.debtEndowmentData = {};
+    // this.debtEndowmentData = {};
     this.revenueExpenseData = {};
     this.financialPositionData = {};
     this.financialStatementData = {};
     this.financialAnalysisData = {};
+    this.ltDebtPerTotalOperatingRevenueData = {};
+    this.debtServiceCoverageRatioData = {};
+    this.debtBurdenRatioData = {};
+    this.endowmentOperatingBudgetData = {};
+    this.endowmentAssetsPerStudentData = {};
   }
 
   // Save all data categories to localStorage
   saveAllToLocalStorage() {
     localStorage.setItem("cfiData", JSON.stringify(this.cfiData));
     localStorage.setItem("doeData", JSON.stringify(this.doeData));
-    localStorage.setItem(
-      "debtEndowmentData",
-      JSON.stringify(this.debtEndowmentData)
-    );
+    localStorage.setItem("ltDebtPerTotalOperatingRevenueData", JSON.stringify(this.ltDebtPerTotalOperatingRevenueData));
+    localStorage.setItem("debtServiceCoverageRatioData", JSON.stringify(this.debtServiceCoverageRatioData));
+    localStorage.setItem("debtBurdenRatioData", JSON.stringify(this.debtBurdenRatioData));
+    localStorage.setItem("endowmentOperatingBudgetData", JSON.stringify(this.endowmentOperatingBudgetData));
+    localStorage.setItem("endowmentAssetsPerStudentData", JSON.stringify(this.endowmentAssetsPerStudentData));
     localStorage.setItem(
       "revenueExpenseData",
       JSON.stringify(this.revenueExpenseData)
@@ -34,6 +40,7 @@ class DataStore {
       "financialAnalysisData",
       JSON.stringify(this.financialAnalysisData)
     );
+    // localStorage.setItem("debtEndowmentData", JSON.stringify(this.debtEndowmentData));
   }
 
   // Get a reference to the appropriate data object based on category
@@ -43,8 +50,14 @@ class DataStore {
         return this.cfiData;
       case "doe":
         return this.doeData;
-      case "debtEndowment":
-        return this.debtEndowmentData;
+      // case "debtEndowment":
+      //   return this.debtEndowmentData;
+      case "ltDebtPerTotalOperatingRevenue":
+        return this.ltDebtPerTotalOperatingRevenueData;
+      case "debtServiceCoverageRatio":
+        return this.debtServiceCoverageRatioData;
+      case "debtBurdenRatio":
+        return this.debtBurdenRatioData;
       case "revenueExpense":
         return this.revenueExpenseData;
       case "financialPosition":
@@ -53,6 +66,10 @@ class DataStore {
         return this.financialStatementData;
       case "financialAnalysis":
         return this.financialAnalysisData;
+      case "endowmentOperatingBudget":
+        return this.endowmentOperatingBudgetData;
+      case "endowmentAssetsPerStudent":
+        return this.endowmentAssetsPerStudentData;
       default:
         throw new Error(`Unknown data category: ${category}`);
     }
@@ -185,6 +202,7 @@ class DataProcessor {
     this.processFinancialPositionData(years, recordsPeer, recordsClient);
     this.processFinancialStatementData(years, recordsPeer, recordsClient);
     this.processFinancialAnalysisData(years, recordsPeer, recordsClient);
+
 
     // Save all data to localStorage at once
     this.dataStore.saveAllToLocalStorage();
@@ -630,11 +648,6 @@ class DataProcessor {
   }
 
   processDebtEndowmentData(years, recordsPeer, recordsClient) {
-    const ltDebtPerTotalOperatingRevenue_obj = {};
-    const debtServiceCoverageRatio_obj = {};
-    const debtBurdenRatio_obj = {};
-    const endowmentOperatingBudget_obj = {};
-    const endowmentAssetsPerStudent_obj = {};
 
     years.forEach((year) => {
       const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
@@ -648,19 +661,21 @@ class DataProcessor {
           { key: "totalOperatingRevenue_Client", field: "r036_coperating_revenues_support_and_releases" }
         ];
         ltDebtPerTotalOperatingRevenue_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("debtEndowment", "client", year, key, record, field);
+          this.dataStore.insertData("ltDebtPerTotalOperatingRevenue", "client", year, key, record, field);
         });
 
         // Debt Service Coverage Ratio
         const debtServiceCoverageRatio_array = [
           { key: "ratio_Client", field: "r288_cdebt_service_coverage_ratio" },
-          { key: "debtService_Client", field: "r286_cdebt_service" },
+          { key: "changeInNetAssetWithoutDR_Client", field: "r259_cChange_in_unrestricted_Net_Assets" },
+          { key: "depreciation_Client", field: "r164_depreciation_and_amortization" },
           { key: "interest_Client", field: "r165_interest" },
           { key: "principalPayments_Client", field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable" },
-          { key: "totalOperatingRevenue_Client", field: "r036_coperating_revenues_support_and_releases" }
+          { key: "capitalLease_Client", field: "r292_capital_lease_obligations" },
+          { key: "financingLeasesRightOfUseLiabilities_Client", field: "r291_financing_leases_right_of_use_liabilities" }
         ];
         debtServiceCoverageRatio_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("debtEndowment", "client", year, key, record, field);
+          this.dataStore.insertData("debtServiceCoverageRatio", "client", year, key, record, field);
         });
 
         // Debt Burden Ratio
@@ -672,7 +687,7 @@ class DataProcessor {
           { key: "operationalExpense_Client", field: "r044_ctotal_functional_expenses" }
         ];
         debtBurdenRatio_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("debtEndowment", "client", year, key, record, field);
+          this.dataStore.insertData("debtBurdenRatio", "client", year, key, record, field);
         });
 
         // Endowment Operating Budget
@@ -682,7 +697,7 @@ class DataProcessor {
           { key: "annualOperatingBudget_Client", field: "r044_ctotal_functional_expenses" }
         ];
         endowmentOperatingBudget_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("debtEndowment", "client", year, key, record, field);
+          this.dataStore.insertData("endowmentOperatingBudget", "client", year, key, record, field);
         });
 
         // Endowment Assets Per Student
@@ -692,7 +707,7 @@ class DataProcessor {
           { key: "totalStudentFte_Client", field: "g025_ctotal_student_fte" }
         ];
         endowmentAssetsPerStudent_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("debtEndowment", "client", year, key, record, field);
+          this.dataStore.insertData("endowmentAssetsPerStudent", "client", year, key, record, field);
         });
       });
 
@@ -704,7 +719,7 @@ class DataProcessor {
           { key: "operationalExpense_Peer", field: "r044_ctotal_functional_expenses" }
         ];
         debtBurdenRatio_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("debtEndowment", "peer", year, key, record, field, "Yes");
+          this.dataStore.insertData("debtBurdenRatio", "peer", year, key, record, field, "Yes");
         });
 
         // Endowment Assets Per Student for Peers
@@ -714,7 +729,7 @@ class DataProcessor {
           { key: "totalStudentFte_Peer", field: "g025_ctotal_student_fte" }
         ];
         endowmentAssetsPerStudent_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("debtEndowment", "peer", year, key, record, field, "Yes");
+          this.dataStore.insertData("endowmentAssetsPerStudent", "peer", year, key, record, field, "Yes");
         });
       });
     });
@@ -2279,7 +2294,12 @@ class AppController {
       "financialPositionData",
       "financialStatementData",
       "revenueExpenseData",
-      "debtEndowmentData",
+      // "debtEndowmentData",
+      "ltDebtPerTotalOperatingRevenueData",
+      "debtServiceCoverageRatioData",
+      "debtBurdenRatioData",
+      "endowmentOperatingBudgetData",
+      "endowmentAssetsPerStudentData",
     ];
 
     for (const category of categories) {
@@ -2460,7 +2480,7 @@ class AppController {
       if (!hasValidData) {
         console.warn("No valid data for charts");
         showApiLoadingFunction("close");
-        return;
+        // return;
       }
 
       // Display charts
@@ -2659,14 +2679,19 @@ class AppController {
         "financialPositionData",
         "financialStatementData",
         "revenueExpenseData",
-        "debtEndowmentData",
+        // "debtEndowmentData",
+        "ltDebtPerTotalOperatingRevenueData",
+        "debtServiceCoverageRatioData",
+        "debtBurdenRatioData",
+        "endowmentOperatingBudgetData",
+        "endowmentAssetsPerStudentData",
       ];
 
       for (const category of categories) {
         const data = localStorage.getItem(category);
         if (!data || data === "{}") {
           console.warn(`Missing or empty data for category: ${category}`);
-          return false;
+          // return false;
         }
 
         // Try to parse the data to make sure it's valid JSON
@@ -3028,7 +3053,20 @@ window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
       revenueExpenseData: JSON.parse(
         localStorage.getItem("revenueExpenseData")
       ),
-      debtEndowmentData: JSON.parse(localStorage.getItem("debtEndowmentData")),
+      // debtEndowmentData: JSON.parse(localStorage.getItem("debtEndowmentData")),
+      ltDebtPerTotalOperatingRevenueData: JSON.parse(
+        localStorage.getItem("ltDebtPerTotalOperatingRevenueData")
+      ),
+      debtServiceCoverageRatioData: JSON.parse(
+        localStorage.getItem("debtServiceCoverageRatioData")
+      ),
+      debtBurdenRatioData: JSON.parse(localStorage.getItem("debtBurdenRatioData")),
+      endowmentOperatingBudgetData: JSON.parse(
+        localStorage.getItem("endowmentOperatingBudgetData")
+      ),
+      endowmentAssetsPerStudentData: JSON.parse(
+        localStorage.getItem("endowmentAssetsPerStudentData")
+      ),
     };
   }
 };
