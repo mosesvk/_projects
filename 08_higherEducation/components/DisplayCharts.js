@@ -572,7 +572,7 @@ const displayDebtAndEndowmentComponent = () => {
 
   const debtServiceCoverageData = getStoredData("debtServiceCoverageRatioData");
   const debtServiceCoverageParsedData = parseStoredData(debtServiceCoverageData);
-  console.log("debtServiceCoverageParsedData", debtServiceCoverageParsedData);
+  // console.log("debtServiceCoverageParsedData", debtServiceCoverageParsedData);
 
   // debtServiceCoverageRatio
   getDebtServiceCoverageChartOptions(debtServiceCoverageParsedData);

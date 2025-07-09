@@ -240,6 +240,8 @@
         <r290_financing_leases_right_of_use_assets>2500017</r290_financing_leases_right_of_use_assets>
         <r289_investments>31307261</r289_investments>
         <r291_financing_leases_right_of_use_liabilities>2848896</r291_financing_leases_right_of_use_liabilities>
+        <r292_capital_lease_obligations/>
+        <r259_cchange_in_unrestricted_net_assets>7859286</r259_cchange_in_unrestricted_net_assets>
         <update_id>1751997487265</update_id>
     </record>
     <record>
@@ -483,6 +485,8 @@
         <r290_financing_leases_right_of_use_assets/>
         <r289_investments>27691872</r289_investments>
         <r291_financing_leases_right_of_use_liabilities>2910753</r291_financing_leases_right_of_use_liabilities>
+        <r292_capital_lease_obligations/>
+        <r259_cchange_in_unrestricted_net_assets>-3705224</r259_cchange_in_unrestricted_net_assets>
         <update_id>1742239895941</update_id>
     </record>
     <record>
@@ -726,6 +730,8 @@
         <r290_financing_leases_right_of_use_assets/>
         <r289_investments>17713828</r289_investments>
         <r291_financing_leases_right_of_use_liabilities>0</r291_financing_leases_right_of_use_liabilities>
+        <r292_capital_lease_obligations>3203429</r292_capital_lease_obligations>
+        <r259_cchange_in_unrestricted_net_assets>-2724649</r259_cchange_in_unrestricted_net_assets>
         <update_id>1742239531717</update_id>
     </record>
     <record>
@@ -969,6 +975,8 @@
         <r290_financing_leases_right_of_use_assets/>
         <r289_investments>19543179</r289_investments>
         <r291_financing_leases_right_of_use_liabilities/>
+        <r292_capital_lease_obligations/>
+        <r259_cchange_in_unrestricted_net_assets>17806928</r259_cchange_in_unrestricted_net_assets>
         <update_id>1744118894448</update_id>
     </record>
     <record>
@@ -1212,6 +1220,8 @@
         <r290_financing_leases_right_of_use_assets/>
         <r289_investments>16880341</r289_investments>
         <r291_financing_leases_right_of_use_liabilities/>
+        <r292_capital_lease_obligations/>
+        <r259_cchange_in_unrestricted_net_assets>6846332</r259_cchange_in_unrestricted_net_assets>
         <update_id>1727824756013</update_id>
     </record>
     <record>
@@ -1455,6 +1465,8 @@
         <r290_financing_leases_right_of_use_assets/>
         <r289_investments>16298006</r289_investments>
         <r291_financing_leases_right_of_use_liabilities/>
+        <r292_capital_lease_obligations/>
+        <r259_cchange_in_unrestricted_net_assets>4625814</r259_cchange_in_unrestricted_net_assets>
         <update_id>1727824816529</update_id>
     </record>
     <record>
@@ -1698,6 +1710,8 @@
         <r290_financing_leases_right_of_use_assets/>
         <r289_investments>16526475</r289_investments>
         <r291_financing_leases_right_of_use_liabilities/>
+        <r292_capital_lease_obligations/>
+        <r259_cchange_in_unrestricted_net_assets>6070119</r259_cchange_in_unrestricted_net_assets>
         <update_id>1727824898479</update_id>
     </record>
     <record>
@@ -1941,6 +1955,8 @@
         <r290_financing_leases_right_of_use_assets/>
         <r289_investments>16921636</r289_investments>
         <r291_financing_leases_right_of_use_liabilities/>
+        <r292_capital_lease_obligations/>
+        <r259_cchange_in_unrestricted_net_assets>15929287</r259_cchange_in_unrestricted_net_assets>
         <update_id>1727824949910</update_id>
     </record>
     <record>
@@ -2184,6 +2200,8 @@
         <r290_financing_leases_right_of_use_assets/>
         <r289_investments/>
         <r291_financing_leases_right_of_use_liabilities/>
+        <r292_capital_lease_obligations/>
+        <r259_cchange_in_unrestricted_net_assets>7544349</r259_cchange_in_unrestricted_net_assets>
         <update_id>1725477578821</update_id>
     </record>
     <record>
@@ -2427,6 +2445,8 @@
         <r290_financing_leases_right_of_use_assets/>
         <r289_investments/>
         <r291_financing_leases_right_of_use_liabilities/>
+        <r292_capital_lease_obligations/>
+        <r259_cchange_in_unrestricted_net_assets/>
         <update_id>1725477578821</update_id>
     </record>
     <record>
@@ -2670,6 +2690,8 @@
         <r290_financing_leases_right_of_use_assets/>
         <r289_investments/>
         <r291_financing_leases_right_of_use_liabilities/>
+        <r292_capital_lease_obligations/>
+        <r259_cchange_in_unrestricted_net_assets/>
         <update_id>1725477578821</update_id>
     </record>
     <record>
@@ -2913,6 +2935,8 @@
         <r290_financing_leases_right_of_use_assets/>
         <r289_investments/>
         <r291_financing_leases_right_of_use_liabilities/>
+        <r292_capital_lease_obligations/>
+        <r259_cchange_in_unrestricted_net_assets/>
         <update_id>1725477578821</update_id>
     </record>
     <record>
@@ -3156,6 +3180,8 @@
         <r290_financing_leases_right_of_use_assets/>
         <r289_investments/>
         <r291_financing_leases_right_of_use_liabilities/>
+        <r292_capital_lease_obligations/>
+        <r259_cchange_in_unrestricted_net_assets/>
         <update_id>1725477578821</update_id>
     </record>
 </qdbapi>
