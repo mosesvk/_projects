@@ -1369,9 +1369,9 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
   const investmentsValue = Number(
     data["si_revenueInvestmentIncome_Client"][selectedYearsArray[0]].value
   );
-  const netAssetsReleasedValue = Number(
-    data["si_netAssetsReleased_Client"][selectedYearsArray[0]].value
-  );
+  // const netAssetsReleasedValue = Number(
+  //   data["si_netAssetsReleased_Client"][selectedYearsArray[0]].value
+  // );
   const otherValue =
     Number(data["si_revenueOther_Client"][selectedYearsArray[0]].value) +
     Number(
@@ -1423,7 +1423,6 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
     auxiliaryValue,
     contributionsValue,
     investmentsValue,
-    netAssetsReleasedValue,
     otherValue,
   ];
 
@@ -1471,6 +1470,15 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
         fontSize: "20px",
       },
     },
+    subtitle: {
+      text: "(without donor restrictions)",
+      position: "top",
+      align: "center",
+      style: {
+        color: chartColor,
+        fontSize: "20px",
+      },
+    },
     stroke: {
       width: 5,
       colors: chartColors.labelColor,
@@ -1498,10 +1506,10 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
       },
     },
     legend: {
-      show: false,
-      // horizontalAlign: "center",
-      // position: "bottom",
-      // fontSize: "20px",
+      // show: false,
+      horizontalAlign: "center",
+      position: "bottom",
+      fontSize: "20px",
     },
   };
 };
@@ -1622,6 +1630,15 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
         fontSize: "20px",
       },
     },
+    subtitle: {
+      text: "(without donor restrictions)",
+      position: "top",
+      align: "center",
+      style: {
+        color: chartColor,
+        fontSize: "20px",
+      },
+    },
     stroke: {
       width: 5,
       colors: chartColors.labelColor,
@@ -1649,10 +1666,10 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
       },
     },
     legend: {
-      show: false,
-      // horizontalAlign: "center",
-      // position: "bottom",
-      // fontSize: "20px",
+      // show: false,
+      horizontalAlign: "center",
+      position: "bottom",
+      fontSize: "20px",
     },
   };
 };

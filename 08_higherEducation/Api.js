@@ -1122,7 +1122,7 @@ class DataProcessor {
 
         // Source of Income for Client
         const sourceOfIncomeFields = [
-          { key: "si_revenueTuitionAndFees_Client", field: "r023_revenue_tuition_and_fees" },
+          { key: "si_revenueTuitionAndFees_Client", field: "r026_cnet_tuition_and_fees" },
           { key: "si_revenueAuxiliaryActivities_Client", field: "r028_revenue_auxiliary_activities" },
           { key: "si_revenueContributions_Client", field: "r033_revenue_contributions" },
           { key: "si_revenueContributionsLargeOneTimeGifts_Client", field: "r033a_revenue_contributions_large_one_time_gifts" },
@@ -1588,7 +1588,7 @@ class ApiService {
       const clientQuery = this.getClientQuery(window.selectedClients_Array);
 
       // Basic query condition with year
-      const queryCondition = `{7.EX.${currentYear}} AND ${clientQuery} AND `;
+      const queryCondition = `{7.EX.${currentYear}} AND ${clientQuery} AND {638.EX.'COMPLETE'}`;
       // console.log(`Using query condition: ${queryCondition}`);
 
       const apiCallPeerData = {
