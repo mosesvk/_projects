@@ -2001,7 +2001,7 @@ const getCashFlowTrendChartOptions = (data) => {
     totalRow.innerHTML += `
     <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${
-        totalData[index] ? totalValue : "-"
+        totalData[year] ? totalValue : "-"
       } <!-- Fallback in case data is missing -->
     </th>
   `;
