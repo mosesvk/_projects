@@ -3667,11 +3667,13 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
   totalFullTimeStudentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Full-Time Students</th>`;
 
   selectedYearsArray.map((year) => {
-    const clientData = Number(data.ratio_Client[year].value);
+    const clientData = Number(data.netEducationalExpensePerStudentRatio_Client[year].value);
     clientArray.push(clientData);
 
-    const peerAvg = data.ratio_Peer[year]
-      ? getAverageOfArray(data.ratio_Peer[year])
+
+
+    const peerAvg = data.netEducationalExpensePerStudentRatio_Peer[year]
+      ? getAverageOfArray(data.netEducationalExpensePerStudentRatio_Peer[year])
       : null;
     peerAvgArray.push(Math.round(peerAvg));
 

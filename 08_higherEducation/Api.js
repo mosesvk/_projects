@@ -812,7 +812,7 @@ class DataProcessor {
 
         // Net Educational Expense Per Student
         const netEducationalExpensePerStudent_array = [
-          { key: "ratio_Client", field: "r138_cnet_educational_expenses_per_student" },
+          { key: "netEducationalExpensePerStudentRatio_Client", field: "r138_cnet_educational_expenses_per_student" },
           { key: "netEducationalExpenses_Client", field: "r137_cnet_educational_expenses" },
           { key: "totalStudents_Client", field: "g025_ctotal_student_fte" }
         ];
@@ -901,7 +901,7 @@ class DataProcessor {
           "revenueExpense",
           "peer",
           year,
-          "ratio_Peer",
+          "netEducationalExpensePerStudentRatio_Peer",
           record,
           "r138_cnet_educational_expenses_per_student",
           "Yes"
