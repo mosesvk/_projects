@@ -4097,8 +4097,8 @@ const getTuitionDependencyChartOptions = (data) => {
       // Round to nearest 10K for values >= 10K
       return `$${Math.round(value / 10000) * 10}K`;
     } else if (value < 1) {
-      // Round to 2 decimal places for values < 1
-      return `${value.toFixed(2)}`;
+      // Round to nearest 0.005 for values < 1
+      return `${(Math.round(value * 200) / 200).toFixed(2)}`;
     }
     return `$${formatNumber(value)}`;
   };
@@ -4390,6 +4390,9 @@ const getTuitionDiscountRateChartOptions = (data) => {
     : "#3a464f";
 
     const yaxisLabelFormatter = (value) => {
+      if (value === 0) {
+        return '0';
+      }
       if (value >= 10000000) {
         // Round to nearest 10M for values >= 10M
         return `$${Math.round(value / 10000000) * 10}M`;
@@ -4400,9 +4403,8 @@ const getTuitionDiscountRateChartOptions = (data) => {
         // Round to nearest 10K for values >= 10K
         return `$${Math.round(value / 10000) * 10}K`;
       } else if (value < 1) {
-        // Round to nearest 0.01 or 0.005 for values < 1
-        const roundedValue = value < 0.1 ? Math.round(value * 200) / 200 : Math.round(value * 100) / 100;
-        return `${roundedValue.toFixed(3)}`;
+        // Round to nearest 0.005 for values < 1
+        return `${(Math.round(value * 200) / 200).toFixed(2)}`;
       }
       return `$${formatNumber(value)}`;
     };
@@ -4433,12 +4435,12 @@ const getTuitionDiscountRateChartOptions = (data) => {
     ],
     series: [
       {
-        name: "Current Assets",
+        name: "Scholarships and Aid",
         type: "column",
         data: scholarshipArray,
       },
       {
-        name: "Current Liabilities",
+        name: "Tuition and Fees",
         type: "column",
         data: tuitionFeesArray,
       },
