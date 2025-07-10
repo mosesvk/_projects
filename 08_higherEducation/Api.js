@@ -715,6 +715,7 @@ class DataProcessor {
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
+
         // Debt Burden Ratio for Peers
         const debtBurdenRatio_array = [
           { key: "ratio_Peer", field: "r287_cdebt_burden_ratio" },
@@ -854,6 +855,30 @@ class DataProcessor {
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
+
+        // Tuition Dependency for Peers
+        this.dataStore.insertData(
+          "revenueExpense", 
+          "peer",
+          year,
+          "tuitionDependencyRatio_Peer",
+          record,
+          "r147_cnet_tuition_dependency_ratio",
+          "Yes"
+        );
+
+        // Tuition Discount Rate for Peers
+        this.dataStore.insertData(
+          "revenueExpense",
+          "peer",
+          year,
+          "tuitionDiscountRateRatio_Peer",
+          record,
+          "r229_ctuition_discount_rate",
+          "Yes"
+        );
+
+
         // Average Employee Salary for Peers
         const averageEmployeeSalary_array = [
           { key: "president_Peer", field: "c011_sal_president" },
