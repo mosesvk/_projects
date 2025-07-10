@@ -1432,7 +1432,6 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
       window.chartColors.yellow,
       window.chartColors.blue,
       window.chartColors.orange,
-      window.chartColors.grey,
       window.chartColors.purple,
     ],
     series: chartData,
@@ -1459,7 +1458,6 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
       "Auxiliary",
       "Contributions",
       "Investments",
-      "Net Assets Released",
       "Other",
     ],
     title: {
@@ -1528,9 +1526,6 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
   const contributionsValue = getAverageOfArray(
     data["revenueContributions_Peer"][selectedYearsArray[0]]
   );
-  const releasedGiftsValue = getAverageOfArray(
-    data["releasedGifts_Peer"][selectedYearsArray[0]]
-  );
   const investmentsValue = getAverageOfArray(
     data["revenueInvestmentIncome_Peer"][selectedYearsArray[0]]
   );
@@ -1581,7 +1576,6 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
     auxiliaryValue,
     contributionsValue,
     investmentsValue,
-    releasedGiftsValue,
     otherValue,
   ];
 
@@ -1591,7 +1585,6 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
       window.chartColors.yellow,
       window.chartColors.blue,
       window.chartColors.orange,
-      window.chartColors.grey,
       window.chartColors.purple,
     ],
     series: chartData,
@@ -1619,7 +1612,6 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
       "Auxiliary",
       "Contributions",
       "Investments",
-      "Net Assets Released",
       "Other",
     ],
     title: {
@@ -5196,18 +5188,10 @@ const getLtDebtPerTotalOperatingRevenueChartOptions = (data) => {
 const getDebtBurdenRatioChartOptions = (data) => {
   // console.log({ data });
 
-  let clientRatioArray = [];
-  let peerRatioArray = [];
-  let debtServiceArray = [];
-  let operationalExpenseArray = [];
-
   const tableHeaderRow = document.getElementById(
     "row_debtBurdenRatio_tableHeader"
   );
   const clientRatioRow = document.getElementById("row_debtBurdenRatio_main");
-  const debtServiceRow = document.getElementById(
-    "row_debtBurdenRatio_debtService"
-  );
   const interestRow = document.getElementById("row_debtBurdenRatio_interest");
   const principalPaymentsRow = document.getElementById(
     "row_debtBurdenRatio_principalPayments"
@@ -5219,7 +5203,6 @@ const getDebtBurdenRatioChartOptions = (data) => {
   // Clear existing content before appending
   tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
   clientRatioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Debt Burden Ratio</th>`;
-  debtServiceRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Debt Service</th>`;
   interestRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Interest</th>`;
   principalPaymentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Principal Payments</th>`;
   operatingExpensesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Operating Expenses</th>`;
@@ -5259,30 +5242,13 @@ const getDebtBurdenRatioChartOptions = (data) => {
           Number(getAverageOfArray(data.ratio_Peer[year])) * 100
         ).toFixed(1)
       : 0;
-
-    const debtServiceNum = Number(data.debtService_Client[year].value);
-
-    const operatingExpensesNum = Number(data.operationalExpense_Client[year].value);
-
-
-    let num = Math.round(clientRatioNum * 100);
-    clientRatioArray.push(num);
-
-    num = Math.abs(peerRatioNum * 100).toFixed(1);
-    peerRatioArray.push(num);
-
-    num = debtServiceNum;
-    debtServiceArray.push(num);
-
-    num = operatingExpensesNum;
-    operationalExpenseArray.push(num);
   });
 
-  const { minY, maxY } = getMinMaxY([
-    debtServiceArray,
-    operationalExpenseArray,
-  ]);
-  const { minYLine, maxYLine } = getMinMaxY(clientRatioArray, peerRatioArray);
+  // const { minY, maxY } = getMinMaxY([
+  //   debtServiceArray,
+  //   operationalExpenseArray,
+  // ]);
+  // const { minYLine, maxYLine } = getMinMaxY(clientRatioArray, peerRatioArray);
   // console.log("getDebtBurdenRatioChartOptions", {
   //   clientRatioArray,
   //   peerRatioArray,
@@ -5292,7 +5258,6 @@ const getDebtBurdenRatioChartOptions = (data) => {
   //   maxY,
   //   minYLine,
   //   maxYLine,
-  // });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -5324,140 +5289,77 @@ const getDebtBurdenRatioChartOptions = (data) => {
     }
   };
 
+  // Get the most recent year value for the gauge chart
+  const mostRecentYear = Math.max(
+    ...Object.keys(data["ratio_Client"])
+  );
+
+  const clientVal = Number(
+    data["ratio_Client"][mostRecentYear].value
+  );
+  const clientPercent = Math.round(clientVal * 100);
+
+  const gaugeChartColor =
+    clientPercent <= 7
+      ? window.chartColors.green
+      : clientPercent <= 12
+      ? window.chartColors.orange
+      : window.chartColors.red;
+
+  const textArray = [
+    "Debt Burden Ratio Exceeds Target Goal: Reduce to below 7%",
+    "Debt Burden Ratio Far Exceeds Target Goal: Reduce to below 7%",
+    "Debt Burden Ratio is within Target Goal: below 7%",
+  ];
+
+  const textLabel =
+    clientPercent <= 8
+      ? textArray[2]
+      : clientPercent <= 12
+      ? textArray[0]
+      : textArray[1];
+
   // console.log({mainName, benchmark});
 
   return {
-    colors: [
-      window.chartColors.yellow,
-      window.chartColors.orange,
-      window.chartColors.green,
-      window.chartColors.blue,
-    ],
-    series: [
-      {
-        name: "Debt Service",
-        type: "column",
-        data: debtServiceArray,
-      },
-      {
-        name: "Operating Expense",
-        type: "column",
-        data: operationalExpenseArray,
-      },
-      {
-        name: "Client Ratio",
-        type: "line",
-        data: clientRatioArray,
-      },
-      {
-        name: "Peer Ratio",
-        type: "line",
-        data: peerRatioArray,
-      },
-    ],
+    series: [clientPercent],
     chart: {
-      height: 550,
-      type: "line",
-      toolbar: {
-        tools: {
-          download: true,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    title: {
-      text: "Debt Burden Ratio",
-      align: "center",
-      margin: 10,
-      offsetY: 20,
-      style: {
-        color: chartColor,
-        fontSize: "1.5rem",
-      },
-    },
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        },
-      },
-      {
-        show: false,
-        min: minY,
-        max: maxY,
-      },
-      {
-        show: false,
-        opposite: true,
-        min: minYLine,
-        max: maxYLine,
-      },
-      {
-        opposite: true,
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColor,
-            fontSize: "1.25rem",
-          },
-        },
-        min: minYLine,
-        max: maxYLine,
-      },
-    ],
-    xaxis: {
-      categories: selectedYearsArray,
-      labels: {
-        style: {
-          colors: chartColor,
-          fontSize: "1.5rem",
-        },
-      },
-    },
-    legend: {
-      position: "bottom",
-      fontSize: "20px",
-    },
-    grid: {
-      row: {
-        colors: ["transparent"],
-        opacity: 0.5,
-        thickness: 4,
-      },
+      height: 350,
+      type: "radialBar",
+      offsetY: -10,
     },
     plotOptions: {
-      bar: {
-        barHeight: "90%",
+      radialBar: {
+        startAngle: -135,
+        endAngle: 135,
+        dataLabels: {
+          name: {
+            fontSize: "16px",
+            color: gaugeChartColor,
+            offsetY: 120,
+          },
+          value: {
+            fontSize: "50px",
+            fontWeight: "700",
+            color: gaugeChartColor,
+            formatter: function (val) {
+              return val + "%";
+            },
+            offsetY: -10,
+          },
+        },
       },
     },
+    fill: {
+      colors: [gaugeChartColor],
+    },
+    stroke: {
+      dashArray: 4,
+      style: {
+        color: gaugeChartColor,
+      },
+    },
+    labels: [textLabel],
   };
 };
 
