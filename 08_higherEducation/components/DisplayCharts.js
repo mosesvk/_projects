@@ -522,10 +522,11 @@ const displayRevenueAndExpenseComponent = () => {
 
   getAnualTraditionalNetTuitionPerStudentChartOptions(parsedData);
 
+
   getTuitionDependencyChartOptions(parsedData);
   tuitionDependency_chart = new ApexCharts(
     document.querySelector("#tuitionDependency_chart"),
-    getTuitionDependencyChartOptions(parsedData)
+      getTuitionDependencyChartOptions(parsedData)
   );
   tuitionDependency_chart.render();
   document.addEventListener("dark-mode", function () {

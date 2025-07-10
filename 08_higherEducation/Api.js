@@ -11,6 +11,7 @@ class DataStore {
     this.ltDebtPerTotalOperatingRevenueData = {};
     this.debtServiceCoverageRatioData = {};
     this.debtBurdenRatioData = {};
+    
     this.endowmentOperatingBudgetData = {};
     this.endowmentAssetsPerStudentData = {};
   }
@@ -86,7 +87,7 @@ class DataStore {
     dynamicValueClientPeer,
     name
   ) {
-    if (category === "debtServiceCoverageRatio") { console.log({dataKey, record, child, childRec: record.querySelector(child), name}); }
+    // if (category === "debtServiceCoverageRatio") { console.log({dataKey, record, child, childRec: record.querySelector(child), name}); }
     const targetData = this.getDataCategory(category);
 
     // Get the value from the record or default to 0
@@ -667,7 +668,7 @@ class DataProcessor {
 
         // Debt Service Coverage Ratio
         const debtServiceCoverageRatio_array = [
-          { key: "ratio_Client", field: "r288_cdebt_service_coverage_ratio" },
+          { key: "debtServiceCoverageRatio_Client", field: "r288_cdebt_service_coverage_ratio" },
           { key: "changeInNetAssetWithoutDR_Client", field: "r259_cchange_in_unrestricted_net_assets" },
           { key: "depreciation_Client", field: "r164_depreciation_and_amortization" },
           { key: "interest_Client", field: "r165_interest" },
@@ -822,7 +823,7 @@ class DataProcessor {
 
         // Annual Traditional Net Tuition Per Student
         const annualTraditionalNetTuitionPerStudent_array = [
-          { key: "ratio_Client", field: "r136_cnet_tuition_per_student" },
+          { key: "annualTraditionalNetTuitionPerStudentRatio_Client", field: "r136_cnet_tuition_per_student" },
           { key: "netTuitionAndFees_Client", field: "r026_cnet_tuition_and_fees" },
           { key: "totalStudents_Client", field: "g025_ctotal_student_fte" }
         ];
@@ -832,7 +833,7 @@ class DataProcessor {
 
         // Tuition Dependency
         const tuitionDependency_array = [
-          { key: "ratio_Client", field: "r147_cnet_tuition_dependency_ratio" },
+          { key: "tuitionDependencyRatio_Client", field: "r147_cnet_tuition_dependency_ratio" },
           { key: "netTuitionAndFees_Client", field: "r026_cnet_tuition_and_fees" },
           { key: "operatingRevenuesSupportAndRelease_Client", field: "r036_coperating_revenues_support_and_releases" }
         ];
@@ -842,7 +843,7 @@ class DataProcessor {
 
         // Tuition Discount Rate
         const tuitionDiscountRate_array = [
-          { key: "ratio_Client", field: "r229_ctuition_discount_rate" },
+          { key: "tuitionDiscountRateRatio_Client", field: "r229_ctuition_discount_rate" },
           { key: "revenueScholarshipsAndFinanancialAid_Client", field: "r024_revenue_scholarships_and_financial_aid" },
           { key: "revenueTuitionAndFees_Client", field: "r023_revenue_tuition_and_fees" }
         ];

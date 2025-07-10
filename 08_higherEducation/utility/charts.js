@@ -1,3 +1,4 @@
+
 const getMainChartOptions = (
   dataPeer,
   dataClient,
@@ -1346,6 +1347,9 @@ const getAtlChartOptions = (data) => {
 };
 
 const getSourcesOfIncomeClientChartOptions = (data) => {
+  console.log('soi - client', data);
+  
+
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   selectedYearsArray.sort((a, b) => b - a);
 
@@ -1513,6 +1517,8 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
 };
 
 const getSourcesOfIncomePeerChartOptions = (data) => {
+  console.log('soi - peer', data);
+  
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.sort((a, b) => a - b);
@@ -3985,7 +3991,7 @@ const getTuitionDependencyChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    const ratioClient = Number(data.ratio_Client[year].value).toFixed(2);
+    const ratioClient = Number(data.tuitionDependencyRatio_Client[year].value).toFixed(2);
     clientRatioArray.push(ratioClient);
 
     const netTuitionAndFeesClient = Math.round(
@@ -4273,7 +4279,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.map((year) => {
-    const ratioClient = Number(data.ratio_Client[year].value).toFixed(2);
+    const ratioClient = Number(data.tuitionDiscountRateRatio_Client[year].value).toFixed(2);
     clientRatioArray.push(ratioClient);
 
     const scholarshipsAndFinancialAidClient = Math.abs(
@@ -4559,7 +4565,7 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
   totalFullTimeStudentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Full-Time Students</th>`;
 
   selectedYearsArray.map((year) => {
-    const clientData = Number(data.ratio_Client[year].value);
+    const clientData = Number(data.annualTraditionalNetTuitionPerStudentRatio_Client[year].value);
     const netTuitionAndFees = Number(data.netTuitionAndFees_Client[year].value);
     const totalStudents = Number(data.totalStudents_Client[year].value);
 
@@ -4738,7 +4744,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
 
   const mostRecentYear = selectedYearsArray[selectedYearsArray.length - 1];
   selectedYearsArray.map((year) => {
-    const clientData = Number(data.ratio_Client[year].value).toFixed(1);
+    const clientData = Number(data.debtServiceCoverageRatio_Client[year].value).toFixed(1);
     const changeInNetAssetWithoutDR = Math.round(Number(data.changeInNetAssetWithoutDR_Client[year].value));
     const depreciation = Math.round(Number(data.depreciation_Client[year].value));
     const interest = Math.round(Number(data.interest_Client[year].value));
