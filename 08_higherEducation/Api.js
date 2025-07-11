@@ -686,7 +686,7 @@ class DataProcessor {
           { key: "interest_Client", field: "r165_interest" },
           { key: "principalPayments_Client", field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable" },
           { key: "depreciation_Client", field: "r164_depreciation_and_amortization" },
-          { key: "operationalExpense_Client", field: "r044_ctotal_functional_expenses" }
+          { key: "totalExpenses_Client", field: "r044_ctotal_functional_expenses" }
         ];
         debtBurdenRatio_array.forEach(({ key, field }) => {
           this.dataStore.insertData("debtBurdenRatio", "client", year, key, record, field);
@@ -823,12 +823,12 @@ class DataProcessor {
         });
 
         // Annual Traditional Net Tuition Per Student
-        const annualTraditionalNetTuitionPerStudent_array = [
-          { key: "annualTraditionalNetTuitionPerStudentRatio_Client", field: "r136_cnet_tuition_per_student" },
+        const netTuitionPerStudent_array = [
+          { key: "netTuitionPerStudentRatio_Client", field: "r136_cnet_tuition_per_student" },
           { key: "netTuitionAndFees_Client", field: "r026_cnet_tuition_and_fees" },
           { key: "totalStudents_Client", field: "g025_ctotal_student_fte" }
         ];
-        annualTraditionalNetTuitionPerStudent_array.forEach(({ key, field }) => {
+        netTuitionPerStudent_array.forEach(({ key, field }) => {
           this.dataStore.insertData("revenueExpense", "client", year, key, record, field);
         });
 

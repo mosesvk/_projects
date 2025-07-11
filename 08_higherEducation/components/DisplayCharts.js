@@ -520,7 +520,7 @@ const displayRevenueAndExpenseComponent = () => {
     );
   });
 
-  getAnualTraditionalNetTuitionPerStudentChartOptions(parsedData);
+  getNetTuitionPerStudentChartOptions(parsedData);
 
 
   getTuitionDependencyChartOptions(parsedData);

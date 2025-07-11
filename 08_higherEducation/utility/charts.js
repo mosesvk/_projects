@@ -4593,7 +4593,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
 
 // Linear Gauge Chart
 
-const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
+const getNetTuitionPerStudentChartOptions = (data) => {
   // console.log({
   //   name: "getAnualTraditionalNetTuitionPerStudentChartOptions()",
   //   data,
@@ -4602,27 +4602,27 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   const tableHeaderRow = document.getElementById(
-    "row_annualTraditionalNetTuitionPerStudent_tableHeader"
+    "row_netTuitionPerStudent_tableHeader"
   );
-  const annualTraditionalNetTuitionPerStudentRow = document.getElementById(
-    "row_annualTraditionalNetTuitionPerStudent_main"
+  const netTuitionPerStudentRow = document.getElementById(
+    "row_netTuitionPerStudent_main"
   );
   const netTuitionRevenueRow = document.getElementById(
-    "row_annualTraditionalNetTuitionPerStudent_netTuitionRevenue"
+    "row_netTuitionPerStudent_netTuitionRevenue"
   );
   const totalFullTimeStudentsRow = document.getElementById(
-    "row_annualTraditionalNetTuitionPerStudent_totalFullTimeStudents"
+    "row_netTuitionPerStudent_totalFullTimeStudents"
   );
 
   // Clear existing content before appending
   tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
-  annualTraditionalNetTuitionPerStudentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Net Tuition per Student</th>`;
+  netTuitionPerStudentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Net Tuition per Student</th>`;
   netTuitionRevenueRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Net Tuition and Fees</th>`;
   totalFullTimeStudentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Full-Time Students</th>`;
 
   selectedYearsArray.map((year) => {
     const clientData = Number(
-      data.annualTraditionalNetTuitionPerStudentRatio_Client[year].value
+      data.netTuitionPerStudentRatio_Client[year].value
     );
     const netTuitionAndFees = Number(data.netTuitionAndFees_Client[year].value);
     const totalStudents = Number(data.totalStudents_Client[year].value);
@@ -4632,7 +4632,7 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
       <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
     `;
     // Populate salaries and benefits per net tuition revenue row
-    annualTraditionalNetTuitionPerStudentRow.innerHTML += `
+    netTuitionPerStudentRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
         ${formatCurrency(clientData)}
       </th>
@@ -4653,7 +4653,7 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
     `;
   });
 
-  const value = Number(data.annualTraditionalNetTuitionPerStudentRatio_Client[selectedYearsArray[selectedYearsArray.length - 1]]
+  const value = Number(data.netTuitionPerStudentRatio_Client[selectedYearsArray[selectedYearsArray.length - 1]]
   .value)
   
   const benchmark = 1400;
@@ -4666,14 +4666,14 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
 
   var chartObj = new FusionCharts({
     type: "hlineargauge",
-    renderAt: "annualTraditionalNetTuitionPerStudent_chart",
+    renderAt: "netTuitionPerStudent_chart",
     width: "800",
     height: "200",
     dataFormat: "json",
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "Annual Traditional Net Tuition per Student",
+        caption: "Net Tuition per Student",
         subcaption: "",
         lowerLimit: "0",
         upperLimit: value + 5000,
@@ -5277,8 +5277,8 @@ const getDebtBurdenRatioChartOptions = (data) => {
   const depreciationRow = document.getElementById(
     "row_debtBurdenRatio_depreciation"
   );
-  const operatingExpensesRow = document.getElementById(
-    "row_debtBurdenRatio_operatingExpenses"
+  const totalExpensesRow = document.getElementById(
+    "row_debtBurdenRatio_totalExpenses"
   );
 
 
@@ -5288,7 +5288,7 @@ const getDebtBurdenRatioChartOptions = (data) => {
   interestRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Interest</th>`;
   principalPaymentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Principal Payments</th>`;
   depreciationRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Depreciation</th>`;
-  operatingExpensesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Operating Expenses</th>`;
+  totalExpensesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Total Expenses</th>`;
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
@@ -5301,8 +5301,8 @@ const getDebtBurdenRatioChartOptions = (data) => {
       data.principalPayments_Client[year].value
     );
     const depreciationNum = Number(data.depreciation_Client[year].value);
-    const operatingExpensesNum = Number(
-      data.operationalExpense_Client[year].value
+    const totalExpensesNum = Number(
+        data.totalExpenses_Client[year].value
     );
     // Add year to table header
     tableHeaderRow.innerHTML += `
@@ -5315,25 +5315,25 @@ const getDebtBurdenRatioChartOptions = (data) => {
     `;
     interestRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${interestNum.toLocaleString()}
+        $${interestNum.toLocaleString()}
       </th>
     `;
 
     principalPaymentsRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${principalPaymentsNum.toLocaleString()}
+        $${principalPaymentsNum.toLocaleString()}
       </th>
     `;
 
     depreciationRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${depreciationNum.toLocaleString()}
+        $${depreciationNum.toLocaleString()}
       </th>
     `;
 
-    operatingExpensesRow.innerHTML += `
+    totalExpensesRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${operatingExpensesNum.toLocaleString()}
+        $${totalExpensesNum.toLocaleString()}
       </th>
     `;
 
