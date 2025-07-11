@@ -5023,12 +5023,12 @@ const getEndowmentOperatingChartOptions = (data) => {
     `;
     endowmentRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(endowment, true)}
+        $${Math.round(endowment).toLocaleString()}
       </th>
     `;
     annualOperatingBudgetRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(annualOperatingBudget, true)}
+        $${Math.round(annualOperatingBudget).toLocaleString()}
       </th> 
     `;
   });
@@ -5036,7 +5036,7 @@ const getEndowmentOperatingChartOptions = (data) => {
   const value = clientPercent;
   const benchmark = 150;
   const text =
-    value > 150
+    value >= 150
       ? `Within Range of Benchmark: ${benchmark}%`
       : `Below Benchmark: ${benchmark}%`;
 
@@ -5051,8 +5051,8 @@ const getEndowmentOperatingChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "",
-        subcaption: firmName,
+        caption: "Endowment Asset per Operating ",
+        subcaption: "",
         lowerLimit: "0",
         upperLimit: "250",
         numberSuffix: "%",
