@@ -5274,15 +5274,20 @@ const getDebtBurdenRatioChartOptions = (data) => {
   const principalPaymentsRow = document.getElementById(
     "row_debtBurdenRatio_principalPayments"
   );
+  const depreciationRow = document.getElementById(
+    "row_debtBurdenRatio_depreciation"
+  );
   const operatingExpensesRow = document.getElementById(
     "row_debtBurdenRatio_operatingExpenses"
   );
+
 
   // Clear existing content before appending
   tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
   clientRatioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Debt Burden Ratio</th>`;
   interestRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Interest</th>`;
   principalPaymentsRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Principal Payments</th>`;
+  depreciationRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Depreciation</th>`;
   operatingExpensesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Operating Expenses</th>`;
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
@@ -5295,23 +5300,40 @@ const getDebtBurdenRatioChartOptions = (data) => {
     const principalPaymentsNum = Number(
       data.principalPayments_Client[year].value
     );
+    const depreciationNum = Number(data.depreciation_Client[year].value);
+    const operatingExpensesNum = Number(
+      data.operationalExpense_Client[year].value
+    );
     // Add year to table header
     tableHeaderRow.innerHTML += `
       <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
     `;
     clientRatioRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${Math.round(clientRatioNum * 100)}%
+        ${clientRatioNum}%
       </th>
     `;
     interestRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(interestNum, true)}
+        ${interestNum.toLocaleString()}
       </th>
     `;
+
     principalPaymentsRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(principalPaymentsNum, true)}
+        ${principalPaymentsNum.toLocaleString()}
+      </th>
+    `;
+
+    depreciationRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${depreciationNum.toLocaleString()}
+      </th>
+    `;
+
+    operatingExpensesRow.innerHTML += `
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${operatingExpensesNum.toLocaleString()}
       </th>
     `;
 

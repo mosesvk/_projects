@@ -683,9 +683,9 @@ class DataProcessor {
         // Debt Burden Ratio
         const debtBurdenRatio_array = [
           { key: "ratio_Client", field: "r287_cdebt_burden_ratio" },
-          { key: "debtService_Client", field: "r286_cdebt_service" },
           { key: "interest_Client", field: "r165_interest" },
           { key: "principalPayments_Client", field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable" },
+          { key: "depreciation_Client", field: "r164_depreciation_and_amortization" },
           { key: "operationalExpense_Client", field: "r044_ctotal_functional_expenses" }
         ];
         debtBurdenRatio_array.forEach(({ key, field }) => {
