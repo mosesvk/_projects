@@ -1346,7 +1346,7 @@ const getAtlChartOptions = (data) => {
 };
 
 const getSourcesOfIncomeClientChartOptions = (data) => {
-  console.log("soi - client", data);
+  // console.log("soi - client", data);
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   selectedYearsArray.sort((a, b) => b - a);
@@ -1509,35 +1509,49 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
 };
 
 const getSourcesOfIncomePeerChartOptions = (data) => {
-  console.log("soi - peer", data);
+  // console.log("soi - peer", data);
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
   selectedYearsArray.sort((a, b) => a - b);
 
-  const tuitionValue = getAverageOfArray(
+  const totalValue = getAverageOfArray(
+    data["soiTotal_Peer"][selectedYearsArray[0]]
+  );
+  const tuitionPercentage = getAverageOfArray(
     data["revenueTuitionAndFees_Peer"][selectedYearsArray[0]]
   );
-  const auxiliaryValue = getAverageOfArray(
+  const tuitionValue = Math.round(totalValue * tuitionPercentage)
+  
+
+  const auxiliaryPercentage = getAverageOfArray(
     data["revenueAuxiliaryActivities_Peer"][selectedYearsArray[0]]
   );
-  const contributionsValue = getAverageOfArray(
+  const auxiliaryValue = Math.round(totalValue * auxiliaryPercentage)
+
+  const contributionsPercentage = getAverageOfArray(
     data["revenueContributions_Peer"][selectedYearsArray[0]]
   );
-  const investmentsValue = getAverageOfArray(
+  const contributionsValue = Math.round(totalValue * contributionsPercentage)
+
+  const investmentsPercentage = getAverageOfArray(
     data["revenueInvestmentIncome_Peer"][selectedYearsArray[0]]
   );
-  const otherValue = getAverageOfArray(
+  const investmentsValue = Math.round(totalValue * investmentsPercentage)
+
+  const otherPercentage = getAverageOfArray(
     data["revenueOther_Peer"][selectedYearsArray[0]]
   );
+  const otherValue = Math.round(totalValue * otherPercentage)
 
-  // console.log ({
-  //   tuitionValue,
-  //   auxiliaryValue,
-  //   contributionsValue,
-  //   investmentsValue,
-  //   otherValue,
-  // });
+  console.log ({
+    totalValue,
+    tuitionValue,
+    auxiliaryValue,
+    contributionsValue,
+    investmentsValue,
+    otherValue,
+  });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -4183,7 +4197,7 @@ const getTuitionDependencyChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
-        tickAmount: 7,
+        tickAmount: 6,
         min: minY,
         max: maxY,
       },
@@ -4208,6 +4222,7 @@ const getTuitionDependencyChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
+        tickAmount: 6,
         min: minYLine,
         max: maxYLine,
       },
@@ -4634,12 +4649,14 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
     `;
   });
 
-  const value = clientData;
+  const value = Number(data.annualTraditionalNetTuitionPerStudentRatio_Client[selectedYearsArray[selectedYearsArray.length - 1]]
+  .value)
+  
   const benchmark = 1400;
   const text =
     value > benchmark
-      ? `Within Range of Benchmark: ${benchmark}$`
-      : `Below Benchmark: ${benchmark}$`;
+      ? `Within Range of Benchmark: $${benchmark.toLocaleString()}`
+      : `Below Benchmark: $${benchmark.toLocaleString()}`;
 
   const backgroundColor = value > benchmark ? "#54ba4a" : "#cf3636";
 
@@ -4652,7 +4669,7 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "",
+        caption: "Annual Traditional Net Tuition per Student",
         subcaption: "",
         lowerLimit: "0",
         upperLimit: value + 5000,
@@ -4667,19 +4684,19 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
       colorRange: {
         color: [
           {
-            minValue: "0",
-            maxValue: "7000",
-            code: "#EF707E",
-          },
-          {
-            minValue: "7000",
-            maxValue: "14000",
-            code: "#FFE381",
-          },
-          {
-            minValue: "14000",
-            maxValue: "30000",
+            minValue: benchmark,
+            maxValue: value,
             code: "#BBE97A",
+          },
+          // {
+          //   minValue: "7000",
+          //   maxValue: "14000",
+          //   code: "#FFE381",
+          // },
+          {
+            minValue: 0,
+            maxValue: benchmark,
+            code: "#EF707E",
           },
         ],
       },

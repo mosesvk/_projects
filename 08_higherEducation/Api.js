@@ -1073,6 +1073,16 @@ class DataProcessor {
         // Source of Income for Peers
         this.dataStore.insertData(
           "financialAnalysis",
+          "peer", 
+          year,
+          "soiTotal_Peer",
+          record,
+          "dashboard_c002_income_____total",
+          "Yes"
+        );
+
+        this.dataStore.insertData(
+          "financialAnalysis",
           "peer",
           year,
           "revenueTuitionAndFees_Peer",
@@ -1698,7 +1708,7 @@ class ApiService {
           dataStr + "</qdbapi>",
           "text/xml"
         );
-        console.log("Client XML", xmlDoc);
+        // console.log("Client XML", xmlDoc);
         const records = xmlDoc.querySelectorAll("record");
 
         // console.log(`Parsed ${records.length} client records from collected data`);

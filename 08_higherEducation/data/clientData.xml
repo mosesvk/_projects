@@ -1668,7 +1668,7 @@
         <r138_cnet_educational_expenses_per_student>11827</r138_cnet_educational_expenses_per_student>
         <r137_cnet_educational_expenses>36237252</r137_cnet_educational_expenses>
         <g025_ctotal_student_fte>3064</g025_ctotal_student_fte>
-        <r136_cnet_tuition_per_student>14193</r136_cnet_tuition_per_student>
+        <r136_cnet_tuition_per_student>14193</>
         <g025_ctotal_student_fte>3064</g025_ctotal_student_fte>
         <r147_cnet_tuition_dependency_ratio>0.71</r147_cnet_tuition_dependency_ratio>
         <r229_ctuition_discount_rate>0.40</r229_ctuition_discount_rate>
