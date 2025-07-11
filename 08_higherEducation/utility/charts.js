@@ -1544,14 +1544,14 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
   );
   const otherValue = Math.round(totalValue * otherPercentage)
 
-  console.log ({
-    totalValue,
-    tuitionValue,
-    auxiliaryValue,
-    contributionsValue,
-    investmentsValue,
-    otherValue,
-  });
+  // console.log ({
+  //   totalValue,
+  //   tuitionValue,
+  //   auxiliaryValue,
+  //   contributionsValue,
+  //   investmentsValue,
+  //   otherValue,
+  // });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -3683,15 +3683,19 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       : null;
     peerAvgArray.push(Math.round(peerAvg));
 
+    const peerDataArray = data.netEducationalExpensePerStudentRatio_Peer[year]
+      ? data.netEducationalExpensePerStudentRatio_Peer[year]
+      : null;
+
     const peer25 =
-      peerAvg !== 0 ? get25thPercentileOfArray(peerAvgArray) : null;
+      peerAvg !== 0 ? get25thPercentileOfArray(peerDataArray) : null;
     peer25Array.push(Math.round(peer25));
 
-    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerAvgArray) : null;
+    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerDataArray) : null;
     peer50Array.push(Math.round(peer50));
 
     const peer75 =
-      peerAvg !== 0 ? get75thPercentileOfArray(peerAvgArray) : null;
+      peerAvg !== 0 ? get75thPercentileOfArray(peerDataArray) : null;
     peer75Array.push(Math.round(peer75));
 
     // console.log('getNetEducationalExpensePerStudentChartOptions',{
@@ -4112,7 +4116,7 @@ const getTuitionDependencyChartOptions = (data) => {
       return `$${Math.round(value / 10000) * 10}K`;
     } else if (value < 1) {
       // Round to nearest 0.005 for values < 1
-      return `${(Math.round(value * 200) / 200).toFixed(2)}`;
+      return `${(Math.round(value * 20) / 20).toFixed(2)}`;
     }
     return `$${formatNumber(value)}`;
   };
@@ -4418,8 +4422,8 @@ const getTuitionDiscountRateChartOptions = (data) => {
         // Round to nearest 10K for values >= 10K
         return `$${Math.round(value / 10000) * 10}K`;
       } else if (value < 1) {
-        // Round to nearest 0.005 for values < 1
-        return `${(Math.round(value * 200) / 200).toFixed(2)}`;
+        // Round to nearest 0.05 for values < 1
+        return `${(Math.round(value * 20) / 20).toFixed(2)}`;
       }
       return `$${formatNumber(value)}`;
     };
@@ -4644,7 +4648,7 @@ const getAnualTraditionalNetTuitionPerStudentChartOptions = (data) => {
     // Populate total full-time students row
     totalFullTimeStudentsRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${totalStudents}
+        ${totalStudents.toLocaleString()}
       </th>
     `;
   });
