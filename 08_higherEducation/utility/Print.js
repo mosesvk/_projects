@@ -7,24 +7,6 @@ const CFI_COMPOSITE_WIDTH = 500;
 const CFI_COMPOSITE_HEIGHT = 800;
 
 /**
- * Get chart dimensions based on chart ID
- * @param {string} chartId - The ID of the chart
- * @returns {Object} - Object containing width and height
- */
-function getChartDimensions(chartId) {
-  if (chartId === "cfiCompositeHtml_Chart") {
-    return {
-      width: CFI_COMPOSITE_WIDTH,
-      height: CFI_COMPOSITE_HEIGHT
-    };
-  }
-  return {
-    width: DEFAULT_CHART_WIDTH,
-    height: DEFAULT_CHART_HEIGHT
-  };
-}
-
-/**
  * Process charts with fixed dimensions regardless of screen resolution
  *
  * @param {Array} chartMappings - Array of chart ID and field ID mappings
@@ -33,16 +15,6 @@ function getChartDimensions(chartId) {
 async function processChartsWithSpacing(chartMappings) {
   const results = [];
   setupProgressUI(chartMappings.length);
-
-  // Create a fixed-size container for consistent chart rendering
-  const fixedContainer = document.createElement("div");
-  fixedContainer.style.position = "absolute";
-  fixedContainer.style.left = "-9999px";
-  fixedContainer.style.width = `${DEFAULT_CHART_WIDTH}px`;
-  fixedContainer.style.height = `${DEFAULT_CHART_HEIGHT}px`;
-  fixedContainer.style.backgroundColor = "#ffffff";
-  fixedContainer.style.overflow = "hidden";
-  document.body.appendChild(fixedContainer);
 
   for (let i = 0; i < chartMappings.length; i++) {
     const { chartId, fieldId } = chartMappings[i];
@@ -58,65 +30,18 @@ async function processChartsWithSpacing(chartMappings) {
       }
 
       const chart = getChartInstance(chartId);
-      const dimensions = getChartDimensions(chartId);
 
-      // Store original dimensions and state
-      const originalStyles = {
-        width: chartElement.style.width,
-        height: chartElement.style.height,
-        position: chartElement.style.position,
-        transform: chartElement.style.transform
-      };
-
-      // Only save state for ApexCharts instances
-      const originalState = chart ? saveChartState(chart) : null;
-
-      // Move chart to fixed container and set dimensions
-      const originalParent = chartElement.parentElement;
-      fixedContainer.innerHTML = '';
-      fixedContainer.appendChild(chartElement);
-      
-      // Set fixed dimensions
-      chartElement.style.width = `${dimensions.width}px`;
-      chartElement.style.height = `${dimensions.height}px`;
-      chartElement.style.position = 'absolute';
-      chartElement.style.transform = 'none';
-
-      let base64String = null;
-
-      // If we have an ApexChart instance, try its export method first
+      // If we have an ApexChart instance, use its export method first
       if (chart && typeof chart.dataURI === "function") {
-        try {
-          base64String = await exportApexChart(chart);
-        } catch (e) {
-          console.warn(`ApexCharts export failed for ${chartId}:`, e);
+        const base64String = await exportApexChart(chart, chartId);
+        if (base64String) {
+          results.push({ chartId, fieldId, base64String });
+          continue;
         }
       }
 
-      // Use html2canvas as fallback if ApexCharts export failed or wasn't available
-      if (!base64String) {
-        try {
-          base64String = await exportWithHtml2Canvas(chartElement);
-        } catch (e) {
-          console.warn(`html2canvas export failed for ${chartId}:`, e);
-        }
-      }
-
-      // Restore chart to original position and state
-      if (originalParent) {
-        originalParent.appendChild(chartElement);
-      }
-      Object.assign(chartElement.style, originalStyles);
-
-      // Only attempt to restore state for ApexCharts instances
-      if (chart && originalState) {
-        try {
-          await restoreChartState(chart, originalState);
-        } catch (e) {
-          console.warn(`Failed to restore chart state for ${chartId}:`, e);
-        }
-      }
-
+      // Fallback to html2canvas
+      const base64String = await exportWithHtml2Canvas(chartElement);
       results.push({ chartId, fieldId, base64String });
 
       // Prevent UI freezing
@@ -127,115 +52,111 @@ async function processChartsWithSpacing(chartMappings) {
     }
   }
 
-  // Clean up the fixed container
-  if (fixedContainer.parentNode) {
-    document.body.removeChild(fixedContainer);
-  }
-
   completeProgressUI(chartMappings.length);
   return results;
 }
 
 const getChartInstance = (chartId) => {
-  // The charts that are explicitly declared in your codebase
-  switch (chartId) {
-    case "cfiRatio_chart":
-      return cfiRatio_chart;
-    case "doeOverall_chart":
-      return doeOverall_chart;
-    case "cfi_primaryReserveRatio_chart":
-      return cfi_primaryReserveRatio_chart;
-    case "cfi_netIncomeOperationsRatio_chart":
-      return cfi_netIncomeOperationsRatio_chart;
-    case "cfi_returnOnNetAssets_chart":
-      return cfi_returnOnNetAssets_chart;
-    case "cfi_viabilityRatio_chart":
-      return cfi_viabilityRatio_chart;
-    case "FinancialPosition_chart":
-      return FinancialPosition_chart;
-    case "assetToLiabilities_chart":
-      return assetToLiabilities_chart;
-    case "sourceOfIncomeClient_chart":
-      return sourceOfIncomeClient_chart;
-    case "sourceOfIncomePeer_chart":
-      return sourceOfIncomePeer_chart;
-    case "ffa_chart":
-      return ffa_chart;
-    case "cashFlowsTrend_chart":
-      return cashFlowsTrend_chart;
-    case "currentRatio_chart":
-      return currentRatio_chart;
-    case "salariesBenefitsToTotalExpense_chart":
-      return salariesBenefitsToTotalExpense_chart;
-    case "salariesBenefitsPerNetTuition_chart":
-      return salariesBenefitsPerNetTuition_chart;
-    case "netEducationalExpensePerStudent_chart":
-      return netEducationalExpensePerStudent_chart;
-    case "annualTraditionalNetTuitionPerStudent_chart":
-      return annualTraditionalNetTuitionPerStudent_chart;
-    case "tuitionDependency_chart":
-      return tuitionDependency_chart;
-    case "tuitionDiscountRate_chart":
-      return tuitionDiscountRate_chart;
-    case "ltDebtPerTotalOperatingRevenue_chart":
-      return ltDebtPerTotalOperatingRevenue_chart;
-    case "debtServiceCoverageRatio_chart":
-      return debtServiceCoverageRatio_chart;
-    case "debtBurdenRatio_chart":
-      return debtBurdenRatio_chart;
-    case "endowmentOperatingBudget_chart":
-      return endowmentOperatingBudget_chart;
-    case "endowmentAssetsPerStudent_chart":
-      return endowmentAssetsPerStudent_chart;
-    case "doeOverall_chart":
-      return doeOverall_chart;
-    case "cfiCompositeHtml_Chart":
-      return cfiCompositeHtml_Chart;
-
-    // For the remaining charts in chartMappings that aren't explicitly declared,
-    // we'll try to access them from the window object or from a chartManager if available
-    default:
-      // Try different methods to get the chart
-      return null;
-  }
+  // Use direct access like intl_print.js for better performance
+  return window[chartId] || null;
 };
 
 /**
  * Export an ApexChart with fixed dimensions
  *
  * @param {Object} chart - ApexChart instance
+ * @param {string} chartId - Chart ID for reference
  * @returns {Promise<string>} - Base64 encoded image or null if failed
  */
-async function exportApexChart(chart) {
+async function exportApexChart(chart, chartId) {
   try {
-    // Wait for rendering to complete
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    if (!chart || !chart.w || !chart.w.globals || !chart.w.globals.dom) {
+      throw new Error("Invalid chart instance");
+    }
 
-    // Store original chart state
+    // Create a fixed-size container
+    const fixedContainer = document.createElement("div");
+    fixedContainer.style.position = "absolute";
+    fixedContainer.style.left = "-9999px";
+    fixedContainer.style.width = `${DEFAULT_CHART_WIDTH}px`;
+    fixedContainer.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    fixedContainer.style.backgroundColor = "#ffffff";
+    fixedContainer.style.overflow = "hidden";
+    document.body.appendChild(fixedContainer);
+
+    // Get the chart element
+    const chartElement = chart.w.globals.dom.Paper.node.parentNode;
+    if (!chartElement) {
+      throw new Error("Chart element not found");
+    }
+
+    // Store original styles
+    const originalStyles = {
+      width: chartElement.style.width,
+      height: chartElement.style.height,
+      position: chartElement.style.position,
+      transform: chartElement.style.transform,
+    };
+
+    // Save complete chart state
     const originalState = saveChartState(chart);
+    if (!originalState) {
+      throw new Error("Failed to save chart state");
+    }
 
-    // Get chart dimensions based on chart ID
-    const dimensions = getChartDimensions(chart.w.globals.chartID);
+    // Move chart to fixed container
+    const originalParent = chartElement.parentElement;
+    fixedContainer.innerHTML = "";
+    fixedContainer.appendChild(chartElement);
 
-    // Set fixed dimensions for both SVG element and viewBox
-    await configureChartForExport(chart, dimensions.width, dimensions.height);
+    // Set fixed dimensions
+    chartElement.style.width = `${DEFAULT_CHART_WIDTH}px`;
+    chartElement.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    chartElement.style.position = "absolute";
+    chartElement.style.transform = "none";
+
+    // Force exact dimensions for export
+    const paperNode = chart.w.globals.dom.Paper.node;
+    paperNode.setAttribute("width", DEFAULT_CHART_WIDTH.toString());
+    paperNode.setAttribute("height", DEFAULT_CHART_HEIGHT.toString());
+    paperNode.style.width = `${DEFAULT_CHART_WIDTH}px`;
+    paperNode.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    paperNode.setAttribute(
+      "viewBox",
+      `0 0 ${DEFAULT_CHART_WIDTH} ${DEFAULT_CHART_HEIGHT}`
+    );
+    paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+    // Configure chart for export
+    await configureChartForExport(chart, DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT);
 
     // Let the chart update
-    await new Promise((resolve) => setTimeout(resolve, 150));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
-      width: dimensions.width,
-      height: dimensions.height,
+      width: DEFAULT_CHART_WIDTH,
+      height: DEFAULT_CHART_HEIGHT,
       scale: 2, // Higher resolution
     });
 
-    // Restore original state
+    // Restore chart to original position
+    if (originalParent) {
+      originalParent.appendChild(chartElement);
+    }
+    Object.assign(chartElement.style, originalStyles);
+
+    // Restore complete chart state
     restoreChartState(chart, originalState);
+
+    // Clean up the fixed container
+    if (fixedContainer.parentNode) {
+      document.body.removeChild(fixedContainer);
+    }
 
     return uri.imgURI.split(",")[1];
   } catch (error) {
-    // Don't log the error, just return null to trigger fallback
+    console.error("Error in exportApexChart:", error);
     return null;
   }
 }
@@ -299,13 +220,6 @@ function saveChartState(chart) {
  */
 async function configureChartForExport(chart, width, height) {
   const paperNode = chart.w.globals.dom.Paper.node;
-
-  // Create a wrapper div with fixed dimensions
-  const wrapper = document.createElement('div');
-  wrapper.style.width = `${width}px`;
-  wrapper.style.height = `${height}px`;
-  wrapper.style.position = 'relative';
-  wrapper.style.overflow = 'hidden';
   
   // Set SVG element dimensions with proper scaling
   paperNode.setAttribute("width", width.toString());
@@ -362,47 +276,13 @@ async function configureChartForExport(chart, width, height) {
     }
   };
 
-  // For radialBar charts, preserve the configuration but adjust value font size
-  if (chart.w.config.chart && chart.w.config.chart.type === 'radialBar') {
-    const plotOptions = JSON.parse(JSON.stringify(chart.w.config.plotOptions));
-    if (plotOptions.radialBar?.dataLabels?.value) {
-      plotOptions.radialBar.dataLabels.value.fontSize = '14px';
-    }
-    updatedOptions = {
-      ...updatedOptions,
-      plotOptions: plotOptions,
-      fill: chart.w.config.fill,
-      stroke: chart.w.config.stroke,
-      labels: chart.w.config.labels
-    };
-  }
-
-  // Update annotations if they exist
-  if (chart.w.config.annotations && chart.w.config.annotations.yaxis) {
-    const updatedAnnotations = JSON.parse(JSON.stringify(chart.w.config.annotations));
-    if (Array.isArray(updatedAnnotations.yaxis)) {
-      updatedAnnotations.yaxis.forEach((annotation) => {
-        if (annotation.label) {
-          annotation.label.style = {
-            ...annotation.label.style,
-            fontSize: "12px",
-            fontWeight: 400
-          };
-          annotation.label.offsetX = 0;
-          annotation.label.position = "left";
-        }
-      });
-    }
-    updatedOptions.annotations = updatedAnnotations;
-  }
-
   // Force chart to redraw with new dimensions and styles
   if (chart.updateOptions) {
     await chart.updateOptions(updatedOptions, false, true);
   }
 
-  // Add a small delay to ensure the chart has time to properly resize
-  return new Promise(resolve => setTimeout(resolve, 100));
+  // Reduced delay for better performance
+  return new Promise(resolve => setTimeout(resolve, 50));
 }
 
 /**d
@@ -452,36 +332,30 @@ async function restoreChartState(chart, originalState) {
  * Fallback to html2canvas for export
  */
 async function exportWithHtml2Canvas(chartElement) {
-  const dimensions = getChartDimensions(chartElement.id);
-
-  // Create a fixed-size container
+  // Create a clone container with fixed dimensions
   const container = document.createElement("div");
   container.style.position = "absolute";
-  container.style.left = "-9999px";
-  container.style.width = `${dimensions.width}px`;
-  container.style.height = `${dimensions.height}px`;
-  container.style.backgroundColor = "#ffffff";
-  container.style.overflow = "hidden";
+  container.style.width = `${DEFAULT_CHART_WIDTH}px`;
+  container.style.height = `${DEFAULT_CHART_HEIGHT}px`;
 
   // Clone the chart element into the container
   const clone = chartElement.cloneNode(true);
-  clone.style.width = `${dimensions.width}px`;
-  clone.style.height = `${dimensions.height}px`;
-  clone.style.position = "absolute";
-  clone.style.left = "0";
-  clone.style.top = "0";
-  clone.style.transform = "none";
+  clone.style.width = `${DEFAULT_CHART_WIDTH}px`;
+  clone.style.height = `${DEFAULT_CHART_HEIGHT}px`;
   container.appendChild(clone);
   document.body.appendChild(container);
 
   // Find and adjust any SVG elements
   const svgElements = clone.querySelectorAll("svg");
   svgElements.forEach((svg) => {
-    svg.setAttribute("width", dimensions.width.toString());
-    svg.setAttribute("height", dimensions.height.toString());
-    svg.style.width = `${dimensions.width}px`;
-    svg.style.height = `${dimensions.height}px`;
-    svg.setAttribute("viewBox", `0 0 ${dimensions.width} ${dimensions.height}`);
+    svg.setAttribute("width", DEFAULT_CHART_WIDTH.toString());
+    svg.setAttribute("height", DEFAULT_CHART_HEIGHT.toString());
+    svg.style.width = `${DEFAULT_CHART_WIDTH}px`;
+    svg.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    svg.setAttribute(
+      "viewBox",
+      `0 0 ${DEFAULT_CHART_WIDTH} ${DEFAULT_CHART_HEIGHT}`
+    );
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   });
 
@@ -489,17 +363,14 @@ async function exportWithHtml2Canvas(chartElement) {
     // Wait for layout updates
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    // Use html2canvas with fixed dimensions and proper scaling
+    // Use html2canvas with fixed dimensions
     const canvas = await html2canvas(clone, {
       scale: 2,
-      width: dimensions.width,
-      height: dimensions.height,
+      width: DEFAULT_CHART_WIDTH,
+      height: DEFAULT_CHART_HEIGHT,
       useCORS: true,
       allowTaint: true,
       backgroundColor: "#ffffff",
-      logging: false,
-      removeContainer: true,
-      foreignObjectRendering: false
     });
 
     const base64String = canvas.toDataURL("image/png").split(",")[1];
@@ -744,21 +615,20 @@ function buildUploadXml(results) {
   if (typeof window.uniqueClientSize !== 'undefined') {
     uploadXml += createFieldXml(32, window.uniqueClientSize);
   }
-
-  console.log(window.selectedAthletics_Array);
-  
   
   uploadXml += createFieldXml(94, selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(69, window.monthYearEnd);
   uploadXml += createFieldXml(89, sliderValue);
   uploadXml += createFieldXml(90, sliderValue2);
-  uploadXml += createFieldXml(91, Array.from(window.selectedSeminaries_Array).join(", "));
-  uploadXml += createFieldXml(93, Array.from(window.selectedRegionals_Array).join(", "));
-  uploadXml += createFieldXml(64, Array.from(window.selectedRegions_Array).join(", "));
-  uploadXml += createFieldXml(65, Array.from(window.selectedStates_Array).join(", "));
-  uploadXml += createFieldXml(66, Array.from(window.selectedMemberships_Array).join(", "));
-  uploadXml += createFieldXml(67, Array.from(window.selectedTypes_Array).join(", "));
-  uploadXml += createFieldXml(68, Array.from(window.selectedAthletics_Array).join(", "));
+  
+  // Optimize array joins by checking if arrays exist first
+  uploadXml += createFieldXml(91, window.selectedSeminaries_Array ? Array.from(window.selectedSeminaries_Array).join(", ") : "");
+  uploadXml += createFieldXml(93, window.selectedRegionals_Array ? Array.from(window.selectedRegionals_Array).join(", ") : "");
+  uploadXml += createFieldXml(64, window.selectedRegions_Array ? Array.from(window.selectedRegions_Array).join(", ") : "");
+  uploadXml += createFieldXml(65, window.selectedStates_Array ? Array.from(window.selectedStates_Array).join(", ") : "");
+  uploadXml += createFieldXml(66, window.selectedMemberships_Array ? Array.from(window.selectedMemberships_Array).join(", ") : "");
+  uploadXml += createFieldXml(67, window.selectedTypes_Array ? Array.from(window.selectedTypes_Array).join(", ") : "");
+  uploadXml += createFieldXml(68, window.selectedAthletics_Array ? Array.from(window.selectedAthletics_Array).join(", ") : "");
 
   // Add each selected year to corresponding fields (73, 74, 75)
   selectedYears.forEach((year, index) => {
@@ -793,8 +663,8 @@ function createImageFieldXml(id, val) {
     return "";
   }
   
-  // Wrap the base64 data in CDATA to prevent XML parsing issues
-  return `<field fid='${id}' filename='chart.png'><![CDATA[${val}]]></field>`;
+  // Simplified field creation without CDATA for better performance
+  return `<field fid='${id}' filename='chart.png'>${val}</field>`;
 }
 
 function createFieldXml(id, val) {
@@ -829,8 +699,6 @@ function createFieldXml(id, val) {
  */
 async function sendToQuickbase(xml) {
   try {
-    console.log('Sending request to Quickbase...');
-    
     const response = await $.ajax({
       type: "POST",
       contentType: "text/xml",
@@ -839,28 +707,7 @@ async function sendToQuickbase(xml) {
       processData: false,
       data: xml,
       timeout: 60000, // 60-second timeout
-      headers: {
-        'QUICKBASE-ACTION': 'API_AddRecord'
-      },
-      beforeSend: function(xhr) {
-        console.log('Request headers:', xhr.getAllResponseHeaders());
-      },
-      success: function(data, status, xhr) {
-        console.log('Response headers:', xhr.getAllResponseHeaders());
-        console.log('Response data:', data);
-      },
-      error: function(xhr, status, error) {
-        console.error('Detailed error information:');
-        console.error('Status:', status);
-        console.error('Error:', error);
-        console.error('Response Text:', xhr.responseText);
-        console.error('Status Code:', xhr.status);
-        console.error('Status Text:', xhr.statusText);
-      }
     });
-
-    // Log the raw response for debugging
-    console.log('Raw response:', response);
 
     // Check if we got a valid XML response
     if (!response || !$(response).find('qdbapi').length) {
@@ -869,30 +716,11 @@ async function sendToQuickbase(xml) {
 
     return response;
   } catch (error) {
-    console.error('Full error object:', error);
-    
-    let errorMessage = 'Unknown error';
-    
-    if (error.responseText) {
-      try {
-        // Try to parse the error response as XML
-        const errorXml = $(error.responseText);
-        const errtext = errorXml.find('errtext').text();
-        const errcode = errorXml.find('errcode').text();
-        errorMessage = errtext || error.responseText;
-        if (errcode) {
-          errorMessage = `Error code ${errcode}: ${errorMessage}`;
-        }
-      } catch (e) {
-        // If XML parsing fails, use the raw response text
-        errorMessage = error.responseText;
-      }
-    } else if (error.statusText) {
-      errorMessage = error.statusText;
-    } else if (error.message) {
-      errorMessage = error.message;
-    }
-
+    const errorMessage =
+      error.responseText ||
+      error.statusText ||
+      error.message ||
+      "Unknown error";
     throw new Error(`Quickbase API error: ${errorMessage}`);
   }
 }
