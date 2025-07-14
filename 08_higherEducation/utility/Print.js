@@ -12,12 +12,33 @@ const CFI_COMPOSITE_HEIGHT = 800;
  * @returns {Object} - Object containing width and height
  */
 function getChartDimensions(chartId) {
+  // CFI Composite chart needs special dimensions
   if (chartId === "cfiCompositeHtml_Chart") {
     return {
       width: CFI_COMPOSITE_WIDTH,
       height: CFI_COMPOSITE_HEIGHT
     };
   }
+  
+  // Smaller charts that don't need full width - use 60% of default width
+  const smallerCharts = [
+    "sourceOfIncomeClient_chart",
+    "sourceOfIncomePeer_chart", 
+    "salariesBenefitsToTotalExpense_chart",
+    "salariesBenefitsPerNetTuition_chart",
+    "netTuitionPerStudent_chart",
+    "debtBurdenRatio_chart",
+    "ltDebtPerTotalOperatingRevenue_chart"
+  ];
+  
+  if (smallerCharts.includes(chartId)) {
+    return {
+      width: Math.round(DEFAULT_CHART_WIDTH * 0.6), // 720px (60% of 1200px)
+      height: DEFAULT_CHART_HEIGHT
+    };
+  }
+  
+  // Default dimensions for all other charts
   return {
     width: DEFAULT_CHART_WIDTH,
     height: DEFAULT_CHART_HEIGHT
