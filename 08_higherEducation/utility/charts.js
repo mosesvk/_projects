@@ -1521,28 +1521,27 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
   const tuitionPercentage = getAverageOfArray(
     data["revenueTuitionAndFees_Peer"][selectedYearsArray[0]]
   );
-  const tuitionValue = Math.round(totalValue * tuitionPercentage)
-  
+  const tuitionValue = Math.round(totalValue * tuitionPercentage);
 
   const auxiliaryPercentage = getAverageOfArray(
     data["revenueAuxiliaryActivities_Peer"][selectedYearsArray[0]]
   );
-  const auxiliaryValue = Math.round(totalValue * auxiliaryPercentage)
+  const auxiliaryValue = Math.round(totalValue * auxiliaryPercentage);
 
   const contributionsPercentage = getAverageOfArray(
     data["revenueContributions_Peer"][selectedYearsArray[0]]
   );
-  const contributionsValue = Math.round(totalValue * contributionsPercentage)
+  const contributionsValue = Math.round(totalValue * contributionsPercentage);
 
   const investmentsPercentage = getAverageOfArray(
     data["revenueInvestmentIncome_Peer"][selectedYearsArray[0]]
   );
-  const investmentsValue = Math.round(totalValue * investmentsPercentage)
+  const investmentsValue = Math.round(totalValue * investmentsPercentage);
 
   const otherPercentage = getAverageOfArray(
     data["revenueOther_Peer"][selectedYearsArray[0]]
   );
-  const otherValue = Math.round(totalValue * otherPercentage)
+  const otherValue = Math.round(totalValue * otherPercentage);
 
   // console.log ({
   //   totalValue,
@@ -4101,9 +4100,9 @@ const getTuitionDependencyChartOptions = (data) => {
     }
   };
 
-   const yaxisLabelFormatter = (value) => {
+  const yaxisLabelFormatter = (value) => {
     if (value === 0) {
-      return '0';
+      return "0";
     }
     if (value >= 10000000) {
       // Round to nearest 10M for values >= 10M
@@ -4408,25 +4407,25 @@ const getTuitionDiscountRateChartOptions = (data) => {
     ? "#e3f0fa"
     : "#3a464f";
 
-    const yaxisLabelFormatter = (value) => {
-      if (value === 0) {
-        return '0';
-      }
-      if (value >= 10000000) {
-        // Round to nearest 10M for values >= 10M
-        return `$${Math.round(value / 10000000) * 10}M`;
-      } else if (value >= 1000000) {
-        // Round to nearest 1M for values >= 1M
-        return `$${Math.round(value / 1000000)}M`;
-      } else if (value >= 10000) {
-        // Round to nearest 10K for values >= 10K
-        return `$${Math.round(value / 10000) * 10}K`;
-      } else if (value < 1) {
-        // Round to nearest 0.05 for values < 1
-        return `${(Math.round(value * 20) / 20).toFixed(2)}`;
-      }
-      return `$${formatNumber(value)}`;
-    };
+  const yaxisLabelFormatter = (value) => {
+    if (value === 0) {
+      return "0";
+    }
+    if (value >= 10000000) {
+      // Round to nearest 10M for values >= 10M
+      return `$${Math.round(value / 10000000) * 10}M`;
+    } else if (value >= 1000000) {
+      // Round to nearest 1M for values >= 1M
+      return `$${Math.round(value / 1000000)}M`;
+    } else if (value >= 10000) {
+      // Round to nearest 10K for values >= 10K
+      return `$${Math.round(value / 10000) * 10}K`;
+    } else if (value < 1) {
+      // Round to nearest 0.05 for values < 1
+      return `${(Math.round(value * 20) / 20).toFixed(2)}`;
+    }
+    return `$${formatNumber(value)}`;
+  };
   const yaxisLabelFormatter2 = (value) => {
     return `${value}`;
   };
@@ -4653,9 +4652,12 @@ const getNetTuitionPerStudentChartOptions = (data) => {
     `;
   });
 
-  const value = Number(data.netTuitionPerStudentRatio_Client[selectedYearsArray[selectedYearsArray.length - 1]]
-  .value)
-  
+  const value = Number(
+    data.netTuitionPerStudentRatio_Client[
+      selectedYearsArray[selectedYearsArray.length - 1]
+    ].value
+  );
+
   const benchmark = 1400;
   const text =
     value > benchmark
@@ -5281,7 +5283,6 @@ const getDebtBurdenRatioChartOptions = (data) => {
     "row_debtBurdenRatio_totalExpenses"
   );
 
-
   // Clear existing content before appending
   tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
   clientRatioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Debt Burden Ratio</th>`;
@@ -5301,9 +5302,7 @@ const getDebtBurdenRatioChartOptions = (data) => {
       data.principalPayments_Client[year].value
     );
     const depreciationNum = Number(data.depreciation_Client[year].value);
-    const totalExpensesNum = Number(
-        data.totalExpenses_Client[year].value
-    );
+    const totalExpensesNum = Number(data.totalExpenses_Client[year].value);
     // Add year to table header
     tableHeaderRow.innerHTML += `
       <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
@@ -5475,20 +5474,14 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     "row_endowmentAssetsPerStudent_totalStudentFte"
   );
 
-  const tableHeaderPeerRow = document.getElementById(
-    "row_endowmentAssetsPerStudentPeer_tableHeader"
-  );
-  const peerRatioRow = document.getElementById(
-    "row_endowmentAssetsPerStudentPeer_ratio"
-  );
+
 
   // Clear existing content bef ore appending
   tableHeaderClientRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
   clientRatioRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment Assets per Student</th>`;
   endowmentRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment</th>`;
   totalStudentFteRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Total Student FTE</th>`;
-  tableHeaderPeerRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl whitespace-nowrap dark:text-white">Peer</th>`;
-  peerRatioRow.innerHTML = `<th scope="col" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Endowment Assets per Student</th>`;
+
 
   const mostRecentYear = Math.max(...Object.keys(data["endowment_Client"]));
 
@@ -5504,8 +5497,8 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
   selectedYearsArray.map((year) => {
     // Add year to table header
     tableHeaderClientRow.innerHTML += `
-<th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-`;
+      <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
+    `;
 
     const clientRatio = Number(data.ratio_Client[year].value);
     clientArray.push(clientRatio);
@@ -5514,20 +5507,20 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     // console.log({clientRatio, formattedClientRatio})
 
     clientRatioRow.innerHTML += `
-<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-  ${formattedClientRatio}
-</th>
-`;
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        $${formattedClientRatio}
+      </th>
+    `;
 
     const endowmentSizeClient = Number(data.endowment_Client[year].value);
     const formattedEndowmentSizeClient =
       Number(endowmentSizeClient).toLocaleString();
 
     endowmentRow.innerHTML += `
-<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-  $${formattedEndowmentSizeClient}
-</th>
-`;
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        $${formattedEndowmentSizeClient}
+      </th>
+      `;
 
     const totalStudentFteClient = Number(
       data.totalStudentFte_Client[year].value
@@ -5542,33 +5535,26 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 </th> 
 `;
 
-    tableHeaderPeerRow.innerHTML += `
-<th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
-`;
 
     const peerRatio = data.ratio_Peer[year]
       ? Number(getAverageOfArray(data.ratio_Peer[year]))
       : 0;
-    const formattedPeerRatio = Number(peerRatio).toLocaleString();
 
-    peerRatioRow.innerHTML += `
-<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-  ${formattedPeerRatio}
-</th>
-`;
 
     // console.log({clientRatio, peerRatio});
 
     const peerData = isNaN(peerRatio) ? null : peerRatio;
-    peerAvgArray.push(peerData);
+    peerAvgArray.push(Math.round(peerData));
 
-    const peer25 = get25thPercentileOfArray(peerAvgArray);
+    const peerDataArray = data.ratio_Peer[year]
+
+    const peer25 = get25thPercentileOfArray(peerDataArray);
     peer25Array.push(Math.round(peer25));
 
-    const peer50 = getMidpointOfArray(peerAvgArray);
+    const peer50 = getMidpointOfArray(peerDataArray);
     peer50Array.push(Math.round(peer50));
 
-    const peer75 = get75thPercentileOfArray(peerAvgArray);
+    const peer75 = get75thPercentileOfArray(peerDataArray);
     peer75Array.push(Math.round(peer75));
   });
 
@@ -5707,10 +5693,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
             colors: chartColors.labelColor,
             fontSize: "1rem",
           },
-        },
-        tooltip: {
-          enabled: true,
-        },
+        }
       },
     ],
     tooltip: {
@@ -5721,7 +5704,9 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
         offsetX: 60,
       },
       y: {
-        formatter: tooltipFormatter,
+        formatter: (value) => {
+          return `$${value.toLocaleString()}`;
+        },
         title: {
           formatter: (seriesName) => `${seriesName}:`,
         },
@@ -5741,6 +5726,37 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     plotOptions: {
       bar: {
         barHeight: "90%",
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [0],
+      offsetY: -20,
+      formatter: (val) => {
+        return `$${val.toLocaleString()}`;
+      },
+      style: {
+        fontSize: "20px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: "bold",
+        colors: ["#ffffff"],
+      },
+      background: {
+        enabled: true,
+        foreColor: window.chartColors.green,
+        padding: 4,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: "#ffffff",
+        opacity: 0.7,
+        dropShadow: {
+          enabled: false,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: "#000",
+          opacity: 0.45,
+        },
       },
     },
   };
