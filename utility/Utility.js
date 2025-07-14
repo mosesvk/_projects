@@ -1938,8 +1938,11 @@ function createFSTable(tableDataClass, arrayData, idString, year, dataObject, da
       : totalNum.toLocaleString()
   }`;
 
+  // console.log({ tableDataClass, arrayData, idString, year, dataObject, dataPointArray });
+
   // Loop through each data point in the array
   dataPointArray.forEach(dataPoint => {
+    // console.log('---',{ dataPoint });
     // console.log({ dataPoint });
     // Get the corresponding table cell using the dataPoint class
     const tableCell = document.querySelector(`.${dataPoint}_dataPoint`);

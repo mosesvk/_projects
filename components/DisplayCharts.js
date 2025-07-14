@@ -16,7 +16,7 @@ const displayCfiComponent = () => {
     "CFI Overall Ratio"
   );
 
-  // cfi_primaryReserveRatiod
+  // cfi_primaryReserveRatio
   createChartFromParsedData(
     parseData,
     "cfi_primaryReserveRatio_chart",
@@ -189,8 +189,10 @@ const displayFinancialStatementComponent = () => {
       "studentLoansAndOtherReceivables",
       "contributionsReceivable",
       "prepaidExpensesAndOtherAssets",
+      "financingLeasesRightOfUseAssets",
       "propertyAndEquipment",
       "investmentsHeldForLongTermPurposes",
+      "investmentsHeldForShortTermPurposes",
       "totalAssets"
     ]
   );
@@ -208,6 +210,7 @@ const displayFinancialStatementComponent = () => {
       "deferredRevenue",
       "postRetirementHealthBenefits",
       "annuityObligations",
+      "financingLeasesRightOfUseLiabilities",
       "otherLiabilities",
       "interestRateSwapLiability",
       "bondsAndNotesPayable",
@@ -350,7 +353,7 @@ const displayFinancialStatementComponent = () => {
       "adjustmentsAccountsReceivable",
       "adjustmentsInventory",
       "adjustmentsPrepaidsAndOtherAssets",
-      "cashFlowsaccountsPayableAndAccruedExpenses",
+      "cashFlowsAccountsPayableAndAccruedExpenses",
       "cashFlowsDeferredRevenue",
       "adjustmentsOtherLiabilities",
       "cashFlowsOperatingActivities"
@@ -517,12 +520,13 @@ const displayRevenueAndExpenseComponent = () => {
     );
   });
 
-  getAnualTraditionalNetTuitionPerStudentChartOptions(parsedData);
+  getNetTuitionPerStudentChartOptions(parsedData);
+
 
   getTuitionDependencyChartOptions(parsedData);
   tuitionDependency_chart = new ApexCharts(
     document.querySelector("#tuitionDependency_chart"),
-    getTuitionDependencyChartOptions(parsedData)
+      getTuitionDependencyChartOptions(parsedData)
   );
   tuitionDependency_chart.render();
   document.addEventListener("dark-mode", function () {
@@ -552,51 +556,65 @@ toggleDetailsByIdentifier("tuitionDiscountRate");
 
 // Debt and Endowment
 const displayDebtAndEndowmentComponent = () => {
-  const storedData = getStoredData("debtEndowmentData");
-  parsedData = parseStoredData(storedData);
+  const ltDebtPerTotalOperatingRevenueData = getStoredData("ltDebtPerTotalOperatingRevenueData");
+  const ltDebtPerTotalOperatingRevenueParsedData = parseStoredData(ltDebtPerTotalOperatingRevenueData);
 
   // ltDebtPerTotalOperatingRevenue
   ltDebtPerTotalOperatingRevenue_chart = new ApexCharts(
     document.querySelector("#ltDebtPerTotalOperatingRevenue_chart"),
-    getLtDebtPerTotalOperatingRevenueChartOptions(parsedData)
+    getLtDebtPerTotalOperatingRevenueChartOptions(ltDebtPerTotalOperatingRevenueParsedData)
   );
   ltDebtPerTotalOperatingRevenue_chart.render();
   document.addEventListener("dark-mode", function () {
-    ltDebtPerTotalOperatingRevenue_chart.updateOptions(
-      getLtDebtPerTotalOperatingRevenueChartOptions(parsedData)
+    ltDebtPerTotalOperatingRevenue_chart.updateOptions( 
+      getLtDebtPerTotalOperatingRevenueChartOptions(ltDebtPerTotalOperatingRevenueParsedData)
     );
   });
 
+  const debtServiceCoverageData = getStoredData("debtServiceCoverageRatioData");
+  const debtServiceCoverageParsedData = parseStoredData(debtServiceCoverageData);
+  // console.log("debtServiceCoverageParsedData", debtServiceCoverageParsedData);
+
   // debtServiceCoverageRatio
-  getDebtServiceCoverageChartOptions(parsedData);
+  getDebtServiceCoverageChartOptions(debtServiceCoverageParsedData);
+
+
+  const debtBurdenRatioData = getStoredData("debtBurdenRatioData");
+  const debtBurdenRatioParsedData = parseStoredData(debtBurdenRatioData);
 
   // debtBurdenRatio
   debtBurdenRatio_chart = new ApexCharts(
     document.querySelector("#debtBurdenRatio_chart"),
-    getDebtBurdenRatioChartOptions(parsedData)
+    getDebtBurdenRatioChartOptions(debtBurdenRatioParsedData)
   );
   debtBurdenRatio_chart.render();
   document.addEventListener("dark-mode", function () {
     debtBurdenRatio_chart.updateOptions(
-      getDebtBurdenRatioChartOptions(parsedData)
+      getDebtBurdenRatioChartOptions(debtBurdenRatioParsedData)
     );
   });
 
+  const endowmentOperatingBudgetData = getStoredData("endowmentOperatingBudgetData");
+  const endowmentOperatingBudgetParsedData = parseStoredData(endowmentOperatingBudgetData);
+
   // endowmentOperatingBudget
-  getEndowmentOperatingChartOptions(parsedData);
+  getEndowmentOperatingChartOptions(endowmentOperatingBudgetParsedData);
 
   // endowmentAssetsPerStudentMap
   // getEndowmentAssetsPerStudentMapOptions();
 
+  const endowmentAssetsPerStudentData = getStoredData("endowmentAssetsPerStudentData");
+  const endowmentAssetsPerStudentParsedData = parseStoredData(endowmentAssetsPerStudentData);
+
   // endowmentAssetsPerStudentChart
   endowmentAssetsPerStudent_chart = new ApexCharts(
     document.querySelector("#endowmentAssetsPerStudent_chart"),
-    getEndowmentAssetsPerStudentChartOptions(parsedData)
+    getEndowmentAssetsPerStudentChartOptions(endowmentAssetsPerStudentParsedData)
   );
   endowmentAssetsPerStudent_chart.render();
   document.addEventListener("dark-mode", function () {
     endowmentAssetsPerStudent_chart.updateOptions(
-      getEndowmentAssetsPerStudentChartOptions(parsedData)
+      getEndowmentAssetsPerStudentChartOptions(endowmentAssetsPerStudentParsedData)
     );
   });
 };

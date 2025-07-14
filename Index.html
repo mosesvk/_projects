@@ -316,7 +316,6 @@
         height: 500px;
       }
     </style>
-
   </head>
   <body>
     <!-- HEADER -->
@@ -818,8 +817,8 @@
                     <div
                       class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
                     >
-                      <h3 class="font-semibold text-white text-lg">&nbsp;
-                        Financial Statement
+                      <h3 class="font-semibold text-white text-lg">
+                        &nbsp; Financial Statement
                       </h3>
                     </div>
                     <div
@@ -828,7 +827,7 @@
                     ></div>
                   </div>
                 </li>
-                  <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
+                <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
                 <li>
                   <button
                     id="financialPositionLink"
@@ -886,7 +885,7 @@
                     ></div>
                   </div>
                 </li>
-                  <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
+                <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
                 <li>
                   <button
                     id="revenueExpenseLink"
@@ -939,7 +938,7 @@
                     ></div>
                   </div>
                 </li>
-                  <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
+                <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
                 <li>
                   <button
                     id="debtEndowmentLink"
@@ -989,8 +988,8 @@
                     ></div>
                   </div>
                 </li>
-                  <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
-                
+                <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
+
                 <li>
                   <button
                     data-modal-target="print_modal"
@@ -2498,7 +2497,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Student Loans and Other Receivables
                           </th>
-                          <td class="studentLoansAndOtherReceivables_dataPoint"></td>
+                          <td
+                            class="studentLoansAndOtherReceivables_dataPoint"
+                          ></td>
                         </tr>
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
@@ -2512,7 +2513,17 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Prepaid Expenses and Other Assets
                           </th>
-                          <td class="prepaidExpensesAndOtherAssets_dataPoint"></td>
+                          <td
+                            class="prepaidExpensesAndOtherAssets_dataPoint"
+                          ></td>
+                        </tr>
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Financing Leases Right of Use Assets
+                          </th>
+                          <td
+                            class="financingLeasesRightOfUseAssets_dataPoint"
+                          ></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
@@ -2522,9 +2533,19 @@
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
+                            Investments Held for Short Term Purposes
+                          </th>
+                          <td
+                            class="investmentsHeldForShortTermPurposes_dataPoint"
+                          ></td>
+                        </tr>
+                        <tr class="bg-white dark:bg-gray-800">
+                          <th scope="row" class="px-4 py-1 font-medium">
                             Investments Held for Long Term Purposes
                           </th>
-                          <td class="investmentsHeldForLongTermPurposes_dataPoint"></td>
+                          <td
+                            class="investmentsHeldForLongTermPurposes_dataPoint"
+                          ></td>
                         </tr>
                       </tbody>
                       <tfoot>
@@ -2567,7 +2588,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Accounts Payable and accrued expenses
                           </th>
-                          <td class="accountsPayableAndAccruedExpenses_dataPoint"></td>
+                          <td
+                            class="accountsPayableAndAccruedExpenses_dataPoint"
+                          ></td>
                         </tr>
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
@@ -2581,7 +2604,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Post retirement health benefits
                           </th>
-                          <td class="postRetirementHealthBenefits_dataPoint"></td>
+                          <td
+                            class="postRetirementHealthBenefits_dataPoint"
+                          ></td>
                         </tr>
                         <tr
                           class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
@@ -2590,6 +2615,16 @@
                             Annuity and trusts
                           </th>
                           <td class="annuityObligations_dataPoint"></td>
+                        </tr>
+                        <tr
+                          class="bg-white dark:bg-gray-800 bg-gray-200 dark:bg-gray-600"
+                        >
+                          <th scope="row" class="px-4 py-1 font-medium">
+                            Financing Leases Right of Use Liabilities
+                          </th>
+                          <td
+                            class="financingLeasesRightOfUseLiabilities_dataPoint"
+                          ></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
@@ -2723,7 +2758,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Scholarships and Financial Aid
                           </th>
-                          <td class="scholarshipsAndFinancialAid_dataPoint"></td>
+                          <td
+                            class="scholarshipsAndFinancialAid_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Auxiliary Activities -->
@@ -2747,7 +2784,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Endowment Spending Appropriation
                           </th>
-                          <td class="revenueEndowmentSpendingAppropriation_dataPoint"></td>
+                          <td
+                            class="revenueEndowmentSpendingAppropriation_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Other Revenue -->
@@ -2763,7 +2802,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Large One-Time Gifts
                           </th>
-                          <td class="contributionsLargeOneTimeGifts_dataPoint"></td>
+                          <td
+                            class="contributionsLargeOneTimeGifts_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Net Assets Released from Restriction -->
@@ -2771,7 +2812,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Net Assets Released from Restriction
                           </th>
-                          <td class="netAssetsReleasedFromRestriction_dataPoint"></td>
+                          <td
+                            class="netAssetsReleasedFromRestriction_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Revenue from Contributions -->
@@ -2789,7 +2832,7 @@
                           <th scope="row" class="px-6 py-3">
                             Total Revenue & Support
                           </th>
-                            <td class="revenueAndSupport_dataPoint"></td>
+                          <td class="revenueAndSupport_dataPoint"></td>
                         </tr>
                       </tfoot>
                     </table>
@@ -2829,7 +2872,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Instruction
                           </th>
-                          <td class="educationalProgramInstruction_dataPoint"></td>
+                          <td
+                            class="educationalProgramInstruction_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Research -->
@@ -2845,7 +2890,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Academic Support
                           </th>
-                          <td class="educationalProgramAcademicSupport_dataPoint"></td>
+                          <td
+                            class="educationalProgramAcademicSupport_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Student Services -->
@@ -2853,7 +2900,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Student Services
                           </th>
-                          <td class="educationalProgramStudentServices_dataPoint"></td>
+                          <td
+                            class="educationalProgramStudentServices_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Auxiliary Activities -->
@@ -2861,7 +2910,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Auxiliary Activities
                           </th>
-                          <td class="educationalProgramAuxiliaryActivities_dataPoint"></td>
+                          <td
+                            class="educationalProgramAuxiliaryActivities_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Institutional Support -->
@@ -2869,7 +2920,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Institutional Support
                           </th>
-                          <td class="educationalProgramInstitutionalSupport_dataPoint"></td>
+                          <td
+                            class="educationalProgramInstitutionalSupport_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Public Service -->
@@ -2877,7 +2930,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Public Service
                           </th>
-                          <td class="educationalProgramPublicService_dataPoint"></td>
+                          <td
+                            class="educationalProgramPublicService_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Fundraising Expenses -->
@@ -2885,7 +2940,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Fundraising Expenses
                           </th>
-                          <td class="educationalProgramFundraisingExpenses_dataPoint"></td>
+                          <td
+                            class="educationalProgramFundraisingExpenses_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Other Expenses -->
@@ -2944,7 +3001,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Investment income
                           </th>
-                          <td class="nonOperatingInvestmentIncome_dataPoint"></td>
+                          <td
+                            class="nonOperatingInvestmentIncome_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Endowment spending policy appropriation -->
@@ -2952,7 +3011,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Endowment spending policy appropriation
                           </th>
-                          <td class="nonOperatingEndowmentSpendingPolicyAppropriation_dataPoint"></td>
+                          <td
+                            class="nonOperatingEndowmentSpendingPolicyAppropriation_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Change in value of interest rate swap -->
@@ -2960,7 +3021,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Change in value of interest rate swap
                           </th>
-                          <td class="changeInValueOfInterestRateSwap_dataPoint"></td>
+                          <td
+                            class="changeInValueOfInterestRateSwap_dataPoint"
+                          ></td>
                         </tr>
 
                         <!-- Adjustment to PRBO -->
@@ -3031,7 +3094,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Investment income plus endowment spending allocation
                           </th>
-                          <td class="investmentIncomePlusEndowment_dataPoint"></td>
+                          <td
+                            class="investmentIncomePlusEndowment_dataPoint"
+                          ></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
@@ -3043,7 +3108,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Net assets released from program restrictions
                           </th>
-                          <td class="netAssetsReleasedFromProgram_dataPoint"></td>
+                          <td
+                            class="netAssetsReleasedFromProgram_dataPoint"
+                          ></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="pl-6 py-1 font-bold text-xl">
@@ -3057,7 +3124,9 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Contributions
                           </th>
-                          <td class="permanentlyRestrictedContributions_dataPoint"></td>
+                          <td
+                            class="permanentlyRestrictedContributions_dataPoint"
+                          ></td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
@@ -3150,14 +3219,18 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Occupancy, Utilities and Maintenance
                           </th>
-                          <td class="occupancyUtilitiesAndMaintenance_dataPoint"></td>
+                          <td
+                            class="occupancyUtilitiesAndMaintenance_dataPoint"
+                          ></td>
                         </tr>
                         <!-- Depreciation and Amortization -->
                         <tr class="bg-white dark:bg-gray-800">
                           <th scope="row" class="px-4 py-1 font-medium">
                             Depreciation and Amortization
                           </th>
-                          <td class="depreciationAndAmortization_dataPoint"></td>
+                          <td
+                            class="depreciationAndAmortization_dataPoint"
+                          ></td>
                         </tr>
                         <!-- Interest -->
                         <tr class="bg-white dark:bg-gray-800">
@@ -3216,9 +3289,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Depreciation
                           </th>
-                          <td
-                            class="depreciation_dataPoint"
-                          ></td>
+                          <td class="depreciation_dataPoint"></td>
                         </tr>
 
                         <!-- Gifts and Grants Restricted in Perpetuity -->
@@ -3236,9 +3307,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Gain on Investment
                           </th>
-                          <td
-                            class="gainOnInvestment_dataPoint"
-                          ></td>
+                          <td class="gainOnInvestment_dataPoint"></td>
                         </tr>
 
                         <!-- Derivative CSLVI Amort Bond Costs -->
@@ -3266,9 +3335,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Inventory
                           </th>
-                          <td
-                            class="adjustmentsInventory_dataPoint"
-                          ></td>
+                          <td class="adjustmentsInventory_dataPoint"></td>
                         </tr>
 
                         <!-- Prepaids and Other Assets -->
@@ -3287,7 +3354,7 @@
                             Accounts Payable and Accrued Expenses
                           </th>
                           <td
-                            class="cashFlowsaccountsPayableAndAccruedExpenses_dataPoint"
+                            class="cashFlowsAccountsPayableAndAccruedExpenses_dataPoint"
                           ></td>
                         </tr>
 
@@ -3296,9 +3363,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Deferred Revenue
                           </th>
-                          <td
-                            class="cashFlowsDeferredRevenue_dataPoint"
-                          ></td>
+                          <td class="cashFlowsDeferredRevenue_dataPoint"></td>
                         </tr>
 
                         <!-- Other Liabilities -->
@@ -3359,9 +3424,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Purchase of investments
                           </th>
-                          <td
-                            class="purchaseOfInvestments_dataPoint"
-                          ></td>
+                          <td class="purchaseOfInvestments_dataPoint"></td>
                         </tr>
                         <!-- Proceeds from sale of investments -->
                         <tr class="bg-white dark:bg-gray-800">
@@ -3386,9 +3449,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Student loan fund
                           </th>
-                          <td
-                            class="studentLoanFund_dataPoint"
-                          ></td>
+                          <td class="studentLoanFund_dataPoint"></td>
                         </tr>
                         <!-- Other Investing Activity -->
                         <tr class="bg-white dark:bg-gray-800">
@@ -3446,9 +3507,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Proceeds from notes payable
                           </th>
-                          <td
-                            class="proceedsFromNotesPayable_dataPoint"
-                          ></td>
+                          <td class="proceedsFromNotesPayable_dataPoint"></td>
                         </tr>
                         <!-- Principal payments on notes payable -->
                         <tr class="bg-white dark:bg-gray-800">
@@ -3464,9 +3523,7 @@
                           <th scope="row" class="px-4 py-1 font-medium">
                             Other
                           </th>
-                          <td
-                            class="cashFlowsFinancingOther_dataPoint"
-                          ></td>
+                          <td class="cashFlowsFinancingOther_dataPoint"></td>
                         </tr>
                       </tbody>
 
@@ -3608,12 +3665,12 @@
                 />
                 <div class="flex flex-col">
                   This analysis highlights the organization's financial position
-                  by examining its assets, liabilities, and net position. Assets
+                  by examining its assets, liabilities, and net assets. Assets
                   represent the resources owned, while liabilities reflect the
-                  obligations that must be met. The net position, which is the
+                  obligations that must be met. The net assets, which is the
                   difference between assets and liabilities, provides insight
                   into the organization's financial stability and overall
-                  health. A positive net position indicates a strong financial
+                  health. A positive net assets indicates a strong financial
                   foundation, allowing the organization to continue its
                   operations and meet its long-term goals.
                 </div>
@@ -3818,10 +3875,7 @@
                 <div class="flex flex-col">
                   The current ratio measures an organization's ability to meet
                   short-term obligations by comparing current assets to current
-                  liabilities. A ratio of 1 or higher indicates that there are
-                  sufficient assets to cover liabilities, reflecting good
-                  liquidity and financial health. A ratio below 1 suggests
-                  potential liquidity concerns that may need attention.
+                  liabilities.
                 </div>
                 <div id="currentRatio_clientTable" class="flex flex-col my-5">
                   <div class="overflow-x-auto rounded-lg">
@@ -4638,9 +4692,6 @@
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <div class="flex flex-row">
-                <div class="w-1/2 pr-2">
-                  <div id="salariesBenefitsPerNetTuition_chart" class=""></div>
-                </div>
                 <div class="w-1/2 px-4">
                   <p class="mb-2 text-xl text-center font-bold">
                     Salaries and Benefits per Net Tuition Revenue
@@ -4660,10 +4711,13 @@
                     prudent financial management and sustainability.
                   </p>
                 </div>
+                <div class="w-1/2 pr-2">
+                  <div id="salariesBenefitsPerNetTuition_chart" class=""></div>
+                </div>
               </div>
               <button
                 id="dropdown_salariesBenefitsPerNetTuition"
-                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent mt-6"
               >
                 Details
                 <svg
@@ -4860,24 +4914,24 @@
 
             <p class="m-4 text-xl font-bold">Tuition Metrics</p>
 
-            <!-- Annual Traditional Net Tuition per Student -->
+            <!-- Net Tuition per Student -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <div
-                id="annualTraditionalNetTuitionPerStudent_chart"
+                id="netTuitionPerStudent_chart"
                 class="text-center"
               ></div>
-              <!-- DETAILS - Annual Traditional Net Tuition per Student -->
+              <!-- DETAILS - Net Tuition per Student -->
               <div
-                id="details_annualTraditionalNetTuitionPerStudent"
+                id="details_netTuitionPerStudent"
                 class="my-5 mx-2"
               >
                 <hr
                   class="my-8 mx-40 border-1 border-black dark:border-white"
                 />
                 <div class="flex flex-col">
-                  The Annual Traditional Net Tuition per Student metric
+                  The Net Tuition per Student metric
                   represents the average amount of tuition revenue that the
                   institution collects per student after accounting for
                   financial aid, scholarships, and tuition discounts. This
@@ -4892,7 +4946,7 @@
                 </div>
 
                 <div
-                  id="annualTraditionalNetTuitionPerStudent_clientTable"
+                  id="netTuitionPerStudent_clientTable"
                   class="flex flex-col my-5"
                 >
                   <div class="overflow-x-auto rounded-lg">
@@ -4907,12 +4961,12 @@
                             class="text-xs text-white uppercase backgroundGreen opacity-75"
                           >
                             <tr
-                              id="row_annualTraditionalNetTuitionPerStudent_tableHeader"
+                              id="row_netTuitionPerStudent_tableHeader"
                             ></tr>
                           </thead>
                           <tbody>
                             <tr
-                              id="row_annualTraditionalNetTuitionPerStudent_main"
+                              id="row_netTuitionPerStudent_main"
                               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
@@ -4923,7 +4977,7 @@
                               </th>
                             </tr>
                             <tr
-                              id="row_annualTraditionalNetTuitionPerStudent_netTuitionRevenue"
+                              id="row_netTuitionPerStudent_netTuitionRevenue"
                               class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
                             >
                               <th
@@ -4934,7 +4988,7 @@
                               </th>
                             </tr>
                             <tr
-                              id="row_annualTraditionalNetTuitionPerStudent_totalFullTimeStudents"
+                              id="row_netTuitionPerStudent_totalFullTimeStudents"
                               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
@@ -5248,7 +5302,6 @@
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <p class="m-4 text-xl font-bold">Debt & Liabilities</p>
               <div class="flex flex-row">
                 <div class="w-1/2 pr-2">
                   <div id="ltDebtPerTotalOperatingRevenue_chart"></div>
@@ -5405,14 +5458,7 @@
                 <div class="flex flex-col">
                   The Debt Service Coverage Ratio measures the institution's
                   ability to cover its debt service obligations such as interest
-                  and principal payments with its operating income. A goal of
-                  keeping this ratio below 4% indicates that the institution
-                  aims to minimize the portion of its income that is dedicated
-                  to servicing debt. This conservative approach ensures that a
-                  greater share of revenue is available for other operational
-                  needs and reduces financial stress. Maintaining a DSCR below
-                  4% reflects prudent debt management and enhances the
-                  institution's financial flexibility and stability.
+                  and principal payments.
                 </div>
                 <div
                   id="debtServiceCoverageRatio_clientTable"
@@ -5446,14 +5492,25 @@
                               </th>
                             </tr>
                             <tr
-                              id="row_debtServiceCoverageRatio_debtService"
-                              class="backgroundOffGreen border-b dark:bg-gray-800 dark:border-gray-700"
+                              id="row_debtServiceCoverageRatio_changeInNetAssetWithoutDR"
+                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
                                 class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                               >
-                                Debt Service
+                                Change in Net Asset Without DR
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_debtServiceCoverageRatio_depreciation"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Depreciation
                               </th>
                             </tr>
                             <tr
@@ -5479,14 +5536,25 @@
                               </th>
                             </tr>
                             <tr
-                              id="row_debtServiceCoverageRatio_totalOperatingRevenue"
-                              class="bg-white border-b dark:bg-gray-700 dark:border-gray-700"
+                              id="row_debtServiceCoverageRatio_capitalLease"
+                              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
                                 class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                               >
-                                Total Operating Revenue
+                                Capital Lease
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_debtServiceCoverageRatio_financingLeasesRightOfUseLiabilities"
+                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Financing Leases Right of Use Liabilities
                               </th>
                             </tr>
                           </tbody>
@@ -5502,10 +5570,37 @@
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
-              <div id="debtBurdenRatio_chart" class="text-center"></div>
+              <div class="flex flex-row">
+                <div class="w-1/2 px-4">
+                  <p class="mb-2 text-xl text-center font-bold">
+                    Debt Burden Ratio
+                  </p>
+                  <p>
+                    The Debt Burden Ratio measures the percentage of an
+                    institution's total annual operating expenses that go toward
+                    servicing its debt, including both principal and interest
+                    payments. A higher debt burden ratio indicates that a larger
+                    portion of the budget is consumed by debt obligations, which
+                    could limit the institution's ability to allocate funds to
+                    other essential areas such as academics, student services,
+                    or capital improvements. Conversely, a lower ratio suggests
+                    a more manageable debt load relative to the institution's
+                    overall expenses. The benchmark for this ratio is set at 7%,
+                    meaning the institution aims to keep the debt burden at or
+                    below this threshold. Staying within this benchmark
+                    indicates prudent financial management, ensuring that debt
+                    obligations do not excessively strain the institution's
+                    budget and allowing for greater financial flexibility.
+                  </p>
+                </div>
+                <div class="w-1/2 px-4">
+                  <div id="debtBurdenRatio_chart" class="text-center"></div>
+                </div>
+              </div>
+
               <button
                 id="dropdown_debtBurdenRatio"
-                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent mt-6"
               >
                 Details
                 <svg
@@ -5530,23 +5625,6 @@
                 <hr
                   class="my-8 mx-40 border-1 border-black dark:border-white"
                 />
-                <div class="flex flex-col">
-                  The Debt Burden Ratio measures the percentage of an
-                  institution's total annual operating expenses that go toward
-                  servicing its debt, including both principal and interest
-                  payments. A higher debt burden ratio indicates that a larger
-                  portion of the budget is consumed by debt obligations, which
-                  could limit the institution's ability to allocate funds to
-                  other essential areas such as academics, student services, or
-                  capital improvements. Conversely, a lower ratio suggests a
-                  more manageable debt load relative to the institution's
-                  overall expenses. The benchmark for this ratio is set at 7%,
-                  meaning the institution aims to keep the debt burden at or
-                  below this threshold. Staying within this benchmark indicates
-                  prudent financial management, ensuring that debt obligations
-                  do not excessively strain the institution's budget and
-                  allowing for greater financial flexibility.
-                </div>
                 <div
                   id="debtBurdenRatio_clientTable"
                   class="flex flex-col my-5"
@@ -5577,17 +5655,6 @@
                               </th>
                             </tr>
                             <tr
-                              id="row_debtBurdenRatio_debtService"
-                              class="backgroundOffGreen border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Debt Service
-                              </th>
-                            </tr>
-                            <tr
                               id="row_debtBurdenRatio_interest"
                               class="bg-white border-b dark:bg-gray-700 dark:border-gray-700"
                             >
@@ -5610,14 +5677,25 @@
                               </th>
                             </tr>
                             <tr
-                              id="row_debtBurdenRatio_operatingExpenses"
+                              id="row_debtBurdenRatio_depreciation"
+                              class="backgroundOffGreen border-b dark:bg-gray-700 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Depreciation
+                              </th>
+                            </tr>
+                            <tr
+                              id="row_debtBurdenRatio_totalExpenses"
                               class="bg-white border-b dark:bg-gray-700 dark:border-gray-700"
                             >
                               <th
                                 scope="row"
                                 class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                               >
-                                Operating Expenses
+                                Total Expenses
                               </th>
                             </tr>
                           </tbody>
@@ -5859,44 +5937,6 @@
                   </div>
                 </div>
 
-                <!-- Peer Table for Endowment Assets Per Student -->
-                <div
-                  id="endowmentAssetsPerStudent_peerTable"
-                  class="flex flex-col my-5"
-                >
-                  <div class="overflow-x-auto rounded-lg">
-                    <div class="inline-block min-w-full align-middle">
-                      <div
-                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
-                      >
-                        <table
-                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
-                        >
-                          <thead
-                            class="text-xs text-white uppercase backgroundBlue opacity-75"
-                          >
-                            <tr
-                              id="row_endowmentAssetsPerStudentPeer_tableHeader"
-                            ></tr>
-                          </thead>
-                          <tbody>
-                            <tr
-                              id="row_endowmentAssetsPerStudentPeer_ratio"
-                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                Endowment Asset per Student
-                              </th>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

@@ -744,6 +744,9 @@ function buildUploadXml(results) {
   if (typeof window.uniqueClientSize !== 'undefined') {
     uploadXml += createFieldXml(32, window.uniqueClientSize);
   }
+
+  console.log(window.selectedAthletics_Array);
+  
   
   uploadXml += createFieldXml(94, selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(69, window.monthYearEnd);
@@ -761,6 +764,7 @@ function buildUploadXml(results) {
   selectedYears.forEach((year, index) => {
     if (index < 8) {  // Only process up to 8 years
       uploadXml += createFieldXml(73 + index, year);
+      uploadXml += createFieldXml(81 + index, window.uniqueClientsPerYearMap[year]);
       
       // Check if clientsByYear exists and has the year data before accessing it
       if (window.clientsByYear && typeof window.clientsByYear.get === 'function') {
