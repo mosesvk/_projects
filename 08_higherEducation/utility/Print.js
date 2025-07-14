@@ -7,6 +7,24 @@ const CFI_COMPOSITE_WIDTH = 500;
 const CFI_COMPOSITE_HEIGHT = 800;
 
 /**
+ * Get chart dimensions based on chart ID
+ * @param {string} chartId - The ID of the chart
+ * @returns {Object} - Object containing width and height
+ */
+function getChartDimensions(chartId) {
+  if (chartId === "cfiCompositeHtml_Chart") {
+    return {
+      width: CFI_COMPOSITE_WIDTH,
+      height: CFI_COMPOSITE_HEIGHT
+    };
+  }
+  return {
+    width: DEFAULT_CHART_WIDTH,
+    height: DEFAULT_CHART_HEIGHT
+  };
+}
+
+/**
  * Process charts with fixed dimensions regardless of screen resolution
  *
  * @param {Array} chartMappings - Array of chart ID and field ID mappings
@@ -74,12 +92,15 @@ async function exportApexChart(chart, chartId) {
       throw new Error("Invalid chart instance");
     }
 
+    // Get chart dimensions based on chart ID
+    const dimensions = getChartDimensions(chartId);
+
     // Create a fixed-size container
     const fixedContainer = document.createElement("div");
     fixedContainer.style.position = "absolute";
     fixedContainer.style.left = "-9999px";
-    fixedContainer.style.width = `${DEFAULT_CHART_WIDTH}px`;
-    fixedContainer.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    fixedContainer.style.width = `${dimensions.width}px`;
+    fixedContainer.style.height = `${dimensions.height}px`;
     fixedContainer.style.backgroundColor = "#ffffff";
     fixedContainer.style.overflow = "hidden";
     document.body.appendChild(fixedContainer);
@@ -110,33 +131,33 @@ async function exportApexChart(chart, chartId) {
     fixedContainer.appendChild(chartElement);
 
     // Set fixed dimensions
-    chartElement.style.width = `${DEFAULT_CHART_WIDTH}px`;
-    chartElement.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    chartElement.style.width = `${dimensions.width}px`;
+    chartElement.style.height = `${dimensions.height}px`;
     chartElement.style.position = "absolute";
     chartElement.style.transform = "none";
 
     // Force exact dimensions for export
     const paperNode = chart.w.globals.dom.Paper.node;
-    paperNode.setAttribute("width", DEFAULT_CHART_WIDTH.toString());
-    paperNode.setAttribute("height", DEFAULT_CHART_HEIGHT.toString());
-    paperNode.style.width = `${DEFAULT_CHART_WIDTH}px`;
-    paperNode.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    paperNode.setAttribute("width", dimensions.width.toString());
+    paperNode.setAttribute("height", dimensions.height.toString());
+    paperNode.style.width = `${dimensions.width}px`;
+    paperNode.style.height = `${dimensions.height}px`;
     paperNode.setAttribute(
       "viewBox",
-      `0 0 ${DEFAULT_CHART_WIDTH} ${DEFAULT_CHART_HEIGHT}`
+      `0 0 ${dimensions.width} ${dimensions.height}`
     );
     paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
     // Configure chart for export
-    await configureChartForExport(chart, DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT);
+    await configureChartForExport(chart, dimensions.width, dimensions.height);
 
     // Let the chart update
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
-      width: DEFAULT_CHART_WIDTH,
-      height: DEFAULT_CHART_HEIGHT,
+      width: dimensions.width,
+      height: dimensions.height,
       scale: 2, // Higher resolution
     });
 
@@ -332,29 +353,32 @@ async function restoreChartState(chart, originalState) {
  * Fallback to html2canvas for export
  */
 async function exportWithHtml2Canvas(chartElement) {
+  // Get chart dimensions based on chart ID
+  const dimensions = getChartDimensions(chartElement.id);
+  
   // Create a clone container with fixed dimensions
   const container = document.createElement("div");
   container.style.position = "absolute";
-  container.style.width = `${DEFAULT_CHART_WIDTH}px`;
-  container.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+  container.style.width = `${dimensions.width}px`;
+  container.style.height = `${dimensions.height}px`;
 
   // Clone the chart element into the container
   const clone = chartElement.cloneNode(true);
-  clone.style.width = `${DEFAULT_CHART_WIDTH}px`;
-  clone.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+  clone.style.width = `${dimensions.width}px`;
+  clone.style.height = `${dimensions.height}px`;
   container.appendChild(clone);
   document.body.appendChild(container);
 
   // Find and adjust any SVG elements
   const svgElements = clone.querySelectorAll("svg");
   svgElements.forEach((svg) => {
-    svg.setAttribute("width", DEFAULT_CHART_WIDTH.toString());
-    svg.setAttribute("height", DEFAULT_CHART_HEIGHT.toString());
-    svg.style.width = `${DEFAULT_CHART_WIDTH}px`;
-    svg.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    svg.setAttribute("width", dimensions.width.toString());
+    svg.setAttribute("height", dimensions.height.toString());
+    svg.style.width = `${dimensions.width}px`;
+    svg.style.height = `${dimensions.height}px`;
     svg.setAttribute(
       "viewBox",
-      `0 0 ${DEFAULT_CHART_WIDTH} ${DEFAULT_CHART_HEIGHT}`
+      `0 0 ${dimensions.width} ${dimensions.height}`
     );
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   });
@@ -366,8 +390,8 @@ async function exportWithHtml2Canvas(chartElement) {
     // Use html2canvas with fixed dimensions
     const canvas = await html2canvas(clone, {
       scale: 2,
-      width: DEFAULT_CHART_WIDTH,
-      height: DEFAULT_CHART_HEIGHT,
+      width: dimensions.width,
+      height: dimensions.height,
       useCORS: true,
       allowTaint: true,
       backgroundColor: "#ffffff",
