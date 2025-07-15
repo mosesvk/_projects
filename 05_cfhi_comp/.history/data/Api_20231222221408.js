@@ -1,0 +1,1739 @@
+const xmlPeerString = ''
+
+const xmlClientString = ''
+
+const parser = new DOMParser();
+const parserClient = new DOMParser();
+const xmlPeerDoc = parser.parseFromString(xmlPeerString, 'text/xml');
+const xmlClientDoc = parser.parseFromString(xmlClientString, 'text/xml');
+const recordsPeer = xmlPeerDoc.querySelectorAll('record');
+const recordsClient = xmlClientDoc.querySelectorAll('record');
+
+document.addEventListener('DOMContentLoaded', () => {
+  findUniqueYears(recordsClient);
+
+  addUniqueRegionsToOptionsSelectRegion(regions_Array);
+
+
+  runApiMain();
+});
+
+const findUniqueYears = (data) => {
+  recordsClient.forEach((item) => {
+    const yearElement = item.querySelector('fiscal_ye_date_formatted_year');
+    if (yearElement) {
+      const year = yearElement.textContent;
+
+      // Check if the year is not already in yearsData_Array to ensure uniqueness
+      if (!yearsData_Array.includes(year)) {
+        yearsData_Array.push(year);
+      }
+    }
+  });
+
+  yearsData_Array.sort();
+
+  //nav-component
+  addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
+};
+
+const insertDataIntoObject = (
+  type,
+  year,
+  object,
+  dataKey,
+  record,
+  child,
+  dynamicValueClientPeer,
+  name
+) => {
+  // console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
+  const innerData =
+    record.querySelector(child).innerHTML.split('').length > 0
+      ? record.querySelector(child).innerHTML.trim()
+      : 0;
+
+  if (type === 'client') {
+    if (!object[dataKey]) {
+      object[dataKey] = {};
+    }
+    if (!object[dataKey][year]) {
+      object[dataKey][year] = {};
+    }
+    object[dataKey][year].value = innerData;
+    const benchmarkField =
+      dynamicValueClientPeer &&
+      record.querySelector(dynamicValueClientPeer).textContent.trim();
+    object[dataKey][year].benchmark = benchmarkField;
+  } else {
+    // type === 'peer'
+
+    const yesNoField =
+      dynamicValueClientPeer &&
+      record.querySelector(dynamicValueClientPeer).textContent.trim();
+
+    if (yesNoField == 'Yes') {
+      if (!object[dataKey]) {
+        object[dataKey] = {};
+      }
+      if (!object[dataKey][year]) {
+        object[dataKey][year] = [];
+      }
+
+      if (!name) {
+        if (!object[dataKey]['total']) {
+          object[dataKey]['total'] = [];
+        }
+        object[dataKey]['total'].push(innerData);
+      } else {
+        if (!object[dataKey][name]) {
+          object[dataKey][name] = [];
+        }
+        object[dataKey][name].push(innerData);
+      }
+
+      object[dataKey][year].push(innerData);
+    }
+  }
+};
+
+const processDemoData = (years, recordsPeer, recordsClient) => {
+  const object = {};
+
+  years.forEach((year) => {
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredPeerRecords.forEach((record) => {
+      // givingUnits
+      insertDataIntoObject(
+        // 'peer',
+        // year,
+        // object,
+        // 'salariesBenefitsTeachersAsPercentNetTuition_Salaries_Peer',
+        // record,
+        // '_24a_ratio_salaries_as___of_net_tuition',
+        // '_24a_yes_no_salaries_as___of_net_tuition'
+      );
+    });
+
+    const filteredClientRecords = [...recordsClient].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+      return fiscalYear.includes(year.toString());
+    });
+    filteredClientRecords.forEach((record) => {})
+  });
+
+  localStorage.removeItem('demoData');
+  localStorage.setItem('demoData', JSON.stringify(object));
+};
+
+const processIncomeData = (years, recordsPeer, rdecordsClient) => {
+  const object = {};
+
+  years.forEach((year) => {
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredPeerRecords.forEach((record) => {
+      // netIncomeRatio
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'netIncomeRatio_Peer',
+        record,
+        '_16_ratio_net_income_ratio',
+        '_16_yes_no_net_income_ratio'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'changeInUnrestrictedNetAssets',
+        record,
+        '_04_12_change_in_unrestricted_net_assets',
+        '_16_yes_no_net_income_ratio',
+        'netIncomeRatio'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'unrestrictedSupportRevenuesReclassification',
+        record,
+        '_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes',
+        '_16_yes_no_net_income_ratio',
+        'netIncomeRatio'
+      );
+
+      // netIncomeRatioExcludingDepreciation
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'netIncomeRatioExcludingDepreciation_Peer',
+        record,
+        '_17_ratio_net_income_ratio_excluding_depreciation',
+        '_17_yes_no_net_income_ratio_excluding_depreciation'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'changeInUnrestrictedNetAssets',
+        record,
+        '_04_12_change_in_unrestricted_net_assets',
+        '_17_yes_no_net_income_ratio_excluding_depreciation',
+        'netIncomeRatioExcludingDepreciation'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalDepreciationExpense',
+        record,
+        '_04_09_total_depreciation_expense',
+        '_17_yes_no_net_income_ratio_excluding_depreciation',
+        'netIncomeRatioExcludingDepreciation'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'unrestrictedSupportRevenuesReclassification',
+        record,
+        '_04_07_unrestricted_support__revenues_and_reclassifications_for_operating_purposes',
+        '_17_yes_no_net_income_ratio_excluding_depreciation',
+        'netIncomeRatioExcludingDepreciation'
+      );
+
+      // financialAssistanceAsPercentTuitionAndFees
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'financialAssistanceAsPercentTuitionAndFees_Peer',
+        record,
+        '_19_ratio_financial_assistance_as_a___of_tuition_and_fees',
+        '_19_yes_no_financial_assistance_as_a___of_tuition_and_fees'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'financialAidScholarships',
+        record,
+        '_04_04_financial_aid___scholarships',
+        '_19_yes_no_financial_assistance_as_a___of_tuition_and_fees',
+        'financialAssistanceAsPercentTuitionAndFees'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'grossTuitionRevenuesExcludingFees',
+        record,
+        '_04_01_gross_tuition_revenues_excluding_fees',
+        '_19_yes_no_financial_assistance_as_a___of_tuition_and_fees',
+        'financialAssistanceAsPercentTuitionAndFees'
+      );
+
+      // tuitionAndFeesAsPercentTotalIncome
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'tuitionAndFeesAsPercentTotalIncome_Peer',
+        record,
+        '_20_ratio_tuition_and_fees_as_a___of_total_income',
+        '_20_yes_no_tuition_and_fees_as_a___of_total_income'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'grossTuitionRevenuesExcludingFees',
+        record,
+        '_04_01_gross_tuition_revenues_excluding_fees',
+        '_20_yes_no_tuition_and_fees_as_a___of_total_income',
+        'tuitionAndFeesAsPercentTotalIncome'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalSupportRevenue',
+        record,
+        '_04_05_total_support_and_revenue',
+        '_20_yes_no_tuition_and_fees_as_a___of_total_income',
+        'tuitionAndFeesAsPercentTotalIncome'
+      );
+
+      // contributionsAsAPercentOfTotalIncome
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'contributionsAsAPercentOfTotalIncome_Peer',
+        record,
+        '_21_ratio_contributions_as_a___of_total_income',
+        '_21_yes_no_contributions_as_a___of_total_income'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalContributions',
+        record,
+        '_04_06_total_contributions',
+        '_21_yes_no_contributions_as_a___of_total_income',
+        'contributionsAsAPercentOfTotalIncome'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalSupportRevenue',
+        record,
+        '_04_05_total_support_and_revenue',
+        '_21_yes_no_contributions_as_a___of_total_income',
+        'contributionsAsAPercentOfTotalIncome'
+      );
+
+      // grossTuition
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'grossTuition_Peer',
+        record,
+        '_22a1_ratio_gross_tuition',
+        '_22a1_yes_no_gross_tuition'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'grossTuitionRevenuesExcludingFees',
+        record,
+        '_04_01_gross_tuition_revenues_excluding_fees',
+        '_22a1_yes_no_gross_tuition',
+        'grossTuition'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentAverageEnrollment_Main',
+        record,
+        '_01b_ratio_students_enrollment_average',
+        '_22a1_yes_no_gross_tuition',
+        'grossTuition'
+      );
+
+      // financialAssistanceDiscountBased
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'financialAssistanceDiscountBased_Peer',
+        record,
+        '_22b1_ratio_financial_assistance_discount_based',
+        '_22b1_yes_no_financial_assistance_discount_based'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'discounts',
+        record,
+        '_04_03_discounts',
+        '_22b1_yes_no_financial_assistance_discount_based',
+        'financialAssistanceDiscountBased'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentAverageEnrollment_Main',
+        record,
+        '_01b_ratio_students_enrollment_average',
+        '_22b1_yes_no_financial_assistance_discount_based',
+        'financialAssistanceDiscountBased'
+      );
+
+      // scholarshipAwarded
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'scholarshipAwarded_Peer',
+        record,
+        '_22c1_ratio_scholarship_awarded',
+        '_22c1_yes_no_scholarship_awarded'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'discounts',
+        record,
+        '_04_03_discounts',
+        '_22c1_yes_no_scholarship_awarded',
+        'scholarshipAwarded'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentAverageEnrollment_Main',
+        record,
+        '_01b_ratio_students_enrollment_average',
+        '_22c1_yes_no_scholarship_awarded',
+        'scholarshipAwarded'
+      );
+
+      // totalFinancialAssistance
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalFinancialAssistance_Peer',
+        record,
+        '_22d1_ratio_total_financial_assistance',
+        '_22d1_yes_no_total_financial_assistance'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'financialAidScholarships',
+        record,
+        '_04_04_financial_aid___scholarships',
+        '_22d1_yes_no_total_financial_assistance',
+        'totalFinancialAssistance'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentAverageEnrollment_Main',
+        record,
+        '_01b_ratio_students_enrollment_average',
+        '_22d1_yes_no_total_financial_assistance',
+        'totalFinancialAssistance'
+      );
+
+      // netTuition
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'netTuition_Peer',
+        record,
+        '_22e1_ratio_net_tuition',
+        '_22e1_yes_no_net_tuition'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'grossTuitionRevenuesExcludingFees',
+        record,
+        '_04_01_gross_tuition_revenues_excluding_fees',
+        '_22e1_yes_no_net_tuition',
+        'netTuition'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'financialAidScholarships',
+        record,
+        '_04_04_financial_aid___scholarships',
+        '_22e1_yes_no_net_tuition',
+        'netTuition'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentAverageEnrollment_Main',
+        record,
+        '_01b_ratio_students_enrollment_average',
+        '_22e1_yes_no_net_tuition',
+        'netTuition'
+      );
+
+      // feesPercentOfNetTuition
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'feesPercentOfNetTuition_Peer',
+        record,
+        '_23_ratio_fees_as_a_percent_of_net_tuition',
+        '_23_yes_no_fees_as_a_percent_of_net_tuition'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'fees',
+        record,
+        '_04_02_fees',
+        '_23_yes_no_fees_as_a_percent_of_net_tuition',
+        'feesPercentOfNetTuition'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'grossTuitionRevenuesExcludingFees',
+        record,
+        '_04_01_gross_tuition_revenues_excluding_fees',
+        '_23_yes_no_fees_as_a_percent_of_net_tuition',
+        'feesPercentOfNetTuition'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'financialAidScholarships',
+        record,
+        '_04_04_financial_aid___scholarships',
+        '_23_yes_no_fees_as_a_percent_of_net_tuition',
+        'feesPercentOfNetTuition'
+      );
+    });
+
+    const filteredClientRecords = [...recordsClient].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+      return fiscalYear.includes(year.toString());
+    });
+    filteredClientRecords.forEach((record) => {
+      // netIncomeRatio
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'netIncomeRatio_Client',
+        record,
+        '_16_ratio_net_income_ratio',
+        '_16_bench_rating_net_income_ratio'
+      );
+
+      // netIncomeRatioExcludingDepreciation
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'netIncomeRatioExcludingDepreciation_Client',
+        record,
+        '_17_ratio_net_income_ratio_excluding_depreciation',
+        '_17_bench_rating_net_income_ratio_excluding_depreciation'
+      );
+
+      // percentAverageTuitionIncreaseBetweenYears
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'percentAverageTuitionIncreaseBetweenYears_Client',
+        record,
+        '_18_ratio_percentage_of_average_tuition_increase_between_years',
+        '_18_bench_rating_percentage_of_average_tuition_increase_between_years'
+      );
+
+      // financialAssistanceAsPercentTuitionAndFees
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'financialAssistanceAsPercentTuitionAndFees_Client',
+        record,
+        '_19_ratio_financial_assistance_as_a___of_tuition_and_fees'
+      );
+
+      // tuitionAndFeesAsPercentTotalIncome
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'tuitionAndFeesAsPercentTotalIncome_Client',
+        record,
+        '_20_ratio_tuition_and_fees_as_a___of_total_income'
+      );
+
+      // contributionsAsAPercentOfTotalIncome
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'contributionsAsAPercentOfTotalIncome_Client',
+        record,
+        '_20_ratio_tuition_and_fees_as_a___of_total_income'
+      );
+
+      // grossTuition
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'grossTuition_Client',
+        record,
+        '_22a1_ratio_gross_tuition'
+      );
+
+      // grossTuition_Percent
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'grossTuition_Percent_Client',
+        record,
+        '_22a2_ratio___change'
+      );
+
+      // financialAssistanceDiscountBased
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'financialAssistanceDiscountBased_Client',
+        record,
+        '_22b1_ratio_financial_assistance_discount_based'
+      );
+
+      // financialAssistanceDiscountBased_Percent
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'financialAssistanceDiscountBased_Percent_Client',
+        record,
+        '_22b2_ratio___change'
+      );
+
+      // scholarshipAwarded
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'scholarshipAwarded_Client',
+        record,
+        '_22c1_ratio_scholarship_awarded'
+      );
+
+      // scholarshipAwarded_Percent
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'scholarshipAwarded_Percent_Client',
+        record,
+        '_22c2_ratio___change'
+      );
+
+      // totalFinancialAssistance
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'totalFinancialAssistance_Client',
+        record,
+        '_22d1_ratio_total_financial_assistance'
+      );
+
+      // totalFinancialAssistance_Percent
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'totalFinancialAssistance_Percent_Client',
+        record,
+        '_22d2_ratio___change'
+      );
+
+      // netTuition
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'netTuition_Client',
+        record,
+        '_22e1_ratio_net_tuition'
+      );
+
+      // netTuition_Percent
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'netTuition_Percent_Client',
+        record,
+        '_22e2_ratio___change'
+      );
+
+      // feesPercentOfNetTuition
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'feesPercentOfNetTuition_Client',
+        record,
+        '_23_ratio_fees_as_a_percent_of_net_tuition'
+      );
+    });
+  });
+
+  localStorage.removeItem('incomeData');
+  localStorage.setItem('incomeData', JSON.stringify(object));
+};
+
+const processDebtData = (years, recordsPeer, recordsClient) => {
+  const object = {};
+
+  years.forEach((year) => {
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredPeerRecords.forEach((record) => {
+      // debtToPropertyAndEquipment
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'debtToPropertyAndEquipment_Peer',
+        record,
+        '_11_ratio_debt_to_property_and_equipment',
+        '_11_yes_no_debt_to_property_and_equipment'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalDebt',
+        record,
+        '_03_11_total_debt',
+        '_11_yes_no_debt_to_property_and_equipment',
+        'debtToPropertyAndEquipment'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'landBuildingEquipmentNet',
+        record,
+        '_03_08_land__buildings_and_equipment__net',
+        '_11_yes_no_debt_to_property_and_equipment',
+        'debtToPropertyAndEquipment'
+      );
+
+      // currentRatio
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'currentRatio_Peer',
+        record,
+        '_12_ratio_current_ratio',
+        '_12_yes_no_current_ratio'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'currentAssets',
+        record,
+        '_03_01_current_assets',
+        '_12_yes_no_current_ratio',
+        'currentRatio'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'currentLiabilities',
+        record,
+        '_03_09_current_liabilities',
+        '_12_yes_no_current_ratio',
+        'currentRatio'
+      );
+
+      // currentLiabilitiesToAvailableNetAssets
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'currentLiabilitiesToAvailableNetAssets_Peer',
+        record,
+        '_13_ratio_current_liabilities_to_available_net_assets',
+        '_13_yes_no_current_liabilities_to_available_net_assets'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'currentLiabilities',
+        record,
+        '_03_09_current_liabilities',
+        '_13_yes_no_current_liabilities_to_available_net_assets',
+        'currentLiabilitiesToAvailableNetAssets'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalUnrestrictedNetAssets',
+        record,
+        '_03_12_total_unrestricted_net_assets',
+        '_13_yes_no_current_liabilities_to_available_net_assets',
+        'currentLiabilitiesToAvailableNetAssets'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'landBuildingEquipmentNet',
+        record,
+        '_03_08_land__buildings_and_equipment__net',
+        '_13_yes_no_current_liabilities_to_available_net_assets',
+        'currentLiabilitiesToAvailableNetAssets'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalDebt',
+        record,
+        '_03_11_total_debt',
+        '_13_yes_no_current_liabilities_to_available_net_assets',
+        'currentLiabilitiesToAvailableNetAssets'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'bodDesignatedForOperations',
+        record,
+        '_03_13_bod_designated_for_operations_',
+        '_13_yes_no_current_liabilities_to_available_net_assets',
+        'currentLiabilitiesToAvailableNetAssets'
+      );
+
+      // debtPerStudents
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'debtPerStudents_Peer',
+        record,
+        '_14_ratio_debt_per_students',
+        '_14_yes_no_debt_per_students'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalDebt',
+        record,
+        '_03_11_total_debt',
+        '_14_yes_no_debt_per_students',
+        'debtPerStudents'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentAverageEnrollment_Main',
+        record,
+        '_01_01_students_average_enrollment',
+        '_14_yes_no_debt_per_students',
+        'debtPerStudents'
+      );
+
+      // debtCoverage
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'debtCoverage_Peer',
+        record,
+        '_15_ratio_debt_coverage',
+        '_15_yes_no_debt_coverage'
+      );
+      // changeInUnrestrictedNetAssets
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'changeInUnrestrictedNetAssets',
+        record,
+        '_04_12_change_in_unrestricted_net_assets',
+        '_15_yes_no_debt_coverage',
+        'debtCoverage'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'currentYearInterestExpense',
+        record,
+        '_04_11_current_year_interest_expense',
+        '_15_yes_no_debt_coverage',
+        'debtCoverage'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalDepreciationExpense',
+        record,
+        '_04_09_total_depreciation_expense',
+        '_15_yes_no_debt_coverage',
+        'debtCoverage'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'capitalizedInterest',
+        record,
+        '_05_02_capitalized_interest',
+        '_15_yes_no_debt_coverage',
+        'debtCoverage'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'currentMaturingDebt',
+        record,
+        '_02_06_current_maturities_of_lt_debt',
+        '_15_yes_no_debt_coverage',
+        'debtCoverage'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'currentMaturingDebt',
+        record,
+        '_02_06_current_maturities_of_lt_debt',
+        '_15_yes_no_debt_coverage',
+        'debtCoverage'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'currentYearInterestExpense',
+        record,
+        '_04_11_current_year_interest_expense',
+        '_15_yes_no_debt_coverage',
+        'debtCoverage'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'capitalizedInterest',
+        record,
+        '_05_02_capitalized_interest',
+        '_15_yes_no_debt_coverage',
+        'debtCoverage'
+      );
+    });
+
+    const filteredClientRecords = [...recordsClient].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+      return fiscalYear.includes(year.toString());
+    });
+    filteredClientRecords.forEach((record) => {
+      // debtToPropertyAndEquipment
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'debtToPropertyAndEquipment_Client',
+        record,
+        '_11_ratio_debt_to_property_and_equipment'
+      );
+
+      // currentRatio
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'currentRatio_Client',
+        record,
+        '_12_ratio_current_ratio',
+        '_12_bench_rating_current_ratio'
+      );
+
+      // currentLiabilitiesToAvailableNetAssets
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'currentLiabilitiesToAvailableNetAssets_Client',
+        record,
+        '_13_ratio_current_liabilities_to_available_net_assets',
+        '_13_bench_rating_current_liabilities_to_available_net_assets'
+      );
+
+      // debtPerStudents
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'debtPerStudents_Client',
+        record,
+        '_14_ratio_debt_per_students'
+      );
+
+      // debtCoverage
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'debtCoverage_Client',
+        record,
+        '_15_ratio_debt_coverage'
+      );
+    });
+  });
+
+  localStorage.removeItem('debtData');
+  localStorage.setItem('debtData', JSON.stringify(object));
+};
+
+const processAssetdData = (years, recordsPeer, recordsClient) => {
+  const object = {};
+
+  years.forEach((year) => {
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredPeerRecords.forEach((record) => {
+      // propertyEquipmentPerStudent
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'propertyEquipmentPerStudent_Peer',
+        record,
+        '_08_ratio_property_and_equipment_per_student_excluding_land',
+        '_08_yes_no_property_and_equipment_per_student_excluding_land'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'landBuildingsEquipmentNet',
+        record,
+        '_03_08_land__buildings_and_equipment__net',
+        '_08_yes_no_property_and_equipment_per_student_excluding_land',
+        'propertyEquipmentPerStudent'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'landAndLandImprovements',
+        record,
+        '_03_07_land_and_land_improvements',
+        '_08_yes_no_property_and_equipment_per_student_excluding_land',
+        'propertyEquipmentPerStudent'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentAverageEnrollment_Main',
+        record,
+        '_01_01_students_average_enrollment',
+        '_08_yes_no_property_and_equipment_per_student_excluding_land',
+        'propertyEquipmentPerStudent'
+      );
+
+      // netTuitionARasPercentCurrentAssets
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'netTuitionARasPercentCurrentAssets_Peer',
+        record,
+        '_09_ratio_net_tuition_a_r_as_a___of_current_assets',
+        '_09_yes_no_net_tuition_a_r_as_a___of_current_assets'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentsAccountsReceivable',
+        record,
+        '_03_05_student_accounts_receivable',
+        '_09_yes_no_net_tuition_a_r_as_a___of_current_assets',
+        'netTuitionARasPercentCurrentAssets'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'currentAssets',
+        record,
+        '_03_01_current_assets',
+        '_09_yes_no_net_tuition_a_r_as_a___of_current_assets',
+        'netTuitionARasPercentCurrentAssets'
+      );
+
+      // receivableWriteOffsAsPercentNetTuitionAndFees
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'receivableWriteOffsAsPercentNetTuitionAndFees_Peer',
+        record,
+        '_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees',
+        '_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentAccountsReceivableWriteOffs',
+        record,
+        '_03_05_student_accounts_receivable',
+        '_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees',
+        'receivableWriteOffsAsPercentNetTuitionAndFees'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'grossTuitionRevenuesExcludingFees',
+        record,
+        '_04_01_gross_tuition_revenues_excluding_fees',
+        '_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees',
+        'receivableWriteOffsAsPercentNetTuitionAndFees'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'financialAidScholarships',
+        record,
+        '_04_04_financial_aid___scholarships',
+        '_10_yes_no_receivable_write_offs_as_a___of_net_tuition_and_fees',
+        'receivableWriteOffsAsPercentNetTuitionAndFees'
+      );
+    });
+
+    const filteredClientRecords = [...recordsClient].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+      return fiscalYear.includes(year.toString());
+    });
+    filteredClientRecords.forEach((record) => {
+      // propertyEquipmentPerStudent
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'propertyEquipmentPerStudent_Client',
+        record,
+        '_08_ratio_property_and_equipment_per_student_excluding_land'
+      );
+
+      // netTuitionARasPercentCurrentAssets
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'netTuitionARasPercentCurrentAssets_Client',
+        record,
+        '_09_ratio_net_tuition_a_r_as_a___of_current_assets'
+      );
+
+      // receivableWriteOffsAsPercentNetTuitionAndFees
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'receivableWriteOffsAsPercentNetTuitionAndFees_Client',
+        record,
+        '_10_ratio_receivable_write_offs_as_a___of_net_tuition_and_fees'
+      );
+
+      // receivableWriteOffsAsPercentNetTuitionAndFees_Percent
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'receivableWriteOffsAsPercentNetTuitionAndFees_Percent_Client',
+        record,
+        '_10a_ratio___change'
+      );
+    });
+  });
+
+  localStorage.removeItem('assetData');
+  localStorage.setItem('assetData', JSON.stringify(object));
+};
+
+const processCashData = (years, recordsPeer, recordsClient) => {
+  const object = {};
+
+  years.forEach((year) => {
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredPeerRecords.forEach((record) => {
+      // expendableReserves_inDays
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'expendableReserves_inDays_Peer',
+        record,
+        '_03_ratio_expendable_reserves___in_days',
+        '_03_yes_no_expendable_reserves___in_days'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'unrestrictedNetAssets',
+        record,
+        '_03_12_total_unrestricted_net_assets',
+        '_03_yes_no_expendable_reserves___in_days',
+        'expendableReserves_inDays'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'landBuildingsEquipmentNet',
+        record,
+        '_03_08_land__buildings_and_equipment__net',
+        '_03_yes_no_expendable_reserves___in_days',
+        'expendableReserves_inDays'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalDebt',
+        record,
+        '_03_11_total_debt',
+        '_03_yes_no_expendable_reserves___in_days',
+        'expendableReserves_inDays'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalDepreciationExpense',
+        record,
+        '_04_09_total_depreciation_expense',
+        '_03_yes_no_expendable_reserves___in_days',
+        'expendableReserves_inDays'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalExpense',
+        record,
+        '_04_08_total_expenses',
+        '_03_yes_no_expendable_reserves___in_days',
+        'expendableReserves_inDays'
+      );
+
+      // expaendableReserves_Percent
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'expendableReserves_Percent_Peer',
+        record,
+        '_04_ratio_expendable_reserves______of_total_cash_expenses',
+        '_04_yes_no_expendable_reserves______of_total_cash_expenses'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'unrestrictedNetAssets',
+        record,
+        '_03_12_total_unrestricted_net_assets',
+        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
+        'expendableReserves_Percent'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'landBuildingsEquipmentNet',
+        record,
+        '_03_08_land__buildings_and_equipment__net',
+        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
+        'expendableReserves_Percent'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalDebt',
+        record,
+        '_03_11_total_debt',
+        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
+        'expendableReserves_Percent'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalDepreciationExpense',
+        record,
+        '_04_09_total_depreciation_expense',
+        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
+        'expendableReserves_Percent'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalExpense',
+        record,
+        '_04_08_total_expenses',
+        '_04_yes_no_expendable_reserves______of_total_cash_expenses',
+        'expendableReserves_Percent'
+      );
+
+      // cashAvailableDeferred
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'cashAvailableDeferred_Peer',
+        record,
+        '_05_ratio_cash_available_to_deferred_revenues',
+        '_05_yes_no_cash_available_to_deferred_revenues'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalCash',
+        record,
+        '_03_02_total_cash',
+        '_05_yes_no_cash_available_to_deferred_revenues',
+        'cashAvailableDeferred'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'nonEndowmentInvestments',
+        record,
+        '_03_03_non_endowment_investments',
+        '_05_yes_no_cash_available_to_deferred_revenues',
+        'cashAvailableDeferred'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'deferredRevenue',
+        record,
+        '_03_10_deferred_revenue',
+        '_05_yes_no_cash_available_to_deferred_revenues',
+        'cashAvailableDeferred'
+      );
+
+      // liquidityRatio
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'liquidityRatio_Peer',
+        record,
+        '_06_ratio_liquidity_ratio',
+        '_06_yes_no_liquidity_ratio'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalCash',
+        record,
+        '_03_02_total_cash',
+        '_06_yes_no_liquidity_ratio',
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'currentLiabilities',
+        record,
+        '_03_09_current_liabilities',
+        '_06_yes_no_liquidity_ratio',
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'deferredRevenue',
+        record,
+        '_03_10_deferred_revenue',
+        '_06_yes_no_liquidity_ratio',
+        'liquidityRatio'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'nonEndowmentInvestments',
+        record,
+        '_03_03_non_endowment_investments',
+        '_06_yes_no_liquidity_ratio',
+        'liquidityRatio'
+      );
+
+      // netCashUsedOperating_asPerStatementCash
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'netCashUsedOperating_asPerStatementCash_Peer',
+        record,
+        '_07a_ratio_as_per_statement_of_cash_flows',
+        '_07a_yes_no_as_per_statement_of_cash_flows'
+      );
+
+      // netCashUsedOperating_depreciation
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'netCashUsedOperating_depreciation_Peer',
+        record,
+        '_07b_ratio_depreciation_expenses_on_3_7_year_assets',
+        '_07b_yes_no_depreciation_expenses_on_3_7_year_assets'
+      );
+
+      // netCashUsedOperating_overUnderBench
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'netCashUsedOperating_overUnderBench_Peer',
+        record,
+        '_07c_ratio_over_under_benchmark',
+        '_07c_yes_no_over_under_benchmark'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'cashFlowsOperatingActivities',
+        record,
+        '_05_01_cash_flows_from_operating_activities',
+        '_07c_yes_no_over_under_benchmark',
+        'netCashUsedOperating_overUnderBench'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'totalDepreciationExpense',
+        record,
+        '_04_09_total_depreciation_expense',
+        '_07c_yes_no_over_under_benchmark',
+        'netCashUsedOperating_overUnderBench'
+      );
+    });
+
+    const filteredClientRecords = [...recordsClient].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+      return fiscalYear.includes(year.toString());
+    });
+    filteredClientRecords.forEach((record) => {
+      // expendableReserves_inDays
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'expendableReserves_inDays_Client',
+        record,
+        '_03_ratio_expendable_reserves___in_days',
+        '_03_bench_rating_expendable_reserves___in_days'
+      );
+      // expendableReserves_Percent
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'expendableReserves_Percent_Client',
+        record,
+        '_04_ratio_expendable_reserves______of_total_cash_expenses',
+        '_04_benchmark_rating_expendable_reserves______of_total_cash_expenses'
+      );
+      // cashAvailableDeferred
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'cashAvailableDeferred_Client',
+        record,
+        '_05_ratio_cash_available_to_deferred_revenues'
+      );
+      // liquidityRatio
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'liquidityRatio_Client',
+        record,
+        '_06_ratio_liquidity_ratio',
+        '_06_bench_rating_liquidity_ratio'
+      );
+      // netCashUsedOperating_asPerStatementCash
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'netCashUsedOperating_asPerStatementCash_Client',
+        record,
+        '_07a_ratio_as_per_statement_of_cash_flows'
+      );
+      // netCashUsedOperating_depreciation
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'netCashUsedOperating_depreciation_Client',
+        record,
+        '_07b_ratio_depreciation_expenses_on_3_7_year_assets'
+      );
+      // netCashUsedOperating_overUnderBench
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'netCashUsedOperating_overUnderBench_Client',
+        record,
+        '_07c_ratio_over_under_benchmark',
+        '_07c_bench_rating_over_under_benchmark'
+      );
+    });
+  });
+
+  // console.log(object);
+  localStorage.removeItem('cashData');
+  localStorage.setItem('cashData', JSON.stringify(object));
+};
+
+const processEnrollmentData = (years, recordsPeer, recordsClient) => {
+  const object = {};
+
+  years.forEach((year) => {
+    const filteredPeerRecords = [...recordsPeer].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+
+      return fiscalYear.includes(year.toString());
+    });
+    filteredPeerRecords.forEach((record) => {
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentAverageEnrollment_Peer',
+        record,
+        '_01_ratio_students_enrollment',
+        '_01_yes_no_students_enrollment'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentAverageEnrollment_Peak_Peer',
+        record,
+        '_01c_ratio_students_enrollment_peak_enrolmment',
+        '_01c_yes_no_students_enrollment_peak_enrolmment'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentFacilityRatio_Peer',
+        record,
+        '_02_ratio_student_faculty_ratio',
+        '_02_yes_no_student_faculty_ratio'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'fullTimeTeachers_Peer',
+        record,
+        '_01_03_ft_teachers',
+        '_02_yes_no_student_faculty_ratio',
+        'studentFacilityRatio'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'partTimeTeachers_Peer',
+        record,
+        '_01_05_pt_teachers',
+        '_02_yes_no_student_faculty_ratio',
+        'studentFacilityRatio'
+      );
+      insertDataIntoObject(
+        'peer',
+        year,
+        object,
+        'studentAverageEnrollment_Main',
+        record,
+        '_01_01_students_average_enrollment',
+        '_02_yes_no_student_faculty_ratio',
+        'studentFacilityRatio'
+      );
+    });
+
+    const filteredClientRecords = [...recordsClient].filter((record) => {
+      const fiscalYear = record.querySelector(
+        'fiscal_ye_date_formatted_year'
+      ).textContent;
+      return fiscalYear.includes(year.toString());
+    });
+    filteredClientRecords.forEach((record) => {
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'studentAverageEnrollment_Client',
+        record,
+        '_01_ratio_students_enrollment'
+      );
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'studentAverageEnrollment_PercentChange_Client',
+        record,
+        '_01a_ratio_students_enrollment___change'
+      );
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'studentAverageEnrollment_Average_Client',
+        record,
+        '_01b_ratio_students_enrollment_average'
+      );
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'studentAverageEnrollment_Peak_Client',
+        record,
+        '_01c_ratio_students_enrollment_peak_enrolmment'
+      );
+      insertDataIntoObject(
+        'client',
+        year,
+        object,
+        'studentFacilityRatio_Client',
+        record,
+        '_02_ratio_student_faculty_ratio'
+      );
+    });
+  });
+
+  localStorage.removeItem('enrollmentData');
+  localStorage.setItem('enrollmentData', JSON.stringify(object));
+};
+
+const addColumnsToOtherRows = (idName, year) => {
+  const rows = document.querySelectorAll(`#${idName} + tbody tr`);
+
+  rows.forEach((row) => {
+    const tdElement = document.createElement('td');
+    // You can customize the content of the new columns as needed
+    tdElement.textContent = 'New Data'; // Change this line accordingly
+    row.appendChild(tdElement);
+  });
+};
+
+const runApiMain = () => {
+  const run_btn = document.querySelector('#run');
+
+  run_btn.addEventListener('click', () => {
+    try {
+      const selectedYears = getSelectedYearsFromLocalStorage();
+
+      // After processing, save selectedYears_Set to localStorage
+      const selectedYearsArray = Array.from(selectedYears_Set).sort(
+        (a, b) => a - b
+      );
+      localStorage.setItem('selectedYears', JSON.stringify(selectedYearsArray));
+
+      processEnrollmentData(selectedYears, recordsPeer, recordsClient);
+      processCashData(selectedYears, recordsPeer, recordsClient);
+      processAssetdData(selectedYears, recordsPeer, recordsClient);
+      processDebtData(selectedYears, recordsPeer, recordsClient);
+      processIncomeData(selectedYears, recordsPeer, recordsClient);
+      processExpenseData(selectedYears, recordsPeer, recordsClient);
+
+      displayEnrollmentComponent();
+      displayCashComponent();
+      displayAssetComponent();
+      displayDebtComponent();
+      displayIncomeComponent();
+      displayExpenseComponent();
+      displayReportComponent();
+    } catch (err) {
+      console.error(err);
+    }
+  });
+};

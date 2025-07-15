@@ -1,0 +1,1618 @@
+<html>
+<head>
+	<title>CFHI - Report Card (Comprehensive)</title>
+	<script src='https://cdn.plot.ly/plotly-2.9.0.min.js'></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+ 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+ 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+	<link rel='stylesheet' href="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=52">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" integrity="sha512-z8IYLHO8bTgFqj+yrPyIJnzBDf7DDhWwiEsk4sY+Oe6J2M+WQequeGS7qioI5vT6rXgVRb4K1UVQC5ER7MKzKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" integrity="sha512-V/C9Axb8EEL4ix79ERIJmpRd6Mp1rWVSxa2PIBCdCxqhEsfCBWp/R0xJ4U495czhcuDWrGOFYo8+QI3lJ9DK5g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+	<script>
+	
+$(function(){
+  			$("#header").load("https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=51"); 
+  			$("#footer").load("https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=54"); 
+		});
+
+		//retrieve URL ID for record
+				function getQueryVariable(variable) {  
+					var query = window.location.search.substring(1);
+ 					var vars = query.split("&");
+					for (var i=0;i<vars.length;i++) {
+						var pair = vars[i].split("=");
+						if(pair[0] == variable){return pair[1];}
+					}
+					return(false);
+				}
+				let varClient = getQueryVariable("clientrid");	
+				var varYear = getQueryVariable("year");
+
+
+	
+
+		// Variable Fields
+			const green = '#6EAB6E'	
+			const blue = '#326eaa'
+			const yellow = '#E8D166'
+			const red = '#E68F96'
+			const orange = '#CD5A2c'
+			const teal = '#00808d'
+
+
+
+
+
+	</script> 
+
+</head>
+
+<body>
+	<div id="header"></div>
+    <div id='main'>
+	<h1 id="IdClientName"></h1>
+	<h2 style="text-align: center"><div id="IdSelectedYearDisplay"></div> </h2>
+	<form align="center">
+				<div class='div-multi-select' id='div-254' onchange='pullClientData(sel254.value, varClient, sel254.selectedIndex)'>Select Year to Display: &nbsp; &nbsp; <select id="sel254"><option></option></select></div>
+				<!--<button class='generate' type='button' onclick="generatePDF()">Generate PDF</button>-->
+	</form>
+	
+	
+	<table align="center" width="70%" >
+		<tr>
+			<td colspan="3" >This Report Card provides a graphical dashboard of your data versus the key ratios in the Church Financial Health Index. Additionally, a textual analysis is provided for your specific circumstance. This analysis will provide insights into the key ratios and how you can improve your current position. Throughout the report, the following definitions will provide you with where you rank:</td>
+		</tr>
+		<tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+		<tr>
+			
+			<td > <button id='goodBkg' class="button" style = "display:inline-block; padding:10px 100px;font-size: 18px; text-align: center; color: #000;  border-radius: 15px; border: none;">Good</button></td>
+			<td width="2%">&nbsp;</td>
+			<td >Within or above the CapinCrouse benchmark range.</td>
+		</tr>
+        <tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+		<tr>
+			
+			<td ><button id='warningBkg' class="button" style = "display:inline-block; padding:10px 85px;font-size: 18px; text-align: center; color: #000;  border-radius: 15px; border: none;">Warning</button></td>
+			<td width="2%">&nbsp;</td>
+			<td>Borderline to just outside of the CapinCrouse benchmark range. This metric should be reviewed and monitored with the goal of moving into the benchmark range.</td>
+		</tr>
+		<tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+		<tr>
+		
+			<td ><button id='badBkg' class="button" style = "display:inline-block; padding:10px 52px;font-size: 18px; text-align: center; color: #000;  border-radius: 15px; border: none;">Action&nbsp;Required</button></td>
+			<td width="2%">&nbsp;</td>
+			<td>Outside of the CapinCrouse benchmark range. Immediate action is required to improve this metric.</td>
+		</tr>
+        <tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center">
+			<img src="https://capincrouse.quickbase.com/up/btbhaivmc/a/r278/e6/v0" width="25px">&nbsp;&nbsp;Amount increased from Prior Year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://capincrouse.quickbase.com/up/btbhaivmc/a/r277/e6/v0" width="25px">&nbsp;&nbsp;Amount decreased from Prior Year&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+	</table>
+	<br />
+	<table align="center" width="95%" id='data-table'  class="table" style="margin-left:50px;margin-right:50px;">
+  		<thead>
+    			<tr>
+      				<th width="20%" scope="col" style="vertical-align: middle;text-align:center;">Key Performance Indicator</th>
+      				<th width="10%" scope="col" style="vertical-align: middle;text-align:center;">Value</th>
+      				<th width="10%" scope="col" style="vertical-align: middle;text-align:center;">Ranking</th>
+      				<th width="20%" scope="col" style="vertical-align: middle;text-align:center;">Gauge</th>
+				<th width="30%" scope="col" style="vertical-align: middle;text-align:center;">Analysis</th>
+				<th width="10%" scope="col" style="vertical-align: middle;text-align:center;">&nbsp;</th>
+    			</tr>
+  		</thead>
+	 	<tbody>
+    			<tr>
+      				<td scope="row" style="vertical-align: middle;">#1 Days of Expendable Net Asset Reserves</th>
+      				<td id='IdCompre01Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre01BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre01Gauge' ><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre01BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#2 Days Operating Cash and Investments on Hand to Fund Annual Cash Expenditures (Excluding Depreciation but Including Current Debt Principal)</th>
+      				<td id='IdCompre02Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre02BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre02Gauge' ><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre02BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#3 Available Days of Cash Flow Coverage</th>
+      				<td id='IdCompre03Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre03BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre03Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre03BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#4 Liquidity Ratio</th>
+      				<td id='IdCompre04Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre04BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre04Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre04BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#5 Net Cash Availability</th>
+      				<td id='IdCompre05Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre05BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre05Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre05BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#6 Debt to Contributions Without Donor Restrictions</th>
+      				<td id='IdCompre06Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre06BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre06Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre06BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#7 Current Ratio</th>
+      				<td id='IdCompre07Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre07BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre07Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre07BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#8 Mandatory Debt Service to Contributions Without Donor Restrictions</th>
+      				<td id='IdCompre08Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre08BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre08Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre08BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#9a Debt per Average Adult Attendee </th>
+      				<td id='IdCompre09aRatio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre09aBenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre09aGauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre09aBenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#9d Debt per Giving Unit</th>
+      				<td id='IdCompre09dRatio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre09dBenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre09dGauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre09dBenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#10 Debt Coverage</th>
+      				<td id='IdCompre10Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre10BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre10Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre10BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;" >#11: Net Income Ratio</th>
+      				<td id='IdCompre11Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre11BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre11Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre11BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#13: Total Contributions per Average Adult Attendee (Excluding Accrual Pledges and Large One-time Gifts)</th>
+      				<td id='IdCompre13aRatio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre13aBenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre13aGauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre13aBenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#14: Median Household Income Given to Church</th>
+      				<td id='IdCompre14Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre14BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td  align="center"><div id='IdCompre14Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre14BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#17b: Internal Employees Only (Salaries & Benefits) </th>
+      				<td id='IdCompre171Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre171BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre171Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre171BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#17a:Internal and Outsourced Employees (Salaries & Benefits)</th>
+      				<td id='IdCompre173Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre173BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre173Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre173BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#17c: Mandatory Debt Service Payments, including Interest</th>
+      				<td id='IdCompre172Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre172BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre172Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre172BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#18: Total Missions Categories to Total Cash Expenditures (Excluding Depreciation Expense but Including Debt Principal)</th>
+      				<td id='IdCompre183Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre183BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre183Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre183BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#13 vs 19: Total Contributions per Average Adult Attendees  Less Total Cash Expenditures
+(Excluding Depreciation but Including Current Debt Principal) per Average Adult Attendee</th>
+      				<td id='IdCompre1319aRatio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre1319aBenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre1319aGauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre1319aBenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#13 vs 19: Total Contributions per Giving Units Less Total Cash Expenditures
+(Excluding Depreciation but Including Current Debt Principal) per Giving Unit</th>
+      				<td id='IdCompre1319bRatio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre1319bBenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre1319bGauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre1319bBenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#22: Facilities Expenses as a percent of Total Cash Expenditures (Excluding Depreciation but Including
+Current Debt Principal)</th>
+      				<td id='IdCompre22Ratio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre22BenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre22Gauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre22BenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+      				<td scope="row" style="vertical-align: middle;">#23: Attendees to Staff</th>
+      				<td id='IdCompre00aRatio' style="vertical-align: middle;text-align:center;"></td>
+      				<td id='IdCompre00aBenchmarkWord' style="vertical-align: middle;text-align:center;"></span></td>
+      				<td align="center"><div id='IdCompre00aGauge'><!-- Plotly chart will be drawn inside this DIV --></div>
+				<td id='IdCompre00aBenchmarkDesc'></td>
+				<td>&nbsp;</td>
+    			</tr>
+			<tr>
+				
+      				<td colspan = "3" >Allocation of Cash Expenditures<br /><div id='IdPieExpenses'><!-- Plotly chart will be drawn inside this DIV --></div></td>
+				<td >&nbsp;</td>
+      				<td colspan = "2" >Percent of Cash Expenditures (excluding depreciation but including debt principal<br /><div id='myDivTest'><!-- Plotly chart will be drawn inside this DIV --></div></td>
+      				
+    			</tr>
+			
+  		</tbody>
+	</table>
+
+
+	<div id="footer"></div>
+
+    </div>
+
+
+
+
+
+
+
+
+	<script>
+
+		pullClientData(varYear, varClient,0);
+		
+
+
+        function  nextSteps(currentYear, previousYear, compre01Ratio,  compre01RatioPY, compre01Good, compre01Average, compre02RatioPY, compre02Ratio, compre02Good, compre02Average, compre03Ratio, compre03RatioPY, compre03Good, compre03Average, compre04Ratio, compre04RatioPY, compre04Good, compre04Average, compre05Ratio, compre05RatioPY, compre05Good, compre06Ratio, compre06RatioPY, compre06Good, compre06Average, compre07Ratio, compre07RatioPY, compre07Good, compre07Average, compre08Ratio, compre08RatioPY, compre08Good, compre08Average, compre09aRatio, compre09aRatioPY, compre09aGood, compre09aAverage, compre09dRatio, compre09dRatioPY, compre09dGood, compre09dAverage, compre10Ratio, compre10RatioPY, compre10Good, compre10Average, compre11Ratio, compre11RatioPY, compre11BenchmarkWord, compre13aRatio, compre13aRatioPY, compre13aGood, compre13aAverage, compre14Ratio, compre14RatioPY, compre14Good, compre14Average,compre173Ratio, compre173RatioPY, compre173Tier1, compre173Tier2, compre173Tier3, compre173Tier4, compre171Ratio, compre171RatioPY, compre171Tier1, compre171Tier2, compre171Tier3, compre171Tier4, compre172Ratio, compre172RatioPY, compre172Good, compre172Average, compre183Ratio, compre183RatioPY, compre183Tier1, compre183Tier2, compre183Tier3, compre13v19AdultExpenseRatio, compre13v19AdultContributionRatio, compre13v19GUExpenseRatio, compre13v19GUContributionRatio, compre22Ratio, compre22RatioPY, compre22Good, compre22Average, compre00aRatio, compre00aRatioPY, compre00aTier1, compre00aTier2, compre00aTier3, pieFacilities, pieIT, pieMissions, pieOutsourced, piePersonnel, pieDebt, pieOther) {		
+
+//GAUGE 01 - Days of Expendable Net Assets Reserves
+		const DaysofExpendableChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre01Ratio,
+    			delta: {reference: compre01RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 60], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre01Average], color: red },
+        				{ range: [compre01Average, compre01Good], color: yellow },
+					{ range: [compre01Good,60], color: green}
+      				]}   			
+  		}]
+		const layout = {
+  			width: 300, height: 180,
+  			margin: { t: 10, r: 35, l: 25, b: 10 },
+			paper_bgcolor: "#fafafa",
+		};
+		Plotly.newPlot('IdCompre01Gauge', DaysofExpendableChart, layout);
+			
+	
+		//GAUGE 02 - Days Operating Cash and Investments on Hand to Fund Annual Cash Expenditures
+		const DaysOpCashChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre02Ratio,
+    			delta: {reference: compre02RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 80], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre02Average], color: red },
+        				{ range: [compre02Average, compre02Good], color: yellow },
+					{ range: [compre02Good,80], color: green}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre02Gauge', DaysOpCashChart, layout);
+
+		//GAUGE 03 - Available Days of CashFlow Coverage
+		const AvailableDaysCashChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre03Ratio,
+    			delta: {reference: compre03RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 180], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre03Average], color: red },
+        				{ range: [compre03Average, compre03Good], color: yellow },
+					{ range: [compre03Good,180], color: green}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre03Gauge', AvailableDaysCashChart, layout);
+
+		//GAUGE 04 - Liquidity Ratios
+		const LiquidityRatioChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre04Ratio,
+    			delta: {reference: compre04RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 10], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre04Average], color: red },
+        				{ range: [compre04Average, compre03Good], color: yellow },
+					{ range: [compre04Good,10], color: green}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre04Gauge', LiquidityRatioChart, layout);
+
+		//GAUGE 05 - NetCash Availability
+		const NetCashChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre05Ratio,
+    			delta: {reference: compre05RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [-1000000, 5000000], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [-1000000, 0], color: red },
+        				{ range: [0, compre05Good], color: yellow },
+					{ range: [compre05Good,5000000], color: green}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre05Gauge', NetCashChart, layout);
+
+	//GAUGE 06- Debt to Contributions
+		const DebtContributions =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre06Ratio,
+    			delta: {reference: compre06RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 6], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre06Good], color: green },
+        				{ range: [compre06Good, compre06Average], color: yellow },
+					{ range: [compre06Average,6], color: red}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre06Gauge', DebtContributions , layout);
+
+	//GAUGE 07 - Current Ratio
+		const CurrentRatioChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre07Ratio,
+    			delta: {reference: compre07RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 5], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre07Average], color: red },
+        				{ range: [compre07Average, compre06Good], color: yellow },
+					{ range: [compre07Good,5], color: green}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre07Gauge', CurrentRatioChart, layout);
+
+	//GAUGE 08 - Mandatory Debt Services to Contribution 
+			const MandDebtServiceChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre08Ratio,
+			number: { suffix: "%" },
+    			delta: {reference: compre08RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 50], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre08Good], color: green },
+        				{ range: [compre08Good, compre08Average], color: yellow },
+					{ range: [compre08Average,50], color: red}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre08Gauge', MandDebtServiceChart, layout);
+
+		//GAUGE 09a - Debt per average adult attendee
+			const DebtperAdultAttendeeChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre09aRatio,
+    			delta: {reference: compre09aRatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0,compre09aAverage + 10000], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre09aGood], color: green },
+        				{ range: [compre09aGood, compre09aAverage], color: yellow },
+					{ range: [compre09aAverage,compre09aAverage + 10000], color: red}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre09aGauge', DebtperAdultAttendeeChart, layout);
+
+	//GAUGE 09d - Debt per giving unit
+			const DebtperGUChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre09dRatio,
+    			delta: {reference: compre09dRatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, compre09dAverage + 10000], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre09dGood], color: green },
+        				{ range: [compre09dGood, compre09dAverage], color: yellow },
+					{ range: [compre09dAverage,compre09dAverage + 10000], color: red}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre09dGauge', DebtperGUChart, layout);
+
+	//GAUGE 10 Debt Coverage
+			const DebtCoverageChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre10Ratio,
+    			delta: {reference: compre10RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 2], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre10Average], color: red},
+        				{ range: [compre10Average, compre10Good], color: yellow },
+					{ range: [compre10Good,2], color: green}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre10Gauge', DebtCoverageChart, layout);
+
+
+//gauge 11
+
+ compre11Ratio= compre11Ratio * 100;
+compre11RatioPY = compre11RatioPY * 100;
+
+var NetIncomeRatio = [
+  {
+    type: "indicator",
+    mode: "number+delta",
+    value: compre11Ratio,
+   number: { suffix: "%" , "font":{"size":55}},
+    delta: { position: "top", reference: compre11RatioPY, increasing: { color: green },decreasing: { color: red }},
+    domain: { x: [0, 1], y: [0, 1] }
+  }
+];
+
+var layoutNetIncome = {
+ 
+  width: 300,
+  height: 180,
+  margin: { t: 0, b: 0, l: 0, r: 0 },
+paper_bgcolor: "#fafafa",
+};
+
+Plotly.newPlot('IdCompre11Gauge', NetIncomeRatio , layoutNetIncome);
+
+
+
+
+
+			//GAUGE 13 Total Contributions per Adult
+			const TotalContribAdultChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre13aRatio,
+    			delta: {reference: compre13aRatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 5000], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre13aAverage], color: red},
+        				{ range: [compre13aAverage, compre13aGood], color: yellow },
+					{ range: [compre13aGood,5000], color: green}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre13aGauge', TotalContribAdultChart, layout);
+
+	//GAUGE 14 Median Household Income
+			
+			const HouseholdIncomeChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre14Ratio,
+			number: { suffix: "%" },
+    			delta: {reference: compre14RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 10], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre14Average], color: red},
+        				{ range: [compre14Average, compre14Good], color: yellow },
+					{ range: [compre14Good,10], color: green}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre14Gauge', HouseholdIncomeChart, layout);
+
+
+	//GAUGE 17a Personnel and Mandatory
+			
+			const PersonandMandChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre173Ratio,
+			number: { suffix: "%" },
+    			delta: {reference: compre173RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 100], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre173Tier1], color: red},
+        				{ range: [compre173Tier1, compre173Tier2], color: yellow },
+					{ range: [compre173Tier2, compre173Tier3], color: green},
+					{ range: [compre173Tier3, compre173Tier4], color: yellow },
+					{ range: [compre173Tier4, 100], color: red },
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre173Gauge', PersonandMandChart, layout);
+
+
+		//GAUGE 17b Personnel 
+			
+			const PersonChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre171Ratio,
+			number: { suffix: "%" },
+    			delta: {reference: compre171RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 100], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre171Tier1], color: red},
+        				{ range: [compre171Tier1, compre171Tier2], color: yellow },
+					{ range: [compre171Tier2, compre171Tier3], color: green},
+					{ range: [compre171Tier3, compre171Tier4], color: yellow },
+					{ range: [compre171Tier4, 100], color: red },
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre171Gauge', PersonChart, layout);
+
+
+		//GAUGE 17c- Mand
+		const MandChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre172Ratio,
+			number: { suffix: "%" },
+    			delta: {reference: compre172RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 100], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre172Good], color: green },
+        				{ range: [compre172Good, compre172Average], color: yellow },
+					{ range: [compre172Average,100], color: red}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre172Gauge', MandChart , layout);
+
+		//GAUGE 18c - Total Mission to Total Cash Expenses
+		const Mission2Cash =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre183Ratio,
+			number: { suffix: "%" },
+    			delta: {reference: compre183RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 50], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+  					{ range: [0, compre183Tier1], color: red },
+					{ range: [compre183Tier1, compre183Tier2], color: yellow },
+					{ range: [compre183Tier2, compre183Tier3], color: green},
+					{ range: [compre183Tier3, 50], color: yellow},
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre183Gauge', Mission2Cash, layout);
+
+
+
+		//GAUCE 13v19 ATTENDEES
+		//compre13v19AdultExpenseRatio, compre13v19AdultContributionRatio
+		var compre13v19AdultExpenseContributionDifference = compre13v19AdultContributionRatio - compre13v19AdultExpenseRatio;
+
+
+
+	if ( compre13v19AdultExpenseContributionDifference >= 0) {
+
+		var trace1 = {
+  		x: ['expenses/attendee', 'contribution/attendee'],
+  		y: [compre13v19AdultExpenseRatio, compre13v19AdultExpenseRatio],
+  		type: 'bar',
+  		text: [compre13v19AdultExpenseRatio, compre13v19AdultExpenseRatio].map(String),
+  		marker: {
+   			color: 'rgba(67,80,90,0.7)',
+    			line: {
+     				 color: 'rgba(67,80,90,1.0)',
+      				width: 2
+     			}
+   		}
+		};
+	
+		var trace2 = {
+  			x: ['expenses/attendee', 'contribution/attendee'],
+  			y: [0, compre13v19AdultExpenseContributionDifference],
+ 			type: 'bar',
+  			text: [0,compre13v19AdultExpenseContributionDifference].map(String),
+  			marker: {
+    				color: 'rgb(110,171,110)',
+   			 	line: {
+      					color: 'rgb(110,171,110)',
+      					width: 2
+      				}
+ 			}		
+		};
+	} else {
+	
+		var trace1 = {
+  		x: ['expenses/attendee', 'contribution/attendee'],
+  		y: [compre13v19AdultContributionRatio, compre13v19AdultContributionRatio],
+  		type: 'bar',
+  		text: [compre13v19AdultContributionRatio, compre13v19AdultContributionRatio].map(String),
+  		marker: {
+   			color: 'rgba(67,80,90,0.7)',
+    			line: {
+     				 color: 'rgba(67,80,90,1.0)',
+      				width: 2
+     			}
+   		}
+	};
+		compre13v19AdultExpenseContributionDifference = Math.abs(compre13v19AdultExpenseContributionDifference);
+		var trace2 = {
+  			x: ['expenses/attendee', 'contribution/attendee'],
+  			y: [compre13v19AdultExpenseContributionDifference, 0],
+ 			type: 'bar',
+  			text: [compre13v19AdultExpenseContributionDifference, 0].map(String),
+  			marker: {
+    				color: 'rgb(230,143,150)',
+   			 	line: {
+      				color: 'rgb(230,143,150)',
+      					width: 2
+      				}
+ 			}		
+		};	
+
+	} //end if and else
+
+	const ExpContrperAttendee = [trace1, trace2];
+
+	const layoutBar = {
+					barmode: 'stack', 
+					showlegend: false,
+					width: 400, height: 500,
+  					margin: { t: 10, r: 25, l: 50, b: 25 },
+					paper_bgcolor: "#fafafa",
+					plot_bgcolor: "#fafafa",
+					};
+
+	Plotly.newPlot('IdCompre1319aGauge', ExpContrperAttendee, layoutBar);
+
+
+
+
+//GAUCE 13v19 GIVING UNITS
+		var compre13v19GUExpenseContributionDifference = compre13v19GUContributionRatio - compre13v19GUExpenseRatio;
+
+	
+	if ( compre13v19GUExpenseContributionDifference >= 0) {
+	var trace1 = {
+  		x: ['expenses/giving unit', 'contribution/giving unit'],
+  		y: [compre13v19GUExpenseRatio, compre13v19GUExpenseRatio],
+  		type: 'bar',
+  		text: [compre13v19GUExpenseRatio, compre13v19GUExpenseRatio].map(String),
+  		marker: {
+   			color: 'rgba(67,80,90,0.7)',
+    			line: {
+     				 color: 'rgba(67,80,90,1.0)',
+      				width: 2
+     			}
+   		}
+		};
+
+		var trace2 = {
+  			x: ['expenses/giving unit', 'contribution/giving unit'],
+  			y: [0, compre13v19GUExpenseContributionDifference],
+ 			type: 'bar',
+  			text: [0,compre13v19GUExpenseContributionDifference].map(String),
+  			marker: {
+    				color: 'rgb(110,171,110)',
+   			 	line: {
+      					color: 'rgb(110,171,110)',
+      					width: 2
+      				}
+ 			}		
+		};
+	} else {
+	
+		var trace1 = {
+  		x: ['expenses/giving unit', 'contribution/giving unit'],
+  		y: [compre13v19GUContributionRatio, compre13v19GUContributionRatio],
+  		type: 'bar',
+  		text: [compre13v19GUContributionRatio, compre13v19GUContributionRatio].map(String),
+  		marker: {
+   			color: 'rgba(67,80,90,0.7)',
+    			line: {
+     				 color: 'rgba(67,80,90,1.0)',
+      				width: 2
+     			}
+   		}
+	};
+		compre13v19GUExpenseContributionDifference = Math.abs(compre13v19GUExpenseContributionDifference);
+		var trace2 = {
+  			x: ['expenses/giving unit', 'contribution/giving unit'],
+  			y: [compre13v19GUExpenseContributionDifference, 0],
+ 			type: 'bar',
+  			text: [compre13v19GUExpenseContributionDifference, 0].map(String),
+  			marker: {
+    				color: 'rgb(255,0,0)',
+   			 	line: {
+      					color: 'rgb(255,0,0)',
+      					width: 2
+      				}
+ 			}		
+		};
+
+} //end if and else
+
+	const ExpContrperGU = [trace1, trace2];
+
+
+	Plotly.newPlot('IdCompre1319bGauge', ExpContrperGU, layoutBar);
+
+
+
+	//GAUGE 22- Facilities Expenses of Total Cash
+		const FacilitiesExpChart =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre22Ratio,
+			number: { suffix: "%" },
+    			delta: {reference: compre22RatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 50], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre22Good], color: green },
+        				{ range: [compre22Good, compre22Average], color: yellow },
+					{ range: [compre22Average,50], color: red}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre22Gauge', FacilitiesExpChart , layout);
+
+
+
+	//GAUGE 23 (00a)- Attendees to Staff
+		const AttendeesStaff =  [{
+    			type: "indicator",
+    			mode: "gauge+number+delta",
+    			value: compre00aRatio,
+    			delta: {reference: compre00aRatioPY, increasing: { color: green },decreasing: { color: red }},
+    			gauge: {
+      				axis: { range: [0, 150], tickwidth: 1, tickcolor: "darkblue" },
+      				bar: { color: "black", thickness: 0.15 },
+      				bgcolor: "white",
+      				borderwidth: 2,
+      				bordercolor: "gray",
+      				steps: [
+        				{ range: [0, compre00aTier1], color: red },
+					{ range: [compre00aTier1, compre00aTier2], color: yellow },
+					{ range: [compre00aTier2, compre00aTier3], color: green },
+					{ range: [compre00aTier3, 150], color: yellow}
+      				]}   			
+  		}]	
+		Plotly.newPlot('IdCompre00aGauge', AttendeesStaff, layout);
+
+	//PIE CHART EXPENSES
+		
+		var ExpensesPieChart = [{
+  			type: "pie",
+  			values: [pieFacilities, pieIT, pieMissions,  pieOutsourced, piePersonnel,   pieOther, pieDebt],
+  			labels: ["Facilities", "IT", "Missions", "Outsourced Personnel", "Internal Personnel", "Other", "Debt Service"],
+  			textinfo: "label+percent",
+ 		 	insidetextorientation: "radial",
+			textposition: "outside",
+			showlegend : false,
+			  automargin: true
+		}]
+
+		var layoutPie = {
+  			height: 530,
+  			width: 700,
+			paper_bgcolor: "#fafafa",
+		}
+
+
+		Plotly.newPlot('IdPieExpenses', ExpensesPieChart, layoutPie)
+
+
+	//new expense chart
+var LinearGauges = [
+  {
+    type: "indicator",
+    mode: "number+gauge+delta",
+    value: compre171Ratio,
+    number: { suffix: "%" },
+    delta: { reference: compre171RatioPY, increasing: { color: green },decreasing: { color: red }},
+	domain: { x: [0.25, 1], y: [0.80, 0.95] },
+    title: { text: "#17 Internal Employees<br /> (salaries and benefits)", font: {size: 12} }, 
+    gauge: {
+      shape: "bullet",
+      axis: { range: [null, 100] },
+      threshold: {
+        line: { color: "black", width: 2 },
+        thickness: 0.75,
+        value: 170
+      },
+      steps: [
+        { range: [0, compre171Tier1], color: red},
+        { range: [compre171Tier1, compre171Tier2], color: yellow },
+	{ range: [compre171Tier2, compre171Tier3], color: green},
+	{ range: [compre171Tier3, compre171Tier4], color: yellow },
+	{ range: [compre171Tier4, 100], color: red },
+      ],
+      bar: { color: "black" }
+    }
+  },
+ {
+    type: "indicator",
+    mode: "number+gauge+delta",
+    value: compre173Ratio,
+    number: { suffix: "%" },
+    delta: { reference: compre173RatioPY, increasing: { color: green },decreasing: { color: red }},
+    domain: { x: [0.25, 1], y: [0.60, 0.75] },
+    title: { text: "#17a Internal & <br />Outsourced Employees", font: {size: 12} }, 
+    gauge: {
+      shape: "bullet",
+      axis: { range: [null, 100] },
+      threshold: {
+        line: { color: "black", width: 2 },
+        thickness: 0.75,
+        value: 170
+      },
+      steps: [
+        { range: [0, compre173Tier1], color: red},
+        				{ range: [compre173Tier1, compre173Tier2], color: yellow },
+					{ range: [compre173Tier2, compre173Tier3], color: green},
+					{ range: [compre173Tier3, compre173Tier4], color: yellow },
+					{ range: [compre173Tier4, 100], color: red },
+      ],
+      bar: { color: "black" }
+    }
+  }, 
+  {
+    type: "indicator",
+    mode: "number+gauge+delta",
+    value: compre172Ratio,
+    number: { suffix: "%" },
+    delta: { reference: compre172RatioPY, increasing: { color: green },decreasing: { color: red }},
+  domain: { x: [0.25, 1], y: [0.40, 0.55] },
+    title: { text: "#17 Mandatory Debt Service" , font: {size: 12} },
+    gauge: {
+      shape: "bullet",
+      axis: { range: [null, 100] },
+      threshold: {
+        line: { color: "black", width: 2 },
+        thickness: 0.75,
+        value: 170
+      },
+      steps: [
+        { range: [0, compre172Good], color: green},
+        { range: [compre172Good, compre172Average], color: yellow },
+        { range: [compre172Average,100], color: red}
+      ],
+      bar: { color: "black" }
+    }
+  },
+ 
+  {
+    type: "indicator",
+    mode: "number+gauge+delta",
+    value: compre183Ratio,
+    number: { suffix: "%" },
+    delta: { reference: compre183RatioPY, increasing: { color: green },decreasing: { color: red }},
+  domain: { x: [0.25, 1], y: [0.20, 0.35] },
+    title: { text: "#18 Missions" , font: {size: 12} },
+    gauge: {
+      shape: "bullet",
+      axis: { range: [null, 100] },
+      threshold: {
+        line: { color: "black", width: 2 },
+        thickness: 0.75,
+        value: 170
+      },
+      steps: [
+     					{ range: [0, compre183Tier1], color: red },
+					{ range: [compre183Tier1, compre183Tier2], color: yellow },
+					{ range: [compre183Tier2, compre183Tier3], color: green},
+					{ range: [compre183Tier3, 100], color: yellow}
+      ],
+      bar: { color: "black" }
+    }
+  },
+ {
+    type: "indicator",
+    mode: "number+gauge+delta",
+    value: compre22Ratio,
+    number: { suffix: "%" },
+    delta: { reference: compre22RatioPY, increasing: { color: green },decreasing: { color: red }},
+   domain: { x: [0.25, 1], y: [0.00, 0.15] },
+    title: { text: "#22 Faciliaties" , font: {size: 12} },
+    gauge: {
+      shape: "bullet",
+      axis: { range: [null, 100] },
+      threshold: {
+        line: { color: "black", width: 2 },
+        thickness: 0.75,
+        value: 170
+      },
+      steps: [
+     				{ range: [0, compre22Good], color: green },
+        				{ range: [compre22Good, compre22Average], color: yellow },
+					{ range: [compre22Average,100], color: red}
+      ],
+      bar: { color: "black" }
+    }
+  }
+];
+
+var layoutLinear = {
+  width: 700, height: 530,
+  margin: { t: 10, r: 25, l: 25, b: 0 },
+paper_bgcolor: "#fafafa",
+};
+Plotly.newPlot('myDivTest', LinearGauges, layoutLinear);
+
+
+
+} // end  function
+
+
+
+function testFunction(myVar) {
+alert(myVar)
+}
+
+
+
+
+
+
+
+
+
+
+
+	// ----------------------------------------------------HELPER FUNCTIONS------------------------------------------------------------------------->
+	// Function to display paragraph data 
+
+	const displayParagraph = (dataStr, num) => {
+
+		let tableDataId = `IdCompre${num}BenchmarkDesc`
+
+		let middle = Math.floor(dataStr.length / 2)
+		let before = dataStr.lastIndexOf(' ', middle);
+		let after = dataStr.indexOf(' ', middle + 1);
+		let end = dataStr.length - 3
+
+		if (middle - before < after - middle) {
+    			middle = before;
+		} else {
+    			middle = after;
+		}
+
+
+		let paragraph
+
+		if (dataStr) {
+			let s1 = dataStr.substr(3, 400);	
+			let s2 = '<span class="collapse" >' + dataStr.substr(153, end) + '</span> <a data-toggle="collapse" >More... &raquo;</a>';
+	
+
+
+			let collapse_id = `compre${num}collapse`
+			let targetCollapse = `#${collapse_id}`
+
+			setTimeout(() => {
+				updateAttributes(tableDataId, collapse_id, targetCollapse)
+			}, 1000)
+		
+		
+			paragraph = `<span>${s1}${s2} </span>`
+		} else {
+
+			paragraph = '' 
+		}
+
+
+		return paragraph
+
+	} //displayParagraph
+
+
+
+	// Update attributes of <span> and <a> tags to make sure the collapse buttons can work. 		
+
+	const updateAttributes = (tableId, c_id, target_c) => {
+
+		$(`#${tableId} .collapse`).prop("id", c_id);
+		$(`#${tableId} a`).attr("data-target", target_c);
+	} //updateAttributes
+
+
+
+
+
+	
+		
+	function pullClientData(requestYear, requestClient, requestYearSelectionIndex) {
+	
+	let nextIndex;
+	document.getElementById("sel254").options.length = 0;
+	pieMissions=null; compre01Average=null; compre01Good=null; compre01Ratio=null;compre01RatioPY=null; compre02Ratio=null; compre02RatioPY=null; compre02Good=null; compre02Average=null; compre03Ratio=null; compre03RatioPY=null; compre03Good=null; compre03Average=null;compre04Ratio=null; compre04RatioPY=null; compre04Good=null; compre04Average=null; compre05Ratio=null; compre05RatioPY=null; compre05Good=null; compre06Ratio=null;  compre06RatioPY=null;  compre06Good=null; compre06Average =null; compre07Ratio=null;  compre07RatioPY=null;  compre07Good=null; compre07Average =null;compre08Ratio=null;  compre08RatioPY=null;  compre08Good=null; compre08Average =null; compre09aRatio=null; compre09aRatioPY=null; compre09aGood=null; compre09aAverage=null; compre09dRatio=null; compre09dRatioPY=null; compre09dGood=null; compre09dAverage=null; compre10Ratio=null; compre10RatioPY=null; compre10Good=null; compre10Average=null;compre11Ratio=null; compre11RatioPY=null; compre11BenchmarkWord=null;compre13aRatio=null; compre13aRatioPY=null; compre13aGood=null; compre13aAverage=null;compre14Ratio=null; compre14RatioPY=null; compre14Good=null; compre14Average=null; compre173Ratio=null; compre173RatioPY=null; compre173Tier1=null; compre173Tier2=null;compre173Tier3=null;compre173Tier4=null;compre171Ratio=null; compre171RatioPY=null; compre171Tier1=null; compre171Tier2=null;compre171Tier3=null;compre171Tier4=null;compre172Ratio=null; compre172RatioPY=null; compre172Good=null; compre172Average=null; compre173Ratio=null; compre173RatioPY=null; compre173Tier1=null; compre173Tier2=null;compre173Tier3=null;compre13v19AdultExpenseRatio=null; compre13v19AdultContributionRatio=null; compre13v19GUExpenseRatio=null; compre13v19GUContributionRatio=null; compre22Ratio=null; compre22RatioPY=null; compre22Good=null; compre22Average=null; compre00aRatio=null; compre00aRatioPY=null; compre00aTier1=null; compre00aTier2=null; compre00aTier3=null; pieFacilities=null;  pieIT=null;  pieMissions=null;  pieOutsourced=null;  piePersonnel=null;  pieDebt=null;  pieOther=null; 
+	var urlClientData  = "https://capincrouse.quickbase.com/db/br8rqi6bk?a=API_DoQuery";
+
+	var lookupClients = "<qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>";        
+		lookupClients 	+= "<query> {'98'.EX.'"+ requestClient +"'} AND {'105'.EX.'Comprehensive'}</query>";
+		lookupClients +="<slist>474</slist>"
+		lookupClients +="<options>sortorder-D</options>"
+		lookupClients 	+="<clist>{3.474.452.316.317.257.319.318.258.320.321.260.326.327.261.328.329.263.303.304.331.330.264.332.333.262.334.335.265.266.280.267.281.338.339.340.341.268.342.343.346.345.269.272.377.378.379.380.274.249.254.244.242.256.251.243.255.250.248.253.245.307.381.382.308.273.383.384.246.252.247.259.409.410.63.64.65.32.77.40.39.74.31.30.38.76}</clist>"; 
+		lookupClients    += "</qdbapi>";
+
+	$.ajax({
+						type: "POST",
+						contentType: "text/xml",
+						async: true,
+						url: urlClientData,
+						dataType: "xml",
+						processData: false,
+						data: lookupClients,
+						success: function (response) {
+							var xmlClientData = $(response);
+							if (xmlClientData.find('qdbapi').find('errcode').text() == "0") {
+								console.log(response);
+				
+								
+								var compre01Good =  xmlClientData.find('qdbapi').find('variables').find('cfhi_01_compre_good').text();
+								var compre01Average = xmlClientData.find('qdbapi').find('variables').find('cfhi_01_compre_average').text();
+								var compre02Good =  xmlClientData.find('qdbapi').find('variables').find('cfhi_02_compre_good').text();
+								var compre02Average = xmlClientData.find('qdbapi').find('variables').find('cfhi_02_compre_average').text();
+								var compre03Good =  xmlClientData.find('qdbapi').find('variables').find('cfhi_03_compre_good').text();
+								var compre03Average = xmlClientData.find('qdbapi').find('variables').find('cfhi_03_compre_average').text();
+								var compre04Good =  xmlClientData.find('qdbapi').find('variables').find('cfhi_04_compre_good').text();
+								var compre04Average = xmlClientData.find('qdbapi').find('variables').find('cfhi_04_compre_average').text();
+								var compre06Good =  xmlClientData.find('qdbapi').find('variables').find('cfhi_06_compre_good').text();
+								var compre06Average = xmlClientData.find('qdbapi').find('variables').find('cfhi_06_compre_average').text();
+								var compre07Good =  xmlClientData.find('qdbapi').find('variables').find('cfhi_07_compre_good').text();
+								var compre07Average = xmlClientData.find('qdbapi').find('variables').find('cfhi_07_compre_average').text();
+								var compre08Good =  xmlClientData.find('qdbapi').find('variables').find('cfhi_08_compre_good').text();
+								var compre08Average = xmlClientData.find('qdbapi').find('variables').find('cfhi_08_compre_average').text();
+								var compre10Good =  xmlClientData.find('qdbapi').find('variables').find('cfhi_10_compre_good').text();
+								var compre10Average = xmlClientData.find('qdbapi').find('variables').find('cfhi_10_compre_average').text();
+								var compre13aGood =  xmlClientData.find('qdbapi').find('variables').find('cfhi_13a_compre_good').text();
+								var compre13aAverage = xmlClientData.find('qdbapi').find('variables').find('cfhi_13a_compre_average').text();
+								var compre14Good =  xmlClientData.find('qdbapi').find('variables').find('cfhi_14_compre_good').text();
+								var compre14Average = xmlClientData.find('qdbapi').find('variables').find('cfhi_14_compre_average').text();
+								var compre173Tier1 = xmlClientData.find('qdbapi').find('variables').find('cfhi_17_3_compre_tier_1').text();
+								var compre173Tier2 = xmlClientData.find('qdbapi').find('variables').find('cfhi_17_3_compre_tier_2').text();
+								var compre173Tier3 = xmlClientData.find('qdbapi').find('variables').find('cfhi_17_3_compre_tier_3').text();
+								var compre173Tier4 = xmlClientData.find('qdbapi').find('variables').find('cfhi_17_3_compre_tier_4').text();
+								var compre171Tier1 = xmlClientData.find('qdbapi').find('variables').find('cfhi_17_1_compre_tier_1').text();
+								var compre171Tier2 = xmlClientData.find('qdbapi').find('variables').find('cfhi_17_1_compre_tier_2').text();
+								var compre171Tier3 = xmlClientData.find('qdbapi').find('variables').find('cfhi_17_1_compre_tier_3').text();
+								var compre171Tier4 = xmlClientData.find('qdbapi').find('variables').find('cfhi_17_1_compre_tier_4').text();
+								var compre172Good =  xmlClientData.find('qdbapi').find('variables').find('cfhi_17_2_compre_good').text();
+								var compre172Average = xmlClientData.find('qdbapi').find('variables').find('cfhi_17_2_compre_average').text();
+								var compre183Tier1 = xmlClientData.find('qdbapi').find('variables').find('cfhi_18_3_compre_tier_1').text();
+								var compre183Tier2 = xmlClientData.find('qdbapi').find('variables').find('cfhi_18_3_compre_tier_2').text();
+								var compre183Tier3 = xmlClientData.find('qdbapi').find('variables').find('cfhi_18_3_compre_tier_3').text();
+								var compre22Good =  xmlClientData.find('qdbapi').find('variables').find('cfhi_22_compre_good').text();
+								var compre22Average = xmlClientData.find('qdbapi').find('variables').find('cfhi_22_compre_average').text();
+								var compre00aTier1 = xmlClientData.find('qdbapi').find('variables').find('cfhi_00a_compre_tier_1').text();
+								var compre00aTier2 = xmlClientData.find('qdbapi').find('variables').find('cfhi_00a_compre_tier_2').text();
+								var compre00aTier3 = xmlClientData.find('qdbapi').find('variables').find('cfhi_00a_compre_tier_3').text();
+	
+							
+								
+								xmlClientData.find('qdbapi').find('record').each(function(index){    
+								
+								let inner = '<option>' + $(this).find("s52_formatted_year").text(); + '</option>'
+								$('#sel254').append(inner)
+
+								if (requestYear == $(this).find("s52_formatted_year").text() ) { 	
+									
+									currentYear = requestYear;
+	
+									displayClientName =  $(this).find("merged_client_name").text();
+										document.getElementById('IdClientName').innerHTML = displayClientName;
+									displaySelectedYearDisplay =  $(this).find("s52_formatted_year").text();
+										document.getElementById('IdSelectedYearDisplay').innerHTML = displaySelectedYearDisplay + " " + "Comprehensive Report Card";
+								        compre01Ratio =  $(this).find("cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves").text();
+										document.getElementById('IdCompre01Ratio').innerHTML = compre01Ratio;
+									 compre01BenchmarkWord =  $(this).find("cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves").text();
+										document.getElementById('IdCompre01BenchmarkWord').innerHTML = compre01BenchmarkWord;
+									 compre01BenchmarkDesc = $(this).find("cfhi_compre_01_bench_paragraph___days_of_expendable_net_asset_reserves").text();
+										document.getElementById('IdCompre01BenchmarkDesc').innerHTML = displayParagraph(compre01BenchmarkDesc, '01')
+									
+									compre02Ratio =  $(this).find("cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures").text();
+										document.getElementById('IdCompre02Ratio').innerHTML = compre02Ratio;
+									 compre02BenchmarkWord =  $(this).find("cfhi_compre_02_bench_rating___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures").text();
+										document.getElementById('IdCompre02BenchmarkWord').innerHTML = compre02BenchmarkWord;
+									 compre02BenchmarkDesc = $(this).find("cfhi_compre_02_bench_paragraph___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures").text();
+										document.getElementById('IdCompre02BenchmarkDesc').innerHTML = displayParagraph(compre02BenchmarkDesc, '02')
+									
+									compre03Ratio =  $(this).find("cfhi_compre_03_ratio___available_days_of_cash_flow_coverage").text();
+										document.getElementById('IdCompre03Ratio').innerHTML = compre03Ratio;
+									 compre03BenchmarkWord =  $(this).find("cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage").text();
+										document.getElementById('IdCompre03BenchmarkWord').innerHTML = compre03BenchmarkWord;
+									 compre03BenchmarkDesc = $(this).find("cfhi_compre_03_bench_paragraph___available_days_of_cash_flow_coverage").text();
+										document.getElementById('IdCompre03BenchmarkDesc').innerHTML = displayParagraph(compre03BenchmarkDesc, '03')
+									
+									compre04Ratio =  $(this).find("cfhi_compre_04_ratio___liquidity_ratio").text();
+										document.getElementById('IdCompre04Ratio').innerHTML = compre04Ratio;
+									 compre04BenchmarkWord =  $(this).find("cfhi_compre_04_bench_rating___liquidity_ratio").text();
+										document.getElementById('IdCompre04BenchmarkWord').innerHTML = compre04BenchmarkWord;
+									 compre04BenchmarkDesc = $(this).find("cfhi_compre_04_bench_paragraph___liquidity_ratio").text();
+										document.getElementById('IdCompre04BenchmarkDesc').innerHTML = displayParagraph(compre04BenchmarkDesc, '04')
+
+									compre05Ratio =  $(this).find("cfhi_compre_05_ratio___net_cash_availability").text();
+										compre05RatioDollarSign = Number(compre05Ratio);
+										compre05RatioDollarSign = compre05RatioDollarSign.toLocaleString("en-US", {style:"currency", currency:"USD",  minimumFractionDigits: 0, maximumFractionDigits: 0});
+										document.getElementById('IdCompre05Ratio').innerHTML = compre05RatioDollarSign;
+									 compre05BenchmarkWord =  $(this).find("cfhi_compre_05_bench_rating___net_cash_availability").text();
+										document.getElementById('IdCompre05BenchmarkWord').innerHTML = compre05BenchmarkWord;
+									 compre05BenchmarkDesc = $(this).find("cfhi_compre_05_bench_paragraph___net_cash_availability").text();
+										document.getElementById('IdCompre05BenchmarkDesc').innerHTML = displayParagraph(compre05BenchmarkDesc, '05')
+									compre05Good = $(this).find("cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses").text();
+									
+									compre06Ratio =  $(this).find("cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions").text();
+										document.getElementById('IdCompre06Ratio').innerHTML = compre06Ratio;
+									 compre06BenchmarkWord =  $(this).find("cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions").text();
+										document.getElementById('IdCompre06BenchmarkWord').innerHTML = compre06BenchmarkWord;
+									 compre06BenchmarkDesc = $(this).find("cfhi_compre_06_bench_paragraph___debt_to_contributions_w_o_donor_restrictions").text();
+										document.getElementById('IdCompre06BenchmarkDesc').innerHTML = displayParagraph(compre06BenchmarkDesc, '06')
+									
+									compre07Ratio =  $(this).find("cfhi_compre_07_ratio___current_ratio").text();
+										document.getElementById('IdCompre07Ratio').innerHTML = compre07Ratio;
+									 compre07BenchmarkWord =  $(this).find("cfhi_compre_07_bench_rating___current_ratio").text();
+										document.getElementById('IdCompre07BenchmarkWord').innerHTML = compre07BenchmarkWord;
+									 compre07BenchmarkDesc = $(this).find("cfhi_compre_07_bench_paragraph___current_ratio").text();
+										document.getElementById('IdCompre07BenchmarkDesc').innerHTML = displayParagraph(compre07BenchmarkDesc, '07')
+									
+									compre08Ratio =  $(this).find("cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions").text();
+										compre08RatioPercentage = Number(compre08Ratio);
+										compre08RatioPercentage = compre08RatioPercentage.toLocaleString("en", {style:"percent", minimumFractionDigits: 0, maximumFractionDigits: 0});
+										document.getElementById('IdCompre08Ratio').innerHTML = compre08RatioPercentage;
+										compre08Ratio = compre08Ratio * 100;
+									 compre08BenchmarkWord =  $(this).find("cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions").text();
+										document.getElementById('IdCompre08BenchmarkWord').innerHTML = compre08BenchmarkWord;
+									 compre08BenchmarkDesc = $(this).find("cfhi_compre_08_bench_paragraph__mandatory_debt_service_to_contributions_w_o_donor_restrictuions").text();
+										document.getElementById('IdCompre08BenchmarkDesc').innerHTML = displayParagraph(compre08BenchmarkDesc, '08')
+
+									compre09aRatio =  $(this).find("cfhi_compre_09a_ratio___debt_per_average_adult_attendee").text();
+										compre09aRatioDollarSign = Number(compre09aRatio);
+										compre09aRatioDollarSign = compre09aRatioDollarSign.toLocaleString("en-US", {style:"currency", currency:"USD",  minimumFractionDigits: 0, maximumFractionDigits: 0});
+										document.getElementById('IdCompre09aRatio').innerHTML = compre09aRatioDollarSign;								
+									 compre09aBenchmarkWord =  $(this).find("cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee").text();
+										document.getElementById('IdCompre09aBenchmarkWord').innerHTML = compre09aBenchmarkWord;
+									 compre09aBenchmarkDesc = $(this).find("cfhi_compre_09a_bench_paragraph___debt_per_average_adult_attendee").text();
+										document.getElementById('IdCompre09aBenchmarkDesc').innerHTML = displayParagraph(compre09aBenchmarkDesc, '09a')
+									compre09aGood = $(this).find("cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee").text() * 2;
+									compre09aAverage = $(this).find("cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee").text() *3;
+
+
+									compre09dRatio =  $(this).find("cfhi_compre_09d_ratio___debt_per_giving_unit").text();
+										compre09dRatioDollarSign = Number(compre09dRatio);
+										compre09dRatioDollarSign = compre09dRatioDollarSign.toLocaleString("en-US", {style:"currency", currency:"USD",  minimumFractionDigits: 0, maximumFractionDigits: 0});										
+										document.getElementById('IdCompre09dRatio').innerHTML = compre09dRatioDollarSign;
+									 compre09dBenchmarkWord =  $(this).find("cfhi_compre_09d_bench_rating___debt_per_giving_unit").text();
+										document.getElementById('IdCompre09dBenchmarkWord').innerHTML = compre09dBenchmarkWord;
+									 compre09dBenchmarkDesc = $(this).find("cfhi_compre_09d_bench_paragraph___debt_per_giving_unit").text();
+										document.getElementById('IdCompre09dBenchmarkDesc').innerHTML = displayParagraph(compre09dBenchmarkDesc, '09d')
+									compre09dGood = $(this).find("cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit").text() * 2;
+									compre09dAverage = $(this).find("cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit").text() *3;
+									
+
+									compre10Ratio =  $(this).find("cfhi_compre_10_ratio___debt_coverage").text();
+										document.getElementById('IdCompre10Ratio').innerHTML = compre10Ratio;
+									 compre10BenchmarkWord =  $(this).find("cfhi_compre_10_bench_rating___debt_coverage").text();
+										document.getElementById('IdCompre10BenchmarkWord').innerHTML = compre10BenchmarkWord;
+									 compre10BenchmarkDesc = $(this).find("cfhi_compre_10_bench_paragraph___debt_coverage").text();
+										document.getElementById('IdCompre10BenchmarkDesc').innerHTML = displayParagraph(compre10BenchmarkDesc, '10')
+
+									compre11Ratio =  $(this).find("cfhi_compre_11_ratio___net_income_ratio").text();
+										compre11RatioPercentage = Number(compre11Ratio);
+										compre11RatioPercentage = compre11RatioPercentage.toLocaleString("en", {style:"percent", minimumFractionDigits: 0, maximumFractionDigits: 0});										
+										document.getElementById('IdCompre11Ratio').innerHTML = compre11RatioPercentage;
+									 compre11BenchmarkWord =  $(this).find("cfhi_compre_11_bench_ratings___net_income_ratio").text();
+										document.getElementById('IdCompre11BenchmarkWord').innerHTML = compre11BenchmarkWord;
+									 compre11BenchmarkDesc = $(this).find("cfhi_compre_11_bench_paragraph___net_income_ratio").text();
+										document.getElementById('IdCompre11BenchmarkDesc').innerHTML = displayParagraph(compre11BenchmarkDesc, '11')
+
+									
+									compre13aRatio =  $(this).find("cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee").text();
+										compre13aRatioDollarSign = Number(compre13aRatio);
+										compre13aRatioDollarSign = compre13aRatioDollarSign.toLocaleString("en-US", {style:"currency", currency:"USD",  minimumFractionDigits: 0, maximumFractionDigits: 0});
+										document.getElementById('IdCompre13aRatio').innerHTML = compre13aRatioDollarSign;
+									 compre13aBenchmarkWord =  $(this).find("cfhi_compre_13a_bench_rating___total_contributions_per_average_adult_attendee").text();
+										document.getElementById('IdCompre13aBenchmarkWord').innerHTML = compre13aBenchmarkWord;
+									 compre13aBenchmarkDesc = $(this).find("cfhi_compre_13a_bench_paragraph___total_contributions_per_average_adult_attendee").text();
+										document.getElementById('IdCompre13aBenchmarkDesc').innerHTML = displayParagraph(compre13aBenchmarkDesc, '13a')
+							
+									compre14Ratio =  $(this).find("cfhi_compre_14_ratio___median_household_income_given_to_church").text();
+										compre14RatioPercentage = Number(compre14Ratio);
+										compre14RatioPercentage = compre14RatioPercentage.toLocaleString("en", {style:"percent", minimumFractionDigits: 0, maximumFractionDigits: 0});
+										document.getElementById('IdCompre14Ratio').innerHTML = compre14RatioPercentage;
+										compre14Ratio = compre14Ratio * 100;
+									 compre14BenchmarkWord =  $(this).find("cfhi_compre_14_bench_rating___median_household_income_given_to_church").text();
+										document.getElementById('IdCompre14BenchmarkWord').innerHTML = compre14BenchmarkWord;
+									 compre14BenchmarkDesc = $(this).find("cfhi_compre_14_bench_paragraph___median_household_income_given_to_church").text();
+										document.getElementById('IdCompre14BenchmarkDesc').innerHTML = displayParagraph(compre14BenchmarkDesc, '14')	
+
+									compre173Ratio =  $(this).find("cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures").text();
+										compre173RatioPercentage = Number(compre173Ratio);
+										compre173RatioPercentage = compre173RatioPercentage.toLocaleString("en", {style:"percent", minimumFractionDigits: 0, maximumFractionDigits: 0});
+										document.getElementById('IdCompre173Ratio').innerHTML = compre173RatioPercentage;
+										compre173Ratio = compre173Ratio * 100;
+									 compre173BenchmarkWord =  $(this).find("cfhi_compre_17_3_bench_rating___mandatory_debt_and_personnel_to_total_cash_expenditures").text();
+										document.getElementById('IdCompre173BenchmarkWord').innerHTML = compre173BenchmarkWord;
+									 compre173BenchmarkDesc = $(this).find("cfhi_compre_17_3_bench_paragraph___mandatory_debt_and_personnel_to_total_cash_expenditures").text();
+										document.getElementById('IdCompre173BenchmarkDesc').innerHTML = displayParagraph(compre173BenchmarkDesc, '173')		
+
+
+									compre171Ratio =  $(this).find("cfhi_compre_17_1_ratio___personnel_to_total_cash_expenditures").text();
+										compre171RatioPercentage = Number(compre171Ratio);
+										compre171RatioPercentage = compre171RatioPercentage.toLocaleString("en", {style:"percent", minimumFractionDigits: 0, maximumFractionDigits: 0});
+										document.getElementById('IdCompre171Ratio').innerHTML = compre171RatioPercentage;
+										compre171Ratio = compre171Ratio * 100;
+									 compre171BenchmarkWord =  $(this).find("cfhi_compre_17_1_bench_rating___personnel_to_total_cash_expenditures").text();
+										document.getElementById('IdCompre171BenchmarkWord').innerHTML = compre171BenchmarkWord;
+									 compre171BenchmarkDesc = $(this).find("cfhi_compre_17_1_bench_paragraph___personnel_to_total_cash_expenditures").text();
+										document.getElementById('IdCompre171BenchmarkDesc').innerHTML = displayParagraph(compre171BenchmarkDesc, '171')		
+
+
+									compre172Ratio =  $(this).find("cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures").text();
+										compre172RatioPercentage = Number(compre172Ratio);
+										compre172RatioPercentage = compre172RatioPercentage.toLocaleString("en", {style:"percent", minimumFractionDigits: 0, maximumFractionDigits: 0});
+										document.getElementById('IdCompre172Ratio').innerHTML = compre172RatioPercentage;
+										compre172Ratio = compre172Ratio * 100;
+									 compre172BenchmarkWord =  $(this).find("cfhi_compre_17_2_bench_rating___mandatory_debt_to_total_cash_expenditures").text();
+										document.getElementById('IdCompre172BenchmarkWord').innerHTML = compre172BenchmarkWord;
+									 compre172BenchmarkDesc = $(this).find("cfhi_compre_17_2_bench_paragraph___mandatory_debt_to_total_cash_expenditures").text();
+										document.getElementById('IdCompre172BenchmarkDesc').innerHTML = displayParagraph(compre172BenchmarkDesc, '172')	
+
+
+									compre183Ratio =  $(this).find("cfhi_compre_18c_ratio___total_outreach_to_total_cash_expend").text();
+										compre183RatioPercentage = Number(compre183Ratio);
+										compre183RatioPercentage = compre183RatioPercentage.toLocaleString("en", {style:"percent", minimumFractionDigits: 0, maximumFractionDigits: 0});
+										document.getElementById('IdCompre183Ratio').innerHTML = compre183RatioPercentage;
+										compre183Ratio = compre183Ratio * 100;
+									 compre183BenchmarkWord =  $(this).find("cfhi_compre_18c_bench_rating___total_outreach_to_total_cash_expend").text();
+										document.getElementById('IdCompre183BenchmarkWord').innerHTML = compre183BenchmarkWord;
+									 compre183BenchmarkDesc = $(this).find("cfhi_compre_18c_bench_paragraph___total_outreach_to_total_cash_expend").text();
+										document.getElementById('IdCompre183BenchmarkDesc').innerHTML = displayParagraph(compre183BenchmarkDesc, '183')										
+									
+
+									compre13v19AdultExpenseRatio = $(this).find("cfhi_compre_19a_ratio___cash_exp_per_average_adult").text();
+										compre13v19AdultExpenseRatioDollarSign = Number(compre13v19AdultExpenseRatio);
+										compre13v19AdultExpenseRatioDollarSign = compre13v19AdultExpenseRatioDollarSign.toLocaleString("en-US", {style:"currency", currency:"USD",  minimumFractionDigits: 0, maximumFractionDigits: 0});
+									compre13v19AdultContributionRatio = $(this).find("cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee").text();
+										compre13v19AdultContributionRatioDollarSign = Number(compre13v19AdultContributionRatio);
+										compre13v19AdultContributionRatioDollarSign = compre13v19AdultContributionRatioDollarSign.toLocaleString("en-US", {style:"currency", currency:"USD",  minimumFractionDigits: 0, maximumFractionDigits: 0});
+									
+									compre13v19Operator = null;
+											if(compre13v19AdultContributionRatio > compre13v19AdultExpenseRatio) 
+												{compre13v19Operator = " > "}
+											else if (compre13v19AdultContributionRatio == compre13v19AdultExpenseRatio)
+												{compre13v19Operator = "= "}
+											else 
+												{compre13v19Operator = " < "}
+											document.getElementById('IdCompre1319aRatio').innerHTML = compre13v19AdultContributionRatioDollarSign + ' Contributions ' + compre13v19Operator + compre13v19AdultExpenseRatioDollarSign + ' Expenses'
+									compre13v19BenchmarkWord = $(this).find("cfhi_compre_13v19a_bench_rating___total_contr_vs_exp_per_adult").text();
+										document.getElementById('IdCompre1319aBenchmarkWord').innerHTML = compre13v19BenchmarkWord;
+									compre13v19BenchmarkDesc = $(this).find("cfhi_compre_13v19a_bench_paragraph___total_contr_vs_exp_per_adult").text();
+										document.getElementById('IdCompre1319aBenchmarkDesc').innerHTML = displayParagraph(compre13v19BenchmarkDesc, '13v19')
+
+
+									compre13v19GUExpenseRatio = $(this).find("cfhi_compre_19b_ratio___cash_exp_per_giving_unit").text();
+										compre13v19GUExpenseRatioDollarSign = Number(compre13v19GUExpenseRatio);
+										compre13v19GUExpenseRatioDollarSign = compre13v19GUExpenseRatioDollarSign.toLocaleString("en-US", {style:"currency", currency:"USD",  minimumFractionDigits: 0, maximumFractionDigits: 0});
+									compre13v19GUContributionRatio = $(this).find("cfhi_compre_13b_ratio___total_contributions_per_giving_unit").text();
+										compre13v19GUContributionRatioDollarSign = Number(compre13v19GUContributionRatio);
+										compre13v19GUContributionRatioDollarSign = compre13v19GUContributionRatioDollarSign.toLocaleString("en-US", {style:"currency", currency:"USD",  minimumFractionDigits: 0, maximumFractionDigits: 0});
+									
+									compre13v19GUOperator = null;
+											if(compre13v19GUContributionRatio > compre13v19GUExpenseRatio) 
+												{compre13v19GUOperator = " > "}
+											else if (compre13v19GUContributionRatio == compre13v19GUExpenseRatio)
+												{compre13v19GUOperator = "= "}
+											else 
+												{compre13v19GUOperator = " < "}
+											document.getElementById('IdCompre1319bRatio').innerHTML = compre13v19GUContributionRatioDollarSign + ' Contributions ' + compre13v19GUOperator + compre13v19GUExpenseRatioDollarSign + ' Expenses'
+									compre13v19GUBenchmarkWord = $(this).find("cfhi_compre_13v19b_bench_rating___total_contr_vs_exp_per_gu").text();
+										document.getElementById('IdCompre1319bBenchmarkWord').innerHTML = compre13v19GUBenchmarkWord;
+									compre13v19GUBenchmarkDesc = $(this).find("cfhi_compre_13v19b_bench_paragraph___total_contr_vs_exp_per_gu").text();
+										document.getElementById('IdCompre1319bBenchmarkDesc').innerHTML = displayParagraph(compre13v19GUBenchmarkDesc, '13v19GU')
+									
+		
+									compre22Ratio =  $(this).find("cfhi_compre_22_ratio___facilities_expenses_of_total_cash_expend").text();
+										compre22RatioPercentage = Number(compre22Ratio);
+										compre22RatioPercentage = compre22RatioPercentage.toLocaleString("en", {style:"percent", minimumFractionDigits: 0, maximumFractionDigits: 0});
+										document.getElementById('IdCompre22Ratio').innerHTML = compre22RatioPercentage;
+										compre22Ratio = compre22Ratio * 100;
+									 compre22BenchmarkWord =  $(this).find("cfhi_compre_22_bench_rating___facilities_expenses_of_total_cash_expend").text();
+										document.getElementById('IdCompre22BenchmarkWord').innerHTML = compre22BenchmarkWord;
+									 compre22BenchmarkDesc = $(this).find("cfhi_compre_22_bench_paragraph___facilities_expenses_of_total_cash_expend").text();
+										document.getElementById('IdCompre22BenchmarkDesc').innerHTML = displayParagraph(compre22BenchmarkDesc, '22')	
+
+									compre00aRatio =  $(this).find("cfhi_compre_00a_ratio___attendees_to_staff").text();
+										document.getElementById('IdCompre00aRatio').innerHTML = compre00aRatio;
+									 compre00aBenchmarkWord =  $(this).find("cfhi_compre_00a_bench_rating___attendees_to_staff").text();
+										document.getElementById('IdCompre00aBenchmarkWord').innerHTML = compre00aBenchmarkWord;
+									 compre00aBenchmarkDesc = $(this).find("cfhi_compre_00a_bench_paragraph___attendees_to_staff").text();
+										document.getElementById('IdCompre00aBenchmarkDesc').innerHTML = displayParagraph(compre00aBenchmarkDesc, '00a')
+											
+
+									pieFacilities = Number($(this).find("s12___total_maint___occupancy_cost").text());
+									pieIT = Number($(this).find("s13___it_cost").text());
+									pieMissions = Number($(this).find("s14___local_outreach_expense").text()) + Number($(this).find("s15___global_outreach_expense").text())
+									pieOutsourced = Number($(this).find("s162___cost_of_outsourced_employee").text())
+									piePersonnel = Number($(this).find("s11___total_benefit").text()) + Number($(this).find("s10___total_salaries_and_housing").text())
+									pieDebt = Number($(this).find("s154___required_minimum_debt_principal_payment_for_the_next_year_").text()) + Number($(this).find("s164___one_time_payoff_of_debt_due_in_the_next_year").text());
+									pieOther = Number($(this).find("s45___total_expense").text()) - Number($(this).find("s46___total_depreciation_expense").text()) - Number($(this).find("s47___cy_interest_expense").text())- pieFacilities - pieIT- pieMissions - pieOutsourced- piePersonnel - pieDebt;
+
+
+									nextIndex = index + 1;   //this allows for the pY values to be calculated in the next else if statement
+									
+								}
+								else if (index == nextIndex) { 	
+									previousYear = $(this).find("s52_formatted_year").text();
+									compre01RatioPY =  $(this).find("cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves").text();
+									compre02RatioPY =  $(this).find("cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures").text();
+									compre03RatioPY =  $(this).find("cfhi_compre_03_ratio___available_days_of_cash_flow_coverage").text();
+									compre04RatioPY =  $(this).find("cfhi_compre_04_ratio___liquidity_ratio").text();
+									compre05RatioPY =  $(this).find("cfhi_compre_05_ratio___net_cash_availability").text();
+									compre06RatioPY =  $(this).find("cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions").text();
+									compre07RatioPY =  $(this).find("cfhi_compre_07_ratio___current_ratio").text();
+									compre08RatioPY =  $(this).find("cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions").text() * 100;
+									compre09aRatioPY =  $(this).find("cfhi_compre_09a_ratio___debt_per_average_adult_attendee").text();
+									compre09dRatioPY =  $(this).find("cfhi_compre_09d_ratio___debt_per_giving_unit").text();
+									compre10RatioPY =  $(this).find("cfhi_compre_10_ratio___debt_coverage").text();
+									compre11RatioPY =  $(this).find("cfhi_compre_11_ratio___net_income_ratio").text();
+									compre13aRatioPY =  $(this).find("cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee").text();
+									compre14RatioPY =  $(this).find("cfhi_compre_14_ratio___median_household_income_given_to_church").text()*100;
+									compre173RatioPY =  $(this).find("cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures").text()*100;
+									compre171RatioPY =  $(this).find("cfhi_compre_17_1_ratio___personnel_to_total_cash_expenditures").text()*100;
+									compre172RatioPY =  $(this).find("cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures").text()*100;
+									compre183RatioPY =  $(this).find("cfhi_compre_18c_ratio___total_outreach_to_total_cash_expend").text()*100;
+									compre22RatioPY =  $(this).find("cfhi_compre_22_ratio___facilities_expenses_of_total_cash_expend").text()*100;
+									compre00aRatioPY =  $(this).find("cfhi_compre_00a_ratio___attendees_to_staff").text();
+									
+								}    //ends the IF statement for PY vs CY data	
+
+								
+
+
+							}) //end XML EACH loop
+							
+							nextSteps(currentYear, previousYear, compre01Ratio,  compre01RatioPY, compre01Good, compre01Average, compre02RatioPY, compre02Ratio, compre02Good, compre02Average, compre03Ratio, compre03RatioPY, compre03Good, compre03Average, compre04Ratio, compre04RatioPY, compre04Good, compre04Average,  compre05Ratio, compre05RatioPY, compre05Good, compre06Ratio, compre06RatioPY, compre06Good, compre06Average, compre07Ratio, compre07RatioPY, compre07Good, compre07Average, compre08Ratio, compre08RatioPY, compre08Good, compre08Average, compre09aRatio, compre09aRatioPY, compre09aGood, compre09aAverage, compre09dRatio, compre09dRatioPY, compre09dGood, compre09dAverage, compre10Ratio, compre10RatioPY, compre10Good, compre10Average, compre11Ratio, compre11RatioPY, compre11BenchmarkWord, compre13aRatio, compre13aRatioPY, compre13aGood, compre13aAverage, compre14Ratio, compre14RatioPY, compre14Good, compre14Average, compre173Ratio, compre173RatioPY, compre173Tier1, compre173Tier2, compre173Tier3, compre173Tier4, compre171Ratio, compre171RatioPY, compre171Tier1, compre171Tier2, compre171Tier3, compre171Tier4, compre172Ratio, compre172RatioPY, compre172Good, compre172Average, compre183Ratio, compre183RatioPY, compre183Tier1, compre183Tier2, compre183Tier3, compre13v19AdultExpenseRatio, compre13v19AdultContributionRatio, compre13v19GUExpenseRatio, compre13v19GUContributionRatio, compre22Ratio, compre22RatioPY, compre22Good, compre22Average, compre00aRatio, compre00aRatioPY, compre00aTier1, compre00aTier2, compre00aTier3, pieFacilities, pieIT, pieMissions, pieOutsourced, piePersonnel, pieDebt, pieOther);
+							sel254.selectedIndex = requestYearSelectionIndex;
+
+							}									//end IF ERROR = 0
+						
+							else {								//begin IF ERRORS EXIST
+								alert("Failure to query clients.");
+								console.log(response);
+							}	 
+						},										//end AJAX SUCCESS
+						error: function (response) {			//begin AJAX FAILURE
+							alert("Failure to connect.");
+							console.log(response);
+						}										//end AJAX FAILURE
+	});										//end AJAX CALL
+
+
+
+
+} 											//END FUNCTION
+
+
+
+
+
+
+
+window.jsPDF = window.jspdf.jsPDF;
+
+
+
+function generatePDF() {
+  const content = document.getElementById('main');
+
+  // Use html2canvas to capture the entire HTML content as an image
+  html2canvas(content).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const pdfDoc = new jsPDF({
+      orientation: 'portrait', // Use 'landscape' for landscape orientation
+      unit: 'mm',
+      format: [canvas.width * 0.264583, canvas.height * 0.264583], // Convert pixels to mm
+    });
+
+   console.log(pdfDoc)
+
+    const pageHeight = pdfDoc.internal.pageSize.height;
+    const imgWidth = pdfDoc.internal.pageSize.width;
+    let yPos = 0;
+    let contentHeight = canvas.height * 0.264583;
+
+    // Check if the content height exceeds the page height
+    if (contentHeight > pageHeight) {
+      while (contentHeight > pageHeight) {
+        pdfDoc.addPage();
+        yPos = -pageHeight;
+        contentHeight -= pageHeight;
+      }
+    }
+
+    // Embed the captured image in the PDF
+    pdfDoc.addImage(imgData, 'PNG', 0, yPos, imgWidth, imgWidth * (canvas.height / canvas.width));
+
+    // Save the PDF
+    pdfDoc.save('document.pdf');
+  });
+}
+
+
+
+    $(document).ready(function() {
+      // Function to uncollapse elements
+      function uncollapseElements() {
+        var collapseElements = $('[data-toggle="collapse"]');
+        collapseElements.each(function() {
+          $(this).click();
+        });
+      }
+
+      // Add a listener for the 'beforeprint' event
+      window.onbeforeprint = uncollapseElements;
+    });
+
+
+
+
+
+	</script>
+
+</body>
+</html>
+
+
+	

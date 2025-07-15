@@ -1,0 +1,384 @@
+<html>
+	<head> 
+		<link rel='stylesheet'  href="https://capincrouse.quickbase.com/db/bpdyybedp?a=dbpage&pageID=115">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+dd
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+		<script>
+
+
+			const urlRid = location.href.split('&')[3]	
+			const urlForm = location.href.split('&')[4] 
+
+		
+			const apptoken = "rb5m9rbe3b76rd4k2zdkbwaipxs";
+			$.ajaxSetup({data: {apptoken: apptoken}});
+
+
+			//retrieve URL ID for record
+			function getQueryVariable(variable) {
+				let query = window.location.search.substring(1);
+ 				let vars = query.split("&");
+				for (let i=0;i<vars.length;i++) {
+					let pair = vars[i].split("=");
+					if(pair[0] == variable){return pair[1];}
+				}
+				return(false);
+			}
+
+			const kRid = getQueryVariable("rid");	
+			let URLs=  [];
+
+			let recordsDocs
+			let recordsArray = []
+			let requestDocsArray = []
+			let requestDocsCategoriesArray = []
+			let selectedCategoriesArray = []
+
+
+			$.get('bqertwwn5', { act: 'API_DoQuery', query: `{8.EX.${kRid}} `, clist: '1.2.870.16.7.30.8.32.6'})
+				.then(async (xml) => {
+							
+					recordsDocs = await $('record', xml) 	
+
+					console.log(recordsDocs)
+
+					 //recordsArray
+	
+
+					let array = []
+
+					for (let record of recordsDocs) {
+
+						let category = record.children[3].innerHTML
+						array.push(category)
+						
+					}
+				
+					requestDocsCategoriesArray = [... new Set(array)]	
+					requestDocsCategoriesArray.map((element, idx) => {
+						return $('#requestDocs-dropdown').append('<li><input class=\"form-check-input\" name=\"requestDocsCheckbox\" onchange=\"selectedDocs()\"  type=\"checkbox\" value="'+element+'" id="" /><span> </span><label for="">'+element+'</label></li>')
+					})
+
+
+				}) // then
+
+
+			// <-------------------- requestDocs To Select -----------------------------------------------------> 
+
+
+
+				const selectedDocs = () => {
+					selectedDocsArray = []
+					URLs = []
+
+    					$("input:checkbox[name=requestDocsCheckbox]:checked").map(function() {
+						console.log($(this)[0])
+						let category = $(this)[0].value
+							let filename = $(this)[0].dataset.filename
+							let plainurl = $(this)[0].dataset.plainurl
+							let name = $(this)[0].value
+
+						selectedCategoriesArray.push(category)
+					})
+
+					for (let record of recordsDocs) {
+						let category = record.children[3].innerHTML
+						if (selectedCategoriesArray.some(sc => sc == category)) {
+							let name = record.children[7].innerHTML
+							let filename = record.children[4].innerHTML
+							let plainurl = record.children[2].innerHTML
+							
+							URLs.push([category, filename, plainurl, name])
+						}
+					}
+
+
+					selectedCategoriesArray.sort((a, b) => a - b)
+
+				}
+
+
+
+			const submitQB = () => {
+				//let engagementID = kRid;
+				dbRequestDocs = "bqertwwn5";
+				dbUGDocs = "bqxdkzkh9";
+				dbEBPDocs = "bqy9bgcau"; 
+				dbConsDocs = "brzvm7aqp";
+				dbTaxDocs = "bst46e924";
+
+				if (urlRid === 'checklisttype=ug') {
+
+					let myDate; let mainDate
+
+					$.get(dbUGDocs, { act: 'API_DoQuery', query: `{11.EX.${kRid}}`, clist: '1.2.17.10.31.11.34.35'})
+						.then(function(xml) {
+						
+
+							$('record', xml).each(function() {
+
+								myDate = new Date(Number($("date_modified", this).text()))
+								mainDate = myDate.toLocaleString('en-GB').slice(0, -10)
+
+
+								if (+myDate >= +startDateTest  &&  +myDate <= +endDateTest ) {
+									
+									URLs.push([$("category", this).text() ,$("_01_student_name", this).text(), $("filename", this).text(), $("plainurl", this).text(), mainDate]);
+								}
+
+
+									})//record each
+								})//then
+								
+
+						setTimeout(
+							function() {
+								if (confirm("Do you want to download " + URLs.length + " files?")) {
+									downloadFilesUG();
+									
+
+								}	
+								else {
+									URLs=  [];
+									window.close()
+								}
+							}, 2000
+						)//setTimeout
+
+				} else if (urlRid === 'checklisttype=ebp') {
+
+					let myDate; let mainDate
+
+					$.get(dbEBPDocs, { act: 'API_DoQuery', query: `{11.EX.${kRid}} `, clist: '1.2.27.10.28.11.29.30'})
+						.then(function(xml) {
+							
+
+							$('record', xml).each(function() {
+    								
+								myDate = new Date(Number($("date_modified", this).text()))
+								mainDate = myDate.toLocaleString('en-GB').slice(0, -10)
+						
+								if (+myDate >= +startDateTest && +myDate <= +endDateTest ) {
+									URLs.push([$("category", this).text() ,$("_01a_individual_name", this).text(), $("filename", this).text(), $("plainurl", this).text(), mainDate]);
+								}
+
+
+									})//record each
+								})//then
+								
+
+						setTimeout(
+							function() {
+								if (confirm("Do you want to download " + URLs.length + " files?")) {
+									downloadFilesEBP();
+									
+								}	
+								else {
+									URLs=  [];
+									window.close()
+								}
+							}, 2000
+						)//setTimeout
+
+				} else if (urlRid === 'checklisttype=audit') {
+
+						setTimeout(
+							function() {
+								if (confirm("Do you want to download " + URLs.length + " files?")) {
+									downloadFilesAudit();
+									
+								}	
+								else {
+									URLs=  [];
+									window.close()
+								}
+							}, 2000
+						)//setTimeout
+	
+						
+
+				}//if(checklisttype===audit) 
+
+				else if (urlRid === 'checklisttype=taxreturn') {
+					let myDate; let mainDate
+
+					$.get(dbTaxDocs, { act: 'API_DoQuery', query: `{12.EX.${kRid}} `, clist: '1.2.9.19.8.12.20'})
+						.then(function(xml) {
+						
+
+							$('record', xml).each(function() {
+
+    								//myDate = new Date(1000*Number($("date_modified", this).text()));
+								//mainDate = myDate.toLocaleString('en-GB').slice(0, -3)
+
+								myDate = new Date(Number($("date_modified", this).text()))
+								mainDate = myDate.toLocaleString('en-GB').slice(0, -10)
+						
+								
+
+								if (+myDate >= +startDateTest && +myDate <= +endDateTest ) {
+								
+									URLs.push([$("category", this).text() , $("filename", this).text(), $("plainurl", this).text(), mainDate]);
+								}
+
+
+									})//record each
+								})//then
+								
+
+						setTimeout(
+							function() {
+								if (confirm("Do you want to download " + URLs.length + " files?")) {
+									downloadFilesAudit();
+									
+								}	
+								else {
+									URLs=  [];
+									window.close()
+								}
+							}, 2000
+						)//setTimeout
+	
+						
+
+				}//if(checklisttype===taxreturn) 
+
+			}//downloadAll
+
+
+
+			function downloadFilesUG() {
+				var interval = 1000;
+			
+				
+
+				URLs.forEach(function (getFile, index) {
+ 	 				setTimeout(function () {
+    						fetch(URLs[index][3], {credentials: "include"})
+						.then(response => response.blob())
+    						.then(blob => {
+				
+						var StudentName = "";			
+							if (URLs[index][1] !== ""){StudentName = " - " + URLs[index][1]}; 
+
+							let StudentNameClean = StudentName.replace(".", "");
+							
+      							var link = document.createElement("a");
+      							link.href = window.URL.createObjectURL(blob);
+     						 	link.download = URLs[index][0] + StudentNameClean +  " - " + URLs[index][2];
+     						 	link.click();	
+    						})								
+  					}, index * interval);
+				});	
+
+						
+			}
+
+
+			function downloadFilesEBP() {
+				var interval = 1000;
+			
+				URLs.forEach(function (getFile, index) {
+
+				
+
+  					setTimeout(
+						function () {
+    							fetch(URLs[index][3], {credentials: "include"})
+								.then(response => response.blob())
+    								.then(blob => {
+									var IndividualName = ""
+									if (URLs[index][1] !== ""){IndividualName = " - " + URLs[index][1]}; 
+
+										let IndividualNameClean = IndividualName.replace(".", "");			
+										
+      										var link = document.createElement("a");
+      										link.href = window.URL.createObjectURL(blob);
+     						 				link.download = URLs[index][0] + IndividualNameClean +  " - " + URLs[index][2];
+     								 		link.click();
+    									})								
+  						}, index * interval
+					);
+				});		
+
+
+			}
+
+
+			function downloadFilesAudit() {
+				var interval = 1000;
+				
+			
+				URLs.forEach(function (getFile, index) {
+  					setTimeout(
+						function () {
+							console.log(URLs[index])
+    							fetch(URLs[index][2], {credentials: "include"})
+								.then(response => response.blob())
+    								.then(blob => {
+      									var link = document.createElement("a");
+      									link.href = window.URL.createObjectURL(blob);
+     						 			link.download = URLs[index][0] + " - " + URLs[index][1];
+     						 			link.click();		
+    								})								
+  						}, index * interval
+					);
+				});					
+			}
+
+
+
+
+
+
+
+		</script>
+	</head>
+
+	<body> 
+		<div id='container'>
+			<div class='box dropdown'>
+				<h2> Select Request Docs </h3>
+	  			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownRequestDocs" data-bs-toggle="dropdown" aria-expanded="false">
+    					Select 
+  				</button>
+  				<ul id='requestDocs-dropdown' class="dropdown-menu" aria-labelledby="dropdownRequestDocs"></ul>
+			<div>
+			<input
+				type='submit'
+				id='submit'
+				onclick='submitQB()'
+				value='Submit'
+			>
+		</div>
+
+
+
+
+
+		
+		<div id="lds-ring">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		
+		<div id='check-container'>
+			<div id="check"></div>
+		</div>
+
+		<div id='success-container'>
+			<div id='success-alert'>
+				<h2>Date Successfully Updated</h2>
+			</div>
+		</div>
+
+
+	</body>
+
+</html>

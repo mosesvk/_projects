@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>International</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+    />
+
+    <!-- Flowbite CSS (Replace 'x.y.z' with the desired version) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flowbite@x.y.z/dist/flowbite.min.css"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+    >
+      <iframe
+        id="contentFrame"
+        src="./components/nav-component.html"
+        frameborder="0"
+        scrolling="no"
+        width="100%"
+        height="100"
+      ></iframe>
+    </nav>
+
+    <p>Hello there</p>
+
+    <script>
+      function resizeIframe() {
+        const iframe = document.getElementById('contentFrame');
+        if (iframe) {
+          iframe.style.height =
+            iframe.contentWindow.document.body.scrollHeight + 'px';
+        }
+      }
+
+      // Call the resizeIframe function initially and whenever the content changes.
+      resizeIframe();
+      window.addEventListener('load', resizeIframe);
+      window.addEventListener('resize', resizeIframe);
+    </script>
+  </body>
+</html>
