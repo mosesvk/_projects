@@ -4692,6 +4692,9 @@
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
             >
               <div class="flex flex-row">
+                <div class="w-1/2 pr-2">
+                  <div id="salariesBenefitsPerNetTuition_chart" class=""></div>
+                </div>
                 <div class="w-1/2 px-4">
                   <p class="mb-2 text-xl text-center font-bold">
                     Salaries and Benefits per Net Tuition Revenue
@@ -4711,13 +4714,10 @@
                     prudent financial management and sustainability.
                   </p>
                 </div>
-                <div class="w-1/2 pr-2">
-                  <div id="salariesBenefitsPerNetTuition_chart" class=""></div>
-                </div>
               </div>
               <button
                 id="dropdown_salariesBenefitsPerNetTuition"
-                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent mt-6"
+                class="text-xl flex items-baseline justify-start w-full py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
               >
                 Details
                 <svg
@@ -5937,6 +5937,44 @@
                   </div>
                 </div>
 
+                <!-- Peer Table for Endowment Assets Per Student -->
+                <div
+                  id="endowmentAssetsPerStudent_peerTable"
+                  class="flex flex-col my-5"
+                >
+                  <div class="overflow-x-auto rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                      <div
+                        class="relative overflow-x-auto shadow-md sm:rounded-lg"
+                      >
+                        <table
+                          class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
+                        >
+                          <thead
+                            class="text-xs text-white uppercase backgroundBlue opacity-75"
+                          >
+                            <tr
+                              id="row_endowmentAssetsPerStudentPeer_tableHeader"
+                            ></tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              id="row_endowmentAssetsPerStudentPeer_ratio"
+                              class="bg-white font-bold border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                Endowment Asset per Student
+                              </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
