@@ -2,9 +2,41 @@
 
 // Default chart dimensions
 const DEFAULT_CHART_WIDTH = 1200;
-const DEFAULT_CHART_HEIGHT = 530;
+const DEFAULT_CHART_HEIGHT = 650; // Increased from 530 to accommodate legends
 const CFI_COMPOSITE_WIDTH = 500;
 const CFI_COMPOSITE_HEIGHT = 800;
+
+// Charts that have bottom legends and need extra height
+const CHARTS_WITH_BOTTOM_LEGENDS = [
+  "cfiRatio_chart",
+  "cfi_primaryReserveRatio_chart", 
+  "cfi_netIncomeOperationsRatio_chart",
+  "cfi_returnOnNetAssets_chart",
+  "cfi_viabilityRatio_chart",
+  "assetToLiabilities_chart",
+  "sourceOfIncomeClient_chart",
+  "sourceOfIncomePeer_chart",
+  "ffa_chart",
+  "cashFlowsTrend_chart",
+  "currentRatio_chart",
+  "tuitionDependency_chart",
+  "tuitionDiscountRate_chart",
+  "netTuitionPerStudent_chart",
+  "endowmentAssetsPerStudent_chart"
+];
+
+
+
+/**
+ * Check if a chart has a bottom legend
+ * @param {string} chartId - The ID of the chart
+ * @returns {boolean} - True if chart has bottom legend
+ */
+function hasBottomLegend(chartId) {
+  return CHARTS_WITH_BOTTOM_LEGENDS.includes(chartId);
+}
+
+
 
 /**
  * Get chart dimensions based on chart ID
@@ -24,24 +56,36 @@ function getChartDimensions(chartId) {
   const smallerCharts = [
     "sourceOfIncomeClient_chart",
     "sourceOfIncomePeer_chart", 
-    "salariesBenefitsToTotalExpense_chart",
-    "salariesBenefitsPerNetTuition_chart",
     "netTuitionPerStudent_chart",
-    "debtBurdenRatio_chart",
-    "ltDebtPerTotalOperatingRevenue_chart"
   ];
   
-  if (smallerCharts.includes(chartId)) {
-    return {
-      width: Math.round(DEFAULT_CHART_WIDTH * 0.6), // 720px (60% of 1200px)
-      height: DEFAULT_CHART_HEIGHT
-    };
+  // Charts that need both reduced width and height
+  const compactCharts = [
+    "ltDebtPerTotalOperatingRevenue_chart",
+    "salariesBenefitsToTotalExpense_chart", 
+    "salariesBenefitsPerNetTuition_chart",
+    "debtBurdenRatio_chart"
+  ];
+  
+  let baseHeight = DEFAULT_CHART_HEIGHT;
+  let baseWidth = DEFAULT_CHART_WIDTH;
+  
+  if (compactCharts.includes(chartId)) {
+    baseWidth = Math.round(DEFAULT_CHART_WIDTH * 0.5); // 600px (50% of 1200px)
+    baseHeight = Math.round(DEFAULT_CHART_HEIGHT * 0.7); // 455px (70% of 650px)
+  } else if (smallerCharts.includes(chartId)) {
+    baseWidth = Math.round(DEFAULT_CHART_WIDTH * 0.6); // 720px (60% of 1200px)
+    baseHeight = DEFAULT_CHART_HEIGHT;
   }
   
-  // Default dimensions for all other charts
+  // Add 50px to height for charts with bottom legends
+  if (hasBottomLegend(chartId)) {
+    baseHeight += 50;
+  }
+  
   return {
-    width: DEFAULT_CHART_WIDTH,
-    height: DEFAULT_CHART_HEIGHT
+    width: baseWidth,
+    height: baseHeight
   };
 }
 
