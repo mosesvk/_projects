@@ -1,42 +1,10 @@
 // print_base64.js
 
-// Default chart dimensions
-const DEFAULT_CHART_WIDTH = 1200;
-const DEFAULT_CHART_HEIGHT = 650; // Increased from 530 to accommodate legends
-const CFI_COMPOSITE_WIDTH = 500;
-const CFI_COMPOSITE_HEIGHT = 800;
-
-// Charts that have bottom legends and need extra height
-const CHARTS_WITH_BOTTOM_LEGENDS = [
-  "cfiRatio_chart",
-  "cfi_primaryReserveRatio_chart", 
-  "cfi_netIncomeOperationsRatio_chart",
-  "cfi_returnOnNetAssets_chart",
-  "cfi_viabilityRatio_chart",
-  "assetToLiabilities_chart",
-  "sourceOfIncomeClient_chart",
-  "sourceOfIncomePeer_chart",
-  "ffa_chart",
-  "cashFlowsTrend_chart",
-  "currentRatio_chart",
-  "tuitionDependency_chart",
-  "tuitionDiscountRate_chart",
-  "netTuitionPerStudent_chart",
-  "endowmentAssetsPerStudent_chart"
-];
-
-
-
-/**
- * Check if a chart has a bottom legend
- * @param {string} chartId - The ID of the chart
- * @returns {boolean} - True if chart has bottom legend
- */
-function hasBottomLegend(chartId) {
-  return CHARTS_WITH_BOTTOM_LEGENDS.includes(chartId);
-}
-
-
+// Default chart dimensions - increased to prevent cutoff
+const DEFAULT_CHART_WIDTH = 1400;
+const DEFAULT_CHART_HEIGHT = 600;
+const CFI_COMPOSITE_WIDTH = 600;
+const CFI_COMPOSITE_HEIGHT = 900;
 
 /**
  * Get chart dimensions based on chart ID
@@ -56,36 +24,24 @@ function getChartDimensions(chartId) {
   const smallerCharts = [
     "sourceOfIncomeClient_chart",
     "sourceOfIncomePeer_chart", 
-    "netTuitionPerStudent_chart",
-  ];
-  
-  // Charts that need both reduced width and height
-  const compactCharts = [
-    "ltDebtPerTotalOperatingRevenue_chart",
-    "salariesBenefitsToTotalExpense_chart", 
+    "salariesBenefitsToTotalExpense_chart",
     "salariesBenefitsPerNetTuition_chart",
-    "debtBurdenRatio_chart"
+    "netTuitionPerStudent_chart",
+    "debtBurdenRatio_chart",
+    "ltDebtPerTotalOperatingRevenue_chart"
   ];
   
-  let baseHeight = DEFAULT_CHART_HEIGHT;
-  let baseWidth = DEFAULT_CHART_WIDTH;
-  
-  if (compactCharts.includes(chartId)) {
-    baseWidth = Math.round(DEFAULT_CHART_WIDTH * 0.5); // 600px (50% of 1200px)
-    baseHeight = Math.round(DEFAULT_CHART_HEIGHT * 0.7); // 455px (70% of 650px)
-  } else if (smallerCharts.includes(chartId)) {
-    baseWidth = Math.round(DEFAULT_CHART_WIDTH * 0.6); // 720px (60% of 1200px)
-    baseHeight = DEFAULT_CHART_HEIGHT;
+  if (smallerCharts.includes(chartId)) {
+    return {
+      width: Math.round(DEFAULT_CHART_WIDTH * 0.6), // 840px (60% of 1400px)
+      height: DEFAULT_CHART_HEIGHT
+    };
   }
   
-  // Add 50px to height for charts with bottom legends
-  if (hasBottomLegend(chartId)) {
-    baseHeight += 50;
-  }
-  
+  // Default dimensions for all other charts
   return {
-    width: baseWidth,
-    height: baseHeight
+    width: DEFAULT_CHART_WIDTH,
+    height: DEFAULT_CHART_HEIGHT
   };
 }
 
@@ -141,7 +97,7 @@ async function processChartsWithSpacing(chartMappings) {
 
 const getChartInstance = (chartId) => {
   // Use direct access like intl_print.js for better performance
-  return window[chartId] || null;
+  return chartId || null;
 };
 
 /**
@@ -160,14 +116,19 @@ async function exportApexChart(chart, chartId) {
     // Get chart dimensions based on chart ID
     const dimensions = getChartDimensions(chartId);
 
-    // Create a fixed-size container
+    // Create a completely isolated fixed-size container with padding
     const fixedContainer = document.createElement("div");
-    fixedContainer.style.position = "absolute";
+    fixedContainer.style.position = "fixed";
+    fixedContainer.style.top = "-9999px";
     fixedContainer.style.left = "-9999px";
-    fixedContainer.style.width = `${dimensions.width}px`;
-    fixedContainer.style.height = `${dimensions.height}px`;
+    fixedContainer.style.width = `${dimensions.width + 100}px`; // Add 100px padding
+    fixedContainer.style.height = `${dimensions.height + 100}px`; // Add 100px padding
     fixedContainer.style.backgroundColor = "#ffffff";
-    fixedContainer.style.overflow = "hidden";
+    fixedContainer.style.overflow = "visible"; // Changed from hidden to visible
+    fixedContainer.style.zIndex = "-9999";
+    fixedContainer.style.transform = "none";
+    fixedContainer.style.transformOrigin = "0 0";
+    fixedContainer.style.padding = "50px"; // Add padding to prevent cutoff
     document.body.appendChild(fixedContainer);
 
     // Get the chart element
@@ -176,13 +137,16 @@ async function exportApexChart(chart, chartId) {
       throw new Error("Chart element not found");
     }
 
-    // Store original styles
+    // Store original styles and parent
     const originalStyles = {
       width: chartElement.style.width,
       height: chartElement.style.height,
       position: chartElement.style.position,
       transform: chartElement.style.transform,
+      top: chartElement.style.top,
+      left: chartElement.style.left,
     };
+    const originalParent = chartElement.parentElement;
 
     // Save complete chart state
     const originalState = saveChartState(chart);
@@ -190,34 +154,36 @@ async function exportApexChart(chart, chartId) {
       throw new Error("Failed to save chart state");
     }
 
-    // Move chart to fixed container
-    const originalParent = chartElement.parentElement;
+    // Move chart to fixed container and set absolute dimensions
     fixedContainer.innerHTML = "";
     fixedContainer.appendChild(chartElement);
-
-    // Set fixed dimensions
+    
+    // Force chart element to exact dimensions with padding offset
     chartElement.style.width = `${dimensions.width}px`;
     chartElement.style.height = `${dimensions.height}px`;
     chartElement.style.position = "absolute";
+    chartElement.style.top = "50px"; // Account for container padding
+    chartElement.style.left = "50px"; // Account for container padding
     chartElement.style.transform = "none";
+    chartElement.style.transformOrigin = "0 0";
 
-    // Force exact dimensions for export
+    // Force exact dimensions for SVG export
     const paperNode = chart.w.globals.dom.Paper.node;
     paperNode.setAttribute("width", dimensions.width.toString());
     paperNode.setAttribute("height", dimensions.height.toString());
     paperNode.style.width = `${dimensions.width}px`;
     paperNode.style.height = `${dimensions.height}px`;
-    paperNode.setAttribute(
-      "viewBox",
-      `0 0 ${dimensions.width} ${dimensions.height}`
-    );
+    paperNode.style.position = "absolute";
+    paperNode.style.top = "50px"; // Account for container padding
+    paperNode.style.left = "50px"; // Account for container padding
+    paperNode.setAttribute("viewBox", `0 0 ${dimensions.width} ${dimensions.height}`);
     paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
-    // Configure chart for export
+    // Configure chart for export with absolute dimensions
     await configureChartForExport(chart, dimensions.width, dimensions.height);
 
-    // Let the chart update
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    // Force a complete redraw with new dimensions
+    await new Promise((resolve) => setTimeout(resolve, 150));
 
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
@@ -307,19 +273,22 @@ function saveChartState(chart) {
 async function configureChartForExport(chart, width, height) {
   const paperNode = chart.w.globals.dom.Paper.node;
   
-  // Set SVG element dimensions with proper scaling
+  // Force SVG element to exact dimensions with no scaling
   paperNode.setAttribute("width", width.toString());
   paperNode.setAttribute("height", height.toString());
   paperNode.style.width = `${width}px`;
   paperNode.style.height = `${height}px`;
   paperNode.style.position = 'absolute';
-  paperNode.style.left = '0';
-  paperNode.style.top = '0';
+  paperNode.style.left = '0px';
+  paperNode.style.top = '0px';
+  paperNode.style.transform = 'none';
+  paperNode.style.transformOrigin = '0 0';
 
   // Set viewBox to match dimensions exactly
   paperNode.setAttribute("viewBox", `0 0 ${width} ${height}`);
   paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
   
+  // Update chart configuration with fixed dimensions
   let updatedOptions = {
     chart: {
       width: width,
@@ -327,7 +296,10 @@ async function configureChartForExport(chart, width, height) {
       animations: {
         enabled: false
       },
-      background: '#ffffff'
+      background: '#ffffff',
+      redraw: true,
+      redrawOnWindowResize: false,
+      redrawOnParentResize: false
     },
     markers: {
       size: 4,
@@ -367,8 +339,15 @@ async function configureChartForExport(chart, width, height) {
     await chart.updateOptions(updatedOptions, false, true);
   }
 
-  // Reduced delay for better performance
-  return new Promise(resolve => setTimeout(resolve, 50));
+  // Ensure chart dimensions are locked
+  if (chart.w && chart.w.globals) {
+    chart.w.globals.svgWidth = width;
+    chart.w.globals.svgHeight = height;
+    chart.w.globals.dom.baseEl.style.width = `${width}px`;
+    chart.w.globals.dom.baseEl.style.height = `${height}px`;
+  }
+
+  return new Promise(resolve => setTimeout(resolve, 100));
 }
 
 /**d
@@ -421,36 +400,51 @@ async function exportWithHtml2Canvas(chartElement) {
   // Get chart dimensions based on chart ID
   const dimensions = getChartDimensions(chartElement.id);
   
-  // Create a clone container with fixed dimensions
+  // Create a completely isolated container with fixed dimensions and padding
   const container = document.createElement("div");
-  container.style.position = "absolute";
-  container.style.width = `${dimensions.width}px`;
-  container.style.height = `${dimensions.height}px`;
+  container.style.position = "fixed";
+  container.style.top = "-9999px";
+  container.style.left = "-9999px";
+  container.style.width = `${dimensions.width + 100}px`; // Add 100px padding
+  container.style.height = `${dimensions.height + 100}px`; // Add 100px padding
+  container.style.backgroundColor = "#ffffff";
+  container.style.overflow = "visible"; // Changed from hidden to visible
+  container.style.zIndex = "-9999";
+  container.style.transform = "none";
+  container.style.transformOrigin = "0 0";
+  container.style.padding = "50px"; // Add padding to prevent cutoff
+  document.body.appendChild(container);
 
   // Clone the chart element into the container
   const clone = chartElement.cloneNode(true);
   clone.style.width = `${dimensions.width}px`;
   clone.style.height = `${dimensions.height}px`;
+  clone.style.position = "absolute";
+  clone.style.top = "50px"; // Account for container padding
+  clone.style.left = "50px"; // Account for container padding
+  clone.style.transform = "none";
+  clone.style.transformOrigin = "0 0";
   container.appendChild(clone);
-  document.body.appendChild(container);
 
-  // Find and adjust any SVG elements
+  // Find and adjust any SVG elements to exact dimensions
   const svgElements = clone.querySelectorAll("svg");
   svgElements.forEach((svg) => {
     svg.setAttribute("width", dimensions.width.toString());
     svg.setAttribute("height", dimensions.height.toString());
     svg.style.width = `${dimensions.width}px`;
     svg.style.height = `${dimensions.height}px`;
-    svg.setAttribute(
-      "viewBox",
-      `0 0 ${dimensions.width} ${dimensions.height}`
-    );
+    svg.style.position = "absolute";
+    svg.style.top = "50px"; // Account for container padding
+    svg.style.left = "50px"; // Account for container padding
+    svg.style.transform = "none";
+    svg.style.transformOrigin = "0 0";
+    svg.setAttribute("viewBox", `0 0 ${dimensions.width} ${dimensions.height}`);
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   });
 
   try {
     // Wait for layout updates
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 150));
 
     // Use html2canvas with fixed dimensions
     const canvas = await html2canvas(clone, {
@@ -460,12 +454,16 @@ async function exportWithHtml2Canvas(chartElement) {
       useCORS: true,
       allowTaint: true,
       backgroundColor: "#ffffff",
+      logging: false,
+      removeContainer: false
     });
 
     const base64String = canvas.toDataURL("image/png").split(",")[1];
 
     // Clean up
-    document.body.removeChild(container);
+    if (container.parentNode) {
+      document.body.removeChild(container);
+    }
 
     return base64String;
   } catch (error) {
