@@ -587,6 +587,7 @@ const getMainChartOptions = (
     legend: {
       position: "bottom",
       fontSize: "20px",
+      height: 80,
       showForNullSeries: false,
       showForZeroSeries: false,
     },

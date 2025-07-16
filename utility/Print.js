@@ -1,7 +1,57 @@
 // print_base64.js
 
 const DEFAULT_CHART_WIDTH = 1100;
-const DEFAULT_CHART_HEIGHT = 530;
+const DEFAULT_CHART_HEIGHT = 650; // Increased from 530 to accommodate legends
+const CFI_COMPOSITE_WIDTH = 500;
+const CFI_COMPOSITE_HEIGHT = 800;
+
+// Charts that have bottom legends and need extra height
+const CHARTS_WITH_BOTTOM_LEGENDS = [
+  "cfiRatio_chart",
+  "cfi_primaryReserveRatio_chart", 
+  "cfi_netIncomeOperationsRatio_chart",
+  "cfi_returnOnNetAssets_chart",
+  "cfi_viabilityRatio_chart",
+  "assetToLiabilities_chart",
+  "sourceOfIncomeClient_chart",
+  "sourceOfIncomePeer_chart",
+  "ffa_chart",
+  "cashFlowsTrend_chart",
+  "currentRatio_chart",
+  "tuitionDependency_chart",
+  "tuitionDiscountRate_chart",
+  "netTuitionPerStudent_chart",
+  "endowmentAssetsPerStudent_chart"
+];
+
+/**
+ * Check if a chart has a bottom legend
+ * @param {string} chartId - The ID of the chart
+ * @returns {boolean} - True if chart has bottom legend
+ */
+function hasBottomLegend(chartId) {
+  return CHARTS_WITH_BOTTOM_LEGENDS.includes(chartId);
+}
+
+/**
+ * Get appropriate dimensions for a chart
+ * @param {string} chartId - The ID of the chart
+ * @returns {Object} - Object with width and height
+ */
+function getChartDimensions(chartId) {
+  if (chartId === "cfiCompositeHtml_Chart") {
+    return { width: CFI_COMPOSITE_WIDTH, height: CFI_COMPOSITE_HEIGHT };
+  }
+  
+  // Use larger height for charts with bottom legends
+  if (hasBottomLegend(chartId)) {
+    console.log(`Using larger dimensions for ${chartId} with bottom legend`);
+    return { width: DEFAULT_CHART_WIDTH, height: DEFAULT_CHART_HEIGHT };
+  }
+  
+  console.log(`Using standard dimensions for ${chartId}`);
+  return { width: DEFAULT_CHART_WIDTH, height: 530 };
+}
 
 /**
  * Process charts with fixed dimensions regardless of screen resolution
@@ -17,8 +67,8 @@ async function processChartsWithSpacing(chartMappings) {
     const { chartId, fieldId } = chartMappings[i];
     updateProgressUI(i, chartMappings.length);
 
+    console.log(`Processing chart: ${chartId}...`);
     try {
-      console.log(`Processing chart: ${chartId}...`);
 
       // Get the chart element and instance
       const chartElement = document.getElementById(chartId);
@@ -29,6 +79,9 @@ async function processChartsWithSpacing(chartMappings) {
       }
 
       const chart = getChartInstance(chartId);
+      console.log(`Chart instance for ${chartId}:`, chart);
+      console.log(`Chart type for ${chartId}:`, typeof chart);
+      console.log(`Chart has dataURI for ${chartId}:`, chart && typeof chart.dataURI === "function");
 
       // If we have an ApexChart instance, use its export method
       if (chart && typeof chart.dataURI === "function") {
@@ -46,7 +99,7 @@ async function processChartsWithSpacing(chartMappings) {
       results.push({ chartId, fieldId, base64String });
 
       // Prevent UI freezing
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 500));
     } catch (error) {
       console.error(`Error processing chart ${chartId}:`, error);
       results.push({ chartId, fieldId, base64String: null });
@@ -379,8 +432,6 @@ function restoreCompleteChartState(chart, originalState) {
                       formattedValue = `${Math.round(millions)}M`;
                     } else if (absValue >= 1000) {
                       formattedValue = `${Math.round(absValue / 1000)}K`;
-                    } else if (absValue < 1 && absValue > 0) {
-                      formattedValue = absValue.toFixed(2);
                     } else {
                       formattedValue = Math.round(absValue).toString();
                     }
@@ -486,8 +537,43 @@ function createFormatterWithGlobals(numType, fixedNum) {
 }
 
 const getChartInstance = (chartId) => {
-    // Use direct access like intl_print.js for better performance
-    return window[chartId] || null;
+    console.log(`Getting chart instance for ${chartId}`);
+    console.log(`sourceOfIncomeClient_chart:`, sourceOfIncomeClient_chart);
+    console.log(`sourceOfIncomePeer_chart:`, sourceOfIncomePeer_chart);
+    
+    // Get the chart instance from the global scope
+    // This matches the pattern used in the main application
+    const chartMap = {
+      'cfiRatio_chart': cfiRatio_chart,
+      'doeOverall_chart': doeOverall_chart,
+      'cfi_primaryReserveRatio_chart': cfi_primaryReserveRatio_chart,
+      'cfi_netIncomeOperationsRatio_chart': cfi_netIncomeOperationsRatio_chart,
+      'cfi_returnOnNetAssets_chart': cfi_returnOnNetAssets_chart,
+      'cfi_viabilityRatio_chart': cfi_viabilityRatio_chart,
+      'FinancialPosition_chart': FinancialPosition_chart,
+      'assetToLiabilities_chart': assetToLiabilities_chart,
+      'sourceOfIncomeClient_chart': sourceOfIncomeClient_chart,
+      'sourceOfIncomePeer_chart': sourceOfIncomePeer_chart,
+      'ffa_chart': ffa_chart,
+      'cashFlowsTrend_chart': cashFlowsTrend_chart,
+      'currentRatio_chart': currentRatio_chart,
+      'salariesBenefitsToTotalExpense_chart': salariesBenefitsToTotalExpense_chart,
+      'salariesBenefitsPerNetTuition_chart': salariesBenefitsPerNetTuition_chart,
+      'netEducationalExpensePerStudent_chart': netEducationalExpensePerStudent_chart,
+      'annualTraditionalNetTuitionPerStudent_chart': annualTraditionalNetTuitionPerStudent_chart,
+      'tuitionDependency_chart': tuitionDependency_chart,
+      'tuitionDiscountRate_chart': tuitionDiscountRate_chart,
+      'ltDebtPerTotalOperatingRevenue_chart': ltDebtPerTotalOperatingRevenue_chart,
+      'debtServiceCoverageRatio_chart': debtServiceCoverageRatio_chart,
+      'debtBurdenRatio_chart': debtBurdenRatio_chart,
+      'endowmentOperatingBudget_chart': endowmentOperatingBudget_chart,
+      'endowmentAssetsPerStudent_chart': endowmentAssetsPerStudent_chart,
+      'cfiCompositeHtml_Chart': cfiCompositeHtml_Chart,
+    };
+    
+    const chart = chartMap[chartId] || null;
+    console.log(`Returning chart for ${chartId}:`, chart);
+    return chart;
   };
 
 /**
@@ -502,12 +588,16 @@ async function exportApexChart(chart, chartId) {
       throw new Error("Invalid chart instance");
     }
 
+    // Get appropriate dimensions for this chart
+    const dimensions = getChartDimensions(chartId);
+    const { width: chartWidth, height: chartHeight } = dimensions;
+
     // Create a fixed-size container
     const fixedContainer = document.createElement("div");
     fixedContainer.style.position = "absolute";
     fixedContainer.style.left = "-9999px";
-    fixedContainer.style.width = `${DEFAULT_CHART_WIDTH}px`;
-    fixedContainer.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    fixedContainer.style.width = `${chartWidth}px`;
+    fixedContainer.style.height = `${chartHeight}px`;
     fixedContainer.style.backgroundColor = "#ffffff";
     fixedContainer.style.overflow = "hidden";
     document.body.appendChild(fixedContainer);
@@ -538,20 +628,20 @@ async function exportApexChart(chart, chartId) {
     fixedContainer.appendChild(chartElement);
 
     // Set fixed dimensions
-    chartElement.style.width = `${DEFAULT_CHART_WIDTH}px`;
-    chartElement.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    chartElement.style.width = `${chartWidth}px`;
+    chartElement.style.height = `${chartHeight}px`;
     chartElement.style.position = "absolute";
     chartElement.style.transform = "none";
 
     // Force exact dimensions for export
     const paperNode = chart.w.globals.dom.Paper.node;
-    paperNode.setAttribute("width", DEFAULT_CHART_WIDTH.toString());
-    paperNode.setAttribute("height", DEFAULT_CHART_HEIGHT.toString());
-    paperNode.style.width = `${DEFAULT_CHART_WIDTH}px`;
-    paperNode.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    paperNode.setAttribute("width", chartWidth.toString());
+    paperNode.setAttribute("height", chartHeight.toString());
+    paperNode.style.width = `${chartWidth}px`;
+    paperNode.style.height = `${chartHeight}px`;
     paperNode.setAttribute(
       "viewBox",
-      `0 0 ${DEFAULT_CHART_WIDTH} ${DEFAULT_CHART_HEIGHT}`
+      `0 0 ${chartWidth} ${chartHeight}`
     );
     paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
@@ -580,8 +670,8 @@ async function exportApexChart(chart, chartId) {
       ...originalState.chartConfig,
       chart: {
         ...originalState.chartConfig.chart,
-        width: DEFAULT_CHART_WIDTH,
-        height: DEFAULT_CHART_HEIGHT,
+        width: chartWidth,
+        height: chartHeight,
         animations: {
           enabled: false,
         },
@@ -892,18 +982,66 @@ async function exportApexChart(chart, chartId) {
       };
     }
 
+    // Special handling for CFI charts to ensure legend is properly displayed
+    if (hasBottomLegend(chartId)) {
+      console.log(`Applying special legend handling for ${chartId}`);
+      
+      exportOptions.legend = {
+        ...originalState.chartConfig.legend,
+        position: "bottom",
+        fontSize: "20px",
+        height: 80,
+        showForNullSeries: false,
+        showForZeroSeries: false,
+        onItemClick: {
+          toggleDataSeries: false
+        },
+        onItemHover: {
+          highlightDataSeries: false
+        },
+        // Ensure legend is visible and properly positioned
+        show: true,
+        floating: false,
+        offsetX: 0,
+        offsetY: 0,
+        // Ensure proper spacing
+        itemMargin: {
+          horizontal: 10,
+          vertical: 5
+        }
+      };
+      
+      // Also ensure the chart has proper spacing for the legend
+      exportOptions.chart.sparkline = {
+        enabled: false
+      };
+      
+      // Ensure proper margins to accommodate legend
+      exportOptions.chart.margin = [20, 20, 100, 20]; // top, right, bottom, left - increased bottom margin for legend
+      
+      console.log(`Export options for ${chartId}:`, {
+        dimensions: { chartWidth, chartHeight },
+        legend: exportOptions.legend,
+        chart: exportOptions.chart
+      });
+    }
+    
+    console.log(`Final export options for ${chartId}:`, exportOptions);
+
     // Update chart with export options
     chart.updateOptions(exportOptions, false, false);
 
     // Let the chart update
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
-      width: DEFAULT_CHART_WIDTH,
-      height: DEFAULT_CHART_HEIGHT,
-      scale: 2, // Higher resolution
+      width: chartWidth,
+      height: chartHeight,
+      scale: 1, // Reduced resolution to avoid size issues
     });
+
+    console.log(`Chart ${chartId} exported successfully, URI length: ${uri.imgURI.length}`);
 
     // Restore chart to original position
     if (originalParent) {
@@ -919,7 +1057,10 @@ async function exportApexChart(chart, chartId) {
       document.body.removeChild(fixedContainer);
     }
 
-    return uri.imgURI.split(",")[1];
+    const base64String = uri.imgURI.split(",")[1];
+    console.log(`Base64 string length for ${chartId}: ${base64String.length}`);
+    
+    return base64String;
   } catch (error) {
     console.error("Error in exportApexChart:", error);
     return null;
@@ -930,43 +1071,48 @@ async function exportApexChart(chart, chartId) {
  * Fallback to html2canvas for export
  */
 async function exportWithHtml2Canvas(chartElement) {
+  // Get chart ID from the element
+  const chartId = chartElement.id;
+  const dimensions = getChartDimensions(chartId);
+  const { width: chartWidth, height: chartHeight } = dimensions;
+
   // Create a clone container with fixed dimensions
   const container = document.createElement("div");
   container.style.position = "absolute";
   // container.style.left = '-9999px';
-  container.style.width = `${DEFAULT_CHART_WIDTH}px`;
-  container.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+  container.style.width = `${chartWidth}px`;
+  container.style.height = `${chartHeight}px`;
 
   // Clone the chart element into the container
   const clone = chartElement.cloneNode(true);
-  clone.style.width = `${DEFAULT_CHART_WIDTH}px`;
-  clone.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+  clone.style.width = `${chartWidth}px`;
+  clone.style.height = `${chartHeight}px`;
   container.appendChild(clone);
   document.body.appendChild(container);
 
   // Find and adjust any SVG elements
   const svgElements = clone.querySelectorAll("svg");
   svgElements.forEach((svg) => {
-    svg.setAttribute("width", DEFAULT_CHART_WIDTH.toString());
-    svg.setAttribute("height", DEFAULT_CHART_HEIGHT.toString());
-    svg.style.width = `${DEFAULT_CHART_WIDTH}px`;
-    svg.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    svg.setAttribute("width", chartWidth.toString());
+    svg.setAttribute("height", chartHeight.toString());
+    svg.style.width = `${chartWidth}px`;
+    svg.style.height = `${chartHeight}px`;
     svg.setAttribute(
       "viewBox",
-      `0 0 ${DEFAULT_CHART_WIDTH} ${DEFAULT_CHART_HEIGHT}`
+      `0 0 ${chartWidth} ${chartHeight}`
     );
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   });
 
   try {
     // Wait for layout updates
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Use html2canvas with fixed dimensions
     const canvas = await html2canvas(clone, {
-      scale: 2,
-      width: DEFAULT_CHART_WIDTH,
-      height: DEFAULT_CHART_HEIGHT,
+      scale: 1, // Reduced resolution to avoid size issues
+      width: chartWidth,
+      height: chartHeight,
       useCORS: true,
       allowTaint: true,
       backgroundColor:
@@ -975,7 +1121,10 @@ async function exportWithHtml2Canvas(chartElement) {
         ) || "#ffffff",
     });
 
-    const base64String = canvas.toDataURL("image/png").split(",")[1];
+    const dataURL = canvas.toDataURL("image/png");
+    const base64String = dataURL.split(",")[1];
+    
+    console.log(`html2canvas export for ${chartElement.id}: dataURL length: ${dataURL.length}, base64 length: ${base64String.length}`);
 
     // Clean up
     document.body.removeChild(container);
@@ -1104,7 +1253,7 @@ async function apexChartsExportPrint() {
       }
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Define chart mappings
     const chartMappings = [
@@ -1136,6 +1285,12 @@ async function apexChartsExportPrint() {
     ];
 
     // Filter out any charts that don't exist in the DOM
+    console.log("Checking DOM elements for charts:");
+    chartMappings.forEach(({ chartId }) => {
+      const element = document.getElementById(chartId);
+      console.log(`${chartId}:`, element ? "EXISTS" : "MISSING");
+    });
+    
     const validChartMappings = chartMappings.filter(
       ({ chartId }) => document.getElementById(chartId) !== null
     );
@@ -1144,9 +1299,13 @@ async function apexChartsExportPrint() {
       throw new Error("No valid charts found to upload");
     }
 
+    console.log("Valid chart mappings:", validChartMappings.map(m => m.chartId));
+    
     // Process charts with fixed dimensions
     const results = await processChartsWithSpacing(validChartMappings);
 
+    console.log("Export results:", results.map(r => ({ chartId: r.chartId, success: r.base64String !== null, base64Length: r.base64String ? r.base64String.length : 0 })));
+    
     // Count successful exports
     const successfulExports = results.filter(
       (r) => r.base64String !== null
@@ -1211,55 +1370,69 @@ function buildUploadXml(results) {
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 
+  console.log("Adding basic fields to XML...");
+  console.log("Field 31 (firmName):", firmName);
   uploadXml += createFieldXml(31, firmName);
 
   // Check if uniqueClientSize exists before using it
   if (typeof window.uniqueClientSize !== "undefined") {
+    console.log("Field 32 (uniqueClientSize):", window.uniqueClientSize);
     uploadXml += createFieldXml(32, window.uniqueClientSize);
   }
 
+  console.log("Field 94 (selectedYears):", selectedYears[selectedYears.length - 1]);
   uploadXml += createFieldXml(94, selectedYears[selectedYears.length - 1]);
+  console.log("Field 69 (monthYearEnd):", window.monthYearEnd);
   uploadXml += createFieldXml(69, window.monthYearEnd);
+  console.log("Field 89 (sliderValue):", sliderValue);
   uploadXml += createFieldXml(89, sliderValue);
+  console.log("Field 90 (sliderValue2):", sliderValue2);
   uploadXml += createFieldXml(90, sliderValue2);
 
   // Optimize array joins by checking if arrays exist first
+  console.log("Field 91 (selectedSeminaries):", window.selectedSeminaries_Array ? Array.from(window.selectedSeminaries_Array).join(", ") : "");
   uploadXml += createFieldXml(
     91,
     window.selectedSeminaries_Array
       ? Array.from(window.selectedSeminaries_Array).join(", ")
       : ""
   );
+  console.log("Field 93 (selectedRegionals):", window.selectedRegionals_Array ? Array.from(window.selectedRegionals_Array).join(", ") : "");
   uploadXml += createFieldXml(
     93,
     window.selectedRegionals_Array
       ? Array.from(window.selectedRegionals_Array).join(", ")
       : ""
   );
+  console.log("Field 64 (selectedRegions):", window.selectedRegions_Array ? Array.from(window.selectedRegions_Array).join(", ") : "");
   uploadXml += createFieldXml(
     64,
     window.selectedRegions_Array
       ? Array.from(window.selectedRegions_Array).join(", ")
       : ""
   );
+  console.log("Field 65 (selectedStates):", window.selectedStates_Array ? Array.from(window.selectedStates_Array).join(", ") : "");
   uploadXml += createFieldXml(
     65,
     window.selectedStates_Array
       ? Array.from(window.selectedStates_Array).join(", ")
       : ""
   );
+  console.log("Field 66 (selectedMemberships):", window.selectedMemberships_Array ? Array.from(window.selectedMemberships_Array).join(", ") : "");
   uploadXml += createFieldXml(
     66,
     window.selectedMemberships_Array
       ? Array.from(window.selectedMemberships_Array).join(", ")
       : ""
   );
+  console.log("Field 67 (selectedTypes):", window.selectedTypes_Array ? Array.from(window.selectedTypes_Array).join(", ") : "");
   uploadXml += createFieldXml(
     67,
     window.selectedTypes_Array
       ? Array.from(window.selectedTypes_Array).join(", ")
       : ""
   );
+  console.log("Field 68 (selectedAthletics):", window.selectedAthletics_Array ? Array.from(window.selectedAthletics_Array).join(", ") : "");
   uploadXml += createFieldXml(
     68,
     window.selectedAthletics_Array
@@ -1291,13 +1464,54 @@ function buildUploadXml(results) {
   });
 
   // Add base64 images for charts
+  console.log("Processing results for XML upload:", results.map(r => ({ chartId: r.chartId, fieldId: r.fieldId, hasData: !!r.base64String })));
+  
   results.forEach((result) => {
     if (result && result.base64String) {
-      uploadXml += createImageFieldXml(result.fieldId, result.base64String);
+      // Validate base64 string before adding to XML
+      if (/^[A-Za-z0-9+/]*={0,2}$/.test(result.base64String)) {
+        console.log(`Adding chart ${result.chartId} to XML for field ${result.fieldId}`);
+        try {
+          const imageXml = createImageFieldXml(result.fieldId, result.base64String);
+          uploadXml += imageXml;
+          console.log(`Successfully added XML for ${result.chartId}`);
+        } catch (error) {
+          console.error(`Error creating XML for ${result.chartId}:`, error);
+        }
+      } else {
+        console.warn(`Skipping chart ${result.chartId} - invalid base64 data`);
+      }
+    } else {
+      console.warn(`Skipping chart ${result.chartId} - no base64 data`);
     }
   });
 
   uploadXml += "</qdbapi>";
+  console.log(`Final XML length: ${uploadXml.length} characters`);
+  
+  // Debug: Check XML structure around the error position
+  if (uploadXml.length > 1282) {
+    console.log("XML around position 1282:", uploadXml.substring(1270, 1300));
+    console.log("Character at position 1282:", uploadXml.charAt(1281));
+    console.log("Character code at position 1282:", uploadXml.charCodeAt(1281));
+  }
+  
+  // Validate XML structure
+  try {
+    // Simple validation - check for unescaped characters
+    if (uploadXml.includes('&') && !uploadXml.includes('&amp;')) {
+      console.warn("Found unescaped & character in XML");
+    }
+    if (uploadXml.includes('<') && !uploadXml.includes('&lt;')) {
+      console.warn("Found unescaped < character in XML");
+    }
+    if (uploadXml.includes('>') && !uploadXml.includes('&gt;')) {
+      console.warn("Found unescaped > character in XML");
+    }
+  } catch (error) {
+    console.error("Error validating XML:", error);
+  }
+  
   return uploadXml;
 }
 
@@ -1318,7 +1532,15 @@ function createFieldXml(id, val) {
     return "";
   }
 
-  return `<field fid='${id}'>${val}</field>`;
+  // Escape XML special characters in the field value
+  const escapedVal = String(val)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+
+  return `<field fid='${id}'>${escapedVal}</field>`;
 }
 
 /**
@@ -1332,7 +1554,29 @@ function createImageFieldXml(id, val) {
     console.warn(`Skipping image upload for field ${id} - missing data`);
     return "";
   }
-  return `<field fid='${id}' filename='chart.png'>${val}</field>`;
+  
+  // Check base64 string length (Quickbase has limits)
+  if (val.length > 1000000) { // 1MB limit
+    console.warn(`Base64 string too long for field ${id} (${val.length} chars), skipping`);
+    return "";
+  }
+  
+  // Validate base64 string
+  if (!/^[A-Za-z0-9+/]*={0,2}$/.test(val)) {
+    console.warn(`Invalid base64 string for field ${id}, skipping`);
+    return "";
+  }
+  
+  // Escape XML special characters in the base64 string
+  const escapedVal = val
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+    
+  console.log(`Creating XML field for ${id}, base64 length: ${val.length}`);
+  return `<field fid='${id}' filename='chart.png'>${escapedVal}</field>`;
 }
 
 /**
