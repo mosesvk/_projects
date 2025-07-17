@@ -3351,14 +3351,8 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
         },
       },
     },
-    fill: {
-      colors: [chartColor],
-    },
     stroke: {
       dashArray: 4,
-      style: {
-        color: chartColor,
-      },
     },
     labels: [textLabel],
   };

@@ -561,17 +561,17 @@ async function exportApexChart(chart, chartId) {
     
     // For radialBar charts, log the original configuration
     if (chartType === "radialBar") {
-      // console.log(`[RADIALBAR DEBUG] ${chartId} - Original chart config:`, {
-      //   fill: chart.w.config.fill,
-      //   stroke: chart.w.config.stroke,
-      //   plotOptions: chart.w.config.plotOptions,
-      //   labels: chart.w.config.labels,
-      //   colors: chart.w.config.colors,
-      //   series: chart.w.config.series
-      // });
+      console.log(`[RADIALBAR DEBUG] ${chartId} - Original chart config:`, {
+        fill: chart.w.config.fill,
+        stroke: chart.w.config.stroke,
+        plotOptions: chart.w.config.plotOptions,
+        labels: chart.w.config.labels,
+        colors: chart.w.config.colors,
+        series: chart.w.config.series
+      });
       
       // Also log the actual data values to understand the color logic
-      // console.log(`[RADIALBAR DEBUG] ${chartId} - Series data:`, chart.w.config.series);
+      console.log(`[RADIALBAR DEBUG] ${chartId} - Series data:`, chart.w.config.series);
     }
     
     // Simple configuration like testPrint.js - only set basic properties
