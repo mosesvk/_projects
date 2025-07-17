@@ -3012,13 +3012,13 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
         dataLabels: {
           name: {
             fontSize: "16px",
-            color: chartColor,
+            color: window.chartColors.black,
             offsetY: 120,
           },
           value: {
             fontSize: "50px",
             fontWeight: "700",
-            color: chartColor,
+            color: window.chartColors.black,
             formatter: function (val) {
               return val + "%";
             },
@@ -3337,11 +3337,12 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
           name: {
             fontSize: "16px",
             offsetY: 120,
+            color: window.chartColors.black,
           },
           value: {
             fontSize: "50px",
             fontWeight: "700",
-            color: chartColor,
+            color: window.chartColors.black,
             formatter: function (val) {
               return val + "%";
             },
@@ -3352,6 +3353,9 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
     },
     stroke: {
       dashArray: 4,
+    },
+    fill: {
+      colors: [chartColor],
     },
     labels: [textLabel],
   };
@@ -5228,13 +5232,13 @@ const getLtDebtPerTotalOperatingRevenueChartOptions = (data) => {
         dataLabels: {
           name: {
             fontSize: "16px",
-            color: chartColor,
+            color: window.chartColors.black,
             offsetY: 120,
           },
           value: {
             fontSize: "50px",
             fontWeight: "700",
-            color: chartColor,
+            color: window.chartColors.black,
             formatter: function (val) {
               return val + "%";
             },
@@ -5424,13 +5428,13 @@ const getDebtBurdenRatioChartOptions = (data) => {
         dataLabels: {
           name: {
             fontSize: "16px",
-            color: gaugeChartColor,
+            color: window.chartColors.black,
             offsetY: 120,
           },
           value: {
             fontSize: "50px",
             fontWeight: "700",
-            color: gaugeChartColor,
+            color: window.chartColors.black,
             formatter: function (val) {
               return val + "%";
             },

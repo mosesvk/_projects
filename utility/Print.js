@@ -19,15 +19,26 @@ function getChartDimensions(chartId) {
     };
   }
 
+  // RadialBar charts need compact, square dimensions
+  const radialBarCharts = [
+    "salariesBenefitsToTotalExpense_chart",
+    "salariesBenefitsPerNetTuition_chart",
+    "debtBurdenRatio_chart",
+    "ltDebtPerTotalOperatingRevenue_chart",
+  ];
+
+  if (radialBarCharts.includes(chartId)) {
+    return {
+      width: 400, // Compact width for radialBar charts
+      height: 400, // Square aspect ratio works best for radialBar charts
+    };
+  }
+
   // Smaller charts that don't need full width - use 60% of default width
   const smallerCharts = [
     "sourceOfIncomeClient_chart",
     "sourceOfIncomePeer_chart",
-    "salariesBenefitsToTotalExpense_chart",
-    "salariesBenefitsPerNetTuition_chart",
     "netTuitionPerStudent_chart",
-    "debtBurdenRatio_chart",
-    "ltDebtPerTotalOperatingRevenue_chart",
   ];
 
   if (smallerCharts.includes(chartId)) {
