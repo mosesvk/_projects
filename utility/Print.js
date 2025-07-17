@@ -690,8 +690,11 @@ async function exportApexChart(chart, chartId) {
 
     console.log(`Final export options for ${chartId}:`, exportOptions);
 
-    // Update chart with export options
-    chart.updateOptions(exportOptions, false, false);
+    // For radialBar charts, don't update options to preserve original styling
+    if (chartType !== "radialBar") {
+      // Update chart with export options
+      chart.updateOptions(exportOptions, false, false);
+    }
 
     // Let the chart update
     await new Promise((resolve) => setTimeout(resolve, 200));
