@@ -29,8 +29,8 @@ function getChartDimensions(chartId) {
 
   if (radialBarCharts.includes(chartId)) {
     return {
-      width: 500, // Increased width to accommodate labels
-      height: 500, // Increased height to prevent cutoff
+      width: 700, // Increased width to accommodate labels
+      height: 400, // Increased height to prevent cutoff
     };
   }
 
@@ -602,9 +602,21 @@ async function exportApexChart(chart, chartId) {
       }
     };
 
-    // For radialBar charts, don't update options to preserve original styling
+    // For radialBar charts, apply dimensions but preserve styling
     if (chartType === "radialBar") {
-      console.log(`[RADIALBAR DEBUG] ${chartId} - Skipping updateOptions to preserve original styling`);
+      console.log(`[RADIALBAR DEBUG] ${chartId} - Applying dimensions while preserving styling`);
+      // Apply only the chart dimensions, not the full configuration
+      if (chart.updateOptions) {
+        await chart.updateOptions({
+          chart: {
+            width: chartWidth,
+            height: chartHeight,
+            animations: {
+              enabled: false
+            }
+          }
+        }, false, true);
+      }
     } else {
       // Force chart to redraw with new dimensions and styles
       if (chart.updateOptions) {
