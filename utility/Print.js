@@ -14,8 +14,8 @@ function getChartDimensions(chartId) {
   // CFI Composite chart needs special dimensions
   if (chartId === "cfiCompositeHtml_Chart") {
     return {
-      width: CFI_COMPOSITE_WIDTH,
-      height: CFI_COMPOSITE_HEIGHT,
+      width: 600, // Increased width to better utilize space
+      height: 500, // Reduced height to minimize white space below
     };
   }
 
@@ -34,11 +34,24 @@ function getChartDimensions(chartId) {
     };
   }
 
+  // Horizontal gauge charts need compact dimensions
+  const horizontalGaugeCharts = [
+    "netTuitionPerStudent_chart",
+    "debtServiceCoverageRatio_chart",
+    "endowmentOperatingBudget_chart",
+  ];
+
+  if (horizontalGaugeCharts.includes(chartId)) {
+    return {
+      width: 800, // Width matches the original FusionCharts width
+      height: 250, // Reduced height to minimize white space
+    };
+  }
+
   // Smaller charts that don't need full width - use 60% of default width
   const smallerCharts = [
     "sourceOfIncomeClient_chart",
     "sourceOfIncomePeer_chart",
-    "netTuitionPerStudent_chart",
   ];
 
   if (smallerCharts.includes(chartId)) {
@@ -249,6 +262,7 @@ function getChartTypeFromId(chartId) {
     salariesBenefitsToTotalExpense_chart: "radialBar",
     salariesBenefitsPerNetTuition_chart: "radialBar",
     netTuitionPerStudent_chart: "hlineargauge",
+    debtServiceCoverageRatio_chart: "hlineargauge",
     debtBurdenRatio_chart: "radialBar",
     ltDebtPerTotalOperatingRevenue_chart: "radialBar",
     netEducationalExpensePerStudent_chart: "line",
