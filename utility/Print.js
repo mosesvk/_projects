@@ -5,33 +5,7 @@ const DEFAULT_CHART_HEIGHT = 650; // Increased from 530 to accommodate legends
 const CFI_COMPOSITE_WIDTH = 500;
 const CFI_COMPOSITE_HEIGHT = 800;
 
-// Charts that have bottom legends and need extra height
-const CHARTS_WITH_BOTTOM_LEGENDS = [
-  "cfiRatio_chart",
-  "cfi_primaryReserveRatio_chart", 
-  "cfi_netIncomeOperationsRatio_chart",
-  "cfi_returnOnNetAssets_chart",
-  "cfi_viabilityRatio_chart",
-  "assetToLiabilities_chart",
-  "sourceOfIncomeClient_chart",
-  "sourceOfIncomePeer_chart",
-  "ffa_chart",
-  "cashFlowsTrend_chart",
-  "currentRatio_chart",
-  "tuitionDependency_chart",
-  "tuitionDiscountRate_chart",
-  "netTuitionPerStudent_chart",
-  "endowmentAssetsPerStudent_chart"
-];
 
-/**
- * Check if a chart has a bottom legend
- * @param {string} chartId - The ID of the chart
- * @returns {boolean} - True if chart has bottom legend
- */
-function hasBottomLegend(chartId) {
-  return CHARTS_WITH_BOTTOM_LEGENDS.includes(chartId);
-}
 
 /**
  * Get appropriate dimensions for a chart
@@ -39,18 +13,37 @@ function hasBottomLegend(chartId) {
  * @returns {Object} - Object with width and height
  */
 function getChartDimensions(chartId) {
+  // CFI Composite chart needs special dimensions
   if (chartId === "cfiCompositeHtml_Chart") {
-    return { width: CFI_COMPOSITE_WIDTH, height: CFI_COMPOSITE_HEIGHT };
+    return {
+      width: CFI_COMPOSITE_WIDTH,
+      height: CFI_COMPOSITE_HEIGHT
+    };
   }
   
-  // Use larger height for charts with bottom legends
-  if (hasBottomLegend(chartId)) {
-    console.log(`Using larger dimensions for ${chartId} with bottom legend`);
-    return { width: DEFAULT_CHART_WIDTH, height: DEFAULT_CHART_HEIGHT };
+  // Smaller charts that don't need full width - use 60% of default width
+  const smallerCharts = [
+    "sourceOfIncomeClient_chart",
+    "sourceOfIncomePeer_chart", 
+    "salariesBenefitsToTotalExpense_chart",
+    "salariesBenefitsPerNetTuition_chart",
+    "netTuitionPerStudent_chart",
+    "debtBurdenRatio_chart",
+    "ltDebtPerTotalOperatingRevenue_chart"
+  ];
+  
+  if (smallerCharts.includes(chartId)) {
+    return {
+      width: Math.round(DEFAULT_CHART_WIDTH * 0.6), // 720px (60% of 1200px)
+      height: DEFAULT_CHART_HEIGHT
+    };
   }
   
-  console.log(`Using standard dimensions for ${chartId}`);
-  return { width: DEFAULT_CHART_WIDTH, height: 530 };
+  // Default dimensions for all other charts
+  return {
+    width: DEFAULT_CHART_WIDTH,
+    height: DEFAULT_CHART_HEIGHT
+  };
 }
 
 /**
@@ -99,7 +92,7 @@ async function processChartsWithSpacing(chartMappings) {
       results.push({ chartId, fieldId, base64String });
 
       // Prevent UI freezing
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     } catch (error) {
       console.error(`Error processing chart ${chartId}:`, error);
       results.push({ chartId, fieldId, base64String: null });
@@ -568,7 +561,6 @@ const getChartInstance = (chartId) => {
       'debtBurdenRatio_chart': debtBurdenRatio_chart,
       'endowmentOperatingBudget_chart': endowmentOperatingBudget_chart,
       'endowmentAssetsPerStudent_chart': endowmentAssetsPerStudent_chart,
-      'cfiCompositeHtml_Chart': cfiCompositeHtml_Chart,
     };
     
     const chart = chartMap[chartId] || null;
@@ -982,49 +974,6 @@ async function exportApexChart(chart, chartId) {
       };
     }
 
-    // Special handling for CFI charts to ensure legend is properly displayed
-    if (hasBottomLegend(chartId)) {
-      console.log(`Applying special legend handling for ${chartId}`);
-      
-      exportOptions.legend = {
-        ...originalState.chartConfig.legend,
-        position: "bottom",
-        fontSize: "20px",
-        height: 80,
-        showForNullSeries: false,
-        showForZeroSeries: false,
-        onItemClick: {
-          toggleDataSeries: false
-        },
-        onItemHover: {
-          highlightDataSeries: false
-        },
-        // Ensure legend is visible and properly positioned
-        show: true,
-        floating: false,
-        offsetX: 0,
-        offsetY: 0,
-        // Ensure proper spacing
-        itemMargin: {
-          horizontal: 10,
-          vertical: 5
-        }
-      };
-      
-      // Also ensure the chart has proper spacing for the legend
-      exportOptions.chart.sparkline = {
-        enabled: false
-      };
-      
-      // Ensure proper margins to accommodate legend
-      exportOptions.chart.margin = [20, 20, 100, 20]; // top, right, bottom, left - increased bottom margin for legend
-      
-      console.log(`Export options for ${chartId}:`, {
-        dimensions: { chartWidth, chartHeight },
-        legend: exportOptions.legend,
-        chart: exportOptions.chart
-      });
-    }
     
     console.log(`Final export options for ${chartId}:`, exportOptions);
 
@@ -1032,7 +981,7 @@ async function exportApexChart(chart, chartId) {
     chart.updateOptions(exportOptions, false, false);
 
     // Let the chart update
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
@@ -1106,7 +1055,7 @@ async function exportWithHtml2Canvas(chartElement) {
 
   try {
     // Wait for layout updates
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     // Use html2canvas with fixed dimensions
     const canvas = await html2canvas(clone, {
@@ -1253,7 +1202,7 @@ async function apexChartsExportPrint() {
       }
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Define chart mappings
     const chartMappings = [
@@ -1488,6 +1437,12 @@ function buildUploadXml(results) {
 
   uploadXml += "</qdbapi>";
   console.log(`Final XML length: ${uploadXml.length} characters`);
+  
+  // Check if source of income charts are in the XML
+  const sourceOfIncomeClientInXml = uploadXml.includes('sourceOfIncomeClient_chart') || uploadXml.includes('fid=\'14\'');
+  const sourceOfIncomePeerInXml = uploadXml.includes('sourceOfIncomePeer_chart') || uploadXml.includes('fid=\'15\'');
+  console.log(`sourceOfIncomeClient_chart in XML: ${sourceOfIncomeClientInXml}`);
+  console.log(`sourceOfIncomePeer_chart in XML: ${sourceOfIncomePeerInXml}`);
   
   // Debug: Check XML structure around the error position
   if (uploadXml.length > 1282) {
