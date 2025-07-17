@@ -113,30 +113,35 @@ function saveCompleteChartState(chart) {
     const chartId = chart.w.globals.chartID;
     const mainName = chartId.replace("_chart", "");
 
-    // Deep clone the entire chart configuration
-    const clonedConfig = JSON.parse(
-      JSON.stringify({
-        chart: chartConfig.chart || {},
-        dataLabels: chartConfig.dataLabels || {},
-        markers: chartConfig.markers || {},
-        title: chartConfig.title || {},
-        xaxis: chartConfig.xaxis || {},
-        yaxis: chartConfig.yaxis || {},
-        tooltip: chartConfig.tooltip || {},
-        legend: chartConfig.legend || {},
-        grid: chartConfig.grid || {},
-        stroke: chartConfig.stroke || {},
-        fill: chartConfig.fill || {},
-        plotOptions: chartConfig.plotOptions || {},
-        annotations: chartConfig.annotations || {},
-        colors: chartConfig.colors || [],
-        series: chartConfig.series || [],
-        labels: chartConfig.labels || [],
-      })
-    );
-
     // Store chart type and parameters
     const chartType = getChartTypeFromId(chartId);
+
+    // Create base configuration object
+    const baseConfig = {
+      chart: chartConfig.chart || {},
+      dataLabels: chartConfig.dataLabels || {},
+      markers: chartConfig.markers || {},
+      title: chartConfig.title || {},
+      xaxis: chartConfig.xaxis || {},
+      yaxis: chartConfig.yaxis || {},
+      tooltip: chartConfig.tooltip || {},
+      legend: chartConfig.legend || {},
+      grid: chartConfig.grid || {},
+      stroke: chartConfig.stroke || {},
+      plotOptions: chartConfig.plotOptions || {},
+      annotations: chartConfig.annotations || {},
+      colors: chartConfig.colors || [],
+      series: chartConfig.series || [],
+      labels: chartConfig.labels || [],
+    };
+
+    // Add fill property only for non-radialBar charts
+    if (chartType !== "radialBar") {
+      baseConfig.fill = chartConfig.fill || {};
+    }
+
+    // Deep clone the entire chart configuration
+    const clonedConfig = JSON.parse(JSON.stringify(baseConfig));
 
     // Get numType from chart globals (critical for formatter function)
     const numType = chart.w.globals.numType || chartConfig.numType || "number";
@@ -380,15 +385,15 @@ function restoreCompleteChartState(chart, originalState) {
     if (chart.updateOptions && chartType !== "radialBar") {
       chart.updateOptions(restoredConfig, true, true);
     } else if (chartType === "radialBar") {
-      // console.log(`[RADIALBAR DEBUG] ${chartId} - Skipping restoration updateOptions to preserve original styling`);
-      // console.log(`[RADIALBAR DEBUG] ${chartId} - Final config after restoration:`, {
-      //   fill: chart.w.config.fill,
-      //   stroke: chart.w.config.stroke,
-      //   plotOptions: chart.w.config.plotOptions,
-      //   labels: chart.w.config.labels,
-      //   colors: chart.w.config.colors,
-      //   series: chart.w.config.series
-      // });
+      console.log(`[RADIALBAR DEBUG] ${chartId} - Skipping restoration updateOptions to preserve original styling`);
+      console.log(`[RADIALBAR DEBUG] ${chartId} - Final config after restoration:`, {
+        fill: chart.w.config.fill,
+        stroke: chart.w.config.stroke,
+        plotOptions: chart.w.config.plotOptions,
+        labels: chart.w.config.labels,
+        colors: chart.w.config.colors,
+        series: chart.w.config.series
+      });
     }
   } catch (error) {
     // console.warn("Error restoring chart state:", error);
@@ -588,7 +593,7 @@ async function exportApexChart(chart, chartId) {
 
     // For radialBar charts, don't update options to preserve original styling
     if (chartType === "radialBar") {
-      // console.log(`[RADIALBAR DEBUG] ${chartId} - Skipping updateOptions to preserve original styling`);
+      console.log(`[RADIALBAR DEBUG] ${chartId} - Skipping updateOptions to preserve original styling`);
     } else {
       // Force chart to redraw with new dimensions and styles
       if (chart.updateOptions) {
@@ -601,14 +606,14 @@ async function exportApexChart(chart, chartId) {
 
     // For radialBar charts, log the configuration right before export
     if (chartType === "radialBar") {
-      // console.log(`[RADIALBAR DEBUG] ${chartId} - Config before dataURI:`, {
-      //   fill: chart.w.config.fill,
-      //   stroke: chart.w.config.stroke,
-      //   plotOptions: chart.w.config.plotOptions,
-      //   labels: chart.w.config.labels,
-      //   colors: chart.w.config.colors,
-      //   series: chart.w.config.series
-      // });
+      console.log(`[RADIALBAR DEBUG] ${chartId} - Config before dataURI:`, {
+        fill: chart.w.config.fill,
+        stroke: chart.w.config.stroke,
+        plotOptions: chart.w.config.plotOptions,
+        labels: chart.w.config.labels,
+        colors: chart.w.config.colors,
+        series: chart.w.config.series
+      });
     }
 
     // Use ApexCharts' dataURI method with explicit dimensions
@@ -621,7 +626,7 @@ async function exportApexChart(chart, chartId) {
     // For radialBar charts, log the SVG content to see what's being exported
     if (chartType === "radialBar") {
       const svgContent = chart.w.globals.dom.Paper.node.outerHTML;
-      // console.log(`[RADIALBAR DEBUG] ${chartId} - SVG content being exported:`, svgContent.substring(0, 500) + "...");
+      console.log(`[RADIALBAR DEBUG] ${chartId} - SVG content being exported:`, svgContent.substring(0, 500) + "...");
     }
 
     // console.log(

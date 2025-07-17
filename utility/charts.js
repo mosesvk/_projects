@@ -3336,7 +3336,6 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
         dataLabels: {
           name: {
             fontSize: "16px",
-            color: chartColor,
             offsetY: 120,
           },
           value: {
