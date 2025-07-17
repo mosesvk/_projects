@@ -5,8 +5,6 @@ const DEFAULT_CHART_HEIGHT = 650; // Increased from 530 to accommodate legends
 const CFI_COMPOSITE_WIDTH = 500;
 const CFI_COMPOSITE_HEIGHT = 800;
 
-
-
 /**
  * Get appropriate dimensions for a chart
  * @param {string} chartId - The ID of the chart
@@ -17,32 +15,32 @@ function getChartDimensions(chartId) {
   if (chartId === "cfiCompositeHtml_Chart") {
     return {
       width: CFI_COMPOSITE_WIDTH,
-      height: CFI_COMPOSITE_HEIGHT
+      height: CFI_COMPOSITE_HEIGHT,
     };
   }
-  
+
   // Smaller charts that don't need full width - use 60% of default width
   const smallerCharts = [
     "sourceOfIncomeClient_chart",
-    "sourceOfIncomePeer_chart", 
+    "sourceOfIncomePeer_chart",
     "salariesBenefitsToTotalExpense_chart",
     "salariesBenefitsPerNetTuition_chart",
     "netTuitionPerStudent_chart",
     "debtBurdenRatio_chart",
-    "ltDebtPerTotalOperatingRevenue_chart"
+    "ltDebtPerTotalOperatingRevenue_chart",
   ];
-  
+
   if (smallerCharts.includes(chartId)) {
     return {
       width: Math.round(DEFAULT_CHART_WIDTH * 0.6), // 720px (60% of 1200px)
-      height: DEFAULT_CHART_HEIGHT
+      height: DEFAULT_CHART_HEIGHT,
     };
   }
-  
+
   // Default dimensions for all other charts
   return {
     width: DEFAULT_CHART_WIDTH,
-    height: DEFAULT_CHART_HEIGHT
+    height: DEFAULT_CHART_HEIGHT,
   };
 }
 
@@ -62,7 +60,6 @@ async function processChartsWithSpacing(chartMappings) {
 
     console.log(`Processing chart: ${chartId}...`);
     try {
-
       // Get the chart element and instance
       const chartElement = document.getElementById(chartId);
       if (!chartElement) {
@@ -74,7 +71,10 @@ async function processChartsWithSpacing(chartMappings) {
       const chart = getChartInstance(chartId);
       console.log(`Chart instance for ${chartId}:`, chart);
       console.log(`Chart type for ${chartId}:`, typeof chart);
-      console.log(`Chart has dataURI for ${chartId}:`, chart && typeof chart.dataURI === "function");
+      console.log(
+        `Chart has dataURI for ${chartId}:`,
+        chart && typeof chart.dataURI === "function"
+      );
 
       // If we have an ApexChart instance, use its export method
       if (chart && typeof chart.dataURI === "function") {
@@ -131,6 +131,7 @@ function saveCompleteChartState(chart) {
         annotations: chartConfig.annotations || {},
         colors: chartConfig.colors || [],
         series: chartConfig.series || [],
+        labels: chartConfig.labels || [],
       })
     );
 
@@ -149,12 +150,8 @@ function saveCompleteChartState(chart) {
         )
       : chartConfig.dataLabels?.fixedNum || 0;
 
-    // For costOfContributions chart, save the exact y-axis configuration
-    let yaxisConfig = null;
-    if (
-      chartType === "costOfContributions" &&
-      Array.isArray(chartConfig.yaxis)
-    ) {
+    let yaxisConfig;
+    if (Array.isArray(chartConfig.yaxis)) {
       yaxisConfig = chartConfig.yaxis.map((axis) => ({
         ...axis,
         labels: {
@@ -165,6 +162,18 @@ function saveCompleteChartState(chart) {
         axisBorder: axis.axisBorder || {},
         axisTicks: axis.axisTicks || {},
       }));
+    } else {
+      // Handle single y-axis object
+      yaxisConfig = [{
+        ...chartConfig.yaxis,
+        labels: {
+          ...chartConfig.yaxis?.labels,
+          formatter: chartConfig.yaxis?.labels?.formatter?.toString(),
+          style: chartConfig.yaxis?.labels?.style || {},
+        },
+        axisBorder: chartConfig.yaxis?.axisBorder || {},
+        axisTicks: chartConfig.yaxis?.axisTicks || {},
+      }];
     }
 
     // Save everything we'll need for proper restoration
@@ -208,12 +217,30 @@ function saveCompleteChartState(chart) {
 // Helper function to determine chart type based on chart ID
 function getChartTypeFromId(chartId) {
   const idToTypeMap = {
-    netAssetBreakdown_chart: "netAssetBreakdown",
-    changeInNetAssets_chart: "line",
-    statementCashFlows_chart: "cashFlow",
-    functionalAllocation_chart: "functionalAllocation",
-    costOfContributions_chart: "costOfContributions",
-    costOfContributionsDetailView_chart: "costOfContributions",
+    cfiRatio_chart: "line",
+    doeOverall_chart: "line",
+    cfi_primaryReserveRatio_chart: "line",
+    cfi_netIncomeOperationsRatio_chart: "line",
+    cfi_returnOnNetAssets_chart: "line",
+    cfi_viabilityRatio_chart: "line",
+    FinancialPosition_chart: "bar",
+    assetToLiabilities_chart: "bar",
+    sourceOfIncomeClient_chart: "pie",
+    sourceOfIncomePeer_chart: "pie",
+    ffa_chart: "rangeBar",
+    cashFlowsTrend_chart: "bar",
+    currentRatio_chart: "line",
+    salariesBenefitsToTotalExpense_chart: "radialBar",
+    salariesBenefitsPerNetTuition_chart: "radialBar",
+    netTuitionPerStudent_chart: "hlineargauge",
+    debtBurdenRatio_chart: "radialBar",
+    ltDebtPerTotalOperatingRevenue_chart: "radialBar",
+    netEducationalExpensePerStudent_chart: "line",
+    annualTraditionalNetTuitionPerStudent_chart: "line",
+    tuitionDependency_chart: "line",
+    tuitionDiscountRate_chart: "line",
+    endowmentOperatingBudget_chart: "hlineargauge",
+    endowmentAssetsPerStudent_chart: "line",
   };
 
   // Check for specific mapping
@@ -275,118 +302,20 @@ function restoreCompleteChartState(chart, originalState) {
 
     // Different restoration logic based on chart type
     let restoredConfig;
-
-    // First, ensure numType will be available in chart.w.globals
-    if (chart.w.globals) {
-      chart.w.globals.numType = numType;
-    }
-
-    // For costOfContributions chart, use the saved y-axis configuration
-    if (chartType === "costOfContributions") {
-      // First, get the original y-axis configuration
-      const originalYAxis = originalState.chartConfig.yaxis;
-
-      // console.log("CHARTTYPE==costOfContributions", {
-      //   originalState,
-      //   originalYAxis,
-      // });
-
+    
+    if (chartType === "radialBar") {
+      // For radialBar charts, preserve the original configuration completely
       restoredConfig = {
         ...originalState.chartConfig,
-        yaxis: [
-          // First y-axis (dollar values)
-          {
-            ...originalYAxis[0],
-            labels: {
-              ...originalYAxis[0].labels,
-              formatter: function (value) {
-                if (value === null || value === undefined || value === 0) {
-                  if (numType === "dollar") return "$0";
-                  if (numType === "percent") return "0%";
-                  return "0";
-                }
-
-                const isNegative = value < 0;
-                const absValue = Math.abs(value);
-
-                let formattedValue;
-                if (absValue >= 1000000) {
-                  // Remove decimal point for millions
-                  const millions = absValue / 1000000;
-                  formattedValue = `${Math.round(millions)}M`;
-                } else if (absValue >= 1000) {
-                  formattedValue = `${Math.round(absValue / 1000)}K`;
-                } else if (absValue < 1 && absValue > 0) {
-                  formattedValue = absValue.toFixed(2);
-                } else {
-                  formattedValue = Math.round(absValue).toString();
-                }
-
-                // Apply appropriate symbol based on numType
-                if (numType === "dollar") {
-                  return `${isNegative ? "-" : ""}$${formattedValue}`;
-                } else if (numType === "percent") {
-                  return `${isNegative ? "-" : ""}${formattedValue}%`;
-                }
-                return `${isNegative ? "-" : ""}${formattedValue}`;
-              },
-            },
+        chart: {
+          ...originalState.chartConfig.chart,
+          animations: {
+            enabled: true,
           },
-          // Second y-axis (hidden)
-          {
-            ...originalYAxis[1],
-          },
-          // Third y-axis (ratio values)
-          {
-            ...originalYAxis[2],
-            labels: {
-              ...originalYAxis[2].labels,
-              formatter: function (value) {
-                if (value === null || value === undefined || value === 0) {
-                  if (numType === "dollar") return "$0";
-                  if (numType === "percent") return "0%";
-                  return "0";
-                }
-
-                const isNegative = value < 0;
-                const absValue = Math.abs(value);
-
-                let formattedValue;
-                if (absValue >= 1000000) {
-                  // Remove decimal point for millions
-                  const millions = absValue / 1000000;
-                  formattedValue = `${Math.round(millions)}M`;
-                } else if (absValue >= 1000) {
-                  formattedValue = `${Math.round(absValue / 1000)}K`;
-                } else if (absValue < 1 && absValue > 0) {
-                  formattedValue = absValue.toFixed(2);
-                } else {
-                  formattedValue = Math.round(absValue).toString();
-                }
-
-                // Apply appropriate symbol based on numType
-                if (numType === "dollar") {
-                  return `${isNegative ? "-" : ""}$${formattedValue}`;
-                } else if (numType === "percent") {
-                  return `${isNegative ? "-" : ""}${formattedValue}%`;
-                }
-                return `${isNegative ? "-" : ""}${formattedValue}`;
-              },
-              style: {
-                ...originalYAxis[2].labels?.style,
-                colors: originalYAxis[2]?.labels?.style?.colors || "#3a464f",
-                fontSize: "1.25rem",
-              },
-            },
-          },
-          // Fourth y-axis (hidden)
-          {
-            ...originalYAxis[3],
-          },
-        ],
+        },
       };
     } else {
-      // Use existing restoration logic for other chart types
+      // For other chart types, use the complex restoration logic
       restoredConfig = {
         ...originalState.chartConfig,
         xaxis: {
@@ -402,80 +331,49 @@ function restoreCompleteChartState(chart, originalState) {
             },
           },
         },
-        yaxis: Array.isArray(originalState.chartConfig.yaxis)
-          ? originalState.chartConfig.yaxis.map((axis) => {
-              return {
-                ...axis,
-                labels: {
-                  ...axis.labels,
-                  formatter: function (value) {
-                    if (value === null || value === undefined || value === 0) {
-                      if (numType === "dollar") return "$0";
-                      if (numType === "percent") return "0%";
-                      return "0";
-                    }
+        yaxis: originalState.yaxisConfig ? originalState.yaxisConfig.map((axis) => {
+          return {
+            ...axis,
+            labels: {
+              ...axis.labels,
+              formatter: function (value) {
+                if (value === null || value === undefined || value === 0) {
+                  if (numType === "dollar") return "$0";
+                  if (numType === "percent") return "0%";
+                  return "0";
+                }
 
-                    const isNegative = value < 0;
-                    const absValue = Math.abs(value);
+                const isNegative = value < 0;
+                const absValue = Math.abs(value);
 
-                    let formattedValue;
-                    if (absValue >= 1000000) {
-                      // Remove decimal point for millions
-                      const millions = absValue / 1000000;
-                      formattedValue = `${Math.round(millions)}M`;
-                    } else if (absValue >= 1000) {
-                      formattedValue = `${Math.round(absValue / 1000)}K`;
-                    } else {
-                      formattedValue = Math.round(absValue).toString();
-                    }
+                let formattedValue;
+                if (absValue >= 1000000) {
+                  // Remove decimal point for millions
+                  const millions = absValue / 1000000;
+                  formattedValue = `${Math.round(millions)}M`;
+                } else if (absValue >= 1000) {
+                  formattedValue = `${Math.round(absValue / 1000)}K`;
+                } else {
+                  formattedValue = Math.round(absValue).toString();
+                }
 
-                    // Apply appropriate symbol based on numType
-                    if (numType === "dollar") {
-                      return `${isNegative ? "-" : ""}$${formattedValue}`;
-                    } else if (numType === "percent") {
-                      return `${isNegative ? "-" : ""}${formattedValue}%`;
-                    }
-                    return `${isNegative ? "-" : ""}${formattedValue}`;
-                  },
-                },
-              };
-            })
-          : {
-              ...originalState.chartConfig.yaxis,
-              labels: {
-                ...originalState.chartConfig.yaxis?.labels,
-                formatter: function (value) {
-                  if (value === null || value === undefined || value === 0) {
-                    if (numType === "dollar") return "$0";
-                    if (numType === "percent") return "0%";
-                    return "0";
-                  }
-
-                  const isNegative = value < 0;
-                  const absValue = Math.abs(value);
-
-                  let formattedValue;
-                  if (absValue >= 1000000) {
-                    // Remove decimal point for millions
-                    const millions = absValue / 1000000;
-                    formattedValue = `${Math.round(millions)}M`;
-                  } else if (absValue >= 1000) {
-                    formattedValue = `${Math.round(absValue / 1000)}K`;
-                  } else {
-                    formattedValue = Math.round(absValue).toString();
-                  }
-
-                  // Apply appropriate symbol based on numType
-                  if (numType === "dollar") {
-                    return `${isNegative ? "-" : ""}$${formattedValue}`;
-                  } else if (numType === "percent") {
-                    return `${isNegative ? "-" : ""}${formattedValue}%`;
-                  }
-                  return `${isNegative ? "-" : ""}${formattedValue}`;
-                },
+                // Apply appropriate symbol based on numType
+                if (numType === "dollar") {
+                  return `${isNegative ? "-" : ""}$${formattedValue}`;
+                } else if (numType === "percent") {
+                  return `${isNegative ? "-" : ""}${formattedValue}%`;
+                }
+                return `${isNegative ? "-" : ""}${formattedValue}`;
               },
             },
+          };
+        }) : [],
       };
+    }
+
+    // First, ensure numType will be available in chart.w.globals
+    if (chart.w.globals) {
+      chart.w.globals.numType = numType;
     }
 
     // Apply the restored configuration
@@ -530,43 +428,43 @@ function createFormatterWithGlobals(numType, fixedNum) {
 }
 
 const getChartInstance = (chartId) => {
-    console.log(`Getting chart instance for ${chartId}`);
-    console.log(`sourceOfIncomeClient_chart:`, sourceOfIncomeClient_chart);
-    console.log(`sourceOfIncomePeer_chart:`, sourceOfIncomePeer_chart);
-    
-    // Get the chart instance from the global scope
-    // This matches the pattern used in the main application
-    const chartMap = {
-      'cfiRatio_chart': cfiRatio_chart,
-      'doeOverall_chart': doeOverall_chart,
-      'cfi_primaryReserveRatio_chart': cfi_primaryReserveRatio_chart,
-      'cfi_netIncomeOperationsRatio_chart': cfi_netIncomeOperationsRatio_chart,
-      'cfi_returnOnNetAssets_chart': cfi_returnOnNetAssets_chart,
-      'cfi_viabilityRatio_chart': cfi_viabilityRatio_chart,
-      'FinancialPosition_chart': FinancialPosition_chart,
-      'assetToLiabilities_chart': assetToLiabilities_chart,
-      'sourceOfIncomeClient_chart': sourceOfIncomeClient_chart,
-      'sourceOfIncomePeer_chart': sourceOfIncomePeer_chart,
-      'ffa_chart': ffa_chart,
-      'cashFlowsTrend_chart': cashFlowsTrend_chart,
-      'currentRatio_chart': currentRatio_chart,
-      'salariesBenefitsToTotalExpense_chart': salariesBenefitsToTotalExpense_chart,
-      'salariesBenefitsPerNetTuition_chart': salariesBenefitsPerNetTuition_chart,
-      'netEducationalExpensePerStudent_chart': netEducationalExpensePerStudent_chart,
-      'annualTraditionalNetTuitionPerStudent_chart': annualTraditionalNetTuitionPerStudent_chart,
-      'tuitionDependency_chart': tuitionDependency_chart,
-      'tuitionDiscountRate_chart': tuitionDiscountRate_chart,
-      'ltDebtPerTotalOperatingRevenue_chart': ltDebtPerTotalOperatingRevenue_chart,
-      'debtServiceCoverageRatio_chart': debtServiceCoverageRatio_chart,
-      'debtBurdenRatio_chart': debtBurdenRatio_chart,
-      'endowmentOperatingBudget_chart': endowmentOperatingBudget_chart,
-      'endowmentAssetsPerStudent_chart': endowmentAssetsPerStudent_chart,
-    };
-    
-    const chart = chartMap[chartId] || null;
-    console.log(`Returning chart for ${chartId}:`, chart);
-    return chart;
+  console.log(`Getting chart instance for ${chartId}`);
+
+  // Get the chart instance from the global scope
+  // This matches the pattern used in the main application
+  const chartMap = {
+    cfiRatio_chart: cfiRatio_chart,
+    doeOverall_chart: doeOverall_chart,
+    cfi_primaryReserveRatio_chart: cfi_primaryReserveRatio_chart,
+    cfi_netIncomeOperationsRatio_chart: cfi_netIncomeOperationsRatio_chart,
+    cfi_returnOnNetAssets_chart: cfi_returnOnNetAssets_chart,
+    cfi_viabilityRatio_chart: cfi_viabilityRatio_chart,
+    FinancialPosition_chart: FinancialPosition_chart,
+    assetToLiabilities_chart: assetToLiabilities_chart,
+    sourceOfIncomeClient_chart: sourceOfIncomeClient_chart,
+    sourceOfIncomePeer_chart: sourceOfIncomePeer_chart,
+    ffa_chart: ffa_chart,
+    cashFlowsTrend_chart: cashFlowsTrend_chart,
+    currentRatio_chart: currentRatio_chart,
+    salariesBenefitsToTotalExpense_chart: salariesBenefitsToTotalExpense_chart,
+    salariesBenefitsPerNetTuition_chart: salariesBenefitsPerNetTuition_chart,
+    netEducationalExpensePerStudent_chart:
+      netEducationalExpensePerStudent_chart,
+    annualTraditionalNetTuitionPerStudent_chart:
+      annualTraditionalNetTuitionPerStudent_chart,
+    tuitionDependency_chart: tuitionDependency_chart,
+    tuitionDiscountRate_chart: tuitionDiscountRate_chart,
+    ltDebtPerTotalOperatingRevenue_chart: ltDebtPerTotalOperatingRevenue_chart,
+    debtServiceCoverageRatio_chart: debtServiceCoverageRatio_chart,
+    debtBurdenRatio_chart: debtBurdenRatio_chart,
+    endowmentOperatingBudget_chart: endowmentOperatingBudget_chart,
+    endowmentAssetsPerStudent_chart: endowmentAssetsPerStudent_chart,
   };
+
+  const chart = chartMap[chartId] || null;
+  console.log(`Returning chart for ${chartId}:`, chart);
+  return chart;
+};
 
 /**
  * Export an ApexChart with fixed dimensions
@@ -631,10 +529,7 @@ async function exportApexChart(chart, chartId) {
     paperNode.setAttribute("height", chartHeight.toString());
     paperNode.style.width = `${chartWidth}px`;
     paperNode.style.height = `${chartHeight}px`;
-    paperNode.setAttribute(
-      "viewBox",
-      `0 0 ${chartWidth} ${chartHeight}`
-    );
+    paperNode.setAttribute("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
     paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
     // Get chart info
@@ -702,279 +597,97 @@ async function exportApexChart(chart, chartId) {
 
     // Different export options based on chart type
     let exportOptions;
-    // Create a formatter that can access chart.w.globals
-    const yaxisFormatter = createFormatterWithGlobals(numType, fixedNum);
-
-    // Handle each chart type specifically
-    if (chartId === "costOfContributionsDetailView_chart") {
-      // Cost of contributions chart - Handle multiple axes
-      if (Array.isArray(originalState.chartConfig.yaxis)) {
-        // Get the min and max values for ratio axes
-        const safeMinRatioValue = originalState.chartConfig.yaxis[2]?.min || 0;
-        const safeMaxRatioValue =
-          originalState.chartConfig.yaxis[2]?.max || 0.12;
-
-        exportOptions = {
-          ...baseExportOptions,
-          yaxis: [
-            // First y-axis (dollar values)
-            {
-              ...originalState.chartConfig.yaxis[0],
-              labels: {
-                ...originalState.chartConfig.yaxis[0].labels,
-                formatter: function (value) {
-                  if (value === null || value === undefined || value === 0) {
-                    if (numType === "dollar") return "$0";
-                    if (numType === "percent") return "0%";
-                    return "0";
-                  }
-
-                  const isNegative = value < 0;
-                  const absValue = Math.abs(value);
-
-                  let formattedValue;
-                  if (absValue >= 1000000) {
-                    const millions = absValue / 1000000;
-                    const isWholeNumber = millions === Math.floor(millions);
-                    formattedValue = isWholeNumber
-                      ? `${Math.floor(millions)}M`
-                      : `${millions.toFixed(1)}M`;
-                  } else if (absValue >= 1000) {
-                    formattedValue = `${(absValue / 1000).toFixed(0)}K`;
-                  } else {
-                    formattedValue = absValue.toFixed(2);
-                  }
-
-                  return `${isNegative ? "-" : ""}$${formattedValue}`;
-                },
-              },
-            },
-            // Second y-axis (hidden)
-            {
-              ...originalState.chartConfig.yaxis[1],
-            },
-            // Third y-axis (ratio values)
-            {
-              ...originalState.chartConfig.yaxis[2],
-              labels: {
-                ...originalState.chartConfig.yaxis[2].labels,
-                formatter: function (value) {
-                  if (value === null || value === undefined || value === 0) {
-                    if (numType === "dollar") return "$0";
-                    if (numType === "percent") return "0%";
-                    return "0";
-                  }
-
-                  const isNegative = value < 0;
-                  const absValue = Math.abs(value);
-
-                  let formattedValue;
-                  if (absValue >= 1000000) {
-                    // Remove decimal point for millions
-                    const millions = absValue / 1000000;
-                    formattedValue = `${Math.round(millions)}M`;
-                  } else if (absValue >= 1000) {
-                    formattedValue = `${Math.round(absValue / 1000)}K`;
-                  } else if (absValue < 1 && absValue > 0) {
-                    formattedValue = absValue.toFixed(2);
-                  } else {
-                    formattedValue = Math.round(absValue).toString();
-                  }
-
-                  // Apply appropriate symbol based on numType
-                  if (numType === "dollar") {
-                    return `${isNegative ? "-" : ""}$${formattedValue}`;
-                  } else if (numType === "percent") {
-                    return `${isNegative ? "-" : ""}${formattedValue}%`;
-                  }
-                  return `${isNegative ? "-" : ""}${formattedValue}`;
-                },
-                style: {
-                  ...originalState.chartConfig.yaxis[2].labels?.style,
-                  colors:
-                    originalState.chartConfig.yaxis[2]?.labels?.style?.colors ||
-                    "#3a464f",
-                  fontSize: "1.25rem",
-                },
-              },
-              min: safeMinRatioValue,
-              max: safeMaxRatioValue,
-              tickAmount: 5,
-              show: true,
-              opposite: true,
-              axisBorder: {
-                show: true,
-                color:
-                  originalState.chartConfig.yaxis[2]?.axisBorder?.color ||
-                  "#3a464f",
-              },
-              axisTicks: {
-                show: true,
-                color:
-                  originalState.chartConfig.yaxis[2]?.axisTicks?.color ||
-                  "#3a464f",
-              },
-            },
-            // Fourth y-axis (hidden)
-            {
-              ...originalState.chartConfig.yaxis[3],
-            },
-          ],
-        };
-
-        console.log("export ApexChart CHARTTYPE==costOfContributions", {
-          exportOptions,
-        });
-      } else {
-        // Fallback for single yaxis
-        exportOptions = {
-          ...baseExportOptions,
-          yaxis: {
-            ...originalState.chartConfig.yaxis,
-            labels: {
-              ...originalState.chartConfig.yaxis?.labels,
-              formatter: yaxisFormatter,
-              style: {
-                ...originalState.chartConfig.yaxis?.labels?.style,
-                colors:
-                  originalState.chartConfig.yaxis?.labels?.style?.colors ||
-                  "#3a464f",
-                fontSize:
-                  originalState.chartConfig.yaxis?.labels?.style?.fontSize ||
-                  "1.25rem",
-              },
-            },
-          },
-        };
-      }
-    } else if (chartId === "costOfContributions_chart") {
-      if (Array.isArray(originalState.chartConfig.yaxis)) {
-        // Get the min and max values for ratio axes
-        const safeMinRatioValue = originalState.chartConfig.yaxis?.min || 0;
-        const safeMaxRatioValue = originalState.chartConfig.yaxis?.max || 0.12;
-
-        exportOptions = {
-          ...baseExportOptions,
-          yaxis: [
-            {
-              ...originalState.chartConfig.yaxis,
-              labels: {
-                ...originalState.chartConfig.yaxis.labels,
-                formatter: function (value) {
-                  if (value === null || value === undefined || value === 0) {
-                    if (numType === "dollar") return "$0";
-                    if (numType === "percent") return "0%";
-                    return "0";
-                  }
-
-                  const isNegative = value < 0;
-                  const absValue = Math.abs(value);
-
-                  let formattedValue;
-                  if (absValue >= 1000000) {
-                    // Remove decimal point for millions
-                    const millions = absValue / 1000000;
-                    formattedValue = `${Math.round(millions)}M`;
-                  } else if (absValue >= 1000) {
-                    formattedValue = `${Math.round(absValue / 1000)}K`;
-                  } else if (absValue < 1 && absValue > 0) {
-                    formattedValue = absValue.toFixed(2);
-                  } else {
-                    formattedValue = Math.round(absValue).toString();
-                  }
-
-                  // Apply appropriate symbol based on numType
-                  if (numType === "dollar") {
-                    return `${isNegative ? "-" : ""}$${formattedValue}`;
-                  } else if (numType === "percent") {
-                    return `${isNegative ? "-" : ""}${formattedValue}%`;
-                  }
-                  return `${isNegative ? "-" : ""}${formattedValue}`;
-                },
-                style: {
-                  ...originalState.chartConfig.yaxis.labels?.style,
-                  colors:
-                    originalState.chartConfig.yaxis?.labels?.style?.colors ||
-                    "#3a464f",
-                  fontSize: "1.25rem",
-                },
-              },
-              min: safeMinRatioValue,
-              max: safeMaxRatioValue,
-              tickAmount: 5,
-              show: true,
-              axisBorder: {
-                show: true,
-                color:
-                  originalState.chartConfig.yaxis?.axisBorder?.color ||
-                  "#3a464f",
-              },
-              axisTicks: {
-                show: true,
-                color:
-                  originalState.chartConfig.yaxis?.axisTicks?.color ||
-                  "#3a464f",
-              },
-            },
-          ],
-        };
-
-        console.log("export ApexChart CHARTTYPE==costOfContributions", {
-          exportOptions,
-        });
-      } else {
-        // Fallback for single yaxis
-        exportOptions = {
-          ...baseExportOptions,
-          yaxis: {
-            ...originalState.chartConfig.yaxis,
-            labels: {
-              ...originalState.chartConfig.yaxis?.labels,
-              formatter: yaxisFormatter,
-              style: {
-                ...originalState.chartConfig.yaxis?.labels?.style,
-                colors:
-                  originalState.chartConfig.yaxis?.labels?.style?.colors ||
-                  "#3a464f",
-                fontSize:
-                  originalState.chartConfig.yaxis?.labels?.style?.fontSize ||
-                  "1.25rem",
-              },
-            },
-          },
-        };
-      }
-    } else {
-      // Main chart type - Ensure we use an array with a single object for yaxis
+    
+    // For radialBar charts, use simpler configuration to preserve original styling
+    if (chartType === "radialBar") {
       exportOptions = {
         ...baseExportOptions,
-        yaxis: [
+        chart: {
+          ...baseExportOptions.chart,
+          width: chartWidth,
+          height: chartHeight,
+          animations: {
+            enabled: false,
+          },
+          background: '#ffffff'
+        },
+        // Preserve original radialBar configuration
+        plotOptions: originalState.chartConfig.plotOptions,
+        fill: originalState.chartConfig.fill,
+        stroke: originalState.chartConfig.stroke,
+        labels: originalState.chartConfig.labels,
+      };
+    } else {
+      // Handle multiple y-axes properly for other chart types
+      let yaxisConfig;
+      if (Array.isArray(originalState.chartConfig.yaxis)) {
+        // Multiple y-axes - preserve the original structure
+        yaxisConfig = originalState.chartConfig.yaxis.map((axis, index) => {
+          // Create a formatter that can access chart.w.globals
+          const yaxisFormatter = createFormatterWithGlobals(numType, fixedNum);
+          
+          return {
+            ...axis,
+            axisTicks: { show: true },
+            axisBorder: {
+              show: axis.axisBorder?.show !== false,
+              color: axis.axisBorder?.color || "#3a464f",
+            },
+            labels: {
+              ...axis.labels,
+              formatter: axis.labels?.formatter ? 
+                // If there's an existing formatter, try to preserve it
+                (typeof axis.labels.formatter === 'function' ? axis.labels.formatter : yaxisFormatter) :
+                yaxisFormatter,
+              style: {
+                colors: axis.labels?.style?.colors || "#3a464f",
+                fontSize: axis.labels?.style?.fontSize || "1.25rem",
+                ...axis.labels?.style,
+              },
+            },
+            tooltip: { enabled: true },
+            // Preserve other important properties
+            opposite: axis.opposite || false,
+            seriesName: axis.seriesName,
+            min: axis.min,
+            max: axis.max,
+            show: axis.show !== false,
+          };
+        });
+      } else {
+        // Single y-axis - create array with single object
+        const yaxisFormatter = createFormatterWithGlobals(numType, fixedNum);
+        yaxisConfig = [
           {
             axisTicks: { show: true },
             axisBorder: {
               show: true,
               color:
-                originalState.chartConfig.yaxis[0]?.axisBorder?.color ||
+                originalState.chartConfig.yaxis?.axisBorder?.color ||
                 "#3a464f",
             },
             labels: {
               formatter: yaxisFormatter,
               style: {
                 colors:
-                  originalState.chartConfig.yaxis[0]?.labels?.style?.colors ||
+                  originalState.chartConfig.yaxis?.labels?.style?.colors ||
                   "#3a464f",
                 fontSize:
-                  originalState.chartConfig.yaxis[0]?.labels?.style?.fontSize ||
+                  originalState.chartConfig.yaxis?.labels?.style?.fontSize ||
                   "1.25rem",
               },
             },
             tooltip: { enabled: true },
           },
-        ],
+        ];
+      }
+
+      exportOptions = {
+        ...baseExportOptions,
+        yaxis: yaxisConfig,
       };
     }
 
-    
     console.log(`Final export options for ${chartId}:`, exportOptions);
 
     // Update chart with export options
@@ -990,7 +703,9 @@ async function exportApexChart(chart, chartId) {
       scale: 1, // Reduced resolution to avoid size issues
     });
 
-    console.log(`Chart ${chartId} exported successfully, URI length: ${uri.imgURI.length}`);
+    console.log(
+      `Chart ${chartId} exported successfully, URI length: ${uri.imgURI.length}`
+    );
 
     // Restore chart to original position
     if (originalParent) {
@@ -1008,7 +723,7 @@ async function exportApexChart(chart, chartId) {
 
     const base64String = uri.imgURI.split(",")[1];
     console.log(`Base64 string length for ${chartId}: ${base64String.length}`);
-    
+
     return base64String;
   } catch (error) {
     console.error("Error in exportApexChart:", error);
@@ -1046,10 +761,7 @@ async function exportWithHtml2Canvas(chartElement) {
     svg.setAttribute("height", chartHeight.toString());
     svg.style.width = `${chartWidth}px`;
     svg.style.height = `${chartHeight}px`;
-    svg.setAttribute(
-      "viewBox",
-      `0 0 ${chartWidth} ${chartHeight}`
-    );
+    svg.setAttribute("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   });
 
@@ -1072,8 +784,10 @@ async function exportWithHtml2Canvas(chartElement) {
 
     const dataURL = canvas.toDataURL("image/png");
     const base64String = dataURL.split(",")[1];
-    
-    console.log(`html2canvas export for ${chartElement.id}: dataURL length: ${dataURL.length}, base64 length: ${base64String.length}`);
+
+    console.log(
+      `html2canvas export for ${chartElement.id}: dataURL length: ${dataURL.length}, base64 length: ${base64String.length}`
+    );
 
     // Clean up
     document.body.removeChild(container);
@@ -1239,7 +953,7 @@ async function apexChartsExportPrint() {
       const element = document.getElementById(chartId);
       console.log(`${chartId}:`, element ? "EXISTS" : "MISSING");
     });
-    
+
     const validChartMappings = chartMappings.filter(
       ({ chartId }) => document.getElementById(chartId) !== null
     );
@@ -1248,13 +962,23 @@ async function apexChartsExportPrint() {
       throw new Error("No valid charts found to upload");
     }
 
-    console.log("Valid chart mappings:", validChartMappings.map(m => m.chartId));
-    
+    console.log(
+      "Valid chart mappings:",
+      validChartMappings.map((m) => m.chartId)
+    );
+
     // Process charts with fixed dimensions
     const results = await processChartsWithSpacing(validChartMappings);
 
-    console.log("Export results:", results.map(r => ({ chartId: r.chartId, success: r.base64String !== null, base64Length: r.base64String ? r.base64String.length : 0 })));
-    
+    console.log(
+      "Export results:",
+      results.map((r) => ({
+        chartId: r.chartId,
+        success: r.base64String !== null,
+        base64Length: r.base64String ? r.base64String.length : 0,
+      }))
+    );
+
     // Count successful exports
     const successfulExports = results.filter(
       (r) => r.base64String !== null
@@ -1329,7 +1053,10 @@ function buildUploadXml(results) {
     uploadXml += createFieldXml(32, window.uniqueClientSize);
   }
 
-  console.log("Field 94 (selectedYears):", selectedYears[selectedYears.length - 1]);
+  console.log(
+    "Field 94 (selectedYears):",
+    selectedYears[selectedYears.length - 1]
+  );
   uploadXml += createFieldXml(94, selectedYears[selectedYears.length - 1]);
   console.log("Field 69 (monthYearEnd):", window.monthYearEnd);
   uploadXml += createFieldXml(69, window.monthYearEnd);
@@ -1339,49 +1066,84 @@ function buildUploadXml(results) {
   uploadXml += createFieldXml(90, sliderValue2);
 
   // Optimize array joins by checking if arrays exist first
-  console.log("Field 91 (selectedSeminaries):", window.selectedSeminaries_Array ? Array.from(window.selectedSeminaries_Array).join(", ") : "");
+  console.log(
+    "Field 91 (selectedSeminaries):",
+    window.selectedSeminaries_Array
+      ? Array.from(window.selectedSeminaries_Array).join(", ")
+      : ""
+  );
   uploadXml += createFieldXml(
     91,
     window.selectedSeminaries_Array
       ? Array.from(window.selectedSeminaries_Array).join(", ")
       : ""
   );
-  console.log("Field 93 (selectedRegionals):", window.selectedRegionals_Array ? Array.from(window.selectedRegionals_Array).join(", ") : "");
+  console.log(
+    "Field 93 (selectedRegionals):",
+    window.selectedRegionals_Array
+      ? Array.from(window.selectedRegionals_Array).join(", ")
+      : ""
+  );
   uploadXml += createFieldXml(
     93,
     window.selectedRegionals_Array
       ? Array.from(window.selectedRegionals_Array).join(", ")
       : ""
   );
-  console.log("Field 64 (selectedRegions):", window.selectedRegions_Array ? Array.from(window.selectedRegions_Array).join(", ") : "");
+  console.log(
+    "Field 64 (selectedRegions):",
+    window.selectedRegions_Array
+      ? Array.from(window.selectedRegions_Array).join(", ")
+      : ""
+  );
   uploadXml += createFieldXml(
     64,
     window.selectedRegions_Array
       ? Array.from(window.selectedRegions_Array).join(", ")
       : ""
   );
-  console.log("Field 65 (selectedStates):", window.selectedStates_Array ? Array.from(window.selectedStates_Array).join(", ") : "");
+  console.log(
+    "Field 65 (selectedStates):",
+    window.selectedStates_Array
+      ? Array.from(window.selectedStates_Array).join(", ")
+      : ""
+  );
   uploadXml += createFieldXml(
     65,
     window.selectedStates_Array
       ? Array.from(window.selectedStates_Array).join(", ")
       : ""
   );
-  console.log("Field 66 (selectedMemberships):", window.selectedMemberships_Array ? Array.from(window.selectedMemberships_Array).join(", ") : "");
+  console.log(
+    "Field 66 (selectedMemberships):",
+    window.selectedMemberships_Array
+      ? Array.from(window.selectedMemberships_Array).join(", ")
+      : ""
+  );
   uploadXml += createFieldXml(
     66,
     window.selectedMemberships_Array
       ? Array.from(window.selectedMemberships_Array).join(", ")
       : ""
   );
-  console.log("Field 67 (selectedTypes):", window.selectedTypes_Array ? Array.from(window.selectedTypes_Array).join(", ") : "");
+  console.log(
+    "Field 67 (selectedTypes):",
+    window.selectedTypes_Array
+      ? Array.from(window.selectedTypes_Array).join(", ")
+      : ""
+  );
   uploadXml += createFieldXml(
     67,
     window.selectedTypes_Array
       ? Array.from(window.selectedTypes_Array).join(", ")
       : ""
   );
-  console.log("Field 68 (selectedAthletics):", window.selectedAthletics_Array ? Array.from(window.selectedAthletics_Array).join(", ") : "");
+  console.log(
+    "Field 68 (selectedAthletics):",
+    window.selectedAthletics_Array
+      ? Array.from(window.selectedAthletics_Array).join(", ")
+      : ""
+  );
   uploadXml += createFieldXml(
     68,
     window.selectedAthletics_Array
@@ -1413,15 +1175,27 @@ function buildUploadXml(results) {
   });
 
   // Add base64 images for charts
-  console.log("Processing results for XML upload:", results.map(r => ({ chartId: r.chartId, fieldId: r.fieldId, hasData: !!r.base64String })));
-  
+  console.log(
+    "Processing results for XML upload:",
+    results.map((r) => ({
+      chartId: r.chartId,
+      fieldId: r.fieldId,
+      hasData: !!r.base64String,
+    }))
+  );
+
   results.forEach((result) => {
     if (result && result.base64String) {
       // Validate base64 string before adding to XML
       if (/^[A-Za-z0-9+/]*={0,2}$/.test(result.base64String)) {
-        console.log(`Adding chart ${result.chartId} to XML for field ${result.fieldId}`);
+        console.log(
+          `Adding chart ${result.chartId} to XML for field ${result.fieldId}`
+        );
         try {
-          const imageXml = createImageFieldXml(result.fieldId, result.base64String);
+          const imageXml = createImageFieldXml(
+            result.fieldId,
+            result.base64String
+          );
           uploadXml += imageXml;
           console.log(`Successfully added XML for ${result.chartId}`);
         } catch (error) {
@@ -1437,36 +1211,42 @@ function buildUploadXml(results) {
 
   uploadXml += "</qdbapi>";
   console.log(`Final XML length: ${uploadXml.length} characters`);
-  
+
   // Check if source of income charts are in the XML
-  const sourceOfIncomeClientInXml = uploadXml.includes('sourceOfIncomeClient_chart') || uploadXml.includes('fid=\'14\'');
-  const sourceOfIncomePeerInXml = uploadXml.includes('sourceOfIncomePeer_chart') || uploadXml.includes('fid=\'15\'');
-  console.log(`sourceOfIncomeClient_chart in XML: ${sourceOfIncomeClientInXml}`);
+  const sourceOfIncomeClientInXml =
+    uploadXml.includes("sourceOfIncomeClient_chart") ||
+    uploadXml.includes("fid='14'");
+  const sourceOfIncomePeerInXml =
+    uploadXml.includes("sourceOfIncomePeer_chart") ||
+    uploadXml.includes("fid='15'");
+  console.log(
+    `sourceOfIncomeClient_chart in XML: ${sourceOfIncomeClientInXml}`
+  );
   console.log(`sourceOfIncomePeer_chart in XML: ${sourceOfIncomePeerInXml}`);
-  
+
   // Debug: Check XML structure around the error position
   if (uploadXml.length > 1282) {
     console.log("XML around position 1282:", uploadXml.substring(1270, 1300));
     console.log("Character at position 1282:", uploadXml.charAt(1281));
     console.log("Character code at position 1282:", uploadXml.charCodeAt(1281));
   }
-  
+
   // Validate XML structure
   try {
     // Simple validation - check for unescaped characters
-    if (uploadXml.includes('&') && !uploadXml.includes('&amp;')) {
+    if (uploadXml.includes("&") && !uploadXml.includes("&amp;")) {
       console.warn("Found unescaped & character in XML");
     }
-    if (uploadXml.includes('<') && !uploadXml.includes('&lt;')) {
+    if (uploadXml.includes("<") && !uploadXml.includes("&lt;")) {
       console.warn("Found unescaped < character in XML");
     }
-    if (uploadXml.includes('>') && !uploadXml.includes('&gt;')) {
+    if (uploadXml.includes(">") && !uploadXml.includes("&gt;")) {
       console.warn("Found unescaped > character in XML");
     }
   } catch (error) {
     console.error("Error validating XML:", error);
   }
-  
+
   return uploadXml;
 }
 
@@ -1489,11 +1269,11 @@ function createFieldXml(id, val) {
 
   // Escape XML special characters in the field value
   const escapedVal = String(val)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 
   return `<field fid='${id}'>${escapedVal}</field>`;
 }
@@ -1509,27 +1289,30 @@ function createImageFieldXml(id, val) {
     console.warn(`Skipping image upload for field ${id} - missing data`);
     return "";
   }
-  
+
   // Check base64 string length (Quickbase has limits)
-  if (val.length > 1000000) { // 1MB limit
-    console.warn(`Base64 string too long for field ${id} (${val.length} chars), skipping`);
+  if (val.length > 1000000) {
+    // 1MB limit
+    console.warn(
+      `Base64 string too long for field ${id} (${val.length} chars), skipping`
+    );
     return "";
   }
-  
+
   // Validate base64 string
   if (!/^[A-Za-z0-9+/]*={0,2}$/.test(val)) {
     console.warn(`Invalid base64 string for field ${id}, skipping`);
     return "";
   }
-  
+
   // Escape XML special characters in the base64 string
   const escapedVal = val
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
-    
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+
   console.log(`Creating XML field for ${id}, base64 length: ${val.length}`);
   return `<field fid='${id}' filename='chart.png'>${escapedVal}</field>`;
 }
