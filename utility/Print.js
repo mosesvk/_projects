@@ -14,8 +14,8 @@ function getChartDimensions(chartId) {
   // CFI Composite chart needs special dimensions
   if (chartId === "cfiCompositeHtml_Chart") {
     return {
-      width: 600, // Increased width to better utilize space
-      height: 500, // Reduced height to minimize white space below
+      width: 500, // Reduced width to minimize right margin
+      height: 800, // Reduced height to minimize bottom margin
     };
   }
 
@@ -100,6 +100,46 @@ async function processChartsWithSpacing(chartMappings) {
       //   chart && typeof chart.dataURI === "function"
       // );
 
+      // Special handling for CFI Composite chart - export only the table
+      if (chartId === "cfiCompositeHtml_Chart") {
+        const tableElement = chartElement.querySelector("#myTable");
+        if (tableElement) {
+          // Get dimensions for CFI Composite chart
+          // const dimensions = getChartDimensions(chartId);
+          // const { width: chartWidth, height: chartHeight } = dimensions;
+          
+          // Create a container with the specified dimensions
+          const container = document.createElement("div");
+          container.style.position = "absolute";
+          container.style.left = "-9999px";
+          container.style.width = `fit-content`;
+          // container.style.height = `${chartHeight}px`;
+          container.style.backgroundColor = "#ffffff";
+          container.style.overflow = "hidden";
+          document.body.appendChild(container);
+          
+          // Clone the table and set its dimensions
+          const tableClone = tableElement.cloneNode(true);
+          tableClone.style.width = "100%";
+          tableClone.style.height = "100%";
+          tableClone.style.margin = "0";
+          tableClone.style.padding = "10px"; // Reduced padding for less margin
+          tableClone.style.boxSizing = "border-box";
+          container.appendChild(tableClone);
+          
+          // Export the container
+          const base64String = await exportWithHtml2Canvas(container);
+          
+          // Clean up
+          if (container.parentNode) {
+            document.body.removeChild(container);
+          }
+          
+          results.push({ chartId, fieldId, base64String });
+          continue;
+        }
+      }
+
       // If we have an ApexChart instance, use its export method
       if (chart && typeof chart.dataURI === "function") {
         const base64String = await exportApexChart(chart, chartId);
@@ -146,6 +186,7 @@ function saveCompleteChartState(chart) {
       dataLabels: chartConfig.dataLabels || {},
       markers: chartConfig.markers || {},
       title: chartConfig.title || {},
+      subtitle: chartConfig.subtitle || {},
       xaxis: chartConfig.xaxis || {},
       yaxis: chartConfig.yaxis || {},
       tooltip: chartConfig.tooltip || {},
@@ -607,10 +648,13 @@ async function exportApexChart(chart, chartId) {
         chart.dataSource.chart.caption = "";
       }
     } else if (["line", "bar", "radialBar", "rangeBar", "pie"].includes(chartType)) {
-      // For ApexCharts, remove title
+      // For ApexCharts, remove title and subtitle
       if (chart.updateOptions) {
         await chart.updateOptions({
           title: {
+            text: ""
+          },
+          subtitle: {
             text: ""
           }
         }, false, true);
@@ -711,7 +755,7 @@ async function exportApexChart(chart, chartId) {
     if (fixedContainer.parentNode) {
       document.body.removeChild(fixedContainer);
     }
-
+    
     const base64String = uri.imgURI.split(",")[1];
     // console.log(`Base64 string length for ${chartId}: ${base64String.length}`);
 
