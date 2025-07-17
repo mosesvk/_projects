@@ -58,7 +58,7 @@ async function processChartsWithSpacing(chartMappings) {
     const { chartId, fieldId } = chartMappings[i];
     updateProgressUI(i, chartMappings.length);
 
-    console.log(`Processing chart: ${chartId}...`);
+          // console.log(`Processing chart: ${chartId}...`);
     try {
       // Get the chart element and instance
       const chartElement = document.getElementById(chartId);
@@ -69,12 +69,12 @@ async function processChartsWithSpacing(chartMappings) {
       }
 
       const chart = getChartInstance(chartId);
-      console.log(`Chart instance for ${chartId}:`, chart);
-      console.log(`Chart type for ${chartId}:`, typeof chart);
-      console.log(
-        `Chart has dataURI for ${chartId}:`,
-        chart && typeof chart.dataURI === "function"
-      );
+      // console.log(`Chart instance for ${chartId}:`, chart);
+      // console.log(`Chart type for ${chartId}:`, typeof chart);
+      // console.log(
+      //   `Chart has dataURI for ${chartId}:`,
+      //   chart && typeof chart.dataURI === "function"
+      // );
 
       // If we have an ApexChart instance, use its export method
       if (chart && typeof chart.dataURI === "function") {
@@ -85,7 +85,7 @@ async function processChartsWithSpacing(chartMappings) {
         }
       }
 
-      console.warn("fallback to html2canvas");
+      // console.warn("fallback to html2canvas");
 
       // Fallback to html2canvas
       const base64String = await exportWithHtml2Canvas(chartElement);
@@ -209,7 +209,7 @@ function saveCompleteChartState(chart) {
     };
     return originalConfig;
   } catch (error) {
-    console.warn("Error saving chart state:", error);
+    // console.warn("Error saving chart state:", error);
     return null;
   }
 }
@@ -376,12 +376,22 @@ function restoreCompleteChartState(chart, originalState) {
       chart.w.globals.numType = numType;
     }
 
-    // Apply the restored configuration
-    if (chart.updateOptions) {
+    // Apply the restored configuration only for non-radialBar charts
+    if (chart.updateOptions && chartType !== "radialBar") {
       chart.updateOptions(restoredConfig, true, true);
+    } else if (chartType === "radialBar") {
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - Skipping restoration updateOptions to preserve original styling`);
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - Final config after restoration:`, {
+      //   fill: chart.w.config.fill,
+      //   stroke: chart.w.config.stroke,
+      //   plotOptions: chart.w.config.plotOptions,
+      //   labels: chart.w.config.labels,
+      //   colors: chart.w.config.colors,
+      //   series: chart.w.config.series
+      // });
     }
   } catch (error) {
-    console.warn("Error restoring chart state:", error);
+    // console.warn("Error restoring chart state:", error);
   }
 }
 
@@ -428,7 +438,7 @@ function createFormatterWithGlobals(numType, fixedNum) {
 }
 
 const getChartInstance = (chartId) => {
-  console.log(`Getting chart instance for ${chartId}`);
+  // console.log(`Getting chart instance for ${chartId}`);
 
   // Get the chart instance from the global scope
   // This matches the pattern used in the main application
@@ -462,7 +472,7 @@ const getChartInstance = (chartId) => {
   };
 
   const chart = chartMap[chartId] || null;
-  console.log(`Returning chart for ${chartId}:`, chart);
+  // console.log(`Returning chart for ${chartId}:`, chart);
   return chart;
 };
 
@@ -532,172 +542,74 @@ async function exportApexChart(chart, chartId) {
     paperNode.setAttribute("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
     paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
-    // Get chart info
-    const mainName = originalState.mainName || chartId.replace("_chart", "");
-    const chartType = originalState.chartType || getChartTypeFromId(chartId);
-    const numType = originalState.numType || "number";
-    const fixedNum = originalState.fixedNum || 0;
+    // Configure chart for export (simplified approach like testPrint.js)
+    // Set SVG element dimensions with proper scaling
+    paperNode.setAttribute("width", chartWidth.toString());
+    paperNode.setAttribute("height", chartHeight.toString());
+    paperNode.style.width = `${chartWidth}px`;
+    paperNode.style.height = `${chartHeight}px`;
+    paperNode.style.position = 'absolute';
+    paperNode.style.left = '0';
+    paperNode.style.top = '0';
 
-    console.log("export ApexChart", {
-      chart,
-      numType,
-      fixedNum,
-      chartId,
-      chartType,
-      mainName,
-    });
-
-    // Ensure numType is set in globals
-    if (chart.w.globals) {
-      chart.w.globals.numType = numType;
+    // Set viewBox to match dimensions exactly
+    paperNode.setAttribute("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
+    paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
+    
+    // Get chart type for debugging
+    const chartType = getChartTypeFromId(chartId);
+    
+    // For radialBar charts, log the original configuration
+    if (chartType === "radialBar") {
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - Original chart config:`, {
+      //   fill: chart.w.config.fill,
+      //   stroke: chart.w.config.stroke,
+      //   plotOptions: chart.w.config.plotOptions,
+      //   labels: chart.w.config.labels,
+      //   colors: chart.w.config.colors,
+      //   series: chart.w.config.series
+      // });
+      
+      // Also log the actual data values to understand the color logic
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - Series data:`, chart.w.config.series);
     }
-
-    // Base export options
-    const baseExportOptions = {
-      ...originalState.chartConfig,
+    
+    // Simple configuration like testPrint.js - only set basic properties
+    let updatedOptions = {
       chart: {
-        ...originalState.chartConfig.chart,
         width: chartWidth,
         height: chartHeight,
         animations: {
-          enabled: false,
+          enabled: false
         },
-        toolbar: {
-          show: false,
-        },
-        events: {
-          ...originalState.chartConfig.chart?.events,
-          mounted: function (chartContext) {
-            chartContext.w.globals.numType = numType;
-
-            // Call original mounted event if it exists
-            if (originalState.chartConfig.chart?.events?.mounted) {
-              originalState.chartConfig.chart.events.mounted.call(
-                this,
-                chartContext
-              );
-            }
-          },
-        },
-      },
-      xaxis: {
-        ...originalState.xaxisConfig,
-        categories: originalState.xaxisConfig.categories,
-        labels: {
-          ...originalState.xaxisConfig.labels,
-          style: {
-            ...originalState.xaxisConfig.labels.style,
-            colors:
-              originalState.chartConfig.xaxis?.labels?.style?.colors ||
-              "#3a464f",
-          },
-        },
-      },
+        background: '#ffffff'
+      }
     };
 
-    // Different export options based on chart type
-    let exportOptions;
-    
-    // For radialBar charts, use simpler configuration to preserve original styling
-    if (chartType === "radialBar") {
-      exportOptions = {
-        ...baseExportOptions,
-        chart: {
-          ...baseExportOptions.chart,
-          width: chartWidth,
-          height: chartHeight,
-          animations: {
-            enabled: false,
-          },
-          background: '#ffffff'
-        },
-        // Preserve original radialBar configuration
-        plotOptions: originalState.chartConfig.plotOptions,
-        fill: originalState.chartConfig.fill,
-        stroke: originalState.chartConfig.stroke,
-        labels: originalState.chartConfig.labels,
-      };
-    } else {
-      // Handle multiple y-axes properly for other chart types
-      let yaxisConfig;
-      if (Array.isArray(originalState.chartConfig.yaxis)) {
-        // Multiple y-axes - preserve the original structure
-        yaxisConfig = originalState.chartConfig.yaxis.map((axis, index) => {
-          // Create a formatter that can access chart.w.globals
-          const yaxisFormatter = createFormatterWithGlobals(numType, fixedNum);
-          
-          return {
-            ...axis,
-            axisTicks: { show: true },
-            axisBorder: {
-              show: axis.axisBorder?.show !== false,
-              color: axis.axisBorder?.color || "#3a464f",
-            },
-            labels: {
-              ...axis.labels,
-              formatter: axis.labels?.formatter ? 
-                // If there's an existing formatter, try to preserve it
-                (typeof axis.labels.formatter === 'function' ? axis.labels.formatter : yaxisFormatter) :
-                yaxisFormatter,
-              style: {
-                colors: axis.labels?.style?.colors || "#3a464f",
-                fontSize: axis.labels?.style?.fontSize || "1.25rem",
-                ...axis.labels?.style,
-              },
-            },
-            tooltip: { enabled: true },
-            // Preserve other important properties
-            opposite: axis.opposite || false,
-            seriesName: axis.seriesName,
-            min: axis.min,
-            max: axis.max,
-            show: axis.show !== false,
-          };
-        });
-      } else {
-        // Single y-axis - create array with single object
-        const yaxisFormatter = createFormatterWithGlobals(numType, fixedNum);
-        yaxisConfig = [
-          {
-            axisTicks: { show: true },
-            axisBorder: {
-              show: true,
-              color:
-                originalState.chartConfig.yaxis?.axisBorder?.color ||
-                "#3a464f",
-            },
-            labels: {
-              formatter: yaxisFormatter,
-              style: {
-                colors:
-                  originalState.chartConfig.yaxis?.labels?.style?.colors ||
-                  "#3a464f",
-                fontSize:
-                  originalState.chartConfig.yaxis?.labels?.style?.fontSize ||
-                  "1.25rem",
-              },
-            },
-            tooltip: { enabled: true },
-          },
-        ];
-      }
-
-      exportOptions = {
-        ...baseExportOptions,
-        yaxis: yaxisConfig,
-      };
-    }
-
-    console.log(`Final export options for ${chartId}:`, exportOptions);
-
     // For radialBar charts, don't update options to preserve original styling
-    if (chartType !== "radialBar") {
-      // Update chart with export options
-      chart.updateOptions(exportOptions, false, false);
+    if (chartType === "radialBar") {
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - Skipping updateOptions to preserve original styling`);
+    } else {
+      // Force chart to redraw with new dimensions and styles
+      if (chart.updateOptions) {
+        await chart.updateOptions(updatedOptions, false, true);
+      }
     }
 
     // Let the chart update
     await new Promise((resolve) => setTimeout(resolve, 200));
+
+    // For radialBar charts, log the configuration right before export
+    if (chartType === "radialBar") {
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - Config before dataURI:`, {
+      //   fill: chart.w.config.fill,
+      //   stroke: chart.w.config.stroke,
+      //   plotOptions: chart.w.config.plotOptions,
+      //   labels: chart.w.config.labels,
+      //   colors: chart.w.config.colors,
+      //   series: chart.w.config.series
+      // });
+    }
 
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
@@ -706,9 +618,15 @@ async function exportApexChart(chart, chartId) {
       scale: 1, // Reduced resolution to avoid size issues
     });
 
-    console.log(
-      `Chart ${chartId} exported successfully, URI length: ${uri.imgURI.length}`
-    );
+    // For radialBar charts, log the SVG content to see what's being exported
+    if (chartType === "radialBar") {
+      const svgContent = chart.w.globals.dom.Paper.node.outerHTML;
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - SVG content being exported:`, svgContent.substring(0, 500) + "...");
+    }
+
+    // console.log(
+    //   `Chart ${chartId} exported successfully, URI length: ${uri.imgURI.length}`
+    // );
 
     // Restore chart to original position
     if (originalParent) {
@@ -725,11 +643,11 @@ async function exportApexChart(chart, chartId) {
     }
 
     const base64String = uri.imgURI.split(",")[1];
-    console.log(`Base64 string length for ${chartId}: ${base64String.length}`);
+    // console.log(`Base64 string length for ${chartId}: ${base64String.length}`);
 
     return base64String;
   } catch (error) {
-    console.error("Error in exportApexChart:", error);
+    // console.error("Error in exportApexChart:", error);
     return null;
   }
 }
@@ -788,16 +706,16 @@ async function exportWithHtml2Canvas(chartElement) {
     const dataURL = canvas.toDataURL("image/png");
     const base64String = dataURL.split(",")[1];
 
-    console.log(
-      `html2canvas export for ${chartElement.id}: dataURL length: ${dataURL.length}, base64 length: ${base64String.length}`
-    );
+    // console.log(
+    //   `html2canvas export for ${chartElement.id}: dataURL length: ${dataURL.length}, base64 length: ${base64String.length}`
+    // );
 
     // Clean up
     document.body.removeChild(container);
 
     return base64String;
   } catch (error) {
-    console.error("Error in html2canvas export:", error);
+    // console.error("Error in html2canvas export:", error);
     if (container.parentNode) {
       document.body.removeChild(container);
     }
@@ -951,10 +869,10 @@ async function apexChartsExportPrint() {
     ];
 
     // Filter out any charts that don't exist in the DOM
-    console.log("Checking DOM elements for charts:");
+    // console.log("Checking DOM elements for charts:");
     chartMappings.forEach(({ chartId }) => {
       const element = document.getElementById(chartId);
-      console.log(`${chartId}:`, element ? "EXISTS" : "MISSING");
+      // console.log(`${chartId}:`, element ? "EXISTS" : "MISSING");
     });
 
     const validChartMappings = chartMappings.filter(
@@ -965,22 +883,22 @@ async function apexChartsExportPrint() {
       throw new Error("No valid charts found to upload");
     }
 
-    console.log(
-      "Valid chart mappings:",
-      validChartMappings.map((m) => m.chartId)
-    );
+    // console.log(
+    //   "Valid chart mappings:",
+    //   validChartMappings.map((m) => m.chartId)
+    // );
 
     // Process charts with fixed dimensions
     const results = await processChartsWithSpacing(validChartMappings);
 
-    console.log(
-      "Export results:",
-      results.map((r) => ({
-        chartId: r.chartId,
-        success: r.base64String !== null,
-        base64Length: r.base64String ? r.base64String.length : 0,
-      }))
-    );
+    // console.log(
+    //   "Export results:",
+    //   results.map((r) => ({
+    //     chartId: r.chartId,
+    //     success: r.base64String !== null,
+    //     base64Length: r.base64String ? r.base64String.length : 0,
+    //   }))
+    // );
 
     // Count successful exports
     const successfulExports = results.filter(
@@ -1046,107 +964,107 @@ function buildUploadXml(results) {
 
   const selectedYears = getSelectedYearsFromLocalStorage();
 
-  console.log("Adding basic fields to XML...");
-  console.log("Field 31 (firmName):", firmName);
+  // console.log("Adding basic fields to XML...");
+  // console.log("Field 31 (firmName):", firmName);
   uploadXml += createFieldXml(31, firmName);
 
   // Check if uniqueClientSize exists before using it
   if (typeof window.uniqueClientSize !== "undefined") {
-    console.log("Field 32 (uniqueClientSize):", window.uniqueClientSize);
+    // console.log("Field 32 (uniqueClientSize):", window.uniqueClientSize);
     uploadXml += createFieldXml(32, window.uniqueClientSize);
   }
 
-  console.log(
-    "Field 94 (selectedYears):",
-    selectedYears[selectedYears.length - 1]
-  );
+  // console.log(
+  //   "Field 94 (selectedYears):",
+  //   selectedYears[selectedYears.length - 1]
+  // );
   uploadXml += createFieldXml(94, selectedYears[selectedYears.length - 1]);
-  console.log("Field 69 (monthYearEnd):", window.monthYearEnd);
+  // console.log("Field 69 (monthYearEnd):", window.monthYearEnd);
   uploadXml += createFieldXml(69, window.monthYearEnd);
-  console.log("Field 89 (sliderValue):", sliderValue);
+  // console.log("Field 89 (sliderValue):", sliderValue);
   uploadXml += createFieldXml(89, sliderValue);
-  console.log("Field 90 (sliderValue2):", sliderValue2);
+  // console.log("Field 90 (sliderValue2):", sliderValue2);
   uploadXml += createFieldXml(90, sliderValue2);
 
   // Optimize array joins by checking if arrays exist first
-  console.log(
-    "Field 91 (selectedSeminaries):",
-    window.selectedSeminaries_Array
-      ? Array.from(window.selectedSeminaries_Array).join(", ")
-      : ""
-  );
+  // console.log(
+  //   "Field 91 (selectedSeminaries):",
+  //   window.selectedSeminaries_Array
+  //     ? Array.from(window.selectedSeminaries_Array).join(", ")
+  //     : ""
+  // );
   uploadXml += createFieldXml(
     91,
     window.selectedSeminaries_Array
       ? Array.from(window.selectedSeminaries_Array).join(", ")
       : ""
   );
-  console.log(
-    "Field 93 (selectedRegionals):",
-    window.selectedRegionals_Array
-      ? Array.from(window.selectedRegionals_Array).join(", ")
-      : ""
-  );
+  // console.log(
+  //   "Field 93 (selectedRegionals):",
+  //   window.selectedRegionals_Array
+  //     ? Array.from(window.selectedRegionals_Array).join(", ")
+  //     : ""
+  // );
   uploadXml += createFieldXml(
     93,
     window.selectedRegionals_Array
       ? Array.from(window.selectedRegionals_Array).join(", ")
       : ""
   );
-  console.log(
-    "Field 64 (selectedRegions):",
-    window.selectedRegions_Array
-      ? Array.from(window.selectedRegions_Array).join(", ")
-      : ""
-  );
+  // console.log(
+  //   "Field 64 (selectedRegions):",
+  //   window.selectedRegions_Array
+  //     ? Array.from(window.selectedRegions_Array).join(", ")
+  //     : ""
+  // );
   uploadXml += createFieldXml(
     64,
     window.selectedRegions_Array
       ? Array.from(window.selectedRegions_Array).join(", ")
       : ""
   );
-  console.log(
-    "Field 65 (selectedStates):",
-    window.selectedStates_Array
-      ? Array.from(window.selectedStates_Array).join(", ")
-      : ""
-  );
+  // console.log(
+  //   "Field 65 (selectedStates):",
+  //   window.selectedStates_Array
+  //     ? Array.from(window.selectedStates_Array).join(", ")
+  //     : ""
+  // );
   uploadXml += createFieldXml(
     65,
     window.selectedStates_Array
       ? Array.from(window.selectedStates_Array).join(", ")
       : ""
   );
-  console.log(
-    "Field 66 (selectedMemberships):",
-    window.selectedMemberships_Array
-      ? Array.from(window.selectedMemberships_Array).join(", ")
-      : ""
-  );
+  // console.log(
+  //   "Field 66 (selectedMemberships):",
+  //   window.selectedMemberships_Array
+  //     ? Array.from(window.selectedMemberships_Array).join(", ")
+  //     : ""
+  // );
   uploadXml += createFieldXml(
     66,
     window.selectedMemberships_Array
       ? Array.from(window.selectedMemberships_Array).join(", ")
       : ""
   );
-  console.log(
-    "Field 67 (selectedTypes):",
-    window.selectedTypes_Array
-      ? Array.from(window.selectedTypes_Array).join(", ")
-      : ""
-  );
+  // console.log(
+  //   "Field 67 (selectedTypes):",
+  //   window.selectedTypes_Array
+  //     ? Array.from(window.selectedTypes_Array).join(", ")
+  //     : ""
+  // );
   uploadXml += createFieldXml(
     67,
     window.selectedTypes_Array
       ? Array.from(window.selectedTypes_Array).join(", ")
       : ""
   );
-  console.log(
-    "Field 68 (selectedAthletics):",
-    window.selectedAthletics_Array
-      ? Array.from(window.selectedAthletics_Array).join(", ")
-      : ""
-  );
+  // console.log(
+  //   "Field 68 (selectedAthletics):",
+  //   window.selectedAthletics_Array
+  //     ? Array.from(window.selectedAthletics_Array).join(", ")
+  //     : ""
+  // );
   uploadXml += createFieldXml(
     68,
     window.selectedAthletics_Array
@@ -1178,42 +1096,42 @@ function buildUploadXml(results) {
   });
 
   // Add base64 images for charts
-  console.log(
-    "Processing results for XML upload:",
-    results.map((r) => ({
-      chartId: r.chartId,
-      fieldId: r.fieldId,
-      hasData: !!r.base64String,
-    }))
-  );
+  // console.log(
+  //   "Processing results for XML upload:",
+  //   results.map((r) => ({
+  //     chartId: r.chartId,
+  //     fieldId: r.fieldId,
+  //     hasData: !!r.base64String,
+  //   }))
+  // );
 
   results.forEach((result) => {
     if (result && result.base64String) {
       // Validate base64 string before adding to XML
       if (/^[A-Za-z0-9+/]*={0,2}$/.test(result.base64String)) {
-        console.log(
-          `Adding chart ${result.chartId} to XML for field ${result.fieldId}`
-        );
+        // console.log(
+        //   `Adding chart ${result.chartId} to XML for field ${result.fieldId}`
+        // );
         try {
           const imageXml = createImageFieldXml(
             result.fieldId,
             result.base64String
           );
           uploadXml += imageXml;
-          console.log(`Successfully added XML for ${result.chartId}`);
+          // console.log(`Successfully added XML for ${result.chartId}`);
         } catch (error) {
-          console.error(`Error creating XML for ${result.chartId}:`, error);
+          // console.error(`Error creating XML for ${result.chartId}:`, error);
         }
       } else {
-        console.warn(`Skipping chart ${result.chartId} - invalid base64 data`);
+        // console.warn(`Skipping chart ${result.chartId} - invalid base64 data`);
       }
     } else {
-      console.warn(`Skipping chart ${result.chartId} - no base64 data`);
+      // console.warn(`Skipping chart ${result.chartId} - no base64 data`);
     }
   });
 
   uploadXml += "</qdbapi>";
-  console.log(`Final XML length: ${uploadXml.length} characters`);
+  // console.log(`Final XML length: ${uploadXml.length} characters`);
 
   // Check if source of income charts are in the XML
   const sourceOfIncomeClientInXml =
@@ -1222,32 +1140,32 @@ function buildUploadXml(results) {
   const sourceOfIncomePeerInXml =
     uploadXml.includes("sourceOfIncomePeer_chart") ||
     uploadXml.includes("fid='15'");
-  console.log(
-    `sourceOfIncomeClient_chart in XML: ${sourceOfIncomeClientInXml}`
-  );
-  console.log(`sourceOfIncomePeer_chart in XML: ${sourceOfIncomePeerInXml}`);
+  // console.log(
+  //   `sourceOfIncomeClient_chart in XML: ${sourceOfIncomeClientInXml}`
+  // );
+  // console.log(`sourceOfIncomePeer_chart in XML: ${sourceOfIncomePeerInXml}`);
 
   // Debug: Check XML structure around the error position
   if (uploadXml.length > 1282) {
-    console.log("XML around position 1282:", uploadXml.substring(1270, 1300));
-    console.log("Character at position 1282:", uploadXml.charAt(1281));
-    console.log("Character code at position 1282:", uploadXml.charCodeAt(1281));
+    // console.log("XML around position 1282:", uploadXml.substring(1270, 1300));
+    // console.log("Character at position 1282:", uploadXml.charAt(1281));
+    // console.log("Character code at position 1282:", uploadXml.charCodeAt(1281));
   }
 
   // Validate XML structure
   try {
     // Simple validation - check for unescaped characters
     if (uploadXml.includes("&") && !uploadXml.includes("&amp;")) {
-      console.warn("Found unescaped & character in XML");
+      // console.warn("Found unescaped & character in XML");
     }
     if (uploadXml.includes("<") && !uploadXml.includes("&lt;")) {
-      console.warn("Found unescaped < character in XML");
+      // console.warn("Found unescaped < character in XML");
     }
     if (uploadXml.includes(">") && !uploadXml.includes("&gt;")) {
-      console.warn("Found unescaped > character in XML");
+      // console.warn("Found unescaped > character in XML");
     }
   } catch (error) {
-    console.error("Error validating XML:", error);
+    // console.error("Error validating XML:", error);
   }
 
   return uploadXml;
@@ -1261,12 +1179,12 @@ function buildUploadXml(results) {
  */
 function createFieldXml(id, val) {
   if (val === null || val === undefined) {
-    console.warn(`Skipping upload for field ${id} due to null/undefined value`);
+    // console.warn(`Skipping upload for field ${id} due to null/undefined value`);
     return "";
   }
 
   if (typeof val === "object") {
-    console.warn(`Invalid value type for field ${id}:`, typeof val);
+    // console.warn(`Invalid value type for field ${id}:`, typeof val);
     return "";
   }
 
@@ -1289,22 +1207,22 @@ function createFieldXml(id, val) {
  */
 function createImageFieldXml(id, val) {
   if (!val) {
-    console.warn(`Skipping image upload for field ${id} - missing data`);
+    // console.warn(`Skipping image upload for field ${id} - missing data`);
     return "";
   }
 
   // Check base64 string length (Quickbase has limits)
   if (val.length > 1000000) {
     // 1MB limit
-    console.warn(
-      `Base64 string too long for field ${id} (${val.length} chars), skipping`
-    );
+    // console.warn(
+    //   `Base64 string too long for field ${id} (${val.length} chars), skipping`
+    // );
     return "";
   }
 
   // Validate base64 string
   if (!/^[A-Za-z0-9+/]*={0,2}$/.test(val)) {
-    console.warn(`Invalid base64 string for field ${id}, skipping`);
+    // console.warn(`Invalid base64 string for field ${id}, skipping`);
     return "";
   }
 
@@ -1316,7 +1234,7 @@ function createImageFieldXml(id, val) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
 
-  console.log(`Creating XML field for ${id}, base64 length: ${val.length}`);
+  // console.log(`Creating XML field for ${id}, base64 length: ${val.length}`);
   return `<field fid='${id}' filename='chart.png'>${escapedVal}</field>`;
 }
 
@@ -1369,7 +1287,7 @@ function initApexChartsPrintFunction() {
     apexChartsExportPrint();
   });
 
-  console.log("ApexCharts export print functionality initialized");
+  // console.log("ApexCharts export print functionality initialized");
 }
 
 // Initialize when document is loaded
