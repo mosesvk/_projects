@@ -120,7 +120,7 @@ async function processChartsWithSpacing(chartMappings) {
           
           // Clone the table and set its dimensions
           const tableClone = tableElement.cloneNode(true);
-          tableClone.style.width = "100%";
+          tableClone.style.width = "fit-content";
           tableClone.style.height = "100%";
           tableClone.style.margin = "0";
           tableClone.style.padding = "10px"; // Reduced padding for less margin
