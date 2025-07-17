@@ -235,6 +235,10 @@ function saveCompleteChartState(chart) {
       fixedNum: fixedNum,
       isYAxisArray: Array.isArray(chartConfig.yaxis),
       yaxisConfig: yaxisConfig,
+      // Save FusionCharts caption for hlineargauge charts
+      ...(chartType === "hlineargauge" && chart.dataSource && {
+        originalCaption: chart.dataSource.chart?.caption || ""
+      }),
     };
     return originalConfig;
   } catch (error) {
@@ -420,6 +424,13 @@ function restoreCompleteChartState(chart, originalState) {
         series: chart.w.config.series
       });
     }
+
+    // Restore FusionCharts caption for hlineargauge charts
+    if (chartType === "hlineargauge" && originalState.originalCaption !== undefined) {
+      if (chart.dataSource && chart.dataSource.chart) {
+        chart.dataSource.chart.caption = originalState.originalCaption;
+      }
+    }
   } catch (error) {
     // console.warn("Error restoring chart state:", error);
   }
@@ -588,6 +599,23 @@ async function exportApexChart(chart, chartId) {
     
     // Get chart type for debugging
     const chartType = getChartTypeFromId(chartId);
+    
+    // Remove chart titles for print export
+    if (chartType === "hlineargauge") {
+      // For FusionCharts hlineargauge, remove caption
+      if (chart.dataSource && chart.dataSource.chart) {
+        chart.dataSource.chart.caption = "";
+      }
+    } else if (["line", "bar", "radialBar", "rangeBar", "pie"].includes(chartType)) {
+      // For ApexCharts, remove title
+      if (chart.updateOptions) {
+        await chart.updateOptions({
+          title: {
+            text: ""
+          }
+        }, false, true);
+      }
+    }
     
     // For radialBar charts, log the original configuration
     if (chartType === "radialBar") {
