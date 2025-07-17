@@ -29,8 +29,8 @@ function getChartDimensions(chartId) {
 
   if (radialBarCharts.includes(chartId)) {
     return {
-      width: 400, // Compact width for radialBar charts
-      height: 400, // Square aspect ratio works best for radialBar charts
+      width: 500, // Increased width to accommodate labels
+      height: 500, // Increased height to prevent cutoff
     };
   }
 
