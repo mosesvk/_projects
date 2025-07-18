@@ -905,6 +905,7 @@ async function exportWithHtml2Canvas(chartElement) {
     // Store original caption and clear it
     originalCaption = chart.args?.dataSource?.chart?.caption || "";
     chart.setChartAttribute('caption', '');
+    console.log(`if (chartType === "hlineargauge") ${chartId} - AfterCleared caption`, chart, originalCaption);
   }
 
   // Create a clone container with fixed dimensions
