@@ -3790,6 +3790,34 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
+  const series = [
+    {
+      name: firmName,
+      type: "column",
+      data: clientArray,
+    },
+    {
+      name: "Avg",
+      type: "line",
+      data: peerAvgArray,
+    },
+    {
+      name: "25th",
+      type: "line",
+      data: peer25Array,
+    },
+    {
+      name: "50th",
+      type: "line",
+      data: peer50Array,
+    },
+    {
+      name: "75th",
+      type: "line",
+      data: peer75Array,
+    },
+  ]
+
   return {
     colors: [
       window.chartColors.green,
@@ -3798,33 +3826,7 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       window.chartColors.yellow,
       window.chartColors.purple,
     ],
-    series: [
-      {
-        name: firmName,
-        type: "column",
-        data: clientArray,
-      },
-      {
-        name: "Avg",
-        type: "line",
-        data: peerAvgArray,
-      },
-      {
-        name: "25th",
-        type: "line",
-        data: peer25Array,
-      },
-      {
-        name: "50th",
-        type: "line",
-        data: peer50Array,
-      },
-      {
-        name: "75th",
-        type: "line",
-        data: peer75Array,
-      },
-    ],
+    series: series,
     chart: {
       toolbar: {
         tools: {
@@ -4801,8 +4803,9 @@ const getDebtServiceCoverageChartOptions = (data) => {
   financingLeasesRightOfUseLiabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Financing Leases Right of Use Liabilities</th>`;
 
   const mostRecentYear = selectedYearsArray[selectedYearsArray.length - 1];
+  let clientData;
   selectedYearsArray.map((year) => {
-    const clientData = Number(
+    clientData = Number(
       data.debtServiceCoverageRatio_Client[year].value
     ).toFixed(1);
     const changeInNetAssetWithoutDR = Math.round(
@@ -4833,33 +4836,33 @@ const getDebtServiceCoverageChartOptions = (data) => {
     `;
     changeInNetAssetWithoutDRRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(changeInNetAssetWithoutDR, true)}
-      </th>
+        $${changeInNetAssetWithoutDR.toLocaleString()}
+      </th> 
     `;
     depreciationRow.innerHTML += `      
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(depreciation, true)}
-      </th>
+        $${depreciation.toLocaleString()}
+      </th> 
     `;
     interestRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(interest, true)}
-      </th>
+        $${interest.toLocaleString()}
+      </th> 
     `;
     principalPaymentsRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(principalPayments, true)}
-      </th>
+        $${principalPayments.toLocaleString()}
+      </th> 
     `;
     capitalLeaseRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(capitalLease, true)}
-      </th>
+        $${capitalLease.toLocaleString()}
+      </th> 
     `;
     financingLeasesRightOfUseLiabilitiesRow.innerHTML += `    
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(financingLeasesRightOfUseLiabilities, true)}
-      </th>
+        $${financingLeasesRightOfUseLiabilities.toLocaleString()}
+      </th> 
     `;
   });
 
@@ -4870,7 +4873,10 @@ const getDebtServiceCoverageChartOptions = (data) => {
       ? `Above Benchmark: ${benchmark}`
       : `Within Range of Benchmark:: ${benchmark}`;
 
-  const backgroundColor = value > 4 ? "#cf3636" : "#54ba4a";
+  const backgroundColor = value > benchmark ? "#cf3636" : "#54ba4a";
+
+  // console.log({value, benchmark, text, backgroundColor});
+  
 
   var chartObj = new FusionCharts({
     type: "hlineargauge",
@@ -4897,17 +4903,17 @@ const getDebtServiceCoverageChartOptions = (data) => {
         color: [
           {
             minValue: "0",
-            maxValue: "4",
+            maxValue: "1.25",
             code: "#BBE97A",
           },
           {
-            minValue: "4",
-            maxValue: "8",
+            minValue: "1.25",
+            maxValue: "3",
             code: "#FFE381",
           },
           {
-            minValue: "8",
-            maxValue: "12",
+            minValue: "3",
+            maxValue: "10",
             code: "#EF707E",
           },
         ],
