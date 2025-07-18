@@ -38,7 +38,7 @@ const displayCfiComponent = () => {
     "percent",
     1,
     "cfi_netIncomeOperationsRatio",
-    0,
+    3,
     "CFI Net Income Operations Ratio"
   );
 

@@ -253,7 +253,6 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
     ["Auxiliary", "revenueAuxiliaryActivities"],
     ["Contributions", "revenueContributions"],
     ["Investments", "revenueInvestmentIncome"],
-    ["Net Assets Released", "netAssetsReleased"],
     ["Other", "revenueOther"],
   ];
 

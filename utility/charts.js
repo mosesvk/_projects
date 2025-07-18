@@ -3862,7 +3862,8 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       },
     },
     stroke: {
-      width: 4,
+      width: [2, 3, 4, 4, 4],
+      dashArray: series.map((s, i) => (i === 1 ? 4 : 0)),
     },
     title: {
       text: "Net Educational Expense Per Student",
