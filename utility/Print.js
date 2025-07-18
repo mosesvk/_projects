@@ -14,8 +14,8 @@ function getChartDimensions(chartId) {
   // CFI Composite chart needs special dimensions
   if (chartId === "cfiCompositeHtml_Chart") {
     return {
-      width: 500, // Reduced width to minimize right margin
-      height: 800, // Reduced height to minimize bottom margin
+      width: 550, // Back to original width
+      height: 900, // Keep height to prevent cutoff
     };
   }
 
@@ -178,38 +178,45 @@ async function processChartsWithSpacing(chartMappings) {
       // );
 
       // Special handling for CFI Composite chart - export only the table
-      if (chartId === "cfiCompositeHtml_Chart") {
+            if (chartId === "cfiCompositeHtml_Chart") {
         const tableElement = chartElement.querySelector("#myTable");
         if (tableElement) {
-          // Get dimensions for CFI Composite chart
-          // const dimensions = getChartDimensions(chartId);
-          // const { width: chartWidth, height: chartHeight } = dimensions;
-          
-          // Create a container with the specified dimensions
-          const container = document.createElement("div");
-          container.style.position = "absolute";
-          container.style.left = "-9999px";
-          container.style.width = `fit-content`;
-          // container.style.height = `${chartHeight}px`;
-          container.style.backgroundColor = "#ffffff";
-          container.style.overflow = "hidden";
-          document.body.appendChild(container);
-          
-          // Clone the table and set its dimensions
+          // Export the table directly without container constraints
           const tableClone = tableElement.cloneNode(true);
-          tableClone.style.width = "fit-content";
-          tableClone.style.height = "100%";
-          tableClone.style.margin = "0";
-          tableClone.style.padding = "10px"; // Reduced padding for less margin
-          tableClone.style.boxSizing = "border-box";
-          container.appendChild(tableClone);
           
-          // Export the container
-          const base64String = await exportWithHtml2Canvas(container);
+          // Set minimal styling for clean export
+          tableClone.style.margin = "0";
+          tableClone.style.padding = "10px";
+          tableClone.style.backgroundColor = "#ffffff";
+          tableClone.style.fontSize = "12px";
+          tableClone.style.border = "none";
+          
+          // Position off-screen for export
+          tableClone.style.position = "absolute";
+          tableClone.style.left = "-9999px";
+          tableClone.style.top = "0";
+          
+          document.body.appendChild(tableClone);
+          
+          // Wait for layout to settle
+          await new Promise((resolve) => setTimeout(resolve, 100));
+          
+          // Export with html2canvas using natural dimensions
+          const canvas = await html2canvas(tableClone, {
+            scale: 1,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: "#ffffff",
+            width: tableClone.scrollWidth,
+            height: tableClone.scrollHeight,
+          });
+          
+          const dataURL = canvas.toDataURL("image/png");
+          const base64String = dataURL.split(",")[1];
           
           // Clean up
-          if (container.parentNode) {
-            document.body.removeChild(container);
+          if (tableClone.parentNode) {
+            document.body.removeChild(tableClone);
           }
           
           results.push({ chartId, fieldId, base64String });
@@ -217,21 +224,21 @@ async function processChartsWithSpacing(chartMappings) {
         }
       }
 
-          // If we have an ApexChart instance, use its export method
-    if (chart && typeof chart.dataURI === "function") {
-      const base64String = await exportApexChart(chart, chartId);
-      if (base64String) {
+      // If we have an ApexChart instance, use its export method
+      if (chart && typeof chart.dataURI === "function") {
+        const base64String = await exportApexChart(chart, chartId);
+        if (base64String) {
+          results.push({ chartId, fieldId, base64String });
+          continue;
+        }
+      }
+      
+      // If we have a FusionCharts instance, use html2canvas export
+      if (chart && chart.args && chart.args.dataSource && chart.args.dataSource.chart) {
+        const base64String = await exportWithHtml2Canvas(chartElement);
         results.push({ chartId, fieldId, base64String });
         continue;
       }
-    }
-    
-    // If we have a FusionCharts instance, use html2canvas export
-    if (chart && chart.args && chart.args.dataSource && chart.args.dataSource.chart) {
-      const base64String = await exportWithHtml2Canvas(chartElement);
-      results.push({ chartId, fieldId, base64String });
-      continue;
-    }
 
       // console.warn("fallback to html2canvas");
 
@@ -769,9 +776,9 @@ async function exportApexChart(chart, chartId) {
 
 
     
-    // Remove chart titles for print export
+    // Remove chart titles and legends for print export
     if (["line", "bar", "radialBar", "rangeBar", "pie"].includes(chartType)) {
-      // For ApexCharts, remove title and subtitle
+      // For ApexCharts, remove title, subtitle, and legend
       if (chart.updateOptions) {
         await chart.updateOptions({
           title: {
@@ -779,6 +786,9 @@ async function exportApexChart(chart, chartId) {
           },
           subtitle: {
             text: ""
+          },
+          legend: {
+            show: false
           }
         }, false, true);
       }
@@ -927,7 +937,57 @@ async function exportWithHtml2Canvas(chartElement) {
     console.log(`if (chartType === "hlineargauge") ${chartId} - AfterCleared caption`, chart, originalCaption);
   }
 
-  // Create a clone container with fixed dimensions
+  // Special handling for CFI Composite chart
+  if (chartId === "cfiCompositeHtml_Chart") {
+    // For CFI Composite, use the container's actual content height
+    const actualHeight = chartElement.scrollHeight || chartElement.offsetHeight;
+    const finalHeight = Math.max(actualHeight, chartHeight);
+    
+    // Create a clone container with dynamic height
+    const container = document.createElement("div");
+    container.style.position = "absolute";
+    container.style.left = "-9999px";
+    container.style.width = `${chartWidth}px`;
+    container.style.height = `${finalHeight}px`;
+    container.style.backgroundColor = "#ffffff";
+    container.style.overflow = "visible";
+
+    // Clone the chart element into the container
+    const clone = chartElement.cloneNode(true);
+    clone.style.width = `${chartWidth}px`;
+    clone.style.height = "auto";
+    container.appendChild(clone);
+    document.body.appendChild(container);
+    
+    try {
+      // Wait for layout updates
+      await new Promise((resolve) => setTimeout(resolve, 200));
+
+      // Use html2canvas with dynamic height and optimized width
+      const canvas = await html2canvas(clone, {
+        scale: 1,
+        width: optimalWidth,
+        height: finalHeight,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: "#ffffff",
+      });
+
+      const dataURL = canvas.toDataURL("image/png");
+      const base64String = dataURL.split(",")[1];
+
+      // Clean up
+      document.body.removeChild(container);
+      return base64String;
+    } catch (error) {
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      return null;
+    }
+  }
+
+  // Create a clone container with fixed dimensions for other charts
   const container = document.createElement("div");
   container.style.position = "absolute";
   // container.style.left = '-9999px';
