@@ -19,7 +19,7 @@ function getChartDimensions(chartId) {
     };
   }
 
-  // RadialBar charts need compact, square dimensions
+  // RadialBar charts need dynamic dimensions based on content
   const radialBarCharts = [
     "salariesBenefitsToTotalExpense_chart",
     "salariesBenefitsPerNetTuition_chart",
@@ -28,10 +28,7 @@ function getChartDimensions(chartId) {
   ];
 
   if (radialBarCharts.includes(chartId)) {
-    return {
-      width: 700, // Increased width to accommodate labels
-      height: 400, // Increased height to prevent cutoff
-    };
+    return getDynamicRadialBarDimensions(chartId);
   }
 
   // Horizontal gauge charts need compact dimensions
@@ -65,6 +62,86 @@ function getChartDimensions(chartId) {
   return {
     width: DEFAULT_CHART_WIDTH,
     height: DEFAULT_CHART_HEIGHT,
+  };
+}
+
+/**
+ * Calculate dynamic dimensions for radialBar charts based on content
+ * @param {string} chartId - The ID of the chart
+ * @returns {Object} - Object with width and height
+ */
+function getDynamicRadialBarDimensions(chartId) {
+  const chartElement = document.getElementById(chartId);
+  if (!chartElement) {
+    // Fallback dimensions if chart element not found
+    return {
+      width: 450,
+      height: 300,
+    };
+  }
+
+  // Get the chart instance to access data
+  const chart = getChartInstance(chartId);
+  if (!chart || !chart.w || !chart.w.config) {
+    // Fallback dimensions if chart instance not found
+    return {
+      width: 450,
+      height: 300,
+    };
+  }
+
+  // Get the series data to determine the value
+  const seriesData = chart.w.config.series || [];
+  const value = seriesData[0] || 0;
+  
+  // Get the labels to determine text content
+  const labels = chart.w.config.labels || [];
+  const textContent = labels[0] || "";
+
+  // Base dimensions for the radial chart itself (without text)
+  const baseChartSize = 180; // Reduced size of the actual radial chart
+  const padding = 30; // Reduced padding around the chart
+  
+  // Calculate text width dynamically
+  const tempTextElement = document.createElement('div');
+  tempTextElement.style.position = 'absolute';
+  tempTextElement.style.left = '-9999px';
+  tempTextElement.style.fontFamily = 'Arial, sans-serif';
+  tempTextElement.style.fontSize = '14px';
+  tempTextElement.style.fontWeight = 'bold';
+  tempTextElement.style.whiteSpace = 'nowrap';
+  tempTextElement.style.visibility = 'hidden';
+  tempTextElement.textContent = textContent;
+  document.body.appendChild(tempTextElement);
+  
+  const textWidth = tempTextElement.offsetWidth;
+  document.body.removeChild(tempTextElement);
+
+  // Calculate required width based on text length
+  let requiredWidth;
+  if (textWidth <= 150) {
+    // Very short text - use minimal width
+    requiredWidth = baseChartSize + padding;
+  } else if (textWidth <= 300) {
+    // Short to medium text - use text width plus padding
+    requiredWidth = textWidth + padding * 2;
+  } else {
+    // Long text - use text width plus padding, but cap at reasonable max
+    requiredWidth = Math.min(textWidth + padding * 2, 600);
+  }
+
+  // Ensure minimum and maximum widths
+  const minWidth = 350;
+  const maxWidth = 600;
+  const finalWidth = Math.max(minWidth, Math.min(maxWidth, requiredWidth));
+
+  // Height is based on chart size plus text height plus padding
+  const textHeight = 50; // Reduced text height for better proportions
+  const finalHeight = baseChartSize + textHeight + padding * 2;
+
+  return {
+    width: finalWidth,
+    height: finalHeight,
   };
 }
 
@@ -614,6 +691,16 @@ async function exportApexChart(chart, chartId) {
     chartElement.style.height = `${chartHeight}px`;
     chartElement.style.position = "absolute";
     chartElement.style.transform = "none";
+    
+    // Get chart type for debugging
+    const chartType = getChartTypeFromId(chartId);
+    
+    // For radialBar charts, center the content
+    if (chartType === "radialBar") {
+      chartElement.style.display = "flex";
+      chartElement.style.alignItems = "center";
+      chartElement.style.justifyContent = "center";
+    }
 
     // Force exact dimensions for export
     const paperNode = chart.w.globals.dom.Paper.node;
@@ -637,9 +724,6 @@ async function exportApexChart(chart, chartId) {
     // Set viewBox to match dimensions exactly
     paperNode.setAttribute("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
     paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
-    
-    // Get chart type for debugging
-    const chartType = getChartTypeFromId(chartId);
     
     // Remove chart titles for print export
     if (chartType === "hlineargauge") {
@@ -690,7 +774,7 @@ async function exportApexChart(chart, chartId) {
 
     // For radialBar charts, apply dimensions but preserve styling
     if (chartType === "radialBar") {
-      console.log(`[RADIALBAR DEBUG] ${chartId} - Applying dimensions while preserving styling`);
+      console.log(`[RADIALBAR DEBUG] ${chartId} - Applying dynamic dimensions: ${chartWidth}x${chartHeight}`);
       // Apply only the chart dimensions, not the full configuration
       if (chart.updateOptions) {
         await chart.updateOptions({
