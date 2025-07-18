@@ -212,7 +212,9 @@ let ltDebtPerTotalOperatingRevenue_chart;
 let debtServiceCoverageRatio_chart;
 let debtBurdenRatio_chart;
 let endowmentOperatingBudget_chart;
-let endowmentAssetsPerStudent_chart;
+let endowmentAssetsPerStudent_chart
+let netTuitionPerStudent_chart
+let cfiCompositeHtml_chart;
 
 // annotation
 let cfiRatio_annotation;

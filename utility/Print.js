@@ -217,14 +217,21 @@ async function processChartsWithSpacing(chartMappings) {
         }
       }
 
-      // If we have an ApexChart instance, use its export method
-      if (chart && typeof chart.dataURI === "function") {
-        const base64String = await exportApexChart(chart, chartId);
-        if (base64String) {
-          results.push({ chartId, fieldId, base64String });
-          continue;
-        }
+          // If we have an ApexChart instance, use its export method
+    if (chart && typeof chart.dataURI === "function") {
+      const base64String = await exportApexChart(chart, chartId);
+      if (base64String) {
+        results.push({ chartId, fieldId, base64String });
+        continue;
       }
+    }
+    
+    // If we have a FusionCharts instance, use html2canvas export
+    if (chart && chart.args && chart.args.dataSource && chart.args.dataSource.chart) {
+      const base64String = await exportWithHtml2Canvas(chartElement);
+      results.push({ chartId, fieldId, base64String });
+      continue;
+    }
 
       // console.warn("fallback to html2canvas");
 
@@ -249,6 +256,24 @@ async function processChartsWithSpacing(chartMappings) {
  */
 function saveCompleteChartState(chart) {
   try {
+    // Handle FusionCharts differently (they don't have w.globals structure)
+    if (chart.args && chart.args.dataSource && chart.args.dataSource.chart) {
+      // This is a FusionCharts instance
+      const chartId = chart.renderAt || chart.id || "unknown";
+      const chartType = getChartTypeFromId(chartId);
+      
+      // For FusionCharts, get the caption from the dataSource
+      const originalCaption = chart.args.dataSource.chart.caption || "";
+      
+      return {
+        chartId: chartId,
+        chartType: chartType,
+        isFusionChart: true,
+        originalCaption: originalCaption
+      };
+    }
+    
+    // Handle ApexCharts (original logic)
     const paperNode = chart.w.globals.dom.Paper.node;
     const chartConfig = chart.w.config;
     const chartId = chart.w.globals.chartID;
@@ -388,7 +413,6 @@ function getChartTypeFromId(chartId) {
     debtBurdenRatio_chart: "radialBar",
     ltDebtPerTotalOperatingRevenue_chart: "radialBar",
     netEducationalExpensePerStudent_chart: "line",
-    annualTraditionalNetTuitionPerStudent_chart: "line",
     tuitionDependency_chart: "line",
     tuitionDiscountRate_chart: "line",
     endowmentOperatingBudget_chart: "hlineargauge",
@@ -414,9 +438,21 @@ function getChartTypeFromId(chartId) {
 function restoreCompleteChartState(chart, originalState) {
   // console.log("RESTORE CHART STATE", { chart, originalState });
   try {
+    if (!chart || !originalState) {
+      return;
+    }
+    
+    // Handle FusionCharts restoration
+    if (originalState.isFusionChart) {
+      if (typeof chart.setChartAttribute === "function" && originalState.originalCaption !== undefined) {
+        // Restore the caption using FusionCharts method
+        chart.setChartAttribute('caption', originalState.originalCaption);
+      }
+      return;
+    }
+    
+    // Handle ApexCharts restoration (original logic)
     if (
-      !chart ||
-      !originalState ||
       !chart.w ||
       !chart.w.globals ||
       !chart.w.globals.dom
@@ -543,12 +579,7 @@ function restoreCompleteChartState(chart, originalState) {
       });
     }
 
-    // Restore FusionCharts caption for hlineargauge charts
-    if (chartType === "hlineargauge" && originalState.originalCaption !== undefined) {
-      if (chart.dataSource && chart.dataSource.chart) {
-        chart.dataSource.chart.caption = originalState.originalCaption;
-      }
-    }
+
   } catch (error) {
     // console.warn("Error restoring chart state:", error);
   }
@@ -619,8 +650,8 @@ const getChartInstance = (chartId) => {
     salariesBenefitsPerNetTuition_chart: salariesBenefitsPerNetTuition_chart,
     netEducationalExpensePerStudent_chart:
       netEducationalExpensePerStudent_chart,
-    annualTraditionalNetTuitionPerStudent_chart:
-      annualTraditionalNetTuitionPerStudent_chart,
+    netTuitionPerStudent_chart:
+      netTuitionPerStudent_chart,
     tuitionDependency_chart: tuitionDependency_chart,
     tuitionDiscountRate_chart: tuitionDiscountRate_chart,
     ltDebtPerTotalOperatingRevenue_chart: ltDebtPerTotalOperatingRevenue_chart,
@@ -642,6 +673,7 @@ const getChartInstance = (chartId) => {
  * @returns {Promise<string>} - Base64 encoded image or null if failed
  */
 async function exportApexChart(chart, chartId) {
+
   try {
     if (!chart || !chart.w || !chart.w.globals || !chart.w.globals.dom) {
       throw new Error("Invalid chart instance");
@@ -721,17 +753,17 @@ async function exportApexChart(chart, chartId) {
     paperNode.style.left = '0';
     paperNode.style.top = '0';
 
+
+
+    // Remove the caption from the chart
     // Set viewBox to match dimensions exactly
     paperNode.setAttribute("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
     paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+
     
     // Remove chart titles for print export
-    if (chartType === "hlineargauge") {
-      // For FusionCharts hlineargauge, remove caption
-      if (chart.dataSource && chart.dataSource.chart) {
-        chart.dataSource.chart.caption = "";
-      }
-    } else if (["line", "bar", "radialBar", "rangeBar", "pie"].includes(chartType)) {
+    if (["line", "bar", "radialBar", "rangeBar", "pie"].includes(chartType)) {
       // For ApexCharts, remove title and subtitle
       if (chart.updateOptions) {
         await chart.updateOptions({
@@ -746,19 +778,19 @@ async function exportApexChart(chart, chartId) {
     }
     
     // For radialBar charts, log the original configuration
-    if (chartType === "radialBar") {
-      console.log(`[RADIALBAR DEBUG] ${chartId} - Original chart config:`, {
-        fill: chart.w.config.fill,
-        stroke: chart.w.config.stroke,
-        plotOptions: chart.w.config.plotOptions,
-        labels: chart.w.config.labels,
-        colors: chart.w.config.colors,
-        series: chart.w.config.series
-      });
+    // if (chartType === "radialBar") {
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - Original chart config:`, {
+      //   fill: chart.w.config.fill,
+      //   stroke: chart.w.config.stroke,
+      //   plotOptions: chart.w.config.plotOptions,
+      //   labels: chart.w.config.labels,
+      //   colors: chart.w.config.colors,
+      //   series: chart.w.config.series
+      // });
       
       // Also log the actual data values to understand the color logic
-      console.log(`[RADIALBAR DEBUG] ${chartId} - Series data:`, chart.w.config.series);
-    }
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - Series data:`, chart.w.config.series);
+    // }
     
     // Simple configuration like testPrint.js - only set basic properties
     let updatedOptions = {
@@ -774,7 +806,7 @@ async function exportApexChart(chart, chartId) {
 
     // For radialBar charts, apply dimensions but preserve styling
     if (chartType === "radialBar") {
-      console.log(`[RADIALBAR DEBUG] ${chartId} - Applying dynamic dimensions: ${chartWidth}x${chartHeight}`);
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - Applying dynamic dimensions: ${chartWidth}x${chartHeight}`);
       // Apply only the chart dimensions, not the full configuration
       if (chart.updateOptions) {
         await chart.updateOptions({
@@ -798,16 +830,16 @@ async function exportApexChart(chart, chartId) {
     await new Promise((resolve) => setTimeout(resolve, 200));
 
     // For radialBar charts, log the configuration right before export
-    if (chartType === "radialBar") {
-      console.log(`[RADIALBAR DEBUG] ${chartId} - Config before dataURI:`, {
-        fill: chart.w.config.fill,
-        stroke: chart.w.config.stroke,
-        plotOptions: chart.w.config.plotOptions,
-        labels: chart.w.config.labels,
-        colors: chart.w.config.colors,
-        series: chart.w.config.series
-      });
-    }
+    // if (chartType === "radialBar") {
+    //   console.log(`[RADIALBAR DEBUG] ${chartId} - Config before dataURI:`, {
+    //     fill: chart.w.config.fill,
+    //     stroke: chart.w.config.stroke,
+    //     plotOptions: chart.w.config.plotOptions,
+    //     labels: chart.w.config.labels,
+    //     colors: chart.w.config.colors,
+    //     series: chart.w.config.series
+    //   });
+    // }
 
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
@@ -819,7 +851,7 @@ async function exportApexChart(chart, chartId) {
     // For radialBar charts, log the SVG content to see what's being exported
     if (chartType === "radialBar") {
       const svgContent = chart.w.globals.dom.Paper.node.outerHTML;
-      console.log(`[RADIALBAR DEBUG] ${chartId} - SVG content being exported:`, svgContent.substring(0, 500) + "...");
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - SVG content being exported:`, svgContent.substring(0, 500) + "...");
     }
 
     // console.log(
@@ -854,10 +886,26 @@ async function exportApexChart(chart, chartId) {
  * Fallback to html2canvas for export
  */
 async function exportWithHtml2Canvas(chartElement) {
+  // console.log(`exportWithHtml2Canvas ${chartElement.id}`, chartElement);
   // Get chart ID from the element
   const chartId = chartElement.id;
   const dimensions = getChartDimensions(chartId);
   const { width: chartWidth, height: chartHeight } = dimensions;
+
+  // Get the chart instance to handle FusionCharts caption clearing
+  const chart = getChartInstance(chartId);
+  const chartType = getChartTypeFromId(chartId);
+
+  
+  // Handle FusionCharts caption clearing before export
+  let originalCaption = null;
+  if (chartType === "hlineargauge") {
+
+    console.log(`if (chartType === "hlineargauge") ${chartId} - Clearing caption`, chart, chartElement);
+    // Store original caption and clear it
+    originalCaption = chart.args?.dataSource?.chart?.caption || "";
+    chart.setChartAttribute('caption', '');
+  }
 
   // Create a clone container with fixed dimensions
   const container = document.createElement("div");
@@ -907,6 +955,12 @@ async function exportWithHtml2Canvas(chartElement) {
     // console.log(
     //   `html2canvas export for ${chartElement.id}: dataURL length: ${dataURL.length}, base64 length: ${base64String.length}`
     // );
+
+    // Restore FusionCharts caption if it was cleared
+    if (originalCaption !== null && chart && typeof chart.setChartAttribute === "function") {
+      // console.log(`[Lineargauge DEBUG] ${chartId} - Restoring caption`);
+      chart.setChartAttribute('caption', originalCaption);
+    }
 
     // Clean up
     document.body.removeChild(container);
@@ -1054,7 +1108,7 @@ async function apexChartsExportPrint() {
       { chartId: "salariesBenefitsToTotalExpense_chart", fieldId: 19 },
       { chartId: "salariesBenefitsPerNetTuition_chart", fieldId: 20 },
       { chartId: "netEducationalExpensePerStudent_chart", fieldId: 22 }, // Fixed from typo in original
-      { chartId: "annualTraditionalNetTuitionPerStudent_chart", fieldId: 23 },
+      { chartId: "netTuitionPerStudent_chart", fieldId: 23 },
       { chartId: "tuitionDependency_chart", fieldId: 24 },
       { chartId: "tuitionDiscountRate_chart", fieldId: 25 },
       { chartId: "ltDebtPerTotalOperatingRevenue_chart", fieldId: 26 },
@@ -1087,7 +1141,7 @@ async function apexChartsExportPrint() {
     // );
 
     // Process charts with fixed dimensions
-    const results = await processChartsWithSpacing(validChartMappings);
+    const results = await processChartsWithSpacing(chartMappings);
 
     // console.log(
     //   "Export results:",

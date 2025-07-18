@@ -4666,7 +4666,7 @@ const getNetTuitionPerStudentChartOptions = (data) => {
 
   const backgroundColor = value > benchmark ? "#54ba4a" : "#cf3636";
 
-  var chartObj = new FusionCharts({
+  netTuitionPerStudent_chart = new FusionCharts({
     type: "hlineargauge",
     renderAt: "netTuitionPerStudent_chart",
     width: "800",
@@ -4759,7 +4759,7 @@ const getNetTuitionPerStudentChartOptions = (data) => {
     },
   });
 
-  chartObj.render();
+  netTuitionPerStudent_chart.render();
 };
 
 const getDebtServiceCoverageChartOptions = (data) => {
@@ -4879,7 +4879,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
 
   // console.log({value, benchmark, text, backgroundColor});
 
-  var chartObj = new FusionCharts({
+  debtServiceCoverageRatio_chart = new FusionCharts({
     type: "hlineargauge",
     renderAt: "debtServiceCoverageRatio_chart",
     width: "800",
@@ -4972,7 +4972,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
     },
   });
 
-  chartObj.render();
+  debtServiceCoverageRatio_chart.render();
 };
 
 const getEndowmentOperatingChartOptions = (data) => {
@@ -5047,7 +5047,7 @@ const getEndowmentOperatingChartOptions = (data) => {
 
   const backgroundColor = value > benchmark ? "#54ba4a" : "#cf3636";
 
-  var chartObj = new FusionCharts({
+  endowmentOperatingBudget_chart = new FusionCharts({
     type: "hlineargauge",
     renderAt: "endowmentOperatingBudget_chart",
     width: "800",
@@ -5140,7 +5140,7 @@ const getEndowmentOperatingChartOptions = (data) => {
     },
   });
 
-  chartObj.render();
+  endowmentOperatingBudget_chart.render();
 };
 
 // ltDebtPerTotalOperatingRevenue_chart
