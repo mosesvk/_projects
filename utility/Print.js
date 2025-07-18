@@ -778,19 +778,25 @@ async function exportApexChart(chart, chartId) {
     
     // Remove chart titles and legends for print export
     if (["line", "bar", "radialBar", "rangeBar", "pie"].includes(chartType)) {
-      // For ApexCharts, remove title, subtitle, and legend
+      // For ApexCharts, remove title and subtitle for all chart types
       if (chart.updateOptions) {
-        await chart.updateOptions({
+        const updateConfig = {
           title: {
             text: ""
           },
           subtitle: {
             text: ""
-          },
-          legend: {
-            show: false
           }
-        }, false, true);
+        };
+        
+        // Only hide legend for pie charts
+        if (chartType === "pie") {
+          updateConfig.legend = {
+            show: false
+          };
+        }
+        
+        await chart.updateOptions(updateConfig, false, true);
       }
     }
     
