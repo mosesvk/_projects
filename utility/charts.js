@@ -5011,7 +5011,7 @@ const getEndowmentOperatingChartOptions = (data) => {
   selectedYearsArray.sort((a, b) => a - b);
 
   selectedYearsArray.map((year) => {
-    const clientData = Math.round((data.ratio_Client[year].value) * 100)
+    const clientData = Math.round(data.ratio_Client[year].value * 100);
     const endowment = Number(data.endowment_Client[year].value);
     const annualOperatingBudget = Number(
       data.annualOperatingBudget_Client[year].value
@@ -5517,7 +5517,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
     clientRatioRow.innerHTML += `
 <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-  ${formattedClientRatio}
+  $${formattedClientRatio}
 </th>
 `;
 
@@ -5562,7 +5562,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     // console.log({clientRatio, peerRatio});
 
     const peerData = isNaN(peerRatio) ? null : peerRatio;
-    peerAvgArray.push(peerData);
+    peerAvgArray.push(Math.round(peerData));
 
     const peer25 = get25thPercentileOfArray(peerAvgArray);
     peer25Array.push(Math.round(peer25));
@@ -5616,6 +5616,37 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     return `${formattedValue}`;
   };
 
+  const series = [
+    {
+      name: firmName,
+      type: "column",
+      data: clientArray,
+      style: {
+        colors: [chartColors.labelColor],
+      },
+    },
+    {
+      name: "Avg",
+      type: "line",
+      data: peerAvgArray,
+    },
+    {
+      name: "25th",
+      type: "line",
+      data: peer25Array,
+    },
+    {
+      name: "50th",
+      type: "line",
+      data: peer50Array,
+    },
+    {
+      name: "75th",
+      type: "line",
+      data: peer75Array,
+    },
+  ]
+
   return {
     colors: [
       window.chartColors.green,
@@ -5624,36 +5655,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       window.chartColors.yellow,
       window.chartColors.purple,
     ],
-    series: [
-      {
-        name: firmName,
-        type: "column",
-        data: clientArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
-      },
-      {
-        name: "Avg",
-        type: "line",
-        data: peerAvgArray,
-      },
-      {
-        name: "25th",
-        type: "line",
-        data: peer25Array,
-      },
-      {
-        name: "50th",
-        type: "line",
-        data: peer50Array,
-      },
-      {
-        name: "75th",
-        type: "line",
-        data: peer75Array,
-      },
-    ],
+    series: series,
     chart: {
       id: "adminCostsPerStudent",
       toolbar: {
@@ -5672,7 +5674,8 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       stacked: false,
     },
     stroke: {
-      width: 4,
+      width: [2, 3, 4, 4, 4],
+      dashArray: series.map((s, i) => (i === 1 ? 4 : 0)),
     },
     title: {
       text: "Endowment Assets per Student",
@@ -5740,9 +5743,36 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
         thickness: 4,
       },
     },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [0],
+      offsetY: -20,
+      formatter: function (val, opts) {
+        const num = Math.round(val);
+        return `$${num.toLocaleString()}`;
+      },
+      style: {
+        fontSize: "20px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: "bold",
+        colors: ["#ffffff"],
+      },
+      background: {
+        enabled: true,
+        foreColor: window.chartColors.cfiClient,
+        padding: 4,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: "#ffffff",
+        opacity: 0.7,
+        dropShadow: {
+          enabled: false,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: "#000",
+          opacity: 0.45,
+        },
       },
     },
   };
