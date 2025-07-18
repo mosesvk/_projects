@@ -4675,7 +4675,7 @@ const getNetTuitionPerStudentChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "Net Tuition per Student",
+        caption: "",
         subcaption: "",
         lowerLimit: "0",
         upperLimit: value + 5000,
@@ -4888,7 +4888,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "Debt Service Coverage Ratio ",
+        caption: "",
         subcaption: "",
         lowerLimit: "0",
         upperLimit: "10",
@@ -5056,7 +5056,7 @@ const getEndowmentOperatingChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "Endowment to Operating Budget",
+        caption: "",
         subcaption: "",
         lowerLimit: "0",
         upperLimit: "250",

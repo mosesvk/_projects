@@ -444,9 +444,16 @@ function restoreCompleteChartState(chart, originalState) {
     
     // Handle FusionCharts restoration
     if (originalState.isFusionChart) {
-      if (typeof chart.setChartAttribute === "function" && originalState.originalCaption !== undefined) {
-        // Restore the caption using FusionCharts method
-        chart.setChartAttribute('caption', originalState.originalCaption);
+      if (chart.args && chart.args.dataSource && originalState.originalCaption !== undefined) {
+        // Restore the caption in the dataSource
+        chart.args.dataSource.chart.caption = originalState.originalCaption;
+        
+        // Force the chart to re-render with the restored dataSource
+        if (typeof chart.setData === 'function') {
+          chart.setData(chart.args.dataSource);
+        } else if (typeof chart.feedData === 'function') {
+          chart.feedData(chart.args.dataSource);
+        }
       }
       return;
     }
@@ -900,11 +907,23 @@ async function exportWithHtml2Canvas(chartElement) {
   // Handle FusionCharts caption clearing before export
   let originalCaption = null;
   if (chartType === "hlineargauge") {
-
     console.log(`if (chartType === "hlineargauge") ${chartId} - Clearing caption`, chart, chartElement);
     // Store original caption and clear it
     originalCaption = chart.args?.dataSource?.chart?.caption || "";
-    chart.setChartAttribute('caption', '');
+    
+    // For FusionCharts, we need to update the dataSource and re-render
+    if (chart.args && chart.args.dataSource) {
+      // Update the caption in the dataSource
+      chart.args.dataSource.chart.caption = '';
+      
+      // Force the chart to re-render with the updated dataSource
+      if (typeof chart.setData === 'function') {
+        chart.setData(chart.args.dataSource);
+      } else if (typeof chart.feedData === 'function') {
+        chart.feedData(chart.args.dataSource);
+      }
+    }
+    
     console.log(`if (chartType === "hlineargauge") ${chartId} - AfterCleared caption`, chart, originalCaption);
   }
 
@@ -958,9 +977,17 @@ async function exportWithHtml2Canvas(chartElement) {
     // );
 
     // Restore FusionCharts caption if it was cleared
-    if (originalCaption !== null && chart && typeof chart.setChartAttribute === "function") {
-      // console.log(`[Lineargauge DEBUG] ${chartId} - Restoring caption`);
-      chart.setChartAttribute('caption', originalCaption);
+    if (originalCaption !== null && chart && chart.args && chart.args.dataSource) {
+      console.log(`[Lineargauge DEBUG] ${chartId} - Restoring caption`, chart, originalCaption);
+      // Restore the caption in the dataSource
+      chart.args.dataSource.chart.caption = originalCaption;
+      
+      // Force the chart to re-render with the restored dataSource
+      if (typeof chart.setData === 'function') {
+        chart.setData(chart.args.dataSource);
+      } else if (typeof chart.feedData === 'function') {
+        chart.feedData(chart.args.dataSource);
+      }
     }
 
     // Clean up
