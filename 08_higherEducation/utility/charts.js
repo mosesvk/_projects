@@ -587,6 +587,7 @@ const getMainChartOptions = (
     legend: {
       position: "bottom",
       fontSize: "20px",
+      height: 80,
       showForNullSeries: false,
       showForZeroSeries: false,
     },
@@ -1520,28 +1521,27 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
   const tuitionPercentage = getAverageOfArray(
     data["revenueTuitionAndFees_Peer"][selectedYearsArray[0]]
   );
-  const tuitionValue = Math.round(totalValue * tuitionPercentage)
-  
+  const tuitionValue = Math.round(totalValue * tuitionPercentage);
 
   const auxiliaryPercentage = getAverageOfArray(
     data["revenueAuxiliaryActivities_Peer"][selectedYearsArray[0]]
   );
-  const auxiliaryValue = Math.round(totalValue * auxiliaryPercentage)
+  const auxiliaryValue = Math.round(totalValue * auxiliaryPercentage);
 
   const contributionsPercentage = getAverageOfArray(
     data["revenueContributions_Peer"][selectedYearsArray[0]]
   );
-  const contributionsValue = Math.round(totalValue * contributionsPercentage)
+  const contributionsValue = Math.round(totalValue * contributionsPercentage);
 
   const investmentsPercentage = getAverageOfArray(
     data["revenueInvestmentIncome_Peer"][selectedYearsArray[0]]
   );
-  const investmentsValue = Math.round(totalValue * investmentsPercentage)
+  const investmentsValue = Math.round(totalValue * investmentsPercentage);
 
   const otherPercentage = getAverageOfArray(
     data["revenueOther_Peer"][selectedYearsArray[0]]
   );
-  const otherValue = Math.round(totalValue * otherPercentage)
+  const otherValue = Math.round(totalValue * otherPercentage);
 
   // console.log ({
   //   totalValue,
@@ -3011,13 +3011,13 @@ const getSalariesAndBenefitsToTotalExpenseChartOptions = (data) => {
         dataLabels: {
           name: {
             fontSize: "16px",
-            color: chartColor,
+            color: window.chartColors.black,
             offsetY: 120,
           },
           value: {
             fontSize: "50px",
             fontWeight: "700",
-            color: chartColor,
+            color: window.chartColors.black,
             formatter: function (val) {
               return val + "%";
             },
@@ -3335,13 +3335,13 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
         dataLabels: {
           name: {
             fontSize: "16px",
-            color: chartColor,
             offsetY: 120,
+            color: window.chartColors.black,
           },
           value: {
             fontSize: "50px",
             fontWeight: "700",
-            color: chartColor,
+            color: window.chartColors.black,
             formatter: function (val) {
               return val + "%";
             },
@@ -3350,14 +3350,11 @@ const getSalariesAndBenefitsPerNetTuitionChartOptions = (data) => {
         },
       },
     },
-    fill: {
-      colors: [chartColor],
-    },
     stroke: {
       dashArray: 4,
-      style: {
-        color: chartColor,
-      },
+    },
+    fill: {
+      colors: [chartColor],
     },
     labels: [textLabel],
   };
@@ -3792,6 +3789,34 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     return `$${formattedValue}`;
   };
 
+  const series = [
+    {
+      name: firmName,
+      type: "column",
+      data: clientArray,
+    },
+    {
+      name: "Avg",
+      type: "line",
+      data: peerAvgArray,
+    },
+    {
+      name: "25th",
+      type: "line",
+      data: peer25Array,
+    },
+    {
+      name: "50th",
+      type: "line",
+      data: peer50Array,
+    },
+    {
+      name: "75th",
+      type: "line",
+      data: peer75Array,
+    },
+  ];
+
   return {
     colors: [
       window.chartColors.green,
@@ -3800,33 +3825,7 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       window.chartColors.yellow,
       window.chartColors.purple,
     ],
-    series: [
-      {
-        name: firmName,
-        type: "column",
-        data: clientArray,
-      },
-      {
-        name: "Avg",
-        type: "line",
-        data: peerAvgArray,
-      },
-      {
-        name: "25th",
-        type: "line",
-        data: peer25Array,
-      },
-      {
-        name: "50th",
-        type: "line",
-        data: peer50Array,
-      },
-      {
-        name: "75th",
-        type: "line",
-        data: peer75Array,
-      },
-    ],
+    series: series,
     chart: {
       toolbar: {
         tools: {
@@ -3864,7 +3863,8 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       },
     },
     stroke: {
-      width: 4,
+      width: [2, 3, 4, 4, 4],
+      dashArray: series.map((s, i) => (i === 1 ? 4 : 0)),
     },
     title: {
       text: "Net Educational Expense Per Student",
@@ -4100,9 +4100,9 @@ const getTuitionDependencyChartOptions = (data) => {
     }
   };
 
-   const yaxisLabelFormatter = (value) => {
+  const yaxisLabelFormatter = (value) => {
     if (value === 0) {
-      return '0';
+      return "0";
     }
     if (value >= 10000000) {
       // Round to nearest 10M for values >= 10M
@@ -4407,25 +4407,25 @@ const getTuitionDiscountRateChartOptions = (data) => {
     ? "#e3f0fa"
     : "#3a464f";
 
-    const yaxisLabelFormatter = (value) => {
-      if (value === 0) {
-        return '0';
-      }
-      if (value >= 10000000) {
-        // Round to nearest 10M for values >= 10M
-        return `$${Math.round(value / 10000000) * 10}M`;
-      } else if (value >= 1000000) {
-        // Round to nearest 1M for values >= 1M
-        return `$${Math.round(value / 1000000)}M`;
-      } else if (value >= 10000) {
-        // Round to nearest 10K for values >= 10K
-        return `$${Math.round(value / 10000) * 10}K`;
-      } else if (value < 1) {
-        // Round to nearest 0.05 for values < 1
-        return `${(Math.round(value * 20) / 20).toFixed(2)}`;
-      }
-      return `$${formatNumber(value)}`;
-    };
+  const yaxisLabelFormatter = (value) => {
+    if (value === 0) {
+      return "0";
+    }
+    if (value >= 10000000) {
+      // Round to nearest 10M for values >= 10M
+      return `$${Math.round(value / 10000000) * 10}M`;
+    } else if (value >= 1000000) {
+      // Round to nearest 1M for values >= 1M
+      return `$${Math.round(value / 1000000)}M`;
+    } else if (value >= 10000) {
+      // Round to nearest 10K for values >= 10K
+      return `$${Math.round(value / 10000) * 10}K`;
+    } else if (value < 1) {
+      // Round to nearest 0.05 for values < 1
+      return `${(Math.round(value * 20) / 20).toFixed(2)}`;
+    }
+    return `$${formatNumber(value)}`;
+  };
   const yaxisLabelFormatter2 = (value) => {
     return `${value}`;
   };
@@ -4652,9 +4652,12 @@ const getNetTuitionPerStudentChartOptions = (data) => {
     `;
   });
 
-  const value = Number(data.netTuitionPerStudentRatio_Client[selectedYearsArray[selectedYearsArray.length - 1]]
-  .value)
-  
+  const value = Number(
+    data.netTuitionPerStudentRatio_Client[
+      selectedYearsArray[selectedYearsArray.length - 1]
+    ].value
+  );
+
   const benchmark = 1400;
   const text =
     value > benchmark
@@ -4663,7 +4666,7 @@ const getNetTuitionPerStudentChartOptions = (data) => {
 
   const backgroundColor = value > benchmark ? "#54ba4a" : "#cf3636";
 
-  var chartObj = new FusionCharts({
+  netTuitionPerStudent_chart = new FusionCharts({
     type: "hlineargauge",
     renderAt: "netTuitionPerStudent_chart",
     width: "800",
@@ -4672,7 +4675,7 @@ const getNetTuitionPerStudentChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "Net Tuition per Student",
+        caption: "",
         subcaption: "",
         lowerLimit: "0",
         upperLimit: value + 5000,
@@ -4756,7 +4759,7 @@ const getNetTuitionPerStudentChartOptions = (data) => {
     },
   });
 
-  chartObj.render();
+  netTuitionPerStudent_chart.render();
 };
 
 const getDebtServiceCoverageChartOptions = (data) => {
@@ -4802,8 +4805,9 @@ const getDebtServiceCoverageChartOptions = (data) => {
   financingLeasesRightOfUseLiabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">Financing Leases Right of Use Liabilities</th>`;
 
   const mostRecentYear = selectedYearsArray[selectedYearsArray.length - 1];
+  let clientData;
   selectedYearsArray.map((year) => {
-    const clientData = Number(
+    clientData = Number(
       data.debtServiceCoverageRatio_Client[year].value
     ).toFixed(1);
     const changeInNetAssetWithoutDR = Math.round(
@@ -4834,33 +4838,33 @@ const getDebtServiceCoverageChartOptions = (data) => {
     `;
     changeInNetAssetWithoutDRRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(changeInNetAssetWithoutDR, true)}
-      </th>
+        $${changeInNetAssetWithoutDR.toLocaleString()}
+      </th> 
     `;
     depreciationRow.innerHTML += `      
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(depreciation, true)}
-      </th>
+        $${depreciation.toLocaleString()}
+      </th> 
     `;
     interestRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(interest, true)}
-      </th>
+        $${interest.toLocaleString()}
+      </th> 
     `;
     principalPaymentsRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(principalPayments, true)}
-      </th>
+        $${principalPayments.toLocaleString()}
+      </th> 
     `;
     capitalLeaseRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(capitalLease, true)}
-      </th>
+        $${capitalLease.toLocaleString()}
+      </th> 
     `;
     financingLeasesRightOfUseLiabilitiesRow.innerHTML += `    
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${formatCurrency(financingLeasesRightOfUseLiabilities, true)}
-      </th>
+        $${financingLeasesRightOfUseLiabilities.toLocaleString()}
+      </th> 
     `;
   });
 
@@ -4871,9 +4875,11 @@ const getDebtServiceCoverageChartOptions = (data) => {
       ? `Above Benchmark: ${benchmark}`
       : `Within Range of Benchmark:: ${benchmark}`;
 
-  const backgroundColor = value > 4 ? "#cf3636" : "#54ba4a";
+  const backgroundColor = value > benchmark ? "#cf3636" : "#54ba4a";
 
-  var chartObj = new FusionCharts({
+  // console.log({value, benchmark, text, backgroundColor});
+
+  debtServiceCoverageRatio_chart = new FusionCharts({
     type: "hlineargauge",
     renderAt: "debtServiceCoverageRatio_chart",
     width: "800",
@@ -4882,7 +4888,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "Debt Service Coverage Ratio ",
+        caption: "",
         subcaption: "",
         lowerLimit: "0",
         upperLimit: "10",
@@ -4898,17 +4904,17 @@ const getDebtServiceCoverageChartOptions = (data) => {
         color: [
           {
             minValue: "0",
-            maxValue: "4",
+            maxValue: "1.25",
             code: "#BBE97A",
           },
           {
-            minValue: "4",
-            maxValue: "8",
+            minValue: "1.25",
+            maxValue: "3",
             code: "#FFE381",
           },
           {
-            minValue: "8",
-            maxValue: "12",
+            minValue: "3",
+            maxValue: "10",
             code: "#EF707E",
           },
         ],
@@ -4966,7 +4972,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
     },
   });
 
-  chartObj.render();
+  debtServiceCoverageRatio_chart.render();
 };
 
 const getEndowmentOperatingChartOptions = (data) => {
@@ -5002,10 +5008,10 @@ const getEndowmentOperatingChartOptions = (data) => {
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   // sort years in descending order
-  selectedYearsArray.sort((a, b) => b - a);
+  selectedYearsArray.sort((a, b) => a - b);
 
   selectedYearsArray.map((year) => {
-    const clientData = Number(data.ratio_Client[year].value).toFixed(1);
+    const clientData = Math.round(data.ratio_Client[year].value * 100);
     const endowment = Number(data.endowment_Client[year].value);
     const annualOperatingBudget = Number(
       data.annualOperatingBudget_Client[year].value
@@ -5017,7 +5023,7 @@ const getEndowmentOperatingChartOptions = (data) => {
     `;
     clientRow.innerHTML += `
       <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-        ${clientData}
+        ${clientData}%
       </th>
     `;
     endowmentRow.innerHTML += `
@@ -5041,7 +5047,7 @@ const getEndowmentOperatingChartOptions = (data) => {
 
   const backgroundColor = value > benchmark ? "#54ba4a" : "#cf3636";
 
-  var chartObj = new FusionCharts({
+  endowmentOperatingBudget_chart = new FusionCharts({
     type: "hlineargauge",
     renderAt: "endowmentOperatingBudget_chart",
     width: "800",
@@ -5050,7 +5056,7 @@ const getEndowmentOperatingChartOptions = (data) => {
     dataSource: {
       chart: {
         theme: "fusion",
-        caption: "Endowment Asset per Operating ",
+        caption: "",
         subcaption: "",
         lowerLimit: "0",
         upperLimit: "250",
@@ -5134,7 +5140,7 @@ const getEndowmentOperatingChartOptions = (data) => {
     },
   });
 
-  chartObj.render();
+  endowmentOperatingBudget_chart.render();
 };
 
 // ltDebtPerTotalOperatingRevenue_chart
@@ -5234,13 +5240,13 @@ const getLtDebtPerTotalOperatingRevenueChartOptions = (data) => {
         dataLabels: {
           name: {
             fontSize: "16px",
-            color: chartColor,
+            color: window.chartColors.black,
             offsetY: 120,
           },
           value: {
             fontSize: "50px",
             fontWeight: "700",
-            color: chartColor,
+            color: window.chartColors.black,
             formatter: function (val) {
               return val + "%";
             },
@@ -5280,7 +5286,6 @@ const getDebtBurdenRatioChartOptions = (data) => {
     "row_debtBurdenRatio_totalExpenses"
   );
 
-
   // Clear existing content before appending
   tableHeaderRow.innerHTML = `<th scope="col" class="px-2 py-1 text-lg tracking-wide">Client</th>`;
   clientRatioRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Debt Burden Ratio</th>`;
@@ -5300,9 +5305,7 @@ const getDebtBurdenRatioChartOptions = (data) => {
       data.principalPayments_Client[year].value
     );
     const depreciationNum = Number(data.depreciation_Client[year].value);
-    const totalExpensesNum = Number(
-        data.totalExpenses_Client[year].value
-    );
+    const totalExpensesNum = Number(data.totalExpenses_Client[year].value);
     // Add year to table header
     tableHeaderRow.innerHTML += `
       <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
@@ -5430,13 +5433,13 @@ const getDebtBurdenRatioChartOptions = (data) => {
         dataLabels: {
           name: {
             fontSize: "16px",
-            color: gaugeChartColor,
+            color: window.chartColors.black,
             offsetY: 120,
           },
           value: {
             fontSize: "50px",
             fontWeight: "700",
-            color: gaugeChartColor,
+            color: window.chartColors.black,
             formatter: function (val) {
               return val + "%";
             },
@@ -5514,7 +5517,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 
     clientRatioRow.innerHTML += `
 <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-  ${formattedClientRatio}
+  $${formattedClientRatio}
 </th>
 `;
 
@@ -5559,7 +5562,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     // console.log({clientRatio, peerRatio});
 
     const peerData = isNaN(peerRatio) ? null : peerRatio;
-    peerAvgArray.push(peerData);
+    peerAvgArray.push(Math.round(peerData));
 
     const peer25 = get25thPercentileOfArray(peerAvgArray);
     peer25Array.push(Math.round(peer25));
@@ -5613,6 +5616,37 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     return `${formattedValue}`;
   };
 
+  const series = [
+    {
+      name: firmName,
+      type: "column",
+      data: clientArray,
+      style: {
+        colors: [chartColors.labelColor],
+      },
+    },
+    {
+      name: "Avg",
+      type: "line",
+      data: peerAvgArray,
+    },
+    {
+      name: "25th",
+      type: "line",
+      data: peer25Array,
+    },
+    {
+      name: "50th",
+      type: "line",
+      data: peer50Array,
+    },
+    {
+      name: "75th",
+      type: "line",
+      data: peer75Array,
+    },
+  ]
+
   return {
     colors: [
       window.chartColors.green,
@@ -5621,36 +5655,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       window.chartColors.yellow,
       window.chartColors.purple,
     ],
-    series: [
-      {
-        name: firmName,
-        type: "column",
-        data: clientArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
-      },
-      {
-        name: "Avg",
-        type: "line",
-        data: peerAvgArray,
-      },
-      {
-        name: "25th",
-        type: "line",
-        data: peer25Array,
-      },
-      {
-        name: "50th",
-        type: "line",
-        data: peer50Array,
-      },
-      {
-        name: "75th",
-        type: "line",
-        data: peer75Array,
-      },
-    ],
+    series: series,
     chart: {
       id: "adminCostsPerStudent",
       toolbar: {
@@ -5669,7 +5674,8 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       stacked: false,
     },
     stroke: {
-      width: 4,
+      width: [2, 3, 4, 4, 4],
+      dashArray: series.map((s, i) => (i === 1 ? 4 : 0)),
     },
     title: {
       text: "Endowment Assets per Student",
@@ -5737,9 +5743,36 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
         thickness: 4,
       },
     },
-    plotOptions: {
-      bar: {
-        barHeight: "90%",
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [0],
+      offsetY: -20,
+      formatter: function (val, opts) {
+        const num = Math.round(val);
+        return `$${num.toLocaleString()}`;
+      },
+      style: {
+        fontSize: "20px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: "bold",
+        colors: ["#ffffff"],
+      },
+      background: {
+        enabled: true,
+        foreColor: window.chartColors.cfiClient,
+        padding: 4,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: "#ffffff",
+        opacity: 0.7,
+        dropShadow: {
+          enabled: false,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: "#000",
+          opacity: 0.45,
+        },
       },
     },
   };

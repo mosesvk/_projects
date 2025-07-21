@@ -1,91 +1,147 @@
 // print_base64.js
 
-// Default chart dimensions
-const DEFAULT_CHART_WIDTH = 1200;
+const DEFAULT_CHART_WIDTH = 1100;
 const DEFAULT_CHART_HEIGHT = 650; // Increased from 530 to accommodate legends
 const CFI_COMPOSITE_WIDTH = 500;
 const CFI_COMPOSITE_HEIGHT = 800;
 
-// Charts that have bottom legends and need extra height
-const CHARTS_WITH_BOTTOM_LEGENDS = [
-  "cfiRatio_chart",
-  "cfi_primaryReserveRatio_chart", 
-  "cfi_netIncomeOperationsRatio_chart",
-  "cfi_returnOnNetAssets_chart",
-  "cfi_viabilityRatio_chart",
-  "assetToLiabilities_chart",
-  "sourceOfIncomeClient_chart",
-  "sourceOfIncomePeer_chart",
-  "ffa_chart",
-  "cashFlowsTrend_chart",
-  "currentRatio_chart",
-  "tuitionDependency_chart",
-  "tuitionDiscountRate_chart",
-  "netTuitionPerStudent_chart",
-  "endowmentAssetsPerStudent_chart"
-];
-
-
-
 /**
- * Check if a chart has a bottom legend
+ * Get appropriate dimensions for a chart
  * @param {string} chartId - The ID of the chart
- * @returns {boolean} - True if chart has bottom legend
- */
-function hasBottomLegend(chartId) {
-  return CHARTS_WITH_BOTTOM_LEGENDS.includes(chartId);
-}
-
-
-
-/**
- * Get chart dimensions based on chart ID
- * @param {string} chartId - The ID of the chart
- * @returns {Object} - Object containing width and height
+ * @returns {Object} - Object with width and height
  */
 function getChartDimensions(chartId) {
   // CFI Composite chart needs special dimensions
   if (chartId === "cfiCompositeHtml_Chart") {
     return {
-      width: CFI_COMPOSITE_WIDTH,
-      height: CFI_COMPOSITE_HEIGHT
+      width: 550, // Back to original width
+      height: 900, // Keep height to prevent cutoff
     };
   }
-  
+
+  // RadialBar charts need dynamic dimensions based on content
+  const radialBarCharts = [
+    "salariesBenefitsToTotalExpense_chart",
+    "salariesBenefitsPerNetTuition_chart",
+    "debtBurdenRatio_chart",
+    "ltDebtPerTotalOperatingRevenue_chart",
+  ];
+
+  if (radialBarCharts.includes(chartId)) {
+    return getDynamicRadialBarDimensions(chartId);
+  }
+
+  // Horizontal gauge charts need compact dimensions
+  const horizontalGaugeCharts = [
+    "netTuitionPerStudent_chart",
+    "debtServiceCoverageRatio_chart",
+    "endowmentOperatingBudget_chart",
+  ];
+
+  if (horizontalGaugeCharts.includes(chartId)) {
+    return {
+      width: 800, // Width matches the original FusionCharts width
+      height: 250, // Reduced height to minimize white space
+    };
+  }
+
   // Smaller charts that don't need full width - use 60% of default width
   const smallerCharts = [
     "sourceOfIncomeClient_chart",
-    "sourceOfIncomePeer_chart", 
-    "netTuitionPerStudent_chart",
+    "sourceOfIncomePeer_chart",
   ];
-  
-  // Charts that need both reduced width and height
-  const compactCharts = [
-    "ltDebtPerTotalOperatingRevenue_chart",
-    "salariesBenefitsToTotalExpense_chart", 
-    "salariesBenefitsPerNetTuition_chart",
-    "debtBurdenRatio_chart"
-  ];
-  
-  let baseHeight = DEFAULT_CHART_HEIGHT;
-  let baseWidth = DEFAULT_CHART_WIDTH;
-  
-  if (compactCharts.includes(chartId)) {
-    baseWidth = Math.round(DEFAULT_CHART_WIDTH * 0.5); // 600px (50% of 1200px)
-    baseHeight = Math.round(DEFAULT_CHART_HEIGHT * 0.7); // 455px (70% of 650px)
-  } else if (smallerCharts.includes(chartId)) {
-    baseWidth = Math.round(DEFAULT_CHART_WIDTH * 0.6); // 720px (60% of 1200px)
-    baseHeight = DEFAULT_CHART_HEIGHT;
+
+  if (smallerCharts.includes(chartId)) {
+    return {
+      width: Math.round(DEFAULT_CHART_WIDTH * 0.6), // 720px (60% of 1200px)
+      height: DEFAULT_CHART_HEIGHT,
+    };
   }
-  
-  // Add 50px to height for charts with bottom legends
-  if (hasBottomLegend(chartId)) {
-    baseHeight += 50;
-  }
-  
+
+  // Default dimensions for all other charts
   return {
-    width: baseWidth,
-    height: baseHeight
+    width: DEFAULT_CHART_WIDTH,
+    height: DEFAULT_CHART_HEIGHT,
+  };
+}
+
+/**
+ * Calculate dynamic dimensions for radialBar charts based on content
+ * @param {string} chartId - The ID of the chart
+ * @returns {Object} - Object with width and height
+ */
+function getDynamicRadialBarDimensions(chartId) {
+  const chartElement = document.getElementById(chartId);
+  if (!chartElement) {
+    // Fallback dimensions if chart element not found
+    return {
+      width: 450,
+      height: 300,
+    };
+  }
+
+  // Get the chart instance to access data
+  const chart = getChartInstance(chartId);
+  if (!chart || !chart.w || !chart.w.config) {
+    // Fallback dimensions if chart instance not found
+    return {
+      width: 450,
+      height: 300,
+    };
+  }
+
+  // Get the series data to determine the value
+  const seriesData = chart.w.config.series || [];
+  const value = seriesData[0] || 0;
+  
+  // Get the labels to determine text content
+  const labels = chart.w.config.labels || [];
+  const textContent = labels[0] || "";
+
+  // Base dimensions for the radial chart itself (without text)
+  const baseChartSize = 180; // Reduced size of the actual radial chart
+  const padding = 30; // Reduced padding around the chart
+  
+  // Calculate text width dynamically
+  const tempTextElement = document.createElement('div');
+  tempTextElement.style.position = 'absolute';
+  tempTextElement.style.left = '-9999px';
+  tempTextElement.style.fontFamily = 'Arial, sans-serif';
+  tempTextElement.style.fontSize = '14px';
+  tempTextElement.style.fontWeight = 'bold';
+  tempTextElement.style.whiteSpace = 'nowrap';
+  tempTextElement.style.visibility = 'hidden';
+  tempTextElement.textContent = textContent;
+  document.body.appendChild(tempTextElement);
+  
+  const textWidth = tempTextElement.offsetWidth;
+  document.body.removeChild(tempTextElement);
+
+  // Calculate required width based on text length
+  let requiredWidth;
+  if (textWidth <= 150) {
+    // Very short text - use minimal width
+    requiredWidth = baseChartSize + padding;
+  } else if (textWidth <= 300) {
+    // Short to medium text - use text width plus padding
+    requiredWidth = textWidth + padding * 2;
+  } else {
+    // Long text - use text width plus padding, but cap at reasonable max
+    requiredWidth = Math.min(textWidth + padding * 2, 600);
+  }
+
+  // Ensure minimum and maximum widths
+  const minWidth = 350;
+  const maxWidth = 600;
+  const finalWidth = Math.max(minWidth, Math.min(maxWidth, requiredWidth));
+
+  // Height is based on chart size plus text height plus padding
+  const textHeight = 50; // Reduced text height for better proportions
+  const finalHeight = baseChartSize + textHeight + padding * 2;
+
+  return {
+    width: finalWidth,
+    height: finalHeight,
   };
 }
 
@@ -103,6 +159,7 @@ async function processChartsWithSpacing(chartMappings) {
     const { chartId, fieldId } = chartMappings[i];
     updateProgressUI(i, chartMappings.length);
 
+          // console.log(`Processing chart: ${chartId}...`);
     try {
       // Get the chart element and instance
       const chartElement = document.getElementById(chartId);
@@ -113,8 +170,61 @@ async function processChartsWithSpacing(chartMappings) {
       }
 
       const chart = getChartInstance(chartId);
+      // console.log(`Chart instance for ${chartId}:`, chart);
+      // console.log(`Chart type for ${chartId}:`, typeof chart);
+      // console.log(
+      //   `Chart has dataURI for ${chartId}:`,
+      //   chart && typeof chart.dataURI === "function"
+      // );
 
-      // If we have an ApexChart instance, use its export method first
+      // Special handling for CFI Composite chart - export only the table
+            if (chartId === "cfiCompositeHtml_Chart") {
+        const tableElement = chartElement.querySelector("#myTable");
+        if (tableElement) {
+          // Export the table directly without container constraints
+          const tableClone = tableElement.cloneNode(true);
+          
+          // Set minimal styling for clean export
+          tableClone.style.margin = "0";
+          tableClone.style.padding = "10px";
+          tableClone.style.backgroundColor = "#ffffff";
+          tableClone.style.fontSize = "12px";
+          tableClone.style.border = "none";
+          
+          // Position off-screen for export
+          tableClone.style.position = "absolute";
+          tableClone.style.left = "-9999px";
+          tableClone.style.top = "0";
+          
+          document.body.appendChild(tableClone);
+          
+          // Wait for layout to settle
+          await new Promise((resolve) => setTimeout(resolve, 100));
+          
+          // Export with html2canvas using natural dimensions
+          const canvas = await html2canvas(tableClone, {
+            scale: 1,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: "#ffffff",
+            width: tableClone.scrollWidth,
+            height: tableClone.scrollHeight,
+          });
+          
+          const dataURL = canvas.toDataURL("image/png");
+          const base64String = dataURL.split(",")[1];
+          
+          // Clean up
+          if (tableClone.parentNode) {
+            document.body.removeChild(tableClone);
+          }
+          
+          results.push({ chartId, fieldId, base64String });
+          continue;
+        }
+      }
+
+      // If we have an ApexChart instance, use its export method
       if (chart && typeof chart.dataURI === "function") {
         const base64String = await exportApexChart(chart, chartId);
         if (base64String) {
@@ -122,13 +232,22 @@ async function processChartsWithSpacing(chartMappings) {
           continue;
         }
       }
+      
+      // If we have a FusionCharts instance, use html2canvas export
+      if (chart && chart.args && chart.args.dataSource && chart.args.dataSource.chart) {
+        const base64String = await exportWithHtml2Canvas(chartElement);
+        results.push({ chartId, fieldId, base64String });
+        continue;
+      }
+
+      // console.warn("fallback to html2canvas");
 
       // Fallback to html2canvas
       const base64String = await exportWithHtml2Canvas(chartElement);
       results.push({ chartId, fieldId, base64String });
 
       // Prevent UI freezing
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     } catch (error) {
       console.error(`Error processing chart ${chartId}:`, error);
       results.push({ chartId, fieldId, base64String: null });
@@ -139,33 +258,451 @@ async function processChartsWithSpacing(chartMappings) {
   return results;
 }
 
+/**
+ * Save complete chart state including all configurations
+ */
+function saveCompleteChartState(chart) {
+  try {
+    // Handle FusionCharts differently (they don't have w.globals structure)
+    if (chart.args && chart.args.dataSource && chart.args.dataSource.chart) {
+      // This is a FusionCharts instance
+      const chartId = chart.renderAt || chart.id || "unknown";
+      const chartType = getChartTypeFromId(chartId);
+      
+      // For FusionCharts, get the caption from the dataSource
+      const originalCaption = chart.args.dataSource.chart.caption || "";
+      
+      return {
+        chartId: chartId,
+        chartType: chartType,
+        isFusionChart: true,
+        originalCaption: originalCaption
+      };
+    }
+    
+    // Handle ApexCharts (original logic)
+    const paperNode = chart.w.globals.dom.Paper.node;
+    const chartConfig = chart.w.config;
+    const chartId = chart.w.globals.chartID;
+    const mainName = chartId.replace("_chart", "");
+
+    // Store chart type and parameters
+    const chartType = getChartTypeFromId(chartId);
+
+    // Create base configuration object
+    const baseConfig = {
+      chart: chartConfig.chart || {},
+      dataLabels: chartConfig.dataLabels || {},
+      markers: chartConfig.markers || {},
+      title: chartConfig.title || {},
+      subtitle: chartConfig.subtitle || {},
+      xaxis: chartConfig.xaxis || {},
+      yaxis: chartConfig.yaxis || {},
+      tooltip: chartConfig.tooltip || {},
+      legend: chartConfig.legend || {},
+      grid: chartConfig.grid || {},
+      stroke: chartConfig.stroke || {},
+      plotOptions: chartConfig.plotOptions || {},
+      annotations: chartConfig.annotations || {},
+      colors: chartConfig.colors || [],
+      series: chartConfig.series || [],
+      labels: chartConfig.labels || [],
+    };
+
+    // Add fill property only for non-radialBar charts
+    if (chartType !== "radialBar") {
+      baseConfig.fill = chartConfig.fill || {};
+    }
+
+    // Deep clone the entire chart configuration
+    const clonedConfig = JSON.parse(JSON.stringify(baseConfig));
+
+    // Get numType from chart globals (critical for formatter function)
+    const numType = chart.w.globals.numType || chartConfig.numType || "number";
+    const fixedNum = chartConfig.dataLabels?.formatter
+      ?.toString()
+      .includes("fixedNum")
+      ? parseInt(
+          chartConfig.dataLabels.formatter
+            .toString()
+            .match(/fixedNum\s*=\s*(\d+)/)?.[1] || 0
+        )
+      : chartConfig.dataLabels?.fixedNum || 0;
+
+    let yaxisConfig;
+    if (Array.isArray(chartConfig.yaxis)) {
+      yaxisConfig = chartConfig.yaxis.map((axis) => ({
+        ...axis,
+        labels: {
+          ...axis.labels,
+          formatter: axis.labels?.formatter?.toString(),
+          style: axis.labels?.style || {},
+        },
+        axisBorder: axis.axisBorder || {},
+        axisTicks: axis.axisTicks || {},
+      }));
+    } else {
+      // Handle single y-axis object
+      yaxisConfig = [{
+        ...chartConfig.yaxis,
+        labels: {
+          ...chartConfig.yaxis?.labels,
+          formatter: chartConfig.yaxis?.labels?.formatter?.toString(),
+          style: chartConfig.yaxis?.labels?.style || {},
+        },
+        axisBorder: chartConfig.yaxis?.axisBorder || {},
+        axisTicks: chartConfig.yaxis?.axisTicks || {},
+      }];
+    }
+
+    // Save everything we'll need for proper restoration
+    const originalConfig = {
+      chartId: chartId,
+      chartType: chartType,
+      mainName: mainName,
+      svgAttributes: {
+        width: paperNode.getAttribute("width"),
+        height: paperNode.getAttribute("height"),
+        viewBox: paperNode.getAttribute("viewBox"),
+        styleWidth: paperNode.style.width,
+        styleHeight: paperNode.style.height,
+        preserveAspectRatio: paperNode.getAttribute("preserveAspectRatio"),
+      },
+      chartConfig: clonedConfig,
+      dimensions: {
+        width: chart.w.globals.svgWidth,
+        height: chart.w.globals.svgHeight,
+      },
+      xaxisConfig: {
+        categories: chartConfig.xaxis?.categories || [],
+        labels: chartConfig.xaxis?.labels || {},
+        type: chartConfig.xaxis?.type || "category",
+        tickPlacement: chartConfig.xaxis?.tickPlacement || "between",
+        axisBorder: chartConfig.xaxis?.axisBorder || {},
+        crosshairs: chartConfig.xaxis?.crosshairs || {},
+      },
+      numType: numType,
+      fixedNum: fixedNum,
+      isYAxisArray: Array.isArray(chartConfig.yaxis),
+      yaxisConfig: yaxisConfig,
+      // Save FusionCharts caption for hlineargauge charts
+      ...(chartType === "hlineargauge" && chart.dataSource && {
+        originalCaption: chart.dataSource.chart?.caption || ""
+      }),
+    };
+    return originalConfig;
+  } catch (error) {
+    // console.warn("Error saving chart state:", error);
+    return null;
+  }
+}
+
+// Helper function to determine chart type based on chart ID
+function getChartTypeFromId(chartId) {
+  const idToTypeMap = {
+    cfiRatio_chart: "line",
+    doeOverall_chart: "line",
+    cfi_primaryReserveRatio_chart: "line",
+    cfi_netIncomeOperationsRatio_chart: "line",
+    cfi_returnOnNetAssets_chart: "line",
+    cfi_viabilityRatio_chart: "line",
+    FinancialPosition_chart: "bar",
+    assetToLiabilities_chart: "bar",
+    sourceOfIncomeClient_chart: "pie",
+    sourceOfIncomePeer_chart: "pie",
+    ffa_chart: "rangeBar",
+    cashFlowsTrend_chart: "bar",
+    currentRatio_chart: "line",
+    salariesBenefitsToTotalExpense_chart: "radialBar",
+    salariesBenefitsPerNetTuition_chart: "radialBar",
+    netTuitionPerStudent_chart: "hlineargauge",
+    debtServiceCoverageRatio_chart: "hlineargauge",
+    debtBurdenRatio_chart: "radialBar",
+    ltDebtPerTotalOperatingRevenue_chart: "radialBar",
+    netEducationalExpensePerStudent_chart: "line",
+    tuitionDependency_chart: "line",
+    tuitionDiscountRate_chart: "line",
+    endowmentOperatingBudget_chart: "hlineargauge",
+    endowmentAssetsPerStudent_chart: "line",
+  };
+
+  // Check for specific mapping
+  if (idToTypeMap[chartId]) {
+    return idToTypeMap[chartId];
+  }
+
+  // Fallback to infer from ID
+  if (chartId.includes("_chart")) {
+    return "main";
+  }
+
+  return "main"; // Default
+}
+
+/**
+ * Restore complete chart state
+ */
+function restoreCompleteChartState(chart, originalState) {
+  // console.log("RESTORE CHART STATE", { chart, originalState });
+  try {
+    if (!chart || !originalState) {
+      return;
+    }
+    
+    // Handle FusionCharts restoration
+    if (originalState.isFusionChart) {
+      if (chart.args && chart.args.dataSource && originalState.originalCaption !== undefined) {
+        // Restore the caption in the dataSource
+        chart.args.dataSource.chart.caption = originalState.originalCaption;
+        
+        // Force the chart to re-render with the restored dataSource
+        if (typeof chart.setData === 'function') {
+          chart.setData(chart.args.dataSource);
+        } else if (typeof chart.feedData === 'function') {
+          chart.feedData(chart.args.dataSource);
+        }
+      }
+      return;
+    }
+    
+    // Handle ApexCharts restoration (original logic)
+    if (
+      !chart.w ||
+      !chart.w.globals ||
+      !chart.w.globals.dom
+    ) {
+      return;
+    }
+
+    const paperNode = chart.w.globals.dom.Paper.node;
+    // Restore SVG attributes
+    const { svgAttributes } = originalState;
+    paperNode.setAttribute("width", svgAttributes.width);
+    paperNode.setAttribute("height", svgAttributes.height);
+    paperNode.style.width = svgAttributes.styleWidth;
+    paperNode.style.height = svgAttributes.styleHeight;
+    paperNode.setAttribute("viewBox", svgAttributes.viewBox);
+    paperNode.setAttribute(
+      "preserveAspectRatio",
+      svgAttributes.preserveAspectRatio
+    );
+
+    // Get the original chart configuration
+    const originalConfig = chart.w.config;
+    const chartId = originalState.chartId || chart.w.globals.chartID;
+    const mainName = originalState.mainName || chartId.replace("_chart", "");
+    const chartType = originalState.chartType || getChartTypeFromId(chartId);
+
+    // Use saved numType and fixedNum
+    const numType =
+      originalState.numType ||
+      chart.w.globals.numType ||
+      originalConfig.numType ||
+      "number";
+    const fixedNum =
+      originalState.fixedNum !== undefined ? originalState.fixedNum : 0;
+
+    // Different restoration logic based on chart type
+    let restoredConfig;
+    
+    if (chartType === "radialBar") {
+      // For radialBar charts, preserve the original configuration completely
+      restoredConfig = {
+        ...originalState.chartConfig,
+        chart: {
+          ...originalState.chartConfig.chart,
+          animations: {
+            enabled: true,
+          },
+        },
+      };
+    } else {
+      // For other chart types, use the complex restoration logic
+      restoredConfig = {
+        ...originalState.chartConfig,
+        xaxis: {
+          ...originalState.xaxisConfig,
+          categories: originalState.xaxisConfig.categories,
+          labels: {
+            ...originalState.xaxisConfig.labels,
+            style: {
+              ...originalState.xaxisConfig.labels.style,
+              colors:
+                originalState.chartConfig.xaxis?.labels?.style?.colors ||
+                "#3a464f",
+            },
+          },
+        },
+        yaxis: originalState.yaxisConfig ? originalState.yaxisConfig.map((axis) => {
+          return {
+            ...axis,
+            labels: {
+              ...axis.labels,
+              formatter: function (value) {
+                if (value === null || value === undefined || value === 0) {
+                  if (numType === "dollar") return "$0";
+                  if (numType === "percent") return "0%";
+                  return "0";
+                }
+
+                const isNegative = value < 0;
+                const absValue = Math.abs(value);
+
+                let formattedValue;
+                if (absValue >= 1000000) {
+                  // Remove decimal point for millions
+                  const millions = absValue / 1000000;
+                  formattedValue = `${Math.round(millions)}M`;
+                } else if (absValue >= 1000) {
+                  formattedValue = `${Math.round(absValue / 1000)}K`;
+                } else {
+                  formattedValue = Math.round(absValue).toString();
+                }
+
+                // Apply appropriate symbol based on numType
+                if (numType === "dollar") {
+                  return `${isNegative ? "-" : ""}$${formattedValue}`;
+                } else if (numType === "percent") {
+                  return `${isNegative ? "-" : ""}${formattedValue}%`;
+                }
+                return `${isNegative ? "-" : ""}${formattedValue}`;
+              },
+            },
+          };
+        }) : [],
+      };
+    }
+
+    // First, ensure numType will be available in chart.w.globals
+    if (chart.w.globals) {
+      chart.w.globals.numType = numType;
+    }
+
+    // Apply the restored configuration only for non-radialBar charts
+    if (chart.updateOptions && chartType !== "radialBar") {
+      chart.updateOptions(restoredConfig, true, true);
+    } else if (chartType === "radialBar") {
+      console.log(`[RADIALBAR DEBUG] ${chartId} - Skipping restoration updateOptions to preserve original styling`);
+      console.log(`[RADIALBAR DEBUG] ${chartId} - Final config after restoration:`, {
+        fill: chart.w.config.fill,
+        stroke: chart.w.config.stroke,
+        plotOptions: chart.w.config.plotOptions,
+        labels: chart.w.config.labels,
+        colors: chart.w.config.colors,
+        series: chart.w.config.series
+      });
+    }
+
+
+  } catch (error) {
+    // console.warn("Error restoring chart state:", error);
+  }
+}
+
+// Modified formatter to get numType from chart.w.globals if not provided
+function createFormatterWithGlobals(numType, fixedNum) {
+  return function (value) {
+    // Try to get numType from chart globals if available and not provided as parameter
+    // This is critical because ApexCharts doesn't pass numType to the formatter
+    if (this && this.w && this.w.globals && this.w.globals.numType) {
+      numType = this.w.globals.numType;
+    }
+
+    if (value === null || value === undefined || value === 0) {
+      if (numType === "dollar") return "$0";
+      if (numType === "percent") return "0%";
+      return "0";
+    }
+
+    const isNegative = value < 0;
+    const absValue = Math.abs(value);
+
+    let formattedValue;
+    if (absValue >= 1000000) {
+      // Check if the division has a fractional part
+      const millions = absValue / 1000000;
+      const isWholeNumber = millions === Math.floor(millions);
+      formattedValue = isWholeNumber
+        ? `${Math.floor(millions)}M`
+        : `${millions.toFixed(1)}M`;
+    } else if (absValue >= 1000) {
+      formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+    } else {
+      formattedValue = absValue.toFixed(fixedNum);
+    }
+
+    if (numType === "dollar") {
+      return `${isNegative ? "-" : ""}$${formattedValue}`;
+    } else if (numType === "percent") {
+      return `${isNegative ? "-" : ""}${formattedValue}%`;
+    } else {
+      return `${isNegative ? "-" : ""}${formattedValue}`;
+    }
+  };
+}
+
 const getChartInstance = (chartId) => {
-  // Use direct access like intl_print.js for better performance
-  return window[chartId] || null;
+  // console.log(`Getting chart instance for ${chartId}`);
+
+  // Get the chart instance from the global scope
+  // This matches the pattern used in the main application
+  const chartMap = {
+    cfiRatio_chart: cfiRatio_chart,
+    doeOverall_chart: doeOverall_chart,
+    cfi_primaryReserveRatio_chart: cfi_primaryReserveRatio_chart,
+    cfi_netIncomeOperationsRatio_chart: cfi_netIncomeOperationsRatio_chart,
+    cfi_returnOnNetAssets_chart: cfi_returnOnNetAssets_chart,
+    cfi_viabilityRatio_chart: cfi_viabilityRatio_chart,
+    FinancialPosition_chart: FinancialPosition_chart,
+    assetToLiabilities_chart: assetToLiabilities_chart,
+    sourceOfIncomeClient_chart: sourceOfIncomeClient_chart,
+    sourceOfIncomePeer_chart: sourceOfIncomePeer_chart,
+    ffa_chart: ffa_chart,
+    cashFlowsTrend_chart: cashFlowsTrend_chart,
+    currentRatio_chart: currentRatio_chart,
+    salariesBenefitsToTotalExpense_chart: salariesBenefitsToTotalExpense_chart,
+    salariesBenefitsPerNetTuition_chart: salariesBenefitsPerNetTuition_chart,
+    netEducationalExpensePerStudent_chart:
+      netEducationalExpensePerStudent_chart,
+    netTuitionPerStudent_chart:
+      netTuitionPerStudent_chart,
+    tuitionDependency_chart: tuitionDependency_chart,
+    tuitionDiscountRate_chart: tuitionDiscountRate_chart,
+    ltDebtPerTotalOperatingRevenue_chart: ltDebtPerTotalOperatingRevenue_chart,
+    debtServiceCoverageRatio_chart: debtServiceCoverageRatio_chart,
+    debtBurdenRatio_chart: debtBurdenRatio_chart,
+    endowmentOperatingBudget_chart: endowmentOperatingBudget_chart,
+    endowmentAssetsPerStudent_chart: endowmentAssetsPerStudent_chart,
+  };
+
+  const chart = chartMap[chartId] || null;
+  // console.log(`Returning chart for ${chartId}:`, chart);
+  return chart;
 };
 
 /**
  * Export an ApexChart with fixed dimensions
  *
  * @param {Object} chart - ApexChart instance
- * @param {string} chartId - Chart ID for reference
  * @returns {Promise<string>} - Base64 encoded image or null if failed
  */
 async function exportApexChart(chart, chartId) {
+
   try {
     if (!chart || !chart.w || !chart.w.globals || !chart.w.globals.dom) {
       throw new Error("Invalid chart instance");
     }
 
-    // Get chart dimensions based on chart ID
+    // Get appropriate dimensions for this chart
     const dimensions = getChartDimensions(chartId);
+    const { width: chartWidth, height: chartHeight } = dimensions;
 
     // Create a fixed-size container
     const fixedContainer = document.createElement("div");
     fixedContainer.style.position = "absolute";
     fixedContainer.style.left = "-9999px";
-    fixedContainer.style.width = `${dimensions.width}px`;
-    fixedContainer.style.height = `${dimensions.height}px`;
+    fixedContainer.style.width = `${chartWidth}px`;
+    fixedContainer.style.height = `${chartHeight}px`;
     fixedContainer.style.backgroundColor = "#ffffff";
     fixedContainer.style.overflow = "hidden";
     document.body.appendChild(fixedContainer);
@@ -185,7 +722,7 @@ async function exportApexChart(chart, chartId) {
     };
 
     // Save complete chart state
-    const originalState = saveChartState(chart);
+    const originalState = saveCompleteChartState(chart);
     if (!originalState) {
       throw new Error("Failed to save chart state");
     }
@@ -196,35 +733,153 @@ async function exportApexChart(chart, chartId) {
     fixedContainer.appendChild(chartElement);
 
     // Set fixed dimensions
-    chartElement.style.width = `${dimensions.width}px`;
-    chartElement.style.height = `${dimensions.height}px`;
+    chartElement.style.width = `${chartWidth}px`;
+    chartElement.style.height = `${chartHeight}px`;
     chartElement.style.position = "absolute";
     chartElement.style.transform = "none";
+    
+    // Get chart type for debugging
+    const chartType = getChartTypeFromId(chartId);
+    
+    // For radialBar charts, center the content
+    if (chartType === "radialBar") {
+      chartElement.style.display = "flex";
+      chartElement.style.alignItems = "center";
+      chartElement.style.justifyContent = "center";
+    }
 
     // Force exact dimensions for export
     const paperNode = chart.w.globals.dom.Paper.node;
-    paperNode.setAttribute("width", dimensions.width.toString());
-    paperNode.setAttribute("height", dimensions.height.toString());
-    paperNode.style.width = `${dimensions.width}px`;
-    paperNode.style.height = `${dimensions.height}px`;
-    paperNode.setAttribute(
-      "viewBox",
-      `0 0 ${dimensions.width} ${dimensions.height}`
-    );
+    paperNode.setAttribute("width", chartWidth.toString());
+    paperNode.setAttribute("height", chartHeight.toString());
+    paperNode.style.width = `${chartWidth}px`;
+    paperNode.style.height = `${chartHeight}px`;
+    paperNode.setAttribute("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
     paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
-    // Configure chart for export
-    await configureChartForExport(chart, dimensions.width, dimensions.height);
+    // Configure chart for export (simplified approach like testPrint.js)
+    // Set SVG element dimensions with proper scaling
+    paperNode.setAttribute("width", chartWidth.toString());
+    paperNode.setAttribute("height", chartHeight.toString());
+    paperNode.style.width = `${chartWidth}px`;
+    paperNode.style.height = `${chartHeight}px`;
+    paperNode.style.position = 'absolute';
+    paperNode.style.left = '0';
+    paperNode.style.top = '0';
+
+
+
+    // Remove the caption from the chart
+    // Set viewBox to match dimensions exactly
+    paperNode.setAttribute("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
+    paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+
+    
+    // Remove chart titles and legends for print export
+    if (["line", "bar", "radialBar", "rangeBar", "pie"].includes(chartType)) {
+      // For ApexCharts, remove title and subtitle for all chart types
+      if (chart.updateOptions) {
+        const updateConfig = {
+          title: {
+            text: ""
+          },
+          subtitle: {
+            text: ""
+          }
+        };
+        
+        // Only hide legend for pie charts
+        if (chartType === "pie") {
+          updateConfig.legend = {
+            show: false
+          };
+        }
+        
+        await chart.updateOptions(updateConfig, false, true);
+      }
+    }
+    
+    // For radialBar charts, log the original configuration
+    // if (chartType === "radialBar") {
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - Original chart config:`, {
+      //   fill: chart.w.config.fill,
+      //   stroke: chart.w.config.stroke,
+      //   plotOptions: chart.w.config.plotOptions,
+      //   labels: chart.w.config.labels,
+      //   colors: chart.w.config.colors,
+      //   series: chart.w.config.series
+      // });
+      
+      // Also log the actual data values to understand the color logic
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - Series data:`, chart.w.config.series);
+    // }
+    
+    // Simple configuration like testPrint.js - only set basic properties
+    let updatedOptions = {
+      chart: {
+        width: chartWidth,
+        height: chartHeight,
+        animations: {
+          enabled: false
+        },
+        background: '#ffffff'
+      }
+    };
+
+    // For radialBar charts, apply dimensions but preserve styling
+    if (chartType === "radialBar") {
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - Applying dynamic dimensions: ${chartWidth}x${chartHeight}`);
+      // Apply only the chart dimensions, not the full configuration
+      if (chart.updateOptions) {
+        await chart.updateOptions({
+          chart: {
+            width: chartWidth,
+            height: chartHeight,
+            animations: {
+              enabled: false
+            }
+          }
+        }, false, true);
+      }
+    } else {
+      // Force chart to redraw with new dimensions and styles
+      if (chart.updateOptions) {
+        await chart.updateOptions(updatedOptions, false, true);
+      }
+    }
 
     // Let the chart update
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    // For radialBar charts, log the configuration right before export
+    // if (chartType === "radialBar") {
+    //   console.log(`[RADIALBAR DEBUG] ${chartId} - Config before dataURI:`, {
+    //     fill: chart.w.config.fill,
+    //     stroke: chart.w.config.stroke,
+    //     plotOptions: chart.w.config.plotOptions,
+    //     labels: chart.w.config.labels,
+    //     colors: chart.w.config.colors,
+    //     series: chart.w.config.series
+    //   });
+    // }
 
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
-      width: dimensions.width,
-      height: dimensions.height,
-      scale: 2, // Higher resolution
+      width: chartWidth,
+      height: chartHeight,
+      scale: 1, // Reduced resolution to avoid size issues
     });
+
+    // For radialBar charts, log the SVG content to see what's being exported
+    if (chartType === "radialBar") {
+      const svgContent = chart.w.globals.dom.Paper.node.outerHTML;
+      // console.log(`[RADIALBAR DEBUG] ${chartId} - SVG content being exported:`, svgContent.substring(0, 500) + "...");
+    }
+
+    // console.log(
+    //   `Chart ${chartId} exported successfully, URI length: ${uri.imgURI.length}`
+    // );
 
     // Restore chart to original position
     if (originalParent) {
@@ -233,184 +888,20 @@ async function exportApexChart(chart, chartId) {
     Object.assign(chartElement.style, originalStyles);
 
     // Restore complete chart state
-    restoreChartState(chart, originalState);
+    restoreCompleteChartState(chart, originalState);
 
     // Clean up the fixed container
     if (fixedContainer.parentNode) {
       document.body.removeChild(fixedContainer);
     }
+    
+    const base64String = uri.imgURI.split(",")[1];
+    // console.log(`Base64 string length for ${chartId}: ${base64String.length}`);
 
-    return uri.imgURI.split(",")[1];
+    return base64String;
   } catch (error) {
-    console.error("Error in exportApexChart:", error);
+    // console.error("Error in exportApexChart:", error);
     return null;
-  }
-}
-
-/**
- * Save current chart state for later restoration
- */
-function saveChartState(chart) {
-  try {
-    // Check if this is a valid ApexCharts instance
-    if (!chart || !chart.w || !chart.w.globals || !chart.w.globals.dom || !chart.w.globals.dom.Paper) {
-      return null;
-    }
-
-    const paperNode = chart.w.globals.dom.Paper.node;
-    const chartConfig = chart.w.config;
-
-    // Save basic SVG attributes and chart configuration
-    const state = {
-      // SVG attributes
-      width: paperNode.getAttribute("width"),
-      height: paperNode.getAttribute("height"),
-      viewBox: paperNode.getAttribute("viewBox"),
-      styleWidth: paperNode.style.width,
-      styleHeight: paperNode.style.height,
-      preserveAspectRatio: paperNode.getAttribute("preserveAspectRatio"),
-    };
-
-    // Safely clone chart configuration
-    try {
-      if (chartConfig) {
-        state.config = JSON.parse(JSON.stringify({
-          chart: chartConfig.chart || {},
-          dataLabels: chartConfig.dataLabels || {},
-          markers: chartConfig.markers || {},
-          title: chartConfig.title || {},
-          xaxis: chartConfig.xaxis || {},
-          yaxis: chartConfig.yaxis || {},
-          tooltip: chartConfig.tooltip || {},
-          legend: chartConfig.legend || {},
-          grid: chartConfig.grid || {},
-          stroke: chartConfig.stroke || {},
-          fill: chartConfig.fill || {},
-          plotOptions: chartConfig.plotOptions || {},
-          annotations: chartConfig.annotations || {}
-        }));
-      }
-    } catch (e) {
-      console.warn('Error cloning chart config:', e);
-    }
-
-    return state;
-  } catch (e) {
-    console.warn('Error saving chart state:', e);
-    return null;
-  }
-}
-
-/**
- * Configure chart for consistent export
- */
-async function configureChartForExport(chart, width, height) {
-  const paperNode = chart.w.globals.dom.Paper.node;
-  
-  // Set SVG element dimensions with proper scaling
-  paperNode.setAttribute("width", width.toString());
-  paperNode.setAttribute("height", height.toString());
-  paperNode.style.width = `${width}px`;
-  paperNode.style.height = `${height}px`;
-  paperNode.style.position = 'absolute';
-  paperNode.style.left = '0';
-  paperNode.style.top = '0';
-
-  // Set viewBox to match dimensions exactly
-  paperNode.setAttribute("viewBox", `0 0 ${width} ${height}`);
-  paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
-  
-  let updatedOptions = {
-    chart: {
-      width: width,
-      height: height,
-      animations: {
-        enabled: false
-      },
-      background: '#ffffff'
-    },
-    markers: {
-      size: 4,
-      strokeWidth: 1,
-      hover: {
-        size: 4
-      }
-    },
-    dataLabels: {
-      style: {
-        fontSize: '12px'
-      }
-    },
-    title: {
-      style: {
-        fontSize: '20px'
-      }
-    },
-    xaxis: {
-      labels: {
-        style: {
-          fontSize: '12px'
-        }
-      }
-    },
-    yaxis: {
-      labels: {
-        style: {
-          fontSize: '12px'
-        }
-      }
-    }
-  };
-
-  // Force chart to redraw with new dimensions and styles
-  if (chart.updateOptions) {
-    await chart.updateOptions(updatedOptions, false, true);
-  }
-
-  // Reduced delay for better performance
-  return new Promise(resolve => setTimeout(resolve, 50));
-}
-
-/**d
- * Restore chart to original state including annotations and title
- */
-async function restoreChartState(chart, originalState) {
-  try {
-    // Check if we have valid inputs
-    if (!chart || !originalState || !chart.w || !chart.w.globals || !chart.w.globals.dom) {
-      return;
-    }
-
-    const paperNode = chart.w.globals.dom.Paper.node;
-
-    // Restore SVG element attributes
-    if (paperNode) {
-      paperNode.setAttribute("width", originalState.width || '100%');
-      paperNode.setAttribute("height", originalState.height || '100%');
-      paperNode.style.width = originalState.styleWidth || '100%';
-      paperNode.style.height = originalState.styleHeight || '100%';
-
-      if (originalState.viewBox) {
-        paperNode.setAttribute("viewBox", originalState.viewBox);
-      }
-      if (originalState.preserveAspectRatio) {
-        paperNode.setAttribute("preserveAspectRatio", originalState.preserveAspectRatio);
-      }
-    }
-
-    // Restore chart configuration if available
-    if (originalState.config && chart.updateOptions) {
-      try {
-        await new Promise((resolve) => {
-          chart.updateOptions(originalState.config, true, true);
-          setTimeout(resolve, 100);
-        });
-      } catch (e) {
-        console.warn('Error updating chart options:', e);
-      }
-    }
-  } catch (e) {
-    console.warn('Error restoring chart state:', e);
   }
 }
 
@@ -418,58 +909,159 @@ async function restoreChartState(chart, originalState) {
  * Fallback to html2canvas for export
  */
 async function exportWithHtml2Canvas(chartElement) {
-  // Get chart dimensions based on chart ID
-  const dimensions = getChartDimensions(chartElement.id);
+  // console.log(`exportWithHtml2Canvas ${chartElement.id}`, chartElement);
+  // Get chart ID from the element
+  const chartId = chartElement.id;
+  const dimensions = getChartDimensions(chartId);
+  const { width: chartWidth, height: chartHeight } = dimensions;
+
+  // Get the chart instance to handle FusionCharts caption clearing
+  const chart = getChartInstance(chartId);
+  const chartType = getChartTypeFromId(chartId);
+
   
-  // Create a clone container with fixed dimensions
+  // Handle FusionCharts caption clearing before export
+  let originalCaption = null;
+  if (chartType === "hlineargauge") {
+    console.log(`if (chartType === "hlineargauge") ${chartId} - Clearing caption`, chart, chartElement);
+    // Store original caption and clear it
+    originalCaption = chart.args?.dataSource?.chart?.caption || "";
+    
+    // For FusionCharts, we need to update the dataSource and re-render
+    if (chart.args && chart.args.dataSource) {
+      // Update the caption in the dataSource
+      chart.args.dataSource.chart.caption = '';
+      
+      // Force the chart to re-render with the updated dataSource
+      if (typeof chart.setData === 'function') {
+        chart.setData(chart.args.dataSource);
+      } else if (typeof chart.feedData === 'function') {
+        chart.feedData(chart.args.dataSource);
+      }
+    }
+    
+    console.log(`if (chartType === "hlineargauge") ${chartId} - AfterCleared caption`, chart, originalCaption);
+  }
+
+  // Special handling for CFI Composite chart
+  if (chartId === "cfiCompositeHtml_Chart") {
+    // For CFI Composite, use the container's actual content height
+    const actualHeight = chartElement.scrollHeight || chartElement.offsetHeight;
+    const finalHeight = Math.max(actualHeight, chartHeight);
+    
+    // Create a clone container with dynamic height
+    const container = document.createElement("div");
+    container.style.position = "absolute";
+    container.style.left = "-9999px";
+    container.style.width = `${chartWidth}px`;
+    container.style.height = `${finalHeight}px`;
+    container.style.backgroundColor = "#ffffff";
+    container.style.overflow = "visible";
+
+    // Clone the chart element into the container
+    const clone = chartElement.cloneNode(true);
+    clone.style.width = `${chartWidth}px`;
+    clone.style.height = "auto";
+    container.appendChild(clone);
+    document.body.appendChild(container);
+    
+    try {
+      // Wait for layout updates
+      await new Promise((resolve) => setTimeout(resolve, 200));
+
+      // Use html2canvas with dynamic height and optimized width
+      const canvas = await html2canvas(clone, {
+        scale: 1,
+        width: optimalWidth,
+        height: finalHeight,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: "#ffffff",
+      });
+
+      const dataURL = canvas.toDataURL("image/png");
+      const base64String = dataURL.split(",")[1];
+
+      // Clean up
+      document.body.removeChild(container);
+      return base64String;
+    } catch (error) {
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      return null;
+    }
+  }
+
+  // Create a clone container with fixed dimensions for other charts
   const container = document.createElement("div");
   container.style.position = "absolute";
-  container.style.width = `${dimensions.width}px`;
-  container.style.height = `${dimensions.height}px`;
+  // container.style.left = '-9999px';
+  container.style.width = `${chartWidth}px`;
+  container.style.height = `${chartHeight}px`;
 
   // Clone the chart element into the container
   const clone = chartElement.cloneNode(true);
-  clone.style.width = `${dimensions.width}px`;
-  clone.style.height = `${dimensions.height}px`;
+  clone.style.width = `${chartWidth}px`;
+  clone.style.height = `${chartHeight}px`;
   container.appendChild(clone);
   document.body.appendChild(container);
 
   // Find and adjust any SVG elements
   const svgElements = clone.querySelectorAll("svg");
   svgElements.forEach((svg) => {
-    svg.setAttribute("width", dimensions.width.toString());
-    svg.setAttribute("height", dimensions.height.toString());
-    svg.style.width = `${dimensions.width}px`;
-    svg.style.height = `${dimensions.height}px`;
-    svg.setAttribute(
-      "viewBox",
-      `0 0 ${dimensions.width} ${dimensions.height}`
-    );
+    svg.setAttribute("width", chartWidth.toString());
+    svg.setAttribute("height", chartHeight.toString());
+    svg.style.width = `${chartWidth}px`;
+    svg.style.height = `${chartHeight}px`;
+    svg.setAttribute("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   });
 
   try {
     // Wait for layout updates
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     // Use html2canvas with fixed dimensions
     const canvas = await html2canvas(clone, {
-      scale: 2,
-      width: dimensions.width,
-      height: dimensions.height,
+      scale: 1, // Reduced resolution to avoid size issues
+      width: chartWidth,
+      height: chartHeight,
       useCORS: true,
       allowTaint: true,
-      backgroundColor: "#ffffff",
+      backgroundColor:
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--chart-bg-color"
+        ) || "#ffffff",
     });
 
-    const base64String = canvas.toDataURL("image/png").split(",")[1];
+    const dataURL = canvas.toDataURL("image/png");
+    const base64String = dataURL.split(",")[1];
+
+    // console.log(
+    //   `html2canvas export for ${chartElement.id}: dataURL length: ${dataURL.length}, base64 length: ${base64String.length}`
+    // );
+
+    // Restore FusionCharts caption if it was cleared
+    if (originalCaption !== null && chart && chart.args && chart.args.dataSource) {
+      console.log(`[Lineargauge DEBUG] ${chartId} - Restoring caption`, chart, originalCaption);
+      // Restore the caption in the dataSource
+      chart.args.dataSource.chart.caption = originalCaption;
+      
+      // Force the chart to re-render with the restored dataSource
+      if (typeof chart.setData === 'function') {
+        chart.setData(chart.args.dataSource);
+      } else if (typeof chart.feedData === 'function') {
+        chart.feedData(chart.args.dataSource);
+      }
+    }
 
     // Clean up
     document.body.removeChild(container);
 
     return base64String;
   } catch (error) {
-    console.error("Error in html2canvas export:", error);
+    // console.error("Error in html2canvas export:", error);
     if (container.parentNode) {
       document.body.removeChild(container);
     }
@@ -579,7 +1171,7 @@ async function apexChartsExportPrint() {
       "RevenueAndExpenseContent",
       "DebtAndEndowmentContent",
       "CfiRatioContent",
-      "DoeContent"
+      "DoeContent",
     ];
     const hiddenSections = [];
 
@@ -593,6 +1185,7 @@ async function apexChartsExportPrint() {
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
+    // Define chart mappings
     const chartMappings = [
       { chartId: "cfiRatio_chart", fieldId: 6 },
       { chartId: "cfi_primaryReserveRatio_chart", fieldId: 7 },
@@ -609,7 +1202,7 @@ async function apexChartsExportPrint() {
       { chartId: "salariesBenefitsToTotalExpense_chart", fieldId: 19 },
       { chartId: "salariesBenefitsPerNetTuition_chart", fieldId: 20 },
       { chartId: "netEducationalExpensePerStudent_chart", fieldId: 22 }, // Fixed from typo in original
-      { chartId: "annualTraditionalNetTuitionPerStudent_chart", fieldId: 23 },
+      { chartId: "netTuitionPerStudent_chart", fieldId: 23 },
       { chartId: "tuitionDependency_chart", fieldId: 24 },
       { chartId: "tuitionDiscountRate_chart", fieldId: 25 },
       { chartId: "ltDebtPerTotalOperatingRevenue_chart", fieldId: 26 },
@@ -622,6 +1215,12 @@ async function apexChartsExportPrint() {
     ];
 
     // Filter out any charts that don't exist in the DOM
+    // console.log("Checking DOM elements for charts:");
+    chartMappings.forEach(({ chartId }) => {
+      const element = document.getElementById(chartId);
+      // console.log(`${chartId}:`, element ? "EXISTS" : "MISSING");
+    });
+
     const validChartMappings = chartMappings.filter(
       ({ chartId }) => document.getElementById(chartId) !== null
     );
@@ -630,8 +1229,22 @@ async function apexChartsExportPrint() {
       throw new Error("No valid charts found to upload");
     }
 
+    // console.log(
+    //   "Valid chart mappings:",
+    //   validChartMappings.map((m) => m.chartId)
+    // );
+
     // Process charts with fixed dimensions
-    const results = await processChartsWithSpacing(validChartMappings);
+    const results = await processChartsWithSpacing(chartMappings);
+
+    // console.log(
+    //   "Export results:",
+    //   results.map((r) => ({
+    //     chartId: r.chartId,
+    //     success: r.base64String !== null,
+    //     base64Length: r.base64String ? r.base64String.length : 0,
+    //   }))
+    // );
 
     // Count successful exports
     const successfulExports = results.filter(
@@ -693,40 +1306,133 @@ async function apexChartsExportPrint() {
  * Build XML for Quickbase upload
  */
 function buildUploadXml(results) {
-  let uploadXml = '<?xml version="1.0" encoding="UTF-8"?>\n<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>';
+  let uploadXml = "<qdbapi><apptoken>c3qhvhmcgbwze7hwbiavcm3hnmc</apptoken>";
 
-  // Add metadata
   const selectedYears = getSelectedYearsFromLocalStorage();
 
+  // console.log("Adding basic fields to XML...");
+  // console.log("Field 31 (firmName):", firmName);
   uploadXml += createFieldXml(31, firmName);
-  
+
   // Check if uniqueClientSize exists before using it
-  if (typeof window.uniqueClientSize !== 'undefined') {
+  if (typeof window.uniqueClientSize !== "undefined") {
+    // console.log("Field 32 (uniqueClientSize):", window.uniqueClientSize);
     uploadXml += createFieldXml(32, window.uniqueClientSize);
   }
-  
+
+  // console.log(
+  //   "Field 94 (selectedYears):",
+  //   selectedYears[selectedYears.length - 1]
+  // );
   uploadXml += createFieldXml(94, selectedYears[selectedYears.length - 1]);
+  // console.log("Field 69 (monthYearEnd):", window.monthYearEnd);
   uploadXml += createFieldXml(69, window.monthYearEnd);
+  // console.log("Field 89 (sliderValue):", sliderValue);
   uploadXml += createFieldXml(89, sliderValue);
+  // console.log("Field 90 (sliderValue2):", sliderValue2);
   uploadXml += createFieldXml(90, sliderValue2);
-  
+
   // Optimize array joins by checking if arrays exist first
-  uploadXml += createFieldXml(91, window.selectedSeminaries_Array ? Array.from(window.selectedSeminaries_Array).join(", ") : "");
-  uploadXml += createFieldXml(93, window.selectedRegionals_Array ? Array.from(window.selectedRegionals_Array).join(", ") : "");
-  uploadXml += createFieldXml(64, window.selectedRegions_Array ? Array.from(window.selectedRegions_Array).join(", ") : "");
-  uploadXml += createFieldXml(65, window.selectedStates_Array ? Array.from(window.selectedStates_Array).join(", ") : "");
-  uploadXml += createFieldXml(66, window.selectedMemberships_Array ? Array.from(window.selectedMemberships_Array).join(", ") : "");
-  uploadXml += createFieldXml(67, window.selectedTypes_Array ? Array.from(window.selectedTypes_Array).join(", ") : "");
-  uploadXml += createFieldXml(68, window.selectedAthletics_Array ? Array.from(window.selectedAthletics_Array).join(", ") : "");
+  // console.log(
+  //   "Field 91 (selectedSeminaries):",
+  //   window.selectedSeminaries_Array
+  //     ? Array.from(window.selectedSeminaries_Array).join(", ")
+  //     : ""
+  // );
+  uploadXml += createFieldXml(
+    91,
+    window.selectedSeminaries_Array
+      ? Array.from(window.selectedSeminaries_Array).join(", ")
+      : ""
+  );
+  // console.log(
+  //   "Field 93 (selectedRegionals):",
+  //   window.selectedRegionals_Array
+  //     ? Array.from(window.selectedRegionals_Array).join(", ")
+  //     : ""
+  // );
+  uploadXml += createFieldXml(
+    93,
+    window.selectedRegionals_Array
+      ? Array.from(window.selectedRegionals_Array).join(", ")
+      : ""
+  );
+  // console.log(
+  //   "Field 64 (selectedRegions):",
+  //   window.selectedRegions_Array
+  //     ? Array.from(window.selectedRegions_Array).join(", ")
+  //     : ""
+  // );
+  uploadXml += createFieldXml(
+    64,
+    window.selectedRegions_Array
+      ? Array.from(window.selectedRegions_Array).join(", ")
+      : ""
+  );
+  // console.log(
+  //   "Field 65 (selectedStates):",
+  //   window.selectedStates_Array
+  //     ? Array.from(window.selectedStates_Array).join(", ")
+  //     : ""
+  // );
+  uploadXml += createFieldXml(
+    65,
+    window.selectedStates_Array
+      ? Array.from(window.selectedStates_Array).join(", ")
+      : ""
+  );
+  // console.log(
+  //   "Field 66 (selectedMemberships):",
+  //   window.selectedMemberships_Array
+  //     ? Array.from(window.selectedMemberships_Array).join(", ")
+  //     : ""
+  // );
+  uploadXml += createFieldXml(
+    66,
+    window.selectedMemberships_Array
+      ? Array.from(window.selectedMemberships_Array).join(", ")
+      : ""
+  );
+  // console.log(
+  //   "Field 67 (selectedTypes):",
+  //   window.selectedTypes_Array
+  //     ? Array.from(window.selectedTypes_Array).join(", ")
+  //     : ""
+  // );
+  uploadXml += createFieldXml(
+    67,
+    window.selectedTypes_Array
+      ? Array.from(window.selectedTypes_Array).join(", ")
+      : ""
+  );
+  // console.log(
+  //   "Field 68 (selectedAthletics):",
+  //   window.selectedAthletics_Array
+  //     ? Array.from(window.selectedAthletics_Array).join(", ")
+  //     : ""
+  // );
+  uploadXml += createFieldXml(
+    68,
+    window.selectedAthletics_Array
+      ? Array.from(window.selectedAthletics_Array).join(", ")
+      : ""
+  );
 
   // Add each selected year to corresponding fields (73, 74, 75)
   selectedYears.forEach((year, index) => {
-    if (index < 8) {  // Only process up to 8 years
+    if (index < 8) {
+      // Only process up to 8 years
       uploadXml += createFieldXml(73 + index, year);
-      uploadXml += createFieldXml(81 + index, window.uniqueClientsPerYearMap[year]);
-      
+      uploadXml += createFieldXml(
+        81 + index,
+        window.uniqueClientsPerYearMap[year]
+      );
+
       // Check if clientsByYear exists and has the year data before accessing it
-      if (window.clientsByYear && typeof window.clientsByYear.get === 'function') {
+      if (
+        window.clientsByYear &&
+        typeof window.clientsByYear.get === "function"
+      ) {
         const yearData = window.clientsByYear.get(String(year));
         if (yearData && yearData.size) {
           uploadXml += createFieldXml(81 + index, yearData.size);
@@ -736,49 +1442,146 @@ function buildUploadXml(results) {
   });
 
   // Add base64 images for charts
+  // console.log(
+  //   "Processing results for XML upload:",
+  //   results.map((r) => ({
+  //     chartId: r.chartId,
+  //     fieldId: r.fieldId,
+  //     hasData: !!r.base64String,
+  //   }))
+  // );
+
   results.forEach((result) => {
     if (result && result.base64String) {
-      uploadXml += createImageFieldXml(result.fieldId, result.base64String);
+      // Validate base64 string before adding to XML
+      if (/^[A-Za-z0-9+/]*={0,2}$/.test(result.base64String)) {
+        // console.log(
+        //   `Adding chart ${result.chartId} to XML for field ${result.fieldId}`
+        // );
+        try {
+          const imageXml = createImageFieldXml(
+            result.fieldId,
+            result.base64String
+          );
+          uploadXml += imageXml;
+          // console.log(`Successfully added XML for ${result.chartId}`);
+        } catch (error) {
+          // console.error(`Error creating XML for ${result.chartId}:`, error);
+        }
+      } else {
+        // console.warn(`Skipping chart ${result.chartId} - invalid base64 data`);
+      }
+    } else {
+      // console.warn(`Skipping chart ${result.chartId} - no base64 data`);
     }
   });
 
   uploadXml += "</qdbapi>";
+  // console.log(`Final XML length: ${uploadXml.length} characters`);
+
+  // Check if source of income charts are in the XML
+  const sourceOfIncomeClientInXml =
+    uploadXml.includes("sourceOfIncomeClient_chart") ||
+    uploadXml.includes("fid='14'");
+  const sourceOfIncomePeerInXml =
+    uploadXml.includes("sourceOfIncomePeer_chart") ||
+    uploadXml.includes("fid='15'");
+  // console.log(
+  //   `sourceOfIncomeClient_chart in XML: ${sourceOfIncomeClientInXml}`
+  // );
+  // console.log(`sourceOfIncomePeer_chart in XML: ${sourceOfIncomePeerInXml}`);
+
+  // Debug: Check XML structure around the error position
+  if (uploadXml.length > 1282) {
+    // console.log("XML around position 1282:", uploadXml.substring(1270, 1300));
+    // console.log("Character at position 1282:", uploadXml.charAt(1281));
+    // console.log("Character code at position 1282:", uploadXml.charCodeAt(1281));
+  }
+
+  // Validate XML structure
+  try {
+    // Simple validation - check for unescaped characters
+    if (uploadXml.includes("&") && !uploadXml.includes("&amp;")) {
+      // console.warn("Found unescaped & character in XML");
+    }
+    if (uploadXml.includes("<") && !uploadXml.includes("&lt;")) {
+      // console.warn("Found unescaped < character in XML");
+    }
+    if (uploadXml.includes(">") && !uploadXml.includes("&gt;")) {
+      // console.warn("Found unescaped > character in XML");
+    }
+  } catch (error) {
+    // console.error("Error validating XML:", error);
+  }
+
   return uploadXml;
 }
 
-function createImageFieldXml(id, val) {
-  if (!val) {
-    console.warn(`Skipping image upload for field ${id} - missing data`);
-    return "";
-  }
-  
-  // Simplified field creation without CDATA for better performance
-  return `<field fid='${id}' filename='chart.png'>${val}</field>`;
-}
-
+/**
+ * Create XML field entry for a value
+ * @param {string|number} id - Field ID
+ * @param {string|number} val - Value to upload
+ * @returns {string} - XML field entry
+ */
 function createFieldXml(id, val) {
   if (val === null || val === undefined) {
-    console.warn(`Skipping upload for field ${id} due to null/undefined value`);
+    // console.warn(`Skipping upload for field ${id} due to null/undefined value`);
     return "";
   }
 
   if (typeof val === "object") {
-    console.warn(`Invalid value type for field ${id}:`, typeof val);
+    // console.warn(`Invalid value type for field ${id}:`, typeof val);
     return "";
   }
 
-  // Escape special characters for regular fields
-  const escapedVal = String(val).replace(/[<>&'"]/g, function(c) {
-    switch (c) {
-      case '<': return '&lt;';
-      case '>': return '&gt;';
-      case '&': return '&amp;';
-      case "'": return '&apos;';
-      case '"': return '&quot;';
-    }
-  });
+  // Escape XML special characters in the field value
+  const escapedVal = String(val)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 
   return `<field fid='${id}'>${escapedVal}</field>`;
+}
+
+/**
+ * Create XML field entry for an image
+ * @param {string|number} id - Field ID
+ * @param {string} val - Base64 image data
+ * @returns {string} - XML field entry for image
+ */
+function createImageFieldXml(id, val) {
+  if (!val) {
+    // console.warn(`Skipping image upload for field ${id} - missing data`);
+    return "";
+  }
+
+  // Check base64 string length (Quickbase has limits)
+  if (val.length > 1000000) {
+    // 1MB limit
+    // console.warn(
+    //   `Base64 string too long for field ${id} (${val.length} chars), skipping`
+    // );
+    return "";
+  }
+
+  // Validate base64 string
+  if (!/^[A-Za-z0-9+/]*={0,2}$/.test(val)) {
+    // console.warn(`Invalid base64 string for field ${id}, skipping`);
+    return "";
+  }
+
+  // Escape XML special characters in the base64 string
+  const escapedVal = val
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+
+  // console.log(`Creating XML field for ${id}, base64 length: ${val.length}`);
+  return `<field fid='${id}' filename='chart.png'>${escapedVal}</field>`;
 }
 
 /**
@@ -795,13 +1598,8 @@ async function sendToQuickbase(xml) {
       dataType: "xml",
       processData: false,
       data: xml,
-      timeout: 60000, // 60-second timeout
+      timeout: 60000, // 60-second timeout (increased from 30)
     });
-
-    // Check if we got a valid XML response
-    if (!response || !$(response).find('qdbapi').length) {
-      throw new Error('Invalid response format from Quickbase');
-    }
 
     return response;
   } catch (error) {
@@ -835,7 +1633,7 @@ function initApexChartsPrintFunction() {
     apexChartsExportPrint();
   });
 
-  console.log("ApexCharts export print functionality initialized");
+  // console.log("ApexCharts export print functionality initialized");
 }
 
 // Initialize when document is loaded

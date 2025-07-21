@@ -1874,6 +1874,8 @@ class ApiService {
 
           // Add record's outerHTML to the XML string
           xmlString += record.outerHTML;
+          console.log("xmlString getRecordsForUniqueClientPeerNames()", xmlString);
+          
         }
       });
 
