@@ -1637,7 +1637,17 @@ class ApiService {
 
     try {
       // Get selected clients with appropriate batching
+      // console.log("PEERQUERY - window.selectedClients_Array ", window.selectedClients_Array);
+      
       const clientQuery = this.getClientQuery(window.selectedClients_Array);
+
+      // console.log("PEERQUERY - clientQuery ", clientQuery);
+
+      console.log("PEERQUERY - clientQuery ", {
+        clientQuery,
+        currentYear,
+        selectedClients_ArrayWindow: window.selectedClients_Array
+      });
 
       // Basic query condition with year
       const queryCondition = `{7.EX.${currentYear}} AND ${clientQuery} AND {638.EX.'COMPLETE'}`;
@@ -1874,7 +1884,7 @@ class ApiService {
 
           // Add record's outerHTML to the XML string
           xmlString += record.outerHTML;
-          console.log("xmlString getRecordsForUniqueClientPeerNames()", xmlString);
+          // console.log("xmlString getRecordsForUniqueClientPeerNames()", xmlString);
           
         }
       });
@@ -1960,9 +1970,7 @@ class ApiService {
     // console.log("Filter change detected. Updating client selection...");
 
     // Call the function that updates client checkboxes based on current filters
-    if (typeof updateClientDropdownBasedOnFilters === "function") {
-      updateClientDropdownBasedOnFilters();
-    } else if (typeof headerUpdateClientDropdown === "function") {
+    if (typeof headerUpdateClientDropdown === "function") {
       // Try the function from Header.js
       headerUpdateClientDropdown();
     } else {

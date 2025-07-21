@@ -2079,16 +2079,8 @@ class ApiService {
         return '({539.EX.""})';
       }
   
-      // If more than 15 clients selected, use a non-empty match instead of listing all clients
-      if (selectedClients.length > 15) {
-        // console.log(
-        //   `Large client set (${selectedClients.length}), using generic query`
-        // );
-        // This matches any non-empty client name (field 59)
-        return '({539.XEX.""})';
-      }
-  
-      // For small numbers of clients, use specific OR conditions
+      // Always build specific OR conditions for selected clients
+      // This ensures we only pull data for the exact clients selected, regardless of count
       const clientConditions = selectedClients
         .map((client) => `{59.EX.'${this._escapeClientName(client)}'}`)
         .join(" OR ");
