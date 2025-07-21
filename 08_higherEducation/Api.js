@@ -2100,7 +2100,7 @@ class ApiService {
     console.log(`Using batched approach for ${selectedClients.length} clients`);
     
     // Split clients into batches of 10 (safe for QuickBase query limits)
-    const BATCH_SIZE = 70;
+    const BATCH_SIZE = 80;
     const clientBatches = [];
     for (let i = 0; i < selectedClients.length; i += BATCH_SIZE) {
       clientBatches.push(selectedClients.slice(i, i + BATCH_SIZE));

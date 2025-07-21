@@ -704,7 +704,7 @@ class DataProcessor {
 
         // Endowment Assets Per Student
         const endowmentAssetsPerStudent_array = [
-          { key: "ratio_Client", field: "r153_cendowment_to_expenses_ratio" },
+          { key: "ratio_Client", field: "r152_cendowment_assets_per_student" },
           { key: "endowment_Client", field: "e001_endowment_size" },
           { key: "totalStudentFte_Client", field: "g025_ctotal_student_fte" }
         ];
@@ -1643,11 +1643,11 @@ class ApiService {
 
       // console.log("PEERQUERY - clientQuery ", clientQuery);
 
-      console.log("PEERQUERY - clientQuery ", {
-        clientQuery,
-        currentYear,
-        selectedClients_ArrayWindow: window.selectedClients_Array
-      });
+      // console.log("PEERQUERY - clientQuery ", {
+      //   clientQuery,
+      //   currentYear,
+      //   selectedClients_ArrayWindow: window.selectedClients_Array
+      // });
 
       // Basic query condition with year
       const queryCondition = `{7.EX.${currentYear}} AND ${clientQuery} AND {638.EX.'COMPLETE'}`;

@@ -4680,7 +4680,7 @@ const getNetTuitionPerStudentChartOptions = (data) => {
         lowerLimit: "0",
         upperLimit: value + 5000,
         numberSuffix: "",
-        valueAbovePointer: "0",
+        valueAbovePointer: "$" + value.toLocaleString(),
         chartBottomMargin: "50",
         valueFontSize: "1.25rem",
         valueFontBold: "6",
@@ -5509,7 +5509,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
 `;
 
-    const clientRatio = Number(data.ratio_Client[year].value);
+    const clientRatio = Number(data.endowment_Client[year].value);
     clientArray.push(clientRatio);
     const formattedClientRatio = Number(clientRatio).toLocaleString();
 
