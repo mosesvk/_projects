@@ -3901,9 +3901,6 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
           fontSize: "1rem",
         },
       },
-      tooltip: {
-        enabled: true,
-      },
     },
     tooltip: {
       fixed: {
@@ -5509,7 +5506,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
 `;
 
-    const clientRatio = Number(data.endowment_Client[year].value);
+    const clientRatio = Number(data.ratio_Client[year].value);
     clientArray.push(clientRatio);
     const formattedClientRatio = Number(clientRatio).toLocaleString();
 
@@ -5548,6 +5545,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
 `;
 
+    const peerArray = data.ratio_Peer[year]
     const peerRatio = data.ratio_Peer[year]
       ? Number(getAverageOfArray(data.ratio_Peer[year]))
       : 0;
@@ -5564,23 +5562,23 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     const peerData = isNaN(peerRatio) ? null : peerRatio;
     peerAvgArray.push(Math.round(peerData));
 
-    const peer25 = get25thPercentileOfArray(peerAvgArray);
+    const peer25 = get25thPercentileOfArray(peerArray);
     peer25Array.push(Math.round(peer25));
 
-    const peer50 = getMidpointOfArray(peerAvgArray);
+    const peer50 = getMidpointOfArray(peerArray);
     peer50Array.push(Math.round(peer50));
 
-    const peer75 = get75thPercentileOfArray(peerAvgArray);
+    const peer75 = get75thPercentileOfArray(peerArray);
     peer75Array.push(Math.round(peer75));
   });
 
-  // console.log({
-  //   clientArray,
-  //   peerAvgArray,
-  //   peer25Array,
-  //   peer50Array,
-  //   peer75Array
-  // });
+  console.log('getEndowmentAssetsPerStudentChartOptions', {
+    clientArray,
+    peerAvgArray,
+    peer25Array,
+    peer50Array,
+    peer75Array
+  });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
