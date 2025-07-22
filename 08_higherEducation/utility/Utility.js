@@ -2148,7 +2148,7 @@ function showApiLoadingFunction(action, mode) {
         lastApiYearSpan.textContent = selectedYears[selectedYears.length - 1];
       }
     } else if (mode === "print") {
-      loadingApiHeader.innerHTML = "Printing Chart Data";
+      loadingApiHeader.innerHTML = "Creating Presentation Slides";
       apiYears.classList.add("hidden");
       apiPrint.classList.remove("hidden");
     }
