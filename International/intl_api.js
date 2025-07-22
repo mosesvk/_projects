@@ -3,28 +3,21 @@ class DataStore {
   constructor() {
     this.cfiData = {};
     this.doeData = {};
-    // this.debtEndowmentData = {};
+    this.debtEndowmentData = {};
     this.revenueExpenseData = {};
     this.financialPositionData = {};
     this.financialStatementData = {};
     this.financialAnalysisData = {};
-    this.ltDebtPerTotalOperatingRevenueData = {};
-    this.debtServiceCoverageRatioData = {};
-    this.debtBurdenRatioData = {};
-    
-    this.endowmentOperatingBudgetData = {};
-    this.endowmentAssetsPerStudentData = {};
   }
 
   // Save all data categories to localStorage
   saveAllToLocalStorage() {
     localStorage.setItem("cfiData", JSON.stringify(this.cfiData));
     localStorage.setItem("doeData", JSON.stringify(this.doeData));
-    localStorage.setItem("ltDebtPerTotalOperatingRevenueData", JSON.stringify(this.ltDebtPerTotalOperatingRevenueData));
-    localStorage.setItem("debtServiceCoverageRatioData", JSON.stringify(this.debtServiceCoverageRatioData));
-    localStorage.setItem("debtBurdenRatioData", JSON.stringify(this.debtBurdenRatioData));
-    localStorage.setItem("endowmentOperatingBudgetData", JSON.stringify(this.endowmentOperatingBudgetData));
-    localStorage.setItem("endowmentAssetsPerStudentData", JSON.stringify(this.endowmentAssetsPerStudentData));
+    localStorage.setItem(
+      "debtEndowmentData",
+      JSON.stringify(this.debtEndowmentData)
+    );
     localStorage.setItem(
       "revenueExpenseData",
       JSON.stringify(this.revenueExpenseData)
@@ -41,7 +34,6 @@ class DataStore {
       "financialAnalysisData",
       JSON.stringify(this.financialAnalysisData)
     );
-    // localStorage.setItem("debtEndowmentData", JSON.stringify(this.debtEndowmentData));
   }
 
   // Get a reference to the appropriate data object based on category
@@ -51,14 +43,8 @@ class DataStore {
         return this.cfiData;
       case "doe":
         return this.doeData;
-      // case "debtEndowment":
-      //   return this.debtEndowmentData;
-      case "ltDebtPerTotalOperatingRevenue":
-        return this.ltDebtPerTotalOperatingRevenueData;
-      case "debtServiceCoverageRatio":
-        return this.debtServiceCoverageRatioData;
-      case "debtBurdenRatio":
-        return this.debtBurdenRatioData;
+      case "debtEndowment":
+        return this.debtEndowmentData;
       case "revenueExpense":
         return this.revenueExpenseData;
       case "financialPosition":
@@ -67,10 +53,6 @@ class DataStore {
         return this.financialStatementData;
       case "financialAnalysis":
         return this.financialAnalysisData;
-      case "endowmentOperatingBudget":
-        return this.endowmentOperatingBudgetData;
-      case "endowmentAssetsPerStudent":
-        return this.endowmentAssetsPerStudentData;
       default:
         throw new Error(`Unknown data category: ${category}`);
     }
@@ -87,7 +69,6 @@ class DataStore {
     dynamicValueClientPeer,
     name
   ) {
-    // if (category === "debtServiceCoverageRatio") { console.log({dataKey, record, child, childRec: record.querySelector(child), name}); }
     const targetData = this.getDataCategory(category);
 
     // Get the value from the record or default to 0
@@ -205,12 +186,817 @@ class DataProcessor {
     this.processFinancialStatementData(years, recordsPeer, recordsClient);
     this.processFinancialAnalysisData(years, recordsPeer, recordsClient);
 
-
     // Save all data to localStorage at once
     this.dataStore.saveAllToLocalStorage();
   }
 
   // CASH DATA PROCESSING
+  processCashData(years, recordsPeer, recordsClient) {
+    years.forEach((year) => {
+      const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
+
+      // Process peer records for cash metrics
+      filteredPeerRecords.forEach((record) => {
+        // Days Cash on Hand
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "daysCashOnHand_Peer",
+          record,
+          "c02_01_ratio_days_cash_on_hand",
+          "c02_01_yes_no_days_cash_on_hand"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "cashAndCashEquivalents",
+          record,
+          "_01__01ass___01_cash_and_cash_equivalents",
+          "c02_01_yes_no_days_cash_on_hand",
+          "daysCashOnHand"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalExpenses",
+          record,
+          "_02_03exp___05_total_expenses",
+          "c02_01_yes_no_days_cash_on_hand",
+          "daysCashOnHand"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "depreciationAndAmortization",
+          record,
+          "_04_01fexp___06_depreciation_and_amortization",
+          "c02_01_yes_no_days_cash_on_hand",
+          "daysCashOnHand"
+        );
+
+        // Days Expenses in Unrestricted NA
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "daysExpensesInUnrestrictedNA_Peer",
+          record,
+          "c02_02_ratio_days_expenses_in_unrestricted_na",
+          "c02_02_yes_no_days_expenses_in_unrestricted_na"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetsWithoutDR",
+          record,
+          "_01__03na___01_net_assets_without_donor_restrictions",
+          "c02_02_yes_no_days_expenses_in_unrestricted_na",
+          "daysExpensesInUnrestrictedNA"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalExpenses",
+          record,
+          "_02_03exp___05_total_expenses",
+          "c02_02_yes_no_days_expenses_in_unrestricted_na",
+          "daysExpensesInUnrestrictedNA"
+        );
+
+        // Days Expenses in Unrestricted NA excluding PPE
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "daysExpensesInUnrestrictedNA_excludingPPE_Peer",
+          record,
+          "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe",
+          "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetsWithoutDR",
+          record,
+          "_01__03na___01_net_assets_without_donor_restrictions",
+          "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
+          "daysExpensesInUnrestrictedNA_excludingPPE"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "propertyPlantAndEquipment",
+          record,
+          "_01__01ass___09_property__plant_and_equipment",
+          "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
+          "daysExpensesInUnrestrictedNA_excludingPPE"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "notesPayable",
+          record,
+          "_01__02liab___02_notes_payable",
+          "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
+          "daysExpensesInUnrestrictedNA_excludingPPE"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalExpenses",
+          record,
+          "_02_03exp___05_total_expenses",
+          "c02_02a_yes_no_days_expenses_in_unrestricted_na_less_ppe",
+          "daysExpensesInUnrestrictedNA_excludingPPE"
+        );
+
+        // Days Expenses in NA with DR
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "daysExpensesInNAwithDR_Peer",
+          record,
+          "c02_03_ratio_days_expenses_in_net_assets_with_dr",
+          "c02_03_yes_no_days_expenses_in_net_assets_with_dr"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetsWithDRByPurposeOrTime",
+          record,
+          "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
+          "c02_03_yes_no_days_expenses_in_net_assets_with_dr",
+          "daysExpensesInNAwithDR"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetsWithDRInPerpetuity",
+          record,
+          "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
+          "c02_03_yes_no_days_expenses_in_net_assets_with_dr",
+          "daysExpensesInNAwithDR"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalExpenses",
+          record,
+          "_02_03exp___05_total_expenses",
+          "c02_03_yes_no_days_expenses_in_net_assets_with_dr",
+          "daysExpensesInNAwithDR"
+        );
+
+        // Days Expenses in NA with DR excluding PPE
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "daysExpensesInNAwithDR_excludingPPE_Peer",
+          record,
+          "c02_04_ratio_days_expenses_in_net_assets_with_dr_excluding_ppe",
+          "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetsWithDRByPurposeOrTime",
+          record,
+          "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
+          "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
+          "daysExpensesInNAwithDR_excludingPPE"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetsWithDRInPerpetuity",
+          record,
+          "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
+          "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
+          "daysExpensesInNAwithDR_excludingPPE"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "propertyPlantAndEquipment",
+          record,
+          "_01__01ass___09_property__plant_and_equipment",
+          "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
+          "daysExpensesInNAwithDR_excludingPPE"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "notesPayable",
+          record,
+          "_01__02liab___02_notes_payable",
+          "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
+          "daysExpensesInNAwithDR_excludingPPE"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalExpenses",
+          record,
+          "_02_03exp___05_total_expenses",
+          "c02_04_yes_no_days_expenses_in_net_assets_with_dr_excluding_ppe",
+          "daysExpensesInNAwithDR_excludingPPE"
+        );
+
+        // Liquidity Funds Available
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "liquidityFundsAvailable_Peer",
+          record,
+          "c02_05_ratio_liquidity_funds_available",
+          "c02_05_yes_no_liquidity_funds_available"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalAssets",
+          record,
+          "_01__01ass___10_total_assets",
+          "c02_05_yes_no_liquidity_funds_available",
+          "liquidityFundsAvailable"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "propertyPlantAndEquipment",
+          record,
+          "_01__01ass___09_property__plant_and_equipment",
+          "c02_05_yes_no_liquidity_funds_available",
+          "liquidityFundsAvailable"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalLiabilities",
+          record,
+          "_01__02liab___05_total_liabilities",
+          "c02_05_yes_no_liquidity_funds_available",
+          "liquidityFundsAvailable"
+        );
+
+        // Liquidity Ratio
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "liquidityRatio_Peer",
+          record,
+          "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
+          "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "financialAssetsAvailablePerLiquidity",
+          record,
+          "_05_01liquid___01_financial_assets_available_per_liquidity_fn",
+          "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalExpenses",
+          record,
+          "_02_03exp___05_total_expenses",
+          "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
+          "liquidityRatio"
+        );
+
+        // Financial Assets Available FY
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "financialAssetsAvailableFY_Peer",
+          record,
+          "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
+          "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "financialAssetsAvailablePerLiquidity",
+          record,
+          "_05_01liquid___01_financial_assets_available_per_liquidity_fn",
+          "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
+          "financialAssetsAvailableFY"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalExpenses",
+          record,
+          "_02_03exp___05_total_expenses",
+          "c02_06_yes_no_financial_assets_available_in_next_fy_to_fund_annual_expenditures",
+          "financialAssetsAvailableFY"
+        );
+
+        // Days Financial Assets On Hand
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "daysFinancialAssetsOnHand_Peer",
+          record,
+          "c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures",
+          "c02_07_yes_no_days_financial_assets_on_hand_to_fund_expenditures"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "financialAssetsAvailablePerLiquidity",
+          record,
+          "_05_01liquid___01_financial_assets_available_per_liquidity_fn",
+          "c02_07_yes_no_days_financial_assets_on_hand_to_fund_expenditures",
+          "daysFinancialAssetsOnHand"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalExpenses",
+          record,
+          "_02_03exp___05_total_expenses",
+          "c02_07_yes_no_days_financial_assets_on_hand_to_fund_expenditures",
+          "daysFinancialAssetsOnHand"
+        );
+
+        // Current Ratio
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "currentRatio_Peer",
+          record,
+          "c02_08_ratio_current_ratio",
+          "c02_08_yes_no_current_ratio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalAssets",
+          record,
+          "_01__01ass___10_total_assets",
+          "c02_08_yes_no_current_ratio",
+          "currentRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "cashAndCashEquivalents",
+          record,
+          "_01__01ass___02_cash___cash_equivalents_held_for_long_term",
+          "c02_08_yes_no_current_ratio",
+          "currentRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "investments",
+          record,
+          "_01__01ass___03_investments",
+          "c02_08_yes_no_current_ratio",
+          "currentRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "longTermLiabilities",
+          record,
+          "_01__02liab___04_long_term_liabilities",
+          "c02_08_yes_no_current_ratio",
+          "currentRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "propertyPlantAndEquipment",
+          record,
+          "_01__01ass___09_property__plant_and_equipment",
+          "c02_08_yes_no_current_ratio",
+          "currentRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalLiabilities",
+          record,
+          "_01__02liab___05_total_liabilities",
+          "c02_08_yes_no_current_ratio",
+          "currentRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "notesPayable",
+          record,
+          "_01__02liab___02_notes_payable",
+          "c02_08_yes_no_current_ratio",
+          "currentRatio"
+        );
+
+        // Total Coverage Ratio
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalCoverageRatio_Peer",
+          record,
+          "c02_09_ratio_total_coverage_ratio",
+          "c02_09_yes_no_total_coverage_ratio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalAssets",
+          record,
+          "_01__01ass___10_total_assets",
+          "c02_09_yes_no_total_coverage_ratio",
+          "totalCoverageRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalLiabilities",
+          record,
+          "_01__02liab___05_total_liabilities",
+          "c02_09_yes_no_total_coverage_ratio",
+          "totalCoverageRatio"
+        );
+
+        // Assets Without PPE To Liabilities Without Debt
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "assetsWithoutPpeToLiabilitiesWithoutDebt_Peer",
+          record,
+          "c02_09a_ratio_coverage_ratio_wo_ppe_and_debt",
+          "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalAssets",
+          record,
+          "_01__01ass___10_total_assets",
+          "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
+          "assetsWithoutPpeToLiabilitiesWithoutDebt"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "propertyPlantAndEquipment",
+          record,
+          "_01__01ass___09_property__plant_and_equipment",
+          "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
+          "assetsWithoutPpeToLiabilitiesWithoutDebt"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalLiabilities",
+          record,
+          "_01__02liab___05_total_liabilities",
+          "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
+          "assetsWithoutPpeToLiabilitiesWithoutDebt"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "notesPayable",
+          record,
+          "_01__02liab___02_notes_payable",
+          "c02_09a_yes_no_coverage_ratio_wo_ppe_and_debt",
+          "assetsWithoutPpeToLiabilitiesWithoutDebt"
+        );
+
+        // Liquidity Assets Available Cover
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "liquidityAssetsAvailableCover_Peer",
+          record,
+          "c02_05a_ratio_liquidity___assets_available_to_cover_liab_and_restricted_na",
+          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalAssets",
+          record,
+          "_01__01ass___10_total_assets",
+          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
+          "liquidityAssetsAvailableCover"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "propertyPlantAndEquipment",
+          record,
+          "_01__01ass___09_property__plant_and_equipment",
+          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
+          "liquidityAssetsAvailableCover"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalLiabilities",
+          record,
+          "_01__02liab___05_total_liabilities",
+          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
+          "liquidityAssetsAvailableCover"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetsWithDRByPurposeOrTime",
+          record,
+          "_01__03na___02_net_assets_with_donor_restrictions_by_purpose_or_time",
+          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
+          "liquidityAssetsAvailableCover"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetsWithDRInPerpetuity",
+          record,
+          "_01__03na___03_net_assets_with_donor_restrictions_in_perpetuity",
+          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
+          "liquidityAssetsAvailableCover"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetsWithDonorRestrictionsSum",
+          record,
+          "c02_04_ratio_days_expenses_in_net_assets_with_dr_excluding_ppe",
+          "c02_05a_yew_no_liquidity___assets_available_to_cover_liab_and_restricted_na",
+          "liquidityAssetsAvailableCover"
+        );
+
+        // Cash Flow Trends
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "cashFlowsTrendFinancing_Peer",
+          record,
+          "0"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "cashFlowsTrendInvesting_Peer",
+          record,
+          "0"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "cashFlowsTrendOperating_Peer",
+          record,
+          "0"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "cashFlowsTrendTotal_Peer",
+          record,
+          "0"
+        );
+      });
+
+      // Process client records for cash metrics
+      filteredClientRecords.forEach((record) => {
+        // Days Cash on Hand
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "daysCashOnHand_Client",
+          record,
+          "c02_01_ratio_days_cash_on_hand"
+        );
+
+        // Days Expenses in Unrestricted NA
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "daysExpensesInUnrestrictedNA_Client",
+          record,
+          "c02_02_ratio_days_expenses_in_unrestricted_na"
+        );
+
+        // Days Expenses in Unrestricted NA excluding PPE
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "daysExpensesInUnrestrictedNA_excludingPPE_Client",
+          record,
+          "c02_02a_ratio_days_expenses_in_unrestricted_na_less_ppe"
+        );
+
+        // Days Expenses in NA with DR
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "daysExpensesInNAwithDR_Client",
+          record,
+          "c02_03_ratio_days_expenses_in_net_assets_with_dr"
+        );
+
+        // Days Expenses in NA with DR excluding PPE
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "daysExpensesInNAwithDR_excludingPPE_Client",
+          record,
+          "c02_04_ratio_days_expenses_in_net_assets_with_dr_excluding_ppe"
+        );
+
+        // Liquidity Funds Available
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "liquidityFundsAvailable_Client",
+          record,
+          "c02_05_ratio_liquidity_funds_available"
+        );
+
+        // Liquidity Ratio
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "liquidityRatio_Client",
+          record,
+          "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
+        );
+
+        // Financial Assets Available FY
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "financialAssetsAvailableFY_Client",
+          record,
+          "c02_06_ratio_financial_assets_available_in_next_fy_to_fund_annual_expenditures"
+        );
+
+        // Days Financial Assets On Hand
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "daysFinancialAssetsOnHand_Client",
+          record,
+          "c02_07_ratio_days_financial_assets_on_hand_to_fund_expenditures"
+        );
+
+        // Current Ratio
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "currentRatio_Client",
+          record,
+          "c02_08_ratio_current_ratio"
+        );
+
+        // Liquidity Assets Available Cover
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "liquidityAssetsAvailableCover_Client",
+          record,
+          "c02_05a_ratio_liquidity___assets_available_to_cover_liab_and_restricted_na"
+        );
+
+        // Total Coverage Ratio
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "totalCoverageRatio_Client",
+          record,
+          "c02_09_ratio_total_coverage_ratio"
+        );
+
+        // Assets Without PPE To Liabilities Without Debt
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "assetsWithoutPpeToLiabilitiesWithoutDebt_Client",
+          record,
+          "c02_09a_ratio_coverage_ratio_wo_ppe_and_debt"
+        );
+
+        // Cash Flow Trends
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "cashFlowsTrendFinancing_Client",
+          record,
+          "_03_01cashflow___03_financing"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "cashFlowsTrendInvesting_Client",
+          record,
+          "_03_01cashflow___02_investing"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "cashFlowsTrendOperating_Client",
+          record,
+          "_03_01cashflow___01_operating"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "cashFlowsTrendTotal_Client",
+          record,
+          "_03_01cashflow___total"
+        );
+      });
+    });
+  }
 
   processCfiData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
@@ -649,158 +1435,302 @@ class DataProcessor {
         : "-";
   }
 
-  processDebtEndowmentData(years, recordsPeer, recordsClient) {
-
+  processDebtEndowmentContentData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
 
+      // Process client records
       filteredClientRecords.forEach((record) => {
         // Long Term Debt Per Total Operating Revenue
-        const ltDebtPerTotalOperatingRevenue_array = [
-          { key: "longTermDebtForLongTermPurpose_Client", field: "r285_clong_term_debt_per_total_operating_revenue" },
-          { key: "longTermDebt_Client", field: "r015_notes_payable" },
-          { key: "totalOperatingRevenue_Client", field: "r036_coperating_revenues_support_and_releases" }
-        ];
-        ltDebtPerTotalOperatingRevenue_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("ltDebtPerTotalOperatingRevenue", "client", year, key, record, field);
-        });
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "longTermDebtForLongTermPurpose_Client",
+          record,
+          "r285_clong_term_debt_per_total_operating_revenue"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "longTermDebt_Client",
+          record,
+          "r015_notes_payable"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "totalOperatingRevenue_Client",
+          record,
+          "r036_coperating_revenues_support_and_releases"
+        );
 
         // Debt Service Coverage Ratio
-        const debtServiceCoverageRatio_array = [
-          { key: "debtServiceCoverageRatio_Client", field: "r288_cdebt_service_coverage_ratio" },
-          { key: "changeInNetAssetWithoutDR_Client", field: "r259_cchange_in_unrestricted_net_assets" },
-          { key: "depreciation_Client", field: "r164_depreciation_and_amortization" },
-          { key: "interest_Client", field: "r165_interest" },
-          { key: "principalPayments_Client", field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable" },
-          { key: "capitalLease_Client", field: "r292_capital_lease_obligations" },
-          { key: "financingLeasesRightOfUseLiabilities_Client", field: "r291_financing_leases_right_of_use_liabilities" }
-        ];
-        debtServiceCoverageRatio_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("debtServiceCoverageRatio", "client", year, key, record, field);
-        });
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r288_cdebt_service_coverage_ratio"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "debtService_Client",
+          record,
+          "r286_cdebt_service"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "interest_Client",
+          record,
+          "r165_interest"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "principalPayments_Client",
+          record,
+          "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable"
+        );
 
         // Debt Burden Ratio
-        const debtBurdenRatio_array = [
-          { key: "ratio_Client", field: "r287_cdebt_burden_ratio" },
-          { key: "interest_Client", field: "r165_interest" },
-          { key: "principalPayments_Client", field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable" },
-          { key: "depreciation_Client", field: "r164_depreciation_and_amortization" },
-          { key: "totalExpenses_Client", field: "r044_ctotal_functional_expenses" }
-        ];
-        debtBurdenRatio_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("debtBurdenRatio", "client", year, key, record, field);
-        });
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r287_cdebt_burden_ratio"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "operationalExpense_Client",
+          record,
+          "r044_ctotal_functional_expenses"
+        );
 
         // Endowment Operating Budget
-        const endowmentOperatingBudget_array = [
-          { key: "ratio_Client", field: "r153_cendowment_to_expenses_ratio" },
-          { key: "endowment_Client", field: "e001_endowment_size" },
-          { key: "annualOperatingBudget_Client", field: "r044_ctotal_functional_expenses" }
-        ];
-        endowmentOperatingBudget_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("endowmentOperatingBudget", "client", year, key, record, field);
-        });
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r153_cendowment_to_expenses_ratio"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "endowment_Client",
+          record,
+          "e001_endowment_size"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "annualOperatingBudget_Client",
+          record,
+          "r044_ctotal_functional_expenses"
+        );
 
         // Endowment Assets Per Student
-        const endowmentAssetsPerStudent_array = [
-          { key: "ratio_Client", field: "r152_cendowment_assets_per_student" },
-          { key: "endowment_Client", field: "e001_endowment_size" },
-          { key: "totalStudentFte_Client", field: "g025_ctotal_student_fte" }
-        ];
-        endowmentAssetsPerStudent_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("endowmentAssetsPerStudent", "client", year, key, record, field);
-        });
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r152_cendowment_assets_per_student"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "client",
+          year,
+          "totalStudentFte_Client",
+          record,
+          "g025_ctotal_student_fte"
+        );
       });
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
+        // Debt Burden Ratio
+        this.dataStore.insertData(
+          "debtEndowment",
+          "peer",
+          year,
+          "ratio_Peer",
+          record,
+          "r287_cdebt_burden_ratio",
+          "Yes"
+        );
 
-        // Debt Burden Ratio for Peers
-        const debtBurdenRatio_array = [
-          { key: "ratio_Peer", field: "r287_cdebt_burden_ratio" },
-          { key: "operationalExpense_Peer", field: "r044_ctotal_functional_expenses" }
-        ];
-        debtBurdenRatio_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("debtBurdenRatio", "peer", year, key, record, field, "Yes");
-        });
+        this.dataStore.insertData(
+          "debtEndowment",
+          "peer",
+          year,
+          "operationalExpense_Peer",
+          record,
+          "r044_ctotal_functional_expenses",
+          "Yes"
+        );
 
-        // Endowment Assets Per Student for Peers
-        const endowmentAssetsPerStudent_array = [
-          { key: "ratio_Peer", field: "r152_cendowment_assets_per_student" },
-          { key: "endowment_Peer", field: "e001_endowment_size" },
-          { key: "totalStudentFte_Peer", field: "g025_ctotal_student_fte" }
-        ];
-        endowmentAssetsPerStudent_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("endowmentAssetsPerStudent", "peer", year, key, record, field, "Yes");
-        });
+        // Endowment Assets Per Student
+        this.dataStore.insertData(
+          "debtEndowment",
+          "peer",
+          year,
+          "ratio_Peer",
+          record,
+          "r152_cendowment_assets_per_student",
+          "Yes"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "peer",
+          year,
+          "endowment_Peer",
+          record,
+          "e001_endowment_size",
+          "Yes"
+        );
+
+        this.dataStore.insertData(
+          "debtEndowment",
+          "peer",
+          year,
+          "totalStudentFte_Peer",
+          record,
+          "g025_ctotal_student_fte",
+          "Yes"
+        );
       });
     });
   }
 
-  processRevenueExpenseData(years, recordsPeer, recordsClient) {
-    const salariesAndBenefitsToTotalExpense_obj = {};
-    const averageEmployeeSalary_obj = {};
-    const salariesAndBenefitsPerNetTuition_obj = {};
-    const adminCostsPerStudent_obj = {};
-    const netEducationalExpensePerStudent_obj = {};
-    const annualTraditionalNetTuitionPerStudent_obj = {};
-    const tuitionDependency_obj = {};
-    const tuitionDiscountRate_obj = {};
-
+  processRevenueExpenseContentData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
 
+      // Process client records
       filteredClientRecords.forEach((record) => {
         // Salaries and Benefits to Total Expense
-        const salariesAndBenefitsToTotalExpense_array = [
-          { key: "salariesAndBenefitsToTotalExpense_Client", field: "r228_csalaries_and_benefits_to_total_expenses" },
-          { key: "salariesAndWages_Client", field: "r160_salaries_and_wages" },
-          { key: "employeeBenefits_Client", field: "r161_employee_benefits" },
-          { key: "totalFunctionalExpenses_Client", field: "r044_ctotal_functional_expenses" }
-        ];
-        salariesAndBenefitsToTotalExpense_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("revenueExpense", "client", year, key, record, field);
-        });
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "salariesAndBenefitsToTotalExpense_Client",
+          record,
+          "r228_csalaries_and_benefits_to_total_expenses"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "salariesAndWages_Client",
+          record,
+          "r160_salaries_and_wages"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "employeeBenefits_Client",
+          record,
+          "r161_employee_benefits"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "totalFunctionalExpenses_Client",
+          record,
+          "r044_ctotal_functional_expenses"
+        );
 
         // Average Employee Salary
-        const averageEmployeeSalary_array = [
-          { key: "president_Client", field: "c011_sal_president" },
-          { key: "chiefAcademic_Client", field: "c021_sal_chief_academic" },
-          { key: "chiefFinance_Client", field: "c031_sal_chief_finance" },
-          { key: "chiefEnrollment_Client", field: "c041_sal_chief_enrollment" },
-          { key: "chiefDevelopment_Client", field: "c051_sal_chief_development" },
-          { key: "chiefOps_Client", field: "c061_sal_chief_ops" },
-          { key: "dirFinance_Client", field: "c071_sal_dir_of_fin_aid" },
-          { key: "dirHr_Client", field: "c081_sal_dir_of_hr" },
-          { key: "dirIt_Client", field: "c091_sal_dir_of_it" },
-          { key: "dirPhysPlant_Client", field: "c101_sal_dir_of_phys_plant" },
-          { key: "controller_Client", field: "c111_sal_controller" },
-          { key: "busMgr_Client", field: "c121_sal_bus_mgr" },
-          { key: "bursar_Client", field: "c131_sal_bursar" },
-          { key: "budgetDir_Client", field: "c141_sal_budget_dir" },
-          { key: "dirAcct_Client", field: "c151_sal_dir_of_acct" },
-          { key: "srAcct_Client", field: "c161_sal_sr_acct" },
-          { key: "nonSrAcct_Client", field: "c171_sal_non_sr_acct" },
-          { key: "stuAcctMgr_Client", field: "c181_sal_stu_acct_mgr" },
-          { key: "otherBusOffice_Client", field: "c191_sal_other_bus_office" },
-          { key: "adminAsst_Client", field: "c201_sal_admin_asst" }
+        const employeeSalaryFields = [
+          ["president_Client", "c011_sal_president"],
+          ["chiefAcademic_Client", "c021_sal_chief_academic"],
+          ["chiefFinance_Client", "c031_sal_chief_finance"],
+          ["chiefEnrollment_Client", "c041_sal_chief_enrollment"],
+          ["chiefDevelopment_Client", "c051_sal_chief_development"],
+          ["chiefOps_Client", "c061_sal_chief_ops"],
+          ["dirFinance_Client", "c071_sal_dir_of_fin_aid"],
+          ["dirHr_Client", "c081_sal_dir_of_hr"],
+          ["dirIt_Client", "c091_sal_dir_of_it"],
+          ["dirPhysPlant_Client", "c101_sal_dir_of_phys_plant"],
+          ["controller_Client", "c111_sal_controller"],
+          ["busMgr_Client", "c121_sal_bus_mgr"],
+          ["bursar_Client", "c131_sal_bursar"],
+          ["budgetDir_Client", "c141_sal_budget_dir"],
+          ["dirAcct_Client", "c151_sal_dir_of_acct"],
+          ["srAcct_Client", "c161_sal_sr_acct"],
+          ["nonSrAcct_Client", "c171_sal_non_sr_acct"],
+          ["stuAcctMgr_Client", "c181_sal_stu_acct_mgr"],
+          ["otherBusOffice_Client", "c191_sal_other_bus_office"],
+          ["adminAsst_Client", "c201_sal_admin_asst"]
         ];
-        averageEmployeeSalary_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("revenueExpense", "client", year, key, record, field);
+
+        employeeSalaryFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "revenueExpense",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
         });
 
         // Salaries and Benefits Per Net Tuition
-        const salariesAndBenefitsPerNetTuition_array = [
-          { key: "salariesAndWages_Client", field: "r160_salaries_and_wages" },
-          { key: "employeeBenefits_Client", field: "r161_employee_benefits" },
-          { key: "salariesAndBenefitsPerNetTuition_Client", field: "r284_csalaries_and_benefits_per_net_tuition_revenue" },
-          { key: "netTuitionAndFees_Client", field: "r026_cnet_tuition_and_fees" }
-        ];
-        salariesAndBenefitsPerNetTuition_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("revenueExpense", "client", year, key, record, field);
-        });
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "salariesAndBenefitsPerNetTuition_Client",
+          record,
+          "r284_csalaries_and_benefits_per_net_tuition_revenue"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "netTuitionAndFees_Client",
+          record,
+          "r026_cnet_tuition_and_fees"
+        );
 
         // Admin Costs Per Student
         this.dataStore.insertData(
@@ -813,189 +1743,235 @@ class DataProcessor {
         );
 
         // Net Educational Expense Per Student
-        const netEducationalExpensePerStudent_array = [
-          { key: "netEducationalExpensePerStudentRatio_Client", field: "r138_cnet_educational_expenses_per_student" },
-          { key: "netEducationalExpenses_Client", field: "r137_cnet_educational_expenses" },
-          { key: "totalStudents_Client", field: "g025_ctotal_student_fte" }
-        ];
-        netEducationalExpensePerStudent_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("revenueExpense", "client", year, key, record, field);
-        });
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r138_cnet_educational_expenses_per_student"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "netEducationalExpenses_Client",
+          record,
+          "r137_cnet_educational_expenses"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "totalStudents_Client",
+          record,
+          "g025_ctotal_student_fte"
+        );
 
         // Annual Traditional Net Tuition Per Student
-        const netTuitionPerStudent_array = [
-          { key: "netTuitionPerStudentRatio_Client", field: "r136_cnet_tuition_per_student" },
-          { key: "netTuitionAndFees_Client", field: "r026_cnet_tuition_and_fees" },
-          { key: "totalStudents_Client", field: "g025_ctotal_student_fte" }
-        ];
-        netTuitionPerStudent_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("revenueExpense", "client", year, key, record, field);
-        });
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r136_cnet_tuition_per_student"
+        );
 
         // Tuition Dependency
-        const tuitionDependency_array = [
-          { key: "tuitionDependencyRatio_Client", field: "r147_cnet_tuition_dependency_ratio" },
-          { key: "netTuitionAndFees_Client", field: "r026_cnet_tuition_and_fees" },
-          { key: "operatingRevenuesSupportAndRelease_Client", field: "r036_coperating_revenues_support_and_releases" }
-        ];
-        tuitionDependency_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("revenueExpense", "client", year, key, record, field);
-        });
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r147_cnet_tuition_dependency_ratio"
+        );
 
         // Tuition Discount Rate
-        const tuitionDiscountRate_array = [
-          { key: "tuitionDiscountRateRatio_Client", field: "r229_ctuition_discount_rate" },
-          { key: "revenueScholarshipsAndFinanancialAid_Client", field: "r024_revenue_scholarships_and_financial_aid" },
-          { key: "revenueTuitionAndFees_Client", field: "r023_revenue_tuition_and_fees" }
-        ];
-        tuitionDiscountRate_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("revenueExpense", "client", year, key, record, field);
-        });
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "ratio_Client",
+          record,
+          "r229_ctuition_discount_rate"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "revenueScholarshipsAndFinanancialAid_Client",
+          record,
+          "r024_revenue_scholarships_and_financial_aid"
+        );
+
+        this.dataStore.insertData(
+          "revenueExpense",
+          "client",
+          year,
+          "revenueTuitionAndFees_Client",
+          record,
+          "r023_revenue_tuition_and_fees"
+        );
       });
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
+        // Average Employee Salary
+        const peerSalaryFields = [
+          ["president_Peer", "c011_sal_president"],
+          ["chiefAcademic_Peer", "c021_sal_chief_academic"],
+          ["chiefFinance_Peer", "c031_sal_chief_finance"],
+          ["chiefEnrollment_Peer", "c041_sal_chief_enrollment"],
+          ["chiefDevelopment_Peer", "c051_sal_chief_development"],
+          ["chiefOps_Peer", "c061_sal_chief_ops"],
+          ["dirFinance_Peer", "c071_sal_dir_of_fin_aid"],
+          ["dirHr_Peer", "c081_sal_dir_of_hr"],
+          ["dirIt_Peer", "c091_sal_dir_of_it"],
+          ["dirPhysPlant_Peer", "c101_sal_dir_of_phys_plant"],
+          ["controller_Peer", "c111_sal_controller"],
+          ["busMgr_Peer", "c121_sal_bus_mgr"],
+          ["bursar_Peer", "c131_sal_bursar"],
+          ["budgetDir_Peer", "c141_sal_budget_dir"],
+          ["dirAcct_Peer", "c151_sal_dir_of_acct"],
+          ["srAcct_Peer", "c161_sal_sr_acct"],
+          ["nonSrAcct_Peer", "c171_sal_non_sr_acct"],
+          ["stuAcctMgr_Peer", "c181_sal_stu_acct_mgr"],
+          ["otherBusOffice_Peer", "c191_sal_other_bus_office"],
+          ["adminAsst_Peer", "c201_sal_admin_asst"]
+        ];
 
-        // Tuition Dependency for Peers
-        this.dataStore.insertData(
-          "revenueExpense", 
-          "peer",
-          year,
-          "tuitionDependencyRatio_Peer",
-          record,
-          "r147_cnet_tuition_dependency_ratio",
-          "Yes"
-        );
+        peerSalaryFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "revenueExpense",
+            "peer",
+            year,
+            key,
+            record,
+            field,
+            "Yes"
+          );
+        });
 
-        // Tuition Discount Rate for Peers
+        // Admin Costs Per Student
+        const adminCostsFields = [
+          ["salAdminAsst_Peer", "c201_sal_admin_asst"],
+          ["ficaAdminAsst_Peer", "c203_fica_admin_asst"],
+          ["healthAdminAsst_Peer", "c204_health_admin_asst"],
+          ["disabilityAdminAsst_Peer", "c205_disability_admin_asst"],
+          ["retirementAdminAsst_Peer", "c206_retirement_admin_asst"],
+          ["housingAdminAsst_Peer", "c207_housing_admin_asst"],
+          ["otherAdminAsst_Peer", "c208_other_admin_asst"],
+          ["totalStudentFte_Peer", "g025_ctotal_student_fte"],
+          ["totalStudentUhc_Peer", "g035_ctotal_student_uhc"]
+        ];
+
+        adminCostsFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "revenueExpense",
+            "peer",
+            year,
+            key,
+            record,
+            field,
+            "Yes"
+          );
+        });
+
+        // Net Educational Expense Per Student
         this.dataStore.insertData(
           "revenueExpense",
           "peer",
           year,
-          "tuitionDiscountRateRatio_Peer",
-          record,
-          "r229_ctuition_discount_rate",
-          "Yes"
-        );
-
-
-        // Average Employee Salary for Peers
-        const averageEmployeeSalary_array = [
-          { key: "president_Peer", field: "c011_sal_president" },
-          { key: "chiefAcademic_Peer", field: "c021_sal_chief_academic" },
-          { key: "chiefFinance_Peer", field: "c031_sal_chief_finance" },
-          { key: "chiefEnrollment_Peer", field: "c041_sal_chief_enrollment" },
-          { key: "chiefDevelopment_Peer", field: "c051_sal_chief_development" },
-          { key: "chiefOps_Peer", field: "c061_sal_chief_ops" },
-          { key: "dirFinance_Peer", field: "c071_sal_dir_of_fin_aid" },
-          { key: "dirHr_Peer", field: "c081_sal_dir_of_hr" },
-          { key: "dirIt_Peer", field: "c091_sal_dir_of_it" },
-          { key: "dirPhysPlant_Peer", field: "c101_sal_dir_of_phys_plant" },
-          { key: "controller_Peer", field: "c111_sal_controller" },
-          { key: "busMgr_Peer", field: "c121_sal_bus_mgr" },
-          { key: "bursar_Peer", field: "c131_sal_bursar" },
-          { key: "budgetDir_Peer", field: "c141_sal_budget_dir" },
-          { key: "dirAcct_Peer", field: "c151_sal_dir_of_acct" },
-          { key: "srAcct_Peer", field: "c161_sal_sr_acct" },
-          { key: "nonSrAcct_Peer", field: "c171_sal_non_sr_acct" },
-          { key: "stuAcctMgr_Peer", field: "c181_sal_stu_acct_mgr" },
-          { key: "otherBusOffice_Peer", field: "c191_sal_other_bus_office" },
-          { key: "adminAsst_Peer", field: "c201_sal_admin_asst" }
-        ];
-        averageEmployeeSalary_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("revenueExpense", "peer", year, key, record, field, "Yes");
-        });
-
-        // Admin Costs Per Student for Peers
-        const adminCostsPerStudent_array = [
-          { key: "salAdminAsst_Peer", field: "c201_sal_admin_asst" },
-          { key: "ficaAdminAsst_Peer", field: "c203_fica_admin_asst" },
-          { key: "healthAdminAsst_Peer", field: "c204_health_admin_asst" },
-          { key: "disabilityAdminAsst_Peer", field: "c205_disability_admin_asst" },
-          { key: "retirementAdminAsst_Peer", field: "c206_retirement_admin_asst" },
-          { key: "housingAdminAsst_Peer", field: "c207_housing_admin_asst" },
-          { key: "otherAdminAsst_Peer", field: "c208_other_admin_asst" },
-          { key: "totalStudentFte_Peer", field: "g025_ctotal_student_fte" },
-          { key: "totalStudentUhc_Peer", field: "g035_ctotal_student_uhc" }
-        ];
-        adminCostsPerStudent_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("revenueExpense", "peer", year, key, record, field, "Yes");
-        });
-
-        // Net Educational Expense Per Student for Peers
-        this.dataStore.insertData(
-          "revenueExpense",
-          "peer",
-          year,
-          "netEducationalExpensePerStudentRatio_Peer",
+          "ratio_Peer",
           record,
           "r138_cnet_educational_expenses_per_student",
           "Yes"
         );
 
-        // Tuition Dependency for Peers
-        const tuitionDependency_array = [
-          { key: "ratio_Peer", field: "r147_cnet_tuition_dependency_ratio" },
-          { key: "netTuitionAndFees_Peer", field: "r026_cnet_tuition_and_fees" },
-          { key: "operatingRevenuesSupportAndRelease_Peer", field: "r036_coperating_revenues_support_and_releases" }
-        ];
-        tuitionDependency_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("revenueExpense", "peer", year, key, record, field, "Yes");
-        });
+        // Tuition Dependency
+        this.dataStore.insertData(
+          "revenueExpense",
+          "peer",
+          year,
+          "ratio_Peer",
+          record,
+          "r147_cnet_tuition_dependency_ratio",
+          "Yes"
+        );
 
-        // Tuition Discount Rate for Peers
-        const tuitionDiscountRate_array = [
-          { key: "ratio_Peer", field: "r229_ctuition_discount_rate" },
-          { key: "revenueScholarshipsAndFinanancialAid_Peer", field: "r024_revenue_scholarships_and_financial_aid" },
-          { key: "revenueTuitionAndFees_Peer", field: "r023_revenue_tuition_and_fees" }
-        ];
-        tuitionDiscountRate_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("revenueExpense", "peer", year, key, record, field, "Yes");
-        });
+        // Tuition Discount Rate
+        this.dataStore.insertData(
+          "revenueExpense",
+          "peer",
+          year,
+          "ratio_Peer",
+          record,
+          "r229_ctuition_discount_rate",
+          "Yes"
+        );
       });
     });
   }
 
-  processFinancialPositionData(years, recordsPeer, recordsClient) {
-    const currentRatio_obj = {};
-    const liquidity_obj = {};
-
+  processFinancialPositionContentData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
 
+      // Process client records
       filteredClientRecords.forEach((record) => {
         // Current Ratio
-        const currentRatio_array = [
-          { key: "cashAndCashEquivalents_Client", field: "r001_cash_and_cash_equivalents" },
-          { key: "accountsReceivable_Client", field: "r002_accounts_receivable_net" },
-          { key: "studentLoansAndOtherReceivables_Client", field: "r003_student_loans_and_other_receivables" },
-          { key: "contributionsReceivable_Client", field: "r004_contributions_receivable" },
-          { key: "prepaidExpensesAndOtherAssets_Client", field: "r005_prepaid_expenses_and_other_assets" },
-          { key: "accountsPayableAndAccruedExpenses_Client", field: "r009_accounts_payable_and_accrued_liabilities" },
-          { key: "deferredRevenue_Client", field: "r010_deferred_revenue" },
-          { key: "postRetirementHealthBenefits_Client", field: "r011_post_retirement_health_benefits" },
-          { key: "annuityObligations_Client", field: "r012_annuity_obligations" },
-          { key: "otherLiabilities_Client", field: "r013_other_liabilities" }
+        const currentRatioFields = [
+          ["cashAndCashEquivalents_Client", "r001_cash_and_cash_equivalents"],
+          ["accountsReceivable_Client", "r002_accounts_receivable_net"],
+          ["studentLoansAndOtherReceivables_Client", "r003_student_loans_and_other_receivables"],
+          ["contributionsReceivable_Client", "r004_contributions_receivable"],
+          ["prepaidExpensesAndOtherAssets_Client", "r005_prepaid_expenses_and_other_assets"],
+          ["accountsPayable_Client", "r009_accounts_payable_and_accrued_liabilities"],
+          ["deferredRevenue_Client", "r010_deferred_revenue"],
+          ["postRetirementHealthBenefits_Client", "r011_post_retirement_health_benefits"],
+          ["annuityObligations_Client", "r012_annuity_obligations"],
+          ["otherLiabilities_Client", "r013_other_liabilities"]
         ];
-        currentRatio_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialPosition", "client", year, key, record, field);
+
+        currentRatioFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialPosition",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
         });
 
         // Liquidity
-        const liquidity_array = [
-          { key: "fasbLiquidity_Client", field: "r250_fasb_liquidity" },
-          { key: "quasiEndowment_Client", field: "r251_quasi_endowment" },
-          { key: "lineOfCredit_Client", field: "r252_line_of_credit_available" }
+        const liquidityFields = [
+          ["fasbLiquidity_Client", "r250_fasb_liquidity"],
+          ["quasiEndowment_Client", "r251_quasi_endowment"],
+          ["lineOfCredit_Client", "r252_line_of_credit_available"]
         ];
-        liquidity_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialPosition", "client", year, key, record, field);
+
+        liquidityFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialPosition",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
         });
       });
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
-        // Current Ratio for Peers
+        // Current Ratio
         this.dataStore.insertData(
           "financialPosition",
           "peer",
@@ -1006,7 +1982,6 @@ class DataProcessor {
           "Yes"
         );
 
-        // Current Assets for Peers
         this.dataStore.insertData(
           "financialPosition",
           "peer",
@@ -1017,7 +1992,6 @@ class DataProcessor {
           "Yes"
         );
 
-        // Current Liabilities for Peers
         this.dataStore.insertData(
           "financialPosition",
           "peer",
@@ -1028,7 +2002,7 @@ class DataProcessor {
           "Yes"
         );
 
-        // Liquidity for Peers
+        // Liquidity
         this.dataStore.insertData(
           "financialPosition",
           "peer",
@@ -1042,199 +2016,95 @@ class DataProcessor {
     });
   }
 
-  processFinancialAnalysisData(years, recordsPeer, recordsClient) {
+  processFinancialAnalysisContentData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
-      const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
       const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
-
-      // Process peer records
-      filteredPeerRecords.forEach((record) => {
-        // Total Liabilities and Assets
-        this.dataStore.insertData(
-          "financialAnalysis",
-          "peer",
-          year,
-          "totalLiabilities_Peer",
-          record,
-          "r016_ctotal_liabilities",
-          "Yes"
-        );
-
-        this.dataStore.insertData(
-          "financialAnalysis",
-          "peer",
-          year,
-          "totalAssets_Peer",
-          record,
-          "r008_ctotal_assets",
-          "Yes"
-        );
-
-        // Source of Income for Peers
-        this.dataStore.insertData(
-          "financialAnalysis",
-          "peer", 
-          year,
-          "soiTotal_Peer",
-          record,
-          "dashboard_c002_income_____total",
-          "Yes"
-        );
-
-        this.dataStore.insertData(
-          "financialAnalysis",
-          "peer",
-          year,
-          "revenueTuitionAndFees_Peer",
-          record,
-          "dashboard_c002a_income_____tuition",
-          "Yes"
-        );
-
-        this.dataStore.insertData(
-          "financialAnalysis",
-          "peer",
-          year,
-          "revenueAuxiliaryActivities_Peer",
-          record,
-          "dashboard_c002b_income_____auxiliary",
-          "Yes"
-        );
-
-        this.dataStore.insertData(
-          "financialAnalysis",
-          "peer",
-          year,
-          "revenueContributions_Peer",
-          record,
-          "dashboard_c002c_income_____contributions",
-          "Yes"
-        );
-
-        this.dataStore.insertData(
-          "financialAnalysis",
-          "peer",
-          year,
-          "revenueInvestmentIncome_Peer",
-          record,
-          "dashboard_c002d_income_____investments",
-          "Yes"
-        );
-
-        this.dataStore.insertData(
-          "financialAnalysis",
-          "peer",
-          year,
-          "revenueOther_Peer",
-          record,
-          "dashboard_c002e_income_____other_sources",
-          "Yes"
-        );
-
-        this.dataStore.insertData(
-          "financialAnalysis",
-          "peer",
-          year,
-          "releasedGifts_Peer",
-          record,
-          "dashboard_c002f_income_____released_gifts",
-          "Yes"
-        );
-      });
+      const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
 
       // Process client records
       filteredClientRecords.forEach((record) => {
-        // Total Assets, Liabilities, and Net Position
-        this.dataStore.insertData(
-          "financialAnalysis",
-          "client",
-          year,
-          "totalAssets_Client",
-          record,
-          "r008_ctotal_assets"
-        );
-
-        this.dataStore.insertData(
-          "financialAnalysis",
-          "client",
-          year,
-          "totalLiabilities_Client",
-          record,
-          "r016_ctotal_liabilities"
-        );
-
-        this.dataStore.insertData(
-          "financialAnalysis",
-          "client",
-          year,
-          "netPosition_Client",
-          record,
-          "r020_ctotal_net_assets"
-        );
-
-        // Source of Income for Client
-        const sourceOfIncomeFields = [
-          { key: "si_revenueTuitionAndFees_Client", field: "r026_cnet_tuition_and_fees" },
-          { key: "si_revenueAuxiliaryActivities_Client", field: "r028_revenue_auxiliary_activities" },
-          { key: "si_revenueContributions_Client", field: "r033_revenue_contributions" },
-          { key: "si_revenueContributionsLargeOneTimeGifts_Client", field: "r033a_revenue_contributions_large_one_time_gifts" },
-          { key: "si_revenueInvestmentIncome_Client", field: "r029_revenue_investment_income" },
-          { key: "si_netAssetsReleased_Client", field: "r034_revenue_net_assets_released_from_restriction" },
-          { key: "si_revenueEndowmentSpendingAppropriation_Client", field: "r030_revenue_endowment_spending_appropriation" },
-          { key: "si_revenueOther_Client", field: "r031_revenue_other" }
+        // Operating Results
+        const operatingResultsFields = [
+          ["operatingRevenuesSupportAndRelease_Client", "r036_coperating_revenues_support_and_releases"],
+          ["totalFunctionalExpenses_Client", "r044_ctotal_functional_expenses"],
+          ["changeInNetAssetsFromOperations_Client", "r045_cchange_in_net_assets_from_operations"]
         ];
 
-        sourceOfIncomeFields.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialAnalysis", "client", year, key, record, field);
+        operatingResultsFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialAnalysis",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
         });
 
-        // Financial Flow Analysis for Client
-        const financialFlowFields = [
-          { key: "ffa_revenueTuitionAndFees_Client", field: "r023_revenue_tuition_and_fees" },
-          { key: "ffa_revenueScholarshipsAndFinancialAid_Client", field: "r024_revenue_scholarships_and_financial_aid" },
-          { key: "ffa_totalRevenueContributions_Client", field: "r035_ctotal_revenue_from_contributions" },
-          { key: "ffa_revenueAuxiliaryActivities_Client", field: "r028_revenue_auxiliary_activities" },
-          { key: "ffa_revenueOther_Client", field: "r031_revenue_other" },
-          { key: "ffa_revenueInvestmentIncome_Client", field: "r029_revenue_investment_income" },
-          { key: "ffa_revenueEndowmentSpendingAppropriation_Client", field: "r030_revenue_endowment_spending_appropriation" },
-          { key: "ffa_changeInNetAssetsWithDR_Client", field: "r059_cchange_in_net_assets_with_donor_restrictions" },
-          { key: "ffa_netChangeRestrictedInPerpetuity_Client", field: "r064_cnet_change_restricted_in_perpetuity" },
-          { key: "ffa_contributions_Client", field: "r054_contributions" },
-          { key: "ffa_changeInPermanentlyRestrictedNA_Client", field: "r060_change_in_permanently_restricted_net_assets_contributions" },
-          { key: "ffa_salariesAndWages_Client", field: "r160_salaries_and_wages" },
-          { key: "ffa_employeeBenefits_Client", field: "r161_employee_benefits" },
-          { key: "ffa_servicesSuppliesAndOther_Client", field: "r162_services_supplies_and_other" },
-          { key: "ffa_occupancyUtilitiesAndMaintenance_Client", field: "r163_occupancy_utilities_and_maintenance" },
-          { key: "ffa_incomeExpenseSurplusDefecit_Client", field: "dashboard_c001_income_expense_surplus_defecit" },
-          { key: "ffa_interest_Client", field: "r165_interest" },
-          { key: "ffa_totalFunctionalExpenses_Client", field: "r044_ctotal_functional_expenses" },
-          { key: "ffa_depreciationAndAmortization_Client", field: "r164_depreciation_and_amortization" }
-        ];
-
-        financialFlowFields.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialAnalysis", "client", year, key, record, field);
-        });
-
-        // Cash Flows Trend for Client
-        const cashFlowsFields = [
-          { key: "cft_OperatingActivities_Client", field: "r080_cnet_cash_provided_by_operating_activities" },
-          { key: "cft_InvestingActivities_Client", field: "r085_cnet_cash_used_in_investing_activities" },
-          { key: "cft_FinancingActivities_Client", field: "r089_cnet_cash_used_in_financing_activities" },
-          { key: "cft_TotalActivities_Client", field: "r283_ctotal_cash_flows" }
-        ];
-
-        cashFlowsFields.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialAnalysis", "client", year, key, record, field);
-        });
-
-        // Dashboard Surplus/Deficit
+        // Net Operating Income Ratio
         this.dataStore.insertData(
           "financialAnalysis",
           "client",
           year,
-          "dashboardSurplusDefecit_Client",
+          "netOperatingIncomeRatio_Client",
           record,
-          "dashboard_c001_income_expense_surplus_defecit"
+          "r227_cnet_operating_income_ratio"
+        );
+
+        // Operating Revenue Growth
+        this.dataStore.insertData(
+          "financialAnalysis",
+          "client",
+          year,
+          "operatingRevenueGrowth_Client",
+          record,
+          "r231_coperating_revenue_growth"
+        );
+
+        // Operating Expense Growth
+        this.dataStore.insertData(
+          "financialAnalysis",
+          "client",
+          year,
+          "operatingExpenseGrowth_Client",
+          record,
+          "r232_coperating_expense_growth"
+        );
+      });
+
+      // Process peer records
+      filteredPeerRecords.forEach((record) => {
+        // Net Operating Income Ratio
+        this.dataStore.insertData(
+          "financialAnalysis",
+          "peer",
+          year,
+          "netOperatingIncomeRatio_Peer",
+          record,
+          "r227_cnet_operating_income_ratio",
+          "Yes"
+        );
+
+        // Operating Revenue Growth
+        this.dataStore.insertData(
+          "financialAnalysis",
+          "peer",
+          year,
+          "operatingRevenueGrowth_Peer",
+          record,
+          "r231_coperating_revenue_growth",
+          "Yes"
+        );
+
+        // Operating Expense Growth
+        this.dataStore.insertData(
+          "financialAnalysis",
+          "peer",
+          year,
+          "operatingExpenseGrowth_Peer",
+          record,
+          "r232_coperating_expense_growth",
+          "Yes"
         );
       });
     });
@@ -1242,10 +2112,7 @@ class DataProcessor {
 
   processDoeData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
-      const filteredClientRecords = this.filterRecordsByYear(
-        recordsClient,
-        year
-      );
+      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
 
       // Process client records
@@ -1255,54 +2122,63 @@ class DataProcessor {
           "doe",
           "client",
           year,
-          "doeOverall_Client",
+          "compositeScore_Client",
           record,
-          "r245_cdoe_overall__composite_score_"
+          "r226_ccomposite_score"
         );
 
         // Primary Reserve Ratio
         const primaryReserveFields = [
-          ["doePrimaryReserveRatio_Client", "r232_cdoe_primary_reserve_ratio"],
-          ["doePrimaryReserveStrengthFactor_Client", "r233_cdoe_primary_reserve_strength_factor"],
-          ["doePrimaryReserveRatioWeighted_Client", "r234_cdoe_primary_reserve_ratio_weighted"],
-          ["expendableNetAssets_Client", "r230_cdoe_primary_reserve_expendable_net_assets"],
-          ["totalExpenses_Client", "r230_cdoe_primary_reserve_expendable_net_assets"],
+          ["primaryReserveRatio_Client", "r223_cprimary_reserve_ratio"],
+          ["expendableNetAssets_Client", "r217_cexpendable_net_assets"],
+          ["totalExpenses_Client", "r044_ctotal_functional_expenses"]
         ];
 
         primaryReserveFields.forEach(([key, field]) => {
-          this.dataStore.insertData("doe", "client", year, key, record, field);
+          this.dataStore.insertData(
+            "doe",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
         });
 
         // Equity Ratio
         const equityFields = [
-          ["doeEquityRatio_Client", "r237_cdoe_equity_ratio"],
-          ["doeEquityStrengthFactor_Client", "r238_cdoe_equity_strength_factor"],
-          ["doeEquityRatioWeighted_Client", "r239_cdoe_equity_ratio_weighted"],
-          ["modifiedNetAssets_Client", "r235_cdoe_equity_modified_net_assets"],
-          ["modifiedAssets_Client", "r236_cdoe_equity_modified_assets"],
+          ["equityRatio_Client", "r224_cequity_ratio"],
+          ["modifiedNetAssets_Client", "r218_cmodified_net_assets"],
+          ["modifiedAssets_Client", "r219_cmodified_assets"]
         ];
 
         equityFields.forEach(([key, field]) => {
-          this.dataStore.insertData("doe", "client", year, key, record, field);
+          this.dataStore.insertData(
+            "doe",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
         });
 
         // Net Income Ratio
         const netIncomeFields = [
-          ["doeNetIncomeRatio_Client", "r242_cdoe_net_income_ratio"],
-          ["doeNetIncomeStrengthFactor_Client", "r243_cdoe_net_income_strength_factor"],
-          ["doeNetIncomeRatioWeighted_Client", "r244_cdoe_net_income_ratio_weighted"],
-          [
-            "changeInUnrestrictedNetAssets_Client",
-            "r240_cdoe_net_income_change_in_net_assets_without_donor_restrictions",
-          ],
-          [
-            "totalUnrestrictedRevenue_Client",
-            "r241_cdoe_net_income_total_revenue_and_gains_without_donor_restrictions",
-          ],
+          ["netIncomeRatio_Client", "r225_cnet_income_ratio"],
+          ["changeInUnrestrictedNetAssets_Client", "r220_cchange_in_unrestricted_net_assets"],
+          ["totalUnrestrictedRevenue_Client", "r221_ctotal_unrestricted_revenue"]
         ];
 
         netIncomeFields.forEach(([key, field]) => {
-          this.dataStore.insertData("doe", "client", year, key, record, field);
+          this.dataStore.insertData(
+            "doe",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
         });
       });
 
@@ -1355,209 +2231,124 @@ class DataProcessor {
     });
   }
 
-  processFinancialStatementData(years, recordsPeer, recordsClient) {
-
-    const allYears = yearsData_Array.sort((a, b) => a - b);
-
-    // console.log('allYears', allYears);
-
-    allYears.forEach((year) => {
+  processFinancialStatementContentData(years, recordsPeer, recordsClient) {
+    years.forEach((year) => {
       const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
 
+      // Process client records
       filteredClientRecords.forEach((record) => {
-        if (record.querySelector("_9999_completion_test_fs_tab").innerHTML === "IN PROCESS") {
-          return;
-        }
-
-        // Total Assets
-        const totalAssets_array = [
-          { key: "cashAndCashEquivalents_Client", field: "r001_cash_and_cash_equivalents" },
-          { key: "accountsReceivable_Client", field: "r002_accounts_receivable_net" },
-          { key: "studentLoansAndOtherReceivables_Client", field: "r003_student_loans_and_other_receivables" },
-          { key: "contributionsReceivable_Client", field: "r004_contributions_receivable" },
-          { key: "prepaidExpensesAndOtherAssets_Client", field: "r005_prepaid_expenses_and_other_assets" },
-          { key: "financingLeasesRightOfUseAssets_Client", field: "r290_financing_leases_right_of_use_assets" },
-          { key: "propertyAndEquipment_Client", field: "r006_property_and_equipment_net" },
-          { key: "investmentsHeldForLongTermPurposes_Client", field: "r007_investments_held_for_long_term_purposes" },
-          { key: "investmentsHeldForShortTermPurposes_Client", field: "r289_investments" },
-          { key: "totalAssets_Client", field: "r008_ctotal_assets" }
+        // Operating Revenue
+        const operatingRevenueFields = [
+          ["tuitionAndFees_Client", "r023_revenue_tuition_and_fees"],
+          ["scholarshipsAndFinancialAid_Client", "r024_revenue_scholarships_and_financial_aid"],
+          ["netTuitionAndFees_Client", "r026_cnet_tuition_and_fees"],
+          ["governmentGrants_Client", "r027_revenue_government_grants"],
+          ["privateGifts_Client", "r028_revenue_private_gifts"],
+          ["investmentReturn_Client", "r029_revenue_investment_return"],
+          ["salesAndServices_Client", "r030_revenue_sales_and_services"],
+          ["otherRevenue_Client", "r031_revenue_other"],
+          ["netAssetsReleasedFromRestrictions_Client", "r032_revenue_net_assets_released_from_restrictions"],
+          ["operatingRevenuesSupportAndRelease_Client", "r036_coperating_revenues_support_and_releases"]
         ];
-        totalAssets_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialStatement", "client", year, key, record, field);
+
+        operatingRevenueFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialStatement",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
         });
 
-        // Total Liabilities
-        const totalLiabilities_array = [
-          { key: "accountsPayableAndAccruedExpenses_Client", field: "r009_accounts_payable_and_accrued_liabilities" },
-          { key: "deferredRevenue_Client", field: "r010_deferred_revenue" },
-          { key: "postRetirementHealthBenefits_Client", field: "r011_post_retirement_health_benefits" },
-          { key: "annuityObligations_Client", field: "r012_annuity_obligations" },
-          { key: "financingLeasesRightOfUseLiabilities_Client", field: "r291_financing_leases_right_of_use_liabilities" },
-          { key: "otherLiabilities_Client", field: "r013_other_liabilities" },
-          { key: "interestRateSwapLiability_Client", field: "r014_interest_rate_swap_liability" },
-          { key: "bondsAndNotesPayable_Client", field: "r015_notes_payable" },
-          { key: "totalLiabilities_Client", field: "r016_ctotal_liabilities" }
+        // Operating Expenses
+        const operatingExpenseFields = [
+          ["instructionExpense_Client", "r037_expense_instruction"],
+          ["researchExpense_Client", "r038_expense_research"],
+          ["publicServiceExpense_Client", "r039_expense_public_service"],
+          ["academicSupportExpense_Client", "r040_expense_academic_support"],
+          ["studentServicesExpense_Client", "r041_expense_student_services"],
+          ["institutionalSupportExpense_Client", "r042_expense_institutional_support"],
+          ["auxiliaryEnterprisesExpense_Client", "r043_expense_auxiliary_enterprises"],
+          ["totalFunctionalExpenses_Client", "r044_ctotal_functional_expenses"]
         ];
-        totalLiabilities_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialStatement", "client", year, key, record, field);
+
+        operatingExpenseFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialStatement",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
         });
 
-        // Net Assets
-        const netAssets_array = [
-          { key: "withoutDonorRestrictions_Client", field: "r017_net_assets_without_donor_restriction" },
-          { key: "restrictedByTimeOrPurpose_Client", field: "r018_net_assets_restricted_by_time_or_purpose" },
-          { key: "restrictedInPerpetuity_Client", field: "r019_net_assets_restricted_in_perpetuity" }, 
-          { key: "netAssets_Client", field: "r020_ctotal_net_assets" }
+        // Change in Net Assets
+        const netAssetsFields = [
+          ["changeInNetAssetsFromOperations_Client", "r045_cchange_in_net_assets_from_operations"],
+          ["nonOperatingRevenues_Client", "r046_non_operating_revenues"],
+          ["totalChangeInNetAssets_Client", "r047_ctotal_change_in_net_assets"],
+          ["beginningNetAssets_Client", "r048_beginning_net_assets"],
+          ["endingNetAssets_Client", "r049_cending_net_assets"]
         ];
-        netAssets_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialStatement", "client", year, key, record, field);
-        });
 
-        // Revenue and Support
-        const revenueAndSupport_array = [
-          { key: "tuitionAndFees_Client", field: "r023_revenue_tuition_and_fees" },
-          { key: "scholarshipsAndFinancialAid_Client", field: "r024_revenue_scholarships_and_financial_aid" },
-          { key: "netTuitionAndFees_Client", field: "r026_cnet_tuition_and_fees" },
-          { key: "auxiliaryActivities_Client", field: "r028_revenue_auxiliary_activities" },
-          { key: "revenueInvestmentIncome_Client", field: "r029_revenue_investment_income" },
-          { key: "revenueEndowmentSpendingAppropriation_Client", field: "r030_revenue_endowment_spending_appropriation" },
-          { key: "revenueAndSupportOther_Client", field: "r031_revenue_other" },
-          { key: "nonContributionRevenue_Client", field: "r032_cnon_contribution_revenue" },
-          { key: "contributions_Client", field: "r054_contributions" },
-          { key: "contributionsLargeOneTimeGifts_Client", field: "r033a_revenue_contributions_large_one_time_gifts" },
-          { key: "netAssetsReleasedFromRestriction_Client", field: "r034_revenue_net_assets_released_from_restriction" },
-          { key: "totalRevenueContributions_Client", field: "r035_ctotal_revenue_from_contributions" },
-          { key: "operatingRevenuesSupportAndReleases_Client", field: "r036_coperating_revenues_support_and_releases" },
-          { key: "revenueAndSupport_Client", field: "r036_coperating_revenues_support_and_releases" }
-        ];
-        revenueAndSupport_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialStatement", "client", year, key, record, field);
-        });
-
-        // Educational Program Expenses
-        const educationalProgramExpenses_array = [
-          { key: "educationalProgramInstruction_Client", field: "r037_expenses_educational_program_instruction" },
-          { key: "educationalProgramResearch_Client", field: "r038_expenses_educational_program_research" },
-          { key: "educationalProgramAcademicSupport_Client", field: "r039_expenses_educational_program_academic_support" },
-          { key: "educationalProgramStudentServices_Client", field: "r040_expenses_educational_program_student_services" },
-          { key: "educationalProgramAuxiliaryActivities_Client", field: "r041_expenses_educational_program_auxiliary_activities" },
-          { key: "educationalProgramInstitutionalSupport_Client", field: "r042_expenses_educational_program_institutional_support" },
-          { key: "educationalProgramPublicService_Client", field: "r043_expenses_educational_program_public_service" },
-          { key: "educationalProgramExpenses_Client", field: "r044_ctotal_functional_expenses" },
-          { key: "educationalProgramFundraisingExpenses_Client", field: "r280_fundraising_expenses" },
-          { key: "educationalProgramOther_Client", field: "r281_other_expenses" }
-        ];
-        educationalProgramExpenses_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialStatement", "client", year, key, record, field);
-        });
-
-        // Non-Operating Activities
-        const nonOperatingActivities_array = [
-          { key: "nonOperatingInvestmentIncome_Client", field: "r047_non_operating_activities_investment_income" },
-          { key: "nonOperatingEndowmentSpendingPolicyAppropriation_Client", field: "r048_investments_net_in_excess_of_amounts_appropriated_for_spending" },
-          { key: "changeInValueOfInterestRateSwap_Client", field: "r049_non_operating_activities_change_in_value_of_split_interest_agreements" },
-          { key: "adjustmentToPRBO_Client", field: "r050_non_operating_activities_adjustment_to_prbo" },
-          { key: "contributionsAndOther_Client", field: "r051_other_gains_losses" },
-          { key: "nonOperatingActivities_Client", field: "r052_ctotal_non_operating_changes" }
-        ];
-        nonOperatingActivities_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialStatement", "client", year, key, record, field);
-        });
-
-        // Changes in Net Assets with DR
-        const changesInNetAssetsWithDR_array = [
-          { key: "contributions_Client", field: "r054_contributions" },
-          { key: "investmentIncomePlusEndowment_Client", field: "r055_investment_return_net" },
-          { key: "endowmentSpendingPolicy_Client", field: "r056_change_in_temporarily_restricted_net_assets_endowment_spending_policy_approp" },
-          { key: "netAssetsReleasedFromProgram_Client", field: "r058_net_assets_released_from_restriction" },
-          { key: "temporarilyRestrictedNetChange_Client", field: "r059_cchange_in_net_assets_with_donor_restrictions" },
-          { key: "permanentlyRestrictedContributions_Client", field: "r060_change_in_permanently_restricted_net_assets_contributions" },
-          { key: "investmentIncome_Client", field: "r061_change_in_permanently_restricted_net_assets_investment_income" },
-          { key: "netAssetsReleased_Client", field: "r063_change_in_permanently_restricted_net_assets_released_from_program_restrictions" },
-          { key: "permanentlyRestrictedNetChange_Client", field: "r064_cnet_change_restricted_in_perpetuity" },
-          { key: "changesInNetAssetsWithDR_Client", field: "r065_cchange_in_net_assets" }
-        ];
-        changesInNetAssetsWithDR_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialStatement", "client", year, key, record, field);
-        });
-
-        // Natural Expense Categories
-        const naturalExpenseCategories_array = [
-          { key: "salariesAndWages_Client", field: "r160_salaries_and_wages" },
-          { key: "employeeBenefits_Client", field: "r161_employee_benefits" },
-          { key: "servicesSuppliesAndOther_Client", field: "r162_services_supplies_and_other" },
-          { key: "occupancyUtilitiesAndMaintenance_Client", field: "r163_occupancy_utilities_and_maintenance" },
-          { key: "depreciationAndAmortization_Client", field: "r164_depreciation_and_amortization" },
-          { key: "interest_Client", field: "r165_interest" },
-          { key: "naturalExpenseCategories_Client", field: "r166_ctotal_natural_category_expenses" }
-        ];
-        naturalExpenseCategories_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialStatement", "client", year, key, record, field);
-        });
-
-        // Cash Flows Operating
-        const cashFlowsOperating_array = [
-          { key: "depreciation_Client", field: "r070_adjustments_depreciation" },
-          { key: "adjustmentsGiftsAndGrantsRestrictedInPerpetuity_Client", field: "r071_adjustments_gifts_and_grants_restricted_in_perpetuity" },
-          { key: "gainOnInvestment_Client", field: "r072_adjustments_gain_on_investments" },
-          { key: "derivativeCSLVIAmortBondCosts_Client", field: "r073_adjustments_derivative_cslvi_amort_bond_costs" },
-          { key: "adjustmentsAccountsReceivable_Client", field: "r074_adjustments_accounts_receivable" },
-          { key: "adjustmentsInventory_Client", field: "r075_adjustments_inventory" },
-          { key: "adjustmentsPrepaidsAndOtherAssets_Client", field: "r076_adjustments_prepaids_and_other_assets" },
-          { key: "cashFlowsAccountsPayableAndAccruedExpenses_Client", field: "r077_adjustments_accounts_payable_and_accrued_expenses" },
-          { key: "cashFlowsDeferredRevenue_Client", field: "r078_adjustments_deferred_revenue" },
-          { key: "adjustmentsOtherLiabilities_Client", field: "r079_adjustments_other_liabilities" },
-          { key: "cashFlowsOperatingActivities_Client", field: "r080_cnet_cash_provided_by_operating_activities" },
-          { key: "netCashFlowOperatingActivities_Client", field: "r081_cnet_cash_provided_by_operating_activities" },
-        ];
-        cashFlowsOperating_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialStatement", "client", year, key, record, field);
-        });
-
-        // Cash Flows Investing
-        const cashFlowsInvesting_array = [
-          { key: "purchaseOfInvestments_Client", field: "r081_cash_flows_from_investing_activities_purchase_of_investments" },
-          { key: "proceedsFromSaleOfInvestments_Client", field: "r082_cash_flows_from_investing_activities_proceeds_from_sale_of_investments" },
-          { key: "purchaseOfPropertyAndEquipment_Client", field: "r083_cash_flows_from_investing_activities_purchases_of_property_and_equipment" },
-          { key: "studentLoanFund_Client", field: "r084_cash_flows_from_investing_activities_student_loan_fund" },
-          { key: "otherInvestingActivity_Client", field: "r282_other_investing_activity" },
-          { key: "cashFlowsInvestingActivities_Client", field: "r085_cnet_cash_used_in_investing_activities" }
-        ];
-        cashFlowsInvesting_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialStatement", "client", year, key, record, field);
-        });
-
-        // Cash Flows Financing
-        const cashFlowsFinancing_array = [
-          { key: "proceedsFromNotesPayable_Client", field: "r086_cash_flows_from_financing_activities_proceeds_from_notes_payable" },
-          { key: "principalPaymentsOnNotesPayable_Client", field: "r087_cash_flows_from_financing_activities_principal_payments_on_notes_payable" },
-          { key: "cashFlowsFinancingOther_Client", field: "r088_cash_flows_from_financing_activities_other" },
-          { key: "cashFlowsFinancingActivities_Client", field: "r089_cnet_cash_used_in_financing_activities" },
-        ];
-        cashFlowsFinancing_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialStatement", "client", year, key, record, field);
-        });
-
-        // Property and Equipment
-        const propertyAndEquipment_array = [
-          { key: "landAndImprovements_Client", field: "r093_property_and_equipment_land_and_improvements" },
-          { key: "buildingAndImprovements_Client", field: "r094_property_and_equipment_buildings_and_improvements" },
-          { key: "furnitureAndEquipment_Client", field: "r095_property_and_equipment_furniture_and_equipment" },
-          { key: "cip_Client", field: "r096_property_and_equipment_cip" },
-          { key: "totalPropertyAndEquipment_Client", field: "r097_ctotal_property_and_equipment_at_cost" },
-          { key: "accumulatedDepreciation_Client", field: "r098_accumulated_depreciation" },
-          { key: "propertyAndEquipmentLessDepreciation_Client", field: "r099_ctotal_property_and_equipment_less_depreciation" }
-        ];
-        propertyAndEquipment_array.forEach(({ key, field }) => {
-          this.dataStore.insertData("financialStatement", "client", year, key, record, field);
+        netAssetsFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialStatement",
+            "client",
+            year,
+            key,
+            record,
+            field
+          );
         });
       });
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
-        // Add peer data processing here if needed
-        // Similar structure as client data but with "_Peer" suffix
+        // Operating Revenue
+        this.dataStore.insertData(
+          "financialStatement",
+          "peer",
+          year,
+          "operatingRevenuesSupportAndRelease_Peer",
+          record,
+          "r036_coperating_revenues_support_and_releases",
+          "Yes"
+        );
+
+        // Operating Expenses
+        this.dataStore.insertData(
+          "financialStatement",
+          "peer",
+          year,
+          "totalFunctionalExpenses_Peer",
+          record,
+          "r044_ctotal_functional_expenses",
+          "Yes"
+        );
+
+        // Change in Net Assets
+        const peerNetAssetsFields = [
+          ["changeInNetAssetsFromOperations_Peer", "r045_cchange_in_net_assets_from_operations"],
+          ["totalChangeInNetAssets_Peer", "r047_ctotal_change_in_net_assets"],
+          ["endingNetAssets_Peer", "r049_cending_net_assets"]
+        ];
+
+        peerNetAssetsFields.forEach(([key, field]) => {
+          this.dataStore.insertData(
+            "financialStatement",
+            "peer",
+            year,
+            key,
+            record,
+            field,
+            "Yes"
+          );
+        });
       });
     });
   }
@@ -1577,7 +2368,9 @@ class DataProcessor {
       try {
         // Check if record is a DOM element
         if (record && typeof record.querySelector === "function") {
-          const fiscalYear = record.querySelector("year")?.textContent;
+          const fiscalYear = record.querySelector(
+            "year"
+          )?.textContent;
           return fiscalYear && fiscalYear.includes(year.toString());
         }
         // Check if record is an object with direct properties
@@ -1621,9 +2414,7 @@ class ApiService {
           dataStr + "</qdbapi>",
           "text/xml"
         );
-        // console.log("PEER XML", xmlDoc);
         const records = xmlDoc.querySelectorAll("record");
-        // console.log("getRecordsForPeer", records);
         // console.log(`Parsed ${records.length} peer records from collected data`);
         return records;
       } catch (error) {
@@ -1637,34 +2428,22 @@ class ApiService {
 
     try {
       // Get selected clients with appropriate batching
-      // console.log("PEERQUERY - window.selectedClients_Array ", window.selectedClients_Array);
-      
       const clientQuery = this.getClientQuery(window.selectedClients_Array);
 
-      // console.log("PEERQUERY - clientQuery ", clientQuery);
-
-      // console.log("PEERQUERY - clientQuery ", {
-      //   clientQuery,
-      //   currentYear,
-      //   selectedClients_ArrayWindow: window.selectedClients_Array
-      // });
-
       // Basic query condition with year
-      const queryCondition = `{7.EX.${currentYear}} AND ${clientQuery} AND {638.EX.'COMPLETE'}`;
+      const queryCondition = `{301.EX.${currentYear}} AND ${clientQuery}`;
       // console.log(`Using query condition: ${queryCondition}`);
 
       const apiCallPeerData = {
         act: "API_DoQuery",
         query: queryCondition,
         clist:
-          "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566.439"
+          "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566",
       };
 
       // Use await to make the async operation more explicit
       const xml = await $.get(peerData, apiCallPeerData);
-      // console.log("PEER XML", xml);
       const recordsForPeer = $("record", xml).toArray();
-      // console.log("recordsForPeer", recordsForPeer);
       // console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);
 
       // Collect records for later use
@@ -1697,7 +2476,7 @@ class ApiService {
       }
 
       // Continue with next year even if this one failed
-      // console.log(`Continuing to next year after error...`);
+      console.log(`Continuing to next year after error...`);
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     }
   }
@@ -1718,9 +2497,8 @@ class ApiService {
           dataStr + "</qdbapi>",
           "text/xml"
         );
-        // console.log("Client XML", xmlDoc);
-        const records = xmlDoc.querySelectorAll("record");
 
+        const records = xmlDoc.querySelectorAll("record");
         // console.log(`Parsed ${records.length} client records from collected data`);
         return records;
       } catch (error) {
@@ -1738,7 +2516,7 @@ class ApiService {
         query: `
           {7.EX.${currentYear}} AND {533.EX.${ClientRid}}`,
         clist:
-          "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.419.420.421.422.423.424.425.426.427.428.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429.641.635.481.482.483.709.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.450.451.551.546.711.614.613.633.603.633.621.710.504.550.217.980.981.982.985.983.984.609.608.581.582.583.584.585.586.587.588.589.590.591.592.593.594.595.596.971.972.973.355.1075.1076.1077.1078.1012.993.1013.1014.859.259",
+          "539.7.533.536.619.537.618.534.580.578.576.577.579.712.725.722.719.714.726.723.720.717.724.721.718.387.388.569.386.632.551.550.406.561.418.567.441.540.541.542.600.606.390.392.396.393.395.391.549.394.411.450.451.452.453.454.455.727.570.571.572.546.397.398.373.374.375.376.377.378.379.380.381.382.383.384.385.326.541.387.338.542.390.391.548.402.403.404.405.551.407.408.409.410.557.411.412.415.416.417.560.561.419.420.421.422.423.424.425.426.427.428.571.435.572.566.389.399.400.401.402.403.404.405.551.406.407.408.409.410.557.411.412.413.414.559.415.416.417.560.561.450.451.452.453.454.455.429.430.431.432.571.433.434.435.572.437.438.439.440.567.441.567.441.569.442.429.641.635.481.482.483.709.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.450.451.551.546.711.614.613.633.603.633.621.710.504.550.217.980.981.982.985.983.984.609.608.581.582.583.584.585.586.587.588.589.590.591.592.593.594.595.596.971.972.973.355.1075.1076.1077.1078",
       };
 
       // Use await to make the async operation more explicit
@@ -1758,8 +2536,6 @@ class ApiService {
         this.recordClientHTMLArray.push(newRecord.outerHTML);
         dataStr += newRecord.outerHTML;
       }
-
-      // console.log("recordClientHTMLArray", this.recordClientHTMLArray);
 
       // Recursive call with updated years and dataStr
       return await this.getRecordsForClient(years.slice(1), dataStr);
@@ -1783,7 +2559,7 @@ class ApiService {
   async getRecordsForUniqueClientPeerNames() {
     const apiCallPeerData = {
       act: "API_DoQuery",
-      clist: "7.539.667.619.758.759.757.760.761.741.536.557",
+      clist: "7.539.667.619.758.759.757.760.761.741", 
     };
 
     try {
@@ -1800,21 +2576,23 @@ class ApiService {
       let xmlString = "<qdbapi>";
 
       recordsForPeerUniqueClientPeerNames.forEach((record) => {
-        const clientName =
-          record.querySelector("merged_client_name")?.textContent;
+        const clientName = record.querySelector(
+          "merged_client_name"
+        )?.textContent;
 
         if (clientName) {
-
           uniquePeerClientNames.add(clientName);
 
           // Store client data with all required fields
           if (!window.clientDataStore[clientName]) {
             // Get fiscal year
-            const year = record.querySelector("year")?.textContent;
+            const year = record.querySelector(
+              "year"
+            )?.textContent;
 
             // Get mission unit value
             const enrollmentVal =
-              record.querySelector("g025_ctotal_student_fte")
+              record.querySelector("client___2023_total_headcount_12_month")
                 ?.textContent || "0";
 
             // Get region value
@@ -1824,7 +2602,8 @@ class ApiService {
 
             // Get statevalue
             const stateVal =
-              record.querySelector("client___merged_state")?.textContent || "0";
+              record.querySelector("client___merged_state")?.textContent ||
+              "0";
 
             // Get membership query - parse from string to array
             const membershipText =
@@ -1844,33 +2623,33 @@ class ApiService {
 
             // Get athletic query - parse from string to array
             const athleticQueryText =
-              record.querySelector(
-                "client___he__a001_athletic_classificiationquery"
-              )?.textContent || "";
+              record.querySelector("client___he__a001_athletic_classificiationquery")
+                ?.textContent || "";
             const athleticQuery = athleticQueryText
               ? athleticQueryText.split(";").filter(Boolean)
               : [];
 
-            // Get seminary query - parse from string to array
+            // Get seminary query - parse from string to array 
             const seminaryQueryText =
-              record.querySelector("client___he___seminary_projectquery")
+              record.querySelector("client___he__seminary_projectquery")
                 ?.textContent || "";
             const seminaryQuery = seminaryQueryText
               ? seminaryQueryText.split(";").filter(Boolean)
               : [];
 
-            // Get regional query - parse from string to array
+            // Get regional query - parse from string to array 
             const regionalQueryText =
               record.querySelector("client___he__regional_accreditorquery")
                 ?.textContent || "";
             const regionalQuery = regionalQueryText
               ? regionalQueryText.split(";").filter(Boolean)
               : [];
+              
 
             // Store all client data
             window.clientDataStore[clientName] = {
               name: clientName,
-              year: year,
+              year: year, 
               enrollment: parseFloat(enrollmentVal) || 0,
               region: regionVal,
               state: stateVal,
@@ -1884,8 +2663,6 @@ class ApiService {
 
           // Add record's outerHTML to the XML string
           xmlString += record.outerHTML;
-          // console.log("xmlString getRecordsForUniqueClientPeerNames()", xmlString);
-          
         }
       });
 
@@ -1893,7 +2670,7 @@ class ApiService {
       xmlString += "</qdbapi>";
 
       // Print the XML string to console
-      // console.log("getRecordsForUniqueClientPeerNames XML", xmlString);
+      // console.log("Client Data XML:", xmlString);
 
       const sortedUniquePeerClientNames = Array.from(
         uniquePeerClientNames
@@ -1942,6 +2719,7 @@ class ApiService {
     const enrollmentMinSlider = document.getElementById("enrollmentMin");
     const enrollmentMaxSlider = document.getElementById("enrollmentMax");
 
+
     if (enrollmentMinSlider) {
       enrollmentMinSlider.addEventListener("input", () => {
         window.sliderValue = parseInt(enrollmentMinSlider.value);
@@ -1967,10 +2745,12 @@ class ApiService {
       return;
     }
 
-    // console.log("Filter change detected. Updating client selection...");
+    console.log("Filter change detected. Updating client selection...");
 
     // Call the function that updates client checkboxes based on current filters
-    if (typeof headerUpdateClientDropdown === "function") {
+    if (typeof updateClientDropdownBasedOnFilters === "function") {
+      updateClientDropdownBasedOnFilters();
+    } else if (typeof headerUpdateClientDropdown === "function") {
       // Try the function from Header.js
       headerUpdateClientDropdown();
     } else {
@@ -1986,15 +2766,12 @@ class ApiService {
     const maxEnrollment = window.sliderValue2 || 25000;
     const selectedRegions = Array.from(window.selectedRegions_Array || []);
     const selectedStates = Array.from(window.selectedStates_Array || []);
-    const selectedMemberships = Array.from(
-      window.selectedMemberships_Array || []
-    );
+    const selectedMemberships = Array.from(window.selectedMemberships_Array || []);
     const selectedTypes = Array.from(window.selectedTypes_Array || []);
     const selectedAthletics = Array.from(window.selectedAthletics_Array || []);
-    const selectedSeminaries = Array.from(
-      window.selectedSeminaries_Array || []
-    );
+    const selectedSeminaries = Array.from(window.selectedSeminaries_Array || []);
     const selectedRegionals = Array.from(window.selectedRegionals_Array || []);
+
 
     // Update client checkboxes based on filters
     const clientCheckboxes = document.querySelectorAll(
@@ -2039,7 +2816,7 @@ class ApiService {
               selectedRegionals.includes(regional)
             )) &&
           clientData.enrollment >= minEnrollment &&
-          clientData.enrollment <= maxEnrollment;
+          clientData.enrollment <= maxEnrollment
         checkbox.checked = matches;
 
         if (matches) {
@@ -2079,130 +2856,7 @@ class ApiService {
     });
   }
 
-  // Build a query condition for clients
-  getClientQuery(selectedClientsSet) {
-    // Convert Set to Array for iteration
-    const selectedClients = Array.from(selectedClientsSet);
-
-    // If empty, return default condition
-    if (selectedClients.length === 0) {
-      return '({539.EX.""})';
-    }
-
-    // For 15 or fewer clients, use specific OR conditions
-    // For more than 15 clients, the batched approach will be used instead
-    const clientConditions = selectedClients
-      .map((client) => `{539.EX.'${this._escapeClientName(client)}'}`)
-      .join(" OR ");
-
-    return `(${clientConditions})`;
-  }
-
-  // New method to handle batched client queries for large client sets
-  async getRecordsForPeerWithBatching(years, selectedClientsSet, dataStr = "<qdbapi>") {
-    const selectedClients = Array.from(selectedClientsSet);
-    
-    // If 15 or fewer clients, use the original method
-    if (selectedClients.length <= 15) {
-      return await this.getRecordsForPeer(years, dataStr);
-    }
-
-    console.log(`Using batched approach for ${selectedClients.length} clients`);
-    
-    // Split clients into batches of 10 (safe for QuickBase query limits)
-    const BATCH_SIZE = 80;
-    const clientBatches = [];
-    for (let i = 0; i < selectedClients.length; i += BATCH_SIZE) {
-      clientBatches.push(selectedClients.slice(i, i + BATCH_SIZE));
-    }
-
-    console.log(`Split into ${clientBatches.length} batches of ${BATCH_SIZE} clients each`);
-
-    // Process each year with all batches
-    for (const currentYear of years) {
-      console.log(`Processing year ${currentYear} with ${clientBatches.length} batches`);
-      
-      for (let batchIndex = 0; batchIndex < clientBatches.length; batchIndex++) {
-        const clientBatch = clientBatches[batchIndex];
-        console.log(`Processing batch ${batchIndex + 1}/${clientBatches.length} with ${clientBatch.length} clients`);
-        
-        try {
-          // Build query for this specific batch
-          const clientConditions = clientBatch
-            .map((client) => `{539.EX.'${this._escapeClientName(client)}'}`)
-            .join(" OR ");
-          const batchClientQuery = `(${clientConditions})`;
-          
-          // Basic query condition with year and batch client query
-          const queryCondition = `{7.EX.${currentYear}} AND ${batchClientQuery} AND {638.EX.'COMPLETE'}`;
-          
-          const apiCallPeerData = {
-            act: "API_DoQuery",
-            query: queryCondition,
-            clist:
-              "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566.439"
-          };
-
-          const xml = await $.get(peerData, apiCallPeerData);
-          const recordsForPeer = $("record", xml).toArray();
-          
-          console.log(`Batch ${batchIndex + 1}: Received ${recordsForPeer.length} records for year ${currentYear}`);
-
-          // Collect records for later use
-          if (recordsForPeer.length > 0) {
-            for (const record of recordsForPeer) {
-              const newRecord = document.createElement("record");
-
-              // Append each child element to the new record
-              Array.from(record.children).forEach((child) => {
-                newRecord.appendChild(child.cloneNode(true));
-              });
-
-              this.recordPeerHTMLArray.push(newRecord.outerHTML);
-              dataStr += newRecord.outerHTML;
-            }
-          }
-
-          // Add a small delay between batches to avoid overwhelming the API
-          if (batchIndex < clientBatches.length - 1) {
-            await new Promise(resolve => setTimeout(resolve, 100));
-          }
-          
-        } catch (error) {
-          console.error(`Error fetching peer data for year ${currentYear}, batch ${batchIndex + 1}:`, error);
-          // Continue with next batch even if this one failed
-        }
-      }
-    }
-
-    // Parse and return the final results
-    try {
-      if (dataStr === "<qdbapi>") {
-        console.warn("No records collected, returning empty array");
-        return [];
-      }
-
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
-      const records = xmlDoc.querySelectorAll("record");
-      console.log(`Batched approach completed: Parsed ${records.length} total peer records`);
-      return records;
-    } catch (error) {
-      console.error("Error parsing XML in batched approach:", error);
-      return [];
-    }
-  }
-
-  // New method to handle batched client queries for large client sets
-
-
-  // Add this helper method to the ApiService class
-  _escapeClientName(clientName) {
-    if (!clientName) return "";
-    // Replace problematic characters in client names
-    return clientName.replace(/'/g, "\\'");
-  }
-
+  
   // Get the combined XML strings for peer and client records
   getPeerXmlString() {
     return `<qdbapi>${this.recordPeerHTMLArray.join("")}</qdbapi>`;
@@ -2236,7 +2890,7 @@ class AppController {
   initializeEventListeners() {
     // Prevent duplicate initialization
     if (this._initialized) {
-      // console.log("AppController already initialized");
+      console.log("AppController already initialized");
       return;
     }
 
@@ -2286,9 +2940,7 @@ class AppController {
       addUniqueStatesToOptionsSelectStatesDropdown(states_Array);
     }
 
-    const membershipsListElement = document.getElementById(
-      "options-list-membership"
-    );
+    const membershipsListElement = document.getElementById("options-list-membership");
     if (
       membershipsListElement &&
       (!membershipsListElement.children.length ||
@@ -2297,9 +2949,7 @@ class AppController {
       addUniqueMembershipsToOptionsSelectMembershipsDropdown(memberships_Array);
     }
 
-    const athleticsListElement = document.getElementById(
-      "options-list-athletic"
-    );
+    const athleticsListElement = document.getElementById("options-list-athletic");
     if (
       athleticsListElement &&
       (!athleticsListElement.children.length ||
@@ -2308,9 +2958,7 @@ class AppController {
       addUniqueAthleticsToOptionsSelectAthleticsDropdown(athletics_Array);
     }
 
-    const seminariesListElement = document.getElementById(
-      "options-list-seminary"
-    );
+    const seminariesListElement = document.getElementById("options-list-seminary");
     if (
       seminariesListElement &&
       (!seminariesListElement.children.length ||
@@ -2319,9 +2967,7 @@ class AppController {
       addUniqueSeminariesToOptionsSelectSeminariesDropdown(seminaries_Array);
     }
 
-    const regionalsListElement = document.getElementById(
-      "options-list-regional"
-    );
+    const regionalsListElement = document.getElementById("options-list-regional");
     if (
       regionalsListElement &&
       (!regionalsListElement.children.length ||
@@ -2337,6 +2983,7 @@ class AppController {
         typesListElement.children.length <= 1)
     ) {
       addUniqueTypesToOptionsSelectTypesDropdown(types_Array);
+      
     }
 
     // Set up run button event listener
@@ -2431,12 +3078,7 @@ class AppController {
       "financialPositionData",
       "financialStatementData",
       "revenueExpenseData",
-      // "debtEndowmentData",
-      "ltDebtPerTotalOperatingRevenueData",
-      "debtServiceCoverageRatioData",
-      "debtBurdenRatioData",
-      "endowmentOperatingBudgetData",
-      "endowmentAssetsPerStudentData",
+      "debtEndowmentData",
     ];
 
     for (const category of categories) {
@@ -2467,7 +3109,7 @@ class AppController {
 
   // Handle the run button click
   async handleRunButtonClick() {
-    // console.log("handleRunButtonClick() called");
+    console.log("handleRunButtonClick() called");
 
     try {
       // Show loading indicator
@@ -2481,7 +3123,7 @@ class AppController {
         console.error("Error processing selected years:", error);
         showApiLoadingFunction("close");
 
-        // this.enableGenerateReportsButton();
+        this.enableGenerateReportsButton();
 
         return;
       }
@@ -2498,7 +3140,7 @@ class AppController {
         showApiLoadingFunction("close");
 
         // Re-enable generateReports button if it exists
-        // this.enableGenerateReportsButton();
+        this.enableGenerateReportsButton();
 
         return;
       }
@@ -2533,22 +3175,12 @@ class AppController {
       // Fetch peer data with improved error handling
       let recordsPeer;
       try {
-        // Use batched approach if more than 15 clients are selected
-        const selectedClientsCount = window.selectedClients_Array ? window.selectedClients_Array.size : 0;
-        
-        if (selectedClientsCount > 15) {
-          console.log(`Using batched approach for ${selectedClientsCount} clients`);
-          recordsPeer = await this.apiService.getRecordsForPeerWithBatching(selectedYears, window.selectedClients_Array);
-        } else {
-          recordsPeer = await this.apiService.getRecordsForPeer(selectedYears);
-        }
+        recordsPeer = await this.apiService.getRecordsForPeer(selectedYears);
 
         // Validate records
         if (!recordsPeer || recordsPeer.length === 0) {
           console.warn("No peer records returned");
-          createToastWarning("No peer records extracted. Please select more filters");
-          showApiLoadingFunction("close");
-          return; // Stop the whole process here
+          // Continue anyway, we might have client data
         } else {
           // Process peer records
           recordsPeer = await validateAndNormalizeRecords(recordsPeer);
@@ -2561,15 +3193,14 @@ class AppController {
         createToastWarning(
           "Error fetching peer data. Please try again or adjust your filters."
         );
-        showApiLoadingFunction("close");
-        return; // Stop the process on error as well
+        // Continue anyway, we might have client data
       }
 
       // Fetch client data with error handling
       let recordsClient;
       try {
         recordsClient = await this.apiService.getRecordsForClient(
-          yearsData_Array
+          selectedYears
         );
 
         window.testRecordsClient = recordsClient;
@@ -2625,7 +3256,7 @@ class AppController {
       if (!hasValidData) {
         console.warn("No valid data for charts");
         showApiLoadingFunction("close");
-        // return;
+        return;
       }
 
       // Display charts
@@ -2646,11 +3277,11 @@ class AppController {
       showApiLoadingFunction("close");
 
       // Re-enable generateReports button if it exists
-      // this.enableGenerateReportsButton();
+      this.enableGenerateReportsButton();
     } finally {
-      // console.log("Finally block in handleRunButtonClick, re-enabling buttons");
+      console.log("Finally block in handleRunButtonClick, re-enabling buttons");
 
-      // this.enableGenerateReportsButton();
+      this.enableGenerateReportsButton();
     }
   }
 
@@ -2736,7 +3367,7 @@ class AppController {
   // }
 
   // Process selected years - with better error handling
-
+  
   processSelectedYears() {
     const selectedYears = getSelectedYearsFromLocalStorage();
 
@@ -2796,18 +3427,8 @@ class AppController {
         return;
       }
 
-      // Call all display component functions
-      displayCfiComponent();
-      displayDoeComponent();
-      displayFinancialAnalysisContentComponent();
-      displayFinancialStatementComponent();
-      displayFinancialPositionComponent();
-      displayRevenueAndExpenseComponent();
-      displayDebtAndEndowmentComponent();
-      displayReportComponent();
-      // Signal that all components have been displayed
-      document.dispatchEvent(new CustomEvent('componentsDisplayed'));
-
+      window.reportComponent.displayReportComponent();
+      // Rest of the displayAllComponents method...
     } catch (error) {
       console.error("Error in displayAllComponents:", error);
       throw error;
@@ -2824,19 +3445,14 @@ class AppController {
         "financialPositionData",
         "financialStatementData",
         "revenueExpenseData",
-        // "debtEndowmentData",
-        "ltDebtPerTotalOperatingRevenueData",
-        "debtServiceCoverageRatioData",
-        "debtBurdenRatioData",
-        "endowmentOperatingBudgetData",
-        "endowmentAssetsPerStudentData",
+        "debtEndowmentData",
       ];
 
       for (const category of categories) {
         const data = localStorage.getItem(category);
         if (!data || data === "{}") {
           console.warn(`Missing or empty data for category: ${category}`);
-          // return false;
+          return false;
         }
 
         // Try to parse the data to make sure it's valid JSON
@@ -2930,46 +3546,20 @@ function countUniqueClients(records) {
   // Use a Set to track unique client names
   const uniqueClients = new Set();
 
-  // Initialize uniqueClientsPerYearMap based on selectedYears_Set
-  window.uniqueClientsPerYearMap = {};
-
-  if (selectedYears_Set) {
-    // Convert Set to Array and sort for consistent key order
-    const selectedYearsArray = Array.from(selectedYears_Set).sort();
-    selectedYearsArray.forEach(year => {
-      window.uniqueClientsPerYearMap[year] = new Set();
-    });
-  }
-
-  // console.log({records});
-
   try {
     records.forEach((record) => {
-      const clientName =
-        record.querySelector("merged_client_name")?.textContent;
-      const year = record.querySelector("year")?.textContent;
+      const clientName = record.querySelector(
+        "merged_client_name"
+      )?.textContent;
 
       // Only count clients that are in the selectedClients_Array
       if (clientName && selectedClients.includes(clientName)) {
         uniqueClients.add(clientName);
-        
-        // Track unique clients per year
-        if (year && window.uniqueClientsPerYearMap && window.uniqueClientsPerYearMap[year]) {
-          window.uniqueClientsPerYearMap[year].add(clientName);
-        }
       }
     });
 
-    // Convert Sets to counts for the per-year map
-    if (window.uniqueClientsPerYearMap) {
-      Object.keys(window.uniqueClientsPerYearMap).forEach(year => {
-        window.uniqueClientsPerYearMap[year] = window.uniqueClientsPerYearMap[year].size;
-      });
-    }
-
     // Update the UI with the count
     const count = uniqueClients.size;
-    window.uniqueClientSize = count;
     if (count < 6) {
       createToastWarning("There are 5 or less Unique Clients in Peer Records.");
     }
@@ -2980,8 +3570,7 @@ function countUniqueClients(records) {
       createToastWarning("There are 5 or less Unique Clients in Peer Records.");
     }
 
-    // console.log(`Counted ${count} unique clients after filtering`);
-    // console.log('Unique clients per year:', window.uniqueClientsPerYearMap);
+    console.log(`Counted ${count} unique clients after filtering`);
   } catch (error) {
     console.error("Error counting unique clients:", error);
     const element = document.getElementById("uniqueClients");
@@ -3030,13 +3619,13 @@ let apiCallClientDataForUniqueYears = {
   clist: "533.7.539.3",
 };
 
-
 // Fetch client information
 $.get(clientData, apiCallClientDataForUniqueYears)
   .then(async (xml) => {
     recordsClient = await $("record", xml).toArray();
 
     // console.log({recordsClient});
+    
 
     if (recordsClient.length > 0) {
       firmName = recordsClient[0].children[2].innerHTML;
@@ -3066,6 +3655,7 @@ const findUniqueYears = (data) => {
         }
       }
     });
+    
 
     yearsData_Array.sort();
     // console.log('findUniqueYears', {yearsData_Array});
@@ -3130,11 +3720,11 @@ async function validateAndNormalizeRecords(records) {
 }
 
 window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
-  // console.log("processApiData called with", {
-  //   yearsCount: selectedYears.length,
-  //   peerCount: recordsPeer ? recordsPeer.length : 0,
-  //   clientCount: recordsClient ? recordsClient.length : 0,
-  // });
+  console.log("processApiData called with", {
+    yearsCount: selectedYears.length,
+    peerCount: recordsPeer ? recordsPeer.length : 0,
+    clientCount: recordsClient ? recordsClient.length : 0,
+  });
 
   // Call the processApiCalls function which will update the dataStore
   if (typeof processApiCalls === "function") {
@@ -3150,20 +3740,20 @@ window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
     // Attempt to trigger chart initialization
     setTimeout(() => {
       if (typeof enhancedInitializeChartDisplay === "function") {
-        // console.log(
-        //   "Triggering enhancedInitializeChartDisplay from processApiData"
-        // );
+        console.log(
+          "Triggering enhancedInitializeChartDisplay from processApiData"
+        );
         enhancedInitializeChartDisplay();
-              } else if (typeof initializeChartDisplay === "function") {
-          // console.log("Triggering initializeChartDisplay from processApiData");
+      } else if (typeof initializeChartDisplay === "function") {
+        console.log("Triggering initializeChartDisplay from processApiData");
         initializeChartDisplay();
-              } else if (
-          window.systemConnector &&
-          typeof window.systemConnector.displayCharts === "function"
-        ) {
-          // console.log(
-          //   "Triggering systemConnector.displayCharts from processApiData"
-          // );
+      } else if (
+        window.systemConnector &&
+        typeof window.systemConnector.displayCharts === "function"
+      ) {
+        console.log(
+          "Triggering systemConnector.displayCharts from processApiData"
+        );
         window.systemConnector.displayCharts();
       }
     }, 500);
@@ -3186,32 +3776,11 @@ window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
     return {
       cfiData: JSON.parse(localStorage.getItem("cfiData")),
       doeData: JSON.parse(localStorage.getItem("doeData")),
-      financialAnalysisData: JSON.parse(
-        localStorage.getItem("financialAnalysisData")
-      ),
-      financialPositionData: JSON.parse(
-        localStorage.getItem("financialPositionData")
-      ),
-      financialStatementData: JSON.parse(
-        localStorage.getItem("financialStatementData")
-      ),
-      revenueExpenseData: JSON.parse(
-        localStorage.getItem("revenueExpenseData")
-      ),
-      // debtEndowmentData: JSON.parse(localStorage.getItem("debtEndowmentData")),
-      ltDebtPerTotalOperatingRevenueData: JSON.parse(
-        localStorage.getItem("ltDebtPerTotalOperatingRevenueData")
-      ),
-      debtServiceCoverageRatioData: JSON.parse(
-        localStorage.getItem("debtServiceCoverageRatioData")
-      ),
-      debtBurdenRatioData: JSON.parse(localStorage.getItem("debtBurdenRatioData")),
-      endowmentOperatingBudgetData: JSON.parse(
-        localStorage.getItem("endowmentOperatingBudgetData")
-      ),
-      endowmentAssetsPerStudentData: JSON.parse(
-        localStorage.getItem("endowmentAssetsPerStudentData")
-      ),
+      financialAnalysisData: JSON.parse(localStorage.getItem("financialAnalysisData")),
+      financialPositionData: JSON.parse(localStorage.getItem("financialPositionData")),
+      financialStatementData: JSON.parse(localStorage.getItem("financialStatementData")),
+      revenueExpenseData: JSON.parse(localStorage.getItem("revenueExpenseData")),
+      debtEndowmentData: JSON.parse(localStorage.getItem("debtEndowmentData")),
     };
   }
 };
@@ -3232,7 +3801,7 @@ if (!window.dataProcessor) {
 
 window.onload = () => {
   if (!window.appController) {
-    // console.log("Initializing AppController");
+    console.log("Initializing AppController");
     window.appController = new AppController();
   }
 };
