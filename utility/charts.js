@@ -3887,9 +3887,6 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
     },
     yaxis: {
       tickAmount: 5,
-      axisTicks: {
-        show: true,
-      },
       axisBorder: {
         show: true,
         color: chartColors.labelColor,
@@ -3903,17 +3900,12 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
       },
     },
     tooltip: {
-      fixed: {
-        enabled: true,
+      y: {
+        fixed: true,
+        formatter: tooltipFormatter,
         position: "topLeft",
         offsetY: 30,
         offsetX: 60,
-      },
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
       },
     },
     legend: {
@@ -5545,7 +5537,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 <th scope="col" class="px-6 py-3 text-lg tracking-wide">${year}</th>
 `;
 
-    const peerArray = data.ratio_Peer[year]
+    const peerArray = data.ratio_Peer[year];
     const peerRatio = data.ratio_Peer[year]
       ? Number(getAverageOfArray(data.ratio_Peer[year]))
       : 0;
@@ -5572,12 +5564,12 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     peer75Array.push(Math.round(peer75));
   });
 
-  console.log('getEndowmentAssetsPerStudentChartOptions', {
+  console.log("getEndowmentAssetsPerStudentChartOptions", {
     clientArray,
     peerAvgArray,
     peer25Array,
     peer50Array,
-    peer75Array
+    peer75Array,
   });
 
   const chartColors = document.documentElement.classList.contains("dark")
@@ -5643,7 +5635,7 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
       type: "line",
       data: peer75Array,
     },
-  ]
+  ];
 
   return {
     colors: [
