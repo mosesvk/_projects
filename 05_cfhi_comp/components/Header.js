@@ -90,17 +90,17 @@ function setupDropdownToggle(selectElementId, optionsListId) {
  */
 function clientMatchesFilters(
   clientData,
-  minEnrollment,
-  maxEnrollment,
+  minGivingUnits,
+  maxGivingUnits,
   selectedRegions,
   selectedSites
 ) {
   if (!clientData) return false;
 
-  // Check enrollment range
-  const enrollmentMatch =
-    clientData.enrollment >= minEnrollment &&
-    clientData.enrollment <= maxEnrollment;
+  // Check giving units range
+  const givingUnitsMatch =
+    clientData.givingUnits >= minGivingUnits &&
+    clientData.givingUnits <= maxGivingUnits;
 
   if (
     selectedRegions.length === 0 ||
@@ -121,7 +121,7 @@ function clientMatchesFilters(
     : false;
 
   return (
-    enrollmentMatch &&
+    givingUnitsMatch &&
     regionMatch &&
     siteMatch
   );
@@ -135,6 +135,12 @@ function clientMatchesFilters(
 // Initialize prevMatchCount outside the function
 let prevMatchCount = 0;
 
+// Helper function to create toast notifications
+function createToastSuccess(message) {
+  // Simple console log for now - can be enhanced with actual toast UI later
+  console.log(`Success: ${message}`);
+}
+
 function updateClientDropdownFilters() {
   // Ensure client data store exists
   if (!window.clientDataStore) {
@@ -145,8 +151,8 @@ function updateClientDropdownFilters() {
   // Get current filter values
   const selectedRegions = Array.from(window.selectedRegions_Array || []);
   const selectedSites = Array.from(window.selectedSites_Array || []);
-  const minEnrollment = window.sliderValue || 0;
-  const maxEnrollment = window.sliderValue2 || 25000;
+  const minGivingUnits = window.sliderValue || 0;
+  const maxGivingUnits = window.sliderValue2 || 25000;
 
   // Get all client checkboxes
   const clientCheckboxes = document.querySelectorAll(
@@ -180,8 +186,8 @@ function updateClientDropdownFilters() {
     // Determine if client matches all filter criteria
     const matches = clientMatchesFilters(
       clientData,
-      minEnrollment,
-      maxEnrollment,
+      minGivingUnits,
+      maxGivingUnits,
       selectedRegions,
       selectedSites
     );
@@ -919,23 +925,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Set up sliders with current values
     const sliders = [
-      document.getElementById("enrollmentMin"),
-      document.getElementById("enrollmentMax"),
+      document.getElementById("givingUnitsMin"),
+      document.getElementById("givingUnitsMax"),
     ];
 
     sliders.forEach((slider) => {
       if (slider) {
         // Set initial slider values to match global variables
         slider.value = parseInt(
-          slider.id === "enrollmentMin"
+          slider.id === "givingUnitsMin"
             ? window.sliderValue
             : window.sliderValue2
         );
         slider.addEventListener("input", () => {
           // Update corresponding value
-          if (slider.id === "enrollmentMin") {
+          if (slider.id === "givingUnitsMin") {
             window.sliderValue = parseInt(slider.value);
-          } else if (slider.id === "enrollmentMax") {
+          } else if (slider.id === "givingUnitsMax") {
             window.sliderValue2 = parseInt(slider.value);
           }
 
@@ -957,11 +963,19 @@ document.addEventListener("DOMContentLoaded", function () {
   // Export the filter update function to global scope so Utility.js can use it
   window.headerUpdateClientDropdown = updateClientDropdownFilters;
   
-  // Explicitly set enrollment input values
-  const enrollmentMin = document.getElementById('enrollmentMin');
-  const enrollmentMax = document.getElementById('enrollmentMax');
-  if (enrollmentMin) enrollmentMin.value = window.sliderValue;
-  if (enrollmentMax) enrollmentMax.value = window.sliderValue2;
+  // Add event listener for client dropdown initialization
+  document.addEventListener("clientDropdownInitialized", function(event) {
+    // Trigger initial filter update after client dropdown is populated
+    setTimeout(() => {
+      updateClientDropdownFilters();
+    }, 100);
+  });
+  
+  // Explicitly set giving units input values
+  const givingUnitsMin = document.getElementById('givingUnitsMin');
+  const givingUnitsMax = document.getElementById('givingUnitsMax');
+  if (givingUnitsMin) givingUnitsMin.value = window.sliderValue;
+  if (givingUnitsMax) givingUnitsMax.value = window.sliderValue2;
 });
 
 // Keep the existing adjustDivHeight function call

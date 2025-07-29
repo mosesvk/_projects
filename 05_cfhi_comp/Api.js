@@ -1,5 +1,22 @@
 // remember to check the url that it says "clientrid" and NOT "clientRid" with a capital R.
 
+// Initialize global variables for client filtering
+if (typeof window.selectedClients_Array === "undefined") {
+  window.selectedClients_Array = new Set();
+}
+if (typeof window.selectedRegions_Array === "undefined") {
+  window.selectedRegions_Array = [];
+}
+if (typeof window.selectedSites_Array === "undefined") {
+  window.selectedSites_Array = [];
+}
+if (typeof window.sliderValue === "undefined") {
+  window.sliderValue = 0;
+}
+if (typeof window.sliderValue2 === "undefined") {
+  window.sliderValue2 = 25000;
+}
+
 let apiCallClientDataForUniqueYears = {
   act: "API_DoQuery",
   query: `{98.EX.${ClientRid}}`,
@@ -4325,16 +4342,40 @@ const getRecordsForPeer = async (years, dataStr) => {
   }
 
   const currentYear = years[0];
+  
+  // Build dynamic query based on selected filters
+  let queryConditions = `{195.EX.${currentYear}} AND {193.EX.'Comprehensive'}`;
+  
+  // Add giving units filter
+  if (window.sliderValue !== undefined && window.sliderValue2 !== undefined) {
+    queryConditions += ` AND {123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`;
+  }
+  
+  // Add regions filter
+  if (window.selectedRegions_Array && window.selectedRegions_Array.length > 0) {
+    const regionConditions = window.selectedRegions_Array
+      .map(region => `{267.EX.${region}}`)
+      .join(" OR ");
+    queryConditions += ` AND (${regionConditions})`;
+  }
+  
+  // Add sites filter
+  if (window.selectedSites_Array && window.selectedSites_Array.length > 0) {
+    const siteConditions = window.selectedSites_Array
+      .map(site => `{268.EX.${site}}`)
+      .join(" OR ");
+    queryConditions += ` AND (${siteConditions})`;
+  }
+  
+  // Add client filter if clients are selected
+  if (window.selectedClients_Array && window.selectedClients_Array.size > 0) {
+    const clientQuery = getClientQuery(window.selectedClients_Array);
+    queryConditions += ` AND ${clientQuery}`;
+  }
+
   const apiCallPeerData = {
     act: "API_DoQuery",
-    query: `
-    {195.EX.${currentYear}} AND 
-    {123.GTE.${sliderValue}} AND 
-    {123.LTE.${sliderValue2}} AND 
-    {193.EX.'Comprehensive'} AND
-    ( {267.EX.${selectedRegions_Array[0]}} OR {267.EX.${selectedRegions_Array[1]}} OR {267.EX.${selectedRegions_Array[2]}} OR {267.EX.${selectedRegions_Array[3]}} OR {267.EX.${selectedRegions_Array[4]}} OR {267.EX.${selectedRegions_Array[5]}} OR {267.EX.${selectedRegions_Array[6]}} ) AND 
-    ( {268.EX.${selectedSites_Array[0]}} OR {268.EX.${selectedSites_Array[1]}} OR {268.EX.${selectedSites_Array[2]}} ) AND
-  `,
+    query: queryConditions,
     clist:
       "195.123.122.135.136.226.160.137.161.176.354.170.129.174.252.253.254.255.256.257.258.259.260.261.262.263.264.265.405.239.156.158.149.142.143.153.155.164.162.132.131.141.140.171.172.173.157.181.182.165.179.145.147.169.138.168.139.180.177.152.150.151.154.166.167.163.175.178.133.227.228.229.230.231.232.233.234.235.144.146.159.148.236.237.238.239.240.241.242.243.244.245.246.247.248.249.250.251.267.268.271.274.273.276.277.278.279.280.281.282.283.134.284.286.287.288.289.290.291.324.325.326.327.328.352.329.353.330.331.332.333.334.335.406.240.167.181.356.162.241.137.122.357.242.123.358.243.161.163.138.359.244.361.245.365.273.136.363.274.364.249.366.170.367.250.164.181.182.139.180.165.368.251.166.369.271.175.370.277.142.371.278.140.372.279.141.373.280.374.281.375.282.173.376.283.377.284.133.378.286.379.287.129.380.288.381.289.382.290.383.291.178",
   };
@@ -4434,102 +4475,38 @@ const getRecordsForUniqueClientPeerNames = async () => {
       window.clientDataStore = {};
     }
 
-    // Create a string to hold the XML data
-    // let xmlString = "<qdbapi>";
+    // Process each record to extract client data
+    recordsForPeerUniqueClientPeerNames.forEach((record) => {
+      const clientName = record.querySelector("merged_client_name")?.textContent;
 
-    // recordsForPeerUniqueClientPeerNames.forEach((record) => {
-    //   const clientName =
-    //     record.querySelector("merged_client_name")?.textContent;
+      if (clientName) {
+        uniquePeerClientNames.add(clientName);
 
-    //   if (clientName) {
+        // Store client data with all required fields
+        if (!window.clientDataStore[clientName]) {
+          // Get fiscal year
+          const year = record.querySelector("year")?.textContent;
 
-    //     uniquePeerClientNames.add(clientName);
+          // Get giving units value (using the appropriate field)
+          const givingUnitsVal = record.querySelector("g025_ctotal_student_fte")?.textContent || "0";
 
-    //     // // Store client data with all required fields
-    //     // if (!window.clientDataStore[clientName]) {
-    //     //   // Get fiscal year
-    //     //   const year = record.querySelector("year")?.textContent;
+          // Get region value
+          const regionVal = record.querySelector("client___he__g001_geographic_region")?.textContent || "0";
 
-    //     //   // Get mission unit value
-    //     //   const enrollmentVal =
-    //     //     record.querySelector("g025_ctotal_student_fte")
-    //     //       ?.textContent || "0";
+          // Get site value
+          const siteVal = record.querySelector("client___merged_state")?.textContent || "0";
 
-    //     //   // Get region value
-    //     //   const regionVal =
-    //     //     record.querySelector("client___he__g001_geographic_region")
-    //     //       ?.textContent || "0";
-
-    //     //   // Get statevalue
-    //     //   const stateVal =
-    //     //     record.querySelector("client___merged_state")?.textContent || "0";
-
-    //     //   // Get membership query - parse from string to array
-    //     //   const membershipText =
-    //     //     record.querySelector("client___he__membershipsquery")
-    //     //       ?.textContent || "";
-    //     //   const membership = membershipText
-    //     //     ? membershipText.split(";").filter(Boolean)
-    //     //     : [];
-
-    //     //   // Get type query - parse from string to array
-    //     //   const typeQueryText =
-    //     //     record.querySelector("client___he__g003_institution_typequery")
-    //     //       ?.textContent || "";
-    //     //   const typeQuery = typeQueryText
-    //     //     ? typeQueryText.split(";").filter(Boolean)
-    //     //     : [];
-
-    //     //   // Get athletic query - parse from string to array
-    //     //   const athleticQueryText =
-    //     //     record.querySelector(
-    //     //       "client___he__a001_athletic_classificiationquery"
-    //     //     )?.textContent || "";
-    //     //   const athleticQuery = athleticQueryText
-    //     //     ? athleticQueryText.split(";").filter(Boolean)
-    //     //     : [];
-
-    //     //   // Get seminary query - parse from string to array
-    //     //   const seminaryQueryText =
-    //     //     record.querySelector("client___he___seminary_projectquery")
-    //     //       ?.textContent || "";
-    //     //   const seminaryQuery = seminaryQueryText
-    //     //     ? seminaryQueryText.split(";").filter(Boolean)
-    //     //     : [];
-
-    //     //   // Get regional query - parse from string to array
-    //     //   const regionalQueryText =
-    //     //     record.querySelector("client___he__regional_accreditorquery")
-    //     //       ?.textContent || "";
-    //     //   const regionalQuery = regionalQueryText
-    //     //     ? regionalQueryText.split(";").filter(Boolean)
-    //     //     : [];
-
-    //     //   // Store all client data
-    //     //   window.clientDataStore[clientName] = {
-    //     //     name: clientName,
-    //     //     year: year,
-    //     //     enrollment: parseFloat(enrollmentVal) || 0,
-    //     //     region: regionVal,
-    //     //     state: stateVal,
-    //     //     membership: membership,
-    //     //     type: typeQuery,
-    //     //     athletic: athleticQuery,
-    //     //     seminary: seminaryQuery,
-    //     //     regional: regionalQuery,
-    //     //   };
-    //     // }
-
-    //     // Add record's outerHTML to the XML string
-    //     xmlString += record.outerHTML;
-    //   }
-    // });
-
-    // // Close the XML string
-    // xmlString += "</qdbapi>";
-
-    // Print the XML string to console
-    // console.log("getRecordsForUniqueClientPeerNames XML", xmlString);
+          // Store all client data
+          window.clientDataStore[clientName] = {
+            name: clientName,
+            year: year,
+            givingUnits: parseFloat(givingUnitsVal) || 0,
+            region: regionVal,
+            site: siteVal,
+          };
+        }
+      }
+    });
 
     const sortedUniquePeerClientNames = Array.from(
       uniquePeerClientNames
@@ -4551,11 +4528,10 @@ const getRecordsForUniqueClientPeerNames = async () => {
       console.error(
         "addUniqueClientsToOptionsSelectClientDropdown function is not defined"
       );
-
     }
 
     // Initialize filter handlers after client data is loaded
-    // this._initializeFilterHandlers();
+    _initializeFilterHandlers();
 
     window.sortedUniquePeerClientNames = sortedUniquePeerClientNames;
 
@@ -4563,5 +4539,180 @@ const getRecordsForUniqueClientPeerNames = async () => {
   } catch (error) {
     console.error("Error fetching unique client names:", error);
     return [];
+  }
+}
+
+// Filter handler functions
+function _initializeFilterHandlers() {
+  // Set up event listeners for filter changes
+  document.addEventListener("filtersChanged", _handleFiltersChanged);
+
+  // Initialize sliders if they exist
+  const givingUnitsMinSlider = document.getElementById("givingUnitsMin");
+  const givingUnitsMaxSlider = document.getElementById("givingUnitsMax");
+
+  if (givingUnitsMinSlider) {
+    givingUnitsMinSlider.addEventListener("input", () => {
+      window.sliderValue = parseInt(givingUnitsMinSlider.value);
+      _triggerFiltersChanged();
+    });
+  }
+
+  if (givingUnitsMaxSlider) {
+    givingUnitsMaxSlider.addEventListener("input", () => {
+      window.sliderValue2 = parseInt(givingUnitsMaxSlider.value);
+      _triggerFiltersChanged();
+    });
+  }
+
+  // Initial filter application
+  _triggerFiltersChanged();
+}
+
+// Method to handle filter changes
+function _handleFiltersChanged() {
+  if (!window.clientDataStore) {
+    console.warn("Client data store not available yet");
+    return;
+  }
+
+  // Call the function that updates client checkboxes based on current filters
+  if (typeof window.headerUpdateClientDropdown === "function") {
+    // Try the function from Header.js
+    window.headerUpdateClientDropdown();
+  } else {
+    console.error("No suitable update function found for client dropdown");
+    _updateClientSelection();
+  }
+}
+
+// Add a fallback method
+function _updateClientSelection() {
+  // Get current filter values
+  const minGivingUnits = window.sliderValue || 0;
+  const maxGivingUnits = window.sliderValue2 || 25000;
+  const selectedRegions = Array.from(window.selectedRegions_Array || []);
+  const selectedSites = Array.from(window.selectedSites_Array || []);
+
+  // Update client checkboxes based on filters
+  const clientCheckboxes = document.querySelectorAll(
+    '#options-list-client input[type="checkbox"]'
+  );
+
+  // Process each client (skip the "select all" checkbox)
+  for (let i = 1; i < clientCheckboxes.length; i++) {
+    const checkbox = clientCheckboxes[i];
+    const clientName = checkbox.value;
+    const clientData = window.clientDataStore[clientName];
+
+    if (clientData) {
+      // Simple matching logic as fallback
+      const matches =
+        (selectedRegions.length === 0 ||
+          selectedRegions.includes(clientData.region)) &&
+        (selectedSites.length === 0 ||
+          selectedSites.includes(clientData.site)) &&
+        clientData.givingUnits >= minGivingUnits &&
+        clientData.givingUnits <= maxGivingUnits;
+      
+      checkbox.checked = matches;
+
+      if (matches) {
+        window.selectedClients_Array.add(clientName);
+      } else {
+        window.selectedClients_Array.delete(clientName);
+      }
+    }
+  }
+}
+
+// Method to trigger filter changed event
+function _triggerFiltersChanged() {
+  const event = new CustomEvent("filtersChanged");
+  document.dispatchEvent(event);
+}
+
+// Fallback method for populating clients dropdown
+function _populateClientsDropdownFallback(clientArray) {
+  const optionsListClient = document.getElementById("options-list-client");
+  if (!optionsListClient) return;
+
+  // Clear existing content
+  optionsListClient.innerHTML = "";
+
+  // Just add simple options without the complex Select All behavior
+  clientArray.forEach((clientName) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = clientName;
+    listItem.className = "px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700";
+    optionsListClient.appendChild(listItem);
+
+    // Add to global Set if it exists
+    if (typeof selectedClients_Array !== "undefined") {
+      selectedClients_Array.add(clientName);
+    }
+  });
+}
+
+// Build a query condition for clients
+function getClientQuery(selectedClientsSet) {
+  // Convert Set to Array for iteration
+  const selectedClients = Array.from(selectedClientsSet);
+
+  // If empty, return default condition
+  if (selectedClients.length === 0) {
+    return '({539.EX.""})';
+  }
+
+  // For 15 or fewer clients, use specific OR conditions
+  // For more than 15 clients, the batched approach will be used instead
+  const clientConditions = selectedClients
+    .map((client) => `{539.EX.'${_escapeClientName(client)}'}`)
+    .join(" OR ");
+
+  return `(${clientConditions})`;
+}
+
+// Helper function to escape client names for queries
+function _escapeClientName(clientName) {
+  return clientName.replace(/'/g, "\\'");
+}
+
+// Function to restore initial client selection
+function restoreInitialClientSelection() {
+  if (!window.clientDataStore) {
+    console.warn("Client data store not initialized");
+    return;
+  }
+
+  // Get all client checkboxes
+  const clientCheckboxes = document.querySelectorAll(
+    '#options-list-client input[type="checkbox"]'
+  );
+
+  // Get the select all checkbox
+  const selectAllCheckbox = document.getElementById(
+    "select-all-checkbox-client"
+  );
+
+  // Clear previous selections
+  window.selectedClients_Array.clear();
+
+  // Iterate through all clients and check them
+  clientCheckboxes.forEach((checkbox) => {
+    // Skip the select all checkbox
+    if (checkbox.id === "select-all-checkbox-client") return;
+
+    const clientName = checkbox.value;
+
+    // Always check the checkbox
+    checkbox.checked = true;
+    window.selectedClients_Array.add(clientName);
+  });
+
+  // Update select all checkbox
+  if (selectAllCheckbox) {
+    selectAllCheckbox.checked = true;
+    selectAllCheckbox.indeterminate = false;
   }
 }

@@ -882,4 +882,10 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
     // Reset indeterminate state
     selectAllInput.indeterminate = false;
   });
+  
+  // Trigger client dropdown initialization event
+  const event = new CustomEvent("clientDropdownInitialized", {
+    detail: { clientArray: clientArray }
+  });
+  document.dispatchEvent(event);
 };
