@@ -32,12 +32,6 @@ let sliderValue = 0;
 window.sliderValue = 0;
 let sliderValue2 = 25000;
 window.sliderValue2 = 25000;
-
-// Initialize slider elements when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-  sliderAmount = document.getElementById('enrollmentMin');
-  sliderRange = document.getElementById('enrollmentMax');
-});
 // let amount = null;
 
 const selectedRegions_Array = [];
@@ -297,9 +291,6 @@ const changeListenerForInputYears = (input, year) => {
 };
 
 const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
-  // Get the options list element
-  const optionsListElement = document.getElementById('options-list');
-  
   // Initialize selectedYears_Set from local storage if data exists
   const storedYears = getSelectedYearsFromLocalStorage();
 
@@ -307,9 +298,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     selectedYears_Set = new Set(storedYears);
   }
 
-  if (optionsListElement) {
-    optionsListElement.innerHTML = "";
-  }
+  optionsListElement.innerHTML = "";
 
   yearsArray.sort((a, b) => b - a);
 
@@ -338,9 +327,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     newLabel.appendChild(newInput);
     newLabel.appendChild(newSpan);
 
-    if (optionsListElement) {
-      optionsListElement.appendChild(newLabel);
-    }
+    optionsListElement.appendChild(newLabel);
   });
 };
 
@@ -619,9 +606,6 @@ const range = () => {
     },
   };
 };
-
-// Expose range function to global scope for Alpine.js
-window.range = range;
 
 
 const adjustDivHeight = () => {
