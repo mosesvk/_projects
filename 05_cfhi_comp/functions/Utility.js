@@ -29,7 +29,15 @@ const sites_Array = [
 let sliderAmount = null;
 let sliderRange = null;
 let sliderValue = 0;
+window.sliderValue = 0;
 let sliderValue2 = 25000;
+window.sliderValue2 = 25000;
+
+// Initialize slider elements when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  sliderAmount = document.getElementById('enrollmentMin');
+  sliderRange = document.getElementById('enrollmentMax');
+});
 // let amount = null;
 
 const selectedRegions_Array = [];
@@ -289,6 +297,9 @@ const changeListenerForInputYears = (input, year) => {
 };
 
 const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
+  // Get the options list element
+  const optionsListElement = document.getElementById('options-list');
+  
   // Initialize selectedYears_Set from local storage if data exists
   const storedYears = getSelectedYearsFromLocalStorage();
 
@@ -296,7 +307,9 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     selectedYears_Set = new Set(storedYears);
   }
 
-  optionsListElement.innerHTML = "";
+  if (optionsListElement) {
+    optionsListElement.innerHTML = "";
+  }
 
   yearsArray.sort((a, b) => b - a);
 
@@ -325,7 +338,9 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     newLabel.appendChild(newInput);
     newLabel.appendChild(newSpan);
 
-    optionsListElement.appendChild(newLabel);
+    if (optionsListElement) {
+      optionsListElement.appendChild(newLabel);
+    }
   });
 };
 
@@ -552,8 +567,8 @@ function changeThWidth(elementId) {
 
 const range = () => {
   return {
-    minprice: 0,
-    maxprice: 25000,
+    minprice: window.sliderValue,
+    maxprice: window.sliderValue2,
     min: 0,
     max: 25000,
     minthumb: 1,
@@ -564,17 +579,21 @@ const range = () => {
       this.minthumb =
         ((this.minprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update sliderValue and trigger slider movement if necessary
-      sliderValue = this.minprice;
+      // Update global variable
+      window.sliderValue = this.minprice;
+
+      // Trigger a custom event to notify other components
+      const event = new CustomEvent("sliderChanged", {
+        detail: { value: this.minprice, type: "min" },
+      });
+      document.dispatchEvent(event);
+
       if (sliderAmount) {
-        sliderAmount.value = sliderValue; // Assuming sliderAmount is an input element
-        // Update slider position dynamically using appropriate API (e.g., jQuery UI, NoUiSlider)
+        sliderAmount.value = window.sliderValue;
       }
 
       this.minthumb =
         ((this.minprice - this.min) / (this.max - this.min)) * 100;
-
-      // Consider adding visual or functional feedback for minthumb movement
     },
 
     maxtrigger() {
@@ -582,20 +601,28 @@ const range = () => {
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update sliderValue2 and trigger slider movement if necessary
-      sliderValue2 = this.maxprice;
+      // Update global variable
+      window.sliderValue2 = this.maxprice;
+
+      // Trigger a custom event to notify other components
+      const event = new CustomEvent("sliderChanged", {
+        detail: { value: this.maxprice, type: "max" },
+      });
+      document.dispatchEvent(event);
+
       if (sliderRange) {
-        sliderRange.value = sliderValue2; // Assuming sliderRange is an input element
-        // Update slider position dynamically using appropriate API
+        sliderRange.value = window.sliderValue2;
       }
 
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
-
-      // Consider adding visual or functional feedback for maxthumb movement
     },
   };
 };
+
+// Expose range function to global scope for Alpine.js
+window.range = range;
+
 
 const adjustDivHeight = () => {
   var div = document.getElementById("options-list");
@@ -734,4 +761,141 @@ const editElementChildren = (element, variable, elementId) => {
   element.classList.add("transition");
   element.classList.add("ease-in-out");
 
+};
+
+const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
+  // console.log("addUniqueClientsToOptionsSelectClientDropdown", { clientArray });
+
+  const optionsListClient = document.getElementById("options-list-client");
+  if (!optionsListClient) {
+    console.error("Client options list element not found");
+    return;
+  }
+
+  // Ensure global scoping and initialization
+  window.selectedClients_Array = window.selectedClients_Array || new Set();
+
+  // Clear existing content
+  optionsListClient.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-client");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-client");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-client");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListClient.appendChild(selectAllLabel);
+
+  // EXPLICITLY clear the selectedClients_Array before populating
+  window.selectedClients_Array.clear();
+
+  // Populate all clients by default
+  clientArray.forEach((clientString) => {
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("div");
+    newDiv.setAttribute(
+      "class",
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    // Create the new input element
+    const newInput = document.createElement("input");
+    newInput.setAttribute("id", `client_${clientString}`);
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("value", clientString);
+    newInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `client_${clientString}`);
+    newLabel.setAttribute(
+      "class",
+      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+    );
+    newLabel.innerText = clientString;
+
+    // FORCE check the input and add to selectedClients_Array
+    newInput.checked = true;
+    window.selectedClients_Array.add(clientString);
+
+    newDiv.appendChild(newInput);
+    newDiv.appendChild(newLabel);
+
+    newListItem.appendChild(newDiv);
+    optionsListClient.appendChild(newListItem);
+
+    // Event listener to update selectedClients_Array
+    newInput.addEventListener("change", function () {
+      if (newInput.checked) {
+        window.selectedClients_Array.add(clientString);
+      } else {
+        window.selectedClients_Array.delete(clientString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-client input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-client")
+        .every((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate =
+        !allChecked &&
+        Array.from(
+          document.querySelectorAll(
+            "#options-list-client input[type='checkbox']"
+          )
+        )
+          .filter((input) => input.id !== "select-all-checkbox-client")
+          .some((input) => input.checked);
+    });
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = selectAllInput.checked;
+    const clientCheckboxes = document.querySelectorAll(
+      "#options-list-client input[type='checkbox']"
+    );
+
+    clientCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-client") {
+        checkbox.checked = isChecked;
+        const clientString = checkbox.value;
+
+        if (isChecked) {
+          window.selectedClients_Array.add(clientString);
+        } else {
+          window.selectedClients_Array.delete(clientString);
+        }
+      }
+    });
+
+    // Reset indeterminate state
+    selectAllInput.indeterminate = false;
+  });
 };

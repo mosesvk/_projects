@@ -31,6 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
   addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
   addUniqueSitesToOptionsSelectSite(sites_Array);
 
+  // Initialize client names data
+  if (typeof getRecordsForUniqueClientPeerNames === "function") {
+    getRecordsForUniqueClientPeerNames();
+  }
+
   displayDemoComponent();
   displayCashComponent();
   displayDebtComponent();
@@ -4416,7 +4421,7 @@ const getRecordsForClient = async (years, dataStr) => {
 const getRecordsForUniqueClientPeerNames = async () => {
   const apiCallPeerData = {
     act: "API_DoQuery",
-    clist: "7.539.667.619.758.759.757.760.761.741.536.557",
+    clist: "195.193.267.268",
   };
 
   try {
@@ -4430,98 +4435,98 @@ const getRecordsForUniqueClientPeerNames = async () => {
     }
 
     // Create a string to hold the XML data
-    let xmlString = "<qdbapi>";
+    // let xmlString = "<qdbapi>";
 
-    recordsForPeerUniqueClientPeerNames.forEach((record) => {
-      const clientName =
-        record.querySelector("merged_client_name")?.textContent;
+    // recordsForPeerUniqueClientPeerNames.forEach((record) => {
+    //   const clientName =
+    //     record.querySelector("merged_client_name")?.textContent;
 
-      if (clientName) {
+    //   if (clientName) {
 
-        uniquePeerClientNames.add(clientName);
+    //     uniquePeerClientNames.add(clientName);
 
-        // Store client data with all required fields
-        if (!window.clientDataStore[clientName]) {
-          // Get fiscal year
-          const year = record.querySelector("year")?.textContent;
+    //     // // Store client data with all required fields
+    //     // if (!window.clientDataStore[clientName]) {
+    //     //   // Get fiscal year
+    //     //   const year = record.querySelector("year")?.textContent;
 
-          // Get mission unit value
-          const enrollmentVal =
-            record.querySelector("g025_ctotal_student_fte")
-              ?.textContent || "0";
+    //     //   // Get mission unit value
+    //     //   const enrollmentVal =
+    //     //     record.querySelector("g025_ctotal_student_fte")
+    //     //       ?.textContent || "0";
 
-          // Get region value
-          const regionVal =
-            record.querySelector("client___he__g001_geographic_region")
-              ?.textContent || "0";
+    //     //   // Get region value
+    //     //   const regionVal =
+    //     //     record.querySelector("client___he__g001_geographic_region")
+    //     //       ?.textContent || "0";
 
-          // Get statevalue
-          const stateVal =
-            record.querySelector("client___merged_state")?.textContent || "0";
+    //     //   // Get statevalue
+    //     //   const stateVal =
+    //     //     record.querySelector("client___merged_state")?.textContent || "0";
 
-          // Get membership query - parse from string to array
-          const membershipText =
-            record.querySelector("client___he__membershipsquery")
-              ?.textContent || "";
-          const membership = membershipText
-            ? membershipText.split(";").filter(Boolean)
-            : [];
+    //     //   // Get membership query - parse from string to array
+    //     //   const membershipText =
+    //     //     record.querySelector("client___he__membershipsquery")
+    //     //       ?.textContent || "";
+    //     //   const membership = membershipText
+    //     //     ? membershipText.split(";").filter(Boolean)
+    //     //     : [];
 
-          // Get type query - parse from string to array
-          const typeQueryText =
-            record.querySelector("client___he__g003_institution_typequery")
-              ?.textContent || "";
-          const typeQuery = typeQueryText
-            ? typeQueryText.split(";").filter(Boolean)
-            : [];
+    //     //   // Get type query - parse from string to array
+    //     //   const typeQueryText =
+    //     //     record.querySelector("client___he__g003_institution_typequery")
+    //     //       ?.textContent || "";
+    //     //   const typeQuery = typeQueryText
+    //     //     ? typeQueryText.split(";").filter(Boolean)
+    //     //     : [];
 
-          // Get athletic query - parse from string to array
-          const athleticQueryText =
-            record.querySelector(
-              "client___he__a001_athletic_classificiationquery"
-            )?.textContent || "";
-          const athleticQuery = athleticQueryText
-            ? athleticQueryText.split(";").filter(Boolean)
-            : [];
+    //     //   // Get athletic query - parse from string to array
+    //     //   const athleticQueryText =
+    //     //     record.querySelector(
+    //     //       "client___he__a001_athletic_classificiationquery"
+    //     //     )?.textContent || "";
+    //     //   const athleticQuery = athleticQueryText
+    //     //     ? athleticQueryText.split(";").filter(Boolean)
+    //     //     : [];
 
-          // Get seminary query - parse from string to array
-          const seminaryQueryText =
-            record.querySelector("client___he___seminary_projectquery")
-              ?.textContent || "";
-          const seminaryQuery = seminaryQueryText
-            ? seminaryQueryText.split(";").filter(Boolean)
-            : [];
+    //     //   // Get seminary query - parse from string to array
+    //     //   const seminaryQueryText =
+    //     //     record.querySelector("client___he___seminary_projectquery")
+    //     //       ?.textContent || "";
+    //     //   const seminaryQuery = seminaryQueryText
+    //     //     ? seminaryQueryText.split(";").filter(Boolean)
+    //     //     : [];
 
-          // Get regional query - parse from string to array
-          const regionalQueryText =
-            record.querySelector("client___he__regional_accreditorquery")
-              ?.textContent || "";
-          const regionalQuery = regionalQueryText
-            ? regionalQueryText.split(";").filter(Boolean)
-            : [];
+    //     //   // Get regional query - parse from string to array
+    //     //   const regionalQueryText =
+    //     //     record.querySelector("client___he__regional_accreditorquery")
+    //     //       ?.textContent || "";
+    //     //   const regionalQuery = regionalQueryText
+    //     //     ? regionalQueryText.split(";").filter(Boolean)
+    //     //     : [];
 
-          // Store all client data
-          window.clientDataStore[clientName] = {
-            name: clientName,
-            year: year,
-            enrollment: parseFloat(enrollmentVal) || 0,
-            region: regionVal,
-            state: stateVal,
-            membership: membership,
-            type: typeQuery,
-            athletic: athleticQuery,
-            seminary: seminaryQuery,
-            regional: regionalQuery,
-          };
-        }
+    //     //   // Store all client data
+    //     //   window.clientDataStore[clientName] = {
+    //     //     name: clientName,
+    //     //     year: year,
+    //     //     enrollment: parseFloat(enrollmentVal) || 0,
+    //     //     region: regionVal,
+    //     //     state: stateVal,
+    //     //     membership: membership,
+    //     //     type: typeQuery,
+    //     //     athletic: athleticQuery,
+    //     //     seminary: seminaryQuery,
+    //     //     regional: regionalQuery,
+    //     //   };
+    //     // }
 
-        // Add record's outerHTML to the XML string
-        xmlString += record.outerHTML;
-      }
-    });
+    //     // Add record's outerHTML to the XML string
+    //     xmlString += record.outerHTML;
+    //   }
+    // });
 
-    // Close the XML string
-    xmlString += "</qdbapi>";
+    // // Close the XML string
+    // xmlString += "</qdbapi>";
 
     // Print the XML string to console
     // console.log("getRecordsForUniqueClientPeerNames XML", xmlString);
@@ -4547,12 +4552,10 @@ const getRecordsForUniqueClientPeerNames = async () => {
         "addUniqueClientsToOptionsSelectClientDropdown function is not defined"
       );
 
-      // Provide a simple fallback for populating clients if needed
-      this._populateClientsDropdownFallback(sortedUniquePeerClientNames);
     }
 
     // Initialize filter handlers after client data is loaded
-    this._initializeFilterHandlers();
+    // this._initializeFilterHandlers();
 
     window.sortedUniquePeerClientNames = sortedUniquePeerClientNames;
 
