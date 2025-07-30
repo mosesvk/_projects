@@ -250,7 +250,7 @@ function updateSelectAllClientCheckboxState() {
 
 /**
  * Initializes the client dropdown with checkboxes for each client
- * Called when client data is loaded
+ * Called when client data is loaded from Api.js
  */
 function initializeClientDropdown(event) {
   const optionsListClient = document.getElementById("options-list-client");
@@ -374,6 +374,10 @@ function initializeClientDropdown(event) {
   });
 
   window.hasRunInitialClientDropdownFilter = false;
+  
+  // Dispatch event to notify that client dropdown is initialized
+  const clientDropdownInitializedEvent = new CustomEvent("clientDropdownInitialized");
+  document.dispatchEvent(clientDropdownInitializedEvent);
 }
 
 /**
@@ -671,7 +675,7 @@ function formatNumberWithCommas(number) {
 
 // Function to observe and format input values
 function setupNumberFormatting() {
-  const inputIds = ["enrollmentMin", "enrollmentMax"];
+  const inputIds = ["givingUnitsMin", "givingUnitsMax"];
 
   // Process each input field
   inputIds.forEach((id) => {
@@ -779,14 +783,44 @@ function getOrCreateDisplaySpan(inputElement, inputId) {
   return displaySpan;
 }
 
-// Add event listeners for key events
+// Add event listeners for key events - CRITICAL CONNECTION POINTS
 document.addEventListener("filtersChanged", updateClientDropdownFilters);
 document.addEventListener("clientDataLoaded", initializeClientDropdown);
+
+// LISTEN FOR API.JS EVENTS - Key connection to Api.js
+document.addEventListener("dataProcessed", function(event) {
+  console.log("Data processed event received from Api.js");
+  
+  // Initialize client dropdown when data is processed
+  if (event.detail && event.detail.dataStore) {
+    // Extract client data from the dataStore
+    window.clientDataStore = {};
+    
+    // Process demo data to build client data store
+    const demoData = event.detail.dataStore.getDataCategory('demo');
+    
+    // Extract unique client names and their data
+    Object.keys(demoData).forEach(key => {
+      if (key.includes('_Client')) {
+        Object.keys(demoData[key]).forEach(year => {
+          // This would need to be adapted based on actual data structure
+          // For now, create basic client entries
+        });
+      }
+    });
+    
+    // Trigger client dropdown initialization
+    const clientDataLoadedEvent = new CustomEvent("clientDataLoaded", {
+      detail: { dataStore: window.clientDataStore }
+    });
+    document.dispatchEvent(clientDataLoadedEvent);
+  }
+});
 
 // Listen for custom slider events
 document.addEventListener("sliderChanged", function(event) {
   const { value, type } = event.detail;
-  const input = document.getElementById(type === "min" ? "enrollmentMin" : "enrollmentMax");
+  const input = document.getElementById(type === "min" ? "givingUnitsMin" : "givingUnitsMax");
   if (input && input.value != value) {
     input.value = value;
     
@@ -813,19 +847,19 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 
-  // Configure slider inputs
+  // Configure slider inputs for giving units (CFHI-specific)
   const sliderInputs = [
     {
-      element: document.getElementById("enrollmentMin"),
+      element: document.getElementById("givingUnitsMin"),
       globalVar: "sliderValue",
       defaultValue: 0,
-      sliderDivs: document.querySelectorAll(".enrollmentSlider"),
+      sliderDivs: document.querySelectorAll(".givingUnitsSlider"),
     },
     {
-      element: document.getElementById("enrollmentMax"),
+      element: document.getElementById("givingUnitsMax"),
       globalVar: "sliderValue2",
       defaultValue: 16000,
-      sliderDivs: document.querySelectorAll(".enrollmentSlider"),
+      sliderDivs: document.querySelectorAll(".givingUnitsSlider"),
     },
   ];
 
@@ -978,6 +1012,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (givingUnitsMax) givingUnitsMax.value = window.sliderValue2;
 });
 
-// Keep the existing adjustDivHeight function call
-adjustDivHeight();
-window.addEventListener('resize', adjustDivHeight);
+// Keep the existing adjustDivHeight function call if it exists
+if (typeof adjustDivHeight === 'function') {
+  adjustDivHeight();
+  window.addEventListener('resize', adjustDivHeight);
+}
