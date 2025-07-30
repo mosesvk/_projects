@@ -28,6 +28,7 @@ function setupDropdownToggle(selectElementId, optionsListId) {
   // Function to close all other dropdowns
   function closeOtherDropdowns(currentOptionsListId) {
     const dropdownConfigs = [
+      { selectId: "custom-select-year", optionsId: "options-list-year" },
       { selectId: "custom-select-region", optionsId: "options-list-region" },
       { selectId: "custom-select-site", optionsId: "options-list-site" },
       { selectId: "custom-select-client", optionsId: "options-list-client" },
@@ -899,6 +900,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initialize all dropdowns
   const dropdownConfigs = [
+    { selectId: "custom-select-year", optionsId: "options-list-year" },
     { selectId: "custom-select-region", optionsId: "options-list-region" },
     { selectId: "custom-select-site", optionsId: "options-list-site" },
     { selectId: "custom-select-client", optionsId: "options-list-client" },
