@@ -5,10 +5,10 @@ if (typeof window.selectedClients_Array === "undefined") {
   window.selectedClients_Array = new Set();
 }
 if (typeof window.selectedRegions_Array === "undefined") {
-  window.selectedRegions_Array = [];
+  window.selectedRegions_Array = new Set();
 }
 if (typeof window.selectedSites_Array === "undefined") {
-  window.selectedSites_Array = [];
+  window.selectedSites_Array = new Set();
 }
 if (typeof window.sliderValue === "undefined") {
   window.sliderValue = 0;
@@ -1632,6 +1632,29 @@ class AppController {
     document.addEventListener('filtersChanged', (event) => {
       console.log('Filters changed:', event.detail);
     });
+
+    // Initialize dropdowns only if they aren't already populated
+    const regionsListElement = document.getElementById("options-list-region");
+    if (
+      regionsListElement &&
+      (!regionsListElement.children.length ||
+        regionsListElement.children.length <= 1)
+    ) {
+      if (typeof addUniqueRegionsToOptionsSelectRegionsDropdown === "function") {
+        addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
+      }
+    }
+
+    const sitesListElement = document.getElementById("options-list-site");
+    if (
+      sitesListElement &&
+      (!sitesListElement.children.length ||
+        sitesListElement.children.length <= 1)
+    ) {
+      if (typeof addUniqueSitesToOptionsSelectSitesDropdown === "function") {
+        addUniqueSitesToOptionsSelectSitesDropdown(sites_Array);
+      }
+    }
   }
 
   // Create empty chart placeholder

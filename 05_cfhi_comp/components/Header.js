@@ -7,7 +7,7 @@ window.selectedClients_Array = window.selectedClients_Array || new Set();
 
 // Initialize slider default values
 window.sliderValue = 0;
-window.sliderValue2 = 16000;
+window.sliderValue2 = 25000;
 
 /**
  * Sets up dropdown toggle functionality
@@ -854,7 +854,7 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       element: document.getElementById("givingUnitsMax"),
       globalVar: "sliderValue2",
-      defaultValue: 16000,
+      defaultValue: 25000,
       sliderDivs: document.querySelectorAll(".givingUnitsSlider"),
     },
   ];
