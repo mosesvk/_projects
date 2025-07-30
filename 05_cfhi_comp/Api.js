@@ -1923,6 +1923,33 @@ function toggleButtonNormalState(btn) {
   }
 }
 
+// API Client Data Query
+let apiCallClientDataForUniqueYears = {
+  act: "API_DoQuery",
+  query: `{98.EX.${ClientRid}}`,
+  clist: "98.474.452.3",
+};
+
+
+// Fetch client information
+$.get(clientData, apiCallClientDataForUniqueYears)
+  .then(async (xml) => {
+    recordsClient = await $("record", xml).toArray();
+
+    // console.log({recordsClient});
+
+    if (recordsClient.length > 0) {
+      firmName = recordsClient[0].children[2].innerHTML;
+      document.querySelector("#firmName").textContent = firmName;
+      findUniqueYears(recordsClient);
+    } else {
+      console.error(
+        "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
+      );
+    }
+  })
+  .catch((err) => console.error(err));
+
 // Find unique years in data
 const findUniqueYears = (data) => {
   if (!data || data.length === 0) {
@@ -1930,6 +1957,9 @@ const findUniqueYears = (data) => {
   }
 
   const years = new Set();
+
+  console.log('findUniqueYears', data, years);
+  
   
   data.forEach(record => {
     try {

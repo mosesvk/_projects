@@ -135,11 +135,6 @@ function clientMatchesFilters(
 // Initialize prevMatchCount outside the function
 let prevMatchCount = 0;
 
-// Helper function to create toast notifications
-function createToastSuccess(message) {
-  // Simple console log for now - can be enhanced with actual toast UI later
-  console.log(`Success: ${message}`);
-}
 
 function updateClientDropdownFilters() {
   // Ensure client data store exists

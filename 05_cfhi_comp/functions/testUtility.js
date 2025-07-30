@@ -4,42 +4,185 @@ let cfiRatioChart, assetsChart;
 
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
-
-// CFHI-specific data arrays (adapted from testUtility.js structure)
 const regions_Array = [
-  { arr: ["New England (CT, RI, MA, VT, NH)"], str: "NE" },
+  { arr: ["Northeast"], str: "Northeast" },
   {
-    arr: ["Mid-Atlantic, VA, WV, MD, DE, NJ, NY, PA, DC)"],
-    str: "MA",
+    arr: ["West"],
+    str: "West",
   },
   {
-    arr: ["South, AR, LA, AL, TN, KY, GA, FL, SC, NC, MS)"],
-    str: "SO",
+    arr: ["Canada"],
+    str: "Canada",
   },
-  { arr: ["Midwest, WI, IL, IN, MI, OH, IA, MN)"], str: "MW" },
-  { arr: ["Plains, KS, MO, OK, TX, ND, SD, NE)"], str: "PL" },
+  { arr: ["Midwest"], str: "Midwest" },
   {
-    arr: ["Mountain/Southwest, ID, MT, WY, CO, UT, NV, AZ, NM)"],
-    str: "MT",
+    arr: ["South"],
+    str: "South",
   },
-  { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
+];
+const states_Array = [
+  { arr: ["AB"], str: "AB" },
+  { arr: ["AL"], str: "AL" },
+  { arr: ["AK"], str: "AK" },
+  { arr: ["AZ"], str: "AZ" },
+  { arr: ["AR"], str: "AR" },
+  { arr: ["AS"], str: "AS" },
+  { arr: ["BC"], str: "BC" },
+  { arr: ["CA"], str: "CA" },
+  { arr: ["CO"], str: "CO" },
+  { arr: ["CT"], str: "CT" },
+  { arr: ["DE"], str: "DE" },
+  { arr: ["DC"], str: "DC" },
+  { arr: ["FL"], str: "FL" },
+  { arr: ["GA"], str: "GA" },
+  { arr: ["GU"], str: "GU" },
+  { arr: ["HI"], str: "HI" },
+  { arr: ["ID"], str: "ID" },
+  { arr: ["IL"], str: "IL" },
+  { arr: ["IN"], str: "IN" },
+  { arr: ["IA"], str: "IA" },
+  { arr: ["KS"], str: "KS" },
+  { arr: ["KY"], str: "KY" },
+  { arr: ["LA"], str: "LA" },
+  { arr: ["ME"], str: "ME" },
+  { arr: ["MB"], str: "MB" },
+  { arr: ["MD"], str: "MD" },
+  { arr: ["MA"], str: "MA" },
+  { arr: ["MI"], str: "MI" },
+  { arr: ["MN"], str: "MN" },
+  { arr: ["MS"], str: "MS" },
+  { arr: ["MO"], str: "MO" },
+  { arr: ["MT"], str: "MT" },
+  { arr: ["NE"], str: "NE" },
+  { arr: ["NB"], str: "NB" },
+  { arr: ["NV"], str: "NV" },
+  { arr: ["NH"], str: "NH" },
+  { arr: ["NJ"], str: "NJ" },
+  { arr: ["NM"], str: "NM" },
+  { arr: ["NY"], str: "NY" },
+  { arr: ["NC"], str: "NC" },
+  { arr: ["ND"], str: "ND" },
+  { arr: ["MP"], str: "MP" },
+  { arr: ["OH"], str: "OH" },
+  { arr: ["ON"], str: "ON" },
+  { arr: ["OK"], str: "OK" },
+  { arr: ["OR"], str: "OR" },
+  { arr: ["PA"], str: "PA" },
+  { arr: ["PR"], str: "PR" },
+  { arr: ["RI"], str: "RI" },
+  { arr: ["SC"], str: "SC" },
+  { arr: ["SK"], str: "SK" },
+  { arr: ["SD"], str: "SD" },
+  { arr: ["TN"], str: "TN" },
+  { arr: ["TX"], str: "TX" },
+  { arr: ["TT"], str: "TT" },
+  { arr: ["UT"], str: "UT" },
+  { arr: ["VT"], str: "VT" },
+  { arr: ["VA"], str: "VA" },
+  { arr: ["VI"], str: "VI" },
+  { arr: ["WA"], str: "WA" },
+  { arr: ["WV"], str: "WV" },
+  { arr: ["WI"], str: "WI" },
+  { arr: ["WY"], str: "WY" },
+];
+const types_Array = [
+  { arr: ["Bible College/University"], str: "Bible College/University" },
+  { arr: ["Category I (Doctoral)"], str: "Category I (Doctoral)" },
+  { arr: ["Category IIA (Master's)"], str: "Category IIA (Master's)" },
+  {
+    arr: ["Category IIB (Baccalaureate)"],
+    str: "Category IIB (Baccalaureate)",
+  },
+  { arr: ["Graduate University"], str: "Graduate University" },
+  { arr: ["Liberal Arts"], str: "Liberal Arts" },
+  { arr: ["Seminary"], str: "Seminary" },
+  {
+    arr: ["Liberal Arts & Bible College"],
+    str: "Liberal Arts & Bible College",
+  },
+  { arr: ["Unspecified"], str: "Unspecified" },
+];
+const memberships_Array = [
+  { arr: ["ABACC"], str: "ABACC" },
+  { arr: ["ABHE"], str: "ABHE" },
+  { arr: ["ACCU"], str: "ACCU" },
+  { arr: ["ATS"], str: "ATS" },
+  { arr: ["CCCU"], str: "CCCU" },
+  { arr: ["CIC"], str: "CIC" },
+  { arr: ["IABCU"], str: "IABCU" },
+  { arr: ["NHERMC"], str: "NHERMC" },
+  { arr: ["TRACS"], str: "TRACS" },
+  { arr: ["ECFA"], str: "ECFA" },
+  { arr: ["NACUBO"], str: "NACUBO" },
+  { arr: ["Unspecified"], str: "Unspecified" },
 ];
 
-const sites_Array = [
-  { arr: ["Single Site"], str: "SINGLE" },
-  { arr: ["2 - 5 Sites"], str: "TWOSIX" },
-  { arr: ["6+ Sites"], str: "MANY" },
+const seminaries_Array = [
+  { arr: ["Small"], str: "Small" },
+  { arr: ["Large"], str: "Large" },
+  { arr: ["Unspecified"], str: "Unspecified" },
+];
+
+const regionals_Array = [
+  { arr: ["Higher Learning Commission"], str: "Higher Learning Commission" },
+  {
+    arr: ["Middle States Commission on Higher Education"],
+    str: "Middle States Commission on Higher Education",
+  },
+  {
+    arr: ["New England Commission on Higher Education"],
+    str: "New England Commission on Higher Education",
+  },
+  {
+    arr: ["Northwest Commission on Colleges and Universities"],
+    str: "Northwest Commission on Colleges and Universities",
+  },
+  {
+    arr: [
+      "Southern Association of Colleges and Schools Commission on Colleges",
+    ],
+    str: "Southern Association of Colleges and Schools Commission on Colleges",
+  },
+  {
+    arr: ["WASC Senior College and University Commission"],
+    str: "WASC Senior College and University Commission",
+  },
+  {
+    arr: ["South Carolina Independent Colleges and Universities"],
+    str: "South Carolina Independent Colleges and Universities",
+  },
+  { arr: ["Unspecified"], str: "Unspecified" },
+];
+
+const athletics_Array = [
+  { arr: ["NCAA  I"], str: "NCAA  I" },
+  { arr: ["NCAA  II"], str: "NCAA  II" },
+  { arr: ["NCAA  III"], str: "NCAA  III" },
+  { arr: ["NAIA"], str: "NAIA" },
+  { arr: ["NCCAA I"], str: "NCCAA I" },
+  { arr: ["NCCAA II"], str: "NCCAA II" },
+  { arr: ["USCAA"], str: "USCAA" },
+  { arr: ["Unspecified"], str: "Unspecified" },
 ];
 
 let sliderAmount = null;
 let sliderRange = null;
 // Make sure these are window-scoped variables
 window.sliderValue = 0;
-window.sliderValue2 = 25000;
+window.sliderValue2 = 16000;
+let missionValue = 0;
 
 let selectedRegion = "";
 const selectedRegions_Array = new Set();
-const selectedSites_Array = new Set();
+const selectedStates_Array = new Set();
+const selectedMemberships_Array = new Set();
+const selectedTrendlines_Array = new Set();
+const selectedAthletics_Array = new Set();
+const selectedSeminaries_Array = new Set();
+const selectedRegionals_Array = new Set();
+const selectedEnrollments_Array = new Set();
+const selectedSites_Array = [];
+const selectedTypes_Array = new Set();
 const selectedClients_Array = new Set();
 let selectedSchoolChurch_Selected;
 const map_dataUri = new Map();
@@ -47,7 +190,7 @@ const dataUrLObj = new Object();
 
 // CHARTS
 let cfiRatio_chart;
-let demoOverall_chart;
+let doeOverall_chart;
 let cfi_primaryReserveRatio_chart;
 let cfi_netIncomeOperationsRatio_chart;
 let cfi_returnOnNetAssets_chart;
@@ -69,8 +212,8 @@ let ltDebtPerTotalOperatingRevenue_chart;
 let debtServiceCoverageRatio_chart;
 let debtBurdenRatio_chart;
 let endowmentOperatingBudget_chart;
-let endowmentAssetsPerStudent_chart;
-let netTuitionPerStudent_chart;
+let endowmentAssetsPerStudent_chart
+let netTuitionPerStudent_chart
 let cfiCompositeHtml_chart;
 
 // annotation
@@ -269,7 +412,7 @@ const createChart = (
 
   const chartIds = [
     "cfiRatio_chart",
-    "demoOverall_chart",
+    "doeOverall_chart",
     "cfi_primaryReserveRatio_chart",
     "cfi_netIncomeOperationsRatio_chart",
     "cfi_returnOnNetAssets_chart",
@@ -295,14 +438,14 @@ const createChart = (
       document.addEventListener("dark-mode", function () {
         cfiRatio_chart.updateOptions(cfiRatioOptions);
       });
-    } else if (chartId === "demoOverall_chart") {
-      demoOverall_chart = new ApexCharts(
+    } else if (chartId === "doeOverall_chart") {
+      doeOverall_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      demoOverall_chart.render();
+      doeOverall_chart.render();
       document.addEventListener("dark-mode", function () {
-        demoOverall_chart.updateOptions(chartOptions);
+        doeOverall_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "cfi_primaryReserveRatio_chart") {
       cfi_primaryReserveRatio_chart = new ApexCharts(
@@ -705,9 +848,9 @@ function setupDropdownToggle(selectElementId, optionsListId) {
   // Function to close all other dropdowns
   function closeOtherDropdowns(currentOptionsListId) {
     const dropdownConfigs = [
-      { selectId: "custom-select-year", optionsId: "options-list-year" },
-      { selectId: "custom-select-region", optionsId: "options-list-region" },
-      { selectId: "custom-select-site", optionsId: "options-list-site" },
+      { selectId: "custom-select", optionsId: "options-list" },
+      { selectId: "custom-select-area", optionsId: "options-list-area" },
+      { selectId: "custom-select-type", optionsId: "options-list-type" },
       { selectId: "custom-select-client", optionsId: "options-list-client" },
     ];
 
@@ -762,29 +905,166 @@ function setupDropdownToggle(selectElementId, optionsListId) {
   document.addEventListener("click", closeDropdownOutsideClick);
 }
 
+const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
+  // console.log("addUniqueClientsToOptionsSelectClientDropdown", { clientArray });
+
+  const optionsListClient = document.getElementById("options-list-client");
+  if (!optionsListClient) {
+    console.error("Client options list element not found");
+    return;
+  }
+
+  // Ensure global scoping and initialization
+  window.selectedClients_Array = window.selectedClients_Array || new Set();
+
+  // Clear existing content
+  optionsListClient.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-client");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-client");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-client");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListClient.appendChild(selectAllLabel);
+
+  // EXPLICITLY clear the selectedClients_Array before populating
+  window.selectedClients_Array.clear();
+
+  // Populate all clients by default
+  clientArray.forEach((clientString) => {
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("div");
+    newDiv.setAttribute(
+      "class",
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    // Create the new input element
+    const newInput = document.createElement("input");
+    newInput.setAttribute("id", `client_${clientString}`);
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("value", clientString);
+    newInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `client_${clientString}`);
+    newLabel.setAttribute(
+      "class",
+      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+    );
+    newLabel.innerText = clientString;
+
+    // FORCE check the input and add to selectedClients_Array
+    newInput.checked = true;
+    window.selectedClients_Array.add(clientString);
+
+    newDiv.appendChild(newInput);
+    newDiv.appendChild(newLabel);
+
+    newListItem.appendChild(newDiv);
+    optionsListClient.appendChild(newListItem);
+
+    // Event listener to update selectedClients_Array
+    newInput.addEventListener("change", function () {
+      if (newInput.checked) {
+        window.selectedClients_Array.add(clientString);
+      } else {
+        window.selectedClients_Array.delete(clientString);
+      }
+
+      // Update "Select All" checkbox state
+      const allChecked = Array.from(
+        document.querySelectorAll("#options-list-client input[type='checkbox']")
+      )
+        .filter((input) => input.id !== "select-all-checkbox-client")
+        .every((input) => input.checked);
+
+      selectAllInput.checked = allChecked;
+      selectAllInput.indeterminate =
+        !allChecked &&
+        Array.from(
+          document.querySelectorAll(
+            "#options-list-client input[type='checkbox']"
+          )
+        )
+          .filter((input) => input.id !== "select-all-checkbox-client")
+          .some((input) => input.checked);
+    });
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = selectAllInput.checked;
+    const clientCheckboxes = document.querySelectorAll(
+      "#options-list-client input[type='checkbox']"
+    );
+
+    clientCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-client") {
+        checkbox.checked = isChecked;
+        const clientString = checkbox.value;
+
+        if (isChecked) {
+          window.selectedClients_Array.add(clientString);
+        } else {
+          window.selectedClients_Array.delete(clientString);
+        }
+      }
+    });
+
+    // Reset indeterminate state
+    selectAllInput.indeterminate = false;
+  });
+};
+
 // Enhanced addClientDataToModalRow function
-// function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
-//   // console.log(`Adding client datfa to row: ${yearRow.id}`, {
-//   //   clientValue,
-//   //   type,
-//   //   fixedNum,
-//   // });
+function addClientDataToModalRow(yearRow, clientValue, type, fixedNum) {
+  // console.log(`Adding client datfa to row: ${yearRow.id}`, {
+  //   clientValue,
+  //   type,
+  //   fixedNum,
+  // });
 
-//   const cell = document.createElement("td");
-//   cell.className =
-//     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  const cell = document.createElement("td");
+  cell.className =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
 
-//   // Format the value
-//   const formattedValue =
-//     clientValue !== undefined && clientValue !== null
-//       ? styleNumber(clientValue, type, fixedNum)
-//       : "-";
+  // Format the value
+  const formattedValue =
+    clientValue !== undefined && clientValue !== null
+      ? styleNumber(clientValue, type, fixedNum)
+      : "-";
 
-//   cell.textContent = formattedValue;
-//   yearRow.appendChild(cell);
+  cell.textContent = formattedValue;
+  yearRow.appendChild(cell);
 
-//   return cell;
-// }
+  return cell;
+}
 
 // Function to update the "select all" checkbox state
 function updateSelectAllCheckboxState() {
@@ -905,7 +1185,7 @@ const getPeerAndClientChartDataArrays = (
       peer75.push(null);
 
       const clientNum = styleNumber(dataClient[year].value, type, fixedNum);
-      // if (mainName === "demoOverall") console.log(clientNum);
+      // if (mainName === "doeOverall") console.log(clientNum);
 
       clientArray.push(clientNum);
     } else if (dataPeer[year] !== undefined && dataClient[year] !== undefined) {
@@ -937,7 +1217,7 @@ const getPeerAndClientChartDataArrays = (
       // const client = Number(dataClient[year].value).toFixed(fixedNum);
       // const client = dataClient[year].value;
       // const clientNum = styleNumber(client, type, fixedNum);
-      // // if (mainName == 'demoOverall') debugger
+      // // if (mainName == 'doeOverall') debugger
       // clientArray.push(clientNum);
 
       const clientNum = styleNumber(dataClient[year].value, type, fixedNum);
@@ -961,7 +1241,7 @@ const getPeerAndClientChartDataArrays = (
       );
     }
 
-    // if (mainName == "demoOverall") console.log({clientArray, dataClient});
+    // if (mainName == "doeOverall") console.log({clientArray, dataClient});
   });
 
   // if (mainName == "cfi_netIncomeOperationsRatio")
@@ -1030,80 +1310,6 @@ function styleNumber(num, type, fixed) {
     }
   } else if (type === "percentNumber") {
     return formatWithFixed(num * 100);
-  }
-}
-
-function updateModal(mainName, avgData, clientData) {
-  // Get the selected years from local storage
-  const selectedYears = getSelectedYearsFromLocalStorage();
-
-  // Find the modal element
-  const modal = document.getElementById(`${mainName}_modal`);
-
-  // Check if the modal element exists
-  if (modal) {
-    // Find the table header row
-    const headerRow = modal.querySelector(`#${mainName}_modal_row`);
-    // console.log({headerRow});
-    let tableHead = headerRow.parentElement;
-
-    // Clear existing rows after the headerRow
-    let nextRow = headerRow.nextSibling;
-    while (nextRow) {
-      tableHead.removeChild(nextRow);
-      nextRow = headerRow.nextSibling; // Get the next sibling again
-    }
-
-    // Clear existing header content
-    headerRow.innerHTML = "";
-
-    // Add the "year" column
-    const yearColumn = document.createElement("th");
-    yearColumn.className = "px-6 py-3";
-    yearColumn.textContent = "year";
-    headerRow.appendChild(yearColumn);
-
-    // Add the "Client" column
-    const clientColumn = document.createElement("th");
-    clientColumn.className = "px-6 py-3";
-    clientColumn.textContent = "client";
-    headerRow.appendChild(clientColumn);
-
-    // Add the "Avg" column
-    const avgColumn = document.createElement("th");
-    avgColumn.className = "px-6 py-3";
-    avgColumn.textContent = "Avg";
-    headerRow.appendChild(avgColumn);
-
-    // Add the remaining columns
-    const columns = ["Mid", "Min", "Max"];
-    columns.forEach((column) => {
-      const col = document.createElement("th");
-      col.className = "px-6 py-3";
-      col.textContent = column;
-      headerRow.appendChild(col);
-    });
-
-    // Add a row for each selected year
-    selectedYears.forEach((year) => {
-      const yearRow = document.createElement("tr");
-      yearRow.className =
-        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
-      yearRow.id = `${mainName}_modal_${year}`;
-
-      // Create a table header cell for the year
-      const yearCell = document.createElement("th");
-      yearCell.className =
-        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
-      yearCell.scope = "row";
-      yearCell.textContent = year;
-
-      // Append the year cell to the row
-      yearRow.appendChild(yearCell);
-
-      // Append the row to the header
-      tableHead.appendChild(yearRow);
-    });
   }
 }
 
@@ -1270,7 +1476,7 @@ const range = () => {
     minprice: window.sliderValue,
     maxprice: window.sliderValue2,
     min: 0,
-    max: 25000,
+    max: 16000,
     minthumb: 1,
     maxthumb: 1,
 
@@ -1468,225 +1674,645 @@ const editElementChildren = (element, variable, elementId) => {
   element.classList.add("ease-in-out");
 };
 
-// CRITICAL API CONNECTION FUNCTION - Added from testUtility.js
-window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
-  // console.log("processApiData called with", {
-  //   yearsCount: selectedYears.length,
-  //   peerCount: recordsPeer ? recordsPeer.length : 0,
-  //   clientCount: recordsClient ? recordsClient.length : 0,
-  // });
+const getMinMaxY = (arrays) => {
+  // Handle case where arrays contains numbers instead of arrays
+  const allData = arrays.reduce((acc, item) => {
+    // If item is a number or string number, wrap it in array before spreading
+    const arr = Array.isArray(item) ? item : [item];
+    return [
+      ...acc,
+      ...arr.map((val) => (typeof val === "string" ? parseFloat(val) : val)),
+    ];
+  }, []);
 
-  // Call the processApiCalls function which will update the dataStore
-  if (typeof processApiCalls === "function") {
-    const processedData = processApiCalls(
-      selectedYears,
-      recordsPeer,
-      recordsClient
-    );
+  let minY = Math.min(...allData);
+  let maxY = Math.max(...allData);
 
-    // Signal that data processing is complete
-    document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
-
-    // Attempt to trigger chart initialization
-    setTimeout(() => {
-      if (typeof enhancedInitializeChartDisplay === "function") {
-        // console.log(
-        //   "Triggering enhancedInitializeChartDisplay from processApiData"
-        // );
-        enhancedInitializeChartDisplay();
-      } else if (typeof initializeChartDisplay === "function") {
-        // console.log("Triggering initializeChartDisplay from processApiData");
-        initializeChartDisplay();
-      } else if (
-        window.systemConnector &&
-        typeof window.systemConnector.displayCharts === "function"
-      ) {
-        // console.log(
-        //   "Triggering systemConnector.displayCharts from processApiData"
-        // );
-        window.systemConnector.displayCharts();
-      }
-    }, 500);
-
-    return processedData;
-  } else {
-    console.error("processApiCalls function not available");
-
-    // Create a fallback function
-    if (!window.dataStore) {
-      window.dataStore = new DataStore();
-    }
-
-    const dataProcessor = new DataProcessor(window.dataStore);
-    dataProcessor.processAllData(selectedYears, recordsPeer, recordsClient);
-
-    // Signal completion
-    document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
-
+  // For ratio values between 0 and 1
+  if (allData.every((val) => val > 0 && val <= 1)) {
+    minY = 0;
+    maxY = Math.ceil(maxY * 10) / 10; // Round up to nearest 0.1
     return {
-      demoData: JSON.parse(localStorage.getItem("demoData")),
-      cashData: JSON.parse(localStorage.getItem("cashData")),
-      debtData: JSON.parse(localStorage.getItem("debtData")),
-      incomeData: JSON.parse(localStorage.getItem("incomeData")),
-      expenseData: JSON.parse(localStorage.getItem("expenseData")),
-      additionalData: JSON.parse(localStorage.getItem("additionalData")),
+      minY,
+      maxY,
+      minYLine:
+        minY < 0.1
+          ? 0
+          : minY < 0.2
+          ? 0.1
+          : minY < 0.3
+          ? 0.2
+          : minY < 0.4
+          ? 0.3
+          : minY < 0.5
+          ? 0.4
+          : minY < 0.6
+          ? 0.5
+          : minY < 0.7
+          ? 0.6
+          : minY < 0.8
+          ? 0.7
+          : minY < 0.9
+          ? 0.8
+          : 0.9,
+      maxYLine: maxY + 0.1, // Add 0.1 to give some padding above highest value
     };
   }
-};
 
-// Ensure other key components are globally accessible (FOR API.JS CONNECTION)
-window.DataStore = window.DataStore || class DataStore {};
-window.DataProcessor = window.DataProcessor || class DataProcessor {};
-window.ApiService = window.ApiService || class ApiService {};
-
-// Create global instances if they don't exist (FOR API.JS CONNECTION)
-if (!window.dataStore && window.DataStore) {
-  window.dataStore = new window.DataStore();
-}
-
-if (!window.dataProcessor && window.DataProcessor && window.dataStore) {
-  window.dataProcessor = new window.DataProcessor(window.dataStore);
-}
-
-const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
-  // console.log("addUniqueClientsToOptionsSelectClientDropdown", { clientArray });
-
-  const optionsListClient = document.getElementById("options-list-client");
-  if (!optionsListClient) {
-    console.error("Client options list element not found");
-    return;
+  // Handle maxY rounding
+  if (maxY >= 1000000) {
+    maxY = Math.ceil(maxY / 5000000) * 5000000;
+  } else if (maxY >= 100000) {
+    maxY = Math.ceil(maxY / 10000) * 10000;
+  } else if (maxY >= 1000) {
+    maxY = Math.ceil(maxY / 5000) * 5000;
+  } else if (maxY >= 100) {
+    maxY = Math.ceil(maxY / 100) * 100;
+  } else if (maxY >= 10) {
+    maxY = Math.ceil(maxY / 10) * 10;
+  } else if (maxY >= 1) {
+    maxY = Math.ceil(maxY);
+  } else {
+    // For values between 0 and 1
+    maxY = Math.ceil(maxY * 10) / 10;
   }
 
-  // Ensure global scoping and initialization
-  window.selectedClients_Array = window.selectedClients_Array || new Set();
+  // Handle minY
+  if (minY >= 0) {
+    minY = 0;
+  } else {
+    // Handle negative minY rounding
+    if (Math.abs(minY) >= 1000000) {
+      minY = Math.floor(minY / 5000000) * 5000000;
+    } else if (Math.abs(minY) >= 100000) {
+      minY = Math.floor(minY / 10000) * 10000;
+    } else if (Math.abs(minY) >= 1000) {
+      minY = Math.floor(minY / 5000) * 5000;
+    } else if (Math.abs(minY) >= 100) {
+      minY = Math.floor(minY / 100) * 100;
+    } else if (Math.abs(minY) >= 10) {
+      minY = Math.floor(minY / 10) * 10;
+    } else if (Math.abs(minY) >= 1) {
+      minY = Math.floor(minY);
+    } else {
+      // For values between -1 and 0
+      minY = Math.floor(minY * 10) / 10;
+    }
+  }
 
-  // Clear existing content
-  optionsListClient.innerHTML = "";
+  return { minY, maxY, minYLine: minY, maxYLine: maxY };
+};
 
-  // Create "Select All" checkbox
-  const selectAllLabel = document.createElement("label");
-  selectAllLabel.setAttribute("for", "select-all-checkbox-client");
-  selectAllLabel.setAttribute(
-    "class",
-    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
-  );
+const yaxisLabelFormatter = (val) => {
+  const num = parseFloat(val);
+  if (isNaN(num)) {
+    return "Invalid input";
+  }
 
-  const selectAllInput = document.createElement("input");
-  selectAllInput.setAttribute("type", "checkbox");
-  selectAllInput.setAttribute("id", "select-all-checkbox-client");
-  selectAllInput.setAttribute(
-    "class",
-    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
-  );
-  selectAllInput.checked = true; // Check "Select All" by default
+  const absNum = Math.abs(num);
+  let rounded;
 
-  const selectAllSpan = document.createElement("span");
-  selectAllSpan.setAttribute("id", "select-all-text-client");
-  selectAllSpan.innerText = "(select all)";
-  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+  if (absNum >= 1000000) {
+    rounded = Math.round(num / 100000) * 100000;
+    return `${(rounded / 1000000).toFixed(1)}M`;
+  }
+  if (absNum >= 100000) {
+    rounded = Math.round(num / 10000) * 10000;
+    return `${(rounded / 1000).toFixed(0)}k`;
+  }
+  if (absNum >= 10000) {
+    rounded = Math.round(num / 1000) * 1000;
+    return `${(rounded / 1000).toFixed(0)}k`;
+  }
+  if (absNum >= 1000) {
+    rounded = Math.round(num / 100) * 100;
+    return `${(rounded / 1000).toFixed(1)}k`;
+  }
+  if (absNum >= 100) {
+    rounded = Math.round(num / 10) * 10;
+    return rounded.toString();
+  }
+  if (absNum >= 1) {
+    rounded = Math.round(num * 2) / 2;
+    return rounded.toFixed(1);
+  }
+  // Between 0 and 1
+  rounded = Math.round(num * 10) / 10;
+  return rounded.toFixed(1);
+};
 
-  selectAllLabel.appendChild(selectAllInput);
-  selectAllLabel.appendChild(selectAllSpan);
-
-  optionsListClient.appendChild(selectAllLabel);
-
-  // EXPLICITLY clear the selectedClients_Array before populating
-  window.selectedClients_Array.clear();
-
-  // Populate all clients by default
-  clientArray.forEach((clientString) => {
-    const newListItem = document.createElement("li");
-    newListItem.style.listStyleType = "none";
-
-    const newDiv = document.createElement("div");
-    newDiv.setAttribute(
-      "class",
-      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
-    );
-
-    // Create the new input element
-    const newInput = document.createElement("input");
-    newInput.setAttribute("id", `client_${clientString}`);
-    newInput.setAttribute("type", "checkbox");
-    newInput.setAttribute("value", clientString);
-    newInput.setAttribute(
-      "class",
-      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-    );
-
-    const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", `client_${clientString}`);
-    newLabel.setAttribute(
-      "class",
-      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-    );
-    newLabel.innerText = clientString;
-
-    // FORCE check the input and add to selectedClients_Array
-    newInput.checked = true;
-    window.selectedClients_Array.add(clientString);
-
-    newDiv.appendChild(newInput);
-    newDiv.appendChild(newLabel);
-
-    newListItem.appendChild(newDiv);
-    optionsListClient.appendChild(newListItem);
-
-    // Event listener to update selectedClients_Array
-    newInput.addEventListener("change", function () {
-      if (newInput.checked) {
-        window.selectedClients_Array.add(clientString);
-      } else {
-        window.selectedClients_Array.delete(clientString);
-      }
-
-      // Update "Select All" checkbox state
-      const allChecked = Array.from(
-        document.querySelectorAll("#options-list-client input[type='checkbox']")
-      )
-        .filter((input) => input.id !== "select-all-checkbox-client")
-        .every((input) => input.checked);
-
-      selectAllInput.checked = allChecked;
-      selectAllInput.indeterminate =
-        !allChecked &&
-        Array.from(
-          document.querySelectorAll(
-            "#options-list-client input[type='checkbox']"
-          )
-        )
-          .filter((input) => input.id !== "select-all-checkbox-client")
-          .some((input) => input.checked);
-    });
+const getSelectedSchoolChurchOption = () => {
+  const options = document.querySelectorAll('input[name="schoolChurch"]');
+  options.forEach((option, index) => {
+    if (option.checked) {
+      selectedSchoolChurch_Selected = index.toString();
+      return;
+    }
   });
+};
 
-  // "Select All" checkbox behavior
-  selectAllInput.addEventListener("change", function () {
-    const isChecked = selectAllInput.checked;
-    const clientCheckboxes = document.querySelectorAll(
-      "#options-list-client input[type='checkbox']"
+function handleValue(value) {
+  if (value === undefined || isNaN(value)) {
+    return "0"; // Push "0" as a string if value is undefined or NaN
+  }
+  return String(value); // Convert value to string and push
+}
+
+function calculatePercentageChange(numbers) {
+  const percentageChanges = [];
+  for (let i = 1; i < numbers.length; i++) {
+    const change = ((numbers[i] - numbers[i - 1]) / numbers[i - 1]) * 100;
+    percentageChanges.push(change);
+  }
+  return percentageChanges;
+}
+
+document.querySelector("#sidebar ul").addEventListener("click", function () {
+  // Select all div elements whose ID ends with "Link"
+  const buttons = document.querySelectorAll('button[id$="Link"]');
+
+  buttons.forEach((button) => {
+    // Check if the button has the class "active"
+    if (button.classList.contains("active")) {
+      // Add the classes bg-gray-300 and dark:bg-gray-700 if they are not already present
+      button.classList.add("bg-gray-300", "dark:bg-gray-700");
+    } else {
+      // Remove the classes bg-gray-300 and dark:bg-gray-700 if they are present
+      button.classList.remove("bg-gray-300", "dark:bg-gray-700");
+    }
+  });
+});
+
+function getValuesInChronologicalOrder(data) {
+  // console.log('data', {data})
+  const years = Object.keys(data).sort(); // Get the years in chronological order
+  const valuesArray = years.map((year) => data[year].value); // Map the values to an array
+  return valuesArray;
+}
+
+const updateCfiValue = (cfiValue, mostRecentYear) => {
+  // console.log({ cfiValue });
+
+  document.querySelector("#cfiRatio_year").innerHTML = mostRecentYear;
+
+  let thresholds = [
+    10.0, 9.7, 9.4, 9.1, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0, 4.5, 4.0,
+    3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.0, -1.0, -2.0, -3.0, -3.2,
+  ];
+
+  for (let i = 0; i < thresholds.length; i++) {
+    // console.log({ cfiValue, thresh: thresholds[i] });
+    if (cfiValue >= thresholds[i]) {
+      document.getElementById(thresholds[i].toFixed(1)).style.backgroundColor =
+        "black";
+    }
+    if (cfiValue > thresholds[i] && cfiValue < thresholds[i - 1]) {
+      document.getElementById(thresholds[i - 1].toFixed(1)).innerHTML =
+        cfiValue;
+      document.getElementById(thresholds[i - 1].toFixed(1)).classList =
+        "font-bold text-lg text-black";
+    }
+  }
+
+  let ids = [
+    "yearCfiRatio_negative",
+    "yearCfiRatio_1",
+    "yearCfiRatio_3",
+    "yearCfiRatio_5",
+    "yearCfiRatio_7",
+    "yearCfiRatio_9",
+  ];
+
+  const propClass = `text-2xl tracking-wide font-bold`;
+
+  let idThresholds = [1, 3, 5, 7, 9];
+  let idIndex = idThresholds.findIndex((threshold) => cfiValue < threshold);
+
+  if (idIndex === -1) {
+    idIndex = ids.length - 1; // if cfiValue is not less than any threshold, use the last id
+  }
+
+  let element = document.getElementById(ids[idIndex]);
+
+  if (element) {
+    element.classList = propClass;
+  } else {
+    console.log(`Element with id ${ids[idIndex]} does not exist.`);
+  }
+};
+
+const displayFSSummary = (chart, idx) => {
+  const summaryDiv = document.getElementById(chart.replace("chart", "summary"));
+  // console.log({ summaryDiv, idx });
+};
+
+function toggleDetails(button, details, arrowIcon) {
+  button.addEventListener("click", () => {
+    // console.log('clicked');
+    details.classList.toggle("hidden");
+    arrowIcon.classList.toggle("rotate-90");
+    // console.log('toggleDetails() clicked');
+  });
+}
+
+function toggleDetailsByIdentifier(identifier) {
+  const dropdownButton = document.getElementById(`dropdown_${identifier}`);
+  const detailsDiv = document.getElementById(`details_${identifier}`);
+  const arrowIcon = document.getElementById(`arrow_${identifier}`);
+
+  // Your existing toggleDetails logic here
+  // ...
+
+  // For demonstration purposes, let's log a message
+  toggleDetails(dropdownButton, detailsDiv, arrowIcon);
+}
+
+function createFSTable(tableDataClass, arrayData, idString, year, dataObject, dataPointArray) {
+  const tableHeaderData = document.getElementById(`${idString}_yearSelectData`);
+  const tableHeaderYear = document.getElementById(`${idString}_yearSelect`);
+  const totalNum = dataObject[`${idString}_Client`][year].value;
+  const isTotalNumString = typeof totalNum === "string";
+
+  tableHeaderYear.textContent = `(${year})`;
+  tableHeaderData.textContent = `$${
+    isTotalNumString
+      ? Number(totalNum).toLocaleString()
+      : totalNum.toLocaleString()
+  }`;
+
+  // console.log({ tableDataClass, arrayData, idString, year, dataObject, dataPointArray });
+
+  // Loop through each data point in the array
+  dataPointArray.forEach(dataPoint => {
+    // console.log('---',{ dataPoint });
+    // console.log({ dataPoint });
+    // Get the corresponding table cell using the dataPoint class
+    const tableCell = document.querySelector(`.${dataPoint}_dataPoint`);
+    if (tableCell) {
+      // Get the value from dataObject using the _Client suffix
+      const value = dataObject[`${dataPoint}_Client`][year].value;
+      // Format and display the value
+      tableCell.textContent = `$${Number(value).toLocaleString()}`;
+    }
+  });
+}
+
+function processFinancialData(
+  dataObject,
+  tableDataClass,
+  year,
+  idString,
+  dataPointArray
+) {
+  // Create an array of values for the current year
+  let arrayData = [];
+  for (let key in dataObject) {
+    if (dataObject[key][year]) {
+      arrayData.push(dataObject[key][year].value);
+    }
+  }
+
+  // console.log("processFinancialData - utility.js", {
+  //   dataObject,
+  //   tableDataClass,
+  //   year,
+  //   idString,
+  //   arrayData,
+  //   dataPointArray
+  // });
+  // Call the createFSTable function with the tableId and arrayData
+  createFSTable(
+    tableDataClass,
+    arrayData,
+    idString,
+    year,
+    dataObject,
+    dataPointArray
+  );
+}
+
+function createAndRenderFSChart(
+  chartId,
+  parsedData,
+  dataKey,
+  color,
+  currency,
+  label,
+  tableDataClass,
+  dataPointArray
+) {
+  // if (tableDataClass == 'totalAssets_dataPoint')
+  // console.log("createAndRenderFSChart", {
+  //   yearsData_Array,
+  //   chartId,
+  //   parsedData,
+  //   dataKey,
+  //   color,
+  //   currency,
+  //   label,
+  //   dataPointArray
+  // });
+  // Create the chart
+  const chart = new ApexCharts(
+    document.querySelector(chartId),
+    getFSchartOptions(
+      parsedData,
+      dataKey,
+      color,
+      currency,
+      label,
+      chartId,
+      tableDataClass,
+      dataPointArray
+    )
+  );
+  // let mostCurrentYearIndex = Object.keys(parsedData[dataKey]).length - 1
+  // console.log('mostCurrentYearIndex', parsedData[dataKey])
+  // console.log('mostCurrentYearIndex', mostCurrentYearIndex)
+
+  // chart.toggleDataPointSelection(0, mostCurrentYearIndex)
+  chart.render();
+
+  // Get the client string
+  const clientString = dataKey.replace("_Client", "");
+
+  // Get the years from the data
+  const years = Object.keys(parsedData[dataKey]);
+
+  // Sort years numerically (ascending)
+  const sortedYears = [...years].sort((a, b) => parseInt(a) - parseInt(b));
+
+  // Get the most recent year (last in the sorted array)
+  const mostRecentYear = sortedYears[sortedYears.length - 1];
+
+  // Get the index of the most recent year in the chart's x-axis categories
+  const firstKey = Object.keys(parsedData)[0];
+  const yearsDataFinancialStatment_Array = Object.keys(
+    parsedData[firstKey]
+  ).sort((a, b) => a - b);
+  const mostRecentYearIndex =
+    yearsDataFinancialStatment_Array.indexOf(mostRecentYear);
+
+  // Process financial data for the most recent year
+  setTimeout(() => {
+    processFinancialData(
+      parsedData,
+      tableDataClass,
+      mostRecentYear,
+      clientString,
+      dataPointArray
     );
 
-    clientCheckboxes.forEach((checkbox) => {
-      if (checkbox.id !== "select-all-checkbox-client") {
-        checkbox.checked = isChecked;
-        const clientString = checkbox.value;
+    // Apply styling to the last bar
+    try {
+      const chartElement = document.querySelector(chartId);
+      if (!chartElement) return;
 
-        if (isChecked) {
-          window.selectedClients_Array.add(clientString);
-        } else {
-          window.selectedClients_Array.delete(clientString);
+      // Target all possible chart types
+      const allBars = chartElement.querySelectorAll(".apexcharts-series rect");
+
+      // Filter to get only the bars for the current series (if multiple series exist)
+      const seriesBars = Array.from(allBars).filter((bar) => {
+        // Look for the data series index in the element's attributes
+        return (
+          bar.getAttribute("data-series-index") === "0" ||
+          bar.parentElement.getAttribute("data-series-index") === "0"
+        );
+      });
+
+      // If we have bars and the index is valid
+      if (
+        seriesBars.length > 0 &&
+        mostRecentYearIndex >= 0 &&
+        mostRecentYearIndex < seriesBars.length
+      ) {
+        // Get the bar for the most recent year
+        const targetBar = seriesBars[mostRecentYearIndex];
+        if (targetBar) {
+          // Apply darkening style to make it look active
+          targetBar.style.filter = "brightness(0.65)";
+          targetBar.style.opacity = "1";
+          targetBar.style.stroke = "rgba(0, 0, 0, 0.35)";
+          targetBar.style.strokeWidth = "1px";
         }
       }
-    });
+    } catch (e) {
+      console.error("Error styling bar:", e);
+    }
+  }, 500); // Allow time for chart to render
 
-    // Reset indeterminate state
-    selectAllInput.indeterminate = false;
+  // Update the chart on dark mode event
+  document.addEventListener("dark-mode", function () {
+    chart.updateOptions(
+      getFSchartOptions(
+        parsedData,
+        dataKey,
+        color,
+        currency,
+        label,
+        chartId,
+        tableDataClass,
+        dataPointArray
+      )
+    );
   });
-  
-  // Trigger client dropdown initialization event - CRITICAL FOR HEADER.JS CONNECTION
-  const event = new CustomEvent("clientDropdownInitialized", {
-    detail: { clientArray: clientArray }
+
+  return chart;
+}
+
+function showApiLoadingFunction(action, mode) {
+  const loadingDiv = document.getElementById("loadingApiDiv");
+  const loadingApiHeader = document.getElementById("loadingApiHeader");
+  const apiPrint = document.getElementById("apiPrint");
+  const firstApiYearSpan = document.getElementById("firstApiYear");
+  const lastApiYearSpan = document.getElementById("LastApiYear");
+  const apiYears = document.getElementById("apiYears");
+
+  if (action === "close") {
+    setTimeout(() => {
+      loadingDiv.classList.add("hidden");
+    }, 1500);
+  } else if (action === "open") {
+    loadingDiv.classList.remove("hidden");
+
+    if (mode === "api") {
+      loadingApiHeader.innerHTML = "Loading Data";
+      apiYears.classList.remove("hidden");
+      apiPrint.classList.add("hidden");
+
+      const selectedYears = getSelectedYearsFromLocalStorage();
+      // console.log({ selectedYears });
+
+      if (selectedYears.length > 0) {
+        firstApiYearSpan.textContent = selectedYears[0];
+        lastApiYearSpan.textContent = selectedYears[selectedYears.length - 1];
+      }
+    } else if (mode === "print") {
+      loadingApiHeader.innerHTML = "Creating Presentation Slides";
+      apiYears.classList.add("hidden");
+      apiPrint.classList.remove("hidden");
+    }
+  }
+}
+
+document
+  .getElementById("option-25")
+  .addEventListener("change", function (event) {
+    const charts = [
+      cfiRatio_chart,
+      cfi_primaryReserveRatio_chart,
+      cfi_netIncomeOperationsRatio_chart,
+      cfi_returnOnNetAssets_chart,
+      cfi_viabilityRatio_chart,
+    ];
+
+    charts.forEach((chart) => {
+      if (!event.target.checked) {
+        chart.hideSeries("25th");
+      } else {
+        chart.showSeries("25th");
+      }
+    });
   });
-  document.dispatchEvent(event);
-};
+
+document
+  .getElementById("option-50")
+  .addEventListener("change", function (event) {
+    const charts = [
+      cfiRatio_chart,
+      cfi_primaryReserveRatio_chart,
+      cfi_netIncomeOperationsRatio_chart,
+      cfi_returnOnNetAssets_chart,
+      cfi_viabilityRatio_chart,
+    ];
+
+    charts.forEach((chart) => {
+      if (!event.target.checked) {
+        chart.hideSeries("50th");
+      } else {
+        chart.showSeries("50th");
+      }
+    });
+  });
+
+document
+  .getElementById("option-75")
+  .addEventListener("change", function (event) {
+    const charts = [
+      cfiRatio_chart,
+      cfi_primaryReserveRatio_chart,
+      cfi_netIncomeOperationsRatio_chart,
+      cfi_returnOnNetAssets_chart,
+      cfi_viabilityRatio_chart,
+    ];
+
+    charts.forEach((chart) => {
+      if (!event.target.checked) {
+        chart.hideSeries("75th");
+      } else {
+        chart.showSeries("75th");
+      }
+    });
+  });
+
+document
+  .getElementById("option-avg")
+  .addEventListener("change", function (event) {
+    const charts = [
+      cfiRatio_chart,
+      cfi_primaryReserveRatio_chart,
+      cfi_netIncomeOperationsRatio_chart,
+      cfi_returnOnNetAssets_chart,
+      cfi_viabilityRatio_chart,
+    ];
+
+    charts.forEach((chart) => {
+      if (!event.target.checked) {
+        chart.hideSeries("Avg");
+      } else {
+        chart.showSeries("Avg");
+      }
+    });
+  });
+
+document
+  .getElementById("option-benchmark")
+  .addEventListener("change", function (event) {
+    const charts = [
+      cfiRatio_chart,
+      cfi_primaryReserveRatio_chart,
+      cfi_netIncomeOperationsRatio_chart,
+      cfi_returnOnNetAssets_chart,
+      cfi_viabilityRatio_chart,
+    ];
+
+    const annotations = [
+      cfiRatio_annotation,
+      cfi_primaryReserveRatio_annotation,
+      cfi_netIncomeOperationsRatio_annotation,
+      cfi_returnOnNetAssets_annotation,
+      cfi_viabilityRatio_annotation,
+    ];
+
+    charts.forEach((chart, idx) => {
+      if (event.target.checked) {
+        chart.addYaxisAnnotation(annotations[idx]);
+        chart.update();
+      } else {
+        chart.removeAnnotation("annotation");
+      }
+    });
+  });
+
+document
+  .getElementById("select-all-checkbox-trendline")
+  .addEventListener("change", function (event) {
+    console.log("hi");
+
+    const allOptions = [
+      { id: "25th", elementId: "option-25" },
+      { id: "50th", elementId: "option-50" },
+      { id: "75th", elementId: "option-75" },
+      { id: "Avg", elementId: "option-avg" },
+      { id: "benchmark", elementId: "option-benchmark" },
+    ];
+
+    const checked = event.target.checked;
+
+    allOptions.forEach(({ id, elementId }) => {
+      const optionElement = document.getElementById(elementId);
+      optionElement.checked = checked;
+
+      const charts = [
+        cfiRatio_chart,
+        cfi_primaryReserveRatio_chart,
+        cfi_netIncomeOperationsRatio_chart,
+        cfi_returnOnNetAssets_chart,
+        cfi_viabilityRatio_chart,
+      ];
+
+      charts.forEach((chart, idx) => {
+        if (id === "benchmark") {
+          if (checked) {
+            const annotations = [
+              cfiRatio_annotation,
+              cfi_primaryReserveRatio_annotation,
+              cfi_netIncomeOperationsRatio_annotation,
+              cfi_returnOnNetAssets_annotation,
+              cfi_viabilityRatio_annotation,
+            ];
+            chart.addYaxisAnnotation(annotations[idx]);
+            chart.update();
+          } else {
+            chart.removeAnnotation("annotation");
+          }
+        } else {
+          if (checked) {
+            chart.showSeries(id);
+          } else {
+            chart.hideSeries(id);
+          }
+        }
+      });
+    });
+  });
