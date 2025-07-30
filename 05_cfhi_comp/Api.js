@@ -1714,7 +1714,7 @@ class AppController {
         selectedYears, 
         window.selectedClients_Array
       );
-      const recordsClient = await this.apiService.getRecordsForClient(selectedYears);
+      const recordsClient = await this.apiService.getRecordsForClient(yearsData_Array);
 
       // Validate records
       const validatedPeerRecords = await validateAndNormalizeRecords(recordsPeer);
@@ -1950,33 +1950,29 @@ $.get(clientData, apiCallClientDataForUniqueYears)
   })
   .catch((err) => console.error(err));
 
-// Find unique years in data
+// Find and add unique years from data
 const findUniqueYears = (data) => {
-  if (!data || data.length === 0) {
-    return [];
-  }
+  // console.log('findUniqueYears', {data});
 
-  const years = new Set();
+  if (data) {
+    data.forEach((item) => {
+      const yearElement = item.querySelector("s52_formatted_year");
+      if (yearElement) {
+        const year = yearElement.textContent;
 
-  console.log('findUniqueYears', data, years);
-  
-  
-  data.forEach(record => {
-    try {
-      const year = record.querySelector('s52_formatted_year')?.textContent?.trim();
-      if (year) {
-        // Extract year from formatted string (e.g., "2023" from "FY2023")
-        const yearMatch = year.match(/\d{4}/);
-        if (yearMatch) {
-          years.add(parseInt(yearMatch[0]));
+        // Check if the year is not already in yearsData_Array to ensure uniqueness
+        if (!yearsData_Array.includes(year)) {
+          yearsData_Array.push(year);
         }
       }
-    } catch (error) {
-      console.error('Error extracting year from record:', error);
-    }
-  });
+    });
 
-  return Array.from(years).sort((a, b) => b - a); // Sort descending
+    yearsData_Array.sort();
+    // console.log('findUniqueYears', {yearsData_Array});
+
+    // Add years to options dropdown
+    addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
+  }
 };
 
 // Validate and normalize records
