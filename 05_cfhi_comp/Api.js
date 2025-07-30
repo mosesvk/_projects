@@ -16,6 +16,9 @@ if (typeof window.sliderValue === "undefined") {
 if (typeof window.sliderValue2 === "undefined") {
   window.sliderValue2 = 25000;
 }
+if (typeof window.yearsData_Array === "undefined") {
+  window.yearsData_Array = [];
+}
 
 // Data Model and Business Logic Classes
 class DataStore {
@@ -36,6 +39,16 @@ class DataStore {
     localStorage.setItem("incomeData", JSON.stringify(this.incomeData));
     localStorage.setItem("expenseData", JSON.stringify(this.expenseData));
     localStorage.setItem("additionalData", JSON.stringify(this.additionalData));
+  }
+
+  // Clear all data categories
+  clear() {
+    this.demoData = {};
+    this.cashData = {};
+    this.debtData = {};
+    this.incomeData = {};
+    this.expenseData = {};
+    this.additionalData = {};
   }
 
   // Get a reference to the appropriate data object based on category
@@ -204,7 +217,8 @@ class DataProcessor {
       try {
         // Check if record is a DOM element
         if (record && typeof record.querySelector === "function") {
-          const fiscalYear = record.querySelector("s52_formatted_year")?.textContent;
+          const fiscalYear =
+            record.querySelector("s52_formatted_year")?.textContent;
           return fiscalYear && fiscalYear.includes(year.toString());
         }
         // Check if record is an object with direct properties
@@ -228,7 +242,10 @@ class DataProcessor {
   processDemoData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
@@ -520,7 +537,10 @@ class DataProcessor {
   processCashData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
@@ -686,7 +706,10 @@ class DataProcessor {
   processDebtData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
@@ -788,7 +811,10 @@ class DataProcessor {
   processIncomeData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
@@ -967,7 +993,10 @@ class DataProcessor {
   processExpenseData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
@@ -1179,7 +1208,10 @@ class DataProcessor {
   processAdditionalData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
@@ -1326,102 +1358,315 @@ class ApiService {
 
   // Get records for peer organizations with filtering
   async getRecordsForPeer(years, dataStr = "<qdbapi>") {
-    const yearQueries = years.map(year => `{'6'.CT.'${year}'}`).join("OR");
-    const query = `{${yearQueries}}`;
+    if (years.length === 0) {
+      // Base case: return the final string when the array is empty
+      try {
+        // If no data was collected, return empty array
+        if (dataStr === "<qdbapi>") {
+          console.warn("No records collected, returning empty array");
+          return [];
+        }
 
-    const body = `${dataStr}<ticket>bdqk4z_qh_0_efzgz73p69tg4exwdqhxudtg6s2fgje</ticket><apptoken>bdqk4z_qh_0_efzgz73p69tg4exwdqhxudtg6s2fgje</apptoken><table_id>bsnm4tgec</table_id><query>${query}</query><clist>a</clist><options>num-999999</options></qdbapi>`;
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(
+          dataStr + "</qdbapi>",
+          "text/xml"
+        );
+        // console.log("PEER XML", xmlDoc);
+        const records = xmlDoc.querySelectorAll("record");
+        // console.log("getRecordsForPeer", records);
+        // console.log(`Parsed ${records.length} peer records from collected data`);
+        return records;
+      } catch (error) {
+        console.error("Error parsing XML in getRecordsForPeer:", error);
+        return [];
+      }
+    }
+
+    const currentYear = years[0];
+    // console.log(`Fetching peer data for year: ${currentYear}`);
 
     try {
-      const response = await fetch(`${this.baseUrl}/db/bsnm4tgde?act=API_DoQuery`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/xml",
-          "QB-Realm-Hostname": "qbcapitalmanagement.quickbase.com",
-          "Authorization": `QB-USER-TOKEN ${this.userToken}`
-        },
-        body: body
-      });
+      // Get selected clients with appropriate batching
+      // console.log("PEERQUERY - window.selectedClients_Array ", window.selectedClients_Array);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      const clientQuery = this.getClientQuery(window.selectedClients_Array);
+
+      // console.log("PEERQUERY - clientQuery ", clientQuery);
+
+      // console.log("PEERQUERY - clientQuery ", {
+      //   clientQuery,
+      //   currentYear,
+      //   selectedClients_ArrayWindow: window.selectedClients_Array
+      // });
+
+      // Basic query condition with year
+      const queryConditions = `{195.EX.${currentYear}} AND ${clientQuery}`;
+      // console.log(`Using query condition: ${queryCondition}`);
+
+      // Add giving units filter
+      if (
+        window.sliderValue !== undefined &&
+        window.sliderValue2 !== undefined
+      ) {
+        queryConditions += ` AND {123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`;
       }
 
-      const textData = await response.text();
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(textData, "text/xml");
-      const records = xmlDoc.querySelectorAll("record");
-      return Array.from(records);
+      // Add regions filter
+      if (
+        window.selectedRegions_Array &&
+        window.selectedRegions_Array.length > 0
+      ) {
+        const regionConditions = window.selectedRegions_Array
+          .map((region) => `{267.EX.${region}}`)
+          .join(" OR ");
+        queryConditions += ` AND (${regionConditions})`;
+      }
+
+      // Add sites filter
+      if (window.selectedSites_Array && window.selectedSites_Array.length > 0) {
+        const siteConditions = window.selectedSites_Array
+          .map((site) => `{268.EX.${site}}`)
+          .join(" OR ");
+        queryConditions += ` AND (${siteConditions})`;
+      }
+
+      // Add client filter if clients are selected
+      if (
+        window.selectedClients_Array &&
+        window.selectedClients_Array.size > 0
+      ) {
+        const clientQuery = getClientQuery(window.selectedClients_Array);
+        queryConditions += ` AND ${clientQuery}`;
+      }
+
+      const apiCallPeerData = {
+        act: "API_DoQuery",
+        query: queryConditions,
+        clist:
+          "195.123.122.135.136.226.160.137.161.176.354.170.129.174.252.253.254.255.256.257.258.259.260.261.262.263.264.265.405.239.156.158.149.142.143.153.155.164.162.132.131.141.140.171.172.173.157.181.182.165.179.145.147.169.138.168.139.180.177.152.150.151.154.166.167.163.175.178.133.227.228.229.230.231.232.233.234.235.144.146.159.148.236.237.238.239.240.241.242.243.244.245.246.247.248.249.250.251.267.268.271.274.273.276.277.278.279.280.281.282.283.134.284.286.287.288.289.290.291.324.325.326.327.328.352.329.353.330.331.332.333.334.335.406.240.167.181.356.162.241.137.122.357.242.123.358.243.161.163.138.359.244.361.245.365.273.136.363.274.364.249.366.170.367.250.164.181.182.139.180.165.368.251.166.369.271.175.370.277.142.371.278.140.372.279.141.373.280.374.281.375.282.173.376.283.377.284.133.378.286.379.287.129.380.288.381.289.382.290.383.291.178",
+      };
+
+      // Use await to make the async operation more explicit
+      const xml = await $.get(peerData, apiCallPeerData);
+      // console.log("PEER XML", xml);
+      const recordsForPeer = $("record", xml).toArray();
+      // console.log("recordsForPeer", recordsForPeer);
+      // console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);
+
+      // Collect records for later use
+      if (recordsForPeer.length > 0) {
+        for (const record of recordsForPeer) {
+          const newRecord = document.createElement("record");
+
+          // Append each child element to the new record
+          Array.from(record.children).forEach((child) => {
+            newRecord.appendChild(child.cloneNode(true));
+          });
+
+          this.recordPeerHTMLArray.push(newRecord.outerHTML);
+          dataStr += newRecord.outerHTML;
+        }
+      } else {
+        console.warn(`No records found for year ${currentYear}`);
+      }
+
+      // Recursive call with updated years and dataStr
+      return await this.getRecordsForPeer(years.slice(1), dataStr);
     } catch (error) {
-      console.error("Error fetching peer records:", error);
-      throw error;
+      console.error("Error fetching peer data for year", currentYear, error);
+
+      // Log error details
+      if (error.status) {
+        console.error(
+          `Status: ${error.status}, StatusText: ${error.statusText}`
+        );
+      }
+
+      // Continue with next year even if this one failed
+      // console.log(`Continuing to next year after error...`);
+      return await this.getRecordsForPeer(years.slice(1), dataStr);
     }
   }
 
   // Get records for client organizations
   async getRecordsForClient(years, dataStr = "<qdbapi>") {
-    const yearQueries = years.map(year => `{'6'.CT.'${year}'}`).join("OR");
-    const query = `{${yearQueries}}`;
+    if (years.length === 0) {
+      // Base case: return the final XML when the array is empty
+      try {
+        // If no data was collected, return empty array
+        if (dataStr === "<qdbapi>") {
+          console.warn("No client records collected, returning empty array");
+          return [];
+        }
 
-    const body = `${dataStr}<ticket>bdqk4z_qh_0_efzgz73p69tg4exwdqhxudtg6s2fgje</ticket><apptoken>bdqk4z_qh_0_efzgz73p69tg4exwdqhxudtg6s2fgje</apptoken><table_id>bsnm4tged</table_id><query>${query}</query><clist>a</clist><options>num-999999</options></qdbapi>`;
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(
+          dataStr + "</qdbapi>",
+          "text/xml"
+        );
+        // console.log("Client XML", xmlDoc);
+        const records = xmlDoc.querySelectorAll("record");
+
+        // console.log(`Parsed ${records.length} client records from collected data`);
+        return records;
+      } catch (error) {
+        console.error("Error parsing client XML:", error);
+        return [];
+      }
+    }
+
+    const currentYear = years[0];
+    const apiCallClientData = {
+      act: "API_DoQuery",
+      query: `
+      {98.EX.${ClientRid}} AND {105.EX.'Comprehensive'} AND {474.EX.${currentYear}} 
+    `,
+      clist:
+        "452.98.474.22.21.34.35.259.300.301.60.302.69.28.73.257.258.260.261.263.303.304.264.262.265.266.280.267.281.268.269.270.271.272.273.275.278.277.276.279.242.243.244.305.306.245.307.308.309.310.246.311.312.313.274.389.390.391.392.393.230.282.283.286.285.284.75.399.401.402.403.404.405.406.407.408.409.317.318.321.327.329.330.333.335.339.341.342.345.377.379.256.255.254.253.252.33.288.445.446.447.448.449.294.295.296.297.298.299.437.444.438.443.439.440.442.441.313.410.316.319.320.326.328.331.332.334.338.340.343.346.378.381.383.380.251.250.249.248.247.213.216.220.223.236",
+    };
 
     try {
-      const response = await fetch(`${this.baseUrl}/db/bsnm4tgde?act=API_DoQuery`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/xml",
-          "QB-Realm-Hostname": "qbcapitalmanagement.quickbase.com",
-          "Authorization": `QB-USER-TOKEN ${this.userToken}`
-        },
-        body: body
-      });
+      // Use await to make the async operation more explicit
+      const xml = await $.get(clientData, apiCallClientData);
+      const recordsForClient = $("record", xml).toArray();
+      // console.log(`Received ${recordsForClient.length} client records for year ${currentYear}`);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      // Process the records
+      for (const record of recordsForClient) {
+        const newRecord = document.createElement("record");
+
+        // Append each child element to the new record
+        Array.from(record.children).forEach((child) => {
+          newRecord.appendChild(child.cloneNode(true));
+        });
+
+        this.recordClientHTMLArray.push(newRecord.outerHTML);
+        dataStr += newRecord.outerHTML;
       }
 
-      const textData = await response.text();
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(textData, "text/xml");
-      const records = xmlDoc.querySelectorAll("record");
-      return Array.from(records);
+      // console.log("recordClientHTMLArray", this.recordClientHTMLArray);
+
+      // Recursive call with updated years and dataStr
+      return await this.getRecordsForClient(years.slice(1), dataStr);
     } catch (error) {
-      console.error("Error fetching client records:", error);
-      throw error;
+      console.error("Error fetching client data for year", currentYear, error);
+
+      // Log error details
+      if (error.status) {
+        console.error(
+          `Status: ${error.status}, StatusText: ${error.statusText}`
+        );
+      }
+
+      // Continue with next year even if this one failed
+      // console.log(`Continuing to next year for client data after error...`);
+      return await this.getRecordsForClient(years.slice(1), dataStr);
     }
   }
 
-  // Get unique client and peer organization names for filtering
   async getRecordsForUniqueClientPeerNames() {
-    const dataStr = "<qdbapi>";
-    const body = `${dataStr}<ticket>bdqk4z_qh_0_efzgz73p69tg4exwdqhxudtg6s2fgje</ticket><apptoken>bdqk4z_qh_0_efzgz73p69tg4exwdqhxudtg6s2fgje</apptoken><table_id>bsnm4tgec</table_id><query></query><clist>7.8.9.10.11</clist><options>num-999999</options></qdbapi>`;
+    const apiCallPeerData = {
+      act: "API_DoQuery",
+      clist: "195.301.123.267.268.186.3",
+    };
 
     try {
-      const response = await fetch(`${this.baseUrl}/db/bsnm4tgde?act=API_DoQuery`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/xml",
-          "QB-Realm-Hostname": "qbcapitalmanagement.quickbase.com",
-          "Authorization": `QB-USER-TOKEN ${this.userToken}`
-        },
-        body: body
-      });
+      const xml = await $.get(peerData, apiCallPeerData);
+      const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
+      const uniquePeerClientNames = new Set();
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      // Create a global client data storage if it doesn't exist
+      if (!window.clientDataStore) {
+        window.clientDataStore = {};
       }
 
-      const textData = await response.text();
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(textData, "text/xml");
-      const records = xmlDoc.querySelectorAll("record");
+      // Create a string to hold the XML data
+      let xmlString = "<qdbapi>";
 
-      // Initialize filter handlers after data is loaded
+      recordsForPeerUniqueClientPeerNames.forEach((record) => {
+        const clientName =
+          record.querySelector("client___merged_client_name")?.textContent;
+
+        if (clientName) {
+          uniquePeerClientNames.add(clientName);
+
+          // Store client data with all required fields
+          if (!window.clientDataStore[clientName]) {
+            // Get fiscal year
+            const year = record.querySelector("year")?.textContent;
+
+            // Get mission unit value
+            const givingUnitVal =
+              record.querySelector("s02___giving_units")?.textContent || "0";
+
+            // Get region value
+            const regionVal =
+              record.querySelector("main_queryregions")?.textContent || "0";
+
+            // Get statevalue
+            const siteVal =
+              record.querySelector("main_querymultisite")?.textContent || "0";
+
+            // Store all client data
+            window.clientDataStore[clientName] = {
+              name: clientName,
+              year: year,
+              givingUnitVal: parseFloat(givingUnitVal) || 0,
+              region: regionVal,
+              site: siteVal,
+            };
+          }
+
+          // Add record's outerHTML to the XML string
+          xmlString += record.outerHTML;
+        }
+      });
+
+      // Close the XML string
+      xmlString += "</qdbapi>";
+
+      // Print the XML string to console
+      // console.log(
+      //   "xmlString getRecordsForUniqueClientPeerNames()",
+      //   xmlString
+      // );
+
+
+      const sortedUniquePeerClientNames = Array.from(
+        uniquePeerClientNames
+      ).sort();
+
+      // Add to global selected clients array
+      if (typeof selectedClients_Array !== "undefined") {
+        sortedUniquePeerClientNames.forEach((item) =>
+          selectedClients_Array.add(item)
+        );
+      }
+
+      // Check if the function exists before calling it
+      if (typeof addUniqueClientsToOptionsSelectClientDropdown === "function") {
+        addUniqueClientsToOptionsSelectClientDropdown(
+          sortedUniquePeerClientNames
+        );
+      } else {
+        console.error(
+          "addUniqueClientsToOptionsSelectClientDropdown function is not defined"
+        );
+
+        // Provide a simple fallback for populating clients if needed
+        this._populateClientsDropdownFallback(sortedUniquePeerClientNames);
+      }
+
+      // Initialize filter handlers after client data is loaded
       this._initializeFilterHandlers();
 
-      return Array.from(records);
+      window.sortedUniquePeerClientNames = sortedUniquePeerClientNames;
+
+      return sortedUniquePeerClientNames;
     } catch (error) {
-      console.error("Error fetching unique names:", error);
-      throw error;
+      console.error("Error fetching unique client names:", error);
+      return [];
     }
   }
 
@@ -1429,49 +1674,50 @@ class ApiService {
   _initializeFilterHandlers() {
     // Handle changes to any filter
     const handleFilterChange = () => this._handleFiltersChanged();
-    
-    // Client selection
-    const clientSelect = document.getElementById('clientSelect');
-    if (clientSelect) {
-      clientSelect.addEventListener('change', () => this._updateClientSelection());
-    }
 
-    // Region selection  
-    const regionSelect = document.getElementById('regionSelect');
+    // Note: Client selection is handled by custom dropdown checkboxes in options-list-client
+    // The checkboxes have their own event listeners that update window.selectedClients_Array
+
+    // Region selection
+    const regionSelect = document.getElementById("regionSelect");
     if (regionSelect) {
-      regionSelect.addEventListener('change', handleFilterChange);
+      regionSelect.addEventListener("change", handleFilterChange);
     }
 
     // Site selection
-    const siteSelect = document.getElementById('siteSelect');
+    const siteSelect = document.getElementById("siteSelect");
     if (siteSelect) {
-      siteSelect.addEventListener('change', handleFilterChange);
+      siteSelect.addEventListener("change", handleFilterChange);
     }
 
     // Slider controls
-    const slider1 = document.getElementById('slider1');
-    const slider2 = document.getElementById('slider2');
+    const slider1 = document.getElementById("slider1");
+    const slider2 = document.getElementById("slider2");
     if (slider1) {
-      slider1.addEventListener('input', handleFilterChange);
+      slider1.addEventListener("input", handleFilterChange);
     }
     if (slider2) {
-      slider2.addEventListener('input', handleFilterChange);
+      slider2.addEventListener("input", handleFilterChange);
     }
   }
 
   // Handle filter changes
   _handleFiltersChanged() {
     // Update global variables based on current filter state
-    const regionSelect = document.getElementById('regionSelect');
-    const siteSelect = document.getElementById('siteSelect');
-    const slider1 = document.getElementById('slider1');
-    const slider2 = document.getElementById('slider2');
+    const regionSelect = document.getElementById("regionSelect");
+    const siteSelect = document.getElementById("siteSelect");
+    const slider1 = document.getElementById("slider1");
+    const slider2 = document.getElementById("slider2");
 
     if (regionSelect) {
-      window.selectedRegions_Array = Array.from(regionSelect.selectedOptions).map(option => option.value);
+      window.selectedRegions_Array = Array.from(
+        regionSelect.selectedOptions
+      ).map((option) => option.value);
     }
     if (siteSelect) {
-      window.selectedSites_Array = Array.from(siteSelect.selectedOptions).map(option => option.value);
+      window.selectedSites_Array = Array.from(siteSelect.selectedOptions).map(
+        (option) => option.value
+      );
     }
     if (slider1) {
       window.sliderValue = parseInt(slider1.value);
@@ -1483,41 +1729,34 @@ class ApiService {
     this._triggerFiltersChanged();
   }
 
-  // Update client selection
-  _updateClientSelection() {
-    const clientSelect = document.getElementById('clientSelect');
-    if (clientSelect) {
-      window.selectedClients_Array = new Set(
-        Array.from(clientSelect.selectedOptions).map(option => option.value)
-      );
-    }
-    this._triggerFiltersChanged();
-  }
+  // Client selection is handled by custom dropdown checkboxes
+  // The checkboxes update window.selectedClients_Array directly through their event listeners
+  // No additional update method needed here
 
   // Trigger filter change event
   _triggerFiltersChanged() {
     // Dispatch custom event for filter changes
-    const event = new CustomEvent('filtersChanged', {
+    const event = new CustomEvent("filtersChanged", {
       detail: {
         clients: window.selectedClients_Array,
         regions: window.selectedRegions_Array,
         sites: window.selectedSites_Array,
         slider1: window.sliderValue,
-        slider2: window.sliderValue2
-      }
+        slider2: window.sliderValue2,
+      },
     });
     document.dispatchEvent(event);
   }
 
   // Populate clients dropdown fallback
   _populateClientsDropdownFallback(clientArray) {
-    const clientSelect = document.getElementById('clientSelect');
+    const clientSelect = document.getElementById("clientSelect");
     if (!clientSelect) return;
 
-    clientSelect.innerHTML = '';
-    
-    clientArray.forEach(client => {
-      const option = document.createElement('option');
+    clientSelect.innerHTML = "";
+
+    clientArray.forEach((client) => {
+      const option = document.createElement("option");
       option.value = client;
       option.textContent = client;
       clientSelect.appendChild(option);
@@ -1530,44 +1769,130 @@ class ApiService {
       return "";
     }
 
-    const clientQueries = Array.from(selectedClientsSet).map(client => 
-      `{'7'.EX.'${this._escapeClientName(client)}'}`
+    const clientQueries = Array.from(selectedClientsSet).map(
+      (client) => `{'301'.EX.'${this._escapeClientName(client)}'}`
     );
-    
+
     return `AND({${clientQueries.join("OR")}})`;
   }
+  // New method to handle batched client queries for large client sets
+  async getRecordsForPeerWithBatching(
+    years,
+    selectedClientsSet,
+    dataStr = "<qdbapi>"
+  ) {
+    const selectedClients = Array.from(selectedClientsSet);
 
-  // Get records for peer with batching support
-  async getRecordsForPeerWithBatching(years, selectedClientsSet, dataStr = "<qdbapi>") {
-    const yearQueries = years.map(year => `{'6'.CT.'${year}'}`).join("OR");
-    const clientQuery = this.getClientQuery(selectedClientsSet);
-    const query = clientQuery ? `{${yearQueries}}${clientQuery}` : `{${yearQueries}}`;
+    // If 15 or fewer clients, use the original method
+    if (selectedClients.length <= 15) {
+      return await this.getRecordsForPeer(years, dataStr);
+    }
 
-    const body = `${dataStr}<ticket>bdqk4z_qh_0_efzgz73p69tg4exwdqhxudtg6s2fgje</ticket><apptoken>bdqk4z_qh_0_efzgz73p69tg4exwdqhxudtg6s2fgje</apptoken><table_id>bsnm4tgec</table_id><query>${query}</query><clist>a</clist><options>num-999999</options></qdbapi>`;
+    console.log(`Using batched approach for ${selectedClients.length} clients`);
 
+    // Split clients into batches of 10 (safe for QuickBase query limits)
+    const BATCH_SIZE = 80;
+    const clientBatches = [];
+    for (let i = 0; i < selectedClients.length; i += BATCH_SIZE) {
+      clientBatches.push(selectedClients.slice(i, i + BATCH_SIZE));
+    }
+
+    console.log(
+      `Split into ${clientBatches.length} batches of ${BATCH_SIZE} clients each`
+    );
+
+    // Process each year with all batches
+    for (const currentYear of years) {
+      console.log(
+        `Processing year ${currentYear} with ${clientBatches.length} batches`
+      );
+
+      for (
+        let batchIndex = 0;
+        batchIndex < clientBatches.length;
+        batchIndex++
+      ) {
+        const clientBatch = clientBatches[batchIndex];
+        console.log(
+          `Processing batch ${batchIndex + 1}/${clientBatches.length} with ${
+            clientBatch.length
+          } clients`
+        );
+
+        try {
+          // Build query for this specific batch
+          const clientConditions = clientBatch
+            .map((client) => `{301.EX.'${this._escapeClientName(client)}'}`)
+            .join(" OR ");
+          const batchClientQuery = `(${clientConditions})`;
+
+          // Basic query condition with year and batch client query
+          const queryCondition = `{195.EX.${currentYear}} AND ${batchClientQuery}`;
+
+          const apiCallPeerData = {
+            act: "API_DoQuery",
+            query: queryCondition,
+            clist:
+              "195.123.122.135.136.226.160.137.161.176.354.170.129.174.252.253.254.255.256.257.258.259.260.261.262.263.264.265.405.239.156.158.149.142.143.153.155.164.162.132.131.141.140.171.172.173.157.181.182.165.179.145.147.169.138.168.139.180.177.152.150.151.154.166.167.163.175.178.133.227.228.229.230.231.232.233.234.235.144.146.159.148.236.237.238.239.240.241.242.243.244.245.246.247.248.249.250.251.267.268.271.274.273.276.277.278.279.280.281.282.283.134.284.286.287.288.289.290.291.324.325.326.327.328.352.329.353.330.331.332.333.334.335.406.240.167.181.356.162.241.137.122.357.242.123.358.243.161.163.138.359.244.361.245.365.273.136.363.274.364.249.366.170.367.250.164.181.182.139.180.165.368.251.166.369.271.175.370.277.142.371.278.140.372.279.141.373.280.374.281.375.282.173.376.283.377.284.133.378.286.379.287.129.380.288.381.289.382.290.383.291.178",
+          };
+
+          const xml = await $.get(peerData, apiCallPeerData);
+          const recordsForPeer = $("record", xml).toArray();
+
+          console.log(
+            `Batch ${batchIndex + 1}: Received ${
+              recordsForPeer.length
+            } records for year ${currentYear}`
+          );
+
+          // Collect records for later use
+          if (recordsForPeer.length > 0) {
+            for (const record of recordsForPeer) {
+              const newRecord = document.createElement("record");
+
+              // Append each child element to the new record
+              Array.from(record.children).forEach((child) => {
+                newRecord.appendChild(child.cloneNode(true));
+              });
+
+              this.recordPeerHTMLArray.push(newRecord.outerHTML);
+              dataStr += newRecord.outerHTML;
+            }
+          }
+
+          // Add a small delay between batches to avoid overwhelming the API
+          if (batchIndex < clientBatches.length - 1) {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+          }
+        } catch (error) {
+          console.error(
+            `Error fetching peer data for year ${currentYear}, batch ${
+              batchIndex + 1
+            }:`,
+            error
+          );
+          // Continue with next batch even if this one failed
+        }
+      }
+    }
+
+    // Parse and return the final results
     try {
-      const response = await fetch(`${this.baseUrl}/db/bsnm4tgde?act=API_DoQuery`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/xml",
-          "QB-Realm-Hostname": "qbcapitalmanagement.quickbase.com",
-          "Authorization": `QB-USER-TOKEN ${this.userToken}`
-        },
-        body: body
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (dataStr === "<qdbapi>") {
+        console.warn("No records collected, returning empty array");
+        return [];
       }
 
-      const textData = await response.text();
       const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(textData, "text/xml");
+      const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
       const records = xmlDoc.querySelectorAll("record");
-      return Array.from(records);
+      console.log(
+        `Batched approach completed: Parsed ${records.length} total peer records`
+      );
+      return records;
     } catch (error) {
-      console.error("Error fetching peer records with batching:", error);
-      throw error;
+      console.error("Error parsing XML in batched approach:", error);
+      return [];
     }
   }
 
@@ -1599,39 +1924,47 @@ class AppController {
     this.dataStore = new DataStore();
     this.dataProcessor = new DataProcessor(this.dataStore);
     this.apiService = new ApiService();
-    this.isProcessing = false;
+
+    // Add initialization flag
+    this._initialized = false;
+
+    this.initializeEventListeners();
   }
 
   // Initialize event listeners
   initializeEventListeners() {
-    // Run button click handler
-    const runButton = document.getElementById('runButton');
-    if (runButton) {
-      runButton.addEventListener('click', () => this.handleRunButtonClick());
+    // Prevent duplicate initialization
+    if (this._initialized) {
+      // console.log("AppController already initialized");
+      return;
     }
 
-    // Generate report button
-    const generateReportButton = document.getElementById('generateReportButton');
-    if (generateReportButton) {
-      generateReportButton.addEventListener('click', () => this.handleGenerateReportClick());
-    }
+    // Clear localStorage but preserve any existing selections
+    const preservedKeys = ["selectedYears"];
+    const savedValues = {};
 
-    // Print presentation button
-    const printPresentationButton = document.getElementById('printPresentationButton');
-    if (printPresentationButton) {
-      printPresentationButton.addEventListener('click', () => this.handlePrintPresentationClick());
-    }
-
-    // Year selection handlers
-    const yearCheckboxes = document.querySelectorAll('input[name="selectedYears"]');
-    yearCheckboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', () => this.processSelectedYears());
+    // Save values we want to keep
+    preservedKeys.forEach((key) => {
+      savedValues[key] = localStorage.getItem(key);
     });
 
-    // Filter change handlers
-    document.addEventListener('filtersChanged', (event) => {
-      console.log('Filters changed:', event.detail);
+    // Clear localStorage
+    localStorage.clear();
+
+    // Restore preserved values
+    Object.keys(savedValues).forEach((key) => {
+      if (savedValues[key]) {
+        localStorage.setItem(key, savedValues[key]);
+      }
     });
+
+    // Move this line to here - after localStorage operations
+    if (
+      typeof this.apiService.getRecordsForUniqueClientPeerNames === "function"
+    ) {
+      // console.log("Loading client names...");
+      this.apiService.getRecordsForUniqueClientPeerNames();
+    }
 
     // Initialize dropdowns only if they aren't already populated
     const regionsListElement = document.getElementById("options-list-region");
@@ -1640,9 +1973,7 @@ class AppController {
       (!regionsListElement.children.length ||
         regionsListElement.children.length <= 1)
     ) {
-      if (typeof addUniqueRegionsToOptionsSelectRegionsDropdown === "function") {
-        addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
-      }
+      addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
     }
 
     const sitesListElement = document.getElementById("options-list-site");
@@ -1651,34 +1982,56 @@ class AppController {
       (!sitesListElement.children.length ||
         sitesListElement.children.length <= 1)
     ) {
-      if (typeof addUniqueSitesToOptionsSelectSitesDropdown === "function") {
-        addUniqueSitesToOptionsSelectSitesDropdown(sites_Array);
-      }
+      addUniqueSitesToOptionsSelectSitesDropdown(sites_Array);
     }
+
+    // Set up run button event listener
+    const runButton = document.getElementById("run"); // Make sure to use correct ID
+    if (runButton) {
+      this.runButton = runButton;
+
+      // Remove any existing listeners to prevent duplicates
+      const newRunButton = runButton.cloneNode(true);
+      runButton.parentNode.replaceChild(newRunButton, runButton);
+      this.runButton = newRunButton;
+
+      // Add click listener
+      this.runButton.addEventListener(
+        "click",
+        this.handleRunButtonClick.bind(this)
+      );
+    }
+
+    // Mark as initialized
+    this._initialized = true;
   }
 
   // Create empty chart placeholder
   async createEmptyChart(chart, title) {
     try {
-      if (chart && typeof chart.destroy === 'function') {
+      if (chart && typeof chart.destroy === "function") {
         chart.destroy();
       }
 
-      const canvas = document.createElement('canvas');
+      const canvas = document.createElement("canvas");
       canvas.width = 400;
       canvas.height = 200;
-      
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#f8f9fa';
+
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#f8f9fa";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#6c757d';
-      ctx.font = '16px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText(`${title} - No Data Available`, canvas.width / 2, canvas.height / 2);
+      ctx.fillStyle = "#6c757d";
+      ctx.font = "16px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText(
+        `${title} - No Data Available`,
+        canvas.width / 2,
+        canvas.height / 2
+      );
 
       return canvas;
     } catch (error) {
-      console.error('Error creating empty chart:', error);
+      console.error("Error creating empty chart:", error);
       return null;
     }
   }
@@ -1686,7 +2039,12 @@ class AppController {
   // Validate data for charts
   async _validateDataForCharts() {
     const patterns = [
-      'demo', 'cash', 'debt', 'income', 'expense', 'additional'
+      "demo",
+      "cash",
+      "debt",
+      "income",
+      "expense",
+      "additional",
     ];
 
     for (const pattern of patterns) {
@@ -1710,125 +2068,320 @@ class AppController {
 
   // Handle run button click
   async handleRunButtonClick() {
-    if (this.isProcessing) {
-      console.log('Already processing...');
-      return;
-    }
+    // console.log("handleRunButtonClick() called");
 
-    this.isProcessing = true;
-    const runButton = document.getElementById('runButton');
-    
     try {
-      // Update button state
-      toggleButtonLoadingState(runButton);
+      // Show loading indicator
+      if (typeof showApiLoadingFunction === "function") {
+        showApiLoadingFunction("open", "api");
+      }
 
-      // Get selected years
-      const selectedYears = this.processSelectedYears();
-      if (selectedYears.length === 0) {
-        alert('Please select at least one year.');
+      // Process selected years
+      let selectedYears;
+      try {
+        selectedYears = this.processSelectedYears();
+      } catch (error) {
+        console.error("Error processing selected years:", error);
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
         return;
       }
 
-      // Get unique client/peer names for filtering
-      const uniqueRecords = await this.apiService.getRecordsForUniqueClientPeerNames();
-      
-      // Get records for selected years
-      const recordsPeer = await this.apiService.getRecordsForPeerWithBatching(
-        selectedYears, 
-        window.selectedClients_Array
-      );
-      const recordsClient = await this.apiService.getRecordsForClient(yearsData_Array);
+      this.saveSelectedYearsToLocalStorage(selectedYears);
 
-      // Validate records
-      const validatedPeerRecords = await validateAndNormalizeRecords(recordsPeer);
-      const validatedClientRecords = await validateAndNormalizeRecords(recordsClient);
+      // Check for selected clients
+      if (
+        !window.selectedClients_Array ||
+        window.selectedClients_Array.size === 0
+      ) {
+        console.warn("No clients selected");
+        if (typeof createToastWarning === "function") {
+          createToastWarning("Please select at least one client");
+        } else {
+          alert("Please select at least one client");
+        }
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+        return;
+      }
 
-      // Process all data
-      this.dataProcessor.processAllData(
-        selectedYears, 
-        validatedPeerRecords, 
-        validatedClientRecords
+      // Log selected data for debugging
+      console.log("Selected years:", selectedYears);
+      console.log(
+        "Selected clients:",
+        Array.from(window.selectedClients_Array)
       );
+      console.log(
+        "Selected regions:",
+        Array.from(window.selectedRegions_Array || [])
+      );
+      console.log(
+        "Selected sites:",
+        Array.from(window.selectedSites_Array || [])
+      );
+
+      // Clear existing data
+      if (this.dataStore && typeof this.dataStore.clear === "function") {
+        this.dataStore.clear();
+      }
+
+      if (
+        this.apiService &&
+        typeof this.apiService.clearRecords === "function"
+      ) {
+        this.apiService.clearRecords();
+      }
+
+      // Fetch peer data with improved error handling
+      let recordsPeer;
+      try {
+        // Use batched approach if more than 15 clients are selected
+        const selectedClientsCount = window.selectedClients_Array
+          ? window.selectedClients_Array.size
+          : 0;
+
+        if (selectedClientsCount > 15) {
+          console.log(
+            `Using batched approach for ${selectedClientsCount} clients`
+          );
+          recordsPeer = await this.apiService.getRecordsForPeerWithBatching(
+            selectedYears,
+            window.selectedClients_Array
+          );
+        } else {
+          recordsPeer = await this.apiService.getRecordsForPeer(selectedYears);
+        }
+
+        // Validate records
+        if (!recordsPeer || recordsPeer.length === 0) {
+          console.warn("No peer records returned");
+          if (typeof createToastWarning === "function") {
+            createToastWarning(
+              "No peer records extracted. Please select more filters"
+            );
+          } else {
+            alert("No peer records extracted. Please select more filters");
+          }
+          if (typeof showApiLoadingFunction === "function") {
+            showApiLoadingFunction("close");
+          }
+          return; // Stop the whole process here
+        } else {
+          // Process peer records
+          recordsPeer = await validateAndNormalizeRecords(recordsPeer);
+          // console.log(`Normalized ${recordsPeer.length} peer records`);
+          window.recordsPeer = recordsPeer;
+          countUniqueClients(recordsPeer);
+        }
+      } catch (error) {
+        console.error("Error fetching peer data:", error);
+        if (typeof createToastWarning === "function") {
+          createToastWarning(
+            "Error fetching peer data. Please try again or adjust your filters."
+          );
+        } else {
+          alert(
+            "Error fetching peer data. Please try again or adjust your filters."
+          );
+        }
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+        return; // Stop the process on error as well
+      }
+
+      // Fetch client data with error handling
+      let recordsClient;
+      try {
+        recordsClient = await this.apiService.getRecordsForClient(
+          window.yearsData_Array
+        );
+
+        window.testRecordsClient = recordsClient;
+
+        if (!recordsClient || recordsClient.length === 0) {
+          console.warn("No client records returned");
+          // Continue anyway, we might have peer data
+        } else {
+          // Process client records
+          recordsClient = await validateAndNormalizeRecords(recordsClient);
+
+          window.recordsClientSelectedYears = recordsClient;
+          if (
+            recordsClient.length > 0 &&
+            recordsClient[recordsClient.length - 1]
+          ) {
+            const monthYearElement = recordsClient[
+              recordsClient.length - 1
+            ].querySelector("fiscal_ye_date_formatted_month");
+            if (monthYearElement) {
+              window.monthYearEnd = monthYearElement.textContent;
+            }
+          }
+          // console.log(`Normalized ${recordsClient.length} client records`);
+        }
+      } catch (error) {
+        console.error("Error fetching client data:", error);
+        if (typeof createToastWarning === "function") {
+          createToastWarning("Error fetching client data. Please try again.");
+        } else {
+          alert("Error fetching client data. Please try again.");
+        }
+        // Continue anyway, we might have peer data
+      }
+
+      // Check if we have any data at all
+      if (
+        (!recordsPeer || recordsPeer.length === 0) &&
+        (!recordsClient || recordsClient.length === 0)
+      ) {
+        console.error("No data available for either peer or client");
+        if (typeof createToastWarning === "function") {
+          createToastWarning(
+            "No data retrieved. Try selecting fewer clients or different years."
+          );
+        } else {
+          alert(
+            "No data retrieved. Try selecting fewer clients or different years."
+          );
+        }
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+        return;
+      }
+
+      // Process the data
+      try {
+        this.dataProcessor.processAllData(
+          selectedYears,
+          recordsPeer || [],
+          recordsClient || []
+        );
+      } catch (error) {
+        console.error("Error processing data:", error);
+        if (typeof createToastWarning === "function") {
+          createToastWarning("Error processing data. Please try again.");
+        } else {
+          alert("Error processing data. Please try again.");
+        }
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+        return;
+      }
 
       // Validate data for charts
-      await this._validateDataForCharts();
+      const hasValidData = await this._validateDataForCharts();
+      if (!hasValidData) {
+        console.warn("No valid data for charts");
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+        // return;
+      }
 
-      // Display components
-      this.displayAllComponents();
-
-      console.log('Data processing completed successfully');
-
-    } catch (error) {
-      console.error('Error during data processing:', error);
-      alert('An error occurred while processing data. Please try again.');
-    } finally {
-      this.isProcessing = false;
-      toggleButtonNormalState(runButton);
+      // Display charts
+      try {
+        this.displayAllComponents();
+      } catch (error) {
+        console.error("Error displaying components:", error);
+        if (typeof createToastWarning === "function") {
+          createToastWarning(
+            "Error displaying charts. Please check console for details."
+          );
+        } else {
+          alert("Error displaying charts. Please check console for details.");
+        }
+      } finally {
+        // Always hide loading indicator
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+      }
+    } catch (err) {
+      console.error("Unexpected error in handleRunButtonClick:", err);
+      if (typeof createToastWarning === "function") {
+        createToastWarning("An unexpected error occurred. Please try again.");
+      } else {
+        alert("An unexpected error occurred. Please try again.");
+      }
+      if (typeof showApiLoadingFunction === "function") {
+        showApiLoadingFunction("close");
+      }
     }
   }
 
   // Handle generate report button click
   handleGenerateReportClick() {
-    const generateReportButton = document.getElementById('generateReportButton');
-    
+    const generateReportButton = document.getElementById(
+      "generateReportButton"
+    );
+
     try {
       toggleGenerateReportButtonNormalState(generateReportButton);
-      
+
       // Generate report logic here
-      console.log('Generating report...');
-      
+      console.log("Generating report...");
+
       // Reset button after operation
       setTimeout(() => {
         toggleButtonNormalState(generateReportButton);
       }, 2000);
-      
     } catch (error) {
-      console.error('Error generating report:', error);
+      console.error("Error generating report:", error);
       toggleButtonNormalState(generateReportButton);
     }
   }
 
   // Handle print presentation button click
   handlePrintPresentationClick() {
-    const printPresentationButton = document.getElementById('printPresentationButton');
-    
+    const printPresentationButton = document.getElementById(
+      "printPresentationButton"
+    );
+
     try {
       togglePrintPresentationButtonNormalState(printPresentationButton);
-      
+
       // Print presentation logic here
-      console.log('Printing presentation...');
+      console.log("Printing presentation...");
       window.print();
-      
+
       // Reset button after operation
       setTimeout(() => {
         toggleButtonNormalState(printPresentationButton);
       }, 2000);
-      
     } catch (error) {
-      console.error('Error printing presentation:', error);
+      console.error("Error printing presentation:", error);
       toggleButtonNormalState(printPresentationButton);
     }
   }
 
   // Process selected years
   processSelectedYears() {
-    const checkboxes = document.querySelectorAll('input[name="selectedYears"]:checked');
-    const selectedYears = Array.from(checkboxes).map(cb => parseInt(cb.value));
-    
+    const checkboxes = document.querySelectorAll(
+      'input[name="selectedYears"]:checked'
+    );
+    const selectedYears = Array.from(checkboxes).map((cb) =>
+      parseInt(cb.value)
+    );
+
     if (selectedYears.length > 0) {
       this.saveSelectedYearsToLocalStorage(selectedYears);
     }
-    
+
     return selectedYears;
   }
 
   // Save selected years to localStorage
   saveSelectedYearsToLocalStorage(selectedYearsData) {
     try {
-      localStorage.setItem('selectedYears', JSON.stringify(selectedYearsData));
-      console.log('Selected years saved to localStorage:', selectedYearsData);
+      localStorage.setItem("selectedYears", JSON.stringify(selectedYearsData));
+      console.log("Selected years saved to localStorage:", selectedYearsData);
     } catch (error) {
-      console.error('Error saving selected years to localStorage:', error);
+      console.error("Error saving selected years to localStorage:", error);
     }
   }
 
@@ -1836,18 +2389,17 @@ class AppController {
   displayAllComponents() {
     try {
       // Display charts and components based on processed data
-      console.log('Displaying all components...');
-      
+      console.log("Displaying all components...");
+
       // This would typically trigger chart creation and component rendering
-      const event = new CustomEvent('dataProcessed', {
+      const event = new CustomEvent("dataProcessed", {
         detail: {
-          dataStore: this.dataStore
-        }
+          dataStore: this.dataStore,
+        },
       });
       document.dispatchEvent(event);
-      
     } catch (error) {
-      console.error('Error displaying components:', error);
+      console.error("Error displaying components:", error);
     }
   }
 
@@ -1862,21 +2414,21 @@ class AppController {
 // Restore initial client selection
 function restoreInitialClientSelection() {
   try {
-    const savedSelection = localStorage.getItem('selectedClients');
+    const savedSelection = localStorage.getItem("selectedClients");
     if (savedSelection) {
       const clientArray = JSON.parse(savedSelection);
       window.selectedClients_Array = new Set(clientArray);
-      
+
       // Update UI if client select exists
-      const clientSelect = document.getElementById('clientSelect');
+      const clientSelect = document.getElementById("clientSelect");
       if (clientSelect) {
-        Array.from(clientSelect.options).forEach(option => {
+        Array.from(clientSelect.options).forEach((option) => {
           option.selected = window.selectedClients_Array.has(option.value);
         });
       }
     }
   } catch (error) {
-    console.error('Error restoring client selection:', error);
+    console.error("Error restoring client selection:", error);
   }
 }
 
@@ -1887,15 +2439,17 @@ function countUniqueClients(records) {
   }
 
   const uniqueClients = new Set();
-  
-  records.forEach(record => {
+
+  records.forEach((record) => {
     try {
-      const clientName = record.querySelector('s07___church_name')?.textContent?.trim();
+      const clientName = record
+        .querySelector("s07___church_name")
+        ?.textContent?.trim();
       if (clientName) {
         uniqueClients.add(clientName);
       }
     } catch (error) {
-      console.error('Error processing record for unique client count:', error);
+      console.error("Error processing record for unique client count:", error);
     }
   });
 
@@ -1905,40 +2459,40 @@ function countUniqueClients(records) {
 // Toggle button loading state
 function toggleButtonLoadingState(btn) {
   if (!btn) return;
-  
+
   btn.disabled = true;
-  btn.classList.add('loading');
-  
+  btn.classList.add("loading");
+
   const originalText = btn.textContent;
   btn.dataset.originalText = originalText;
-  btn.textContent = 'Loading...';
+  btn.textContent = "Loading...";
 }
 
 // Toggle print presentation button normal state
 const togglePrintPresentationButtonNormalState = (btn) => {
   if (!btn) return;
-  
+
   btn.disabled = false;
-  btn.classList.remove('loading');
-  btn.textContent = 'Print Presentation';
+  btn.classList.remove("loading");
+  btn.textContent = "Print Presentation";
 };
 
 // Toggle generate report button normal state
 const toggleGenerateReportButtonNormalState = (btn) => {
   if (!btn) return;
-  
+
   btn.disabled = false;
-  btn.classList.remove('loading');
-  btn.textContent = 'Generate Report';
+  btn.classList.remove("loading");
+  btn.textContent = "Generate Report";
 };
 
 // Toggle button normal state
 function toggleButtonNormalState(btn) {
   if (!btn) return;
-  
+
   btn.disabled = false;
-  btn.classList.remove('loading');
-  
+  btn.classList.remove("loading");
+
   const originalText = btn.dataset.originalText;
   if (originalText) {
     btn.textContent = originalText;
@@ -1952,7 +2506,6 @@ let apiCallClientDataForUniqueYears = {
   query: `{98.EX.${ClientRid}}`,
   clist: "98.474.452.3",
 };
-
 
 // Fetch client information
 $.get(clientData, apiCallClientDataForUniqueYears)
@@ -2001,16 +2554,16 @@ const findUniqueYears = (data) => {
 // Validate and normalize records
 async function validateAndNormalizeRecords(records) {
   if (!records || !Array.isArray(records)) {
-    console.warn('Invalid records provided for validation');
+    console.warn("Invalid records provided for validation");
     return [];
   }
 
   const validRecords = [];
-  
+
   records.forEach((record, index) => {
     try {
       // Check if record has required structure
-      if (record && typeof record.querySelector === 'function') {
+      if (record && typeof record.querySelector === "function") {
         validRecords.push(record);
       } else {
         console.warn(`Record at index ${index} is not a valid DOM element`);
@@ -2020,17 +2573,118 @@ async function validateAndNormalizeRecords(records) {
     }
   });
 
-  console.log(`Validated ${validRecords.length} out of ${records.length} records`);
+  console.log(
+    `Validated ${validRecords.length} out of ${records.length} records`
+  );
   return validRecords;
 }
 
-// Initialize application when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  const appController = new AppController();
-  appController.initializeEventListeners();
-  
-  // Restore any saved selections
-  restoreInitialClientSelection();
-  
-  console.log('Application initialized successfully');
-}); 
+window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
+  // console.log("processApiData called with", {
+  //   yearsCount: selectedYears.length,
+  //   peerCount: recordsPeer ? recordsPeer.length : 0,
+  //   clientCount: recordsClient ? recordsClient.length : 0,
+  // });
+
+  // Call the processApiCalls function which will update the dataStore
+  if (typeof processApiCalls === "function") {
+    const processedData = processApiCalls(
+      selectedYears,
+      recordsPeer,
+      recordsClient
+    );
+
+    // Signal that data processing is complete
+    document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
+
+    // Attempt to trigger chart initialization
+    setTimeout(() => {
+      if (typeof enhancedInitializeChartDisplay === "function") {
+        // console.log(
+        //   "Triggering enhancedInitializeChartDisplay from processApiData"
+        // );
+        enhancedInitializeChartDisplay();
+      } else if (typeof initializeChartDisplay === "function") {
+        // console.log("Triggering initializeChartDisplay from processApiData");
+        initializeChartDisplay();
+      } else if (
+        window.systemConnector &&
+        typeof window.systemConnector.displayCharts === "function"
+      ) {
+        // console.log(
+        //   "Triggering systemConnector.displayCharts from processApiData"
+        // );
+        window.systemConnector.displayCharts();
+      }
+    }, 500);
+
+    return processedData;
+  } else {
+    console.error("processApiCalls function not available");
+
+    // Create a fallback function
+    if (!window.dataStore) {
+      window.dataStore = new DataStore();
+    }
+
+    const dataProcessor = new DataProcessor(window.dataStore);
+    dataProcessor.processAllData(selectedYears, recordsPeer, recordsClient);
+
+    // Signal completion
+    document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
+
+    return {
+      cfiData: JSON.parse(localStorage.getItem("cfiData")),
+      doeData: JSON.parse(localStorage.getItem("doeData")),
+      financialAnalysisData: JSON.parse(
+        localStorage.getItem("financialAnalysisData")
+      ),
+      financialPositionData: JSON.parse(
+        localStorage.getItem("financialPositionData")
+      ),
+      financialStatementData: JSON.parse(
+        localStorage.getItem("financialStatementData")
+      ),
+      revenueExpenseData: JSON.parse(
+        localStorage.getItem("revenueExpenseData")
+      ),
+      // debtEndowmentData: JSON.parse(localStorage.getItem("debtEndowmentData")),
+      ltDebtPerTotalOperatingRevenueData: JSON.parse(
+        localStorage.getItem("ltDebtPerTotalOperatingRevenueData")
+      ),
+      debtServiceCoverageRatioData: JSON.parse(
+        localStorage.getItem("debtServiceCoverageRatioData")
+      ),
+      debtBurdenRatioData: JSON.parse(
+        localStorage.getItem("debtBurdenRatioData")
+      ),
+      endowmentOperatingBudgetData: JSON.parse(
+        localStorage.getItem("endowmentOperatingBudgetData")
+      ),
+      endowmentAssetsPerStudentData: JSON.parse(
+        localStorage.getItem("endowmentAssetsPerStudentData")
+      ),
+    };
+  }
+};
+
+// Ensure other key components are globally accessible
+window.DataStore = DataStore;
+window.DataProcessor = DataProcessor;
+window.ApiService = ApiService;
+
+// Create global instances if they don't exist
+if (!window.dataStore) {
+  window.dataStore = new DataStore();
+}
+
+if (!window.dataProcessor) {
+  window.dataProcessor = new DataProcessor(window.dataStore);
+}
+
+window.onload = () => {
+  if (!window.appController) {
+    // console.log("Initializing AppController");
+    window.appController = new AppController();
+  }
+};
