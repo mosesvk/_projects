@@ -1354,6 +1354,8 @@ class ApiService {
     this.baseUrl = "https://qbcapitalmanagement.quickbase.com";
     this.userToken = "bdqk4z_qh_0_efzgz73p69tg4exwdqhxudtg6s2fgje";
     this.appId = "bsnm4tgde";
+    this.recordClientHTMLArray = [];
+    this.recordPeerHTMLArray = [];
   }
 
   // Get records for peer organizations with filtering
@@ -1400,8 +1402,8 @@ class ApiService {
       //   selectedClients_ArrayWindow: window.selectedClients_Array
       // });
 
-      // Basic query condition with year
-      const queryConditions = `{195.EX.${currentYear}} AND ${clientQuery}`;
+      // Basic query condition with year and client query
+      let queryCondition = `{195.EX.${currentYear}} AND ${clientQuery}`;
       // console.log(`Using query condition: ${queryCondition}`);
 
       // Add giving units filter
@@ -1409,7 +1411,7 @@ class ApiService {
         window.sliderValue !== undefined &&
         window.sliderValue2 !== undefined
       ) {
-        queryConditions += ` AND {123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`;
+        queryCondition += ` AND {123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`;
       }
 
       // Add regions filter
@@ -1420,7 +1422,7 @@ class ApiService {
         const regionConditions = window.selectedRegions_Array
           .map((region) => `{267.EX.${region}}`)
           .join(" OR ");
-        queryConditions += ` AND (${regionConditions})`;
+        queryCondition += ` AND (${regionConditions})`;
       }
 
       // Add sites filter
@@ -1428,21 +1430,12 @@ class ApiService {
         const siteConditions = window.selectedSites_Array
           .map((site) => `{268.EX.${site}}`)
           .join(" OR ");
-        queryConditions += ` AND (${siteConditions})`;
-      }
-
-      // Add client filter if clients are selected
-      if (
-        window.selectedClients_Array &&
-        window.selectedClients_Array.size > 0
-      ) {
-        const clientQuery = getClientQuery(window.selectedClients_Array);
-        queryConditions += ` AND ${clientQuery}`;
+        queryCondition += ` AND (${siteConditions})`;
       }
 
       const apiCallPeerData = {
         act: "API_DoQuery",
-        query: queryConditions,
+        query: queryCondition,
         clist:
           "195.123.122.135.136.226.160.137.161.176.354.170.129.174.252.253.254.255.256.257.258.259.260.261.262.263.264.265.405.239.156.158.149.142.143.153.155.164.162.132.131.141.140.171.172.173.157.181.182.165.179.145.147.169.138.168.139.180.177.152.150.151.154.166.167.163.175.178.133.227.228.229.230.231.232.233.234.235.144.146.159.148.236.237.238.239.240.241.242.243.244.245.246.247.248.249.250.251.267.268.271.274.273.276.277.278.279.280.281.282.283.134.284.286.287.288.289.290.291.324.325.326.327.328.352.329.353.330.331.332.333.334.335.406.240.167.181.356.162.241.137.122.357.242.123.358.243.161.163.138.359.244.361.245.365.273.136.363.274.364.249.366.170.367.250.164.181.182.139.180.165.368.251.166.369.271.175.370.277.142.371.278.140.372.279.141.373.280.374.281.375.282.173.376.283.377.284.133.378.286.379.287.129.380.288.381.289.382.290.383.291.178",
       };
@@ -1659,7 +1652,11 @@ class ApiService {
       }
 
       // Initialize filter handlers after client data is loaded
-      this._initializeFilterHandlers();
+      if (sortedUniquePeerClientNames.length > 0) {
+        this._initializeFilterHandlers();
+      } else {
+        console.log("No client data loaded, skipping filter handler initialization");
+      }
 
       window.sortedUniquePeerClientNames = sortedUniquePeerClientNames;
 
@@ -1770,10 +1767,10 @@ class ApiService {
     }
 
     const clientQueries = Array.from(selectedClientsSet).map(
-      (client) => `{'301'.EX.'${this._escapeClientName(client)}'}`
+      (client) => `{301.EX.'${this._escapeClientName(client)}'}`
     );
 
-    return `AND({${clientQueries.join("OR")}})`;
+    return `(${clientQueries.join(" OR ")})`;
   }
   // New method to handle batched client queries for large client sets
   async getRecordsForPeerWithBatching(
@@ -1781,6 +1778,11 @@ class ApiService {
     selectedClientsSet,
     dataStr = "<qdbapi>"
   ) {
+    // Initialize record arrays if they don't exist
+    if (!this.recordPeerHTMLArray) {
+      this.recordPeerHTMLArray = [];
+    }
+
     const selectedClients = Array.from(selectedClientsSet);
 
     // If 15 or fewer clients, use the original method
@@ -1790,7 +1792,7 @@ class ApiService {
 
     console.log(`Using batched approach for ${selectedClients.length} clients`);
 
-    // Split clients into batches of 10 (safe for QuickBase query limits)
+    // Split clients into batches of 80 (safe for QuickBase query limits)
     const BATCH_SIZE = 80;
     const clientBatches = [];
     for (let i = 0; i < selectedClients.length; i += BATCH_SIZE) {
@@ -1827,7 +1829,34 @@ class ApiService {
           const batchClientQuery = `(${clientConditions})`;
 
           // Basic query condition with year and batch client query
-          const queryCondition = `{195.EX.${currentYear}} AND ${batchClientQuery}`;
+          let queryCondition = `{195.EX.${currentYear}} AND ${batchClientQuery}`;
+
+          // Add giving units filter
+          if (
+            window.sliderValue !== undefined &&
+            window.sliderValue2 !== undefined
+          ) {
+            queryCondition += ` AND {123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`;
+          }
+
+          // Add regions filter
+          if (
+            window.selectedRegions_Array &&
+            window.selectedRegions_Array.length > 0
+          ) {
+            const regionConditions = window.selectedRegions_Array
+              .map((region) => `{267.EX.${region}}`)
+              .join(" OR ");
+            queryCondition += ` AND (${regionConditions})`;
+          }
+
+          // Add sites filter
+          if (window.selectedSites_Array && window.selectedSites_Array.length > 0) {
+            const siteConditions = window.selectedSites_Array
+              .map((site) => `{268.EX.${site}}`)
+              .join(" OR ");
+            queryCondition += ` AND (${siteConditions})`;
+          }
 
           const apiCallPeerData = {
             act: "API_DoQuery",
@@ -1913,37 +1942,21 @@ class ApiService {
 
   // Clear records helper
   clearRecords() {
-    // Implementation for clearing cached records if needed
+    this.recordClientHTMLArray = [];
+    this.recordPeerHTMLArray = [];
     console.log("Records cleared");
   }
 
-  // Initialize filter handlers - Added to match apiTest.js functionality
-  _initializeFilterHandlers() {
-    // Listen for the custom filtersChanged event
-    document.addEventListener("filtersChanged", () => {
-      this._handleFiltersChanged();
-    });
-  }
 
-  // Method to handle filter changes - Added to match apiTest.js functionality
-  _handleFiltersChanged() {
-    if (!window.clientDataStore) {
-      console.warn("Client data store not available yet");
-      return;
-    }
-
-    // Call the function that updates client checkboxes based on current filters
-    if (typeof window.headerUpdateClientDropdown === "function") {
-      // Try the function from Header.js
-      window.headerUpdateClientDropdown();
-    } else {
-      console.error("No suitable update function found for client dropdown");
-      this._updateClientSelection();
-    }
-  }
 
   // Add a fallback method - Added to match apiTest.js functionality
   _updateClientSelection() {
+    // Check if clientDataStore is available before proceeding
+    if (!window.clientDataStore) {
+      console.log("Client data store not available for client selection update");
+      return;
+    }
+
     // Get current filter values
     const minGivingUnits = window.sliderValue || 0;
     const maxGivingUnits = window.sliderValue2 || 25000;
@@ -2002,9 +2015,6 @@ class AppController {
     this.dataStore = new DataStore();
     this.dataProcessor = new DataProcessor(this.dataStore);
     this.apiService = new ApiService();
-
-    // Initialize filter handlers for client dropdown filtering
-    this.apiService._initializeFilterHandlers();
 
     // Add initialization flag
     this._initialized = false;
@@ -2119,20 +2129,41 @@ class AppController {
 
   // Validate data for charts
   async _validateDataForCharts() {
-    const patterns = [
-      "demo",
-      "cash",
-      "debt",
-      "income",
-      "expense",
-      "additional",
-    ];
+    try {
+      // Check localStorage for required data categories
+      const categories = [
+        "demoData",
+        "cashData", 
+        "debtData",
+        "incomeData",
+        "expenseData",
+        "additionalData",
+      ];
 
-    for (const pattern of patterns) {
-      const hasData = await this._checkForAnyData(pattern);
-      if (!hasData) {
-        console.warn(`No data found for pattern: ${pattern}`);
+      let hasAnyData = false;
+
+      for (const category of categories) {
+        const data = localStorage.getItem(category);
+        if (!data || data === "{}") {
+          console.warn(`Missing or empty data for category: ${category}`);
+          continue;
+        }
+
+        // Try to parse the data to make sure it's valid JSON
+        try {
+          const parsedData = JSON.parse(data);
+          if (Object.keys(parsedData).length > 0) {
+            hasAnyData = true;
+          }
+        } catch (e) {
+          console.error(`Error parsing ${category}: ${e}`);
+        }
       }
+
+      return hasAnyData;
+    } catch (error) {
+      console.error("Error validating chart data:", error);
+      return false;
     }
   }
 
@@ -2209,10 +2240,10 @@ class AppController {
       }
 
       if (
-        this.apiService &&
-        typeof this.apiService.clearRecords === "function"
+        this &&
+        typeof this.clearRecords === "function"
       ) {
-        this.apiService.clearRecords();
+        this.clearRecords();
       }
 
       // Fetch peer data with improved error handling
@@ -2442,8 +2473,27 @@ class AppController {
 
   // Process selected years
   processSelectedYears() {
-
     const selectedYears = getSelectedYearsFromLocalStorage();
+
+    if (!selectedYears) {
+      if (typeof createToastWarning === "function") {
+        createToastWarning(
+          "Error retrieving selected years. Please reload the page and try again."
+        );
+      } else {
+        alert("Error retrieving selected years. Please reload the page and try again.");
+      }
+      throw new Error("Failed to retrieve selected years from localStorage");
+    }
+
+    if (!selectedYears.length) {
+      if (typeof createToastWarning === "function") {
+        createToastWarning("Please select at least one year for data to appear");
+      } else {
+        alert("Please select at least one year for data to appear");
+      }
+      throw new Error("No years selected");
+    }
 
     if (selectedYears.length > 0) {
       this.saveSelectedYearsToLocalStorage(selectedYears);
@@ -2501,8 +2551,6 @@ class AppController {
   }
 }
 
-// Utility Functions - Added from apiTest.js
-
 // Restore initial client selection
 function restoreInitialClientSelection() {
   try {
@@ -2526,26 +2574,79 @@ function restoreInitialClientSelection() {
 
 // Count unique clients in records
 function countUniqueClients(records) {
-  if (!records || records.length === 0) {
-    return 0;
+  // Check if records is valid and has a forEach method
+  if (!records || typeof records.forEach !== "function") {
+    console.error("Invalid records provided to countUniqueClients:", records);
+    const element = document.getElementById("uniqueClients");
+    if (element) {
+      element.textContent = "0";
+    }
+    return;
   }
 
+  // Get the current filter state
+  const selectedClients = window.selectedClients_Array
+    ? Array.from(window.selectedClients_Array)
+    : [];
+
+  // Use a Set to track unique client names
   const uniqueClients = new Set();
 
-  records.forEach((record) => {
-    try {
-      const clientName = record
-        .querySelector("s07___church_name")
-        ?.textContent?.trim();
-      if (clientName) {
-        uniqueClients.add(clientName);
-      }
-    } catch (error) {
-      console.error("Error processing record for unique client count:", error);
-    }
+  // Initialize uniqueClientsPerYearMap based on selected years
+  window.uniqueClientsPerYearMap = {};
+
+  const selectedYears = getSelectedYearsFromLocalStorage() || [];
+  selectedYears.forEach(year => {
+    window.uniqueClientsPerYearMap[year] = new Set();
   });
 
-  return uniqueClients.size;
+  try {
+    records.forEach((record) => {
+      const clientName = record
+        .querySelector("client___merged_client_name")
+        ?.textContent?.trim();
+      const year = record.querySelector("s52_formatted_year")?.textContent;
+
+      // Only count clients that are in the selectedClients_Array
+      if (clientName && selectedClients.includes(clientName)) {
+        uniqueClients.add(clientName);
+        
+        // Track unique clients per year
+        if (year && window.uniqueClientsPerYearMap && window.uniqueClientsPerYearMap[year]) {
+          window.uniqueClientsPerYearMap[year].add(clientName);
+        }
+      }
+    });
+
+    // Convert Sets to counts for the per-year map
+    if (window.uniqueClientsPerYearMap) {
+      Object.keys(window.uniqueClientsPerYearMap).forEach(year => {
+        window.uniqueClientsPerYearMap[year] = window.uniqueClientsPerYearMap[year].size;
+      });
+    }
+
+    // Update the UI with the count
+    const count = uniqueClients.size;
+    window.uniqueClientSize = count;
+    if (count < 6) {
+      if (typeof createToastWarning === "function") {
+        createToastWarning("There are 5 or less Unique Clients in Peer Records.");
+      }
+    }
+    const element = document.getElementById("uniqueClients");
+    if (element) {
+      element.textContent = count;
+    }
+
+    console.log(`Counted ${count} unique clients after filtering`);
+    console.log('Unique clients per year:', window.uniqueClientsPerYearMap);
+  } catch (error) {
+    console.error("Error counting unique clients:", error);
+    const element = document.getElementById("uniqueClients");
+    if (element) {
+      element.textContent = "0";
+    }
+  }
 }
 
 // Toggle button loading state
@@ -2645,30 +2746,58 @@ const findUniqueYears = (data) => {
 
 // Validate and normalize records
 async function validateAndNormalizeRecords(records) {
-  if (!records || !Array.isArray(records)) {
-    console.warn("Invalid records provided for validation");
+  // Handle empty or invalid input
+  if (!records) {
+    console.warn("Empty records received");
     return [];
   }
 
-  const validRecords = [];
+  // If records is already an array, process it
+  if (Array.isArray(records)) {
+    // Create a new array with properly processed records
+    const result = [];
 
-  records.forEach((record, index) => {
-    try {
-      // Check if record has required structure
+    for (const record of records) {
+      // If it's a DOM node, return as is
       if (record && typeof record.querySelector === "function") {
-        validRecords.push(record);
-      } else {
-        console.warn(`Record at index ${index} is not a valid DOM element`);
+        result.push(record);
       }
-    } catch (error) {
-      console.error(`Error validating record at index ${index}:`, error);
-    }
-  });
+      // If it's an object but not a DOM node, convert to a simulated DOM-like object
+      else if (record && typeof record === "object") {
+        // Create a wrapper with querySelector method
+        const wrapper = {
+          querySelector: function (selector) {
+            // Strip any leading underscores or other characters from selector to match property name
+            const propName = selector.replace(/^[_.]/, "");
+            if (this.hasOwnProperty(propName)) {
+              return { textContent: this[propName] };
+            }
+            return null;
+          },
+        };
 
-  console.log(
-    `Validated ${validRecords.length} out of ${records.length} records`
-  );
-  return validRecords;
+        // Copy all properties from the original record
+        Object.assign(wrapper, record);
+        result.push(wrapper);
+      }
+    }
+
+    console.log(`Validated ${result.length} out of ${records.length} records`);
+    return result;
+  }
+
+  // If records is NodeList or other iterable, convert to array
+  if (typeof records[Symbol.iterator] === "function") {
+    return Array.from(records);
+  }
+
+  // If records is a single object, wrap in array
+  if (typeof records === "object") {
+    return [records];
+  }
+
+  console.error("Unrecognized records format:", records);
+  return [];
 }
 
 window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
