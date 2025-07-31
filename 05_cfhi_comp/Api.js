@@ -1772,6 +1772,7 @@ class ApiService {
 
     return `(${clientQueries.join(" OR ")})`;
   }
+
   // New method to handle batched client queries for large client sets
   async getRecordsForPeerWithBatching(
     years,
@@ -1805,9 +1806,9 @@ class ApiService {
 
     // Process each year with all batches
     for (const currentYear of years) {
-      console.log(
-        `Processing year ${currentYear} with ${clientBatches.length} batches`
-      );
+      // console.log(
+      //   `Processing year ${currentYear} with ${clientBatches.length} batches`
+      // );
 
       for (
         let batchIndex = 0;
@@ -1815,11 +1816,11 @@ class ApiService {
         batchIndex++
       ) {
         const clientBatch = clientBatches[batchIndex];
-        console.log(
-          `Processing batch ${batchIndex + 1}/${clientBatches.length} with ${
-            clientBatch.length
-          } clients`
-        );
+        // console.log(
+        //   `Processing batch ${batchIndex + 1}/${clientBatches.length} with ${
+        //     clientBatch.length
+        //   } clients`
+        // );
 
         try {
           // Build query for this specific batch
@@ -1862,17 +1863,17 @@ class ApiService {
             act: "API_DoQuery",
             query: queryCondition,
             clist:
-              "195.123.122.135.136.226.160.137.161.176.354.170.129.174.252.253.254.255.256.257.258.259.260.261.262.263.264.265.405.239.156.158.149.142.143.153.155.164.162.132.131.141.140.171.172.173.157.181.182.165.179.145.147.169.138.168.139.180.177.152.150.151.154.166.167.163.175.178.133.227.228.229.230.231.232.233.234.235.144.146.159.148.236.237.238.239.240.241.242.243.244.245.246.247.248.249.250.251.267.268.271.274.273.276.277.278.279.280.281.282.283.134.284.286.287.288.289.290.291.324.325.326.327.328.352.329.353.330.331.332.333.334.335.406.240.167.181.356.162.241.137.122.357.242.123.358.243.161.163.138.359.244.361.245.365.273.136.363.274.364.249.366.170.367.250.164.181.182.139.180.165.368.251.166.369.271.175.370.277.142.371.278.140.372.279.141.373.280.374.281.375.282.173.376.283.377.284.133.378.286.379.287.129.380.288.381.289.382.290.383.291.178",
+              "195.123.122.135.136.226.160.137.161.176.354.170.129.174.252.253.254.255.256.257.258.259.260.261.262.263.264.265.405.239.156.158.149.142.143.153.155.164.162.132.131.141.140.171.172.173.157.181.182.165.179.145.147.169.138.168.139.180.177.152.150.151.154.166.167.163.175.178.133.227.228.229.230.231.232.233.234.235.144.146.159.148.236.237.238.239.240.241.242.243.244.245.246.247.248.249.250.251.267.268.271.274.273.276.277.278.279.280.281.282.283.134.284.286.287.288.289.290.291.324.325.326.327.328.352.329.353.330.331.332.333.334.335.406.240.167.181.356.162.241.137.122.357.242.123.358.243.161.163.138.359.244.361.245.365.273.136.363.274.364.249.366.170.367.250.164.181.182.139.180.165.368.251.166.369.271.175.370.277.142.371.278.140.372.279.141.373.280.374.281.375.282.173.376.283.377.284.133.378.286.379.287.129.380.288.381.289.382.290.383.291.178.301",
           };
 
           const xml = await $.get(peerData, apiCallPeerData);
           const recordsForPeer = $("record", xml).toArray();
 
-          console.log(
-            `Batch ${batchIndex + 1}: Received ${
-              recordsForPeer.length
-            } records for year ${currentYear}`
-          );
+          // console.log(
+          //   `Batch ${batchIndex + 1}: Received ${
+          //     recordsForPeer.length
+          //   } records for year ${currentYear}`
+          // );
 
           // Collect records for later use
           if (recordsForPeer.length > 0) {
@@ -1888,6 +1889,8 @@ class ApiService {
               dataStr += newRecord.outerHTML;
             }
           }
+
+          console.log('recordPeerHTMLArray', this.recordPeerHTMLArray, 'dataStr', dataStr);
 
           // Add a small delay between batches to avoid overwhelming the API
           if (batchIndex < clientBatches.length - 1) {
@@ -2167,15 +2170,42 @@ class AppController {
     }
   }
 
-  // Check for any data matching pattern
+  // Update checkForAnyData helper method with async/await
   async _checkForAnyData(pattern) {
-    try {
-      const data = this.dataStore.getDataCategory(pattern);
-      return Object.keys(data).length > 0;
-    } catch (error) {
-      console.error(`Error checking data for pattern ${pattern}:`, error);
-      return false;
+    // Check all data categories used in this application
+    const categories = [
+      "demoData",
+      "cashData", 
+      "debtData",
+      "incomeData",
+      "expenseData",
+      "additionalData"
+    ];
+
+    for (const category of categories) {
+      const data = localStorage.getItem(category);
+      if (!data || data === "{}") continue;
+
+      try {
+        const parsedData = JSON.parse(data);
+
+        // Check for any keys matching the pattern
+        const keys = Object.keys(parsedData);
+        if (
+          keys.some((key) =>
+            pattern === "*_Peer"
+              ? key.endsWith("_Peer")
+              : key.endsWith("_Client")
+          )
+        ) {
+          return true;
+        }
+      } catch (e) {
+        console.error(`Error parsing ${category}:`, e);
+      }
     }
+
+    return false;
   }
 
   // Handle run button click
@@ -2220,19 +2250,19 @@ class AppController {
       }
 
       // Log selected data for debugging
-      console.log("Selected years:", selectedYears);
-      console.log(
-        "Selected clients:",
-        Array.from(window.selectedClients_Array)
-      );
-      console.log(
-        "Selected regions:",
-        Array.from(window.selectedRegions_Array || [])
-      );
-      console.log(
-        "Selected sites:",
-        Array.from(window.selectedSites_Array || [])
-      );
+      // console.log("Selected years:", selectedYears);
+      // console.log(
+      //   "Selected clients:",
+      //   Array.from(window.selectedClients_Array)
+      // );
+      // console.log(
+      //   "Selected regions:",
+      //   Array.from(window.selectedRegions_Array || [])
+      // );
+      // console.log(
+      //   "Selected sites:",
+      //   Array.from(window.selectedSites_Array || [])
+      // );
 
       // Clear existing data
       if (this.dataStore && typeof this.dataStore.clear === "function") {
@@ -2397,7 +2427,7 @@ class AppController {
 
       // Display charts
       try {
-        this.displayAllComponents();
+        await this.displayAllComponents();
       } catch (error) {
         console.error("Error displaying components:", error);
         if (typeof createToastWarning === "function") {
@@ -2527,27 +2557,80 @@ class AppController {
     localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
   }
 
-  // Display all components
-  displayAllComponents() {
+  // Display all UI components with error handling
+  async displayAllComponents() {
     try {
-      // Display charts and components based on processed data
-      console.log("Displaying all components...");
+      // Check if we have any valid data to display
+      const hasData = await this._validateDataForCharts();
 
-      // This would typically trigger chart creation and component rendering
-      const event = new CustomEvent("dataProcessed", {
+      if (!hasData) {
+        console.warn(
+          "No valid data available for charts. Showing error message to user."
+        );
+        if (typeof createToastWarning === "function") {
+          createToastWarning(
+            "No data retrieved from API. Try adjusting your filters or selecting different years."
+          );
+        }
+        return;
+      }
+
+      // Call all display component functions for this application
+      if (typeof displayDemoComponent === "function") {
+        displayDemoComponent();
+      }
+      if (typeof displayCashComponent === "function") {
+        displayCashComponent();
+      }
+      if (typeof displayDebtComponent === "function") {
+        displayDebtComponent();
+      }
+      if (typeof displayIncomeComponent === "function") {
+        displayIncomeComponent();
+      }
+      if (typeof displayExpenseComponent === "function") {
+        displayExpenseComponent();
+      }
+      if (typeof displayReportComponent === "function") {
+        displayReportComponent();
+      }
+
+      // Signal that all components have been displayed
+      const event = new CustomEvent('componentsDisplayed', {
         detail: {
           dataStore: this.dataStore,
         },
       });
       document.dispatchEvent(event);
+
     } catch (error) {
-      console.error("Error displaying components:", error);
+      console.error("Error in displayAllComponents:", error);
+      throw error;
     }
   }
 
-  // Validate data for charts (duplicate method for consistency)
-  _validateDataForCharts() {
-    return this._validateDataForCharts();
+  // Update validateDataForCharts method with async/await
+  async _validateDataForCharts() {
+    try {
+      // Check if we have any peer or client data
+      const peerDataExists = await this._checkForAnyData("*_Peer");
+      const clientDataExists = await this._checkForAnyData("*_Client");
+
+      if (!peerDataExists && !clientDataExists) {
+        console.warn("No peer or client data found");
+        if (typeof createToastWarning === "function") {
+          createToastWarning(
+            "No data retrieved. Try selecting fewer clients or different years."
+          );
+        }
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Error validating chart data:", error);
+      return false;
+    }
   }
 }
 
