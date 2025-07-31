@@ -1791,7 +1791,7 @@ class ApiService {
       return await this.getRecordsForPeer(years, dataStr);
     }
 
-    console.log(`Using batched approach for ${selectedClients.length} clients`);
+    // console.log(`Using batched approach for ${selectedClients.length} clients`);
 
     // Split clients into batches of 80 (safe for QuickBase query limits)
     const BATCH_SIZE = 80;
@@ -1800,9 +1800,9 @@ class ApiService {
       clientBatches.push(selectedClients.slice(i, i + BATCH_SIZE));
     }
 
-    console.log(
-      `Split into ${clientBatches.length} batches of ${BATCH_SIZE} clients each`
-    );
+    // console.log(
+    //   `Split into ${clientBatches.length} batches of ${BATCH_SIZE} clients each`
+    // );
 
     // Process each year with all batches
     for (const currentYear of years) {
@@ -1890,7 +1890,7 @@ class ApiService {
             }
           }
 
-          console.log('recordPeerHTMLArray', this.recordPeerHTMLArray, 'dataStr', dataStr);
+          // console.log('recordPeerHTMLArray', this.recordPeerHTMLArray, 'dataStr', dataStr);
 
           // Add a small delay between batches to avoid overwhelming the API
           if (batchIndex < clientBatches.length - 1) {
@@ -2338,7 +2338,7 @@ class AppController {
       let recordsClient;
       try {
         recordsClient = await this.apiService.getRecordsForClient(
-          window.yearsData_Array
+          selectedYears
         );
 
         window.testRecordsClient = recordsClient;
