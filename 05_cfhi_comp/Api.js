@@ -1916,6 +1916,84 @@ class ApiService {
     // Implementation for clearing cached records if needed
     console.log("Records cleared");
   }
+
+  // Initialize filter handlers - Added to match apiTest.js functionality
+  _initializeFilterHandlers() {
+    // Listen for the custom filtersChanged event
+    document.addEventListener("filtersChanged", () => {
+      this._handleFiltersChanged();
+    });
+  }
+
+  // Method to handle filter changes - Added to match apiTest.js functionality
+  _handleFiltersChanged() {
+    if (!window.clientDataStore) {
+      console.warn("Client data store not available yet");
+      return;
+    }
+
+    // Call the function that updates client checkboxes based on current filters
+    if (typeof window.headerUpdateClientDropdown === "function") {
+      // Try the function from Header.js
+      window.headerUpdateClientDropdown();
+    } else {
+      console.error("No suitable update function found for client dropdown");
+      this._updateClientSelection();
+    }
+  }
+
+  // Add a fallback method - Added to match apiTest.js functionality
+  _updateClientSelection() {
+    // Get current filter values
+    const minGivingUnits = window.sliderValue || 0;
+    const maxGivingUnits = window.sliderValue2 || 25000;
+    const selectedRegions = Array.from(window.selectedRegions_Array || []);
+    const selectedSites = Array.from(window.selectedSites_Array || []);
+
+    // Get all client checkboxes
+    const clientCheckboxes = document.querySelectorAll(
+      '#options-list-client input[type="checkbox"]'
+    );
+
+    // Clear the selected clients array to rebuild from scratch
+    window.selectedClients_Array.clear();
+    let matchCount = 0;
+
+    // Process each client checkbox (skip the select all checkbox)
+    clientCheckboxes.forEach((checkbox) => {
+      if (checkbox.id === "select-all-checkbox-client") return;
+
+      const clientName = checkbox.value;
+      const clientData = window.clientDataStore[clientName];
+
+      if (!clientData) {
+        console.warn(`No data found for client: ${clientName}`);
+        checkbox.checked = false;
+        return;
+      }
+
+      // Check if client matches filter criteria (simplified version)
+      const givingUnitsMatch =
+        clientData.givingUnits >= minGivingUnits &&
+        clientData.givingUnits <= maxGivingUnits;
+      const regionMatch = selectedRegions.length === 0 || 
+        selectedRegions.includes(clientData.region);
+      const siteMatch = selectedSites.length === 0 || 
+        selectedSites.includes(clientData.site);
+
+      const matches = givingUnitsMatch && regionMatch && siteMatch;
+
+      // Update checkbox and selection array
+      checkbox.checked = matches;
+
+      if (matches) {
+        window.selectedClients_Array.add(clientName);
+        matchCount++;
+      }
+    });
+
+    console.log(`Filter completed: ${matchCount} clients match current filters`);
+  }
 }
 
 // Application Controller Class - Added from apiTest.js
@@ -1924,6 +2002,9 @@ class AppController {
     this.dataStore = new DataStore();
     this.dataProcessor = new DataProcessor(this.dataStore);
     this.apiService = new ApiService();
+
+    // Initialize filter handlers for client dropdown filtering
+    this.apiService._initializeFilterHandlers();
 
     // Add initialization flag
     this._initialized = false;

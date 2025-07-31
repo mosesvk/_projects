@@ -100,13 +100,10 @@ function clientMatchesFilters(
 
   // Check giving units range
   const givingUnitsMatch =
-    clientData.givingUnits >= minGivingUnits &&
-    clientData.givingUnits <= maxGivingUnits;
+    clientData.givingUnitVal >= minGivingUnits &&
+    clientData.givingUnitVal <= maxGivingUnits;
 
-  if (
-    selectedRegions.length === 0 ||
-    selectedSites.length === 0
-  ) {
+  if (selectedRegions.length === 0 || selectedSites.length === 0) {
     console.warn("No regions or sites selected, returning false");
     return false;
   }
@@ -121,11 +118,14 @@ function clientMatchesFilters(
     ? selectedSites.includes(clientData.site)
     : false;
 
-  return (
-    givingUnitsMatch &&
-    regionMatch &&
-    siteMatch
-  );
+  console.log("clientMatchesFilters()", {
+    clientData,
+    guMatch: givingUnitsMatch,
+    regionMatch: regionMatch,
+    siteMatch: siteMatch,
+  });
+
+  return givingUnitsMatch && regionMatch && siteMatch;
 }
 
 /**
@@ -135,7 +135,6 @@ function clientMatchesFilters(
 
 // Initialize prevMatchCount outside the function
 let prevMatchCount = 0;
-
 
 function updateClientDropdownFilters() {
   // Ensure client data store exists
@@ -214,7 +213,7 @@ function updateClientDropdownFilters() {
   } else {
     window.hasRunInitialClientDropdownFilter = true;
   }
-  
+
   // Update prevMatchCount for next comparison
   prevMatchCount = matchCount;
 }
@@ -370,9 +369,11 @@ function initializeClientDropdown(event) {
   });
 
   window.hasRunInitialClientDropdownFilter = false;
-  
+
   // Dispatch event to notify that client dropdown is initialized
-  const clientDropdownInitializedEvent = new CustomEvent("clientDropdownInitialized");
+  const clientDropdownInitializedEvent = new CustomEvent(
+    "clientDropdownInitialized"
+  );
   document.dispatchEvent(clientDropdownInitializedEvent);
 }
 
@@ -784,44 +785,48 @@ document.addEventListener("filtersChanged", updateClientDropdownFilters);
 document.addEventListener("clientDataLoaded", initializeClientDropdown);
 
 // LISTEN FOR API.JS EVENTS - Key connection to Api.js
-document.addEventListener("dataProcessed", function(event) {
+document.addEventListener("dataProcessed", function (event) {
   console.log("Data processed event received from Api.js");
-  
+
   // Initialize client dropdown when data is processed
   if (event.detail && event.detail.dataStore) {
     // Extract client data from the dataStore
     window.clientDataStore = {};
-    
+
     // Process demo data to build client data store
-    const demoData = event.detail.dataStore.getDataCategory('demo');
-    
+    const demoData = event.detail.dataStore.getDataCategory("demo");
+
     // Extract unique client names and their data
-    Object.keys(demoData).forEach(key => {
-      if (key.includes('_Client')) {
-        Object.keys(demoData[key]).forEach(year => {
+    Object.keys(demoData).forEach((key) => {
+      if (key.includes("_Client")) {
+        Object.keys(demoData[key]).forEach((year) => {
           // This would need to be adapted based on actual data structure
           // For now, create basic client entries
         });
       }
     });
-    
+
     // Trigger client dropdown initialization
     const clientDataLoadedEvent = new CustomEvent("clientDataLoaded", {
-      detail: { dataStore: window.clientDataStore }
+      detail: { dataStore: window.clientDataStore },
     });
     document.dispatchEvent(clientDataLoadedEvent);
   }
 });
 
 // Listen for custom slider events
-document.addEventListener("sliderChanged", function(event) {
+document.addEventListener("sliderChanged", function (event) {
   const { value, type } = event.detail;
-  const input = document.getElementById(type === "min" ? "givingUnitsMin" : "givingUnitsMax");
+  const input = document.getElementById(
+    type === "min" ? "givingUnitsMin" : "givingUnitsMax"
+  );
   if (input && input.value != value) {
     input.value = value;
-    
+
     // Also update the formatted display if it exists
-    const displaySpan = document.querySelector(`[data-format-for="${input.id}"]`);
+    const displaySpan = document.querySelector(
+      `[data-format-for="${input.id}"]`
+    );
     if (displaySpan) {
       displaySpan.textContent = formatNumberWithCommas(value);
     }
@@ -838,9 +843,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (typeof sites_Array !== "undefined") {
-    window.selectedSites_Array = new Set(
-      sites_Array.map((site) => site.str)
-    );
+    window.selectedSites_Array = new Set(sites_Array.map((site) => site.str));
   }
 
   // Configure slider inputs for giving units (CFHI-specific)
@@ -860,7 +863,7 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   // Set initial values to inputs
-  sliderInputs.forEach(slider => {
+  sliderInputs.forEach((slider) => {
     if (slider.element) {
       slider.element.value = window[slider.globalVar];
     }
@@ -913,10 +916,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize filters for region and site checkboxes
   function initializeFilterTriggers() {
     // Set up event listeners for region and site filter checkboxes
-    [
-      "region",
-      "site",
-    ].forEach((type) => {
+    ["region", "site"].forEach((type) => {
       const checkboxes = document.querySelectorAll(
         `#options-list-${type} input[type='checkbox']`
       );
@@ -993,23 +993,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Export the filter update function to global scope so Utility.js can use it
   window.headerUpdateClientDropdown = updateClientDropdownFilters;
-  
+
   // Add event listener for client dropdown initialization
-  document.addEventListener("clientDropdownInitialized", function(event) {
+  document.addEventListener("clientDropdownInitialized", function (event) {
     // Don't run initial filter update to preserve all clients being checked by default
     // This matches testHeader.js behavior where all clients start checked
+    // But do set the flag so that future filter changes will show toast messages
+    window.hasRunInitialClientDropdownFilter = true;
     console.log("Client dropdown initialized - all clients checked by default");
   });
-  
+
   // Explicitly set giving units input values
-  const givingUnitsMin = document.getElementById('givingUnitsMin');
-  const givingUnitsMax = document.getElementById('givingUnitsMax');
+  const givingUnitsMin = document.getElementById("givingUnitsMin");
+  const givingUnitsMax = document.getElementById("givingUnitsMax");
   if (givingUnitsMin) givingUnitsMin.value = window.sliderValue;
   if (givingUnitsMax) givingUnitsMax.value = window.sliderValue2;
 });
 
 // Keep the existing adjustDivHeight function call if it exists
-if (typeof adjustDivHeight === 'function') {
+if (typeof adjustDivHeight === "function") {
   adjustDivHeight();
-  window.addEventListener('resize', adjustDivHeight);
+  window.addEventListener("resize", adjustDivHeight);
 }
