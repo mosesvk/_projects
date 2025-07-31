@@ -6731,6 +6731,85 @@
       </div>
     </div>
 
+        <!-- Loading Modal -->
+        <div
+        id="loadingApiDiv"
+        tabindex="-1"
+        aria-hidden="true"
+        class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75"
+      >
+        <div class="text-center">
+          <div role="status">
+            <div
+              id="loadingApiInnerDiv"
+              class="animate-pulse flex flex-col place-items-center px-5 py-5 font-semibold text-white leading-none tracking-wider text-center rounded-full dark:bg-blue-900 dark:text-blue-200"
+            >
+              <div id="loadingApiHeader" class="mb-4 text-6xl"></div>
+              <div
+                id="loadingApiYears"
+                class="px-3 py-1 text-4xl font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200"
+              >
+                <span id="apiYears">
+                  <span id="firstApiYear" class="mx-2"></span> -
+                  <span id="LastApiYear" class="mx-2"></span>
+                </span>
+                <span id="apiPrint" class="flex gap-2 items-center">
+                  <!-- Download SVG Icon -->
+                  <svg
+                    class="w-10 h-10 text-blue-600 dark:text-blue-400 hover:text-blue-800 transition-colors cursor-pointer"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"
+                    />
+                  </svg>
+                  <!-- Bar Chart SVG Icon -->
+                  <svg
+                    class="w-10 h-10 text-green-600 dark:text-green-400 hover:text-green-800 transition-colors cursor-pointer"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <rect
+                      x="3"
+                      y="10"
+                      width="4"
+                      height="8"
+                      rx="1"
+                      fill="currentColor"
+                    />
+                    <rect
+                      x="9"
+                      y="6"
+                      width="4"
+                      height="12"
+                      rx="1"
+                      fill="currentColor"
+                    />
+                    <rect
+                      x="15"
+                      y="2"
+                      width="4"
+                      height="16"
+                      rx="1"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <!-- SCRIPT -->
     <!-- utility.js -->
     <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=145"></script>
