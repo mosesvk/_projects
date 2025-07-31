@@ -226,7 +226,7 @@ const createChartFromParsedData = (
   title
 ) => {
   if (parsedData) {
-    // console.log({ parsedData, chart, peer, client, type, fixedNum, mainName });
+    console.log('createChartFromParsedData', { parsedData, chart, peer, client, type, fixedNum, mainName });
 
     createChart(
       chart,
@@ -883,6 +883,7 @@ const getPeerAndClientChartDataArrays = (
   type
 ) => {
   // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark, type });
+
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
