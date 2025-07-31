@@ -996,10 +996,9 @@ document.addEventListener("DOMContentLoaded", function () {
   
   // Add event listener for client dropdown initialization
   document.addEventListener("clientDropdownInitialized", function(event) {
-    // Trigger initial filter update after client dropdown is populated
-    setTimeout(() => {
-      updateClientDropdownFilters();
-    }, 100);
+    // Don't run initial filter update to preserve all clients being checked by default
+    // This matches testHeader.js behavior where all clients start checked
+    console.log("Client dropdown initialized - all clients checked by default");
   });
   
   // Explicitly set giving units input values
