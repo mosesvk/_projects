@@ -204,6 +204,7 @@ const facilitiesExpenseToTotalCashExpenditures_lessThanTen_weightedAverage = (
   data,
   name
 ) => {
+  // console.log(data, name);
   const s12 = getSumOfArray(data.totalMaintenanceOccupancyCost[name]);
   const s45 = getSumOfArray(data.totalExpense[name]);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name]);

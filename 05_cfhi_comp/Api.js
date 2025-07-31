@@ -554,6 +554,66 @@ class DataProcessor {
           "cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves",
           "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves"
         );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "bodDesignatedForOperations",
+          record,
+          "s35___bod_designated_for_operations",
+          "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+          "daysExpendableNetAssets"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetWithoutDonorRestriction",
+          record,
+          "s34___net_asset_without_donor_restriction__undesignated",
+          "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+          "daysExpendableNetAssets"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+          "daysExpendableNetAssets"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+          "daysExpendableNetAssets"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+          "daysExpendableNetAssets"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+          "daysExpendableNetAssets"
+        );
 
         // daysOperatingCash [s18, s20, s36, s21, s45, s167, s168, s51, s46, s154, s166]
         this.dataStore.insertData(
@@ -564,6 +624,116 @@ class DataProcessor {
           record,
           "cfhi_compre_02_ratio___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
           "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalCash",
+          record,
+          "s18___total_cash",
+          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+          "daysOperatingCash"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "nonEndowmentInvestment",
+          record,
+          "s20___non_endowment_investment",
+          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+          "daysOperatingCash"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetWithDonor",
+          record,
+          "s36___net_asset_with_donor_restriction",
+          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+          "daysOperatingCash"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "pledgeReceivable",
+          record,
+          "s21___pledge_receivable",
+          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+          "daysOperatingCash"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+          "daysOperatingCash"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+          "daysOperatingCash"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+          "daysOperatingCash"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "capitalizedInterest",
+          record,
+          "s51___capitalized_interest",
+          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+          "daysOperatingCash"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+          "daysOperatingCash"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+          "daysOperatingCash"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+          "daysOperatingCash"
         );
 
         // availableDaysOfCashFlow [s49, s318, s320, s336, s321, s30, s45, s167, s168, s46, s154, s166]
@@ -576,6 +746,126 @@ class DataProcessor {
           "cfhi_compre_03_ratio___available_days_of_cash_flow_coverage",
           "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage"
         );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "cashFlowFromOperatingActivities",
+          record,
+          "s49___cash_flow_from_operating_activities",
+          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+          "availableDaysOfCashFlow"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalCashAtBeginningYear",
+          record,
+          "s318___total_cash_at_the_beginning_of_the_year",
+          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+          "availableDaysOfCashFlow"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "nonEndowmentInvestmentBeginningYear",
+          record,
+          "s320___non_endowment_investment_at_the_beginning_of_the_year",
+          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+          "availableDaysOfCashFlow"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetWithDonorRestriction",
+          record,
+          "s336___net_asset_with_donor_restriction_at_the_beginning_of_the_year",
+          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+          "availableDaysOfCashFlow"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "pledgeReceivableBeginningYear",
+          record,
+          "s321___pledge_receivable_at_the_beginning_of_the_year",
+          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+          "availableDaysOfCashFlow"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "availableOperatingLineOfCredit",
+          record,
+          "s30___available_operating_line_of_credit",
+          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+          "availableDaysOfCashFlow"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+          "availableDaysOfCashFlow"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+          "availableDaysOfCashFlow"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+          "availableDaysOfCashFlow"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+          "availableDaysOfCashFlow"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+          "availableDaysOfCashFlow"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
+          "availableDaysOfCashFlow"
+        );
 
         // liquidityRatio [s18, s20, s36, s21, s26, s166, s27, s28, s154, s164, s29, s31]
         this.dataStore.insertData(
@@ -586,6 +876,126 @@ class DataProcessor {
           record,
           "cfhi_compre_04_ratio___liquidity_ratio",
           "cfhi_compre_04_yes_no___liquidity_ratio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalCash",
+          record,
+          "s18___total_cash",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "nonEndowmentInvestment",
+          record,
+          "s20___non_endowment_investment",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetWithDonor",
+          record,
+          "s36___net_asset_with_donor_restriction",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "pledgeReceivable",
+          record,
+          "s21___pledge_receivable",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "currentLiabilities",
+          record,
+          "s26___current_liabilities",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "accruedInterest",
+          record,
+          "s27___accrued_interest",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "accruedConstructionCost",
+          record,
+          "s28___accrued_construction_cost",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "oneTimePayoffDebtDueNextYear",
+          record,
+          "s164___one_time_payoff_of_debt_due_in_the_next_year",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "deferredRevenue",
+          record,
+          "s29___deferred_revenue",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "shortTermConstructionLineOfCredit",
+          record,
+          "s31___short_term_construction_line_of_credit",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
         );
 
         // netCashAvailability [s18, s20, s26, s166, s31, s36, s21]
@@ -598,6 +1008,76 @@ class DataProcessor {
           "cfhi_compre_05_ratio___net_cash_availability",
           "cfhi_compre_05_yes_no___net_cash_availability"
         );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalCash",
+          record,
+          "s18___total_cash",
+          "cfhi_compre_05_yes_no___net_cash_availability",
+          "netCashAvailability"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "nonEndowmentInvestment",
+          record,
+          "s20___non_endowment_investment",
+          "cfhi_compre_05_yes_no___net_cash_availability",
+          "netCashAvailability"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "currentLiabilities",
+          record,
+          "s26___current_liabilities",
+          "cfhi_compre_05_yes_no___net_cash_availability",
+          "netCashAvailability"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_05_yes_no___net_cash_availability",
+          "netCashAvailability"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "shortTermConstructionLineOfCredit",
+          record,
+          "s31___short_term_construction_line_of_credit",
+          "cfhi_compre_05_yes_no___net_cash_availability",
+          "netCashAvailability"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetWithDonor",
+          record,
+          "s36___net_asset_with_donor_restriction",
+          "cfhi_compre_05_yes_no___net_cash_availability",
+          "netCashAvailability"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "pledgeReceivable",
+          record,
+          "s21___pledge_receivable",
+          "cfhi_compre_05_yes_no___net_cash_availability",
+          "netCashAvailability"
+        );
 
         // netCashAvailability_including [s18, s20, s26, s166, s31, s36, s21, s30]
         this.dataStore.insertData(
@@ -609,6 +1089,86 @@ class DataProcessor {
           "cfhi_compre_05a_ratio___net_cash_availability_including_unused_line_of_credit",
           "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit"
         );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalCash",
+          record,
+          "s18___total_cash",
+          "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+          "netCashAvailability_including"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "nonEndowmentInvestment",
+          record,
+          "s20___non_endowment_investment",
+          "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+          "netCashAvailability_including"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "currentLiabilities",
+          record,
+          "s26___current_liabilities",
+          "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+          "netCashAvailability_including"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+          "netCashAvailability_including"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "shortTermConstructionLineOfCredit",
+          record,
+          "s31___short_term_construction_line_of_credit",
+          "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+          "netCashAvailability_including"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "netAssetWithDonor",
+          record,
+          "s36___net_asset_with_donor_restriction",
+          "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+          "netCashAvailability_including"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "pledgeReceivable",
+          record,
+          "s21___pledge_receivable",
+          "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+          "netCashAvailability_including"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "availableOperatingLineOfCredit",
+          record,
+          "s30___available_operating_line_of_credit",
+          "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
+          "netCashAvailability_including"
+        );
 
         // netCashAvailability_standard [s45, s167, s168, s46]
         this.dataStore.insertData(
@@ -619,6 +1179,46 @@ class DataProcessor {
           record,
           "cfhi_compre_05b_ratio___std__at_least_one_months_worth_cash_expenses",
           "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses",
+          "netCashAvailability_standard"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses",
+          "netCashAvailability_standard"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses",
+          "netCashAvailability_standard"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_05b_yes_no___std__at_least_one_months_worth_cash_expenses",
+          "netCashAvailability_standard"
         );
       });
 
@@ -702,7 +1302,7 @@ class DataProcessor {
     });
   }
 
-  // DEBT DATA PROCESSING - Added from apiTest.js
+  // DEBT DATA PROCESSING - Updated to match apiBefore.js
   processDebtData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
@@ -713,101 +1313,537 @@ class DataProcessor {
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
-        // debtServiceCoverageRatio [s40, s45, s167, s168, s54, s55, s46]
+        // debtToContributionsWithout [s155, s165, s39]
         this.dataStore.insertData(
           "debt",
           "peer",
           year,
-          "debtServiceCoverageRatio_Peer",
+          "debtToContributionsWithout_Peer",
           record,
-          "cfhi_compre_06_ratio___debt_service_coverage_ratio",
-          "cfhi_compre_06_yes_no___debt_service_coverage_ratio"
+          "cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions",
+          "cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "totalDebt",
+          record,
+          "s155___total_debt",
+          "cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions",
+          "debtToContributionsWithout"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "financeLeaseRightOfUse",
+          record,
+          "s165___finance_lease_right_of_use_asset_and_liability",
+          "cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions",
+          "debtToContributionsWithout"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "contributionWithoutDonor",
+          record,
+          "s39___contribution_without_donor_retriction",
+          "cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions",
+          "debtToContributionsWithout"
         );
 
-        // totalDebtToTotalAssets [s35, s26, s166, s27, s28, s29, s31]
+        // currentRatio [s17, s26, s166]
         this.dataStore.insertData(
           "debt",
           "peer",
           year,
-          "totalDebtToTotalAssets_Peer",
+          "currentRatio_Peer",
           record,
-          "cfhi_compre_07_ratio___total_debt_to_total_assets",
-          "cfhi_compre_07_yes_no___total_debt_to_total_assets"
+          "cfhi_compre_07_ratio___current_ratio",
+          "cfhi_compre_07_yes_no___current_ratio"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "currentAssets",
+          record,
+          "s17___current_assets",
+          "cfhi_compre_07_yes_no___current_ratio",
+          "currentRatio"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "currentLiabilities",
+          record,
+          "s26___current_liabilities",
+          "cfhi_compre_07_yes_no___current_ratio",
+          "currentRatio"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_07_yes_no___current_ratio",
+          "currentRatio"
         );
 
-        // totalDebtToExpendableNetAssets [s35, s26, s166, s27, s28, s29, s31, s34]
+        // mandatoryDebtServiceToContributionsWithout [s154, s166, s47, s168, s51, s39]
         this.dataStore.insertData(
           "debt",
           "peer",
           year,
-          "totalDebtToExpendableNetAssets_Peer",
+          "mandatoryDebtServiceToContributionsWithout_Peer",
           record,
-          "cfhi_compre_08_ratio___total_debt_to_expendable_net_assets",
-          "cfhi_compre_08_yes_no___total_debt_to_expendable_net_assets"
+          "cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "mandatoryDebtServiceToContributionsWithout"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "mandatoryDebtServiceToContributionsWithout"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "cyInterestExpense",
+          record,
+          "s47___cy_interest_expense",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "mandatoryDebtServiceToContributionsWithout"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "mandatoryDebtServiceToContributionsWithout"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "capitalizedInterest",
+          record,
+          "s51___capitalized_interest",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "mandatoryDebtServiceToContributionsWithout"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "contributionWithoutDonor",
+          record,
+          "s39___contribution_without_donor_retriction",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "mandatoryDebtServiceToContributionsWithout"
         );
 
-        // viabilityRatio [s35, s34, s26, s166, s27, s28, s29, s31]
+        // debtPerAverageAdultAttendee [s155, s165, s01]
         this.dataStore.insertData(
           "debt",
           "peer",
           year,
-          "viabilityRatio_Peer",
+          "debtPerAverageAdultAttendee_Peer",
           record,
-          "cfhi_compre_09_ratio___viability_ratio",
-          "cfhi_compre_09_yes_no___viability_ratio"
+          "cfhi_compre_09a_ratio___debt_per_average_adult_attendee",
+          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "totalDebt",
+          record,
+          "s155___total_debt",
+          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
+          "debtPerAverageAdultAttendee"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "financeLeaseRightOfUse",
+          record,
+          "s165___finance_lease_right_of_use_asset_and_liability",
+          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
+          "debtPerAverageAdultAttendee"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "averageAdultAttendees",
+          record,
+          "s01_average_adult_attendees_excluding_children",
+          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
+          "debtPerAverageAdultAttendee"
+        );
+
+        // debtPerAverageAdultAttendee_percentChange
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "debtPerAverageAdultAttendee_percentChange_Peer",
+          record,
+          "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee"
+        );
+
+        // debtPerAverageAdultAttendee_standard [s39, s152, s01]
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "debtPerAverageAdultAttendee_standard_Peer",
+          record,
+          "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee",
+          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "contributionWithoutDonor",
+          record,
+          "s39___contribution_without_donor_retriction",
+          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
+          "debtPerAverageAdultAttendee_standard"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "largeOneTimeGiftWithoutDonor",
+          record,
+          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
+          "debtPerAverageAdultAttendee_standard"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "averageAdultAttendees",
+          record,
+          "s01_average_adult_attendees_excluding_children",
+          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
+          "debtPerAverageAdultAttendee_standard"
+        );
+
+        // debtPerGivingUnit [s155, s165, s02]
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "debtPerGivingUnit_Peer",
+          record,
+          "cfhi_compre_09d_ratio___debt_per_giving_unit",
+          "cfhi_compre_09d_yes_no___debt_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "totalDebt",
+          record,
+          "s155___total_debt",
+          "cfhi_compre_09d_yes_no___debt_per_giving_unit",
+          "debtPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "financeLeaseRightOfUse",
+          record,
+          "s165___finance_lease_right_of_use_asset_and_liability",
+          "cfhi_compre_09d_yes_no___debt_per_giving_unit",
+          "debtPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "givingUnits",
+          record,
+          "s02___giving_units",
+          "cfhi_compre_09d_yes_no___debt_per_giving_unit",
+          "debtPerGivingUnit"
+        );
+
+        // debtPerGivingUnit_percentChange
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "debtPerGivingUnit_percentChange_Peer",
+          record,
+          "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee"
+        );
+
+        // debtPerGivingUnit_standard [s39, s152, s02]
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "debtPerGivingUnit_standard_Peer",
+          record,
+          "cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit",
+          "cfhi_compre_09d_yes_no___debt_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "contributionWithoutDonor",
+          record,
+          "s39___contribution_without_donor_retriction",
+          "cfhi_compre_09d_yes_no___debt_per_giving_unit",
+          "debtPerGivingUnit_standard"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "largeOneTimeGiftWithoutDonor",
+          record,
+          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+          "cfhi_compre_09d_yes_no___debt_per_giving_unit",
+          "debtPerGivingUnit_standard"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "givingUnits",
+          record,
+          "s02___giving_units",
+          "cfhi_compre_09d_yes_no___debt_per_giving_unit",
+          "debtPerGivingUnit_standard"
+        );
+
+        // debtCoverage [s48, s167, s168, s47, s46, s154, s166]
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "debtCoverage_Peer",
+          record,
+          "cfhi_compre_10_ratio___debt_coverage",
+          "cfhi_compre_10_yes_no___debt_coverage"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "changeInNetAssetWithout",
+          record,
+          "s48___change_in_net_asset_without_donor_restriction",
+          "cfhi_compre_10_yes_no___debt_coverage",
+          "debtCoverage"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_10_yes_no___debt_coverage",
+          "debtCoverage"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_10_yes_no___debt_coverage",
+          "debtCoverage"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "cyInterestExpense",
+          record,
+          "s47___cy_interest_expense",
+          "cfhi_compre_10_yes_no___debt_coverage",
+          "debtCoverage"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_10_yes_no___debt_coverage",
+          "debtCoverage"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_10_yes_no___debt_coverage",
+          "debtCoverage"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_10_yes_no___debt_coverage",
+          "debtCoverage"
         );
       });
 
       // Process client records
       filteredClientRecords.forEach((record) => {
-        // debtServiceCoverageRatio
+        // debtToContributionsWithout
         this.dataStore.insertData(
           "debt",
           "client",
           year,
-          "debtServiceCoverageRatio_Client",
+          "debtToContributionsWithout_Client",
           record,
-          "cfhi_compre_06_ratio___debt_service_coverage_ratio",
-          "cfhi_compre_06_bench_rating___debt_service_coverage_ratio"
+          "cfhi_compre_06_ratio___debt_to_contributions_w_o_donor_restrictions",
+          "cfhi_compre_06_bench_rating___debt_to_contributions_w_o_donor_restrictions"
         );
 
-        // totalDebtToTotalAssets
+        // currentRatio
         this.dataStore.insertData(
           "debt",
           "client",
           year,
-          "totalDebtToTotalAssets_Client",
+          "currentRatio_Client",
           record,
-          "cfhi_compre_07_ratio___total_debt_to_total_assets",
-          "cfhi_compre_07_bench_rating___total_debt_to_total_assets"
+          "cfhi_compre_07_ratio___current_ratio",
+          "cfhi_compre_07_bench_rating___current_ratio"
         );
 
-        // totalDebtToExpendableNetAssets
+        // mandatoryDebtServiceToContributionsWithout
         this.dataStore.insertData(
           "debt",
           "client",
           year,
-          "totalDebtToExpendableNetAssets_Client",
+          "mandatoryDebtServiceToContributionsWithout_Client",
           record,
-          "cfhi_compre_08_ratio___total_debt_to_expendable_net_assets",
-          "cfhi_compre_08_bench_rating___total_debt_to_expendable_net_assets"
+          "cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions"
         );
 
-        // viabilityRatio
+        // debtPerAverageAdultAttendee
         this.dataStore.insertData(
           "debt",
           "client",
           year,
-          "viabilityRatio_Client",
+          "debtPerAverageAdultAttendee_Client",
           record,
-          "cfhi_compre_09_ratio___viability_ratio",
-          "cfhi_compre_09_bench_rating___viability_ratio"
+          "cfhi_compre_09a_ratio___debt_per_average_adult_attendee",
+          "cfhi_compre_09a_bench_rating___debt_per_average_adult_attendee"
+        );
+
+        // debtPerAverageAdultAttendee_percentChange
+        this.dataStore.insertData(
+          "debt",
+          "client",
+          year,
+          "debtPerAverageAdultAttendee_percentChange_Client",
+          record,
+          "cfhi_compre_09a_ratio_change___debt_per_average_adult_attendee"
+        );
+
+        // debtPerAverageAdultAttendee_standard
+        this.dataStore.insertData(
+          "debt",
+          "client",
+          year,
+          "debtPerAverageAdultAttendee_standard_Client",
+          record,
+          "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee"
+        );
+
+        // debtPerGivingUnit
+        this.dataStore.insertData(
+          "debt",
+          "client",
+          year,
+          "debtPerGivingUnit_Client",
+          record,
+          "cfhi_compre_09d_ratio___debt_per_giving_unit",
+          "cfhi_compre_09d_bench_rating___debt_per_giving_unit"
+        );
+
+        // debtPerGivingUnit_percentChange
+        this.dataStore.insertData(
+          "debt",
+          "client",
+          year,
+          "debtPerGivingUnit_percentChange_Client",
+          record,
+          "cfhi_compre_09d_ratio_change___debt_per_giving_unit"
+        );
+
+        // debtPerGivingUnit_standard
+        this.dataStore.insertData(
+          "debt",
+          "client",
+          year,
+          "debtPerGivingUnit_standard_Client",
+          record,
+          "cfhi_compre_09f_ratio____std_2_x_contributions_w_o_restrictions_per_giving_unit"
+        );
+
+        // debtCoverage
+        this.dataStore.insertData(
+          "debt",
+          "client",
+          year,
+          "debtCoverage_Client",
+          record,
+          "cfhi_compre_10_ratio___debt_coverage",
+          "cfhi_compre_10_bench_rating___debt_coverage"
         );
       });
     });
   }
 
-  // INCOME DATA PROCESSING - Added from apiTest.js
+  // INCOME DATA PROCESSING - Updated to match apiBefore.js
   processIncomeData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
@@ -818,178 +1854,687 @@ class DataProcessor {
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
-        // surplusMargin [s40, s45, s167, s168, s46]
+        // netIncomeRatio [s48, s167, s168, s41]
         this.dataStore.insertData(
           "income",
           "peer",
           year,
-          "surplusMargin_Peer",
+          "netIncomeRatio_Peer",
           record,
-          "cfhi_compre_10_ratio___surplus_margin",
-          "cfhi_compre_10_yes_no___surplus_margin"
+          "cfhi_compre_11_ratio___net_income_ratio",
+          "cfhi_compre_11_yes_no___net_income_ratio"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "changeInNetAssetWithout",
+          record,
+          "s48___change_in_net_asset_without_donor_restriction",
+          "cfhi_compre_11_yes_no___net_income_ratio",
+          "netIncomeRatio"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_11_yes_no___net_income_ratio",
+          "netIncomeRatio"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_11_yes_no___net_income_ratio",
+          "netIncomeRatio"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "totalContributionWithout",
+          record,
+          "s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification",
+          "cfhi_compre_11_yes_no___net_income_ratio",
+          "netIncomeRatio"
         );
 
-        // totalContributions
+        // netIncomeRatio_twoYrAvg
         this.dataStore.insertData(
           "income",
           "peer",
           year,
-          "totalContributions_Peer",
+          "netIncomeRatio_twoYrAvg_Peer",
+          record,
+          "cfhi_compre_11_ratio___net_income_ratio"
+        );
+
+        // contributionsWithoutDonorPerAverageAdultAttendee [s39, s152, s01]
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "contributionsWithoutDonorPerAverageAdultAttendee_Peer",
+          record,
+          "cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee",
+          "cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "contributionWithoutDonor",
+          record,
+          "s39___contribution_without_donor_retriction",
+          "cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee",
+          "contributionsWithoutDonorPerAverageAdultAttendee"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "largeOneTimeGiftWithoutDonor",
+          record,
+          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+          "cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee",
+          "contributionsWithoutDonorPerAverageAdultAttendee"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "averageAdultAttendees",
+          record,
+          "s01_average_adult_attendees_excluding_children",
+          "cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee",
+          "contributionsWithoutDonorPerAverageAdultAttendee"
+        );
+
+        // contributionsWithoutDonorPerAverageAdultAttendee_percentChange
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "contributionsWithoutDonorPerAverageAdultAttendee_percentChange_Peer",
+          record,
+          "cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee"
+        );
+
+        // contributionsWithoutDonorPerGivingUnit [s39, s152, s02]
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "contributionsWithoutDonorPerGivingUnit_Peer",
+          record,
+          "cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit",
+          "cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "contributionWithoutDonor",
+          record,
+          "s39___contribution_without_donor_retriction",
+          "cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit",
+          "contributionsWithoutDonorPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "largeOneTimeGiftWithoutDonor",
+          record,
+          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+          "cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit",
+          "contributionsWithoutDonorPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "givingUnits",
+          record,
+          "s02___giving_units",
+          "cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit",
+          "contributionsWithoutDonorPerGivingUnit"
+        );
+
+        // contributionsWithoutDonorPerGivingUnit_percentChange
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "contributionsWithoutDonorPerGivingUnit_percentChange_Peer",
+          record,
+          "cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit"
+        );
+
+        // totalContributionsPerAverageAdultAttendee [s40, s44, s152, s153, s01]
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "totalContributionsPerAverageAdultAttendee_Peer",
+          record,
+          "cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee",
+          "cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "totalContributions",
           record,
           "s40___total_contribution",
-          "cfhi_compre_10_yes_no___surplus_margin"
+          "cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee",
+          "totalContributionsPerAverageAdultAttendee"
         );
-
-        // totalExpenseReturnsToContributions [s40, s44]
         this.dataStore.insertData(
           "income",
           "peer",
           year,
-          "totalExpenseReturnsToContributions_Peer",
+          "revenueFromPledge",
           record,
-          "cfhi_compre_11_ratio___total_expense_returns_to_total_contributions",
-          "cfhi_compre_11_yes_no___total_expense_returns_to_total_contributions"
+          "s44___revenue_from_pledge",
+          "cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee",
+          "totalContributionsPerAverageAdultAttendee"
         );
-
-        // contributionsPerAdultAttendee [s40, s01]
         this.dataStore.insertData(
           "income",
           "peer",
           year,
-          "contributionsPerAdultAttendee_Peer",
+          "largeOneTimeGiftWithoutDonor",
           record,
-          "cfhi_compre_12_ratio___contributions_per_adult_attendee",
-          "cfhi_compre_12_yes_no___contributions_per_adult_attendee"
+          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+          "cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee",
+          "totalContributionsPerAverageAdultAttendee"
         );
-
-        // totalRevenuePerAdultAttendee [s41, s01]
         this.dataStore.insertData(
           "income",
           "peer",
           year,
-          "totalRevenuePerAdultAttendee_Peer",
+          "largeOneTimeGiftWithDonor",
           record,
-          "cfhi_compre_13_ratio___total_revenue_per_adult_attendee",
-          "cfhi_compre_13_yes_no___total_revenue_per_adult_attendee"
+          "s153___large_one_time_gift_with_donor_restriction__non_recurring_",
+          "cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee",
+          "totalContributionsPerAverageAdultAttendee"
         );
-
-        // averageContributionPerGivingUnit [s40, s02]
         this.dataStore.insertData(
           "income",
           "peer",
           year,
-          "averageContributionPerGivingUnit_Peer",
+          "averageAdultAttendees",
           record,
-          "cfhi_compre_14_ratio___average_contribution_per_giving_unit",
-          "cfhi_compre_14_yes_no___average_contribution_per_giving_unit"
+          "s01_average_adult_attendees_excluding_children",
+          "cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee",
+          "totalContributionsPerAverageAdultAttendee"
         );
 
-        // contributionsWithoutDonorRestrictionsToTotalContributions [s39, s40]
+        // totalContributionsPerAverageAdultAttendee_percentChange
         this.dataStore.insertData(
           "income",
           "peer",
           year,
-          "contributionsWithoutDonorRestrictionsToTotalContributions_Peer",
+          "totalContributionsPerAverageAdultAttendee_percentChange_Peer",
           record,
-          "cfhi_compre_15_ratio___contributions_without_donor_restrictions_to_total_contributions",
-          "cfhi_compre_15_yes_no___contributions_without_donor_restrictions_to_total_contributions"
+          "cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee"
         );
 
-        // nonContributionRevenueToTotalRevenue [s41, s40, s44]
+        // totalContributionsPerGivingUnit [s40, s44, s152, s153, s02]
         this.dataStore.insertData(
           "income",
           "peer",
           year,
-          "nonContributionRevenueToTotalRevenue_Peer",
+          "totalContributionsPerGivingUnit_Peer",
           record,
-          "cfhi_compre_16_ratio___non_contribution_revenue_to_total_revenue",
-          "cfhi_compre_16_yes_no___non_contribution_revenue_to_total_revenue"
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit",
+          "cfhi_compre_13b_yes_no___total_contributions_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "totalContributions",
+          record,
+          "s40___total_contribution",
+          "cfhi_compre_13b_yes_no___total_contributions_per_giving_unit",
+          "totalContributionsPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "revenueFromPledge",
+          record,
+          "s44___revenue_from_pledge",
+          "cfhi_compre_13b_yes_no___total_contributions_per_giving_unit",
+          "totalContributionsPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "largeOneTimeGiftWithoutDonor",
+          record,
+          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+          "cfhi_compre_13b_yes_no___total_contributions_per_giving_unit",
+          "totalContributionsPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "largeOneTimeGiftWithDonor",
+          record,
+          "s153___large_one_time_gift_with_donor_restriction__non_recurring_",
+          "cfhi_compre_13b_yes_no___total_contributions_per_giving_unit",
+          "totalContributionsPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "givingUnits",
+          record,
+          "s02___giving_units",
+          "cfhi_compre_13b_yes_no___total_contributions_per_giving_unit",
+          "totalContributionsPerGivingUnit"
+        );
+
+        // totalContributionsPerGivingUnit_percentChange
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "totalContributionsPerGivingUnit_percentChange_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+
+        // Median Household Income Peer data
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdIncome_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+
+        // medianHouseholdPerGivingUnit variations
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdPerGivingUnit_one_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdPerGivingUnit_two_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdPerGivingUnit_three_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdPerGivingUnit_four_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdPerGivingUnit_five_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdPerGivingUnit_six_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+
+        // medianHouseholdLocalCounty variations
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdLocalCounty_one_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdLocalCounty_two_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdLocalCounty_three_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdLocalCounty_four_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdLocalCounty_five_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
+        );
+        this.dataStore.insertData(
+          "income",
+          "peer",
+          year,
+          "medianHouseholdLocalCounty_six_Peer",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit"
         );
       });
 
       // Process client records
       filteredClientRecords.forEach((record) => {
-        // surplusMargin
+        // netIncomeRatio
         this.dataStore.insertData(
           "income",
           "client",
           year,
-          "surplusMargin_Client",
+          "netIncomeRatio_Client",
           record,
-          "cfhi_compre_10_ratio___surplus_margin",
-          "cfhi_compre_10_bench_rating___surplus_margin"
+          "cfhi_compre_11_ratio___net_income_ratio",
+          "cfhi_compre_11_bench_ratings___net_income_ratio"
         );
 
-        // totalExpenseReturnsToContributions
+        // netIncomeRatio_twoYrAvg
         this.dataStore.insertData(
           "income",
           "client",
           year,
-          "totalExpenseReturnsToContributions_Client",
+          "netIncomeRatio_twoYrAvg_Client",
           record,
-          "cfhi_compre_11_ratio___total_expense_returns_to_total_contributions",
-          "cfhi_compre_11_bench_rating___total_expense_returns_to_total_contributions"
+          "cfhi_compre_11a_ratio___two_year_net_income_ratio",
+          "cfhi_compre_11a_bench_ratings___two_year_net_income_ratio"
         );
 
-        // contributionsPerAdultAttendee
+        // contributionsWithoutDonorPerAverageAdultAttendee
         this.dataStore.insertData(
           "income",
           "client",
           year,
-          "contributionsPerAdultAttendee_Client",
+          "contributionsWithoutDonorPerAverageAdultAttendee_Client",
           record,
-          "cfhi_compre_12_ratio___contributions_per_adult_attendee",
-          "cfhi_compre_12_bench_rating___contributions_per_adult_attendee"
+          "cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee"
         );
 
-        // totalRevenuePerAdultAttendee
+        // contributionsWithoutDonorPerAverageAdultAttendee_percentChange
         this.dataStore.insertData(
           "income",
           "client",
           year,
-          "totalRevenuePerAdultAttendee_Client",
+          "contributionsWithoutDonorPerAverageAdultAttendee_percentChange_Client",
           record,
-          "cfhi_compre_13_ratio___total_revenue_per_adult_attendee",
-          "cfhi_compre_13_bench_rating___total_revenue_per_adult_attendee"
+          "cfhi_compre_12a_ratio_change___contributions_without_donor_restrictions_per_average_adult_attendee",
+          "cfhi_compre_12a_bench_ratings___percent_change___contributions_without_donor_restrictions_per_adult"
         );
 
-        // averageContributionPerGivingUnit
+        // contributionsWithoutDonorPerGivingUnit
         this.dataStore.insertData(
           "income",
           "client",
           year,
-          "averageContributionPerGivingUnit_Client",
+          "contributionsWithoutDonorPerGivingUnit_Client",
           record,
-          "cfhi_compre_14_ratio___average_contribution_per_giving_unit",
-          "cfhi_compre_14_bench_rating___average_contribution_per_giving_unit"
+          "cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit"
         );
 
-        // contributionsWithoutDonorRestrictionsToTotalContributions
+        // contributionsWithoutDonorPerGivingUnit_percentChange
         this.dataStore.insertData(
           "income",
           "client",
           year,
-          "contributionsWithoutDonorRestrictionsToTotalContributions_Client",
+          "contributionsWithoutDonorPerGivingUnit_percentChange_Client",
           record,
-          "cfhi_compre_15_ratio___contributions_without_donor_restrictions_to_total_contributions",
-          "cfhi_compre_15_bench_rating___contributions_without_donor_restrictions_to_total_contributions"
+          "cfhi_compre_12b_ratio_change__contributions_without_donor_restrictions_per_giving_unit",
+          "cfhi_compre_12b_bench_ratings___percent_change___contributions_without_donor_restrictions_per_gu"
         );
 
-        // nonContributionRevenueToTotalRevenue
+        // totalContributionsPerAverageAdultAttendee
         this.dataStore.insertData(
           "income",
           "client",
           year,
-          "nonContributionRevenueToTotalRevenue_Client",
+          "totalContributionsPerAverageAdultAttendee_Client",
           record,
-          "cfhi_compre_16_ratio___non_contribution_revenue_to_total_revenue",
-          "cfhi_compre_16_bench_rating___non_contribution_revenue_to_total_revenue"
+          "cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee",
+          "cfhi_compre_13a_bench_rating___total_contributions_per_average_adult_attendee"
+        );
+
+        // totalContributionsPerAverageAdultAttendee_percentChange
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "totalContributionsPerAverageAdultAttendee_percentChange_Client",
+          record,
+          "cfhi_compre_13a_ratio_change___total_contributions_per_average_adult_attendee",
+          "cfhi_compre_13a_bench_rating___total_contributions_per_average_adult_attendee"
+        );
+
+        // totalContributionsPerGivingUnit
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "totalContributionsPerGivingUnit_Client",
+          record,
+          "cfhi_compre_13b_ratio___total_contributions_per_giving_unit",
+          "cfhi_compre_13b_bench_ratings___percent_change___total_contributions_per_giving_unit"
+        );
+
+        // totalContributionsPerGivingUnit_percentChange
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "totalContributionsPerGivingUnit_percentChange_Client",
+          record,
+          "cfhi_compre_13b_ratio_change___total_contributions_per_giving_unit",
+          "cfhi_compre_13b_bench_ratings___percent_change___total_contributions_per_giving_unit"
+        );
+
+        // localCountyPerGivingUnit variations
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyPerGivingUnit_Client",
+          record,
+          "cfhi_compre_14_ratio___median_household_income_given_to_church",
+          "cfhi_compre_14_bench_rating___median_household_income_given_to_church"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyPerGivingUnit_two_Client",
+          record,
+          "cfhi_compre_14a_ratio___median_household_income_given_to_church"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyPerGivingUnit_three_Client",
+          record,
+          "cfhi_compre_14b_ratio___median_household_income_given_to_church"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyPerGivingUnit_four_Client",
+          record,
+          "cfhi_compre_14c_ratio___median_household_income_given_to_church"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyPerGivingUnit_five_Client",
+          record,
+          "cfhi_compre_14d_ratio___median_household_income_given_to_church"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyPerGivingUnit_six_Client",
+          record,
+          "cfhi_compre_14e_ratio___median_household_income_given_to_church"
+        );
+
+        // localCountyMedianHouseholdIncome variations
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyMedianHouseholdIncome_Client",
+          record,
+          "s54_county_code___data"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyMedianHouseholdIncome_two_Client",
+          record,
+          "s54_county_code_1054___data"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyMedianHouseholdIncome_three_Client",
+          record,
+          "s54_county_code_2054___data"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyMedianHouseholdIncome_four_Client",
+          record,
+          "s54_county_code_3054___data"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyMedianHouseholdIncome_five_Client",
+          record,
+          "s54_county_code_4054___data"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyMedianHouseholdIncome_six_Client",
+          record,
+          "s54_county_code_5054___data"
+        );
+
+        // localCountyName variations
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyName_Client",
+          record,
+          "s54_county_code___county"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyName_two_Client",
+          record,
+          "s54_county_code_1054___county"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyName_three_Client",
+          record,
+          "s54_county_code_2054___county"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyName_four_Client",
+          record,
+          "s54_county_code_3054___county"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyName_five_Client",
+          record,
+          "s54_county_code_4054___county"
+        );
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "localCountyName_six_Client",
+          record,
+          "s54_county_code_5054___county"
         );
       });
     });
   }
 
-  // EXPENSE DATA PROCESSING - Added from apiTest.js
+  // EXPENSE DATA PROCESSING - Updated to match apiBefore.js
   processExpenseData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
@@ -1000,211 +2545,1070 @@ class DataProcessor {
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
-        // totalExpensesPerAdultAttendee [s45, s167, s168, s46, s01]
+        // benefitsToSalaries
         this.dataStore.insertData(
           "expense",
           "peer",
           year,
-          "totalExpensesPerAdultAttendee_Peer",
+          "benefitsToSalaries_Peer",
           record,
-          "cfhi_compre_17_ratio___total_expenses_per_adult_attendee",
-          "cfhi_compre_17_yes_no___total_expenses_per_adult_attendee"
+          "cfhi_compre_15_ratio___benefits_to_salaries",
+          "cfhi_compre_15_yes_no___benefits_to_salaries"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalBenefit",
+          record,
+          "s11___total_benefit",
+          "cfhi_compre_15_yes_no___benefits_to_salaries",
+          "benefitsToSalaries"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalSalaries",
+          record,
+          "s10___total_salaries",
+          "cfhi_compre_15_yes_no___benefits_to_salaries",
+          "benefitsToSalaries"
         );
 
-        // salariesBenefitsToTotalExpenses [s51, s45, s167, s168, s46]
+        // salaries
         this.dataStore.insertData(
           "expense",
           "peer",
           year,
-          "salariesBenefitsToTotalExpenses_Peer",
+          "salaries_Peer",
           record,
-          "cfhi_compre_18_ratio___salaries_and_benefits_to_total_expenses",
-          "cfhi_compre_18_yes_no___salaries_and_benefits_to_total_expenses"
+          "cfhi_compre_16_ratio___average_salaries_per_fte",
+          "cfhi_compre_16_yes_no___average_salaries_per_fte"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalSalaries",
+          record,
+          "s10___total_salaries",
+          "cfhi_compre_16_yes_no___average_salaries_per_fte",
+          "salaries"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "fullTimeEquivalent",
+          record,
+          "s151___church_only_full_time_equivalent_excluding_childcare_worker",
+          "cfhi_compre_16_yes_no___average_salaries_per_fte",
+          "salaries"
         );
 
-        // salariesBenefitsPerFTE [s51, s151]
+        // benefits
         this.dataStore.insertData(
           "expense",
           "peer",
           year,
-          "salariesBenefitsPerFTE_Peer",
+          "benefits_Peer",
           record,
-          "cfhi_compre_19_ratio___salaries_and_benefits_per_fte",
-          "cfhi_compre_19_yes_no___salaries_and_benefits_per_fte"
+          "cfhi_compre_16_ratio___average_benefits_per_fte",
+          "cfhi_compre_16_yes_no___average_benefits_per_fte"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalBenefit",
+          record,
+          "s11___total_benefit",
+          "cfhi_compre_16_yes_no___average_benefits_per_fte",
+          "benefits"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "fullTimeEquivalent",
+          record,
+          "s151___church_only_full_time_equivalent_excluding_childcare_worker",
+          "cfhi_compre_16_yes_no___average_benefits_per_fte",
+          "benefits"
         );
 
-        // facilitiesMaintenanceToTotalExpenses [s45, s167, s168, s46, s48]
+        // salariesBenefits
         this.dataStore.insertData(
           "expense",
           "peer",
           year,
-          "facilitiesMaintenanceToTotalExpenses_Peer",
+          "salariesBenefits_Peer",
           record,
-          "cfhi_compre_20_ratio___facilities_and_maintenance_to_total_expenses",
-          "cfhi_compre_20_yes_no___facilities_and_maintenance_to_total_expenses"
+          "cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte",
+          "cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalSalaries",
+          record,
+          "s10___total_salaries",
+          "cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte",
+          "salariesBenefits"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalBenefit",
+          record,
+          "s11___total_benefit",
+          "cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte",
+          "salariesBenefits"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "fullTimeEquivalent",
+          record,
+          "s151___church_only_full_time_equivalent_excluding_childcare_worker",
+          "cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte",
+          "salariesBenefits"
         );
 
-        // totalExpensesPerSquareFoot [s45, s167, s168, s46, s08]
+        // salariesBenefitsIncludingOutsourcedEmployees
         this.dataStore.insertData(
           "expense",
           "peer",
           year,
-          "totalExpensesPerSquareFoot_Peer",
+          "salariesBenefitsIncludingOutsourcedEmployees_Peer",
           record,
-          "cfhi_compre_21_ratio___total_expenses_per_square_foot",
-          "cfhi_compre_21_yes_no___total_expenses_per_square_foot"
+          "cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp",
+          "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalSalaries",
+          record,
+          "s10___total_salaries",
+          "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+          "salariesBenefitsIncludingOutsourcedEmployees"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalBenefit",
+          record,
+          "s11___total_benefit",
+          "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+          "salariesBenefitsIncludingOutsourcedEmployees"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "costOfOutsourcedEmployee",
+          record,
+          "s162___cost_of_outsourced_employee",
+          "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+          "salariesBenefitsIncludingOutsourcedEmployees"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "fullTimeEquivalent",
+          record,
+          "s151___church_only_full_time_equivalent_excluding_childcare_worker",
+          "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+          "salariesBenefitsIncludingOutsourcedEmployees"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalOutsourcedEmployee",
+          record,
+          "s157___total_outsourced_employee__fte_",
+          "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+          "salariesBenefitsIncludingOutsourcedEmployees"
         );
 
-        // facilitiesMaintenancePerSquareFoot [s48, s08]
+        // personnelToCashExpenditure
         this.dataStore.insertData(
           "expense",
           "peer",
           year,
-          "facilitiesMaintenancePerSquareFoot_Peer",
+          "personnelToCashExpenditure_Peer",
           record,
-          "cfhi_compre_22_ratio___facilities_and_maintenance_per_square_foot",
-          "cfhi_compre_22_yes_no___facilities_and_maintenance_per_square_foot"
+          "cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalBenefit",
+          record,
+          "s11___total_benefit",
+          "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+          "personnelToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalSalaries",
+          record,
+          "s10___total_salaries",
+          "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+          "personnelToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+          "personnelToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+          "personnelToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+          "personnelToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+          "personnelToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+          "personnelToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+          "personnelToCashExpenditure"
         );
 
-        // fundraisingEfficiency [s50, s40]
+        // mandatoryDebtServiceToCashExpenditure
         this.dataStore.insertData(
           "expense",
           "peer",
           year,
-          "fundraisingEfficiency_Peer",
+          "mandatoryDebtServiceToCashExpenditure_Peer",
           record,
-          "cfhi_compre_23_ratio___fundraising_efficiency",
-          "cfhi_compre_23_yes_no___fundraising_efficiency"
+          "cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures",
+          "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+          "mandatoryDebtServiceToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+          "mandatoryDebtServiceToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "cyInterestExpense",
+          record,
+          "s47___cy_interest_expense",
+          "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+          "mandatoryDebtServiceToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+          "mandatoryDebtServiceToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+          "mandatoryDebtServiceToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+          "mandatoryDebtServiceToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+          "mandatoryDebtServiceToCashExpenditure"
         );
 
-        // internalManagementToTotalExpenses [s45, s167, s168, s46, s49]
+        // personnelIncludingToTotalCashExpenditures
         this.dataStore.insertData(
           "expense",
           "peer",
           year,
-          "internalManagementToTotalExpenses_Peer",
+          "personnelIncludingToTotalCashExpenditures_Peer",
           record,
-          "cfhi_compre_24_ratio___internal_management_to_total_expenses",
-          "cfhi_compre_24_yes_no___internal_management_to_total_expenses"
+          "cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalBenefit",
+          record,
+          "s11___total_benefit",
+          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalSalaries",
+          record,
+          "s10___total_salaries",
+          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "costOfOutsourcedEmployee",
+          record,
+          "s162___cost_of_outsourced_employee",
+          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
         );
 
-        // programExpensesToTotalExpenses [s45, s167, s168, s46, s47]
+        // localOutreachExpenses
         this.dataStore.insertData(
           "expense",
           "peer",
           year,
-          "programExpensesToTotalExpenses_Peer",
+          "localOutreachExpenses_Peer",
           record,
-          "cfhi_compre_25_ratio___program_expenses_to_total_expenses",
-          "cfhi_compre_25_yes_no___program_expenses_to_total_expenses"
+          "cfhi_compre_18_1_ratio___local_outreach_expenses",
+          "cfhi_compre_18_1_yes_no___local_outreach_expenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "localOutreachExpense",
+          record,
+          "s14___local_outreach_expense",
+          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+          "localOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+          "localOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+          "localOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+          "localOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+          "localOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+          "localOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
+          "localOutreachExpenses"
+        );
+
+        // globalOutreachExpenses
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "globalOutreachExpenses_Peer",
+          record,
+          "cfhi_compre_18_2_ratio___global_outreach_expenses",
+          "cfhi_compre_18_2_yes_no___global_outreach_expenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "globalOutreachExpense",
+          record,
+          "s15___global_outreach_expense",
+          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+          "globalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+          "globalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+          "globalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+          "globalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+          "globalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+          "globalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
+          "globalOutreachExpenses"
+        );
+
+        // totalGlobalAndLocalOutreachExpenses
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalGlobalAndLocalOutreachExpenses_Peer",
+          record,
+          "cfhi_compre_18_3_ratio___global_local_outreach_expenses",
+          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "localOutreachExpense",
+          record,
+          "s14___local_outreach_expense",
+          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "totalGlobalAndLocalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "globalOutreachExpense",
+          record,
+          "s15___global_outreach_expense",
+          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "totalGlobalAndLocalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "totalGlobalAndLocalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "totalGlobalAndLocalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "totalGlobalAndLocalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "totalGlobalAndLocalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "totalGlobalAndLocalOutreachExpenses"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "totalGlobalAndLocalOutreachExpenses"
+        );
+
+        // cashExpendituresPerAvgAdultAttendee
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "cashExpendituresPerAvgAdultAttendee_Peer",
+          record,
+          "cfhi_compre_19_1_ratio___cash_exp_per_adult",
+          "cfhi_compre_19_1_yes_no___cash_exp_per_adult"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+          "cashExpendituresPerAvgAdultAttendee"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+          "cashExpendituresPerAvgAdultAttendee"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+          "cashExpendituresPerAvgAdultAttendee"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+          "cashExpendituresPerAvgAdultAttendee"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+          "cashExpendituresPerAvgAdultAttendee"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+          "cashExpendituresPerAvgAdultAttendee"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "averageAdultAttendees",
+          record,
+          "s01_average_adult_attendees_excluding_children",
+          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
+          "cashExpendituresPerAvgAdultAttendee"
+        );
+
+        // cashExpendituresPerAvgAdultAttendee_percentChange
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "cashExpendituresPerAvgAdultAttendee_percentChange_Peer",
+          record,
+          "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee"
+        );
+
+        // cashExpendituresPerGivingUnit
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "cashExpendituresPerGivingUnit_Peer",
+          record,
+          "cfhi_compre_19_2_ratio___cash_exp_per_gu",
+          "cfhi_compre_19_2_yes_no___cash_exp_per_gu"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cashExpendituresPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cashExpendituresPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cashExpendituresPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cashExpendituresPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cashExpendituresPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cashExpendituresPerGivingUnit"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "givingUnits",
+          record,
+          "s02___giving_units",
+          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cashExpendituresPerGivingUnit"
+        );
+
+        // cashExpendituresPerGivingUnit_percentChange
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "cashExpendituresPerGivingUnit_percentChange_Peer",
+          record,
+          "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee"
         );
       });
 
       // Process client records
       filteredClientRecords.forEach((record) => {
-        // totalExpensesPerAdultAttendee
+        // benefitsToSalaries
         this.dataStore.insertData(
           "expense",
           "client",
           year,
-          "totalExpensesPerAdultAttendee_Client",
+          "benefitsToSalaries_Client",
           record,
-          "cfhi_compre_17_ratio___total_expenses_per_adult_attendee",
-          "cfhi_compre_17_bench_rating___total_expenses_per_adult_attendee"
+          "cfhi_compre_15_ratio___benefits_to_salaries"
         );
 
-        // salariesBenefitsToTotalExpenses
+        // salaries
         this.dataStore.insertData(
           "expense",
           "client",
           year,
-          "salariesBenefitsToTotalExpenses_Client",
+          "salaries_Client",
           record,
-          "cfhi_compre_18_ratio___salaries_and_benefits_to_total_expenses",
-          "cfhi_compre_18_bench_rating___salaries_and_benefits_to_total_expenses"
+          "cfhi_compre_16_ratio___average_salaries_per_fte"
         );
 
-        // salariesBenefitsPerFTE
+        // benefits
         this.dataStore.insertData(
           "expense",
           "client",
           year,
-          "salariesBenefitsPerFTE_Client",
+          "benefits_Client",
           record,
-          "cfhi_compre_19_ratio___salaries_and_benefits_per_fte",
-          "cfhi_compre_19_bench_rating___salaries_and_benefits_per_fte"
+          "cfhi_compre_16_ratio___average_benefits_per_fte"
         );
 
-        // facilitiesMaintenanceToTotalExpenses
+        // salariesBenefits
         this.dataStore.insertData(
           "expense",
           "client",
           year,
-          "facilitiesMaintenanceToTotalExpenses_Client",
+          "salariesBenefits_Client",
           record,
-          "cfhi_compre_20_ratio___facilities_and_maintenance_to_total_expenses",
-          "cfhi_compre_20_bench_rating___facilities_and_maintenance_to_total_expenses"
+          "cfhi_compre_16_ratio___average_salaries_and_benefits_per_fte"
         );
 
-        // totalExpensesPerSquareFoot
+        // salariesBenefitsIncludingOutsourcedEmployees
         this.dataStore.insertData(
           "expense",
           "client",
           year,
-          "totalExpensesPerSquareFoot_Client",
+          "salariesBenefitsIncludingOutsourcedEmployees_Client",
           record,
-          "cfhi_compre_21_ratio___total_expenses_per_square_foot",
-          "cfhi_compre_21_bench_rating___total_expenses_per_square_foot"
+          "cfhi_compre_16a_ratio___average_salaries_and_benefits_per_fte___outsourced"
         );
 
-        // facilitiesMaintenancePerSquareFoot
+        // personnelToCashExpenditure
         this.dataStore.insertData(
           "expense",
           "client",
           year,
-          "facilitiesMaintenancePerSquareFoot_Client",
+          "personnelToCashExpenditure_Client",
           record,
-          "cfhi_compre_22_ratio___facilities_and_maintenance_per_square_foot",
-          "cfhi_compre_22_bench_rating___facilities_and_maintenance_per_square_foot"
+          "cfhi_compre_17_1_ratio___personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_1_bench_rating___personnel_to_total_cash_expenditures"
         );
 
-        // fundraisingEfficiency
+        // mandatoryDebtServiceToCashExpenditure
         this.dataStore.insertData(
           "expense",
           "client",
           year,
-          "fundraisingEfficiency_Client",
+          "mandatoryDebtServiceToCashExpenditure_Client",
           record,
-          "cfhi_compre_23_ratio___fundraising_efficiency",
-          "cfhi_compre_23_bench_rating___fundraising_efficiency"
+          "cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures",
+          "cfhi_compre_17_2_bench_rating___mandatory_debt_to_total_cash_expenditures"
         );
 
-        // internalManagementToTotalExpenses
+        // personnelIncludingToTotalCashExpenditures
         this.dataStore.insertData(
           "expense",
           "client",
           year,
-          "internalManagementToTotalExpenses_Client",
+          "personnelIncludingToTotalCashExpenditures_Client",
           record,
-          "cfhi_compre_24_ratio___internal_management_to_total_expenses",
-          "cfhi_compre_24_bench_rating___internal_management_to_total_expenses"
+          "cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_3_bench_rating___mandatory_debt_and_personnel_to_total_cash_expenditures"
         );
 
-        // programExpensesToTotalExpenses
+        // localOutreachExpenses
         this.dataStore.insertData(
           "expense",
           "client",
           year,
-          "programExpensesToTotalExpenses_Client",
+          "localOutreachExpenses_Client",
           record,
-          "cfhi_compre_25_ratio___program_expenses_to_total_expenses",
-          "cfhi_compre_25_bench_rating___program_expenses_to_total_expenses"
+          "cfhi_compre_18a_ratio___local_outreach_to_total_cash_expend"
+        );
+
+        // globalOutreachExpenses
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          "globalOutreachExpenses_Client",
+          record,
+          "cfhi_compre_18b_ratio___global_outreach_to_total_cash_expend"
+        );
+
+        // totalGlobalAndLocalOutreachExpenses
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          "totalGlobalAndLocalOutreachExpenses_Client",
+          record,
+          "cfhi_compre_18c_ratio___total_outreach_to_total_cash_expend",
+          "cfhi_compre_18c_bench_rating___total_outreach_to_total_cash_expend"
+        );
+
+        // cashExpendituresPerAvgAdultAttendee
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          "cashExpendituresPerAvgAdultAttendee_Client",
+          record,
+          "cfhi_compre_19a_ratio___cash_exp_per_average_adult"
+        );
+
+        // cashExpendituresPerAvgAdultAttendee_percentChange
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          "cashExpendituresPerAvgAdultAttendee_percentChange_Client",
+          record,
+          "cfhi_compre_19a_ratio_change___cash_exp_per_average_adult"
+        );
+
+        // cashExpendituresPerGivingUnit
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          "cashExpendituresPerGivingUnit_Client",
+          record,
+          "cfhi_compre_19b_ratio___cash_exp_per_giving_unit"
+        );
+
+        // cashExpendituresPerGivingUnit_percentChange
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          "cashExpendituresPerGivingUnit_percentChange_Client",
+          record,
+          "cfhi_compre_19b_ratio_change___cash_exp_per_giving_unit"
         );
       });
     });
   }
 
-  // ADDITIONAL DATA PROCESSING - Added from apiTest.js
+  // ADDITIONAL DATA PROCESSING - Updated to match ALL fields from apiBefore.js
   processAdditionalData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
@@ -1215,6 +3619,565 @@ class DataProcessor {
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
+        // contributionsPerAccountingFTE [s40, s44, s152, s153, s158, s159, s160]
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "contributionsPerAccountingFTE_Peer",
+          record,
+          "cfhi_compre_20_ratio___contributions_per_acct_fte",
+          "cfhi_compre_20_yes_no___contributions_per_acct_fte"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalContributions",
+          record,
+          "s40___total_contribution",
+          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "contributionsPerAccountingFTE"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "revenueFromPledge",
+          record,
+          "s44___revenue_from_pledge",
+          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "contributionsPerAccountingFTE"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "largeOneTimeGiftWithoutDonor",
+          record,
+          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "contributionsPerAccountingFTE"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "largeOneTimeGiftWithDonor",
+          record,
+          "s153___large_one_time_gift_with_donor_restriction__non_recurring_",
+          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "contributionsPerAccountingFTE"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "averageAnnualAccountingDepartment",
+          record,
+          "s158___average_annual_accounting_department_full_time_employee",
+          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "contributionsPerAccountingFTE"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "accountingDepartmentPartTimeEmployee",
+          record,
+          "s159___accounting_department_part_time_employee",
+          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "contributionsPerAccountingFTE"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "accountingDepartmentVolunteer",
+          record,
+          "s160___accounting_department_volunteer",
+          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "contributionsPerAccountingFTE"
+        );
+
+        // expensesPerAccountingFTE [s45, s167, s168, s158, s159, s160]
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "expensesPerAccountingFTE_Peer",
+          record,
+          "cfhi_compre_21_ratio___expenses_per_acct_fte",
+          "cfhi_compre_21_yes_no___expenses_per_acct_fte"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_21_yes_no___expenses_per_acct_fte",
+          "expensesPerAccountingFTE"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_21_yes_no___expenses_per_acct_fte",
+          "expensesPerAccountingFTE"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_21_yes_no___expenses_per_acct_fte",
+          "expensesPerAccountingFTE"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "averageAnnualAccountingDepartment",
+          record,
+          "s158___average_annual_accounting_department_full_time_employee",
+          "cfhi_compre_21_yes_no___expenses_per_acct_fte",
+          "expensesPerAccountingFTE"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "accountingDepartmentPartTimeEmployee",
+          record,
+          "s159___accounting_department_part_time_employee",
+          "cfhi_compre_21_yes_no___expenses_per_acct_fte",
+          "expensesPerAccountingFTE"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "accountingDepartmentVolunteer",
+          record,
+          "s160___accounting_department_volunteer",
+          "cfhi_compre_21_yes_no___expenses_per_acct_fte",
+          "expensesPerAccountingFTE"
+        );
+
+        // facilitiesExpenseToTotalCashExpenditures_lessThanTen [s12, s160, s45, s167, s168, s154, s166, s46]
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "facilitiesExpenseToTotalCashExpenditures_lessThanTen_Peer",
+          record,
+          "cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10",
+          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalMaintenanceOccupancyCost",
+          record,
+          "s12___total_maint___occupancy_cost",
+          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "accountingDepartmentVolunteer",
+          record,
+          "s160___accounting_department_volunteer",
+          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
+        );
+
+        // facilitiesExpenseToTotalCashExpenditures_greaterThanTen [s12, s45, s167, s168, s154, s166, s46]
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen_Peer",
+          record,
+          "cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10",
+          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalMaintenanceOccupancyCost",
+          record,
+          "s12___total_maint___occupancy_cost",
+          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "amortizationFinanceLease",
+          record,
+          "s167___amortization_of_finance_lease_right_of_use_asset",
+          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
+          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
+        );
+
+        // facilityCostPerSquareFootExcluding_lessThanTen [s12, s08]
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "facilityCostPerSquareFootExcluding_lessThanTen_Peer",
+          record,
+          "cfhi_compre_23a_ratio___facility_cost_squarefoot_no_interest_less_than_10",
+          "cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalMaintenanceOccupancyCost",
+          record,
+          "s12___total_maint___occupancy_cost",
+          "cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10",
+          "facilityCostPerSquareFootExcluding_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalFacilitySquareFootage",
+          record,
+          "s08___total_facility_square_footage",
+          "cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10",
+          "facilityCostPerSquareFootExcluding_lessThanTen"
+        );
+
+        // facilityCostPerSquareFootExcluding_greaterThanTen [s12, s08]
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "facilityCostPerSquareFootExcluding_greaterThanTen_Peer",
+          record,
+          "cfhi_compre_23b_ratio___facility_cost_squarefoot_no_interest_more_than_10",
+          "cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalMaintenanceOccupancyCost",
+          record,
+          "s12___total_maint___occupancy_cost",
+          "cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10",
+          "facilityCostPerSquareFootExcluding_greaterThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalFacilitySquareFootage",
+          record,
+          "s08___total_facility_square_footage",
+          "cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10",
+          "facilityCostPerSquareFootExcluding_greaterThanTen"
+        );
+
+        // facilityCostPerSquareFootIncluding_lessThanTen [s12, s47, s168, s154, s166, s08]
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "facilityCostPerSquareFootIncluding_lessThanTen_Peer",
+          record,
+          "cfhi_compre_24a_ratio___facility_cost_squarefoot_with_interest_less_than_10",
+          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalMaintenanceOccupancyCost",
+          record,
+          "s12___total_maint___occupancy_cost",
+          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
+          "facilityCostPerSquareFootIncluding_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "cyInterestExpense",
+          record,
+          "s47___cy_interest_expense",
+          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
+          "facilityCostPerSquareFootIncluding_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
+          "facilityCostPerSquareFootIncluding_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
+          "facilityCostPerSquareFootIncluding_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
+          "facilityCostPerSquareFootIncluding_lessThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalFacilitySquareFootage",
+          record,
+          "s08___total_facility_square_footage",
+          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
+          "facilityCostPerSquareFootIncluding_lessThanTen"
+        );
+
+        // facilityCostPerSquareFootIncluding_greaterThanTen [s12, s47, s168, s154, s166, s08]
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "facilityCostPerSquareFootIncluding_greaterThanTen_Peer",
+          record,
+          "cfhi_compre_24b_ratio___facility_cost_squarefoot_with_interest_more_than_10",
+          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalMaintenanceOccupancyCost",
+          record,
+          "s12___total_maint___occupancy_cost",
+          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
+          "facilityCostPerSquareFootIncluding_greaterThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "cyInterestExpense",
+          record,
+          "s47___cy_interest_expense",
+          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
+          "facilityCostPerSquareFootIncluding_greaterThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "internetOnFinanceLease",
+          record,
+          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
+          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
+          "facilityCostPerSquareFootIncluding_greaterThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "requiredMinimumDebtPrinciple",
+          record,
+          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
+          "facilityCostPerSquareFootIncluding_greaterThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "futureMinimumLeasePayment",
+          record,
+          "s166___future_minimum_lease_payment",
+          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
+          "facilityCostPerSquareFootIncluding_greaterThanTen"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "totalFacilitySquareFootage",
+          record,
+          "s08___total_facility_square_footage",
+          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
+          "facilityCostPerSquareFootIncluding_greaterThanTen"
+        );
+
+        // informationTechnologyCostPerFTE [s13, s151]
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "informationTechnologyCostPerFTE_Peer",
+          record,
+          "cfhi_compre_25_ratio___it_cost_per_fte",
+          "cfhi_compre_25_yes_no___it_cost_per_fte"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "itCost",
+          record,
+          "s13___it_cost",
+          "cfhi_compre_25_yes_no___it_cost_per_fte",
+          "informationTechnologyCostPerFTE"
+        );
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "fullTimeEquivalent",
+          record,
+          "s151___church_only_full_time_equivalent_excluding_childcare_worker",
+          "cfhi_compre_25_yes_no___it_cost_per_fte",
+          "informationTechnologyCostPerFTE"
+        );
+
         // designatedGiftsToTotalGifts [s325, s40]
         this.dataStore.insertData(
           "additional",
@@ -1284,6 +4247,98 @@ class DataProcessor {
 
       // Process client records
       filteredClientRecords.forEach((record) => {
+        // contributionsPerAccountingFTE
+        this.dataStore.insertData(
+          "additional",
+          "client",
+          year,
+          "contributionsPerAccountingFTE_Client",
+          record,
+          "cfhi_compre_20_ratio___contributions_per_accounting_fte"
+        );
+
+        // expensesPerAccountingFTE
+        this.dataStore.insertData(
+          "additional",
+          "client",
+          year,
+          "expensesPerAccountingFTE_Client",
+          record,
+          "cfhi_compre_21_ratio___expenses_per_accounting_fte"
+        );
+
+        // facilitiesExpenseToTotalCashExpenditures_lessThanTen
+        this.dataStore.insertData(
+          "additional",
+          "client",
+          year,
+          "facilitiesExpenseToTotalCashExpenditures_lessThanTen_Client",
+          record,
+          "cfhi_compre_22_value_under10___facilities_expenses_of_total_cash_expend",
+          "cfhi_compre_22_rating_under10___facilities_expenses_of_total_cash_expend"
+        );
+
+        // facilitiesExpenseToTotalCashExpenditures_greaterThanTen
+        this.dataStore.insertData(
+          "additional",
+          "client",
+          year,
+          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen_Client",
+          record,
+          "cfhi_compre_22_value_over10___facilities_expenses_of_total_cash_expend",
+          "cfhi_compre_22_rating_over10___facilities_expenses_of_total_cash_expend"
+        );
+
+        // facilityCostPerSquareFootExcluding_lessThanTen
+        this.dataStore.insertData(
+          "additional",
+          "client",
+          year,
+          "facilityCostPerSquareFootExcluding_lessThanTen_Client",
+          record,
+          "cfhi_compre_23_value_under10___facility_cost_per_square_foot__excluding_interest_expense_"
+        );
+
+        // facilityCostPerSquareFootExcluding_greaterThanTen
+        this.dataStore.insertData(
+          "additional",
+          "client",
+          year,
+          "facilityCostPerSquareFootExcluding_greaterThanTen_Client",
+          record,
+          "cfhi_compre_23_value_over10___facility_cost_per_square_foot__excluding_interest_expense_"
+        );
+
+        // facilityCostPerSquareFootIncluding_lessThanTen
+        this.dataStore.insertData(
+          "additional",
+          "client",
+          year,
+          "facilityCostPerSquareFootIncluding_lessThanTen_Client",
+          record,
+          "cfhi_compre_24_value_under10___facility_cost_per_square_foot__including_principal_and_interest_expense_"
+        );
+
+        // facilityCostPerSquareFootIncluding_greaterThanTen
+        this.dataStore.insertData(
+          "additional",
+          "client",
+          year,
+          "facilityCostPerSquareFootIncluding_greaterThanTen_Client",
+          record,
+          "cfhi_compre_24_value_over10___facility_cost_per_square_foot__including_principal_and_interest_expense_"
+        );
+
+        // informationTechnologyCostPerFTE
+        this.dataStore.insertData(
+          "additional",
+          "client",
+          year,
+          "informationTechnologyCostPerFTE_Client",
+          record,
+          "cfhi_compre_25_ratio___information_technology_cost_per_fte"
+        );
+
         // designatedGiftsToTotalGifts
         this.dataStore.insertData(
           "additional",
