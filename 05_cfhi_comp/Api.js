@@ -1972,10 +1972,10 @@ class ApiService {
         return;
       }
 
-      // Check if client matches filter criteria (simplified version)
+      // Check if client matches filter criteria (using givingUnitVal to match Header.js)
       const givingUnitsMatch =
-        clientData.givingUnits >= minGivingUnits &&
-        clientData.givingUnits <= maxGivingUnits;
+        clientData.givingUnitVal >= minGivingUnits &&
+        clientData.givingUnitVal <= maxGivingUnits;
       const regionMatch = selectedRegions.length === 0 || 
         selectedRegions.includes(clientData.region);
       const siteMatch = selectedSites.length === 0 || 
@@ -2442,12 +2442,8 @@ class AppController {
 
   // Process selected years
   processSelectedYears() {
-    const checkboxes = document.querySelectorAll(
-      'input[name="selectedYears"]:checked'
-    );
-    const selectedYears = Array.from(checkboxes).map((cb) =>
-      parseInt(cb.value)
-    );
+
+    const selectedYears = getSelectedYearsFromLocalStorage();
 
     if (selectedYears.length > 0) {
       this.saveSelectedYearsToLocalStorage(selectedYears);
@@ -2458,12 +2454,27 @@ class AppController {
 
   // Save selected years to localStorage
   saveSelectedYearsToLocalStorage(selectedYearsData) {
-    try {
-      localStorage.setItem("selectedYears", JSON.stringify(selectedYearsData));
-      console.log("Selected years saved to localStorage:", selectedYearsData);
-    } catch (error) {
-      console.error("Error saving selected years to localStorage:", error);
+    let selectedYearsArray;
+
+    if (selectedYearsData instanceof Set) {
+      // Convert Set to Array
+      selectedYearsArray = Array.from(selectedYearsData);
+    } else if (Array.isArray(selectedYearsData)) {
+      // Already an array
+      selectedYearsArray = selectedYearsData;
+    } else {
+      console.error(
+        "Invalid selected years data type:",
+        typeof selectedYearsData
+      );
+      return;
     }
+
+    // Sort years
+    selectedYearsArray.sort((a, b) => a - b);
+
+    // Save to localStorage
+    localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
   }
 
   // Display all components

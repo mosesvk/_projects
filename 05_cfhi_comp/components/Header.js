@@ -118,12 +118,12 @@ function clientMatchesFilters(
     ? selectedSites.includes(clientData.site)
     : false;
 
-  console.log("clientMatchesFilters()", {
-    clientData,
-    guMatch: givingUnitsMatch,
-    regionMatch: regionMatch,
-    siteMatch: siteMatch,
-  });
+  // console.log("clientMatchesFilters()", {
+  //   clientData,
+  //   guMatch: givingUnitsMatch,
+  //   regionMatch: regionMatch,
+  //   siteMatch: siteMatch,
+  // });
 
   return givingUnitsMatch && regionMatch && siteMatch;
 }
@@ -135,8 +135,20 @@ function clientMatchesFilters(
 
 // Initialize prevMatchCount outside the function
 let prevMatchCount = 0;
+let updateTimeout = null;
 
 function updateClientDropdownFilters() {
+  // Clear any existing timeout to debounce rapid calls
+  if (updateTimeout) {
+    clearTimeout(updateTimeout);
+  }
+  
+  updateTimeout = setTimeout(() => {
+    executeClientDropdownFilters();
+  }, 100);
+}
+
+function executeClientDropdownFilters() {
   // Ensure client data store exists
   if (!window.clientDataStore) {
     console.warn("Client data store not initialized");
@@ -205,7 +217,7 @@ function updateClientDropdownFilters() {
     selectAllCheckbox.indeterminate = !allSelected && !noneSelected;
   }
 
-  // Only show toast if matchCount has changed and not on initial load
+    // Only show toast if matchCount has changed and not on initial load
   if (window.hasRunInitialClientDropdownFilter) {
     if (matchCount !== prevMatchCount) {
       createToastSuccess(`${matchCount} clients match your filter criteria`);
@@ -213,7 +225,7 @@ function updateClientDropdownFilters() {
   } else {
     window.hasRunInitialClientDropdownFilter = true;
   }
-
+  
   // Update prevMatchCount for next comparison
   prevMatchCount = matchCount;
 }
@@ -679,6 +691,15 @@ function setupNumberFormatting() {
     const input = document.getElementById(id);
     if (!input) return;
 
+    // Set initial value if not set and format it
+    if (!input.value || input.value === "0") {
+      if (id === "givingUnitsMin") {
+        input.value = window.sliderValue || 0;
+      } else {
+        input.value = window.sliderValue2 || 25000;
+      }
+    }
+    
     // Format initial value
     if (input.value) {
       const formattedValue = formatNumberWithCommas(input.value);
@@ -784,37 +805,42 @@ function getOrCreateDisplaySpan(inputElement, inputId) {
 document.addEventListener("filtersChanged", updateClientDropdownFilters);
 document.addEventListener("clientDataLoaded", initializeClientDropdown);
 
-// LISTEN FOR API.JS EVENTS - Key connection to Api.js
-document.addEventListener("dataProcessed", function (event) {
-  console.log("Data processed event received from Api.js");
-
-  // Initialize client dropdown when data is processed
-  if (event.detail && event.detail.dataStore) {
-    // Extract client data from the dataStore
-    window.clientDataStore = {};
-
-    // Process demo data to build client data store
-    const demoData = event.detail.dataStore.getDataCategory("demo");
-
-    // Extract unique client names and their data
-    Object.keys(demoData).forEach((key) => {
-      if (key.includes("_Client")) {
-        Object.keys(demoData[key]).forEach((year) => {
-          // This would need to be adapted based on actual data structure
-          // For now, create basic client entries
-        });
-      }
-    });
-
-    // Trigger client dropdown initialization
-    const clientDataLoadedEvent = new CustomEvent("clientDataLoaded", {
-      detail: { dataStore: window.clientDataStore },
-    });
-    document.dispatchEvent(clientDataLoadedEvent);
-  }
+// LISTEN FOR API.JS EVENTS - Key connection to Api.js  
+document.addEventListener("dataProcessingComplete", function (event) {
+  console.log("Data processing complete event received from Api.js");
+  
+  // Check for client data with retry mechanism due to async nature
+  const checkAndInitializeClientData = () => {
+    if (window.clientDataStore && Object.keys(window.clientDataStore).length > 0) {
+      console.log(`Client data store found with ${Object.keys(window.clientDataStore).length} clients, initializing dropdown...`);
+      
+      // Trigger client dropdown initialization
+      const clientDataLoadedEvent = new CustomEvent("clientDataLoaded", {
+        detail: { dataStore: window.clientDataStore },
+      });
+      document.dispatchEvent(clientDataLoadedEvent);
+    } else {
+      console.warn("No client data store found, retrying in 500ms...");
+      // Retry after 500ms in case data is still loading
+      setTimeout(() => {
+        if (window.clientDataStore && Object.keys(window.clientDataStore).length > 0) {
+          console.log(`Client data store found on retry with ${Object.keys(window.clientDataStore).length} clients, initializing dropdown...`);
+          
+          const clientDataLoadedEvent = new CustomEvent("clientDataLoaded", {
+            detail: { dataStore: window.clientDataStore },
+          });
+          document.dispatchEvent(clientDataLoadedEvent);
+        } else {
+          console.error("Client data store still not available after retry");
+        }
+      }, 500);
+    }
+  };
+  
+  checkAndInitializeClientData();
 });
 
-// Listen for custom slider events
+// Listen for custom slider events (but don't trigger filtering yet)
 document.addEventListener("sliderChanged", function (event) {
   const { value, type } = event.detail;
   const input = document.getElementById(
@@ -831,6 +857,9 @@ document.addEventListener("sliderChanged", function (event) {
       displaySpan.textContent = formatNumberWithCommas(value);
     }
   }
+  
+  // Note: We don't dispatch filtersChanged here anymore
+  // Instead, we listen for mouseup/touchend events on the actual sliders
 });
 
 // Main initialization when DOM is loaded
@@ -845,6 +874,38 @@ document.addEventListener("DOMContentLoaded", function () {
   if (typeof sites_Array !== "undefined") {
     window.selectedSites_Array = new Set(sites_Array.map((site) => site.str));
   }
+
+  // Set up slider release event listeners for filtering
+  function setupSliderReleaseListeners() {
+    // Find the range slider container
+    const sliderContainer = document.querySelector('[x-data="range()"]');
+    if (sliderContainer) {
+      // Get all range inputs within the container
+      const rangeInputs = sliderContainer.querySelectorAll('input[type="range"]');
+      
+      rangeInputs.forEach(rangeInput => {
+        // Listen for when user releases the slider (mouse or touch)
+        rangeInput.addEventListener('mouseup', function() {
+          const filtersChangedEvent = new CustomEvent("filtersChanged");
+          document.dispatchEvent(filtersChangedEvent);
+        });
+        
+        rangeInput.addEventListener('touchend', function() {
+          const filtersChangedEvent = new CustomEvent("filtersChanged");
+          document.dispatchEvent(filtersChangedEvent);
+        });
+        
+        // Also listen for change event as backup
+        rangeInput.addEventListener('change', function() {
+          const filtersChangedEvent = new CustomEvent("filtersChanged");
+          document.dispatchEvent(filtersChangedEvent);
+        });
+      });
+    }
+  }
+  
+  // Initialize slider listeners with a slight delay to ensure DOM is ready
+  setTimeout(setupSliderReleaseListeners, 100);
 
   // Configure slider inputs for giving units (CFHI-specific)
   const sliderInputs = [
@@ -954,7 +1015,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    // Set up sliders with current values
+    // Set up sliders with current values (but don't add continuous filtering)
     const sliders = [
       document.getElementById("givingUnitsMin"),
       document.getElementById("givingUnitsMax"),
@@ -968,18 +1029,8 @@ document.addEventListener("DOMContentLoaded", function () {
             ? window.sliderValue
             : window.sliderValue2
         );
-        slider.addEventListener("input", () => {
-          // Update corresponding value
-          if (slider.id === "givingUnitsMin") {
-            window.sliderValue = parseInt(slider.value);
-          } else if (slider.id === "givingUnitsMax") {
-            window.sliderValue2 = parseInt(slider.value);
-          }
-
-          // Trigger the filtersChanged event
-          const event = new CustomEvent("filtersChanged");
-          document.dispatchEvent(event);
-        });
+        // Note: We don't add input event listeners here anymore
+        // Filtering is handled by the range slider release listeners above
       }
     });
   }
@@ -1000,7 +1051,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // This matches testHeader.js behavior where all clients start checked
     // But do set the flag so that future filter changes will show toast messages
     window.hasRunInitialClientDropdownFilter = true;
-    console.log("Client dropdown initialized - all clients checked by default");
   });
 
   // Explicitly set giving units input values
@@ -1008,6 +1058,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const givingUnitsMax = document.getElementById("givingUnitsMax");
   if (givingUnitsMin) givingUnitsMin.value = window.sliderValue;
   if (givingUnitsMax) givingUnitsMax.value = window.sliderValue2;
+  
+  // Format the initial values with commas
+  setTimeout(() => {
+    setupNumberFormatting();
+  }, 200);
 });
 
 // Keep the existing adjustDivHeight function call if it exists

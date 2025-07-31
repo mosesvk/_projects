@@ -6667,7 +6667,7 @@
                       x-on:input="mintrigger"
                       x-model="minprice"
                       x-ref="minInput"
-                      id="enrollmentMin"
+                      id="givingUnitsMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
                     <span class="mx-1">-</span>
@@ -6677,7 +6677,7 @@
                       maxlength="12"
                       x-on:input="maxtrigger"
                       x-model="maxprice"
-                      id="enrollmentMax"
+                      id="givingUnitsMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
                   </div>
@@ -6713,12 +6713,12 @@
                       ></div>
 
                       <div
-                        class="enrollmentSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
+                        class="givingUnitsSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
                         x-bind:style="'left: '+minthumb+'%'"
                       ></div>
 
                       <div
-                        class="enrollmentSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
+                        class="givingUnitsSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
                         x-bind:style="'right: '+maxthumb+'%'"
                       ></div>
                     </div>
