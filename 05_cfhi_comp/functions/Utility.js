@@ -374,6 +374,8 @@ const closeSidebarAfterSelectingOption = (component) => {
 };
 
 const getAverageOfArray = (array, num = 1) => {
+  console.log('getAverageOfArray', {array, num});
+  
   const filteredArray = array
     .filter((value) => Number(value) !== 0)
     .map((value) => Number(value) * num);
