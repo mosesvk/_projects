@@ -684,33 +684,8 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   // Clear existing content
   optionsListElement.innerHTML = "";
 
-  // Create "Select All" checkbox
-  const selectAllLabel = document.createElement("label");
-  selectAllLabel.setAttribute("for", "select-all-checkbox-years");
-  selectAllLabel.setAttribute(
-    "class",
-    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
-  );
 
-  const selectAllInput = document.createElement("input");
-  selectAllInput.setAttribute("type", "checkbox");
-  selectAllInput.setAttribute("id", "select-all-checkbox-years");
-  selectAllInput.setAttribute(
-    "class",
-    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
-  );
-  // CHANGE HERE: Set to unchecked by default
-  selectAllInput.checked = false;
-
-  const selectAllSpan = document.createElement("span");
-  selectAllSpan.setAttribute("id", "select-all-text-years");
-  selectAllSpan.innerText = "(select all)";
-  selectAllSpan.setAttribute("class", "text-lg font-semibold");
-
-  selectAllLabel.appendChild(selectAllInput);
-  selectAllLabel.appendChild(selectAllSpan);
-
-  optionsListElement.appendChild(selectAllLabel);
+  // optionsListElement.appendChild(selectAllLabel);
 
   // Sort years in descending order
   const sortedYears = yearsArray.sort((a, b) => b - a);
@@ -748,15 +723,6 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
       const yearCheckboxes = document.querySelectorAll(
         "#options-list input[type='checkbox']"
       );
-      const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
-        (cb) => cb.id !== "select-all-checkbox-years"
-      );
-
-      const allChecked = nonSelectAllCheckboxes.every((cb) => cb.checked);
-      const noneChecked = nonSelectAllCheckboxes.every((cb) => !cb.checked);
-
-      selectAllInput.checked = allChecked;
-      selectAllInput.indeterminate = !allChecked && !noneChecked;
 
       // Save to local storage
       const selectedYearsArray = Array.from(selectedYears_Set).sort(
@@ -774,32 +740,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     optionsListElement.appendChild(newLabel);
   });
 
-  // "Select All" checkbox behavior
-  selectAllInput.addEventListener("change", function () {
-    const isChecked = selectAllInput.checked;
-    const yearCheckboxes = document.querySelectorAll(
-      "#options-list input[type='checkbox']"
-    );
 
-    yearCheckboxes.forEach((checkbox) => {
-      if (checkbox.id !== "select-all-checkbox-years") {
-        checkbox.checked = isChecked;
-        const year = parseInt(checkbox.value);
-
-        if (isChecked) {
-          selectedYears_Set.add(year);
-        } else {
-          selectedYears_Set.delete(year);
-        }
-      }
-    });
-
-    // Save to local storage
-    const selectedYearsArray = Array.from(selectedYears_Set).sort(
-      (a, b) => a - b
-    );
-    localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
-  });
 };
 
 // Modify the dropdown toggle function to close other dropdowns
@@ -1256,7 +1197,7 @@ function updateModal(mainName, avgData, clientData) {
     headerRow.appendChild(avgColumn);
 
     // Add the remaining columns
-    const columns = ["Mid", "25th", "75th"];
+    const columns = ["50th", "25th", "75th"];
     columns.forEach((column) => {
       const col = document.createElement("th");
       col.className = "px-6 py-3";
