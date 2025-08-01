@@ -225,7 +225,7 @@ const createChartFromParsedData = (
       benchmark,
       title
     );
-    // updateModal (mainName, parsedData[peer], parsedData[client]);
+    updateModal (mainName, parsedData[peer], parsedData[client]);
   }
 };
 

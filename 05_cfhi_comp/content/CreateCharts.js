@@ -90,19 +90,19 @@ const getMainChartOptions = (
     }
   };
 
-  console.log("getMainChartOptions()", {
-    selectedYearsArray,
-    dataPeer,
-    dataClient,
-    fixedNum,
-    numType,
-    mainName,
-    clientArray,
-    peerAvg,
-    peerMid,
-    peer25,
-    peer75,
-  });
+  // console.log("getMainChartOptions()", {
+  //   selectedYearsArray,
+  //   dataPeer,
+  //   dataClient,
+  //   fixedNum,
+  //   numType,
+  //   mainName,
+  //   clientArray,
+  //   peerAvg,
+  //   peerMid,
+  //   peer25,
+  //   peer75,
+  // });
 
   // clientArray should already contain clean numeric values from getPeerAndClientChartDataArrays
 

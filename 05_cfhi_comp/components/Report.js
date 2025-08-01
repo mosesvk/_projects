@@ -217,8 +217,8 @@ const addToSingleRow = (
 ) => {
   //console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
-  // console.log(`row_${name}`);
-  // console.log("tableReportRow", tableReportRow);
+  console.log(`row_${name}`);
+  console.log("tableReportRow", tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);
@@ -322,7 +322,7 @@ const addClientDataToModalRow = (
   type,
   fixedNum
 ) => {
-  // console.log({ tableModalRow, year, client, type, fixedNum });
+  console.log('addClientDataToModalRow', { tableModalRow, year, client, type, fixedNum  });
 
   const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
