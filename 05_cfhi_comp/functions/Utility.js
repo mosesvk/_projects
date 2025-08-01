@@ -1,4 +1,3 @@
-let cfiRatioChart, assetsChart;
 
 // console.log('utility.js----')
 
@@ -46,39 +45,27 @@ const map_dataUri = new Map();
 const dataUrLObj = new Object();
 
 // CHARTS
-let cfiRatio_chart;
-let demoOverall_chart;
-let cfi_primaryReserveRatio_chart;
-let cfi_netIncomeOperationsRatio_chart;
-let cfi_returnOnNetAssets_chart;
-let cfi_viabilityRatio_chart;
-let FinancialPosition_chart;
-let assetToLiabilities_chart;
-let sourceOfIncomeClient_chart;
-let sourceOfIncomePeer_chart;
-let ffa_chart;
-let cashFlowsTrend_chart;
+let givingUnits_chart;
+let attendeesToStaff_chart;
+let daysExpendableNetAssets_chart;
+let daysOperatingCash_chart;
+let availableDaysOfCashFlow_chart;
+let liquidityRatio_chart;
+let netCashAvailability_chart;
+let debtToContributionsWithout_chart;
 let currentRatio_chart;
-let salariesBenefitsToTotalExpense_chart;
-let salariesBenefitsPerNetTuition_chart;
-let netEducationalExpensePerStudent_chart;
-let annualTraditionalNetTuitionPerStudent_chart;
-let tuitionDependency_chart;
-let tuitionDiscountRate_chart;
-let ltDebtPerTotalOperatingRevenue_chart;
-let debtServiceCoverageRatio_chart;
-let debtBurdenRatio_chart;
-let endowmentOperatingBudget_chart;
-let endowmentAssetsPerStudent_chart;
-let netTuitionPerStudent_chart;
-let cfiCompositeHtml_chart;
+let mandatoryDebtServiceToContributionsWithout_chart;
+let debtPerGivingUnit_chart;
+let debtCoverage_chart;
+let netIncomeRatio_chart;
+let contributionsWithoutDonorPerGivingUnit_chart;
+let totalContributionsPerGivingUnit_chart;
+let benefitsToSalaries_chart;
+let salariesBenefitsIncludingOutsourcedEmployees_chart;
+let personnelToCashExpenditure_chart;
+let cashExpendituresPerGivingUnit_chart;
 
-// annotation
-let cfiRatio_annotation;
-let cfi_primaryReserveRatio_annotation;
-let cfi_netIncomeOperationsRatio_annotation;
-let cfi_returnOnNetAssets_annotation;
-let cfi_viabilityRatio_annotation;
+// annotation - removed CFI-specific annotations
 
 // Utility Functions
 
@@ -226,7 +213,7 @@ const createChartFromParsedData = (
   title
 ) => {
   if (parsedData) {
-    console.log('createChartFromParsedData', { parsedData, chart, peer, client, type, fixedNum, mainName });
+    // console.log('createChartFromParsedData', { parsedData, chart, peer, client, type, fixedNum, mainName });
 
     createChart(
       chart,
@@ -267,87 +254,206 @@ const createChart = (
     chartId
   );
 
+  // Check if chartOptions is null (invalid data)
+  if (!chartOptions) {
+    console.warn(`Cannot create chart ${chartId} - invalid chart options`);
+    return;
+  }
+
   const chartIds = [
-    "cfiRatio_chart",
-    "demoOverall_chart",
-    "cfi_primaryReserveRatio_chart",
-    "cfi_netIncomeOperationsRatio_chart",
-    "cfi_returnOnNetAssets_chart",
-    "cfi_viabilityRatio_chart",
+    "givingUnits_chart",
+    "attendeesToStaff_chart",
+    "daysExpendableNetAssets_chart",
+    "daysOperatingCash_chart",
+    "availableDaysOfCashFlow_chart",
+    "liquidityRatio_chart",
+    "netCashAvailability_chart",
+    "debtToContributionsWithout_chart",
+    "currentRatio_chart",
+    "mandatoryDebtServiceToContributionsWithout_chart",
+    "debtPerGivingUnit_chart",
+    "debtCoverage_chart",
+    "netIncomeRatio_chart",
+    "contributionsWithoutDonorPerGivingUnit_chart",
+    "totalContributionsPerGivingUnit_chart",
+    "benefitsToSalaries_chart",
+    "salariesBenefitsIncludingOutsourcedEmployees_chart",
+    "personnelToCashExpenditure_chart",
+    "cashExpendituresPerGivingUnit_chart",
   ];
 
   if (chartIds.includes(chartId)) {
-    if (chartId === "cfiRatio_chart") {
-      // Create a custom chart options object for cfiRatio that explicitly sets min to -4
-      const cfiRatioOptions = { ...chartOptions };
-
-      // Make sure the yaxis setting has a proper min value
-      if (!cfiRatioOptions.yaxis.min) {
-        cfiRatioOptions.yaxis.min = -4;
-      }
-
-      cfiRatio_chart = new ApexCharts(
-        document.getElementById(chartId),
-        cfiRatioOptions
-      );
-      cfiRatio_chart.render();
-
-      document.addEventListener("dark-mode", function () {
-        cfiRatio_chart.updateOptions(cfiRatioOptions);
-      });
-    } else if (chartId === "demoOverall_chart") {
-      demoOverall_chart = new ApexCharts(
+    if (chartId === "givingUnits_chart") {
+      givingUnits_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      demoOverall_chart.render();
+      givingUnits_chart.render();
       document.addEventListener("dark-mode", function () {
-        demoOverall_chart.updateOptions(chartOptions);
+        givingUnits_chart.updateOptions(chartOptions);
       });
-    } else if (chartId === "cfi_primaryReserveRatio_chart") {
-      cfi_primaryReserveRatio_chart = new ApexCharts(
+    } else if (chartId === "attendeesToStaff_chart") {
+      attendeesToStaff_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-
-      cfi_primaryReserveRatio_chart.render();
-
+      attendeesToStaff_chart.render();
       document.addEventListener("dark-mode", function () {
-        cfi_primaryReserveRatio_chart.updateOptions(chartOptions);
+        attendeesToStaff_chart.updateOptions(chartOptions);
       });
-    } else if (chartId === "cfi_netIncomeOperationsRatio_chart") {
-      cfi_netIncomeOperationsRatio_chart = new ApexCharts(
+    } else if (chartId === "daysExpendableNetAssets_chart") {
+      daysExpendableNetAssets_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-
-      cfi_netIncomeOperationsRatio_chart.render();
-
+      daysExpendableNetAssets_chart.render();
       document.addEventListener("dark-mode", function () {
-        cfi_netIncomeOperationsRatio_chart.updateOptions(chartOptions);
+        daysExpendableNetAssets_chart.updateOptions(chartOptions);
       });
-    } else if (chartId === "cfi_returnOnNetAssets_chart") {
-      cfi_returnOnNetAssets_chart = new ApexCharts(
+    } else if (chartId === "daysOperatingCash_chart") {
+      daysOperatingCash_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-
-      cfi_returnOnNetAssets_chart.render();
-
+      daysOperatingCash_chart.render();
       document.addEventListener("dark-mode", function () {
-        cfi_returnOnNetAssets_chart.updateOptions(chartOptions);
+        daysOperatingCash_chart.updateOptions(chartOptions);
       });
-    } else if (chartId === "cfi_viabilityRatio_chart") {
-      cfi_viabilityRatio_chart = new ApexCharts(
+    } else if (chartId === "availableDaysOfCashFlow_chart") {
+      availableDaysOfCashFlow_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-
-      cfi_viabilityRatio_chart.render();
-
-      // document.addEventListener("dark-mode", function () {
-      //   cfi_viabilityRatio_chart.updateOptions(chartOptions);
-      // });
+      availableDaysOfCashFlow_chart.render();
+      document.addEventListener("dark-mode", function () {
+        availableDaysOfCashFlow_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "liquidityRatio_chart") {
+      liquidityRatio_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      liquidityRatio_chart.render();
+      document.addEventListener("dark-mode", function () {
+        liquidityRatio_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "netCashAvailability_chart") {
+      netCashAvailability_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      netCashAvailability_chart.render();
+      document.addEventListener("dark-mode", function () {
+        netCashAvailability_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "debtToContributionsWithout_chart") {
+      debtToContributionsWithout_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      debtToContributionsWithout_chart.render();
+      document.addEventListener("dark-mode", function () {
+        debtToContributionsWithout_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "currentRatio_chart") {
+      currentRatio_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      currentRatio_chart.render();
+      document.addEventListener("dark-mode", function () {
+        currentRatio_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "mandatoryDebtServiceToContributionsWithout_chart") {
+      mandatoryDebtServiceToContributionsWithout_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      mandatoryDebtServiceToContributionsWithout_chart.render();
+      document.addEventListener("dark-mode", function () {
+        mandatoryDebtServiceToContributionsWithout_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "debtPerGivingUnit_chart") {
+      debtPerGivingUnit_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      debtPerGivingUnit_chart.render();
+      document.addEventListener("dark-mode", function () {
+        debtPerGivingUnit_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "debtCoverage_chart") {
+      debtCoverage_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      debtCoverage_chart.render();
+      document.addEventListener("dark-mode", function () {
+        debtCoverage_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "netIncomeRatio_chart") {
+      netIncomeRatio_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      netIncomeRatio_chart.render();
+      document.addEventListener("dark-mode", function () {
+        netIncomeRatio_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "contributionsWithoutDonorPerGivingUnit_chart") {
+      contributionsWithoutDonorPerGivingUnit_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      contributionsWithoutDonorPerGivingUnit_chart.render();
+      document.addEventListener("dark-mode", function () {
+        contributionsWithoutDonorPerGivingUnit_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "totalContributionsPerGivingUnit_chart") {
+      totalContributionsPerGivingUnit_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      totalContributionsPerGivingUnit_chart.render();
+      document.addEventListener("dark-mode", function () {
+        totalContributionsPerGivingUnit_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "benefitsToSalaries_chart") {
+      benefitsToSalaries_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      benefitsToSalaries_chart.render();
+      document.addEventListener("dark-mode", function () {
+        benefitsToSalaries_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "salariesBenefitsIncludingOutsourcedEmployees_chart") {
+      salariesBenefitsIncludingOutsourcedEmployees_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      salariesBenefitsIncludingOutsourcedEmployees_chart.render();
+      document.addEventListener("dark-mode", function () {
+        salariesBenefitsIncludingOutsourcedEmployees_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "personnelToCashExpenditure_chart") {
+      personnelToCashExpenditure_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      personnelToCashExpenditure_chart.render();
+      document.addEventListener("dark-mode", function () {
+        personnelToCashExpenditure_chart.updateOptions(chartOptions);
+      });
+    } else if (chartId === "cashExpendituresPerGivingUnit_chart") {
+      cashExpendituresPerGivingUnit_chart = new ApexCharts(
+        document.getElementById(chartId),
+        chartOptions
+      );
+      cashExpendituresPerGivingUnit_chart.render();
+      document.addEventListener("dark-mode", function () {
+        cashExpendituresPerGivingUnit_chart.updateOptions(chartOptions);
+      });
     }
   }
 };
@@ -494,7 +600,7 @@ const get75thPercentileOfArray = (array, mainName) => {
 };
 
 const getSumOfArray = (array) => {
-  console.log('getSumOfArray', array);
+  // console.log('getSumOfArray', array);
   
   if (array === null || array === undefined) return 0;
   const filteredArray = array.filter((value) => Number(value) !== 0);
@@ -909,10 +1015,24 @@ const getPeerAndClientChartDataArrays = (
       peer25.push(null);
       peer75.push(null);
 
-      const clientNum = styleNumber(dataClient[year].value, type, fixedNum);
-      // if (mainName === "demoOverall") console.log(clientNum);
+      // Handle client data with better error checking
+      let clientValue;
+      if (dataClient[year] && typeof dataClient[year] === 'object' && dataClient[year].hasOwnProperty('value')) {
+        clientValue = dataClient[year].value;
+      } else if (typeof dataClient[year] === 'number' || typeof dataClient[year] === 'string') {
+        clientValue = dataClient[year];
+      } else {
+        console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
+        clientValue = null;
+      }
 
-      clientArray.push(clientNum);
+      if (clientValue !== null && clientValue !== undefined) {
+        const clientNum = styleNumber(clientValue, type, fixedNum);
+        // if (mainName === "demoOverall") console.log(clientNum);
+        clientArray.push(clientNum);
+      } else {
+        clientArray.push(null);
+      }
     } else if (dataPeer[year] !== undefined && dataClient[year] !== undefined) {
       // console.log('---- hit if');
 
@@ -939,14 +1059,23 @@ const getPeerAndClientChartDataArrays = (
 
       // if (mainName == "cfi_netIncomeOperationsRatio") console.log({mainName, peerAvg, peerMid, peer25, peer75});
 
-      // const client = Number(dataClient[year].value).toFixed(fixedNum);
-      // const client = dataClient[year].value;
-      // const clientNum = styleNumber(client, type, fixedNum);
-      // // if (mainName == 'demoOverall') debugger
-      // clientArray.push(clientNum);
+      // Handle client data with better error checking
+      let clientValue;
+      if (dataClient[year] && typeof dataClient[year] === 'object' && dataClient[year].hasOwnProperty('value')) {
+        clientValue = dataClient[year].value;
+      } else if (typeof dataClient[year] === 'number' || typeof dataClient[year] === 'string') {
+        clientValue = dataClient[year];
+      } else {
+        console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
+        clientValue = null;
+      }
 
-      const clientNum = styleNumber(dataClient[year].value, type, fixedNum);
-      clientArray.push(clientNum);
+      if (clientValue !== null && clientValue !== undefined) {
+        const clientNum = styleNumber(clientValue, type, fixedNum);
+        clientArray.push(clientNum);
+      } else {
+        clientArray.push(null);
+      }
     } else if (dataPeer[year] === undefined && dataClient[year]) {
       // console.log('---- hit ELSE if');
 
@@ -955,8 +1084,23 @@ const getPeerAndClientChartDataArrays = (
       peer25.push(null);
       peer75.push(null);
 
-      const clientNum = styleNumber(dataClient[year].value, type, fixedNum);
-      clientArray.push(clientNum);
+      // Handle client data with better error checking
+      let clientValue;
+      if (dataClient[year] && typeof dataClient[year] === 'object' && dataClient[year].hasOwnProperty('value')) {
+        clientValue = dataClient[year].value;
+      } else if (typeof dataClient[year] === 'number' || typeof dataClient[year] === 'string') {
+        clientValue = dataClient[year];
+      } else {
+        console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
+        clientValue = null;
+      }
+
+      if (clientValue !== null && clientValue !== undefined) {
+        const clientNum = styleNumber(clientValue, type, fixedNum);
+        clientArray.push(clientNum);
+      } else {
+        clientArray.push(null);
+      }
     } else if (dataClient == undefined || dataPeer == undefined) {
       throw new Error(
         `No Data for ${mainName} - object: ${{ dataPeer, dataClient }}`

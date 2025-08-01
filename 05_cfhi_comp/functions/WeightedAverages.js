@@ -632,7 +632,7 @@ const daysExpendableNetAssets_weightedAverage = (data, name) => {
 };
 
 const attendeesToStaff_weightedAverage = (data, name) => {
-  console.log('attendeesToStaff_weightedAverage', data, name);
+  // console.log('attendeesToStaff_weightedAverage', data, name);
   const s150 = getSumOfArray(data.totalAttendees[name]['total']);
   const s151 = getSumOfArray(data.fullTimeEquivalent[name]['total']);
 

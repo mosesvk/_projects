@@ -2,7 +2,7 @@ const displayDemoComponent = () => {
   const savedData = getStoredData("demoData");
   const parseData = parseStoredData(savedData);
 
-  console.log('displayDemoComponent hit');
+  // console.log('displayDemoComponent hit');
   
 
   // givingUnits
@@ -13,7 +13,9 @@ const displayDemoComponent = () => {
     "givingUnits_Client",
     "number",
     0,
-    "givingUnits"
+    "givingUnits",
+    null,
+    "Giving Units"
   );
   // attendeesToStaff
   createChartFromParsedData(
@@ -23,7 +25,9 @@ const displayDemoComponent = () => {
     "attendeesToStaff_Client",
     "number",
     0,
-    "attendeesToStaff"
+    "attendeesToStaff",
+    null,
+    "Attendees to Staff"
   );
 
   const attendToStaff_benchmark = [
@@ -47,7 +51,9 @@ const displayCashComponent = () => {
     "daysExpendableNetAssets_Client",
     "number",
     0,
-    "daysExpendableNetAssets"
+    "daysExpendableNetAssets",
+    null,
+    "Days Expendable Net Assets"
   );
 
   // daysOperatingCash
@@ -58,7 +64,9 @@ const displayCashComponent = () => {
     "daysOperatingCash_Client",
     "number",
     0,
-    "daysOperatingCash"
+    "daysOperatingCash",
+    null,
+    "Days Operating Cash"
   );
 
   // availableDaysOfCashFlow
@@ -69,7 +77,9 @@ const displayCashComponent = () => {
     "availableDaysOfCashFlow_Client",
     "number",
     0,
-    "availableDaysOfCashFlow"
+    "availableDaysOfCashFlow",
+    null,
+    "Available Days of Cash Flow"
   );
 
   // liquidityRatio
@@ -80,7 +90,9 @@ const displayCashComponent = () => {
     "liquidityRatio_Client",
     "number",
     0,
-    "liquidityRatio"
+    "liquidityRatio",
+    null,
+    "Liquidity Ratio"
   );
 
   // netCashAvailability
@@ -91,7 +103,9 @@ const displayCashComponent = () => {
     "netCashAvailability_Client",
     "number",
     0,
-    "netCashAvailability"
+    "netCashAvailability",
+    null,
+    "Net Cash Availability"
   );
 
   const daysExpendable_benchmark = [
@@ -140,7 +154,9 @@ const displayDebtComponent = () => {
     "debtToContributionsWithout_Client",
     "dollar",
     0,
-    "debtToContributionsWithout"
+    "debtToContributionsWithout",
+    null,
+    "Debt to Contributions Without"
   );
 
   // currentRatio
@@ -151,7 +167,9 @@ const displayDebtComponent = () => {
     "currentRatio_Client",
     "number",
     0,
-    "currentRatio"
+    "currentRatio",
+    null,
+    "Current Ratio"
   );
 
   // mandatoryDebtServiceToContributionsWithout
@@ -162,7 +180,9 @@ const displayDebtComponent = () => {
     "mandatoryDebtServiceToContributionsWithout_Client",
     "percent",
     0,
-    "mandatoryDebtServiceToContributionsWithout"
+    "mandatoryDebtServiceToContributionsWithout",
+    null,
+    "Mandatory Debt Service to Contributions Without"
   );
 
   // debtPerGivingUnit
@@ -173,7 +193,9 @@ const displayDebtComponent = () => {
     "debtPerGivingUnit_Client",
     "dollar",
     0,
-    "debtPerGivingUnit"
+    "debtPerGivingUnit",
+    null,
+    "Debt Per Giving Unit"
   );
 
   // debtCoverage
@@ -184,7 +206,9 @@ const displayDebtComponent = () => {
     "debtCoverage_Client",
     "dollar",
     0,
-    "debtCoverage"
+    "debtCoverage",
+    null,
+    "Debt Coverage"
   );
 
   const debtToContributionsWithout_benchmark = [
@@ -254,7 +278,9 @@ const displayIncomeComponent = () => {
     "netIncomeRatio_Client",
     "percent",
     1,
-    "netIncomeRatio"
+    "netIncomeRatio",
+    null,
+    "Net Income Ratio"
   );
 
   // contributionsWithoutDonorPerGivingUnit
@@ -265,7 +291,9 @@ const displayIncomeComponent = () => {
     "contributionsWithoutDonorPerGivingUnit_Client",
     "dollar",
     1,
-    "contributionsWithoutDonorPerGivingUnit"
+    "contributionsWithoutDonorPerGivingUnit",
+    null,
+    "Contributions Without Donor Per Giving Unit"
   );
 
   // totalContributionsPerGivingUnit
@@ -276,7 +304,9 @@ const displayIncomeComponent = () => {
     "totalContributionsPerGivingUnit_Client",
     "dollar",
     1,
-    "totalContributionsPerGivingUnit"
+    "totalContributionsPerGivingUnit",
+    null,
+    "Total Contributions Per Giving Unit"
   );
 
   const netIncome_benchmark = [
@@ -358,7 +388,9 @@ const displayExpenseComponent = () => {
     "benefitsToSalaries_Client",
     "number",
     1,
-    "benefitsToSalaries"
+    "benefitsToSalaries",
+    null,
+    "Benefits to Salaries"
   );
 
   // salariesBenefitsIncludingOutsourcedEmployees
@@ -369,7 +401,9 @@ const displayExpenseComponent = () => {
     "salariesBenefitsIncludingOutsourcedEmployees_Client",
     "number",
     1,
-    "salariesBenefitsIncludingOutsourcedEmployees"
+    "salariesBenefitsIncludingOutsourcedEmployees",
+    null,
+    "Salaries Benefits Including Outsourced Employees"
   );
 
   // personnelToCashExpenditure
@@ -380,7 +414,9 @@ const displayExpenseComponent = () => {
     "personnelToCashExpenditure_Client",
     "number",
     1,
-    "personnelToCashExpenditure"
+    "personnelToCashExpenditure",
+    null,
+    "Personnel to Cash Expenditure"
   );
 
   // cashExpendituresPerGivingUnit
@@ -391,7 +427,9 @@ const displayExpenseComponent = () => {
     "cashExpendituresPerGivingUnit_Client",
     "number",
     1,
-    "cashExpendituresPerGivingUnit"
+    "cashExpendituresPerGivingUnit",
+    null,
+    "Cash Expenditures Per Giving Unit"
   );
 
   const personnelToCash_benchmark = [

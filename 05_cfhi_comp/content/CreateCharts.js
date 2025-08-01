@@ -1,4 +1,5 @@
-const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
+// CreateCharts.js
+const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainName, benchmark, title, chartId) => {
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
         borderColor: "#374151",
@@ -17,24 +18,25 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
     ? "#e3f0fa"
     : "#3a464f";
 
-  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+  const selectedYearsArray = getSelectedYearsFromLocalStorage() || [];
+  
+  // Validate that we have years selected
+  if (!selectedYearsArray || selectedYearsArray.length === 0) {
+    console.warn("No years selected for chart:", mainName);
+    return null; // Return null to prevent chart creation
+  }
 
   const formatNumber = (value) => value.toLocaleString();
 
-  // console.log("getMainChartOptions()", {
-  //   selectedYearsArray,
-  //   dataPeer,
-  //   dataClient,
-  //   fixedNum,
-  //   numType,
-  // });
-
-  ({ clientArray, peerAvg, peerMid, peerMin, peerMax } =
+  ({ clientArray, peerAvg, peerMid, peer25, peer75 } =
     getPeerAndClientChartDataArrays(
       selectedYearsArray,
       dataPeer,
       dataClient,
-      fixedNum
+      fixedNum,
+      mainName,
+      benchmark,
+      numType
     ));
 
   const yaxisLabelFormatter = (value) => {
@@ -59,6 +61,27 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
     }
   };
 
+  console.log("getMainChartOptions()", {
+    selectedYearsArray,
+    dataPeer,
+    dataClient,
+    fixedNum,
+    numType,
+    mainName,
+    clientArray,
+    peerAvg,
+    peerMid,
+    peer25,
+    peer75,
+  });
+
+  // Filter out undefined values and convert to proper format for ApexCharts
+  const cleanClientArray = clientArray.map(val => val === null || val === undefined ? null : val);
+  const cleanPeerAvg = peerAvg.map(val => val === null || val === undefined ? null : parseFloat(val));
+  const cleanPeerMid = peerMid.map(val => val === null || val === undefined ? null : parseFloat(val));
+  const cleanPeer25 = peer25.map(val => val === null || val === undefined ? null : parseFloat(val));
+  const cleanPeer75 = peer75.map(val => val === null || val === undefined ? null : parseFloat(val));
+
   return {
     colors: [
       window.chartColors.green,
@@ -71,7 +94,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       {
         name: "Client",
         type: "column",
-        data: clientArray,
+        data: cleanClientArray,
         style: {
           colors: [chartColors.labelColor],
         },
@@ -79,7 +102,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       {
         name: "Avg",
         type: "line",
-        data: peerAvg,
+        data: cleanPeerAvg,
         yaxis: 0,
         style: {
           colors: ["transparent"], // Set the line color to transparent
@@ -97,19 +120,19 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0) => {
       {
         name: "Midpoint",
         type: "line",
-        data: peerMid,
+        data: cleanPeerMid,
         visible: false,
       },
       {
-        name: "Min",
+        name: "25th",
         type: "line",
-        data: peerMin,
+        data: cleanPeer25,
         visible: false,
       },
       {
-        name: "Max",
+        name: "75th",
         type: "line",
-        data: peerMax,
+        data: cleanPeer75,
         visible: false,
       },
     ],
