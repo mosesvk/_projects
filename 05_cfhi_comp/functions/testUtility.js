@@ -1185,7 +1185,7 @@ const getPeerAndClientChartDataArrays = (
       peer75.push(null);
 
       const clientNum = styleNumber(dataClient[year].value, type, fixedNum);
-      // if (mainName === "doeOverall") console.log(clientNum);
+
 
       clientArray.push(clientNum);
     } else if (dataPeer[year] !== undefined && dataClient[year] !== undefined) {

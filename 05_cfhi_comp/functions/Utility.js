@@ -1076,6 +1076,15 @@ const getPeerAndClientChartDataArrays = (
       } else {
         clientArray.push(null);
       }
+
+      // if (mainName === "givingUnits") console.log('getPeerAndClientChartDataArrays', {
+      //   clientValue, 
+      //   'dataClient[year].value': dataClient[year].value,
+      //   dataClient,
+      //   type,
+      //   fixedNum,
+      //   mainName,
+      // });
     } else if (dataPeer[year] === undefined && dataClient[year]) {
       // console.log('---- hit ELSE if');
 
@@ -1112,9 +1121,6 @@ const getPeerAndClientChartDataArrays = (
 
     // if (mainName == "demoOverall") console.log({clientArray, dataClient});
   });
-
-  // if (mainName == "cfi_netIncomeOperationsRatio")
-  //   console.log({ mainName, clientArray, peerAvg, peerMid, peer25, peer75 });
 
   return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
 };
@@ -1161,7 +1167,7 @@ function styleNumber(num, type, fixed) {
       : number.toFixed(fixed);
   };
 
-  if (type === "num") {
+  if (type === "num" || type === "number") {
     if (Math.abs(num) < 1000) {
       return formatWithFixed(num);
     } else {

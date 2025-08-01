@@ -76,7 +76,15 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
   });
 
   // Filter out undefined values and convert to proper format for ApexCharts
-  const cleanClientArray = clientArray.map(val => val === null || val === undefined ? null : val);
+  const cleanClientArray = clientArray.map(val => {
+    if (val === null || val === undefined) return null;
+    // Remove commas and convert to number if it's a string
+    if (typeof val === 'string') {
+      const cleanedVal = val.replace(/,/g, '');
+      return parseFloat(cleanedVal);
+    }
+    return parseFloat(val);
+  });
   const cleanPeerAvg = peerAvg.map(val => val === null || val === undefined ? null : parseFloat(val));
   const cleanPeerMid = peerMid.map(val => val === null || val === undefined ? null : parseFloat(val));
   const cleanPeer25 = peer25.map(val => val === null || val === undefined ? null : parseFloat(val));
