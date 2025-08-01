@@ -1027,8 +1027,15 @@ const getPeerAndClientChartDataArrays = (
       }
 
       if (clientValue !== null && clientValue !== undefined) {
-        const clientNum = styleNumber(clientValue, type, fixedNum);
-        // if (mainName === "demoOverall") console.log(clientNum);
+        // Extract raw numeric value, removing commas if present
+        let clientNum = typeof clientValue === 'string' ? 
+          parseFloat(clientValue.replace(/,/g, '')) : parseFloat(clientValue);
+        
+        // Only multiply by 100 for percentages (ApexCharts expects percentage values as 0-100, not 0-1)
+        if (type === "percent") {
+          clientNum *= 100;
+        }
+        
         clientArray.push(clientNum);
       } else {
         clientArray.push(null);
@@ -1071,7 +1078,15 @@ const getPeerAndClientChartDataArrays = (
       }
 
       if (clientValue !== null && clientValue !== undefined) {
-        const clientNum = styleNumber(clientValue, type, fixedNum);
+        // Extract raw numeric value, removing commas if present
+        let clientNum = typeof clientValue === 'string' ? 
+          parseFloat(clientValue.replace(/,/g, '')) : parseFloat(clientValue);
+        
+        // Only multiply by 100 for percentages (ApexCharts expects percentage values as 0-100, not 0-1)
+        if (type === "percent") {
+          clientNum *= 100;
+        }
+        
         clientArray.push(clientNum);
       } else {
         clientArray.push(null);
@@ -1105,7 +1120,15 @@ const getPeerAndClientChartDataArrays = (
       }
 
       if (clientValue !== null && clientValue !== undefined) {
-        const clientNum = styleNumber(clientValue, type, fixedNum);
+        // Extract raw numeric value, removing commas if present
+        let clientNum = typeof clientValue === 'string' ? 
+          parseFloat(clientValue.replace(/,/g, '')) : parseFloat(clientValue);
+        
+        // Only multiply by 100 for percentages (ApexCharts expects percentage values as 0-100, not 0-1)
+        if (type === "percent") {
+          clientNum *= 100;
+        }
+        
         clientArray.push(clientNum);
       } else {
         clientArray.push(null);

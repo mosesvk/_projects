@@ -1,5 +1,14 @@
 // CreateCharts.js
-const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainName, benchmark, title, chartId) => {
+const getMainChartOptions = (
+  dataPeer,
+  dataClient,
+  numType,
+  fixedNum = 0,
+  mainName,
+  benchmark,
+  title,
+  chartId
+) => {
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
         borderColor: "#374151",
@@ -19,7 +28,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
     : "#3a464f";
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage() || [];
-  
+
   // Validate that we have years selected
   if (!selectedYearsArray || selectedYearsArray.length === 0) {
     console.warn("No years selected for chart:", mainName);
@@ -40,12 +49,32 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
     ));
 
   const yaxisLabelFormatter = (value) => {
-    if (numType === "dollar") {
-      return `$${formatNumber(value)}`;
-    } else if (numType === "percent") {
-      return `${formatNumber(value)}%`;
+    let formattedValue;
+    let suffix = '';
+    
+    if (value >= 10000000) {
+      // Round to nearest 10M for values >= 10M
+      formattedValue = `${Math.round(value / 10000000) * 10}M`;
+    } else if (value >= 1000000) {
+      // Round to nearest 1M for values >= 1M
+      formattedValue = `${Math.round(value / 1000000)}M`;
+    } else if (value >= 10000) {
+      // Round to nearest 10K for values >= 10K
+      formattedValue = `${Math.round(value / 10000) * 10}K`;
+    } else if (value >= 1000) {
+      // Round to nearest 1K for values >= 1K
+      formattedValue = `${Math.round(value / 1000)}K`;
     } else {
-      return formatNumber(value);
+      formattedValue = formatNumber(value);
+    }
+    
+    // Apply prefix/suffix based on numType
+    if (numType === "dollar") {
+      return `$${formattedValue}`;
+    } else if (numType === "percent") {
+      return `${formattedValue}%`;
+    } else {
+      return formattedValue; // "num" or "number" - no prefix/suffix
     }
   };
 
@@ -75,22 +104,13 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
     peer75,
   });
 
-  // Filter out undefined values and convert to proper format for ApexCharts
-  const cleanClientArray = clientArray.map(val => {
-    if (val === null || val === undefined) return null;
-    // Remove commas and convert to number if it's a string
-    if (typeof val === 'string') {
-      const cleanedVal = val.replace(/,/g, '');
-      return parseFloat(cleanedVal);
-    }
-    return parseFloat(val);
-  });
+  // clientArray should already contain clean numeric values from getPeerAndClientChartDataArrays
 
   const series = [
     {
       name: firmName,
       type: "column",
-      data: cleanClientArray,
+      data: clientArray,
       style: {
         colors: [chartColors.labelColor],
       },
@@ -131,7 +151,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
       data: peer75,
       visible: false,
     },
-  ]
+  ];
 
   return {
     colors: [
@@ -151,11 +171,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
       enabled: true,
       enabledOnSeries: [0],
       offsetY: -20,
-      formatter: (val) => {
-        let formatVal = formatDecimal(val, fixedNum);
-        if (numType == "percent") return `${formatVal}%`;
-        return `${formatVal}`;
-      },
+      formatter: tooltipFormatter,
       style: {
         fontSize: "20px",
         fontFamily: "Helvetica, Arial, sans-serif",
@@ -213,6 +229,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
             colors: chartColor,
             fontSize: "1.25rem",
           },
+        align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
         },
         tooltip: {
           enabled: true,
