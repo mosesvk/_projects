@@ -98,7 +98,7 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
     {
       name: "Avg",
       type: "line",
-      data: cleanPeerAvg,
+      data: peerAvg,
       yaxis: 0,
       style: {
         colors: ["transparent"], // Set the line color to transparent
@@ -116,19 +116,19 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
     {
       name: "Midpoint",
       type: "line",
-      data: cleanPeerMid,
+      data: peerMid,
       visible: false,
     },
     {
       name: "25th",
       type: "line",
-      data: cleanPeer25,
+      data: peer25,
       visible: false,
     },
     {
       name: "75th",
       type: "line",
-      data: cleanPeer75,
+      data: peer75,
       visible: false,
     },
   ]
