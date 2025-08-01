@@ -1049,8 +1049,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("clientDropdownInitialized", function (event) {
     // Don't run initial filter update to preserve all clients being checked by default
     // This matches testHeader.js behavior where all clients start checked
-    // But do set the flag so that future filter changes will show toast messages
-    window.hasRunInitialClientDropdownFilter = true;
+    // The flag will be set to true only when the first actual filter change occurs
   });
 
   // Explicitly set giving units input values

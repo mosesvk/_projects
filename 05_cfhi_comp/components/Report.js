@@ -348,7 +348,7 @@ const addPeerDataToRow = (
   name,
   data
 ) => {
-  console.log('addPeerDataToRow', { tableRow, peer, type, fixedNum, dataArray, wa, data, name });
+  // console.log('addPeerDataToRow', { tableRow, peer, type, fixedNum, dataArray, wa, data, name });
 
   const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
@@ -379,7 +379,7 @@ const addPeerDataToRow = (
   const max = peer ? get75thPercentileOfArray(peer[dataArray]) : '';
   const textMax = styleNumber(max, type, fixedNum);
 
-  console.log('----', {avg, textAvg, peer, wa, data, name});
+  // console.log('----', {avg, textAvg, peer, wa, data, name});
   
 
 

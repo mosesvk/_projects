@@ -2,6 +2,9 @@ const displayDemoComponent = () => {
   const savedData = getStoredData("demoData");
   const parseData = parseStoredData(savedData);
 
+  console.log('displayDemoComponent hit');
+  
+
   // givingUnits
   createChartFromParsedData(
     parseData,
