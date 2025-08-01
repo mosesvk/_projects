@@ -374,7 +374,7 @@ const closeSidebarAfterSelectingOption = (component) => {
 };
 
 const getAverageOfArray = (array, num = 1) => {
-  console.log('getAverageOfArray', {array, num});
+  console.log();
   
   const filteredArray = array
     .filter((value) => Number(value) !== 0)
@@ -494,6 +494,8 @@ const get75thPercentileOfArray = (array, mainName) => {
 };
 
 const getSumOfArray = (array) => {
+  console.log('getSumOfArray', array);
+  
   if (array === null || array === undefined) return 0;
   const filteredArray = array.filter((value) => Number(value) !== 0);
 
