@@ -479,8 +479,7 @@ const closeSidebarAfterSelectingOption = (component) => {
   localStorage.setItem("lastRenderedComponent", component);
 };
 
-const getAverageOfArray = (array, num = 1) => {
-  console.log();
+const getAverageOfArray = (array, name, num = 1) => {
   
   const filteredArray = array
     .filter((value) => Number(value) !== 0)
@@ -491,6 +490,9 @@ const getAverageOfArray = (array, num = 1) => {
   }
   const sum = filteredArray.reduce((acc, value) => acc + value, 0);
   const avg = sum / filteredArray.length;
+
+  // if (name == 'givingUnits') console.log('getAverageOfArray', {array, num, filteredArray, sum, avg});
+
 
   return avg;
 };
@@ -1194,7 +1196,8 @@ function styleNumber(num, type, fixed) {
     if (Math.abs(num) < 1000) {
       return formatWithFixed(num);
     } else {
-      return num.toLocaleString(undefined, { minimumFractionDigits: fixed });
+      // Round to 0 decimal places for values >= 1000
+      return Math.round(num).toLocaleString();
     }
   } else if (type === "percent") {
     return formatWithFixed(num * 100) + "%";
@@ -1202,9 +1205,8 @@ function styleNumber(num, type, fixed) {
     if (Math.abs(num) < 1000) {
       return "$ " + formatWithFixed(num);
     } else {
-      return (
-        "$ " + num.toLocaleString(undefined, { minimumFractionDigits: fixed })
-      );
+      // Round to 0 decimal places for values >= 1000
+      return "$ " + Math.round(num).toLocaleString();
     }
   } else if (type === "percentNumber") {
     return formatWithFixed(num * 100);
@@ -1254,7 +1256,7 @@ function updateModal(mainName, avgData, clientData) {
     headerRow.appendChild(avgColumn);
 
     // Add the remaining columns
-    const columns = ["Mid", "Min", "Max"];
+    const columns = ["Mid", "25th", "75th"];
     columns.forEach((column) => {
       const col = document.createElement("th");
       col.className = "px-6 py-3";

@@ -120,9 +120,6 @@ const getMainChartOptions = (
       type: "line",
       data: peerAvg,
       yaxis: 0,
-      style: {
-        colors: ["transparent"], // Set the line color to transparent
-      },
       fill: {
         type: "gradient",
         gradient: {
@@ -157,9 +154,9 @@ const getMainChartOptions = (
     colors: [
       window.chartColors.green,
       window.chartColors.blue,
-      window.chartColors.red,
       window.chartColors.orange,
-      window.chartColors.grey,
+      window.chartColors.yellow,
+      window.chartColors.purple,
     ],
     series: series,
     chart: {

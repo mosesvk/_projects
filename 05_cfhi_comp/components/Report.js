@@ -23,7 +23,6 @@ const displayReportComponent = () => {
       ["totalOutsourcedEmployees", "num", 0],
       ["facilitySquareFootage", "num", 0],
       ["numberOfLocations", "num", 0],
-      ['additionalDataDemo', 'num', 0, null],
     ]);
     insertDataToReport(cashData, selectedYears, [
       ["daysExpendableNetAssets", "num", 0, "wa", "cb"],
@@ -144,8 +143,6 @@ const displayReportComponent = () => {
       ["cashExpendituresPerAvgAdultAttendee_percentChange", "percent", 0],
       ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
       ["cashExpendituresPerGivingUnit_percentChange", "percent", 0],
-      ["additionalRatioOneExpense", "num", 0, null],
-      ["additionalRatioTwoExpense", "num", 0, null]
     ]);
 
     insertDataToReport(additionalData, selectedYears, [
@@ -217,8 +214,8 @@ const addToSingleRow = (
 ) => {
   //console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
-  console.log(`row_${name}`);
-  console.log("tableReportRow", tableReportRow);
+  // console.log(`row_${name}`);
+  // console.log("tableReportRow", tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);
@@ -322,7 +319,7 @@ const addClientDataToModalRow = (
   type,
   fixedNum
 ) => {
-  console.log('addClientDataToModalRow', { tableModalRow, year, client, type, fixedNum  });
+  // console.log('addClientDataToModalRow', { tableModalRow, year, client, type, fixedNum  });
 
   const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
@@ -356,32 +353,48 @@ const addPeerDataToRow = (
 
   const dataPointAvg = document.createElement("th");
 
-  let avg;
-  if (peer && wa) {
-    avg = getWeightedAverageOfArray(data, name);
-  } else if (peer && wa === undefined) {
-    avg = getAverageOfArray(peer[dataArray], name);
+  // Check if this field should not have peer data calculated
+  const shouldSkipPeerData = name.endsWith('_percentChange') || name === 'netIncomeRatio_twoYrAvg';
+
+  let avg, mid, min, max;
+  let textAvg, textMid, textMin, textMax;
+
+  if (shouldSkipPeerData) {
+    // For _percentChange fields and netIncomeRatio_twoYrAvg, set peer data to blank
+    avg = '';
+    mid = '';
+    min = '';
+    max = '';
+    textAvg = '';
+    textMid = '';
+    textMin = '';
+    textMax = '';
   } else {
-    avg = 0;
+    // Normal peer data calculation
+    if (peer && wa) {
+      avg = getWeightedAverageOfArray(data, name);
+    } else if (peer && wa === undefined) {
+      avg = getAverageOfArray(peer[dataArray], name);
+    } else {
+      avg = 0;
+    }
+
+    textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
+    mid = peer ? getMidpointOfArray(peer[dataArray]) : '';
+    textMid = styleNumber(mid, type, fixedNum);
+    min = peer ? get25thPercentileOfArray(peer[dataArray]) : '';
+    textMin = styleNumber(min, type, fixedNum);
+    max = peer ? get75thPercentileOfArray(peer[dataArray]) : '';
+    textMax = styleNumber(max, type, fixedNum);
   }
 
-  
-  const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
+  if (name == 'givingUnits') console.log('givingUnits', {avg, textAvg, peer, wa, data, name, type, dataArray, fixedNum});
+
+  // console.log('----', {avg, textAvg, peer, wa, data, name});  
+
   const dataPointMid = document.createElement("th");
-  const mid = peer ? getMidpointOfArray(peer[dataArray]) : '';
-  // console.log('mid', mid);
-  const textMid = styleNumber(mid, type, fixedNum);
   const dataPointMin = document.createElement("th");
-  const min = peer ? get25thPercentileOfArray(peer[dataArray]) : '';
-// if (name == 'totalOutsourcedEmployees') console.log('totalOutsourcedEmployees', {min, peerArray: peer[dataArray]})
-  const textMin = styleNumber(min, type, fixedNum);
   const dataPointMax = document.createElement("th");
-  const max = peer ? get75thPercentileOfArray(peer[dataArray]) : '';
-  const textMax = styleNumber(max, type, fixedNum);
-
-  // console.log('----', {avg, textAvg, peer, wa, data, name});
-  
-
 
   dataPointAvg.className = propClass;
   dataPointAvg.scope = propScope;
