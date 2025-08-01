@@ -85,10 +85,53 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
     }
     return parseFloat(val);
   });
-  const cleanPeerAvg = peerAvg.map(val => val === null || val === undefined ? null : parseFloat(val));
-  const cleanPeerMid = peerMid.map(val => val === null || val === undefined ? null : parseFloat(val));
-  const cleanPeer25 = peer25.map(val => val === null || val === undefined ? null : parseFloat(val));
-  const cleanPeer75 = peer75.map(val => val === null || val === undefined ? null : parseFloat(val));
+
+  const series = [
+    {
+      name: firmName,
+      type: "column",
+      data: cleanClientArray,
+      style: {
+        colors: [chartColors.labelColor],
+      },
+    },
+    {
+      name: "Avg",
+      type: "line",
+      data: cleanPeerAvg,
+      yaxis: 0,
+      style: {
+        colors: ["transparent"], // Set the line color to transparent
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: 0.7,
+          opacityTo: 0.9,
+          stops: [0, 80, 80],
+        },
+      },
+    },
+    {
+      name: "Midpoint",
+      type: "line",
+      data: cleanPeerMid,
+      visible: false,
+    },
+    {
+      name: "25th",
+      type: "line",
+      data: cleanPeer25,
+      visible: false,
+    },
+    {
+      name: "75th",
+      type: "line",
+      data: cleanPeer75,
+      visible: false,
+    },
+  ]
 
   return {
     colors: [
@@ -98,62 +141,48 @@ const getMainChartOptions = (dataPeer, dataClient, numType, fixedNum = 0, mainNa
       window.chartColors.orange,
       window.chartColors.grey,
     ],
-    series: [
-      {
-        name: "Client",
-        type: "column",
-        data: cleanClientArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
-      },
-      {
-        name: "Avg",
-        type: "line",
-        data: cleanPeerAvg,
-        yaxis: 0,
-        style: {
-          colors: ["transparent"], // Set the line color to transparent
-        },
-        fill: {
-          type: "gradient",
-          gradient: {
-            shadeIntensity: 1,
-            opacityFrom: 0.7,
-            opacityTo: 0.9,
-            stops: [0, 80, 80],
-          },
-        },
-      },
-      {
-        name: "Midpoint",
-        type: "line",
-        data: cleanPeerMid,
-        visible: false,
-      },
-      {
-        name: "25th",
-        type: "line",
-        data: cleanPeer25,
-        visible: false,
-      },
-      {
-        name: "75th",
-        type: "line",
-        data: cleanPeer75,
-        visible: false,
-      },
-    ],
+    series: series,
     chart: {
       height: 350,
       type: "line",
       stacked: false,
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
+      enabledOnSeries: [0],
+      offsetY: -20,
+      formatter: (val) => {
+        let formatVal = formatDecimal(val, fixedNum);
+        if (numType == "percent") return `${formatVal}%`;
+        return `${formatVal}`;
+      },
+      style: {
+        fontSize: "20px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: "bold",
+        colors: ["#ffffff"],
+      },
+      background: {
+        enabled: true,
+        foreColor: window.chartColors.green,
+        padding: 4,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: "#ffffff",
+        opacity: 0.7,
+        dropShadow: {
+          enabled: false,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: "#000",
+          opacity: 0.45,
+        },
+      },
     },
     stroke: {
-      width: [2, 6, 4, 4, 4],
+      width: [2, 3, 4, 4, 4],
+      dashArray: series.map((s, i) => (i === 1 ? 4 : 0)),
     },
     title: {
       text: "",
