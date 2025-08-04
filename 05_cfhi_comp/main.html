@@ -193,14 +193,201 @@
           </div>
           <div class="flex items-center cursor-pointer">
             <!-- year -->
-            <button id="custom-select-year" class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer">
+            <button
+              id="custom-select-year"
+              class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+            >
               <div class="flex px-1">
                 <span class="text-xl">Years</span>
-                <svg class="pl-2 w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
+                <svg
+                  class="pl-2 w-8 h-8 text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m19 9-7 7-7-7"
+                  ></path>
                 </svg>
               </div>
-              <div id="options-list-year" class="text-2xl absolute left-0 top-8 z-10 mt-2 w-fit colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-80 invisible"><label for="select-all-checkbox-years" class="flex items-center justify-start px-4 py-2 cursor-pointer truncate"><input type="checkbox" id="select-all-checkbox-years" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"><span id="select-all-text-years" class="text-lg font-semibold">(select all)</span></label><label for="option-2024" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2024" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2024"><span>2024</span></label><label for="option-2023" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2023" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2023"><span>2023</span></label><label for="option-2022" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2022" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2022"><span>2022</span></label><label for="option-2021" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2021" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2021"><span>2021</span></label><label for="option-2020" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2020" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2020"><span>2020</span></label><label for="option-2019" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2019" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2019"><span>2019</span></label><label for="option-2018" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2018" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2018"><span>2018</span></label><label for="option-2017" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2017" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2017"><span>2017</span></label><label for="option-2016" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2016" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2016"><span>2016</span></label><label for="option-2015" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2015" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2015"><span>2015</span></label><label for="option-2014" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2014" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2014"><span>2014</span></label><label for="option-2013" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2013" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2013"><span>2013</span></label><label for="option-2012" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2012" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2012"><span>2012</span></label><label for="option-2011" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2011" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2011"><span>2011</span></label><label for="option-2010" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2010" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2010"><span>2010</span></label><label for="option-2009" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2009" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2009"><span>2009</span></label><label for="option-2008" class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><input type="checkbox" id="option-2008" class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer" value="2008"><span>2008</span></label></div>
+              <div
+                id="options-list-year"
+                class="text-2xl absolute left-0 top-8 z-10 mt-2 w-fit colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-80 invisible"
+              >
+                <label
+                  for="select-all-checkbox-years"
+                  class="flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+                  ><input
+                    type="checkbox"
+                    id="select-all-checkbox-years"
+                    class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+                  /><span
+                    id="select-all-text-years"
+                    class="text-lg font-semibold"
+                    >(select all)</span
+                  ></label
+                ><label
+                  for="option-2024"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2024"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2024"
+                  /><span>2024</span></label
+                ><label
+                  for="option-2023"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2023"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2023"
+                  /><span>2023</span></label
+                ><label
+                  for="option-2022"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2022"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2022"
+                  /><span>2022</span></label
+                ><label
+                  for="option-2021"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2021"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2021"
+                  /><span>2021</span></label
+                ><label
+                  for="option-2020"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2020"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2020"
+                  /><span>2020</span></label
+                ><label
+                  for="option-2019"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2019"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2019"
+                  /><span>2019</span></label
+                ><label
+                  for="option-2018"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2018"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2018"
+                  /><span>2018</span></label
+                ><label
+                  for="option-2017"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2017"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2017"
+                  /><span>2017</span></label
+                ><label
+                  for="option-2016"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2016"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2016"
+                  /><span>2016</span></label
+                ><label
+                  for="option-2015"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2015"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2015"
+                  /><span>2015</span></label
+                ><label
+                  for="option-2014"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2014"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2014"
+                  /><span>2014</span></label
+                ><label
+                  for="option-2013"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2013"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2013"
+                  /><span>2013</span></label
+                ><label
+                  for="option-2012"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2012"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2012"
+                  /><span>2012</span></label
+                ><label
+                  for="option-2011"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2011"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2011"
+                  /><span>2011</span></label
+                ><label
+                  for="option-2010"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2010"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2010"
+                  /><span>2010</span></label
+                ><label
+                  for="option-2009"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2009"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2009"
+                  /><span>2009</span></label
+                ><label
+                  for="option-2008"
+                  class="flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  ><input
+                    type="checkbox"
+                    id="option-2008"
+                    class="form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer"
+                    value="2008"
+                  /><span>2008</span></label
+                >
+              </div>
             </button>
             <button
               data-modal-target="options_modal"
@@ -291,7 +478,7 @@
     >
       <aside
         id="sidebar"
-        class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-44 h-full pt-16 font-normal duration-75 lg:flex transition-width duration-500 ease-in-out"
+        class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-44 h-full pt-16 font-normal duration-75 lg:flex transition-width"
       >
         <div
           class="relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
@@ -589,24 +776,6 @@
                     Giving Units
                   </span>
                 </div>
-                <div
-                  id="givingUnits_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
               </div>
               <div id="givingUnits_chart"></div>
               <div
@@ -649,24 +818,6 @@
                   >
                     Attendees to Staff
                   </span>
-                </div>
-                <div
-                  id="attendeesToStaff_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
                 </div>
               </div>
               <div id="attendeesToStaff_chart"></div>
@@ -712,24 +863,6 @@
                     Days of Expendable Net Asset Reserves
                   </span>
                 </div>
-                <div
-                  id="daysExpendableNetAssets_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
               </div>
               <div id="daysExpendableNetAssets_chart"></div>
               <div
@@ -774,24 +907,6 @@
                     Annual Cash Expenditures
                   </span>
                 </div>
-                <div
-                  id="daysOperatingCash_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
               </div>
               <div id="daysOperatingCash_chart"></div>
               <div
@@ -834,24 +949,6 @@
                   >
                     Available Days of Cash Flow Coverage
                   </span>
-                </div>
-                <div
-                  id="availableDaysOfCashFlow_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
                 </div>
               </div>
               <div id="availableDaysOfCashFlow_chart"></div>
@@ -896,24 +993,6 @@
                     Liquidity Ratio
                   </span>
                 </div>
-                <div
-                  id="liquidityRatio_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
               </div>
               <div id="liquidityRatio_chart"></div>
               <div
@@ -956,24 +1035,6 @@
                   >
                     Net Cash Availability
                   </span>
-                </div>
-                <div
-                  id="netCashAvailability_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
                 </div>
               </div>
               <div id="netCashAvailability_chart"></div>
@@ -1019,24 +1080,6 @@
                     Debt to Contributions without Donor Restrictions
                   </span>
                 </div>
-                <div
-                  id="debtToContributionsWithout_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
               </div>
               <div id="debtToContributionsWithout_chart"></div>
               <div
@@ -1079,24 +1122,6 @@
                   >
                     Current Ratio
                   </span>
-                </div>
-                <div
-                  id="currentRatio_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
                 </div>
               </div>
               <div id="currentRatio_chart"></div>
@@ -1142,24 +1167,6 @@
                     Restrictions
                   </span>
                 </div>
-                <div
-                  id="mandatoryDebtServiceToContributionsWithout_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
               </div>
               <div id="mandatoryDebtServiceToContributionsWithout_chart"></div>
               <div
@@ -1203,24 +1210,6 @@
                     Debt per Giving Unit
                   </span>
                 </div>
-                <div
-                  id="debtPerGivingUnit_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
               </div>
               <div id="debtPerGivingUnit_chart"></div>
               <div
@@ -1263,24 +1252,6 @@
                   >
                     Debt Coverage
                   </span>
-                </div>
-                <div
-                  id="debtCoverage_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
                 </div>
               </div>
               <div id="debtCoverage_chart"></div>
@@ -1326,24 +1297,6 @@
                     Net Income Ratio
                   </span>
                 </div>
-                <div
-                  id="netIncomeRatio_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
               </div>
               <div id="netIncomeRatio_chart"></div>
               <div
@@ -1387,24 +1340,6 @@
                     Contributions without Donor Restrictions per Giving Unit
                   </span>
                 </div>
-                <div
-                  id="contributionsWithoutDonorPerGivingUnit_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
               </div>
               <div id="contributionsWithoutDonorPerGivingUnit_chart"></div>
               <div
@@ -1447,24 +1382,6 @@
                   >
                     Total Contributions per Giving Unit
                   </span>
-                </div>
-                <div
-                  id="totalContributionsPerGivingUnit_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
                 </div>
               </div>
               <div id="totalContributionsPerGivingUnit_chart"></div>
@@ -1510,24 +1427,6 @@
                     Benefits to Salaries (All Employees, Not Just FTEs)
                   </span>
                 </div>
-                <div
-                  id="benefitsToSalaries_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
               </div>
               <div id="benefitsToSalaries_chart"></div>
               <div
@@ -1571,24 +1470,6 @@
                     Salaries and Benefits of All Employees
                     <p class="text-lg">(Including Outsourced Employees)</p>
                   </span>
-                </div>
-                <div
-                  id="salariesBenefitsIncludingOutsourcedEmployees_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
                 </div>
               </div>
               <div
@@ -1639,24 +1520,6 @@
                     </p>
                   </span>
                 </div>
-                <div
-                  id="personnelToCashExpenditure_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
               </div>
               <div id="personnelToCashExpenditure_chart"></div>
               <div
@@ -1704,24 +1567,7 @@
                     </p>
                   </span>
                 </div>
-                <div
-                  id="cashExpendituresPerGivingUnit_percentageChange"
-                  class="flex items-center justify-end flex-1 text-base font-medium text-green-500 dark:text-green-400"
-                >
-                  0%
-                  <svg
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
+
               </div>
               <div id="cashExpendituresPerGivingUnit_chart"></div>
               <div
@@ -6731,84 +6577,84 @@
       </div>
     </div>
 
-        <!-- Loading Modal -->
-        <div
-        id="loadingApiDiv"
-        tabindex="-1"
-        aria-hidden="true"
-        class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75"
-      >
-        <div class="text-center">
-          <div role="status">
+    <!-- Loading Modal -->
+    <div
+      id="loadingApiDiv"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75"
+    >
+      <div class="text-center">
+        <div role="status">
+          <div
+            id="loadingApiInnerDiv"
+            class="animate-pulse flex flex-col place-items-center px-5 py-5 font-semibold text-white leading-none tracking-wider text-center rounded-full dark:bg-blue-900 dark:text-blue-200"
+          >
+            <div id="loadingApiHeader" class="mb-4 text-6xl"></div>
             <div
-              id="loadingApiInnerDiv"
-              class="animate-pulse flex flex-col place-items-center px-5 py-5 font-semibold text-white leading-none tracking-wider text-center rounded-full dark:bg-blue-900 dark:text-blue-200"
+              id="loadingApiYears"
+              class="px-3 py-1 text-4xl font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200"
             >
-              <div id="loadingApiHeader" class="mb-4 text-6xl"></div>
-              <div
-                id="loadingApiYears"
-                class="px-3 py-1 text-4xl font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200"
-              >
-                <span id="apiYears">
-                  <span id="firstApiYear" class="mx-2"></span> -
-                  <span id="LastApiYear" class="mx-2"></span>
-                </span>
-                <span id="apiPrint" class="flex gap-2 items-center">
-                  <!-- Download SVG Icon -->
-                  <svg
-                    class="w-10 h-10 text-blue-600 dark:text-blue-400 hover:text-blue-800 transition-colors cursor-pointer"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"
-                    />
-                  </svg>
-                  <!-- Bar Chart SVG Icon -->
-                  <svg
-                    class="w-10 h-10 text-green-600 dark:text-green-400 hover:text-green-800 transition-colors cursor-pointer"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <rect
-                      x="3"
-                      y="10"
-                      width="4"
-                      height="8"
-                      rx="1"
-                      fill="currentColor"
-                    />
-                    <rect
-                      x="9"
-                      y="6"
-                      width="4"
-                      height="12"
-                      rx="1"
-                      fill="currentColor"
-                    />
-                    <rect
-                      x="15"
-                      y="2"
-                      width="4"
-                      height="16"
-                      rx="1"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </span>
-              </div>
+              <span id="apiYears">
+                <span id="firstApiYear" class="mx-2"></span> -
+                <span id="LastApiYear" class="mx-2"></span>
+              </span>
+              <span id="apiPrint" class="flex gap-2 items-center">
+                <!-- Download SVG Icon -->
+                <svg
+                  class="w-10 h-10 text-blue-600 dark:text-blue-400 hover:text-blue-800 transition-colors cursor-pointer"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"
+                  />
+                </svg>
+                <!-- Bar Chart SVG Icon -->
+                <svg
+                  class="w-10 h-10 text-green-600 dark:text-green-400 hover:text-green-800 transition-colors cursor-pointer"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <rect
+                    x="3"
+                    y="10"
+                    width="4"
+                    height="8"
+                    rx="1"
+                    fill="currentColor"
+                  />
+                  <rect
+                    x="9"
+                    y="6"
+                    width="4"
+                    height="12"
+                    rx="1"
+                    fill="currentColor"
+                  />
+                  <rect
+                    x="15"
+                    y="2"
+                    width="4"
+                    height="16"
+                    rx="1"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
     <!-- SCRIPT -->
     <!-- utility.js -->

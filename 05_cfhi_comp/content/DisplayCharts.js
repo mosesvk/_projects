@@ -26,7 +26,7 @@ const displayDemoComponent = () => {
     "number",
     0,
     "attendeesToStaff",
-    null,
+    [65, 90],
     "Attendees to Staff"
   );
 

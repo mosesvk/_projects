@@ -116,6 +116,12 @@ const getMainChartOptions = (
       },
     },
     {
+      name: "25th",
+      type: "line",
+      data: peer25,
+      visible: false,
+    },
+    {
       name: "Avg",
       type: "line",
       data: peerAvg,
@@ -131,15 +137,9 @@ const getMainChartOptions = (
       },
     },
     {
-      name: "Midpoint",
+      name: "50th",
       type: "line",
       data: peerMid,
-      visible: false,
-    },
-    {
-      name: "25th",
-      type: "line",
-      data: peer25,
       visible: false,
     },
     {
@@ -160,6 +160,17 @@ const getMainChartOptions = (
     ],
     series: series,
     chart: {
+      toolbar: {
+        tools: {
+          download: true,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
       height: 350,
       type: "line",
       stacked: false,
@@ -231,6 +242,7 @@ const getMainChartOptions = (
         tooltip: {
           enabled: true,
         },
+
       },
     ],
     tooltip: {
