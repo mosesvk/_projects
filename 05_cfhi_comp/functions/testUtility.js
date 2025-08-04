@@ -445,7 +445,19 @@ const createChart = (
       );
       doeOverall_chart.render();
       document.addEventListener("dark-mode", function () {
-        doeOverall_chart.updateOptions(chartOptions);
+        const updatedChartOptions = getMainChartOptions(
+          dataPeer,
+          dataClient,
+          type,
+          fixedNum,
+          mainName,
+          benchmark,
+          title,
+          chartId
+        );
+        if (updatedChartOptions) {
+          doeOverall_chart.updateOptions(updatedChartOptions);
+        }
       });
     } else if (chartId === "cfi_primaryReserveRatio_chart") {
       cfi_primaryReserveRatio_chart = new ApexCharts(
@@ -456,7 +468,19 @@ const createChart = (
       cfi_primaryReserveRatio_chart.render();
 
       document.addEventListener("dark-mode", function () {
-        cfi_primaryReserveRatio_chart.updateOptions(chartOptions);
+        const updatedChartOptions = getMainChartOptions(
+          dataPeer,
+          dataClient,
+          type,
+          fixedNum,
+          mainName,
+          benchmark,
+          title,
+          chartId
+        );
+        if (updatedChartOptions) {
+          cfi_primaryReserveRatio_chart.updateOptions(updatedChartOptions);
+        }
       });
     } else if (chartId === "cfi_netIncomeOperationsRatio_chart") {
       cfi_netIncomeOperationsRatio_chart = new ApexCharts(
@@ -467,7 +491,19 @@ const createChart = (
       cfi_netIncomeOperationsRatio_chart.render();
 
       document.addEventListener("dark-mode", function () {
-        cfi_netIncomeOperationsRatio_chart.updateOptions(chartOptions);
+        const updatedChartOptions = getMainChartOptions(
+          dataPeer,
+          dataClient,
+          type,
+          fixedNum,
+          mainName,
+          benchmark,
+          title,
+          chartId
+        );
+        if (updatedChartOptions) {
+          cfi_netIncomeOperationsRatio_chart.updateOptions(updatedChartOptions);
+        }
       });
     } else if (chartId === "cfi_returnOnNetAssets_chart") {
       cfi_returnOnNetAssets_chart = new ApexCharts(
@@ -478,7 +514,19 @@ const createChart = (
       cfi_returnOnNetAssets_chart.render();
 
       document.addEventListener("dark-mode", function () {
-        cfi_returnOnNetAssets_chart.updateOptions(chartOptions);
+        const updatedChartOptions = getMainChartOptions(
+          dataPeer,
+          dataClient,
+          type,
+          fixedNum,
+          mainName,
+          benchmark,
+          title,
+          chartId
+        );
+        if (updatedChartOptions) {
+          cfi_returnOnNetAssets_chart.updateOptions(updatedChartOptions);
+        }
       });
     } else if (chartId === "cfi_viabilityRatio_chart") {
       cfi_viabilityRatio_chart = new ApexCharts(
@@ -488,9 +536,21 @@ const createChart = (
 
       cfi_viabilityRatio_chart.render();
 
-      // document.addEventListener("dark-mode", function () {
-      //   cfi_viabilityRatio_chart.updateOptions(chartOptions);
-      // });
+      document.addEventListener("dark-mode", function () {
+        const updatedChartOptions = getMainChartOptions(
+          dataPeer,
+          dataClient,
+          type,
+          fixedNum,
+          mainName,
+          benchmark,
+          title,
+          chartId
+        );
+        if (updatedChartOptions) {
+          cfi_viabilityRatio_chart.updateOptions(updatedChartOptions);
+        }
+      });
     }
   }
 };

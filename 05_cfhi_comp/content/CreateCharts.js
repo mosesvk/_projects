@@ -9,22 +9,25 @@ const getMainChartOptions = (
   title,
   chartId
 ) => {
-  const chartColors = document.documentElement.classList.contains("dark")
+  const isDarkMode = document.documentElement.classList.contains("dark");
+  const chartColors = isDarkMode
     ? {
-        borderColor: "#374151",
-        labelColor: "#ebedf0",
+        borderColor: "#6B7280",      // Lighter border for dark mode
+        labelColor: "#F9FAFB",       // Lighter label color for dark mode
+        lineColor: "#E5E7EB",        // Lighter line color for dark mode
         opacityFrom: 0,
         opacityTo: 0.15,
       }
     : {
         borderColor: "#F3F4F6",
         labelColor: "#6B7280",
+        lineColor: "#3a464f",
         opacityFrom: 0.45,
         opacityTo: 0,
       };
 
-  const chartColor = document.documentElement.classList.contains("dark")
-    ? "#e3f0fa"
+  const chartColor = isDarkMode
+    ? "#E5E7EB"                      // Lighter axis color for dark mode
     : "#3a464f";
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage() || [];
@@ -188,12 +191,12 @@ const getMainChartOptions = (
       },
       background: {
         enabled: true,
-        foreColor: window.chartColors.green,
+        foreColor: isDarkMode ? "#1F2937" : window.chartColors.green,
         padding: 4,
         borderRadius: 2,
         borderWidth: 1,
-        borderColor: "#ffffff",
-        opacity: 0.7,
+        borderColor: isDarkMode ? "#374151" : "#ffffff",
+        opacity: isDarkMode ? 0.9 : 0.7,
         dropShadow: {
           enabled: false,
           top: 1,
@@ -234,7 +237,7 @@ const getMainChartOptions = (
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
-            colors: chartColor,
+            colors: chartColors.labelColor,
             fontSize: "1.25rem",
           },
         align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
@@ -267,9 +270,10 @@ const getMainChartOptions = (
     grid: {
       row: {
         colors: ["transparent"],
-        opacity: 0.5,
+        opacity: isDarkMode ? 0.3 : 0.5,
         thickness: 4,
       },
+      borderColor: isDarkMode ? "#4B5563" : "#E5E7EB",
     },
     plotOptions: {
       bar: {
