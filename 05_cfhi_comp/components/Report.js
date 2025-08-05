@@ -401,15 +401,15 @@ const addPeerDataToRow = (
   dataPointAvg.textContent = textAvg;
   tableRow.appendChild(dataPointAvg);
 
-  dataPointMid.className = propClass;
-  dataPointMid.scope = propScope;
-  dataPointMid.textContent = textMid;
-  tableRow.appendChild(dataPointMid);
-
   dataPointMin.className = propClass;
   dataPointMin.scope = propScope;
   dataPointMin.textContent = textMin;
   tableRow.appendChild(dataPointMin);
+
+  dataPointMid.className = propClass;
+  dataPointMid.scope = propScope;
+  dataPointMid.textContent = textMid;
+  tableRow.appendChild(dataPointMid);
 
   dataPointMax.className = propClass;
   dataPointMax.scope = propScope;
@@ -462,7 +462,7 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
 
 const clearTableColumns = (idName) => {
   const headerRow = document.getElementById(idName);
-  const columnsToPreserve = ["Avg", "50", "25", "75"];
+  const columnsToPreserve = ["Avg", "25th", "50th", "75th"];
 
   // Remove all existing th elements except the first one and those to be preserved
   Array.from(headerRow.children)

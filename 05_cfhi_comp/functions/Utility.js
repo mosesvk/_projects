@@ -1197,7 +1197,7 @@ function updateModal(mainName, avgData, clientData) {
     headerRow.appendChild(avgColumn);
 
     // Add the remaining columns
-    const columns = ["50th", "25th", "75th"];
+    const columns = ["25th","50th", "75th"];
     columns.forEach((column) => {
       const col = document.createElement("th");
       col.className = "px-6 py-3";
