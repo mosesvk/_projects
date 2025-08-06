@@ -1,24 +1,6 @@
 // remember to check the url that it says "clientrid" and NOT "clientRid" with a capital R.
 
-// Initialize global variables for client filtering
-if (typeof window.selectedClients_Array === "undefined") {
-  window.selectedClients_Array = new Set();
-}
-if (typeof window.selectedRegions_Array === "undefined") {
-  window.selectedRegions_Array = new Set();
-}
-if (typeof window.selectedSites_Array === "undefined") {
-  window.selectedSites_Array = new Set();
-}
-if (typeof window.sliderValue === "undefined") {
-  window.sliderValue = 0;
-}
-if (typeof window.sliderValue2 === "undefined") {
-  window.sliderValue2 = 25000;
-}
-if (typeof window.yearsData_Array === "undefined") {
-  window.yearsData_Array = [];
-}
+// Global variables are now initialized in Utility.js
 
 // Data Model and Business Logic Classes
 class DataStore {

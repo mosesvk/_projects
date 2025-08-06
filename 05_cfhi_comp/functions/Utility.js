@@ -1,7 +1,8 @@
 
 // console.log('utility.js----')
 
-const yearsData_Array = [];
+// Initialize global variables for client filtering and data management
+window.yearsData_Array = window.yearsData_Array || [];
 const selectedYearsselectedYears_Array = [];
 
 // CFHI-specific data arrays (adapted from testUtility.js structure)
@@ -33,13 +34,13 @@ const sites_Array = [
 let sliderAmount = null;
 let sliderRange = null;
 // Make sure these are window-scoped variables
-window.sliderValue = 0;
-window.sliderValue2 = 25000;
+window.sliderValue = window.sliderValue || 0;
+window.sliderValue2 = window.sliderValue2 || 25000;
 
 let selectedRegion = "";
-const selectedRegions_Array = new Set();
-const selectedSites_Array = new Set();
-const selectedClients_Array = new Set();
+window.selectedRegions_Array = window.selectedRegions_Array || new Set();
+window.selectedSites_Array = window.selectedSites_Array || new Set();
+window.selectedClients_Array = window.selectedClients_Array || new Set();
 let selectedSchoolChurch_Selected;
 const map_dataUri = new Map();
 const dataUrLObj = new Object();
