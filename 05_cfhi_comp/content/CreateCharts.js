@@ -38,6 +38,110 @@ const getMainChartOptions = (
     return null; // Return null to prevent chart creation
   }
 
+  // Initialize annotation variables
+  let yaxisAnnotation;
+  let yaxisMax;
+  let previousData;
+
+  // Chart events for annotation positioning
+  const chartEvents = {
+    beforeMount: function (chartContext, config) {
+      // First, wait for the chart and annotations to be rendered
+      setTimeout(() => {
+        const chartElement = document.getElementById(chartId);
+        if (!chartElement) return;
+
+        // Get the first grid line to use as reference
+        const gridLine = chartElement.querySelector(
+          `.apexcharts-gridlines-horizontal line`
+        );
+        if (!gridLine) return;
+
+        // Get the annotation line (y-axis annotation)
+        const annotationLine = chartElement.querySelector(
+          `.apexcharts-yaxis-annotations line`
+        );
+        if (!annotationLine) return;
+
+        // Get the exact x1 and x2 values from the grid line
+        const x1 = gridLine.getAttribute("x1");
+        const x2 = gridLine.getAttribute("x2");
+
+        // Set the annotation line to match exactly
+        annotationLine.setAttribute("x1", x1);
+        annotationLine.setAttribute("x2", x2);
+
+        // console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
+      }, 200); // Extra delay to ensure annotations are rendered
+    },
+    updated: function (chartContext, config) {
+      // First, wait for the chart and annotations to be rendered
+      const chartElement = document.getElementById(chartId);
+      if (!chartElement) return;
+
+      if (chartId === "cfiRatio_chart") {
+      }
+
+      // Get the first grid line to use as reference
+      const gridLine = chartElement.querySelector(
+        `.apexcharts-gridlines-horizontal line`
+      );
+      if (!gridLine) return;
+
+      // Get the annotation line (y-axis annotation)
+      const annotationLine = chartElement.querySelector(
+        `.apexcharts-yaxis-annotations line`
+      );
+      const yaxis = chartElement.querySelector(`.apexcharts-yaxis`);
+      if (!annotationLine) return;
+
+      // Get the exact x1 and x2 values from the grid line
+      const x1 = gridLine.getAttribute("x1");
+      const x2 = gridLine.getAttribute("x2");
+
+      // Set the annotation line to match exactly
+      annotationLine.setAttribute("x1", x1);
+      annotationLine.setAttribute("x2", x2);
+    },
+  };
+
+  // Calculate dynamic offset based on selected years length
+  const selectedYearsLength = selectedYearsArray.length;
+  let dynamicOffsetX;
+
+  switch (selectedYearsLength) {
+    case 1:
+      dynamicOffsetX = 30;
+      break;
+    case 3:
+    case 2:
+      dynamicOffsetX = -120;
+      break;
+    case 5:
+    case 4:
+      dynamicOffsetX = -75;
+      break;
+    case 6:
+      dynamicOffsetX = -40;
+      break;
+    case 7:
+      dynamicOffsetX = -10;
+      break;
+    case 8:
+      dynamicOffsetX = 0;
+      break;
+    case 9:
+      dynamicOffsetX = 20;
+      break;
+    case 10:
+      dynamicOffsetX = 30;
+      break;
+    case 11:
+      dynamicOffsetX = 40;
+    default:
+      dynamicOffsetX = 50;
+  }
+
   const formatNumber = (value) => value.toLocaleString();
 
   ({ clientArray, peerAvg, peerMid, peer25, peer75 } =
@@ -50,6 +154,68 @@ const getMainChartOptions = (
       benchmark,
       numType
     ));
+
+  // Set up annotations based on mainName and benchmark (only if benchmark is provided)
+  if (benchmark !== undefined && benchmark !== null) {
+    // Handle array benchmarks (like [65, 90] for attendeesToStaff)
+    if (Array.isArray(benchmark)) {
+      // For array benchmarks, create multiple annotation lines
+      const arrayAnnotations = benchmark.map((value, index) => ({
+        id: `annotation_${index}`,
+        y: value,
+        borderColor: chartColors.labelColor,
+        strokeDashArray: 0,
+        label: {
+          text: `Benchmark ${index + 1}`,
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "left",
+          offsetX: dynamicOffsetX,
+          style: {
+            background: "transparent",
+            color: chartColors.labelColor,
+            fontSize: "18px",
+            fontWeight: 600,
+          },
+        },
+      }));
+      yaxisAnnotation = arrayAnnotations;
+      yaxisMax = Math.round(Math.max(...clientArray, ...benchmark) + 2);
+      previousData = clientArray;
+    } else {
+      // For single benchmark values, create a single annotation
+      const singleAnnotation = [
+        {
+          id: "annotation",
+          y: benchmark,
+          borderColor: chartColors.labelColor,
+          strokeDashArray: 0,
+          label: {
+            text: "Benchmark",
+            borderColor: "transparent",
+            borderWidth: 0,
+            position: "left",
+            offsetX: dynamicOffsetX,
+            style: {
+              background: "transparent",
+              color: chartColors.labelColor,
+              fontSize: "18px",
+              fontWeight: 600,
+            },
+          },
+        },
+      ];
+      yaxisAnnotation = singleAnnotation;
+      yaxisMax = Math.round(Math.max(...clientArray, benchmark) + 2);
+      previousData = clientArray;
+    }
+
+    // Special handling for specific chart types if needed
+    if (mainName === "attendeesToStaff") {
+      // attendeesToStaff has a specific benchmark range [65, 90]
+      // The array handling above will take care of this
+    }
+  }
 
   const yaxisLabelFormatter = (value) => {
     let formattedValue;
@@ -177,6 +343,7 @@ const getMainChartOptions = (
       height: 350,
       type: "line",
       stacked: false,
+      events: chartEvents,
     },
     dataLabels: {
       enabled: true,
@@ -245,9 +412,12 @@ const getMainChartOptions = (
         tooltip: {
           enabled: true,
         },
-
+        max: yaxisMax,
       },
     ],
+    annotations: {
+      yaxis: yaxisAnnotation,
+    },
     tooltip: {
       fixed: {
         enabled: true,

@@ -386,7 +386,7 @@ const addPeerDataToRow = (
     textMax = styleNumber(max, type, fixedNum);
   }
 
-  if (name == 'givingUnits') console.log('givingUnits', {avg, textAvg, peer, wa, data, name, type, dataArray, fixedNum});
+  // if (name == 'givingUnits') console.log('givingUnits', {avg, textAvg, peer, wa, data, name, type, dataArray, fixedNum});
 
   // console.log('----', {avg, textAvg, peer, wa, data, name});  
 
