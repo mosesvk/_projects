@@ -14,7 +14,7 @@ const displayDemoComponent = () => {
     "number",
     0,
     "givingUnits",
-    null,
+    [3000],
     "Giving Units"
   );
   // attendeesToStaff

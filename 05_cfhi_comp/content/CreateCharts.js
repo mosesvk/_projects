@@ -71,6 +71,24 @@ const getMainChartOptions = (
         annotationLine.setAttribute("x1", x1);
         annotationLine.setAttribute("x2", x2);
 
+        // Ensure all annotation lines extend fully across the chart
+        const allAnnotationLines = chartElement.querySelectorAll(
+          `.apexcharts-yaxis-annotations line`
+        );
+        allAnnotationLines.forEach((line) => {
+          line.setAttribute("x1", x1);
+          line.setAttribute("x2", x2);
+        });
+
+        // Adjust annotation label positioning to stay close to y-axis
+        const annotationLabels = chartElement.querySelectorAll(
+          `.apexcharts-yaxis-annotations .apexcharts-annotation-label`
+        );
+        annotationLabels.forEach((label) => {
+          // Position labels directly adjacent to the y-axis line
+          label.style.left = `${parseInt(x1) -70}px`;
+        });
+
         // console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
       }, 200); // Extra delay to ensure annotations are rendered
     },
@@ -102,6 +120,24 @@ const getMainChartOptions = (
       // Set the annotation line to match exactly
       annotationLine.setAttribute("x1", x1);
       annotationLine.setAttribute("x2", x2);
+
+      // Ensure all annotation lines extend fully across the chart
+      const allAnnotationLines = chartElement.querySelectorAll(
+        `.apexcharts-yaxis-annotations line`
+      );
+      allAnnotationLines.forEach((line) => {
+        line.setAttribute("x1", x1);
+        line.setAttribute("x2", x2);
+      });
+
+      // Adjust annotation label positioning to stay close to y-axis
+      const annotationLabels = chartElement.querySelectorAll(
+        `.apexcharts-yaxis-annotations .apexcharts-annotation-label`
+      );
+      annotationLabels.forEach((label) => {
+        // Position labels directly adjacent to the y-axis line
+        label.style.left = `${parseInt(x1) - 70}px`;
+      });
     },
   };
 
@@ -142,6 +178,10 @@ const getMainChartOptions = (
       dynamicOffsetX = 50;
   }
 
+  // Adjust offset for better y-axis label positioning
+  // Use a smaller, more consistent offset that stays close to the y-axis
+  const yaxisLabelOffsetX = -60;
+
   const formatNumber = (value) => value.toLocaleString();
 
   ({ clientArray, peerAvg, peerMid, peer25, peer75 } =
@@ -157,63 +197,34 @@ const getMainChartOptions = (
 
   // Set up annotations based on mainName and benchmark (only if benchmark is provided)
   if (benchmark !== undefined && benchmark !== null) {
-    // Handle array benchmarks (like [65, 90] for attendeesToStaff)
+    // Benchmark is always an array with 1 or 2 values
     if (Array.isArray(benchmark)) {
-      // For array benchmarks, create multiple annotation lines
-      const arrayAnnotations = benchmark.map((value, index) => ({
+      // Create annotation lines for each benchmark value (1 or 2 lines)
+      const benchmarkAnnotations = benchmark.map((value, index) => ({
         id: `annotation_${index}`,
         y: value,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
         label: {
-          text: `Benchmark ${index + 1}`,
-          borderColor: "transparent",
-          borderWidth: 0,
+          text: benchmark.length === 1 ? "Benchmark" : `Benchmark ${index + 1}`,
+          borderColor: isDarkMode ? "#374151" : "#ffffff",
+          borderWidth: 1,
           position: "left",
-          offsetX: dynamicOffsetX,
+          offsetX: yaxisLabelOffsetX,
           style: {
-            background: "transparent",
+            background: isDarkMode ? "#1F2937" : window.chartColors.green,
             color: chartColors.labelColor,
-            fontSize: "18px",
+            fontSize: "16px",
             fontWeight: 600,
+            padding: "4px",
+            borderRadius: "2px",
+            opacity: isDarkMode ? 0.9 : 0.7,
           },
         },
       }));
-      yaxisAnnotation = arrayAnnotations;
+      yaxisAnnotation = benchmarkAnnotations;
       yaxisMax = Math.round(Math.max(...clientArray, ...benchmark) + 2);
       previousData = clientArray;
-    } else {
-      // For single benchmark values, create a single annotation
-      const singleAnnotation = [
-        {
-          id: "annotation",
-          y: benchmark,
-          borderColor: chartColors.labelColor,
-          strokeDashArray: 0,
-          label: {
-            text: "Benchmark",
-            borderColor: "transparent",
-            borderWidth: 0,
-            position: "left",
-            offsetX: dynamicOffsetX,
-            style: {
-              background: "transparent",
-              color: chartColors.labelColor,
-              fontSize: "18px",
-              fontWeight: 600,
-            },
-          },
-        },
-      ];
-      yaxisAnnotation = singleAnnotation;
-      yaxisMax = Math.round(Math.max(...clientArray, benchmark) + 2);
-      previousData = clientArray;
-    }
-
-    // Special handling for specific chart types if needed
-    if (mainName === "attendeesToStaff") {
-      // attendeesToStaff has a specific benchmark range [65, 90]
-      // The array handling above will take care of this
     }
   }
 
