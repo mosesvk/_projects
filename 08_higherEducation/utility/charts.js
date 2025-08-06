@@ -88,7 +88,6 @@ const getMainChartOptions = (
 
   let yaxisAnnotation;
 
-  let previousData = [];
 
   const chartEvents = {
     beforeMount: function (chartContext, config) {
