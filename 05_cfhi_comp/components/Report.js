@@ -12,8 +12,6 @@ const displayReportComponent = () => {
     addYearColumnsToReportTable(selectedYears);
     insertDataToReport(demoData, selectedYears, [
       ["givingUnits", "num", 0],
-      ["averageAdultAttendees", "num", 0],
-      ["totalAttendees", "num", 0],
       ["fullTimeEquivalent", "num", 0],
       ["attendeesToStaff", "num", 1, "wa", "cb"],
       ["contributionsWithoutDonorExcludingLargeGifts", "dollar", 0],
