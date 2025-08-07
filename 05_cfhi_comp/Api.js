@@ -288,7 +288,7 @@ class DataProcessor {
           "totalAttendees",
           record,
           "s150___total_attendee_including_children",
-          "cfhi_compre_00e_yes_no___attendees_to_staff",
+          "cfhi_compre_00c_yes_no___total_attendees_including_children",
           "attendeesToStaff"
         );
         this.dataStore.insertData(
