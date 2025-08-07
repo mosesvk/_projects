@@ -150,8 +150,15 @@ function updateClientDropdownFilters() {
 
 function executeClientDropdownFilters() {
   // Ensure client data store exists
+  // Wait briefly to allow clientDataStore initialization
   if (!window.clientDataStore) {
-    console.warn("Client data store not initialized");
+    setTimeout(() => {
+      if (!window.clientDataStore) {
+        console.warn("Client data store not initialized");
+        return;
+      }
+      executeClientDropdownFilters();
+    }, 100);
     return;
   }
 
