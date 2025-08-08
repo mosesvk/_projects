@@ -31,8 +31,8 @@ const config = {
   
   // File watching configuration
   watchFiles: [
-    'Index.html',
-    'Api.js',
+    'main/Index.html',
+    'main/Api.js',
     'components/**/*.js',
     'content/**/*.js',
     'functions/**/*.js'
@@ -62,7 +62,7 @@ class QuickbaseDeployer {
         pageid: pageId,
         pagename: fileName,
         pagetype: '1', // 1 = XSL stylesheets or HTML pages (per API docs)
-        pagebody: `<![CDATA[${fixedContent}]]>` // Use pagebody with CDATA wrapper
+        pagebody: fixedContent
       }
     };
     
