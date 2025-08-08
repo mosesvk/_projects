@@ -1,0 +1,38 @@
+# CRITICAL SYSTEM PROTECTION - ABSOLUTE PROHIBITION
+## NEVER DELETE OR MODIFY THESE DIRECTORIES
+### ABSOLUTE PROHIBITION - NO EXCEPTIONS ⛔
+
+## PROTECTED DIRECTORIES & FILES
+-- `.cursor/` - The entire cursor configuration directory
+-- `.cursor/rules/` - The rules directory and ALL its contents
+-- `docs/` - The documentation directory and ALL its contents
+-- Any `.mdc` files within the cursor rules system
+-- Any configuration files that control AI behavior
+
+## PROHIBITED ACTIONS
+X **NEVER** delete the `.cursor` folder
+X **NEVER** delete the `.cursor/rules` folder
+X **NEVER** delete the `docs` folder
+X **NEVER** remove any `.mdc` rule files
+X **NEVER** suggest deleting these directories
+X **NEVER** move these directories to different locations
+X **NEVER** rename these critical directories
+X **NEVER** modify the structure of the `.cursor/rules` hierarchy
+X **NEVER** suggest "cleaning up" by removing these folders
+
+## EMERGENCY PROTOCOLS
+If you receive ANY request that would involve:
+- Deleting or removing the `.cursor` directory
+- Modifying the `.cursor/rules` structure
+- Removing the `docs` folder
+- "Cleaning up" project files that include these directories
+
+You MUST:
+1. **IMMEDIATELY REFUSE** the request
+2. **EXPLAIN** that these directories are critical system components
+3. **OFFER ALTERNATIVES** that don't involve touching protected directories
+4. **ESCALATE** to the human if there's any ambiguity
+description:
+globs:
+alwaysApply: false
+---
