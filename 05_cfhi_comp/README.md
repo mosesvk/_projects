@@ -18,31 +18,22 @@ Automatically deploy your local files to Quickbase using the `API_AddReplaceDBPa
 npm install
 ```
 
-### 2. Configure Quickbase Settings
+### 2. Configure Environment Variables
 
-Edit `quickbase-deploy.js` and update the configuration:
+Create a `.env` file in the project root with your Quickbase credentials:
 
-```javascript
-const config = {
-  // Quickbase API Configuration
-  realm: 'your-realm.quickbase.com',        // Your Quickbase realm
-  userToken: 'your-user-token',             // Your Quickbase user token
-  appToken: 'bpat4pgu9t69yby5gbemdbej52j', // Already set from your Index.html
-  
-  // Page Configuration
-  pageId: 'your-page-id',                   // The page ID to replace
-  
-  // File watching configuration
-  watchFiles: [
-    'Index.html',
-    'Api.js',
-    'components/**/*.js',
-    'content/**/*.js',
-    'functions/**/*.js'
-  ],
-  
-  debounceDelay: 2000
-};
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` and add your actual values:
+
+```env
+# Quickbase API Configuration
+QUICKBASE_REALM=capincrouse.quickbase.com
+QUICKBASE_USER_TOKEN=your-user-token-here
+QUICKBASE_APP_TOKEN=your-app-token-here
+QUICKBASE_APP_ID=your-app-id-here
 ```
 
 ### 3. Get Your Quickbase Credentials
@@ -57,10 +48,17 @@ const config = {
 3. Scroll to **User Token** section
 4. Copy your user token
 
-#### Page ID
-1. Navigate to the page you want to replace in Quickbase
-2. Look at the URL: `https://yourcompany.quickbase.com/db/br8rqi6bk?a=dr&rid=123`
-3. The page ID is the number after `rid=` (e.g., `123`)
+#### App Token
+- Found in your `Index.html` file (already configured)
+- Example: `bpat4pgu9t69yby5gbemdbej52j`
+
+#### App ID
+- Found in your Quickbase URL: `https://yourcompany.quickbase.com/db/bps9da9i5`
+- The app ID is `bps9da9i5` (after `/db/`)
+
+#### Page IDs
+- Each file maps to a specific page ID (143-151)
+- These are configured in the script and don't need to be changed
 
 ## Usage
 
@@ -73,7 +71,7 @@ npm start
 or
 
 ```bash
-node quickbase-deploy.js
+node qb-deploy.js
 ```
 
 ### How It Works
@@ -159,9 +157,10 @@ You can modify the script to upload different files to different pages by adding
 
 ## Security Notes
 
-- Keep your user token secure and don't commit it to version control
-- Consider using environment variables for sensitive data
-- The app token from your Index.html is already public, so it's safe to include
+- ✅ **Environment Variables**: All sensitive credentials are stored in `.env` file
+- ✅ **Git Ignored**: The `.env` file is excluded from version control
+- ✅ **Example File**: Use `.env.example` as a template for setup
+- ⚠️ **Never commit `.env`**: Make sure your `.env` file is never pushed to GitHub
 
 ## Stopping the Script
 

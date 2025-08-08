@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const chokidar = require('chokidar');
@@ -7,10 +8,10 @@ const xml2js = require('xml2js');
 // Configuration - All code pages
 const config = {
   // Quickbase API Configuration
-  realm: 'capincrouse.quickbase.com', 
-  userToken: 'b59mcm_dp5d_0_cefk3nbh83jxu8ie9qrbfbri4b', 
-  appToken: 'bpat4pgu9t69yby5gbemdbej52j', 
-  appId: 'bps9da9i5', // App ID from your URL
+  realm: process.env.QUICKBASE_REALM || 'capincrouse.quickbase.com', 
+  userToken: process.env.QUICKBASE_USER_TOKEN, 
+  appToken: process.env.QUICKBASE_APP_TOKEN, 
+  appId: process.env.QUICKBASE_APP_ID, // App ID from your URL
   
   // Page Configuration - Dynamic mapping for each file
   pageMapping: {
@@ -289,16 +290,24 @@ class QuickbaseDeployer {
 
   // Validate configuration
   validateConfig() {
-    const required = ['realm', 'userToken'];
-    const missing = required.filter(key => !config[key] || config[key].includes('your-'));
+    const required = ['userToken', 'appToken', 'appId'];
+    const missing = required.filter(key => !config[key]);
     
     if (missing.length > 0) {
-      console.error('❌ Configuration error: Please set the following values in the config object:');
-      missing.forEach(key => console.error(`   - ${key}`));
+      console.error('❌ Configuration error: Please set the following environment variables in .env file:');
+      missing.forEach(key => {
+        const envVar = key === 'userToken' ? 'QUICKBASE_USER_TOKEN' : 
+                      key === 'appToken' ? 'QUICKBASE_APP_TOKEN' : 
+                      key === 'appId' ? 'QUICKBASE_APP_ID' : key;
+        console.error(`   - ${envVar}`);
+      });
       console.error('');
       console.error('📝 How to get these values:');
-      console.error('   - realm: Your Quickbase realm (e.g., capincrouse.quickbase.com)');
-      console.error('   - userToken: Your Quickbase user token (from Account Settings > My Preferences)');
+      console.error('   - QUICKBASE_USER_TOKEN: Your Quickbase user token (from Account Settings > My Preferences)');
+      console.error('   - QUICKBASE_APP_TOKEN: Your Quickbase app token (from your Index.html)');
+      console.error('   - QUICKBASE_APP_ID: Your Quickbase app ID (from the URL)');
+      console.error('');
+      console.error('💡 Make sure your .env file exists and contains these variables.');
       return false;
     }
     
