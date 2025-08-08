@@ -16,7 +16,6 @@ const displayReportComponent = () => {
       ["attendeesToStaff", "num", 1, "wa", "cb"],
       ["contributionsWithoutDonorExcludingLargeGifts", "dollar", 0],
       ["totalContributionsExclude", "dollar", 0],
-      ["totalContributionOnline", "dollar", 0],
       ["percentContributionsOnline", "percent", 0, "wa"],
       ["totalOutsourcedEmployees", "num", 0],
       ["facilitySquareFootage", "num", 0],
