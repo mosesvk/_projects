@@ -1,0 +1,123 @@
+API_Authenticate
+Don't forget to check out our JSON RESTful APIs, they can help you utilize and extend Quickbase with ease.
+
+Overview
+
+Request parameters
+
+Response values
+
+Sample XML Request
+
+URL alternative
+
+Sample response
+
+Overview
+Use API_Authenticate to validate a user's username and password. You invoke this call on /db/main (no dbid).
+
+API_Authenticate validates the supplied user name and password, and, if successful, returns a ticket that is supplied in subsequent API calls. The ticket is valid for 12 hours, unless you specify a different value in the hours parameter. In addition to the ticket, a cookie is also returned with the name TICKET. This is the only API call that returns a ticket cookie.
+
+Note: It is possible to use a ticket to obtain a ticket (that is, pass in a ticket instead of a username and password).
+
+Using API_Authenticate is the equivalent of logging into Quickbase. Remember that merely logging into Quickbase by itself does not give you access rights to even a single Quickbase application. You must first be assigned a role in the application by someone who has administrator rights. (See API Overview for more information about how to use the authentication ticket when making API calls.)
+
+You should always use secure HTTPS (not HTTP) when calling API_Authenticate. Quickbase does not support API calls over HTTP.
+
+Note: API_Authenticate calls have a maximum time limit of 4,380 hours, or approximately 6 months. This applies to new tickets initiated on or after January 21, 2018.
+
+top
+
+Request parameters
+Parameter	Value	Required?
+username
+
+The user’s email address registered with Quickbase or the user name that was selected within Quickbase when the user registered.
+
+yes
+
+password
+
+The user’s Quickbase password.
+
+yes
+
+hours
+
+The number of hours that the ticket will be valid.
+
+This parameter is optional. If you don't supply this parameter, the ticket will expire after 12 hours. There is a maximum time limit of 4,380 hours or approximately 6 months.
+
+no
+
+udata
+
+A string value that you want returned. It will not be handled by Quickbase but it will be returned in the response.
+
+no
+
+top
+
+Response values
+Element Name	Value
+action
+
+The originating request, for example, API_Authenticate
+
+errcode
+
+Identifies the error code, if any. (See the Error Codes appendix for a list of possible error codes.)
+
+0 indicates that no error was encountered.
+
+errtext
+
+Text that explains the error code.
+
+"No error" indicates that no error was encountered.
+
+ticket
+
+The authentication ticket needed for application access.
+
+userid
+
+The ID of the current user. The user ID is required for some API calls. The userID persists from session to session.
+
+udata
+
+Optional. Contains any udata value supplied in the request.
+
+top
+
+Sample XML Request
+POST https://target_domain/db/main 
+ HTTP/1.0
+Content-Type: application/xml
+Content-Length:
+QUICKBASE-ACTION: API_Authenticate
+
+<qdbapi>
+   <username>PTBarnum</username>
+   <password>TopSecret</password>
+   <hours>24</hours>
+   <udata>optional data</udata>
+</qdbapi>
+top
+
+URL alternative
+https://target_domain/db/main?a=API_Authenticate&username=PTBarnum
+&password=TopSecret&hours=24
+where target_domain is the domain against which you are invoking this call, for example, quickbase.com. Read about this notation.
+
+top
+
+Sample response
+<?xml version="1.0" ?>
+<qdbapi>
+<action>api_authenticate</action>
+<errcode>0</errcode>
+<errtext>No error</errtext>
+<ticket>2_beeinrxmv_dpvx_b_crf8ttndjwyf9bui94rhciirqcs</ticket>
+<userid>112245.efy7</userid>
+</qdbapi>

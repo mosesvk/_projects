@@ -1,6 +1,4 @@
-// remember to check the url that it says "clientrid" and NOT "clientRid" with a capital R.
-
-// Global variables are now initialized in Utility.js
+// please 
 
 // Data Model and Business Logic Classes
 class DataStore {

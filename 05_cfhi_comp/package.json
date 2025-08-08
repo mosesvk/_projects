@@ -1,0 +1,24 @@
+{
+  "name": "quickbase-auto-deploy",
+  "version": "1.0.0",
+  "description": "Automatically deploy local files to Quickbase using API_AddReplaceDBPage",
+  "main": "quickbase-deploy.js",
+  "scripts": {
+    "start": "node quickbase-deploy.js",
+    "dev": "node quickbase-deploy.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "chokidar": "^3.5.3",
+    "xml2js": "^0.6.2"
+  },
+  "keywords": [
+    "quickbase",
+    "api",
+    "deployment",
+    "automation",
+    "file-watcher"
+  ],
+  "author": "",
+  "license": "MIT"
+}

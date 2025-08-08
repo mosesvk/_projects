@@ -1,0 +1,162 @@
+API_AddReplaceDBPage
+Don't forget to check out our JSON RESTful APIs, they can help you utilize and extend Quickbase with ease.
+
+Overview
+
+Request parameters
+
+Response values
+
+Sample XML Request
+
+URL alternative
+
+Sample response
+
+Overview
+Use API_AddReplaceDBPage to add a new database page or replace an existing page with a new page. You invoke this call on an application (dbid).
+
+Quickbase allows you to store various types of pages at the application level. These pages can be various text or rich text or HTML page that you store and link to buttons in the Quickbase UI. They can also be XSL templates used for customizing the Quickbase application. They can also be Exact Forms, which are forms (form letters, invoices, etc.) created in Microsoft Word using the Quickbase Exact Form template that gets data from Quickbase tables.
+
+See the Quickbase online help for more information about adding pages.
+
+top
+
+Request parameters 
+Parameter	Value	Required?
+pagename
+(if adding)
+
+or
+
+pageid
+(if replacing)
+
+Allows you to specify a new page to add or an existing page to replace.
+
+If you are replacing a database page, specify its page ID here. Quickbase replaces that page with the page you supply in <pagebody>.
+
+ If you are adding a new page, specify the pagename.
+
+yes
+
+pagetype
+
+Specifies the type of page. Valid values are:
+
+1 – for XSL stylesheets or HTML pages.
+
+3 – for Exact Forms.
+
+yes
+
+pagebody
+
+Contains the contents of the page you are adding. Wrap this parameter in a CDATA block, as shown in the sample XML request below.
+
+yes
+
+ticket
+
+Supply a valid ticket. You obtain a valid ticket from API_Authenticate. A ticket is also returned in the various API responses
+
+yes, one of:
+
+ticket
+username/password
+user token
+usertoken
+
+A user token – this is a ticket alternative, used for API access
+
+yes, one of:
+
+ticket
+username/password
+user token
+apptoken
+
+Supply a valid application token.
+
+yes, if the application requires application tokens
+
+udata
+
+A string value that you want returned. It will not be handled by Quickbase but it will be returned in the response. You might use this parameter to maintain state in the calling application.
+
+no
+
+top
+
+Response values
+The response to this call contains the following:
+
+Element Name	Value
+action
+
+The originating request, for example, API_AddRecord.
+
+errcode
+
+Identifies the error code, if any. (See the Error Codes appendix for a list of possible error codes.)
+
+0 indicates that no error was encountered.
+
+errtext
+
+Text that explains the error code.
+
+"No error" indicates that no error was encountered.
+
+udata
+
+Optional. Contains any udata value supplied in the request.
+
+pageID
+
+The ID of the page that was added
+
+top
+
+Sample XML Request
+POST https://target_domain/db/target_dbid HTTP/1.0
+Content-Type: application/xml
+Content-Length: 490
+QUICKBASE-ACTION: API_AddReplaceDBPage
+
+<qdbapi>
+<pagename>newstylesheet.xsl</pagename>
+<pagetype>1</pagetype>
+          <pagebody><![CDATA[
+<?xml version='1.0'?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+ version="1.0">
+ <xsl:template match="/">
+   <html>
+    <head>
+    </head>
+    <body>
+      Hello World
+    </body>
+   </html>
+ </xsl:template>
+</xsl:stylesheet>
+]]></pagebody>
+<ticket>auth_ticket</ticket>
+<apptoken>app_token</apptoken> 
+</qdbapi>
+top
+
+URL alternative
+Because URLs can only be about one thousand characters in length, this is not the recommended way to make this API call.
+
+top
+
+Sample response
+<?xml version="1.0" ?>
+<qdbapi>
+   <action>API_AddReplaceDBPage</action>
+   <errcode>0</errcode>
+   <errtext>No error</errtext>
+   <pageID>6</pageID>
+</qdbapi>
