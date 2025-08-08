@@ -1,4 +1,3 @@
-// please 
 
 // Data Model and Business Logic Classes
 class DataStore {

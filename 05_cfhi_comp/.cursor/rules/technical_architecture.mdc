@@ -1,0 +1,94 @@
+---
+title: Technical Architecture
+globs:
+alwaysApply: true
+---
+
+# Technical Architecture Rules
+
+## Data Structure & Sources
+
+### Quickbase Data Format
+- **clientData.xml**: Contains client-specific financial data with fields like:
+  - `merged_client_name`: Client organization name
+  - `s52_formatted_year`: Year of data
+  - Financial ratios (e.g., `cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves`)
+  - Benchmark ratings (e.g., `cfhi_compre_01_bench_rating___days_of_expendable_net_asset_reserves`)
+  - Performance metrics and KPIs
+
+- **peerData.xml**: Contains peer comparison data with similar structure for benchmarking
+
+### Data Processing Architecture
+- **DataStore Class**: Central data management with categories:
+  - `demoData`: Demographic information
+  - `cashData`: Cash flow and liquidity data
+  - `debtData`: Debt and financial obligations
+  - `incomeData`: Revenue and income streams
+  - `expenseData`: Cost and expenditure data
+  - `additionalData`: Supplementary metrics
+
+- **DataProcessor Class**: Handles data transformation and calculations
+- **localStorage Integration**: All processed data stored locally for performance
+
+## API Service Architecture
+
+### ApiService Class (`main/Api.js`)
+- **Primary API Handler**: All Quickbase interactions managed through this class
+- **Data Retrieval Methods**:
+  - `getRecordsForPeer()`: Fetch peer comparison data
+  - `getRecordsForClient()`: Fetch client-specific data
+  - `getRecordsForUniqueClientPeerNames()`: Get available client/peer names
+  - `getRecordsForPeerWithBatching()`: Batch processing for large datasets
+
+### Data Flow Pattern
+1. **API Call**: Quickbase data retrieved via XML format
+2. **Data Processing**: Raw XML parsed and structured by DataProcessor
+3. **Storage**: Processed data saved to localStorage
+4. **Retrieval**: Components access data from localStorage for rendering
+
+### Filtering & Query System
+- **Client Selection**: Dynamic client filtering with dropdown controls
+- **Year Filtering**: Multi-year data selection and comparison
+- **Query Building**: Dynamic XML query construction for Quickbase API
+- **Batching**: Large dataset handling with pagination support
+
+## Application Controller
+
+### AppController Class
+- **Event Management**: Handles all user interactions and UI events
+- **Chart Management**: Creates and updates chart instances
+- **Data Validation**: Ensures data integrity before rendering
+- **State Management**: Manages application state and user selections
+
+### Component Integration
+- **Chart Components**: Apexcharts and Fusioncharts integration
+- **UI Components**: Flowbite and Tailwind CSS components
+- **Data Binding**: Real-time data updates to visual components
+
+## Performance Considerations
+
+### Data Caching Strategy
+- **localStorage Persistence**: All data cached locally to reduce API calls
+- **Session Management**: User selections and preferences maintained
+- **Incremental Updates**: Only fetch new/changed data when necessary
+
+### Memory Management
+- **Data Cleanup**: Automatic cleanup of old/unused data
+- **Efficient Parsing**: Optimized XML parsing for large datasets
+- **Lazy Loading**: Load data only when needed for specific views
+
+## Error Handling & Validation
+
+### Data Validation
+- **Record Validation**: Ensure data integrity before processing
+- **Year Validation**: Verify year ranges and data availability
+- **Client Validation**: Confirm client data exists before rendering
+
+### Error Recovery
+- **API Fallbacks**: Graceful handling of API failures
+- **Data Recovery**: Restore from localStorage when possible
+- **User Feedback**: Clear error messages and loading states
+description:
+globs:
+alwaysApply: false
+---

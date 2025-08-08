@@ -1,0 +1,134 @@
+---
+title: UI Specification
+globs:
+alwaysApply: true
+---
+
+# UI Specification Rules
+
+## UI Framework & Libraries
+
+### Core Framework
+- **Tailwind CSS**: Primary styling framework for utility-first CSS
+- **Flowbite**: UI component library built on top of Tailwind CSS
+- **Alpine.js**: Lightweight JavaScript framework for reactive components
+
+### Chart Libraries
+- **Apexcharts.js**: Primary charting library loaded from CDN
+- **Fusioncharts.js**: Secondary charting library for specialized chart types
+
+### Additional Libraries (from `main/Index.html`)
+- **jQuery**: DOM manipulation and AJAX handling
+- **jQuery UI**: Enhanced UI interactions and widgets
+- **Popper.js**: Tooltip and popover positioning
+- **Tippy.js**: Advanced tooltip library
+- **Tingle**: Modal and dialog management
+
+## CDN Dependencies
+
+### CSS Libraries
+```html
+<!-- Tailwind CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" />
+
+<!-- Flowbite -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css" rel="stylesheet" />
+
+<!-- Tingle Modal -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.css" />
+```
+
+### JavaScript Libraries
+```html
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+
+<!-- Flowbite -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
+
+<!-- Apexcharts -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<!-- Alpine.js -->
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer="true"></script>
+
+<!-- Popper & Tippy -->
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+
+<!-- Tingle Modal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.js"></script>
+```
+
+## Design System
+
+### Color Scheme
+- **Theme Support**: Dark/light mode toggle functionality
+- **Chart Colors**: Dynamic color schemes based on current theme
+- **Brand Colors**: Consistent color palette for professional presentation
+
+### Typography
+- **Tailwind Typography**: Utility classes for consistent text styling
+- **Responsive Text**: Scalable typography across device sizes
+- **Professional Fonts**: Clean, readable fonts suitable for financial data
+
+### Layout Patterns
+- **Grid System**: Tailwind CSS grid for responsive layouts
+- **Flexbox**: Flexible component layouts
+- **Container System**: Consistent spacing and alignment
+
+## Component Architecture
+
+### Dashboard Components
+- **Header**: Navigation and branding
+- **Filters**: Year selection, client dropdowns, and sliders
+- **Charts**: Data visualization components
+- **Reports**: Generated report displays
+- **Modals**: Dialog boxes for detailed information
+
+### Interactive Elements
+- **Dropdowns**: Client and year selection
+- **Sliders**: Range selection for data filtering
+- **Buttons**: Action triggers with loading states
+- **Tooltips**: Information overlays for data points
+- **Modals**: Detailed data views and reports
+
+### Responsive Design
+- **Mobile-First**: Responsive design starting from mobile breakpoints
+- **Breakpoint System**: Tailwind CSS responsive utilities
+- **Touch-Friendly**: Optimized for touch interactions on mobile devices
+
+## User Experience Patterns
+
+### Loading States
+- **Button Loading**: Visual feedback during data operations
+- **Chart Loading**: Skeleton states for chart components
+- **Data Loading**: Progress indicators for API calls
+
+### Error Handling
+- **Error Messages**: Clear, user-friendly error notifications
+- **Fallback States**: Graceful degradation when data is unavailable
+- **Validation Feedback**: Real-time validation for user inputs
+
+### Accessibility
+- **ARIA Labels**: Proper accessibility attributes
+- **Keyboard Navigation**: Full keyboard accessibility
+- **Screen Reader Support**: Semantic HTML structure
+- **Color Contrast**: WCAG compliant color combinations
+
+## Performance Optimization
+
+### Asset Loading
+- **CDN Optimization**: Fast loading from global CDN networks
+- **Minified Libraries**: Production-ready minified versions
+- **Lazy Loading**: Load components only when needed
+
+### Rendering Performance
+- **Efficient DOM Updates**: Minimal DOM manipulation
+- **Chart Optimization**: Optimized chart rendering for large datasets
+- **Memory Management**: Proper cleanup of chart instances and event listeners
+description:
+globs:
+alwaysApply: false
+---
