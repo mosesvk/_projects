@@ -1,0 +1,119 @@
+# Testing & Debugging Rules
+
+## Code Quality & Debugging
+
+### Console Logging Standards
+- **Descriptive Messages**: Use clear, descriptive console messages for debugging
+- **Log Levels**: Use appropriate log levels (log, warn, error, info, debug)
+- **Structured Logging**: Log objects and arrays in a readable format
+- **Production Removal**: Remove or disable debug logs in production
+
+### Error Handling
+- **Try-Catch Blocks**: Wrap all async operations and API calls in try-catch blocks
+- **Error Messages**: Provide clear, actionable error messages for users
+- **Error Recovery**: Implement graceful fallbacks when operations fail
+- **Error Logging**: Log errors with sufficient context for debugging
+
+### Code Comments
+- **Complex Logic**: Comment complex business logic and algorithms
+- **Non-Obvious Code**: Explain code that isn't immediately clear
+- **Business Rules**: Document business rules and requirements
+- **TODO Comments**: Use TODO comments for future improvements
+
+### Documentation Standards
+- **Function Documentation**: Document all public functions with JSDoc comments
+- **Parameter Documentation**: Document parameter types, constraints, and examples
+- **Return Value Documentation**: Document return values and their types
+- **Usage Examples**: Provide usage examples for complex functions
+
+## Browser Compatibility & Testing
+
+### Cross-Browser Testing
+- **Feature Detection**: Use feature detection instead of browser detection
+- **Progressive Enhancement**: Ensure core functionality works without JavaScript
+- **Fallback Handling**: Provide alternatives when features aren't supported
+- **Testing Matrix**: Test across major browsers (Chrome, Firefox, Safari, Edge)
+
+### Mobile Testing
+- **Responsive Testing**: Test responsive design across different screen sizes
+- **Touch Testing**: Test touch interactions and gestures
+- **Performance Testing**: Test performance on mobile devices
+- **Accessibility Testing**: Ensure mobile accessibility compliance
+
+### Performance Testing
+- **Load Time Testing**: Monitor page load times and performance metrics
+- **Memory Testing**: Check for memory leaks and excessive memory usage
+- **Network Testing**: Test performance under different network conditions
+- **User Experience Testing**: Test actual user interactions and workflows
+
+## Error Tracking & Monitoring
+
+### Error Monitoring
+- **Error Tracking**: Implement comprehensive error tracking and logging
+- **User Feedback**: Collect user feedback on errors and issues
+- **Performance Monitoring**: Monitor application performance and bottlenecks
+- **Alerting**: Set up alerts for critical errors and performance issues
+
+### Debugging Tools
+- **Browser DevTools**: Use browser developer tools for debugging
+- **Network Monitoring**: Monitor network requests and responses
+- **Performance Profiling**: Use performance profiling tools to identify bottlenecks
+- **Memory Profiling**: Use memory profiling to identify memory leaks
+
+## Testing Standards
+
+### Unit Testing
+- **Test Coverage**: Maintain high test coverage for critical functionality
+- **Test Organization**: Organize tests to mirror source code structure
+- **Test Naming**: Use descriptive test names that indicate what is being tested
+- **Test Data**: Use realistic test data and fixtures
+
+### Integration Testing
+- **API Testing**: Test API integrations and data flow
+- **Component Testing**: Test component interactions and integrations
+- **End-to-End Testing**: Test complete user workflows
+- **Regression Testing**: Ensure new changes don't break existing functionality
+
+### Manual Testing
+- **User Acceptance Testing**: Test from the user's perspective
+- **Edge Case Testing**: Test edge cases and error conditions
+- **Accessibility Testing**: Test accessibility compliance
+- **Usability Testing**: Test user experience and interface usability
+
+## Quality Assurance
+
+### Code Review Process
+- **Review Checklist**: Use consistent code review checklists
+- **Testing Verification**: Ensure tests are written for new functionality
+- **Documentation Review**: Verify documentation is updated with code changes
+- **Performance Review**: Review code for performance implications
+
+### Continuous Improvement
+- **Feedback Loop**: Establish feedback loops for continuous improvement
+- **Metrics Tracking**: Track quality metrics and improvement over time
+- **Best Practices**: Continuously update and follow best practices
+- **Team Training**: Provide training on testing and debugging practices
+
+## Debugging Workflow
+
+### Problem Identification
+- **Reproduce Issues**: Ensure issues can be consistently reproduced
+- **Isolate Problems**: Isolate problems to specific components or functions
+- **Root Cause Analysis**: Identify root causes of issues
+- **Impact Assessment**: Assess the impact of issues on users
+
+### Solution Development
+- **Incremental Fixes**: Make incremental fixes and test each change
+- **Regression Testing**: Ensure fixes don't introduce new issues
+- **Documentation Updates**: Update documentation with fixes and changes
+- **User Communication**: Communicate fixes and improvements to users
+
+### Prevention Strategies
+- **Code Reviews**: Use code reviews to catch issues early
+- **Automated Testing**: Implement automated testing to prevent regressions
+- **Monitoring**: Use monitoring to detect issues before users report them
+- **Best Practices**: Follow best practices to prevent common issues
+description:
+globs:
+alwaysApply: false
+---

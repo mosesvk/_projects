@@ -1,0 +1,99 @@
+# Security & Performance Rules
+
+## Security Guidelines
+
+### HTTPS & Mixed Content
+- **HTTPS Only**: All external resources (scripts, stylesheets, images) must use HTTPS
+- **Mixed Content Prevention**: Never load HTTP resources on HTTPS pages
+- **Protocol Relative URLs**: Use // instead of http:// or https:// when appropriate
+- **CDN Security**: Use trusted CDNs with HTTPS support
+
+### Input Validation & Sanitization
+- **User Input Validation**: Validate all user inputs before processing
+- **XSS Prevention**: Sanitize data before rendering in HTML templates
+- **SQL Injection Prevention**: Use parameterized queries and input validation
+- **File Upload Security**: Validate file types, sizes, and scan for malware
+
+### API Security
+- **Token Management**: Never expose sensitive tokens in client-side code
+- **Environment Variables**: Store API keys and secrets in environment variables
+- **CORS Configuration**: Properly configure CORS headers for API endpoints
+- **Rate Limiting**: Implement rate limiting to prevent abuse
+
+### Data Protection
+- **Sensitive Data**: Never log or display sensitive information (passwords, tokens, PII)
+- **Data Encryption**: Encrypt sensitive data in transit and at rest
+- **Session Management**: Use secure session handling and proper logout
+- **Access Control**: Implement proper access controls and authentication
+
+## Performance Optimization
+
+### Resource Loading
+- **CDN Usage**: Load all external libraries from reliable CDNs
+- **Minification**: Use minified versions of libraries in production
+- **Compression**: Enable gzip/brotli compression for text-based assets
+- **Caching Headers**: Set appropriate cache headers for static assets
+
+### JavaScript Performance
+- **Lazy Loading**: Load components and modules only when needed
+- **Event Delegation**: Use event delegation for dynamic content
+- **Memory Management**: Clean up event listeners, timers, and chart instances
+- **Debouncing/Throttling**: Implement debouncing for frequent events (resize, scroll)
+
+### CSS Performance
+- **Critical CSS**: Inline critical CSS for above-the-fold content
+- **CSS Optimization**: Remove unused CSS and minimize specificity conflicts
+- **Animation Performance**: Use transform and opacity for animations
+- **Media Queries**: Use efficient media queries and avoid unnecessary repaints
+
+### Image Optimization
+- **Image Formats**: Use appropriate formats (WebP, AVIF for modern browsers)
+- **Responsive Images**: Use srcset and sizes attributes for responsive images
+- **Lazy Loading**: Implement lazy loading for images below the fold
+- **Compression**: Optimize images without losing quality
+
+## Browser Compatibility
+
+### Cross-Browser Support
+- **Feature Detection**: Use feature detection instead of browser detection
+- **Progressive Enhancement**: Ensure core functionality works without JavaScript
+- **Fallback Handling**: Provide alternatives when features aren't supported
+- **Testing**: Test across major browsers (Chrome, Firefox, Safari, Edge)
+
+### Mobile Optimization
+- **Touch Targets**: Ensure touch targets are at least 44px × 44px
+- **Viewport Configuration**: Use proper viewport meta tags
+- **Performance**: Optimize for mobile network conditions
+- **Accessibility**: Ensure mobile accessibility compliance
+
+## Error Handling & Monitoring
+
+### Error Management
+- **Graceful Degradation**: Handle errors gracefully without breaking the UI
+- **User Feedback**: Provide clear, actionable error messages
+- **Error Logging**: Log errors for debugging and monitoring
+- **Recovery Mechanisms**: Implement automatic retry and recovery logic
+
+### Performance Monitoring
+- **Metrics Tracking**: Monitor Core Web Vitals and performance metrics
+- **Real User Monitoring**: Track actual user experience and performance
+- **Alerting**: Set up alerts for performance degradation
+- **Optimization**: Continuously optimize based on performance data
+
+## Code Quality for Performance
+
+### Efficient Algorithms
+- **Time Complexity**: Choose efficient algorithms and data structures
+- **Memory Usage**: Minimize memory footprint and avoid memory leaks
+- **Loop Optimization**: Use efficient loops and avoid unnecessary iterations
+- **Caching**: Implement appropriate caching strategies
+
+### Bundle Optimization
+- **Tree Shaking**: Remove unused code from bundles
+- **Code Splitting**: Split code into smaller, loadable chunks
+- **Dependency Management**: Keep dependencies up to date and minimal
+- **Bundle Analysis**: Regularly analyze bundle size and composition
+description:
+globs:
+alwaysApply: false
+---

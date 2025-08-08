@@ -1,0 +1,119 @@
+# Deployment & Maintenance Rules
+
+## Environment Management
+
+### Environment Configuration
+- **Environment Variables**: Use .env files for environment-specific configuration
+- **Environment Separation**: Maintain separate configurations for development, staging, and production
+- **Secret Management**: Store sensitive data in environment variables, never in code
+- **Configuration Validation**: Validate environment configuration on application startup
+
+### Build Process
+- **Build Scripts**: Maintain clean, reproducible build processes
+- **Build Optimization**: Optimize builds for production (minification, compression)
+- **Asset Pipeline**: Use consistent asset processing and optimization
+- **Build Verification**: Verify builds work correctly before deployment
+
+### Version Control
+- **Meaningful Commits**: Use descriptive commit messages following conventional commits
+- **Branch Strategy**: Use consistent branch naming and management strategies
+- **History Management**: Maintain clean git history with logical commit grouping
+- **Tag Management**: Use semantic versioning and proper release tagging
+
+## Deployment Standards
+
+### Deployment Process
+- **Automated Deployment**: Use automated deployment pipelines where possible
+- **Rollback Strategy**: Maintain ability to quickly rollback deployments
+- **Health Checks**: Implement health checks to verify successful deployments
+- **Deployment Monitoring**: Monitor deployments for issues and performance
+
+### Production Readiness
+- **Performance Optimization**: Ensure production builds are optimized for performance
+- **Security Hardening**: Apply security best practices for production environments
+- **Error Handling**: Implement comprehensive error handling for production
+- **Monitoring Setup**: Set up monitoring and alerting for production systems
+
+### Backup Strategy
+- **Regular Backups**: Maintain regular backups of critical data and configurations
+- **Backup Verification**: Regularly verify backup integrity and restore capabilities
+- **Disaster Recovery**: Maintain disaster recovery procedures and documentation
+- **Data Retention**: Implement appropriate data retention policies
+
+## Monitoring & Maintenance
+
+### Performance Monitoring
+- **Core Web Vitals**: Monitor Core Web Vitals and performance metrics
+- **Real User Monitoring**: Track actual user experience and performance
+- **Resource Monitoring**: Monitor server resources and application performance
+- **Alerting**: Set up alerts for performance degradation and issues
+
+### Error Tracking
+- **Error Logging**: Implement comprehensive error logging and tracking
+- **Error Analysis**: Regularly analyze error patterns and trends
+- **User Feedback**: Collect and analyze user feedback on issues
+- **Issue Resolution**: Maintain processes for quick issue resolution
+
+### Maintenance Procedures
+- **Regular Updates**: Keep dependencies and libraries updated
+- **Security Patches**: Apply security patches promptly
+- **Performance Optimization**: Continuously optimize based on monitoring data
+- **Documentation Updates**: Keep documentation current with system changes
+
+## Code Quality for Deployment
+
+### Pre-Deployment Checks
+- **Code Review**: Ensure all code changes are reviewed before deployment
+- **Testing**: Run comprehensive tests before deployment
+- **Security Scan**: Perform security scans on code and dependencies
+- **Performance Testing**: Test performance impact of changes
+
+### Post-Deployment Verification
+- **Functionality Testing**: Verify all functionality works correctly after deployment
+- **Performance Monitoring**: Monitor performance after deployment
+- **Error Monitoring**: Watch for new errors or issues after deployment
+- **User Feedback**: Monitor user feedback after deployment
+
+### Rollback Procedures
+- **Quick Rollback**: Maintain ability to quickly rollback problematic deployments
+- **Data Integrity**: Ensure rollbacks don't cause data loss or corruption
+- **Communication**: Communicate rollbacks to stakeholders
+- **Post-Rollback Analysis**: Analyze issues that led to rollback
+
+## Security & Compliance
+
+### Security Standards
+- **Access Control**: Implement proper access controls and authentication
+- **Data Protection**: Ensure sensitive data is properly protected
+- **Audit Logging**: Maintain audit logs for security and compliance
+- **Vulnerability Management**: Regularly scan for and address vulnerabilities
+
+### Compliance Requirements
+- **Regulatory Compliance**: Ensure compliance with relevant regulations
+- **Data Privacy**: Implement appropriate data privacy controls
+- **Documentation**: Maintain compliance documentation and procedures
+- **Regular Audits**: Conduct regular compliance audits and reviews
+
+## Documentation & Knowledge Management
+
+### Deployment Documentation
+- **Deployment Procedures**: Document deployment procedures and checklists
+- **Configuration Management**: Document configuration management procedures
+- **Troubleshooting Guides**: Maintain troubleshooting guides for common issues
+- **Runbooks**: Create runbooks for operational procedures
+
+### Knowledge Transfer
+- **Team Training**: Provide training on deployment and maintenance procedures
+- **Documentation Updates**: Keep documentation current with system changes
+- **Best Practices**: Share best practices and lessons learned
+- **Continuous Learning**: Encourage continuous learning and improvement
+
+### Change Management
+- **Change Documentation**: Document all changes and their impact
+- **Change Communication**: Communicate changes to stakeholders
+- **Change Testing**: Test changes thoroughly before implementation
+- **Change Review**: Review changes for potential issues and improvements
+description:
+globs:
+alwaysApply: false
+---

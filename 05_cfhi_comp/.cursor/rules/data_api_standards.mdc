@@ -1,0 +1,137 @@
+# Data & API Standards Rules
+
+## Data Handling Standards
+
+### Data Validation
+- **Input Validation**: Validate all data inputs before processing
+- **Type Checking**: Ensure data types match expected formats
+- **Range Validation**: Validate data ranges and constraints
+- **Format Validation**: Validate data formats (dates, emails, etc.)
+
+### Data Transformation
+- **Consistent Formatting**: Apply consistent formatting across the application
+- **Data Cleaning**: Clean and sanitize data before processing
+- **Normalization**: Normalize data to consistent formats
+- **Error Handling**: Handle data transformation errors gracefully
+
+### Data Storage
+- **localStorage Management**: Use localStorage efficiently for client-side data
+- **Data Persistence**: Implement proper data persistence strategies
+- **Cache Management**: Manage data caching and invalidation
+- **Memory Management**: Avoid memory leaks with large datasets
+
+### Data Security
+- **Sensitive Data**: Never store sensitive data in client-side storage
+- **Data Encryption**: Encrypt sensitive data when necessary
+- **Access Control**: Implement proper access controls for data
+- **Data Retention**: Implement appropriate data retention policies
+
+## API Integration Standards
+
+### API Design
+- **RESTful Principles**: Follow RESTful API design principles
+- **Consistent Endpoints**: Use consistent endpoint naming and structure
+- **Error Handling**: Implement comprehensive error handling for all API calls
+- **Rate Limiting**: Respect API rate limits and implement retry logic
+
+### API Communication
+- **Request Formatting**: Format API requests consistently
+- **Response Handling**: Handle all possible API response states
+- **Error Recovery**: Implement graceful error recovery for API failures
+- **Timeout Handling**: Implement appropriate timeout handling for API calls
+
+### Quickbase API Specific
+- **XML Format**: Use proper XML formatting for Quickbase API requests
+- **Authentication**: Implement proper authentication for Quickbase API
+- **Query Building**: Build efficient and correct XML queries
+- **Response Parsing**: Parse Quickbase XML responses correctly
+
+### API Documentation
+- **Endpoint Documentation**: Document all API endpoints and expected responses
+- **Parameter Documentation**: Document all API parameters and their types
+- **Error Documentation**: Document all possible error responses
+- **Usage Examples**: Provide usage examples for API endpoints
+
+## Data Flow Management
+
+### Data Processing Pipeline
+- **Data Ingestion**: Implement proper data ingestion from Quickbase
+- **Data Processing**: Process data efficiently and consistently
+- **Data Storage**: Store processed data appropriately
+- **Data Retrieval**: Retrieve data efficiently when needed
+
+### State Management
+- **Application State**: Manage application state consistently
+- **Data State**: Manage data state and updates properly
+- **User State**: Manage user preferences and selections
+- **Error State**: Manage error states and recovery
+
+### Real-time Updates
+- **Data Synchronization**: Implement proper data synchronization
+- **Update Notifications**: Notify users of data updates
+- **Conflict Resolution**: Handle data conflicts appropriately
+- **Performance Optimization**: Optimize real-time update performance
+
+## Error Handling & Recovery
+
+### API Error Handling
+- **Network Errors**: Handle network connectivity issues
+- **Authentication Errors**: Handle authentication and authorization errors
+- **Rate Limit Errors**: Handle rate limiting and throttling
+- **Server Errors**: Handle server-side errors gracefully
+
+### Data Error Handling
+- **Validation Errors**: Handle data validation errors
+- **Processing Errors**: Handle data processing errors
+- **Storage Errors**: Handle data storage and retrieval errors
+- **Recovery Mechanisms**: Implement data recovery mechanisms
+
+### User Feedback
+- **Error Messages**: Provide clear, actionable error messages
+- **Loading States**: Show appropriate loading states during data operations
+- **Success Feedback**: Provide feedback for successful operations
+- **Progress Indicators**: Show progress for long-running operations
+
+## Performance Optimization
+
+### Data Loading
+- **Lazy Loading**: Load data only when needed
+- **Pagination**: Implement pagination for large datasets
+- **Caching**: Implement appropriate caching strategies
+- **Prefetching**: Prefetch data when appropriate
+
+### Query Optimization
+- **Efficient Queries**: Build efficient API queries
+- **Query Caching**: Cache query results when appropriate
+- **Batch Operations**: Use batch operations when possible
+- **Query Limits**: Implement appropriate query limits
+
+### Memory Management
+- **Data Cleanup**: Clean up unused data from memory
+- **Event Listener Cleanup**: Remove event listeners when components are destroyed
+- **Chart Instance Cleanup**: Clean up chart instances properly
+- **Memory Monitoring**: Monitor memory usage and optimize accordingly
+
+## Testing & Validation
+
+### API Testing
+- **Endpoint Testing**: Test all API endpoints thoroughly
+- **Error Testing**: Test error conditions and edge cases
+- **Performance Testing**: Test API performance under load
+- **Integration Testing**: Test API integration with the application
+
+### Data Testing
+- **Data Validation Testing**: Test data validation logic
+- **Data Processing Testing**: Test data processing pipelines
+- **Error Recovery Testing**: Test error recovery mechanisms
+- **Performance Testing**: Test data processing performance
+
+### Mock Data
+- **Test Data**: Use realistic test data for development and testing
+- **Mock APIs**: Use mock APIs for development when real APIs are unavailable
+- **Data Fixtures**: Maintain data fixtures for consistent testing
+- **Environment Separation**: Separate test data from production data
+description:
+globs:
+alwaysApply: false
+---

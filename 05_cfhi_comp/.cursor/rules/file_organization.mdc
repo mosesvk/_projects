@@ -1,0 +1,114 @@
+# File Organization & Structure Rules
+
+## Project Structure Standards
+
+### Directory Organization
+- **Root Level**: Keep root directory clean with only essential files
+- **Source Code**: Organize source files in logical directories (main/, components/, functions/)
+- **Assets**: Separate assets by type (images/, styles/, scripts/)
+- **Documentation**: Keep documentation in dedicated folders (docs/, README files)
+
+### File Naming Conventions
+- **Descriptive Names**: Use clear, descriptive file names that indicate purpose
+- **Consistent Case**: Use kebab-case for file names (e.g., `user-profile.js`, `data-processor.js`)
+- **Extensions**: Use appropriate file extensions (.js, .html, .css, .json)
+- **Special Files**: Use conventional names for special files (.env, .gitignore, package.json)
+
+### Component Organization
+- **Component Folders**: Group related components in dedicated folders
+- **Component Files**: Use PascalCase for component file names (e.g., `UserProfile.js`)
+- **Index Files**: Use index.js files to export components from folders
+- **Asset Co-location**: Keep component-specific assets with their components
+
+## Code Organization Standards
+
+### Import/Export Structure
+- **Import Order**: Group imports by type (external libraries, internal modules, relative paths)
+- **Named Exports**: Use named exports for better tree-shaking
+- **Default Exports**: Use default exports for main component files
+- **Barrel Exports**: Use index files to re-export multiple modules
+
+### File Content Organization
+- **Header Comments**: Include file description and author information
+- **Import Section**: Group all imports at the top of the file
+- **Constants**: Define constants after imports
+- **Helper Functions**: Place helper functions before main functions
+- **Main Logic**: Keep main business logic organized and readable
+
+### Module Structure
+- **Single Responsibility**: Each module should have one clear purpose
+- **Cohesion**: Keep related functionality together in the same module
+- **Coupling**: Minimize dependencies between modules
+- **Interface Design**: Design clean interfaces between modules
+
+## Asset Management
+
+### Image Organization
+- **Format Selection**: Use appropriate image formats (PNG, JPG, SVG, WebP)
+- **Naming Convention**: Use descriptive names with size indicators when needed
+- **Optimization**: Optimize images for web use
+- **Responsive Images**: Organize responsive image variants logically
+
+### Style Organization
+- **CSS Architecture**: Use consistent CSS architecture (BEM, SMACSS, or utility-first)
+- **Component Styles**: Keep component styles with their components when possible
+- **Global Styles**: Maintain global styles in dedicated files
+- **Theme Management**: Organize theme variables and configurations
+
+### Script Organization
+- **Utility Functions**: Group utility functions in dedicated files
+- **Service Classes**: Organize service classes by domain
+- **Configuration**: Keep configuration in separate files
+- **Entry Points**: Maintain clear entry points for different parts of the application
+
+## Documentation Standards
+
+### README Files
+- **Project README**: Comprehensive project overview and setup instructions
+- **Component READMEs**: Document complex components with usage examples
+- **API Documentation**: Document all public APIs and interfaces
+- **Setup Instructions**: Clear setup and installation instructions
+
+### Code Documentation
+- **Inline Comments**: Comment complex logic and business rules
+- **Function Documentation**: Document function parameters, return values, and behavior
+- **Class Documentation**: Document class purpose, methods, and properties
+- **API Documentation**: Document all public methods and expected inputs/outputs
+
+### Version Control
+- **Commit Messages**: Use descriptive commit messages following conventional commits
+- **Branch Naming**: Use consistent branch naming conventions
+- **File Tracking**: Properly track all source files and exclude build artifacts
+- **History Management**: Maintain clean git history with meaningful commits
+
+## Build & Deployment Organization
+
+### Build Configuration
+- **Build Scripts**: Organize build scripts in package.json
+- **Environment Configs**: Separate configuration for different environments
+- **Build Outputs**: Organize build outputs in dedicated directories
+- **Asset Pipeline**: Maintain consistent asset processing pipeline
+
+### Deployment Structure
+- **Environment Files**: Keep environment-specific files organized
+- **Deployment Scripts**: Organize deployment scripts and configurations
+- **Backup Strategy**: Maintain organized backup and recovery procedures
+- **Monitoring**: Organize monitoring and logging configurations
+
+## Quality Assurance
+
+### Code Review Standards
+- **Review Checklist**: Use consistent code review checklists
+- **File Organization**: Review file organization as part of code reviews
+- **Naming Conventions**: Ensure consistent naming across the project
+- **Documentation**: Verify documentation is updated with code changes
+
+### Testing Organization
+- **Test Structure**: Organize tests to mirror source code structure
+- **Test Naming**: Use descriptive test names that indicate what is being tested
+- **Test Data**: Organize test data and fixtures logically
+- **Coverage**: Maintain organized test coverage reports
+description:
+globs:
+alwaysApply: false
+---

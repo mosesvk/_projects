@@ -1,0 +1,85 @@
+# Code Quality & Standards Rules
+
+## JavaScript Best Practices
+
+### Modern JavaScript Standards
+- **ES6+ Features**: Use const/let instead of var, arrow functions, destructuring
+- **Async/Await**: Prefer async/await over .then() chains for better readability
+- **Error Handling**: Always wrap API calls and async operations in try-catch blocks
+- **Variable Declaration**: Use const by default, let when reassignment is needed
+
+### Naming Conventions
+- **Variables**: Use camelCase (e.g., `userName`, `apiResponse`)
+- **Classes**: Use PascalCase (e.g., `DataProcessor`, `AppController`)
+- **Constants**: Use UPPER_SNAKE_CASE (e.g., `API_ENDPOINT`, `MAX_RETRY_COUNT`)
+- **Functions**: Use camelCase with descriptive names (e.g., `fetchUserData`, `validateInput`)
+
+### Function Standards
+- **Single Responsibility**: Each function should have one clear purpose
+- **Function Length**: Keep functions under 50 lines, extract complex logic into helper functions
+- **Parameters**: Limit function parameters to 3-4, use objects for complex parameters
+- **Return Values**: Always return consistent data types, document return values
+
+### Code Organization
+- **Import Order**: Group imports by type (external libraries, internal modules, relative paths)
+- **Variable Declaration**: Declare variables at the top of their scope
+- **Early Returns**: Use early returns to reduce nesting and improve readability
+- **Comments**: Comment complex business logic and non-obvious code
+
+## HTML Standards
+
+### Semantic HTML
+- **Proper Tags**: Use semantic HTML5 tags (header, nav, main, section, article, aside, footer)
+- **Heading Hierarchy**: Maintain proper heading hierarchy (h1 → h2 → h3)
+- **List Elements**: Use ul/ol for lists, dl for definition lists
+- **Form Elements**: Use proper form elements with labels and fieldset
+
+### Accessibility
+- **ARIA Labels**: Include aria-label, aria-describedby for interactive elements
+- **Alt Text**: Provide descriptive alt text for all images
+- **Keyboard Navigation**: Ensure all interactive elements are keyboard accessible
+- **Color Contrast**: Maintain sufficient color contrast for text readability
+
+### HTML Structure
+- **Document Type**: Always include DOCTYPE declaration
+- **Meta Tags**: Include proper meta tags for charset, viewport, and SEO
+- **Indentation**: Use consistent 2-space indentation
+- **Attributes**: Use double quotes for HTML attributes
+
+## CSS Standards
+
+### Organization & Naming
+- **BEM Methodology**: Use Block__Element--Modifier naming convention when not using Tailwind
+- **Grouping**: Group related styles together (layout, typography, colors, etc.)
+- **Consistency**: Use consistent spacing, indentation, and formatting
+- **Comments**: Comment complex CSS rules and sections
+
+### Tailwind CSS Guidelines
+- **Utility Classes**: Prefer Tailwind utility classes over custom CSS
+- **Custom Classes**: Create custom classes only when utilities are insufficient
+- **Responsive Design**: Use Tailwind's responsive prefixes (sm:, md:, lg:, xl:)
+- **Dark Mode**: Implement dark mode using Tailwind's dark: prefix
+
+### Performance & Maintainability
+- **Specificity**: Keep CSS specificity low to avoid conflicts
+- **Inheritance**: Use CSS inheritance effectively, avoid unnecessary overrides
+- **Vendor Prefixes**: Let build tools handle vendor prefixes
+- **Minification**: Use minified CSS in production
+
+## Code Review Standards
+
+### Readability
+- **Clear Intent**: Code should be self-documenting with clear variable and function names
+- **Consistent Style**: Follow established coding patterns and conventions
+- **Logical Flow**: Organize code in logical order (imports, constants, functions, exports)
+- **Whitespace**: Use appropriate whitespace to improve readability
+
+### Documentation
+- **Function Comments**: Document complex functions with JSDoc comments
+- **Inline Comments**: Add comments for non-obvious business logic
+- **README Updates**: Update documentation when adding new features
+- **API Documentation**: Document all public API methods and expected parameters
+description:
+globs:
+alwaysApply: false
+---
