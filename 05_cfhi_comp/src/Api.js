@@ -217,7 +217,6 @@ class DataProcessor {
     });
   }
 
-  // DEMO DATA PROCESSING
   processDemoData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
@@ -512,7 +511,6 @@ class DataProcessor {
     });
   }
 
-  // CASH DATA PROCESSING
   processCashData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
@@ -1281,7 +1279,6 @@ class DataProcessor {
     });
   }
 
-  // DEBT DATA PROCESSING - Updated to match apiBefore.js
   processDebtData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
@@ -1822,7 +1819,6 @@ class DataProcessor {
     });
   }
 
-  // INCOME DATA PROCESSING - Updated to match apiBefore.js
   processIncomeData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
@@ -2513,7 +2509,6 @@ class DataProcessor {
     });
   }
 
-  // EXPENSE DATA PROCESSING - Updated to match apiBefore.js
   processExpenseData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
@@ -3587,7 +3582,6 @@ class DataProcessor {
     });
   }
 
-  // ADDITIONAL DATA PROCESSING - Updated to match ALL fields from apiBefore.js
   processAdditionalData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
