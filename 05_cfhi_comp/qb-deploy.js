@@ -31,11 +31,11 @@ const config = {
   
   // File watching configuration
   watchFiles: [
-    'main/Index.html',
-    'main/Api.js',
-    'components/**/*.js',
-    'content/**/*.js',
-    'functions/**/*.js'
+    'src/Index.html',
+    'src/Api.js',
+    'src/components/**/*.js',
+    'src/content/**/*.js',
+    'src/functions/**/*.js'
   ],
   
   // Debounce delay (ms) to prevent multiple rapid uploads
