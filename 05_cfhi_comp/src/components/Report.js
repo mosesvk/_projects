@@ -88,7 +88,6 @@ const displayReportComponent = () => {
     insertDataToReport(incomeData, selectedYears, [
       ["netIncomeRatio", "percent", 0, "wa", "cb"],
       ["netIncomeRatio_twoYrAvg", "percent", 0, null, "cb"],
-      // Removed per todo: Contributions Without Donor Restrictions per Average Adult Attendee
       ["contributionsWithoutDonorPerGivingUnit", "dollar", 0],
       [
         "contributionsWithoutDonorPerGivingUnit_percentChange",
@@ -97,7 +96,6 @@ const displayReportComponent = () => {
         null,
         "cb",
       ],
-      // Removed per todo: Total Contributions per Average Adult Attendee
       ["totalContributionsPerGivingUnit", "dollar", 0],
       [
         "totalContributionsPerGivingUnit_percentChange",
@@ -120,8 +118,7 @@ const displayReportComponent = () => {
       ["localOutreachExpenses", "percent", 0, "wa"],
       ["globalOutreachExpenses", "percent", 0, "wa"],
       ["totalGlobalAndLocalOutreachExpenses", "percent", 0, "wa", "cb"],
-      ["cashExpendituresPerAvgAdultAttendee", "dollar", 0, "wa"],
-      ["cashExpendituresPerAvgAdultAttendee_percentChange", "percent", 0],
+      // Removed per todo: Cash Expenditures Per Average Adult Attendee
       ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
       ["cashExpendituresPerGivingUnit_percentChange", "percent", 0],
     ]);
@@ -129,24 +126,7 @@ const displayReportComponent = () => {
     insertDataToReport(additionalData, selectedYears, [
       ["contributionsPerAccountingFTE", "dollar", 0, "wa"],
       ["expensesPerAccountingFTE", "dollar", 0, "wa"],
-      [
-        "facilitiesExpenseToTotalCashExpenditures_lessThanTen",
-        "percent",
-        0,
-        "wa",
-        "cb",
-      ],
-      [
-        "facilitiesExpenseToTotalCashExpenditures_greaterThanTen",
-        "percent",
-        0,
-        "wa",
-        "cb",
-      ],
-      ["facilityCostPerSquareFootExcluding_lessThanTen", "dollar", 2, "wa"],
-      ["facilityCostPerSquareFootExcluding_greaterThanTen", "dollar", 2, "wa"],
-      ["facilityCostPerSquareFootIncluding_lessThanTen", "dollar", 2, "wa"],
-      ["facilityCostPerSquareFootIncluding_greaterThanTen", "dollar", 2, "wa"],
+      // Removed facility-related ratios per todo
       // Removed per todo: Information Technology Cost per FTE
     ]);
 
@@ -193,10 +173,10 @@ const addToSingleRow = (
   wa,
   cb
 ) => {
-  //console.log({ selectedYears, name, client, peer, type, fixedNum });
+  console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
-  // console.log(`row_${name}`);
-  // console.log("tableReportRow", tableReportRow);
+  console.log(`row_${name}`);
+  console.log("tableReportRow", tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);

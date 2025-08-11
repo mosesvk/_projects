@@ -1562,10 +1562,11 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
   }
 
   const selectedYears = JSON.parse(localStorage.getItem("selectedYears"));
-  // console.log({selectedYears, elementId})
+  // console.log('createBenchmark', {selectedYears, elementId})
   if (selectedYears) {
     const children = await document.getElementById(elementId).children;
     // console.log(children);
+    console.log('createBenchmark', {selectedYears, elementId})
 
     for (let i = 1; i < selectedYears.length + 1; i++) {
       editElementChildren(children[i], variable, elementId);

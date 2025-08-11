@@ -521,7 +521,7 @@ class DataProcessor {
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
-        // daysExpendableNetAssets [s35, s34, s45, s167, s168, s46]
+        // daysExpendableNetAssets [s34, s92, s155, s45, s167, s46]
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -531,16 +531,7 @@ class DataProcessor {
           "cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves",
           "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves"
         );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "bodDesignatedForOperations",
-          record,
-          "s35___bod_designated_for_operations",
-          "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
-          "daysExpendableNetAssets"
-        );
+        // removed s35 per updated ratio
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -548,6 +539,26 @@ class DataProcessor {
           "netAssetWithoutDonorRestriction",
           record,
           "s34___net_asset_without_donor_restriction__undesignated",
+          "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+          "daysExpendableNetAssets"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalPropertyPlantAndEquipmentNet",
+          record,
+          "s92___total_property_plant_and_equipment__net",
+          "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+          "daysExpendableNetAssets"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "totalDebt",
+          record,
+          "s155___total_debt",
           "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
           "daysExpendableNetAssets"
         );
@@ -571,16 +582,7 @@ class DataProcessor {
           "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
           "daysExpendableNetAssets"
         );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "internetOnFinanceLease",
-          record,
-          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-          "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
-          "daysExpendableNetAssets"
-        );
+        // removed s168 per updated ratio
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -2061,26 +2063,7 @@ class DataProcessor {
           "cfhi_compre_11a_bench_ratings___two_year_net_income_ratio"
         );
 
-        // contributionsWithoutDonorPerAverageAdultAttendee
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsWithoutDonorPerAverageAdultAttendee_Client",
-          record,
-          "cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee"
-        );
-
-        // contributionsWithoutDonorPerAverageAdultAttendee_percentChange
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsWithoutDonorPerAverageAdultAttendee_percentChange_Client",
-          record,
-          "cfhi_compre_12a_ratio_change___contributions_without_donor_restrictions_per_average_adult_attendee",
-          "cfhi_compre_12a_bench_ratings___percent_change___contributions_without_donor_restrictions_per_adult"
-        );
+        // contributionsWithoutDonorPerAverageAdultAttendee (removed per todo)
 
         // contributionsWithoutDonorPerGivingUnit
         this.dataStore.insertData(
@@ -2103,27 +2086,7 @@ class DataProcessor {
           "cfhi_compre_12b_bench_ratings___percent_change___contributions_without_donor_restrictions_per_gu"
         );
 
-        // totalContributionsPerAverageAdultAttendee
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "totalContributionsPerAverageAdultAttendee_Client",
-          record,
-          "cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee",
-          "cfhi_compre_13a_bench_rating___total_contributions_per_average_adult_attendee"
-        );
-
-        // totalContributionsPerAverageAdultAttendee_percentChange
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "totalContributionsPerAverageAdultAttendee_percentChange_Client",
-          record,
-          "cfhi_compre_13a_ratio_change___total_contributions_per_average_adult_attendee",
-          "cfhi_compre_13a_bench_rating___total_contributions_per_average_adult_attendee"
-        );
+        // totalContributionsPerAverageAdultAttendee (removed per todo)
 
         // totalContributionsPerGivingUnit
         this.dataStore.insertData(
@@ -3032,96 +2995,7 @@ class DataProcessor {
           "totalGlobalAndLocalOutreachExpenses"
         );
 
-        // cashExpendituresPerAvgAdultAttendee
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "cashExpendituresPerAvgAdultAttendee_Peer",
-          record,
-          "cfhi_compre_19_1_ratio___cash_exp_per_adult",
-          "cfhi_compre_19_1_yes_no___cash_exp_per_adult"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalExpense",
-          record,
-          "s45___total_expense",
-          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
-          "cashExpendituresPerAvgAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "amortizationFinanceLease",
-          record,
-          "s167___amortization_of_finance_lease_right_of_use_asset",
-          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
-          "cashExpendituresPerAvgAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "internetOnFinanceLease",
-          record,
-          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
-          "cashExpendituresPerAvgAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "requiredMinimumDebtPrinciple",
-          record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
-          "cashExpendituresPerAvgAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "futureMinimumLeasePayment",
-          record,
-          "s166___future_minimum_lease_payment",
-          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
-          "cashExpendituresPerAvgAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalDepreciationExpense",
-          record,
-          "s46___total_depreciation_expense",
-          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
-          "cashExpendituresPerAvgAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "averageAdultAttendees",
-          record,
-          "s01_average_adult_attendees_excluding_children",
-          "cfhi_compre_19_1_yes_no___cash_exp_per_adult",
-          "cashExpendituresPerAvgAdultAttendee"
-        );
-
-        // cashExpendituresPerAvgAdultAttendee_percentChange
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "cashExpendituresPerAvgAdultAttendee_percentChange_Peer",
-          record,
-          "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee"
-        );
+        // cashExpendituresPerAvgAdultAttendee (removed per todo)
 
         // cashExpendituresPerGivingUnit
         this.dataStore.insertData(

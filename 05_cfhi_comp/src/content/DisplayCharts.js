@@ -458,14 +458,7 @@ const displayExpenseComponent = () => {
     "row_totalGlobalAndLocalOutreachExpenses"
   );
 
-  const facilitiesExpenseToTotalCashExpenditures_benchmark = [
-    "Facilities Expense to Total Cash Expenditures Benchmark",
-    "20% - 30%",
-  ];
-  createBenchmark(
-    facilitiesExpenseToTotalCashExpenditures_benchmark,
-    "row_facilitiesExpenseToTotalCashExpenditures_lessThanTen"
-  );
+  // Removed facility expense and cost per square foot ratios per todo
 
   closeSidebarAfterSelectingOption("expense");
 };

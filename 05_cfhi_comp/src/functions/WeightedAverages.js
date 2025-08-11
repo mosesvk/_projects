@@ -40,18 +40,10 @@ const getWeightedAverageOfArray = (data, name) => {
       return debtPerGivingUnit_standard_weightedAverage(data, name);
     case "netIncomeRatio":
       return netIncomeRatio_weightedAverage(data, name);
-    case "contributionsWithoutDonorPerAverageAdultAttendee":
-      return contributionsWithoutDonorPerAverageAdultAttendee_weightedAverage(
-        data,
-        name
-      );
+    // removed contributionsWithoutDonorPerAverageAdultAttendee
     case "contributionsWithoutDonorPerGivingUnit":
       return contributionsWithoutDonorPerGivingUnit_weightedAverage(data, name);
-    case "totalContributionsPerAverageAdultAttendee":
-      return totalContributionsPerAverageAdultAttendee_weightedAverage(
-        data,
-        name
-      );
+    // removed totalContributionsPerAverageAdultAttendee
     case "totalContributionsPerGivingUnit":
       return totalContributionsPerGivingUnit_weightedAverage(data, name);
     case "benefitsToSalaries":
@@ -82,140 +74,20 @@ const getWeightedAverageOfArray = (data, name) => {
       return globalOutreachExpenses_weightedAverage(data, name);
     case "totalGlobalAndLocalOutreachExpenses":
       return totalGlobalAndLocalOutreachExpenses_weightedAverage(data, name);
-    case "cashExpendituresPerAvgAdultAttendee":
-      return cashExpendituresPerAvgAdultAttendee_weightedAverage(data, name);
+    // removed cashExpendituresPerAvgAdultAttendee
     case "cashExpendituresPerGivingUnit":
       return cashExpendituresPerGivingUnit_weightedAverage(data, name);
     case "contributionsPerAccountingFTE":
       return contributionsPerAccountingFTE_weightedAverage(data, name);
     case "expensesPerAccountingFTE": 
       return expensesPerAccountingFTE_weightedAverage(data, name);
-    case "facilitiesExpenseToTotalCashExpenditures_lessThanTen":
-      return facilitiesExpenseToTotalCashExpenditures_lessThanTen_weightedAverage(
-        data,
-        name
-      );
-    case "facilitiesExpenseToTotalCashExpenditures_greaterThanTen":
-      return facilitiesExpenseToTotalCashExpenditures_greaterThanTen_weightedAverage(
-        data,
-        name
-      );
-    case "facilityCostPerSquareFootExcluding_lessThanTen":
-      return facilityCostPerSquareFootExcluding_lessThanTen_weightedAverage(
-        data,
-        name
-      );
-    case "facilityCostPerSquareFootExcluding_greaterThanTen":
-      return facilityCostPerSquareFootExcluding_greaterThanTen_weightedAverage(
-        data,
-        name
-      );
-    case "facilityCostPerSquareFootIncluding_lessThanTen":
-      return facilityCostPerSquareFootIncluding_lessThanTen_weightedAverage(
-        data,
-        name
-      );
-    case "facilityCostPerSquareFootIncluding_greaterThanTen":
-      return facilityCostPerSquareFootIncluding_greaterThanTen_weightedAverage(
-        data,
-        name
-      );
-    case "informationTechnologyCostPerFTE":
-      return informationTechnologyCostPerFTE_weightedAverage(data, name);
+    // Facility and IT ratios removed per todo
     default:
       return;
   }
 };
 
-const informationTechnologyCostPerFTE_weightedAverage = (data, name) => {
-  const s13 = getSumOfArray(data.itCost[name]['total']);
-  const s151 = getSumOfArray(data.fullTimeEquivalent[name]['total']);
-
-  return s13 / s151;
-}
-
-const facilityCostPerSquareFootIncluding_greaterThanTen_weightedAverage = (
-  data,
-  name
-) => {
-  const s12 = getSumOfArray(data.totalMaintenanceOccupancyCost[name]['total']);
-  const s47 = getSumOfArray(data.cyInterestExpense[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
-  const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
-  const s08 = getSumOfArray(data.totalFacilitySquareFootage[name]['total']);
-  
-  return (s12 + (s47 - s168) + (s154 - s166)) / s08;
-}
-const facilityCostPerSquareFootIncluding_lessThanTen_weightedAverage = (
-  data,
-  name
-) => {
-const s12 = getSumOfArray(data.totalMaintenanceOccupancyCost[name]['total']);
-const s47 = getSumOfArray(data.cyInterestExpense[name]['total']);
-const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
-const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]['total']);
-const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
-const s08 = getSumOfArray(data.totalFacilitySquareFootage[name]['total']);
-
-return (s12 + (s47 - s168) + (s154 - s166)) / s08;
-
-
-}
-
-const facilityCostPerSquareFootExcluding_greaterThanTen_weightedAverage = (
-  data,
-  name
-) => {
-  const s12 = getSumOfArray(data.totalMaintenanceOccupancyCost[name]['total']);
-  const s08 = getSumOfArray(data.totalFacilitySquareFootage[name]['total']);
-
-  return s12 / s08;
-
-}
-
-const facilityCostPerSquareFootExcluding_lessThanTen_weightedAverage = (
-  data,
-  name
-) => {
-  const s12 = getSumOfArray(data.totalMaintenanceOccupancyCost[name]['total']);
-  const s08 = getSumOfArray(data.totalFacilitySquareFootage[name]['total']);
-
-  return s12 / s08;
-}
-
-const facilitiesExpenseToTotalCashExpenditures_greaterThanTen_weightedAverage = (
-  data,
-  name
-) => {
-  const s12 = getSumOfArray(data.totalMaintenanceOccupancyCost[name]['total']);
-  const s45 = getSumOfArray(data.totalExpense[name]['total']);
-  const s167 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
-  const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
-  const s46 = getSumOfArray(data.totalDepreciationExpense[name]['total']);
-        
-  return s12 / (s45 - s167 - s168 + (s154 - s166) - s46);
-
-}
-
-const facilitiesExpenseToTotalCashExpenditures_lessThanTen_weightedAverage = (
-  data,
-  name
-) => {
-  // console.log(data, name);
-  const s12 = getSumOfArray(data.totalMaintenanceOccupancyCost[name]['total']);
-  const s45 = getSumOfArray(data.totalExpense[name]['total']);
-  const s167 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
-  const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
-  const s46 = getSumOfArray(data.totalDepreciationExpense[name]['total']);
-
-  return s12 / (s45 - s167 - s168 + (s154 - s166) - s46);
-
-}
+// Facility and IT helper functions removed per todo
 
 const expensesPerAccountingFTE_weightedAverage = (data, name) => {
   const s45 = getSumOfArray(data.totalExpense[name]['total']);
@@ -253,17 +125,6 @@ const cashExpendituresPerGivingUnit_weightedAverage = (data, name) => {
   return (s45 - s167 - s168 + (s154 - s166) - s46) / s02;
 };
 
-const cashExpendituresPerAvgAdultAttendee_weightedAverage = (data, name) => {
-  const s45 = getSumOfArray(data.totalExpense[name]['total']);
-  const s167 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
-  const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
-  const s46 = getSumOfArray(data.totalDepreciationExpense[name]['total']);
-  const s01 = getSumOfArray(data.averageAdultAttendees[name]['total']);
-
-  return (s45 - s167 - s168 + (s154 - s166) - s46) / s01;
-};
 
 const totalGlobalAndLocalOutreachExpenses_weightedAverage = (data, name) => {
   const s14 = getSumOfArray(data.localOutreachExpense[name]['total']);

@@ -30,8 +30,6 @@ window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
     netIncomeRatio: [0], // positive is good
     contributionsWithoutDonorPerGivingUnit: null,
     totalContributionsPerGivingUnit: null,
-    totalContributionsPerAverageAdultAttendee: [2000, 3000],
-    contributionsWithoutDonorPerAverageAdultAttendee: null,
 
     // Expense
     benefitsToSalaries: null,
