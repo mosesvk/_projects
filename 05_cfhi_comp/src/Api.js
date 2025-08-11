@@ -1442,97 +1442,7 @@ class DataProcessor {
           "mandatoryDebtServiceToContributionsWithout"
         );
 
-        // debtPerAverageAdultAttendee [s155, s165, s01]
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "debtPerAverageAdultAttendee_Peer",
-          record,
-          "cfhi_compre_09a_ratio___debt_per_average_adult_attendee",
-          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee"
-        );
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "totalDebt",
-          record,
-          "s155___total_debt",
-          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
-          "debtPerAverageAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "financeLeaseRightOfUse",
-          record,
-          "s165___finance_lease_right_of_use_asset_and_liability",
-          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
-          "debtPerAverageAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "averageAdultAttendees",
-          record,
-          "s01_average_adult_attendees_excluding_children",
-          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
-          "debtPerAverageAdultAttendee"
-        );
-
-        // debtPerAverageAdultAttendee_percentChange
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "debtPerAverageAdultAttendee_percentChange_Peer",
-          record,
-          "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee"
-        );
-
-        // debtPerAverageAdultAttendee_standard [s39, s152, s01]
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "debtPerAverageAdultAttendee_standard_Peer",
-          record,
-          "cfhi_compre_09c_ratio___std_2_x_contributions_w_o_restrictions_per_avg_adult_attendee",
-          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee"
-        );
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "contributionWithoutDonor",
-          record,
-          "s39___contribution_without_donor_retriction",
-          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
-          "debtPerAverageAdultAttendee_standard"
-        );
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "largeOneTimeGiftWithoutDonor",
-          record,
-          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
-          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
-          "debtPerAverageAdultAttendee_standard"
-        );
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "averageAdultAttendees",
-          record,
-          "s01_average_adult_attendees_excluding_children",
-          "cfhi_compre_09a_yes_no___debt_per_average_adult_attendee",
-          "debtPerAverageAdultAttendee_standard"
-        );
+        // debtPerAverageAdultAttendee (removed per todo)
 
         // debtPerGivingUnit [s155, s165, s02]
         this.dataStore.insertData(
@@ -1890,56 +1800,7 @@ class DataProcessor {
           "cfhi_compre_11_ratio___net_income_ratio"
         );
 
-        // contributionsWithoutDonorPerAverageAdultAttendee [s39, s152, s01]
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithoutDonorPerAverageAdultAttendee_Peer",
-          record,
-          "cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee",
-          "cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionWithoutDonor",
-          record,
-          "s39___contribution_without_donor_retriction",
-          "cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee",
-          "contributionsWithoutDonorPerAverageAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "largeOneTimeGiftWithoutDonor",
-          record,
-          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
-          "cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee",
-          "contributionsWithoutDonorPerAverageAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "averageAdultAttendees",
-          record,
-          "s01_average_adult_attendees_excluding_children",
-          "cfhi_compre_12a_yes_no___contributions_without_donor_restrictions_per_average_adult_attendee",
-          "contributionsWithoutDonorPerAverageAdultAttendee"
-        );
-
-        // contributionsWithoutDonorPerAverageAdultAttendee_percentChange
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "contributionsWithoutDonorPerAverageAdultAttendee_percentChange_Peer",
-          record,
-          "cfhi_compre_12a_ratio___contributions_without_donor_restrictions_per_average_adult_attendee"
-        );
+        // contributionsWithoutDonorPerAverageAdultAttendee (removed per todo)
 
         // contributionsWithoutDonorPerGivingUnit [s39, s152, s02]
         this.dataStore.insertData(
@@ -1992,76 +1853,7 @@ class DataProcessor {
           "cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit"
         );
 
-        // totalContributionsPerAverageAdultAttendee [s40, s44, s152, s153, s01]
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "totalContributionsPerAverageAdultAttendee_Peer",
-          record,
-          "cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee",
-          "cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "totalContributions",
-          record,
-          "s40___total_contribution",
-          "cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee",
-          "totalContributionsPerAverageAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "revenueFromPledge",
-          record,
-          "s44___revenue_from_pledge",
-          "cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee",
-          "totalContributionsPerAverageAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "largeOneTimeGiftWithoutDonor",
-          record,
-          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
-          "cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee",
-          "totalContributionsPerAverageAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "largeOneTimeGiftWithDonor",
-          record,
-          "s153___large_one_time_gift_with_donor_restriction__non_recurring_",
-          "cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee",
-          "totalContributionsPerAverageAdultAttendee"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "averageAdultAttendees",
-          record,
-          "s01_average_adult_attendees_excluding_children",
-          "cfhi_compre_13a_yes_no___total_contributions_per_average_adult_attendee",
-          "totalContributionsPerAverageAdultAttendee"
-        );
-
-        // totalContributionsPerAverageAdultAttendee_percentChange
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "totalContributionsPerAverageAdultAttendee_percentChange_Peer",
-          record,
-          "cfhi_compre_13a_ratio___total_contributions_per_average_adult_attendee"
-        );
+        // totalContributionsPerAverageAdultAttendee (removed per todo)
 
         // totalContributionsPerGivingUnit [s40, s44, s152, s153, s02]
         this.dataStore.insertData(

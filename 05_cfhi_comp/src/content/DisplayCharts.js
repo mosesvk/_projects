@@ -14,7 +14,7 @@ const displayDemoComponent = () => {
     "number",
     0,
     "givingUnits",
-    [3000],
+    getBenchmarksForField("givingUnits"),
     "Giving Units"
   );
   // attendeesToStaff
@@ -26,7 +26,7 @@ const displayDemoComponent = () => {
     "number",
     0,
     "attendeesToStaff",
-    [65, 90],
+    getBenchmarksForField("attendeesToStaff"),
     "Attendees to Staff"
   );
 
@@ -52,7 +52,7 @@ const displayCashComponent = () => {
     "number",
     0,
     "daysExpendableNetAssets",
-    null,
+    getBenchmarksForField("daysExpendableNetAssets"),
     "Days Expendable Net Assets"
   );
 
@@ -65,7 +65,7 @@ const displayCashComponent = () => {
     "number",
     0,
     "daysOperatingCash",
-    null,
+    getBenchmarksForField("daysOperatingCash"),
     "Days Operating Cash"
   );
 
@@ -78,7 +78,7 @@ const displayCashComponent = () => {
     "number",
     0,
     "availableDaysOfCashFlow",
-    null,
+    getBenchmarksForField("availableDaysOfCashFlow"),
     "Available Days of Cash Flow"
   );
 
@@ -91,7 +91,7 @@ const displayCashComponent = () => {
     "number",
     0,
     "liquidityRatio",
-    null,
+    getBenchmarksForField("liquidityRatio"),
     "Liquidity Ratio"
   );
 
@@ -104,7 +104,7 @@ const displayCashComponent = () => {
     "number",
     0,
     "netCashAvailability",
-    null,
+    getBenchmarksForField("netCashAvailability"),
     "Net Cash Availability"
   );
 
@@ -155,7 +155,7 @@ const displayDebtComponent = () => {
     "dollar",
     0,
     "debtToContributionsWithout",
-    null,
+    getBenchmarksForField("debtToContributionsWithout"),
     "Debt to Contributions Without"
   );
 
@@ -168,7 +168,7 @@ const displayDebtComponent = () => {
     "number",
     0,
     "currentRatio",
-    null,
+    getBenchmarksForField("currentRatio"),
     "Current Ratio"
   );
 
@@ -181,7 +181,7 @@ const displayDebtComponent = () => {
     "percent",
     0,
     "mandatoryDebtServiceToContributionsWithout",
-    null,
+    getBenchmarksForField("mandatoryDebtServiceToContributionsWithout"),
     "Mandatory Debt Service to Contributions Without"
   );
 
@@ -194,7 +194,7 @@ const displayDebtComponent = () => {
     "dollar",
     0,
     "debtPerGivingUnit",
-    null,
+    getBenchmarksForField("debtPerGivingUnit"),
     "Debt Per Giving Unit"
   );
 
@@ -207,7 +207,7 @@ const displayDebtComponent = () => {
     "dollar",
     0,
     "debtCoverage",
-    null,
+    getBenchmarksForField("debtCoverage"),
     "Debt Coverage"
   );
 
@@ -239,14 +239,7 @@ const displayDebtComponent = () => {
     "row_mandatoryDebtServiceToContributionsWithout"
   );
 
-  const debtPerAverageAttendeeBenchmarkPopup = [
-    "Debt Per Average Adult Attendee Benchmark",
-    "Within Benchmark: < or = 2.0 x contributions without donor restrictions Per Average Adult Attendee.",
-  ];
-  createBenchmark(
-    debtPerAverageAttendeeBenchmarkPopup,
-    "row_debtPerAverageAdultAttendee"
-  );
+  // Removed: Debt Per Average Adult Attendee (ratio deleted)
 
   const debtPerGivingUnit_benchmark = [
     "Debt Per Giving Unit Benchmark",
@@ -279,7 +272,7 @@ const displayIncomeComponent = () => {
     "percent",
     1,
     "netIncomeRatio",
-    null,
+    getBenchmarksForField("netIncomeRatio"),
     "Net Income Ratio"
   );
 
@@ -292,7 +285,7 @@ const displayIncomeComponent = () => {
     "dollar",
     1,
     "contributionsWithoutDonorPerGivingUnit",
-    null,
+    getBenchmarksForField("contributionsWithoutDonorPerGivingUnit"),
     "Contributions Without Donor Per Giving Unit"
   );
 
@@ -305,7 +298,7 @@ const displayIncomeComponent = () => {
     "dollar",
     1,
     "totalContributionsPerGivingUnit",
-    null,
+    getBenchmarksForField("totalContributionsPerGivingUnit"),
     "Total Contributions Per Giving Unit"
   );
 

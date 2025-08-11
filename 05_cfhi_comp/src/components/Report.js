@@ -34,9 +34,7 @@ const displayReportComponent = () => {
       ["debtToContributionsWithout", "num", 1, "wa", "cb"],
       ["currentRatio", "num", 1, "wa", "cb"],
       ["mandatoryDebtServiceToContributionsWithout", "percent", 0, "wa", "cb"],
-      ["debtPerAverageAdultAttendee", "dollar", 0, "wa", "cb"],
-      ["debtPerAverageAdultAttendee_percentChange", "percent", 0],
-      ["debtPerAverageAdultAttendee_standard", "dollar", 0, "wa"],
+      // Removed per todo: Debt per Average Adult Attendee
       ["debtPerGivingUnit", "dollar", 0, "wa", "cb"],
       ["debtPerGivingUnit_percentChange", "percent", 0],
       ["debtPerGivingUnit_standard", "dollar", 0, "wa"],
@@ -90,14 +88,7 @@ const displayReportComponent = () => {
     insertDataToReport(incomeData, selectedYears, [
       ["netIncomeRatio", "percent", 0, "wa", "cb"],
       ["netIncomeRatio_twoYrAvg", "percent", 0, null, "cb"],
-      ["contributionsWithoutDonorPerAverageAdultAttendee", "dollar", 0],
-      [
-        "contributionsWithoutDonorPerAverageAdultAttendee_percentChange",
-        "percent",
-        0,
-        null,
-        "cb",
-      ],
+      // Removed per todo: Contributions Without Donor Restrictions per Average Adult Attendee
       ["contributionsWithoutDonorPerGivingUnit", "dollar", 0],
       [
         "contributionsWithoutDonorPerGivingUnit_percentChange",
@@ -106,14 +97,7 @@ const displayReportComponent = () => {
         null,
         "cb",
       ],
-      ["totalContributionsPerAverageAdultAttendee", "dollar", 0, "wa", "cb"],
-      [
-        "totalContributionsPerAverageAdultAttendee_percentChange",
-        "percent",
-        0,
-        null,
-        "cb",
-      ],
+      // Removed per todo: Total Contributions per Average Adult Attendee
       ["totalContributionsPerGivingUnit", "dollar", 0],
       [
         "totalContributionsPerGivingUnit_percentChange",
@@ -163,7 +147,7 @@ const displayReportComponent = () => {
       ["facilityCostPerSquareFootExcluding_greaterThanTen", "dollar", 2, "wa"],
       ["facilityCostPerSquareFootIncluding_lessThanTen", "dollar", 2, "wa"],
       ["facilityCostPerSquareFootIncluding_greaterThanTen", "dollar", 2, "wa"],
-      ["informationTechnologyCostPerFTE", "dollar", 0, "wa"],
+      // Removed per todo: Information Technology Cost per FTE
     ]);
 
     processTHElements()

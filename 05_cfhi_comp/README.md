@@ -1,3 +1,7 @@
+### Dynamic Benchmarks
+
+Benchmarks for chart annotations are now centralized. The function `getBenchmarksForField(name)` in `src/content/CreateCharts.js` returns either `[low, high]`, `[threshold]`, or `null`. All chart creators now call this function so we can manage benchmarks from one place.
+
 # Quickbase Auto-Deploy
 
 Automatically deploy your local files to Quickbase using the `API_AddReplaceDBPage` API call. This script watches your local files and uploads them to Quickbase whenever they change.

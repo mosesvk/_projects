@@ -604,31 +604,31 @@ const daysOperatingCash_weightedAverage = (data, name) => {
   const s18 = getSumOfArray(data.totalCash[name]['total']);
   const s20 = getSumOfArray(data.nonEndowmentInvestment[name]['total']);
   const s36 = getSumOfArray(data.netAssetWithDonor[name]['total']);
-  const s21 = getSumOfArray(data.pledgeReceivable[name]['total']);
   const s45 = getSumOfArray(data.totalExpense[name]['total']);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
   const s51 = getSumOfArray(data.capitalizedInterest[name]['total']);
   const s46 = getSumOfArray(data.totalDepreciationExpense[name]['total']);
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
+  const s90 = data.nextFiscalYearsRefinancedLoanPayments
+    ? getSumOfArray(data.nextFiscalYearsRefinancedLoanPayments[name]['total'])
+    : 0;
 
-  return (
-    ((s18 + s20 - s36 + s21) /
-      (s45 - s167 - s168 + (s51 - s46) + (s154 - s166))) *
-    365
-  );
+  return (((s18 + s20 - s36) / (s45 - s167 + (s51 - s46) + (s154 + s90))) * 365);
 };
 
 const daysExpendableNetAssets_weightedAverage = (data, name) => {
-  const s35 = getSumOfArray(data.bodDesignatedForOperations[name]['total']);
   const s34 = getSumOfArray(data.netAssetWithoutDonorRestriction[name]['total']);
+  const s92 = data.totalPropertyPlantAndEquipmentNet && data.totalPropertyPlantAndEquipmentNet[name]
+    ? getSumOfArray(data.totalPropertyPlantAndEquipmentNet[name]['total'])
+    : 0;
+  const s155 = data.totalDebt && data.totalDebt[name]
+    ? getSumOfArray(data.totalDebt[name]['total'])
+    : 0;
   const s45 = getSumOfArray(data.totalExpense[name]['total']);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
-  const s168 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
   const s46 = getSumOfArray(data.totalDepreciationExpense[name]['total']);
 
-  return ((s35 + s34) / (s45 - s167 - s168 - s46)) * 365;
+  return (((s34 - s92 + s155) / ((s45 - s167) - s46)) * 365);
 };
 
 const attendeesToStaff_weightedAverage = (data, name) => {

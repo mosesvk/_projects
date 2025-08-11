@@ -1,4 +1,56 @@
 // CreateCharts.js
+
+// Centralized benchmark mapping for all fields.
+// Returns either an array with two values [low, high],
+// a single-value array [threshold], or null when no numeric benchmark applies.
+// Titles for lines are handled in the chart renderer as
+// "Benchmark - lower end" and "Benchmark - higher end" when two values are present,
+// or simply "Benchmark" for a single value.
+// Note: Values are defined based on business guidance in todo_Aug11.md and DisplayCharts copy.
+window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
+  const map = {
+    // Demo
+    attendeesToStaff: [65, 90],
+
+    // Cash
+    daysExpendableNetAssets: [30, 60],
+    daysOperatingCash: [40, 80],
+    availableDaysOfCashFlow: [120, 180],
+    liquidityRatio: [5],
+    netCashAvailability: null,
+
+    // Debt
+    debtToContributionsWithout: [2],
+    currentRatio: [2],
+    mandatoryDebtServiceToContributionsWithout: [15, 20],
+    debtPerGivingUnit: null,
+    debtCoverage: [1.15],
+
+    // Income
+    netIncomeRatio: [0], // positive is good
+    contributionsWithoutDonorPerGivingUnit: null,
+    totalContributionsPerGivingUnit: null,
+    totalContributionsPerAverageAdultAttendee: [2000, 3000],
+    contributionsWithoutDonorPerAverageAdultAttendee: null,
+
+    // Expense
+    benefitsToSalaries: null,
+    salariesBenefitsIncludingOutsourcedEmployees: null,
+    personnelToCashExpenditure: [40, 55],
+    mandatoryDebtServiceToCashExpenditure: [15],
+    personnelIncludingToTotalCashExpenditures: null,
+    totalGlobalAndLocalOutreachExpenses: [10, 25],
+    facilitiesExpenseToTotalCashExpenditures_lessThanTen: [20, 30],
+    facilitiesExpenseToTotalCashExpenditures_greaterThanTen: [20, 30],
+
+    // Additional
+    informationTechnologyCostPerFTE: null,
+  };
+
+  return Object.prototype.hasOwnProperty.call(map, fieldName)
+    ? map[fieldName]
+    : null;
+};
 const getMainChartOptions = (
   dataPeer,
   dataClient,
