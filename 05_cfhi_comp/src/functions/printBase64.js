@@ -433,18 +433,7 @@ async function exportApexChart(chart, chartId) {
             return { success: false, error: 'Chart instance not found' };
         }
         
-        // Debug: Log what we actually found
-        console.log(`Chart instance for ${chartId}:`, chartInstance);
-        console.log(`Chart instance type:`, typeof chartInstance);
-        console.log(`Chart instance constructor:`, chartInstance.constructor?.name);
-        console.log(`Has w property:`, !!chartInstance.w);
-        console.log(`Has dataURI method:`, typeof chartInstance.dataURI);
-        if (chartInstance.w) {
-            console.log(`Has w.globals:`, !!chartInstance.w.globals);
-            if (chartInstance.w.globals) {
-                console.log(`Has w.globals.dom:`, !!chartInstance.w.globals.dom);
-            }
-        }
+        // Chart instance found successfully
         
         // Save original state
         const originalState = saveCompleteChartState(chartInstance);
@@ -467,12 +456,39 @@ async function exportApexChart(chart, chartId) {
                 throw new Error(`Chart instance missing dataURI method. Type: ${typeof chartInstance}, Has dataURI: ${typeof chartInstance?.dataURI}`);
             }
             
+            // Ensure chart is visible and properly rendered before export
+            const chartElement = document.getElementById(chartId);
+            let originalStyles = {};
+            if (chartElement) {
+                // Save original styles
+                originalStyles = {
+                    display: chartElement.style.display,
+                    visibility: chartElement.style.visibility,
+                    opacity: chartElement.style.opacity
+                };
+                
+                // Make sure chart container is visible
+                chartElement.style.display = 'block';
+                chartElement.style.visibility = 'visible';
+                chartElement.style.opacity = '1';
+                
+                // Force a small delay to ensure rendering is complete
+                await new Promise(resolve => setTimeout(resolve, 150));
+            }
+            
             // Use the same export approach as the working testPrintBase64.js
             const uri = await chartInstance.dataURI({
                 width: exportOptions.width,
                 height: exportOptions.height,
                 scale: exportOptions.pixelRatio || 2
             });
+            
+            // Restore original styles
+            if (chartElement && originalStyles) {
+                chartElement.style.display = originalStyles.display;
+                chartElement.style.visibility = originalStyles.visibility;
+                chartElement.style.opacity = originalStyles.opacity;
+            }
             
             console.log(`Export result for ${chartId}:`, uri);
             
@@ -488,8 +504,35 @@ async function exportApexChart(chart, chartId) {
                 throw new Error(`Unexpected export result format: ${typeof uri}`);
             }
             
-            if (!base64Data) {
-                throw new Error('Chart export returned empty base64 data');
+            // Validate base64 data with better checks
+            if (!base64Data || base64Data.trim() === '' || base64Data === 'data:,' || base64Data.length < 100) {
+                console.warn(`Chart ${chartId} returned empty or invalid base64 data:`, { uri, base64Data: base64Data?.substring(0, 50) });
+                
+                // Try alternative export approach for problematic charts
+                console.log(`Attempting alternative export for ${chartId}...`);
+                
+                // Alternative approach - try forcing a redraw and re-export
+                if (chartElement && chartElement.offsetHeight > 0 && chartElement.offsetWidth > 0) {
+                    if (typeof chartInstance.render === 'function') {
+                        await chartInstance.render();
+                        await new Promise(resolve => setTimeout(resolve, 200));
+                        
+                        const retryUri = await chartInstance.dataURI({
+                            width: exportOptions.width,
+                            height: exportOptions.height,
+                            scale: exportOptions.pixelRatio || 2
+                        });
+                        
+                        if (retryUri && retryUri.imgURI && retryUri.imgURI !== 'data:,') {
+                            base64Data = retryUri.imgURI.split(",")[1];
+                        }
+                    }
+                }
+                
+                // Final validation after retry
+                if (!base64Data || base64Data.trim() === '' || base64Data === 'data:,' || base64Data.length < 100) {
+                    throw new Error('Chart export returned empty base64 data');
+                }
             }
             
             // Return the data URI format expected by our upload function

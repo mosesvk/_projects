@@ -45,26 +45,26 @@ let selectedSchoolChurch_Selected;
 const map_dataUri = new Map();
 const dataUrLObj = new Object();
 
-// CHARTS
-let givingUnits_chart;
-let attendeesToStaff_chart;
-let daysExpendableNetAssets_chart;
-let daysOperatingCash_chart;
-let availableDaysOfCashFlow_chart;
-let liquidityRatio_chart;
-let netCashAvailability_chart;
-let debtToContributionsWithout_chart;
-let currentRatio_chart;
-let mandatoryDebtServiceToContributionsWithout_chart;
-let debtPerGivingUnit_chart;
-let debtCoverage_chart;
-let netIncomeRatio_chart;
-let contributionsWithoutDonorPerGivingUnit_chart;
-let totalContributionsPerGivingUnit_chart;
-let benefitsToSalaries_chart;
-let salariesBenefitsIncludingOutsourcedEmployees_chart;
-let personnelToCashExpenditure_chart;
-let cashExpendituresPerGivingUnit_chart;
+// CHARTS - Make these global variables accessible via window
+window.givingUnits_chart = null;
+window.attendeesToStaff_chart = null;
+window.daysExpendableNetAssets_chart = null;
+window.daysOperatingCash_chart = null;
+window.availableDaysOfCashFlow_chart = null;
+window.liquidityRatio_chart = null;
+window.netCashAvailability_chart = null;
+window.debtToContributionsWithout_chart = null;
+window.currentRatio_chart = null;
+window.mandatoryDebtServiceToContributionsWithout_chart = null;
+window.debtPerGivingUnit_chart = null;
+window.debtCoverage_chart = null;
+window.netIncomeRatio_chart = null;
+window.contributionsWithoutDonorPerGivingUnit_chart = null;
+window.totalContributionsPerGivingUnit_chart = null;
+window.benefitsToSalaries_chart = null;
+window.salariesBenefitsIncludingOutsourcedEmployees_chart = null;
+window.personnelToCashExpenditure_chart = null;
+window.cashExpendituresPerGivingUnit_chart = null;
 
 // annotation - removed CFI-specific annotations
 
@@ -285,175 +285,175 @@ const createChart = (
 
   if (chartIds.includes(chartId)) {
     if (chartId === "givingUnits_chart") {
-      givingUnits_chart = new ApexCharts(
+      window.givingUnits_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      givingUnits_chart.render();
+      window.givingUnits_chart.render();
       document.addEventListener("dark-mode", function () {
-        givingUnits_chart.updateOptions(chartOptions);
+        window.givingUnits_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "attendeesToStaff_chart") {
-      attendeesToStaff_chart = new ApexCharts(
+      window.attendeesToStaff_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      attendeesToStaff_chart.render();
+      window.attendeesToStaff_chart.render();
       document.addEventListener("dark-mode", function () {
-        attendeesToStaff_chart.updateOptions(chartOptions);
+        window.attendeesToStaff_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "daysExpendableNetAssets_chart") {
-      daysExpendableNetAssets_chart = new ApexCharts(
+      window.daysExpendableNetAssets_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      daysExpendableNetAssets_chart.render();
+      window.daysExpendableNetAssets_chart.render();
       document.addEventListener("dark-mode", function () {
-        daysExpendableNetAssets_chart.updateOptions(chartOptions);
+        window.daysExpendableNetAssets_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "daysOperatingCash_chart") {
-      daysOperatingCash_chart = new ApexCharts(
+      window.daysOperatingCash_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      daysOperatingCash_chart.render();
+      window.daysOperatingCash_chart.render();
       document.addEventListener("dark-mode", function () {
-        daysOperatingCash_chart.updateOptions(chartOptions);
+        window.daysOperatingCash_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "availableDaysOfCashFlow_chart") {
-      availableDaysOfCashFlow_chart = new ApexCharts(
+      window.availableDaysOfCashFlow_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      availableDaysOfCashFlow_chart.render();
+      window.availableDaysOfCashFlow_chart.render();
       document.addEventListener("dark-mode", function () {
-        availableDaysOfCashFlow_chart.updateOptions(chartOptions);
+        window.availableDaysOfCashFlow_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "liquidityRatio_chart") {
-      liquidityRatio_chart = new ApexCharts(
+      window.liquidityRatio_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      liquidityRatio_chart.render();
+      window.liquidityRatio_chart.render();
       document.addEventListener("dark-mode", function () {
-        liquidityRatio_chart.updateOptions(chartOptions);
+        window.liquidityRatio_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "netCashAvailability_chart") {
-      netCashAvailability_chart = new ApexCharts(
+      window.netCashAvailability_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      netCashAvailability_chart.render();
+      window.netCashAvailability_chart.render();
       document.addEventListener("dark-mode", function () {
-        netCashAvailability_chart.updateOptions(chartOptions);
+        window.netCashAvailability_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "debtToContributionsWithout_chart") {
-      debtToContributionsWithout_chart = new ApexCharts(
+      window.debtToContributionsWithout_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      debtToContributionsWithout_chart.render();
+      window.debtToContributionsWithout_chart.render();
       document.addEventListener("dark-mode", function () {
-        debtToContributionsWithout_chart.updateOptions(chartOptions);
+        window.debtToContributionsWithout_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "currentRatio_chart") {
-      currentRatio_chart = new ApexCharts(
+      window.currentRatio_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      currentRatio_chart.render();
+      window.currentRatio_chart.render();
       document.addEventListener("dark-mode", function () {
-        currentRatio_chart.updateOptions(chartOptions);
+        window.currentRatio_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "mandatoryDebtServiceToContributionsWithout_chart") {
-      mandatoryDebtServiceToContributionsWithout_chart = new ApexCharts(
+      window.mandatoryDebtServiceToContributionsWithout_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      mandatoryDebtServiceToContributionsWithout_chart.render();
+      window.mandatoryDebtServiceToContributionsWithout_chart.render();
       document.addEventListener("dark-mode", function () {
-        mandatoryDebtServiceToContributionsWithout_chart.updateOptions(chartOptions);
+        window.mandatoryDebtServiceToContributionsWithout_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "debtPerGivingUnit_chart") {
-      debtPerGivingUnit_chart = new ApexCharts(
+      window.debtPerGivingUnit_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      debtPerGivingUnit_chart.render();
+      window.debtPerGivingUnit_chart.render();
       document.addEventListener("dark-mode", function () {
-        debtPerGivingUnit_chart.updateOptions(chartOptions);
+        window.debtPerGivingUnit_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "debtCoverage_chart") {
-      debtCoverage_chart = new ApexCharts(
+      window.debtCoverage_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      debtCoverage_chart.render();
+      window.debtCoverage_chart.render();
       document.addEventListener("dark-mode", function () {
-        debtCoverage_chart.updateOptions(chartOptions);
+        window.debtCoverage_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "netIncomeRatio_chart") {
-      netIncomeRatio_chart = new ApexCharts(
+      window.netIncomeRatio_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      netIncomeRatio_chart.render();
+      window.netIncomeRatio_chart.render();
       document.addEventListener("dark-mode", function () {
-        netIncomeRatio_chart.updateOptions(chartOptions);
+        window.netIncomeRatio_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "contributionsWithoutDonorPerGivingUnit_chart") {
-      contributionsWithoutDonorPerGivingUnit_chart = new ApexCharts(
+      window.contributionsWithoutDonorPerGivingUnit_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      contributionsWithoutDonorPerGivingUnit_chart.render();
+      window.contributionsWithoutDonorPerGivingUnit_chart.render();
       document.addEventListener("dark-mode", function () {
-        contributionsWithoutDonorPerGivingUnit_chart.updateOptions(chartOptions);
+        window.contributionsWithoutDonorPerGivingUnit_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "totalContributionsPerGivingUnit_chart") {
-      totalContributionsPerGivingUnit_chart = new ApexCharts(
+      window.totalContributionsPerGivingUnit_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      totalContributionsPerGivingUnit_chart.render();
+      window.totalContributionsPerGivingUnit_chart.render();
       document.addEventListener("dark-mode", function () {
-        totalContributionsPerGivingUnit_chart.updateOptions(chartOptions);
+        window.totalContributionsPerGivingUnit_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "benefitsToSalaries_chart") {
-      benefitsToSalaries_chart = new ApexCharts(
+      window.benefitsToSalaries_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      benefitsToSalaries_chart.render();
+      window.benefitsToSalaries_chart.render();
       document.addEventListener("dark-mode", function () {
-        benefitsToSalaries_chart.updateOptions(chartOptions);
+        window.benefitsToSalaries_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "salariesBenefitsIncludingOutsourcedEmployees_chart") {
-      salariesBenefitsIncludingOutsourcedEmployees_chart = new ApexCharts(
+      window.salariesBenefitsIncludingOutsourcedEmployees_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      salariesBenefitsIncludingOutsourcedEmployees_chart.render();
+      window.salariesBenefitsIncludingOutsourcedEmployees_chart.render();
       document.addEventListener("dark-mode", function () {
-        salariesBenefitsIncludingOutsourcedEmployees_chart.updateOptions(chartOptions);
+        window.salariesBenefitsIncludingOutsourcedEmployees_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "personnelToCashExpenditure_chart") {
-      personnelToCashExpenditure_chart = new ApexCharts(
+      window.personnelToCashExpenditure_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      personnelToCashExpenditure_chart.render();
+      window.personnelToCashExpenditure_chart.render();
       document.addEventListener("dark-mode", function () {
-        personnelToCashExpenditure_chart.updateOptions(chartOptions);
+        window.personnelToCashExpenditure_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "cashExpendituresPerGivingUnit_chart") {
-      cashExpendituresPerGivingUnit_chart = new ApexCharts(
+      window.cashExpendituresPerGivingUnit_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      cashExpendituresPerGivingUnit_chart.render();
+      window.cashExpendituresPerGivingUnit_chart.render();
       document.addEventListener("dark-mode", function () {
-        cashExpendituresPerGivingUnit_chart.updateOptions(chartOptions);
+        window.cashExpendituresPerGivingUnit_chart.updateOptions(chartOptions);
       });
     }
   }
