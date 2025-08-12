@@ -834,14 +834,20 @@ function buildUploadXml(results) {
             BASE64_CASH_EXPENDITURES_PER_GIVING_UNIT: "29"
         };
         
-        // Start XML with app token for authentication
-        let uploadXml = '<?xml version="1.0" encoding="UTF-8"?><qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken><record>';
+        // Start XML with authentication; include optional user token if provided
+        const userToken = (window && window.QB_USER_TOKEN) ? String(window.QB_USER_TOKEN) : '';
+        let uploadXml = '<?xml version="1.0" encoding="UTF-8"?><qdbapi>';
+        uploadXml += '<apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>';
+        if (userToken) {
+            uploadXml += `<usertoken>${userToken}</usertoken>`;
+        }
+        uploadXml += '<record>';
         
-        // Add metadata fields
+        // Add metadata fields with safe values
         uploadXml += createFieldXml(FIELD_IDS.CLIENT_NAME, "CFHI Comprehensive Dashboard");
         uploadXml += createFieldXml(FIELD_IDS.UNIQUE_CLIENT_COUNT, clientCount.toString());
-        uploadXml += createFieldXml(FIELD_IDS.QUERY_REGIONS, Array.from(window.selectedAreas_Array || []).join(","));
-        uploadXml += createFieldXml(FIELD_IDS.CURRENT_MONTH_YE, window.monthYearEnd || new Date().getFullYear());
+        uploadXml += createFieldXml(FIELD_IDS.QUERY_REGIONS, Array.from(window.selectedRegions_Array || []).join(",") || "All");
+        uploadXml += createFieldXml(FIELD_IDS.CURRENT_MONTH_YE, (window.monthYearEnd || new Date().getFullYear()).toString());
         uploadXml += createFieldXml(FIELD_IDS.QUERY_GIVING_MIN, sliderValue.toString());
         uploadXml += createFieldXml(FIELD_IDS.QUERY_GIVING_MAX, sliderValue2.toString());
         
@@ -852,8 +858,12 @@ function buildUploadXml(results) {
         ];
         
         selectedYears.forEach((year, index) => {
-            if (index < yearFields.length) {
-                uploadXml += createFieldXml(yearFields[index], year.toString());
+            if (index < yearFields.length && year) {
+                // Ensure year is a valid number
+                const yearValue = parseInt(year);
+                if (!isNaN(yearValue) && yearValue > 1900 && yearValue < 3000) {
+                    uploadXml += createFieldXml(yearFields[index], yearValue.toString());
+                }
             }
         });
         
@@ -880,13 +890,20 @@ function buildUploadXml(results) {
             "cashExpendituresPerGivingUnit_chart": FIELD_IDS.BASE64_CASH_EXPENDITURES_PER_GIVING_UNIT
         };
         
-        // Add chart images with correct field IDs
+        // Add chart images with correct field IDs (limit size for debugging)
+        let chartCount = 0;
         results.forEach((result) => {
-            if (result.base64 && result.chartId) {
+            if (result.base64 && result.chartId && chartCount < 2) { // Limit to 2 charts for testing
                 const fieldId = chartFieldMapping[result.chartId];
                 if (fieldId) {
-                    uploadXml += createImageFieldXml(fieldId, result.base64);
-                    console.log(`Added chart ${result.chartId} to field ${fieldId}`);
+                    // Validate base64 data before adding
+                    if (result.base64.startsWith('data:image/') && result.base64.length > 100) {
+                        uploadXml += createImageFieldXml(fieldId, result.base64, result.chartId);
+                        console.log(`Added chart ${result.chartId} to field ${fieldId}`);
+                        chartCount++;
+                    } else {
+                        console.warn(`Invalid base64 data for chart: ${result.chartId}`);
+                    }
                 } else {
                     console.warn(`No field mapping found for chart: ${result.chartId}`);
                 }
@@ -926,15 +943,21 @@ function createFieldXml(id, val) {
 /**
  * Create XML field element for image data
  */
-function createImageFieldXml(id, val) {
+function createImageFieldXml(id, val, chartId) {
     if (!val || !val.startsWith('data:image/')) {
         return createFieldXml(id, "");
     }
-    
+
     // Extract just the base64 part (remove data:image/png;base64, prefix)
-    const base64Data = val.split(',')[1] || val;
-    
-    return `<field fid='${id}'>${base64Data}</field>`;
+    const base64Data = (val.includes(',')) ? val.split(',')[1] : val;
+
+    // Build a safe filename per Quickbase API expectations
+    const safeChartId = (chartId || 'chart').replace(/[^a-zA-Z0-9_-]/g, '_');
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `${safeChartId}-${timestamp}.png`;
+
+    // Wrap in CDATA to avoid XML parsing issues on long strings
+    return `<field fid='${id}' filename='${filename}'><![CDATA[${base64Data}]]></field>`;
 }
 
 /**
@@ -954,6 +977,8 @@ async function sendToQuickbase(xml) {
         });
 
         if (!response.ok) {
+            const body = await response.text();
+            console.error("Quickbase error body:", body);
             throw new Error(`Quickbase submission failed: ${response.status} ${response.statusText}`);
         }
 
