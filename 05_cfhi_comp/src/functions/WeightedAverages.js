@@ -30,20 +30,15 @@ const getWeightedAverageOfArray = (data, name) => {
         data,
         name
       );
-    case "debtPerAverageAdultAttendee":
-      return debtPerAverageAdultAttendee_weightedAverage(data, name);
-    case "debtPerAverageAdultAttendee_standard":
-      return debtPerAverageAdultAttendee_standard_weightedAverage(data, name);
+  
     case "debtPerGivingUnit":
       return debtPerGivingUnit_weightedAverage(data, name);
     case "debtPerGivingUnit_standard":
       return debtPerGivingUnit_standard_weightedAverage(data, name);
     case "netIncomeRatio":
       return netIncomeRatio_weightedAverage(data, name);
-    // removed contributionsWithoutDonorPerAverageAdultAttendee
     case "contributionsWithoutDonorPerGivingUnit":
       return contributionsWithoutDonorPerGivingUnit_weightedAverage(data, name);
-    // removed totalContributionsPerAverageAdultAttendee
     case "totalContributionsPerGivingUnit":
       return totalContributionsPerGivingUnit_weightedAverage(data, name);
     case "benefitsToSalaries":
@@ -91,38 +86,51 @@ const getWeightedAverageOfArray = (data, name) => {
 
 const expensesPerAccountingFTE_weightedAverage = (data, name) => {
   const s45 = getSumOfArray(data.totalExpense[name]['total']);
-  const s167 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
   const s158 = getSumOfArray(data.averageAnnualAccountingDepartment[name]['total']);
   const s159 = getSumOfArray(data.accountingDepartmentPartTimeEmployee[name]['total']);
   const s160 = getSumOfArray(data.accountingDepartmentVolunteer[name]['total']);
+  const s94 = data.accountingDeptOutsourcedLabor 
+    ? getSumOfArray(data.accountingDeptOutsourcedLabor[name]['total']) 
+    : 0;
 
-  return (s45 - s167 - s168) / (s158 + s159 + s160);
+  // Updated formula per image: s45 / (s158 + s159 + s160 + s94)
+  // Removed s167 (amortizationFinanceLease) and s168 (internetOnFinanceLease) per updated calculation
+  return s45 / (s158 + s159 + s160 + s94);
 }
 
 const contributionsPerAccountingFTE_weightedAverage = (data, name) => {
   const s40 = getSumOfArray(data.totalContributions[name]['total']);
-  const s44 = getSumOfArray(data.revenueFromPledge[name]['total']);
   const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]['total']);
   const s153 = getSumOfArray(data.largeOneTimeGiftWithDonor[name]['total']);
 
   const s158 = getSumOfArray(data.averageAnnualAccountingDepartment[name]['total']);
   const s159 = getSumOfArray(data.accountingDepartmentPartTimeEmployee[name]['total']);
   const s160 = getSumOfArray(data.accountingDepartmentVolunteer[name]['total']);
+  const s94 = data.accountingDeptOutsourcedLabor 
+    ? getSumOfArray(data.accountingDeptOutsourcedLabor[name]['total']) 
+    : 0;
 
-  return (s40 - s44 - (s152 + s153)) / (s158 + s159 + s160);
+  // Updated formula per image: (s40 - (s152 + s153)) / (s158 + s159 + s160 + s94)
+  // Removed s44 (revenueFromPledge) and added s94 (accountingDeptOutsourcedLabor) per updated calculation
+  return (s40 - (s152 + s153)) / (s158 + s159 + s160 + s94);
 };
 
 const cashExpendituresPerGivingUnit_weightedAverage = (data, name) => {
   const s45 = getSumOfArray(data.totalExpense[name]['total']);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
+  const s90 = data.nextFiscalYearsRefinancedLoanPayments 
+    ? getSumOfArray(data.nextFiscalYearsRefinancedLoanPayments[name]['total']) 
+    : 0;
+  const s164 = data.oneTimePayoffDebtDueNextYear 
+    ? getSumOfArray(data.oneTimePayoffDebtDueNextYear[name]['total']) 
+    : 0;
   const s46 = getSumOfArray(data.totalDepreciationExpense[name]['total']);
   const s02 = getSumOfArray(data.givingUnits[name]['total']);
 
-  return (s45 - s167 - s168 + (s154 - s166) - s46) / s02;
+  // Updated formula per image: (s45 - s167 + s154 + s90 - s164 - s46) / s02
+  // Removed s168 (internetOnFinanceLease) and s166 (futureMinimumLeasePayment) per updated calculation
+  return (s45 - s167 + s154 + s90 - s164 - s46) / s02;
 };
 
 
@@ -131,12 +139,18 @@ const totalGlobalAndLocalOutreachExpenses_weightedAverage = (data, name) => {
   const s15 = getSumOfArray(data.globalOutreachExpense[name]['total']);
   const s45 = getSumOfArray(data.totalExpense[name]['total']);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
+  const s90 = data.nextFiscalYearsRefinancedLoanPayments 
+    ? getSumOfArray(data.nextFiscalYearsRefinancedLoanPayments[name]['total']) 
+    : 0;
+  const s164 = data.oneTimePayoffDebtDueNextYear 
+    ? getSumOfArray(data.oneTimePayoffDebtDueNextYear[name]['total']) 
+    : 0;
   const s46 = getSumOfArray(data.totalDepreciationExpense[name]['total']);
 
-  return (s14 + s15) / (s45 - s167 - s168 + (s154 - s166) - s46);
+  // Updated formula per image: (s14 + s15) / (s45 - s167 + s154 + s90 - s164 - s46)
+  // Removed s168 (internetOnFinanceLease) and s166 (futureMinimumLeasePayment) per updated calculation
+  return (s14 + s15) / (s45 - s167 + s154 + s90 - s164 - s46);
 };
 
 const globalOutreachExpenses_weightedAverage = (data, name) => {
@@ -172,25 +186,38 @@ const personnelIncludingToTotalCashExpenditures_weightedAverage = (
   const s162 = getSumOfArray(data.costOfOutsourcedEmployee[name]['total']);
   const s45 = getSumOfArray(data.totalExpense[name]['total']);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
+  const s90 = data.nextFiscalYearsRefinancedLoanPayments 
+    ? getSumOfArray(data.nextFiscalYearsRefinancedLoanPayments[name]['total']) 
+    : 0;
+  const s164 = data.oneTimePayoffDebtDueNextYear 
+    ? getSumOfArray(data.oneTimePayoffDebtDueNextYear[name]['total']) 
+    : 0;
   const s46 = getSumOfArray(data.totalDepreciationExpense[name]['total']);
 
-  return (s11 + s10 + s162) / (s45 - s167 - s168 + (s154 - s166) - s46);
+  // Updated formula per image: (s11 + s10 + s162) / (s45 - s167 + s154 + s90 - s164 - s46)
+  // Removed s168 (internetOnFinanceLease) and s166 (futureMinimumLeasePayment) per updated calculation
+  return (s11 + s10 + s162) / (s45 - s167 + s154 + s90 - s164 - s46);
 };
 
 const mandatoryDebtServiceToCashExpenditure_weightedAverage = (data, name) => {
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
+  const s90 = data.nextFiscalYearsRefinancedLoanPayments 
+    ? getSumOfArray(data.nextFiscalYearsRefinancedLoanPayments[name]['total']) 
+    : 0;
+  const s164 = data.oneTimePayoffDebtDueNextYear 
+    ? getSumOfArray(data.oneTimePayoffDebtDueNextYear[name]['total']) 
+    : 0;
   const s47 = getSumOfArray(data.cyInterestExpense[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
+  const s51 = getSumOfArray(data.capitalizedInterest[name]['total']);
   const s45 = getSumOfArray(data.totalExpense[name]['total']);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
   const s46 = getSumOfArray(data.totalDepreciationExpense[name]['total']);
 
+  // Updated formula per image: (s154 + s90 - s164 + s47 + s51) / (s45 - s167 + s154 + s90 - s164 - s46)
+  // Removed s166 (futureMinimumLeasePayment) and s168 (internetOnFinanceLease) per updated calculation
   return (
-    (s154 - s166 + (s47 - s168)) / (s45 - s167 - s168 + (s154 - s166) - s46)
+    (s154 + s90 - s164 + s47 + s51) / (s45 - s167 + s154 + s90 - s164 - s46)
   );
 };
 
@@ -262,19 +289,6 @@ const totalContributionsPerGivingUnit_weightedAverage = (data, name) => {
   return (s40 - s44 - (s152 + s153)) / s02;
 };
 
-const totalContributionsPerAverageAdultAttendee_weightedAverage = (
-  data,
-  name
-) => {
-  const s40 = getSumOfArray(data.totalContributions[name]['total']);
-  const s44 = getSumOfArray(data.revenueFromPledge[name]['total']);
-  const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]['total']);
-  const s153 = getSumOfArray(data.largeOneTimeGiftWithDonor[name]['total']);
-  const s01 = getSumOfArray(data.averageAdultAttendees[name]['total']);
-
-  return (s40 - s44 - (s152 + s153)) / s01;
-};
-
 const contributionsWithoutDonorPerGivingUnit_weightedAverage = (data, name) => {
   // console.log(data, name);
   const s39 = getSumOfArray(data.contributionWithoutDonor[name]['total']);
@@ -282,18 +296,6 @@ const contributionsWithoutDonorPerGivingUnit_weightedAverage = (data, name) => {
   const s02 = getSumOfArray(data.givingUnits[name]['total']);
 
   return (s39 - s152) / s02;
-};
-
-const contributionsWithoutDonorPerAverageAdultAttendee_weightedAverage = (
-  data,
-  name
-) => {
-  const s39 = getSumOfArray(data.contributionWithoutDonor[name]['total']);
-  const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]['total']);
-  const s01 = getSumOfArray(data.averageAdultAttendees[name]['total']);
-
-  console.log({ s39, s152, s01});
-  return (s39 - s152) / s01;
 };
 
 const netIncomeRatio_weightedAverage = (data, name) => {
@@ -322,21 +324,6 @@ const debtPerGivingUnit_weightedAverage = (data, name) => {
   return (s155 - s165) / s02;
 };
 
-const debtPerAverageAdultAttendee_standard_weightedAverage = (data, name) => {
-  const s39 = getSumOfArray(data.contributionWithoutDonor[name]['total']);
-  const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]['total']);
-  const s01 = getSumOfArray(data.averageAdultAttendees[name]['total']);
-
-  return ((s39 - s152) / s01) * 2;
-};
-
-const debtPerAverageAdultAttendee_weightedAverage = (data, name) => {
-  const s155 = getSumOfArray(data.totalDebt[name]['total']);
-  const s165 = getSumOfArray(data.financeLeaseRightOfUse[name]['total']);
-  const s01 = getSumOfArray(data.averageAdultAttendees[name]['total']);
-
-  return (s155 - s165) / s01;
-};
 
 const mandatoryDebtServiceToContributionsWithout_weightedAverage = (
   data,
@@ -345,13 +332,16 @@ const mandatoryDebtServiceToContributionsWithout_weightedAverage = (
   // console.log(data, name);
 
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
+  const s90 = data.nextFiscalYearsRefinancedLoanPayments 
+    ? getSumOfArray(data.nextFiscalYearsRefinancedLoanPayments[name]['total']) 
+    : 0;
   const s47 = getSumOfArray(data.cyInterestExpense[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
   const s51 = getSumOfArray(data.capitalizedInterest[name]['total']);
   const s39 = getSumOfArray(data.contributionWithoutDonor[name]['total']);
 
-  return (s154 - s166 + (s47 - s168) + s51) / s39;
+  // Updated formula: (s154 + s90 + s47 + s51) / s39
+  // Removed s166 (futureMinimumLeasePayment) and s168 (internetOnFinanceLease) per updated calculation
+  return (s154 + s90 + s47 + s51) / s39;
 };
 
 const currentRatio_weightedAverage = (data, name) => {
@@ -387,37 +377,44 @@ const debtCoverage_weightedAverage = (data, name) => {
 const netCashAvailability_standard_weightedAverage = (data, name) => {
   const s45 = getSumOfArray(data.totalExpense[name]['total']);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
   const s46 = getSumOfArray(data.totalDepreciationExpense[name]['total']);
 
-  return ((s45 - s167 - s168) - s46) / 12;
+  // Updated formula per image: ((s45 - s167) - s46) / 12
+  // Removed s168 (internetOnFinanceLease) per updated calculation
+  return ((s45 - s167) - s46) / 12;
 };
 
 const netCashAvailability_including_weightedAverage = (data, name) => {
   const s18 = getSumOfArray(data.totalCash[name]['total']);
   const s20 = getSumOfArray(data.nonEndowmentInvestment[name]['total']);
   const s26 = getSumOfArray(data.currentLiabilities[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
   const s31 = getSumOfArray(data.shortTermConstructionLineOfCredit[name]['total']);
+  const s164 = data.oneTimePayoffDebtDueNextYear 
+    ? getSumOfArray(data.oneTimePayoffDebtDueNextYear[name]['total']) 
+    : 0;
   const s36 = getSumOfArray(data.netAssetWithDonor[name]['total']);
-  const s21 = getSumOfArray(data.pledgeReceivable[name]['total']);
   const s30 = getSumOfArray(data.availableOperatingLineOfCredit[name]['total']);
 
-  return (s18 - ((s26 - s166 ) - s31) - s36) + s21 + s30
+  // Updated formula per image: s18 + s20 - (s26 - s31 - s164) - s36 + s30
+  // Removed s166 (futureMinimumLeasePayment) and s21 (pledgeReceivable) per updated calculation
+  // Added s164 (oneTimePayoffDebtDueNextYear) per updated calculation
+  return s18 + s20 - (s26 - s31 - s164) - s36 + s30;
 };
 
 const netCashAvailability_weightedAverage = (data, name) => {
   const s18 = getSumOfArray(data.totalCash[name]['total']);
   const s20 = getSumOfArray(data.nonEndowmentInvestment[name]['total']);
   const s26 = getSumOfArray(data.currentLiabilities[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
   const s31 = getSumOfArray(data.shortTermConstructionLineOfCredit[name]['total']);
+  const s164 = data.oneTimePayoffDebtDueNextYear 
+    ? getSumOfArray(data.oneTimePayoffDebtDueNextYear[name]['total']) 
+    : 0;
   const s36 = getSumOfArray(data.netAssetWithDonor[name]['total']);
-  const s21 = getSumOfArray(data.pledgeReceivable[name]['total']);
 
-  // console.log({s18, s20, s26, s166, s31, s36, s21})
-
-  return s18 + s20 - ((s26 - s166) - s31) - s36 + s21
+  // Updated formula per image: s18 + s20 - (s26 - s31 - s164) - s36
+  // Removed s166 (futureMinimumLeasePayment) and s21 (pledgeReceivable) per updated calculation
+  // Added s164 (oneTimePayoffDebtDueNextYear) per updated calculation
+  return s18 + s20 - (s26 - s31 - s164) - s36;
 };
 
 const liquidityRatio_weightedAverage = (data, name) => {
@@ -442,23 +439,10 @@ const liquidityRatio_weightedAverage = (data, name) => {
 
 const availableDaysOfCashFlow_weightedAverage = (data, name) => {
   const s49 = getSumOfArray(data.cashFlowFromOperatingActivities[name]['total']);
-  const s318 = getSumOfArray(data.totalCashAtBeginningYear[name]['total']);
-  const s320 = getSumOfArray(data.nonEndowmentInvestmentBeginningYear[name]['total']);
-  const s336 = getSumOfArray(data.netAssetWithDonorRestriction[name]['total']);
-  const s321 = getSumOfArray(data.pledgeReceivableBeginningYear[name]['total']);
-  const s30 = getSumOfArray(data.availableOperatingLineOfCredit[name]['total']);
-  const s45 = getSumOfArray(data.totalExpense[name]['total']);
-  const s167 = getSumOfArray(data.amortizationFinanceLease[name]['total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name]['total']);
-  const s46 = getSumOfArray(data.totalDepreciationExpense[name]['total']);
-  const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name]['total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name]['total']);
 
-  return (
-    ((s49 + s318 + s320 - s336 + s321 + s30) /
-      (s45 - s167 - s168 - s46 + (s154 - s166))) *
-    365
-  );
+  // Updated formula per image: Replace entire ratio calculation with just Cash Flows from Operating Activities
+  // Removed complex calculation and replaced with simple s49 value
+  return s49;
 };
 
 const daysOperatingCash_weightedAverage = (data, name) => {

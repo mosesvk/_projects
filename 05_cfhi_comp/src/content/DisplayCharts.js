@@ -313,25 +313,7 @@ const displayIncomeComponent = () => {
   ];
   createBenchmark(netIncome_twoYrAvg_benchmark, "row_netIncomeRatio_twoYrAvg");
 
-  const totalContrPerAAA_benchmark = [
-    "Total Contributions Per Average Adult Attendee Benchmark",
-    "Good: >$2,000",
-    "Above Average: >$2,500",
-    "Strong: >=$3,000",
-  ];
-  createBenchmark(
-    totalContrPerAAA_benchmark,
-    "row_totalContributionsPerAverageAdultAttendee"
-  );
 
-  const contrWithoutAverageAdultAttendee_benchmark = [
-    "Contributions Without Donor Restrictions Per Average Adult Attendee Benchmark",
-    "An improving trend is the benchmark.",
-  ];
-  createBenchmark(
-    contrWithoutAverageAdultAttendee_benchmark,
-    "row_contributionsWithoutDonorPerAverageAdultAttendee_percentChange"
-  );
 
   const contrWithoutDonorPerGivingUnit_benchmark = [
     "Contributions Without Donor Restrictions Per Giving Unit Benchmark",
@@ -342,14 +324,6 @@ const displayIncomeComponent = () => {
     "row_contributionsWithoutDonorPerGivingUnit_percentChange"
   );
 
-  const totalContributtionsPerAverageAdultAttendee_benchmark = [
-    "Total Contributions Per Average Adult Attendee Benchmark",
-    "An improving trend is the benchmark.",
-  ];
-  createBenchmark(
-    totalContributtionsPerAverageAdultAttendee_benchmark,
-    "row_totalContributionsPerAverageAdultAttendee_percentChange"
-  );
 
   const totalContributionsPerGivingUnit_benchmark = [
     "Total Contributions Per Giving Unit Benchmark",

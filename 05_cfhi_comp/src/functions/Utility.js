@@ -1566,7 +1566,7 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
   if (selectedYears) {
     const children = await document.getElementById(elementId).children;
     // console.log(children);
-    console.log('createBenchmark', {selectedYears, elementId})
+    // console.log('createBenchmark', {selectedYears, elementId})
 
     for (let i = 1; i < selectedYears.length + 1; i++) {
       editElementChildren(children[i], variable, elementId);

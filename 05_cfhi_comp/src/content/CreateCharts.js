@@ -49,6 +49,76 @@ window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
     ? map[fieldName]
     : null;
 };
+
+/**
+ * Get the appropriate benchmark label based on field name and benchmark values
+ * @param {string} fieldName - The field name to get benchmark label for
+ * @param {Array} benchmarkArray - Array of benchmark values (1 or 2 values)
+ * @param {number} index - Index of current benchmark (0 or 1)
+ * @returns {string} The appropriate benchmark label
+ */
+window.getBenchmarkLabel = function getBenchmarkLabel(fieldName, benchmarkArray, index) {
+  if (benchmarkArray.length === 1) {
+    return "Benchmark";
+  }
+
+  // For two benchmarks, determine which is higher/lower based on field type
+  const isHigherBetter = isFieldHigherBetter(fieldName);
+  const lowerValue = Math.min(...benchmarkArray);
+  const higherValue = Math.max(...benchmarkArray);
+  const currentValue = benchmarkArray[index];
+
+  if (isHigherBetter) {
+    // For fields where higher values are better
+    return currentValue === higherValue ? "Benchmark - higher end" : "Benchmark - lower end";
+  } else {
+    // For fields where lower values are better
+    return currentValue === lowerValue ? "Benchmark - higher end" : "Benchmark - lower end";
+  }
+};
+
+/**
+ * Determine if higher values are better for a given field
+ * @param {string} fieldName - The field name to check
+ * @returns {boolean} True if higher values are better, false if lower values are better
+ */
+function isFieldHigherBetter(fieldName) {
+  const higherIsBetter = [
+    'attendeesToStaff',
+    'daysExpendableNetAssets',
+    'daysOperatingCash', 
+    'availableDaysOfCashFlow',
+    'liquidityRatio',
+    'currentRatio',
+    'debtCoverage',
+    'netIncomeRatio',
+    'contributionsWithoutDonorPerGivingUnit',
+    'totalContributionsPerGivingUnit',
+    'totalGlobalAndLocalOutreachExpenses'
+  ];
+
+  const lowerIsBetter = [
+    'debtToContributionsWithout',
+    'mandatoryDebtServiceToContributionsWithout',
+    'mandatoryDebtServiceToCashExpenditure'
+  ];
+
+  const rangeFields = [
+    'personnelToCashExpenditure' // 40-55 range, so 40 is lower end, 55 is higher end
+  ];
+
+  if (higherIsBetter.includes(fieldName)) {
+    return true;
+  } else if (lowerIsBetter.includes(fieldName)) {
+    return false;
+  } else if (rangeFields.includes(fieldName)) {
+    // For range fields, treat as higher is better for labeling purposes
+    return true;
+  }
+
+  // Default to higher is better if not specified
+  return true;
+};
 const getMainChartOptions = (
   dataPeer,
   dataClient,
@@ -130,13 +200,29 @@ const getMainChartOptions = (
           line.setAttribute("x2", x2);
         });
 
-        // Adjust annotation label positioning to stay close to y-axis
+        // Position benchmark labels dynamically based on chart dimensions
         const annotationLabels = chartElement.querySelectorAll(
           `.apexcharts-yaxis-annotations .apexcharts-annotation-label`
         );
         annotationLabels.forEach((label) => {
-          // Position labels directly adjacent to the y-axis line
-          label.style.left = `${parseInt(x1) -70}px`;
+          // Get y-axis boundary from the axis element
+          const yAxisElement = chartElement.querySelector('.apexcharts-yaxis');
+          const gridLines = chartElement.querySelectorAll('.apexcharts-gridlines-horizontal line');
+          
+          if (yAxisElement && gridLines.length > 0) {
+            const yAxisRect = yAxisElement.getBoundingClientRect();
+            const chartRect = chartElement.getBoundingClientRect();
+            const firstGridLine = gridLines[0];
+            
+            // Calculate positions relative to chart container
+            const yAxisRightEdge = yAxisRect.right - chartRect.left;
+            const plotRightEdge = parseInt(firstGridLine.getAttribute('x2'));
+            
+                      // Ensure text starts right after y-axis border (never overflows to the left)
+          const textStartPosition = yAxisRightEdge + 5; // 5px margin from y-axis border
+          
+          label.style.left = `${textStartPosition}px`;
+          }
         });
 
         // console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
@@ -180,13 +266,29 @@ const getMainChartOptions = (
         line.setAttribute("x2", x2);
       });
 
-      // Adjust annotation label positioning to stay close to y-axis
+      // Position benchmark labels dynamically based on chart dimensions
       const annotationLabels = chartElement.querySelectorAll(
         `.apexcharts-yaxis-annotations .apexcharts-annotation-label`
       );
       annotationLabels.forEach((label) => {
-        // Position labels directly adjacent to the y-axis line
-        label.style.left = `${parseInt(x1) - 70}px`;
+        // Get y-axis boundary from the axis element
+        const yAxisElement = chartElement.querySelector('.apexcharts-yaxis');
+        const gridLines = chartElement.querySelectorAll('.apexcharts-gridlines-horizontal line');
+        
+        if (yAxisElement && gridLines.length > 0) {
+          const yAxisRect = yAxisElement.getBoundingClientRect();
+          const chartRect = chartElement.getBoundingClientRect();
+          const firstGridLine = gridLines[0];
+          
+          // Calculate positions relative to chart container
+          const yAxisRightEdge = yAxisRect.right - chartRect.left;
+          const plotRightEdge = parseInt(firstGridLine.getAttribute('x2'));
+          
+          // Ensure text starts right after y-axis border (never overflows to the left)
+          const textStartPosition = yAxisRightEdge + 5; // 5px margin from y-axis border
+          
+          label.style.left = `${textStartPosition}px`;
+        }
       });
     },
   };
@@ -228,9 +330,7 @@ const getMainChartOptions = (
       dynamicOffsetX = 50;
   }
 
-  // Adjust offset for better y-axis label positioning
-  // Use a smaller, more consistent offset that stays close to the y-axis
-  const yaxisLabelOffsetX = -60;
+  // Using ApexCharts annotation API for dynamic positioning
 
   const formatNumber = (value) => value.toLocaleString();
 
@@ -255,12 +355,15 @@ const getMainChartOptions = (
         y: value,
         borderColor: chartColors.labelColor,
         strokeDashArray: 0,
+        width: "100%", // Full width across entire chart area
         label: {
-          text: benchmark.length === 1 ? "Benchmark" : `Benchmark ${index + 1}`,
+          text: getBenchmarkLabel(mainName, benchmark, index),
           borderColor: isDarkMode ? "#374151" : "#ffffff",
           borderWidth: 1,
-          position: "left",
-          offsetX: yaxisLabelOffsetX,
+          position: "left", // Use left position for manual control
+          textAnchor: "start", // Anchor text to start (left side)
+          offsetX: 0, // Will be set dynamically in chart events
+          offsetY: 0,
           style: {
             background: isDarkMode ? "#1F2937" : window.chartColors.green,
             color: chartColors.labelColor,
@@ -281,7 +384,6 @@ const getMainChartOptions = (
   const yaxisLabelFormatter = (value) => {
     let formattedValue;
     let suffix = '';
-    
     if (value >= 10000000) {
       // Round to nearest 10M for values >= 10M
       formattedValue = `${Math.round(value / 10000000) * 10}M`;
@@ -294,8 +396,12 @@ const getMainChartOptions = (
     } else if (value >= 1000) {
       // Round to nearest 1K for values >= 1K
       formattedValue = `${Math.round(value / 1000)}K`;
+    } else if (value >= 10) {
+      // Round to nearest 10 for values >= 10
+      formattedValue = Math.round(value / 10) * 10;
     } else {
-      formattedValue = formatNumber(value);
+      // Round to nearest 1 for values < 10
+      formattedValue = Math.round(value);
     }
     
     // Apply prefix/suffix based on numType
