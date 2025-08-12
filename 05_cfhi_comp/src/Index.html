@@ -772,6 +772,54 @@
                     </span>
                   </button>
                 </li>
+                <li>
+                  <button
+                    data-modal-target="print_modal"
+                    data-modal-toggle="print_modal" 
+                    data-popover-target="popoverPrint-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
+                    type="button"
+                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                  >
+                    <svg
+                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8 3a2 2 0 0 0-2 2v3h12V5a2 2 0 0 0-2-2H8Zm-3 7a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h1v-4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v4h1a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5Zm4 11a1 1 0 0 1-1-1v-4h8v4a1 1 0 0 1-1 1H9Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <span class="ml-3" sidebar-toggle-item="">
+                      Print
+                    </span>
+                  </button>
+                  <div
+                    data-popover
+                    id="popoverPrint-hover"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                    >
+                      <h3 class="font-semibold text-gray-900 dark:text-white text-lg">
+                        Print Report
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
@@ -6304,6 +6352,90 @@
                       ></div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRINT MODAL -->
+    <div
+      id="print_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
+    >
+      <div
+        class="relative bg-white rounded-lg shadow dark:bg-gray-800 p-4 w-full max-w-fit md:max-w-4xl max-h-full"
+      >
+        <div class="relative">
+          <div
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div class="flex justify-center py-4">
+              <h2
+                class="text-3xl dark:text-white font-bold leading-none uppercase"
+              >
+                Print Options
+              </h2>
+            </div>
+            <!-- <hr class="h-px my-4 mx-8 bg-gray-700 border-0 dark:bg-gray-500" /> -->
+            <div
+              class="block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent dark:text-gray-400 relative text-xl"
+            >
+              <div class="flex flex-col gap-y-5 mx-8">
+                <div class="flex flex-col justify-center py-4">
+                  <button
+                    type="button"
+                    class="flex backgroundGreen text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    id="generateReports"
+                  >
+                    Generate Trends and Benchmark Reports
+                  </button>
+                  <div
+                    id="print_modal_footer"
+                    class="hidden flex flex-col items-center p-2 border-t border-gray-200 rounded-b dark:border-gray-600"
+                  >
+                    <p
+                      class="text-center pb-4 pt-2 text-lg font-medium text-gray-900 dark:text-white"
+                    >
+                      Please use the buttons below to download the reports in
+                      your preferred format.
+                    </p>
+                    <div
+                      class="flex justify-center flex-col md:flex-row grid-rows-4 grid-flow-col gap-4"
+                    >
+                      <a
+                        href=""
+                        class="flex backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                        id="trendXLSFinal"
+                        target="_blank"
+                      >
+                        Trends XLS
+                      </a>
+                      <a
+                        href=""
+                        class="flex backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                        id="trendPDFFinal"
+                        target="_blank"
+                      >
+                        Trends PDF
+                      </a>
+                    </div>
+                  </div>
+                  <hr
+                    class="h-px my-4 mx-8 bg-gray-700 border-0 dark:bg-gray-500"
+                  />
+                  <button
+                    type="button"
+                    class="flex backgroundBlue text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    id="printBase64"
+                  >
+                    Print Presentation
+                  </button>
                 </div>
               </div>
             </div>
