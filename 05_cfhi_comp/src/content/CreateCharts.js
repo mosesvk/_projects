@@ -375,6 +375,22 @@ const getMainChartOptions = (
           },
         },
       }));
+
+      // Add range fill between two benchmarks if there are exactly 2 values
+      if (benchmark.length === 2) {
+        const lowerValue = Math.min(...benchmark);
+        const higherValue = Math.max(...benchmark);
+        
+        benchmarkAnnotations.push({
+          id: 'benchmark_range',
+          y: lowerValue,
+          y2: higherValue,
+          borderColor: 'transparent',
+          fillColor: isDarkMode ? '#374151' : window.chartColors.green,
+          opacity: 0.15,
+          width: "100%"
+        });
+      }
       yaxisAnnotation = benchmarkAnnotations;
       yaxisMax = Math.round(Math.max(...clientArray, ...benchmark) + 2);
       previousData = clientArray;
@@ -384,12 +400,12 @@ const getMainChartOptions = (
   const yaxisLabelFormatter = (value) => {
     let formattedValue;
     let suffix = '';
-    if (value >= 10000000) {
-      // Round to nearest 10M for values >= 10M
+    if (value >= 100000000) {
+      // Round to nearest 10M for values >= 100M
       formattedValue = `${Math.round(value / 10000000) * 10}M`;
     } else if (value >= 1000000) {
-      // Round to nearest 1M for values >= 1M
-      formattedValue = `${Math.round(value / 1000000)}M`;
+      // Round to nearest 5M for values between 1M and 100M
+      formattedValue = `${Math.round(value / 5000000) * 5}M`;
     } else if (value >= 10000) {
       // Round to nearest 10K for values >= 10K
       formattedValue = `${Math.round(value / 10000) * 10}K`;
@@ -397,7 +413,7 @@ const getMainChartOptions = (
       // Round to nearest 1K for values >= 1K
       formattedValue = `${Math.round(value / 1000)}K`;
     } else if (value >= 10) {
-      // Round to nearest 10 for values >= 10
+      // Round to nearest 10 for values between 10 and 1000
       formattedValue = Math.round(value / 10) * 10;
     } else {
       // Round to nearest 1 for values < 10
