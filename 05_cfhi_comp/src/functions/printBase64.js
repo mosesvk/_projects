@@ -76,7 +76,16 @@ async function processChartsWithSpacing(chartMappings) {
                 let base64Result;
                 
                 if (config.type === "apex") {
-                    base64Result = await exportApexChart(chartElement, chartId);
+                    // Try to get chart instance like the working testPrintBase64.js does
+                    let chartInstanceForExport;
+                    if (window.chartManager && typeof window.chartManager.getChart === 'function') {
+                        chartInstanceForExport = window.chartManager.getChart(chartId);
+                    }
+                    if (!chartInstanceForExport) {
+                        chartInstanceForExport = window[chartId];
+                    }
+                    
+                    base64Result = await exportApexChart(chartInstanceForExport, chartId);
                 } else {
                     console.warn(`Unsupported chart type: ${config.type} for ${chartId}`);
                     processedCount++;
@@ -283,6 +292,43 @@ function restoreCompleteChartState(chart, originalState) {
 }
 
 /**
+ * Get chart instance by ID from global variables
+ */
+function getChartInstanceById(chartId) {
+    // Map chart IDs to their global variable names
+    const chartVariableMap = {
+        "givingUnits_chart": "givingUnits_chart",
+        "attendeesToStaff_chart": "attendeesToStaff_chart",
+        "daysExpendableNetAssets_chart": "daysExpendableNetAssets_chart",
+        "daysOperatingCash_chart": "daysOperatingCash_chart",
+        "availableDaysOfCashFlow_chart": "availableDaysOfCashFlow_chart",
+        "liquidityRatio_chart": "liquidityRatio_chart",
+        "netCashAvailability_chart": "netCashAvailability_chart",
+        "debtToContributionsWithout_chart": "debtToContributionsWithout_chart",
+        "currentRatio_chart": "currentRatio_chart",
+        "mandatoryDebtServiceToContributionsWithout_chart": "mandatoryDebtServiceToContributionsWithout_chart",
+        "debtPerGivingUnit_chart": "debtPerGivingUnit_chart",
+        "debtCoverage_chart": "debtCoverage_chart",
+        "netIncomeRatio_chart": "netIncomeRatio_chart",
+        "contributionsWithoutDonorPerGivingUnit_chart": "contributionsWithoutDonorPerGivingUnit_chart",
+        "totalContributionsPerGivingUnit_chart": "totalContributionsPerGivingUnit_chart",
+        "benefitsToSalaries_chart": "benefitsToSalaries_chart",
+        "salariesBenefitsIncludingOutsourcedEmployees_chart": "salariesBenefitsIncludingOutsourcedEmployees_chart",
+        "personnelToCashExpenditure_chart": "personnelToCashExpenditure_chart",
+        "cashExpendituresPerGivingUnit_chart": "cashExpendituresPerGivingUnit_chart"
+    };
+    
+    const variableName = chartVariableMap[chartId];
+    if (variableName && window[variableName]) {
+        console.log(`Found chart instance for ${chartId} in global variable: ${variableName}`);
+        return window[variableName];
+    }
+    
+    console.warn(`No global chart instance found for: ${chartId}`);
+    return null;
+}
+
+/**
  * Create number formatter with global configuration
  */
 function createFormatterWithGlobals(numType, fixedNum) {
@@ -328,20 +374,76 @@ async function exportApexChart(chart, chartId) {
     console.log(`Starting ApexChart export for: ${chartId}`);
     
     try {
-        // Get chart instance
+        // Get chart instance using the same approach as working testPrintBase64.js
         let chartInstance;
         
-        if (chart && chart.chart) {
-            chartInstance = chart.chart;
-        } else if (chart && typeof chart.dataURI === 'function') {
-            chartInstance = chart;
-        } else if (window.ApexCharts && window.ApexCharts.getChartByID) {
-            chartInstance = window.ApexCharts.getChartByID(chartId);
+        // Try multiple approaches to find the chart instance
+        
+        // Method 1: chartManager (from working test)
+        if (window.chartManager && typeof window.chartManager.getChart === 'function') {
+            chartInstance = window.chartManager.getChart(chartId);
+            console.log(`Method 1 (chartManager): ${chartInstance ? 'found' : 'not found'}`);
+        }
+        
+        // Method 2: ApexCharts global registry
+        if (!chartInstance && window.ApexCharts) {
+            // Try different ways to get from ApexCharts global
+            if (window.ApexCharts.getChartByID) {
+                chartInstance = window.ApexCharts.getChartByID(chartId);
+                console.log(`Method 2a (ApexCharts.getChartByID): ${chartInstance ? 'found' : 'not found'}`);
+            }
+            
+            // Try ApexCharts.exec
+            if (!chartInstance && window.ApexCharts.exec) {
+                try {
+                    // ApexCharts.exec can access chart instances
+                    const execResult = window.ApexCharts.exec(chartId, 'dataURI');
+                    if (execResult) {
+                        console.log(`Method 2b (ApexCharts.exec): found via exec`);
+                        // Create a minimal chart-like object for exec
+                        chartInstance = {
+                            dataURI: (options) => window.ApexCharts.exec(chartId, 'dataURI', options)
+                        };
+                    }
+                } catch (e) {
+                    console.log(`Method 2b (ApexCharts.exec): failed -`, e.message);
+                }
+            }
+        }
+        
+        // Method 3: Global variables (existing approach)
+        if (!chartInstance) {
+            chartInstance = getChartInstanceById(chartId);
+            console.log(`Method 3 (global variables): ${chartInstance ? 'found' : 'not found'}`);
+        }
+        
+        // Method 4: From passed chart parameter
+        if (!chartInstance) {
+            if (chart && chart.chart) {
+                chartInstance = chart.chart;
+                console.log(`Method 4a (chart.chart): found`);
+            } else if (chart && typeof chart.dataURI === 'function') {
+                chartInstance = chart;
+                console.log(`Method 4b (chart directly): found`);
+            }
         }
         
         if (!chartInstance) {
             console.error(`Chart instance not found for: ${chartId}`);
             return { success: false, error: 'Chart instance not found' };
+        }
+        
+        // Debug: Log what we actually found
+        console.log(`Chart instance for ${chartId}:`, chartInstance);
+        console.log(`Chart instance type:`, typeof chartInstance);
+        console.log(`Chart instance constructor:`, chartInstance.constructor?.name);
+        console.log(`Has w property:`, !!chartInstance.w);
+        console.log(`Has dataURI method:`, typeof chartInstance.dataURI);
+        if (chartInstance.w) {
+            console.log(`Has w.globals:`, !!chartInstance.w.globals);
+            if (chartInstance.w.globals) {
+                console.log(`Has w.globals.dom:`, !!chartInstance.w.globals.dom);
+            }
         }
         
         // Save original state
@@ -360,17 +462,38 @@ async function exportApexChart(chart, chartId) {
             
             console.log(`Exporting chart ${chartId} with options:`, exportOptions);
             
-            // Generate the base64 data URI
-            const dataURI = await chartInstance.dataURI(exportOptions);
-            
-            if (!dataURI) {
-                throw new Error('Chart export returned empty data URI');
+            // Check if chart has dataURI method (relax validation for debugging)
+            if (!chartInstance || typeof chartInstance.dataURI !== 'function') {
+                throw new Error(`Chart instance missing dataURI method. Type: ${typeof chartInstance}, Has dataURI: ${typeof chartInstance?.dataURI}`);
             }
             
-            // Validate the base64 data
-            if (!dataURI.startsWith('data:image/')) {
-                throw new Error('Invalid data URI format');
+            // Use the same export approach as the working testPrintBase64.js
+            const uri = await chartInstance.dataURI({
+                width: exportOptions.width,
+                height: exportOptions.height,
+                scale: exportOptions.pixelRatio || 2
+            });
+            
+            console.log(`Export result for ${chartId}:`, uri);
+            
+            // Extract base64 data the same way as testPrintBase64.js (line 918)
+            let base64Data;
+            if (uri && uri.imgURI) {
+                // Split and get just the base64 part (same as testPrintBase64.js line 918)
+                base64Data = uri.imgURI.split(",")[1];
+            } else if (typeof uri === 'string') {
+                // If it's already a string, extract base64 part
+                base64Data = uri.includes(',') ? uri.split(",")[1] : uri;
+            } else {
+                throw new Error(`Unexpected export result format: ${typeof uri}`);
             }
+            
+            if (!base64Data) {
+                throw new Error('Chart export returned empty base64 data');
+            }
+            
+            // Return the data URI format expected by our upload function
+            const dataURI = `data:image/png;base64,${base64Data}`;
             
             console.log(`Successfully exported chart: ${chartId}`);
             
@@ -630,28 +753,100 @@ function buildUploadXml(results) {
         const clientCount = window.selectedClients_Array ? window.selectedClients_Array.size : 0;
         const sliderValue = window.sliderValue || 0;
         const sliderValue2 = window.sliderValue2 || 25000;
-        const missionValue = 0; // Not used in CFHI project
-        const missionValue2 = 0; // Not used in CFHI project
         
-        // Start XML
-        let uploadXml = '<?xml version="1.0" encoding="UTF-8"?><qdbapi><record>';
+        // Field IDs from printFields.md
+        const FIELD_IDS = {
+            // Metadata fields
+            CLIENT_NAME: "30",
+            UNIQUE_CLIENT_COUNT: "31", 
+            QUERY_SITES: "33",
+            QUERY_REGIONS: "34",
+            CURRENT_MONTH_YE: "36",
+            QUERY_GIVING_MIN: "53",
+            QUERY_GIVING_MAX: "54",
+            
+            // Year fields (up to 8 years)
+            YEAR_1: "37", YEAR_2: "38", YEAR_3: "39", YEAR_4: "40",
+            YEAR_5: "41", YEAR_6: "42", YEAR_7: "43", YEAR_8: "44",
+            
+            // Chart base64 fields - exact mapping from printFields.md
+            BASE64_GIVING_UNITS: "11",
+            BASE64_ATTENDEES_TO_STAFF: "12",
+            BASE64_DAYS_EXPENDABLE_NET_ASSETS: "13",
+            BASE64_DAYS_OPERATING_CASH: "14",
+            BASE64_AVAILABLE_DAYS_OF_CASH_FLOW: "15",
+            BASE64_LIQUIDITY_RATIO: "16",
+            BASE64_NET_CASH_AVAILABILITY: "17",
+            BASE64_DEBT_TO_CONTRIBUTIONS_WITHOUT: "18",
+            BASE64_CURRENT_RATIO: "19",
+            BASE64_MANDATORY_DEBT_SERVICE_TO_CONTRIBUTIONS_WITHOUT: "20",
+            BASE64_DEBT_PER_GIVING_UNIT: "21",
+            BASE64_DEBT_COVERAGE: "22",
+            BASE64_NET_INCOME_RATIO: "23",
+            BASE64_CONTRIBUTIONS_WITHOUT_DONOR_PER_GIVING_UNIT: "24",
+            BASE64_TOTAL_CONTRIBUTIONS_PER_GIVING_UNIT: "25",
+            BASE64_BENEFITS_TO_SALARIES: "26",
+            BASE64_SALARIES_BENEFITS_INCLUDING_OUTSOURCED_EMPLOYEES: "27",
+            BASE64_PERSONNEL_TO_CASH_EXPENDITURE: "28",
+            BASE64_CASH_EXPENDITURES_PER_GIVING_UNIT: "29"
+        };
+        
+        // Start XML with app token for authentication
+        let uploadXml = '<?xml version="1.0" encoding="UTF-8"?><qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken><record>';
         
         // Add metadata fields
-        uploadXml += createFieldXml(20, new Date().toISOString()); // Timestamp
-        uploadXml += createFieldXml(21, selectedYears.join(",")); // Years
-        uploadXml += createFieldXml(22, clientCount); // Client count
-        uploadXml += createFieldXml(23, selectedYears[selectedYears.length - 1]); // Latest year
-        uploadXml += createFieldXml(24, window.monthYearEnd || new Date().getFullYear()); // End year
-        uploadXml += createFieldXml(36, sliderValue); // Min slider value
-        uploadXml += createFieldXml(37, sliderValue2); // Max slider value
-        uploadXml += createFieldXml(38, missionValue); // Min mission value
-        uploadXml += createFieldXml(39, missionValue2); // Max mission value
+        uploadXml += createFieldXml(FIELD_IDS.CLIENT_NAME, "CFHI Comprehensive Dashboard");
+        uploadXml += createFieldXml(FIELD_IDS.UNIQUE_CLIENT_COUNT, clientCount.toString());
+        uploadXml += createFieldXml(FIELD_IDS.QUERY_REGIONS, Array.from(window.selectedAreas_Array || []).join(","));
+        uploadXml += createFieldXml(FIELD_IDS.CURRENT_MONTH_YE, window.monthYearEnd || new Date().getFullYear());
+        uploadXml += createFieldXml(FIELD_IDS.QUERY_GIVING_MIN, sliderValue.toString());
+        uploadXml += createFieldXml(FIELD_IDS.QUERY_GIVING_MAX, sliderValue2.toString());
         
-        // Add chart images
-        results.forEach((result, index) => {
-            if (result.base64) {
-                const fieldId = 100 + index; // Starting from field 100 for chart images
-                uploadXml += createImageFieldXml(fieldId, result.base64);
+        // Add years data (up to 8 years)
+        const yearFields = [
+            FIELD_IDS.YEAR_1, FIELD_IDS.YEAR_2, FIELD_IDS.YEAR_3, FIELD_IDS.YEAR_4,
+            FIELD_IDS.YEAR_5, FIELD_IDS.YEAR_6, FIELD_IDS.YEAR_7, FIELD_IDS.YEAR_8
+        ];
+        
+        selectedYears.forEach((year, index) => {
+            if (index < yearFields.length) {
+                uploadXml += createFieldXml(yearFields[index], year.toString());
+            }
+        });
+        
+        // Chart to field ID mapping
+        const chartFieldMapping = {
+            "givingUnits_chart": FIELD_IDS.BASE64_GIVING_UNITS,
+            "attendeesToStaff_chart": FIELD_IDS.BASE64_ATTENDEES_TO_STAFF,
+            "daysExpendableNetAssets_chart": FIELD_IDS.BASE64_DAYS_EXPENDABLE_NET_ASSETS,
+            "daysOperatingCash_chart": FIELD_IDS.BASE64_DAYS_OPERATING_CASH,
+            "availableDaysOfCashFlow_chart": FIELD_IDS.BASE64_AVAILABLE_DAYS_OF_CASH_FLOW,
+            "liquidityRatio_chart": FIELD_IDS.BASE64_LIQUIDITY_RATIO,
+            "netCashAvailability_chart": FIELD_IDS.BASE64_NET_CASH_AVAILABILITY,
+            "debtToContributionsWithout_chart": FIELD_IDS.BASE64_DEBT_TO_CONTRIBUTIONS_WITHOUT,
+            "currentRatio_chart": FIELD_IDS.BASE64_CURRENT_RATIO,
+            "mandatoryDebtServiceToContributionsWithout_chart": FIELD_IDS.BASE64_MANDATORY_DEBT_SERVICE_TO_CONTRIBUTIONS_WITHOUT,
+            "debtPerGivingUnit_chart": FIELD_IDS.BASE64_DEBT_PER_GIVING_UNIT,
+            "debtCoverage_chart": FIELD_IDS.BASE64_DEBT_COVERAGE,
+            "netIncomeRatio_chart": FIELD_IDS.BASE64_NET_INCOME_RATIO,
+            "contributionsWithoutDonorPerGivingUnit_chart": FIELD_IDS.BASE64_CONTRIBUTIONS_WITHOUT_DONOR_PER_GIVING_UNIT,
+            "totalContributionsPerGivingUnit_chart": FIELD_IDS.BASE64_TOTAL_CONTRIBUTIONS_PER_GIVING_UNIT,
+            "benefitsToSalaries_chart": FIELD_IDS.BASE64_BENEFITS_TO_SALARIES,
+            "salariesBenefitsIncludingOutsourcedEmployees_chart": FIELD_IDS.BASE64_SALARIES_BENEFITS_INCLUDING_OUTSOURCED_EMPLOYEES,
+            "personnelToCashExpenditure_chart": FIELD_IDS.BASE64_PERSONNEL_TO_CASH_EXPENDITURE,
+            "cashExpendituresPerGivingUnit_chart": FIELD_IDS.BASE64_CASH_EXPENDITURES_PER_GIVING_UNIT
+        };
+        
+        // Add chart images with correct field IDs
+        results.forEach((result) => {
+            if (result.base64 && result.chartId) {
+                const fieldId = chartFieldMapping[result.chartId];
+                if (fieldId) {
+                    uploadXml += createImageFieldXml(fieldId, result.base64);
+                    console.log(`Added chart ${result.chartId} to field ${fieldId}`);
+                } else {
+                    console.warn(`No field mapping found for chart: ${result.chartId}`);
+                }
             }
         });
         
@@ -706,7 +901,7 @@ async function sendToQuickbase(xml) {
     console.log("Sending chart data to Quickbase");
     
     try {
-        const response = await fetch("https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord", {
+        const response = await fetch("https://capincrouse.quickbase.com/db/bvcr2chqi?a=API_AddRecord", {
             method: "POST",
             headers: {
                 "Content-Type": "application/xml",

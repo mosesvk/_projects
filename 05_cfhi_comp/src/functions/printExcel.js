@@ -9,7 +9,7 @@ class ExcelReportGenerator {
         
         // XML templates
         this.XML = {
-            HEADER: `<?xml version="1.0" encoding="UTF-8"?><qdbapi><record>`,
+            HEADER: `<?xml version="1.0" encoding="UTF-8"?><qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken><record>`,
             FOOTER: `</record></qdbapi>`
         };
 
