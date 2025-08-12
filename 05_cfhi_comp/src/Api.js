@@ -4998,6 +4998,10 @@ class AppController {
       // Display charts
       try {
         await this.displayAllComponents();
+        
+        // Enable the generate reports button after successful data loading and display
+        this.enableGenerateReportsButton();
+        
       } catch (error) {
         console.error("Error displaying components:", error);
         if (typeof createToastWarning === "function") {
@@ -5068,6 +5072,90 @@ class AppController {
     } catch (error) {
       console.error("Error printing presentation:", error);
       toggleButtonNormalState(printPresentationButton);
+    }
+  }
+
+  /**
+   * Enable the Generate Reports button and set up event listeners
+   */
+  enableGenerateReportsButton() {
+    console.log("enableGenerateReportsButton called");
+
+    // Re-enable the generate reports button
+    const generateReportsBtn = document.getElementById("generateReports");
+    if (generateReportsBtn) {
+      generateReportsBtn.disabled = false;
+
+      // Use the existing toggle function if available
+      if (typeof toggleGenerateReportButtonNormalState === "function") {
+        toggleGenerateReportButtonNormalState(generateReportsBtn);
+      } else {
+        // Fallback for when the toggle function is not available
+        generateReportsBtn.textContent = "Generate Trends and Benchmark Reports";
+      }
+
+      // Remove any existing listeners to prevent duplicates
+      const newBtn = generateReportsBtn.cloneNode(true);
+      generateReportsBtn.parentNode.replaceChild(newBtn, generateReportsBtn);
+
+      // Ensure ExcelReportGenerator is available
+      if (typeof ExcelReportGenerator === "function") {
+        // Create a new instance or use the existing one
+        if (!window.excelReportGenerator) {
+          window.excelReportGenerator = new ExcelReportGenerator();
+        }
+
+        // Add a single click event listener
+        newBtn.addEventListener(
+          "click",
+          window.excelReportGenerator.handleGenerateReport.bind(
+            window.excelReportGenerator
+          ),
+          { once: true } // This ensures the event only fires once per click
+        );
+
+        // Expose functions globally for backward compatibility if not already done
+        if (!window.createPrintExcel) {
+          window.createPrintExcel =
+            window.excelReportGenerator.createPrintExcel.bind(
+              window.excelReportGenerator
+            );
+          window.uploadToFile = window.excelReportGenerator.uploadToFile.bind(
+            window.excelReportGenerator
+          );
+          window.uploadSingleToFile =
+            window.excelReportGenerator.uploadSingleToFile.bind(
+              window.excelReportGenerator
+            );
+          window.printToExcel = window.excelReportGenerator.printToExcel.bind(
+            window.excelReportGenerator
+          );
+        }
+      } else {
+        console.warn(
+          "ExcelReportGenerator not available. Excel report functionality may be limited."
+        );
+      }
+    }
+
+    this.enablePrintModalHiddenClass();
+  }
+
+  /**
+   * Enable print modal and hide footer initially
+   */
+  enablePrintModalHiddenClass() {
+    console.log("enablePrintModalHiddenClass called");
+
+    // Hide the print modal footer if it exists
+    const printModalFooter = document.getElementById("print_modal_footer");
+    if (printModalFooter) {
+      printModalFooter.classList.add("hidden");
+    }
+
+    // Ensure print base64 functionality is initialized
+    if (typeof initApexChartsPrintFunction === "function") {
+      initApexChartsPrintFunction();
     }
   }
 
