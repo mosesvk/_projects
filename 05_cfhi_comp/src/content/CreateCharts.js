@@ -119,6 +119,8 @@ function isFieldHigherBetter(fieldName) {
   // Default to higher is better if not specified
   return true;
 };
+
+
 const getMainChartOptions = (
   dataPeer,
   dataClient,
@@ -205,23 +207,32 @@ const getMainChartOptions = (
           `.apexcharts-yaxis-annotations .apexcharts-annotation-label`
         );
         annotationLabels.forEach((label) => {
-          // Get y-axis boundary from the axis element
+          // Get y-axis element and find the y-axis border line
           const yAxisElement = chartElement.querySelector('.apexcharts-yaxis');
-          const gridLines = chartElement.querySelectorAll('.apexcharts-gridlines-horizontal line');
           
-          if (yAxisElement && gridLines.length > 0) {
-            const yAxisRect = yAxisElement.getBoundingClientRect();
-            const chartRect = chartElement.getBoundingClientRect();
-            const firstGridLine = gridLines[0];
+          if (yAxisElement) {
+            // Extract the x-transform value from the y-axis element
+            const transform = yAxisElement.getAttribute('transform');
+            const translateMatch = transform.match(/translate\(([^,]+),/);
             
-            // Calculate positions relative to chart container
-            const yAxisRightEdge = yAxisRect.right - chartRect.left;
-            const plotRightEdge = parseInt(firstGridLine.getAttribute('x2'));
-            
-                      // Ensure text starts right after y-axis border (never overflows to the left)
-          const textStartPosition = yAxisRightEdge + 5; // 5px margin from y-axis border
-          
-          label.style.left = `${textStartPosition}px`;
+            if (translateMatch) {
+              const yAxisXPosition = parseFloat(translateMatch[1]);
+              
+              // Find the main y-axis border line (the vertical line that separates y-axis from plot area)
+              // This is typically the line with y1 and y2 attributes (vertical line)
+              const yAxisBorderLine = yAxisElement.querySelector('line[y1][y2]');
+              if (yAxisBorderLine) {
+                const borderLineX = parseFloat(yAxisBorderLine.getAttribute('x1'));
+                
+                // Calculate the position right after the y-axis border
+                const yAxisBorderPosition = yAxisXPosition + borderLineX;
+                
+                // Position text just after the y-axis border with small margin
+                const textStartPosition = yAxisBorderPosition + 5;
+                
+                label.style.left = `${textStartPosition}px`;
+              }
+            }
           }
         });
 
@@ -271,23 +282,32 @@ const getMainChartOptions = (
         `.apexcharts-yaxis-annotations .apexcharts-annotation-label`
       );
       annotationLabels.forEach((label) => {
-        // Get y-axis boundary from the axis element
+        // Get y-axis element and find the y-axis border line
         const yAxisElement = chartElement.querySelector('.apexcharts-yaxis');
-        const gridLines = chartElement.querySelectorAll('.apexcharts-gridlines-horizontal line');
         
-        if (yAxisElement && gridLines.length > 0) {
-          const yAxisRect = yAxisElement.getBoundingClientRect();
-          const chartRect = chartElement.getBoundingClientRect();
-          const firstGridLine = gridLines[0];
+        if (yAxisElement) {
+          // Extract the x-transform value from the y-axis element
+          const transform = yAxisElement.getAttribute('transform');
+          const translateMatch = transform.match(/translate\(([^,]+),/);
           
-          // Calculate positions relative to chart container
-          const yAxisRightEdge = yAxisRect.right - chartRect.left;
-          const plotRightEdge = parseInt(firstGridLine.getAttribute('x2'));
-          
-          // Ensure text starts right after y-axis border (never overflows to the left)
-          const textStartPosition = yAxisRightEdge + 5; // 5px margin from y-axis border
-          
-          label.style.left = `${textStartPosition}px`;
+          if (translateMatch) {
+            const yAxisXPosition = parseFloat(translateMatch[1]);
+            
+            // Find the main y-axis border line (the vertical line that separates y-axis from plot area)
+            // This is typically the line with y1 and y2 attributes (vertical line)
+            const yAxisBorderLine = yAxisElement.querySelector('line[y1][y2]');
+            if (yAxisBorderLine) {
+              const borderLineX = parseFloat(yAxisBorderLine.getAttribute('x1'));
+              
+              // Calculate the position right after the y-axis border
+              const yAxisBorderPosition = yAxisXPosition + borderLineX;
+              
+              // Position text just after the y-axis border with small margin
+              const textStartPosition = yAxisBorderPosition + 5;
+              
+              label.style.left = `${textStartPosition}px`;
+            }
+          }
         }
       });
     },
