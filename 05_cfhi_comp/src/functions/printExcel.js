@@ -13,25 +13,71 @@ class ExcelReportGenerator {
             FOOTER: `</record></qdbapi>`
         };
 
-        // Field IDs for Quickbase (based on test configuration)
+        // Field IDs for Quickbase (from printExcelFields.md)
         this.FIELD_IDS = {
-            CLIENT_RID: "171",
-            FIRM_NAME: "170", 
-            UNIQUE_CLIENTS: "169",
-            SLIDER_MIN: "163",
-            SLIDER_MAX: "164",
-            MISSION_MIN: "165",
-            MISSION_MAX: "166",
-            AREAS: "167",
-            TYPES: "168",
-            YEARS: "172",
-            // Add more field IDs as needed for your specific Quickbase structure
+            // Basic client information
+            CLIENT_ID: "227",
+            CLIENT_NAME: "223", 
+            RECORDS_RETURNED: "224",
+            TYPE: "287",
+            
+            // Years (up to 5 years supported)
+            YEAR_1: "228",
+            YEAR_2: "229", 
+            YEAR_3: "230",
+            YEAR_4: "231",
+            YEAR_5: "232",
+            YEAR_COUNT: "290",
+            
+            // Query parameters
+            QUERY_GU_MIN: "296",
+            QUERY_GU_MAX: "297",
+            QUERY_YEARS: "298",
+            QUERY_REGIONS: "299",
+            
+            // URL fields for reports
+            PRINT_URL_TRENDS_PDF: "288",
+            PRINT_URL_TRENDS_XLS: "292",
+            PRINT_URL_BENCHMARK_PDF: "293",
+            PRINT_URL_BENCHMARK_XLS: "294",
         };
 
         // Quickbase URLs
         this.QUICKBASE_URLS = {
             UPLOAD_URL: "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord",
             REPORT_BASE_URL: "https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx"
+        };
+
+        // Comprehensive field mappings for all metrics (from printExcelFields.md)
+        this.METRIC_FIELD_IDS = {
+            // C01 - Demo Data
+            "givingUnits": { AVG: "6", MID: "7", MIN: "8", MAX: "9" },
+            "attendeesToStaff": { AVG: "22", MID: "23", MIN: "24", MAX: "25" },
+            
+            // C03 - Cash Data  
+            "daysExpendableNetAssets": { AVG: "55", MID: "56", MIN: "57", MAX: "58" },
+            "daysOperatingCash": { AVG: "59", MID: "60", MIN: "61", MAX: "62" },
+            "availableDaysOfCashFlow": { AVG: "63", MID: "64", MIN: "65", MAX: "66" },
+            "liquidityRatio": { AVG: "67", MID: "68", MIN: "69", MAX: "70" },
+            "netCashAvailability": { AVG: "71", MID: "72", MIN: "73", MAX: "74" },
+            
+            // C04 - Debt Data
+            "debtToContributionsWithout": { AVG: "83", MID: "84", MIN: "85", MAX: "86" },
+            "currentRatio": { AVG: "87", MID: "88", MIN: "89", MAX: "90" },
+            "mandatoryDebtServiceToContributionsWithout": { AVG: "91", MID: "92", MIN: "93", MAX: "94" },
+            "debtPerGivingUnit": { AVG: "103", MID: "104", MIN: "105", MAX: "106" },
+            "debtCoverage": { AVG: "111", MID: "112", MIN: "113", MAX: "114" },
+            
+            // C05 - Income Data
+            "netIncomeRatio": { AVG: "115", MID: "116", MIN: "117", MAX: "118" },
+            "contributionsWithoutDonorPerGivingUnit": { AVG: "123", MID: "124", MIN: "125", MAX: "126" },
+            "totalContributionsPerGivingUnit": { AVG: "131", MID: "132", MIN: "133", MAX: "134" },
+            
+            // C06 - Expense Data
+            "benefitsToSalaries": { AVG: "135", MID: "136", MIN: "137", MAX: "138" },
+            "salariesBenefitsIncludingOutsourcedEmployees": { AVG: "151", MID: "152", MIN: "153", MAX: "154" },
+            "personnelToCashExpenditure": { AVG: "155", MID: "156", MIN: "157", MAX: "158" },
+            "cashExpendituresPerGivingUnit": { AVG: "183", MID: "184", MIN: "185", MAX: "186" }
         };
 
         // URLs for different report formats
@@ -305,12 +351,14 @@ class ExcelReportGenerator {
             const metricData = data[metricName];
             
             if (metricData && typeof metricData === 'object') {
+                // Map the metric name to the field mapping name
+                const mappedMetricName = this.mapChartNameToMetricName(metricName);
+                
                 // Calculate peer statistics
                 const stats = this.calculateStatistics(data, metricName);
                 
-                // You would map these to appropriate field IDs in your Quickbase
-                // This is a simplified example - adjust based on your actual field mapping
-                const fieldIds = this.getFieldIdsForMetric(category, metricName);
+                // Get the correct field IDs from our comprehensive mapping
+                const fieldIds = this.getFieldIdsForMetric(category, mappedMetricName);
                 
                 if (fieldIds && fieldIds.length >= 4) {
                     this.uploadToFile(
@@ -322,41 +370,72 @@ class ExcelReportGenerator {
                         `${category}_${metricName}`,
                         true
                     );
+                    
+                    console.log(`Uploaded data for ${mappedMetricName}: AVG=${stats.avg}, MID=${stats.median}, MIN=${stats.min}, MAX=${stats.max}`);
+                } else {
+                    console.warn(`No field mapping available for metric: ${mappedMetricName} in category: ${category}`);
                 }
             }
         });
     }
 
     /**
-     * Get field IDs for a specific metric (customize based on your Quickbase structure)
+     * Get field IDs for a specific metric (based on printExcelFields.md mapping)
      */
     getFieldIdsForMetric(category, metricName) {
-        // This is a placeholder - you'll need to map your actual field IDs
-        // based on your Quickbase application structure
-        const baseId = this.getBaseFieldId(category, metricName);
+        // Get the metric field mapping from our comprehensive list
+        const metricFields = this.METRIC_FIELD_IDS[metricName];
         
-        if (baseId) {
-            return [baseId, baseId + 1, baseId + 2, baseId + 3]; // avg, median, min, max
+        if (metricFields) {
+            return [
+                metricFields.AVG,
+                metricFields.MID, 
+                metricFields.MIN,
+                metricFields.MAX
+            ];
         }
         
+        console.warn(`No field mapping found for metric: ${metricName} in category: ${category}`);
         return null;
     }
 
     /**
-     * Get base field ID for a metric (customize based on your Quickbase structure)
+     * Get the metric name mapped to the actual field names used in the data
      */
-    getBaseFieldId(category, metricName) {
-        // This is a placeholder mapping - customize based on your actual field structure
-        const fieldMap = {
-            'demoData': 100,
-            'cashData': 200,
-            'debtData': 300,
-            'incomeData': 400,
-            'expenseData': 500,
-            'additionalData': 600
+    mapChartNameToMetricName(chartName) {
+        // Map chart names to the metric names used in METRIC_FIELD_IDS
+        const chartToMetricMap = {
+            // Demo charts
+            "givingUnits": "givingUnits",
+            "attendeesToStaff": "attendeesToStaff",
+            
+            // Cash charts
+            "daysExpendableNetAssets": "daysExpendableNetAssets", 
+            "daysOperatingCash": "daysOperatingCash",
+            "availableDaysOfCashFlow": "availableDaysOfCashFlow",
+            "liquidityRatio": "liquidityRatio",
+            "netCashAvailability": "netCashAvailability",
+            
+            // Debt charts
+            "debtToContributionsWithout": "debtToContributionsWithout",
+            "currentRatio": "currentRatio", 
+            "mandatoryDebtServiceToContributionsWithout": "mandatoryDebtServiceToContributionsWithout",
+            "debtPerGivingUnit": "debtPerGivingUnit",
+            "debtCoverage": "debtCoverage",
+            
+            // Income charts
+            "netIncomeRatio": "netIncomeRatio",
+            "contributionsWithoutDonorPerGivingUnit": "contributionsWithoutDonorPerGivingUnit",
+            "totalContributionsPerGivingUnit": "totalContributionsPerGivingUnit",
+            
+            // Expense charts
+            "benefitsToSalaries": "benefitsToSalaries",
+            "salariesBenefitsIncludingOutsourcedEmployees": "salariesBenefitsIncludingOutsourcedEmployees", 
+            "personnelToCashExpenditure": "personnelToCashExpenditure",
+            "cashExpendituresPerGivingUnit": "cashExpendituresPerGivingUnit"
         };
         
-        return fieldMap[category] || null;
+        return chartToMetricMap[chartName] || chartName;
     }
 
     /**
@@ -409,50 +488,56 @@ class ExcelReportGenerator {
         
         try {
             // Get current filter values
-            const ClientRid = "CFHI_COMP_" + Date.now(); // Generate unique ID
-            const firmName = "Capin Crouse"; // Or get from configuration
-            const uniqueClientsSize = window.selectedClients_Array ? window.selectedClients_Array.size : 0;
-            const sliderValue = window.sliderValue || 0;
-            const sliderValue2 = window.sliderValue2 || 25000;
+            const clientId = "CFHI_COMP_" + Date.now(); // Generate unique ID
+            const clientName = "CFHI Comprehensive Report"; // Report name
+            const recordsReturned = window.selectedClients_Array ? window.selectedClients_Array.size.toString() : "0";
+            const sliderMin = window.sliderValue || 0;
+            const sliderMax = window.sliderValue2 || 25000;
             const types = Array.from(window.selectedTypes_Array || []).join(",");
-            const areas = Array.from(window.selectedAreas_Array || []).join(",");
+            const regions = Array.from(window.selectedAreas_Array || []).join(",");
             const selectedYears = this.getSelectedYears();
-            
-            // Note: This project only uses slider values, not mission values
-            const missionValue = 0; // Not used in CFHI project
-            const missionValue2 = 0; // Not used in CFHI project
 
             // Debug log values
             console.log("Excel report data values:", {
-                ClientRid,
-                firmName,
-                uniqueClientsSize,
-                sliderValue,
-                sliderValue2,
+                clientId,
+                clientName,
+                recordsReturned,
+                sliderMin,
+                sliderMax,
                 types,
-                areas,
+                regions,
                 selectedYears
             });
 
             // Start the XML with the header
             this.xmlPayload = this.XML.HEADER;
 
-            // Add client data with direct field additions
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.CLIENT_RID}'>${this.escapeXml(ClientRid)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.FIRM_NAME}'>${this.escapeXml(firmName)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.UNIQUE_CLIENTS}'>${this.escapeXml(uniqueClientsSize)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.SLIDER_MIN}'>${this.escapeXml(sliderValue)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.SLIDER_MAX}'>${this.escapeXml(sliderValue2)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.MISSION_MIN}'>${this.escapeXml(missionValue)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.MISSION_MAX}'>${this.escapeXml(missionValue2)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.AREAS}'>${this.escapeXml(areas)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.TYPES}'>${this.escapeXml(types)}</field>`;
+            // Add basic client information
+            this.xmlPayload += `<field fid='${this.FIELD_IDS.CLIENT_ID}'>${this.escapeXml(clientId)}</field>`;
+            this.xmlPayload += `<field fid='${this.FIELD_IDS.CLIENT_NAME}'>${this.escapeXml(clientName)}</field>`;
+            this.xmlPayload += `<field fid='${this.FIELD_IDS.RECORDS_RETURNED}'>${this.escapeXml(recordsReturned)}</field>`;
+            this.xmlPayload += `<field fid='${this.FIELD_IDS.TYPE}'>${this.escapeXml(types)}</field>`;
 
-            // Add years data
+            // Add query parameters
+            this.xmlPayload += `<field fid='${this.FIELD_IDS.QUERY_GU_MIN}'>${this.escapeXml(sliderMin)}</field>`;
+            this.xmlPayload += `<field fid='${this.FIELD_IDS.QUERY_GU_MAX}'>${this.escapeXml(sliderMax)}</field>`;
+            this.xmlPayload += `<field fid='${this.FIELD_IDS.QUERY_YEARS}'>${this.escapeXml(selectedYears.join(","))}</field>`;
+            this.xmlPayload += `<field fid='${this.FIELD_IDS.QUERY_REGIONS}'>${this.escapeXml(regions)}</field>`;
+
+            // Add years data (up to 5 years)
+            const yearFields = [
+                this.FIELD_IDS.YEAR_1, this.FIELD_IDS.YEAR_2, this.FIELD_IDS.YEAR_3, 
+                this.FIELD_IDS.YEAR_4, this.FIELD_IDS.YEAR_5
+            ];
+            
             selectedYears.forEach((year, index) => {
-                const yearFieldId = this.FIELD_IDS.YEARS + index;
-                this.xmlPayload += `<field fid='${yearFieldId}'>${this.escapeXml(year)}</field>`;
+                if (index < yearFields.length) {
+                    this.xmlPayload += `<field fid='${yearFields[index]}'>${this.escapeXml(year)}</field>`;
+                }
             });
+
+            // Add year count
+            this.xmlPayload += `<field fid='${this.FIELD_IDS.YEAR_COUNT}'>${this.escapeXml(selectedYears.length)}</field>`;
 
             // Prepare all metric data
             await this.prepareAllFieldData();
@@ -512,7 +597,7 @@ class ExcelReportGenerator {
                 }
                 
                 // Construct the URL using the pattern from test file
-                const url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=${tpid}&fn=InternationalSummary&dbid=bt76haf6m&msid=${recordId}&docfmt=${docFormat}&stream=y&apptoken=---`;
+                const url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=btcc8gq3r&tpid=${tpid}&fn=InternationalSummary&dbid=bt76haf6m&msid=${recordId}&docfmt=${docFormat}&stream=y&apptoken=---`;
                 
                 console.log(`Generated URL for format ${format} and RecordId ${recordId}: ${url}`);
                 return url;

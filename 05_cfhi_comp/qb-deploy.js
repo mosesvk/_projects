@@ -23,7 +23,9 @@ const config = {
     'DisplayCharts.js': '148',
     'CreateCharts.js': '149',
     'uiManagement.js': '150',
-    'WeightedAverages.js': '151'
+    'WeightedAverages.js': '151', 
+    'printExcel.js': '218',
+    'printBase64.js': '219',
   },
   
   // Default page ID (fallback)
