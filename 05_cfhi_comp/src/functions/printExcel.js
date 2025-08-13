@@ -18,18 +18,15 @@ class ExcelReportGenerator {
         COLUMN_LIST: "<clist>171</clist>",
         };
 
-        this.FIELD_IDS = {
-        CLIENT_RID: "171",
-        FIRM_NAME: "170",
-        UNIQUE_CLIENTS: "169",
-        SLIDER_MIN: "163",
-        SLIDER_MAX: "164",
-        MISSION_MIN: "165",
-        MISSION_MAX: "166",
-        AREAS: "167",
-        TYPES: "168",
-        YEARS_START: "158",
-      };
+                this.FIELD_IDS = {
+          CLIENT_RID: "171",
+          FIRM_NAME: "223",
+          SLIDER_MIN: "296",
+          SLIDER_MAX: "297",
+          SITES: "329",
+          REGIONS: "331",
+          YEARS_START: "228",
+        };
   
       // XML payload storage
       this.xmlPayload = "";
@@ -351,37 +348,54 @@ class ExcelReportGenerator {
               : window.firmName;
         }
   
-        // Get uniqueClients
+        // Get uniqueClients - convert to a valid choice value
         let uniqueClientsSize =
           document.getElementById("uniqueClients")?.textContent || 0;
+        
+        // Convert numeric value to choice value for field 298
+        let uniqueClientsChoice = "";
+        const clientCount = parseInt(uniqueClientsSize);
+        if (clientCount <= 50) {
+          uniqueClientsChoice = "1-50";
+        } else if (clientCount <= 100) {
+          uniqueClientsChoice = "51-100";
+        } else if (clientCount <= 250) {
+          uniqueClientsChoice = "101-250";
+        } else if (clientCount <= 500) {
+          uniqueClientsChoice = "251-500";
+        } else if (clientCount <= 1000) {
+          uniqueClientsChoice = "501-1000";
+        } else {
+          uniqueClientsChoice = "1000+";
+        }
   
         // IMPORTANT: Direct access to global variables for filters
         const sliderValue = document.getElementById("givingUnitsMin")?.value || 0;
         const sliderValue2 =
           document.getElementById("givingUnitsMax")?.value || 0;
   
-        // Get types and areas from global arrays
-        let types = "";
-        if (window.selectedTypes_Array) {
+        // Get sites and regions from global arrays
+        let sites = "";
+        if (window.selectedSites_Array) {
           // Check if it's a Set
-          if (window.selectedTypes_Array instanceof Set) {
-            types = Array.from(window.selectedTypes_Array).join(";");
+          if (window.selectedSites_Array instanceof Set) {
+            sites = Array.from(window.selectedSites_Array).join(";");
           }
           // Check if it's an Array
-          else if (Array.isArray(window.selectedTypes_Array)) {
-            types = window.selectedTypes_Array.join(";");
+          else if (Array.isArray(window.selectedSites_Array)) {
+            sites = window.selectedSites_Array.join(";");
           }
         }
   
-        let areas = "";
-        if (window.selectedAreas_Array) {
+        let regions = "";
+        if (window.selectedRegions_Array) {
           // Check if it's a Set
-          if (window.selectedAreas_Array instanceof Set) {
-            areas = Array.from(window.selectedAreas_Array).join(";");
+          if (window.selectedRegions_Array instanceof Set) {
+            regions = Array.from(window.selectedRegions_Array).join(";");
           }
           // Check if it's an Array
-          else if (Array.isArray(window.selectedAreas_Array)) {
-            areas = window.selectedAreas_Array.join(";");
+          else if (Array.isArray(window.selectedRegions_Array)) {
+            regions = window.selectedRegions_Array.join(";");
           }
         }
   
@@ -390,6 +404,7 @@ class ExcelReportGenerator {
           ClientRid,
           firmName,
           uniqueClientsSize,
+          uniqueClientsChoice,
           sliderValue,
           sliderValue2,
           sites, 
@@ -408,24 +423,18 @@ class ExcelReportGenerator {
         }'>${this.escapeXml(firmName)}</field>`;
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.UNIQUE_CLIENTS
-        }'>${this.escapeXml(uniqueClientsSize)}</field>`;
+        }'>${this.escapeXml(uniqueClientsChoice)}</field>`;
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.SLIDER_MIN
         }'>${this.escapeXml(sliderValue)}</field>`;
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.SLIDER_MAX
         }'>${this.escapeXml(sliderValue2)}</field>`;
-        this.xmlPayload += `<field fid='${
-          this.FIELD_IDS.MISSION_MIN
-        }'>${this.escapeXml(missionValue)}</field>`;
-        this.xmlPayload += `<field fid='${
-          this.FIELD_IDS.MISSION_MAX
-        }'>${this.escapeXml(missionValue2)}</field>`;
-        this.xmlPayload += `<field fid='${this.FIELD_IDS.AREAS}'>${this.escapeXml(
-          areas
+        this.xmlPayload += `<field fid='${this.FIELD_IDS.SITES}'>${this.escapeXml(
+          sites
         )}</field>`;
-        this.xmlPayload += `<field fid='${this.FIELD_IDS.TYPES}'>${this.escapeXml(
-          types
+        this.xmlPayload += `<field fid='${this.FIELD_IDS.REGIONS}'>${this.escapeXml(
+          regions
         )}</field>`;
   
         // Add years - MODIFIED TO ENSURE YEARS USE CORRECT FIELD IDS
@@ -438,18 +447,16 @@ class ExcelReportGenerator {
           
           if (i >= 5) {
             let num = i - 5
-            fieldId = 176 + num
+            fieldId = 301 + num
             console.log(i, fieldId);
                 } else {
             fieldId = Number(this.FIELD_IDS.YEARS_START) + i;
           }
   
-          // Ensure we're not using the same field IDs as slider or mission fields
+          // Ensure we're not using the same field IDs as slider fields
           if (
             fieldId.toString() === this.FIELD_IDS.SLIDER_MIN ||
-            fieldId.toString() === this.FIELD_IDS.SLIDER_MAX ||
-            fieldId.toString() === this.FIELD_IDS.MISSION_MIN ||
-            fieldId.toString() === this.FIELD_IDS.MISSION_MAX
+            fieldId.toString() === this.FIELD_IDS.SLIDER_MAX
           ) {
             console.error(
               `Field ID conflict detected: Year field ID ${fieldId} conflicts with slider/mission field IDs`
@@ -516,14 +523,14 @@ class ExcelReportGenerator {
           // Find which data object contains this metric based on category
           let dataObject;
           switch (category) {
-            case "general":
-              dataObject = demoData; // Map test "general" to CFHI "demoData"
+            case "demo":
+              dataObject = demoData;
               break;
             case "cash":
               dataObject = cashData;
               break;
-            case "asset":
-              dataObject = debtData; // Map test "asset" to CFHI "debtData"
+            case "debt":
+              dataObject = debtData;
               break;
             case "income":
               dataObject = incomeData;
@@ -531,8 +538,8 @@ class ExcelReportGenerator {
             case "expense":
               dataObject = expenseData;
               break;
-            case "misc":
-              dataObject = additionalData; // Map test "misc" to CFHI "additionalData"
+            case "additional":
+              dataObject = additionalData;
               break;
             default:
               return; // Skip if no valid category
@@ -587,16 +594,14 @@ class ExcelReportGenerator {
   
       try {
         // Get all data from localStorage
-        const generalData = JSON.parse(
-          localStorage.getItem("generalData") || "{}"
-        );
+        const demoData = JSON.parse(localStorage.getItem("demoData") || "{}");
         const cashData = JSON.parse(localStorage.getItem("cashData") || "{}");
-        const assetData = JSON.parse(localStorage.getItem("assetData") || "{}");
+        const debtData = JSON.parse(localStorage.getItem("debtData") || "{}");
         const incomeData = JSON.parse(localStorage.getItem("incomeData") || "{}");
         const expenseData = JSON.parse(
           localStorage.getItem("expenseData") || "{}"
         );
-        const miscData = JSON.parse(localStorage.getItem("miscData") || "{}");
+        const additionalData = JSON.parse(localStorage.getItem("additionalData") || "{}");
   
         // Process each field mapping
         this.fieldMappings.forEach((mapping, index) => {
@@ -605,14 +610,14 @@ class ExcelReportGenerator {
           // Find which data object contains this metric based on category
           let dataObject;
           switch (category) {
-            case "general":
-              dataObject = generalData;
+            case "demo":
+              dataObject = demoData;
               break;
             case "cash":
               dataObject = cashData;
               break;
-            case "asset":
-              dataObject = assetData;
+            case "debt":
+              dataObject = debtData;
               break;
             case "income":
               dataObject = incomeData;
@@ -620,8 +625,8 @@ class ExcelReportGenerator {
             case "expense":
               dataObject = expenseData;
               break;
-            case "misc":
-              dataObject = miscData;
+            case "additional":
+              dataObject = additionalData;
               break;
             default:
               return; // Skip if no valid category
