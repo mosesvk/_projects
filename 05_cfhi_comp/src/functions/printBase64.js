@@ -28,7 +28,7 @@ async function processChartsWithSpacing(chartMappings) {
                     continue;
                 }
                 
-      const chart = chartManager.getChart(chartId) || window[chartId];
+      const chart = window[chartId];
 
       // If we have an ApexChart instance, use its export method
       if (chart && typeof chart.dataURI === "function") {
