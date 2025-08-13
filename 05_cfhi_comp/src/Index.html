@@ -47,14 +47,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 
-    <script
-      type="text/javascript"
-      src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"
-    ></script>
 
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css"
@@ -73,11 +65,6 @@
       var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
       $.ajaxSetup({ data: { apptoken: apptoken } });
 
-      FusionCharts.options.license({
-        key: "bj1A1hwA-13F6B1H5C2I2B4B3A4D4B3D4G4I3xkcA3D5trxfsA2B2jE-11oE1G4E1A2B6C4A2F4B2F3C3G2F1C8B7B5E-11acE3E3G2sA4B2C2feI-8D1H4B3zD-13mD1D3G4nvrB9D2C6E2C4B1I4F1A9C11A5uD-11C-9A2I3NC5qD-17jD2E2F1H-8jC2a1A5C7fg1qH4G1B8C2D2C2F2C5F1D1G1A10A8E4i==",
-        creditLabel: false,
-      });
-
       function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
@@ -92,174 +79,6 @@
       var ClientRid = getQueryVariable("clientrid");
       const clientData = "br8rqi6bk";
       const peerData = "br8szmntp";
-    </script>
-
-    <script type="text/javascript">
-      FusionCharts.ready(function () {
-        // Static data matching CreateCharts.js structure
-        const staticData = {
-          selectedYears: ["2019", "2020", "2021", "2022", "2023"],
-          clientData: [45.2, 52.8, 48.9, 61.3, 58.7], // Client bar data
-          peer25: [42.1, 45.3, 47.8, 49.2, 51.5], // 25th percentile line
-          peerAvg: [48.5, 51.2, 53.7, 55.8, 57.3], // Average line
-          peer50: [49.2, 52.1, 54.3, 56.1, 58.2], // 50th percentile line
-          peer75: [55.8, 58.4, 60.1, 62.7, 64.9], // 75th percentile line
-          benchmarks: [40, 55], // Two benchmark values
-        };
-
-        // Prepare categories (years)
-        const categories = staticData.selectedYears.map((year) => ({
-          label: year,
-        }));
-
-        // Prepare datasets - Lines first, then bars to ensure proper layering
-        const datasets = [
-          {
-            seriesname: "Client Data",
-            data: staticData.clientData.map((value) => ({
-              value: value.toString(),
-              showValue: "1", // Show data labels for client data
-              labelBgColor: "#FFFFFF", // White background for each data label
-            })),
-            color: "#10B981", // Green
-            renderAs: "column",
-          },
-          {
-            seriesname: "25th Percentile",
-            data: staticData.peer25.map((value) => ({
-              value: value.toString(),
-              showValue: "0", // Hide data labels for percentiles
-            })),
-            color: "#3B82F6", // Blue
-            renderAs: "line",
-            visible: "1", // Always show
-          },
-          {
-            seriesname: "Average",
-            data: staticData.peerAvg.map((value) => ({
-              value: value.toString(),
-              showValue: "0", // Hide data labels for average
-            })),
-            color: "#3B82F6", // Blue
-            renderAs: "line",
-            visible: "1",
-          },
-          {
-            seriesname: "50th Percentile",
-            data: staticData.peer50.map((value) => ({
-              value: value.toString(),
-              showValue: "0", // Hide data labels for percentiles
-            })),
-            color: "#3B82F6", // Blue
-            renderAs: "line",
-            visible: "1", // Always show
-          },
-          {
-            seriesname: "75th Percentile",
-            data: staticData.peer75.map((value) => ({
-              value: value.toString(),
-              showValue: "0", // Hide data labels for percentiles
-            })),
-            color: "#3B82F6", // Blue
-            renderAs: "line",
-            visible: "1", // Always show
-          },
-        ];
-
-        // Prepare benchmark trendlines
-        const trendlines = [
-          {
-            line: [
-              {
-                startvalue: "40",
-                color: "#F59E0B", // Amber
-                displayvalue: "Benchmark - Lower",
-                valueOnRight: "1",
-                thickness: "2",
-                showBelow: "1",
-                tooltext: "Benchmark 1: 40",
-              },
-            ],
-          },
-          {
-            line: [
-              {
-                startvalue: "55",
-                color: "#EF4444", // Red
-                displayvalue: "Benchmark - Higher",
-                valueOnRight: "1",
-                thickness: "2",
-                showBelow: "1",
-                tooltext: "Benchmark 2: 55",
-              },
-            ],
-          },
-        ];
-
-        // Create FusionCharts instance
-        var revenueChart = new FusionCharts({
-          type: "mscombi2d",
-          renderAt: "chart-container",
-          width: "100%",
-          height: "350",
-          dataFormat: "json",
-          dataSource: {
-            chart: {
-              theme: "fusion",
-              caption: "Financial Performance Comparison",
-              xAxisName: "Year",
-              yAxisName: "Value",
-              plotFillAlpha: "80",
-              divLineIsDashed: "1",
-              divLineDashLen: "4",
-              divLineGapLen: "2",
-              showBorder: "0",
-              showCanvasBorder: "0",
-              showAxisLines: "1",
-              showValues: "1",
-              showDataLabels: "1",
-              dataLabelColor: "#000000",
-              dataLabelFontSize: "18",
-              dataLabelFontBold: "1",
-              dataLabelBorderRadius: "6",
-              dataLabelBorderPadding: "6",
-              legendBgColor: "#FFFFFF",
-              legendBorderColor: "#E5E7EB",
-              legendBorderThickness: "1",
-              legendBorderAlpha: "30",
-              legendShadow: "0",
-              legendAllowDrag: "1",
-              connectNullData: "0",
-              showAlternateHGridColor: "0",
-              showPlotBorder: "0",
-              paletteColors: "#10B981,#3B82F6,#3B82F6,#3B82F6,#3B82F6",
-              useEllipsesWhenOverflow: "1",
-              rotateValues: "0",
-              placeValuesInside: "0",
-              formatNumber: "1",
-              formatNumberScale: "1",
-              decimalSeparator: ".",
-              thousandSeparator: ",",
-              forceDecimals: "0",
-              decimalPrecision: "2",
-              divLineDecimalPrecision: "0",
-              limitsDecimalPrecision: "0",
-              yAxisValueDecimals: "0",
-              xAxisValueDecimals: "0",
-              drawAnchors: "0",
-            },
-            categories: [
-              {
-                category: categories,
-              },
-            ],
-            dataset: datasets,
-            trendlines: trendlines,
-          },
-        });
-
-        revenueChart.render();
-      });
     </script>
 
     <script>
@@ -1020,7 +839,6 @@
       >
         <main class="px-4 pt-6 grid gap-y-4">
           <div id="demoContent" class="tab-content">
-            <div id="chart-container">FusionCharts XT will load here!</div>
 
             <!-- Giving Units -->
             <div
