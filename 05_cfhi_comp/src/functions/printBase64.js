@@ -1202,7 +1202,7 @@ async function apexChartsExportPrint() {
  * Build XML for Quickbase upload
  */
 function buildUploadXml(results) {
-  let uploadXml = "<qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>";
+  let uploadXml = "<qdbapi><apptoken>bbkmdcurd2sd5cpqvf58dsabq2q</apptoken>";
 
   // Add metadata
   const selectedYears = getSelectedYearsFromLocalStorage() || [];
