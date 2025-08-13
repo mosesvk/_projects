@@ -80,11 +80,18 @@ class ExcelReportGenerator {
     init() {
       const generateReportsBtn = document.getElementById("generateReports");
       if (generateReportsBtn) {
-        generateReportsBtn.addEventListener(
+        // Remove any existing event listeners to prevent duplicates
+        const newBtn = generateReportsBtn.cloneNode(true);
+        generateReportsBtn.parentNode.replaceChild(newBtn, generateReportsBtn);
+        
+        // Add the event listener to the new button
+        newBtn.addEventListener(
           "click",
           this.handleGenerateReport.bind(this)
         );
-        }
+        
+        console.log("ExcelReportGenerator initialized with fresh event listener");
+      }
     }
 
     /**
