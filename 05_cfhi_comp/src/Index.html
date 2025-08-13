@@ -73,6 +73,12 @@
       var apptoken = "bpat4pgu9t69yby5gbemdbej52j";
       $.ajaxSetup({ data: { apptoken: apptoken } });
 
+
+      FusionCharts.options.license({
+        key: "bj1A1hwA-13F6B1H5C2I2B4B3A4D4B3D4G4I3xkcA3D5trxfsA2B2jE-11oE1G4E1A2B6C4A2F4B2F3C3G2F1C8B7B5E-11acE3E3G2sA4B2C2feI-8D1H4B3zD-13mD1D3G4nvrB9D2C6E2C4B1I4F1A9C11A5uD-11C-9A2I3NC5qD-17jD2E2F1H-8jC2a1A5C7fg1qH4G1B8C2D2C2F2C5F1D1G1A10A8E4i==",
+        creditLabel: false,
+      });
+
       function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
@@ -107,17 +113,8 @@
           label: year,
         }));
 
-        // Prepare datasets
+        // Prepare datasets - Lines first, then bars to ensure proper layering
         const datasets = [
-          {
-            seriesname: "Client Data",
-            data: staticData.clientData.map((value) => ({
-              value: value.toString(),
-              showValue: "1", // Show data labels for client data
-            })),
-            color: "#10B981", // Green
-            renderAs: "column",
-          },
           {
             seriesname: "25th Percentile",
             data: staticData.peer25.map((value) => ({
@@ -126,7 +123,7 @@
             })),
             color: "#3B82F6", // Blue
             renderAs: "line",
-            visible: "0", // Hidden by default
+            visible: "1", // Always show
           },
           {
             seriesname: "Average",
@@ -146,7 +143,7 @@
             })),
             color: "#3B82F6", // Blue
             renderAs: "line",
-            visible: "0", // Hidden by default
+            visible: "1", // Always show
           },
           {
             seriesname: "75th Percentile",
@@ -156,7 +153,16 @@
             })),
             color: "#3B82F6", // Blue
             renderAs: "line",
-            visible: "0", // Hidden by default
+            visible: "1", // Always show
+          },
+          {
+            seriesname: "Client Data",
+            data: staticData.clientData.map((value) => ({
+              value: value.toString(),
+              showValue: "1", // Show data labels for client data
+            })),
+            color: "#10B981", // Green
+            renderAs: "column",
           },
         ];
 
@@ -212,13 +218,13 @@
               showAxisLines: "1",
               showValues: "1",
               showDataLabels: "1",
-              dataLabelColor: "#FFFFFF",
-              dataLabelFontSize: "12",
+              dataLabelColor: "#000000",
+              dataLabelFontSize: "18",
               dataLabelFontBold: "1",
-              dataLabelBgColor: "#10B981",
-              dataLabelBgAlpha: "80",
-              dataLabelBorderRadius: "4",
-              dataLabelBorderPadding: "4",
+              dataLabelBgColor: "#FFFFFF",
+              dataLabelBgAlpha: "95",
+              dataLabelBorderRadius: "6",
+              dataLabelBorderPadding: "6",
               legendBgColor: "#FFFFFF",
               legendBorderColor: "#E5E7EB",
               legendBorderThickness: "1",
@@ -242,6 +248,7 @@
               limitsDecimalPrecision: "0",
               yAxisValueDecimals: "0",
               xAxisValueDecimals: "0",
+              drawAnchors: "0",
             },
             categories: [
               {
