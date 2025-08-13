@@ -8,7 +8,7 @@ class ExcelReportGenerator {
       this.API = {
         APP_TOKEN: "bpat4pgu9t69yby5gbemdbej52j",
         UPLOAD_URL:
-          "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord",
+          "https://capincrouse.quickbase.com/db/btcc8gq3r?a=API_AddRecord",
       };
   
       // XML Template Strings
@@ -38,8 +38,8 @@ class ExcelReportGenerator {
       // Format per entry: [metricName, [AVG, MIN, MID, MAX], begin, end, category]
       this.fieldMappings = [
         // Demo (general -> demoData)
-        ["givingUnits", [6, 8, 7, 9], true, false, "general"],
-        ["attendeesToStaff", [22, 24, 23, 25], false, false, "general"],
+        ["givingUnits", [6, 8, 7, 9], true, false, "demo"],
+        ["attendeesToStaff", [22, 24, 23, 25], false, false, "demo"],
 
         // Cash (cash -> cashData)
         ["daysExpendableNetAssets", [55, 57, 56, 58], false, false, "cash"],
@@ -49,11 +49,11 @@ class ExcelReportGenerator {
         ["netCashAvailability", [71, 73, 72, 74], false, false, "cash"],
 
         // Debt (asset -> debtData)
-        ["debtToContributionsWithout", [83, 85, 84, 86], false, false, "asset"],
-        ["currentRatio", [87, 89, 88, 90], false, false, "asset"],
-        ["mandatoryDebtServiceToContributionsWithout", [91, 93, 92, 94], false, false, "asset"],
-        ["debtPerGivingUnit", [103, 105, 104, 106], false, false, "asset"],
-        ["debtCoverage", [111, 113, 112, 114], false, false, "asset"],
+        ["debtToContributionsWithout", [83, 85, 84, 86], false, false, "debt"],
+        ["currentRatio", [87, 89, 88, 90], false, false, "debt"],
+        ["mandatoryDebtServiceToContributionsWithout", [91, 93, 92, 94], false, false, "debt"],
+        ["debtPerGivingUnit", [103, 105, 104, 106], false, false, "debt"],
+        ["debtCoverage", [111, 113, 112, 114], false, false, "debt"],
 
         // Income (income -> incomeData)
         ["netIncomeRatio", [115, 117, 116, 118], false, false, "income"],
@@ -67,8 +67,8 @@ class ExcelReportGenerator {
         ["cashExpendituresPerGivingUnit", [183, 185, 184, 186], false, false, "expense"],
 
         // Additional (misc -> additionalData)
-        ["contributionsPerAccountingFTE", [187, 189, 188, 190], false, false, "misc"],
-        ["expensesPerAccountingFTE", [191, 193, 192, 194], false, false, "misc"],
+        ["contributionsPerAccountingFTE", [187, 189, 188, 190], false, false, "additional"],
+        ["expensesPerAccountingFTE", [191, 193, 192, 194], false, false, "additional"],
       ];
   
         this.init();
@@ -359,10 +359,6 @@ class ExcelReportGenerator {
         const sliderValue = document.getElementById("givingUnitsMin")?.value || 0;
         const sliderValue2 =
           document.getElementById("givingUnitsMax")?.value || 0;
-        const missionValue =
-          document.getElementById("missionUnitsMin")?.value || 0;
-        const missionValue2 =
-          document.getElementById("missionUnitsMax")?.value || 0;
   
         // Get types and areas from global arrays
         let types = "";
@@ -396,10 +392,8 @@ class ExcelReportGenerator {
           uniqueClientsSize,
           sliderValue,
           sliderValue2,
-          missionValue,
-          missionValue2,
-          types,
-          areas,
+          sites, 
+          regions
         });
   
         // Start the XML with the XML header
@@ -684,28 +678,28 @@ class ExcelReportGenerator {
   
         switch (yearCount) {
           case 1:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=42&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=42&fn=InternationalSummary&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
             break;
           case 2:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=41&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=41&fn=InternationalSummary&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
             break;
           case 3:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=40&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=40&fn=InternationalSummary&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
             break;
           case 4:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=39&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=39&fn=InternationalSummary&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
             break;
           case 5:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=38&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=38&fn=InternationalSummary&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
             break;
           case 6:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=37&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=37&fn=InternationalSummary&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
             break;
           case 7:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=36&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=36&fn=InternationalSummary&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
             break;
           case 8:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=35&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=35&fn=InternationalSummary&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
             break;
           default:
             console.error("Invalid year count");
