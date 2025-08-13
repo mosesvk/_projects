@@ -113,6 +113,7 @@
             seriesname: "Client Data",
             data: staticData.clientData.map((value) => ({
               value: value.toString(),
+              showValue: "1", // Show data labels for client data
             })),
             color: "#10B981", // Green
             renderAs: "column",
@@ -121,6 +122,7 @@
             seriesname: "25th Percentile",
             data: staticData.peer25.map((value) => ({
               value: value.toString(),
+              showValue: "0", // Hide data labels for percentiles
             })),
             color: "#3B82F6", // Blue
             renderAs: "line",
@@ -130,6 +132,7 @@
             seriesname: "Average",
             data: staticData.peerAvg.map((value) => ({
               value: value.toString(),
+              showValue: "0", // Hide data labels for average
             })),
             color: "#3B82F6", // Blue
             renderAs: "line",
@@ -139,6 +142,7 @@
             seriesname: "50th Percentile",
             data: staticData.peer50.map((value) => ({
               value: value.toString(),
+              showValue: "0", // Hide data labels for percentiles
             })),
             color: "#3B82F6", // Blue
             renderAs: "line",
@@ -148,6 +152,7 @@
             seriesname: "75th Percentile",
             data: staticData.peer75.map((value) => ({
               value: value.toString(),
+              showValue: "0", // Hide data labels for percentiles
             })),
             color: "#3B82F6", // Blue
             renderAs: "line",
