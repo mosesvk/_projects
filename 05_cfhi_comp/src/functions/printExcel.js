@@ -1,667 +1,862 @@
 /**
- * Excel Report Generator for CFHI Comprehensive Dashboard
- * Generates and exports Excel reports with client data, peer data, and metrics
+ * Simplified Excel Report Integration
+ * Handles XML generation and QuickBase API integration
  */
-
 class ExcelReportGenerator {
     constructor() {
-        console.log("ExcelReportGenerator initialized");
-        
-        // XML templates
+      // API Constants
+      this.API = {
+        APP_TOKEN: "bpat4pgu9t69yby5gbemdbej52j",
+        UPLOAD_URL:
+          "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord",
+      };
+  
+      // XML Template Strings
         this.XML = {
-            HEADER: `<?xml version="1.0" encoding="UTF-8"?><qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken><record>`,
-            FOOTER: `</record></qdbapi>`
+        HEADER: `<?xml version="1.0" ?><qdbapi><apptoken>${this.API.APP_TOKEN}</apptoken>`,
+        FOOTER: "</qdbapi>",
+        COLUMN_LIST: "<clist>171</clist>",
         };
 
-        // Field IDs for Quickbase (from printExcelFields.md)
         this.FIELD_IDS = {
-            // Basic client information
-            CLIENT_ID: "227",
-            CLIENT_NAME: "223", 
-            RECORDS_RETURNED: "224",
-            TYPE: "287",
-            
-            // Years (up to 5 years supported)
-            YEAR_1: "228",
-            YEAR_2: "229", 
-            YEAR_3: "230",
-            YEAR_4: "231",
-            YEAR_5: "232",
-            YEAR_COUNT: "290",
-            
-            // Query parameters
-            QUERY_GU_MIN: "296",
-            QUERY_GU_MAX: "297",
-            QUERY_YEARS: "298",
-            QUERY_REGIONS: "299",
-            
-            // URL fields for reports
-            PRINT_URL_TRENDS_PDF: "288",
-            PRINT_URL_TRENDS_XLS: "292",
-            PRINT_URL_BENCHMARK_PDF: "293",
-            PRINT_URL_BENCHMARK_XLS: "294",
-        };
+        CLIENT_RID: "171",
+        FIRM_NAME: "170",
+        UNIQUE_CLIENTS: "169",
+        SLIDER_MIN: "163",
+        SLIDER_MAX: "164",
+        MISSION_MIN: "165",
+        MISSION_MAX: "166",
+        AREAS: "167",
+        TYPES: "168",
+        YEARS_START: "158",
+      };
+  
+      // XML payload storage
+      this.xmlPayload = "";
+  
+      // Field metric mappings (CFHI) using printFieldsForExcel.md
+      // Format per entry: [metricName, [AVG, MIN, MID, MAX], begin, end, category]
+      this.fieldMappings = [
+        // Demo (general -> demoData)
+        ["givingUnits", [6, 8, 7, 9], true, false, "general"],
+        ["attendeesToStaff", [22, 24, 23, 25], false, false, "general"],
 
-        // Quickbase URLs
-        this.QUICKBASE_URLS = {
-            UPLOAD_URL: "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord",
-            REPORT_BASE_URL: "https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx"
-        };
+        // Cash (cash -> cashData)
+        ["daysExpendableNetAssets", [55, 57, 56, 58], false, false, "cash"],
+        ["daysOperatingCash", [59, 61, 60, 62], false, false, "cash"],
+        ["availableDaysOfCashFlow", [63, 65, 64, 66], false, false, "cash"],
+        ["liquidityRatio", [67, 69, 68, 70], false, false, "cash"],
+        ["netCashAvailability", [71, 73, 72, 74], false, false, "cash"],
 
-        // Comprehensive field mappings for all metrics (from printExcelFields.md)
-        this.METRIC_FIELD_IDS = {
-            // C01 - Demo Data
-            "givingUnits": { AVG: "6", MID: "7", MIN: "8", MAX: "9" },
-            "attendeesToStaff": { AVG: "22", MID: "23", MIN: "24", MAX: "25" },
-            
-            // C03 - Cash Data  
-            "daysExpendableNetAssets": { AVG: "55", MID: "56", MIN: "57", MAX: "58" },
-            "daysOperatingCash": { AVG: "59", MID: "60", MIN: "61", MAX: "62" },
-            "availableDaysOfCashFlow": { AVG: "63", MID: "64", MIN: "65", MAX: "66" },
-            "liquidityRatio": { AVG: "67", MID: "68", MIN: "69", MAX: "70" },
-            "netCashAvailability": { AVG: "71", MID: "72", MIN: "73", MAX: "74" },
-            
-            // C04 - Debt Data
-            "debtToContributionsWithout": { AVG: "83", MID: "84", MIN: "85", MAX: "86" },
-            "currentRatio": { AVG: "87", MID: "88", MIN: "89", MAX: "90" },
-            "mandatoryDebtServiceToContributionsWithout": { AVG: "91", MID: "92", MIN: "93", MAX: "94" },
-            "debtPerGivingUnit": { AVG: "103", MID: "104", MIN: "105", MAX: "106" },
-            "debtCoverage": { AVG: "111", MID: "112", MIN: "113", MAX: "114" },
-            
-            // C05 - Income Data
-            "netIncomeRatio": { AVG: "115", MID: "116", MIN: "117", MAX: "118" },
-            "contributionsWithoutDonorPerGivingUnit": { AVG: "123", MID: "124", MIN: "125", MAX: "126" },
-            "totalContributionsPerGivingUnit": { AVG: "131", MID: "132", MIN: "133", MAX: "134" },
-            
-            // C06 - Expense Data
-            "benefitsToSalaries": { AVG: "135", MID: "136", MIN: "137", MAX: "138" },
-            "salariesBenefitsIncludingOutsourcedEmployees": { AVG: "151", MID: "152", MIN: "153", MAX: "154" },
-            "personnelToCashExpenditure": { AVG: "155", MID: "156", MIN: "157", MAX: "158" },
-            "cashExpendituresPerGivingUnit": { AVG: "183", MID: "184", MIN: "185", MAX: "186" }
-        };
+        // Debt (asset -> debtData)
+        ["debtToContributionsWithout", [83, 85, 84, 86], false, false, "asset"],
+        ["currentRatio", [87, 89, 88, 90], false, false, "asset"],
+        ["mandatoryDebtServiceToContributionsWithout", [91, 93, 92, 94], false, false, "asset"],
+        ["debtPerGivingUnit", [103, 105, 104, 106], false, false, "asset"],
+        ["debtCoverage", [111, 113, 112, 114], false, false, "asset"],
 
-        // URLs for different report formats
-        this.REPORT_URLS = {
-            SINGLE_YEAR: {
-                EXCEL: "https://capin-crouse.quickbase.com/db/bqg7ddtci?a=GenResultsTable&rdr=%2Fdb%2Fbqg7ddtci%3Fa%3Dq%26qid%3D",
-                PDF: "https://capin-crouse.quickbase.com/db/bqg7ddtci?a=GenResultsTable&rdr=%2Fdb%2Fbqg7ddtci%3Fa%3Dq%26qid%3D"
-            },
-            MULTI_YEAR: {
-                EXCEL: "https://capin-crouse.quickbase.com/db/bqg7ddtci?a=GenResultsTable&rdr=%2Fdb%2Fbqg7ddtci%3Fa%3Dq%26qid%3D",
-                PDF: "https://capin-crouse.quickbase.com/db/bqg7ddtci?a=GenResultsTable&rdr=%2Fdb%2Fbqg7ddtci%3Fa%3Dq%26qid%3D"
-            }
-        };
+        // Income (income -> incomeData)
+        ["netIncomeRatio", [115, 117, 116, 118], false, false, "income"],
+        ["contributionsWithoutDonorPerGivingUnit", [123, 125, 124, 126], false, false, "income"],
+        ["totalContributionsPerGivingUnit", [131, 133, 132, 134], false, false, "income"],
 
-        this.xmlPayload = "";
+        // Expense (expense -> expenseData)
+        ["benefitsToSalaries", [135, 137, 136, 138], false, false, "expense"],
+        ["salariesBenefitsIncludingOutsourcedEmployees", [151, 153, 152, 154], false, false, "expense"],
+        ["personnelToCashExpenditure", [155, 157, 156, 158], false, false, "expense"],
+        ["cashExpendituresPerGivingUnit", [183, 185, 184, 186], false, false, "expense"],
+
+        // Additional (misc -> additionalData)
+        ["contributionsPerAccountingFTE", [187, 189, 188, 190], false, false, "misc"],
+        ["expensesPerAccountingFTE", [191, 193, 192, 194], false, false, "misc"],
+      ];
+  
         this.init();
     }
 
     /**
-     * Initialize the Excel Report Generator
+     * Initialize the Excel report generator
      */
     init() {
-        console.log("ExcelReportGenerator init() called");
-        
-        // Ensure DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.setupEventListeners());
+      const generateReportsBtn = document.getElementById("generateReports");
+      if (generateReportsBtn) {
+        generateReportsBtn.addEventListener(
+          "click",
+          this.handleGenerateReport.bind(this)
+        );
+        }
+    }
+
+    /**
+     * Handle generate report button click
+     */
+    handleGenerateReport() {
+      // Check if this function is already running to prevent duplicate calls
+      if (this.isGenerating) {
+        console.warn("Generation already in progress, ignoring duplicate call");
+        return;
+      }
+  
+      this.isGenerating = true;
+      const button = document.getElementById("generateReports");
+  
+      if (typeof toggleButtonLoadingState === "function") {
+        toggleButtonLoadingState(button);
+      } else {
+        button.disabled = true;
+        button.textContent = "Generating...";
+      }
+  
+      // Validate data is available (use CFHI data categories)
+      if (!localStorage.getItem("demoData") &&
+          !localStorage.getItem("cashData") &&
+          !localStorage.getItem("debtData") &&
+          !localStorage.getItem("incomeData") &&
+          !localStorage.getItem("expenseData") &&
+          !localStorage.getItem("additionalData")) {
+        if (typeof createToastWarning === "function") {
+          createToastWarning(
+            "No data available. Please select years and run the report first."
+          );
+        }
+  
+        if (typeof toggleGenerateReportButtonNormalState === "function") {
+          toggleGenerateReportButtonNormalState(button);
         } else {
-            this.setupEventListeners();
+          button.disabled = false;
+          button.textContent = "Generate Reports";
         }
-    }
-
-    /**
-     * Setup event listeners for the report generator
-     */
-    setupEventListeners() {
-        const generateButton = document.getElementById("generateReports");
-        if (generateButton) {
-            console.log("Setting up generateReports button listener");
-            
-            // Remove existing listeners to prevent duplicates
-            const newButton = generateButton.cloneNode(true);
-            generateButton.parentNode.replaceChild(newButton, generateButton);
-            
-            // Add new listener
-            newButton.addEventListener("click", (event) => {
-                event.preventDefault();
-                this.handleGenerateReport();
-            });
-        }
-    }
-
-    /**
-     * Handle the generate report button click
-     */
-    async handleGenerateReport() {
-        console.log("Generate Report button clicked");
-        
-        try {
-            // Show loading state
-            const button = document.getElementById("generateReports");
-            if (button) {
-                button.disabled = true;
-                button.textContent = "Generating Report...";
-            }
-
-            // Validate data availability
-            const hasData = this.validateDataAvailability();
-            if (!hasData) {
-                createToastWarning("No data available to generate reports. Please run the dashboard first.");
+  
+        this.isGenerating = false;
                 return;
             }
 
-            // Prepare and send data to Quickbase
-            await this.createPrintExcel();
-            
-            // Show success message
-            createToastSuccess("Reports generated successfully! Check the download links below.");
-            
-            // Show the print modal footer with download links
-            this.showPrintModalFooter();
-
-        } catch (error) {
-            console.error("Error generating reports:", error);
-            createToastWarning("Error generating reports. Please try again.");
-        } finally {
-            // Reset button state
-            const button = document.getElementById("generateReports");
-            if (button) {
+      // Generate report with slight delay to ensure UI updates
+      setTimeout(() => {
+        this.createPrintExcel()
+          .then(() => {
+            if (typeof toggleGenerateReportButtonNormalState === "function") {
+              toggleGenerateReportButtonNormalState(button);
+            } else {
                 button.disabled = false;
-                button.textContent = "Generate Trends and Benchmark Reports";
+              button.textContent = "Generate Reports";
             }
-        }
-    }
-
-    /**
-     * Validate that required data is available for report generation
-     */
-    validateDataAvailability() {
-        // Check if we have data in localStorage
-        const dataCategories = ['demoData', 'cashData', 'debtData', 'incomeData', 'expenseData', 'additionalData'];
-        
-        for (const category of dataCategories) {
-            const data = localStorage.getItem(category);
-            if (data && data !== 'null' && data !== '{}') {
-                const parsedData = JSON.parse(data);
-                if (Object.keys(parsedData).length > 0) {
-                    return true; // Found at least one category with data
-                }
+  
+            this.isGenerating = false;
+          })
+          .catch((error) => {
+            console.error("Report generation failed:", error);
+  
+            if (typeof createToastWarning === "function") {
+              createToastWarning(
+                `Report generation failed: ${error.message || "Unknown error"}`
+              );
             }
-        }
-        
-        return false;
+  
+            if (typeof toggleGenerateReportButtonNormalState === "function") {
+              toggleGenerateReportButtonNormalState(button);
+            } else {
+              button.disabled = false;
+              button.textContent = "Generate Reports";
+            }
+  
+            this.isGenerating = false;
+          });
+      }, 100);
     }
-
+  
     /**
-     * Show the print modal footer with download links
-     */
-    showPrintModalFooter() {
-        const footer = document.getElementById("print_modal_footer");
-        if (footer) {
-            footer.classList.remove("hidden");
-        }
-    }
-
-    /**
-     * Escape XML special characters
+     * Escape XML special characters to prevent malformed XML
      */
     escapeXml(unsafe) {
-        if (unsafe === null || unsafe === undefined) {
+      if (unsafe === undefined || unsafe === null) {
             return "";
         }
         
-        return unsafe.toString()
+      return String(unsafe)
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+        .replace(/'/g, "&apos;");
     }
 
     /**
-     * Calculate statistics for peer data
+     * Process data arrays and calculate statistics
      */
     calculateStatistics(data, metricName) {
-        if (!data || !data[metricName]) {
-            return { avg: 0, median: 0, min: 0, max: 0 };
-        }
-
-        const values = [];
-        const metricData = data[metricName];
-
-        // Collect all peer values
-        Object.keys(metricData).forEach(year => {
-            if (metricData[year] && metricData[year].peer) {
-                Object.values(metricData[year].peer).forEach(peerData => {
-                    if (peerData && peerData.value !== undefined && peerData.value !== null) {
-                        const value = parseFloat(peerData.value);
-                        if (!isNaN(value)) {
-                            values.push(value);
-                        }
-                    }
-                });
-            }
-        });
-
-        if (values.length === 0) {
-            return { avg: 0, median: 0, min: 0, max: 0 };
-        }
-
-        // Sort values for median calculation
-        values.sort((a, b) => a - b);
-
-        const avg = values.reduce((sum, val) => sum + val, 0) / values.length;
-        const median = values.length % 2 === 0
-            ? (values[values.length / 2 - 1] + values[values.length / 2]) / 2
-            : values[Math.floor(values.length / 2)];
-        const min = values[0];
-        const max = values[values.length - 1];
-
-        return { avg, median, min, max };
+      if (data[`${metricName}_Stats`]) {
+        return {
+          avg: data[`${metricName}_Stats`].avg || 0,
+          mid: data[`${metricName}_Stats`].median || 0,
+          min: data[`${metricName}_Stats`].q1 || 0,
+          max: data[`${metricName}_Stats`].q3 || 0
+        };
+      }
+      // Get peer data
+      const peerData = data[`${metricName}_Peer`];
+      if (!peerData || !peerData.total || !Array.isArray(peerData.total)) {
+        return { avg: 0, mid: 0, min: 0, max: 0 };
+      }
+  
+      const values = peerData.total.filter((v) => !isNaN(parseFloat(v)));
+  
+      // Calculate statistics
+      let avg, mid, min, max;
+  
+      // Average
+      if (typeof getWeightedAverageOfArray === "function") {
+        avg = getWeightedAverageOfArray(data, metricName, null);
+      } else {
+        avg = values.reduce((sum, val) => sum + Number(val), 0) / values.length;
+      }
+  
+      // Percentiles
+      if (
+        typeof get25thPercentileOfArray === "function" &&
+        typeof getMidpointOfArray === "function" &&
+        typeof get75thPercentileOfArray === "function"
+      ) {
+        min = get25thPercentileOfArray(values, metricName);
+        mid = getMidpointOfArray(values, metricName);
+        max = get75thPercentileOfArray(values, metricName);
+      } else {
+        // Fallback manual calculation
+        const sorted = [...values].sort((a, b) => a - b);
+        min = sorted[Math.floor(sorted.length * 0.25)] || 0;
+        mid = sorted[Math.floor(sorted.length * 0.5)] || 0;
+        max = sorted[Math.floor(sorted.length * 0.75)] || 0;
+      }
+  
+      return { avg, mid, min, max };
     }
-
+  
     /**
-     * Upload field data to the XML payload
+     * Add peer statistics to XML payload
      */
-    uploadToFile(avg, median, min, max, fieldIds, begin, end) {
-        try {
-            if (!Array.isArray(fieldIds) || fieldIds.length < 4) {
-                console.error("uploadToFile: Invalid fieldIds array");
+    uploadToFile(avg, mid, min, max, fIdArray, begin, end) {
+      if (!fIdArray || !Array.isArray(fIdArray) || fIdArray.length < 4) {
+        console.warn("Invalid fIdArray provided to uploadToFile:", fIdArray);
                 return;
             }
 
-            const values = [avg, median, min, max];
-            
-            for (let i = 0; i < values.length && i < fieldIds.length; i++) {
-                const fieldId = fieldIds[i];
-                const value = values[i];
-                
-                if (fieldId && value !== undefined && value !== null) {
-                    this.xmlPayload += `<field fid='${fieldId}'>${this.escapeXml(value)}</field>`;
-                }
-            }
-
-            if (begin && end) {
-                console.log(`Uploaded data for fields ${begin} to ${end}`);
-            }
-        } catch (error) {
-            console.error("Error in uploadToFile:", error);
+      const avgId = fIdArray[0];
+      const midId = fIdArray[2];
+      const minId = fIdArray[1];
+      const maxId = fIdArray[3];
+  
+      // Escape values for XML
+      const safeAvg = this.escapeXml(avg);
+      const safeMid = this.escapeXml(mid);
+      const safeMin = this.escapeXml(min);
+      const safeMax = this.escapeXml(max);
+  
+      if (begin) {
+        this.xmlPayload = this.XML.HEADER;
+      }
+  
+      this.xmlPayload +=
+        `<field fid='${avgId}'>${safeAvg}</field>` +
+        `<field fid='${midId}'>${safeMid}</field>` +
+        `<field fid='${minId}'>${safeMin}</field>` +
+        `<field fid='${maxId}'>${safeMax}</field>`;
+  
+      if (end) {
+        this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
         }
     }
 
     /**
-     * Upload single value to file
+     * Add a single field to XML payload
      */
-    uploadSingleToFile(fieldId, value, isEnd = false) {
-        try {
-            if (fieldId && value !== undefined && value !== null) {
-                this.xmlPayload += `<field fid='${fieldId}'>${this.escapeXml(value)}</field>`;
-                
-                if (isEnd) {
-                    console.log(`Uploaded final field: ${fieldId} = ${value}`);
-                }
-            }
-        } catch (error) {
-            console.error("Error in uploadSingleToFile:", error);
+    uploadSingleToFile(id, val, end = false) {
+      if (id === undefined || id === null) {
+        console.warn("Invalid field ID provided to uploadSingleToFile");
+        return;
+      }
+  
+      const safeVal = this.escapeXml(val);
+      this.xmlPayload += `<field fid='${id}'>${safeVal}</field>`;
+  
+      if (end) {
+        this.xmlPayload += this.XML.COLUMN_LIST;
+        this.xmlPayload += this.XML.FOOTER;
         }
     }
 
     /**
-     * Prepare all field data for the report
-     */
-    async prepareAllFieldData() {
-        console.log("Preparing all field data for Excel report");
-        
-        try {
-            // Get current selections and data
-            const selectedYears = this.getSelectedYears();
-            const selectedClients = Array.from(window.selectedClients_Array || []);
-            const clientData = this.getAllClientData();
-            const peerData = this.getAllPeerData();
-
-            // Process each data category
-            const dataCategories = ['demoData', 'cashData', 'debtData', 'incomeData', 'expenseData', 'additionalData'];
-            
-            for (const category of dataCategories) {
-                await this.processDataCategory(category, selectedYears, clientData, peerData);
-            }
-
-            console.log("Field data preparation completed");
-            
-        } catch (error) {
-            console.error("Error preparing field data:", error);
-            throw error;
-        }
-    }
-
-    /**
-     * Process a specific data category for report generation
-     */
-    async processDataCategory(category, selectedYears, clientData, peerData) {
-        const data = JSON.parse(localStorage.getItem(category) || '{}');
-        
-        if (!data || Object.keys(data).length === 0) {
-            console.log(`No data found for category: ${category}`);
-            return;
-        }
-
-        // Process each metric in the category
-        Object.keys(data).forEach(metricName => {
-            const metricData = data[metricName];
-            
-            if (metricData && typeof metricData === 'object') {
-                // Map the metric name to the field mapping name
-                const mappedMetricName = this.mapChartNameToMetricName(metricName);
-                
-                // Calculate peer statistics
-                const stats = this.calculateStatistics(data, metricName);
-                
-                // Get the correct field IDs from our comprehensive mapping
-                const fieldIds = this.getFieldIdsForMetric(category, mappedMetricName);
-                
-                if (fieldIds && fieldIds.length >= 4) {
-                    this.uploadToFile(
-                        stats.avg,
-                        stats.median,
-                        stats.min,
-                        stats.max,
-                        fieldIds,
-                        `${category}_${metricName}`,
-                        true
-                    );
-                    
-                    console.log(`Uploaded data for ${mappedMetricName}: AVG=${stats.avg}, MID=${stats.median}, MIN=${stats.min}, MAX=${stats.max}`);
-                } else {
-                    console.warn(`No field mapping available for metric: ${mappedMetricName} in category: ${category}`);
-                }
-            }
-        });
-    }
-
-    /**
-     * Get field IDs for a specific metric (based on printExcelFields.md mapping)
-     */
-    getFieldIdsForMetric(category, metricName) {
-        // Get the metric field mapping from our comprehensive list
-        const metricFields = this.METRIC_FIELD_IDS[metricName];
-        
-        if (metricFields) {
-            return [
-                metricFields.AVG,
-                metricFields.MID, 
-                metricFields.MIN,
-                metricFields.MAX
-            ];
-        }
-        
-        console.warn(`No field mapping found for metric: ${metricName} in category: ${category}`);
-        return null;
-    }
-
-    /**
-     * Get the metric name mapped to the actual field names used in the data
-     */
-    mapChartNameToMetricName(chartName) {
-        // Map chart names to the metric names used in METRIC_FIELD_IDS
-        const chartToMetricMap = {
-            // Demo charts
-            "givingUnits": "givingUnits",
-            "attendeesToStaff": "attendeesToStaff",
-            
-            // Cash charts
-            "daysExpendableNetAssets": "daysExpendableNetAssets", 
-            "daysOperatingCash": "daysOperatingCash",
-            "availableDaysOfCashFlow": "availableDaysOfCashFlow",
-            "liquidityRatio": "liquidityRatio",
-            "netCashAvailability": "netCashAvailability",
-            
-            // Debt charts
-            "debtToContributionsWithout": "debtToContributionsWithout",
-            "currentRatio": "currentRatio", 
-            "mandatoryDebtServiceToContributionsWithout": "mandatoryDebtServiceToContributionsWithout",
-            "debtPerGivingUnit": "debtPerGivingUnit",
-            "debtCoverage": "debtCoverage",
-            
-            // Income charts
-            "netIncomeRatio": "netIncomeRatio",
-            "contributionsWithoutDonorPerGivingUnit": "contributionsWithoutDonorPerGivingUnit",
-            "totalContributionsPerGivingUnit": "totalContributionsPerGivingUnit",
-            
-            // Expense charts
-            "benefitsToSalaries": "benefitsToSalaries",
-            "salariesBenefitsIncludingOutsourcedEmployees": "salariesBenefitsIncludingOutsourcedEmployees", 
-            "personnelToCashExpenditure": "personnelToCashExpenditure",
-            "cashExpendituresPerGivingUnit": "cashExpendituresPerGivingUnit"
-        };
-        
-        return chartToMetricMap[chartName] || chartName;
-    }
-
-    /**
-     * Get selected years from localStorage
-     */
-    getSelectedYears() {
-        try {
-            const years = localStorage.getItem('selectedYears');
-            return years ? JSON.parse(years) : [];
-        } catch (error) {
-            console.error("Error getting selected years:", error);
-            return [];
-        }
-    }
-
-    /**
-     * Get all client data from localStorage
-     */
-    getAllClientData() {
-        const clientData = {};
-        const categories = ['demoData', 'cashData', 'debtData', 'incomeData', 'expenseData', 'additionalData'];
-        
-        categories.forEach(category => {
-            try {
-                const data = localStorage.getItem(category);
-                if (data) {
-                    clientData[category] = JSON.parse(data);
-                }
-            } catch (error) {
-                console.error(`Error loading ${category}:`, error);
-            }
-        });
-        
-        return clientData;
-    }
-
-    /**
-     * Get all peer data from localStorage  
-     */
-    getAllPeerData() {
-        // Similar to getAllClientData but focused on peer data
-        return this.getAllClientData(); // Same structure, different usage
-    }
-
-    /**
-     * Create and submit the Excel report to Quickbase
+     * Generate Excel report with all data
      */
     async createPrintExcel() {
-        console.log("Creating Excel report for Quickbase submission");
-        
-        try {
-            // Get current filter values
-            const clientId = "CFHI_COMP_" + Date.now(); // Generate unique ID
-            const clientName = "CFHI Comprehensive Report"; // Report name
-            const recordsReturned = window.selectedClients_Array ? window.selectedClients_Array.size.toString() : "0";
-            const sliderMin = window.sliderValue || 0;
-            const sliderMax = window.sliderValue2 || 25000;
-            const types = Array.from(window.selectedTypes_Array || []).join(",");
-            const regions = Array.from(window.selectedAreas_Array || []).join(",");
-            const selectedYears = this.getSelectedYears();
-
-            // Debug log values
-            console.log("Excel report data values:", {
-                clientId,
-                clientName,
-                recordsReturned,
-                sliderMin,
-                sliderMax,
-                types,
-                regions,
-                selectedYears
-            });
-
-            // Start the XML with the header
-            this.xmlPayload = this.XML.HEADER;
-
-            // Add basic client information
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.CLIENT_ID}'>${this.escapeXml(clientId)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.CLIENT_NAME}'>${this.escapeXml(clientName)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.RECORDS_RETURNED}'>${this.escapeXml(recordsReturned)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.TYPE}'>${this.escapeXml(types)}</field>`;
-
-            // Add query parameters
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.QUERY_GU_MIN}'>${this.escapeXml(sliderMin)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.QUERY_GU_MAX}'>${this.escapeXml(sliderMax)}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.QUERY_YEARS}'>${this.escapeXml(selectedYears.join(","))}</field>`;
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.QUERY_REGIONS}'>${this.escapeXml(regions)}</field>`;
-
-            // Add years data (up to 5 years)
-            const yearFields = [
-                this.FIELD_IDS.YEAR_1, this.FIELD_IDS.YEAR_2, this.FIELD_IDS.YEAR_3, 
-                this.FIELD_IDS.YEAR_4, this.FIELD_IDS.YEAR_5
-            ];
-            
-            selectedYears.forEach((year, index) => {
-                if (index < yearFields.length) {
-                    this.xmlPayload += `<field fid='${yearFields[index]}'>${this.escapeXml(year)}</field>`;
-                }
-            });
-
-            // Add year count
-            this.xmlPayload += `<field fid='${this.FIELD_IDS.YEAR_COUNT}'>${this.escapeXml(selectedYears.length)}</field>`;
-
-            // Prepare all metric data
-            await this.prepareAllFieldData();
-
-            // Close the XML
-            this.xmlPayload += this.XML.FOOTER;
-
-            // Generate the metrics XML and submit
-            const metricsXml = this.generateMetricsXml();
-            await this.printToExcel(metricsXml);
-
+      // Reset XML payload
+      this.xmlPayload = "";
+  
+      try {
+        // Get client data with direct access to global variables
+        const ClientRid = window.ClientRid || "";
+  
+        // Handle firmName
+        let firmName = "";
+        if (window.firmName) {
+          firmName =
+            window.firmName instanceof HTMLElement
+              ? window.firmName.textContent || ""
+              : window.firmName;
+        }
+  
+        // Get uniqueClients
+        let uniqueClientsSize =
+          document.getElementById("uniqueClients")?.textContent || 0;
+  
+        // IMPORTANT: Direct access to global variables for filters
+        const sliderValue = document.getElementById("givingUnitsMin")?.value || 0;
+        const sliderValue2 =
+          document.getElementById("givingUnitsMax")?.value || 0;
+        const missionValue =
+          document.getElementById("missionUnitsMin")?.value || 0;
+        const missionValue2 =
+          document.getElementById("missionUnitsMax")?.value || 0;
+  
+        // Get types and areas from global arrays
+        let types = "";
+        if (window.selectedTypes_Array) {
+          // Check if it's a Set
+          if (window.selectedTypes_Array instanceof Set) {
+            types = Array.from(window.selectedTypes_Array).join(";");
+          }
+          // Check if it's an Array
+          else if (Array.isArray(window.selectedTypes_Array)) {
+            types = window.selectedTypes_Array.join(";");
+          }
+        }
+  
+        let areas = "";
+        if (window.selectedAreas_Array) {
+          // Check if it's a Set
+          if (window.selectedAreas_Array instanceof Set) {
+            areas = Array.from(window.selectedAreas_Array).join(";");
+          }
+          // Check if it's an Array
+          else if (Array.isArray(window.selectedAreas_Array)) {
+            areas = window.selectedAreas_Array.join(";");
+          }
+        }
+  
+        // Debug log values
+        console.log("Client data values:", {
+          ClientRid,
+          firmName,
+          uniqueClientsSize,
+          sliderValue,
+          sliderValue2,
+          missionValue,
+          missionValue2,
+          types,
+          areas,
+        });
+  
+        // Start the XML with the XML header
+        this.xmlPayload = this.XML.HEADER;
+  
+        // Add client data with direct field additions
+        this.xmlPayload += `<field fid='${
+          this.FIELD_IDS.CLIENT_RID
+        }'>${this.escapeXml(ClientRid)}</field>`;
+        this.xmlPayload += `<field fid='${
+          this.FIELD_IDS.FIRM_NAME
+        }'>${this.escapeXml(firmName)}</field>`;
+        this.xmlPayload += `<field fid='${
+          this.FIELD_IDS.UNIQUE_CLIENTS
+        }'>${this.escapeXml(uniqueClientsSize)}</field>`;
+        this.xmlPayload += `<field fid='${
+          this.FIELD_IDS.SLIDER_MIN
+        }'>${this.escapeXml(sliderValue)}</field>`;
+        this.xmlPayload += `<field fid='${
+          this.FIELD_IDS.SLIDER_MAX
+        }'>${this.escapeXml(sliderValue2)}</field>`;
+        this.xmlPayload += `<field fid='${
+          this.FIELD_IDS.MISSION_MIN
+        }'>${this.escapeXml(missionValue)}</field>`;
+        this.xmlPayload += `<field fid='${
+          this.FIELD_IDS.MISSION_MAX
+        }'>${this.escapeXml(missionValue2)}</field>`;
+        this.xmlPayload += `<field fid='${this.FIELD_IDS.AREAS}'>${this.escapeXml(
+          areas
+        )}</field>`;
+        this.xmlPayload += `<field fid='${this.FIELD_IDS.TYPES}'>${this.escapeXml(
+          types
+        )}</field>`;
+  
+        // Add years - MODIFIED TO ENSURE YEARS USE CORRECT FIELD IDS
+        const selectedYears = getSelectedYearsFromLocalStorage() || [];
+        let fieldId
+        for (let i = 0; i < selectedYears.length; i++) {
+          const year = selectedYears[i];
+          // Make sure we're using the correct field ID from YEARS_START
+  
+          
+          if (i >= 5) {
+            let num = i - 5
+            fieldId = 176 + num
+            console.log(i, fieldId);
+                } else {
+            fieldId = Number(this.FIELD_IDS.YEARS_START) + i;
+          }
+  
+          // Ensure we're not using the same field IDs as slider or mission fields
+          if (
+            fieldId.toString() === this.FIELD_IDS.SLIDER_MIN ||
+            fieldId.toString() === this.FIELD_IDS.SLIDER_MAX ||
+            fieldId.toString() === this.FIELD_IDS.MISSION_MIN ||
+            fieldId.toString() === this.FIELD_IDS.MISSION_MAX
+          ) {
+            console.error(
+              `Field ID conflict detected: Year field ID ${fieldId} conflicts with slider/mission field IDs`
+            );
+            // Skip this field or handle the conflict another way
+            continue;
+          }
+  
+          this.xmlPayload += `<field fid='${fieldId}'>${this.escapeXml(
+            year
+          )}</field>`;
+        }
+  
+        // Process metrics data
+        const metricsXml = this.generateMetricsXml();
+  
+        // Add metrics XML to the existing XML payload
+        this.xmlPayload += metricsXml;
+  
+        // Close the XML
+        this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
+  
+        // Send to QuickBase with delay to ensure data is properly prepared
+        console.log("Adding delay before sending to QuickBase API...");
+  
+        return new Promise((resolve) => {
+          setTimeout(async () => {
+            try {
+              const result = await this.printToExcel(this.xmlPayload);
+              resolve(result);
+            } catch (error) {
+              console.error("Error sending data to QuickBase:", error);
+              throw error;
+            }
+          }, 1500); // Add a 1.5-second delay
+        });
+      } catch (error) {
+        console.error("Error creating Excel report:", error);
+        throw error;
+      }
+    }
+  
+    /**
+     * Prepare all field data for QuickBase export
+     */
+    prepareAllFieldData() {
+      try {
+        // Create a temporary XML for metrics data
+        let metricsXml = "";
+  
+        // Get all data from localStorage
+        const demoData = JSON.parse(localStorage.getItem("demoData") || "{}");
+        const cashData = JSON.parse(localStorage.getItem("cashData") || "{}");
+        const debtData = JSON.parse(localStorage.getItem("debtData") || "{}");
+        const incomeData = JSON.parse(localStorage.getItem("incomeData") || "{}");
+        const expenseData = JSON.parse(localStorage.getItem("expenseData") || "{}");
+        const additionalData = JSON.parse(localStorage.getItem("additionalData") || "{}");
+  
+        // Process each field mapping
+        this.fieldMappings.forEach((mapping, index) => {
+          const [metricName, fieldIds, begin, end, category] = mapping;
+          const isLastMetric = index === this.fieldMappings.length - 1;
+  
+          // Find which data object contains this metric based on category
+          let dataObject;
+          switch (category) {
+            case "general":
+              dataObject = demoData; // Map test "general" to CFHI "demoData"
+              break;
+            case "cash":
+              dataObject = cashData;
+              break;
+            case "asset":
+              dataObject = debtData; // Map test "asset" to CFHI "debtData"
+              break;
+            case "income":
+              dataObject = incomeData;
+              break;
+            case "expense":
+              dataObject = expenseData;
+              break;
+            case "misc":
+              dataObject = additionalData; // Map test "misc" to CFHI "additionalData"
+              break;
+            default:
+              return; // Skip if no valid category
+          }
+  
+          // Check if data exists for this metric
+          if (!dataObject || !dataObject[`${metricName}_Peer`]) {
+            return; // Skip if no data found
+          }
+  
+          // Get peer data
+          const peerData = dataObject[`${metricName}_Peer`];
+  
+          // Calculate statistics
+          const stats = this.calculateStatistics(dataObject, metricName);
+  
+          // Add to metrics XML - specifically NOT using begin or end flags
+          if (fieldIds && fieldIds.length >= 4) {
+            const avgId = fieldIds[0];
+            const midId = fieldIds[2];
+            const minId = fieldIds[1];
+            const maxId = fieldIds[3];
+  
+            // Format values
+            const safeAvg = this.escapeXml(stats.avg);
+            const safeMid = this.escapeXml(stats.mid);
+            const safeMin = this.escapeXml(stats.min);
+            const safeMax = this.escapeXml(stats.max);
+  
+            // Add fields to metrics XML
+            metricsXml +=
+              `<field fid='${avgId}'>${safeAvg}</field>` +
+              `<field fid='${midId}'>${safeMid}</field>` +
+              `<field fid='${minId}'>${safeMin}</field>` +
+              `<field fid='${maxId}'>${safeMax}</field>`;
+          }
+        });
+  
+        // Append metrics XML to existing XML payload (which has client data)
+        this.xmlPayload += metricsXml;
         } catch (error) {
-            console.error("Error creating Excel report:", error);
-            throw error;
+            console.error("Error preparing field data:", error);
         }
     }
 
-    /**
-     * Generate the metrics XML for submission
+    /*
+     * Generate XML for metrics data
+     * @returns {string} XML string with metric data
      */
     generateMetricsXml() {
-        console.log("Generating metrics XML");
-        
-        // Use the prepared XML payload
-        return this.xmlPayload;
+      let metricsXml = "";
+  
+      try {
+        // Get all data from localStorage
+        const generalData = JSON.parse(
+          localStorage.getItem("generalData") || "{}"
+        );
+        const cashData = JSON.parse(localStorage.getItem("cashData") || "{}");
+        const assetData = JSON.parse(localStorage.getItem("assetData") || "{}");
+        const incomeData = JSON.parse(localStorage.getItem("incomeData") || "{}");
+        const expenseData = JSON.parse(
+          localStorage.getItem("expenseData") || "{}"
+        );
+        const miscData = JSON.parse(localStorage.getItem("miscData") || "{}");
+  
+        // Process each field mapping
+        this.fieldMappings.forEach((mapping, index) => {
+          const [metricName, fieldIds, begin, end, category] = mapping;
+  
+          // Find which data object contains this metric based on category
+          let dataObject;
+          switch (category) {
+            case "general":
+              dataObject = generalData;
+              break;
+            case "cash":
+              dataObject = cashData;
+              break;
+            case "asset":
+              dataObject = assetData;
+              break;
+            case "income":
+              dataObject = incomeData;
+              break;
+            case "expense":
+              dataObject = expenseData;
+              break;
+            case "misc":
+              dataObject = miscData;
+              break;
+            default:
+              return; // Skip if no valid category
+          }
+  
+          // Check if data exists for this metric
+          if (!dataObject || !dataObject[`${metricName}_Peer`]) {
+            return; // Skip if no data found
+          }
+  
+          // Get peer data
+          const peerData = dataObject[`${metricName}_Peer`];
+  
+          // Calculate statistics
+          const stats = this.calculateStatistics(dataObject, metricName);
+  
+          // Add to metrics XML
+          if (fieldIds && fieldIds.length >= 4) {
+            const avgId = fieldIds[0];
+            const midId = fieldIds[2];
+            const minId = fieldIds[1];
+            const maxId = fieldIds[3];
+  
+            // Format values
+            const safeAvg = this.escapeXml(stats.avg);
+            const safeMid = this.escapeXml(stats.mid);
+            const safeMin = this.escapeXml(stats.min);
+            const safeMax = this.escapeXml(stats.max);
+  
+            // Add fields to metrics XML
+            metricsXml +=
+              `<field fid='${avgId}'>${safeAvg}</field>` +
+              `<field fid='${midId}'>${safeMid}</field>` +
+              `<field fid='${minId}'>${safeMin}</field>` +
+              `<field fid='${maxId}'>${safeMax}</field>`;
+          }
+        });
+      } catch (error) {
+        console.error("Error generating metrics XML:", error);
+      }
+  
+      return metricsXml;
     }
-
+  
     /**
-     * Submit the Excel report to Quickbase and setup download links
+     * Send XML data to QuickBase with added delay
+     * @param {string} dataString - XML payload to send
+     * @returns {Promise} Promise that resolves with the QuickBase response
      */
-    async printToExcel(dataString) {
-        console.log("Submitting Excel report to Quickbase");
-        
+    printToExcel(dataString) {
+      function getUrlBasedOnYearCount(format, RecordId) {
+        const yearCount = selectedYears_Set.size;
+        let url = "";
+  
+        switch (yearCount) {
+          case 1:
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=42&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            break;
+          case 2:
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=41&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            break;
+          case 3:
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=40&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            break;
+          case 4:
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=39&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            break;
+          case 5:
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=38&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            break;
+          case 6:
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=37&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            break;
+          case 7:
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=36&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            break;
+          case 8:
+            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=35&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+            break;
+          default:
+            console.error("Invalid year count");
+        }
+  
+        console.log(
+          `Generated URL for format ${format} and RecordId ${RecordId}: ${url}`
+        ); // Add this line to log the generated URL
+        return url;
+      }
+      return new Promise((resolve, reject) => {
+        // Debug: Log the XML payload to console
+        console.log("XML Payload being prepared for QuickBase:");
+        // console.log(dataString);
+  
+        // Optional: Save to localStorage for inspection if needed
         try {
-            // Function to get URL based on year count
-            function getUrlBasedOnYearCount(format, recordId) {
-                const selectedYears = JSON.parse(localStorage.getItem('selectedYears') || '[]');
-                const yearCount = selectedYears.length;
-                
-                // Map format to docfmt parameter
-                const docFormat = format === 'EXCEL' ? 'XL' : 'PDF';
-                
-                // Map year count to template ID (tpid)
-                let tpid;
-                switch (yearCount) {
-                    case 1: tpid = 42; break;
-                    case 2: tpid = 41; break;
-                    case 3: tpid = 40; break;
-                    case 4: tpid = 39; break;
-                    case 5: tpid = 38; break;
-                    case 6: tpid = 37; break;
-                    case 7: tpid = 36; break;
-                    case 8: tpid = 35; break;
-                    default: 
-                        console.error("Invalid year count:", yearCount);
-                        tpid = 42; // Default to single year
+          localStorage.setItem("lastXmlPayload", dataString);
+        } catch (e) {
+          console.warn("Could not save XML payload to localStorage:", e);
+        }
+  
+        // Try to validate XML structure before sending
+        try {
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(dataString, "text/xml");
+          const parseError = xmlDoc.querySelector("parsererror");
+          if (parseError) {
+            console.error("XML validation failed:", parseError.textContent);
+            // Continue anyway but log the error
+          }
+        } catch (validationError) {
+          console.error("Error validating XML:", validationError);
+          // Continue anyway but log the error
+        }
+  
+        // Add delay before sending the request to ensure data is ready
+        console.log("Adding delay before sending to QuickBase API...");
+        setTimeout(() => {
+          $.ajax({
+            type: "POST",
+            contentType: "text/xml",
+            async: true,
+            url: this.API.UPLOAD_URL,
+            dataType: "xml",
+            processData: false,
+            data: dataString,
+            success: function (response) {
+              try {
+                console.log("QuickBase response received:", response);
+  
+                const xmlUpload = $(response);
+                const errorCode = xmlUpload.find("qdbapi").find("errcode").text();
+  
+                if (errorCode === "0") {
+                  const recordId = xmlUpload.find("qdbapi").find("rid").text();
+                  console.log(
+                    "Successfully uploaded to QuickBase, Record ID:",
+                    recordId
+                  );
+  
+                  if (typeof createToastSuccess === "function") {
+                    createToastSuccess(
+                      "Generated Reports successfully to Quickbase."
+                    );
+                  }
+  
+                  const printModalFooter =
+                    document.getElementById("print_modal_footer");
+                  if (printModalFooter) {
+                    printModalFooter.classList.remove("hidden");
+                  }
+  
+                  // Update download links if they exist
+                  const trendXLSFinal = document.getElementById("trendXLSFinal");
+                  if (
+                    trendXLSFinal &&
+                    typeof getUrlBasedOnYearCount === "function"
+                  ) {
+                    trendXLSFinal.href = getUrlBasedOnYearCount("xls", recordId);
+                  }
+  
+                  const trendPDFFinal = document.getElementById("trendPDFFinal");
+                  if (
+                    trendPDFFinal &&
+                    typeof getUrlBasedOnYearCount === "function"
+                  ) {
+                    trendPDFFinal.href = getUrlBasedOnYearCount("pdf", recordId);
+                  }
+  
+                  resolve({ recordId });
+                } else {
+                  const errorText =
+                    xmlUpload.find("qdbapi").find("errtext").text() ||
+                    "Unknown QuickBase error";
+                  const error = new Error(
+                    `QuickBase error (${errorCode}): ${errorText}`
+                  );
+                  console.error("QuickBase API error:", {
+                    errorCode,
+                    errorText,
+                    xmlPayload: dataString,
+                  });
+  
+                  if (typeof createToastWarning === "function") {
+                    createToastWarning(error.message);
+                  }
+  
+                  reject(error);
                 }
-                
-                // Construct the URL using the pattern from test file
-                const url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=btcc8gq3r&tpid=${tpid}&fn=InternationalSummary&dbid=bt76haf6m&msid=${recordId}&docfmt=${docFormat}&stream=y&apptoken=---`;
-                
-                console.log(`Generated URL for format ${format} and RecordId ${recordId}: ${url}`);
-                return url;
-            }
-
-            // Submit data to Quickbase
-            const response = await fetch(this.QUICKBASE_URLS.UPLOAD_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/xml",
-                    "QUICKBASE-ACTION": "API_AddRecord"
-                },
-                body: dataString
-            });
-
-            if (!response.ok) {
-                throw new Error(`Quickbase submission failed: ${response.status}`);
-            }
-
-            const responseText = await response.text();
-            console.log("Quickbase response:", responseText);
-
-            // Parse the response to get the record ID
-            const parser = new DOMParser();
-            const xmlDoc = parser.parseFromString(responseText, "text/xml");
-            const recordId = xmlDoc.querySelector("rid")?.textContent;
-
-            if (recordId) {
-                // Setup download links
-                const trendXLSButton = document.getElementById("trendXLSFinal");
-                const trendPDFButton = document.getElementById("trendPDFFinal");
-
-                if (trendXLSButton) {
-                    trendXLSButton.href = getUrlBasedOnYearCount("EXCEL", recordId);
+              } catch (parseError) {
+                console.error(
+                  "Error parsing QuickBase response:",
+                  parseError,
+                  "Response:",
+                  response
+                );
+  
+                if (typeof createToastWarning === "function") {
+                  createToastWarning(
+                    `Failed to parse QuickBase response: ${parseError.message}`
+                  );
                 }
-
-                if (trendPDFButton) {
-                    trendPDFButton.href = getUrlBasedOnYearCount("PDF", recordId);
+  
+                reject(
+                  new Error(
+                    `Failed to parse QuickBase response: ${parseError.message}`
+                  )
+                );
+              }
+            },
+            error: function (xhr, status, error) {
+              // Extract meaningful error information
+              let errorMessage = "Unknown error";
+  
+              console.error("QuickBase API request failed:", {
+                status,
+                error,
+                response: xhr.responseText,
+                xmlPayload: dataString,
+              });
+  
+              if (xhr && xhr.responseText) {
+                try {
+                  // Try to parse XML response
+                  const $errorXml = $(xhr.responseText);
+                  errorMessage =
+                    $errorXml.find("errtext").text() || error || status;
+                } catch (e) {
+                  // If we can't parse XML, use the raw responseText or status
+                  errorMessage = xhr.responseText || error || status;
                 }
-
-                console.log("Download links updated with record ID:", recordId);
             } else {
-                console.error("No record ID found in Quickbase response");
-            }
-
-        } catch (error) {
-            console.error("Error in printToExcel:", error);
-            throw error;
-        }
+                errorMessage = error || status;
+              }
+  
+              if (typeof createToastWarning === "function") {
+                createToastWarning(`QuickBase API error: ${errorMessage}`);
+              }
+  
+              reject(new Error(`QuickBase API error: ${errorMessage}`));
+            },
+          });
+        }, 1000); // Add a 1-second delay before sending the request
+      });
     }
-}
-
-// Global functions for backward compatibility
-window.ExcelReportGenerator = ExcelReportGenerator;
-
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        if (!window.excelReportGenerator) {
-            window.excelReportGenerator = new ExcelReportGenerator();
-        }
-    });
-} else {
-    if (!window.excelReportGenerator) {
-        window.excelReportGenerator = new ExcelReportGenerator();
+  }
+  
+  // Initialize when DOM is ready
+  // In the document.addEventListener("DOMContentLoaded", ...) part of print_excel.js
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    // Create a single instance
+    const excelReportGenerator = new ExcelReportGenerator();
+  
+    // Make sure no duplicate event listeners are attached to generateReports button
+    const generateReportsBtn = document.getElementById("generateReports");
+    if (generateReportsBtn) {
+      // Remove any existing listeners to prevent duplicates
+      const newBtn = generateReportsBtn.cloneNode(true);
+      generateReportsBtn.parentNode.replaceChild(newBtn, generateReportsBtn);
+  
+      // Add a single click event listener
+      newBtn.addEventListener(
+        "click",
+        excelReportGenerator.handleGenerateReport.bind(excelReportGenerator),
+        { once: true } // This ensures the event only fires once per click
+      );
     }
-}
+  
+    // Expose functions globally for backward compatibility
+    window.excelReportGenerator = excelReportGenerator;
+    window.createPrintExcel =
+      excelReportGenerator.createPrintExcel.bind(excelReportGenerator);
+    window.uploadToFile =
+      excelReportGenerator.uploadToFile.bind(excelReportGenerator);
+    window.uploadSingleToFile =
+      excelReportGenerator.uploadSingleToFile.bind(excelReportGenerator);
+    window.printToExcel =
+      excelReportGenerator.printToExcel.bind(excelReportGenerator);
+  });

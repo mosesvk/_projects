@@ -5606,36 +5606,12 @@ window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
     document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
 
     return {
-      cfiData: JSON.parse(localStorage.getItem("cfiData")),
-      doeData: JSON.parse(localStorage.getItem("doeData")),
-      financialAnalysisData: JSON.parse(
-        localStorage.getItem("financialAnalysisData")
-      ),
-      financialPositionData: JSON.parse(
-        localStorage.getItem("financialPositionData")
-      ),
-      financialStatementData: JSON.parse(
-        localStorage.getItem("financialStatementData")
-      ),
-      revenueExpenseData: JSON.parse(
-        localStorage.getItem("revenueExpenseData")
-      ),
-      // debtEndowmentData: JSON.parse(localStorage.getItem("debtEndowmentData")),
-      ltDebtPerTotalOperatingRevenueData: JSON.parse(
-        localStorage.getItem("ltDebtPerTotalOperatingRevenueData")
-      ),
-      debtServiceCoverageRatioData: JSON.parse(
-        localStorage.getItem("debtServiceCoverageRatioData")
-      ),
-      debtBurdenRatioData: JSON.parse(
-        localStorage.getItem("debtBurdenRatioData")
-      ),
-      endowmentOperatingBudgetData: JSON.parse(
-        localStorage.getItem("endowmentOperatingBudgetData")
-      ),
-      endowmentAssetsPerStudentData: JSON.parse(
-        localStorage.getItem("endowmentAssetsPerStudentData")
-      ),
+      demoData: JSON.parse(localStorage.getItem("demoData")),
+      cashData: JSON.parse(localStorage.getItem("cashData")), 
+      debtData: JSON.parse(localStorage.getItem("debtData")),
+      incomeData: JSON.parse(localStorage.getItem("incomeData")),
+      expenseData: JSON.parse(localStorage.getItem("expenseData")),
+      additionalData: JSON.parse(localStorage.getItem("additionalData"))
     };
   }
 };

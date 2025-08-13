@@ -1,711 +1,1064 @@
-/**
- * Base64 Chart Export and Print Functionality for CFHI Comprehensive Dashboard
- * Exports ApexCharts as base64 images and submits to Quickbase for presentation printing
- */
+// print_base64.js
+
+const DEFAULT_CHART_WIDTH = 1100;
+const DEFAULT_CHART_HEIGHT = 530;
 
 /**
- * Chart mappings for different chart types and their configurations
- * Based on actual chart IDs from DisplayCharts.js and Utility.js
- */
-const chartMappings = {
-    // Demo Charts
-    "givingUnits_chart": { type: "apex", category: "demoData" },
-    "attendeesToStaff_chart": { type: "apex", category: "demoData" },
-    
-    // Cash Flow Charts  
-    "daysExpendableNetAssets_chart": { type: "apex", category: "cashData" },
-    "daysOperatingCash_chart": { type: "apex", category: "cashData" },
-    "availableDaysOfCashFlow_chart": { type: "apex", category: "cashData" },
-    "liquidityRatio_chart": { type: "apex", category: "cashData" },
-    "netCashAvailability_chart": { type: "apex", category: "cashData" },
-    
-    // Debt Charts
-    "debtToContributionsWithout_chart": { type: "apex", category: "debtData" },
-    "currentRatio_chart": { type: "apex", category: "debtData" },
-    "mandatoryDebtServiceToContributionsWithout_chart": { type: "apex", category: "debtData" },
-    "debtPerGivingUnit_chart": { type: "apex", category: "debtData" },
-    "debtCoverage_chart": { type: "apex", category: "debtData" },
-    
-    // Income Charts
-    "netIncomeRatio_chart": { type: "apex", category: "incomeData" },
-    "contributionsWithoutDonorPerGivingUnit_chart": { type: "apex", category: "incomeData" },
-    "totalContributionsPerGivingUnit_chart": { type: "apex", category: "incomeData" },
-    
-    // Expense Charts
-    "benefitsToSalaries_chart": { type: "apex", category: "expenseData" },
-    "salariesBenefitsIncludingOutsourcedEmployees_chart": { type: "apex", category: "expenseData" },
-    "personnelToCashExpenditure_chart": { type: "apex", category: "expenseData" },
-    "cashExpendituresPerGivingUnit_chart": { type: "apex", category: "expenseData" }
-};
-
-/**
- * Process charts with proper spacing for presentation layout
+ * Process charts with fixed dimensions regardless of screen resolution
+ *
+ * @param {Array} chartMappings - Array of chart ID and field ID mappings
+ * @returns {Promise<Array>} - Results of chart processing
  */
 async function processChartsWithSpacing(chartMappings) {
     const results = [];
-    let processedCount = 0;
-    const totalCharts = Object.keys(chartMappings).length;
-    
-    console.log(`Starting to process ${totalCharts} charts for presentation export`);
-    
-    // Setup progress UI
-    setupProgressUI(totalCharts);
-    
+  setupProgressUI(chartMappings.length);
+
+  for (let i = 0; i < chartMappings.length; i++) {
+    const { chartId, fieldId } = chartMappings[i];
+    updateProgressUI(i, chartMappings.length);
+
     try {
-        for (const [chartId, config] of Object.entries(chartMappings)) {
-            try {
-                updateProgressUI(processedCount + 1, totalCharts);
-                
+      console.log(`Processing chart: ${chartId}...`);
+
+      // Get the chart element and instance
                 const chartElement = document.getElementById(chartId);
                 if (!chartElement) {
                     console.warn(`Chart element not found: ${chartId}`);
-                    processedCount++;
+        results.push({ chartId, fieldId, base64String: null });
                     continue;
                 }
                 
-                // Check if chart has data
-                const hasData = await validateChartData(chartId, config.category);
-                if (!hasData) {
-                    console.warn(`No data available for chart: ${chartId}`);
-                    processedCount++;
+      const chart = chartManager.getChart(chartId) || window[chartId];
+
+      // If we have an ApexChart instance, use its export method
+      if (chart && typeof chart.dataURI === "function") {
+        const base64String = await exportApexChart(chart, chartId);
+        if (base64String) {
+          results.push({ chartId, fieldId, base64String });
                     continue;
                 }
-                
-                console.log(`Processing chart: ${chartId} (${processedCount + 1}/${totalCharts})`);
-                
-                let base64Result;
-                
-                if (config.type === "apex") {
-                    // Try to get chart instance like the working testPrintBase64.js does
-                    let chartInstanceForExport;
-                    if (window.chartManager && typeof window.chartManager.getChart === 'function') {
-                        chartInstanceForExport = window.chartManager.getChart(chartId);
-                    }
-                    if (!chartInstanceForExport) {
-                        chartInstanceForExport = window[chartId];
-                    }
-                    
-                    base64Result = await exportApexChart(chartInstanceForExport, chartId);
-                } else {
-                    console.warn(`Unsupported chart type: ${config.type} for ${chartId}`);
-                    processedCount++;
-                    continue;
-                }
-                
-                if (base64Result && base64Result.success) {
-                    results.push({
-                        chartId: chartId,
-                        base64: base64Result.base64,
-                        category: config.category,
-                        type: config.type
-                    });
-                    console.log(`Successfully exported: ${chartId}`);
-                } else {
-                    console.error(`Failed to export chart: ${chartId}`, base64Result?.error);
-                }
-                
-                processedCount++;
-                
-                // Add small delay between chart processing to prevent browser lockup
-                await new Promise(resolve => setTimeout(resolve, 100));
-                
+      }
+
+      console.warn("fallback to html2canvas");
+
+      // Fallback to html2canvas
+      const base64String = await exportWithHtml2Canvas(chartElement);
+      results.push({ chartId, fieldId, base64String });
+
+      // Prevent UI freezing
+      await new Promise((resolve) => setTimeout(resolve, 50));
             } catch (error) {
                 console.error(`Error processing chart ${chartId}:`, error);
-                processedCount++;
+      results.push({ chartId, fieldId, base64String: null });
             }
         }
         
-        completeProgressUI(totalCharts);
-        
-        console.log(`Chart processing completed. Successfully exported ${results.length} out of ${totalCharts} charts`);
+  completeProgressUI(chartMappings.length);
         return results;
-        
-    } catch (error) {
-        console.error("Error in processChartsWithSpacing:", error);
-        completeProgressUI(totalCharts);
-        throw error;
-    }
 }
 
 /**
- * Validate if a chart has data available
- */
-async function validateChartData(chartId, category) {
-    try {
-        const data = localStorage.getItem(category);
-        if (!data || data === 'null' || data === '{}') {
-            return false;
-        }
-        
-        const parsedData = JSON.parse(data);
-        return Object.keys(parsedData).length > 0;
-        
-    } catch (error) {
-        console.error(`Error validating data for ${chartId}:`, error);
-        return false;
-    }
-}
-
-/**
- * Save complete chart state for restoration later
+ * Save complete chart state including all configurations
  */
 function saveCompleteChartState(chart) {
-    if (!chart) return null;
-    
-    try {
-        const chartElement = chart.el;
-        if (!chartElement) return null;
-        
-        return {
-            // Chart configuration
-            config: JSON.parse(JSON.stringify(chart.w.config)),
-            
-            // Chart dimensions and styling
+  try {
+    const paperNode = chart.w.globals.dom.Paper.node;
+    const chartConfig = chart.w.config;
+    const chartId = chart.w.globals.chartID;
+    const mainName = chartId.replace("_chart", "");
+
+    // Deep clone the entire chart configuration
+    const clonedConfig = JSON.parse(
+      JSON.stringify({
+        chart: chartConfig.chart || {},
+        dataLabels: chartConfig.dataLabels || {},
+        markers: chartConfig.markers || {},
+        title: chartConfig.title || {},
+        xaxis: chartConfig.xaxis || {},
+        yaxis: chartConfig.yaxis || {},
+        tooltip: chartConfig.tooltip || {},
+        legend: chartConfig.legend || {},
+        grid: chartConfig.grid || {},
+        stroke: chartConfig.stroke || {},
+        fill: chartConfig.fill || {},
+        plotOptions: chartConfig.plotOptions || {},
+        annotations: chartConfig.annotations || {},
+        colors: chartConfig.colors || [],
+        series: chartConfig.series || [],
+      })
+    );
+
+    // Store chart type and parameters
+    const chartType = getChartTypeFromId(chartId);
+
+    // Get numType from chart globals (critical for formatter function)
+    const numType = chart.w.globals.numType || chartConfig.numType || "number";
+    const fixedNum = chartConfig.dataLabels?.formatter
+      ?.toString()
+      .includes("fixedNum")
+      ? parseInt(
+          chartConfig.dataLabels.formatter
+            .toString()
+            .match(/fixedNum\s*=\s*(\d+)/)?.[1] || 0
+        )
+      : chartConfig.dataLabels?.fixedNum || 0;
+
+    // For costOfContributions chart, save the exact y-axis configuration
+    let yaxisConfig = null;
+    if (
+      chartType === "costOfContributions" &&
+      Array.isArray(chartConfig.yaxis)
+    ) {
+      yaxisConfig = chartConfig.yaxis.map((axis) => ({
+        ...axis,
+        labels: {
+          ...axis.labels,
+          formatter: axis.labels?.formatter?.toString(),
+          style: axis.labels?.style || {},
+        },
+        axisBorder: axis.axisBorder || {},
+        axisTicks: axis.axisTicks || {},
+      }));
+    }
+
+    // Save everything we'll need for proper restoration
+    const originalConfig = {
+      chartId: chartId,
+      chartType: chartType,
+      mainName: mainName,
+      svgAttributes: {
+        width: paperNode.getAttribute("width"),
+        height: paperNode.getAttribute("height"),
+        viewBox: paperNode.getAttribute("viewBox"),
+        styleWidth: paperNode.style.width,
+        styleHeight: paperNode.style.height,
+        preserveAspectRatio: paperNode.getAttribute("preserveAspectRatio"),
+      },
+      chartConfig: clonedConfig,
             dimensions: {
-                width: chartElement.offsetWidth,
-                height: chartElement.offsetHeight,
-                position: window.getComputedStyle(chartElement).position,
-                top: window.getComputedStyle(chartElement).top,
-                left: window.getComputedStyle(chartElement).left,
-                zIndex: window.getComputedStyle(chartElement).zIndex,
-                transform: window.getComputedStyle(chartElement).transform
-            },
-            
-            // Container styling
-            containerStyle: {
-                display: chartElement.style.display,
-                visibility: chartElement.style.visibility,
-                opacity: chartElement.style.opacity,
-                background: window.getComputedStyle(chartElement).background,
-                padding: window.getComputedStyle(chartElement).padding,
-                margin: window.getComputedStyle(chartElement).margin,
-                border: window.getComputedStyle(chartElement).border,
-                borderRadius: window.getComputedStyle(chartElement).borderRadius,
-                boxShadow: window.getComputedStyle(chartElement).boxShadow
-            },
-            
-            // Parent container info
-            parentElement: chartElement.parentElement,
-            nextSibling: chartElement.nextSibling,
-            
-            // Chart instance properties
-            chartProps: {
-                rendered: chart.w.globals.rendered,
-                dataChanged: chart.w.globals.dataChanged,
-                resized: chart.w.globals.resized
-            }
-        };
+        width: chart.w.globals.svgWidth,
+        height: chart.w.globals.svgHeight,
+      },
+      xaxisConfig: {
+        categories: chartConfig.xaxis?.categories || [],
+        labels: chartConfig.xaxis?.labels || {},
+        type: chartConfig.xaxis?.type || "category",
+        tickPlacement: chartConfig.xaxis?.tickPlacement || "between",
+        axisBorder: chartConfig.xaxis?.axisBorder || {},
+        crosshairs: chartConfig.xaxis?.crosshairs || {},
+      },
+      numType: numType,
+      fixedNum: fixedNum,
+      isYAxisArray: Array.isArray(chartConfig.yaxis),
+      yaxisConfig: yaxisConfig,
+    };
+    return originalConfig;
     } catch (error) {
-        console.error("Error saving chart state:", error);
+    console.warn("Error saving chart state:", error);
         return null;
     }
 }
 
-/**
- * Get chart type from chart ID for proper handling
- */
+// Helper function to determine chart type based on chart ID
 function getChartTypeFromId(chartId) {
-    // Map chart IDs to their types for better categorization
-    const chartTypeMap = {
-        // Demo Charts
-        "givingUnits_chart": "demo",
-        "attendeesToStaff_chart": "demo",
-        
-        // Cash Flow Charts
-        "daysExpendableNetAssets_chart": "cashflow",
-        "daysOperatingCash_chart": "cashflow",
-        "availableDaysOfCashFlow_chart": "cashflow",
-        "liquidityRatio_chart": "cashflow",
-        "netCashAvailability_chart": "cashflow",
-        
-        // Debt Charts
-        "debtToContributionsWithout_chart": "debt",
-        "currentRatio_chart": "debt",
-        "mandatoryDebtServiceToContributionsWithout_chart": "debt",
-        "debtPerGivingUnit_chart": "debt",
-        "debtCoverage_chart": "debt",
-        
-        // Income Charts
-        "netIncomeRatio_chart": "income",
-        "contributionsWithoutDonorPerGivingUnit_chart": "income",
-        "totalContributionsPerGivingUnit_chart": "income",
-        
-        // Expense Charts
-        "benefitsToSalaries_chart": "expense",
-        "salariesBenefitsIncludingOutsourcedEmployees_chart": "expense",
-        "personnelToCashExpenditure_chart": "expense",
-        "cashExpendituresPerGivingUnit_chart": "expense"
-    };
-    
-    return chartTypeMap[chartId] || "unknown";
+  const idToTypeMap = {
+    netAssetBreakdown_chart: "netAssetBreakdown",
+    changeInNetAssets_chart: "line",
+    statementCashFlows_chart: "cashFlow",
+    functionalAllocation_chart: "functionalAllocation",
+    costOfContributions_chart: "costOfContributions",
+    costOfContributionsDetailView_chart: "costOfContributions",
+  };
+
+  // Check for specific mapping
+  if (idToTypeMap[chartId]) {
+    return idToTypeMap[chartId];
+  }
+
+  // Fallback to infer from ID
+  if (chartId.includes("_chart")) {
+    return "main";
+  }
+
+  return "main"; // Default
 }
 
 /**
- * Restore complete chart state after export
+ * Restore complete chart state
  */
 function restoreCompleteChartState(chart, originalState) {
-    if (!chart || !originalState) return;
-    
-    try {
-        const chartElement = chart.el;
-        if (!chartElement) return;
-        
-        // Restore dimensions
-        if (originalState.dimensions) {
-            chartElement.style.width = originalState.dimensions.width + 'px';
-            chartElement.style.height = originalState.dimensions.height + 'px';
-            chartElement.style.position = originalState.dimensions.position;
-            chartElement.style.top = originalState.dimensions.top;
-            chartElement.style.left = originalState.dimensions.left;
-            chartElement.style.zIndex = originalState.dimensions.zIndex;
-            chartElement.style.transform = originalState.dimensions.transform;
-        }
-        
-        // Restore container styling
-        if (originalState.containerStyle) {
-            Object.keys(originalState.containerStyle).forEach(prop => {
-                if (originalState.containerStyle[prop]) {
-                    chartElement.style[prop] = originalState.containerStyle[prop];
+  // console.log("RESTORE CHART STATE", { chart, originalState });
+  try {
+    if (
+      !chart ||
+      !originalState ||
+      !chart.w ||
+      !chart.w.globals ||
+      !chart.w.globals.dom
+    ) {
+      return;
+    }
+
+    const paperNode = chart.w.globals.dom.Paper.node;
+    // Restore SVG attributes
+    const { svgAttributes } = originalState;
+    paperNode.setAttribute("width", svgAttributes.width);
+    paperNode.setAttribute("height", svgAttributes.height);
+    paperNode.style.width = svgAttributes.styleWidth;
+    paperNode.style.height = svgAttributes.styleHeight;
+    paperNode.setAttribute("viewBox", svgAttributes.viewBox);
+    paperNode.setAttribute(
+      "preserveAspectRatio",
+      svgAttributes.preserveAspectRatio
+    );
+
+    // Get the original chart configuration
+    const originalConfig = chart.w.config;
+    const chartId = originalState.chartId || chart.w.globals.chartID;
+    const mainName = originalState.mainName || chartId.replace("_chart", "");
+    const chartType = originalState.chartType || getChartTypeFromId(chartId);
+
+    // Use saved numType and fixedNum
+    const numType =
+      originalState.numType ||
+      chart.w.globals.numType ||
+      originalConfig.numType ||
+      "number";
+    const fixedNum =
+      originalState.fixedNum !== undefined ? originalState.fixedNum : 0;
+
+    // Different restoration logic based on chart type
+    let restoredConfig;
+
+    // First, ensure numType will be available in chart.w.globals
+    if (chart.w.globals) {
+      chart.w.globals.numType = numType;
+    }
+
+    // For costOfContributions chart, use the saved y-axis configuration
+    if (chartType === "costOfContributions") {
+      // First, get the original y-axis configuration
+      const originalYAxis = originalState.chartConfig.yaxis;
+
+      // console.log("CHARTTYPE==costOfContributions", {
+      //   originalState,
+      //   originalYAxis,
+      // });
+
+      restoredConfig = {
+        ...originalState.chartConfig,
+        yaxis: [
+          // First y-axis (dollar values)
+          {
+            ...originalYAxis[0],
+            labels: {
+              ...originalYAxis[0].labels,
+              formatter: function (value) {
+                if (value === null || value === undefined || value === 0) {
+                  if (numType === "dollar") return "$0";
+                  if (numType === "percent") return "0%";
+                  return "0";
                 }
-            });
-        }
-        
-        // Restore parent relationship if needed
-        if (originalState.parentElement && chartElement.parentElement !== originalState.parentElement) {
-            if (originalState.nextSibling) {
-                originalState.parentElement.insertBefore(chartElement, originalState.nextSibling);
-            } else {
-                originalState.parentElement.appendChild(chartElement);
-            }
-        }
-        
-        // Update chart configuration if needed
-        if (originalState.config && JSON.stringify(chart.w.config) !== JSON.stringify(originalState.config)) {
-            chart.updateOptions(originalState.config, false, true);
-        }
-        
-        console.log("Chart state restored successfully");
-        
-    } catch (error) {
-        console.error("Error restoring chart state:", error);
-    }
-}
 
-/**
- * Get chart instance by ID from global variables
- */
-function getChartInstanceById(chartId) {
-    // Map chart IDs to their global variable names
-    const chartVariableMap = {
-        "givingUnits_chart": "givingUnits_chart",
-        "attendeesToStaff_chart": "attendeesToStaff_chart",
-        "daysExpendableNetAssets_chart": "daysExpendableNetAssets_chart",
-        "daysOperatingCash_chart": "daysOperatingCash_chart",
-        "availableDaysOfCashFlow_chart": "availableDaysOfCashFlow_chart",
-        "liquidityRatio_chart": "liquidityRatio_chart",
-        "netCashAvailability_chart": "netCashAvailability_chart",
-        "debtToContributionsWithout_chart": "debtToContributionsWithout_chart",
-        "currentRatio_chart": "currentRatio_chart",
-        "mandatoryDebtServiceToContributionsWithout_chart": "mandatoryDebtServiceToContributionsWithout_chart",
-        "debtPerGivingUnit_chart": "debtPerGivingUnit_chart",
-        "debtCoverage_chart": "debtCoverage_chart",
-        "netIncomeRatio_chart": "netIncomeRatio_chart",
-        "contributionsWithoutDonorPerGivingUnit_chart": "contributionsWithoutDonorPerGivingUnit_chart",
-        "totalContributionsPerGivingUnit_chart": "totalContributionsPerGivingUnit_chart",
-        "benefitsToSalaries_chart": "benefitsToSalaries_chart",
-        "salariesBenefitsIncludingOutsourcedEmployees_chart": "salariesBenefitsIncludingOutsourcedEmployees_chart",
-        "personnelToCashExpenditure_chart": "personnelToCashExpenditure_chart",
-        "cashExpendituresPerGivingUnit_chart": "cashExpendituresPerGivingUnit_chart"
-    };
-    
-    const variableName = chartVariableMap[chartId];
-    if (variableName && window[variableName]) {
-        console.log(`Found chart instance for ${chartId} in global variable: ${variableName}`);
-        return window[variableName];
-    }
-    
-    console.warn(`No global chart instance found for: ${chartId}`);
-    return null;
-}
+                const isNegative = value < 0;
+                const absValue = Math.abs(value);
 
-/**
- * Create number formatter with global configuration
- */
-function createFormatterWithGlobals(numType, fixedNum) {
-    return function(val) {
-        if (val === null || val === undefined || isNaN(val)) {
-            return 'N/A';
-        }
-        
-        const num = parseFloat(val);
-        
-        if (numType === 'currency') {
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                minimumFractionDigits: fixedNum || 0,
-                maximumFractionDigits: fixedNum || 0
-            }).format(num);
-        } else if (numType === 'percentage') {
-            return new Intl.NumberFormat('en-US', {
-                style: 'percent',
-                minimumFractionDigits: fixedNum || 1,
-                maximumFractionDigits: fixedNum || 1
-            }).format(num / 100);
-        } else if (numType === 'decimal') {
-            return new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: fixedNum || 2,
-                maximumFractionDigits: fixedNum || 2
-            }).format(num);
+                let formattedValue;
+                if (absValue >= 1000000) {
+                  // Remove decimal point for millions
+                  const millions = absValue / 1000000;
+                  formattedValue = `${Math.round(millions)}M`;
+                } else if (absValue >= 1000) {
+                  formattedValue = `${Math.round(absValue / 1000)}K`;
+                } else if (absValue < 1 && absValue > 0) {
+                  formattedValue = absValue.toFixed(2);
+                } else {
+                  formattedValue = Math.round(absValue).toString();
+                }
+
+                // Apply appropriate symbol based on numType
+                if (numType === "dollar") {
+                  return `${isNegative ? "-" : ""}$${formattedValue}`;
+                } else if (numType === "percent") {
+                  return `${isNegative ? "-" : ""}${formattedValue}%`;
+                }
+                return `${isNegative ? "-" : ""}${formattedValue}`;
+              },
+            },
+          },
+          // Second y-axis (hidden)
+          {
+            ...originalYAxis[1],
+          },
+          // Third y-axis (ratio values)
+          {
+            ...originalYAxis[2],
+            labels: {
+              ...originalYAxis[2].labels,
+              formatter: function (value) {
+                if (value === null || value === undefined || value === 0) {
+                  if (numType === "dollar") return "$0";
+                  if (numType === "percent") return "0%";
+                  return "0";
+                }
+
+                const isNegative = value < 0;
+                const absValue = Math.abs(value);
+
+                let formattedValue;
+                if (absValue >= 1000000) {
+                  // Remove decimal point for millions
+                  const millions = absValue / 1000000;
+                  formattedValue = `${Math.round(millions)}M`;
+                } else if (absValue >= 1000) {
+                  formattedValue = `${Math.round(absValue / 1000)}K`;
+                } else if (absValue < 1 && absValue > 0) {
+                  formattedValue = absValue.toFixed(2);
         } else {
-            // Default number formatting
-            return new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: fixedNum || 0,
-                maximumFractionDigits: fixedNum || 0
-            }).format(num);
-        }
-    };
+                  formattedValue = Math.round(absValue).toString();
+                }
+
+                // Apply appropriate symbol based on numType
+                if (numType === "dollar") {
+                  return `${isNegative ? "-" : ""}$${formattedValue}`;
+                } else if (numType === "percent") {
+                  return `${isNegative ? "-" : ""}${formattedValue}%`;
+                }
+                return `${isNegative ? "-" : ""}${formattedValue}`;
+              },
+              style: {
+                ...originalYAxis[2].labels?.style,
+                colors: originalYAxis[2]?.labels?.style?.colors || "#3a464f",
+                fontSize: "1.25rem",
+              },
+            },
+          },
+          // Fourth y-axis (hidden)
+          {
+            ...originalYAxis[3],
+          },
+        ],
+      };
+    } else {
+      // Use existing restoration logic for other chart types
+      restoredConfig = {
+        ...originalState.chartConfig,
+        xaxis: {
+          ...originalState.xaxisConfig,
+          categories: originalState.xaxisConfig.categories,
+          labels: {
+            ...originalState.xaxisConfig.labels,
+            style: {
+              ...originalState.xaxisConfig.labels.style,
+              colors:
+                originalState.chartConfig.xaxis?.labels?.style?.colors ||
+                "#3a464f",
+            },
+          },
+        },
+        yaxis: Array.isArray(originalState.chartConfig.yaxis)
+          ? originalState.chartConfig.yaxis.map((axis) => {
+              return {
+                ...axis,
+                labels: {
+                  ...axis.labels,
+                  formatter: function (value) {
+                    if (value === null || value === undefined || value === 0) {
+                      if (numType === "dollar") return "$0";
+                      if (numType === "percent") return "0%";
+                      return "0";
+                    }
+
+                    const isNegative = value < 0;
+                    const absValue = Math.abs(value);
+
+                    let formattedValue;
+                    if (absValue >= 1000000) {
+                      // Remove decimal point for millions
+                      const millions = absValue / 1000000;
+                      formattedValue = `${Math.round(millions)}M`;
+                    } else if (absValue >= 1000) {
+                      formattedValue = `${Math.round(absValue / 1000)}K`;
+                    } else if (absValue < 1 && absValue > 0) {
+                      formattedValue = absValue.toFixed(2);
+                    } else {
+                      formattedValue = Math.round(absValue).toString();
+                    }
+
+                    // Apply appropriate symbol based on numType
+                    if (numType === "dollar") {
+                      return `${isNegative ? "-" : ""}$${formattedValue}`;
+                    } else if (numType === "percent") {
+                      return `${isNegative ? "-" : ""}${formattedValue}%`;
+                    }
+                    return `${isNegative ? "-" : ""}${formattedValue}`;
+                  },
+                },
+              };
+            })
+          : {
+              ...originalState.chartConfig.yaxis,
+              labels: {
+                ...originalState.chartConfig.yaxis?.labels,
+                formatter: function (value) {
+                  if (value === null || value === undefined || value === 0) {
+                    if (numType === "dollar") return "$0";
+                    if (numType === "percent") return "0%";
+                    return "0";
+                  }
+
+                  const isNegative = value < 0;
+                  const absValue = Math.abs(value);
+
+                  let formattedValue;
+                  if (absValue >= 1000000) {
+                    // Remove decimal point for millions
+                    const millions = absValue / 1000000;
+                    formattedValue = `${Math.round(millions)}M`;
+                  } else if (absValue >= 1000) {
+                    formattedValue = `${Math.round(absValue / 1000)}K`;
+                  } else {
+                    formattedValue = Math.round(absValue).toString();
+                  }
+
+                  // Apply appropriate symbol based on numType
+                  if (numType === "dollar") {
+                    return `${isNegative ? "-" : ""}$${formattedValue}`;
+                  } else if (numType === "percent") {
+                    return `${isNegative ? "-" : ""}${formattedValue}%`;
+                  }
+                  return `${isNegative ? "-" : ""}${formattedValue}`;
+                },
+              },
+            },
+      };
+    }
+
+    // Apply the restored configuration
+    if (chart.updateOptions) {
+      chart.updateOptions(restoredConfig, true, true);
+    }
+  } catch (error) {
+    console.warn("Error restoring chart state:", error);
+  }
+}
+
+// Modified formatter to get numType from chart.w.globals if not provided
+function createFormatterWithGlobals(numType, fixedNum) {
+  return function (value) {
+    // Try to get numType from chart globals if available and not provided as parameter
+    // This is critical because ApexCharts doesn't pass numType to the formatter
+    if (this && this.w && this.w.globals && this.w.globals.numType) {
+      numType = this.w.globals.numType;
+    }
+
+    if (value === null || value === undefined || value === 0) {
+      if (numType === "dollar") return "$0";
+      if (numType === "percent") return "0%";
+      return "0";
+    }
+
+    const isNegative = value < 0;
+    const absValue = Math.abs(value);
+
+    let formattedValue;
+    if (absValue >= 1000000) {
+      // Check if the division has a fractional part
+      const millions = absValue / 1000000;
+      const isWholeNumber = millions === Math.floor(millions);
+      formattedValue = isWholeNumber
+        ? `${Math.floor(millions)}M`
+        : `${millions.toFixed(1)}M`;
+    } else if (absValue >= 1000) {
+      formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+    } else {
+      formattedValue = absValue.toFixed(fixedNum);
+    }
+
+    if (numType === "dollar") {
+      return `${isNegative ? "-" : ""}$${formattedValue}`;
+    } else if (numType === "percent") {
+      return `${isNegative ? "-" : ""}${formattedValue}%`;
+    } else {
+      return `${isNegative ? "-" : ""}${formattedValue}`;
+    }
+  };
 }
 
 /**
- * Export ApexChart as base64 image with enhanced error handling
+ * Export an ApexChart with fixed dimensions
+ *
+ * @param {Object} chart - ApexChart instance
+ * @returns {Promise<string>} - Base64 encoded image or null if failed
  */
 async function exportApexChart(chart, chartId) {
-    console.log(`Starting ApexChart export for: ${chartId}`);
-    
-    try {
-        // Get chart instance using the same approach as working testPrintBase64.js
-        let chartInstance;
-        
-        // Try multiple approaches to find the chart instance
-        
-        // Method 1: chartManager (from working test)
-        if (window.chartManager && typeof window.chartManager.getChart === 'function') {
-            chartInstance = window.chartManager.getChart(chartId);
-            console.log(`Method 1 (chartManager): ${chartInstance ? 'found' : 'not found'}`);
-        }
-        
-        // Method 2: ApexCharts global registry
-        if (!chartInstance && window.ApexCharts) {
-            // Try different ways to get from ApexCharts global
-            if (window.ApexCharts.getChartByID) {
-                chartInstance = window.ApexCharts.getChartByID(chartId);
-                console.log(`Method 2a (ApexCharts.getChartByID): ${chartInstance ? 'found' : 'not found'}`);
+  try {
+    if (!chart || !chart.w || !chart.w.globals || !chart.w.globals.dom) {
+      throw new Error("Invalid chart instance");
+    }
+
+    // Create a fixed-size container
+    const fixedContainer = document.createElement("div");
+    fixedContainer.style.position = "absolute";
+    fixedContainer.style.left = "-9999px";
+    fixedContainer.style.width = `${DEFAULT_CHART_WIDTH}px`;
+    fixedContainer.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    fixedContainer.style.backgroundColor = "#ffffff";
+    fixedContainer.style.overflow = "hidden";
+    document.body.appendChild(fixedContainer);
+
+    // Get the chart element
+    const chartElement = chart.w.globals.dom.Paper.node.parentNode;
+    if (!chartElement) {
+      throw new Error("Chart element not found");
+    }
+
+    // Store original styles
+    const originalStyles = {
+      width: chartElement.style.width,
+      height: chartElement.style.height,
+      position: chartElement.style.position,
+      transform: chartElement.style.transform,
+    };
+
+    // Save complete chart state
+    const originalState = saveCompleteChartState(chart);
+    if (!originalState) {
+      throw new Error("Failed to save chart state");
+    }
+
+    // Move chart to fixed container
+    const originalParent = chartElement.parentElement;
+    fixedContainer.innerHTML = "";
+    fixedContainer.appendChild(chartElement);
+
+    // Set fixed dimensions
+    chartElement.style.width = `${DEFAULT_CHART_WIDTH}px`;
+    chartElement.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    chartElement.style.position = "absolute";
+    chartElement.style.transform = "none";
+
+    // Force exact dimensions for export
+    const paperNode = chart.w.globals.dom.Paper.node;
+    paperNode.setAttribute("width", DEFAULT_CHART_WIDTH.toString());
+    paperNode.setAttribute("height", DEFAULT_CHART_HEIGHT.toString());
+    paperNode.style.width = `${DEFAULT_CHART_WIDTH}px`;
+    paperNode.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    paperNode.setAttribute(
+      "viewBox",
+      `0 0 ${DEFAULT_CHART_WIDTH} ${DEFAULT_CHART_HEIGHT}`
+    );
+    paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+    // Get chart info
+    const mainName = originalState.mainName || chartId.replace("_chart", "");
+    const chartType = originalState.chartType || getChartTypeFromId(chartId);
+    const numType = originalState.numType || "number";
+    const fixedNum = originalState.fixedNum || 0;
+
+    console.log("export ApexChart", {
+      chart,
+      numType,
+      fixedNum,
+      chartId,
+      chartType,
+      mainName,
+    });
+
+    // Ensure numType is set in globals
+    if (chart.w.globals) {
+      chart.w.globals.numType = numType;
+    }
+
+    // Base export options
+    const baseExportOptions = {
+      ...originalState.chartConfig,
+      chart: {
+        ...originalState.chartConfig.chart,
+        width: DEFAULT_CHART_WIDTH,
+        height: DEFAULT_CHART_HEIGHT,
+        animations: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false,
+        },
+        events: {
+          ...originalState.chartConfig.chart?.events,
+          mounted: function (chartContext) {
+            chartContext.w.globals.numType = numType;
+
+            // Call original mounted event if it exists
+            if (originalState.chartConfig.chart?.events?.mounted) {
+              originalState.chartConfig.chart.events.mounted.call(
+                this,
+                chartContext
+              );
             }
-            
-            // Try ApexCharts.exec
-            if (!chartInstance && window.ApexCharts.exec) {
-                try {
-                    // ApexCharts.exec can access chart instances
-                    const execResult = window.ApexCharts.exec(chartId, 'dataURI');
-                    if (execResult) {
-                        console.log(`Method 2b (ApexCharts.exec): found via exec`);
-                        // Create a minimal chart-like object for exec
-                        chartInstance = {
-                            dataURI: (options) => window.ApexCharts.exec(chartId, 'dataURI', options)
-                        };
-                    }
-                } catch (e) {
-                    console.log(`Method 2b (ApexCharts.exec): failed -`, e.message);
-                }
-            }
-        }
-        
-        // Method 3: Global variables (existing approach)
-        if (!chartInstance) {
-            chartInstance = getChartInstanceById(chartId);
-            console.log(`Method 3 (global variables): ${chartInstance ? 'found' : 'not found'}`);
-        }
-        
-        // Method 4: From passed chart parameter
-        if (!chartInstance) {
-            if (chart && chart.chart) {
-                chartInstance = chart.chart;
-                console.log(`Method 4a (chart.chart): found`);
-            } else if (chart && typeof chart.dataURI === 'function') {
-                chartInstance = chart;
-                console.log(`Method 4b (chart directly): found`);
-            }
-        }
-        
-        if (!chartInstance) {
-            console.error(`Chart instance not found for: ${chartId}`);
-            return { success: false, error: 'Chart instance not found' };
-        }
-        
-        // Chart instance found successfully
-        
-        // Save original state
-        const originalState = saveCompleteChartState(chartInstance);
-        
-        try {
-            // Configure export options for high-quality presentation
-            const exportOptions = {
-                type: 'png',
-                width: 1200,  // High resolution for presentation
-                height: 600,
-                background: '#ffffff',
-                pixelRatio: 2, // For retina displays
-                scale: 1
-            };
-            
-            console.log(`Exporting chart ${chartId} with options:`, exportOptions);
-            
-            // Check if chart has dataURI method (relax validation for debugging)
-            if (!chartInstance || typeof chartInstance.dataURI !== 'function') {
-                throw new Error(`Chart instance missing dataURI method. Type: ${typeof chartInstance}, Has dataURI: ${typeof chartInstance?.dataURI}`);
-            }
-            
-            // Ensure chart is visible and properly rendered before export
-            const chartElement = document.getElementById(chartId);
-            let originalStyles = {};
-            if (chartElement) {
-                // Save original styles
-                originalStyles = {
-                    display: chartElement.style.display,
-                    visibility: chartElement.style.visibility,
-                    opacity: chartElement.style.opacity
-                };
-                
-                // Make sure chart container is visible
-                chartElement.style.display = 'block';
-                chartElement.style.visibility = 'visible';
-                chartElement.style.opacity = '1';
-                
-                // Force a small delay to ensure rendering is complete
-                await new Promise(resolve => setTimeout(resolve, 150));
-            }
-            
-            // Use the same export approach as the working testPrintBase64.js
-            const uri = await chartInstance.dataURI({
-                width: exportOptions.width,
-                height: exportOptions.height,
-                scale: exportOptions.pixelRatio || 2
-            });
-            
-            // Restore original styles
-            if (chartElement && originalStyles) {
-                chartElement.style.display = originalStyles.display;
-                chartElement.style.visibility = originalStyles.visibility;
-                chartElement.style.opacity = originalStyles.opacity;
-            }
-            
-            console.log(`Export result for ${chartId}:`, uri);
-            
-            // Extract base64 data the same way as testPrintBase64.js (line 918)
-            let base64Data;
-            if (uri && uri.imgURI) {
-                // Split and get just the base64 part (same as testPrintBase64.js line 918)
-                base64Data = uri.imgURI.split(",")[1];
-            } else if (typeof uri === 'string') {
-                // If it's already a string, extract base64 part
-                base64Data = uri.includes(',') ? uri.split(",")[1] : uri;
-            } else {
-                throw new Error(`Unexpected export result format: ${typeof uri}`);
-            }
-            
-            // Validate base64 data with better checks
-            if (!base64Data || base64Data.trim() === '' || base64Data === 'data:,' || base64Data.length < 100) {
-                console.warn(`Chart ${chartId} returned empty or invalid base64 data:`, { uri, base64Data: base64Data?.substring(0, 50) });
-                
-                // Try alternative export approach for problematic charts
-                console.log(`Attempting alternative export for ${chartId}...`);
-                
-                // Alternative approach - try forcing a redraw and re-export
-                if (chartElement && chartElement.offsetHeight > 0 && chartElement.offsetWidth > 0) {
-                    if (typeof chartInstance.render === 'function') {
-                        await chartInstance.render();
-                        await new Promise(resolve => setTimeout(resolve, 200));
-                        
-                        const retryUri = await chartInstance.dataURI({
-                            width: exportOptions.width,
-                            height: exportOptions.height,
-                            scale: exportOptions.pixelRatio || 2
-                        });
-                        
-                        if (retryUri && retryUri.imgURI && retryUri.imgURI !== 'data:,') {
-                            base64Data = retryUri.imgURI.split(",")[1];
-                        }
-                    }
-                }
-                
-                // Final validation after retry
-                if (!base64Data || base64Data.trim() === '' || base64Data === 'data:,' || base64Data.length < 100) {
-                    throw new Error('Chart export returned empty base64 data');
-                }
-            }
-            
-            // Return the data URI format expected by our upload function
-            const dataURI = `data:image/png;base64,${base64Data}`;
-            
-            console.log(`Successfully exported chart: ${chartId}`);
-            
-            return {
-                success: true,
-                base64: dataURI,
-                chartId: chartId,
-                exportOptions: exportOptions
-            };
-            
-        } finally {
-            // Always restore original state
-            if (originalState) {
-                restoreCompleteChartState(chartInstance, originalState);
-            }
-        }
-        
-    } catch (error) {
-        console.error(`Error exporting ApexChart ${chartId}:`, error);
-        
-        // Fallback: try html2canvas export
-        console.log(`Attempting fallback export for: ${chartId}`);
-        
-        const chartElement = document.getElementById(chartId);
-        if (chartElement) {
-            try {
-                const fallbackResult = await exportWithHtml2Canvas(chartElement);
-                if (fallbackResult && fallbackResult.success) {
-                    console.log(`Fallback export successful for: ${chartId}`);
-                    return fallbackResult;
-                }
-            } catch (fallbackError) {
-                console.error(`Fallback export failed for ${chartId}:`, fallbackError);
-            }
-        }
-        
-        return {
-            success: false,
-            error: error.message || 'Unknown export error',
-            chartId: chartId
+          },
+        },
+      },
+      xaxis: {
+        ...originalState.xaxisConfig,
+        categories: originalState.xaxisConfig.categories,
+        labels: {
+          ...originalState.xaxisConfig.labels,
+          style: {
+            ...originalState.xaxisConfig.labels.style,
+            colors:
+              originalState.chartConfig.xaxis?.labels?.style?.colors ||
+              "#3a464f",
+          },
+        },
+      },
+    };
+
+    // Different export options based on chart type
+    let exportOptions;
+    // Create a formatter that can access chart.w.globals
+    const yaxisFormatter = createFormatterWithGlobals(numType, fixedNum);
+
+    // Handle each chart type specifically
+    if (chartId === "costOfContributionsDetailView_chart") {
+      // Cost of contributions chart - Handle multiple axes
+      if (Array.isArray(originalState.chartConfig.yaxis)) {
+        // Get the min and max values for ratio axes
+        const safeMinRatioValue = originalState.chartConfig.yaxis[2]?.min || 0;
+        const safeMaxRatioValue =
+          originalState.chartConfig.yaxis[2]?.max || 0.12;
+
+        exportOptions = {
+          ...baseExportOptions,
+          yaxis: [
+            // First y-axis (dollar values)
+            {
+              ...originalState.chartConfig.yaxis[0],
+              labels: {
+                ...originalState.chartConfig.yaxis[0].labels,
+                formatter: function (value) {
+                  if (value === null || value === undefined || value === 0) {
+                    if (numType === "dollar") return "$0";
+                    if (numType === "percent") return "0%";
+                    return "0";
+                  }
+
+                  const isNegative = value < 0;
+                  const absValue = Math.abs(value);
+
+                  let formattedValue;
+                  if (absValue >= 1000000) {
+                    const millions = absValue / 1000000;
+                    const isWholeNumber = millions === Math.floor(millions);
+                    formattedValue = isWholeNumber
+                      ? `${Math.floor(millions)}M`
+                      : `${millions.toFixed(1)}M`;
+                  } else if (absValue >= 1000) {
+                    formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+                  } else {
+                    formattedValue = absValue.toFixed(2);
+                  }
+
+                  return `${isNegative ? "-" : ""}$${formattedValue}`;
+                },
+              },
+            },
+            // Second y-axis (hidden)
+            {
+              ...originalState.chartConfig.yaxis[1],
+            },
+            // Third y-axis (ratio values)
+            {
+              ...originalState.chartConfig.yaxis[2],
+              labels: {
+                ...originalState.chartConfig.yaxis[2].labels,
+                formatter: function (value) {
+                  if (value === null || value === undefined || value === 0) {
+                    if (numType === "dollar") return "$0";
+                    if (numType === "percent") return "0%";
+                    return "0";
+                  }
+
+                  const isNegative = value < 0;
+                  const absValue = Math.abs(value);
+
+                  let formattedValue;
+                  if (absValue >= 1000000) {
+                    // Remove decimal point for millions
+                    const millions = absValue / 1000000;
+                    formattedValue = `${Math.round(millions)}M`;
+                  } else if (absValue >= 1000) {
+                    formattedValue = `${Math.round(absValue / 1000)}K`;
+                  } else if (absValue < 1 && absValue > 0) {
+                    formattedValue = absValue.toFixed(2);
+                  } else {
+                    formattedValue = Math.round(absValue).toString();
+                  }
+
+                  // Apply appropriate symbol based on numType
+                  if (numType === "dollar") {
+                    return `${isNegative ? "-" : ""}$${formattedValue}`;
+                  } else if (numType === "percent") {
+                    return `${isNegative ? "-" : ""}${formattedValue}%`;
+                  }
+                  return `${isNegative ? "-" : ""}${formattedValue}`;
+                },
+                style: {
+                  ...originalState.chartConfig.yaxis[2].labels?.style,
+                  colors:
+                    originalState.chartConfig.yaxis[2]?.labels?.style?.colors ||
+                    "#3a464f",
+                  fontSize: "1.25rem",
+                },
+              },
+              min: safeMinRatioValue,
+              max: safeMaxRatioValue,
+              tickAmount: 5,
+              show: true,
+              opposite: true,
+              axisBorder: {
+                show: true,
+                color:
+                  originalState.chartConfig.yaxis[2]?.axisBorder?.color ||
+                  "#3a464f",
+              },
+              axisTicks: {
+                show: true,
+                color:
+                  originalState.chartConfig.yaxis[2]?.axisTicks?.color ||
+                  "#3a464f",
+              },
+            },
+            // Fourth y-axis (hidden)
+            {
+              ...originalState.chartConfig.yaxis[3],
+            },
+          ],
         };
+
+        console.log("export ApexChart CHARTTYPE==costOfContributions", {
+          exportOptions,
+        });
+      } else {
+        // Fallback for single yaxis
+        exportOptions = {
+          ...baseExportOptions,
+          yaxis: {
+            ...originalState.chartConfig.yaxis,
+            labels: {
+              ...originalState.chartConfig.yaxis?.labels,
+              formatter: yaxisFormatter,
+              style: {
+                ...originalState.chartConfig.yaxis?.labels?.style,
+                colors:
+                  originalState.chartConfig.yaxis?.labels?.style?.colors ||
+                  "#3a464f",
+                fontSize:
+                  originalState.chartConfig.yaxis?.labels?.style?.fontSize ||
+                  "1.25rem",
+              },
+            },
+          },
+        };
+      }
+    } else if (chartId === "costOfContributions_chart") {
+      if (Array.isArray(originalState.chartConfig.yaxis)) {
+        // Get the min and max values for ratio axes
+        const safeMinRatioValue = originalState.chartConfig.yaxis?.min || 0;
+        const safeMaxRatioValue =
+          originalState.chartConfig.yaxis?.max || 0.12;
+
+        exportOptions = {
+          ...baseExportOptions,
+          yaxis: [
+            {
+              ...originalState.chartConfig.yaxis,
+              labels: {
+                ...originalState.chartConfig.yaxis.labels,
+                formatter: function (value) {
+                  if (value === null || value === undefined || value === 0) {
+                    if (numType === "dollar") return "$0";
+                    if (numType === "percent") return "0%";
+                    return "0";
+                  }
+
+                  const isNegative = value < 0;
+                  const absValue = Math.abs(value);
+
+                  let formattedValue;
+                  if (absValue >= 1000000) {
+                    // Remove decimal point for millions
+                    const millions = absValue / 1000000;
+                    formattedValue = `${Math.round(millions)}M`;
+                  } else if (absValue >= 1000) {
+                    formattedValue = `${Math.round(absValue / 1000)}K`;
+                  } else if (absValue < 1 && absValue > 0) {
+                    formattedValue = absValue.toFixed(2);
+                  } else {
+                    formattedValue = Math.round(absValue).toString();
+                  }
+
+                  // Apply appropriate symbol based on numType
+                  if (numType === "dollar") {
+                    return `${isNegative ? "-" : ""}$${formattedValue}`;
+                  } else if (numType === "percent") {
+                    return `${isNegative ? "-" : ""}${formattedValue}%`;
+                  }
+                  return `${isNegative ? "-" : ""}${formattedValue}`;
+                },
+                style: {
+                  ...originalState.chartConfig.yaxis.labels?.style,
+                  colors:
+                    originalState.chartConfig.yaxis?.labels?.style?.colors ||
+                    "#3a464f",
+                  fontSize: "1.25rem",
+                },
+              },
+              min: safeMinRatioValue,
+              max: safeMaxRatioValue,
+              tickAmount: 5,
+              show: true,
+              axisBorder: {
+                show: true,
+                color:
+                  originalState.chartConfig.yaxis?.axisBorder?.color ||
+                  "#3a464f",
+              },
+              axisTicks: {
+                show: true,
+                color:
+                  originalState.chartConfig.yaxis?.axisTicks?.color ||
+                  "#3a464f",
+              },
+            },
+          ],
+        };
+
+        console.log("export ApexChart CHARTTYPE==costOfContributions", {
+          exportOptions,
+        });
+      } else {
+        // Fallback for single yaxis
+        exportOptions = {
+          ...baseExportOptions,
+          yaxis: {
+            ...originalState.chartConfig.yaxis,
+            labels: {
+              ...originalState.chartConfig.yaxis?.labels,
+              formatter: yaxisFormatter,
+              style: {
+                ...originalState.chartConfig.yaxis?.labels?.style,
+                colors:
+                  originalState.chartConfig.yaxis?.labels?.style?.colors ||
+                  "#3a464f",
+                fontSize:
+                  originalState.chartConfig.yaxis?.labels?.style?.fontSize ||
+                  "1.25rem",
+              },
+            },
+          },
+        };
+      }
+    } else {
+      // Main chart type - Ensure we use an array with a single object for yaxis
+      exportOptions = {
+        ...baseExportOptions,
+        yaxis: [
+          {
+            axisTicks: { show: true },
+            axisBorder: {
+              show: true,
+              color:
+                originalState.chartConfig.yaxis[0]?.axisBorder?.color ||
+                "#3a464f",
+            },
+            labels: {
+              formatter: yaxisFormatter,
+              style: {
+                colors:
+                  originalState.chartConfig.yaxis[0]?.labels?.style?.colors ||
+                  "#3a464f",
+                fontSize:
+                  originalState.chartConfig.yaxis[0]?.labels?.style?.fontSize ||
+                  "1.25rem",
+              },
+            },
+            tooltip: { enabled: true },
+          },
+        ],
+      };
+    }
+
+    // Update chart with export options
+    chart.updateOptions(exportOptions, false, false);
+
+    // Let the chart update
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    // Use ApexCharts' dataURI method with explicit dimensions
+    const uri = await chart.dataURI({
+      width: DEFAULT_CHART_WIDTH,
+      height: DEFAULT_CHART_HEIGHT,
+      scale: 2, // Higher resolution
+    });
+
+    // Restore chart to original position
+    if (originalParent) {
+      originalParent.appendChild(chartElement);
+    }
+    Object.assign(chartElement.style, originalStyles);
+
+    // Restore complete chart state
+    restoreCompleteChartState(chart, originalState);
+
+    // Clean up the fixed container
+    if (fixedContainer.parentNode) {
+      document.body.removeChild(fixedContainer);
+    }
+
+    return uri.imgURI.split(",")[1];
+  } catch (error) {
+    console.error("Error in exportApexChart:", error);
+    return null;
     }
 }
 
 /**
- * Fallback export using html2canvas (if available)
+ * Fallback to html2canvas for export
  */
 async function exportWithHtml2Canvas(chartElement) {
-    // Check if html2canvas is available
-    if (typeof html2canvas === 'undefined') {
-        throw new Error('html2canvas not available for fallback export');
-    }
-    
-    try {
-        const canvas = await html2canvas(chartElement, {
-            backgroundColor: '#ffffff',
+  // Create a clone container with fixed dimensions
+  const container = document.createElement("div");
+  container.style.position = "absolute";
+  // container.style.left = '-9999px';
+  container.style.width = `${DEFAULT_CHART_WIDTH}px`;
+  container.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+
+  // Clone the chart element into the container
+  const clone = chartElement.cloneNode(true);
+  clone.style.width = `${DEFAULT_CHART_WIDTH}px`;
+  clone.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+  container.appendChild(clone);
+  document.body.appendChild(container);
+
+  // Find and adjust any SVG elements
+  const svgElements = clone.querySelectorAll("svg");
+  svgElements.forEach((svg) => {
+    svg.setAttribute("width", DEFAULT_CHART_WIDTH.toString());
+    svg.setAttribute("height", DEFAULT_CHART_HEIGHT.toString());
+    svg.style.width = `${DEFAULT_CHART_WIDTH}px`;
+    svg.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    svg.setAttribute(
+      "viewBox",
+      `0 0 ${DEFAULT_CHART_WIDTH} ${DEFAULT_CHART_HEIGHT}`
+    );
+    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  });
+
+  try {
+    // Wait for layout updates
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    // Use html2canvas with fixed dimensions
+    const canvas = await html2canvas(clone, {
             scale: 2,
+      width: DEFAULT_CHART_WIDTH,
+      height: DEFAULT_CHART_HEIGHT,
             useCORS: true,
             allowTaint: true,
-            width: 1200,
-            height: 600
-        });
-        
-        const dataURI = canvas.toDataURL('image/png');
-        
-        return {
-            success: true,
-            base64: dataURI,
-            method: 'html2canvas'
-        };
-        
+      backgroundColor:
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--chart-bg-color"
+        ) || "#ffffff",
+    });
+
+    const base64String = canvas.toDataURL("image/png").split(",")[1];
+
+    // Clean up
+    document.body.removeChild(container);
+
+    return base64String;
     } catch (error) {
-        console.error('html2canvas export failed:', error);
-        throw error;
+    console.error("Error in html2canvas export:", error);
+    if (container.parentNode) {
+      document.body.removeChild(container);
+    }
+    return null;
     }
 }
 
 /**
- * Setup progress UI for chart export
+ * Set up progress UI
  */
 function setupProgressUI(totalCharts) {
-    try {
-        // Create or update progress indicator
-        let progressContainer = document.getElementById('chart-export-progress');
-        
-        if (!progressContainer) {
-            progressContainer = document.createElement('div');
-            progressContainer.id = 'chart-export-progress';
-            progressContainer.className = 'fixed top-4 right-4 bg-blue-500 text-white p-4 rounded-lg shadow-lg z-50';
-            document.body.appendChild(progressContainer);
-        }
+  const loadingModal = document.getElementById("loadingApiDiv");
+  if (!loadingModal) return;
+
+  const progressContainer = document.createElement("div");
+  progressContainer.id = "chart-progress-container";
+  progressContainer.className = "mt-6 px-3 py-1 w-full";
         
         progressContainer.innerHTML = `
-            <div class="flex items-center space-x-3">
-                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
-                <div>
-                    <div class="text-sm font-medium">Exporting Charts for Presentation</div>
-                    <div class="text-xs opacity-75">Preparing chart 1 of ${totalCharts}...</div>
+    <div class=\"w-full\">
+      <div class=\"flex justify-between mb-1 text-white\">
+        <span id=\"chart-progress-text\" class=\"text-lg font-medium\">Processing charts</span>
+        <span id=\"chart-progress-count\" class=\"text-lg font-medium\">0/${totalCharts}</span>
+      </div>
+      <div class=\"w-full bg-gray-700 rounded-full h-2.5 mt-2\">
+        <div id=\"chart-progress-bar\" class=\"backgroundGreen h-2.5 rounded-full\" style=\"width: 0%\"></div>
                 </div>
             </div>
         `;
         
-        progressContainer.style.display = 'block';
-        
-    } catch (error) {
-        console.error('Error setting up progress UI:', error);
-    }
+  const loadingContent =
+    loadingModal.querySelector("#loadingApiInnerDiv") || loadingModal;
+  loadingContent.appendChild(progressContainer);
 }
 
 /**
- * Update progress UI during chart export
+ * Update progress UI
  */
 function updateProgressUI(current, total) {
-    try {
-        const progressContainer = document.getElementById('chart-export-progress');
-        if (progressContainer) {
-            const percentage = Math.round((current / total) * 100);
-            
-            progressContainer.innerHTML = `
-                <div class="flex items-center space-x-3">
-                    <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
-                    <div>
-                        <div class="text-sm font-medium">Exporting Charts for Presentation</div>
-                        <div class="text-xs opacity-75">Chart ${current} of ${total} (${percentage}%)</div>
-                    </div>
-                </div>
-            `;
-        }
-    } catch (error) {
-        console.error('Error updating progress UI:', error);
+  const progressBar = document.getElementById("chart-progress-bar");
+  const progressCount = document.getElementById("chart-progress-count");
+  const progressText = document.getElementById("chart-progress-text");
+
+  if (progressBar) {
+    const progressPercent = Math.floor((current / total) * 100);
+    progressBar.style.width = `${progressPercent}%`;
+  }
+
+  if (progressCount) {
+    progressCount.textContent = `${current}/${total}`;
+  }
+
+  if (progressText) {
+    progressText.textContent = "Processing charts...";
     }
 }
 
 /**
- * Complete progress UI after export
+ * Complete progress UI
  */
 function completeProgressUI(total) {
-    try {
-        const progressContainer = document.getElementById('chart-export-progress');
-        if (progressContainer) {
-            progressContainer.innerHTML = `
-                <div class="flex items-center space-x-3">
-                    <div class="rounded-full h-6 w-6 bg-green-400 flex items-center justify-center">
-                        <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="text-sm font-medium">Export Complete!</div>
-                        <div class="text-xs opacity-75">Successfully processed ${total} charts</div>
-                    </div>
-                </div>
-            `;
-            
-            // Hide after 3 seconds
-            setTimeout(() => {
-                if (progressContainer) {
-                    progressContainer.style.display = 'none';
-                }
-            }, 3000);
-        }
-    } catch (error) {
-        console.error('Error completing progress UI:', error);
+  const progressBar = document.getElementById("chart-progress-bar");
+  const progressCount = document.getElementById("chart-progress-count");
+  const progressText = document.getElementById("chart-progress-text");
+
+  if (progressBar) {
+    progressBar.style.width = "100%";
+  }
+
+  if (progressCount) {
+    progressCount.textContent = `${total}/${total}`;
+  }
+
+  if (progressText) {
+    progressText.textContent = "Processing complete!";
     }
 }
 
 /**
- * Main function to export all charts for presentation printing
- * Enhanced version using ApexCharts dataURI with fixed dimensions
+ * Enhanced version of mainPrint using ApexCharts dataURI with fixed dimensions
  */
 async function apexChartsExportPrint() {
     showApiLoadingFunction("open", "print");
@@ -716,285 +1069,240 @@ async function apexChartsExportPrint() {
         return;
     }
 
-    try {
-        // Disable button and show loading state
+  // Update button state
+  const originalButtonContent = printButton.innerHTML;
         printButton.disabled = true;
-        printButton.textContent = "Exporting Charts...";
+  printButton.innerHTML = `
+    <div class=\"flex items-center justify-center\">
+      <svg aria-hidden=\"true\" role=\"status\" class=\"inline w-6 h-6 me-3 text-xl colorGreen font-extrabold animate-spin\" viewBox=\"0 0 100 101\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">
+        <path d=\"M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z\" fill=\"#E5E7EB\"/>
+        <path d=\"M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C  47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z\" fill=\"currentColor\"/>
+      </svg>
+      <span class=\"font-medium\">Exporting Charts...</span>
+    </div>`;
 
-        console.log("Starting ApexCharts export for presentation printing");
+  try {
+    // Unhide any hidden sections to ensure all charts are available
+    const sections = [
+      "GeneralContent",
+      "cashContent",
+      "netAssetsContent",
+      "incomeContent",
+      "expenseContent",
+    ];
+    const hiddenSections = [];
 
-        // Validate that we have data to export
-        const hasData = validateDataAvailability();
-        if (!hasData) {
-            createToastWarning("No chart data available for printing. Please run the dashboard first.");
-            return;
-        }
+    sections.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element && element.classList.contains("hidden")) {
+        element.classList.remove("hidden");
+        hiddenSections.push(element);
+      }
+    });
 
-        // Process all charts
-        const results = await processChartsWithSpacing(chartMappings);
-        
-        if (results.length === 0) {
-            createToastWarning("No charts were successfully exported. Please check that charts are loaded properly.");
-            return;
-        }
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
-        console.log(`Successfully exported ${results.length} charts, preparing for upload`);
+    // Define chart mappings (updated to CFHI Base64 field IDs)
+    const chartMappings = [
+      { chartId: "givingUnits_chart", fieldId: 11 },
+      { chartId: "attendeesToStaff_chart", fieldId: 12 },
+      { chartId: "daysExpendableNetAssets_chart", fieldId: 13 },
+      { chartId: "daysOperatingCash_chart", fieldId: 14 },
+      { chartId: "availableDaysOfCashFlow_chart", fieldId: 15 },
+      { chartId: "liquidityRatio_chart", fieldId: 16 },
+      { chartId: "netCashAvailability_chart", fieldId: 17 },
+      { chartId: "debtToContributionsWithout_chart", fieldId: 18 },
+      { chartId: "currentRatio_chart", fieldId: 19 },
+      { chartId: "mandatoryDebtServiceToContributionsWithout_chart", fieldId: 20 },
+      { chartId: "debtPerGivingUnit_chart", fieldId: 21 },
+      { chartId: "debtCoverage_chart", fieldId: 22 },
+      { chartId: "netIncomeRatio_chart", fieldId: 23 },
+      { chartId: "contributionsWithoutDonorPerGivingUnit_chart", fieldId: 24 },
+      { chartId: "totalContributionsPerGivingUnit_chart", fieldId: 25 },
+      { chartId: "benefitsToSalaries_chart", fieldId: 26 },
+      { chartId: "salariesBenefitsIncludingOutsourcedEmployees_chart", fieldId: 27 },
+      { chartId: "personnelToCashExpenditure_chart", fieldId: 28 },
+      { chartId: "cashExpendituresPerGivingUnit_chart", fieldId: 29 },
+    ];
 
-        // Update button state
-        printButton.textContent = "Uploading to Quickbase...";
+    // Filter out any charts that don't exist in the DOM
+    const validChartMappings = chartMappings.filter(
+      ({ chartId }) => document.getElementById(chartId) !== null
+    );
 
-        // Build upload XML and send to Quickbase
+    if (validChartMappings.length === 0) {
+      throw new Error("No valid charts found to upload");
+    }
+
+    // Process charts with fixed dimensions
+    const results = await processChartsWithSpacing(validChartMappings);
+
+    // Count successful exports
+    const successfulExports = results.filter(
+      (r) => r.base64String !== null
+    ).length;
+
+    if (successfulExports === 0) {
+      throw new Error("No charts were successfully exported");
+    }
+
+    // Hide sections that were previously hidden
+    hiddenSections.forEach((element) => {
+      element.classList.add("hidden");
+    });
+
+    // Build XML for upload
         const uploadXml = buildUploadXml(results);
-        const uploadResult = await sendToQuickbase(uploadXml);
 
-        if (uploadResult.success) {
-            createToastSuccess(`Presentation exported successfully! ${results.length} charts uploaded to Quickbase.`);
-            console.log("Chart export and upload completed successfully");
+    // Send to Quickbase
+    const response = await sendToQuickbase(uploadXml);
+
+    // Process the response
+    if (response.success) {
+      const xmlResponse = $(response.response);
+      const errorCode = xmlResponse.find("qdbapi").find("errcode").text();
+      showApiLoadingFunction("close", "print");
+
+      if (errorCode === "0") {
+        const recordId = xmlResponse.find("qdbapi").find("rid").text();
+        createToastSuccess(
+          `Charts successfully uploaded to Quickbase. Record ID: ${recordId}`
+        );
         } else {
-            throw new Error(uploadResult.error || "Upload to Quickbase failed");
+        const errorText =
+          xmlResponse.find("qdbapi").find("errtext").text() || "Unknown error";
+        throw new Error(`Quickbase returned error ${errorCode}: ${errorText}`);
         }
-
+    } else {
+      showApiLoadingFunction("close", "print");
+      throw new Error(response.error || "Quickbase upload failed");
+    }
     } catch (error) {
+    showApiLoadingFunction("close", "print");
         console.error("Error in apexChartsExportPrint:", error);
-        createToastWarning(`Error exporting presentation: ${error.message}`);
+    createToastWarning(
+      `Error creating presentation: ${error.message || "Unknown error"}`
+    );
     } finally {
-        // Reset button state
+    // Restore button state
         printButton.disabled = false;
-        printButton.textContent = "Print Presentation";
-        showApiLoadingFunction("close", "print");
+    printButton.innerHTML = originalButtonContent;
+
+    // Remove progress tracking container
+    const progressContainer = document.getElementById(
+      "chart-progress-container"
+    );
+    if (progressContainer && progressContainer.parentNode) {
+      progressContainer.parentNode.removeChild(progressContainer);
     }
+  }
 }
 
 /**
- * Validate that required data is available for chart export
- */
-function validateDataAvailability() {
-    const dataCategories = ['demoData', 'cashData', 'debtData', 'incomeData', 'expenseData', 'additionalData'];
-    
-    for (const category of dataCategories) {
-        const data = localStorage.getItem(category);
-        if (data && data !== 'null' && data !== '{}') {
-            const parsedData = JSON.parse(data);
-            if (Object.keys(parsedData).length > 0) {
-                return true; // Found at least one category with data
-            }
-        }
-    }
-    
-    return false;
-}
-
-/**
- * Build XML for uploading chart images to Quickbase
+ * Build XML for Quickbase upload
  */
 function buildUploadXml(results) {
-    console.log("Building upload XML for Quickbase submission");
-    
-    try {
-        // Get current selections and metadata
-        const selectedYears = JSON.parse(localStorage.getItem('selectedYears') || '[]');
-        const clientCount = window.selectedClients_Array ? window.selectedClients_Array.size : 0;
+  let uploadXml = "<qdbapi><apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>";
+
+  // Add metadata
+  const selectedYears = getSelectedYearsFromLocalStorage() || [];
+  const uniqueClients = document.getElementById("uniqueClients")?.innerHTML || 0;
         const sliderValue = window.sliderValue || 0;
-        const sliderValue2 = window.sliderValue2 || 25000;
-        
-        // Field IDs from printFields.md
-        const FIELD_IDS = {
-            // Metadata fields
-            CLIENT_NAME: "30",
-            UNIQUE_CLIENT_COUNT: "31", 
-            QUERY_SITES: "33",
-            QUERY_REGIONS: "34",
-            CURRENT_MONTH_YE: "36",
-            QUERY_GIVING_MIN: "53",
-            QUERY_GIVING_MAX: "54",
-            
-            // Year fields (up to 8 years)
-            YEAR_1: "37", YEAR_2: "38", YEAR_3: "39", YEAR_4: "40",
-            YEAR_5: "41", YEAR_6: "42", YEAR_7: "43", YEAR_8: "44",
-            
-            // Chart base64 fields - exact mapping from printFields.md
-            BASE64_GIVING_UNITS: "11",
-            BASE64_ATTENDEES_TO_STAFF: "12",
-            BASE64_DAYS_EXPENDABLE_NET_ASSETS: "13",
-            BASE64_DAYS_OPERATING_CASH: "14",
-            BASE64_AVAILABLE_DAYS_OF_CASH_FLOW: "15",
-            BASE64_LIQUIDITY_RATIO: "16",
-            BASE64_NET_CASH_AVAILABILITY: "17",
-            BASE64_DEBT_TO_CONTRIBUTIONS_WITHOUT: "18",
-            BASE64_CURRENT_RATIO: "19",
-            BASE64_MANDATORY_DEBT_SERVICE_TO_CONTRIBUTIONS_WITHOUT: "20",
-            BASE64_DEBT_PER_GIVING_UNIT: "21",
-            BASE64_DEBT_COVERAGE: "22",
-            BASE64_NET_INCOME_RATIO: "23",
-            BASE64_CONTRIBUTIONS_WITHOUT_DONOR_PER_GIVING_UNIT: "24",
-            BASE64_TOTAL_CONTRIBUTIONS_PER_GIVING_UNIT: "25",
-            BASE64_BENEFITS_TO_SALARIES: "26",
-            BASE64_SALARIES_BENEFITS_INCLUDING_OUTSOURCED_EMPLOYEES: "27",
-            BASE64_PERSONNEL_TO_CASH_EXPENDITURE: "28",
-            BASE64_CASH_EXPENDITURES_PER_GIVING_UNIT: "29"
-        };
-        
-        // Start XML with authentication; include optional user token if provided
-        const userToken = (window && window.QB_USER_TOKEN) ? String(window.QB_USER_TOKEN) : '';
-        let uploadXml = '<?xml version="1.0" encoding="UTF-8"?><qdbapi>';
-        uploadXml += '<apptoken>bpat4pgu9t69yby5gbemdbej52j</apptoken>';
-        if (userToken) {
-            uploadXml += `<usertoken>${userToken}</usertoken>`;
-        }
-        uploadXml += '<record>';
-        
-        // Add metadata fields with safe values
-        uploadXml += createFieldXml(FIELD_IDS.CLIENT_NAME, "CFHI Comprehensive Dashboard");
-        uploadXml += createFieldXml(FIELD_IDS.UNIQUE_CLIENT_COUNT, clientCount.toString());
-        uploadXml += createFieldXml(FIELD_IDS.QUERY_REGIONS, Array.from(window.selectedRegions_Array || []).join(",") || "All");
-        uploadXml += createFieldXml(FIELD_IDS.CURRENT_MONTH_YE, (window.monthYearEnd || new Date().getFullYear()).toString());
-        uploadXml += createFieldXml(FIELD_IDS.QUERY_GIVING_MIN, sliderValue.toString());
-        uploadXml += createFieldXml(FIELD_IDS.QUERY_GIVING_MAX, sliderValue2.toString());
-        
-        // Add years data (up to 8 years)
-        const yearFields = [
-            FIELD_IDS.YEAR_1, FIELD_IDS.YEAR_2, FIELD_IDS.YEAR_3, FIELD_IDS.YEAR_4,
-            FIELD_IDS.YEAR_5, FIELD_IDS.YEAR_6, FIELD_IDS.YEAR_7, FIELD_IDS.YEAR_8
-        ];
-        
-        selectedYears.forEach((year, index) => {
-            if (index < yearFields.length && year) {
-                // Ensure year is a valid number
-                const yearValue = parseInt(year);
-                if (!isNaN(yearValue) && yearValue > 1900 && yearValue < 3000) {
-                    uploadXml += createFieldXml(yearFields[index], yearValue.toString());
-                }
-            }
-        });
-        
-        // Chart to field ID mapping
-        const chartFieldMapping = {
-            "givingUnits_chart": FIELD_IDS.BASE64_GIVING_UNITS,
-            "attendeesToStaff_chart": FIELD_IDS.BASE64_ATTENDEES_TO_STAFF,
-            "daysExpendableNetAssets_chart": FIELD_IDS.BASE64_DAYS_EXPENDABLE_NET_ASSETS,
-            "daysOperatingCash_chart": FIELD_IDS.BASE64_DAYS_OPERATING_CASH,
-            "availableDaysOfCashFlow_chart": FIELD_IDS.BASE64_AVAILABLE_DAYS_OF_CASH_FLOW,
-            "liquidityRatio_chart": FIELD_IDS.BASE64_LIQUIDITY_RATIO,
-            "netCashAvailability_chart": FIELD_IDS.BASE64_NET_CASH_AVAILABILITY,
-            "debtToContributionsWithout_chart": FIELD_IDS.BASE64_DEBT_TO_CONTRIBUTIONS_WITHOUT,
-            "currentRatio_chart": FIELD_IDS.BASE64_CURRENT_RATIO,
-            "mandatoryDebtServiceToContributionsWithout_chart": FIELD_IDS.BASE64_MANDATORY_DEBT_SERVICE_TO_CONTRIBUTIONS_WITHOUT,
-            "debtPerGivingUnit_chart": FIELD_IDS.BASE64_DEBT_PER_GIVING_UNIT,
-            "debtCoverage_chart": FIELD_IDS.BASE64_DEBT_COVERAGE,
-            "netIncomeRatio_chart": FIELD_IDS.BASE64_NET_INCOME_RATIO,
-            "contributionsWithoutDonorPerGivingUnit_chart": FIELD_IDS.BASE64_CONTRIBUTIONS_WITHOUT_DONOR_PER_GIVING_UNIT,
-            "totalContributionsPerGivingUnit_chart": FIELD_IDS.BASE64_TOTAL_CONTRIBUTIONS_PER_GIVING_UNIT,
-            "benefitsToSalaries_chart": FIELD_IDS.BASE64_BENEFITS_TO_SALARIES,
-            "salariesBenefitsIncludingOutsourcedEmployees_chart": FIELD_IDS.BASE64_SALARIES_BENEFITS_INCLUDING_OUTSOURCED_EMPLOYEES,
-            "personnelToCashExpenditure_chart": FIELD_IDS.BASE64_PERSONNEL_TO_CASH_EXPENDITURE,
-            "cashExpendituresPerGivingUnit_chart": FIELD_IDS.BASE64_CASH_EXPENDITURES_PER_GIVING_UNIT
-        };
-        
-        // Add chart images with correct field IDs (limit size for debugging)
-        let chartCount = 0;
+  const sliderValue2 = window.sliderValue2 || 0;
+
+  uploadXml += createFieldXml(30, "CFHI Comprehensive Dashboard");
+  uploadXml += createFieldXml(31, uniqueClients);
+  uploadXml += createFieldXml(33, Array.from(window.selectedSites_Array || []).join(";"));
+  uploadXml += createFieldXml(34, Array.from(window.selectedRegions_Array || []).join(";"));
+  uploadXml += createFieldXml(36, window.monthYearEnd || "");
+
+  // Years 1-8
+  const yearFids = [37, 38, 39, 40, 41, 42, 43, 44];
+  for (let i = 0; i < Math.min(selectedYears.length, yearFids.length); i++) {
+    uploadXml += createFieldXml(yearFids[i], selectedYears[i]);
+  }
+
+  uploadXml += createFieldXml(53, sliderValue);
+  uploadXml += createFieldXml(54, sliderValue2);
+
+  // Add base64 images for charts
         results.forEach((result) => {
-            if (result.base64 && result.chartId && chartCount < 2) { // Limit to 2 charts for testing
-                const fieldId = chartFieldMapping[result.chartId];
-                if (fieldId) {
-                    // Validate base64 data before adding
-                    if (result.base64.startsWith('data:image/') && result.base64.length > 100) {
-                        uploadXml += createImageFieldXml(fieldId, result.base64, result.chartId);
-                        console.log(`Added chart ${result.chartId} to field ${fieldId}`);
-                        chartCount++;
-                    } else {
-                        console.warn(`Invalid base64 data for chart: ${result.chartId}`);
-                    }
-                } else {
-                    console.warn(`No field mapping found for chart: ${result.chartId}`);
-                }
-            }
-        });
-        
-        // Close XML
-        uploadXml += '</record></qdbapi>';
-        
-        console.log(`Upload XML prepared with ${results.length} chart images`);
-        return uploadXml;
-        
-    } catch (error) {
-        console.error("Error building upload XML:", error);
-        throw error;
+    if (result && result.base64String) {
+      uploadXml += createImageFieldXml(result.fieldId, result.base64String);
     }
+  });
+
+  uploadXml += "</qdbapi>";
+        return uploadXml;
 }
 
 /**
- * Create XML field element
+ * Create XML field entry for a value
+ * @param {string|number} id - Field ID
+ * @param {string|number} val - Value to upload
+ * @returns {string} - XML field entry
  */
 function createFieldXml(id, val) {
     if (val === null || val === undefined) {
-        val = "";
-    }
-    
-    const escapedVal = val.toString()
+    console.warn(`Skipping upload for field ${id} due to null/undefined value`);
+    return "";
+  }
+
+  if (typeof val === "object") {
+    console.warn(`Invalid value type for field ${id}:`, typeof val);
+    return "";
+  }
+
+  const safeVal = String(val)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    
-    return `<field fid='${id}'>${escapedVal}</field>`;
+    .replace(/'/g, "&apos;");
+
+  return `<field fid='${id}'>${safeVal}</field>`;
 }
 
 /**
- * Create XML field element for image data
+ * Create XML field entry for an image
+ * @param {string|number} id - Field ID
+ * @param {string} val - Base64 image data (with or without data URI prefix)
+ * @returns {string} - XML field entry for image
  */
-function createImageFieldXml(id, val, chartId) {
-    if (!val || !val.startsWith('data:image/')) {
-        return createFieldXml(id, "");
-    }
-
-    // Extract just the base64 part (remove data:image/png;base64, prefix)
-    const base64Data = (val.includes(',')) ? val.split(',')[1] : val;
-
-    // Build a safe filename per Quickbase API expectations
-    const safeChartId = (chartId || 'chart').replace(/[^a-zA-Z0-9_-]/g, '_');
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const filename = `${safeChartId}-${timestamp}.png`;
-
-    // Wrap in CDATA to avoid XML parsing issues on long strings
-    return `<field fid='${id}' filename='${filename}'><![CDATA[${base64Data}]]></field>`;
+function createImageFieldXml(id, val) {
+  if (!val) {
+    console.warn(`Skipping image upload for field ${id} - missing data`);
+    return "";
+  }
+  const base64Only = val.includes(",") ? val.split(",")[1] : val;
+  return `<field fid='${id}' filename='chart.png'>${base64Only}</field>`;
 }
 
 /**
- * Send chart data to Quickbase
+ * Send record to Quickbase
+ * @param {string} xml - XML payload to send
+ * @returns {Promise<object>} - Response data
  */
 async function sendToQuickbase(xml) {
-    console.log("Sending chart data to Quickbase");
-    
-    try {
-        const response = await fetch("https://capincrouse.quickbase.com/db/bvcr2chqi?a=API_AddRecord", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/xml",
-                "QUICKBASE-ACTION": "API_AddRecord"
-            },
-            body: xml
-        });
+  try {
+    const response = await $.ajax({
+      type: "POST",
+      contentType: "text/xml",
+      url: "https://capincrouse.quickbase.com/db/bvcr2chqi?a=API_AddRecord",
+      dataType: "xml",
+      processData: false,
+      data: xml,
+      timeout: 60000, // 60-second timeout
+    });
 
-        if (!response.ok) {
-            const body = await response.text();
-            console.error("Quickbase error body:", body);
-            throw new Error(`Quickbase submission failed: ${response.status} ${response.statusText}`);
-        }
-
-        const responseText = await response.text();
-        console.log("Quickbase upload response:", responseText);
-
-        // Parse response to check for success
-        if (responseText.includes('<errcode>0</errcode>') || responseText.includes('<rid>')) {
-            return { success: true, response: responseText };
-        } else {
-            throw new Error("Quickbase returned an error: " + responseText);
-        }
-
+    return { success: true, response };
     } catch (error) {
-        console.error("Error sending to Quickbase:", error);
-        return { success: false, error: error.message };
+    const errorMessage =
+      error.responseText ||
+      error.statusText ||
+      error.message ||
+      "Unknown error";
+    return { success: false, error: `Quickbase API error: ${errorMessage}` };
     }
 }
 
@@ -1004,7 +1312,9 @@ async function sendToQuickbase(xml) {
 function initApexChartsPrintFunction() {
     const printButton = document.getElementById("printBase64");
     if (!printButton) {
-        console.error("Print button not found for ApexCharts export print functionality");
+    console.error(
+      "Print button not found for ApexCharts export print functionality"
+    );
         return;
     }
 
@@ -1013,8 +1323,7 @@ function initApexChartsPrintFunction() {
     printButton.parentNode.replaceChild(newPrintButton, printButton);
 
     // Add ApexCharts export print function
-    newPrintButton.addEventListener("click", (event) => {
-        event.preventDefault();
+  newPrintButton.addEventListener("click", () => {
         apexChartsExportPrint();
     });
 
@@ -1027,7 +1336,3 @@ if (document.readyState === "loading") {
 } else {
     initApexChartsPrintFunction();
 }
-
-// Export functions for global access
-window.apexChartsExportPrint = apexChartsExportPrint;
-window.initApexChartsPrintFunction = initApexChartsPrintFunction;
