@@ -5157,6 +5157,150 @@ class AppController {
     if (typeof initApexChartsPrintFunction === "function") {
       initApexChartsPrintFunction();
     }
+
+    // Set up cleanup function for when print modal is closed
+    this.setupPrintModalCleanup();
+  }
+
+  /**
+   * Set up cleanup function for print modal closure
+   */
+  setupPrintModalCleanup() {
+    const printModal = document.getElementById("print_modal");
+    
+    if (!printModal) {
+      console.warn("Print modal not found, cannot set up cleanup");
+      return;
+    }
+
+    // Disconnect any existing observer to prevent duplicates
+    if (this.printModalObserver) {
+      this.printModalObserver.disconnect();
+    }
+
+    // Set up mutation observer to detect when modal is hidden
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const modal = mutation.target;
+          if (modal.classList.contains('hidden')) {
+            console.log("Print modal closed, cleaning up Excel report data");
+            this.cleanupExcelReportData();
+          }
+        }
+      });
+    });
+
+    // Start observing the modal for class changes
+    observer.observe(printModal, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    // Also set up click event listener for backdrop/overlay clicks
+    printModal.addEventListener('click', (event) => {
+      if (event.target === printModal) {
+        console.log("Print modal backdrop clicked, cleaning up Excel report data");
+        this.cleanupExcelReportData();
+      }
+    });
+
+    // Store the observer reference for potential cleanup later
+    this.printModalObserver = observer;
+  }
+
+  /**
+   * Disconnect the print modal observer
+   */
+  disconnectPrintModalObserver() {
+    if (this.printModalObserver) {
+      this.printModalObserver.disconnect();
+      this.printModalObserver = null;
+      console.log("Print modal observer disconnected");
+    }
+  }
+
+  /**
+   * Clean up Excel report data when print modal is closed
+   */
+  cleanupExcelReportData() {
+    // Prevent duplicate cleanup calls
+    if (this.isCleaningUp) {
+      console.log("Cleanup already in progress, skipping duplicate call");
+      return;
+    }
+    
+    this.isCleaningUp = true;
+    console.log("Cleaning up Excel report data");
+
+    // Reset ExcelReportGenerator instance if it exists
+    if (window.excelReportGenerator) {
+      // Call the cleanup method if it exists
+      if (typeof window.excelReportGenerator.cleanup === 'function') {
+        window.excelReportGenerator.cleanup();
+      } else {
+        // Fallback cleanup if method doesn't exist
+        if (window.excelReportGenerator.xmlPayload) {
+          window.excelReportGenerator.xmlPayload = "";
+        }
+        if (window.excelReportGenerator.isGenerating) {
+          window.excelReportGenerator.isGenerating = false;
+        }
+        if (window.excelReportGenerator.storedData) {
+          window.excelReportGenerator.storedData = null;
+        }
+      }
+      console.log("ExcelReportGenerator data cleaned up");
+    }
+
+    // Reset any global variables that might be used by the Excel report
+    if (window.lastGeneratedReportData) {
+      delete window.lastGeneratedReportData;
+    }
+
+    // Clear any cached data or temporary storage
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.includes('excel_report_') || key && key.includes('temp_report_')) {
+        keysToRemove.push(key);
+      }
+    }
+    
+    keysToRemove.forEach(key => {
+      localStorage.removeItem(key);
+      console.log(`Removed cached data: ${key}`);
+    });
+
+    // Hide the print modal footer again
+    const printModalFooter = document.getElementById("print_modal_footer");
+    if (printModalFooter) {
+      printModalFooter.classList.add("hidden");
+    }
+
+    // Reset the generate reports button state and re-initialize
+    const generateReportsBtn = document.getElementById("generateReports");
+    if (generateReportsBtn) {
+      generateReportsBtn.disabled = false;
+      generateReportsBtn.textContent = "Generate Trends and Benchmark Reports";
+      
+      // Remove any loading state classes
+      generateReportsBtn.classList.remove("opacity-50", "cursor-not-allowed");
+      
+      // Re-initialize the ExcelReportGenerator to set up new event listeners
+      if (typeof ExcelReportGenerator === "function" && window.excelReportGenerator) {
+        // Re-initialize the ExcelReportGenerator instance
+        window.excelReportGenerator.init();
+        console.log("ExcelReportGenerator re-initialized after cleanup");
+      }
+    }
+
+    console.log("Excel report data cleanup completed");
+    
+    // Reset cleanup flag after a short delay to allow for any pending operations
+    setTimeout(() => {
+      this.isCleaningUp = false;
+    }, 1000);
   }
 
   // Process selected years

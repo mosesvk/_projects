@@ -88,6 +88,46 @@ class ExcelReportGenerator {
     }
 
     /**
+     * Clean up Excel report generator data and reset state
+     */
+    cleanup() {
+      console.log("ExcelReportGenerator cleanup called");
+      
+      // Reset XML payload
+      this.xmlPayload = "";
+      
+      // Reset generating flag
+      this.isGenerating = false;
+      
+      // Clear any stored data
+      if (this.storedData) {
+        this.storedData = null;
+      }
+      
+      // Reset any temporary variables
+      if (this.tempData) {
+        this.tempData = null;
+      }
+      
+      // Clear any cached results
+      if (this.cachedResults) {
+        this.cachedResults = null;
+      }
+      
+      // Reset button state
+      const button = document.getElementById("generateReports");
+      if (button) {
+        button.disabled = false;
+        button.textContent = "Generate Trends and Benchmark Reports";
+        
+        // Remove any loading state classes
+        button.classList.remove("opacity-50", "cursor-not-allowed");
+      }
+      
+      console.log("ExcelReportGenerator cleanup completed");
+    }
+
+    /**
      * Handle generate report button click
      */
     handleGenerateReport() {
