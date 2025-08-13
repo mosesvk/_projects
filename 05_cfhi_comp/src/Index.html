@@ -160,6 +160,7 @@
             data: staticData.clientData.map((value) => ({
               value: value.toString(),
               showValue: "1", // Show data labels for client data
+              labelBgColor: "#FFFFFF", // White background for each data label
             })),
             color: "#10B981", // Green
             renderAs: "column",
@@ -221,8 +222,6 @@
               dataLabelColor: "#000000",
               dataLabelFontSize: "18",
               dataLabelFontBold: "1",
-              dataLabelBgColor: "#FFFFFF",
-              dataLabelBgAlpha: "95",
               dataLabelBorderRadius: "6",
               dataLabelBorderPadding: "6",
               legendBgColor: "#FFFFFF",
