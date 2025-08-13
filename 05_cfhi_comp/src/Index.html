@@ -47,6 +47,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 
+    <script
+      type="text/javascript"
+      src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"
+    ></script>
+
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css"
       rel="stylesheet"
@@ -80,38 +89,144 @@
       const peerData = "br8szmntp";
     </script>
 
+    <script type="text/javascript">
+      FusionCharts.ready(function () {
+        var chartObj = new FusionCharts({
+          type: "mscolumn2d",
+          renderAt: "chart-container",
+          width: "100%",
+          height: "390",
+          dataFormat: "json",
+          dataSource: {
+            chart: {
+              theme: "fusion",
+              caption: "Comparison of Quarterly Revenue",
+              xAxisname: "Quarter",
+              yAxisName: "Revenues (In USD)",
+              numberPrefix: "$",
+              plotFillAlpha: "80",
+              divLineIsDashed: "1",
+              divLineDashLen: "1",
+              divLineGapLen: "1",
+            },
+            categories: [
+              {
+                category: [
+                  {
+                    label: "Q1",
+                  },
+                  {
+                    label: "Q2",
+                  },
+                  {
+                    label: "Q3",
+                  },
+                  {
+                    label: "Q4",
+                  },
+                ],
+              },
+            ],
+            dataset: [
+              {
+                seriesname: "Previous Year",
+                data: [
+                  {
+                    value: "10000",
+                  },
+                  {
+                    value: "11500",
+                  },
+                  {
+                    value: "12500",
+                  },
+                  {
+                    value: "15000",
+                  },
+                ],
+              },
+              {
+                seriesname: "Current Year",
+                data: [
+                  {
+                    value: "25400",
+                  },
+                  {
+                    value: "29800",
+                  },
+                  {
+                    value: "21800",
+                  },
+                  {
+                    value: "26800",
+                  },
+                ],
+              },
+            ],
+            trendlines: [
+              {
+                line: [
+                  {
+                    startvalue: "12250",
+                    color: "#5D62B5",
+                    displayvalue: "Previous{br}Average",
+                    valueOnRight: "1",
+                    thickness: "1",
+                    showBelow: "1",
+                    tooltext: "Previous year quarterly target  : $13.5K",
+                  },
+                  {
+                    startvalue: "25950",
+                    color: "#29C3BE",
+                    displayvalue: "Current{br}Average",
+                    valueOnRight: "1",
+                    thickness: "1",
+                    showBelow: "1",
+                    tooltext: "Current year quarterly target  : $23K",
+                  },
+                ],
+              },
+            ],
+          },
+        });
+        chartObj.render();
+      });
+    </script>
+
     <script>
       // Function to get chart colors based on current theme
       function getChartColors() {
         const isDark = document.documentElement.classList.contains("dark");
-        return isDark ? {
-          green: "#a7d95c",    // Lighter green for dark mode
-          blue: "#5ba3e8",     // Lighter blue for dark mode
-          grey: "#e5e7eb",     // Lighter grey for dark mode
-          red: "#ff8fa3",      // Lighter red for dark mode
-          orange: "#ffb366",   // Lighter orange for dark mode
-          yellow: "#ffd966",   // Lighter yellow for dark mode
-          purple: "#b366ff",   // Lighter purple for dark mode
-        } : {
-          green: "#83b240",
-          blue: "#326eaa",
-          grey: "#c9cbcf",
-          red: "#ff6384",
-          orange: "#ff9f40",
-          yellow: "#ffcd56",
-          purple: "#9966ff",
-        };
+        return isDark
+          ? {
+              green: "#a7d95c", // Lighter green for dark mode
+              blue: "#5ba3e8", // Lighter blue for dark mode
+              grey: "#e5e7eb", // Lighter grey for dark mode
+              red: "#ff8fa3", // Lighter red for dark mode
+              orange: "#ffb366", // Lighter orange for dark mode
+              yellow: "#ffd966", // Lighter yellow for dark mode
+              purple: "#b366ff", // Lighter purple for dark mode
+            }
+          : {
+              green: "#83b240",
+              blue: "#326eaa",
+              grey: "#c9cbcf",
+              red: "#ff6384",
+              orange: "#ff9f40",
+              yellow: "#ffcd56",
+              purple: "#9966ff",
+            };
       }
-      
+
       // Initialize chartColors with current theme
       chartColors = getChartColors();
-      
+
       // Update chartColors when theme changes
-      document.addEventListener("dark-mode", function() {
+      document.addEventListener("dark-mode", function () {
         chartColors = getChartColors();
       });
-      
-      document.addEventListener("light-mode", function() {
+
+      document.addEventListener("light-mode", function () {
         chartColors = getChartColors();
       });
     </script>
@@ -775,7 +890,7 @@
                 <li>
                   <button
                     data-modal-target="print_modal"
-                    data-modal-toggle="print_modal" 
+                    data-modal-toggle="print_modal"
                     data-popover-target="popoverPrint-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
@@ -797,9 +912,7 @@
                         clip-rule="evenodd"
                       />
                     </svg>
-                    <span class="ml-3" sidebar-toggle-item="">
-                      Print
-                    </span>
+                    <span class="ml-3" sidebar-toggle-item=""> Print </span>
                   </button>
                   <div
                     data-popover
@@ -810,7 +923,9 @@
                     <div
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
                     >
-                      <h3 class="font-semibold text-gray-900 dark:text-white text-lg">
+                      <h3
+                        class="font-semibold text-gray-900 dark:text-white text-lg"
+                      >
                         Print Report
                       </h3>
                     </div>
@@ -836,6 +951,9 @@
       >
         <main class="px-4 pt-6 grid gap-y-4">
           <div id="demoContent" class="tab-content">
+
+            <div id="chart-container">FusionCharts XT will load here!</div>
+
             <!-- Giving Units -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -1639,7 +1757,6 @@
                     </p>
                   </span>
                 </div>
-
               </div>
               <div id="cashExpendituresPerGivingUnit_chart"></div>
               <div
@@ -2119,7 +2236,7 @@
                               class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
                             >
                               12. Contributions without Donor Restrictions per
-                               and Giving Unit
+                              and Giving Unit
                             </th>
                           </tr>
 
@@ -2547,7 +2664,6 @@
                               21. Expenses per Accounting FTE
                             </th>
                           </tr>
-                          
                         </tbody>
                       </table>
                     </div>
@@ -6546,6 +6662,5 @@
     <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=150"></script>
     <!-- charts.js -->
     <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=149"></script>
-    
   </body>
 </html>
