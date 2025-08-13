@@ -4885,6 +4885,7 @@ class AppController {
           recordsPeer = await validateAndNormalizeRecords(recordsPeer);
           // console.log(`Normalized ${recordsPeer.length} peer records`);
           window.recordsPeer = recordsPeer;
+          totalRecordsPeer = recordsPeer.length;
           countUniqueClients(recordsPeer);
         }
       } catch (error) {
@@ -4921,6 +4922,7 @@ class AppController {
           recordsClient = await validateAndNormalizeRecords(recordsClient);
 
           window.recordsClientSelectedYears = recordsClient;
+          totalRecordsClient = recordsClient.length;
           if (
             recordsClient.length > 0 &&
             recordsClient[recordsClient.length - 1]

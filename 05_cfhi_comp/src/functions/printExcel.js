@@ -19,7 +19,8 @@ class ExcelReportGenerator {
         };
 
                 this.FIELD_IDS = {
-          CLIENT_RID: "171",
+          CLIENT_RID: "227",
+          TOTAL_RECORDS_PEER: "224",
           FIRM_NAME: "223",
           SLIDER_MIN: "296",
           SLIDER_MAX: "297",
@@ -418,6 +419,9 @@ class ExcelReportGenerator {
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.CLIENT_RID
         }'>${this.escapeXml(ClientRid)}</field>`;
+        this.xmlPayload += `<field fid='${
+          this.FIELD_IDS.TOTAL_RECORDS_PEER
+        }'>${this.escapeXml(totalRecordsPeer)}</field>`;
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.FIRM_NAME
         }'>${this.escapeXml(firmName)}</field>`;

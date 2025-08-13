@@ -33,6 +33,8 @@ const sites_Array = [
 
 let sliderAmount = null;
 let sliderRange = null;
+let totalRecordsPeer = 0;
+let totalRecordsClient = 0;
 // Make sure these are window-scoped variables
 window.sliderValue = window.sliderValue || 0;
 window.sliderValue2 = window.sliderValue2 || 25000;
