@@ -1,10 +1,13 @@
 if (sidebar) {
   const toggleSidebarWidth = (sidebar) => {
-    sidebar.classList.toggle("w-44");
+    sidebar.classList.toggle("w-56");
     sidebar.classList.toggle("w-14");
     // Toggle ml-64 and ml-14 classes on main-content
-    mainContent.classList.toggle("ml-44");
+    mainContent.classList.toggle("ml-56");
     mainContent.classList.toggle("ml-14");
+
+    sidebarContent.classList.toggle("px-3");
+    sidebarContent.classList.toggle("px-2");
 
   };
 
@@ -24,12 +27,12 @@ if (sidebar) {
   const sidebarButtons = document.querySelectorAll("button[id$='Link']");
   const tabContents = document.querySelectorAll(".tab-content");
   const mainContent = document.getElementById("main-content"); // Get the main content element
+  const sidebarContent = document.getElementById("sidebar-content");
 
   const handleSidebarButtonClick = () => {
     toggleSidebarWidth(sidebar);
     togglePopoverVisibility(); // Toggle visibility of popover divs
-
-    // toggleListItemsPadding(); // Toggle padding on sidebar list items
+    toggleListItemsPadding(); // Toggle padding on sidebar list items
   };
 
   // Function to toggle the "hidden" class for popover divs
@@ -67,6 +70,11 @@ if (sidebar) {
   });
   toggleSidebarMobileHamburger.addEventListener("click", handleSidebarButtonClick);
   sidebarBackdrop.addEventListener("click", handleSidebarButtonClick);
+
+  // Initialize the first button as active by default
+  if (sidebarButtons.length > 0) {
+    activateButton(0);
+  }
 }
 
 

@@ -155,6 +155,26 @@
         -webkit-appearance: none;
         /* @apply w-6 h-6 appearance-none pointer-events-auto; */
       }
+
+      /* Active sidebar button styles */
+      #sidebar button.active {
+        background-color: #e5e7eb !important;
+        color: #1f2937 !important;
+      }
+
+      #sidebar button.active:hover {
+        background-color: #d1d5db !important;
+      }
+
+      /* Dark mode active styles */
+      .dark #sidebar button.active {
+        background-color: #374151 !important;
+        color: #ffffff !important;
+      }
+
+      .dark #sidebar button.active:hover {
+        background-color: #4b5563 !important;
+      }
     </style>
   </head>
   <body>
@@ -505,13 +525,14 @@
     >
       <aside
         id="sidebar"
-        class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-44 h-full pt-16 font-normal duration-75 lg:flex transition-width"
+        class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-56 h-full pt-16 font-normal duration-75 lg:flex transition-width duration-500 ease-in-out"
       >
         <div
           class="relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
         >
           <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
             <div
+              id="sidebar-content"
               class="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
             >
               <ul class="pb-2 space-y-2">
@@ -521,10 +542,10 @@
                     data-popover-target="popoverEnrollment-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 active:text-green-200"
+                    class="flex items-center w-full py-2 pl-1 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -535,7 +556,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left whitespace-normal"
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       Demo
@@ -545,20 +566,18 @@
                     data-popover
                     id="popoverEnrollment-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
                   >
                     <div
-                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
                     >
-                      <h3
-                        class="font-semibold text-gray-900 text-lg dark:text-white"
-                      >
+                      <h3 class="font-semibold text-white text-lg">
                         Demographic Information
                       </h3>
                     </div>
                     <div
                       data-popper-arrow
-                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                      class="bg-gray-700 dark:border-gray-600"
                     ></div>
                   </div>
                 </li>
@@ -568,10 +587,11 @@
                     data-popover-target="popoverCash-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    type="button"
+                    class="flex items-center w-full py-2 pl-1 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -582,7 +602,7 @@
                       />
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left whitespace-normal"
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       Cash
@@ -592,20 +612,18 @@
                     data-popover
                     id="popoverCash-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
                   >
                     <div
-                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
                     >
-                      <h3
-                        class="font-semibold text-gray-900 dark:text-white text-lg"
-                      >
+                      <h3 class="font-semibold text-white text-lg">
                         Cash Flow and Reserve Ratios and Measurements
                       </h3>
                     </div>
                     <div
                       data-popper-arrow
-                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                      class="bg-gray-700 dark:border-gray-600"
                     ></div>
                   </div>
                 </li>
@@ -615,10 +633,11 @@
                     data-popover-target="popoverDebt-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    type="button"
+                    class="flex items-center w-full py-2 pl-1 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -629,7 +648,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left whitespace-normal"
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       Debt
@@ -639,20 +658,18 @@
                     data-popover
                     id="popoverDebt-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
                   >
                     <div
-                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
                     >
-                      <h3
-                        class="font-semibold text-gray-900 dark:text-white text-lg"
-                      >
+                      <h3 class="font-semibold text-white text-lg">
                         DEBT RATIOS AND MEASUREMENTS
                       </h3>
                     </div>
                     <div
                       data-popper-arrow
-                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                      class="bg-gray-700 dark:border-gray-600"
                     ></div>
                   </div>
                 </li>
@@ -662,10 +679,11 @@
                     data-popover-target="popoverIncome-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    type="button"
+                    class="flex items-center w-full py-2 pl-1 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -678,7 +696,7 @@
                       />
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left whitespace-normal"
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       Income
@@ -688,20 +706,18 @@
                     data-popover
                     id="popoverIncome-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
                   >
                     <div
-                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
                     >
-                      <h3
-                        class="font-semibold text-gray-900 dark:text-white text-lg"
-                      >
+                      <h3 class="font-semibold text-white text-lg">
                         INCOME/GIVING RATIOS AND MEASUREMENTS
                       </h3>
                     </div>
                     <div
                       data-popper-arrow
-                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                      class="bg-gray-700 dark:border-gray-600"
                     ></div>
                   </div>
                 </li>
@@ -711,10 +727,11 @@
                     data-popover-target="popoverExpense-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    type="button"
+                    class="flex items-center w-full py-2 pl-1 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -725,7 +742,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left whitespace-normal"
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       Expense
@@ -735,30 +752,28 @@
                     data-popover
                     id="popoverExpense-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
                   >
                     <div
-                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
                     >
-                      <h3
-                        class="font-semibold text-gray-900 dark:text-white text-lg"
-                      >
+                      <h3 class="font-semibold text-white text-lg">
                         EXPENSE RATIOS AND MEASUREMENTS
                       </h3>
                     </div>
                     <div
                       data-popper-arrow
-                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                      class="bg-gray-700 dark:border-gray-600"
                     ></div>
                   </div>
                 </li>
                 <li>
                   <button
                     id="reportLink"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    class="flex items-center w-full py-2 pl-1 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -770,11 +785,15 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="ml-3" sidebar-toggle-item="">
+                    <span
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
+                      sidebar-toggle-item=""
+                    >
                       All Reports
                     </span>
                   </button>
                 </li>
+                <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
                 <li>
                   <button
                     data-modal-target="print_modal"
@@ -783,10 +802,10 @@
                     data-popover-trigger="hover"
                     data-popover-placement="right"
                     type="button"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    class="flex items-center w-full py-2 pl-1 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -800,26 +819,29 @@
                         clip-rule="evenodd"
                       />
                     </svg>
-                    <span class="ml-3" sidebar-toggle-item=""> Print </span>
+                    <span
+                      class="ml-4 text-left text-xl font-bold whitespace-nowrap"
+                      sidebar-toggle-item=""
+                    >
+                      Print
+                    </span>
                   </button>
                   <div
                     data-popover
                     id="popoverPrint-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
                   >
                     <div
-                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
                     >
-                      <h3
-                        class="font-semibold text-gray-900 dark:text-white text-lg"
-                      >
+                      <h3 class="font-semibold text-white text-lg">
                         Print Report
                       </h3>
                     </div>
                     <div
                       data-popper-arrow
-                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                      class="bg-gray-700 dark:border-gray-600"
                     ></div>
                   </div>
                 </li>
@@ -835,7 +857,7 @@
       <!-- MAIN CONTENT -->
       <div
         id="main-content"
-        class="relative w-full h-full overflow-y-auto bg-gray-50 ml-44 dark:bg-gray-900 transition-width duration-500 ease-in-out"
+        class="relative w-full h-full overflow-y-auto bg-gray-50 ml-56 dark:bg-gray-900 transition-width duration-500 ease-in-out"
       >
         <main class="px-4 pt-6 grid gap-y-4">
           <div id="demoContent" class="tab-content">
