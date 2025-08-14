@@ -4059,6 +4059,16 @@ class ApiService {
         console.warn(`No records found for year ${currentYear}`);
       }
 
+      // Update per-year record count map
+      try {
+        if (!window.peerRecordMapPerYear || typeof window.peerRecordMapPerYear.set !== "function") {
+          window.peerRecordMapPerYear = new Map();
+        }
+        window.peerRecordMapPerYear.set(String(currentYear), recordsForPeer.length);
+      } catch (e) {
+        console.error("Unable to update peerRecordMapPerYear:", e);
+      }
+
       // Recursive call with updated years and dataStr
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     } catch (error) {
@@ -4073,6 +4083,14 @@ class ApiService {
 
       // Continue with next year even if this one failed
       // console.log(`Continuing to next year after error...`);
+      try {
+        if (!window.peerRecordMapPerYear || typeof window.peerRecordMapPerYear.set !== "function") {
+          window.peerRecordMapPerYear = new Map();
+        }
+        window.peerRecordMapPerYear.set(String(currentYear), 0);
+      } catch (e) {
+        console.error("Unable to set 0 count in peerRecordMapPerYear after error:", e);
+      }
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     }
   }
@@ -4489,6 +4507,28 @@ class ApiService {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(finalXmlString, "text/xml");
       const records = xmlDoc.querySelectorAll("record");
+
+      // Build per-year record counts
+      try {
+        const yearTotals = {};
+        Array.from(records).forEach((rec) => {
+          const yearText = rec.querySelector("s52_formatted_year")?.textContent || "";
+          const match = yearText.match(/\d{4}/);
+          const yearKey = match ? match[0] : "";
+          if (!yearKey) return;
+          yearTotals[yearKey] = (yearTotals[yearKey] || 0) + 1;
+        });
+        if (!window.peerRecordMapPerYear || typeof window.peerRecordMapPerYear.clear !== "function") {
+          window.peerRecordMapPerYear = new Map();
+        } else {
+          window.peerRecordMapPerYear.clear();
+        }
+        Object.entries(yearTotals).forEach(([year, count]) => {
+          window.peerRecordMapPerYear.set(String(year), count);
+        });
+      } catch (e) {
+        console.error("Unable to compute/set peerRecordMapPerYear in batched approach:", e);
+      }
       return records;
     } catch (error) {
       console.error("Error parsing XML in batched approach:", error);
@@ -4787,6 +4827,17 @@ class AppController {
       // Show loading indicator
       if (typeof showApiLoadingFunction === "function") {
         showApiLoadingFunction("open", "api");
+      }
+
+      // Reset per-year peer record counts for this run
+      try {
+        if (!window.peerRecordMapPerYear || typeof window.peerRecordMapPerYear.clear !== "function") {
+          window.peerRecordMapPerYear = new Map();
+        } else {
+          window.peerRecordMapPerYear.clear();
+        }
+      } catch (e) {
+        console.error("Unable to initialize peerRecordMapPerYear:", e);
       }
 
       // Process selected years

@@ -36,6 +36,8 @@ let sliderRange = null;
 let totalRecordsPeer = 0;
 let totalRecordsClient = 0;
 // Make sure these are window-scoped variables
+window.peerRecordMapPerYear = window.peerRecordMapPerYear || new Map();
+const peerRecordMapPerYear = window.peerRecordMapPerYear;
 window.sliderValue = window.sliderValue || 0;
 window.sliderValue2 = window.sliderValue2 || 25000;
 
