@@ -1209,17 +1209,36 @@ function buildUploadXml(results) {
   const uniqueClients = document.getElementById("uniqueClients")?.innerHTML || 0;
         const sliderValue = window.sliderValue || 0;
   const sliderValue2 = window.sliderValue2 || 0;
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.toLocaleString("en-US", { month: "long" });
 
   uploadXml += createFieldXml(30, "CFHI Comprehensive Dashboard");
   uploadXml += createFieldXml(31, uniqueClients);
   uploadXml += createFieldXml(33, Array.from(window.selectedSites_Array || []).join(";"));
   uploadXml += createFieldXml(34, Array.from(window.selectedRegions_Array || []).join(";"));
   uploadXml += createFieldXml(36, window.monthYearEnd || "");
+  uploadXml += createFieldXml(35, currentYear);
+  uploadXml += createFieldXml(32, currentMonth);
 
   // Years 1-8
   const yearFids = [37, 38, 39, 40, 41, 42, 43, 44];
   for (let i = 0; i < Math.min(selectedYears.length, yearFids.length); i++) {
     uploadXml += createFieldXml(yearFids[i], selectedYears[i]);
+  }
+
+  // Year Counts 1-8 (mapped from window.peerRecordMapPerYear)
+  const yearCountFids = [45, 46, 47, 48, 49, 50, 51, 52];
+  const peerYearCountMap =
+    window.peerRecordMapPerYear instanceof Map
+      ? window.peerRecordMapPerYear
+      : new Map();
+  for (let i = 0; i < Math.min(selectedYears.length, yearCountFids.length); i++) {
+    const yearKey = String(selectedYears[i]);
+    const yearCount = peerYearCountMap.has(yearKey)
+      ? peerYearCountMap.get(yearKey)
+      : 0;
+    uploadXml += createFieldXml(yearCountFids[i], yearCount);
   }
 
   uploadXml += createFieldXml(53, sliderValue);
