@@ -1213,7 +1213,7 @@ function buildUploadXml(results) {
   const currentYear = now.getFullYear();
   const currentMonth = now.toLocaleString("en-US", { month: "long" });
 
-  uploadXml += createFieldXml(30, "CFHI Comprehensive Dashboard");
+  uploadXml += createFieldXml(30, firmName);
   uploadXml += createFieldXml(31, uniqueClients);
   uploadXml += createFieldXml(33, Array.from(window.selectedSites_Array || []).join(";"));
   uploadXml += createFieldXml(34, Array.from(window.selectedRegions_Array || []).join(";"));
