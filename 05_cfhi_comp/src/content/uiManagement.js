@@ -10,7 +10,11 @@ if (sidebar) {
     sidebarContent.classList.toggle("px-2");
 
     demoContentHeader.classList.toggle("hidden");
-
+    cashContentHeader.classList.toggle("hidden");
+    debtContentHeader.classList.toggle("hidden");
+    incomeContentHeader.classList.toggle("hidden");
+    expenseContentHeader.classList.toggle("hidden");
+    reportContentHeader.classList.toggle("hidden");
   };
 
   const toggleListItemsPadding = () => {
@@ -31,6 +35,11 @@ if (sidebar) {
   const mainContent = document.getElementById("main-content"); // Get the main content element
   const sidebarContent = document.getElementById("sidebar-content");
   const demoContentHeader = document.getElementById("demoContentHeader");
+  const cashContentHeader = document.getElementById("cashContentHeader");
+  const debtContentHeader = document.getElementById("debtContentHeader");
+  const incomeContentHeader = document.getElementById("incomeContentHeader");
+  const expenseContentHeader = document.getElementById("expenseContentHeader");
+  const reportContentHeader = document.getElementById("reportContentHeader");
 
   const handleSidebarButtonClick = () => {
     toggleSidebarWidth(sidebar);
