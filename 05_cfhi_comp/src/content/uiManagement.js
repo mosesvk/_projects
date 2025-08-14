@@ -9,6 +9,8 @@ if (sidebar) {
     sidebarContent.classList.toggle("px-3");
     sidebarContent.classList.toggle("px-2");
 
+    demoContentHeader.classList.toggle("hidden");
+
   };
 
   const toggleListItemsPadding = () => {
@@ -28,6 +30,7 @@ if (sidebar) {
   const tabContents = document.querySelectorAll(".tab-content");
   const mainContent = document.getElementById("main-content"); // Get the main content element
   const sidebarContent = document.getElementById("sidebar-content");
+  const demoContentHeader = document.getElementById("demoContentHeader");
 
   const handleSidebarButtonClick = () => {
     toggleSidebarWidth(sidebar);
