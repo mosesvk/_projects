@@ -1327,7 +1327,7 @@ function initApexChartsPrintFunction() {
         apexChartsExportPrint();
     });
 
-    console.log("ApexCharts export print functionality initialized");
+    // console.log("ApexCharts export print functionality initialized");
 }
 
 // Initialize when document is loaded

@@ -90,7 +90,7 @@ class ExcelReportGenerator {
           this.handleGenerateReport.bind(this)
         );
         
-        console.log("ExcelReportGenerator initialized with fresh event listener");
+        // console.log("ExcelReportGenerator initialized with fresh event listener");
       }
     }
 
@@ -98,7 +98,7 @@ class ExcelReportGenerator {
      * Clean up Excel report generator data and reset state
      */
     cleanup() {
-      console.log("ExcelReportGenerator cleanup called");
+      // console.log("ExcelReportGenerator cleanup called");
       
       // Reset XML payload
       this.xmlPayload = "";
@@ -131,7 +131,7 @@ class ExcelReportGenerator {
         button.classList.remove("opacity-50", "cursor-not-allowed");
       }
       
-      console.log("ExcelReportGenerator cleanup completed");
+      // console.log("ExcelReportGenerator cleanup completed");
     }
 
     /**

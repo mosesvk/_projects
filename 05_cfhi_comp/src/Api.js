@@ -4853,9 +4853,9 @@ class AppController {
           : 0;
 
         if (selectedClientsCount > 15) {
-          console.log(
-            `Using batched approach for ${selectedClientsCount} clients`
-          );
+          // console.log(
+          //   `Using batched approach for ${selectedClientsCount} clients`
+          // );
           recordsPeer = await this.apiService.getRecordsForPeerWithBatching(
             selectedYears,
             window.selectedClients_Array
@@ -5081,7 +5081,7 @@ class AppController {
    * Enable the Generate Reports button and set up event listeners
    */
   enableGenerateReportsButton() {
-    console.log("enableGenerateReportsButton called");
+    // console.log("enableGenerateReportsButton called");
 
     // Re-enable the generate reports button
     const generateReportsBtn = document.getElementById("generateReports");
@@ -5147,7 +5147,7 @@ class AppController {
    * Enable print modal and hide footer initially
    */
   enablePrintModalHiddenClass() {
-    console.log("enablePrintModalHiddenClass called");
+    // console.log("enablePrintModalHiddenClass called");
 
     // Hide the print modal footer if it exists
     const printModalFooter = document.getElementById("print_modal_footer");
@@ -5186,7 +5186,7 @@ class AppController {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
           const modal = mutation.target;
           if (modal.classList.contains('hidden')) {
-            console.log("Print modal closed, cleaning up Excel report data");
+            // console.log("Print modal closed, cleaning up Excel report data");
             this.cleanupExcelReportData();
           }
         }
@@ -5202,7 +5202,7 @@ class AppController {
     // Also set up click event listener for backdrop/overlay clicks
     printModal.addEventListener('click', (event) => {
       if (event.target === printModal) {
-        console.log("Print modal backdrop clicked, cleaning up Excel report data");
+        // console.log("Print modal backdrop clicked, cleaning up Excel report data");
         this.cleanupExcelReportData();
       }
     });
@@ -5228,12 +5228,12 @@ class AppController {
   cleanupExcelReportData() {
     // Prevent duplicate cleanup calls
     if (this.isCleaningUp) {
-      console.log("Cleanup already in progress, skipping duplicate call");
+      // console.log("Cleanup already in progress, skipping duplicate call");
       return;
     }
     
     this.isCleaningUp = true;
-    console.log("Cleaning up Excel report data");
+    // console.log("Cleaning up Excel report data");
 
     // Reset ExcelReportGenerator instance if it exists
     if (window.excelReportGenerator) {
@@ -5252,7 +5252,7 @@ class AppController {
           window.excelReportGenerator.storedData = null;
         }
       }
-      console.log("ExcelReportGenerator data cleaned up");
+      // console.log("ExcelReportGenerator data cleaned up");
     }
 
     // Reset any global variables that might be used by the Excel report
@@ -5293,11 +5293,11 @@ class AppController {
       if (typeof ExcelReportGenerator === "function" && window.excelReportGenerator) {
         // Re-initialize the ExcelReportGenerator instance
         window.excelReportGenerator.init();
-        console.log("ExcelReportGenerator re-initialized after cleanup");
+        // console.log("ExcelReportGenerator re-initialized after cleanup");
       }
     }
 
-    console.log("Excel report data cleanup completed");
+    // console.log("Excel report data cleanup completed");
     
     // Reset cleanup flag after a short delay to allow for any pending operations
     setTimeout(() => {
@@ -5535,8 +5535,8 @@ function countUniqueClients(records) {
       element.textContent = count;
     }
 
-    console.log(`Counted ${count} unique clients after filtering`);
-    console.log("Unique clients per year:", window.uniqueClientsPerYearMap);
+    // console.log(`Counted ${count} unique clients after filtering`);
+    // console.log("Unique clients per year:", window.uniqueClientsPerYearMap);
   } catch (error) {
     console.error("Error counting unique clients:", error);
     const element = document.getElementById("uniqueClients");
