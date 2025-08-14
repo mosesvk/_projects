@@ -419,7 +419,8 @@ const getMainChartOptions = (
 
   const yaxisLabelFormatter = (value) => {
     let formattedValue;
-    let suffix = '';
+    
+    // Handle very large numbers (millions and billions)
     if (value >= 100000000) {
       // Round to nearest 10M for values >= 100M
       formattedValue = `${Math.round(value / 10000000) * 10}M`;
@@ -432,18 +433,44 @@ const getMainChartOptions = (
     } else if (value >= 1000) {
       // Round to nearest 1K for values >= 1K
       formattedValue = `${Math.round(value / 1000)}K`;
+    } else if (value >= 100) {
+      // Round to nearest 100 for values between 100 and 1000
+      // This handles cases like 510 -> 500, 410 -> 400, etc.
+      formattedValue = Math.round(value / 100) * 100;
     } else if (value >= 10) {
-      // Round to nearest 10 for values between 10 and 1000
+      // Round to nearest 10 for values between 10 and 100
       formattedValue = Math.round(value / 10) * 10;
-    } else {
-      // Round to nearest 1 for values < 10
+    } else if (value >= 1) {
+      // Round to nearest 1 for values between 1 and 10
       formattedValue = Math.round(value);
+    } else if (value >= 0.1) {
+      // For values between 0.1 and 1, always use 0.05 increments to avoid repeating labels
+      // This ensures clean increments like 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, etc.
+      formattedValue = Math.round(value * 20) / 20;
+    } else if (value >= 0.01) {
+      // For values between 0.01 and 0.1, use 0.02 increments
+      formattedValue = Math.round(value * 50) / 50;
+    } else {
+      // For very small values, round to nearest 0.01
+      formattedValue = Math.round(value * 100) / 100;
     }
     
     // Apply prefix/suffix based on numType
     if (numType === "dollar") {
+      // For dollar values, ensure we get clean whole numbers when possible
+      if (formattedValue >= 1 && formattedValue < 100) {
+        formattedValue = Math.round(formattedValue);
+      }
       return `$${formattedValue}`;
     } else if (numType === "percent") {
+      // For percentage values, use consistent precision
+      if (value >= 1 && value < 100) {
+        // For percentages 1-100, use 0.5 increments
+        formattedValue = Math.round(value * 2) / 2;
+      } else if (value >= 0.1 && value < 1) {
+        // For small percentages, use 0.05 increments
+        formattedValue = Math.round(value * 20) / 20;
+      }
       return `${formattedValue}%`;
     } else {
       return formattedValue; // "num" or "number" - no prefix/suffix
@@ -532,6 +559,9 @@ const getMainChartOptions = (
     ],
     series: series,
     chart: {
+      zoom: {
+        enabled: false,
+      },
       toolbar: {
         tools: {
           download: true,
@@ -610,12 +640,24 @@ const getMainChartOptions = (
             colors: chartColors.labelColor,
             fontSize: "1.25rem",
           },
-        align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
+          align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
         },
         tooltip: {
           enabled: true,
         },
         max: yaxisMax,
+        // Add tick configuration to prevent duplicate labels
+        tickAmount: 6, // Limit number of ticks
+        forceNiceScale: true, // Force nice round numbers
+        // Configure tick intervals based on data range
+        ...(yaxisMax <= 1 && yaxisMax > 0.1 && {
+          // For values between 0.1 and 1, use 0.05 increments
+          tickAmount: Math.min(8, Math.ceil(yaxisMax / 0.05)),
+        }),
+        ...(yaxisMax <= 0.1 && yaxisMax > 0.01 && {
+          // For values between 0.01 and 0.1, use 0.02 increments
+          tickAmount: Math.min(6, Math.ceil(yaxisMax / 0.02)),
+        }),
       },
     ],
     annotations: {
