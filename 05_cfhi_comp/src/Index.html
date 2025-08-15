@@ -9,6 +9,8 @@
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <!-- Production -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
@@ -40,10 +42,6 @@
       referrerpolicy="no-referrer"
     />
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
-    />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 
@@ -165,6 +163,11 @@
       }
       .good {
         background-color: #74b574 !important;
+      }
+      
+      /* Custom width utility for max-content */
+      .w-max-content {
+        width: max-content;
       }
 
       input[type="range"]::-webkit-slider-thumb {
@@ -6478,43 +6481,39 @@
     </div>
 
     <!-- PRINT MODAL -->
-    <div
-      id="print_modal"
+    <div id="print_modal"
       tabindex="-1"
       aria-hidden="true"
-      class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
+      class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 flex items-center justify-center w-full p-4"
     >
-      <div
-        class="relative bg-white rounded-lg shadow dark:bg-gray-800 p-4 w-full max-w-fit md:max-w-4xl max-h-full"
-      >
+      <div class="relative bg-white rounded-xl shadow-2xl dark:bg-gray-800 p-6 w-full max-w-2xl max-h-full overflow-y-auto">
         <div class="relative">
           <div
             data-accordion="collapse"
             data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
           >
-            <div class="flex justify-center py-4">
+            <div class="flex justify-center py-6">
               <h2
-                class="text-3xl dark:text-white font-bold leading-none uppercase"
+                class="text-3xl dark:text-white font-bold leading-none uppercase text-gray-800"
               >
                 Print Options
               </h2>
             </div>
-            <!-- <hr class="h-px my-4 mx-8 bg-gray-700 border-0 dark:bg-gray-500" /> -->
             <div
-              class="block py-2.5 px-0 mr-4 w-full text-gray-500 bg-transparent dark:text-gray-400 relative text-xl"
+              class="block py-4 px-0 w-full text-gray-600 bg-transparent dark:text-gray-300 relative text-lg"
             >
-              <div class="flex flex-col gap-y-5 mx-8">
+              <div class="flex flex-col gap-y-6">
                 <div class="flex flex-col justify-center py-4">
                   <button
                     type="button"
-                    class="flex backgroundGreen text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    class="flex backgroundGreen text-xl font-bold w-max-content self-center py-4 mb-4 px-8 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-green-300/50 opacity-90 hover:opacity-100 cursor-pointer"
                     id="generateReports"
                   >
                     Generate Trends and Benchmark Reports
                   </button>
                   <div
                     id="print_modal_footer"
-                    class="hidden flex flex-col items-center p-2 border-t border-gray-200 rounded-b dark:border-gray-600"
+                    class="hidden flex flex-col items-center p-4 border-t border-gray-200 rounded-b-lg dark:border-gray-600"
                   >
                     <p
                       class="text-center pb-4 pt-2 text-lg font-medium text-gray-900 dark:text-white"
@@ -6523,11 +6522,11 @@
                       your preferred format.
                     </p>
                     <div
-                      class="flex justify-center flex-col md:flex-row grid-rows-4 grid-flow-col gap-4"
+                      class="flex justify-center flex-col sm:flex-row gap-4"
                     >
                       <a
                         href=""
-                        class="flex backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                        class="flex backgroundGreen font-bold py-3 px-6 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-green-300/50 opacity-90 hover:opacity-100 cursor-pointer"
                         id="trendXLSFinal"
                         target="_blank"
                       >
@@ -6535,7 +6534,7 @@
                       </a>
                       <a
                         href=""
-                        class="flex backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                        class="flex backgroundBlue font-bold py-3 px-6 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-blue-300/50 opacity-90 hover:opacity-100 cursor-pointer"
                         id="trendPDFFinal"
                         target="_blank"
                       >
@@ -6544,11 +6543,11 @@
                     </div>
                   </div>
                   <hr
-                    class="h-px my-4 mx-8 bg-gray-700 border-0 dark:bg-gray-500"
+                    class="h-px my-6 bg-gray-300 border-0 dark:bg-gray-600"
                   />
                   <button
                     type="button"
-                    class="flex backgroundBlue text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+                    class="flex backgroundBlue text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-blue-300/50 opacity-90 hover:opacity-100 cursor-pointer"
                     id="printBase64"
                   >
                     Print Presentation
@@ -6562,31 +6561,30 @@
     </div>
 
     <!-- Loading Modal -->
-    <div
-      id="loadingApiDiv"
+    <div id="loadingApiDiv"
       tabindex="-1"
       aria-hidden="true"
-      class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75"
+      class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black/75 backdrop-blur-sm"
     >
       <div class="text-center">
         <div role="status">
           <div
             id="loadingApiInnerDiv"
-            class="animate-pulse flex flex-col place-items-center px-5 py-5 font-semibold text-white leading-none tracking-wider text-center rounded-full dark:bg-blue-900 dark:text-blue-200"
+            class="flex flex-col items-center px-8 py-8 font-semibold text-white leading-none tracking-wider text-center rounded-2xl shadow-2xl animate-pulse"
           >
-            <div id="loadingApiHeader" class="mb-4 text-6xl"></div>
+            <div id="loadingApiHeader" class="mb-6 text-6xl font-bold text-blue-100"></div>
             <div
               id="loadingApiYears"
-              class="px-3 py-1 text-4xl font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200"
+              class="px-6 py-3 text-4xl font-medium leading-none text-center text-blue-100 backgroundBlue rounded-full border border-green-400"
             >
               <span id="apiYears">
                 <span id="firstApiYear" class="mx-2"></span> -
                 <span id="LastApiYear" class="mx-2"></span>
               </span>
-              <span id="apiPrint" class="flex gap-2 items-center">
+              <span id="apiPrint" class="flex gap-3 items-center mt-3">
                 <!-- Download SVG Icon -->
                 <svg
-                  class="w-10 h-10 text-blue-600 dark:text-blue-400 hover:text-blue-800 transition-colors cursor-pointer"
+                  class="w-8 h-8 text-blue-300 hover:text-blue-100 transition-colors cursor-pointer"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -6602,7 +6600,7 @@
                 </svg>
                 <!-- Bar Chart SVG Icon -->
                 <svg
-                  class="w-10 h-10 text-green-600 dark:text-green-400 hover:text-green-800 transition-colors cursor-pointer"
+                  class="w-8 h-8 text-green-400 hover:text-green-300 transition-colors cursor-pointer"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
