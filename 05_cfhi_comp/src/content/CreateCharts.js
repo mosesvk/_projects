@@ -365,6 +365,36 @@ const getMainChartOptions = (
       numType
     ));
 
+  // Calculate smart y-axis range based on actual data (always needed)
+  const allDataValues = [...clientArray, ...peerAvg, ...peerMid, ...peer25, ...peer75, ...(benchmark || [])].filter(v => v !== null && v !== undefined);
+  const dataMin = Math.min(...allDataValues);
+  const dataMax = Math.max(...allDataValues);
+  const dataRange = dataMax - dataMin;
+  
+  // Calculate appropriate padding based on data range
+  let padding;
+  if (dataRange <= 0.1) {
+    padding = 0.02; // Small padding for very small ranges
+  } else if (dataRange <= 0.5) {
+    padding = 0.1; // Medium padding for small ranges
+  } else if (dataRange <= 2) {
+    padding = 0.2; // Medium padding for medium ranges
+  } else if (dataRange <= 10) {
+    padding = 1; // Larger padding for larger ranges
+  } else {
+    padding = Math.ceil(dataRange * 0.1); // 10% padding for large ranges
+  }
+  
+  // Ensure minimum padding for very small values
+  if (dataMax < 1 && padding < 0.05) {
+    padding = 0.05;
+  }
+  
+  yaxisMax = dataMax + padding;
+  
+  // Calculate y-axis minimum - only set to 0 if all data is positive
+  const yaxisMin = dataMin >= 0 ? 0 : undefined;
+
   // Set up annotations based on mainName and benchmark (only if benchmark is provided)
   if (benchmark !== undefined && benchmark !== null) {
     // Benchmark is always an array with 1 or 2 values
@@ -412,7 +442,6 @@ const getMainChartOptions = (
         });
       }
       yaxisAnnotation = benchmarkAnnotations;
-      yaxisMax = Math.round(Math.max(...clientArray, ...benchmark) + 2);
       previousData = clientArray;
     }
   }
@@ -645,18 +674,34 @@ const getMainChartOptions = (
         tooltip: {
           enabled: true,
         },
+        ...(yaxisMin !== undefined && { min: yaxisMin }), // Only set min if all data is positive
         max: yaxisMax,
-        // Add tick configuration to prevent duplicate labels
-        tickAmount: 6, // Limit number of ticks
+        // Configure y-axis to ensure all ticks have labels
         forceNiceScale: true, // Force nice round numbers
-        // Configure tick intervals based on data range
-        ...(yaxisMax <= 1 && yaxisMax > 0.1 && {
-          // For values between 0.1 and 1, use 0.05 increments
-          tickAmount: Math.min(8, Math.ceil(yaxisMax / 0.05)),
+        // Use appropriate tick configuration based on data range
+        ...(yaxisMax >= 1000 && {
+          // For large values (like thousands), use default tick generation
+          // This ensures all ticks get labels
         }),
-        ...(yaxisMax <= 0.1 && yaxisMax > 0.01 && {
-          // For values between 0.01 and 0.1, use 0.02 increments
-          tickAmount: Math.min(6, Math.ceil(yaxisMax / 0.02)),
+        ...(yaxisMax < 1000 && yaxisMax >= 100 && {
+          // For medium values (100-1000), use reasonable tick amount
+          tickAmount: Math.min(8, Math.ceil(yaxisMax / 100)),
+        }),
+        ...(yaxisMax < 100 && yaxisMax >= 10 && {
+          // For small values (10-100), use appropriate tick amount
+          tickAmount: Math.min(6, Math.ceil(yaxisMax / 10)),
+        }),
+        ...(yaxisMax < 10 && yaxisMax >= 1 && {
+          // For very small values (1-10), use more ticks
+          tickAmount: Math.min(8, Math.ceil(yaxisMax / 0.5)),
+        }),
+        ...(yaxisMax < 1 && yaxisMax >= 0.1 && {
+          // For decimal values (0.1-1), use 0.2 increments
+          tickAmount: Math.min(6, Math.ceil(yaxisMax / 0.2)),
+        }),
+        ...(yaxisMax < 0.1 && {
+          // For very small decimal values, use 0.02 increments
+          tickAmount: Math.min(5, Math.ceil(yaxisMax / 0.02)),
         }),
       },
     ],
