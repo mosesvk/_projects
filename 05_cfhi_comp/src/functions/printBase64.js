@@ -122,6 +122,7 @@ function saveCompleteChartState(chart) {
           ...axis.labels,
           formatter: axis.labels?.formatter?.toString(),
           style: axis.labels?.style || {},
+          align: axis.labels?.align,
         },
         axisBorder: axis.axisBorder || {},
         axisTicks: axis.axisTicks || {},
@@ -134,6 +135,7 @@ function saveCompleteChartState(chart) {
           ...chartConfig.yaxis?.labels,
           formatter: chartConfig.yaxis?.labels?.formatter?.toString(),
           style: chartConfig.yaxis?.labels?.style || {},
+          align: chartConfig.yaxis?.labels?.align,
         },
         axisBorder: chartConfig.yaxis?.axisBorder || {},
         axisTicks: chartConfig.yaxis?.axisTicks || {},
@@ -271,6 +273,7 @@ function restoreCompleteChartState(chart, originalState) {
               }
               return `${isNegative ? "-" : ""}${formattedValue}`;
             },
+            align: axis.labels?.align,
           },
         };
       }) : [],
@@ -634,25 +637,25 @@ async function apexChartsExportPrint() {
 
     // Define chart mappings for your specific charts
     const chartMappings = [
-      { chartId: "givingUnits_chart", fieldId: 6 },
-      { chartId: "attendeesToStaff_chart", fieldId: 7 },
-      { chartId: "daysExpendableNetAssets_chart", fieldId: 8 },
-      { chartId: "daysOperatingCash_chart", fieldId: 9 },
-      { chartId: "availableDaysOfCashFlow_chart", fieldId: 10 },
-      { chartId: "liquidityRatio_chart", fieldId: 11 },
-      { chartId: "netCashAvailability_chart", fieldId: 12 },
-      { chartId: "debtToContributionsWithout_chart", fieldId: 13 },
-      { chartId: "currentRatio_chart", fieldId: 14 },
-      { chartId: "mandatoryDebtServiceToContributionsWithout_chart", fieldId: 15 },
-      { chartId: "debtPerGivingUnit_chart", fieldId: 16 },
-      { chartId: "debtCoverage_chart", fieldId: 17 },
-      { chartId: "netIncomeRatio_chart", fieldId: 18 },
-      { chartId: "contributionsWithoutDonorPerGivingUnit_chart", fieldId: 19 },
-      { chartId: "totalContributionsPerGivingUnit_chart", fieldId: 20 },
-      { chartId: "benefitsToSalaries_chart", fieldId: 21 },
-      { chartId: "salariesBenefitsIncludingOutsourcedEmployees_chart", fieldId: 22 },
-      { chartId: "personnelToCashExpenditure_chart", fieldId: 23 },
-      { chartId: "cashExpendituresPerGivingUnit_chart", fieldId: 24 },
+      { chartId: "givingUnits_chart", fieldId: 11 },
+      { chartId: "attendeesToStaff_chart", fieldId: 12 },
+      { chartId: "daysExpendableNetAssets_chart", fieldId: 13 },
+      { chartId: "daysOperatingCash_chart", fieldId: 14 },
+      { chartId: "availableDaysOfCashFlow_chart", fieldId: 15 },
+      { chartId: "liquidityRatio_chart", fieldId: 16 },
+      { chartId: "netCashAvailability_chart", fieldId: 17 },
+      { chartId: "debtToContributionsWithout_chart", fieldId: 18 },
+      { chartId: "currentRatio_chart", fieldId: 19 },
+      { chartId: "mandatoryDebtServiceToContributionsWithout_chart", fieldId: 20 },
+      { chartId: "debtPerGivingUnit_chart", fieldId: 21 },
+      { chartId: "debtCoverage_chart", fieldId: 22 },
+      { chartId: "netIncomeRatio_chart", fieldId: 23 },
+      { chartId: "contributionsWithoutDonorPerGivingUnit_chart", fieldId: 24 },
+      { chartId: "totalContributionsPerGivingUnit_chart", fieldId: 25 },
+      { chartId: "benefitsToSalaries_chart", fieldId: 26 },
+      { chartId: "salariesBenefitsIncludingOutsourcedEmployees_chart", fieldId: 27 },
+      { chartId: "personnelToCashExpenditure_chart", fieldId: 28 },
+      { chartId: "cashExpendituresPerGivingUnit_chart", fieldId: 29 },
     ];
 
     // Filter out any charts that don't exist in the DOM
