@@ -403,6 +403,9 @@ const getMainChartOptions = (
       yaxisAnnotation = benchmarkAnnotations;
       previousData = clientArray;
     }
+  } else {
+    // Ensure yaxisAnnotation is always a valid value (empty array) when no benchmark
+    yaxisAnnotation = [];
   }
 
   const yaxisLabelFormatter = (value) => {
@@ -507,6 +510,8 @@ const getMainChartOptions = (
       type: "line",
       data: peer25,
       visible: false,
+      showInLegend: true,
+      showForNullSeries: true,
     },
     {
       name: "Avg",
@@ -522,18 +527,24 @@ const getMainChartOptions = (
           stops: [0, 80, 80],
         },
       },
+      showInLegend: true,
+      showForNullSeries: true,
     },
     {
       name: "50th",
       type: "line",
       data: peerMid,
       visible: false,
+      showInLegend: true,
+      showForNullSeries: true,
     },
     {
       name: "75th",
       type: "line",
       data: peer75,
       visible: false,
+      showInLegend: true,
+      showForNullSeries: true,
     },
   ];
 
@@ -687,6 +698,9 @@ const getMainChartOptions = (
       horizontalAlign: "center",
       offsetX: 40,
       fontSize: "20px",
+      show: true,
+      showForNullSeries: true,
+      showForZeroSeries: true,
     },
     grid: {
       row: {
