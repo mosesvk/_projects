@@ -202,50 +202,27 @@ const getMainChartOptions = (
           line.setAttribute("x2", x2);
         });
 
-        // Position benchmark labels dynamically based on chart dimensions
-        const annotationLabels = chartElement.querySelectorAll(
-          `.apexcharts-yaxis-annotations .apexcharts-annotation-label`
-        );
-        annotationLabels.forEach((label) => {
-          // Get y-axis element and find the y-axis border line
-          const yAxisElement = chartElement.querySelector('.apexcharts-yaxis');
-          
-          if (yAxisElement) {
-            // Extract the x-transform value from the y-axis element
-            const transform = yAxisElement.getAttribute('transform');
-            const translateMatch = transform.match(/translate\(([^,]+),/);
-            
-            if (translateMatch) {
-              const yAxisXPosition = parseFloat(translateMatch[1]);
-              
-              // Find the main y-axis border line (the vertical line that separates y-axis from plot area)
-              // This is typically the line with y1 and y2 attributes (vertical line)
-              const yAxisBorderLine = yAxisElement.querySelector('line[y1][y2]');
-              if (yAxisBorderLine) {
-                const borderLineX = parseFloat(yAxisBorderLine.getAttribute('x1'));
-                
-                // Calculate the position right after the y-axis border
-                const yAxisBorderPosition = yAxisXPosition + borderLineX;
-                
-                // Position text just after the y-axis border with small margin
-                const textStartPosition = yAxisBorderPosition + 5;
-                
-                label.style.left = `${textStartPosition}px`;
-              }
-            }
-          }
+        // Annotation label positioning handled by offsetX in annotation configuration
+
+        // Ensure data labels appear on top of annotations
+        const dataLabels = chartElement.querySelectorAll('.apexcharts-datalabels');
+        dataLabels.forEach(label => {
+          label.style.zIndex = '999';
+          label.style.position = 'relative';
         });
 
-        // console.log(`Updated annotation line: x1=${x1}, x2=${x2}`);
+        // Ensure annotations appear below data labels
+        const annotations = chartElement.querySelectorAll('.apexcharts-annotations');
+        annotations.forEach(annotation => {
+          annotation.style.zIndex = '1';
+          annotation.style.position = 'relative';
+        });
       }, 200); // Extra delay to ensure annotations are rendered
     },
     updated: function (chartContext, config) {
       // First, wait for the chart and annotations to be rendered
       const chartElement = document.getElementById(chartId);
       if (!chartElement) return;
-
-      if (chartId === "cfiRatio_chart") {
-      }
 
       // Get the first grid line to use as reference
       const gridLine = chartElement.querySelector(
@@ -257,7 +234,6 @@ const getMainChartOptions = (
       const annotationLine = chartElement.querySelector(
         `.apexcharts-yaxis-annotations line`
       );
-      const yaxis = chartElement.querySelector(`.apexcharts-yaxis`);
       if (!annotationLine) return;
 
       // Get the exact x1 and x2 values from the grid line
@@ -277,38 +253,20 @@ const getMainChartOptions = (
         line.setAttribute("x2", x2);
       });
 
-      // Position benchmark labels dynamically based on chart dimensions
-      const annotationLabels = chartElement.querySelectorAll(
-        `.apexcharts-yaxis-annotations .apexcharts-annotation-label`
-      );
-      annotationLabels.forEach((label) => {
-        // Get y-axis element and find the y-axis border line
-        const yAxisElement = chartElement.querySelector('.apexcharts-yaxis');
-        
-        if (yAxisElement) {
-          // Extract the x-transform value from the y-axis element
-          const transform = yAxisElement.getAttribute('transform');
-          const translateMatch = transform.match(/translate\(([^,]+),/);
-          
-          if (translateMatch) {
-            const yAxisXPosition = parseFloat(translateMatch[1]);
-            
-            // Find the main y-axis border line (the vertical line that separates y-axis from plot area)
-            // This is typically the line with y1 and y2 attributes (vertical line)
-            const yAxisBorderLine = yAxisElement.querySelector('line[y1][y2]');
-            if (yAxisBorderLine) {
-              const borderLineX = parseFloat(yAxisBorderLine.getAttribute('x1'));
-              
-              // Calculate the position right after the y-axis border
-              const yAxisBorderPosition = yAxisXPosition + borderLineX;
-              
-              // Position text just after the y-axis border with small margin
-              const textStartPosition = yAxisBorderPosition + 5;
-              
-              label.style.left = `${textStartPosition}px`;
-            }
-          }
-        }
+      // Annotation label positioning handled by offsetX in annotation configuration
+
+      // Ensure data labels appear on top of annotations
+      const dataLabels = chartElement.querySelectorAll('.apexcharts-datalabels');
+      dataLabels.forEach(label => {
+        label.style.zIndex = '999';
+        label.style.position = 'relative';
+      });
+
+      // Ensure annotations appear below data labels
+      const annotations = chartElement.querySelectorAll('.apexcharts-annotations');
+      annotations.forEach(annotation => {
+        annotation.style.zIndex = '1';
+        annotation.style.position = 'relative';
       });
     },
   };
@@ -408,22 +366,21 @@ const getMainChartOptions = (
         width: "100%", // Full width across entire chart area
         label: {
           text: getBenchmarkLabel(mainName, benchmark, index),
-          borderColor: isDarkMode ? "#374151" : "#ffffff",
-          borderWidth: 1,
-          position: "left", // Use left position for manual control
-          textAnchor: "start", // Anchor text to start (left side)
-          offsetX: 0, // Will be set dynamically in chart events
+          borderColor: "transparent",
+          borderWidth: 0,
+          position: "left",
+          textAnchor: "start",
+          offsetX: -50, // Small negative offset to position text just to the right of y-axis border
           offsetY: 0,
           style: {
-            background: isDarkMode ? "#1F2937" : window.chartColors.green,
+            background: "transparent",
             color: chartColors.labelColor,
             fontSize: "16px",
             fontWeight: 600,
-            padding: "4px",
-            borderRadius: "2px",
-            opacity: isDarkMode ? 0.9 : 0.7,
           },
         },
+        // Ensure annotations appear below data labels
+        zIndex: 1,
       }));
 
       // Add range fill between two benchmarks if there are exactly 2 values
@@ -438,7 +395,9 @@ const getMainChartOptions = (
           borderColor: 'transparent',
           fillColor: isDarkMode ? '#374151' : window.chartColors.green,
           opacity: 0.15,
-          width: "100%"
+          width: "100%",
+          // Ensure range fill appears below data labels
+          zIndex: 0,
         });
       }
       yaxisAnnotation = benchmarkAnnotations;
@@ -635,6 +594,8 @@ const getMainChartOptions = (
           opacity: 0.45,
         },
       },
+      // Ensure data labels appear on top of annotations
+      zIndex: 999,
     },
     stroke: {
       width: [2, 3, 4, 4, 4],
@@ -742,3 +703,71 @@ const getMainChartOptions = (
     },
   };
 };
+
+// Global function to position annotation labels for all charts
+window.positionAllAnnotationLabels = function() {
+  const chartIds = [
+    "givingUnits_chart",
+    "attendeesToStaff_chart", 
+    "daysExpendableNetAssets_chart",
+    "daysOperatingCash_chart",
+    "availableDaysOfCashFlow_chart",
+    "liquidityRatio_chart",
+    "netCashAvailability_chart",
+    "debtToContributionsWithout_chart",
+    "currentRatio_chart",
+    "mandatoryDebtServiceToContributionsWithout_chart",
+    "debtPerGivingUnit_chart",
+    "debtCoverage_chart",
+    "netIncomeRatio_chart",
+    "contributionsWithoutDonorPerGivingUnit_chart",
+    "totalContributionsPerGivingUnit_chart",
+    "benefitsToSalaries_chart",
+    "salariesBenefitsIncludingOutsourcedEmployees_chart",
+    "personnelToCashExpenditure_chart",
+    "cashExpendituresPerGivingUnit_chart",
+  ];
+
+  chartIds.forEach(chartId => {
+    const chartElement = document.getElementById(chartId);
+    if (!chartElement) return;
+
+    // Get the first grid line to use as reference
+    const gridLine = chartElement.querySelector(
+      `.apexcharts-gridlines-horizontal line`
+    );
+    if (!gridLine) return;
+
+    // Get the annotation line (y-axis annotation)
+    const annotationLine = chartElement.querySelector(
+      `.apexcharts-yaxis-annotations line`
+    );
+    if (!annotationLine) return;
+
+    // Get the exact x1 and x2 values from the grid line
+    const x1 = gridLine.getAttribute("x1");
+    const x2 = gridLine.getAttribute("x2");
+
+    // Set the annotation line to match exactly
+    annotationLine.setAttribute("x1", x1);
+    annotationLine.setAttribute("x2", x2);
+
+    // Ensure all annotation lines extend fully across the chart
+    const allAnnotationLines = chartElement.querySelectorAll(
+      `.apexcharts-yaxis-annotations line`
+    );
+    allAnnotationLines.forEach((line) => {
+      line.setAttribute("x1", x1);
+      line.setAttribute("x2", x2);
+    });
+
+    // Annotation label positioning handled by offsetX in annotation configuration
+  });
+};
+
+// Call the function after a delay to ensure all charts are rendered
+setTimeout(() => {
+  if (typeof window.positionAllAnnotationLabels === 'function') {
+    window.positionAllAnnotationLabels();
+  }
+}, 1000);

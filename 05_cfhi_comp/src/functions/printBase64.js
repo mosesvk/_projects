@@ -30,6 +30,37 @@ async function processChartsWithSpacing(chartMappings) {
                 
       const chart = window[chartId];
 
+      // Add specific debugging for problematic charts
+      const problematicCharts = [
+        "givingUnits_chart",
+        "attendeesToStaff_chart", 
+        "debtToContributionsWithout_chart",
+        "currentRatio_chart",
+        "mandatoryDebtServiceToContributionsWithout_chart",
+        "debtPerGivingUnit_chart",
+        "debtCoverage_chart"
+      ];
+
+      if (problematicCharts.includes(chartId)) {
+        console.log(`Processing problematic chart: ${chartId}`, {
+          chartExists: !!chart,
+          chartElementExists: !!chartElement,
+          chartElementDimensions: {
+            width: chartElement.offsetWidth,
+            height: chartElement.offsetHeight,
+            clientWidth: chartElement.clientWidth,
+            clientHeight: chartElement.clientHeight
+          },
+          chartState: chart ? {
+            hasGlobals: !!chart.w?.globals,
+            hasDom: !!chart.w?.globals?.dom,
+            hasPaper: !!chart.w?.globals?.dom?.Paper,
+            chartWidth: chart.w?.globals?.svgWidth,
+            chartHeight: chart.w?.globals?.svgHeight
+          } : null
+        });
+      }
+
       // If we have an ApexChart instance, use its export method
       if (chart && typeof chart.dataURI === "function") {
         const base64String = await exportApexChart(chart, chartId);
@@ -151,6 +182,16 @@ function saveCompleteChartState(chart) {
       fixedNum: fixedNum,
       isYAxisArray: Array.isArray(chartConfig.yaxis),
       yaxisConfig: yaxisConfig,
+      // Add additional state information for problematic charts
+      problematicCharts: [
+        "givingUnits_chart",
+        "attendeesToStaff_chart", 
+        "debtToContributionsWithout_chart",
+        "currentRatio_chart",
+        "mandatoryDebtServiceToContributionsWithout_chart",
+        "debtPerGivingUnit_chart",
+        "debtCoverage_chart"
+      ].includes(chartId),
     };
     return originalConfig;
     } catch (error) {
@@ -314,7 +355,7 @@ function restoreCompleteChartState(chart, originalState) {
                   formattedValue = `${Math.round(absValue / 1000)}K`;
                 } else if (absValue < 1 && absValue > 0) {
                   formattedValue = absValue.toFixed(2);
-        } else {
+                } else {
                   formattedValue = Math.round(absValue).toString();
                 }
 
@@ -341,6 +382,10 @@ function restoreCompleteChartState(chart, originalState) {
       };
     } else {
       // Use existing restoration logic for other chart types
+      // Handle both array and single object yaxis configurations
+      const originalYAxis = originalState.chartConfig.yaxis;
+      const isYAxisArray = Array.isArray(originalYAxis);
+      
       restoredConfig = {
         ...originalState.chartConfig,
         xaxis: {
@@ -356,7 +401,7 @@ function restoreCompleteChartState(chart, originalState) {
             },
           },
         },
-        yaxis: Array.isArray(originalState.chartConfig.yaxis)
+        yaxis: isYAxisArray
           ? originalState.chartConfig.yaxis.map((axis) => {
               return {
                 ...axis,
@@ -379,8 +424,6 @@ function restoreCompleteChartState(chart, originalState) {
                       formattedValue = `${Math.round(millions)}M`;
                     } else if (absValue >= 1000) {
                       formattedValue = `${Math.round(absValue / 1000)}K`;
-                    } else if (absValue < 1 && absValue > 0) {
-                      formattedValue = absValue.toFixed(2);
                     } else {
                       formattedValue = Math.round(absValue).toString();
                     }
@@ -492,6 +535,10 @@ function createFormatterWithGlobals(numType, fixedNum) {
  * @returns {Promise<string>} - Base64 encoded image or null if failed
  */
 async function exportApexChart(chart, chartId) {
+  // Calculate export dimensions at the very beginning
+  const exportWidth = DEFAULT_CHART_WIDTH - 40; // Account for padding
+  const exportHeight = DEFAULT_CHART_HEIGHT - 170; // Account for padding and legend (increased from 120 to 170)
+  
   try {
     if (!chart || !chart.w || !chart.w.globals || !chart.w.globals.dom) {
       throw new Error("Invalid chart instance");
@@ -504,7 +551,8 @@ async function exportApexChart(chart, chartId) {
     fixedContainer.style.width = `${DEFAULT_CHART_WIDTH}px`;
     fixedContainer.style.height = `${DEFAULT_CHART_HEIGHT}px`;
     fixedContainer.style.backgroundColor = "#ffffff";
-    fixedContainer.style.overflow = "hidden";
+    fixedContainer.style.overflow = "visible"; // Change from hidden to visible
+    fixedContainer.style.padding = "20px"; // Add padding
     document.body.appendChild(fixedContainer);
 
     // Get the chart element
@@ -532,21 +580,24 @@ async function exportApexChart(chart, chartId) {
     fixedContainer.innerHTML = "";
     fixedContainer.appendChild(chartElement);
 
-    // Set fixed dimensions
-    chartElement.style.width = `${DEFAULT_CHART_WIDTH}px`;
-    chartElement.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    // Set fixed dimensions with extra space for labels
+    const chartWidth = DEFAULT_CHART_WIDTH - 40; // Account for padding
+    const chartHeight = DEFAULT_CHART_HEIGHT - 170; // Account for padding and legend (increased from 120 to 170)
+    
+    chartElement.style.width = `${chartWidth}px`;
+    chartElement.style.height = `${chartHeight}px`;
     chartElement.style.position = "absolute";
     chartElement.style.transform = "none";
 
     // Force exact dimensions for export
     const paperNode = chart.w.globals.dom.Paper.node;
-    paperNode.setAttribute("width", DEFAULT_CHART_WIDTH.toString());
-    paperNode.setAttribute("height", DEFAULT_CHART_HEIGHT.toString());
-    paperNode.style.width = `${DEFAULT_CHART_WIDTH}px`;
-    paperNode.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    paperNode.setAttribute("width", chartWidth.toString());
+    paperNode.setAttribute("height", chartHeight.toString());
+    paperNode.style.width = `${chartWidth}px`;
+    paperNode.style.height = `${chartHeight}px`;
     paperNode.setAttribute(
       "viewBox",
-      `0 0 ${DEFAULT_CHART_WIDTH} ${DEFAULT_CHART_HEIGHT}`
+      `0 0 ${chartWidth} ${chartHeight}`
     );
     paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
@@ -858,8 +909,183 @@ async function exportApexChart(chart, chartId) {
           },
         };
       }
+    } else if (["debtToContributionsWithout_chart", "currentRatio_chart", "mandatoryDebtServiceToContributionsWithout_chart", "debtPerGivingUnit_chart", "debtCoverage_chart"].includes(chartId)) {
+      // Special handling for debt charts that are being cut off
+      console.log(`Special handling for debt chart: ${chartId}`, {
+        numType,
+        fixedNum,
+        originalState: originalState.chartConfig,
+        series: originalState.chartConfig.series,
+        legend: originalState.chartConfig.legend,
+        seriesNames: originalState.chartConfig.series?.map(s => s.name),
+        seriesTypes: originalState.chartConfig.series?.map(s => s.type)
+      });
+
+      // Handle both array and single object yaxis configurations
+      const yaxisConfig = Array.isArray(originalState.chartConfig.yaxis) 
+        ? originalState.chartConfig.yaxis[0] 
+        : originalState.chartConfig.yaxis;
+
+      exportOptions = {
+        ...baseExportOptions,
+        // Preserve original series configuration for proper legend
+        series: originalState.chartConfig.series,
+        chart: {
+          ...baseExportOptions.chart,
+          height: DEFAULT_CHART_HEIGHT,
+          width: DEFAULT_CHART_WIDTH,
+          type: "line", // Ensure consistent chart type
+          animations: {
+            enabled: false,
+          },
+          toolbar: {
+            show: false,
+          },
+          // Add padding to prevent cutting off
+          parentHeightOffset: 0,
+          offsetX: 0,
+          offsetY: 0,
+        },
+        xaxis: {
+          ...baseExportOptions.xaxis,
+          // Fix X-axis label positioning to prevent cutting off
+          labels: {
+            ...baseExportOptions.xaxis.labels,
+            rotate: 0, // Remove rotation to prevent cutting off
+            maxHeight: 60, // Reduce max height
+            offsetY: 30, // Increase offset to move labels up from bottom (from 10 to 30)
+            style: {
+              ...baseExportOptions.xaxis.labels.style,
+              fontSize: "14px", // Slightly smaller font
+            },
+          },
+          // Ensure proper axis positioning
+          axisBorder: {
+            show: true,
+            color: "#e0e0e0",
+            width: "100%",
+            height: 1,
+            offsetX: 0,
+            offsetY: 0,
+          },
+          axisTicks: {
+            show: true,
+            color: "#e0e0e0",
+            height: 6,
+            offsetX: 0,
+            offsetY: 0,
+          },
+        },
+        yaxis: [
+          {
+            axisTicks: { show: true },
+            axisBorder: {
+              show: true,
+              color: yaxisConfig?.axisBorder?.color || "#3a464f",
+            },
+            labels: {
+              formatter: function (value) {
+                if (value === null || value === undefined || value === 0) {
+                  if (numType === "dollar") return "$0";
+                  if (numType === "percent") return "0%";
+                  return "0";
+                }
+
+                const isNegative = value < 0;
+                const absValue = Math.abs(value);
+
+                let formattedValue;
+                if (absValue >= 1000000) {
+                  const millions = absValue / 1000000;
+                  const isWholeNumber = millions === Math.floor(millions);
+                  formattedValue = isWholeNumber
+                    ? `${Math.floor(millions)}M`
+                    : `${millions.toFixed(1)}M`;
+                } else if (absValue >= 1000) {
+                  formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+                } else if (absValue < 1 && absValue > 0) {
+                  formattedValue = absValue.toFixed(2);
+                } else {
+                  formattedValue = Math.round(absValue).toString();
+                }
+
+                // Apply appropriate symbol based on numType
+                if (numType === "dollar") {
+                  return `${isNegative ? "-" : ""}$${formattedValue}`;
+                } else if (numType === "percent") {
+                  return `${isNegative ? "-" : ""}${formattedValue}%`;
+                }
+                return `${isNegative ? "-" : ""}${formattedValue}`;
+              },
+              style: {
+                colors: yaxisConfig?.labels?.style?.colors || "#3a464f",
+                fontSize: yaxisConfig?.labels?.style?.fontSize || "1.25rem",
+              },
+            },
+            tooltip: { enabled: true },
+            // Preserve any existing yaxis configuration
+            ...(yaxisConfig?.min !== undefined && { min: yaxisConfig.min }),
+            ...(yaxisConfig?.max !== undefined && { max: yaxisConfig.max }),
+            ...(yaxisConfig?.tickAmount !== undefined && { tickAmount: yaxisConfig.tickAmount }),
+            // Force specific settings for debt charts
+            forceNiceScale: true,
+            show: true,
+          },
+        ],
+        // Use the same data labels configuration as working charts
+        dataLabels: {
+          ...originalState.chartConfig.dataLabels,
+          enabled: true,
+          enabledOnSeries: [0],
+          offsetY: -15, // Adjust offset to prevent cutting off (from -10 to -15)
+          offsetX: 0,
+          style: {
+            fontSize: "18px", // Slightly smaller font
+            fontFamily: "Helvetica, Arial, sans-serif",
+            fontWeight: "bold",
+            colors: ["#ffffff"],
+          },
+          background: {
+            enabled: true,
+            foreColor: "#1F2937",
+            padding: 4,
+            borderRadius: 2,
+            borderWidth: 1,
+            borderColor: "#ffffff",
+            opacity: 0.7,
+          },
+        },
+        // Use the same grid configuration as working charts with extra bottom padding
+        grid: {
+          ...originalState.chartConfig.grid,
+          padding: {
+            top: 20,
+            right: 20,
+            bottom: 150, // Significantly increase bottom padding for legend (from 100 to 150)
+            left: 20,
+          },
+        },
+        // Preserve original legend configuration and ensure it's visible
+        legend: {
+          ...originalState.chartConfig.legend,
+          show: true, // Ensure legend is visible
+          position: originalState.chartConfig.legend?.position || "bottom",
+          fontSize: originalState.chartConfig.legend?.fontSize || "20px",
+          height: originalState.chartConfig.legend?.height || 80,
+          showForNullSeries: originalState.chartConfig.legend?.showForNullSeries !== undefined ? originalState.chartConfig.legend.showForNullSeries : false,
+          showForZeroSeries: originalState.chartConfig.legend?.showForZeroSeries !== undefined ? originalState.chartConfig.legend.showForZeroSeries : false,
+          horizontalAlign: originalState.chartConfig.legend?.horizontalAlign || "center",
+          offsetX: originalState.chartConfig.legend?.offsetX || 40,
+          offsetY: 20, // Add offset to move legend up from bottom edge
+        },
+      };
     } else {
       // Main chart type - Ensure we use an array with a single object for yaxis
+      // Handle both array and single object yaxis configurations
+      const yaxisConfig = Array.isArray(originalState.chartConfig.yaxis) 
+        ? originalState.chartConfig.yaxis[0] 
+        : originalState.chartConfig.yaxis;
+
       exportOptions = {
         ...baseExportOptions,
         yaxis: [
@@ -867,22 +1093,20 @@ async function exportApexChart(chart, chartId) {
             axisTicks: { show: true },
             axisBorder: {
               show: true,
-              color:
-                originalState.chartConfig.yaxis[0]?.axisBorder?.color ||
-                "#3a464f",
+              color: yaxisConfig?.axisBorder?.color || "#3a464f",
             },
             labels: {
               formatter: yaxisFormatter,
               style: {
-                colors:
-                  originalState.chartConfig.yaxis[0]?.labels?.style?.colors ||
-                  "#3a464f",
-                fontSize:
-                  originalState.chartConfig.yaxis[0]?.labels?.style?.fontSize ||
-                  "1.25rem",
+                colors: yaxisConfig?.labels?.style?.colors || "#3a464f",
+                fontSize: yaxisConfig?.labels?.style?.fontSize || "1.25rem",
               },
             },
             tooltip: { enabled: true },
+            // Preserve any existing yaxis configuration
+            ...(yaxisConfig?.min !== undefined && { min: yaxisConfig.min }),
+            ...(yaxisConfig?.max !== undefined && { max: yaxisConfig.max }),
+            ...(yaxisConfig?.tickAmount !== undefined && { tickAmount: yaxisConfig.tickAmount }),
           },
         ],
       };
@@ -891,13 +1115,52 @@ async function exportApexChart(chart, chartId) {
     // Update chart with export options
     chart.updateOptions(exportOptions, false, false);
 
-    // Let the chart update
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    // Force re-render for debt charts to ensure legend is displayed
+    if (["debtToContributionsWithout_chart", "currentRatio_chart", "mandatoryDebtServiceToContributionsWithout_chart", "debtPerGivingUnit_chart", "debtCoverage_chart"].includes(chartId)) {
+      chart.render();
+    }
+
+    // Check if legend is rendered after update
+    if (["debtToContributionsWithout_chart", "currentRatio_chart", "mandatoryDebtServiceToContributionsWithout_chart", "debtPerGivingUnit_chart", "debtCoverage_chart"].includes(chartId)) {
+      console.log(`Checking legend after update for ${chartId}:`, {
+        legendConfig: exportOptions.legend,
+        legendElement: chartElement.querySelector('.apexcharts-legend'),
+        legendItems: chartElement.querySelectorAll('.apexcharts-legend-series').length,
+        seriesCount: exportOptions.series?.length,
+        chartDimensions: {
+          width: chartElement.offsetWidth,
+          height: chartElement.offsetHeight,
+          clientWidth: chartElement.clientWidth,
+          clientHeight: chartElement.clientHeight,
+        },
+        exportDimensions: {
+          width: exportWidth,
+          height: exportHeight,
+        },
+        gridPadding: exportOptions.grid?.padding,
+        xaxisLabels: exportOptions.xaxis?.labels,
+        dataLabels: exportOptions.dataLabels
+      });
+    }
+
+    // Let the chart update - increase timeout for problematic charts
+    const problematicCharts = [
+      "givingUnits_chart",
+      "attendeesToStaff_chart", 
+      "debtToContributionsWithout_chart",
+      "currentRatio_chart",
+      "mandatoryDebtServiceToContributionsWithout_chart",
+      "debtPerGivingUnit_chart",
+      "debtCoverage_chart"
+    ];
+    
+    const updateTimeout = problematicCharts.includes(chartId) ? 300 : 100;
+    await new Promise((resolve) => setTimeout(resolve, updateTimeout));
 
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
-      width: DEFAULT_CHART_WIDTH,
-      height: DEFAULT_CHART_HEIGHT,
+      width: exportWidth,
+      height: exportHeight,
       scale: 2, // Higher resolution
     });
 
@@ -918,6 +1181,16 @@ async function exportApexChart(chart, chartId) {
     return uri.imgURI.split(",")[1];
   } catch (error) {
     console.error("Error in exportApexChart:", error);
+    
+    // Clean up on error
+    try {
+      if (fixedContainer && fixedContainer.parentNode) {
+        document.body.removeChild(fixedContainer);
+      }
+    } catch (cleanupError) {
+      console.warn("Error during cleanup:", cleanupError);
+    }
+    
     return null;
     }
 }
@@ -929,59 +1202,93 @@ async function exportWithHtml2Canvas(chartElement) {
   // Create a clone container with fixed dimensions
   const container = document.createElement("div");
   container.style.position = "absolute";
-  // container.style.left = '-9999px';
+  container.style.left = "-9999px";
   container.style.width = `${DEFAULT_CHART_WIDTH}px`;
   container.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+  container.style.backgroundColor = "#ffffff";
+  container.style.overflow = "visible"; // Change from hidden to visible
+  container.style.padding = "20px"; // Add padding
 
   // Clone the chart element into the container
   const clone = chartElement.cloneNode(true);
-  clone.style.width = `${DEFAULT_CHART_WIDTH}px`;
-  clone.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+  const chartWidth = DEFAULT_CHART_WIDTH - 40; // Account for padding
+  const chartHeight = DEFAULT_CHART_HEIGHT - 170; // Account for padding and legend (increased from 120 to 170)
+  
+  clone.style.width = `${chartWidth}px`;
+  clone.style.height = `${chartHeight}px`;
   container.appendChild(clone);
   document.body.appendChild(container);
 
   // Find and adjust any SVG elements
   const svgElements = clone.querySelectorAll("svg");
   svgElements.forEach((svg) => {
-    svg.setAttribute("width", DEFAULT_CHART_WIDTH.toString());
-    svg.setAttribute("height", DEFAULT_CHART_HEIGHT.toString());
-    svg.style.width = `${DEFAULT_CHART_WIDTH}px`;
-    svg.style.height = `${DEFAULT_CHART_HEIGHT}px`;
+    svg.setAttribute("width", chartWidth.toString());
+    svg.setAttribute("height", chartHeight.toString());
+    svg.style.width = `${chartWidth}px`;
+    svg.style.height = `${chartHeight}px`;
     svg.setAttribute(
       "viewBox",
-      `0 0 ${DEFAULT_CHART_WIDTH} ${DEFAULT_CHART_HEIGHT}`
+      `0 0 ${chartWidth} ${chartHeight}`
     );
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   });
 
+  // Find and adjust any canvas elements
+  const canvasElements = clone.querySelectorAll("canvas");
+  canvasElements.forEach((canvas) => {
+    canvas.style.width = `${chartWidth}px`;
+    canvas.style.height = `${chartHeight}px`;
+  });
+
   try {
-    // Wait for layout updates
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    // Wait for layout updates - increase timeout for problematic charts
+    const chartId = chartElement.id;
+    const problematicCharts = [
+      "givingUnits_chart",
+      "attendeesToStaff_chart", 
+      "debtToContributionsWithout_chart",
+      "currentRatio_chart",
+      "mandatoryDebtServiceToContributionsWithout_chart",
+      "debtPerGivingUnit_chart",
+      "debtCoverage_chart"
+    ];
+    
+    const layoutTimeout = problematicCharts.includes(chartId) ? 400 : 100;
+    await new Promise((resolve) => setTimeout(resolve, layoutTimeout));
 
     // Use html2canvas with fixed dimensions
     const canvas = await html2canvas(clone, {
-            scale: 2,
-      width: DEFAULT_CHART_WIDTH,
-      height: DEFAULT_CHART_HEIGHT,
-            useCORS: true,
-            allowTaint: true,
-      backgroundColor:
-        getComputedStyle(document.documentElement).getPropertyValue(
-          "--chart-bg-color"
-        ) || "#ffffff",
+      scale: 2,
+      width: chartWidth,
+      height: chartHeight,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: "#ffffff",
+      logging: false,
+      removeContainer: false,
+      foreignObjectRendering: true,
     });
 
     const base64String = canvas.toDataURL("image/png").split(",")[1];
 
     // Clean up
-    document.body.removeChild(container);
+    if (container.parentNode) {
+      document.body.removeChild(container);
+    }
 
     return base64String;
     } catch (error) {
     console.error("Error in html2canvas export:", error);
-    if (container.parentNode) {
-      document.body.removeChild(container);
+    
+    // Clean up on error
+    try {
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+    } catch (cleanupError) {
+      console.warn("Error during html2canvas cleanup:", cleanupError);
     }
+    
     return null;
     }
 }
@@ -1348,6 +1655,395 @@ function initApexChartsPrintFunction() {
 
     // console.log("ApexCharts export print functionality initialized");
 }
+
+/**
+ * Test function to verify chart export functionality
+ * This can be called from the browser console to test specific charts
+ */
+window.testChartExport = async function(chartId) {
+  console.log(`Testing chart export for: ${chartId}`);
+  
+  const chart = window[chartId];
+  const chartElement = document.getElementById(chartId);
+  
+  if (!chart) {
+    console.error(`Chart instance not found for: ${chartId}`);
+    return null;
+  }
+  
+  if (!chartElement) {
+    console.error(`Chart element not found for: ${chartId}`);
+    return null;
+  }
+  
+  console.log(`Chart state for ${chartId}:`, {
+    hasGlobals: !!chart.w?.globals,
+    hasDom: !!chart.w?.globals?.dom,
+    hasPaper: !!chart.w?.globals?.dom?.Paper,
+    chartWidth: chart.w?.globals?.svgWidth,
+    chartHeight: chart.w?.globals?.svgHeight,
+    elementDimensions: {
+      width: chartElement.offsetWidth,
+      height: chartElement.offsetHeight,
+      clientWidth: chartElement.clientWidth,
+      clientHeight: chartElement.clientHeight
+    }
+  });
+  
+  try {
+    const result = await exportApexChart(chart, chartId);
+    if (result) {
+      console.log(`✅ Successfully exported ${chartId}`);
+      return result;
+    } else {
+      console.log(`❌ Failed to export ${chartId} with ApexCharts, trying html2canvas...`);
+      const fallbackResult = await exportWithHtml2Canvas(chartElement);
+      if (fallbackResult) {
+        console.log(`✅ Successfully exported ${chartId} with html2canvas`);
+        return fallbackResult;
+      } else {
+        console.error(`❌ Failed to export ${chartId} with both methods`);
+        return null;
+      }
+    }
+  } catch (error) {
+    console.error(`Error testing chart export for ${chartId}:`, error);
+    return null;
+  }
+};
+
+/**
+ * Comprehensive test function to check for cutting off issues
+ * This can be called from the browser console to test the debt charts
+ */
+window.testDebtChartsCutoff = async function() {
+  const debtCharts = [
+    "debtToContributionsWithout_chart",
+    "currentRatio_chart", 
+    "mandatoryDebtServiceToContributionsWithout_chart",
+    "debtPerGivingUnit_chart",
+    "debtCoverage_chart"
+  ];
+  
+  console.log("Testing debt charts for cutting off issues...");
+  
+  for (const chartId of debtCharts) {
+    console.log(`\n--- Testing ${chartId} for cutting off ---`);
+    
+    const chart = window[chartId];
+    const chartElement = document.getElementById(chartId);
+    
+    if (!chart) {
+      console.error(`❌ Chart instance not found for: ${chartId}`);
+      continue;
+    }
+    
+    if (!chartElement) {
+      console.error(`❌ Chart element not found for: ${chartId}`);
+      continue;
+    }
+    
+    // Check chart dimensions and configuration
+    console.log(`Chart configuration for ${chartId}:`, {
+      chartHeight: chart.w?.config?.chart?.height,
+      chartWidth: chart.w?.config?.chart?.width,
+      chartType: chart.w?.config?.chart?.type,
+      xaxisLabels: {
+        rotate: chart.w?.config?.xaxis?.labels?.rotate,
+        maxHeight: chart.w?.config?.xaxis?.labels?.maxHeight,
+        offsetY: chart.w?.config?.xaxis?.labels?.offsetY,
+      },
+      dataLabels: {
+        offsetY: chart.w?.config?.dataLabels?.offsetY,
+        fontSize: chart.w?.config?.dataLabels?.style?.fontSize,
+      },
+      grid: {
+        padding: chart.w?.config?.grid?.padding,
+      },
+      legend: {
+        position: chart.w?.config?.legend?.position,
+        offsetY: chart.w?.config?.legend?.offsetY,
+      }
+    });
+    
+    // Check element dimensions
+    console.log(`Element dimensions for ${chartId}:`, {
+      offsetWidth: chartElement.offsetWidth,
+      offsetHeight: chartElement.offsetHeight,
+      clientWidth: chartElement.clientWidth,
+      clientHeight: chartElement.clientHeight,
+      scrollWidth: chartElement.scrollWidth,
+      scrollHeight: chartElement.scrollHeight,
+    });
+    
+    // Check for visible elements that might be cut off
+    const svgElement = chartElement.querySelector('svg');
+    if (svgElement) {
+      console.log(`SVG dimensions for ${chartId}:`, {
+        width: svgElement.getAttribute('width'),
+        height: svgElement.getAttribute('height'),
+        viewBox: svgElement.getAttribute('viewBox'),
+        styleWidth: svgElement.style.width,
+        styleHeight: svgElement.style.height,
+      });
+    }
+    
+    // Check for X-axis labels
+    const xAxisLabels = chartElement.querySelectorAll('.apexcharts-xaxis-label');
+    console.log(`X-axis labels for ${chartId}:`, {
+      count: xAxisLabels.length,
+      visible: Array.from(xAxisLabels).map(label => ({
+        text: label.textContent,
+        visible: label.style.display !== 'none',
+        transform: label.getAttribute('transform'),
+      }))
+    });
+    
+    // Check for data labels
+    const dataLabels = chartElement.querySelectorAll('.apexcharts-datalabel');
+    console.log(`Data labels for ${chartId}:`, {
+      count: dataLabels.length,
+      visible: Array.from(dataLabels).map(label => ({
+        text: label.textContent,
+        visible: label.style.display !== 'none',
+        transform: label.getAttribute('transform'),
+      }))
+    });
+    
+    // Check for legend
+    const legend = chartElement.querySelector('.apexcharts-legend');
+    console.log(`Legend for ${chartId}:`, {
+      exists: !!legend,
+      visible: legend ? legend.style.display !== 'none' : false,
+      position: legend ? legend.getAttribute('style') : null,
+      items: legend ? legend.querySelectorAll('.apexcharts-legend-series').length : 0,
+    });
+    
+    // Check legend items
+    const legendItems = chartElement.querySelectorAll('.apexcharts-legend-series');
+    console.log(`Legend items for ${chartId}:`, {
+      count: legendItems.length,
+      items: Array.from(legendItems).map(item => ({
+        text: item.querySelector('.apexcharts-legend-text')?.textContent,
+        visible: item.style.display !== 'none',
+        marker: item.querySelector('.apexcharts-legend-marker')?.style.backgroundColor,
+      }))
+    });
+    
+    try {
+      console.log(`Attempting export for ${chartId}...`);
+      const result = await exportApexChart(chart, chartId);
+      if (result) {
+        console.log(`✅ Successfully exported ${chartId}`);
+        
+        // Create a test image to verify the export
+        const img = new Image();
+        img.onload = function() {
+          console.log(`Export image dimensions for ${chartId}:`, {
+            width: img.width,
+            height: img.height,
+            naturalWidth: img.naturalWidth,
+            naturalHeight: img.naturalHeight,
+          });
+        };
+        img.src = 'data:image/png;base64,' + result;
+        
+      } else {
+        console.log(`❌ Failed to export ${chartId} with ApexCharts, trying html2canvas...`);
+        const fallbackResult = await exportWithHtml2Canvas(chartElement);
+        if (fallbackResult) {
+          console.log(`✅ Successfully exported ${chartId} with html2canvas`);
+        } else {
+          console.error(`❌ Failed to export ${chartId} with both methods`);
+        }
+      }
+    } catch (error) {
+      console.error(`Error testing chart export for ${chartId}:`, error);
+    }
+  }
+  
+  console.log("\n--- Debt charts cutoff test complete ---");
+  console.log("Check the console output above for any cutting off issues.");
+};
+
+/**
+ * Test function specifically for legend visibility in debt charts
+ * This can be called from the browser console to test legend issues
+ */
+window.testDebtChartsLegend = async function() {
+  const debtCharts = [
+    "debtToContributionsWithout_chart",
+    "currentRatio_chart", 
+    "mandatoryDebtServiceToContributionsWithout_chart",
+    "debtPerGivingUnit_chart",
+    "debtCoverage_chart"
+  ];
+  
+  console.log("Testing debt charts legend visibility...");
+  
+  for (const chartId of debtCharts) {
+    console.log(`\n--- Testing legend for ${chartId} ---`);
+    
+    const chart = window[chartId];
+    const chartElement = document.getElementById(chartId);
+    
+    if (!chart) {
+      console.error(`❌ Chart instance not found for: ${chartId}`);
+      continue;
+    }
+    
+    if (!chartElement) {
+      console.error(`❌ Chart element not found for: ${chartId}`);
+      continue;
+    }
+    
+    // Check legend configuration
+    console.log(`Legend configuration for ${chartId}:`, {
+      show: chart.w?.config?.legend?.show,
+      position: chart.w?.config?.legend?.position,
+      horizontalAlign: chart.w?.config?.legend?.horizontalAlign,
+      offsetX: chart.w?.config?.legend?.offsetX,
+      fontSize: chart.w?.config?.legend?.fontSize,
+      height: chart.w?.config?.legend?.height,
+      showForNullSeries: chart.w?.config?.legend?.showForNullSeries,
+      showForZeroSeries: chart.w?.config?.legend?.showForZeroSeries,
+    });
+    
+    // Check for legend element
+    const legend = chartElement.querySelector('.apexcharts-legend');
+    if (legend) {
+      console.log(`Legend element found for ${chartId}:`, {
+        display: legend.style.display,
+        visibility: legend.style.visibility,
+        position: legend.style.position,
+        top: legend.style.top,
+        bottom: legend.style.bottom,
+        left: legend.style.left,
+        right: legend.style.right,
+        width: legend.style.width,
+        height: legend.style.height,
+        transform: legend.getAttribute('transform'),
+        classList: Array.from(legend.classList),
+      });
+      
+      // Check legend items
+      const legendItems = legend.querySelectorAll('.apexcharts-legend-series');
+      console.log(`Legend items for ${chartId}:`, {
+        count: legendItems.length,
+        items: Array.from(legendItems).map((item, index) => ({
+          index,
+          text: item.querySelector('.apexcharts-legend-text')?.textContent,
+          visible: item.style.display !== 'none',
+          marker: item.querySelector('.apexcharts-legend-marker')?.style.backgroundColor,
+          style: {
+            display: item.style.display,
+            visibility: item.style.visibility,
+            position: item.style.position,
+          }
+        }))
+      });
+    } else {
+      console.error(`❌ Legend element not found for ${chartId}`);
+    }
+    
+    // Check if legend is within visible area
+    if (legend) {
+      const rect = legend.getBoundingClientRect();
+      const chartRect = chartElement.getBoundingClientRect();
+      
+      console.log(`Legend positioning for ${chartId}:`, {
+        legendRect: {
+          top: rect.top,
+          bottom: rect.bottom,
+          left: rect.left,
+          right: rect.right,
+          width: rect.width,
+          height: rect.height,
+        },
+        chartRect: {
+          top: chartRect.top,
+          bottom: chartRect.bottom,
+          left: chartRect.left,
+          right: chartRect.right,
+          width: chartRect.width,
+          height: chartRect.height,
+        },
+        isVisible: {
+          withinChart: rect.top >= chartRect.top && rect.bottom <= chartRect.bottom,
+          withinViewport: rect.top >= 0 && rect.bottom <= window.innerHeight,
+        }
+      });
+    }
+  }
+  
+  console.log("\n--- Debt charts legend test complete ---");
+};
+
+/**
+ * Compare working chart with debt charts to identify differences
+ * This can be called from the browser console to compare configurations
+ */
+window.compareChartConfigs = function() {
+  const workingChart = window.attendeesToStaff_chart;
+  const debtCharts = [
+    "debtToContributionsWithout_chart",
+    "currentRatio_chart", 
+    "mandatoryDebtServiceToContributionsWithout_chart",
+    "debtPerGivingUnit_chart",
+    "debtCoverage_chart"
+  ];
+  
+  console.log("Comparing working chart with debt charts...");
+  
+  if (!workingChart) {
+    console.error("❌ Working chart (attendeesToStaff_chart) not found");
+    return;
+  }
+  
+  console.log("Working chart configuration:", {
+    legend: workingChart.w?.config?.legend,
+    series: workingChart.w?.config?.series?.length,
+    chart: {
+      height: workingChart.w?.config?.chart?.height,
+      type: workingChart.w?.config?.chart?.type,
+    },
+    dataLabels: workingChart.w?.config?.dataLabels,
+    grid: workingChart.w?.config?.grid,
+  });
+  
+  debtCharts.forEach(chartId => {
+    const chart = window[chartId];
+    if (!chart) {
+      console.error(`❌ Chart ${chartId} not found`);
+      return;
+    }
+    
+    console.log(`\n--- ${chartId} configuration ---`);
+    console.log({
+      legend: chart.w?.config?.legend,
+      series: chart.w?.config?.series?.length,
+      chart: {
+        height: chart.w?.config?.chart?.height,
+        type: chart.w?.config?.chart?.type,
+      },
+      dataLabels: chart.w?.config?.dataLabels,
+      grid: chart.w?.config?.grid,
+    });
+    
+    // Check for legend element
+    const chartElement = document.getElementById(chartId);
+    if (chartElement) {
+      const legend = chartElement.querySelector('.apexcharts-legend');
+      console.log(`Legend element for ${chartId}:`, {
+        exists: !!legend,
+        visible: legend ? legend.style.display !== 'none' : false,
+        items: legend ? legend.querySelectorAll('.apexcharts-legend-series').length : 0,
+      });
+    }
+  });
+  
+  console.log("\n--- Comparison complete ---");
+};
 
 // Initialize when document is loaded
 if (document.readyState === "loading") {

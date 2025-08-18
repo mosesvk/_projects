@@ -1,4 +1,3 @@
-
 // Data Model and Business Logic Classes
 class DataStore {
   constructor() {
@@ -10,14 +9,258 @@ class DataStore {
     this.additionalData = {};
   }
 
-  // Save all data categories to localStorage
+  // Save all data categories to localStorage with compression and error handling
   saveAllToLocalStorage() {
-    localStorage.setItem("demoData", JSON.stringify(this.demoData));
-    localStorage.setItem("cashData", JSON.stringify(this.cashData));
-    localStorage.setItem("debtData", JSON.stringify(this.debtData));
-    localStorage.setItem("incomeData", JSON.stringify(this.incomeData));
-    localStorage.setItem("expenseData", JSON.stringify(this.expenseData));
-    localStorage.setItem("additionalData", JSON.stringify(this.additionalData));
+    try {
+      // Check storage quota first
+      const quotaInfo = this.checkStorageQuota();
+      console.log(
+        `Storage quota: ${quotaInfo.usedMB}MB used (${quotaInfo.percentage}%)`
+      );
+
+      // Estimate new data size
+      const sizeInfo = this.estimateDataSize();
+      console.log(`New data size: ${sizeInfo.sizeMB}MB`);
+
+      // Check if we're approaching quota limits
+      if (parseFloat(quotaInfo.percentage) > 80) {
+        console.warn("Storage quota is high, clearing old data before saving");
+        this.clearAllStorage();
+      }
+
+      // Only log if there's an issue
+      if (parseFloat(quotaInfo.percentage) > 50) {
+        console.log(
+          `Storage usage: ${quotaInfo.usedMB}MB (${quotaInfo.percentage}%)`
+        );
+      }
+
+      // Try to save all data at once first
+      this.saveCompressedData();
+    } catch (error) {
+      console.warn(
+        "Failed to save all data at once, trying chunked approach:",
+        error
+      );
+
+      // If bulk save fails, try chunked approach
+      this.saveDataInChunks();
+    }
+  }
+
+  // Save compressed data with size checking
+  saveCompressedData() {
+    const data = {
+      demoData: this.demoData,
+      cashData: this.cashData,
+      debtData: this.debtData,
+      incomeData: this.incomeData,
+      expenseData: this.expenseData,
+      additionalData: this.additionalData,
+    };
+
+    const dataString = JSON.stringify(data);
+    const dataSize = new Blob([dataString]).size;
+    const maxSize = 6 * 1024 * 1024; // 6MB limit - increased based on actual usage
+
+    // Only log if there's an issue
+    if (dataSize > maxSize) {
+      console.log(
+        `Data size: ${(dataSize / 1024 / 1024).toFixed(
+          2
+        )}MB - exceeds limit, using chunked approach`
+      );
+      throw new Error(
+        `Data size (${(dataSize / 1024 / 1024).toFixed(
+          2
+        )}MB) exceeds safe limit`
+      );
+    }
+
+    // Save each category separately to avoid quota issues
+    Object.keys(data).forEach((category) => {
+      const categoryData = JSON.stringify(data[category]);
+      const categorySize = new Blob([categoryData]).size;
+
+      if (categorySize > 1 * 1024 * 1024) {
+        // 1MB per category limit
+        console.warn(
+          `Category ${category} is large: ${(
+            categorySize /
+            1024 /
+            1024
+          ).toFixed(2)}MB`
+        );
+      }
+
+      localStorage.setItem(category, categoryData);
+    });
+
+    console.log("✅ Data saved successfully to localStorage");
+  }
+
+  // Save data in chunks when bulk storage fails
+  saveDataInChunks() {
+    const categories = [
+      { key: "demoData", data: this.demoData },
+      { key: "cashData", data: this.cashData },
+      { key: "debtData", data: this.debtData },
+      { key: "incomeData", data: this.incomeData },
+      { key: "expenseData", data: this.expenseData },
+      { key: "additionalData", data: this.additionalData },
+    ];
+
+    // Clear existing data first
+    categories.forEach((category) => {
+      try {
+        localStorage.removeItem(category.key);
+      } catch (e) {
+        console.warn(`Could not remove ${category.key}:`, e);
+      }
+    });
+
+    // Save each category individually with error handling
+    categories.forEach((category) => {
+      try {
+        const dataString = JSON.stringify(category.data);
+        const dataSize = new Blob([dataString]).size;
+
+        // Only log large categories
+        if (dataSize > 1 * 1024 * 1024) {
+          console.log(
+            `Saving ${category.key}: ${(dataSize / 1024 / 1024).toFixed(2)}MB`
+          );
+        }
+
+        if (dataSize > 5 * 1024 * 1024) {
+          // 5MB limit per category - increased
+          console.warn(
+            `Category ${category.key} is very large, attempting to optimize...`
+          );
+          this.saveLargeCategoryInChunks(category.key, category.data);
+        } else {
+          localStorage.setItem(category.key, dataString);
+        }
+      } catch (error) {
+        console.error(`Failed to save ${category.key}:`, error);
+
+        // Try to save with data reduction
+        this.saveCategoryWithReduction(category.key, category.data);
+      }
+    });
+  }
+
+  // Save large categories by splitting into smaller chunks
+  saveLargeCategoryInChunks(categoryKey, categoryData) {
+    const years = Object.keys(categoryData);
+    const chunks = [];
+    const chunkSize = 2; // Process 2 years at a time
+
+    for (let i = 0; i < years.length; i += chunkSize) {
+      const chunk = {};
+      const yearChunk = years.slice(i, i + chunkSize);
+
+      yearChunk.forEach((year) => {
+        chunk[year] = categoryData[year];
+      });
+
+      chunks.push(chunk);
+    }
+
+    // Save chunks with unique keys
+    chunks.forEach((chunk, index) => {
+      const chunkKey = `${categoryKey}_chunk_${index}`;
+      localStorage.setItem(chunkKey, JSON.stringify(chunk));
+    });
+
+    // Save chunk metadata
+    localStorage.setItem(
+      `${categoryKey}_chunks`,
+      JSON.stringify({
+        totalChunks: chunks.length,
+        originalKey: categoryKey,
+      })
+    );
+  }
+
+  // Save category with data reduction when storage fails
+  saveCategoryWithReduction(categoryKey, categoryData) {
+    try {
+      // Remove null/undefined values and empty objects
+      const cleanedData = this.cleanDataForStorage(categoryData);
+      const dataString = JSON.stringify(cleanedData);
+
+      localStorage.setItem(categoryKey, dataString);
+      console.log(`Successfully saved ${categoryKey} with data reduction`);
+    } catch (error) {
+      console.error(
+        `Failed to save ${categoryKey} even with reduction:`,
+        error
+      );
+
+      // Last resort: save only essential data
+      this.saveEssentialDataOnly(categoryKey, categoryData);
+    }
+  }
+
+  // Clean data by removing unnecessary fields
+  cleanDataForStorage(data) {
+    if (typeof data !== "object" || data === null) {
+      return data;
+    }
+
+    if (Array.isArray(data)) {
+      return data.map((item) => this.cleanDataForStorage(item));
+    }
+
+    const cleaned = {};
+    Object.keys(data).forEach((key) => {
+      const value = data[key];
+      if (value !== null && value !== undefined && value !== "") {
+        if (typeof value === "object") {
+          const cleanedValue = this.cleanDataForStorage(value);
+          if (Object.keys(cleanedValue).length > 0) {
+            cleaned[key] = cleanedValue;
+          }
+        } else {
+          cleaned[key] = value;
+        }
+      }
+    });
+
+    return cleaned;
+  }
+
+  // Save only essential data as last resort
+  saveEssentialDataOnly(categoryKey, categoryData) {
+    try {
+      // Extract only the most critical data
+      const essentialData = {};
+
+      Object.keys(categoryData).forEach((year) => {
+        const yearData = categoryData[year];
+        if (yearData && typeof yearData === "object") {
+          essentialData[year] = {};
+
+          // Keep only client data, skip peer data to reduce size
+          Object.keys(yearData).forEach((dataKey) => {
+            if (dataKey.includes("Client") && yearData[dataKey]) {
+              essentialData[year][dataKey] = yearData[dataKey];
+            }
+          });
+        }
+      });
+
+      const dataString = JSON.stringify(essentialData);
+      localStorage.setItem(categoryKey, dataString);
+      console.log(`Saved essential data only for ${categoryKey}`);
+    } catch (error) {
+      console.error(
+        `Failed to save even essential data for ${categoryKey}:`,
+        error
+      );
+      throw error;
+    }
   }
 
   // Clear all data categories
@@ -28,6 +271,264 @@ class DataStore {
     this.incomeData = {};
     this.expenseData = {};
     this.additionalData = {};
+
+    // Also clear localStorage
+    this.clearAllStorage();
+  }
+
+  // Check localStorage quota and usage
+  checkStorageQuota() {
+    try {
+      let totalSize = 0;
+      const categories = [
+        "demoData",
+        "cashData",
+        "debtData",
+        "incomeData",
+        "expenseData",
+        "additionalData",
+      ];
+
+      // Calculate current usage
+      categories.forEach((category) => {
+        const data = localStorage.getItem(category);
+        if (data) {
+          totalSize += new Blob([data]).size;
+        }
+
+        // Check for chunks
+        const chunkMetadata = localStorage.getItem(`${category}_chunks`);
+        if (chunkMetadata) {
+          totalSize += new Blob([chunkMetadata]).size;
+
+          const metadata = JSON.parse(chunkMetadata);
+          for (let i = 0; i < metadata.totalChunks; i++) {
+            const chunkData = localStorage.getItem(`${category}_chunk_${i}`);
+            if (chunkData) {
+              totalSize += new Blob([chunkData]).size;
+            }
+          }
+        }
+      });
+
+      const usageMB = (totalSize / 1024 / 1024).toFixed(2);
+      const maxQuota = 5; // Conservative estimate of localStorage limit
+
+      console.log(`localStorage usage: ${usageMB}MB / ~${maxQuota}MB`);
+
+      if (totalSize > 4 * 1024 * 1024) {
+        // 4MB warning threshold
+        console.warn("localStorage usage is high, consider clearing old data");
+
+        // Show user warning if toast function exists
+        if (typeof createToastWarning === "function") {
+          createToastWarning(
+            "Data storage is getting full. Consider selecting fewer years or clearing old data."
+          );
+        }
+      }
+
+      return {
+        used: totalSize,
+        usedMB: usageMB,
+        maxQuota: maxQuota * 1024 * 1024,
+        percentage: ((totalSize / (maxQuota * 1024 * 1024)) * 100).toFixed(1),
+      };
+    } catch (error) {
+      console.error("Error checking storage quota:", error);
+      return { used: 0, usedMB: "0", maxQuota: 0, percentage: "0" };
+    }
+  }
+
+  // Estimate data size before saving
+  estimateDataSize() {
+    try {
+      const data = {
+        demoData: this.demoData,
+        cashData: this.cashData,
+        debtData: this.debtData,
+        incomeData: this.incomeData,
+        expenseData: this.expenseData,
+        additionalData: this.additionalData,
+      };
+
+      const dataString = JSON.stringify(data);
+      const size = new Blob([dataString]).size;
+      const sizeMB = (size / 1024 / 1024).toFixed(2);
+
+      console.log(`Estimated data size: ${sizeMB}MB`);
+      return { size, sizeMB };
+    } catch (error) {
+      console.error("Error estimating data size:", error);
+      return { size: 0, sizeMB: "0" };
+    }
+  }
+
+  // Load data from localStorage with support for chunked storage
+  loadFromLocalStorage() {
+    try {
+      // Try to load data normally first
+      this.demoData = this.loadCategoryFromStorage("demoData") || {};
+      this.cashData = this.loadCategoryFromStorage("cashData") || {};
+      this.debtData = this.loadCategoryFromStorage("debtData") || {};
+      this.incomeData = this.loadCategoryFromStorage("incomeData") || {};
+      this.expenseData = this.loadCategoryFromStorage("expenseData") || {};
+      this.additionalData =
+        this.loadCategoryFromStorage("additionalData") || {};
+
+      console.log("Successfully loaded all data from localStorage");
+    } catch (error) {
+      console.error("Error loading data from localStorage:", error);
+      // Initialize with empty objects if loading fails
+      this.clear();
+    }
+  }
+
+  // Load a single category from storage, handling chunked data
+  loadCategoryFromStorage(categoryKey) {
+    try {
+      // Check if data is stored in chunks
+      const chunkMetadata = localStorage.getItem(`${categoryKey}_chunks`);
+
+      if (chunkMetadata) {
+        // Data is chunked, reconstruct it
+        return this.reconstructChunkedData(
+          categoryKey,
+          JSON.parse(chunkMetadata)
+        );
+      } else {
+        // Data is stored normally
+        const data = localStorage.getItem(categoryKey);
+        return data ? JSON.parse(data) : {};
+      }
+    } catch (error) {
+      console.error(`Error loading category ${categoryKey}:`, error);
+      return {};
+    }
+  }
+
+  // Reconstruct data from chunks
+  reconstructChunkedData(categoryKey, metadata) {
+    try {
+      const reconstructedData = {};
+
+      // Load each chunk and merge the data
+      for (let i = 0; i < metadata.totalChunks; i++) {
+        const chunkKey = `${categoryKey}_chunk_${i}`;
+        const chunkData = localStorage.getItem(chunkKey);
+
+        if (chunkData) {
+          const parsedChunk = JSON.parse(chunkData);
+          Object.assign(reconstructedData, parsedChunk);
+        }
+      }
+
+      console.log(
+        `Reconstructed ${categoryKey} from ${metadata.totalChunks} chunks`
+      );
+      return reconstructedData;
+    } catch (error) {
+      console.error(
+        `Error reconstructing chunked data for ${categoryKey}:`,
+        error
+      );
+      return {};
+    }
+  }
+
+  // Get all data as a single object (for compatibility with existing code)
+  getAllData() {
+    return {
+      demoData: this.demoData,
+      cashData: this.cashData,
+      debtData: this.debtData,
+      incomeData: this.incomeData,
+      expenseData: this.expenseData,
+      additionalData: this.additionalData,
+    };
+  }
+
+  // Check if data exists in localStorage
+  hasDataInStorage() {
+    const categories = [
+      "demoData",
+      "cashData",
+      "debtData",
+      "incomeData",
+      "expenseData",
+      "additionalData",
+    ];
+
+    return categories.some((category) => {
+      const data = localStorage.getItem(category);
+      const chunkMetadata = localStorage.getItem(`${category}_chunks`);
+      return data || chunkMetadata;
+    });
+  }
+
+  // Clear all data including chunks
+  clearAllStorage() {
+    try {
+      const categories = [
+        "demoData",
+        "cashData",
+        "debtData",
+        "incomeData",
+        "expenseData",
+        "additionalData",
+      ];
+
+      categories.forEach((category) => {
+        // Remove regular storage
+        localStorage.removeItem(category);
+
+        // Remove chunk metadata
+        localStorage.removeItem(`${category}_chunks`);
+
+        // Remove all chunks for this category
+        for (let i = 0; i < 10; i++) {
+          // Assume max 10 chunks
+          localStorage.removeItem(`${category}_chunk_${i}`);
+        }
+      });
+
+      console.log("Cleared all data from localStorage");
+    } catch (error) {
+      console.error("Error clearing localStorage:", error);
+    }
+  }
+
+  // Show storage management options to user
+  showStorageManagementOptions() {
+    const quotaInfo = this.checkStorageQuota();
+    const sizeInfo = this.estimateDataSize();
+
+    const message =
+      `Storage Usage: ${quotaInfo.usedMB}MB (${quotaInfo.percentage}%)\n` +
+      `New Data Size: ${sizeInfo.sizeMB}MB\n\n` +
+      `Options:\n` +
+      `1. Select fewer years (recommended)\n` +
+      `2. Clear old data and try again\n` +
+      `3. Use browser's private/incognito mode`;
+
+    if (typeof createToastWarning === "function") {
+      createToastWarning(message);
+    } else {
+      alert(message);
+    }
+  }
+
+  // Provide storage optimization suggestions
+  getStorageOptimizationSuggestions() {
+    const suggestions = [
+      "Select 3-4 years instead of 6 years",
+      "Clear browser data for this site",
+      "Use a different browser",
+      "Close other browser tabs to free memory",
+      "Try the analysis in private/incognito mode",
+    ];
+
+    return suggestions;
   }
 
   // Get a reference to the appropriate data object based on category
@@ -3152,7 +3653,7 @@ class DataProcessor {
     });
   }
 
-  processAdditionalData(years, recordsPeer, recordsClient) {
+    processAdditionalData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
       const filteredClientRecords = this.filterRecordsByYear(
@@ -3160,9 +3661,11 @@ class DataProcessor {
         year
       );
 
-      // Process peer records
+      // Process peer records - Store all fields needed for weighted averages calculations
       filteredPeerRecords.forEach((record) => {
-        // contributionsPerAccountingFTE [s40, s152, s153, s158, s159, s160, s94]
+
+        // contributionsPerAccountingFTE
+        // (s40 - (s152 + s153)) / (s158 + s159 + s160 + s94);
         this.dataStore.insertData(
           "additional",
           "peer",
@@ -3172,6 +3675,7 @@ class DataProcessor {
           "cfhi_compre_20_ratio___contributions_per_acct_fte",
           "cfhi_compre_20_yes_no___contributions_per_acct_fte"
         );
+        
         this.dataStore.insertData(
           "additional",
           "peer",
@@ -3182,7 +3686,7 @@ class DataProcessor {
           "cfhi_compre_20_yes_no___contributions_per_acct_fte",
           "contributionsPerAccountingFTE"
         );
-        // s44 - Revenue from pledge - REMOVED per updated calculation
+        
         this.dataStore.insertData(
           "additional",
           "peer",
@@ -3193,6 +3697,7 @@ class DataProcessor {
           "cfhi_compre_20_yes_no___contributions_per_acct_fte",
           "contributionsPerAccountingFTE"
         );
+        
         this.dataStore.insertData(
           "additional",
           "peer",
@@ -3203,6 +3708,7 @@ class DataProcessor {
           "cfhi_compre_20_yes_no___contributions_per_acct_fte",
           "contributionsPerAccountingFTE"
         );
+        
         this.dataStore.insertData(
           "additional",
           "peer",
@@ -3213,6 +3719,7 @@ class DataProcessor {
           "cfhi_compre_20_yes_no___contributions_per_acct_fte",
           "contributionsPerAccountingFTE"
         );
+        
         this.dataStore.insertData(
           "additional",
           "peer",
@@ -3223,6 +3730,7 @@ class DataProcessor {
           "cfhi_compre_20_yes_no___contributions_per_acct_fte",
           "contributionsPerAccountingFTE"
         );
+        
         this.dataStore.insertData(
           "additional",
           "peer",
@@ -3233,20 +3741,21 @@ class DataProcessor {
           "cfhi_compre_20_yes_no___contributions_per_acct_fte",
           "contributionsPerAccountingFTE"
         );
+        
+        this.dataStore.insertData(
+          "additional",
+          "peer",
+          year,
+          "accountingDeptOutsourcedLabor",
+          record,
+          "s94___accounting_dept_outsourced_labor",
+          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "contributionsPerAccountingFTE"
+        );
 
-        // TODO: Add s94 field when available in Quickbase
-        // this.dataStore.insertData(
-        //   "additional",
-        //   "peer",
-        //   year,
-        //   "accountingDeptOutsourcedLabor",
-        //   record,
-        //   "s94___accounting_dept_outsourced_labor", // Field name to be confirmed
-        //   "cfhi_compre_20_yes_no___contributions_per_acct_fte",
-        //   "contributionsPerAccountingFTE"
-        // );
+        // ExpensesPerAccountingFTE
+        // s45 / (s158 + s159 + s160 + s94);
 
-        // expensesPerAccountingFTE [s45, s158, s159, s160, s94]
         this.dataStore.insertData(
           "additional",
           "peer",
@@ -3256,6 +3765,7 @@ class DataProcessor {
           "cfhi_compre_21_ratio___expenses_per_acct_fte",
           "cfhi_compre_21_yes_no___expenses_per_acct_fte"
         );
+
         this.dataStore.insertData(
           "additional",
           "peer",
@@ -3266,18 +3776,18 @@ class DataProcessor {
           "cfhi_compre_21_yes_no___expenses_per_acct_fte",
           "expensesPerAccountingFTE"
         );
-        // s167 - Amortization of finance lease - REMOVED per updated calculation
-        // s168 - Interest on finance lease - REMOVED per updated calculation
+
         this.dataStore.insertData(
           "additional",
           "peer",
           year,
           "averageAnnualAccountingDepartment",
           record,
-          "s158___average_annual_accounting_department_full_time_employee",
+          "s158___average_annual_accounting_department",
           "cfhi_compre_21_yes_no___expenses_per_acct_fte",
           "expensesPerAccountingFTE"
         );
+
         this.dataStore.insertData(
           "additional",
           "peer",
@@ -3288,6 +3798,7 @@ class DataProcessor {
           "cfhi_compre_21_yes_no___expenses_per_acct_fte",
           "expensesPerAccountingFTE"
         );
+        
         this.dataStore.insertData(
           "additional",
           "peer",
@@ -3298,646 +3809,43 @@ class DataProcessor {
           "cfhi_compre_21_yes_no___expenses_per_acct_fte",
           "expensesPerAccountingFTE"
         );
-
-        // TODO: Add s94 field when available in Quickbase
-        // this.dataStore.insertData(
-        //   "additional",
-        //   "peer",
-        //   year,
-        //   "accountingDeptOutsourcedLabor",
-        //   record,
-        //   "s94___accounting_dept_outsourced_labor", // Field name to be confirmed
-        //   "cfhi_compre_21_yes_no___expenses_per_acct_fte",
-        //   "expensesPerAccountingFTE"
-        // );
-
-        // facilitiesExpenseToTotalCashExpenditures_lessThanTen [s12, s160, s45, s167, s168, s154, s166, s46]
+        
         this.dataStore.insertData(
           "additional",
           "peer",
           year,
-          "facilitiesExpenseToTotalCashExpenditures_lessThanTen_Peer",
+          "accountingDeptOutsourcedLabor",
           record,
-          "cfhi_compre_22a_ratio___facilties_to_total_cash_exp_less_than_10",
-          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10"
+          "s94___accounting_dept_outsourced_labor",
+          "cfhi_compre_21_yes_no___expenses_per_acct_fte",
+          "expensesPerAccountingFTE"
         );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalMaintenanceOccupancyCost",
-          record,
-          "s12___total_maint___occupancy_cost",
-          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "accountingDepartmentVolunteer",
-          record,
-          "s160___accounting_department_volunteer",
-          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalExpense",
-          record,
-          "s45___total_expense",
-          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "amortizationFinanceLease",
-          record,
-          "s167___amortization_of_finance_lease_right_of_use_asset",
-          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "internetOnFinanceLease",
-          record,
-          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "requiredMinimumDebtPrinciple",
-          record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "futureMinimumLeasePayment",
-          record,
-          "s166___future_minimum_lease_payment",
-          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalDepreciationExpense",
-          record,
-          "s46___total_depreciation_expense",
-          "cfhi_compre_22a_yes_no___facilties_to_total_cash_exp_less_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_lessThanTen"
-        );
-
-        // facilitiesExpenseToTotalCashExpenditures_greaterThanTen [s12, s45, s167, s168, s154, s166, s46]
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen_Peer",
-          record,
-          "cfhi_compre_22b_ratio___facilties_to_total_cash_exp_more_than_10",
-          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalMaintenanceOccupancyCost",
-          record,
-          "s12___total_maint___occupancy_cost",
-          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalExpense",
-          record,
-          "s45___total_expense",
-          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "amortizationFinanceLease",
-          record,
-          "s167___amortization_of_finance_lease_right_of_use_asset",
-          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "internetOnFinanceLease",
-          record,
-          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "requiredMinimumDebtPrinciple",
-          record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "futureMinimumLeasePayment",
-          record,
-          "s166___future_minimum_lease_payment",
-          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalDepreciationExpense",
-          record,
-          "s46___total_depreciation_expense",
-          "cfhi_compre_22b_yes_no___facilties_to_total_cash_exp_more_than_10",
-          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen"
-        );
-
-        // facilityCostPerSquareFootExcluding_lessThanTen [s12, s08]
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "facilityCostPerSquareFootExcluding_lessThanTen_Peer",
-          record,
-          "cfhi_compre_23a_ratio___facility_cost_squarefoot_no_interest_less_than_10",
-          "cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalMaintenanceOccupancyCost",
-          record,
-          "s12___total_maint___occupancy_cost",
-          "cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10",
-          "facilityCostPerSquareFootExcluding_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalFacilitySquareFootage",
-          record,
-          "s08___total_facility_square_footage",
-          "cfhi_compre_23a_yes_no___facility_cost_squarefoot_no_interest_less_than_10",
-          "facilityCostPerSquareFootExcluding_lessThanTen"
-        );
-
-        // facilityCostPerSquareFootExcluding_greaterThanTen [s12, s08]
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "facilityCostPerSquareFootExcluding_greaterThanTen_Peer",
-          record,
-          "cfhi_compre_23b_ratio___facility_cost_squarefoot_no_interest_more_than_10",
-          "cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalMaintenanceOccupancyCost",
-          record,
-          "s12___total_maint___occupancy_cost",
-          "cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10",
-          "facilityCostPerSquareFootExcluding_greaterThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalFacilitySquareFootage",
-          record,
-          "s08___total_facility_square_footage",
-          "cfhi_compre_23b_yes_no___facility_cost_squarefoot_no_interest_more_than_10",
-          "facilityCostPerSquareFootExcluding_greaterThanTen"
-        );
-
-        // facilityCostPerSquareFootIncluding_lessThanTen [s12, s47, s168, s154, s166, s08]
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "facilityCostPerSquareFootIncluding_lessThanTen_Peer",
-          record,
-          "cfhi_compre_24a_ratio___facility_cost_squarefoot_with_interest_less_than_10",
-          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalMaintenanceOccupancyCost",
-          record,
-          "s12___total_maint___occupancy_cost",
-          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
-          "facilityCostPerSquareFootIncluding_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "cyInterestExpense",
-          record,
-          "s47___cy_interest_expense",
-          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
-          "facilityCostPerSquareFootIncluding_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "internetOnFinanceLease",
-          record,
-          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
-          "facilityCostPerSquareFootIncluding_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "requiredMinimumDebtPrinciple",
-          record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
-          "facilityCostPerSquareFootIncluding_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "futureMinimumLeasePayment",
-          record,
-          "s166___future_minimum_lease_payment",
-          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
-          "facilityCostPerSquareFootIncluding_lessThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalFacilitySquareFootage",
-          record,
-          "s08___total_facility_square_footage",
-          "cfhi_compre_24a_yes_no___facility_cost_squarefoot_with_interest_less_than_10",
-          "facilityCostPerSquareFootIncluding_lessThanTen"
-        );
-
-        // facilityCostPerSquareFootIncluding_greaterThanTen [s12, s47, s168, s154, s166, s08]
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "facilityCostPerSquareFootIncluding_greaterThanTen_Peer",
-          record,
-          "cfhi_compre_24b_ratio___facility_cost_squarefoot_with_interest_more_than_10",
-          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalMaintenanceOccupancyCost",
-          record,
-          "s12___total_maint___occupancy_cost",
-          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
-          "facilityCostPerSquareFootIncluding_greaterThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "cyInterestExpense",
-          record,
-          "s47___cy_interest_expense",
-          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
-          "facilityCostPerSquareFootIncluding_greaterThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "internetOnFinanceLease",
-          record,
-          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
-          "facilityCostPerSquareFootIncluding_greaterThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "requiredMinimumDebtPrinciple",
-          record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
-          "facilityCostPerSquareFootIncluding_greaterThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "futureMinimumLeasePayment",
-          record,
-          "s166___future_minimum_lease_payment",
-          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
-          "facilityCostPerSquareFootIncluding_greaterThanTen"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "totalFacilitySquareFootage",
-          record,
-          "s08___total_facility_square_footage",
-          "cfhi_compre_24b_yes_no___facility_cost_squarefoot_with_interest_more_than_10",
-          "facilityCostPerSquareFootIncluding_greaterThanTen"
-        );
-
-        // informationTechnologyCostPerFTE [s13, s151]
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "informationTechnologyCostPerFTE_Peer",
-          record,
-          "cfhi_compre_25_ratio___it_cost_per_fte",
-          "cfhi_compre_25_yes_no___it_cost_per_fte"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "itCost",
-          record,
-          "s13___it_cost",
-          "cfhi_compre_25_yes_no___it_cost_per_fte",
-          "informationTechnologyCostPerFTE"
-        );
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "fullTimeEquivalent",
-          record,
-          "s151___church_only_full_time_equivalent_excluding_childcare_worker",
-          "cfhi_compre_25_yes_no___it_cost_per_fte",
-          "informationTechnologyCostPerFTE"
-        );
-
-        // designatedGiftsToTotalGifts [s325, s40]
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "designatedGiftsToTotalGifts_Peer",
-          record,
-          "cfhi_compre_26_ratio___designated_gifts_to_total_gifts",
-          "cfhi_compre_26_yes_no___designated_gifts_to_total_gifts"
-        );
-
-        // currentAssetsToCurrentLiabilities [s164, s154, s18, s20, s26, s166, s27, s28]
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "currentAssetsToCurrentLiabilities_Peer",
-          record,
-          "cfhi_compre_27_ratio___current_assets_to_current_liabilities",
-          "cfhi_compre_27_yes_no___current_assets_to_current_liabilities"
-        );
-
-        // netAssetsToTotalAssets [s34, s35, s26, s166, s27, s28, s29, s31]
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "netAssetsToTotalAssets_Peer",
-          record,
-          "cfhi_compre_28_ratio___net_assets_to_total_assets",
-          "cfhi_compre_28_yes_no___net_assets_to_total_assets"
-        );
-
-        // auditingCosts [s156]
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "auditingCosts_Peer",
-          record,
-          "s156___audit_cost",
-          "cfhi_compre_29_yes_no___audit_cost"
-        );
-
-        // capitalCampaignPledges [s336]
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "capitalCampaignPledges_Peer",
-          record,
-          "s336___capital_campaign_pledges",
-          "cfhi_compre_30_yes_no___capital_campaign_pledges"
-        );
-
-        // yearsOfBusinessLicense [s162]
-        this.dataStore.insertData(
-          "additional",
-          "peer",
-          year,
-          "yearsOfBusinessLicense_Peer",
-          record,
-          "s162___years_of_business_license",
-          "cfhi_compre_31_yes_no___years_of_business_license"
-        );
+        
       });
 
-      // Process client records
+      // Process client records - Store only fields needed for the two main ratios
       filteredClientRecords.forEach((record) => {
-        // contributionsPerAccountingFTE
+        // Final calculated ratios for display
         this.dataStore.insertData(
           "additional",
           "client",
           year,
           "contributionsPerAccountingFTE_Client",
           record,
-          "cfhi_compre_20_ratio___contributions_per_accounting_fte"
+          "cfhi_compre_20_ratio___contributions_per_acct_fte",
+          "cfhi_compre_20_yes_no___contributions_per_acct_fte"
         );
-
-        // expensesPerAccountingFTE
+        
         this.dataStore.insertData(
           "additional",
           "client",
           year,
           "expensesPerAccountingFTE_Client",
           record,
-          "cfhi_compre_21_ratio___expenses_per_accounting_fte"
+          "cfhi_compre_21_ratio___expenses_per_acct_fte",
+          "cfhi_compre_21_yes_no___expenses_per_acct_fte"
         );
 
-        // facilitiesExpenseToTotalCashExpenditures_lessThanTen
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "facilitiesExpenseToTotalCashExpenditures_lessThanTen_Client",
-          record,
-          "cfhi_compre_22_value_under10___facilities_expenses_of_total_cash_expend",
-          "cfhi_compre_22_rating_under10___facilities_expenses_of_total_cash_expend"
-        );
-
-        // facilitiesExpenseToTotalCashExpenditures_greaterThanTen
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "facilitiesExpenseToTotalCashExpenditures_greaterThanTen_Client",
-          record,
-          "cfhi_compre_22_value_over10___facilities_expenses_of_total_cash_expend",
-          "cfhi_compre_22_rating_over10___facilities_expenses_of_total_cash_expend"
-        );
-
-        // facilityCostPerSquareFootExcluding_lessThanTen
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "facilityCostPerSquareFootExcluding_lessThanTen_Client",
-          record,
-          "cfhi_compre_23_value_under10___facility_cost_per_square_foot__excluding_interest_expense_"
-        );
-
-        // facilityCostPerSquareFootExcluding_greaterThanTen
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "facilityCostPerSquareFootExcluding_greaterThanTen_Client",
-          record,
-          "cfhi_compre_23_value_over10___facility_cost_per_square_foot__excluding_interest_expense_"
-        );
-
-        // facilityCostPerSquareFootIncluding_lessThanTen
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "facilityCostPerSquareFootIncluding_lessThanTen_Client",
-          record,
-          "cfhi_compre_24_value_under10___facility_cost_per_square_foot__including_principal_and_interest_expense_"
-        );
-
-        // facilityCostPerSquareFootIncluding_greaterThanTen
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "facilityCostPerSquareFootIncluding_greaterThanTen_Client",
-          record,
-          "cfhi_compre_24_value_over10___facility_cost_per_square_foot__including_principal_and_interest_expense_"
-        );
-
-        // informationTechnologyCostPerFTE
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "informationTechnologyCostPerFTE_Client",
-          record,
-          "cfhi_compre_25_ratio___information_technology_cost_per_fte"
-        );
-
-        // designatedGiftsToTotalGifts
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "designatedGiftsToTotalGifts_Client",
-          record,
-          "cfhi_compre_26_ratio___designated_gifts_to_total_gifts"
-        );
-
-        // currentAssetsToCurrentLiabilities
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "currentAssetsToCurrentLiabilities_Client",
-          record,
-          "cfhi_compre_27_ratio___current_assets_to_current_liabilities"
-        );
-
-        // netAssetsToTotalAssets
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "netAssetsToTotalAssets_Client",
-          record,
-          "cfhi_compre_28_ratio___net_assets_to_total_assets"
-        );
-
-        // auditingCosts
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "auditingCosts_Client",
-          record,
-          "s156___audit_cost"
-        );
-
-        // capitalCampaignPledges
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "capitalCampaignPledges_Client",
-          record,
-          "s336___capital_campaign_pledges"
-        );
-
-        // yearsOfBusinessLicense
-        this.dataStore.insertData(
-          "additional",
-          "client",
-          year,
-          "yearsOfBusinessLicense_Client",
-          record,
-          "s162___years_of_business_license"
-        );
       });
     });
   }
@@ -4061,10 +3969,16 @@ class ApiService {
 
       // Update per-year record count map
       try {
-        if (!window.peerRecordMapPerYear || typeof window.peerRecordMapPerYear.set !== "function") {
+        if (
+          !window.peerRecordMapPerYear ||
+          typeof window.peerRecordMapPerYear.set !== "function"
+        ) {
           window.peerRecordMapPerYear = new Map();
         }
-        window.peerRecordMapPerYear.set(String(currentYear), recordsForPeer.length);
+        window.peerRecordMapPerYear.set(
+          String(currentYear),
+          recordsForPeer.length
+        );
       } catch (e) {
         console.error("Unable to update peerRecordMapPerYear:", e);
       }
@@ -4084,12 +3998,18 @@ class ApiService {
       // Continue with next year even if this one failed
       // console.log(`Continuing to next year after error...`);
       try {
-        if (!window.peerRecordMapPerYear || typeof window.peerRecordMapPerYear.set !== "function") {
+        if (
+          !window.peerRecordMapPerYear ||
+          typeof window.peerRecordMapPerYear.set !== "function"
+        ) {
           window.peerRecordMapPerYear = new Map();
         }
         window.peerRecordMapPerYear.set(String(currentYear), 0);
       } catch (e) {
-        console.error("Unable to set 0 count in peerRecordMapPerYear after error:", e);
+        console.error(
+          "Unable to set 0 count in peerRecordMapPerYear after error:",
+          e
+        );
       }
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     }
@@ -4409,24 +4329,29 @@ class ApiService {
     // Pre-calculate all filter conditions once
     const filterParts = [];
     if (window.sliderValue !== undefined && window.sliderValue2 !== undefined) {
-      filterParts.push(`{123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`);
+      filterParts.push(
+        `{123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`
+      );
     }
     if (window.selectedRegions_Array?.length > 0) {
       const regionConditions = window.selectedRegions_Array
-        .map(region => `{267.EX.${region}}`)
+        .map((region) => `{267.EX.${region}}`)
         .join(" OR ");
       filterParts.push(`(${regionConditions})`);
     }
     if (window.selectedSites_Array?.length > 0) {
       const siteConditions = window.selectedSites_Array
-        .map(site => `{268.EX.${site}}`)
+        .map((site) => `{268.EX.${site}}`)
         .join(" OR ");
       filterParts.push(`(${siteConditions})`);
     }
-    const additionalFilters = filterParts.length > 0 ? ` AND ${filterParts.join(" AND ")}` : "";
+    const additionalFilters =
+      filterParts.length > 0 ? ` AND ${filterParts.join(" AND ")}` : "";
 
     // Pre-escape all client names once
-    const escapedClients = selectedClients.map(client => this._escapeClientName(client));
+    const escapedClients = selectedClients.map((client) =>
+      this._escapeClientName(client)
+    );
 
     // Split clients into batches of 80
     const BATCH_SIZE = 80;
@@ -4437,21 +4362,22 @@ class ApiService {
 
     // Create all API calls for parallel execution
     const apiCalls = [];
-    const clist = "195.123.122.135.136.226.160.137.161.176.354.170.129.174.252.253.254.255.256.257.258.259.260.261.262.263.264.265.405.239.156.158.149.142.143.153.155.164.162.132.131.141.140.171.172.173.157.181.182.165.179.145.147.169.138.168.139.180.177.152.150.151.154.166.167.163.175.178.133.227.228.229.230.231.232.233.234.235.144.146.159.148.236.237.238.239.240.241.242.243.244.245.246.247.248.249.250.251.267.268.271.274.273.276.277.278.279.280.281.282.283.134.284.286.287.288.289.290.291.324.325.326.327.328.352.329.353.330.331.332.333.334.335.406.240.167.181.356.162.241.137.122.357.242.123.358.243.161.163.138.359.244.361.245.365.273.136.363.274.364.249.366.170.367.250.164.181.182.139.180.165.368.251.166.369.271.175.370.277.142.371.278.140.372.279.141.373.280.374.281.375.282.173.376.283.377.284.133.378.286.379.287.129.380.288.381.289.382.290.383.291.178.301";
+    const clist =
+      "195.123.122.135.136.226.160.137.161.176.354.170.129.174.252.253.254.255.256.257.258.259.260.261.262.263.264.265.405.239.156.158.149.142.143.153.155.164.162.132.131.141.140.171.172.173.157.181.182.165.179.145.147.169.138.168.139.180.177.152.150.151.154.166.167.163.175.178.133.227.228.229.230.231.232.233.234.235.144.146.159.148.236.237.238.239.240.241.242.243.244.245.246.247.248.249.250.251.267.268.271.274.273.276.277.278.279.280.281.282.283.134.284.286.287.288.289.290.291.324.325.326.327.328.352.329.353.330.331.332.333.334.335.406.240.167.181.356.162.241.137.122.357.242.123.358.243.161.163.138.359.244.361.245.365.273.136.363.274.364.249.366.170.367.250.164.181.182.139.180.165.368.251.166.369.271.175.370.277.142.371.278.140.372.279.141.373.280.374.281.375.282.173.376.283.377.284.133.378.286.379.287.129.380.288.381.289.382.290.383.291.178.301";
 
     for (const currentYear of years) {
       for (const clientBatch of clientBatches) {
         const clientConditions = clientBatch
-          .map(client => `{301.EX.'${client}'}`)
+          .map((client) => `{301.EX.'${client}'}`)
           .join(" OR ");
         const queryCondition = `{195.EX.${currentYear}} AND (${clientConditions})${additionalFilters}`;
-        
+
         const apiCallPeerData = {
           act: "API_DoQuery",
           query: queryCondition,
-          clist: clist
+          clist: clist,
         };
-        
+
         apiCalls.push($.get(peerData, apiCallPeerData));
       }
     }
@@ -4459,16 +4385,16 @@ class ApiService {
     // Execute all API calls in parallel with limited concurrency
     const CONCURRENCY_LIMIT = 5; // Limit concurrent requests to avoid overwhelming server
     const results = [];
-    
+
     for (let i = 0; i < apiCalls.length; i += CONCURRENCY_LIMIT) {
       const batch = apiCalls.slice(i, i + CONCURRENCY_LIMIT);
       try {
         const batchResults = await Promise.allSettled(batch);
         results.push(...batchResults);
-        
+
         // Small delay between batches to be API-friendly
         if (i + CONCURRENCY_LIMIT < apiCalls.length) {
-          await new Promise(resolve => setTimeout(resolve, 50));
+          await new Promise((resolve) => setTimeout(resolve, 50));
         }
       } catch (error) {
         console.error("Error in batch execution:", error);
@@ -4478,12 +4404,12 @@ class ApiService {
     // Process all results efficiently
     const recordHtmlParts = [];
     for (const result of results) {
-      if (result.status === 'fulfilled') {
+      if (result.status === "fulfilled") {
         try {
           const xml = result.value;
           // Use jQuery once per response, then process natively
           const $records = $("record", xml);
-          
+
           // Process records using native DOM for better performance
           for (let i = 0; i < $records.length; i++) {
             const recordHtml = $records[i].outerHTML;
@@ -4512,13 +4438,17 @@ class ApiService {
       try {
         const yearTotals = {};
         Array.from(records).forEach((rec) => {
-          const yearText = rec.querySelector("s52_formatted_year")?.textContent || "";
+          const yearText =
+            rec.querySelector("s52_formatted_year")?.textContent || "";
           const match = yearText.match(/\d{4}/);
           const yearKey = match ? match[0] : "";
           if (!yearKey) return;
           yearTotals[yearKey] = (yearTotals[yearKey] || 0) + 1;
         });
-        if (!window.peerRecordMapPerYear || typeof window.peerRecordMapPerYear.clear !== "function") {
+        if (
+          !window.peerRecordMapPerYear ||
+          typeof window.peerRecordMapPerYear.clear !== "function"
+        ) {
           window.peerRecordMapPerYear = new Map();
         } else {
           window.peerRecordMapPerYear.clear();
@@ -4527,7 +4457,10 @@ class ApiService {
           window.peerRecordMapPerYear.set(String(year), count);
         });
       } catch (e) {
-        console.error("Unable to compute/set peerRecordMapPerYear in batched approach:", e);
+        console.error(
+          "Unable to compute/set peerRecordMapPerYear in batched approach:",
+          e
+        );
       }
       return records;
     } catch (error) {
@@ -4831,7 +4764,10 @@ class AppController {
 
       // Reset per-year peer record counts for this run
       try {
-        if (!window.peerRecordMapPerYear || typeof window.peerRecordMapPerYear.clear !== "function") {
+        if (
+          !window.peerRecordMapPerYear ||
+          typeof window.peerRecordMapPerYear.clear !== "function"
+        ) {
           window.peerRecordMapPerYear = new Map();
         } else {
           window.peerRecordMapPerYear.clear();
@@ -5027,11 +4963,35 @@ class AppController {
         );
       } catch (error) {
         console.error("Error processing data:", error);
-        if (typeof createToastWarning === "function") {
-          createToastWarning("Error processing data. Please try again.");
+
+        // Check if it's a storage quota error
+        if (
+          error.name === "QuotaExceededError" ||
+          error.message.includes("quota")
+        ) {
+          console.warn("Storage quota exceeded, showing management options");
+          if (
+            this.dataStore &&
+            typeof this.dataStore.showStorageManagementOptions === "function"
+          ) {
+            this.dataStore.showStorageManagementOptions();
+          } else {
+            const message =
+              "Storage limit exceeded. Try selecting fewer years or clear browser data.";
+            if (typeof createToastWarning === "function") {
+              createToastWarning(message);
+            } else {
+              alert(message);
+            }
+          }
         } else {
-          alert("Error processing data. Please try again.");
+          if (typeof createToastWarning === "function") {
+            createToastWarning("Error processing data. Please try again.");
+          } else {
+            alert("Error processing data. Please try again.");
+          }
         }
+
         if (typeof showApiLoadingFunction === "function") {
           showApiLoadingFunction("close");
         }
@@ -5051,18 +5011,29 @@ class AppController {
       // Display charts
       try {
         await this.displayAllComponents();
-        
+
         // Enable the generate reports button after successful data loading and display
         this.enableGenerateReportsButton();
-        
       } catch (error) {
         console.error("Error displaying components:", error);
-        if (typeof createToastWarning === "function") {
-          createToastWarning(
-            "Error displaying charts. Please check console for details."
+
+        // Check if it's a data-related error
+        if (
+          error.message &&
+          error.message.includes("Cannot read properties of undefined")
+        ) {
+          console.warn(
+            "Data structure issue detected, attempting to continue with available data"
           );
+          // Continue anyway since some data might be available
         } else {
-          alert("Error displaying charts. Please check console for details.");
+          if (typeof createToastWarning === "function") {
+            createToastWarning(
+              "Error displaying charts. Please check console for details."
+            );
+          } else {
+            alert("Error displaying charts. Please check console for details.");
+          }
         }
       } finally {
         // Always hide loading indicator
@@ -5144,7 +5115,8 @@ class AppController {
         toggleGenerateReportButtonNormalState(generateReportsBtn);
       } else {
         // Fallback for when the toggle function is not available
-        generateReportsBtn.textContent = "Generate Trends and Benchmark Reports";
+        generateReportsBtn.textContent =
+          "Generate Trends and Benchmark Reports";
       }
 
       // Remove any existing listeners to prevent duplicates
@@ -5220,7 +5192,7 @@ class AppController {
    */
   setupPrintModalCleanup() {
     const printModal = document.getElementById("print_modal");
-    
+
     if (!printModal) {
       console.warn("Print modal not found, cannot set up cleanup");
       return;
@@ -5234,9 +5206,12 @@ class AppController {
     // Set up mutation observer to detect when modal is hidden
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "class"
+        ) {
           const modal = mutation.target;
-          if (modal.classList.contains('hidden')) {
+          if (modal.classList.contains("hidden")) {
             // console.log("Print modal closed, cleaning up Excel report data");
             this.cleanupExcelReportData();
           }
@@ -5247,11 +5222,11 @@ class AppController {
     // Start observing the modal for class changes
     observer.observe(printModal, {
       attributes: true,
-      attributeFilter: ['class']
+      attributeFilter: ["class"],
     });
 
     // Also set up click event listener for backdrop/overlay clicks
-    printModal.addEventListener('click', (event) => {
+    printModal.addEventListener("click", (event) => {
       if (event.target === printModal) {
         // console.log("Print modal backdrop clicked, cleaning up Excel report data");
         this.cleanupExcelReportData();
@@ -5282,14 +5257,14 @@ class AppController {
       // console.log("Cleanup already in progress, skipping duplicate call");
       return;
     }
-    
+
     this.isCleaningUp = true;
     // console.log("Cleaning up Excel report data");
 
     // Reset ExcelReportGenerator instance if it exists
     if (window.excelReportGenerator) {
       // Call the cleanup method if it exists
-      if (typeof window.excelReportGenerator.cleanup === 'function') {
+      if (typeof window.excelReportGenerator.cleanup === "function") {
         window.excelReportGenerator.cleanup();
       } else {
         // Fallback cleanup if method doesn't exist
@@ -5315,12 +5290,15 @@ class AppController {
     const keysToRemove = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key && key.includes('excel_report_') || key && key.includes('temp_report_')) {
+      if (
+        (key && key.includes("excel_report_")) ||
+        (key && key.includes("temp_report_"))
+      ) {
         keysToRemove.push(key);
       }
     }
-    
-    keysToRemove.forEach(key => {
+
+    keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
       console.log(`Removed cached data: ${key}`);
     });
@@ -5336,12 +5314,15 @@ class AppController {
     if (generateReportsBtn) {
       generateReportsBtn.disabled = false;
       generateReportsBtn.textContent = "Generate Trends and Benchmark Reports";
-      
+
       // Remove any loading state classes
       generateReportsBtn.classList.remove("opacity-50", "cursor-not-allowed");
-      
+
       // Re-initialize the ExcelReportGenerator to set up new event listeners
-      if (typeof ExcelReportGenerator === "function" && window.excelReportGenerator) {
+      if (
+        typeof ExcelReportGenerator === "function" &&
+        window.excelReportGenerator
+      ) {
         // Re-initialize the ExcelReportGenerator instance
         window.excelReportGenerator.init();
         // console.log("ExcelReportGenerator re-initialized after cleanup");
@@ -5349,7 +5330,7 @@ class AppController {
     }
 
     // console.log("Excel report data cleanup completed");
-    
+
     // Reset cleanup flag after a short delay to allow for any pending operations
     setTimeout(() => {
       this.isCleaningUp = false;
@@ -5434,6 +5415,9 @@ class AppController {
         return;
       }
 
+      // Validate data structure before displaying
+      this.validateDataStructure();
+
       // Call all display component functions for this application
       if (typeof displayDemoComponent === "function") {
         displayDemoComponent();
@@ -5488,6 +5472,60 @@ class AppController {
     } catch (error) {
       console.error("Error validating chart data:", error);
       return false;
+    }
+  }
+
+  // Validate data structure to prevent undefined errors
+  validateDataStructure() {
+    try {
+      const categories = [
+        "demoData",
+        "cashData",
+        "debtData",
+        "incomeData",
+        "expenseData",
+        "additionalData",
+      ];
+
+      categories.forEach((category) => {
+        const data = this.dataStore[category];
+        if (data && typeof data === "object") {
+          // Ensure each year has the expected structure
+          Object.keys(data).forEach((year) => {
+            const yearData = data[year];
+            if (yearData && typeof yearData === "object") {
+              // Ensure each data key has a valid structure
+              Object.keys(yearData).forEach((dataKey) => {
+                const dataValue = yearData[dataKey];
+                if (dataValue && typeof dataValue === "object") {
+                  // Ensure client and peer data have proper structure
+                  if (
+                    dataValue.Client &&
+                    typeof dataValue.Client === "object"
+                  ) {
+                    if (
+                      !dataValue.Client.value &&
+                      dataValue.Client.value !== 0
+                    ) {
+                      dataValue.Client.value = 0;
+                    }
+                  }
+                  if (dataValue.Peer && typeof dataValue.Peer === "object") {
+                    if (!dataValue.Peer.value && dataValue.Peer.value !== 0) {
+                      dataValue.Peer.value = 0;
+                    }
+                  }
+                }
+              });
+            }
+          });
+        }
+      });
+
+      console.log("Data structure validated successfully");
+    } catch (error) {
+      console.warn("Error validating data structure:", error);
+      // Continue anyway, don't break the display
     }
   }
 }
@@ -5801,14 +5839,9 @@ window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
     // Signal completion
     document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
 
-    return {
-      demoData: JSON.parse(localStorage.getItem("demoData")),
-      cashData: JSON.parse(localStorage.getItem("cashData")), 
-      debtData: JSON.parse(localStorage.getItem("debtData")),
-      incomeData: JSON.parse(localStorage.getItem("incomeData")),
-      expenseData: JSON.parse(localStorage.getItem("expenseData")),
-      additionalData: JSON.parse(localStorage.getItem("additionalData"))
-    };
+    // Load data using the new centralized method
+    window.dataStore.loadFromLocalStorage();
+    return window.dataStore.getAllData();
   }
 };
 
@@ -5820,11 +5853,89 @@ window.ApiService = ApiService;
 // Create global instances if they don't exist
 if (!window.dataStore) {
   window.dataStore = new DataStore();
+} else {
+  // Ensure the existing instance has all the new methods
+  const newDataStore = new DataStore();
+  Object.getOwnPropertyNames(Object.getPrototypeOf(newDataStore)).forEach(
+    (method) => {
+      if (
+        method !== "constructor" &&
+        typeof newDataStore[method] === "function"
+      ) {
+        window.dataStore[method] = newDataStore[method];
+      }
+    }
+  );
 }
 
 if (!window.dataProcessor) {
   window.dataProcessor = new DataProcessor(window.dataStore);
 }
+
+// Ensure DataStore has all required methods
+window.ensureDataStoreMethods = function () {
+  if (window.dataStore) {
+    const newDataStore = new DataStore();
+    Object.getOwnPropertyNames(Object.getPrototypeOf(newDataStore)).forEach(
+      (method) => {
+        if (
+          method !== "constructor" &&
+          typeof newDataStore[method] === "function"
+        ) {
+          window.dataStore[method] = newDataStore[method];
+        }
+      }
+    );
+    console.log("DataStore methods updated");
+  }
+};
+
+// Add global storage management functions
+window.clearAppStorage = function () {
+  // Ensure methods are available
+  window.ensureDataStoreMethods();
+
+  if (
+    window.dataStore &&
+    typeof window.dataStore.clearAllStorage === "function"
+  ) {
+    window.dataStore.clearAllStorage();
+    console.log("App storage cleared successfully");
+
+    if (typeof createToastWarning === "function") {
+      createToastWarning(
+        "Storage cleared successfully. You can now try loading data again."
+      );
+    } else {
+      alert(
+        "Storage cleared successfully. You can now try loading data again."
+      );
+    }
+  } else {
+    console.error("DataStore or clearAllStorage method not available");
+  }
+};
+
+window.checkAppStorage = function () {
+  // Ensure methods are available
+  window.ensureDataStoreMethods();
+
+  if (
+    window.dataStore &&
+    typeof window.dataStore.checkStorageQuota === "function"
+  ) {
+    const quotaInfo = window.dataStore.checkStorageQuota();
+    const message = `Storage Usage: ${quotaInfo.usedMB}MB (${quotaInfo.percentage}%)`;
+
+    if (typeof createToastWarning === "function") {
+      createToastWarning(message);
+    } else {
+      alert(message);
+    }
+  } else {
+    console.error("DataStore or checkStorageQuota method not available");
+  }
+};
 
 window.onload = () => {
   if (!window.appController) {
@@ -5832,3 +5943,159 @@ window.onload = () => {
     window.appController = new AppController();
   }
 };
+
+// Storage Management Utilities for Users
+// These functions can be called from the browser console to manage storage issues
+
+/**
+ * Storage Management Utility Functions
+ *
+ * Usage from browser console:
+ * - checkStorage() - Check current storage usage
+ * - clearStorage() - Clear all app data
+ * - optimizeStorage() - Show optimization suggestions
+ * - getStorageInfo() - Get detailed storage information
+ */
+
+window.checkStorage = function () {
+  // Ensure methods are available
+  window.ensureDataStoreMethods();
+
+  if (
+    window.dataStore &&
+    typeof window.dataStore.checkStorageQuota === "function"
+  ) {
+    const quotaInfo = window.dataStore.checkStorageQuota();
+    const sizeInfo = window.dataStore.estimateDataSize();
+
+    console.log("=== Storage Information ===");
+    console.log(
+      `Current Usage: ${quotaInfo.usedMB}MB (${quotaInfo.percentage}%)`
+    );
+    console.log(`Estimated New Data: ${sizeInfo.sizeMB}MB`);
+    console.log(
+      `Available Space: ${(
+        (quotaInfo.maxQuota - quotaInfo.used) /
+        1024 /
+        1024
+      ).toFixed(2)}MB`
+    );
+
+    if (parseFloat(quotaInfo.percentage) > 80) {
+      console.warn("⚠️ Storage usage is high! Consider clearing old data.");
+    }
+
+    return { quotaInfo, sizeInfo };
+  } else {
+    console.error("DataStore not available");
+    return null;
+  }
+};
+
+window.clearStorage = function () {
+  // Ensure methods are available
+  window.ensureDataStoreMethods();
+
+  if (
+    window.dataStore &&
+    typeof window.dataStore.clearAllStorage === "function"
+  ) {
+    const before = window.dataStore.checkStorageQuota();
+    window.dataStore.clearAllStorage();
+    const after = window.dataStore.checkStorageQuota();
+
+    console.log("=== Storage Cleared ===");
+    console.log(`Before: ${before.usedMB}MB`);
+    console.log(`After: ${after.usedMB}MB`);
+    console.log(`Freed: ${(before.used - after.used) / 1024 / 1024}MB`);
+
+    return { before, after };
+  } else {
+    console.error("DataStore not available");
+    return null;
+  }
+};
+
+window.optimizeStorage = function () {
+  const suggestions = [
+    "1. Select fewer years (3-4 instead of 6)",
+    "2. Clear browser data for this site",
+    "3. Use private/incognito mode",
+    "4. Close other browser tabs",
+    "5. Try a different browser",
+  ];
+
+  console.log("=== Storage Optimization Suggestions ===");
+  suggestions.forEach((suggestion) => console.log(suggestion));
+
+  return suggestions;
+};
+
+window.getStorageInfo = function () {
+  // Ensure methods are available
+  window.ensureDataStoreMethods();
+
+  if (
+    window.dataStore &&
+    typeof window.dataStore.checkStorageQuota === "function"
+  ) {
+    const quotaInfo = window.dataStore.checkStorageQuota();
+    const sizeInfo = window.dataStore.estimateDataSize();
+    const hasData = window.dataStore.hasDataInStorage();
+
+    const info = {
+      currentUsage: quotaInfo,
+      estimatedNewData: sizeInfo,
+      hasExistingData: hasData,
+      recommendations: [],
+    };
+
+    // Add recommendations based on current state
+    if (parseFloat(quotaInfo.percentage) > 80) {
+      info.recommendations.push("Clear old data before loading new data");
+    }
+
+    if (parseFloat(sizeInfo.sizeMB) > 3) {
+      info.recommendations.push(
+        "Consider selecting fewer years to reduce data size"
+      );
+    }
+
+    if (hasData) {
+      info.recommendations.push(
+        "Existing data found - consider clearing if having issues"
+      );
+    }
+
+    console.log("=== Detailed Storage Information ===");
+    console.log(info);
+
+    return info;
+  } else {
+    console.error("DataStore not available");
+    return null;
+  }
+};
+
+// Auto-check storage on page load
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(() => {
+    // Ensure methods are available
+    window.ensureDataStoreMethods();
+
+    if (
+      window.dataStore &&
+      typeof window.dataStore.checkStorageQuota === "function"
+    ) {
+      const quotaInfo = window.dataStore.checkStorageQuota();
+      if (parseFloat(quotaInfo.percentage) > 90) {
+        console.warn("⚠️ Storage usage is very high! Consider clearing data.");
+        if (typeof createToastWarning === "function") {
+          createToastWarning(
+            "Storage is nearly full. Use checkStorage() in console for details."
+          );
+        }
+      }
+    }
+  }, 2000);
+});

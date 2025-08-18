@@ -106,13 +106,15 @@ const contributionsPerAccountingFTE_weightedAverage = (data, name) => {
   const s158 = getSumOfArray(data.averageAnnualAccountingDepartment[name]['total']);
   const s159 = getSumOfArray(data.accountingDepartmentPartTimeEmployee[name]['total']);
   const s160 = getSumOfArray(data.accountingDepartmentVolunteer[name]['total']);
-  const s94 = data.accountingDeptOutsourcedLabor 
-    ? getSumOfArray(data.accountingDeptOutsourcedLabor[name]['total']) 
-    : 0;
+  // const s94 = data.accountingDeptOutsourcedLabor 
+  //   ? getSumOfArray(data.accountingDeptOutsourcedLabor[name]['total']) 
+  //   : 0;
+
+  // console.log('contributionsPerAccountingFTE_weightedAverage', '(s40 - (s152 + s153)) / (s158 + s159 + s160 + s94)', {s40, s152, s153, s158, s159, s160});
 
   // Updated formula per image: (s40 - (s152 + s153)) / (s158 + s159 + s160 + s94)
   // Removed s44 (revenueFromPledge) and added s94 (accountingDeptOutsourcedLabor) per updated calculation
-  return (s40 - (s152 + s153)) / (s158 + s159 + s160 + s94);
+  return (s40 - (s152 + s153)) / (s158 + s159 + s160);
 };
 
 const cashExpendituresPerGivingUnit_weightedAverage = (data, name) => {

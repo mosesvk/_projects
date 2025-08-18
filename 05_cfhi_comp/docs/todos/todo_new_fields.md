@@ -4,7 +4,8 @@ New or Missing Quickbase Fields to Add
   - Referenced in multiple ratios in `todo_Aug11.md` (daysOperatingCash, mandatoryDebtService, personnel-to-cash, cash expenditures per giving unit)
   - Add this field to both client and peer Quickbase tables so values flow through API.
 
-Notes
-- This list will be updated as additional fields are identified during ratio updates.
+- s94 - accounting dept outsourced labor (will be included in the "Additional Tab" -> contributionsPerAccountingFTE ratio)
+
+
 
 
