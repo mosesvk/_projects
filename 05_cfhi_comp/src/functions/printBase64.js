@@ -1,7 +1,7 @@
 // print_base64.js - Fresh implementation based on testPrintBase64.js
 
 const DEFAULT_CHART_WIDTH = 1000;
-const DEFAULT_CHART_HEIGHT = 500;
+const DEFAULT_CHART_HEIGHT = 600;
 
 /**
  * Get appropriate dimensions for a chart
@@ -9,9 +9,13 @@ const DEFAULT_CHART_HEIGHT = 500;
  * @returns {Object} - Object with width and height
  */
 function getChartDimensions(chartId) {
-  // All charts use the same dimensions since they're all line charts
+  // Add extra width for charts with left-aligned y-axis labels to prevent cutoff
+  // This specifically addresses the issue where y-axis values are cut off in
+  // personnelToCashExpenditure_chart and benefitsToSalaries_chart
+  const extraWidth = (chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart") ? 200 : 0;
+  
   return {
-    width: DEFAULT_CHART_WIDTH,
+    width: DEFAULT_CHART_WIDTH + extraWidth,
     height: DEFAULT_CHART_HEIGHT,
   };
 }
@@ -277,6 +281,7 @@ function restoreCompleteChartState(chart, originalState) {
           },
         };
       }) : [],
+      annotations: originalState.chartConfig.annotations || {},
     };
 
     // First, ensure numType will be available in chart.w.globals
@@ -343,8 +348,13 @@ async function exportApexChart(chart, chartId) {
     const fixedContainer = document.createElement("div");
     fixedContainer.style.position = "absolute";
     fixedContainer.style.left = "-9999px";
-    fixedContainer.style.width = `${chartWidth + 100}px`; // Extra width for Y-axis labels
-    fixedContainer.style.height = `${chartHeight + 100}px`; // Extra height for legend
+    
+    // Add extra padding for legends and labels
+    const extraPadding = 100;
+    const extraHeight = 100; // Extra height for legend
+    
+    fixedContainer.style.width = `${chartWidth + extraPadding}px`;
+    fixedContainer.style.height = `${chartHeight + extraHeight}px`;
     fixedContainer.style.backgroundColor = "#ffffff";
     fixedContainer.style.overflow = "visible"; // Changed from "hidden" to "visible"
     document.body.appendChild(fixedContainer);
@@ -378,7 +388,10 @@ async function exportApexChart(chart, chartId) {
     chartElement.style.width = `${chartWidth}px`;
     chartElement.style.height = `${chartHeight}px`;
     chartElement.style.position = "absolute";
-    chartElement.style.left = "50px"; // Add left padding for Y-axis labels
+    
+    // Add left padding for y-axis labels - extra padding for charts with left-aligned labels
+    const leftPadding = (chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart") ? 100 : 50;
+    chartElement.style.left = `${leftPadding}px`;
     chartElement.style.top = "20px"; // Add top padding
     chartElement.style.transform = "none";
 
@@ -390,6 +403,8 @@ async function exportApexChart(chart, chartId) {
     paperNode.style.height = `${chartHeight}px`;
     paperNode.setAttribute("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
     paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+
 
     // Remove chart titles for print export
     if (chart.updateOptions) {
@@ -414,7 +429,16 @@ async function exportApexChart(chart, chartId) {
           enabled: false
         },
         background: '#ffffff'
-      }
+      },
+      // Minimal y-axis configuration to preserve labels during export
+      yaxis: [{
+        labels: {
+          style: {
+            fontSize: "1.25rem",
+          },
+          align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
+        }
+      }]
     };
 
     // Force chart to redraw with new dimensions and styles
@@ -427,8 +451,8 @@ async function exportApexChart(chart, chartId) {
 
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
-      width: chartWidth + 100, // Include extra width for labels
-      height: chartHeight + 100, // Include extra height for legend
+      width: chartWidth + extraPadding, // Include extra width for labels
+      height: chartHeight + extraHeight, // Include extra height for legend
       scale: 1,
     });
 

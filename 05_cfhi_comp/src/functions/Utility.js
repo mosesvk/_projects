@@ -1602,6 +1602,8 @@ function showApiLoadingFunction(action, mode) {
   const firstApiYearSpan = document.getElementById("firstApiYear");
   const lastApiYearSpan = document.getElementById("LastApiYear");
   const apiYears = document.getElementById("apiYears");
+  const loadingApiYears = document.getElementById("loadingApiYears");
+
 
   if (action === "close") {
     setTimeout(() => {
@@ -1626,6 +1628,7 @@ function showApiLoadingFunction(action, mode) {
       loadingApiHeader.innerHTML = "Creating Presentation Slides";
       apiYears.classList.add("hidden");
       apiPrint.classList.remove("hidden");
+      loadingApiYears.classList.add('hidden')
     }
   }
 }
