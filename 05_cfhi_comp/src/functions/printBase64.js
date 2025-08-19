@@ -9,13 +9,9 @@ const DEFAULT_CHART_HEIGHT = 600;
  * @returns {Object} - Object with width and height
  */
 function getChartDimensions(chartId) {
-  // Add extra width for charts with left-aligned y-axis labels to prevent cutoff
-  // This specifically addresses the issue where y-axis values are cut off in
-  // personnelToCashExpenditure_chart and benefitsToSalaries_chart
-  const extraWidth = (chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart") ? 200 : 0;
-  
+  // All charts use the same dimensions since they're all line charts
   return {
-    width: DEFAULT_CHART_WIDTH + extraWidth,
+    width: DEFAULT_CHART_WIDTH,
     height: DEFAULT_CHART_HEIGHT,
   };
 }
@@ -250,32 +246,63 @@ function restoreCompleteChartState(chart, originalState) {
           labels: {
             ...axis.labels,
             formatter: function (value) {
-              if (value === null || value === undefined || value === 0) {
-                if (numType === "dollar") return "$0";
-                if (numType === "percent") return "0%";
-                return "0";
-              }
-
-              const isNegative = value < 0;
-              const absValue = Math.abs(value);
-
               let formattedValue;
-              if (absValue >= 1000000) {
-                const millions = absValue / 1000000;
-                formattedValue = `${Math.round(millions)}M`;
-              } else if (absValue >= 1000) {
-                formattedValue = `${Math.round(absValue / 1000)}K`;
+              
+              // Handle very large numbers (millions and billions)
+              if (value >= 100000000) {
+                // Round to nearest 10M for values >= 100M
+                formattedValue = `${Math.round(value / 10000000) * 10}M`;
+              } else if (value >= 1000000) {
+                // Round to nearest 5M for values between 1M and 100M
+                formattedValue = `${Math.round(value / 5000000) * 5}M`;
+              } else if (value >= 10000) {
+                // Round to nearest 10K for values >= 10K
+                formattedValue = `${Math.round(value / 10000) * 10}K`;
+              } else if (value >= 1000) {
+                // Round to nearest 1K for values >= 1K
+                formattedValue = `${Math.round(value / 1000)}K`;
+              } else if (value >= 100) {
+                // Round to nearest 100 for values between 100 and 1000
+                // This handles cases like 510 -> 500, 410 -> 400, etc.
+                formattedValue = Math.round(value / 100) * 100;
+              } else if (value >= 10) {
+                // Round to nearest 10 for values between 10 and 100
+                formattedValue = Math.round(value / 10) * 10;
+              } else if (value >= 1) {
+                // Round to nearest 1 for values between 1 and 10
+                formattedValue = Math.round(value);
+              } else if (value >= 0.1) {
+                // For values between 0.1 and 1, always use 0.05 increments to avoid repeating labels
+                // This ensures clean increments like 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, etc.
+                formattedValue = Math.round(value * 20) / 20;
+              } else if (value >= 0.01) {
+                // For values between 0.01 and 0.1, use 0.02 increments
+                formattedValue = Math.round(value * 50) / 50;
               } else {
-                formattedValue = Math.round(absValue).toString();
+                // For very small values, round to nearest 0.01
+                formattedValue = Math.round(value * 100) / 100;
               }
-
-              // Apply appropriate symbol based on numType
+              
+              // Apply prefix/suffix based on numType
               if (numType === "dollar") {
-                return `${isNegative ? "-" : ""}$${formattedValue}`;
+                // For dollar values, ensure we get clean whole numbers when possible
+                if (formattedValue >= 1 && formattedValue < 100) {
+                  formattedValue = Math.round(formattedValue);
+                }
+                return `$${formattedValue}`;
               } else if (numType === "percent") {
-                return `${isNegative ? "-" : ""}${formattedValue}%`;
+                // For percentage values, use consistent precision
+                if (value >= 1 && value < 100) {
+                  // For percentages 1-100, use 0.5 increments
+                  formattedValue = Math.round(value * 2) / 2;
+                } else if (value >= 0.1 && value < 1) {
+                  // For small percentages, use 0.05 increments
+                  formattedValue = Math.round(value * 20) / 20;
+                }
+                return `${formattedValue}%`;
+              } else {
+                return formattedValue; // "num" or "number" - no prefix/suffix
               }
-              return `${isNegative ? "-" : ""}${formattedValue}`;
             },
             align: axis.labels?.align,
           },
@@ -349,12 +376,11 @@ async function exportApexChart(chart, chartId) {
     fixedContainer.style.position = "absolute";
     fixedContainer.style.left = "-9999px";
     
-    // Add extra padding for legends and labels
-    const extraPadding = 100;
-    const extraHeight = 100; // Extra height for legend
+    // Add extra width for charts with left-aligned y-axis labels
+    const extraWidth = (chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart") ? 200 : 100;
     
-    fixedContainer.style.width = `${chartWidth + extraPadding}px`;
-    fixedContainer.style.height = `${chartHeight + extraHeight}px`;
+    fixedContainer.style.width = `${chartWidth + extraWidth}px`; // Extra width for Y-axis labels
+    fixedContainer.style.height = `${chartHeight + 100}px`; // Extra height for legend
     fixedContainer.style.backgroundColor = "#ffffff";
     fixedContainer.style.overflow = "visible"; // Changed from "hidden" to "visible"
     document.body.appendChild(fixedContainer);
@@ -388,10 +414,7 @@ async function exportApexChart(chart, chartId) {
     chartElement.style.width = `${chartWidth}px`;
     chartElement.style.height = `${chartHeight}px`;
     chartElement.style.position = "absolute";
-    
-    // Add left padding for y-axis labels - extra padding for charts with left-aligned labels
-    const leftPadding = (chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart") ? 100 : 50;
-    chartElement.style.left = `${leftPadding}px`;
+    chartElement.style.left = "50px"; // Add left padding for Y-axis labels
     chartElement.style.top = "20px"; // Add top padding
     chartElement.style.transform = "none";
 
@@ -429,17 +452,18 @@ async function exportApexChart(chart, chartId) {
           enabled: false
         },
         background: '#ffffff'
-      },
-      // Minimal y-axis configuration to preserve labels during export
-      yaxis: [{
-        labels: {
-          style: {
-            fontSize: "1.25rem",
-          },
-          align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
-        }
-      }]
+      }
     };
+
+    // Ensure y-axis alignment is preserved for problematic charts
+    if (chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart") {
+      // Check if the chart has left-aligned y-axis labels and ensure they're preserved
+      const currentYAxis = chart.w.config.yaxis;
+      if (currentYAxis && currentYAxis[0] && currentYAxis[0].labels && currentYAxis[0].labels.align === "left") {
+        // The chart already has left alignment, ensure it's preserved during export
+        console.log(`Preserving left alignment for ${chartId}`);
+      }
+    }
 
     // Force chart to redraw with new dimensions and styles
     if (chart.updateOptions) {
@@ -451,8 +475,8 @@ async function exportApexChart(chart, chartId) {
 
     // Use ApexCharts' dataURI method with explicit dimensions
     const uri = await chart.dataURI({
-      width: chartWidth + extraPadding, // Include extra width for labels
-      height: chartHeight + extraHeight, // Include extra height for legend
+      width: chartWidth + extraWidth, // Include extra width for labels
+      height: chartHeight + 100, // Include extra height for legend
       scale: 1,
     });
 
