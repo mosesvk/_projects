@@ -1,8 +1,8 @@
 const getWeightedAverageOfArray = (data, name) => {
   // console.log(data, name);
   switch (name) {
-    case "attendeesToStaff":
-      return attendeesToStaff_weightedAverage(data, name);
+    case "givingUnitsToStaff":
+      return givingUnitsToStaff_weightedAverage(data, name);
     case "percentContributionsOnline":
       return percentContributionsOnline_weightedAverage(data, name);
     case "daysExpendableNetAssets":
@@ -478,8 +478,8 @@ const daysExpendableNetAssets_weightedAverage = (data, name) => {
   return (((s34 - s92 + s155) / ((s45 - s167) - s46)) * 365);
 };
 
-const attendeesToStaff_weightedAverage = (data, name) => {
-  // console.log('attendeesToStaff_weightedAverage', data, name);
+const givingUnitsToStaff_weightedAverage = (data, name) => {
+  // console.log('givingUnitsToStaff_weightedAverage', data, name);
   const s150 = getSumOfArray(data.totalAttendees[name]['total']);
   const s151 = getSumOfArray(data.fullTimeEquivalent[name]['total']);
 

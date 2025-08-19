@@ -17,24 +17,19 @@ const displayDemoComponent = () => {
     getBenchmarksForField("givingUnits"),
     "Giving Units"
   );
-  // attendeesToStaff
+  // givingUnitsToStaff
   createChartFromParsedData(
     parseData,
-    "attendeesToStaff_chart",
-    "attendeesToStaff_Peer",
-    "attendeesToStaff_Client",
+    "givingUnitsToStaff_chart",
+    "givingUnitsToStaff_Peer",
+    "givingUnitsToStaff_Client",
     "number",
     0,
-    "attendeesToStaff",
-    getBenchmarksForField("attendeesToStaff"),
-    "Attendees to Staff"
+    "givingUnitsToStaff",
+    getBenchmarksForField("givingUnitsToStaff"),
+    "Giving Units to Staff"
   );
 
-  const attendToStaff_benchmark = [
-    "Attendees to Staff Benchmark",
-    "We believe that a reasonable benchmark is between 65 - 90 range.",
-  ];
-  createBenchmark(attendToStaff_benchmark, "row_attendeesToStaff");
 
   closeSidebarAfterSelectingOption("demo");
 };
@@ -241,14 +236,6 @@ const displayDebtComponent = () => {
 
   // Removed: Debt Per Average Adult Attendee (ratio deleted)
 
-  const debtPerGivingUnit_benchmark = [
-    "Debt Per Giving Unit Benchmark",
-    "In developing this benchmark, we looked at the RMA standards and had conversations with both lenders and churches. We determined that it was not possible to come up with a firm number because of the many factors that impact the levels of debt per adult attendee and giving unit a particular church is able to successfully carry.",
-    "We decided that the benchmark should be set by the revenue stream lenders consider for repayment, or by contributions without donor restrictions. Because giving varies so much from church to church, we decided it is not possible to set a fixed amount for this benchmark. Rather, the benchmark should be determined by the level of giving without donor restrictions per adult attendee or giving unit.",
-    'Setting the range of maximum debt per adult attendee or giving unit is another way of looking at Ratio 6 because the maximum debt per attendee or giving unit times total adult attendees or giving units must correspond with the benchmark set for debt to contributions without donor restrictions. Using the same benchmark set for Ratio 6 tells us that we must multiply no more than 2.0 times the contributions without donor restrictions per adult attendee or giving unit (calculated in Measurement 12) to be within the benchmark. An amount between 2.0 and 3.0 times contributions without donor restrictions per adult attendee or giving unit is in the warning range. Any amount in excess of 3.0 could be interpreted as a <strong class="red"> red flag </strong>for the reasons stated in Ratio 6 above.',
-    "The best way to improve this measure is to lower total debt through consistent payments and additional principal reductions, when funds allow. Increasing the number of adult attendees and giving units will also have the same positive effect on the measure, but may be harder to prove as outside parties will require the use of an adult attendee or giving unit number developed over an extended period of time.",
-  ];
-  createBenchmark(debtPerGivingUnit_benchmark, "row_debtPerGivingUnit");
 
   const debtCoverage_benchmark = [
     "Debt Coverage Benchmark",

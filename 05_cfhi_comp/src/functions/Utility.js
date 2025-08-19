@@ -51,7 +51,7 @@ const dataUrLObj = new Object();
 
 // CHARTS - Make these global variables accessible via window
 window.givingUnits_chart = null;
-window.attendeesToStaff_chart = null;
+window.givingUnitsToStaff_chart = null;
 window.daysExpendableNetAssets_chart = null;
 window.daysOperatingCash_chart = null;
 window.availableDaysOfCashFlow_chart = null;
@@ -267,7 +267,7 @@ const createChart = (
 
   const chartIds = [
     "givingUnits_chart",
-    "attendeesToStaff_chart",
+    "givingUnitsToStaff_chart",
     "daysExpendableNetAssets_chart",
     "daysOperatingCash_chart",
     "availableDaysOfCashFlow_chart",
@@ -297,14 +297,14 @@ const createChart = (
       document.addEventListener("dark-mode", function () {
         window.givingUnits_chart.updateOptions(chartOptions);
       });
-    } else if (chartId === "attendeesToStaff_chart") {
-      window.attendeesToStaff_chart = new ApexCharts(
+    } else if (chartId === "givingUnitsToStaff_chart") {
+      window.givingUnitsToStaff_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      window.attendeesToStaff_chart.render();
+      window.givingUnitsToStaff_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.attendeesToStaff_chart.updateOptions(chartOptions);
+        window.givingUnitsToStaff_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "daysExpendableNetAssets_chart") {
       window.daysExpendableNetAssets_chart = new ApexCharts(

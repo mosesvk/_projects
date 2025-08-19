@@ -9,8 +9,6 @@
 // Note: Values are defined based on business guidance in todo_Aug11.md and DisplayCharts copy.
 window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
   const map = {
-    // Demo
-    attendeesToStaff: [65, 90],
 
     // Cash
     daysExpendableNetAssets: [30, 60],
@@ -84,7 +82,7 @@ window.getBenchmarkLabel = function getBenchmarkLabel(fieldName, benchmarkArray,
  */
 function isFieldHigherBetter(fieldName) {
   const higherIsBetter = [
-    'attendeesToStaff',
+    'givingUnitsToStaff',
     'daysExpendableNetAssets',
     'daysOperatingCash', 
     'availableDaysOfCashFlow',
@@ -722,7 +720,7 @@ const getMainChartOptions = (
 window.positionAllAnnotationLabels = function() {
   const chartIds = [
     "givingUnits_chart",
-    "attendeesToStaff_chart", 
+    "givingUnitsToStaff_chart", 
     "daysExpendableNetAssets_chart",
     "daysOperatingCash_chart",
     "availableDaysOfCashFlow_chart",
