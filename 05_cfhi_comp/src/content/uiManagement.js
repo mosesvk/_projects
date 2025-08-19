@@ -17,15 +17,6 @@ if (sidebar) {
     reportContentHeader.classList.toggle("hidden");
   };
 
-  const toggleListItemsPadding = () => {
-    const sidebarListItems = document.querySelectorAll("#sidebar li button");
-    sidebarListItems.forEach((item) => {
-      item.classList.toggle("p-2");
-      item.classList.toggle("py-2");
-      item.classList.toggle("pl-1");
-    });
-  };
-
   const sidebar = document.getElementById("sidebar");
   const sidebarBackdrop = document.getElementById("sidebarBackdrop");
   const toggleSidebarMobileHamburger = document.getElementById("toggleSidebarMobileHamburger");
