@@ -784,8 +784,8 @@ class DataProcessor {
           year,
           "givingUnits",
           record,
-          "s02 - Giving Units",
-          "cfhi_compre_00c_yes_no___total_attendees_including_children",
+          "s02___giving_units",
+          "cfhi_compre_00e_yes_no___giving_units_to_staff",
           "givingUnitsToStaff"
         );
         this.dataStore.insertData(
@@ -795,7 +795,7 @@ class DataProcessor {
           "fullTimeEquivalent",
           record,
           "s151___church_only_full_time_equivalent_excluding_childcare_worker",
-          "cfhi_compre_00e_yes_no___attendees_to_staff",
+          "cfhi_compre_00e_yes_no___giving_units_to_staff",
           "givingUnitsToStaff"
         );
 
