@@ -480,10 +480,10 @@ const daysExpendableNetAssets_weightedAverage = (data, name) => {
 
 const givingUnitsToStaff_weightedAverage = (data, name) => {
   // console.log('givingUnitsToStaff_weightedAverage', data, name);
-  const s150 = getSumOfArray(data.totalAttendees[name]['total']);
+  const s02 = getSumOfArray(data.givingUnits[name]['total']);
   const s151 = getSumOfArray(data.fullTimeEquivalent[name]['total']);
 
-  return s150 / s151;
+  return s02 / s151;
 };
 
 const percentContributionsOnline_weightedAverage = (data, name) => {
