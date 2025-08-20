@@ -1856,3 +1856,52 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
   });
   document.dispatchEvent(event);
 };
+
+/**
+ * Fix Unicode encoding issues in content, particularly apostrophes
+ * @param {string} content - The content string to fix
+ * @returns {string} - Content with properly encoded Unicode characters
+ */
+function fixUnicodeCharacters(content) {
+  if (typeof content !== 'string') {
+    return content;
+  }
+
+  // Replace common problematic Unicode characters that display as �
+  const unicodeReplacements = {
+    // Apostrophe variations that often cause encoding issues
+    '\u2019': "'",     // Right single quotation mark (smart apostrophe)
+    '\u2018': "'",     // Left single quotation mark  
+    '\u00B4': "'",     // Acute accent
+    '\u0060': "'",     // Grave accent
+    '\u02BC': "'",     // Modifier letter apostrophe
+    
+    // Quote variations
+    '\u201C': '"',     // Left double quotation mark
+    '\u201D': '"',     // Right double quotation mark
+    '\u201E': '"',     // Double low-9 quotation mark
+    '\u201F': '"',     // Double high-reversed-9 quotation mark
+    
+    // Dash variations
+    '\u2013': '-',     // En dash
+    '\u2014': '--',    // Em dash
+    '\u2015': '--',    // Horizontal bar
+    
+    // Other common problematic characters
+    '\u2026': '...',   // Horizontal ellipsis
+    '\u00A0': ' ',     // Non-breaking space
+    '\uFFFD': "'",     // Unicode replacement character (often appears as �)
+  };
+
+  let fixedContent = content;
+
+  // Apply each replacement
+  Object.entries(unicodeReplacements).forEach(([problematic, replacement]) => {
+    fixedContent = fixedContent.replace(new RegExp(problematic, 'g'), replacement);
+  });
+
+  // Additional cleanup for any remaining � characters that might be malformed apostrophes
+  fixedContent = fixedContent.replace(/�/g, "'");
+
+  return fixedContent;
+}

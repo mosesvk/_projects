@@ -594,6 +594,9 @@ function processBenchmarkParagraphs() {
         return;
       }
 
+      // Fix Unicode encoding issues with apostrophes and other characters
+      benchmarkContent = fixUnicodeCharacters(benchmarkContent);
+
       // Process the HTML content to add mb-2 class to p tags
       benchmarkContent = addMb2ClassToPTags(benchmarkContent);
 
