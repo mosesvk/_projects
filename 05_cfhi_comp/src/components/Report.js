@@ -607,9 +607,9 @@ function processBenchmarkParagraphs() {
 }
 
 /**
- * Add 'mb-2' class to all <p> tags in HTML content and handle <br/> tags
+ * Add 'mb-2' class to all <p> tags in HTML content and wrap text after <br/> in <p> tags
  * @param {string} htmlContent - The HTML content string
- * @returns {string} - HTML content with mb-2 class added to p tags and br tags converted to separate p tags
+ * @returns {string} - HTML content with mb-2 class added to p tags and text after br wrapped in p tags
  */
 function addMb2ClassToPTags(htmlContent) {
   if (typeof htmlContent !== 'string') {
@@ -620,13 +620,12 @@ function addMb2ClassToPTags(htmlContent) {
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = htmlContent;
 
-  // First, handle <br/> tags by converting them to separate paragraphs
-  processBrTags(tempDiv);
+  // Process the content to handle <br/> tags and unwrapped text
+  processContentNodes(tempDiv);
 
   // Find all p tags and add appropriate classes
   const pTags = tempDiv.querySelectorAll('p');
   pTags.forEach(p => {
-    // Apply consistent styling to all p tags
     applyParagraphStyling(p);
   });
 
@@ -634,53 +633,72 @@ function addMb2ClassToPTags(htmlContent) {
 }
 
 /**
- * Process <br/> tags by splitting content into separate <p> tags
+ * Process all content nodes to handle <br/> tags and wrap unwrapped text
  * @param {HTMLElement} container - The container element
  */
-function processBrTags(container) {
-  const pTags = container.querySelectorAll('p');
+function processContentNodes(container) {
+  const nodes = Array.from(container.childNodes);
+  const newNodes = [];
   
-  pTags.forEach(p => {
-    // Check if this p tag contains <br/> tags
-    if (p.innerHTML.includes('<br') || p.innerHTML.includes('<BR')) {
-      // Split the content by <br/> tags and create separate paragraphs
-      splitParagraphAtBrTags(p);
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    
+    if (node.nodeType === Node.ELEMENT_NODE && node.tagName.toLowerCase() === 'p') {
+      // Handle paragraphs that might contain <br/> tags
+      const processedP = processParagraphWithBr(node);
+      newNodes.push(...processedP);
+    } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName.toLowerCase() === 'br') {
+      // Skip <br/> tags as they will be handled by splitting
+      continue;
+    } else if (node.nodeType === Node.TEXT_NODE) {
+      // Wrap standalone text nodes in <p> tags
+      const text = node.textContent.trim();
+      if (text) {
+        const newP = document.createElement('p');
+        newP.textContent = text;
+        newNodes.push(newP);
+      }
+    } else {
+      // Keep other elements as-is
+      newNodes.push(node);
     }
-  });
+  }
+  
+  // Clear the container and add processed nodes
+  container.innerHTML = '';
+  newNodes.forEach(node => container.appendChild(node));
 }
 
 /**
- * Split a paragraph at <br/> tags and create separate <p> elements
- * @param {HTMLElement} pElement - The paragraph element to split
+ * Process a paragraph that might contain <br/> tags
+ * @param {HTMLElement} pElement - The paragraph element
+ * @returns {Array} - Array of processed paragraph elements
  */
-function splitParagraphAtBrTags(pElement) {
-  const parent = pElement.parentNode;
-  const originalClasses = pElement.className;
-  
-  // Get the innerHTML and split by various br tag formats
+function processParagraphWithBr(pElement) {
   const content = pElement.innerHTML;
-  const parts = content.split(/<br\s*\/?>/gi);
   
-  // Remove the original paragraph
-  const nextSibling = pElement.nextSibling;
-  parent.removeChild(pElement);
-  
-  // Create new paragraphs for each part
-  parts.forEach((part, index) => {
-    const trimmedPart = part.trim();
-    if (trimmedPart) {
-      const newP = document.createElement('p');
-      newP.innerHTML = trimmedPart;
-      newP.className = originalClasses; // Preserve original classes
-      
-      // Insert before the next sibling or append if it's the last
-      if (nextSibling) {
-        parent.insertBefore(newP, nextSibling);
-      } else {
-        parent.appendChild(newP);
+  // Check if the paragraph contains <br/> tags
+  if (content.includes('<br') || content.includes('<BR')) {
+    // Split by <br/> tags and create separate paragraphs
+    const parts = content.split(/<br\s*\/?>/gi);
+    const paragraphs = [];
+    
+    parts.forEach(part => {
+      const trimmedPart = part.trim();
+      if (trimmedPart) {
+        const newP = document.createElement('p');
+        newP.innerHTML = trimmedPart;
+        // Preserve original classes
+        newP.className = pElement.className;
+        paragraphs.push(newP);
       }
-    }
-  });
+    });
+    
+    return paragraphs;
+  } else {
+    // Return the original paragraph if no <br/> tags
+    return [pElement];
+  }
 }
 
 /**
