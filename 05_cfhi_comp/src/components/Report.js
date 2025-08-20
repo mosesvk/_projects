@@ -137,7 +137,6 @@ const displayReportComponent = () => {
   closeSidebarAfterSelectingOption("report");
 };
 
-
 const insertDataToReport = (data, selectedYears, arrayOfNames) => {
   if (data && selectedYears) {
     addTotalDataToEveryRow(data, selectedYears, arrayOfNames);
