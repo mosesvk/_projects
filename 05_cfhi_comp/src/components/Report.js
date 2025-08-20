@@ -607,9 +607,9 @@ function processBenchmarkParagraphs() {
 }
 
 /**
- * Add 'mb-2' class to all <p> tags in HTML content
+ * Add 'mb-2' class to all <p> tags in HTML content and handle <br/> tags
  * @param {string} htmlContent - The HTML content string
- * @returns {string} - HTML content with mb-2 class added to p tags
+ * @returns {string} - HTML content with mb-2 class added to p tags and br tags converted to separate p tags
  */
 function addMb2ClassToPTags(htmlContent) {
   if (typeof htmlContent !== 'string') {
@@ -620,26 +620,104 @@ function addMb2ClassToPTags(htmlContent) {
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = htmlContent;
 
-  // Find all p tags and add mb-2 class
+  // First, handle <br/> tags by converting them to separate paragraphs
+  processBrTags(tempDiv);
+
+  // Find all p tags and add appropriate classes
   const pTags = tempDiv.querySelectorAll('p');
   pTags.forEach(p => {
-    // Check if the p tag already has classes
-    const existingClasses = p.className.trim();
-    if (existingClasses) {
-      // Add mb-2 if it's not already there
-      if (!existingClasses.includes('mb-2')) {
-        p.className = `mb-2 ${existingClasses}`;
-      }
-    } else {
-      // Add mb-2 as the only class
-      p.className = 'mb-2';
-    }
-    
-    // Also add dark mode text classes for consistency
-    if (!p.className.includes('text-gray-500') && !p.className.includes('dark:text-gray-400')) {
-      p.className += ' text-gray-500 dark:text-gray-400';
-    }
+    // Apply consistent styling to all p tags
+    applyParagraphStyling(p);
   });
 
   return tempDiv.innerHTML;
+}
+
+/**
+ * Process <br/> tags by splitting content into separate <p> tags
+ * @param {HTMLElement} container - The container element
+ */
+function processBrTags(container) {
+  const pTags = container.querySelectorAll('p');
+  
+  pTags.forEach(p => {
+    // Check if this p tag contains <br/> tags
+    if (p.innerHTML.includes('<br') || p.innerHTML.includes('<BR')) {
+      // Split the content by <br/> tags and create separate paragraphs
+      splitParagraphAtBrTags(p);
+    }
+  });
+}
+
+/**
+ * Split a paragraph at <br/> tags and create separate <p> elements
+ * @param {HTMLElement} pElement - The paragraph element to split
+ */
+function splitParagraphAtBrTags(pElement) {
+  const parent = pElement.parentNode;
+  const originalClasses = pElement.className;
+  
+  // Get the innerHTML and split by various br tag formats
+  const content = pElement.innerHTML;
+  const parts = content.split(/<br\s*\/?>/gi);
+  
+  // Remove the original paragraph
+  const nextSibling = pElement.nextSibling;
+  parent.removeChild(pElement);
+  
+  // Create new paragraphs for each part
+  parts.forEach((part, index) => {
+    const trimmedPart = part.trim();
+    if (trimmedPart) {
+      const newP = document.createElement('p');
+      newP.innerHTML = trimmedPart;
+      newP.className = originalClasses; // Preserve original classes
+      
+      // Insert before the next sibling or append if it's the last
+      if (nextSibling) {
+        parent.insertBefore(newP, nextSibling);
+      } else {
+        parent.appendChild(newP);
+      }
+    }
+  });
+}
+
+/**
+ * Apply consistent styling to paragraph elements
+ * @param {HTMLElement} pElement - The paragraph element to style
+ */
+function applyParagraphStyling(pElement) {
+  const standardClasses = 'mb-2 text-gray-500 dark:text-gray-400';
+  
+  // Check if the p tag already has classes
+  const existingClasses = pElement.className.trim();
+  
+  if (existingClasses) {
+    // Parse existing classes
+    const classArray = existingClasses.split(/\s+/);
+    const newClasses = [];
+    
+    // Add mb-2 if not present
+    if (!classArray.includes('mb-2')) {
+      newClasses.push('mb-2');
+    }
+    
+    // Add text color classes if not present
+    if (!classArray.some(cls => cls.includes('text-gray-500'))) {
+      newClasses.push('text-gray-500');
+    }
+    
+    if (!classArray.some(cls => cls.includes('dark:text-gray-400'))) {
+      newClasses.push('dark:text-gray-400');
+    }
+    
+    // Combine existing and new classes
+    if (newClasses.length > 0) {
+      pElement.className = `${newClasses.join(' ')} ${existingClasses}`;
+    }
+  } else {
+    // Add standard classes if no existing classes
+    pElement.className = standardClasses;
+  }
 }
