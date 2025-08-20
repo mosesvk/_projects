@@ -132,6 +132,7 @@ const displayReportComponent = () => {
     ]);
 
     processTHElements()
+    processBenchmarkParagraphs()
   }
 
   closeSidebarAfterSelectingOption("report");
@@ -518,4 +519,127 @@ function processTHElements() {
       }
     });
   });
+}
+
+function processBenchmarkParagraphs() {
+  // Get data from localStorage
+  const demoData = JSON.parse(localStorage.getItem("demoData"));
+  const cashData = JSON.parse(localStorage.getItem("cashData"));
+  const debtData = JSON.parse(localStorage.getItem("debtData"));
+  const incomeData = JSON.parse(localStorage.getItem("incomeData"));
+  const expenseData = JSON.parse(localStorage.getItem("expenseData"));
+
+  // Array of field mappings: [fieldName, dataSource, modalBodySelector]
+  const benchmarkFields = [
+    // Demo data
+    ["attendeesToStaff", demoData, "#attendeesToStaff-body-3 div"],
+    
+    // Cash data
+    ["daysExpendableNetAssets", cashData, "#daysExpendableNetAssets-body-3 div"],
+    ["daysOperatingCash", cashData, "#daysOperatingCash-body-3 div"],
+    ["availableDaysOfCashFlow", cashData, "#availableDaysOfCashFlow-body-3 div"],
+    ["liquidityRatio", cashData, "#liquidityRatio-body-3 div"],
+    ["netCashAvailability", cashData, "#netCashAvailability-body-3 div"],
+    
+    // Debt data
+    ["debtToContributionsWithout", debtData, "#debtToContributionsWithout-body-3 div"],
+    ["currentRatio", debtData, "#currentRatio-body-3 div"],
+    ["mandatoryDebtServiceToContributionsWithout", debtData, "#mandatoryDebtServiceToContributionsWithout-body-3 div"],
+    ["debtPerGivingUnit", debtData, "#debtPerGivingUnit-body-3 div"],
+    ["debtCoverage", debtData, "#debtCoverage-body-3 div"],
+    
+    // Income data
+    ["netIncomeRatio", incomeData, "#netIncomeRatio-body-3 div"],
+    
+    // Expense data
+    ["personnelToCashExpenditure", expenseData, "#personnelToCashExpenditure-body-3 div"]
+  ];
+
+  // Get the selected years to access the benchmark data
+  const selectedYears = getSelectedYearsFromLocalStorage();
+  
+  if (!selectedYears || selectedYears.length === 0) {
+    return;
+  }
+
+  // Use the first available year to get benchmark paragraph data
+  const targetYear = selectedYears[0];
+
+  benchmarkFields.forEach(([fieldName, dataSource, selector]) => {
+    try {
+      const targetElement = document.querySelector(selector);
+      
+      if (!targetElement) {
+        console.warn(`Element not found for selector: ${selector}`);
+        return;
+      }
+
+      if (!dataSource) {
+        console.warn(`Data source not available for field: ${fieldName}`);
+        return;
+      }
+
+      const benchmarkKey = `${fieldName}_benchmarkParagraph`;
+      const benchmarkData = dataSource[benchmarkKey];
+
+      if (!benchmarkData || !benchmarkData[targetYear]) {
+        console.warn(`Benchmark data not found for field: ${fieldName}, year: ${targetYear}`);
+        return;
+      }
+
+      let benchmarkContent = benchmarkData[targetYear].value;
+
+      if (!benchmarkContent || benchmarkContent === '0') {
+        console.warn(`No benchmark content for field: ${fieldName}`);
+        return;
+      }
+
+      // Process the HTML content to add mb-2 class to p tags
+      benchmarkContent = addMb2ClassToPTags(benchmarkContent);
+
+      // Set the innerHTML of the target element
+      targetElement.innerHTML = benchmarkContent;
+
+    } catch (error) {
+      console.error(`Error processing benchmark paragraph for ${fieldName}:`, error);
+    }
+  });
+}
+
+/**
+ * Add 'mb-2' class to all <p> tags in HTML content
+ * @param {string} htmlContent - The HTML content string
+ * @returns {string} - HTML content with mb-2 class added to p tags
+ */
+function addMb2ClassToPTags(htmlContent) {
+  if (typeof htmlContent !== 'string') {
+    return htmlContent;
+  }
+
+  // Create a temporary div to parse the HTML
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = htmlContent;
+
+  // Find all p tags and add mb-2 class
+  const pTags = tempDiv.querySelectorAll('p');
+  pTags.forEach(p => {
+    // Check if the p tag already has classes
+    const existingClasses = p.className.trim();
+    if (existingClasses) {
+      // Add mb-2 if it's not already there
+      if (!existingClasses.includes('mb-2')) {
+        p.className = `mb-2 ${existingClasses}`;
+      }
+    } else {
+      // Add mb-2 as the only class
+      p.className = 'mb-2';
+    }
+    
+    // Also add dark mode text classes for consistency
+    if (!p.className.includes('text-gray-500') && !p.className.includes('dark:text-gray-400')) {
+      p.className += ' text-gray-500 dark:text-gray-400';
+    }
+  });
+
+  return tempDiv.innerHTML;
 }
