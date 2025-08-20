@@ -550,9 +550,15 @@ function processBenchmarkParagraphs() {
     
     // Income data
     ["netIncomeRatio", incomeData, "#netIncomeRatio-body-3 div"],
+    ["totalContributionsPerGivingUnit", incomeData, "#totalContributionsPerGivingUnit-body-3 div"],
+    ["contributionsWithoutDonorPerGivingUnit", incomeData, "#contributionsWithoutDonorPerGivingUnit-body-3 div"],
     
     // Expense data
-    ["personnelToCashExpenditure", expenseData, "#personnelToCashExpenditure-body-3 div"]
+    ["personnelToCashExpenditure", expenseData, "#personnelToCashExpenditure-body-3 div"],
+    ["benefitsToSalaries", expenseData, "#benefitsToSalaries-body-3 div"],
+    ["salariesBenefitsIncludingOutsourcedEmployees", expenseData, "#salariesBenefitsIncludingOutsourcedEmployees-body-3 div"],
+    ["cashExpendituresPerGivingUnit", expenseData, "#cashExpendituresPerGivingUnit-body-3 div"],
+    
   ];
 
   // Get the selected years to access the benchmark data
