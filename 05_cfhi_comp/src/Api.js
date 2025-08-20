@@ -3795,7 +3795,7 @@ class DataProcessor {
     });
   }
 
-    processAdditionalData(years, recordsPeer, recordsClient) {
+  processAdditionalData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
       const filteredClientRecords = this.filterRecordsByYear(
@@ -4700,7 +4700,7 @@ class ApiService {
   }
 }
  
-// Application Controller Class - Added from apiTest.js
+// Application Controller Class \
 class AppController {
   constructor() {
     this.dataStore = new DataStore();
