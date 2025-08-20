@@ -3993,7 +3993,7 @@ class DataProcessor {
   }
 }
 
-// API Service Class - Added from apiTest.js
+// API Service Class 
 class ApiService {
   constructor() {
     this.baseUrl = "https://qbcapitalmanagement.quickbase.com";
@@ -4700,7 +4700,7 @@ class ApiService {
   }
 }
  
-// Application Controller Class \
+// Application Controller Class 
 class AppController {
   constructor() {
     this.dataStore = new DataStore();
