@@ -551,6 +551,26 @@ class DataStore {
     }
   }
 
+  /**
+   * Decode HTML entities in text content
+   * @param {string} htmlString - String containing HTML entities
+   * @returns {string} - Decoded HTML string
+   */
+  decodeHtmlEntities(htmlString) {
+    if (typeof htmlString !== 'string') {
+      return htmlString;
+    }
+    
+    // Common HTML entity replacements for XML data
+    return htmlString
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&nbsp;/g, ' ');
+  }
+
   // Insert data into the appropriate data structure
   insertData(
     category,
@@ -565,12 +585,17 @@ class DataStore {
     const targetData = this.getDataCategory(category);
 
     // Get the value from the record or default to 0
-    const innerData =
+    let innerData =
       !child || child == 0
         ? 0
         : record.querySelector(child)?.innerHTML.trim().length > 0
         ? record.querySelector(child).innerHTML.trim()
         : 0;
+
+    // Decode HTML entities if the value is a string (typically for benchmark paragraphs)
+    if (typeof innerData === 'string' && innerData !== '0') {
+      innerData = this.decodeHtmlEntities(innerData);
+    }
 
     if (type === "client") {
       this.insertClientData(
