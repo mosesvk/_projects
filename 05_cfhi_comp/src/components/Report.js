@@ -414,7 +414,7 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
     // Create a new <th> element for each selected year
     const newTh = document.createElement("th");
     newTh.setAttribute("scope", "col");
-    newTh.setAttribute("class", "px-6 py-3");
+    newTh.setAttribute("class", "px-6 py-3 text-lg");
     newTh.innerText = year;
 
     // Insert the new <th> element before the "avg" <th>
