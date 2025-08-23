@@ -571,6 +571,9 @@ const addPeerDataToReportRow = (
       avg = 0;
     }
 
+    if (name == "primaryReserveRatio_peerAverage_Peer")
+      console.log({  year, wa, data, avg });
+
     const dataPoint = document.createElement("th");
     const text = peer ? styleNumber(avg, type, fixedNum) : "";
 
@@ -599,8 +602,7 @@ const addPeerDataToReportRow = (
     tableRow.appendChild(dataPoint);
   });
 
-  if (name == "primaryReserveRatio_peerAverage_Peer")
-    console.log({  wa, data, avg,  });
+
 };
 
 const insertCalculatedDataToReport = (data, selectedYears, arrayOfNames) => {
