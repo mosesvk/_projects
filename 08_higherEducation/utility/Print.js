@@ -1331,6 +1331,8 @@ function buildUploadXml(results) {
   uploadXml += createFieldXml(89, sliderValue);
   // console.log("Field 90 (sliderValue2):", sliderValue2);
   uploadXml += createFieldXml(90, sliderValue2);
+  // console.log("Field 95 (mostRecentYearSourceRecordId):", mostRecentYearSourceRecordId);
+  uploadXml += createFieldXml(9, mostRecentYearSourceRecordId);
 
   // Optimize array joins by checking if arrays exist first
   // console.log(

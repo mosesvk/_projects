@@ -541,7 +541,7 @@ const addPeerDataToReportRow = (
   selectedYears
 ) => {
   // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, name, data, fIdArray, begin, end, selectedYears })
-  // if (name == "cfiRatio_peerAverage_Peer")
+  // if (name == "primaryReserveRatio_peerAverage_Peer")
   //   console.log({
   //     tableRow,
   //     peer,
@@ -599,7 +599,8 @@ const addPeerDataToReportRow = (
     tableRow.appendChild(dataPoint);
   });
 
-  // console.log({ tableRow, fixedNum, avg, mid, min, textMin, max, textMax });
+  if (name == "primaryReserveRatio_peerAverage_Peer")
+    console.log({  wa, data, avg,  });
 };
 
 const insertCalculatedDataToReport = (data, selectedYears, arrayOfNames) => {
