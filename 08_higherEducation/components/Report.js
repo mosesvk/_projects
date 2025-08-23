@@ -563,16 +563,18 @@ const addPeerDataToReportRow = (
 
   selectedYears.forEach((year) => {
     let avg;
+    let test
     if (peer && wa) {
       avg = parseFloat(getWeightedAverageOfArray(data, name));
     } else if (peer && !wa) {
       avg = peer[year] ? parseFloat(getAverageOfArray(peer[year])) : 0;
+      test = peer[year] ? getAverageOfArray(peer[year]) : 0;
     } else {
       avg = 0;
     }
 
     if (name == "primaryReserveRatio_peerAverage_Peer")
-      console.log({  year, wa, data, avg });
+      console.log({  year, wa, data, avg, test, peer });
 
     const dataPoint = document.createElement("th");
     const text = peer ? styleNumber(avg, type, fixedNum) : "";
