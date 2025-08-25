@@ -2176,23 +2176,146 @@ document
       cfi_viabilityRatio_chart,
     ];
 
-    const annotations = [
-      cfiRatio_annotation,
-      cfi_primaryReserveRatio_annotation,
-      cfi_netIncomeOperationsRatio_annotation,
-      cfi_returnOnNetAssets_annotation,
-      cfi_viabilityRatio_annotation,
+    const chartIds = [
+      "cfiRatio_chart",
+      "cfi_primaryReserveRatio_chart", 
+      "cfi_netIncomeOperationsRatio_chart",
+      "cfi_returnOnNetAssets_chart",
+      "cfi_viabilityRatio_chart",
     ];
 
     charts.forEach((chart, idx) => {
       if (event.target.checked) {
-        chart.addYaxisAnnotation(annotations[idx]);
+        // Use the same robust regeneration approach as select-all
+        const benchmark = getBenchmarkValueForChart(chartIds[idx]);
+        const annotation = regenerateAnnotationForChart(chartIds[idx], benchmark);
+        console.log(`Individual toggle: Adding benchmark annotation for ${chartIds[idx]}:`, {
+          benchmark,
+          annotation,
+          chart: !!chart
+        });
+        
+        // For now, just try the single object approach since we know it should work
+        chart.addYaxisAnnotation(annotation[0]);
         chart.update();
       } else {
+        console.log(`Individual toggle: Removing benchmark annotation for ${chartIds[idx]}`);
         chart.removeAnnotation("annotation");
       }
     });
   });
+
+/**
+ * Function to regenerate annotation for a specific chart
+ * @param {string} chartId - The chart ID (e.g., "cfiRatio_chart") 
+ * @param {number} benchmark - The benchmark value for the annotation
+ * @returns {Object} The annotation object
+ */
+const regenerateAnnotationForChart = (chartId, benchmark) => {
+  console.log(`regenerateAnnotationForChart called:`, { chartId, benchmark });
+  const selectedYearsArray = getSelectedYearsFromLocalStorage();
+  const selectedYearsLength = selectedYearsArray.length;
+  console.log(`Selected years:`, { selectedYearsArray, selectedYearsLength });
+  
+  // Calculate dynamic offset based on number of years (same logic as in getMainChartOptions)
+  let dynamicOffsetX;
+  switch (selectedYearsLength) {
+    case 1:
+      dynamicOffsetX = 30;
+      break;
+    case 3:
+    case 2:
+      dynamicOffsetX = -120;
+      break;
+    case 5:
+    case 4:
+      dynamicOffsetX = -75;
+      break;
+    case 6:
+      dynamicOffsetX = -40;
+      break;
+    case 7:
+      dynamicOffsetX = -10;
+      break;
+    case 8:
+      dynamicOffsetX = 0;
+      break;
+    case 9:
+      dynamicOffsetX = 20;
+      break;
+    case 10:
+      dynamicOffsetX = 30;
+      break;
+    case 11:
+      dynamicOffsetX = 40;
+      break;
+    default:
+      dynamicOffsetX = 50;
+  }
+
+  // Get chart colors (same logic as in getMainChartOptions)
+  const chartColors = document.documentElement.classList.contains("dark")
+    ? {
+        borderColor: "#374151",
+        labelColor: "#ebedf0",
+        backgroundColor: "#000000",
+        opacityFrom: 0,
+        opacityTo: 0.15,
+      }
+    : {
+        borderColor: "#F3F4F6",
+        labelColor: "#000000",
+        backgroundColor: "#ffffff",
+        opacityFrom: 0.45,
+        opacityTo: 0,
+      };
+
+  // Determine position based on chart type
+  const position = chartId === "cfiRatio_chart" ? "left" : "top";
+
+  const annotation = [
+    {
+      id: "annotation",
+      y: benchmark,
+      borderColor: chartColors.labelColor,
+      strokeDashArray: 0,
+      label: {
+        text: "Benchmark",
+        borderColor: "transparent",
+        borderWidth: 0,
+        offsetX: dynamicOffsetX,
+        position: position,
+        style: {
+          background: "transparent",
+          color: chartColors.labelColor,
+          fontSize: "18px",
+          fontWeight: 600,
+        },
+      },
+    },
+  ];
+  
+  console.log(`Generated annotation for ${chartId}:`, annotation);
+  return annotation;
+};
+
+/**
+ * Function to get the benchmark value for a specific chart
+ * @param {string} chartId - The chart ID
+ * @returns {number} The benchmark value
+ */
+const getBenchmarkValueForChart = (chartId) => {
+  // These benchmark values match what's used in DisplayCharts.js
+  const benchmarkMap = {
+    "cfiRatio_chart": 3, // CFI Overall Ratio benchmark
+    "cfi_primaryReserveRatio_chart": 0.4, // Primary Reserve Ratio benchmark  
+    "cfi_netIncomeOperationsRatio_chart": 0, // Net Income Operations Ratio benchmark
+    "cfi_returnOnNetAssets_chart": 6, // Return on Net Assets benchmark
+    "cfi_viabilityRatio_chart": 1.25, // Viability Ratio benchmark
+  };
+  
+  return benchmarkMap[chartId] || 0;
+};
 
 document
   .getElementById("select-all-checkbox-trendline")
@@ -2221,19 +2344,61 @@ document
         cfi_viabilityRatio_chart,
       ];
 
+      const chartIds = [
+        "cfiRatio_chart",
+        "cfi_primaryReserveRatio_chart", 
+        "cfi_netIncomeOperationsRatio_chart",
+        "cfi_returnOnNetAssets_chart",
+        "cfi_viabilityRatio_chart",
+      ];
+
       charts.forEach((chart, idx) => {
+        console.log(`Processing chart ${chartIds[idx]}: chart exists = ${!!chart}, chart type = ${typeof chart}`);
         if (id === "benchmark") {
           if (checked) {
-            const annotations = [
-              cfiRatio_annotation,
-              cfi_primaryReserveRatio_annotation,
-              cfi_netIncomeOperationsRatio_annotation,
-              cfi_returnOnNetAssets_annotation,
-              cfi_viabilityRatio_annotation,
-            ];
-            chart.addYaxisAnnotation(annotations[idx]);
+            // Regenerate annotation instead of using potentially stale global variables
+            const benchmark = getBenchmarkValueForChart(chartIds[idx]);
+            const annotation = regenerateAnnotationForChart(chartIds[idx], benchmark);
+            console.log(`Adding benchmark annotation for ${chartIds[idx]}:`, {
+              benchmark,
+              annotation,
+              chart: !!chart
+            });
+            
+            // Try different approaches to see which works
+            try {
+              // Try with single annotation object
+              chart.addYaxisAnnotation(annotation[0]);
+              console.log(`Method 1 (single object) succeeded for ${chartIds[idx]}`);
+            } catch (error) {
+              console.log(`Method 1 failed for ${chartIds[idx]}:`, error);
+              try {
+                // Try with array of annotations
+                chart.addYaxisAnnotation(annotation);
+                console.log(`Method 2 (array) succeeded for ${chartIds[idx]}`);
+              } catch (error2) {
+                console.log(`Method 2 also failed for ${chartIds[idx]}:`, error2);
+                
+                // Try global variable approach (original)
+                const originalAnnotations = [
+                  cfiRatio_annotation,
+                  cfi_primaryReserveRatio_annotation,
+                  cfi_netIncomeOperationsRatio_annotation,
+                  cfi_returnOnNetAssets_annotation,
+                  cfi_viabilityRatio_annotation,
+                ];
+                console.log(`Global annotation for ${chartIds[idx]}:`, originalAnnotations[idx]);
+                if (originalAnnotations[idx]) {
+                  chart.addYaxisAnnotation(originalAnnotations[idx]);
+                  console.log(`Method 3 (original globals) succeeded for ${chartIds[idx]}`);
+                } else {
+                  console.log(`Method 3 failed: No global annotation for ${chartIds[idx]}`);
+                }
+              }
+            }
             chart.update();
           } else {
+            console.log(`Removing benchmark annotation for ${chartIds[idx]}`);
             chart.removeAnnotation("annotation");
           }
         } else {
@@ -2246,3 +2411,5 @@ document
       });
     });
   });
+
+  
