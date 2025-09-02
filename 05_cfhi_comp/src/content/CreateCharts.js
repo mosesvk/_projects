@@ -716,36 +716,49 @@ const getMainChartOptions = (
           show: true,
           color: chartColor,
         },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColors.labelColor,
-            fontSize: "1.25rem",
-          },
-          align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
-          // Force all labels to show for small value charts
-          ...(dataMax <= 10 && {
-            show: true,
-            hideOverlappingLabels: false,
-          }),
-        },
+        // Labels configuration is now handled in the conditional blocks below
         tooltip: {
           enabled: true,
         },
         ...(yaxisMin !== undefined && { min: yaxisMin }), // Only set min if all data is positive
         max: yaxisMax,
         // Configure y-axis based on data range
-        ...(dataMax <= 10 ? {
-          // For small values (≤10), use precise tick control
+        ...(yaxisMax === 2 || yaxisMax === 2.5 ? {
+          // Special handling for 2 and 2.5 max values
+          forceNiceScale: false,
+          tickAmount: 4, // This should create 5 ticks: 0, 0.5, 1, 1.5, 2 (and 2.5 if max is 2.5)
+          floating: false,
+          decimalsInFloat: 1,
+          labels: {
+            ...((dataMax <= 10) && {
+              show: true,
+              hideOverlappingLabels: false,
+            }),
+            formatter: (value) => {
+              // Custom formatter specifically for 2/2.5 range charts
+              const roundedValue = Math.round(value * 2) / 2; // Round to nearest 0.5
+              
+              if (numType === "dollar") {
+                return `$${roundedValue}`;
+              } else if (numType === "percent") {
+                return `${roundedValue}%`;
+              } else {
+                return roundedValue;
+              }
+            },
+            style: {
+              colors: chartColors.labelColor,
+              fontSize: "1.25rem",
+            },
+            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
+          },
+        } : dataMax <= 10 ? {
+          // For other small values (≤10), use standard approach
           forceNiceScale: false,
           tickAmount: (() => {
             const range = yaxisMax - (yaxisMin || 0);
             
-            if (yaxisMax === 2.5) {
-              return 5; // 6 tick positions: 0, 0.5, 1, 1.5, 2, 2.5
-            } else if (yaxisMax === 2) {
-              return 4; // 5 tick positions: 0, 0.5, 1, 1.5, 2
-            } else if (range >= 5) {
+            if (range >= 5) {
               return 5; // 5 ticks for ranges 5-10
             } else if (range >= 2) {
               return 4; // 4 ticks for ranges 2-5
@@ -755,9 +768,27 @@ const getMainChartOptions = (
               return 5; // 5 ticks for decimal ranges
             }
           })(),
+          labels: {
+            formatter: yaxisLabelFormatter,
+            style: {
+              colors: chartColors.labelColor,
+              fontSize: "1.25rem",
+            },
+            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
+            show: true,
+            hideOverlappingLabels: false,
+          },
         } : {
           // For larger values (>10), use default ApexCharts behavior
           forceNiceScale: true,
+          labels: {
+            formatter: yaxisLabelFormatter,
+            style: {
+              colors: chartColors.labelColor,
+              fontSize: "1.25rem",
+            },
+            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
+          },
         }),
       },
     ],
