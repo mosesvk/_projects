@@ -329,49 +329,69 @@ const getMainChartOptions = (
   // Calculate y-axis minimum - only set to 0 if all data is positive
   const yaxisMin = dataMin >= 0 ? 0 : undefined;
   
-  // Smart y-axis maximum calculation that ensures proper tick alignment
-  let yaxisMax;
-  
-  if (dataMax >= 10) {
-    // For large values, round up to nearest 10
-    yaxisMax = Math.ceil(dataMax / 10) * 10;
-  } else if (dataMax >= 5) {
-    // For values 5-10, round up to nearest 5
-    yaxisMax = Math.ceil(dataMax / 5) * 5;
-  } else if (dataMax >= 2) {
-    // For values 2-5, round up to nearest 1
-    yaxisMax = Math.ceil(dataMax);
-  } else if (dataMax >= 1) {
-    // For values 1-2, round up to nearest 0.5
-    yaxisMax = Math.ceil(dataMax * 2) / 2;
-  } else if (dataMax >= 0.5) {
-    // For values 0.5-1, round up to nearest 0.2
-    yaxisMax = Math.ceil(dataMax * 5) / 5;
-  } else if (dataMax >= 0.1) {
-    // For values 0.1-0.5, round up to nearest 0.1
-    yaxisMax = Math.ceil(dataMax * 10) / 10;
+  // Calculate appropriate padding based on data range
+  let padding;
+  if (dataRange <= 0.1) {
+    padding = 0.02; // Small padding for very small ranges
+  } else if (dataRange <= 0.5) {
+    padding = 0.1; // Medium padding for small ranges
+  } else if (dataRange <= 2) {
+    padding = 0.2; // Medium padding for medium ranges
+  } else if (dataRange <= 10) {
+    padding = 1; // Larger padding for larger ranges
   } else {
-    // For very small values, round up to nearest 0.05
-    yaxisMax = Math.ceil(dataMax * 20) / 20;
+    padding = Math.ceil(dataRange * 0.1); // 10% padding for large ranges
   }
   
-  // Ensure there's always some headroom above the highest value
-  if (yaxisMax === dataMax) {
-    if (dataMax >= 10) {
-      yaxisMax += 10;
-    } else if (dataMax >= 5) {
-      yaxisMax += 5;
+  // Ensure minimum padding for very small values
+  if (dataMax < 1 && padding < 0.05) {
+    padding = 0.05;
+  }
+  
+  // Smart y-axis maximum calculation - only use special logic for small values
+  let yaxisMax;
+  
+  if (dataMax <= 10) {
+    // Apply special scaling logic only for small values (≤10)
+    if (dataMax >= 5) {
+      // For values 5-10, round up to nearest 5
+      yaxisMax = Math.ceil(dataMax / 5) * 5;
     } else if (dataMax >= 2) {
-      yaxisMax += 1;
+      // For values 2-5, round up to nearest 1
+      yaxisMax = Math.ceil(dataMax);
     } else if (dataMax >= 1) {
-      yaxisMax += 0.5;
+      // For values 1-2, round up to nearest 0.5
+      yaxisMax = Math.ceil(dataMax * 2) / 2;
     } else if (dataMax >= 0.5) {
-      yaxisMax += 0.2;
+      // For values 0.5-1, round up to nearest 0.2
+      yaxisMax = Math.ceil(dataMax * 5) / 5;
     } else if (dataMax >= 0.1) {
-      yaxisMax += 0.1;
+      // For values 0.1-0.5, round up to nearest 0.1
+      yaxisMax = Math.ceil(dataMax * 10) / 10;
     } else {
-      yaxisMax += 0.05;
+      // For very small values, round up to nearest 0.05
+      yaxisMax = Math.ceil(dataMax * 20) / 20;
     }
+    
+    // Ensure there's always some headroom above the highest value for small ranges
+    if (yaxisMax === dataMax) {
+      if (dataMax >= 5) {
+        yaxisMax += 5;
+      } else if (dataMax >= 2) {
+        yaxisMax += 1;
+      } else if (dataMax >= 1) {
+        yaxisMax += 0.5;
+      } else if (dataMax >= 0.5) {
+        yaxisMax += 0.2;
+      } else if (dataMax >= 0.1) {
+        yaxisMax += 0.1;
+      } else {
+        yaxisMax += 0.05;
+      }
+    }
+  } else {
+    // For larger values (>10), use the original padding approach
+    yaxisMax = dataMax + padding;
   }
 
   // Set up annotations based on mainName and benchmark (only if benchmark is provided)
@@ -430,59 +450,82 @@ const getMainChartOptions = (
   }
 
   const yaxisLabelFormatter = (value) => {
-    // Round to avoid floating point precision issues
-    const roundedValue = Math.round(value * 1000) / 1000;
-    
-    // Skip zero values to avoid duplicate labels at origin
-    if (roundedValue === 0 && yaxisMin !== undefined && yaxisMin === 0) {
-      return '0';
-    }
-    
     let formattedValue;
     
     // Handle very large numbers (millions and billions)
-    if (roundedValue >= 100000000) {
+    if (value >= 100000000) {
       // Round to nearest 10M for values >= 100M
-      formattedValue = `${Math.round(roundedValue / 10000000) * 10}M`;
-    } else if (roundedValue >= 1000000) {
+      formattedValue = `${Math.round(value / 10000000) * 10}M`;
+    } else if (value >= 1000000) {
       // Round to nearest 5M for values between 1M and 100M
-      formattedValue = `${Math.round(roundedValue / 5000000) * 5}M`;
-    } else if (roundedValue >= 10000) {
+      formattedValue = `${Math.round(value / 5000000) * 5}M`;
+    } else if (value >= 10000) {
       // Round to nearest 10K for values >= 10K
-      formattedValue = `${Math.round(roundedValue / 10000) * 10}K`;
-    } else if (roundedValue >= 1000) {
+      formattedValue = `${Math.round(value / 10000) * 10}K`;
+    } else if (value >= 1000) {
       // Round to nearest 1K for values >= 1K
-      formattedValue = `${Math.round(roundedValue / 1000)}K`;
-    } else if (roundedValue >= 100) {
-      // For values 100-1000, show whole numbers
-      formattedValue = Math.round(roundedValue);
-    } else if (roundedValue >= 10) {
-      // For values 10-100, show whole numbers or 0.5 increments
-      if (roundedValue % 1 === 0) {
-        formattedValue = Math.round(roundedValue);
-      } else {
+      formattedValue = `${Math.round(value / 1000)}K`;
+    } else if (value >= 100) {
+      // Round to nearest 100 for values between 100 and 1000
+      // This handles cases like 510 -> 500, 410 -> 400, etc.
+      formattedValue = Math.round(value / 100) * 100;
+    } else if (value >= 10) {
+      // Round to nearest 10 for values between 10 and 100
+      formattedValue = Math.round(value / 10) * 10;
+    } else if (dataMax <= 10) {
+      // Special handling only for charts with small data ranges (≤10)
+      // Round to avoid floating point precision issues
+      const roundedValue = Math.round(value * 1000) / 1000;
+      
+      if (roundedValue >= 1) {
+        // For values 1-10, show 0.5 increments
         formattedValue = Math.round(roundedValue * 2) / 2;
+      } else if (roundedValue >= 0.1) {
+        // For values 0.1-1, show 0.1 increments
+        formattedValue = Math.round(roundedValue * 10) / 10;
+      } else if (roundedValue >= 0.01) {
+        // For values 0.01-0.1, show 0.01 increments
+        formattedValue = Math.round(roundedValue * 100) / 100;
+      } else if (roundedValue > 0) {
+        // For very small positive values, show 0.001 increments
+        formattedValue = Math.round(roundedValue * 1000) / 1000;
+      } else {
+        formattedValue = roundedValue;
       }
-    } else if (roundedValue >= 1) {
-      // For values 1-10, show 0.5 increments
-      formattedValue = Math.round(roundedValue * 2) / 2;
-    } else if (roundedValue >= 0.1) {
-      // For values 0.1-1, show 0.1 increments
-      formattedValue = Math.round(roundedValue * 10) / 10;
-    } else if (roundedValue >= 0.01) {
-      // For values 0.01-0.1, show 0.01 increments
-      formattedValue = Math.round(roundedValue * 100) / 100;
-    } else if (roundedValue > 0) {
-      // For very small positive values, show 0.001 increments
-      formattedValue = Math.round(roundedValue * 1000) / 1000;
     } else {
-      formattedValue = roundedValue;
+      // For larger charts, use standard rounding
+      if (value >= 1) {
+        // Round to nearest 1 for values between 1 and 10
+        formattedValue = Math.round(value);
+      } else if (value >= 0.1) {
+        // For values between 0.1 and 1, always use 0.05 increments to avoid repeating labels
+        // This ensures clean increments like 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, etc.
+        formattedValue = Math.round(value * 20) / 20;
+      } else if (value >= 0.01) {
+        // For values between 0.01 and 0.1, use 0.02 increments
+        formattedValue = Math.round(value * 50) / 50;
+      } else {
+        // For very small values, round to nearest 0.01
+        formattedValue = Math.round(value * 100) / 100;
+      }
     }
     
     // Apply prefix/suffix based on numType
     if (numType === "dollar") {
+      // For dollar values, ensure we get clean whole numbers when possible
+      if (formattedValue >= 1 && formattedValue < 100) {
+        formattedValue = Math.round(formattedValue);
+      }
       return `$${formattedValue}`;
     } else if (numType === "percent") {
+      // For percentage values, use consistent precision
+      if (value >= 1 && value < 100) {
+        // For percentages 1-100, use 0.5 increments
+        formattedValue = Math.round(value * 2) / 2;
+      } else if (value >= 0.1 && value < 1) {
+        // For small percentages, use 0.05 increments
+        formattedValue = Math.round(value * 20) / 20;
+      }
       return `${formattedValue}%`;
     } else {
       return formattedValue; // "num" or "number" - no prefix/suffix
@@ -669,28 +712,27 @@ const getMainChartOptions = (
         },
         ...(yaxisMin !== undefined && { min: yaxisMin }), // Only set min if all data is positive
         max: yaxisMax,
-        // Configure y-axis to ensure proper tick spacing and no duplicates
-        forceNiceScale: false, // Disable to have precise control over ticks
-        // Calculate appropriate tick amount based on y-axis range
-        tickAmount: (() => {
-          const range = yaxisMax - (yaxisMin || 0);
-          
-          if (range >= 50) {
-            return 10; // 10 ticks for large ranges
-          } else if (range >= 20) {
-            return 8; // 8 ticks for medium-large ranges
-          } else if (range >= 10) {
-            return 6; // 6 ticks for medium ranges
-          } else if (range >= 5) {
-            return 5; // 5 ticks for small-medium ranges
-          } else if (range >= 2) {
-            return 4; // 4 ticks for small ranges
-          } else if (range >= 1) {
-            return 4; // 4 ticks for very small ranges
-          } else {
-            return 5; // 5 ticks for decimal ranges
-          }
-        })(),
+        // Configure y-axis based on data range
+        ...(dataMax <= 10 ? {
+          // For small values (≤10), use precise tick control
+          forceNiceScale: false,
+          tickAmount: (() => {
+            const range = yaxisMax - (yaxisMin || 0);
+            
+            if (range >= 5) {
+              return 5; // 5 ticks for ranges 5-10
+            } else if (range >= 2) {
+              return 4; // 4 ticks for ranges 2-5
+            } else if (range >= 1) {
+              return 4; // 4 ticks for ranges 1-2
+            } else {
+              return 5; // 5 ticks for decimal ranges
+            }
+          })(),
+        } : {
+          // For larger values (>10), use default ApexCharts behavior
+          forceNiceScale: true,
+        }),
       },
     ],
     annotations: {
