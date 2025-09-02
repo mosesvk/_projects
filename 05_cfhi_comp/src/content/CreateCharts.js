@@ -356,11 +356,20 @@ const getMainChartOptions = (
     if (dataMax >= 5) {
       // For values 5-10, round up to nearest 5
       yaxisMax = Math.ceil(dataMax / 5) * 5;
-    } else if (dataMax >= 2) {
-      // For values 2-5, round up to nearest 1
+    } else if (dataMax >= 2.5) {
+      // For values 2.5-5, round up to nearest 1
       yaxisMax = Math.ceil(dataMax);
+    } else if (dataMax > 2) {
+      // For values just above 2, set to 2.5
+      yaxisMax = 2.5;
+    } else if (dataMax === 2) {
+      // For exactly 2, keep at 2
+      yaxisMax = 2;
+    } else if (dataMax >= 1.5) {
+      // For values 1.5-2, round up to nearest 0.5
+      yaxisMax = Math.ceil(dataMax * 2) / 2;
     } else if (dataMax >= 1) {
-      // For values 1-2, round up to nearest 0.5
+      // For values 1-1.5, round up to nearest 0.5
       yaxisMax = Math.ceil(dataMax * 2) / 2;
     } else if (dataMax >= 0.5) {
       // For values 0.5-1, round up to nearest 0.2
@@ -373,12 +382,12 @@ const getMainChartOptions = (
       yaxisMax = Math.ceil(dataMax * 20) / 20;
     }
     
-    // Ensure there's always some headroom above the highest value for small ranges
-    if (yaxisMax === dataMax) {
+    // Only add headroom if we're at exactly the data max (no rounding occurred)
+    if (yaxisMax === dataMax && dataMax !== 2) {
       if (dataMax >= 5) {
         yaxisMax += 5;
       } else if (dataMax >= 2) {
-        yaxisMax += 1;
+        yaxisMax += 0.5; // Smaller increment for values around 2
       } else if (dataMax >= 1) {
         yaxisMax += 0.5;
       } else if (dataMax >= 0.5) {
@@ -477,7 +486,10 @@ const getMainChartOptions = (
       // Round to avoid floating point precision issues
       const roundedValue = Math.round(value * 1000) / 1000;
       
-      if (roundedValue >= 1) {
+      if (yaxisMax === 2.5 || yaxisMax === 2) {
+        // For charts with max of 2 or 2.5, use 0.5 increments
+        formattedValue = Math.round(roundedValue * 2) / 2;
+      } else if (roundedValue >= 1) {
         // For values 1-10, show 0.5 increments
         formattedValue = Math.round(roundedValue * 2) / 2;
       } else if (roundedValue >= 0.1) {
@@ -719,7 +731,11 @@ const getMainChartOptions = (
           tickAmount: (() => {
             const range = yaxisMax - (yaxisMin || 0);
             
-            if (range >= 5) {
+            if (yaxisMax === 2.5) {
+              return 5; // 5 ticks: 0, 0.5, 1, 1.5, 2, 2.5
+            } else if (yaxisMax === 2) {
+              return 4; // 4 ticks: 0, 0.5, 1, 1.5, 2
+            } else if (range >= 5) {
               return 5; // 5 ticks for ranges 5-10
             } else if (range >= 2) {
               return 4; // 4 ticks for ranges 2-5
