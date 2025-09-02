@@ -488,7 +488,12 @@ const getMainChartOptions = (
       
       if (yaxisMax === 2.5 || yaxisMax === 2) {
         // For charts with max of 2 or 2.5, use 0.5 increments
-        formattedValue = Math.round(roundedValue * 2) / 2;
+        // Ensure we handle 0.5 values correctly
+        if (Math.abs(roundedValue - 0.5) < 0.01) {
+          formattedValue = 0.5;
+        } else {
+          formattedValue = Math.round(roundedValue * 2) / 2;
+        }
       } else if (roundedValue >= 1) {
         // For values 1-10, show 0.5 increments
         formattedValue = Math.round(roundedValue * 2) / 2;
@@ -718,6 +723,11 @@ const getMainChartOptions = (
             fontSize: "1.25rem",
           },
           align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
+          // Force all labels to show for small value charts
+          ...(dataMax <= 10 && {
+            show: true,
+            hideOverlappingLabels: false,
+          }),
         },
         tooltip: {
           enabled: true,
@@ -732,9 +742,9 @@ const getMainChartOptions = (
             const range = yaxisMax - (yaxisMin || 0);
             
             if (yaxisMax === 2.5) {
-              return 5; // 5 ticks: 0, 0.5, 1, 1.5, 2, 2.5
+              return 5; // 6 tick positions: 0, 0.5, 1, 1.5, 2, 2.5
             } else if (yaxisMax === 2) {
-              return 4; // 4 ticks: 0, 0.5, 1, 1.5, 2
+              return 4; // 5 tick positions: 0, 0.5, 1, 1.5, 2
             } else if (range >= 5) {
               return 5; // 5 ticks for ranges 5-10
             } else if (range >= 2) {
