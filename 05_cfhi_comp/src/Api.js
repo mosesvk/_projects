@@ -14,9 +14,9 @@ class DataStore {
     try {
       // Check storage quota first
       const quotaInfo = this.checkStorageQuota();
-      console.log(
-        `Storage quota: ${quotaInfo.usedMB}MB used (${quotaInfo.percentage}%)`
-      );
+      // console.log(
+      //   `Storage quota: ${quotaInfo.usedMB}MB used (${quotaInfo.percentage}%)`
+      // );
 
       // Estimate new data size
       const sizeInfo = this.estimateDataSize();
@@ -314,7 +314,7 @@ class DataStore {
       const usageMB = (totalSize / 1024 / 1024).toFixed(2);
       const maxQuota = 5; // Conservative estimate of localStorage limit
 
-      console.log(`localStorage usage: ${usageMB}MB / ~${maxQuota}MB`);
+      // console.log(`localStorage usage: ${usageMB}MB / ~${maxQuota}MB`);
 
       if (totalSize > 4 * 1024 * 1024) {
         // 4MB warning threshold
