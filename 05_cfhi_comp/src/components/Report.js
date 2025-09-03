@@ -576,7 +576,7 @@ function processBenchmarkParagraphs() {
       const targetElement = document.querySelector(selector);
       
       if (!targetElement) {
-        console.warn(`Element not found for selector: ${selector}`);
+        // console.warn(`Element not found for selector: ${selector}`);
         return;
       }
 
