@@ -1,0 +1,27 @@
+{
+  "name": "k12-quickbase-auto-deploy",
+  "version": "1.0.0",
+  "description": "Automatically deploy local files to Quickbase using API_AddReplaceDBPage for the 04_k12 project",
+  "main": "qb-deploy.js",
+  "scripts": {
+    "start": "node qb-deploy.js",
+    "dev": "node qb-deploy.js",
+    "deploy": "node qb-deploy.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "chokidar": "^3.5.3",
+    "dotenv": "^17.2.1",
+    "xml2js": "^0.6.2"
+  },
+  "keywords": [
+    "quickbase",
+    "api",
+    "deployment",
+    "automation",
+    "file-watcher",
+    "k12"
+  ],
+  "author": "",
+  "license": "MIT"
+}
