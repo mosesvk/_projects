@@ -589,14 +589,14 @@ function processBenchmarkParagraphs() {
       const benchmarkData = dataSource[benchmarkKey];
 
       if (!benchmarkData || !benchmarkData[targetYear]) {
-        console.warn(`Benchmark data not found for field: ${fieldName}, year: ${targetYear}`);
+        // console.warn(`Benchmark data not found for field: ${fieldName}, year: ${targetYear}`);
         return;
       }
 
       let benchmarkContent = benchmarkData[targetYear].value;
 
       if (!benchmarkContent || benchmarkContent === '0') {
-        console.warn(`No benchmark content for field: ${fieldName}`);
+        // console.warn(`No benchmark content for field: ${fieldName}`);
         return;
       }
 
