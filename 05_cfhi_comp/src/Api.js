@@ -96,7 +96,7 @@ class DataStore {
       localStorage.setItem(category, categoryData);
     });
 
-    console.log("✅ Data saved successfully to localStorage");
+    // console.log("✅ Data saved successfully to localStorage");
   }
 
   // Save data in chunks when bulk storage fails
@@ -5666,7 +5666,7 @@ class AppController {
         }
       });
 
-      console.log("Data structure validated successfully");
+      // console.log("Data structure validated successfully");
     } catch (error) {
       console.warn("Error validating data structure:", error);
       // Continue anyway, don't break the display
