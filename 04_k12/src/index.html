@@ -204,7 +204,7 @@
                 class="h-8 mr-3"
                 alt="Logo"
                 1
-              />d
+              />
               <span
                 class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
               >
@@ -354,19 +354,19 @@
           <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
             <div
               id="sidebar-content"
-              class="flex-1 px-3 space-y-1 bg-white dark:bg-gray-800"
+              class="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
             >
-              <ul class="mb-10 space-y-2">
+              <ul class="pb-2 space-y-2">
                 <li>
                   <button
                     id="enrollmentLink"
                     data-popover-target="popoverEnrollment-hover"
                     data-popover-trigger="hover"
                     data-popover-placement="right"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 active:text-green-200"
+                    class="flex items-center w-full p-2 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -377,7 +377,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left text-2xl font-normal tracking-wide whitespace-nowrap"
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       Enrollment
@@ -387,20 +387,20 @@
                     data-popover
                     id="popoverEnrollment-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
                   >
                     <div
-                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
                     >
                       <h3
-                        class="font-semibold text-gray-900 text-lg dark:text-white"
+                        class="font-semibold text-white text-lg"
                       >
                         Enrollment Comparison Between Years
                       </h3>
                     </div>
                     <div
                       data-popper-arrow
-                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                      class="bg-gray-700 dark:border-gray-600"
                     ></div>
                   </div>
                 </li>
@@ -411,10 +411,10 @@
                     data-popover-trigger="hover"
                     data-popover-placement="right"
                     type="button"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    class="flex items-center w-full p-2 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -425,7 +425,7 @@
                       />
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left text-2xl font-normal tracking-wide whitespace-nowrap"
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       Cash
@@ -435,10 +435,10 @@
                     data-popover
                     id="popoverCash-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
                   >
                     <div
-                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
                     >
                       <h3
                         class="font-semibold text-gray-900 dark:text-white text-lg"
@@ -448,7 +448,7 @@
                     </div>
                     <div
                       data-popper-arrow
-                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                      class="bg-gray-700 dark:border-gray-600"
                     ></div>
                   </div>
                 </li>
@@ -456,10 +456,10 @@
                   <button
                     id="netAssetsLink"
                     type="button"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    class="flex items-center w-full p-2 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -472,7 +472,7 @@
                       />
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left text-2xl font-normal tracking-wide whitespace-nowrap"
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       Asset Ratio
@@ -483,10 +483,10 @@
                   <button
                     id="debtLink"
                     type="button"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    class="flex items-center w-full p-2 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -497,7 +497,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left text-2xl font-normal tracking-wide whitespace-nowrap"
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       Debt
@@ -508,10 +508,10 @@
                   <button
                     id="incomeLink"
                     type="button"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    class="flex items-center w-full p-2 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -524,7 +524,7 @@
                       />
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left text-2xl font-normal tracking-wide whitespace-nowrap"
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       Income
@@ -535,10 +535,10 @@
                   <button
                     id="expenseLink"
                     type="button"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    class="flex items-center w-full p-2 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -549,7 +549,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left text-2xl font-normal tracking-wide whitespace-nowrap"
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       Expense
@@ -559,10 +559,10 @@
                 <li>
                   <button
                     id="reportLink"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    class="flex items-center w-full p-2 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -575,7 +575,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="ml-3 text-left text-2xl font-bold whitespace-nowrap"
+                      class="flex-1 ml-4 text-left text-xl font-semibold tracking-wide whitespace-nowrap"
                       sidebar-toggle-item=""
                     >
                       All Reports
