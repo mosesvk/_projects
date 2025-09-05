@@ -2,9 +2,22 @@ if (sidebar) {
   const toggleSidebarWidth = (sidebar) => {
     sidebar.classList.toggle("w-56");
     sidebar.classList.toggle("w-14");
-    // Toggle ml-64 and ml-14 classes on main-content
+    // Toggle ml-56 and ml-14 classes on main-content
     mainContent.classList.toggle("ml-56");
     mainContent.classList.toggle("ml-14");
+
+    // Toggle sidebar content padding
+    sidebarContent.classList.toggle("px-3");
+    sidebarContent.classList.toggle("px-2");
+
+    // Toggle content headers visibility
+    enrollmentContentHeader.classList.toggle("hidden");
+    cashContentHeader.classList.toggle("hidden");
+    netAssetsContentHeader.classList.toggle("hidden");
+    debtContentHeader.classList.toggle("hidden");
+    incomeContentHeader.classList.toggle("hidden");
+    expenseContentHeader.classList.toggle("hidden");
+    reportContentHeader.classList.toggle("hidden");
   };
 
   const toggleListItemsPadding = () => {
@@ -28,11 +41,18 @@ if (sidebar) {
   const popoverDivs = document.querySelectorAll("div[id^='popover']");
   const tabContents = document.querySelectorAll(".tab-content");
   const mainContent = document.getElementById("main-content"); // Get the main content element
+  const sidebarContent = document.getElementById("sidebar-content");
+  const enrollmentContentHeader = document.getElementById("enrollmentContentHeader");
+  const cashContentHeader = document.getElementById("cashContentHeader");
+  const netAssetsContentHeader = document.getElementById("netAssetsContentHeader");
+  const debtContentHeader = document.getElementById("debtContentHeader");
+  const incomeContentHeader = document.getElementById("incomeContentHeader");
+  const expenseContentHeader = document.getElementById("expenseContentHeader");
+  const reportContentHeader = document.getElementById("reportContentHeader");
 
   const handleSidebarButtonClick = () => {
     toggleSidebarWidth(sidebar);
     togglePopoverVisibility(); // Toggle visibility of popover divs
-
     // toggleListItemsPadding(); // Toggle padding on sidebar list items
   };
 
