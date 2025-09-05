@@ -1,50 +1,33 @@
 if (sidebar) {
   const toggleSidebarWidth = (sidebar) => {
+    console.log("toggleSidebarWidth");
     sidebar.classList.toggle("w-56");
     sidebar.classList.toggle("w-14");
-    // Toggle ml-56 and ml-14 classes on main-content
+    // Toggle ml-64 and ml-14 classes on main-content
     mainContent.classList.toggle("ml-56");
     mainContent.classList.toggle("ml-14");
 
-    // Toggle sidebar content padding
     sidebarContent.classList.toggle("px-3");
     sidebarContent.classList.toggle("px-2");
 
-    // Toggle content headers visibility
-    enrollmentContentHeader.classList.toggle("hidden");
+    demoContentHeader.classList.toggle("hidden");
     cashContentHeader.classList.toggle("hidden");
-    netAssetsContentHeader.classList.toggle("hidden");
     debtContentHeader.classList.toggle("hidden");
     incomeContentHeader.classList.toggle("hidden");
     expenseContentHeader.classList.toggle("hidden");
     reportContentHeader.classList.toggle("hidden");
   };
 
-  const toggleListItemsPadding = () => {
-    const sidebarListItems = document.querySelectorAll("#sidebar li button");
-    sidebarListItems.forEach((item) => {
-      item.classList.toggle("p-2");
-      item.classList.toggle("py-2");
-      item.classList.toggle("pl-1");
-    });
-  };
-
   const sidebar = document.getElementById("sidebar");
   const sidebarBackdrop = document.getElementById("sidebarBackdrop");
-  const toggleSidebarMobileHamburger = document.getElementById(
-    "toggleSidebarMobileHamburger"
-  );
-  const toggleSidebarMobileClose = document.getElementById(
-    "toggleSidebarMobileClose"
-  );
+  const toggleSidebarMobileHamburger = document.getElementById("toggleSidebarMobileHamburger");
+  const toggleSidebarMobileClose = document.getElementById("toggleSidebarMobileClose");
   const sidebarButtons = document.querySelectorAll("button[id$='Link']");
-  const popoverDivs = document.querySelectorAll("div[id^='popover']");
   const tabContents = document.querySelectorAll(".tab-content");
   const mainContent = document.getElementById("main-content"); // Get the main content element
   const sidebarContent = document.getElementById("sidebar-content");
-  const enrollmentContentHeader = document.getElementById("enrollmentContentHeader");
+  const demoContentHeader = document.getElementById("demoContentHeader");
   const cashContentHeader = document.getElementById("cashContentHeader");
-  const netAssetsContentHeader = document.getElementById("netAssetsContentHeader");
   const debtContentHeader = document.getElementById("debtContentHeader");
   const incomeContentHeader = document.getElementById("incomeContentHeader");
   const expenseContentHeader = document.getElementById("expenseContentHeader");
@@ -53,7 +36,7 @@ if (sidebar) {
   const handleSidebarButtonClick = () => {
     toggleSidebarWidth(sidebar);
     togglePopoverVisibility(); // Toggle visibility of popover divs
-    // toggleListItemsPadding(); // Toggle padding on sidebar list items
+    toggleListItemsPadding(); // Toggle padding on sidebar list items
   };
 
   // Function to toggle the "hidden" class for popover divs
@@ -63,6 +46,7 @@ if (sidebar) {
       popoverDiv.classList.toggle("hidden");
     });
   };
+  
 
   const activateButton = (clickedIndex) => {
     sidebarButtons.forEach((button, index) => {
@@ -88,12 +72,15 @@ if (sidebar) {
   toggleSidebarMobileClose.addEventListener("click", () => {
     handleSidebarButtonClick(); // Toggle sidebar width and main content margin-left
   });
-  toggleSidebarMobileHamburger.addEventListener(
-    "click",
-    handleSidebarButtonClick
-  );
+  toggleSidebarMobileHamburger.addEventListener("click", handleSidebarButtonClick);
   sidebarBackdrop.addEventListener("click", handleSidebarButtonClick);
+
+  // Initialize the first button as active by default
+  if (sidebarButtons.length > 0) {
+    activateButton(0);
+  }
 }
+
 
 // DARK MODE FUNCTIONALITY
 const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
