@@ -24,7 +24,6 @@ if (sidebar) {
   const handleSidebarButtonClick = () => {
     toggleSidebarWidth(sidebar);
     togglePopoverVisibility(); // Toggle visibility of popover divs
-    toggleListItemsPadding(); // Toggle padding on sidebar list items
   };
 
   // Function to toggle the "hidden" class for popover divs

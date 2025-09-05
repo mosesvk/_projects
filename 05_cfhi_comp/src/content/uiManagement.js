@@ -35,7 +35,6 @@ if (sidebar) {
   const handleSidebarButtonClick = () => {
     toggleSidebarWidth(sidebar);
     togglePopoverVisibility(); // Toggle visibility of popover divs
-    toggleListItemsPadding(); // Toggle padding on sidebar list items
   };
 
   // Function to toggle the "hidden" class for popover divs
@@ -43,16 +42,6 @@ if (sidebar) {
     const popoverDivs = document.querySelectorAll("div[id^='popover']");
     popoverDivs.forEach((popoverDiv) => {
       popoverDiv.classList.toggle("hidden");
-    });
-  };
-
-  // Function to toggle padding on sidebar list items
-  const toggleListItemsPadding = () => {
-    const sidebarToggleItems = document.querySelectorAll("[sidebar-toggle-item]");
-    sidebarToggleItems.forEach((item) => {
-      // Toggle between ml-4 (expanded) and ml-0 (collapsed) for text spacing
-      item.classList.toggle("ml-4");
-      item.classList.toggle("ml-0");
     });
   };
   
