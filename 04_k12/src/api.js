@@ -3237,6 +3237,7 @@ run_btn.addEventListener("click", async () => {
     saveSelectedYearsToLocalStorage(selectedYears);
 
     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
+    // console.log("RECORDS PEER", recordsPeer);
     countUniqueClients(recordsPeer);
 
     const recordsClient = await getRecordsForClient(selectedYears, "<qdbapi>");
