@@ -3008,7 +3008,7 @@ const countUniqueClients = (records) => {
     });
 
     const count = uniqueClients.size;
-    console.log(count);
+    // console.log(count);
     document.getElementById("uniqueClients").textContent = count;
   } catch (error) {
     console.error("Error counting unique clients:", error);
