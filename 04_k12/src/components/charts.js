@@ -174,6 +174,20 @@ const getMainChartOptions = (
       height: 350,
       type: "line",
       stacked: false,
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        tools: {
+          download: true,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
     },
     dataLabels: {
       enabled: false,

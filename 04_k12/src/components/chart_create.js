@@ -80,6 +80,22 @@ const createChart = (id, type, title, subtitle, chartTitle, min, max) => {
 
   return new Chart(ctx, {
     type: 'bar',
+    chart: {
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        tools: {
+          download: true,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
+    },
     title: title,
     data: {
       labels: selectedYearArray,

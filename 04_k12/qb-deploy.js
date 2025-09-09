@@ -25,7 +25,6 @@ const config = {
     '_utility.js': '135',          // k12_utility.js -> Code Page 135
     '_utilityWeightedAverages.js': '142', // k12_utilityWeightedAverages.js -> Code Page 142
     '_utilityPrint.js': '180',     // k12_utilityPrint.js -> Code Page 180
-    'chart_create.js': '141',      // k12_charts.js -> Code Page 141 (alternative name)
   },
   
   // Default page ID (fallback)
