@@ -66,60 +66,62 @@ const getMainChartOptions = (
     }
   };
 
+  const series = [
+    {
+      name: "Client",
+      type: "column",
+      data: clientArray,
+      style: {
+        colors: [chartColors.labelColor],
+      },
+    },
+    {
+      name: "Avg",
+      type: "line",
+      data: peerAvg,
+      yaxis: 0,
+      style: {
+        colors: ["transparent"], // Set the line color to transparent
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: 0.7,
+          opacityTo: 0.9,
+          stops: [0, 80, 80],
+        },
+      },
+    },
+    {
+      name: "25%",
+      type: "line",
+      data: peer25,
+      visible: false,
+    },
+    {
+      name: "50%",
+      type: "line",
+      data: peerMid,
+      visible: false,
+    },
+    {
+      name: "75%",
+      type: "line",
+      data: peer75,
+      visible: false,
+    },
+  ]
+
   return {
     colors: [
       window.chartColors.green,
       window.chartColors.blue,
-      window.chartColors.red,
       window.chartColors.orange,
-      window.chartColors.grey,
+      window.chartColors.yellow,
+      window.chartColors.purple,
     ],
-    series: [
-      {
-        name: "Client",
-        type: "column",
-        data: clientArray,
-        style: {
-          colors: [chartColors.labelColor],
-        },
-      },
-      {
-        name: "Avg",
-        type: "line",
-        data: peerAvg,
-        yaxis: 0,
-        style: {
-          colors: ["transparent"], // Set the line color to transparent
-        },
-        fill: {
-          type: "gradient",
-          gradient: {
-            shadeIntensity: 1,
-            opacityFrom: 0.7,
-            opacityTo: 0.9,
-            stops: [0, 80, 80],
-          },
-        },
-      },
-      {
-        name: "25%",
-        type: "line",
-        data: peer25,
-        visible: false,
-      },
-      {
-        name: "50%",
-        type: "line",
-        data: peerMid,
-        visible: false,
-      },
-      {
-        name: "75%",
-        type: "line",
-        data: peer75,
-        visible: false,
-      },
-    ],
+    series: series,
     chart: {
       height: 350,
       type: "line",
@@ -143,7 +145,8 @@ const getMainChartOptions = (
       enabled: false,
     },
     stroke: {
-      width: [2, 6, 4, 4, 4],
+      width: [2, 3, 4, 4, 4],
+      dashArray: series.map((s, i) => (i === 1 ? 4 : 0)),
     },
     title: {
       text: "",
