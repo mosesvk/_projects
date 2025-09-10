@@ -878,6 +878,23 @@ document.getElementById('selectSchool').addEventListener('change', function() {
   // console.log('selectedSchoolChurch:', selectedSchoolChurch);
 });
 
+// Add event listener to sidebar ul highlighting the active button
+document.querySelector("#sidebar ul").addEventListener("click", function () {
+  // Select all div elements whose ID ends with "Link"
+  const buttons = document.querySelectorAll('button[id$="Link"]');
+
+  buttons.forEach((button) => {
+    // Check if the button has the class "active"
+    if (button.classList.contains("active")) {
+      // Add the classes bg-gray-300 and dark:bg-gray-700 if they are not already present
+      button.classList.add("bg-gray-300", "dark:bg-gray-700");
+    } else {
+      // Remove the classes bg-gray-300 and dark:bg-gray-700 if they are present
+      button.classList.remove("bg-gray-300", "dark:bg-gray-700");
+    }
+  });
+});
+
 
 const selectedImages = () => {
   selectedImagesArray = []
