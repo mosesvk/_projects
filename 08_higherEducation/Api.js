@@ -2120,7 +2120,7 @@ class ApiService {
       clientBatches.push(selectedClients.slice(i, i + BATCH_SIZE));
     }
 
-    console.log(`Split into ${clientBatches.length} batches of ${BATCH_SIZE} clients each`);
+    // console.log(`Split into ${clientBatches.length} batches of ${BATCH_SIZE} clients each`);
 
     // Process each year with all batches
     for (const currentYear of years) {
@@ -2128,7 +2128,7 @@ class ApiService {
       
       for (let batchIndex = 0; batchIndex < clientBatches.length; batchIndex++) {
         const clientBatch = clientBatches[batchIndex];
-        console.log(`Processing batch ${batchIndex + 1}/${clientBatches.length} with ${clientBatch.length} clients`);
+        // console.log(`Processing batch ${batchIndex + 1}/${clientBatches.length} with ${clientBatch.length} clients`);
         
         try {
           // Build query for this specific batch
@@ -2150,7 +2150,7 @@ class ApiService {
           const xml = await $.get(peerData, apiCallPeerData);
           const recordsForPeer = $("record", xml).toArray();
           
-          console.log(`Batch ${batchIndex + 1}: Received ${recordsForPeer.length} records for year ${currentYear}`);
+          // console.log(`Batch ${batchIndex + 1}: Received ${recordsForPeer.length} records for year ${currentYear}`);
 
           // Collect records for later use
           if (recordsForPeer.length > 0) {
