@@ -2201,13 +2201,17 @@ const getCurrentRatioChartOptions = (data) => {
   const prepaidExpensesArray = Object.values(
     data["prepaidExpensesAndOtherAssets_Client"]
   ).map((item) => Number(item.value));
+  const shortTermInvestmentsArray = Object.values(
+    data["shortTermInvestments_Client"]
+  ).map((item) => Number(item.value));
   const currentAssetsArray = cashAndCashEquivalentsArray.map(
     (_, index) =>
       cashAndCashEquivalentsArray[index] +
       accountsReceivableArray[index] +
       studentLoansAndOtherReceivablesArray[index] +
       contributionsReceivableArray[index] +
-      prepaidExpensesArray[index]
+      prepaidExpensesArray[index] + 
+      shortTermInvestmentsArray[index]
   );
 
   const accountsPayableArray = Object.values(

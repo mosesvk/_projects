@@ -972,6 +972,7 @@ class DataProcessor {
           { key: "studentLoansAndOtherReceivables_Client", field: "r003_student_loans_and_other_receivables" },
           { key: "contributionsReceivable_Client", field: "r004_contributions_receivable" },
           { key: "prepaidExpensesAndOtherAssets_Client", field: "r005_prepaid_expenses_and_other_assets" },
+          { key: "shortTermInvestments_Client", field: "r289_investments" },
           { key: "accountsPayableAndAccruedExpenses_Client", field: "r009_accounts_payable_and_accrued_liabilities" },
           { key: "deferredRevenue_Client", field: "r010_deferred_revenue" },
           { key: "postRetirementHealthBenefits_Client", field: "r011_post_retirement_health_benefits" },
