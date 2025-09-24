@@ -2299,6 +2299,9 @@ const getCurrentRatioChartOptions = (data) => {
   const prepaidExpensesRow = document.getElementById(
     "row_currentRatio_prepaidExpensesAndOtherAssets"
   );
+  const shortTermInvestmentsRow = document.getElementById(
+    "row_currentRatio_shortTermInvestments"
+  );
   const currentLiabilitiesRow = document.getElementById(
     "row_currentRatio_currentLiabilities"
   );
@@ -2339,6 +2342,7 @@ const getCurrentRatioChartOptions = (data) => {
   studentLoansRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Student Loans and Other Receivables</th>`;
   contributionsReceivableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Contributions Receivable</th>`;
   prepaidExpensesRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Prepaid Expenses and Other Assets</th>`;
+  shortTermInvestmentsRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Short Term Investments</th>`;
   currentLiabilitiesRow.innerHTML = `<th scope="row" class="px-6 py-2 text-xl text-gray-900 whitespace-nowrap dark:text-white">Current Liabilities</th>`;
   accountsPayableRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Accounts Payable and Accrued Liabilities</th>`;
   deferredRevenueRow.innerHTML = `<th scope="row" class="px-8 py-2 text-gray-900 whitespace-nowrap dark:text-white">Deferred Revenue</th>`;
@@ -2406,6 +2410,13 @@ const getCurrentRatioChartOptions = (data) => {
     prepaidExpensesRow.innerHTML += `
     <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       ${formatCurrency(prepaidExpensesArray[index])}
+    </th>
+  `;
+
+    // Populate short term investments row
+    shortTermInvestmentsRow.innerHTML += `
+    <th scope="row" class="px-8 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      ${formatCurrency(shortTermInvestmentsArray[index])}
     </th>
   `;
 
