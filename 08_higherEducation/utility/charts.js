@@ -2265,7 +2265,7 @@ const getCurrentRatioChartOptions = (data) => {
     }
   );
 
-  console.log({ peerAvgCurrentAssetsArray });
+  // console.log({ peerAvgCurrentAssetsArray });
 
   const peerAvgCurrentLiabilitiesArray = Object.keys(
     data.currentLiabilities_Peer
