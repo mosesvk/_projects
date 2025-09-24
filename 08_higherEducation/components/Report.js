@@ -110,7 +110,8 @@ const displayReportComponent = () => {
 
     insertDataToFSReport(financialStatementContentData, selectedYears);
 
-    formatNegativeNumbers();
+    // Initialize the negative number watcher for dynamic updates
+    initializeNegativeNumberWatcher();
   }
 };
 
@@ -766,6 +767,54 @@ const clearColumnsFromOtherRowsInTable = (idName, columnsToPreserve) => {
   });
 };
 
+/**
+ * Extracts numeric value from formatted text (removes $, commas, parentheses, etc.)
+ * @param {string} text - The formatted text containing a number
+ * @returns {number} - The parsed numeric value, or NaN if not a valid number
+ */
+function extractNumericValue(text) {
+  if (!text || typeof text !== 'string') return NaN;
+  
+  // Remove currency symbols, commas, and whitespace
+  // Handle parentheses notation for negative numbers (accounting format)
+  let cleanText = text.trim()
+    .replace(/[$,\s]/g, '') // Remove $, commas, and spaces
+    .replace(/[()]/g, ''); // Remove parentheses
+  
+  // Check if original text had parentheses (indicating negative in accounting format)
+  const isNegativeFromParens = text.includes('(') && text.includes(')');
+  
+  const numValue = parseFloat(cleanText);
+  return isNegativeFromParens ? -Math.abs(numValue) : numValue;
+}
+
+/**
+ * Applies red styling to an element if the numeric value is negative
+ * @param {HTMLElement} element - The DOM element to potentially style
+ * @param {string} textContent - The text content to evaluate
+ */
+function applyNegativeNumberStyling(element, textContent) {
+  if (!element || !textContent) return;
+  
+  // Check if text contains numbers
+  if (!/\d/.test(textContent)) return;
+  
+  // Extract the numeric value
+  const numValue = extractNumericValue(textContent);
+  
+  // Reset classes first
+  element.classList.remove("text-red-500", "dark:text-red-400");
+  element.classList.remove("text-gray-900", "dark:text-white", "text-black");
+  
+  if (!isNaN(numValue) && numValue < 0) {
+    // Apply red styling for negative numbers
+    element.classList.add("text-red-500", "dark:text-red-400");
+  } else {
+    // Apply default styling for positive numbers
+    element.classList.add("text-gray-900", "dark:text-white");
+  }
+}
+
 function formatNegativeNumbers() {
   // Select all <tr> elements with an id
   const rows = document.querySelectorAll("tr[id]");
@@ -783,15 +832,7 @@ function formatNegativeNumbers() {
         if (spanChild) {
           // Process the text content of <span> child
           let textContent = spanChild.textContent.trim();
-          // Check if the text content contains numbers
-          if (/\d/.test(textContent)) {
-            if (textContent.includes("-")) {
-              // Apply classes
-              spanChild.textContent = textContent;
-              th.classList.remove("text-gray-900", "dark:text-white");
-              th.classList.add("text-red-500", "dark:text-red-400");
-            }
-          }
+          applyNegativeNumberStyling(th, textContent);
         }
       } else {
         // Check if the <th> has exactly three children
@@ -800,28 +841,12 @@ function formatNegativeNumbers() {
           const pTags = th.querySelectorAll("p");
           pTags.forEach((p) => {
             let textContent = p.textContent.trim();
-            // Check if the text content contains numbers
-            if (/\d/.test(textContent)) {
-              if (textContent.includes("-")) {
-                // Apply classes
-                p.textContent = textContent;
-                p.classList.remove("text-gray-900", "dark:text-white");
-                p.classList.add("text-red-500", "dark:text-red-400");
-              }
-            }
+            applyNegativeNumberStyling(p, textContent);
           });
         } else {
           // Process the text content of <th> directly
           let textContent = th.textContent.trim();
-          // Check if the text content contains numbers
-          if (/\d/.test(textContent)) {
-            if (textContent.includes("-")) {
-              // Apply classes
-              th.textContent = textContent;
-              th.classList.remove("text-gray-900", "dark:text-white");
-              th.classList.add("text-red-500", "dark:text-red-400");
-            }
-          }
+          applyNegativeNumberStyling(th, textContent);
         }
       }
     });
@@ -831,72 +856,109 @@ function formatNegativeNumbers() {
   const tdElements = document.querySelectorAll("td[class$='_dataPoint']");
   tdElements.forEach((td) => {
     let textContent = td.textContent.trim();
-    // Check if the text content contains numbers
-    if (/\d/.test(textContent)) {
-      if (textContent.includes("-")) {
-        // Apply classes
-        td.textContent = textContent;
-        td.classList.remove("text-gray-900", "dark:text-white");
-        td.classList.add("text-red-500", "dark:text-red-400");
-      }
-    }
+    applyNegativeNumberStyling(td, textContent);
   });
 
   // Select all <th> elements with an id attribute
   const thElements = document.querySelectorAll("th[id]");
   thElements.forEach((th) => {
     let textContent = th.textContent.trim();
-    // Check if the text content contains numbers
-    if (/\d/.test(textContent)) {
-      if (textContent.includes("-")) {
-        // Apply classes
-        th.textContent = textContent;
-        th.classList.remove("text-gray-900", "dark:text-white");
-        th.classList.add("text-red-500", "dark:text-red-400");
-      }
-    }
+    applyNegativeNumberStyling(th, textContent);
   });
 
   // Select all <p> elements with an id that ends with "_yearSelectData"
   const pElements = document.querySelectorAll("p[id$='_yearSelectData']");
   pElements.forEach((p) => {
     let textContent = p.textContent.trim();
-    // Check if the text content contains numbers
-    if (/\d/.test(textContent)) {
-      if (textContent.includes("-")) {
-        // Apply classes
-        p.textContent = textContent;
-        p.classList.remove("text-black", "dark:text-white");
-        p.classList.add("text-red-500", "dark:text-red-400");
-      }
+    // Special handling for p elements that might have different default classes
+    if (!/\d/.test(textContent)) return;
+    
+    const numValue = extractNumericValue(textContent);
+    p.classList.remove("text-red-500", "dark:text-red-400");
+    p.classList.remove("text-black", "dark:text-white", "text-gray-900");
+    
+    if (!isNaN(numValue) && numValue < 0) {
+      p.classList.add("text-red-500", "dark:text-red-400");
+    } else {
+      p.classList.add("text-black", "dark:text-white");
     }
   });
 
   // Select all <div> elements with an id that ends with "_summary"
   const divs = document.querySelectorAll("div[id$='_summary']");
   divs.forEach((div) => {
-    // Change the class of the table child
-    const tds = div.querySelectorAll("td");
-    tds.forEach((td) => {
-      let textContent = td.textContent.trim();
-      if (textContent.includes("-")) {
-        td.classList.add("text-red-500", "dark:text-red-400");
-      }
-    });
-
     // Process the text content of <td> elements inside the table
     const tdElements = div.querySelectorAll("td");
     tdElements.forEach((td) => {
       let textContent = td.textContent.trim();
-      // Check if the text content contains numbers
-      if (/\d/.test(textContent)) {
-        if (textContent.includes("-")) {
-          // Apply classes
-          td.textContent = textContent;
-          td.classList.remove("text-gray-900", "dark:text-white");
-          td.classList.add("text-red-500", "dark:text-red-400");
+      applyNegativeNumberStyling(td, textContent);
+    });
+  });
+}
+
+/**
+ * Sets up automatic re-formatting of negative numbers when content changes
+ * This handles dynamic updates from ApexCharts and other content changes
+ */
+function initializeNegativeNumberWatcher() {
+  // Initial formatting
+  formatNegativeNumbers();
+  
+  // Create a MutationObserver to watch for text content changes
+  const observer = new MutationObserver((mutations) => {
+    let shouldReformat = false;
+    
+    mutations.forEach((mutation) => {
+      // Check if text content changed
+      if (mutation.type === 'childList' || mutation.type === 'characterData') {
+        // Check if the changed element or its descendants contain numeric data
+        const target = mutation.target;
+        if (target.nodeType === Node.TEXT_NODE) {
+          const parentElement = target.parentElement;
+          if (parentElement && (
+            parentElement.matches('td[class$="_dataPoint"]') ||
+            parentElement.matches('th[id]') ||
+            parentElement.matches('p[id$="_yearSelectData"]') ||
+            parentElement.closest('div[id$="_summary"]') ||
+            parentElement.closest('tr[id]')
+          )) {
+            shouldReformat = true;
+          }
+        } else if (target.nodeType === Node.ELEMENT_NODE) {
+          // Check if the element itself or its descendants match our selectors
+          if (target.matches('td[class$="_dataPoint"]') ||
+              target.matches('th[id]') ||
+              target.matches('p[id$="_yearSelectData"]') ||
+              target.closest('div[id$="_summary"]') ||
+              target.closest('tr[id]') ||
+              target.querySelector('td[class$="_dataPoint"]') ||
+              target.querySelector('th[id]') ||
+              target.querySelector('p[id$="_yearSelectData"]') ||
+              target.querySelector('div[id$="_summary"]') ||
+              target.querySelector('tr[id]')
+          ) {
+            shouldReformat = true;
+          }
         }
       }
     });
+    
+    if (shouldReformat) {
+      // Debounce the reformatting to avoid excessive calls
+      clearTimeout(window.negativeNumberReformatTimeout);
+      window.negativeNumberReformatTimeout = setTimeout(() => {
+        formatNegativeNumbers();
+      }, 100);
+    }
   });
+  
+  // Start observing
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    characterData: true
+  });
+  
+  // Store the observer reference for potential cleanup
+  window.negativeNumberObserver = observer;
 }
