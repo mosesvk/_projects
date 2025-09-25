@@ -2272,7 +2272,7 @@ const getCurrentRatioChartOptions = (data) => {
   ).map((key) => {
     const values = data.currentLiabilities_Peer[key];
     const avg = getAverageOfArray(values);
-
+    
     return avg;
   });
 
