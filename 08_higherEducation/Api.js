@@ -994,7 +994,7 @@ class DataProcessor {
         });
       });
 
-      // Process peer records
+      // Process peer recordsd
       filteredPeerRecords.forEach((record) => {
         // Current Ratio for Peers
         this.dataStore.insertData(
