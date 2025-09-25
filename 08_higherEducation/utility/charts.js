@@ -4874,6 +4874,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
 
   const value = clientData;
   const benchmark = 1.25;
+  const upperLimit = Math.floor(value + 3)
   const text =
     value > benchmark
       ? `Above Benchmark: ${benchmark}`
@@ -4882,6 +4883,8 @@ const getDebtServiceCoverageChartOptions = (data) => {
   const backgroundColor = value > benchmark ? "#cf3636" : "#54ba4a";
 
   // console.log({value, benchmark, text, backgroundColor});
+
+
 
   debtServiceCoverageRatio_chart = new FusionCharts({
     type: "hlineargauge",
@@ -4895,14 +4898,16 @@ const getDebtServiceCoverageChartOptions = (data) => {
         caption: "",
         subcaption: "",
         lowerLimit: "0",
-        upperLimit: "10",
-        numberSuffix: "%",
+        upperLimit: upperLimit,
+        numberSuffix: "",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
         valueFontSize: "1.25rem",
         valueFontBold: "6",
         labelFontColor: chartColor,
         baseFontColor: chartColor,
+        showTickMarks: "0",
+        showTickValues: "0",
       },
       colorRange: {
         color: [
