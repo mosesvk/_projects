@@ -36,8 +36,8 @@ const getMainChartOptions = (
       numType
     ));
 
-  // if (mainName == "doeOverall")
-  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+  if (mainName == "doeOverall")
+  console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -80,11 +80,6 @@ const getMainChartOptions = (
       return formattedValue;
     }
   };
-
-  // console.log({mainName, benchmark});
-
-  // if (mainName == "cfi_netIncomeOperationsRatio")
-  //   console.log({ dataClient, clientArray, fixedNum });
 
   let yaxisAnnotation;
 
@@ -4874,7 +4869,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
 
   const value = clientData;
   const benchmark = 1.25;
-  
+
   const text =
     value > benchmark
       ? `Above Benchmark: ${benchmark}`
