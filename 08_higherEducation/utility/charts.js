@@ -4874,7 +4874,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
 
   const value = clientData;
   const benchmark = 1.25;
-  console.log('getDebtServiceCoverageChartOptions', {value, benchmark, upperLimit})
+  
   const text =
     value > benchmark
       ? `Above Benchmark: ${benchmark}`
