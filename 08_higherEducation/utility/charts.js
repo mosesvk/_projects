@@ -4874,7 +4874,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
 
   const value = clientData;
   const benchmark = 1.25;
-  const upperLimit = Math.floor(value + 3)
+  const upperLimit = String(Math.floor(value + 3))
   const text =
     value > benchmark
       ? `Above Benchmark: ${benchmark}`
@@ -5579,13 +5579,13 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     peer75Array.push(Math.round(peer75));
   });
 
-  console.log("getEndowmentAssetsPerStudentChartOptions", {
-    clientArray,
-    peerAvgArray,
-    peer25Array,
-    peer50Array,
-    peer75Array,
-  });
+  // console.log("getEndowmentAssetsPerStudentChartOptions", {
+  //   clientArray,
+  //   peerAvgArray,
+  //   peer25Array,
+  //   peer50Array,
+  //   peer75Array,
+  // });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {

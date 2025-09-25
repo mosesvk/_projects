@@ -2189,7 +2189,7 @@ class ApiService {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
       const records = xmlDoc.querySelectorAll("record");
-      console.log(`Batched approach completed: Parsed ${records.length} total peer records`);
+      // console.log(`Batched approach completed: Parsed ${records.length} total peer records`);
       return records;
     } catch (error) {
       console.error("Error parsing XML in batched approach:", error);
