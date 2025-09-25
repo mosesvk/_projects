@@ -1309,6 +1309,16 @@ class DataProcessor {
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
+
+        this.dataStore.insertData(
+          "doe",
+          "peer",
+          year,
+          "doeOverall_Peer",
+          record,
+          "r245_cdoe_overall_composite_score"
+        );
+
         // Composite Score
         this.dataStore.insertData(
           "doe",

@@ -85,7 +85,7 @@ const displayDoeComponent = () => {
   createChartFromParsedData(
     parseData,
     "doeOverall_chart",
-    "compositeScore_Peer",
+    "doeOverall_Peer",
     "doeOverall_Client",
     "num",
     1,
