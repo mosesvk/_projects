@@ -88,7 +88,6 @@ const getMainChartOptions = (
 
   let yaxisAnnotation;
 
-
   const chartEvents = {
     beforeMount: function (chartContext, config) {
       // First, wait for the chart and annotations to be rendered
@@ -2210,7 +2209,7 @@ const getCurrentRatioChartOptions = (data) => {
       accountsReceivableArray[index] +
       studentLoansAndOtherReceivablesArray[index] +
       contributionsReceivableArray[index] +
-      prepaidExpensesArray[index] + 
+      prepaidExpensesArray[index] +
       shortTermInvestmentsArray[index]
   );
 
@@ -2272,7 +2271,7 @@ const getCurrentRatioChartOptions = (data) => {
   ).map((key) => {
     const values = data.currentLiabilities_Peer[key];
     const avg = getAverageOfArray(values);
-    
+
     return avg;
   });
 
@@ -5557,13 +5556,13 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     const peerRatio = data.ratio_Peer[year]
       ? Number(getAverageOfArray(data.ratio_Peer[year]))
       : 0;
-    const formattedPeerRatio = Number(peerRatio).toLocaleString();
+    const formattedPeerRatio = Math.round(Number(peerRatio)).toLocaleString();
 
     peerRatioRow.innerHTML += `
-<th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
-  ${formattedPeerRatio}
-</th>
-`;
+      <th scope="row" class="px-6 py-2 text-gray-900 whitespace-nowrap dark:text-white">
+        ${formattedPeerRatio}
+      </th>
+      `;
 
     // console.log({clientRatio, peerRatio});
 
