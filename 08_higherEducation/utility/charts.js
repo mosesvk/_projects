@@ -4874,7 +4874,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
 
   const value = clientData;
   const benchmark = 1.25;
-  const upperLimit = String(Math.floor(value + 3))
+  console.log('getDebtServiceCoverageChartOptions', {value, benchmark, upperLimit})
   const text =
     value > benchmark
       ? `Above Benchmark: ${benchmark}`
@@ -4898,7 +4898,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
         caption: "",
         subcaption: "",
         lowerLimit: "0",
-        upperLimit: upperLimit,
+        upperLimit: "5",
         numberSuffix: "",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
@@ -4918,12 +4918,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
           },
           {
             minValue: "1.25",
-            maxValue: "3",
-            code: "#FFE381",
-          },
-          {
-            minValue: "3",
-            maxValue: "10",
+            maxValue: "5",
             code: "#EF707E",
           },
         ],
