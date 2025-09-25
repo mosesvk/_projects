@@ -5076,13 +5076,8 @@ const getEndowmentOperatingChartOptions = (data) => {
         color: [
           {
             minValue: "0",
-            maxValue: "75",
-            code: "#EF707E",
-          },
-          {
-            minValue: "75",
             maxValue: "150",
-            code: "#FFE381",
+            code: "#EF707E",
           },
           {
             minValue: "150",
