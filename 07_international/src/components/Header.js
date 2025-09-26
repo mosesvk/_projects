@@ -903,13 +903,34 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   ];
 
-  // Function to trigger filter change event
-  function triggerFiltersChanged(sliderInfo) {
+  // Debounce timer for slider filter updates
+  let filterUpdateTimer = null;
+  
+  // Function to trigger filter change event with debouncing
+  function triggerFiltersChanged(sliderInfo, immediate = false) {
     // console.log(
     //   `${sliderInfo.globalVar} changed to ${window[sliderInfo.globalVar]}`
     // );
-    const event = new CustomEvent("filtersChanged");
-    document.dispatchEvent(event);
+    
+    if (immediate) {
+      // Clear any pending timer and trigger immediately
+      if (filterUpdateTimer) {
+        clearTimeout(filterUpdateTimer);
+        filterUpdateTimer = null;
+      }
+      const event = new CustomEvent("filtersChanged");
+      document.dispatchEvent(event);
+    } else {
+      // Debounce the filter update - only trigger after user stops interacting
+      if (filterUpdateTimer) {
+        clearTimeout(filterUpdateTimer);
+      }
+      filterUpdateTimer = setTimeout(() => {
+        const event = new CustomEvent("filtersChanged");
+        document.dispatchEvent(event);
+        filterUpdateTimer = null;
+      }, 300); // 300ms delay after user stops moving slider
+    }
   }
 
   // Set up each slider
@@ -931,7 +952,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Update global variable from the input element
                 window[slider.globalVar] =
                   parseInt(slider.element.value) || slider.defaultValue;
-                triggerFiltersChanged(slider);
+                // Use debounced trigger for style changes (while dragging)
+                triggerFiltersChanged(slider, false);
               }
             });
           });
@@ -947,12 +969,25 @@ document.addEventListener("DOMContentLoaded", function () {
       // Standard event listeners as a fallback
       slider.element.addEventListener("input", function () {
         window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        triggerFiltersChanged(slider);
+        // Use debounced trigger for input events (while dragging)
+        triggerFiltersChanged(slider, false);
       });
 
       slider.element.addEventListener("change", function () {
         window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        triggerFiltersChanged(slider);
+        // Use immediate trigger for change events (when slider is released)
+        triggerFiltersChanged(slider, true);
+      });
+
+      // Add mouseup and touchend events to ensure filter triggers when slider is released
+      slider.element.addEventListener("mouseup", function () {
+        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
+        triggerFiltersChanged(slider, true);
+      });
+
+      slider.element.addEventListener("touchend", function () {
+        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
+        triggerFiltersChanged(slider, true);
       });
     }
   });
@@ -1079,7 +1114,62 @@ document.addEventListener("DOMContentLoaded", function () {
             window.revenueValue2 = parseInt(slider.value);
           }
 
-          // Trigger the filtersChanged event
+          // Use debounced trigger for input events (while dragging)
+          if (filterUpdateTimer) {
+            clearTimeout(filterUpdateTimer);
+          }
+          filterUpdateTimer = setTimeout(() => {
+            const event = new CustomEvent("filtersChanged");
+            document.dispatchEvent(event);
+            filterUpdateTimer = null;
+          }, 300);
+        });
+
+        // Add change event listener for immediate trigger when slider is released
+        slider.addEventListener("change", () => {
+          // Update corresponding value
+          if (slider.id === "givingUnitsMin") {
+            window.sliderValue = parseInt(slider.value);
+          } else if (slider.id === "givingUnitsMax") {
+            window.sliderValue2 = parseInt(slider.value);
+          } else if (slider.id === "missionUnitsMin") {
+            window.missionValue = parseInt(slider.value);
+          } else if (slider.id === "missionUnitsMax") {
+            window.missionValue2 = parseInt(slider.value);
+          } else if (slider.id === "assetsMin") {
+            window.assetsValue = parseInt(slider.value);
+          } else if (slider.id === "assetsMax") {
+            window.assetsValue2 = parseInt(slider.value);
+          } else if (slider.id === "revenueMin") {
+            window.revenueValue = parseInt(slider.value);
+          } else if (slider.id === "revenueMax") {
+            window.revenueValue2 = parseInt(slider.value);
+          }
+
+          // Clear any pending debounced call and trigger immediately
+          if (filterUpdateTimer) {
+            clearTimeout(filterUpdateTimer);
+            filterUpdateTimer = null;
+          }
+          const event = new CustomEvent("filtersChanged");
+          document.dispatchEvent(event);
+        });
+
+        // Add mouseup and touchend events for additional reliability
+        slider.addEventListener("mouseup", () => {
+          if (filterUpdateTimer) {
+            clearTimeout(filterUpdateTimer);
+            filterUpdateTimer = null;
+          }
+          const event = new CustomEvent("filtersChanged");
+          document.dispatchEvent(event);
+        });
+
+        slider.addEventListener("touchend", () => {
+          if (filterUpdateTimer) {
+            clearTimeout(filterUpdateTimer);
+            filterUpdateTimer = null;
+          }
           const event = new CustomEvent("filtersChanged");
           document.dispatchEvent(event);
         });

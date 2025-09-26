@@ -1,2 +1,0 @@
-# Capin Crouse Projects
-
