@@ -516,13 +516,27 @@ const closeSidebarAfterSelectingOption = (component) => {
 };
 
 const getAverageOfArray = (array, num = 1) => {
-  const filteredArray = array
-    .filter((value) => Number(value) !== 0)
-    .map((value) => Number(value) * num);
+  // Check if array is empty or undefined
+  if (!array || array.length === 0) {
+    return 0;
+  }
+
+  // Convert all values to numbers
+  const numericArray = array.map((value) => Number(value) * num);
+  
+  // Check if all values are zero
+  const allZeros = numericArray.every((value) => value === 0);
+  if (allZeros) {
+    return 0;
+  }
+
+  // Filter out zeros for calculation
+  const filteredArray = numericArray.filter((value) => value !== 0);
 
   if (filteredArray.length === 0) {
     return 0;
   }
+  
   const sum = filteredArray.reduce((acc, value) => acc + value, 0);
   const avg = sum / filteredArray.length;
 
@@ -531,9 +545,23 @@ const getAverageOfArray = (array, num = 1) => {
 
 const getMidpointOfArray = (array, mainName) => {
   // console.log({ mainName, array });
-  const filteredArray = array
-    .filter((value) => Number(value) !== 0)
-    .map((value) => Number(value));
+  
+  // Check if array is empty or undefined
+  if (!array || array.length === 0) {
+    return 0;
+  }
+
+  // Convert all values to numbers
+  const numericArray = array.map((value) => Number(value));
+  
+  // Check if all values are zero
+  const allZeros = numericArray.every((value) => value === 0);
+  if (allZeros) {
+    return 0;
+  }
+
+  // Filter out zeros for calculation
+  const filteredArray = numericArray.filter((value) => value !== 0);
 
   // console.log({mainName, filteredArray});
   if (filteredArray.length === 0) {
@@ -560,12 +588,29 @@ const getMidpointOfArray = (array, mainName) => {
 };
 
 const get25thPercentileOfArray = (array, mainName) => {
-  const filteredArray = array
-    .filter((value) => Number(value) !== 0)
-    .map((value) => Number(value));
+  // Check if array is empty or undefined
+  if (!array || array.length === 0) {
+    return 0;
+  }
+
+  // Convert all values to numbers
+  const numericArray = array.map((value) => Number(value));
+  
+  // Check if all values are zero
+  const allZeros = numericArray.every((value) => value === 0);
+  if (allZeros) {
+    return 0;
+  }
+
+  // Filter out zeros for calculation
+  const filteredArray = numericArray.filter((value) => value !== 0);
 
   // if (mainName == "cfi_primaryReserveRatio")
   //   console.log("get25thPercentileOfArray", { filteredArray, mainName });
+
+  if (filteredArray.length === 0) {
+    return 0;
+  }
 
   const sortedArray = filteredArray.sort((a, b) => a - b);
   // console.log(sortedArray);
@@ -597,12 +642,29 @@ const get25thPercentileOfArray = (array, mainName) => {
 };
 
 const get75thPercentileOfArray = (array, mainName) => {
-  const filteredArray = array
-    .filter((value) => Number(value) !== 0)
-    .map((value) => Number(value));
+  // Check if array is empty or undefined
+  if (!array || array.length === 0) {
+    return 0;
+  }
+
+  // Convert all values to numbers
+  const numericArray = array.map((value) => Number(value));
+  
+  // Check if all values are zero
+  const allZeros = numericArray.every((value) => value === 0);
+  if (allZeros) {
+    return 0;
+  }
+
+  // Filter out zeros for calculation
+  const filteredArray = numericArray.filter((value) => value !== 0);
 
   // if (mainName == "cfi_primaryReserveRatio")
   //   console.log("get75thPercentileOfArray", { filteredArray, mainName });
+
+  if (filteredArray.length === 0) {
+    return 0;
+  }
 
   // Step 1: Sort the array in ascending order
   const sortedArray = filteredArray.sort((a, b) => a - b);

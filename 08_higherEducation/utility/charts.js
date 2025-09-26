@@ -1164,11 +1164,14 @@ const getAtlChartOptions = (data) => {
       Number(totalLiabilitiesClient[year].value);
     clientArray.push(clientValue.toFixed(2));
 
-    peerValue = totalAssetsPeer[year]
-      ? getAverageOfArray(totalAssetsPeer[year]) /
-        getAverageOfArray(totalLiabilitiesPeer[year])
-      : 0;
-    peerArray.push(peerValue == 0 ? null : peerValue.toFixed(2));
+    if (totalAssetsPeer[year]) {
+      const avgAssets = getAverageOfArray(totalAssetsPeer[year]);
+      const avgLiabilities = getAverageOfArray(totalLiabilitiesPeer[year]);
+      peerValue = avgLiabilities !== 0 ? avgAssets / avgLiabilities : 0;
+    } else {
+      peerValue = 0;
+    }
+    peerArray.push(peerValue == 0 || isNaN(peerValue) ? null : peerValue.toFixed(2));
     benchmarkArray.push(1);
   });
 
@@ -2246,7 +2249,7 @@ const getCurrentRatioChartOptions = (data) => {
       const values = data.currentRatio_Peer[key];
       const avg = getAverageOfArray(values);
 
-      return avg.toFixed(1);
+      return isNaN(avg) ? "0.0" : avg.toFixed(1);
     }
   );
 
@@ -2255,7 +2258,7 @@ const getCurrentRatioChartOptions = (data) => {
       const values = data.currentAssets_Peer[key];
       const avg = getAverageOfArray(values);
 
-      return avg;
+      return isNaN(avg) ? 0 : avg;
     }
   );
 
@@ -2267,7 +2270,7 @@ const getCurrentRatioChartOptions = (data) => {
     const values = data.currentLiabilities_Peer[key];
     const avg = getAverageOfArray(values);
 
-    return avg;
+    return isNaN(avg) ? 0 : avg;
   });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
@@ -3686,23 +3689,21 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
 
     const peerAvg = data.netEducationalExpensePerStudentRatio_Peer[year]
       ? getAverageOfArray(data.netEducationalExpensePerStudentRatio_Peer[year])
-      : null;
-    peerAvgArray.push(Math.round(peerAvg));
+      : 0;
+    peerAvgArray.push(isNaN(peerAvg) ? 0 : Math.round(peerAvg));
 
     const peerDataArray = data.netEducationalExpensePerStudentRatio_Peer[year]
       ? data.netEducationalExpensePerStudentRatio_Peer[year]
       : null;
 
-    const peer25 =
-      peerAvg !== 0 ? get25thPercentileOfArray(peerDataArray) : null;
-    peer25Array.push(Math.round(peer25));
+    const peer25 = peerDataArray ? get25thPercentileOfArray(peerDataArray) : 0;
+    peer25Array.push(isNaN(peer25) ? 0 : Math.round(peer25));
 
-    const peer50 = peerAvg !== 0 ? getMidpointOfArray(peerDataArray) : null;
-    peer50Array.push(Math.round(peer50));
+    const peer50 = peerDataArray ? getMidpointOfArray(peerDataArray) : 0;
+    peer50Array.push(isNaN(peer50) ? 0 : Math.round(peer50));
 
-    const peer75 =
-      peerAvg !== 0 ? get75thPercentileOfArray(peerDataArray) : null;
-    peer75Array.push(Math.round(peer75));
+    const peer75 = peerDataArray ? get75thPercentileOfArray(peerDataArray) : 0;
+    peer75Array.push(isNaN(peer75) ? 0 : Math.round(peer75));
 
     // console.log('getNetEducationalExpensePerStudentChartOptions',{
     //   clientData,
@@ -4008,11 +4009,11 @@ const getTuitionDependencyChartOptions = (data) => {
     );
     operatingRevenueArray.push(operatingRevenuesSupportAndReleaseClient);
 
-    const ratioPeer = data.tuitionDependencyRatio_Peer[year]
-      ? Number(
-          getAverageOfArray(data.tuitionDependencyRatio_Peer[year])
-        ).toFixed(2)
-      : 0;
+    let ratioPeer = 0;
+    if (data.tuitionDependencyRatio_Peer[year]) {
+      const avg = getAverageOfArray(data.tuitionDependencyRatio_Peer[year]);
+      ratioPeer = isNaN(avg) ? 0 : Number(avg).toFixed(2);
+    }
     peerRatioArray.push(ratioPeer);
 
     // console.log({ratioPeer, netTuitionAndFeesPeer, operatingRevenuesSupportAndReleasePeer});
@@ -4325,11 +4326,11 @@ const getTuitionDiscountRateChartOptions = (data) => {
     );
     tuitionFeesArray.push(tuitionAndFeesClient);
 
-    const ratioPeer = data.tuitionDiscountRateRatio_Peer[year]
-      ? Number(
-          getAverageOfArray(data.tuitionDiscountRateRatio_Peer[year])
-        ).toFixed(2)
-      : null;
+    let ratioPeer = null;
+    if (data.tuitionDiscountRateRatio_Peer[year]) {
+      const avg = getAverageOfArray(data.tuitionDiscountRateRatio_Peer[year]);
+      ratioPeer = isNaN(avg) ? null : Number(avg).toFixed(2);
+    }
     peerRatioArray.push(ratioPeer);
 
     // console.log({ratioPeer, netTuitionAndFeesPeer, tuitionAndFeesPeer});
@@ -5333,11 +5334,11 @@ const getDebtBurdenRatioChartOptions = (data) => {
       </th>
     `;
 
-    const peerRatioNum = data.ratio_Peer[year]
-      ? Math.abs(
-          Number(getAverageOfArray(data.ratio_Peer[year])) * 100
-        ).toFixed(1)
-      : 0;
+    let peerRatioNum = 0;
+    if (data.ratio_Peer[year]) {
+      const avg = getAverageOfArray(data.ratio_Peer[year]);
+      peerRatioNum = isNaN(avg) ? 0 : Math.abs(Number(avg) * 100).toFixed(1);
+    }
   });
 
   // const { minY, maxY } = getMinMaxY([
@@ -5543,9 +5544,11 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
 `;
 
     const peerArray = data.ratio_Peer[year];
-    const peerRatio = data.ratio_Peer[year]
-      ? Number(getAverageOfArray(data.ratio_Peer[year]))
-      : 0;
+    let peerRatio = 0;
+    if (data.ratio_Peer[year]) {
+      const avg = getAverageOfArray(data.ratio_Peer[year]);
+      peerRatio = isNaN(avg) ? 0 : Number(avg);
+    }
     const formattedPeerRatio = Math.round(Number(peerRatio)).toLocaleString();
 
     peerRatioRow.innerHTML += `
@@ -5560,13 +5563,13 @@ const getEndowmentAssetsPerStudentChartOptions = (data) => {
     peerAvgArray.push(Math.round(peerData));
 
     const peer25 = get25thPercentileOfArray(peerArray);
-    peer25Array.push(Math.round(peer25));
+    peer25Array.push(isNaN(peer25) ? 0 : Math.round(peer25));
 
     const peer50 = getMidpointOfArray(peerArray);
-    peer50Array.push(Math.round(peer50));
+    peer50Array.push(isNaN(peer50) ? 0 : Math.round(peer50));
 
     const peer75 = get75thPercentileOfArray(peerArray);
-    peer75Array.push(Math.round(peer75));
+    peer75Array.push(isNaN(peer75) ? 0 : Math.round(peer75));
   });
 
   // console.log("getEndowmentAssetsPerStudentChartOptions", {
