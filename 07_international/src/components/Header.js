@@ -949,9 +949,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 mutation.type === "attributes" &&
                 mutation.attributeName === "style"
               ) {
-                // Update global variable from the input element
+                // ALWAYS update the global variable immediately for real-time display
                 window[slider.globalVar] =
                   parseInt(slider.element.value) || slider.defaultValue;
+                
+                // Trigger immediate visual update for number formatting
+                const inputId = slider.element.id;
+                const rawValue = slider.element.value;
+                const formattedValue = formatNumberWithCommas(rawValue);
+                const displaySpan = document.querySelector(`[data-format-for="${inputId}"]`);
+                if (displaySpan) {
+                  displaySpan.textContent = formattedValue;
+                }
+                
                 // Use debounced trigger for style changes (while dragging)
                 triggerFiltersChanged(slider, false);
               }
@@ -968,13 +978,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Standard event listeners as a fallback
       slider.element.addEventListener("input", function () {
+        // ALWAYS update the global variable immediately for real-time display
         window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        // Use debounced trigger for input events (while dragging)
+        
+        // Trigger immediate visual update for number formatting
+        const inputId = this.id;
+        const rawValue = this.value;
+        const formattedValue = formatNumberWithCommas(rawValue);
+        const displaySpan = document.querySelector(`[data-format-for="${inputId}"]`);
+        if (displaySpan) {
+          displaySpan.textContent = formattedValue;
+        }
+        
+        // Use debounced trigger for filter events (while dragging)
         triggerFiltersChanged(slider, false);
       });
 
       slider.element.addEventListener("change", function () {
+        // Update the global variable immediately
         window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
+        
+        // Trigger immediate visual update for number formatting
+        const inputId = this.id;
+        const rawValue = this.value;
+        const formattedValue = formatNumberWithCommas(rawValue);
+        const displaySpan = document.querySelector(`[data-format-for="${inputId}"]`);
+        if (displaySpan) {
+          displaySpan.textContent = formattedValue;
+        }
+        
         // Use immediate trigger for change events (when slider is released)
         triggerFiltersChanged(slider, true);
       });
@@ -1095,7 +1127,7 @@ document.addEventListener("DOMContentLoaded", function () {
             : window.revenueValue2
         );
         slider.addEventListener("input", () => {
-          // Update corresponding value
+          // Update corresponding value IMMEDIATELY
           if (slider.id === "givingUnitsMin") {
             window.sliderValue = parseInt(slider.value);
           } else if (slider.id === "givingUnitsMax") {
@@ -1112,6 +1144,15 @@ document.addEventListener("DOMContentLoaded", function () {
             window.revenueValue = parseInt(slider.value);
           } else if (slider.id === "revenueMax") {
             window.revenueValue2 = parseInt(slider.value);
+          }
+
+          // Trigger immediate visual update for number formatting
+          const inputId = slider.id;
+          const rawValue = slider.value;
+          const formattedValue = formatNumberWithCommas(rawValue);
+          const displaySpan = document.querySelector(`[data-format-for="${inputId}"]`);
+          if (displaySpan) {
+            displaySpan.textContent = formattedValue;
           }
 
           // Use debounced trigger for input events (while dragging)
@@ -1127,7 +1168,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Add change event listener for immediate trigger when slider is released
         slider.addEventListener("change", () => {
-          // Update corresponding value
+          // Update corresponding value IMMEDIATELY
           if (slider.id === "givingUnitsMin") {
             window.sliderValue = parseInt(slider.value);
           } else if (slider.id === "givingUnitsMax") {
@@ -1144,6 +1185,15 @@ document.addEventListener("DOMContentLoaded", function () {
             window.revenueValue = parseInt(slider.value);
           } else if (slider.id === "revenueMax") {
             window.revenueValue2 = parseInt(slider.value);
+          }
+
+          // Trigger immediate visual update for number formatting
+          const inputId = slider.id;
+          const rawValue = slider.value;
+          const formattedValue = formatNumberWithCommas(rawValue);
+          const displaySpan = document.querySelector(`[data-format-for="${inputId}"]`);
+          if (displaySpan) {
+            displaySpan.textContent = formattedValue;
           }
 
           // Clear any pending debounced call and trigger immediately

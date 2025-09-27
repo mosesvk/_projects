@@ -2362,12 +2362,17 @@ class ApiService {
     // console.log(`Fetching peer data for year: ${currentYear}`);
 
     try {
+      // Debug: Log current selected clients
+      console.log(`Selected clients count: ${window.selectedClients_Array?.size || 0}`);
+      console.log(`Selected clients:`, Array.from(window.selectedClients_Array || []));
+      
       // Get selected clients with appropriate batching
       const clientQuery = this.getClientQuery(window.selectedClients_Array);
+      console.log(`Client query for year ${currentYear}:`, clientQuery);
 
       // Basic query condition with year
       const queryCondition = `{301.EX.${currentYear}} AND ${clientQuery}`;
-      // console.log(`Using query condition: ${queryCondition}`);
+      console.log(`Full query condition for year ${currentYear}:`, queryCondition);
 
       const apiCallPeerData = {
         act: "API_DoQuery",
@@ -2379,7 +2384,7 @@ class ApiService {
       // Use await to make the async operation more explicit
       const xml = await $.get(peerData, apiCallPeerData);
       const recordsForPeer = $("record", xml).toArray();
-      // console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);
+      console.log(`Received ${recordsForPeer.length} peer records for year ${currentYear} with ${window.selectedClients_Array?.size || 0} selected clients`);
 
       // Collect records for later use
       if (recordsForPeer.length > 0) {
@@ -2793,16 +2798,13 @@ class ApiService {
       return '({59.EX.""})';
     }
 
-    // If more than 15 clients selected, use a non-empty match instead of listing all clients
-    if (selectedClients.length > 15) {
-      console.log(
-        `Large client set (${selectedClients.length}), using generic query`
-      );
-      // This matches any non-empty client name (field 59)
-      return '({59.XEX.""})';
-    }
+    // CRITICAL FIX: Always use specific client filtering regardless of count
+    // The previous logic was causing peer data to include ALL clients when > 15 were selected
+    console.log(
+      `Building query for ${selectedClients.length} selected clients`
+    );
 
-    // For small numbers of clients, use specific OR conditions
+    // For any number of clients, use specific OR conditions
     const clientConditions = selectedClients
       .map((client) => `{59.EX.'${this._escapeClientName(client)}'}`)
       .join(" OR ");
@@ -3716,7 +3718,7 @@ if (!window.dataProcessor) {
 
 window.onload = () => {
   if (!window.appController) {
-    console.log("Initializing AppController");
+    // console.log("Initializing AppController");
     window.appController = new AppController();
   }
 };
