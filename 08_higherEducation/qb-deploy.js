@@ -13,18 +13,18 @@ const config = {
   appToken: process.env.QUICKBASE_APP_TOKEN, 
   appId: process.env.QUICKBASE_APP_ID, // App ID from your URL
   
-  // Page Configuration - Dynamic mapping for each file
+  // Page Configuration - Dynamic mapping for each file (using full paths)
   pageMapping: {
-    'Api.js': '184', // higherEd_api.js
-    'index.html': '183', // higherEd_index.html
-    'Utility.js': '185', // higherEd_utility.js
-    'Header.js': '186', // higherEd_header.js
-    'uiManagement.js': '187', // higherEd_uiManagement.js
-    'DisplayCharts.js': '188', // higherEd_displayCharts.js
-    'charts.js': '189', // higherEd_charts.js
-    'Report.js': '190', // higherEd_report.js
-    'Print.js': '191', // higherEd_print.js
-    'WeightedAverages.js': '192', // higherEd_weightedAvg.js
+    'src/Api.js': '184', // higherEd_api.js
+    'src/index.html': '183', // higherEd_index.html
+    'src/utility/Utility.js': '185', // higherEd_utility.js
+    'src/Header.js': '186', // higherEd_header.js
+    'src/utility/UiManagement.js': '187', // higherEd_uiManagement.js
+    'components/DisplayCharts.js': '188', // higherEd_displayCharts.js
+    'src/utility/charts.js': '189', // higherEd_charts.js
+    'components/Report.js': '190', // higherEd_report.js
+    'src/utility/Print.js': '191', // higherEd_print.js
+    'src/utility/WeightedAverages.js': '192', // higherEd_weightedAvg.js
     'test.html': '193', // higherEd_test.html
     'chartSystem.js': '208', // higherEd_chartSystem.js
     'chartConfigFactory.js': '209', // higherEd_chartConfigFactory.js
@@ -38,11 +38,11 @@ const config = {
   
   // File watching configuration
   watchFiles: [
-    'index.html',
-    'Api.js',
-    'Header.js',
+    'src/index.html',
+    'src/Api.js',
+    'src/Header.js',
+    'src/utility/**/*.js',
     'components/**/*.js',
-    'utility/**/*.js',
     'data/**/*.js'
   ],
   
@@ -190,9 +190,10 @@ class QuickbaseDeployer {
       const fileName = path.basename(filePath);
       
       // Determine which page to upload to based on file mapping
-      const targetPageId = config.pageMapping[fileName] || config.defaultPageId;
+      // Try full path first, then just filename as fallback
+      const targetPageId = config.pageMapping[filePath] || config.pageMapping[fileName] || config.defaultPageId;
       
-      console.log(`🎯 Routing ${fileName} to page ${targetPageId}`);
+      console.log(`🎯 Routing ${fileName} (full path: ${filePath}) to page ${targetPageId}`);
       console.log(`🔗 API URL: https://${config.realm}/db/${config.appId}`);
       
       // Create XML request
@@ -279,10 +280,16 @@ class QuickbaseDeployer {
     watcher
       .on('add', (filePath) => {
         console.log(`📄 File added: ${filePath}`);
+        console.log(`🔍 Checking if ${filePath} is in pageMapping...`);
+        const targetPageId = config.pageMapping[filePath] || config.pageMapping[path.basename(filePath)];
+        console.log(`📋 Target page ID: ${targetPageId || 'using default'}`);
         this.debouncedUpload(filePath);
       })
       .on('change', (filePath) => {
         console.log(`📝 File changed: ${filePath}`);
+        console.log(`🔍 Checking if ${filePath} is in pageMapping...`);
+        const targetPageId = config.pageMapping[filePath] || config.pageMapping[path.basename(filePath)];
+        console.log(`📋 Target page ID: ${targetPageId || 'using default'}`);
         this.debouncedUpload(filePath);
       })
       .on('unlink', (filePath) => {
