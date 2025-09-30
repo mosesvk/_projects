@@ -246,7 +246,7 @@ const getMainChartOptions = (
     reverseYears.forEach((year) => {
       const doeOverall_Client = Number(
         data.doeOverall_Client[year].value
-      ).toFixed(1);
+      );
       const doePrimaryReserveRatio_Client = Number(
         data.doePrimaryReserveRatio_Client[year].value
       ).toFixed(2);

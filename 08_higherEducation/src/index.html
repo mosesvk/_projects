@@ -6144,14 +6144,15 @@
                     />
                   </div>
                   <div>
+                    <!-- Hidden range inputs for value binding only -->
                     <input
                       type="range"
                       step="100"
                       x-bind:min="min"
                       x-bind:max="max"
-                      x-on:input="mintrigger"
                       x-model="minprice"
-                      class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
+                      class="hidden"
+                      id="minRangeInput"
                     />
 
                     <input
@@ -6159,9 +6160,9 @@
                       step="100"
                       x-bind:min="min"
                       x-bind:max="max"
-                      x-on:input="maxtrigger"
                       x-model="maxprice"
-                      class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
+                      class="hidden"
+                      id="maxRangeInput"
                     />
 
                     <div class="relative z-10 h-2">
@@ -6175,13 +6176,17 @@
                       ></div>
 
                       <div
-                        class="enrollmentSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
+                        class="enrollmentSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1 cursor-pointer select-none"
                         x-bind:style="'left: '+minthumb+'%'"
+                        x-on:mousedown="startDrag($event, 'min')"
+                        data-handle="min"
                       ></div>
 
                       <div
-                        class="enrollmentSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
-                        x-bind:style="'right: '+maxthumb+'%'"
+                        class="enrollmentSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1 cursor-pointer select-none"
+                        x-bind:style="'left: '+(100-maxthumb)+'%'"
+                        x-on:mousedown="startDrag($event, 'max')"
+                        data-handle="max"
                       ></div>
                     </div>
                   </div>

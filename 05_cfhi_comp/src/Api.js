@@ -5715,12 +5715,18 @@ function countUniqueClients(records) {
   // Use a Set to track unique client names
   const uniqueClients = new Set();
 
-  // Initialize uniqueClientsPerYearMap based on selected years
+  /**
+   * Initializes uniqueClientsPerYearMap and uniqueClientsNamesPerYearMap based on selected years.
+   * uniqueClientsPerYearMap: { [year]: Set<string> } - Set of unique client names per year.
+   * uniqueClientsNamesPerYearMap: { [year]: Array<string> } - Array of unique client names per year.
+   */
   window.uniqueClientsPerYearMap = {};
+  window.uniqueClientsNamesPerYearMap = {};
 
   const selectedYears = getSelectedYearsFromLocalStorage() || [];
   selectedYears.forEach((year) => {
     window.uniqueClientsPerYearMap[year] = new Set();
+    window.uniqueClientsNamesPerYearMap[year] = [];
   });
 
   try {
@@ -5728,7 +5734,8 @@ function countUniqueClients(records) {
       const clientName = record
         .querySelector("client___merged_client_name")
         ?.textContent?.trim();
-      const year = record.querySelector("s52_formatted_year")?.textContent;
+        const year = record.querySelector("s52_formatted_year")?.textContent;
+    
 
       // Only count clients that are in the selectedClients_Array
       if (clientName && selectedClients.includes(clientName)) {
@@ -5741,6 +5748,15 @@ function countUniqueClients(records) {
           window.uniqueClientsPerYearMap[year]
         ) {
           window.uniqueClientsPerYearMap[year].add(clientName);
+          
+          // Also populate the names array if client name not already in it
+          if (
+            window.uniqueClientsNamesPerYearMap &&
+            window.uniqueClientsNamesPerYearMap[year] &&
+            !window.uniqueClientsNamesPerYearMap[year].includes(clientName)
+          ) {
+            window.uniqueClientsNamesPerYearMap[year].push(clientName);
+          }
         }
       }
     });

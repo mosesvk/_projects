@@ -48,6 +48,7 @@ window.selectedClients_Array = window.selectedClients_Array || new Set();
 let selectedSchoolChurch_Selected;
 const map_dataUri = new Map();
 const dataUrLObj = new Object();
+let uniqueClientNames = []
 
 // CHARTS - Make these global variables accessible via window
 window.givingUnits_chart = null;
@@ -69,6 +70,7 @@ window.benefitsToSalaries_chart = null;
 window.salariesBenefitsIncludingOutsourcedEmployees_chart = null;
 window.personnelToCashExpenditure_chart = null;
 window.cashExpendituresPerGivingUnit_chart = null;
+
 
 // annotation - removed CFI-specific annotations
 

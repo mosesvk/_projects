@@ -1468,9 +1468,12 @@ const range = () => {
     minprice: window.sliderValue,
     maxprice: window.sliderValue2,
     min: 0,
-    max: 16000,
+    max: 25000,
     minthumb: 1,
     maxthumb: 1,
+    isDragging: false,
+    dragHandle: null,
+    sliderRect: null,
 
     mintrigger() {
       this.minprice = Math.min(this.minprice, this.maxprice - 500);
@@ -1514,6 +1517,57 @@ const range = () => {
 
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+    },
+
+    startDrag(event, handle) {
+      event.preventDefault();
+      this.isDragging = true;
+      this.dragHandle = handle;
+      
+      // Get the slider container rect for calculations
+      const sliderContainer = event.target.closest('.relative.z-10.h-2');
+      if (sliderContainer) {
+        this.sliderRect = sliderContainer.getBoundingClientRect();
+      }
+      
+      // Add global mouse event listeners
+      document.addEventListener('mousemove', this.handleDrag.bind(this));
+      document.addEventListener('mouseup', this.stopDrag.bind(this));
+      
+      // Prevent text selection during drag
+      document.body.style.userSelect = 'none';
+    },
+
+    handleDrag(event) {
+      if (!this.isDragging || !this.sliderRect) return;
+      
+      // Calculate the position relative to the slider
+      const x = event.clientX - this.sliderRect.left;
+      const percentage = Math.max(0, Math.min(100, (x / this.sliderRect.width) * 100));
+      
+      // Convert percentage to value
+      const value = Math.round(this.min + (percentage / 100) * (this.max - this.min));
+      
+      if (this.dragHandle === 'min') {
+        this.minprice = Math.min(value, this.maxprice - 500);
+        this.mintrigger();
+      } else if (this.dragHandle === 'max') {
+        this.maxprice = Math.max(value, this.minprice + 500);
+        this.maxtrigger();
+      }
+    },
+
+    stopDrag() {
+      this.isDragging = false;
+      this.dragHandle = null;
+      this.sliderRect = null;
+      
+      // Remove global mouse event listeners
+      document.removeEventListener('mousemove', this.handleDrag.bind(this));
+      document.removeEventListener('mouseup', this.stopDrag.bind(this));
+      
+      // Restore text selection
+      document.body.style.userSelect = '';
     },
   };
 };

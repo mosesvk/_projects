@@ -18,7 +18,7 @@ const config = {
     'src/Api.js': '184', // higherEd_api.js
     'src/index.html': '183', // higherEd_index.html
     'src/utility/Utility.js': '185', // higherEd_utility.js
-    'src/Header.js': '186', // higherEd_header.js
+    'src/components/Header.js': '186', // higherEd_header.js
     'src/utility/UiManagement.js': '187', // higherEd_uiManagement.js
     'src/components/DisplayCharts.js': '188', // higherEd_displayCharts.js
     'src/utility/charts.js': '189', // higherEd_charts.js
@@ -40,9 +40,8 @@ const config = {
   watchFiles: [
     'src/index.html',
     'src/Api.js',
-    'src/Header.js',
+    'src/components/**/*.js',
     'src/utility/**/*.js',
-    'components/**/*.js',
     'data/**/*.js'
   ],
   

@@ -224,6 +224,8 @@ function executeClientDropdownFilters() {
     selectAllCheckbox.indeterminate = !allSelected && !noneSelected;
   }
 
+  console.log("Selected clients:", Array.from(window.selectedClients_Array));
+
     // Only show toast if matchCount has changed and not on initial load
   if (window.hasRunInitialClientDropdownFilter) {
     if (matchCount !== prevMatchCount) {
