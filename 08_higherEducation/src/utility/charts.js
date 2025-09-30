@@ -2262,8 +2262,6 @@ const getCurrentRatioChartOptions = (data) => {
     }
   );
 
-  // console.log({ peerAvgCurrentAssetsArray });
-
   const peerAvgCurrentLiabilitiesArray = Object.keys(
     data.currentLiabilities_Peer
   ).map((key) => {
@@ -2272,6 +2270,8 @@ const getCurrentRatioChartOptions = (data) => {
 
     return isNaN(avg) ? 0 : avg;
   });
+
+  console.log({ peerAvgCurrentAssetsArray, peerAvgCurrentLiabilitiesArray });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
