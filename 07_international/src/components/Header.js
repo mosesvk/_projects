@@ -5,6 +5,10 @@ window.selectedAreas_Array = window.selectedAreas_Array || new Set();
 window.selectedTypes_Array = window.selectedTypes_Array || new Set();
 window.selectedClients_Array = window.selectedClients_Array || new Set();
 
+// Initialize client dropdown filter tracking variables
+window.hasRunInitialClientDropdownFilter = window.hasRunInitialClientDropdownFilter || false;
+window.prevMatchCount = window.prevMatchCount || 0;
+
 // Initialize slider default values
 window.sliderValue = 0;
 window.sliderValue2 = 25000;
@@ -258,6 +262,21 @@ function updateClientDropdownFilters() {
     `Filter completed: ${matchCount} of ${totalClientCount} clients match current filters`
   );
   console.log("Selected clients:", Array.from(window.selectedClients_Array));
+
+  // Handle toast notification for filter results
+  if (window.hasRunInitialClientDropdownFilter) {
+    if (matchCount !== window.prevMatchCount) {
+      // Only show toast if createToastSuccess function exists
+      if (typeof createToastSuccess === "function") {
+        createToastSuccess(`${matchCount} clients match your filter criteria`);
+      }
+    }
+  } else {
+    window.hasRunInitialClientDropdownFilter = true;
+  }
+
+  // Update previous match count for next comparison
+  window.prevMatchCount = matchCount;
 }
 
 /**

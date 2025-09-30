@@ -2333,7 +2333,7 @@ class ApiService {
     this.recordPeerHTMLArray = [];
   }
 
-  // Retrieve records for peer data based on selected years
+  // Retrieve records for peer data based on selected years with client batching
   async getRecordsForPeer(years, dataStr = "<qdbapi>") {
     if (years.length === 0) {
       // Base case: return the final string when the array is empty
@@ -2359,36 +2359,22 @@ class ApiService {
     }
 
     const currentYear = years[0];
-    // console.log(`Fetching peer data for year: ${currentYear}`);
+    console.log(`Fetching peer data for year: ${currentYear}`);
 
     try {
       // Debug: Log current selected clients
       console.log(`Selected clients count: ${window.selectedClients_Array?.size || 0}`);
       console.log(`Selected clients:`, Array.from(window.selectedClients_Array || []));
       
-      // Get selected clients with appropriate batching
-      const clientQuery = this.getClientQuery(window.selectedClients_Array);
-      console.log(`Client query for year ${currentYear}:`, clientQuery);
-
-      // Basic query condition with year
-      const queryCondition = `{301.EX.${currentYear}} AND ${clientQuery}`;
-      console.log(`Full query condition for year ${currentYear}:`, queryCondition);
-
-      const apiCallPeerData = {
-        act: "API_DoQuery",
-        query: queryCondition,
-        clist:
-          "301.59.60.62.63.64.66.261.302.262.303.211.227.231.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.228.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.222.231.344.334.306.347.343.346.244.205.341.342.344.345.348.351.352.256.353.354.7",
-      };
-
-      // Use await to make the async operation more explicit
-      const xml = await $.get(peerData, apiCallPeerData);
-      const recordsForPeer = $("record", xml).toArray();
-      console.log(`Received ${recordsForPeer.length} peer records for year ${currentYear} with ${window.selectedClients_Array?.size || 0} selected clients`);
+      // Use batched approach for large client lists
+      const selectedClients = Array.from(window.selectedClients_Array || []);
+      const batchedRecords = await this.fetchPeerDataInBatches(currentYear, selectedClients);
+      
+      console.log(`Received ${batchedRecords.length} peer records for year ${currentYear} with ${selectedClients.length} selected clients`);
 
       // Collect records for later use
-      if (recordsForPeer.length > 0) {
-        for (const record of recordsForPeer) {
+      if (batchedRecords.length > 0) {
+        for (const record of batchedRecords) {
           const newRecord = document.createElement("record");
 
           // Append each child element to the new record
@@ -2419,6 +2405,65 @@ class ApiService {
       console.log(`Continuing to next year after error...`);
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     }
+  }
+
+  // Fetch peer data in batches to avoid URL length limits
+  async fetchPeerDataInBatches(year, selectedClients) {
+    const BATCH_SIZE = 25; // Conservative batch size to stay under URL limits
+    const allRecords = [];
+    
+    if (selectedClients.length === 0) {
+      return allRecords;
+    }
+
+    // Calculate number of batches needed
+    const totalBatches = Math.ceil(selectedClients.length / BATCH_SIZE);
+    console.log(`Processing ${selectedClients.length} clients in ${totalBatches} batches of ${BATCH_SIZE}`);
+
+    // Process clients in batches
+    for (let i = 0; i < totalBatches; i++) {
+      const startIndex = i * BATCH_SIZE;
+      const endIndex = Math.min(startIndex + BATCH_SIZE, selectedClients.length);
+      const batchClients = selectedClients.slice(startIndex, endIndex);
+      
+      console.log(`Processing batch ${i + 1}/${totalBatches}: clients ${startIndex + 1}-${endIndex}`);
+
+      try {
+        // Build query for this batch
+        const clientConditions = batchClients
+          .map((client) => `{59.EX.'${this._escapeClientName(client)}'}`)
+          .join(" OR ");
+        
+        const batchClientQuery = `(${clientConditions})`;
+        const queryCondition = `{301.EX.${year}} AND ${batchClientQuery}`;
+
+        const apiCallPeerData = {
+          act: "API_DoQuery",
+          query: queryCondition,
+          clist: "301.59.60.62.63.64.66.261.302.262.303.211.227.231.263.304.197.264.305.198.199.265.306.209.208.220.266.307.195.196.267.308.251.268.309.269.310.219.205.228.270.311.274.312.198.199.209.275.313.197.208.220.209.276.314.277.315.240.241.206.207.280.316.200.201.281.317.282.318.239.283.319.238.284.320.225.285.321.204.287.322.202.227.288.323.203.289.324.204.290.325.242.291.326.204.200.201.292.327.227.239.293.328.238.294.329.225.295.330.215.225.296.331.297.332.250.201.222.231.344.334.306.347.343.346.244.205.341.342.344.345.348.351.352.256.353.354.7",
+        };
+
+        // Make the API call for this batch
+        const xml = await $.get(peerData, apiCallPeerData);
+        const batchRecords = $("record", xml).toArray();
+        
+        console.log(`Batch ${i + 1} returned ${batchRecords.length} records`);
+        allRecords.push(...batchRecords);
+
+        // Small delay between batches to be respectful to the server
+        if (i < totalBatches - 1) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+      } catch (error) {
+        console.error(`Error fetching batch ${i + 1}:`, error);
+        // Continue with next batch even if this one failed
+        continue;
+      }
+    }
+
+    console.log(`Total records collected from all batches: ${allRecords.length}`);
+    return allRecords;
   }
 
   // Retrieve records for client data based on selected years
@@ -2788,7 +2833,7 @@ class ApiService {
     return areaConditions ? `(${areaConditions})` : '({122.EX.""})';
   }
 
-  // Build a query condition for clients
+  // Build a query condition for clients (legacy method - now using batching for peer data)
   getClientQuery(selectedClientsSet) {
     // Convert Set to Array for iteration
     const selectedClients = Array.from(selectedClientsSet);
@@ -2798,18 +2843,21 @@ class ApiService {
       return '({59.EX.""})';
     }
 
-    // CRITICAL FIX: Always use specific client filtering regardless of count
-    // The previous logic was causing peer data to include ALL clients when > 15 were selected
     console.log(
       `Building query for ${selectedClients.length} selected clients`
     );
 
-    // For any number of clients, use specific OR conditions
+    // Build the client conditions
     const clientConditions = selectedClients
       .map((client) => `{59.EX.'${this._escapeClientName(client)}'}`)
       .join(" OR ");
 
-    return `(${clientConditions})`;
+    const fullQuery = `(${clientConditions})`;
+    
+    // Note: This method is now primarily used for non-peer queries
+    // Peer data queries use batching to avoid URL length limits
+    
+    return fullQuery;
   }
 
   // Add this helper method to the ApiService class
