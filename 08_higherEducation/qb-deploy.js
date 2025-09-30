@@ -20,9 +20,9 @@ const config = {
     'src/utility/Utility.js': '185', // higherEd_utility.js
     'src/Header.js': '186', // higherEd_header.js
     'src/utility/UiManagement.js': '187', // higherEd_uiManagement.js
-    'components/DisplayCharts.js': '188', // higherEd_displayCharts.js
+    'src/components/DisplayCharts.js': '188', // higherEd_displayCharts.js
     'src/utility/charts.js': '189', // higherEd_charts.js
-    'components/Report.js': '190', // higherEd_report.js
+    'src/components/Report.js': '190', // higherEd_report.js
     'src/utility/Print.js': '191', // higherEd_print.js
     'src/utility/WeightedAverages.js': '192', // higherEd_weightedAvg.js
     'test.html': '193', // higherEd_test.html
