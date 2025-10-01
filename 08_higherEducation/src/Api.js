@@ -2135,7 +2135,7 @@ class ApiService {
 
     // Process each year with all batches
     for (const currentYear of years) {
-      console.log(`Processing year ${currentYear} with ${clientBatches.length} batches`);
+      // console.log(`Processing year ${currentYear} with ${clientBatches.length} batches`);
       
       for (let batchIndex = 0; batchIndex < clientBatches.length; batchIndex++) {
         const clientBatch = clientBatches[batchIndex];
@@ -2552,7 +2552,7 @@ class AppController {
         const selectedClientsCount = window.selectedClients_Array ? window.selectedClients_Array.size : 0;
         
         if (selectedClientsCount > 15) {
-          console.log(`Using batched approach for ${selectedClientsCount} clients`);
+          // console.log(`Using batched approach for ${selectedClientsCount} clients`);
           recordsPeer = await this.apiService.getRecordsForPeerWithBatching(selectedYears, window.selectedClients_Array);
         } else {
           recordsPeer = await this.apiService.getRecordsForPeer(selectedYears);

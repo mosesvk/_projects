@@ -191,28 +191,28 @@ function clientMatchesFilters(
       )
     : false;
 
-    if (clientData.name === "Regent College" || clientData.name === "Trinity Western University") {
-      console.log("clientMatchesFilters", {
-        clientData,
-        enrollmentMin,
-        enrollmentMax,
-        selectedRegions,
-        selectedStates,
-        selectedMemberships,
-        selectedTypes,
-        selectedAthletics,
-        selectedSeminaries,
-        selectedRegionals,
-        enrollmentMatch,
-        regionMatch,
-        stateMatch,
-        membershipMatch,
-        typeMatch,
-        athleticMatch,
-        seminaryMatch,
-        regionalMatch
-      });
-    }
+    // if (clientData.name === "Regent College" || clientData.name === "Trinity Western University") {
+    //   console.log("clientMatchesFilters", {
+    //     clientData,
+    //     enrollmentMin,
+    //     enrollmentMax,
+    //     selectedRegions,
+    //     selectedStates,
+    //     selectedMemberships,
+    //     selectedTypes,
+    //     selectedAthletics,
+    //     selectedSeminaries,
+    //     selectedRegionals,
+    //     enrollmentMatch,
+    //     regionMatch,
+    //     stateMatch,
+    //     membershipMatch,
+    //     typeMatch,
+    //     athleticMatch,
+    //     seminaryMatch,
+    //     regionalMatch
+    //   });
+    // }
 
   return (
     enrollmentMatch &&
@@ -1674,22 +1674,22 @@ document.addEventListener("filtersChanged", function () {
         updateClientDropdownFilters();
         
         // Only log in development environment or with debug flag
-        console.log("Filter State Updated:", {
-          sliders: {
-              enrollmentMin: window.sliderValue,
-              enrollmentMax: window.sliderValue2,
-          },
-          regions: Array.from(window.selectedRegions_Array || []),
-          states: Array.from(window.selectedStates_Array || []),
-          memberships: Array.from(window.selectedMemberships_Array || []),
-          types: Array.from(window.selectedTypes_Array || []),
-          athletics: Array.from(window.selectedAthletics_Array || []),
-          seminaries: Array.from(window.selectedSeminaries_Array || []),
-          regionals: Array.from(window.selectedRegionals_Array || []),
-          clients: {
-              count: window.selectedClients_Array ? window.selectedClients_Array.size : 0,
-          },
-      });
+        // console.log("Filter State Updated:", {
+        //   sliders: {
+        //       enrollmentMin: window.sliderValue,
+        //       enrollmentMax: window.sliderValue2,
+        //   },
+        //   regions: Array.from(window.selectedRegions_Array || []),
+        //   states: Array.from(window.selectedStates_Array || []),
+        //   memberships: Array.from(window.selectedMemberships_Array || []),
+        //   types: Array.from(window.selectedTypes_Array || []),
+        //   athletics: Array.from(window.selectedAthletics_Array || []),
+        //   seminaries: Array.from(window.selectedSeminaries_Array || []),
+        //   regionals: Array.from(window.selectedRegionals_Array || []),
+        //   clients: {
+        //       count: window.selectedClients_Array ? window.selectedClients_Array.size : 0,
+        //   },
+        // });
     }, 250); // Debounce delay
 }, { passive: true }); // Optimize event listener
 
