@@ -1669,7 +1669,7 @@ class ApiService {
         act: "API_DoQuery",
         query: queryCondition,
         clist:
-          "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566.439"
+          "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566.439.593.637"
       };
 
       // Use await to make the async operation more explicit
@@ -1699,13 +1699,28 @@ class ApiService {
             // Get record ID
             const recordId = record.querySelector('update_id')?.textContent?.trim() || 'Unknown ID';
             
+            // Get completion test field (try multiple variations)
+            const completionTest = record.querySelector('_9999_completion_test_fs_tab_numeric')?.textContent?.trim() || 
+                                 record.querySelector('completion_test_fs_tab_numeric')?.textContent?.trim() ||
+                                 record.querySelector('_9999_completion_test_fs_tab')?.textContent?.trim() ||
+                                 record.querySelector('completion_test')?.textContent?.trim() ||
+                                 'Not Available';
+            
+            // Get related client field (try multiple variations)
+            const relatedClient = record.querySelector('related_client')?.textContent?.trim() ||
+                                record.querySelector('merged_client_name')?.textContent?.trim() ||
+                                record.querySelector('client_name')?.textContent?.trim() ||
+                                clientName;
+            
             // Store client name with value and record ID
             window.testCurrentAssetsPeerObject[clientName] = {
               value: currentAssetsValue,
               recordId: recordId,
-              year: year
+              year: year,
+              completionTest: completionTest,
+              relatedClient: relatedClient
             };
-            console.log(`PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue} [ID: ${recordId}]`);
+            // console.log(`PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue} [ID: ${recordId}] [Completion: ${completionTest}] [Related: ${relatedClient}]`);
           }
           
           const newRecord = document.createElement("record");
@@ -2187,7 +2202,7 @@ class ApiService {
             act: "API_DoQuery",
             query: queryCondition,
             clist:
-              "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566.439.593"
+              "7.3.536.619.537.618.534.539.758.759.757.760.761.741.541.549.551.547.553.390.392.396.393.395.600.606.390.392.396.393.395.390.391.549.392.395.393.394.411.450.451.452.453.454.455.727.546.397.394.398.622.621.623.624.625.626.627.629.630.631.632.633.634.635.636.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49.50.51.481.91.111.131.151.171.191.557.616.614.615.386.641.217.557.611.605.552.391.390.609.217.557.643.644.645.646.550.638.566.439.593.637"
           };
 
           const xml = await $.get(peerData, apiCallPeerData);
@@ -2215,11 +2230,26 @@ class ApiService {
                 // Get record ID
                 const recordId = record.querySelector('update_id')?.textContent?.trim() || 'Unknown ID';
                 
+                // Get completion test field (try multiple variations)
+                const completionTest = record.querySelector('_9999_completion_test_fs_tab_numeric')?.textContent?.trim() || 
+                                     record.querySelector('completion_test_fs_tab_numeric')?.textContent?.trim() ||
+                                     record.querySelector('_9999_completion_test_fs_tab')?.textContent?.trim() ||
+                                     record.querySelector('completion_test')?.textContent?.trim() ||
+                                     'Not Available';
+                
+                // Get related client field (try multiple variations)
+                const relatedClient = record.querySelector('related_client')?.textContent?.trim() ||
+                                    record.querySelector('merged_client_name')?.textContent?.trim() ||
+                                    record.querySelector('client_name')?.textContent?.trim() ||
+                                    clientName;
+                
                 // Store client name with value and record ID
                 window.testCurrentAssetsPeerObject[clientName] = {
                   value: currentAssetsValue,
                   recordId: recordId,
-                  year: year
+                  year: year,
+                  completionTest: completionTest,
+                  relatedClient: relatedClient
                 };
                 // console.log(`BATCHED PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue} [ID: ${recordId}]`);
               }
