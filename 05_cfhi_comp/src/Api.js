@@ -4474,7 +4474,7 @@ class ApiService {
     const filterParts = [];
     if (window.sliderValue !== undefined && window.sliderValue2 !== undefined) {
       filterParts.push(
-        `{123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`
+        `{123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}} AND {193.EX.'Comprehensive'}`
       );
     }
     if (window.selectedRegions_Array?.length > 0) {
