@@ -266,7 +266,7 @@ const insertDataToSourceOfInomeReport = (data, selectedYears) => {
     // console.log({clientName, peerName, title, data});
 
     const clientValue =
-      Number(data[clientName][selectedYears[selectedYears.length - 1]].value) > 0
+      Number(data[clientName][selectedYears[selectedYears.length - 1]].value) != 0
         ? styleNumber(
             data[clientName][selectedYears[selectedYears.length - 1]].value,
             "dollar",

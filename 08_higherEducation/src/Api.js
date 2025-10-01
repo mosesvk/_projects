@@ -1723,6 +1723,23 @@ class ApiService {
             // console.log(`PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue} [ID: ${recordId}] [Completion: ${completionTest}] [Related: ${relatedClient}]`);
           }
           
+          // Check for r029_revenue_investment_income field (negative values only)
+          const investmentIncomeElement = record.querySelector('r029_revenue_investment_income');
+          if (investmentIncomeElement) {
+            const investmentIncomeValue = parseFloat(investmentIncomeElement.textContent?.trim() || '0');
+            
+            if (investmentIncomeValue < 0) {
+              // Initialize global object if it doesn't exist
+              if (!window.testInvestmentsIncome) {
+                window.testInvestmentsIncome = {};
+              }
+              
+              const clientName = record.querySelector('merged_client_name')?.textContent?.trim() || 'Unknown Client';
+              window.testInvestmentsIncome[clientName] = investmentIncomeValue;
+              console.log(`NEGATIVE Investment Income: ${clientName} = ${investmentIncomeValue}`);
+            }
+          }
+          
           const newRecord = document.createElement("record");
 
           // Append each child element to the new record
@@ -2254,6 +2271,23 @@ class ApiService {
                 // console.log(`BATCHED PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue} [ID: ${recordId}]`);
               }
               
+              // Check for r029_revenue_investment_income field (negative values only)
+              const investmentIncomeElement = record.querySelector('r029_revenue_investment_income');
+              if (investmentIncomeElement) {
+                const investmentIncomeValue = parseFloat(investmentIncomeElement.textContent?.trim() || '0');
+                
+                if (investmentIncomeValue < 0) {
+                  // Initialize global object if it doesn't exist
+                  if (!window.testInvestmentsIncome) {
+                    window.testInvestmentsIncome = {};
+                  }
+                  
+                  const clientName = record.querySelector('merged_client_name')?.textContent?.trim() || 'Unknown Client';
+                  window.testInvestmentsIncome[clientName] = investmentIncomeValue;
+                  // console.log(`BATCHED NEGATIVE Investment Income: ${clientName} = ${investmentIncomeValue}`);
+                }
+              }
+              
               const newRecord = document.createElement("record");
 
               // Append each child element to the new record
@@ -2264,11 +2298,11 @@ class ApiService {
               this.recordPeerHTMLArray.push(newRecord.outerHTML);
               dataStr += newRecord.outerHTML;
             }
-            console.log(`Batch ${batchIndex + 1} Year ${currentYear}: Found ${currentAssetsCount} records with r256_ccurrent_assets out of ${recordsForPeer.length} total records`);
+            // console.log(`Batch ${batchIndex + 1} Year ${currentYear}: Found ${currentAssetsCount} records with r256_ccurrent_assets out of ${recordsForPeer.length} total records`);
             
             // Log the current state of the global object
             if (window.testCurrentAssetsPeerObject) {
-              console.log('Current testCurrentAssetsPeerObject:', window.testCurrentAssetsPeerObject);
+              // console.log('Current testCurrentAssetsPeerObject:', window.testCurrentAssetsPeerObject);
             }
           }
 
@@ -2300,6 +2334,13 @@ class ApiService {
         console.log('=== FINAL testCurrentAssetsPeerObject ===');
         console.log(window.testCurrentAssetsPeerObject);
         console.log(`Total clients with r256_ccurrent_assets: ${Object.keys(window.testCurrentAssetsPeerObject).length}`);
+      }
+      
+      // Final summary of collected negative investment income data
+      if (window.testInvestmentsIncome) {
+        console.log('=== FINAL testInvestmentsIncome (Negative Values Only) ===');
+        console.log(window.testInvestmentsIncome);
+        console.log(`Total clients with negative investment income: ${Object.keys(window.testInvestmentsIncome).length}`);
       }
       
       // console.log(`Batched approach completed: Parsed ${records.length} total peer records`);
