@@ -324,10 +324,10 @@ function updateClientDropdownFilters(isInitial = false) {
     selectAllCheckbox.indeterminate = !allSelected && !noneSelected;
   }
 
-  console.log(
-    `Filter completed: ${matchCount} of ${totalClientCount} clients match current filters`
-  );
-  console.log("Selected clients:", Array.from(window.selectedClients_Array));
+  // console.log(
+  //   `Filter completed: ${matchCount} of ${totalClientCount} clients match current filters`
+  // );
+  // console.log("Selected clients:", Array.from(window.selectedClients_Array));
 
   // Handle toast notification for filter results
   if (window.hasRunInitialClientDropdownFilter) {

@@ -2256,9 +2256,9 @@ const getCurrentRatioChartOptions = (data) => {
   const peerAvgCurrentAssetsArray = Object.keys(data.currentAssets_Peer).map(
     (key) => {
       const values = data.currentAssets_Peer[key];
-      const avg = getAverageOfArray(values);
+      const sum = getSumOfArray(values);
 
-      return isNaN(avg) ? 0 : avg;
+      return isNaN(sum) ? 0 : sum;
     }
   );
 
@@ -2266,9 +2266,9 @@ const getCurrentRatioChartOptions = (data) => {
     data.currentLiabilities_Peer
   ).map((key) => {
     const values = data.currentLiabilities_Peer[key];
-    const avg = getAverageOfArray(values);
+    const sum = getSumOfArray(values);
 
-    return isNaN(avg) ? 0 : avg;
+    return isNaN(sum) ? 0 : sum;
   });
 
   console.log({ peerAvgCurrentAssetsArray, peerAvgCurrentLiabilitiesArray });
