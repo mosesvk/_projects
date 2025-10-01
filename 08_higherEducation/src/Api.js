@@ -1696,9 +1696,16 @@ class ApiService {
               window.testCurrentAssetsPeerObject = {};
             }
             
-            // Store client name and value
-            window.testCurrentAssetsPeerObject[clientName] = currentAssetsValue;
-            console.log(`PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue}`);
+            // Get record ID
+            const recordId = record.querySelector('update_id')?.textContent?.trim() || 'Unknown ID';
+            
+            // Store client name with value and record ID
+            window.testCurrentAssetsPeerObject[clientName] = {
+              value: currentAssetsValue,
+              recordId: recordId,
+              year: year
+            };
+            console.log(`PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue} [ID: ${recordId}]`);
           }
           
           const newRecord = document.createElement("record");
@@ -2205,9 +2212,16 @@ class ApiService {
                   window.testCurrentAssetsPeerObject = {};
                 }
                 
-                // Store client name and value
-                window.testCurrentAssetsPeerObject[clientName] = currentAssetsValue;
-                console.log(`BATCHED PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue}`);
+                // Get record ID
+                const recordId = record.querySelector('update_id')?.textContent?.trim() || 'Unknown ID';
+                
+                // Store client name with value and record ID
+                window.testCurrentAssetsPeerObject[clientName] = {
+                  value: currentAssetsValue,
+                  recordId: recordId,
+                  year: year
+                };
+                // console.log(`BATCHED PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue} [ID: ${recordId}]`);
               }
               
               const newRecord = document.createElement("record");
