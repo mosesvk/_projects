@@ -231,7 +231,7 @@ function clientMatchesFilters(
  * Acts as the primary filter implementation that Utility.js will defer to
  */
 function updateClientDropdownFilters(isInitial = false) {
-  console.log("updateClientDropdownFilters", isInitial);
+  // console.log("updateClientDropdownFilters", isInitial);
   // Ensure client data store exists
   if (!window.clientDataStore) {
     console.warn("Client data store not initialized");
