@@ -36,8 +36,8 @@ const getMainChartOptions = (
       numType
     ));
 
-  if (mainName == "doeOverall")
-  console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
+  // if (mainName == "doeOverall")
+  // console.log({ clientArray, peerAvg, peerMid, peer25, peer75 });
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {

@@ -794,9 +794,9 @@ function addUniqueStatesToOptionsSelectStatesDropdown(stateArray) {
 function addUniqueMembershipsToOptionsSelectMembershipsDropdown(
   membershipArray
 ) {
-  console.log("addUniqueMembershipsToOptionsSelectMembershipsDropdown", {
-    membershipArray,
-  });
+  // console.log("addUniqueMembershipsToOptionsSelectMembershipsDropdown", {
+  //   membershipArray,
+  // });
 
   const optionsListMembership = document.getElementById(
     "options-list-membership"

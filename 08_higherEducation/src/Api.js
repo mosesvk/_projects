@@ -1618,7 +1618,7 @@ class ApiService {
   }
 
   // Retrieve records for peer data based on selected years
-  async getRecordsForPeer(years, dataStr = "<qdbapi>") {
+  async getRecordsForPeer(years, dataStr = "<qdbapi>", processedRecordKeys = new Set()) {
     if (years.length === 0) {
       // Base case: return the final string when the array is empty
       try {
@@ -1636,7 +1636,7 @@ class ApiService {
         // console.log("PEER XML", xmlDoc);
         const records = xmlDoc.querySelectorAll("record");
         // console.log("getRecordsForPeer", records);
-        // console.log(`Parsed ${records.length} peer records from collected data`);
+        console.log(`Parsed ${records.length} peer records from collected data`);
         return records;
       } catch (error) {
         console.error("Error parsing XML in getRecordsForPeer:", error);
@@ -1679,9 +1679,28 @@ class ApiService {
       // console.log("recordsForPeer", recordsForPeer);
       // console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);
 
-      // Collect records for later use
+      // Collect records for later use with deduplication
       if (recordsForPeer.length > 0) {
+        let duplicatesFound = 0;
         for (const record of recordsForPeer) {
+          // Simple duplicate check: record_id_ + year
+          const recordId = record.querySelector('record_id_')?.textContent?.trim();
+          const recordYear = record.querySelector('year')?.textContent?.trim();
+          
+          // Create composite key: record_id + year
+          const compositeKey = `${recordId}_${recordYear}`;
+          
+          if (recordId && recordYear && processedRecordKeys.has(compositeKey)) {
+            duplicatesFound++;
+            console.log(`Duplicate record found: ID ${recordId} for year ${recordYear} (skipping)`);
+            continue; // Skip this duplicate record
+          }
+          
+          // Add composite key to processed set
+          if (recordId && recordYear) {
+            processedRecordKeys.add(compositeKey);
+          }
+          
           const newRecord = document.createElement("record");
 
           // Append each child element to the new record
@@ -1692,12 +1711,16 @@ class ApiService {
           this.recordPeerHTMLArray.push(newRecord.outerHTML);
           dataStr += newRecord.outerHTML;
         }
+        
+        if (duplicatesFound > 0) {
+          console.log(`Year ${currentYear}: Found and skipped ${duplicatesFound} duplicate records`);
+        }
       } else {
         console.warn(`No records found for year ${currentYear}`);
       }
 
       // Recursive call with updated years and dataStr
-      return await this.getRecordsForPeer(years.slice(1), dataStr);
+      return await this.getRecordsForPeer(years.slice(1), dataStr, processedRecordKeys);
     } catch (error) {
       console.error("Error fetching peer data for year", currentYear, error);
 
@@ -2124,7 +2147,7 @@ class ApiService {
 
     console.log(`Using batched approach for ${selectedClients.length} clients`);
     
-    // Split clients into batches of 10 (safe for QuickBase query limits)
+    // Split clients into batches of 80 (safe for QuickBase query limits)
     const BATCH_SIZE = 80;
     const clientBatches = [];
     for (let i = 0; i < selectedClients.length; i += BATCH_SIZE) {
@@ -2133,9 +2156,14 @@ class ApiService {
 
     // console.log(`Split into ${clientBatches.length} batches of ${BATCH_SIZE} clients each`);
 
+    // Track processed record combinations (record_id_ + year) to prevent duplicates
+    const processedRecordKeys = new Set();
+    let totalRecordsProcessed = 0;
+    let duplicatesFound = 0;
+
     // Process each year with all batches
     for (const currentYear of years) {
-      // console.log(`Processing year ${currentYear} with ${clientBatches.length} batches`);
+      console.log(`Processing year ${currentYear} with ${clientBatches.length} batches`);
       
       for (let batchIndex = 0; batchIndex < clientBatches.length; batchIndex++) {
         const clientBatch = clientBatches[batchIndex];
@@ -2161,11 +2189,29 @@ class ApiService {
           const xml = await $.get(peerData, apiCallPeerData);
           const recordsForPeer = $("record", xml).toArray();
           
-          // console.log(`Batch ${batchIndex + 1}: Received ${recordsForPeer.length} records for year ${currentYear}`);
+          console.log(`Batch ${batchIndex + 1}: Received ${recordsForPeer.length} records for year ${currentYear}`);
 
-          // Collect records for later use
+          // Collect records for later use with deduplication
           if (recordsForPeer.length > 0) {
             for (const record of recordsForPeer) {
+              // Simple duplicate check: record_id_ + year
+              const recordId = record.querySelector('record_id_')?.textContent?.trim();
+              const recordYear = record.querySelector('year')?.textContent?.trim();
+              
+              // Create composite key: record_id + year
+              const compositeKey = `${recordId}_${recordYear}`;
+              
+              if (recordId && recordYear && processedRecordKeys.has(compositeKey)) {
+                duplicatesFound++;
+                console.log(`Duplicate record found: ID ${recordId} for year ${recordYear} (skipping)`);
+                continue; // Skip this duplicate record
+              }
+              
+              // Add composite key to processed set
+              if (recordId && recordYear) {
+                processedRecordKeys.add(compositeKey);
+              }
+              
               const newRecord = document.createElement("record");
 
               // Append each child element to the new record
@@ -2175,6 +2221,7 @@ class ApiService {
 
               this.recordPeerHTMLArray.push(newRecord.outerHTML);
               dataStr += newRecord.outerHTML;
+              totalRecordsProcessed++;
             }
           }
 
@@ -2189,6 +2236,12 @@ class ApiService {
         }
       }
     }
+
+    // Log deduplication results
+    console.log(`Batched approach completed for all years:`);
+    console.log(`- Total unique records processed: ${totalRecordsProcessed}`);
+    console.log(`- Duplicates found and skipped: ${duplicatesFound}`);
+    console.log(`- Unique record+year combinations tracked: ${processedRecordKeys.size}`);
 
     // Parse and return the final results
     try {
