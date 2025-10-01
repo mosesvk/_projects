@@ -1681,7 +1681,26 @@ class ApiService {
 
       // Collect records for later use
       if (recordsForPeer.length > 0) {
+        let currentAssetsCount = 0;
         for (const record of recordsForPeer) {
+          // Check for r256_ccurrent_assets field and store in global object
+          const currentAssetsElement = record.querySelector('r256_ccurrent_assets');
+          if (currentAssetsElement) {
+            currentAssetsCount++;
+            const clientName = record.querySelector('merged_client_name')?.textContent?.trim() || 'Unknown Client';
+            const year = record.querySelector('year')?.textContent?.trim() || 'Unknown Year';
+            const currentAssetsValue = currentAssetsElement.textContent?.trim() || '0';
+            
+            // Initialize global object if it doesn't exist
+            if (!window.testCurrentAssetsPeerObject) {
+              window.testCurrentAssetsPeerObject = {};
+            }
+            
+            // Store client name and value
+            window.testCurrentAssetsPeerObject[clientName] = currentAssetsValue;
+            console.log(`PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue}`);
+          }
+          
           const newRecord = document.createElement("record");
 
           // Append each child element to the new record
@@ -1691,6 +1710,12 @@ class ApiService {
 
           this.recordPeerHTMLArray.push(newRecord.outerHTML);
           dataStr += newRecord.outerHTML;
+        }
+        console.log(`Year ${currentYear}: Found ${currentAssetsCount} records with r256_ccurrent_assets out of ${recordsForPeer.length} total records`);
+        
+        // Log the current state of the global object
+        if (window.testCurrentAssetsPeerObject) {
+          console.log('Current testCurrentAssetsPeerObject:', window.testCurrentAssetsPeerObject);
         }
       } else {
         console.warn(`No records found for year ${currentYear}`);
@@ -2165,7 +2190,26 @@ class ApiService {
 
           // Collect records for later use
           if (recordsForPeer.length > 0) {
+            let currentAssetsCount = 0;
             for (const record of recordsForPeer) {
+              // Check for r256_ccurrent_assets field and store in global object
+              const currentAssetsElement = record.querySelector('r256_ccurrent_assets');
+              if (currentAssetsElement) {
+                currentAssetsCount++;
+                const clientName = record.querySelector('merged_client_name')?.textContent?.trim() || 'Unknown Client';
+                const year = record.querySelector('year')?.textContent?.trim() || 'Unknown Year';
+                const currentAssetsValue = currentAssetsElement.textContent?.trim() || '0';
+                
+                // Initialize global object if it doesn't exist
+                if (!window.testCurrentAssetsPeerObject) {
+                  window.testCurrentAssetsPeerObject = {};
+                }
+                
+                // Store client name and value
+                window.testCurrentAssetsPeerObject[clientName] = currentAssetsValue;
+                console.log(`BATCHED PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue}`);
+              }
+              
               const newRecord = document.createElement("record");
 
               // Append each child element to the new record
@@ -2175,6 +2219,12 @@ class ApiService {
 
               this.recordPeerHTMLArray.push(newRecord.outerHTML);
               dataStr += newRecord.outerHTML;
+            }
+            console.log(`Batch ${batchIndex + 1} Year ${currentYear}: Found ${currentAssetsCount} records with r256_ccurrent_assets out of ${recordsForPeer.length} total records`);
+            
+            // Log the current state of the global object
+            if (window.testCurrentAssetsPeerObject) {
+              console.log('Current testCurrentAssetsPeerObject:', window.testCurrentAssetsPeerObject);
             }
           }
 
@@ -2200,6 +2250,14 @@ class ApiService {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
       const records = xmlDoc.querySelectorAll("record");
+      
+      // Final summary of collected r256_ccurrent_assets data
+      if (window.testCurrentAssetsPeerObject) {
+        console.log('=== FINAL testCurrentAssetsPeerObject ===');
+        console.log(window.testCurrentAssetsPeerObject);
+        console.log(`Total clients with r256_ccurrent_assets: ${Object.keys(window.testCurrentAssetsPeerObject).length}`);
+      }
+      
       // console.log(`Batched approach completed: Parsed ${records.length} total peer records`);
       return records;
     } catch (error) {
