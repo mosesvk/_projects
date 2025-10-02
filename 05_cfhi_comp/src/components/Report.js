@@ -190,7 +190,7 @@ const addToSingleRow = (
       // console.log('tableModalRow', `${name}_modal_${year}`,tableModalRow);
 
       addClientDataToModalRow(tableModalRow, year, client, type, fixedNum);
-      addPeerDataToRow(
+      addPeerDataToModalRow(
         tableModalRow,
         peer,
         type,
@@ -335,6 +335,88 @@ const addPeerDataToRow = (
     // Normal peer data calculation
     if (peer && wa) {
       avg = getWeightedAverageOfArray(data, name);
+    } else if (peer && wa === undefined) {
+      avg = getAverageOfArray(peer[dataArray], name);
+    } else {
+      avg = 0;
+    }
+
+    textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
+    mid = peer ? getMidpointOfArray(peer[dataArray]) : '';
+    textMid = styleNumber(mid, type, fixedNum);
+    min = peer ? get25thPercentileOfArray(peer[dataArray]) : '';
+    textMin = styleNumber(min, type, fixedNum);
+    max = peer ? get75thPercentileOfArray(peer[dataArray]) : '';
+    textMax = styleNumber(max, type, fixedNum);
+  }
+
+  // if (name == 'givingUnits') console.log('givingUnits', {avg, textAvg, peer, wa, data, name, type, dataArray, fixedNum});
+
+  // console.log('----', {avg, textAvg, peer, wa, data, name});  
+
+  const dataPointMid = document.createElement("th");
+  const dataPointMin = document.createElement("th");
+  const dataPointMax = document.createElement("th");
+
+  dataPointAvg.className = propClass;
+  dataPointAvg.scope = propScope;
+  dataPointAvg.textContent = textAvg;
+  tableRow.appendChild(dataPointAvg);
+
+  dataPointMin.className = propClass;
+  dataPointMin.scope = propScope;
+  dataPointMin.textContent = textMin;
+  tableRow.appendChild(dataPointMin);
+
+  dataPointMid.className = propClass;
+  dataPointMid.scope = propScope;
+  dataPointMid.textContent = textMid;
+  tableRow.appendChild(dataPointMid);
+
+  dataPointMax.className = propClass;
+  dataPointMax.scope = propScope;
+  dataPointMax.textContent = textMax;
+  tableRow.appendChild(dataPointMax);
+};
+
+const addPeerDataToModalRow = (
+  tableRow,
+  peer,
+  type,
+  fixedNum,
+  year,
+  wa,
+  name,
+  data
+) => {
+  // console.log('addPeerDataToModalRow', { tableRow, peer, type, fixedNum, dataArray, wa, data, name });
+
+  const propClass =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
+  const propScope = "row";
+
+  const dataPointAvg = document.createElement("th");
+
+  // Check if this field should not have peer data calculated
+  const shouldSkipPeerData = name.endsWith('_percentChange') || name === 'netIncomeRatio_twoYrAvg';
+
+  let avg, mid, min, max;
+  let textAvg, textMid, textMin, textMax;
+
+  if (shouldSkipPeerData) {
+    // For _percentChange fields and netIncomeRatio_twoYrAvg, set peer data to blank
+    avg = '';
+    mid = '';
+    min = '';
+    max = '';
+    textAvg = '';
+    textMid = '';
+    textMin = '';
+    textMax = '';
+  } else {
+    // Normal peer data calculation
+    if (peer && wa) {
+      avg = getWeightedAverageOfArray(data, name, year);
     } else if (peer && wa === undefined) {
       avg = getAverageOfArray(peer[dataArray], name);
     } else {

@@ -479,7 +479,7 @@ const daysExpendableNetAssets_weightedAverage = (data, name) => {
 };
 
 const givingUnitsToStaff_weightedAverage = (data, name) => {
-  // console.log('givingUnitsToStaff_weightedAverage', data, name);
+  console.log('givingUnitsToStaff_weightedAverage', data, name);
   const s02 = getSumOfArray(data.givingUnits[name]['total']);
   const s151 = getSumOfArray(data.fullTimeEquivalent[name]['total']);
 
