@@ -2366,20 +2366,6 @@ class ApiService {
       const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
       const records = xmlDoc.querySelectorAll("record");
       
-      // Final summary of collected r256_ccurrent_assets data
-      if (window.testCurrentAssetsPeerObject) {
-        console.log('=== FINAL testCurrentAssetsPeerObject ===');
-        console.log(window.testCurrentAssetsPeerObject);
-        console.log(`Total clients with r256_ccurrent_assets: ${Object.keys(window.testCurrentAssetsPeerObject).length}`);
-      }
-      
-      // Final summary of collected negative investment income data
-      if (window.testInvestmentsIncome) {
-        console.log('=== FINAL testInvestmentsIncome (Negative Values Only) ===');
-        console.log(window.testInvestmentsIncome);
-        console.log(`Total clients with negative investment income: ${Object.keys(window.testInvestmentsIncome).length}`);
-      }
-      
       // console.log(`Batched approach completed: Parsed ${records.length} total peer records`);
       return records;
     } catch (error) {
