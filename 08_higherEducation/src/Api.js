@@ -1723,6 +1723,38 @@ class ApiService {
             // console.log(`PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue} [ID: ${recordId}] [Completion: ${completionTest}] [Related: ${relatedClient}]`);
           }
           
+          // Check for r245_cdoe_overall_composite_score field and store in global object
+          const doeOverallScoreElement = record.querySelector('r245_cdoe_overall_composite_score');
+          if (doeOverallScoreElement) {
+            const clientName = record.querySelector('merged_client_name')?.textContent?.trim() || 'Unknown Client';
+            const year = record.querySelector('year')?.textContent?.trim() || 'Unknown Year';
+            const doeOverallScoreValue = doeOverallScoreElement.textContent?.trim() || '0';
+            
+            // Initialize global object if it doesn't exist
+            if (!window.testDoeOverallScore) {
+              window.testDoeOverallScore = {};
+            }
+            
+            // Get record ID
+            const recordId = record.querySelector('update_id')?.textContent?.trim() || 'Unknown ID';
+            
+            
+            // Get related client field (try multiple variations)
+            const relatedClient = record.querySelector('related_client')?.textContent?.trim() ||
+                                record.querySelector('merged_client_name')?.textContent?.trim() ||
+                                record.querySelector('client_name')?.textContent?.trim() ||
+                                clientName;
+            
+            // Store client name with value and record ID
+            window.testDoeOverallScore[clientName] = {
+              value: doeOverallScoreValue,
+              recordId: recordId,
+              year: year,
+              relatedClient: relatedClient
+            };
+            // console.log(`PEER RECORD with r245_cdoe_overall_composite_score: ${clientName} (${year}) = ${doeOverallScoreValue} [ID: ${recordId}] [Completion: ${completionTest}] [Related: ${relatedClient}]`);
+          }
+          
           // Check for r029_revenue_investment_income field (negative values only)
           const investmentIncomeElement = record.querySelector('r029_revenue_investment_income');
           if (investmentIncomeElement) {
@@ -1755,6 +1787,11 @@ class ApiService {
         // Log the current state of the global object
         if (window.testCurrentAssetsPeerObject) {
           console.log('Current testCurrentAssetsPeerObject:', window.testCurrentAssetsPeerObject);
+        }
+        
+        // Log the current state of the DOE overall score object
+        if (window.testDoeOverallScore) {
+          console.log('Current testDoeOverallScore:', window.testDoeOverallScore);
         }
       } else {
         console.warn(`No records found for year ${currentYear}`);
