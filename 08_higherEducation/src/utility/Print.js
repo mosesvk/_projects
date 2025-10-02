@@ -923,7 +923,7 @@ async function exportWithHtml2Canvas(chartElement) {
   // Handle FusionCharts caption clearing before export
   let originalCaption = null;
   if (chartType === "hlineargauge") {
-    console.log(`if (chartType === "hlineargauge") ${chartId} - Clearing caption`, chart, chartElement);
+    // console.log(`if (chartType === "hlineargauge") ${chartId} - Clearing caption`, chart, chartElement);
     // Store original caption and clear it
     originalCaption = chart.args?.dataSource?.chart?.caption || "";
     
@@ -1044,7 +1044,7 @@ async function exportWithHtml2Canvas(chartElement) {
 
     // Restore FusionCharts caption if it was cleared
     if (originalCaption !== null && chart && chart.args && chart.args.dataSource) {
-      console.log(`[Lineargauge DEBUG] ${chartId} - Restoring caption`, chart, originalCaption);
+      // console.log(`[Lineargauge DEBUG] ${chartId} - Restoring caption`, chart, originalCaption);
       // Restore the caption in the dataSource
       chart.args.dataSource.chart.caption = originalCaption;
       

@@ -2306,7 +2306,6 @@ class ApiService {
 
               // Check for r245_cdoe_overall_composite_score field and store in global object
               const doeOverallScoreElement = record.querySelector('r245_cdoe_overall__composite_score_');
-              console.log(doeOverallScoreElement)
               if (doeOverallScoreElement) {
                 const clientName = record.querySelector('merged_client_name')?.textContent?.trim() || 'Unknown Client';
                 const year = record.querySelector('year')?.textContent?.trim() || 'Unknown Year';
@@ -2341,7 +2340,7 @@ class ApiService {
                   completionTest: completionTest,
                   relatedClient: relatedClient
                 };
-                console.log(`BATCHED PEER RECORD with r245_cdoe_overall__composite_score_: ${clientName} (${year}) = ${doeOverallScoreValue} [ID: ${recordId}] [Completion: ${completionTest}] [Related: ${relatedClient}]`);
+                // console.log(`BATCHED PEER RECORD with r245_cdoe_overall__composite_score_: ${clientName} (${year}) = ${doeOverallScoreValue} [ID: ${recordId}] [Completion: ${completionTest}] [Related: ${relatedClient}]`);
               }
               
               // Check for r029_revenue_investment_income field (negative values only)
@@ -2397,14 +2396,14 @@ class ApiService {
       const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
       const records = xmlDoc.querySelectorAll("record");
       
-      console.log(`Batched approach completed: Parsed ${records.length} total peer records`);
-      console.log('BATCHED peer dataStr:', dataStr);
+      // console.log(`Batched approach completed: Parsed ${records.length} total peer records`);
+      // console.log('BATCHED peer dataStr:', dataStr);
       
       // Final summary of collected DOE overall score data
       if (window.testDoeOverallScore) {
-        console.log('=== FINAL testDoeOverallScore ===');
-        console.log(window.testDoeOverallScore);
-        console.log(`Total clients with DOE overall score: ${Object.keys(window.testDoeOverallScore).length}`);
+        // console.log('=== FINAL testDoeOverallScore ===');
+        // console.log(window.testDoeOverallScore);
+        // console.log(`Total clients with DOE overall score: ${Object.keys(window.testDoeOverallScore).length}`);
       }
       
       return records;
@@ -2788,9 +2787,10 @@ class AppController {
 
       // Fetch client data with error handling
       let recordsClient;
+      // console.log({selectedYears})
       try {
         recordsClient = await this.apiService.getRecordsForClient(
-          yearsData_Array
+          selectedYears
         );
 
         window.testRecordsClient = recordsClient;
@@ -2800,6 +2800,8 @@ class AppController {
          * The first record in recordsClient is always the most recent year.
          * Saves the value to the already initialized "mostRecentYearSourceRecordId".
          */
+
+        console.log({recordsClient})
         if (recordsClient && recordsClient.length > 0) {
           const mostRecentRecord = recordsClient[0];
           const recordIdElement = mostRecentRecord.querySelector("record_id_");
