@@ -2801,9 +2801,9 @@ class AppController {
          * Saves the value to the already initialized "mostRecentYearSourceRecordId".
          */
 
-        console.log({recordsClient})
+        // console.log({recordsClient}, recordsClient[recordsClient.length - 1].children[2].textContent)
         if (recordsClient && recordsClient.length > 0) {
-          const mostRecentRecord = recordsClient[0];
+          const mostRecentRecord = recordsClient[recordsClient.length - 1];
           const recordIdElement = mostRecentRecord.querySelector("record_id_");
           if (recordIdElement) {
             mostRecentYearSourceRecordId = recordIdElement.textContent;
