@@ -4373,7 +4373,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
 
   // console.log({ mainName: data.mainName, scholarshipArray, tuitionFeesArray });
 
-  const { minY, maxY } = getMinMaxY(scholarshipArray, tuitionFeesArray);
+  const { minY, maxY } = getMinMaxY([scholarshipArray, tuitionFeesArray]);
   const { minYLine, maxYLine } = getMinMaxY(clientRatioArray, peerRatioArray);
 
   // console.log("getTuitionDiscountRateChartOptions", {

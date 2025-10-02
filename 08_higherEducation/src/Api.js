@@ -1316,7 +1316,7 @@ class DataProcessor {
           year,
           "doeOverall_Peer",
           record,
-          "r245_cdoe_overall_composite_score",
+          "r245_cdoe_overall__composite_score_",
           "Yes"
         );
 
@@ -1619,6 +1619,7 @@ class ApiService {
 
   // Retrieve records for peer data based on selected years
   async getRecordsForPeer(years, dataStr = "<qdbapi>") {
+    console.log('getRecordsForPeer called with years:', years, 'dataStr length:', dataStr.length);
     if (years.length === 0) {
       // Base case: return the final string when the array is empty
       try {
@@ -1636,7 +1637,8 @@ class ApiService {
         // console.log("PEER XML", xmlDoc);
         const records = xmlDoc.querySelectorAll("record");
         // console.log("getRecordsForPeer", records);
-        // console.log(`Parsed ${records.length} peer records from collected data`);
+        console.log(`Parsed ${records.length} peer records from collected data`);
+        console.log('FINAL peer dataStr:', dataStr);
         return records;
       } catch (error) {
         console.error("Error parsing XML in getRecordsForPeer:", error);
@@ -1677,7 +1679,7 @@ class ApiService {
       // console.log("PEER XML", xml);
       const recordsForPeer = $("record", xml).toArray();
       // console.log("recordsForPeer", recordsForPeer);
-      // console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);
+      console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);
 
       // Collect records for later use
       if (recordsForPeer.length > 0) {
@@ -1724,7 +1726,8 @@ class ApiService {
           }
           
           // Check for r245_cdoe_overall_composite_score field and store in global object
-          const doeOverallScoreElement = record.querySelector('r245_cdoe_overall_composite_score');
+          const doeOverallScoreElement = record.querySelector('r245_cdoe_overall__composite_score_');
+          console.log(doeOverallScoreElement)
           if (doeOverallScoreElement) {
             const clientName = record.querySelector('merged_client_name')?.textContent?.trim() || 'Unknown Client';
             const year = record.querySelector('year')?.textContent?.trim() || 'Unknown Year';
@@ -1782,17 +1785,10 @@ class ApiService {
           this.recordPeerHTMLArray.push(newRecord.outerHTML);
           dataStr += newRecord.outerHTML;
         }
-        console.log(`Year ${currentYear}: Found ${currentAssetsCount} records with r256_ccurrent_assets out of ${recordsForPeer.length} total records`);
         
-        // Log the current state of the global object
-        if (window.testCurrentAssetsPeerObject) {
-          console.log('Current testCurrentAssetsPeerObject:', window.testCurrentAssetsPeerObject);
-        }
-        
-        // Log the current state of the DOE overall score object
-        if (window.testDoeOverallScore) {
-          console.log('Current testDoeOverallScore:', window.testDoeOverallScore);
-        }
+        console.log('About to log peer dataStr, length:', dataStr.length);
+        console.log('peer', dataStr)
+
       } else {
         console.warn(`No records found for year ${currentYear}`);
       }
@@ -2307,6 +2303,46 @@ class ApiService {
                 };
                 // console.log(`BATCHED PEER RECORD with r256_ccurrent_assets: ${clientName} (${year}) = ${currentAssetsValue} [ID: ${recordId}]`);
               }
+
+              // Check for r245_cdoe_overall_composite_score field and store in global object
+              const doeOverallScoreElement = record.querySelector('r245_cdoe_overall__composite_score_');
+              console.log(doeOverallScoreElement)
+              if (doeOverallScoreElement) {
+                const clientName = record.querySelector('merged_client_name')?.textContent?.trim() || 'Unknown Client';
+                const year = record.querySelector('year')?.textContent?.trim() || 'Unknown Year';
+                const doeOverallScoreValue = doeOverallScoreElement.textContent?.trim() || '0';
+                
+                // Initialize global object if it doesn't exist
+                if (!window.testDoeOverallScore) {
+                  window.testDoeOverallScore = {};
+                }
+                
+                // Get record ID
+                const recordId = record.querySelector('update_id')?.textContent?.trim() || 'Unknown ID';
+                
+                // Get completion test field (try multiple variations)
+                const completionTest = record.querySelector('_9999_completion_test_fs_tab_numeric')?.textContent?.trim() || 
+                                     record.querySelector('completion_test_fs_tab_numeric')?.textContent?.trim() ||
+                                     record.querySelector('_9999_completion_test_fs_tab')?.textContent?.trim() ||
+                                     record.querySelector('completion_test')?.textContent?.trim() ||
+                                     'Not Available';
+                
+                // Get related client field (try multiple variations)
+                const relatedClient = record.querySelector('related_client')?.textContent?.trim() ||
+                                    record.querySelector('merged_client_name')?.textContent?.trim() ||
+                                    record.querySelector('client_name')?.textContent?.trim() ||
+                                    clientName;
+                
+                // Store client name with value and record ID
+                window.testDoeOverallScore[clientName] = {
+                  value: doeOverallScoreValue,
+                  recordId: recordId,
+                  year: year,
+                  completionTest: completionTest,
+                  relatedClient: relatedClient
+                };
+                console.log(`BATCHED PEER RECORD with r245_cdoe_overall__composite_score_: ${clientName} (${year}) = ${doeOverallScoreValue} [ID: ${recordId}] [Completion: ${completionTest}] [Related: ${relatedClient}]`);
+              }
               
               // Check for r029_revenue_investment_income field (negative values only)
               const investmentIncomeElement = record.querySelector('r029_revenue_investment_income');
@@ -2335,12 +2371,7 @@ class ApiService {
               this.recordPeerHTMLArray.push(newRecord.outerHTML);
               dataStr += newRecord.outerHTML;
             }
-            // console.log(`Batch ${batchIndex + 1} Year ${currentYear}: Found ${currentAssetsCount} records with r256_ccurrent_assets out of ${recordsForPeer.length} total records`);
-            
-            // Log the current state of the global object
-            if (window.testCurrentAssetsPeerObject) {
-              // console.log('Current testCurrentAssetsPeerObject:', window.testCurrentAssetsPeerObject);
-            }
+
           }
 
           // Add a small delay between batches to avoid overwhelming the API
@@ -2366,7 +2397,16 @@ class ApiService {
       const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
       const records = xmlDoc.querySelectorAll("record");
       
-      // console.log(`Batched approach completed: Parsed ${records.length} total peer records`);
+      console.log(`Batched approach completed: Parsed ${records.length} total peer records`);
+      console.log('BATCHED peer dataStr:', dataStr);
+      
+      // Final summary of collected DOE overall score data
+      if (window.testDoeOverallScore) {
+        console.log('=== FINAL testDoeOverallScore ===');
+        console.log(window.testDoeOverallScore);
+        console.log(`Total clients with DOE overall score: ${Object.keys(window.testDoeOverallScore).length}`);
+      }
+      
       return records;
     } catch (error) {
       console.error("Error parsing XML in batched approach:", error);
