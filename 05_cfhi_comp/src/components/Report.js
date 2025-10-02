@@ -384,12 +384,12 @@ const addPeerDataToModalRow = (
   peer,
   type,
   fixedNum,
-  year,
+  dataArray,
   wa,
   name,
   data
 ) => {
-  // console.log('addPeerDataToModalRow', { tableRow, peer, type, fixedNum, dataArray, wa, data, name });
+  // console.log('addPeerDataToRow', { tableRow, peer, type, fixedNum, dataArray, wa, data, name });
 
   const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
@@ -416,7 +416,7 @@ const addPeerDataToModalRow = (
   } else {
     // Normal peer data calculation
     if (peer && wa) {
-      avg = getWeightedAverageOfArray(data, name, year);
+      avg = getWeightedAverageOfArray(data, name, dataArray);
     } else if (peer && wa === undefined) {
       avg = getAverageOfArray(peer[dataArray], name);
     } else {

@@ -869,32 +869,6 @@ function updateSelectAllCheckboxState() {
   selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
 }
 
-function addPeerDataToModalRow(
-  row,
-  avgValue,
-  midValue,
-  p25Value,
-  p75Value,
-  dataType,
-  fixedNum
-) {
-  // console.log({
-  //   row, avgValue, dataType, fixedNum
-  // });
-
-  // Create and add the average value cell
-  const avgCell = createPeerDataCell(row, avgValue, dataType, fixedNum);
-
-  // Create and add the 25th percentile cell
-  const p25Cell = createPeerDataCell(row, p25Value, dataType, fixedNum);
-
-  // Create and add the median cell
-  const midCell = createPeerDataCell(row, midValue, dataType, fixedNum);
-
-  // Create and add the 75th percentile cell
-  const p75Cell = createPeerDataCell(row, p75Value, dataType, fixedNum);
-}
-
 // Helper to create a data cell for peer data with appropriate formatting
 function createPeerDataCell(row, value, dataType, fixedNum) {
   const cell = document.createElement("td");
