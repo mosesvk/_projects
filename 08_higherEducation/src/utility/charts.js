@@ -1909,8 +1909,8 @@ const getFfaChartOptions = (data) => {
           colors: chartColors.labelColor,
           fontSize: "1rem",
         },
-        rotate: -25, // Adjust the rotation angle as needed
-        minHeight: 220,
+        rotate: -30, // Adjust the rotation angle as needed
+        minHeight: 200,
         offsetY: 5,
       },
     },
