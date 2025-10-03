@@ -1868,7 +1868,7 @@ const getFfaChartOptions = (data) => {
         borderColor: window.chartColors.grey,
       },
       offsetX: 40,
-      offsetY: 25,
+      offsetY: 30,
     },
     zoom: {
       enabled: false,
@@ -1909,8 +1909,8 @@ const getFfaChartOptions = (data) => {
           colors: chartColors.labelColor,
           fontSize: "1rem",
         },
-        rotate: -45, // Adjust the rotation angle as needed
-        minHeight: 150,
+        rotate: -25, // Adjust the rotation angle as needed
+        minHeight: 220,
         offsetY: 5,
       },
     },
