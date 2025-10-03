@@ -132,9 +132,9 @@ const insertDataToFfaReport = (data, selectedYears) => {
       ? styleNumber(revenueTuitionAndFeesClient, "dollar", 0)
       : "-";
 
-  const revenueSchoolServicesClient = Number(
+  const revenueSchoolServicesClient = Math.abs(Number(
     data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value
-  );
+  ))
   document.getElementById("ffa_scholarshipsFinancial").textContent =
     revenueSchoolServicesClient != 0
       ? styleNumber(revenueSchoolServicesClient, "dollar", 0)
