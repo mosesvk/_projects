@@ -1705,7 +1705,7 @@ const getFfaChartOptions = (data) => {
   // const netChangeRestrictedInPerpetuityClient = Number(
   //   data["ffa_netChangeRestrictedInPerpetuity_Client"][currentYear].value
   // );
-  
+
   const restrictedAssetsClient = Number(
     data["ffa_restrictedAssets_Client"][currentYear].value
   );
@@ -1814,7 +1814,7 @@ const getFfaChartOptions = (data) => {
             fillColor: window.chartColors.blue,
           },
           {
-            x: "Gifts & Other Restricted",
+            x: "Net assets released from restriction",
             y: [auxiliaryAndOtherClient, restrictedGiftsClient],
             fillColor: window.chartColors.blue,
           },
@@ -1868,7 +1868,7 @@ const getFfaChartOptions = (data) => {
         borderColor: window.chartColors.grey,
       },
       offsetX: 40,
-      offsetY: 20,
+      offsetY: 25,
     },
     zoom: {
       enabled: false,
