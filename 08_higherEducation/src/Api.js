@@ -1209,7 +1209,8 @@ class DataProcessor {
           { key: "ffa_incomeExpenseSurplusDefecit_Client", field: "dashboard_c001_income_expense_surplus_defecit" },
           { key: "ffa_interest_Client", field: "r165_interest" },
           { key: "ffa_totalFunctionalExpenses_Client", field: "r044_ctotal_functional_expenses" },
-          { key: "ffa_depreciationAndAmortization_Client", field: "r164_depreciation_and_amortization" }
+          { key: "ffa_depreciationAndAmortization_Client", field: "r164_depreciation_and_amortization" },
+          {key: "ffa_restrictedAssets_Client", field: "r034_revenue_net_assets_released_from_restriction"}
         ];
 
         financialFlowFields.forEach(({ key, field }) => {

@@ -170,12 +170,12 @@ const insertDataToFfaReport = (data, selectedYears) => {
       ? styleNumber(auxiliaryAndOtherClient, "dollar", 0)
       : "-";
 
-  const contributionsClient = Number(
-    data["ffa_contributions_Client"][currentYear].value
+  const restrictedGiftsClient = Number(
+    data["ffa_restrictedGifts_Client"][currentYear].value
   );
   document.getElementById("ffa_restrictedGifts").textContent =
-    contributionsClient != 0
-      ? styleNumber(contributionsClient, "dollar", 0)
+    restrictedGiftsClient != 0
+      ? styleNumber(restrictedGiftsClient, "dollar", 0)
       : "-";
 
   const salariesAndWagesClient = Number(
@@ -219,7 +219,7 @@ const insertDataToFfaReport = (data, selectedYears) => {
     revenueTuitionAndFeesClient +
     totalRevenueContributionsClient +
     auxiliaryAndOtherClient +
-    contributionsClient;
+    restrictedGiftsClient;
   const totalExpenses =
     revenueSchoolServicesClient +
     compensationAndBenefitsClient +

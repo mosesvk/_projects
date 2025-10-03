@@ -1699,16 +1699,20 @@ const getFfaChartOptions = (data) => {
     revenueAuxiliaryActivitiesClient +
     revenueOtherClient;
 
-  const changeInNetAssetsWithDRClient = Number(
-    data["ffa_changeInNetAssetsWithDR_Client"][currentYear].value
-  );
-  const netChangeRestrictedInPerpetuityClient = Number(
-    data["ffa_netChangeRestrictedInPerpetuity_Client"][currentYear].value
+  // const changeInNetAssetsWithDRClient = Number(
+  //   data["ffa_changeInNetAssetsWithDR_Client"][currentYear].value
+  // );
+  // const netChangeRestrictedInPerpetuityClient = Number(
+  //   data["ffa_netChangeRestrictedInPerpetuity_Client"][currentYear].value
+  // );
+  
+  const restrictedAssetsClient = Number(
+    data["ffa_restrictedAssets_Client"][currentYear].value
   );
 
   const restrictedGiftsClient =
     auxiliaryAndOtherClient +
-    (changeInNetAssetsWithDRClient + netChangeRestrictedInPerpetuityClient);
+    (restrictedAssetsClient);
 
   const employeeBenefitsClient = Number(
     data["ffa_employeeBenefits_Client"][currentYear].value
