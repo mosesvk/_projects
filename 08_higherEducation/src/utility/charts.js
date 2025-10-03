@@ -1674,8 +1674,9 @@ const getFfaChartOptions = (data) => {
   const revenueTuitionAndFeesClient = Number(
     data["ffa_revenueTuitionAndFees_Client"][currentYear].value
   );
-  const revenueSchoolServicesClient = Number(
-    data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value
+
+  const revenueSchoolServicesClient = Math.abs(
+    Number(data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value)
   );
   const ScholarshipAndFinancialAidClient =
     revenueTuitionAndFeesClient + revenueSchoolServicesClient;
