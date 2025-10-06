@@ -1689,11 +1689,10 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         upperLimit: "10",
         showValue: "1",
         
-        // Plot settings for the actual value indicator
-        plotAsDot: "1",
-        plotFillPercent: "100",
-        plotFillColor: "#000000",
-        plotFillAlpha: "100",
+        // Plot settings - hide the default plot since we're using annotation
+        plotAsDot: "0",
+        plotFillPercent: "0",
+        plotFillAlpha: "0",
         showPlotBorder: "0",
         
         // Target line settings
@@ -1794,6 +1793,21 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
       annotations: {
         autoScale: "0",
         groups: [
+          {
+            id: "valueIndicator",
+            items: [
+              {
+                id: "blackBar",
+                type: "rectangle",
+                x: "$canvasStartX + ($canvasWidth * 0.35)",
+                y: "$canvasStartY + (($canvasHeight / 14) * (10 - " + cfiValue + "))",
+                toY: "$canvasEndY",
+                toX: "$canvasStartX + ($canvasWidth * 0.65)",
+                color: "#000000",
+                alpha: "100"
+              }
+            ]
+          },
           {
             id: "rangeLabels",
             items: [
