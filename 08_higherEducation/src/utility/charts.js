@@ -1679,7 +1679,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
     type: "vbullet",
     renderAt: "cfiCompositeHtml_Chart",
     width: "100%",
-    height: "600",
+    height: "700",
     dataFormat: "json",
     dataSource: {
       chart: {
@@ -1688,16 +1688,25 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         lowerLimit: "-4",
         upperLimit: "10",
         showValue: "1",
-        value: cfiValue.toString(),
-        target: "5", // Target value for transformation
-        targetColor: "#333333",
-        targetThickness: "2",
-        showTargetLine: "1",
-        showTargetValue: "0",
+        
+        // Plot settings for the actual value indicator
+        plotAsDot: "0",
+        plotFillPercent: "100",
+        plotFillColor: "#000000",
+        plotFillAlpha: "100",
+        showPlotBorder: "1",
+        plotBorderColor: "#000000",
+        plotBorderThickness: "3",
+        plotBorderAlpha: "100",
+        
+        // Target line settings
+        target: "5",
+        targetColor: "#666666",
+        targetThickness: "1",
+        targetFillPercent: "100",
         
         // Color ranges matching the original chart
         colorRangeFillMix: "{light}",
-        colorRangeFillRatio: "70",
         
         // Axis and tick properties
         showTickMarks: "1",
@@ -1706,11 +1715,9 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         ticksOnRight: "0",
         tickValueStep: "1",
         majorTMNumber: "14",
-        majorTMHeight: "15",
-        majorTMThickness: "2",
+        majorTMHeight: "10",
+        majorTMThickness: "1",
         minorTMNumber: "0",
-        tickMarkDistance: "5",
-        tickValueDistance: "10",
         
         // Chart cosmetics
         bgColor: "#ffffff",
@@ -1719,21 +1726,22 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         
         // Font properties
         baseFont: "Arial",
-        baseFontSize: "12",
+        baseFontSize: "14",
         baseFontColor: "#333333",
         captionFontSize: "18",
         captionFontBold: "1",
         
         // Data value cosmetics
-        valueFontSize: "16",
+        valueFontSize: "18",
         valueFontBold: "1",
         valueFontColor: "#000000",
+        valuePadding: "10",
         
         // Margins to accommodate text labels
-        chartLeftMargin: "80",
-        chartRightMargin: "300",
-        chartTopMargin: "30",
-        chartBottomMargin: "30",
+        chartLeftMargin: "50",
+        chartRightMargin: "350",
+        chartTopMargin: "40",
+        chartBottomMargin: "40",
         
         // Theme
         theme: "fusion"
@@ -1744,42 +1752,50 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
             minValue: "-4",
             maxValue: "1",
             code: "#D46D78",
-            alpha: "70"
+            alpha: "70",
+            label: "Assess viability to Survive"
           },
           {
             minValue: "1",
             maxValue: "3",
             code: "#E39D5E", 
-            alpha: "70"
+            alpha: "70",
+            label: "Re-Engineer the University"
           },
           {
             minValue: "3",
             maxValue: "5",
             code: "#E0BD4D",
-            alpha: "70"
+            alpha: "70",
+            label: "Direct resources to allow transformation"
           },
           {
             minValue: "5",
             maxValue: "7",
             code: "#CAE46A",
-            alpha: "70"
+            alpha: "70",
+            label: "Focus resources to compete in future state"
           },
           {
             minValue: "7",
             maxValue: "9",
             code: "#B0E46A",
-            alpha: "70"
+            alpha: "70",
+            label: "Allow experimentation with new initiatives"
           },
           {
             minValue: "9",
             maxValue: "10",
             code: "#8AB552",
-            alpha: "70"
+            alpha: "70",
+            label: "Deploy resources to achieve robust mission"
           }
         ]
       },
-      // Text labels for each range
+      value: cfiValue.toString(),
+      // Text labels for each range using annotations
       annotations: {
+        autoScale: "0",
         groups: [
           {
             id: "rangeLabels",
@@ -1788,29 +1804,32 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 id: "label1",
                 type: "text",
                 text: "Assess viability to Survive",
-                x: "85%",
-                y: "85%",
-                fontSize: "12",
+                x: "$canvasEndX + 20",
+                y: "$canvasStartY + 570",
+                fontSize: "13",
+                align: "left",
                 color: "#333333",
-                bold: "1"
+                bold: "0"
               },
               {
                 id: "label2", 
                 type: "text",
                 text: "Re-Engineer the University",
-                x: "85%",
-                y: "70%",
-                fontSize: "12",
+                x: "$canvasEndX + 20",
+                y: "$canvasStartY + 480",
+                fontSize: "13",
+                align: "left",
                 color: "#333333",
-                bold: "1"
+                bold: "0"
               },
               {
                 id: "label3",
                 type: "text", 
                 text: "Direct resources to allow transformation",
-                x: "85%",
-                y: "50%",
+                x: "$canvasEndX + 20",
+                y: "$canvasStartY + 390",
                 fontSize: "14",
+                align: "left",
                 color: "#333333",
                 bold: "1"
               },
@@ -1818,31 +1837,34 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 id: "label4",
                 type: "text",
                 text: "Focus resources to compete in future state", 
-                x: "85%",
-                y: "35%",
-                fontSize: "12",
+                x: "$canvasEndX + 20",
+                y: "$canvasStartY + 300",
+                fontSize: "13",
+                align: "left",
                 color: "#333333",
-                bold: "1"
+                bold: "0"
               },
               {
                 id: "label5",
                 type: "text",
                 text: "Allow experimentation with new initiatives",
-                x: "85%", 
-                y: "20%",
-                fontSize: "12",
+                x: "$canvasEndX + 20", 
+                y: "$canvasStartY + 210",
+                fontSize: "13",
+                align: "left",
                 color: "#333333",
-                bold: "1"
+                bold: "0"
               },
               {
                 id: "label6",
                 type: "text",
                 text: "Deploy resources to achieve robust mission",
-                x: "85%",
-                y: "8%", 
-                fontSize: "12",
+                x: "$canvasEndX + 20",
+                y: "$canvasStartY + 90", 
+                fontSize: "13",
+                align: "left",
                 color: "#333333",
-                bold: "1"
+                bold: "0"
               }
             ]
           }
