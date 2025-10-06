@@ -1896,56 +1896,6 @@ function getValuesInChronologicalOrder(data) {
   return valuesArray;
 }
 
-const updateCfiValue = (cfiValue, mostRecentYear) => {
-  // console.log({ cfiValue });
-
-  document.querySelector("#cfiRatio_year").innerHTML = mostRecentYear;
-
-  let thresholds = [
-    10.0, 9.7, 9.4, 9.1, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0, 4.5, 4.0,
-    3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.0, -1.0, -2.0, -3.0, -3.2,
-  ];
-
-  for (let i = 0; i < thresholds.length; i++) {
-    // console.log({ cfiValue, thresh: thresholds[i] });
-    if (cfiValue >= thresholds[i]) {
-      document.getElementById(thresholds[i].toFixed(1)).style.backgroundColor =
-        "black";
-    }
-    if (cfiValue > thresholds[i] && cfiValue < thresholds[i - 1]) {
-      document.getElementById(thresholds[i - 1].toFixed(1)).innerHTML =
-        cfiValue;
-      document.getElementById(thresholds[i - 1].toFixed(1)).classList =
-        "font-bold text-lg text-black";
-    }
-  }
-
-  let ids = [
-    "yearCfiRatio_negative",
-    "yearCfiRatio_1",
-    "yearCfiRatio_3",
-    "yearCfiRatio_5",
-    "yearCfiRatio_7",
-    "yearCfiRatio_9",
-  ];
-
-  const propClass = `text-2xl tracking-wide font-bold`;
-
-  let idThresholds = [1, 3, 5, 7, 9];
-  let idIndex = idThresholds.findIndex((threshold) => cfiValue < threshold);
-
-  if (idIndex === -1) {
-    idIndex = ids.length - 1; // if cfiValue is not less than any threshold, use the last id
-  }
-
-  let element = document.getElementById(ids[idIndex]);
-
-  if (element) {
-    element.classList = propClass;
-  } else {
-    console.log(`Element with id ${ids[idIndex]} does not exist.`);
-  }
-};
 
 const displayFSSummary = (chart, idx) => {
   const summaryDiv = document.getElementById(chart.replace("chart", "summary"));

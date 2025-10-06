@@ -1667,6 +1667,191 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
   };
 };
 
+/**
+ * Creates a vertical bullet chart configuration for CFI Ratio
+ * @param {Object} data - The parsed data object containing CFI data
+ * @param {string} mostRecentYear - The most recent year for the chart
+ * @param {number} cfiValue - The CFI ratio value to display
+ * @returns {Object} FusionCharts configuration object
+ */
+const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
+  return {
+    type: "vbullet",
+    renderAt: "cfiCompositeHtml_Chart",
+    width: "100%",
+    height: "600",
+    dataFormat: "json",
+    dataSource: {
+      chart: {
+        caption: `CFI RATIO - ${mostRecentYear}`,
+        subCaption: "",
+        lowerLimit: "-4",
+        upperLimit: "10",
+        showValue: "1",
+        value: cfiValue.toString(),
+        target: "5", // Target value for transformation
+        targetColor: "#333333",
+        targetThickness: "2",
+        showTargetLine: "1",
+        showTargetValue: "0",
+        
+        // Color ranges matching the original chart
+        colorRangeFillMix: "{light}",
+        colorRangeFillRatio: "70",
+        
+        // Axis and tick properties
+        showTickMarks: "1",
+        showTickValues: "1",
+        showLimits: "1",
+        ticksOnRight: "0",
+        tickValueStep: "1",
+        majorTMNumber: "14",
+        majorTMHeight: "15",
+        majorTMThickness: "2",
+        minorTMNumber: "0",
+        tickMarkDistance: "5",
+        tickValueDistance: "10",
+        
+        // Chart cosmetics
+        bgColor: "#ffffff",
+        bgAlpha: "100",
+        showBorder: "0",
+        
+        // Font properties
+        baseFont: "Arial",
+        baseFontSize: "12",
+        baseFontColor: "#333333",
+        captionFontSize: "18",
+        captionFontBold: "1",
+        
+        // Data value cosmetics
+        valueFontSize: "16",
+        valueFontBold: "1",
+        valueFontColor: "#000000",
+        
+        // Margins to accommodate text labels
+        chartLeftMargin: "80",
+        chartRightMargin: "300",
+        chartTopMargin: "30",
+        chartBottomMargin: "30",
+        
+        // Theme
+        theme: "fusion"
+      },
+      colorRange: {
+        color: [
+          {
+            minValue: "-4",
+            maxValue: "1",
+            code: "#D46D78",
+            alpha: "70"
+          },
+          {
+            minValue: "1",
+            maxValue: "3",
+            code: "#E39D5E", 
+            alpha: "70"
+          },
+          {
+            minValue: "3",
+            maxValue: "5",
+            code: "#E0BD4D",
+            alpha: "70"
+          },
+          {
+            minValue: "5",
+            maxValue: "7",
+            code: "#CAE46A",
+            alpha: "70"
+          },
+          {
+            minValue: "7",
+            maxValue: "9",
+            code: "#B0E46A",
+            alpha: "70"
+          },
+          {
+            minValue: "9",
+            maxValue: "10",
+            code: "#8AB552",
+            alpha: "70"
+          }
+        ]
+      },
+      // Text labels for each range
+      annotations: {
+        groups: [
+          {
+            id: "rangeLabels",
+            items: [
+              {
+                id: "label1",
+                type: "text",
+                text: "Assess viability to Survive",
+                x: "85%",
+                y: "85%",
+                fontSize: "12",
+                color: "#333333",
+                bold: "1"
+              },
+              {
+                id: "label2", 
+                type: "text",
+                text: "Re-Engineer the University",
+                x: "85%",
+                y: "70%",
+                fontSize: "12",
+                color: "#333333",
+                bold: "1"
+              },
+              {
+                id: "label3",
+                type: "text", 
+                text: "Direct resources to allow transformation",
+                x: "85%",
+                y: "50%",
+                fontSize: "14",
+                color: "#333333",
+                bold: "1"
+              },
+              {
+                id: "label4",
+                type: "text",
+                text: "Focus resources to compete in future state", 
+                x: "85%",
+                y: "35%",
+                fontSize: "12",
+                color: "#333333",
+                bold: "1"
+              },
+              {
+                id: "label5",
+                type: "text",
+                text: "Allow experimentation with new initiatives",
+                x: "85%", 
+                y: "20%",
+                fontSize: "12",
+                color: "#333333",
+                bold: "1"
+              },
+              {
+                id: "label6",
+                type: "text",
+                text: "Deploy resources to achieve robust mission",
+                x: "85%",
+                y: "8%", 
+                fontSize: "12",
+                color: "#333333",
+                bold: "1"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  };
+};
+
 const getFfaChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
   currentYear = selectedYearsArray[selectedYearsArray.length - 1];

@@ -67,6 +67,16 @@ const displayCfiComponent = () => {
     1.25,
     "CFI Viability Ratio"
   );
+
+  // Extract CFI data and render the vertical bullet chart
+  const selectedYears = getSelectedYearsFromLocalStorage();
+  const mostRecentYear = selectedYears[selectedYears.length - 1];
+  const cfiValue = parseData.cfiRatio_Client[mostRecentYear]?.value;
+  
+  if (cfiValue !== undefined && !isNaN(cfiValue)) {
+    cfiCompositeHtml_Chart = new FusionCharts(getCfiVerticalChart(parseData, mostRecentYear, cfiValue));
+    cfiCompositeHtml_Chart.render();
+  }
 };
 
 toggleDetailsByIdentifier("cfiRatio");
