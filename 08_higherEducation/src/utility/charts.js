@@ -1678,7 +1678,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
   return {
     type: "vled",
     renderAt: "cfiCompositeHtml_Chart",
-    width: "250",
+    width: "500",
     height: "700",
     dataFormat: "json",
     dataSource: {
@@ -1694,7 +1694,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         valueFontColor: "#000000",
         showhovereffect: "1",
         
-        // LED gauge specific settings
+        // LED gauge specific settings (per vLed.md)
         ledSize: "5",
         ledGap: "0",
         
@@ -1722,9 +1722,9 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         captionFontSize: "20",
         captionFontBold: "1",
         
-        // Margins to accommodate text labels
+        // Margins to accommodate text labels - increased right margin for more text space
         chartLeftMargin: "50",
-        chartRightMargin: "450",
+        chartRightMargin: "500",
         chartTopMargin: "40",
         chartBottomMargin: "40",
         
@@ -1796,7 +1796,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: "#333333",
                 bold: "1",
                 wrap: "1",
-                wrapWidth: "380",
+                wrapWidth: "600",
                 wrapHeight: "100"
               },
               {
@@ -1810,7 +1810,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: "#333333",
                 bold: "1",
                 wrap: "1",
-                wrapWidth: "380",
+                wrapWidth: "600",
                 wrapHeight: "100"
               },
               {
@@ -1824,7 +1824,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: "#333333",
                 bold: "1",
                 wrap: "1",
-                wrapWidth: "380",
+                wrapWidth: "600",
                 wrapHeight: "100"
               },
               {
@@ -1838,7 +1838,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: "#333333",
                 bold: "1",
                 wrap: "1",
-                wrapWidth: "380",
+                wrapWidth: "600",
                 wrapHeight: "100"
               },
               {
@@ -1852,7 +1852,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: "#333333",
                 bold: "1",
                 wrap: "1",
-                wrapWidth: "380",
+                wrapWidth: "600",
                 wrapHeight: "100"
               },
               {
@@ -1866,7 +1866,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: "#333333",
                 bold: "1",
                 wrap: "1",
-                wrapWidth: "380",
+                wrapWidth: "600",
                 wrapHeight: "100"
               }
             ]
