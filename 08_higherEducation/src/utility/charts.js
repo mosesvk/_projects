@@ -1678,7 +1678,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
   return {
     type: "vled",
     renderAt: "cfiCompositeHtml_Chart",
-    width: "100%",
+    width: "250",
     height: "700",
     dataFormat: "json",
     dataSource: {
@@ -1698,12 +1698,16 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         ledSize: "5",
         ledGap: "0",
         
-        // Hide default tick marks and values - using trendlines instead
-        showTickMarks: "0",
-        showTickValues: "0",
-        showLimits: "0",
-        // Show trendline values on the left
-        showTrendlinesOnTop: "0",
+        // Show tick marks and values on the left - simplified to just limits and middle
+        showTickMarks: "1",
+        showTickValues: "1",
+        ticksOnRight: "0",
+        showLimits: "1",
+        adjustTM: "1",
+        majorTMNumber: "3",
+        minorTMNumber: "0",
+        tickValueDecimals: "0",
+        forceTickValueDecimals: "1",
         
         // Chart cosmetics
         bgColor: "#ffffff",
@@ -1774,20 +1778,6 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         ]
       },
       value: cfiValue.toString(),
-      // Custom Y-axis tick values using trendlines
-      trendlines: [
-        {
-          line: [
-            { startValue: "-4", displayValue: "-4", thickness: "0", alpha: "0" },
-            { startValue: "1", displayValue: "1", thickness: "0", alpha: "0" },
-            { startValue: "3", displayValue: "3", thickness: "0", alpha: "0" },
-            { startValue: "5", displayValue: "5", thickness: "0", alpha: "0" },
-            { startValue: "7", displayValue: "7", thickness: "0", alpha: "0" },
-            { startValue: "9", displayValue: "9", thickness: "0", alpha: "0" },
-            { startValue: "10", displayValue: "10", thickness: "0", alpha: "0" }
-          ]
-        }
-      ],
       // Text labels for each range using annotations
       annotations: {
         autoScale: "1",
@@ -1814,7 +1804,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 type: "text",
                 text: "Re-Engineer the University",
                 x: "$canvasEndX + 20",
-                y: "$canvasEndY - 190",
+                y: "$canvasEndY - 240",
                 fontSize: "15",
                 align: "left",
                 color: "#333333",
@@ -1842,7 +1832,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 type: "text",
                 text: "Focus resources to compete in future state", 
                 x: "$canvasEndX + 20",
-                y: "$canvasEndY - 430",
+                y: "$canvasEndY - 380",
                 fontSize: "15",
                 align: "left",
                 color: "#333333",
@@ -1856,7 +1846,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 type: "text",
                 text: "Allow experimentation with new initiatives",
                 x: "$canvasEndX + 20", 
-                y: "$canvasStartY + 200",
+                y: "$canvasStartY + 80",
                 fontSize: "15",
                 align: "left",
                 color: "#333333",
@@ -1870,7 +1860,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 type: "text",
                 text: "Deploy resources to achieve robust mission",
                 x: "$canvasEndX + 20",
-                y: "$canvasStartY + 80", 
+                y: "$canvasStartY + 10", 
                 fontSize: "15",
                 align: "left",
                 color: "#333333",
