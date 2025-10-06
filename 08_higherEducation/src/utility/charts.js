@@ -1690,14 +1690,11 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         showValue: "1",
         
         // Plot settings for the actual value indicator
-        plotAsDot: "0",
-        plotFillPercent: "50",
+        plotAsDot: "1",
+        plotFillPercent: "100",
         plotFillColor: "#000000",
         plotFillAlpha: "100",
-        showPlotBorder: "1",
-        plotBorderColor: "#000000",
-        plotBorderThickness: "4",
-        plotBorderAlpha: "100",
+        showPlotBorder: "0",
         
         // Target line settings
         target: "5",
@@ -1739,7 +1736,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         
         // Margins to accommodate text labels
         chartLeftMargin: "50",
-        chartRightMargin: "350",
+        chartRightMargin: "450",
         chartTopMargin: "40",
         chartBottomMargin: "40",
         
@@ -1811,8 +1808,8 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: "#333333",
                 bold: "0",
                 wrap: "1",
-                wrapWidth: "280",
-                wrapHeight: "80"
+                wrapWidth: "380",
+                wrapHeight: "100"
               },
               {
                 id: "label2", 
@@ -1825,8 +1822,8 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: "#333333",
                 bold: "0",
                 wrap: "1",
-                wrapWidth: "280",
-                wrapHeight: "80"
+                wrapWidth: "380",
+                wrapHeight: "100"
               },
               {
                 id: "label3",
@@ -1839,8 +1836,8 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: "#333333",
                 bold: "1",
                 wrap: "1",
-                wrapWidth: "280",
-                wrapHeight: "80"
+                wrapWidth: "380",
+                wrapHeight: "100"
               },
               {
                 id: "label4",
@@ -1853,8 +1850,8 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: "#333333",
                 bold: "0",
                 wrap: "1",
-                wrapWidth: "280",
-                wrapHeight: "80"
+                wrapWidth: "380",
+                wrapHeight: "100"
               },
               {
                 id: "label5",
@@ -1867,8 +1864,8 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: "#333333",
                 bold: "0",
                 wrap: "1",
-                wrapWidth: "280",
-                wrapHeight: "80"
+                wrapWidth: "380",
+                wrapHeight: "100"
               },
               {
                 id: "label6",
@@ -1881,8 +1878,8 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: "#333333",
                 bold: "0",
                 wrap: "1",
-                wrapWidth: "280",
-                wrapHeight: "80"
+                wrapWidth: "380",
+                wrapHeight: "100"
               }
             ]
           }
