@@ -1676,7 +1676,7 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
  */
 const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
   return {
-    type: "vbullet",
+    type: "vled",
     renderAt: "cfiCompositeHtml_Chart",
     width: "100%",
     height: "700",
@@ -1684,59 +1684,32 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
     dataSource: {
       chart: {
         caption: `CFI RATIO - ${mostRecentYear}`,
-        subCaption: "",
         lowerLimit: "-4",
         upperLimit: "10",
+        lowerLimitDisplay: "-4",
+        upperLimitDisplay: "10",
         showValue: "1",
+        valueFontSize: "28",
+        valueFontBold: "1",
+        valueFontColor: "#000000",
+        showhovereffect: "1",
         
-        // Plot settings for the actual value indicator
-        plotAsDot: "0",
-        plotFillPercent: "30",
-        plotFillColor: "#000000",
-        plotFillAlpha: "100",
-        showPlotBorder: "1",
-        plotBorderColor: "#000000",
-        plotBorderThickness: "3",
-        plotBorderAlpha: "100",
-        setAdaptiveYMin: "1",
-        
-        // Target line settings
-        target: "5",
-        targetColor: "#666666",
-        targetThickness: "1",
-        targetFillPercent: "100",
-        
-        // Color ranges matching the original chart
-        colorRangeFillMix: "{light}",
-        
-        // Axis and tick properties
-        showTickMarks: "1",
-        showTickValues: "1",
-        showLimits: "1",
-        ticksOnRight: "0",
-        tickValueStep: "1",
-        majorTMNumber: "14",
-        majorTMHeight: "10",
-        majorTMThickness: "1",
-        minorTMNumber: "0",
+        // LED gauge specific settings
+        ledSize: "5",
+        ledGap: "0",
         
         // Chart cosmetics
         bgColor: "#ffffff",
         bgAlpha: "100",
         showBorder: "0",
         
-        // Font properties
+        // Font properties - make all text bigger and bolder
         baseFont: "Arial",
-        baseFontSize: "14",
+        baseFontSize: "16",
         baseFontColor: "#333333",
-        captionFontSize: "18",
+        baseFontBold: "1",
+        captionFontSize: "20",
         captionFontBold: "1",
-        
-        // Data value cosmetics
-        valueFontSize: "28",
-        valueFontBold: "1",
-        valueFontColor: "#000000",
-        valuePadding: "15",
         
         // Margins to accommodate text labels
         chartLeftMargin: "50",
@@ -1807,10 +1780,10 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 text: "Assess viability to Survive",
                 x: "$canvasEndX + 20",
                 y: "$canvasEndY - 40",
-                fontSize: "13",
+                fontSize: "15",
                 align: "left",
                 color: "#333333",
-                bold: "0",
+                bold: "1",
                 wrap: "1",
                 wrapWidth: "380",
                 wrapHeight: "100"
@@ -1821,10 +1794,10 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 text: "Re-Engineer the University",
                 x: "$canvasEndX + 20",
                 y: "$canvasEndY - 160",
-                fontSize: "13",
+                fontSize: "15",
                 align: "left",
                 color: "#333333",
-                bold: "0",
+                bold: "1",
                 wrap: "1",
                 wrapWidth: "380",
                 wrapHeight: "100"
@@ -1835,7 +1808,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 text: "Direct resources to allow transformation",
                 x: "$canvasEndX + 20",
                 y: "$canvasEndY - 220",
-                fontSize: "14",
+                fontSize: "16",
                 align: "left",
                 color: "#333333",
                 bold: "1",
@@ -1849,10 +1822,10 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 text: "Focus resources to compete in future state", 
                 x: "$canvasEndX + 20",
                 y: "$canvasEndY - 300",
-                fontSize: "13",
+                fontSize: "15",
                 align: "left",
                 color: "#333333",
-                bold: "0",
+                bold: "1",
                 wrap: "1",
                 wrapWidth: "380",
                 wrapHeight: "100"
@@ -1863,10 +1836,10 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 text: "Allow experimentation with new initiatives",
                 x: "$canvasEndX + 20", 
                 y: "$canvasEndY - 300",
-                fontSize: "13",
+                fontSize: "15",
                 align: "left",
                 color: "#333333",
-                bold: "0",
+                bold: "1",
                 wrap: "1",
                 wrapWidth: "380",
                 wrapHeight: "100"
@@ -1877,10 +1850,10 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 text: "Deploy resources to achieve robust mission",
                 x: "$canvasEndX + 20",
                 y: "$canvasStartY + 20", 
-                fontSize: "13",
-                align: "left",
+                fontSize: "15",
+                align: "1",
                 color: "#333333",
-                bold: "0",
+                bold: "1",
                 wrap: "1",
                 wrapWidth: "380",
                 wrapHeight: "100"
