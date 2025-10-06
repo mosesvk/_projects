@@ -1698,14 +1698,12 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         ledSize: "5",
         ledGap: "0",
         
-        // Show tick marks and values on the left
-        showTickMarks: "1",
-        showTickValues: "1",
-        ticksOnRight: "0",
-        showLimits: "1",
-        tickValueStep: "1",
-        majorTMNumber: "14",
-        adjustTM: "0",
+        // Hide default tick marks and values - using trendlines instead
+        showTickMarks: "0",
+        showTickValues: "0",
+        showLimits: "0",
+        // Show trendline values on the left
+        showTrendlinesOnTop: "0",
         
         // Chart cosmetics
         bgColor: "#ffffff",
@@ -1776,6 +1774,20 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         ]
       },
       value: cfiValue.toString(),
+      // Custom Y-axis tick values using trendlines
+      trendlines: [
+        {
+          line: [
+            { startValue: "-4", displayValue: "-4", thickness: "0", alpha: "0" },
+            { startValue: "1", displayValue: "1", thickness: "0", alpha: "0" },
+            { startValue: "3", displayValue: "3", thickness: "0", alpha: "0" },
+            { startValue: "5", displayValue: "5", thickness: "0", alpha: "0" },
+            { startValue: "7", displayValue: "7", thickness: "0", alpha: "0" },
+            { startValue: "9", displayValue: "9", thickness: "0", alpha: "0" },
+            { startValue: "10", displayValue: "10", thickness: "0", alpha: "0" }
+          ]
+        }
+      ],
       // Text labels for each range using annotations
       annotations: {
         autoScale: "1",
