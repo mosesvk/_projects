@@ -1678,7 +1678,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
   return {
     type: "vled",
     renderAt: "cfiCompositeHtml_Chart",
-    width: "500",
+    width: "100%",
     height: "700",
     dataFormat: "json",
     dataSource: {
@@ -1778,6 +1778,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         ]
       },
       value: cfiValue.toString(),
+
       // Text labels for each range using annotations
       annotations: {
         autoScale: "1",
@@ -1791,12 +1792,12 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 text: "Assess viability to Survive",
                 x: "$canvasEndX + 20",
                 y: "$canvasEndY - 70",
-                fontSize: "15",
+                fontSize: cfiValue < 1 ? "15" : "13",
                 align: "left",
                 color: "#333333",
-                bold: "1",
+                bold: cfiValue < 1 ? "2" : "1",
                 wrap: "1",
-                wrapWidth: "600",
+                wrapWidth: "450",
                 wrapHeight: "100"
               },
               {
@@ -1805,12 +1806,12 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 text: "Re-Engineer the University",
                 x: "$canvasEndX + 20",
                 y: "$canvasEndY - 240",
-                fontSize: "15",
+                fontSize: cfiValue < 3 && cfiValue > 1 ? "15" : "13",
                 align: "left",
                 color: "#333333",
-                bold: "1",
+                bold: cfiValue < 3 && cfiValue > 1 ? "2" : "1",
                 wrap: "1",
-                wrapWidth: "600",
+                wrapWidth: "450",
                 wrapHeight: "100"
               },
               {
@@ -1819,12 +1820,12 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 text: "Direct resources to allow transformation",
                 x: "$canvasEndX + 20",
                 y: "$canvasEndY - 310",
-                fontSize: "16",
+                fontSize: cfiValue < 5 && cfiValue > 3 ? "15" : "13",
                 align: "left",
                 color: "#333333",
-                bold: "1",
+                bold: cfiValue < 5 && cfiValue > 3 ? "2" : "1",
                 wrap: "1",
-                wrapWidth: "600",
+                wrapWidth: "450",
                 wrapHeight: "100"
               },
               {
@@ -1833,12 +1834,12 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 text: "Focus resources to compete in future state", 
                 x: "$canvasEndX + 20",
                 y: "$canvasEndY - 380",
-                fontSize: "15",
+                fontSize: cfiValue < 7 && cfiValue > 5 ? "15" : "13",
                 align: "left",
                 color: "#333333",
-                bold: "1",
+                bold: cfiValue < 7 && cfiValue > 5 ? "2" : "1",
                 wrap: "1",
-                wrapWidth: "600",
+                wrapWidth: "450",
                 wrapHeight: "100"
               },
               {
@@ -1847,12 +1848,12 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 text: "Allow experimentation with new initiatives",
                 x: "$canvasEndX + 20", 
                 y: "$canvasStartY + 80",
-                fontSize: "15",
+                fontSize: cfiValue < 9 && cfiValue > 7 ? "15" : "13",
                 align: "left",
                 color: "#333333",
-                bold: "1",
+                bold: cfiValue < 9 && cfiValue > 7 ? "2" : "1",
                 wrap: "1",
-                wrapWidth: "600",
+                wrapWidth: "450",
                 wrapHeight: "100"
               },
               {
@@ -1861,12 +1862,12 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 text: "Deploy resources to achieve robust mission",
                 x: "$canvasEndX + 20",
                 y: "$canvasStartY + 10", 
-                fontSize: "15",
+                fontSize: cfiValue < 10 && cfiValue > 9 ? "15" : "13",
                 align: "left",
                 color: "#333333",
-                bold: "1",
+                bold: cfiValue < 10 && cfiValue > 9 ? "2" : "1",
                 wrap: "1",
-                wrapWidth: "600",
+                wrapWidth: "450",
                 wrapHeight: "100"
               }
             ]
