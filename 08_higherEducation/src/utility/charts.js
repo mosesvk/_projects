@@ -1689,11 +1689,16 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         upperLimit: "10",
         showValue: "1",
         
-        // Plot settings - hide the default plot since we're using annotation
+        // Plot settings for the actual value indicator
         plotAsDot: "0",
-        plotFillPercent: "0",
-        plotFillAlpha: "0",
-        showPlotBorder: "0",
+        plotFillPercent: "30",
+        plotFillColor: "#000000",
+        plotFillAlpha: "100",
+        showPlotBorder: "1",
+        plotBorderColor: "#000000",
+        plotBorderThickness: "3",
+        plotBorderAlpha: "100",
+        setAdaptiveYMin: "1",
         
         // Target line settings
         target: "5",
@@ -1791,23 +1796,8 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
       value: cfiValue.toString(),
       // Text labels for each range using annotations
       annotations: {
-        autoScale: "0",
+        autoScale: "1",
         groups: [
-          {
-            id: "valueIndicator",
-            items: [
-              {
-                id: "blackBar",
-                type: "rectangle",
-                x: "$canvasStartX + ($canvasWidth * 0.35)",
-                y: "$canvasStartY + (($canvasHeight / 14) * (10 - " + cfiValue + "))",
-                toY: "$canvasEndY",
-                toX: "$canvasStartX + ($canvasWidth * 0.65)",
-                color: "#000000",
-                alpha: "100"
-              }
-            ]
-          },
           {
             id: "rangeLabels",
             items: [
@@ -1816,7 +1806,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 type: "text",
                 text: "Assess viability to Survive",
                 x: "$canvasEndX + 20",
-                y: "$canvasStartY + 570",
+                y: "$canvasEndY - 40",
                 fontSize: "13",
                 align: "left",
                 color: "#333333",
@@ -1830,7 +1820,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 type: "text",
                 text: "Re-Engineer the University",
                 x: "$canvasEndX + 20",
-                y: "$canvasStartY + 480",
+                y: "$canvasEndY - 160",
                 fontSize: "13",
                 align: "left",
                 color: "#333333",
@@ -1844,7 +1834,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 type: "text", 
                 text: "Direct resources to allow transformation",
                 x: "$canvasEndX + 20",
-                y: "$canvasStartY + 390",
+                y: "$canvasEndY - 220",
                 fontSize: "14",
                 align: "left",
                 color: "#333333",
@@ -1858,7 +1848,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 type: "text",
                 text: "Focus resources to compete in future state", 
                 x: "$canvasEndX + 20",
-                y: "$canvasStartY + 300",
+                y: "$canvasEndY - 300",
                 fontSize: "13",
                 align: "left",
                 color: "#333333",
@@ -1872,7 +1862,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 type: "text",
                 text: "Allow experimentation with new initiatives",
                 x: "$canvasEndX + 20", 
-                y: "$canvasStartY + 210",
+                y: "$canvasEndY - 300",
                 fontSize: "13",
                 align: "left",
                 color: "#333333",
@@ -1886,7 +1876,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 type: "text",
                 text: "Deploy resources to achieve robust mission",
                 x: "$canvasEndX + 20",
-                y: "$canvasStartY + 90", 
+                y: "$canvasStartY + 20", 
                 fontSize: "13",
                 align: "left",
                 color: "#333333",
