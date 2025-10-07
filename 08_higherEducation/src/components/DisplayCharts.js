@@ -76,6 +76,42 @@ const displayCfiComponent = () => {
   if (cfiValue !== undefined && !isNaN(cfiValue)) {
     cfiCompositeHtml_Chart = new FusionCharts(getCfiVerticalChart(parseData, mostRecentYear, cfiValue));
     cfiCompositeHtml_Chart.render();
+    
+    // Update CFI text labels styling based on current CFI value
+    updateCfiLabels(cfiValue);
+  }
+  
+  /**
+   * Updates the styling of CFI text labels based on the current CFI value
+   * @param {number} cfiValue - The current CFI ratio value
+   */
+  function updateCfiLabels(cfiValue) {
+    // Define the ranges for each label
+    const ranges = [
+      { id: 'cfiLabel1', min: -4, max: 1 },
+      { id: 'cfiLabel2', min: 1, max: 3 },
+      { id: 'cfiLabel3', min: 3, max: 5 },
+      { id: 'cfiLabel4', min: 5, max: 7 },
+      { id: 'cfiLabel5', min: 7, max: 9 },
+      { id: 'cfiLabel6', min: 9, max: 10 }
+    ];
+    
+    // Update each label
+    ranges.forEach(range => {
+      const labelDiv = document.getElementById(range.id);
+      const labelP = labelDiv?.querySelector('p');
+      
+      if (labelP) {
+        // Check if CFI value falls within this range
+        if (cfiValue >= range.min && cfiValue < range.max) {
+          // Active range - make it bold and larger
+          labelP.className = 'text-2xl font-bold text-black';
+        } else {
+          // Inactive range - normal styling
+          labelP.className = 'text-base font-normal text-gray-600';
+        }
+      }
+    });
   }
 };
 
