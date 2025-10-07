@@ -1724,7 +1724,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         
         // Margins to accommodate text labels - large right margin for text space
         chartLeftMargin: "50",
-        chartRightMargin: "400",
+        chartRightMargin: "500",
         chartTopMargin: "40",
         chartBottomMargin: "40",
         
@@ -1797,7 +1797,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: cfiValue < 1 ? "#0d0c0c" : "#333333",
                 bold: cfiValue < 1 ? "1" : "0",
                 wrap: "1",
-                wrapWidth: "350",
+                wrapWidth: "450",
                 wrapHeight: "120"
               },
               {
@@ -1811,7 +1811,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: cfiValue < 3 && cfiValue > 1 ? "#0d0c0c" : "#333333",
                 bold: cfiValue < 3 && cfiValue > 1 ? "1" : "0",
                 wrap: "1",
-                wrapWidth: "350",
+                wrapWidth: "450",
                 wrapHeight: "120"
               },
               {
@@ -1825,7 +1825,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: cfiValue < 5 && cfiValue > 3 ? "#0d0c0c" : "#333333",
                 bold: cfiValue < 5 && cfiValue > 3 ? "1" : "0",
                 wrap: "1",
-                wrapWidth: "350",
+                wrapWidth: "450",
                 wrapHeight: "120"
               },
               {
@@ -1839,7 +1839,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: cfiValue < 7 && cfiValue > 5 ? "#0d0c0c" : "#333333",
                 bold: cfiValue < 7 && cfiValue > 5 ? "1" : "0",
                 wrap: "1",
-                wrapWidth: "350",
+                wrapWidth: "450",
                 wrapHeight: "120"
               },
               {
@@ -1853,7 +1853,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: cfiValue < 9 && cfiValue > 7 ? "#0d0c0c" : "#333333",
                 bold: cfiValue < 9 && cfiValue > 7 ? "1" : "0",
                 wrap: "1",
-                wrapWidth: "350",
+                wrapWidth: "450",
                 wrapHeight: "120"
               },
               {
@@ -1867,7 +1867,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 color: cfiValue < 10 && cfiValue > 9 ? "#0d0c0c" : "#333333",
                 bold: cfiValue < 10 && cfiValue > 9 ? "1" : "0",
                 wrap: "1",
-                wrapWidth: "350",
+                wrapWidth: "450",
                 wrapHeight: "120"
               }
             ]
