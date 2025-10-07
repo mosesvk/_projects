@@ -1697,6 +1697,13 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         // LED gauge specific settings (per vLed.md)
         ledSize: "5",
         ledGap: "0",
+        gaugeFillMix: "{light-0}",
+        gaugeFillRatio: "15",
+        
+        // Control the width of the gauge itself
+        gaugeOriginX: "80",
+        gaugeOriginY: "$chartCenterY",
+        gaugeRadius: "20",
         
         // Show tick marks and values on the left - simplified to just limits and middle
         showTickMarks: "1",
@@ -1722,9 +1729,9 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
         captionFontSize: "20",
         captionFontBold: "1",
         
-        // Margins to accommodate text labels - increased right margin for more text space
-        chartLeftMargin: "50",
-        chartRightMargin: "500",
+        // Margins to accommodate text labels
+        chartLeftMargin: "20",
+        chartRightMargin: "10",
         chartTopMargin: "40",
         chartBottomMargin: "40",
         
@@ -1790,84 +1797,84 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 id: "label1",
                 type: "text",
                 text: "Assess viability to Survive",
-                x: "$canvasEndX + 20",
+                x: "150",
                 y: "$canvasEndY - 70",
                 fontSize: cfiValue < 1 ? "15" : "12",
                 align: "left",
                 color: "#333333",
                 bold: cfiValue < 1 ? "1" : "0",
                 wrap: "1",
-                wrapWidth: "450",
+                wrapWidth: "600",
                 wrapHeight: "120"
               },
               {
                 id: "label2", 
                 type: "text",
                 text: "Re-Engineer the University",
-                x: "$canvasEndX + 20",
+                x: "150",
                 y: "$canvasEndY - 240",
                 fontSize: cfiValue < 3 && cfiValue > 1 ? "15" : "12",
                 align: "left",
                 color: "#333333",
                 bold: cfiValue < 3 && cfiValue > 1 ? "1" : "0",
                 wrap: "1",
-                wrapWidth: "450",
+                wrapWidth: "600",
                 wrapHeight: "120"
               },
               {
                 id: "label3",
                 type: "text", 
                 text: "Direct resources to allow transformation",
-                x: "$canvasEndX + 20",
+                x: "150",
                 y: "$canvasEndY - 310",
                 fontSize: cfiValue < 5 && cfiValue > 3 ? "15" : "12",
                 align: "left",
                 color: "#333333",
                 bold: cfiValue < 5 && cfiValue > 3 ? "1" : "0",
                 wrap: "1",
-                wrapWidth: "450",
+                wrapWidth: "600",
                 wrapHeight: "120"
               },
               {
                 id: "label4",
                 type: "text",
                 text: "Focus resources to compete in future state", 
-                x: "$canvasEndX + 20",
+                x: "150",
                 y: "$canvasEndY - 380",
                 fontSize: cfiValue < 7 && cfiValue > 5 ? "15" : "12",
                 align: "left",
                 color: "#333333",
                 bold: cfiValue < 7 && cfiValue > 5 ? "1" : "0",
                 wrap: "1",
-                wrapWidth: "450",
+                wrapWidth: "600",
                 wrapHeight: "120"
               },
               {
                 id: "label5",
                 type: "text",
                 text: "Allow experimentation with new initiatives",
-                x: "$canvasEndX + 20", 
+                x: "150", 
                 y: "$canvasStartY + 80",
                 fontSize: cfiValue < 9 && cfiValue > 7 ? "15" : "12",
                 align: "left",
                 color: "#333333",
                 bold: cfiValue < 9 && cfiValue > 7 ? "1" : "0",
                 wrap: "1",
-                wrapWidth: "450",
+                wrapWidth: "600",
                 wrapHeight: "120"
               },
               {
                 id: "label6",
                 type: "text",
                 text: "Deploy resources to achieve robust mission",
-                x: "$canvasEndX + 20",
+                x: "150",
                 y: "$canvasStartY + 10", 
                 fontSize: cfiValue < 10 && cfiValue > 9 ? "15" : "12",
                 align: "left",
                 color: "#333333",
                 bold: cfiValue < 10 && cfiValue > 9 ? "1" : "0",
                 wrap: "1",
-                wrapWidth: "450",
+                wrapWidth: "600",
                 wrapHeight: "120"
               }
             ]
