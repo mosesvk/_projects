@@ -2364,20 +2364,17 @@ const getCurrentRatioChartOptions = (data) => {
     return liability !== 0 ? ratio.toFixed(1) : 0; // Avoid division by zero
   });
 
-  const peerAvgCurrentRatioArray = Object.keys(data.currentRatio_Peer).map(
-    (key) => {
-      const values = data.currentRatio_Peer[key];
-      const avg = getAverageOfArray(values);
 
-      return isNaN(avg) ? "0.0" : avg.toFixed(1);
-    }
-  );
+  /**
+   * Calculates the total peer average current assets and liabilities per year,
+   * and computes the current ratio as total assets divided by total liabilities for each year.
+   * This approach matches the client calculation: ratio = total assets / total liabilities.
+   */
 
   const peerAvgCurrentAssetsArray = Object.keys(data.currentAssets_Peer).map(
     (key) => {
       const values = data.currentAssets_Peer[key];
       const sum = getSumOfArray(values);
-
       return isNaN(sum) ? 0 : sum;
     }
   );
@@ -2387,11 +2384,21 @@ const getCurrentRatioChartOptions = (data) => {
   ).map((key) => {
     const values = data.currentLiabilities_Peer[key];
     const sum = getSumOfArray(values);
-
     return isNaN(sum) ? 0 : sum;
   });
 
-  console.log({ peerAvgCurrentAssetsArray, peerAvgCurrentLiabilitiesArray });
+  /**
+   * For each year, calculate the current ratio as total assets / total liabilities.
+   * If liabilities are zero, return "0.0" to avoid division by zero.
+   */
+  const peerAvgCurrentRatioArray = peerAvgCurrentAssetsArray.map((asset, index) => {
+    const liability = peerAvgCurrentLiabilitiesArray[index];
+    if (liability === 0) return "0.0";
+    const ratio = asset / liability;
+    return isNaN(ratio) ? "0.0" : ratio.toFixed(1);
+  });
+
+  console.log({ peerAvgCurrentAssetsArray, peerAvgCurrentLiabilitiesArray, peerAvgCurrentRatioArray });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
