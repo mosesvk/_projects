@@ -2398,7 +2398,7 @@ const getCurrentRatioChartOptions = (data) => {
     return isNaN(ratio) ? "0.0" : ratio.toFixed(1);
   });
 
-  console.log({ peerAvgCurrentAssetsArray, peerAvgCurrentLiabilitiesArray, peerAvgCurrentRatioArray });
+  // console.log({ peerAvgCurrentAssetsArray, peerAvgCurrentLiabilitiesArray, peerAvgCurrentRatioArray });
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
