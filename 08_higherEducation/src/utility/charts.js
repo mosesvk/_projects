@@ -1678,8 +1678,8 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
   return {
     type: "vled",
     renderAt: "cfiCompositeHtml_Chart",
-    width: "200",
-    height: "700",
+    width: "250",
+    height: "800",
     dataFormat: "json",
     dataSource: {
       chart: {
