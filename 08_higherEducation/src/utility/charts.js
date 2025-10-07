@@ -1798,7 +1798,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 bold: cfiValue < 1 ? "1" : "0",
                 wrap: "1",
                 wrapWidth: "450",
-                wrapHeight: "100"
+                wrapHeight: "120"
               },
               {
                 id: "label2", 
@@ -1812,7 +1812,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 bold: cfiValue < 3 && cfiValue > 1 ? "1" : "0",
                 wrap: "1",
                 wrapWidth: "450",
-                wrapHeight: "100"
+                wrapHeight: "120"
               },
               {
                 id: "label3",
@@ -1826,7 +1826,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 bold: cfiValue < 5 && cfiValue > 3 ? "1" : "0",
                 wrap: "1",
                 wrapWidth: "450",
-                wrapHeight: "100"
+                wrapHeight: "120"
               },
               {
                 id: "label4",
@@ -1840,7 +1840,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 bold: cfiValue < 7 && cfiValue > 5 ? "1" : "0",
                 wrap: "1",
                 wrapWidth: "450",
-                wrapHeight: "100"
+                wrapHeight: "120"
               },
               {
                 id: "label5",
@@ -1854,7 +1854,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 bold: cfiValue < 9 && cfiValue > 7 ? "1" : "0",
                 wrap: "1",
                 wrapWidth: "450",
-                wrapHeight: "100"
+                wrapHeight: "120"
               },
               {
                 id: "label6",
@@ -1868,7 +1868,7 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
                 bold: cfiValue < 10 && cfiValue > 9 ? "1" : "0",
                 wrap: "1",
                 wrapWidth: "450",
-                wrapHeight: "100"
+                wrapHeight: "120"
               }
             ]
           }
