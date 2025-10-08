@@ -107,6 +107,15 @@ if (sidebar) {
       });
       tabContents[index].classList.remove("hidden");
       activateButton(index);
+      
+      // Scroll main-content container to top when switching tabs
+      if (mainContent) {
+        mainContent.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+      
       // Removed handleSidebarButtonClick() from here
     });
   });
