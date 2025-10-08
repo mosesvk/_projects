@@ -1902,11 +1902,20 @@ const displayFSSummary = (chart, idx) => {
   // console.log({ summaryDiv, idx });
 };
 
-function toggleDetails(button, details, arrowIcon) {
+function toggleDetails(button, details, arrowIcon, identifier) {
   button.addEventListener("click", () => {
     // console.log('clicked');
+    const wasHidden = details.classList.contains("hidden");
     details.classList.toggle("hidden");
     arrowIcon.classList.toggle("rotate-90");
+    
+    // If CFI details section is being shown (was hidden, now visible), re-render the chart
+    if (identifier === 'cfiRatio' && wasHidden && typeof window.renderCfiChart === 'function') {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        window.renderCfiChart();
+      }, 100);
+    }
     // console.log('toggleDetails() clicked');
   });
 }
@@ -1920,7 +1929,7 @@ function toggleDetailsByIdentifier(identifier) {
   // ...
 
   // For demonstration purposes, let's log a message
-  toggleDetails(dropdownButton, detailsDiv, arrowIcon);
+  toggleDetails(dropdownButton, detailsDiv, arrowIcon, identifier);
 }
 
 function createFSTable(tableDataClass, arrayData, idString, year, dataObject, dataPointArray) {

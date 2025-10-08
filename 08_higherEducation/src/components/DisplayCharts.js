@@ -73,12 +73,23 @@ const displayCfiComponent = () => {
   const mostRecentYear = selectedYears[selectedYears.length - 1];
   const cfiValue = parseData.cfiRatio_Client[mostRecentYear]?.value;
   
-  if (cfiValue !== undefined && !isNaN(cfiValue)) {
-    cfiCompositeHtml_Chart = new FusionCharts(getCfiVerticalChart(parseData, mostRecentYear, cfiValue));
-    cfiCompositeHtml_Chart.render();
-    
-    // Update CFI text labels styling based on current CFI value
-    updateCfiLabels(cfiValue);
+  /**
+   * Renders the CFI vertical chart with animation
+   */
+  function renderCfiChart() {
+    if (cfiValue !== undefined && !isNaN(cfiValue)) {
+      // Dispose of existing chart if it exists
+      if (cfiCompositeHtml_Chart) {
+        cfiCompositeHtml_Chart.dispose();
+      }
+      
+      // Create and render new chart
+      cfiCompositeHtml_Chart = new FusionCharts(getCfiVerticalChart(parseData, mostRecentYear, cfiValue));
+      cfiCompositeHtml_Chart.render();
+      
+      // Update CFI text labels styling based on current CFI value
+      updateCfiLabels(cfiValue);
+    }
   }
   
   /**
@@ -113,6 +124,12 @@ const displayCfiComponent = () => {
       }
     });
   }
+  
+  // Initial render
+  renderCfiChart();
+  
+  // Make renderCfiChart globally accessible for toggle function
+  window.renderCfiChart = renderCfiChart;
 };
 
 toggleDetailsByIdentifier("cfiRatio");
