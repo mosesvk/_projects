@@ -78,8 +78,8 @@ const displayCfiComponent = () => {
    */
   function renderCfiChart() {
     if (cfiValue !== undefined && !isNaN(cfiValue)) {
-      // Dispose of existing chart if it exists
-      if (cfiCompositeHtml_Chart) {
+      // Dispose of existing chart if it exists and has dispose method
+      if (cfiCompositeHtml_Chart && typeof cfiCompositeHtml_Chart.dispose === 'function') {
         cfiCompositeHtml_Chart.dispose();
       }
       
