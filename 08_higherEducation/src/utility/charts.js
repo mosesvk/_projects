@@ -2181,10 +2181,25 @@ const getCashFlowTrendChartOptions = (data) => {
   const formatNumber = (value) => value.toLocaleString();
 
   const yaxisLabelFormatter = (value) => {
-    if (value >= 1000000 || value <= -1000000) {
-      return `$${Math.round(value / 1000000)}M`;
+    const isNegative = value < 0;
+    const absValue = Math.abs(value);
+    const sign = isNegative ? "-" : "";
+    
+    if (absValue >= 10000000) {
+      // Round to nearest 10M for values >= 10M
+      return `${sign}$${Math.round(absValue / 10000000) * 10}M`;
+    } else if (absValue >= 1000000) {
+      // Round to nearest 1M for values >= 1M
+      return `${sign}$${Math.round(absValue / 1000000)}M`;
+    } else if (absValue >= 10000) {
+      // Round to nearest 10K for values >= 10K
+      return `${sign}$${Math.round(absValue / 10000) * 10}K`;
+    } else if (absValue >= 1000) {
+      // Round to nearest 1K for values >= 1K
+      return `${sign}$${Math.round(absValue / 1000)}K`;
+    } else {
+      return `${sign}$${formatNumber(absValue)}`;
     }
-    return `$${formatNumber(value)}`;
   };
 
   const tooltipFormatter = (value) => {
