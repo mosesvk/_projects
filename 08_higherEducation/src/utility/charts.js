@@ -1887,12 +1887,24 @@ const getFfaChartOptions = (data) => {
   const formatNumber = (value) => value.toLocaleString();
 
   const yaxisLabelFormatter = (value) => {
-    if (value >= 1000000) {
-      return `$${value / 1000000}M`;
-    } else if (value >= 1000) {
-      return `$${value / 1000}K`;
+    const isNegative = value < 0;
+    const absValue = Math.abs(value);
+    const sign = isNegative ? "-" : "";
+    
+    if (absValue >= 10000000) {
+      // Round to nearest 10M for values >= 10M
+      return `${sign}$${Math.round(absValue / 10000000) * 10}M`;
+    } else if (absValue >= 1000000) {
+      // Round to nearest 1M for values >= 1M
+      return `${sign}$${Math.round(absValue / 1000000)}M`;
+    } else if (absValue >= 10000) {
+      // Round to nearest 10K for values >= 10K
+      return `${sign}$${Math.round(absValue / 10000) * 10}K`;
+    } else if (absValue >= 1000) {
+      // Round to nearest 1K for values >= 1K
+      return `${sign}$${Math.round(absValue / 1000)}K`;
     } else {
-      return `$${value}`;
+      return `${sign}$${formatNumber(absValue)}`;
     }
   };
 
@@ -2651,17 +2663,24 @@ const getCurrentRatioChartOptions = (data) => {
     : "#3a464f";
 
   const yaxisLabelFormatter = (value) => {
-    if (value >= 10000000) {
+    const isNegative = value < 0;
+    const absValue = Math.abs(value);
+    const sign = isNegative ? "-" : "";
+    
+    if (absValue >= 10000000) {
       // Round to nearest 10M for values >= 10M
-      return `$${Math.round(value / 10000000) * 10}M`;
-    } else if (value >= 1000000) {
+      return `${sign}$${Math.round(absValue / 10000000) * 10}M`;
+    } else if (absValue >= 1000000) {
       // Round to nearest 1M for values >= 1M
-      return `$${Math.round(value / 1000000)}M`;
-    } else if (value >= 10000) {
+      return `${sign}$${Math.round(absValue / 1000000)}M`;
+    } else if (absValue >= 10000) {
       // Round to nearest 10K for values >= 10K
-      return `$${Math.round(value / 10000) * 10}K`;
+      return `${sign}$${Math.round(absValue / 10000) * 10}K`;
+    } else if (absValue >= 1000) {
+      // Round to nearest 1K for values >= 1K
+      return `${sign}$${Math.round(absValue / 1000)}K`;
     }
-    return `$${formatNumber(value)}`;
+    return `${sign}$${formatNumber(absValue)}`;
   };
   const yaxisLabelFormatter2 = (value) => {
     return `${Math.round(value)}`;
