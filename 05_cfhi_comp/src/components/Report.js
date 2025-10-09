@@ -26,9 +26,9 @@ const displayReportComponent = () => {
       ["daysOperatingCash", "num", 0, "wa", "cb"],
       ["availableDaysOfCashFlow", "num", 0, "wa", "cb"],
       ["liquidityRatio", "num", 1, "wa", "cb"],
-      ["netCashAvailability", "dollar", 0, "wa", "cb"],
-      ["netCashAvailability_including", "dollar", 0, "wa"],
-      ["netCashAvailability_standard", "dollar", 0, "wa"],
+      ["netCashAvailability", "dollar", 0, null, "cb"],
+      ["netCashAvailability_including", "dollar", 0, null],
+      ["netCashAvailability_standard", "dollar", 0, null],
       // ["cashFlowsFromOperatingActivities", "dollar", 0, "wa"],
     ]);
     insertDataToReport(debtData, selectedYears, [
